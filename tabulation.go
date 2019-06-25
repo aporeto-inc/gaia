@@ -124,6 +124,12 @@ func (o *Tabulation) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Tabulation) BleveType() string {
+
+	return "tabulation"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Tabulation) DefaultOrder() []string {
 

@@ -117,6 +117,12 @@ func (o *Log) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Log) BleveType() string {
+
+	return "log"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Log) DefaultOrder() []string {
 

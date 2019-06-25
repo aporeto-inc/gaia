@@ -220,6 +220,12 @@ func (o *LDAPProvider) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *LDAPProvider) BleveType() string {
+
+	return "ldapprovider"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *LDAPProvider) DefaultOrder() []string {
 

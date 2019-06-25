@@ -224,6 +224,12 @@ func (o *Account) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Account) BleveType() string {
+
+	return "account"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Account) DefaultOrder() []string {
 

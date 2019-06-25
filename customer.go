@@ -167,6 +167,12 @@ func (o *Customer) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Customer) BleveType() string {
+
+	return "customer"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Customer) DefaultOrder() []string {
 

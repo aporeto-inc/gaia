@@ -190,6 +190,12 @@ func (o *HostService) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *HostService) BleveType() string {
+
+	return "hostservice"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *HostService) DefaultOrder() []string {
 

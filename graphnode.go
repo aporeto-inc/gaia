@@ -79,6 +79,12 @@ func NewGraphNode() *GraphNode {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *GraphNode) BleveType() string {
+
+	return "graphnode"
+}
+
 // DeepCopy returns a deep copy if the GraphNode.
 func (o *GraphNode) DeepCopy() *GraphNode {
 

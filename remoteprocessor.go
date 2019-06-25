@@ -150,6 +150,12 @@ func (o *RemoteProcessor) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *RemoteProcessor) BleveType() string {
+
+	return "remoteprocessor"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *RemoteProcessor) DefaultOrder() []string {
 

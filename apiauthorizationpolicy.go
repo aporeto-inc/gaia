@@ -204,6 +204,12 @@ func (o *APIAuthorizationPolicy) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *APIAuthorizationPolicy) BleveType() string {
+
+	return "apiauthorizationpolicy"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *APIAuthorizationPolicy) DefaultOrder() []string {
 

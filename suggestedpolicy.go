@@ -117,6 +117,12 @@ func (o *SuggestedPolicy) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *SuggestedPolicy) BleveType() string {
+
+	return "suggestedpolicy"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *SuggestedPolicy) DefaultOrder() []string {
 

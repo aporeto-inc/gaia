@@ -161,6 +161,12 @@ func (o *RenderedPolicy) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *RenderedPolicy) BleveType() string {
+
+	return "renderedpolicy"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *RenderedPolicy) DefaultOrder() []string {
 
@@ -192,7 +198,7 @@ func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable
 			HashedTags:        &o.HashedTags,
 			IngressPolicies:   &o.IngressPolicies,
 			MatchingTags:      &o.MatchingTags,
-			ProcessingUnit:    &o.ProcessingUnit,
+			ProcessingUnit:    o.ProcessingUnit,
 			ProcessingUnitID:  &o.ProcessingUnitID,
 			Scopes:            &o.Scopes,
 		}
@@ -216,7 +222,7 @@ func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable
 		case "matchingTags":
 			sp.MatchingTags = &(o.MatchingTags)
 		case "processingUnit":
-			sp.ProcessingUnit = &(o.ProcessingUnit)
+			sp.ProcessingUnit = o.ProcessingUnit
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
 		case "scopes":
@@ -256,7 +262,7 @@ func (o *RenderedPolicy) Patch(sparse elemental.SparseIdentifiable) {
 		o.MatchingTags = *so.MatchingTags
 	}
 	if so.ProcessingUnit != nil {
-		o.ProcessingUnit = *so.ProcessingUnit
+		o.ProcessingUnit = so.ProcessingUnit
 	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
@@ -687,7 +693,7 @@ type SparseRenderedPolicy struct {
 
 	// Can be set during a POST operation to render a policy on a Processing Unit that
 	// has not been created yet.
-	ProcessingUnit **ProcessingUnit `json:"processingUnit,omitempty" msgpack:"processingUnit,omitempty" bson:"-" mapstructure:"processingUnit,omitempty"`
+	ProcessingUnit *ProcessingUnit `json:"processingUnit,omitempty" msgpack:"processingUnit,omitempty" bson:"-" mapstructure:"processingUnit,omitempty"`
 
 	// Identifier of the processing unit.
 	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
@@ -753,7 +759,7 @@ func (o *SparseRenderedPolicy) ToPlain() elemental.PlainIdentifiable {
 		out.MatchingTags = *o.MatchingTags
 	}
 	if o.ProcessingUnit != nil {
-		out.ProcessingUnit = *o.ProcessingUnit
+		out.ProcessingUnit = o.ProcessingUnit
 	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID

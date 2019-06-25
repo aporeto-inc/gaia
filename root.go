@@ -55,6 +55,12 @@ func (o *Root) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Root) BleveType() string {
+
+	return "root"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Root) DefaultOrder() []string {
 

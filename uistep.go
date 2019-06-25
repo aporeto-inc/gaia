@@ -33,6 +33,12 @@ func NewUIStep() *UIStep {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *UIStep) BleveType() string {
+
+	return "uistep"
+}
+
 // DeepCopy returns a deep copy if the UIStep.
 func (o *UIStep) DeepCopy() *UIStep {
 

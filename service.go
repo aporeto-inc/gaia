@@ -373,6 +373,12 @@ func (o *Service) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Service) BleveType() string {
+
+	return "service"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Service) DefaultOrder() []string {
 

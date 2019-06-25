@@ -139,6 +139,12 @@ func (o *Revocation) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Revocation) BleveType() string {
+
+	return "revocation"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Revocation) DefaultOrder() []string {
 

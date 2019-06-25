@@ -156,6 +156,12 @@ func (o *AWSAccount) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *AWSAccount) BleveType() string {
+
+	return "awsaccount"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *AWSAccount) DefaultOrder() []string {
 

@@ -113,6 +113,12 @@ func (o *Poke) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Poke) BleveType() string {
+
+	return "poke"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Poke) DefaultOrder() []string {
 

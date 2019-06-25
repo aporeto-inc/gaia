@@ -127,6 +127,12 @@ func (o *AWSRegister) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *AWSRegister) BleveType() string {
+
+	return "awsregister"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *AWSRegister) DefaultOrder() []string {
 

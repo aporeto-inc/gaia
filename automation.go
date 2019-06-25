@@ -228,6 +228,12 @@ func (o *Automation) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Automation) BleveType() string {
+
+	return "automation"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Automation) DefaultOrder() []string {
 

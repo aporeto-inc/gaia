@@ -178,6 +178,12 @@ func (o *ImportReference) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *ImportReference) BleveType() string {
+
+	return "importreference"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *ImportReference) DefaultOrder() []string {
 
@@ -379,7 +385,7 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			Claims:               &o.Claims,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
-			Data:                 &o.Data,
+			Data:                 o.Data,
 			Description:          &o.Description,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
@@ -409,7 +415,7 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "data":
-			sp.Data = &(o.Data)
+			sp.Data = o.Data
 		case "description":
 			sp.Description = &(o.Description)
 		case "metadata":
@@ -462,7 +468,7 @@ func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 		o.CreateTime = *so.CreateTime
 	}
 	if so.Data != nil {
-		o.Data = *so.Data
+		o.Data = so.Data
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -1174,7 +1180,7 @@ type SparseImportReference struct {
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// The data to import.
-	Data **Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
+	Data *Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -1267,7 +1273,7 @@ func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 		out.CreateTime = *o.CreateTime
 	}
 	if o.Data != nil {
-		out.Data = *o.Data
+		out.Data = o.Data
 	}
 	if o.Description != nil {
 		out.Description = *o.Description

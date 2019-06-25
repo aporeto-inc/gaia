@@ -24,6 +24,12 @@ func NewTimeSeriesQueryResults() *TimeSeriesQueryResults {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *TimeSeriesQueryResults) BleveType() string {
+
+	return "timeseriesqueryresults"
+}
+
 // DeepCopy returns a deep copy if the TimeSeriesQueryResults.
 func (o *TimeSeriesQueryResults) DeepCopy() *TimeSeriesQueryResults {
 

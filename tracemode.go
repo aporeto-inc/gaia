@@ -36,6 +36,12 @@ func NewTraceMode() *TraceMode {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *TraceMode) BleveType() string {
+
+	return "tracemode"
+}
+
 // DeepCopy returns a deep copy if the TraceMode.
 func (o *TraceMode) DeepCopy() *TraceMode {
 

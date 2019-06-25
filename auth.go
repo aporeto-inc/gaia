@@ -118,6 +118,12 @@ func (o *Auth) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Auth) BleveType() string {
+
+	return "auth"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Auth) DefaultOrder() []string {
 
@@ -143,7 +149,7 @@ func (o *Auth) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAuth{
-			Claims: &o.Claims,
+			Claims: o.Claims,
 		}
 	}
 
@@ -151,7 +157,7 @@ func (o *Auth) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	for _, f := range fields {
 		switch f {
 		case "claims":
-			sp.Claims = &(o.Claims)
+			sp.Claims = o.Claims
 		}
 	}
 
@@ -166,7 +172,7 @@ func (o *Auth) Patch(sparse elemental.SparseIdentifiable) {
 
 	so := sparse.(*SparseAuth)
 	if so.Claims != nil {
-		o.Claims = *so.Claims
+		o.Claims = so.Claims
 	}
 }
 
@@ -335,7 +341,7 @@ func (o SparseAuthsList) Version() int {
 // SparseAuth represents the sparse version of a auth.
 type SparseAuth struct {
 	// Claims are the claims.
-	Claims **claims.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+	Claims *claims.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -373,7 +379,7 @@ func (o *SparseAuth) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAuth()
 	if o.Claims != nil {
-		out.Claims = *o.Claims
+		out.Claims = o.Claims
 	}
 
 	return out

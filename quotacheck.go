@@ -122,6 +122,12 @@ func (o *QuotaCheck) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *QuotaCheck) BleveType() string {
+
+	return "quotacheck"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *QuotaCheck) DefaultOrder() []string {
 

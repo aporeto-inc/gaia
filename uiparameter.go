@@ -107,6 +107,12 @@ func NewUIParameter() *UIParameter {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *UIParameter) BleveType() string {
+
+	return "uiparameter"
+}
+
 // DeepCopy returns a deep copy if the UIParameter.
 func (o *UIParameter) DeepCopy() *UIParameter {
 

@@ -215,6 +215,12 @@ func (o *ImportRequest) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *ImportRequest) BleveType() string {
+
+	return "importrequest"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *ImportRequest) DefaultOrder() []string {
 

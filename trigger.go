@@ -116,6 +116,12 @@ func (o *Trigger) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Trigger) BleveType() string {
+
+	return "trigger"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Trigger) DefaultOrder() []string {
 

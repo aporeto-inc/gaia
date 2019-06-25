@@ -119,6 +119,12 @@ func (o *PasswordReset) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *PasswordReset) BleveType() string {
+
+	return "passwordreset"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *PasswordReset) DefaultOrder() []string {
 

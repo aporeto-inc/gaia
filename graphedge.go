@@ -95,6 +95,12 @@ func NewGraphEdge() *GraphEdge {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *GraphEdge) BleveType() string {
+
+	return "graphedge"
+}
+
 // DeepCopy returns a deep copy if the GraphEdge.
 func (o *GraphEdge) DeepCopy() *GraphEdge {
 

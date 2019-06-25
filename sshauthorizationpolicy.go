@@ -220,6 +220,12 @@ func (o *SSHAuthorizationPolicy) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *SSHAuthorizationPolicy) BleveType() string {
+
+	return "sshauthorizationpolicy"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *SSHAuthorizationPolicy) DefaultOrder() []string {
 

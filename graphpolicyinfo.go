@@ -26,6 +26,12 @@ func NewGraphPolicyInfo() *GraphPolicyInfo {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *GraphPolicyInfo) BleveType() string {
+
+	return "graphpolicyinfo"
+}
+
 // DeepCopy returns a deep copy if the GraphPolicyInfo.
 func (o *GraphPolicyInfo) DeepCopy() *GraphPolicyInfo {
 

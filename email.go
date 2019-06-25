@@ -150,6 +150,12 @@ func (o *Email) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Email) BleveType() string {
+
+	return "email"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Email) DefaultOrder() []string {
 

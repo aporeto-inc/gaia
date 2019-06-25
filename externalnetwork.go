@@ -192,6 +192,12 @@ func (o *ExternalNetwork) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *ExternalNetwork) BleveType() string {
+
+	return "externalnetwork"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *ExternalNetwork) DefaultOrder() []string {
 

@@ -180,6 +180,12 @@ func (o *HTTPResourceSpec) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *HTTPResourceSpec) BleveType() string {
+
+	return "httpresourcespec"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *HTTPResourceSpec) DefaultOrder() []string {
 

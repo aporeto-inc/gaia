@@ -125,6 +125,12 @@ func (o *ValidateUIParameter) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *ValidateUIParameter) BleveType() string {
+
+	return "validateuiparameter"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *ValidateUIParameter) DefaultOrder() []string {
 

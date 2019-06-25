@@ -129,6 +129,12 @@ func (o *Export) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Export) BleveType() string {
+
+	return "export"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Export) DefaultOrder() []string {
 

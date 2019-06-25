@@ -208,6 +208,12 @@ func (o *InstalledApp) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *InstalledApp) BleveType() string {
+
+	return "installedapp"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *InstalledApp) DefaultOrder() []string {
 

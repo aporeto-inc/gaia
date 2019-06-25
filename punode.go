@@ -147,6 +147,12 @@ func (o *PUNode) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *PUNode) BleveType() string {
+
+	return "punode"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *PUNode) DefaultOrder() []string {
 

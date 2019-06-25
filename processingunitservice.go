@@ -30,6 +30,12 @@ func NewProcessingUnitService() *ProcessingUnitService {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *ProcessingUnitService) BleveType() string {
+
+	return "processingunitservice"
+}
+
 // DeepCopy returns a deep copy if the ProcessingUnitService.
 func (o *ProcessingUnitService) DeepCopy() *ProcessingUnitService {
 

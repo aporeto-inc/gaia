@@ -123,6 +123,12 @@ func (o *RenderTemplate) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *RenderTemplate) BleveType() string {
+
+	return "rendertemplate"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *RenderTemplate) DefaultOrder() []string {
 

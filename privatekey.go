@@ -124,6 +124,12 @@ func (o *PrivateKey) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *PrivateKey) BleveType() string {
+
+	return "privatekey"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *PrivateKey) DefaultOrder() []string {
 

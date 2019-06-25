@@ -193,6 +193,12 @@ func (o *Message) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Message) BleveType() string {
+
+	return "message"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Message) DefaultOrder() []string {
 

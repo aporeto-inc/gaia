@@ -208,6 +208,12 @@ func (o *Namespace) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Namespace) BleveType() string {
+
+	return "namespace"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Namespace) DefaultOrder() []string {
 

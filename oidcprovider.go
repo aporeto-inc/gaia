@@ -190,6 +190,12 @@ func (o *OIDCProvider) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *OIDCProvider) BleveType() string {
+
+	return "oidcprovider"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *OIDCProvider) DefaultOrder() []string {
 

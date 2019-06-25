@@ -26,6 +26,12 @@ func NewClaimMapping() *ClaimMapping {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *ClaimMapping) BleveType() string {
+
+	return "claimmapping"
+}
+
 // DeepCopy returns a deep copy if the ClaimMapping.
 func (o *ClaimMapping) DeepCopy() *ClaimMapping {
 

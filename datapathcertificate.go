@@ -146,6 +146,12 @@ func (o *DataPathCertificate) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *DataPathCertificate) BleveType() string {
+
+	return "datapathcertificate"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *DataPathCertificate) DefaultOrder() []string {
 

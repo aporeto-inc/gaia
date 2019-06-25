@@ -207,6 +207,12 @@ func (o *Recipe) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Recipe) BleveType() string {
+
+	return "recipe"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Recipe) DefaultOrder() []string {
 
@@ -428,7 +434,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
-			Options:              &o.Options,
+			Options:              o.Options,
 			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
 			Steps:                &o.Steps,
@@ -475,7 +481,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "options":
-			sp.Options = &(o.Options)
+			sp.Options = o.Options
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
@@ -554,7 +560,7 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 		o.NormalizedTags = *so.NormalizedTags
 	}
 	if so.Options != nil {
-		o.Options = *so.Options
+		o.Options = so.Options
 	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
@@ -1505,7 +1511,7 @@ type SparseRecipe struct {
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Options of the recipe.
-	Options **RecipeOptions `json:"options,omitempty" msgpack:"options,omitempty" bson:"options,omitempty" mapstructure:"options,omitempty"`
+	Options *RecipeOptions `json:"options,omitempty" msgpack:"options,omitempty" bson:"options,omitempty" mapstructure:"options,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
@@ -1624,7 +1630,7 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 		out.NormalizedTags = *o.NormalizedTags
 	}
 	if o.Options != nil {
-		out.Options = *o.Options
+		out.Options = o.Options
 	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate

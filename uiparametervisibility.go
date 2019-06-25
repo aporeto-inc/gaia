@@ -52,6 +52,12 @@ func NewUIParameterVisibility() *UIParameterVisibility {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *UIParameterVisibility) BleveType() string {
+
+	return "uiparametervisibility"
+}
+
 // DeepCopy returns a deep copy if the UIParameterVisibility.
 func (o *UIParameterVisibility) DeepCopy() *UIParameterVisibility {
 

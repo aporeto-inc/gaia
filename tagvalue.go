@@ -120,6 +120,12 @@ func (o *TagValue) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *TagValue) BleveType() string {
+
+	return "tagvalue"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *TagValue) DefaultOrder() []string {
 

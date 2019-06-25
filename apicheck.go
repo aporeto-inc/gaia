@@ -161,6 +161,12 @@ func (o *APICheck) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *APICheck) BleveType() string {
+
+	return "apicheck"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *APICheck) DefaultOrder() []string {
 

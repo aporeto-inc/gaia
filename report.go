@@ -157,6 +157,12 @@ func (o *Report) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Report) BleveType() string {
+
+	return "report"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Report) DefaultOrder() []string {
 

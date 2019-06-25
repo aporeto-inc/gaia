@@ -36,6 +36,12 @@ func NewGraphGroup() *GraphGroup {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *GraphGroup) BleveType() string {
+
+	return "graphgroup"
+}
+
 // DeepCopy returns a deep copy if the GraphGroup.
 func (o *GraphGroup) DeepCopy() *GraphGroup {
 

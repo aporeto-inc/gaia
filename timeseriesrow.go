@@ -35,6 +35,12 @@ func NewTimeSeriesRow() *TimeSeriesRow {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *TimeSeriesRow) BleveType() string {
+
+	return "timeseriesrow"
+}
+
 // DeepCopy returns a deep copy if the TimeSeriesRow.
 func (o *TimeSeriesRow) DeepCopy() *TimeSeriesRow {
 

@@ -182,6 +182,12 @@ func (o *PacketReport) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *PacketReport) BleveType() string {
+
+	return "packetreport"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *PacketReport) DefaultOrder() []string {
 

@@ -189,6 +189,12 @@ func (o *ServiceDependency) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *ServiceDependency) BleveType() string {
+
+	return "servicedependency"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *ServiceDependency) DefaultOrder() []string {
 

@@ -173,6 +173,12 @@ func (o *X509Certificate) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *X509Certificate) BleveType() string {
+
+	return "x509certificate"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *X509Certificate) DefaultOrder() []string {
 
@@ -203,7 +209,7 @@ func (o *X509Certificate) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			ExpirationDate:  &o.ExpirationDate,
 			Extensions:      &o.Extensions,
 			Signer:          &o.Signer,
-			SubjectOverride: &o.SubjectOverride,
+			SubjectOverride: o.SubjectOverride,
 			Unrevocable:     &o.Unrevocable,
 			Usage:           &o.Usage,
 		}
@@ -225,7 +231,7 @@ func (o *X509Certificate) ToSparse(fields ...string) elemental.SparseIdentifiabl
 		case "signer":
 			sp.Signer = &(o.Signer)
 		case "subjectOverride":
-			sp.SubjectOverride = &(o.SubjectOverride)
+			sp.SubjectOverride = o.SubjectOverride
 		case "unrevocable":
 			sp.Unrevocable = &(o.Unrevocable)
 		case "usage":
@@ -262,7 +268,7 @@ func (o *X509Certificate) Patch(sparse elemental.SparseIdentifiable) {
 		o.Signer = *so.Signer
 	}
 	if so.SubjectOverride != nil {
-		o.SubjectOverride = *so.SubjectOverride
+		o.SubjectOverride = so.SubjectOverride
 	}
 	if so.Unrevocable != nil {
 		o.Unrevocable = *so.Unrevocable
@@ -648,7 +654,7 @@ type SparseX509Certificate struct {
 	Signer *X509CertificateSignerValue `json:"signer,omitempty" msgpack:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
 
 	// Additional subject information to use to override the ones in the CSR.
-	SubjectOverride **PKIXName `json:"subjectOverride,omitempty" msgpack:"subjectOverride,omitempty" bson:"-" mapstructure:"subjectOverride,omitempty"`
+	SubjectOverride *PKIXName `json:"subjectOverride,omitempty" msgpack:"subjectOverride,omitempty" bson:"-" mapstructure:"subjectOverride,omitempty"`
 
 	// If set to true, the certificate is considered short lived and it will not be
 	// possible to revoke it.
@@ -715,7 +721,7 @@ func (o *SparseX509Certificate) ToPlain() elemental.PlainIdentifiable {
 		out.Signer = *o.Signer
 	}
 	if o.SubjectOverride != nil {
-		out.SubjectOverride = *o.SubjectOverride
+		out.SubjectOverride = o.SubjectOverride
 	}
 	if o.Unrevocable != nil {
 		out.Unrevocable = *o.Unrevocable

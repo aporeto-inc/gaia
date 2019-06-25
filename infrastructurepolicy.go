@@ -216,6 +216,12 @@ func (o *InfrastructurePolicy) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *InfrastructurePolicy) BleveType() string {
+
+	return "infrastructurepolicy"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *InfrastructurePolicy) DefaultOrder() []string {
 

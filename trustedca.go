@@ -130,6 +130,12 @@ func (o *TrustedCA) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *TrustedCA) BleveType() string {
+
+	return "trustedca"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *TrustedCA) DefaultOrder() []string {
 

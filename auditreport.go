@@ -210,6 +210,12 @@ func (o *AuditReport) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *AuditReport) BleveType() string {
+
+	return "auditreport"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *AuditReport) DefaultOrder() []string {
 

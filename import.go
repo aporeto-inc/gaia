@@ -136,6 +136,12 @@ func (o *Import) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Import) BleveType() string {
+
+	return "import"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Import) DefaultOrder() []string {
 
@@ -160,7 +166,7 @@ func (o *Import) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseImport{
-			Data: &o.Data,
+			Data: o.Data,
 			Mode: &o.Mode,
 		}
 	}
@@ -169,7 +175,7 @@ func (o *Import) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	for _, f := range fields {
 		switch f {
 		case "data":
-			sp.Data = &(o.Data)
+			sp.Data = o.Data
 		case "mode":
 			sp.Mode = &(o.Mode)
 		}
@@ -186,7 +192,7 @@ func (o *Import) Patch(sparse elemental.SparseIdentifiable) {
 
 	so := sparse.(*SparseImport)
 	if so.Data != nil {
-		o.Data = *so.Data
+		o.Data = so.Data
 	}
 	if so.Mode != nil {
 		o.Mode = *so.Mode
@@ -388,7 +394,7 @@ func (o SparseImportsList) Version() int {
 // SparseImport represents the sparse version of a import.
 type SparseImport struct {
 	// The data to import.
-	Data **Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data *Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// How to import the data. ReplacePartial is deprecated and should be Import. Right
 	// now the API considers both equivalent.
@@ -430,7 +436,7 @@ func (o *SparseImport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewImport()
 	if o.Data != nil {
-		out.Data = *o.Data
+		out.Data = o.Data
 	}
 	if o.Mode != nil {
 		out.Mode = *o.Mode

@@ -41,6 +41,12 @@ func NewCredential() *Credential {
 	}
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Credential) BleveType() string {
+
+	return "credential"
+}
+
 // DeepCopy returns a deep copy if the Credential.
 func (o *Credential) DeepCopy() *Credential {
 

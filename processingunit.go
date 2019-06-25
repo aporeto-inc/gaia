@@ -297,6 +297,12 @@ func (o *ProcessingUnit) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *ProcessingUnit) BleveType() string {
+
+	return "processingunit"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *ProcessingUnit) DefaultOrder() []string {
 
@@ -534,7 +540,7 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			NormalizedTags:       &o.NormalizedTags,
 			OperationalStatus:    &o.OperationalStatus,
 			Protected:            &o.Protected,
-			Tracing:              &o.Tracing,
+			Tracing:              o.Tracing,
 			Type:                 &o.Type,
 			Unreachable:          &o.Unreachable,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
@@ -598,7 +604,7 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "tracing":
-			sp.Tracing = &(o.Tracing)
+			sp.Tracing = o.Tracing
 		case "type":
 			sp.Type = &(o.Type)
 		case "unreachable":
@@ -700,7 +706,7 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 		o.Protected = *so.Protected
 	}
 	if so.Tracing != nil {
-		o.Tracing = *so.Tracing
+		o.Tracing = so.Tracing
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
@@ -1831,7 +1837,7 @@ type SparseProcessingUnit struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Tracing indicates if this PU must be placed in tracing mode.
-	Tracing **TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"tracing,omitempty" mapstructure:"tracing,omitempty"`
+	Tracing *TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"tracing,omitempty" mapstructure:"tracing,omitempty"`
 
 	// Type of the container ecosystem.
 	Type *ProcessingUnitTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
@@ -1969,7 +1975,7 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 		out.Protected = *o.Protected
 	}
 	if o.Tracing != nil {
-		out.Tracing = *o.Tracing
+		out.Tracing = o.Tracing
 	}
 	if o.Type != nil {
 		out.Type = *o.Type

@@ -283,6 +283,12 @@ func (o *Enforcer) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *Enforcer) BleveType() string {
+
+	return "enforcer"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *Enforcer) DefaultOrder() []string {
 
