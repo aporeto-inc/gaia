@@ -73,6 +73,14 @@ attributes:
     subtype: _automation_events
     stored: true
 
+  - name: immediateExecution
+    description: |-
+      If set and the trigger is of type Time, the automation will be run at create or
+      update before being scheduled.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: lastExecTime
     description: LastExecTime holds the last successful execution tine.
     type: time

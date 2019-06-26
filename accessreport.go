@@ -170,6 +170,12 @@ func (o *AccessReport) Version() int {
 	return 1
 }
 
+// BleveType implements the bleve.Classifier Interface.
+func (o *AccessReport) BleveType() string {
+
+	return "accessreport"
+}
+
 // DefaultOrder returns the list of default ordering fields.
 func (o *AccessReport) DefaultOrder() []string {
 
