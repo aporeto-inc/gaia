@@ -32,6 +32,7 @@ attributes:
     - Enforcers
     - Files
     - EventLogs
+    - Accesses
     default_value: Flows
 
   - name: tags

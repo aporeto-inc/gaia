@@ -49,7 +49,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: |-
       -----BEGIN CERTIFICATE-----
       MIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN
@@ -68,11 +67,12 @@ attributes:
   - name: clientCertificate
     description: |-
       ClientCertificate contains the client certificate that will be used to connect
-      to the remote endoint.
+      to the remote endpoint. If provided, the private key associated with this
+      certificate must
+      also be configured.
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: |-
       -----BEGIN CERTIFICATE-----
       MIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN
@@ -89,11 +89,13 @@ attributes:
     - $pem
 
   - name: clientCertificateKey
-    description: ClientCertificateKey contains the key associated to the clientCertificate.
+    description: |-
+      ClientCertificateKey contains the key associated to the clientCertificate. Must
+      be provided only when
+      ClientCertificate has been configured.
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: |-
       -----BEGIN EC PRIVATE KEY-----
       MHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49
@@ -115,7 +117,7 @@ attributes:
     stored: true
 
   - name: endpoint
-    description: Endpoint contains the full address of the remote processor endoint.
+    description: Endpoint contains the full address of the remote processor endpoint.
     type: string
     exposed: true
     stored: true

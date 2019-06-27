@@ -14,6 +14,10 @@ model:
 
 # Relations
 relations:
+- rest_name: accessreport
+  create:
+    description: Create an access report.
+
 - rest_name: account
   get:
     description: |-
@@ -746,6 +750,15 @@ relations:
     - $propagatable
   create:
     description: Creates a new token scope policy.
+
+- rest_name: useraccesspolicy
+  get:
+    description: Retrieves the list of user access policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new enforcer policy.
 
 - rest_name: validateuiparameter
   create:

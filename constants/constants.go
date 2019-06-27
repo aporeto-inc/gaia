@@ -39,6 +39,8 @@ const (
 	RenderedPolicyTypeFile RenderedPolicyType = "filePolicyRules"
 	// RenderedPolicyTypeIsolation that the RenderedPolicyType for isolation policies
 	RenderedPolicyTypeIsolation RenderedPolicyType = "isolationPolicyRules"
+	// RenderedPolicyTypeUserAccess that the RenderedPolicyType for user access
+	RenderedPolicyTypeUserAccess RenderedPolicyType = "userAccessRules"
 )
 
 const (
@@ -283,10 +285,16 @@ const (
 	RelationExecuteTagString = "relation=execute"
 )
 
-// File mode tags
+// SSH Certificate tags
 const (
 	// ActionSSHCertificateScopeTagString contains the SSH certificates scope.
 	ActionSSHCertificateScopeTagString = "action=ssh-certificate-scope"
+)
+
+// User Access tags
+const (
+	// ActionRestrictUserAccessTagString contains the info of User Access policy.
+	ActionRestrictUserAccessTagString = "action=restrict-user-access"
 )
 
 // Quota Policies Constants

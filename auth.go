@@ -5,7 +5,7 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/midgard-lib/claims"
+	"go.aporeto.io/gaia/types"
 )
 
 // AuthIdentity represents the Identity of the object.
@@ -81,7 +81,7 @@ func (o AuthsList) Version() int {
 // Auth represents the model of a auth
 type Auth struct {
 	// Claims are the claims.
-	Claims *claims.MidgardClaims `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
+	Claims *types.MidgardClaims `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -91,7 +91,7 @@ func NewAuth() *Auth {
 
 	return &Auth{
 		ModelVersion: 1,
-		Claims:       claims.NewMidgardClaims(),
+		Claims:       types.NewMidgardClaims(),
 	}
 }
 
@@ -341,7 +341,7 @@ func (o SparseAuthsList) Version() int {
 // SparseAuth represents the sparse version of a auth.
 type SparseAuth struct {
 	// Claims are the claims.
-	Claims *claims.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+	Claims *types.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }

@@ -4,6 +4,7 @@ import "go.aporeto.io/elemental"
 
 var (
 	identityNamesMap = map[string]elemental.Identity{
+		"accessreport":              AccessReportIdentity,
 		"account":                   AccountIdentity,
 		"accountcheck":              AccountCheckIdentity,
 		"activate":                  ActivateIdentity,
@@ -117,6 +118,7 @@ var (
 		"trigger":   TriggerIdentity,
 		"trustedca": TrustedCAIdentity,
 
+		"useraccesspolicy":     UserAccessPolicyIdentity,
 		"validateuiparameter":  ValidateUIParameterIdentity,
 		"vulnerability":        VulnerabilityIdentity,
 		"x509certificate":      X509CertificateIdentity,
@@ -124,6 +126,7 @@ var (
 	}
 
 	identitycategoriesMap = map[string]elemental.Identity{
+		"accessreports":               AccessReportIdentity,
 		"accounts":                    AccountIdentity,
 		"accountchecks":               AccountCheckIdentity,
 		"activate":                    ActivateIdentity,
@@ -237,6 +240,7 @@ var (
 		"triggers":   TriggerIdentity,
 		"trustedcas": TrustedCAIdentity,
 
+		"useraccesspolicies":    UserAccessPolicyIdentity,
 		"validateuiparameters":  ValidateUIParameterIdentity,
 		"vulnerabilities":       VulnerabilityIdentity,
 		"x509certificates":      X509CertificateIdentity,
@@ -331,6 +335,8 @@ var (
 		"tabs":           TabulationIdentity,
 		"tab":            TabulationIdentity,
 		"tsp":            TokenScopePolicyIdentity,
+		"usrpol":         UserAccessPolicyIdentity,
+		"usrpols":        UserAccessPolicyIdentity,
 		"validparam":     ValidateUIParameterIdentity,
 		"vulns":          VulnerabilityIdentity,
 		"vul":            VulnerabilityIdentity,
@@ -339,6 +345,7 @@ var (
 	}
 
 	indexesMap = map[string][][]string{
+		"accessreport": nil,
 		"account": [][]string{
 			[]string{"resetPasswordToken"},
 			[]string{"name"},
@@ -705,6 +712,7 @@ var (
 		"tokenscopepolicy":    nil,
 		"trigger":             nil,
 		"trustedca":           nil,
+		"useraccesspolicy":    nil,
 		"validateuiparameter": nil,
 		"vulnerability": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -761,6 +769,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 
 	switch identity {
 
+	case AccessReportIdentity:
+		return NewAccessReport()
 	case AccountIdentity:
 		return NewAccount()
 	case AccountCheckIdentity:
@@ -967,6 +977,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewTrigger()
 	case TrustedCAIdentity:
 		return NewTrustedCA()
+	case UserAccessPolicyIdentity:
+		return NewUserAccessPolicy()
 	case ValidateUIParameterIdentity:
 		return NewValidateUIParameter()
 	case VulnerabilityIdentity:
@@ -984,6 +996,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 
 	switch identity {
 
+	case AccessReportIdentity:
+		return NewSparseAccessReport()
 	case AccountIdentity:
 		return NewSparseAccount()
 	case AccountCheckIdentity:
@@ -1188,6 +1202,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseTrigger()
 	case TrustedCAIdentity:
 		return NewSparseTrustedCA()
+	case UserAccessPolicyIdentity:
+		return NewSparseUserAccessPolicy()
 	case ValidateUIParameterIdentity:
 		return NewSparseValidateUIParameter()
 	case VulnerabilityIdentity:
@@ -1215,6 +1231,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 
 	switch identity {
 
+	case AccessReportIdentity:
+		return &AccessReportsList{}
 	case AccountIdentity:
 		return &AccountsList{}
 	case AccountCheckIdentity:
@@ -1419,6 +1437,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &TriggersList{}
 	case TrustedCAIdentity:
 		return &TrustedCAsList{}
+	case UserAccessPolicyIdentity:
+		return &UserAccessPoliciesList{}
 	case ValidateUIParameterIdentity:
 		return &ValidateUIParametersList{}
 	case VulnerabilityIdentity:
@@ -1436,6 +1456,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 
 	switch identity {
 
+	case AccessReportIdentity:
+		return &SparseAccessReportsList{}
 	case AccountIdentity:
 		return &SparseAccountsList{}
 	case AccountCheckIdentity:
@@ -1640,6 +1662,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseTriggersList{}
 	case TrustedCAIdentity:
 		return &SparseTrustedCAsList{}
+	case UserAccessPolicyIdentity:
+		return &SparseUserAccessPoliciesList{}
 	case ValidateUIParameterIdentity:
 		return &SparseValidateUIParametersList{}
 	case VulnerabilityIdentity:
@@ -1672,6 +1696,7 @@ func Manager() elemental.ModelManager { return manager }
 func AllIdentities() []elemental.Identity {
 
 	return []elemental.Identity{
+		AccessReportIdentity,
 		AccountIdentity,
 		AccountCheckIdentity,
 		ActivateIdentity,
@@ -1775,6 +1800,7 @@ func AllIdentities() []elemental.Identity {
 		TokenScopePolicyIdentity,
 		TriggerIdentity,
 		TrustedCAIdentity,
+		UserAccessPolicyIdentity,
 		ValidateUIParameterIdentity,
 		VulnerabilityIdentity,
 		X509CertificateIdentity,
@@ -1786,6 +1812,8 @@ func AllIdentities() []elemental.Identity {
 func AliasesForIdentity(identity elemental.Identity) []string {
 
 	switch identity {
+	case AccessReportIdentity:
+		return []string{}
 	case AccountIdentity:
 		return []string{}
 	case AccountCheckIdentity:
@@ -2122,6 +2150,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case TrustedCAIdentity:
 		return []string{}
+	case UserAccessPolicyIdentity:
+		return []string{
+			"usrpol",
+			"usrpols",
+		}
 	case ValidateUIParameterIdentity:
 		return []string{
 			"validparam",

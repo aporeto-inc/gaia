@@ -111,10 +111,14 @@ type HookPolicy struct {
 	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
 	// ClientCertificate contains the client certificate that will be used to connect
-	// to the remote endoint.
+	// to the remote endpoint. If provided, the private key associated with this
+	// certificate must
+	// also be configured.
 	ClientCertificate string `json:"clientCertificate" msgpack:"clientCertificate" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
 
-	// ClientCertificateKey contains the key associated to the clientCertificate.
+	// ClientCertificateKey contains the key associated to the clientCertificate. Must
+	// be provided only when
+	// ClientCertificate has been configured.
 	ClientCertificateKey string `json:"clientCertificateKey" msgpack:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
 	// If set to true and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
@@ -133,7 +137,7 @@ type HookPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// Endpoint contains the full address of the remote processor endoint.
+	// Endpoint contains the full address of the remote processor endpoint.
 	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
 	// If set the policy will be auto deleted after the given time.
@@ -665,16 +669,8 @@ func (o *HookPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("certificateAuthority", o.CertificateAuthority); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := ValidatePEM("certificateAuthority", o.CertificateAuthority); err != nil {
 		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("clientCertificate", o.ClientCertificate); err != nil {
-		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := ValidatePEM("clientCertificate", o.ClientCertificate); err != nil {
@@ -845,7 +841,6 @@ the remote endpoint.`,
 		Exposed:   true,
 		Name:      "certificateAuthority",
 		Orderable: true,
-		Required:  true,
 		Stored:    true,
 		Type:      "string",
 	},
@@ -853,26 +848,28 @@ the remote endpoint.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
 		Description: `ClientCertificate contains the client certificate that will be used to connect
-to the remote endoint.`,
+to the remote endpoint. If provided, the private key associated with this
+certificate must
+also be configured.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
 		Orderable: true,
-		Required:  true,
 		Stored:    true,
 		Type:      "string",
 	},
 	"ClientCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description:    `ClientCertificateKey contains the key associated to the clientCertificate.`,
-		Exposed:        true,
-		Name:           "clientCertificateKey",
-		Orderable:      true,
-		Required:       true,
-		Secret:         true,
-		Stored:         true,
-		Transient:      true,
-		Type:           "string",
+		Description: `ClientCertificateKey contains the key associated to the clientCertificate. Must
+be provided only when
+ClientCertificate has been configured.`,
+		Exposed:   true,
+		Name:      "clientCertificateKey",
+		Orderable: true,
+		Secret:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "string",
 	},
 	"ContinueOnError": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -938,7 +935,7 @@ calling the hook fails.`,
 	"Endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `Endpoint contains the full address of the remote processor endoint.`,
+		Description:    `Endpoint contains the full address of the remote processor endpoint.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
@@ -1167,7 +1164,6 @@ the remote endpoint.`,
 		Exposed:   true,
 		Name:      "certificateAuthority",
 		Orderable: true,
-		Required:  true,
 		Stored:    true,
 		Type:      "string",
 	},
@@ -1175,26 +1171,28 @@ the remote endpoint.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
 		Description: `ClientCertificate contains the client certificate that will be used to connect
-to the remote endoint.`,
+to the remote endpoint. If provided, the private key associated with this
+certificate must
+also be configured.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
 		Orderable: true,
-		Required:  true,
 		Stored:    true,
 		Type:      "string",
 	},
 	"clientcertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description:    `ClientCertificateKey contains the key associated to the clientCertificate.`,
-		Exposed:        true,
-		Name:           "clientCertificateKey",
-		Orderable:      true,
-		Required:       true,
-		Secret:         true,
-		Stored:         true,
-		Transient:      true,
-		Type:           "string",
+		Description: `ClientCertificateKey contains the key associated to the clientCertificate. Must
+be provided only when
+ClientCertificate has been configured.`,
+		Exposed:   true,
+		Name:      "clientCertificateKey",
+		Orderable: true,
+		Secret:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "string",
 	},
 	"continueonerror": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1260,7 +1258,7 @@ calling the hook fails.`,
 	"endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `Endpoint contains the full address of the remote processor endoint.`,
+		Description:    `Endpoint contains the full address of the remote processor endpoint.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
@@ -1522,10 +1520,14 @@ type SparseHookPolicy struct {
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
 
 	// ClientCertificate contains the client certificate that will be used to connect
-	// to the remote endoint.
+	// to the remote endpoint. If provided, the private key associated with this
+	// certificate must
+	// also be configured.
 	ClientCertificate *string `json:"clientCertificate,omitempty" msgpack:"clientCertificate,omitempty" bson:"clientcertificate,omitempty" mapstructure:"clientCertificate,omitempty"`
 
-	// ClientCertificateKey contains the key associated to the clientCertificate.
+	// ClientCertificateKey contains the key associated to the clientCertificate. Must
+	// be provided only when
+	// ClientCertificate has been configured.
 	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" msgpack:"clientCertificateKey,omitempty" bson:"clientcertificatekey,omitempty" mapstructure:"clientCertificateKey,omitempty"`
 
 	// If set to true and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
@@ -1544,7 +1546,7 @@ type SparseHookPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// Endpoint contains the full address of the remote processor endoint.
+	// Endpoint contains the full address of the remote processor endpoint.
 	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// If set the policy will be auto deleted after the given time.
