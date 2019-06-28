@@ -94,6 +94,10 @@ type TokenScopePolicy struct {
 	// The policy will be active for the given activeDuration.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
+	// A list of audience values that are allowed when issuing a service token. An
+	// empty list will allow any audience values.
+	AllowedAudiences []string `json:"allowedAudiences" msgpack:"allowedAudiences" bson:"allowedaudiences" mapstructure:"allowedAudiences,omitempty"`
+
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
@@ -159,13 +163,14 @@ type TokenScopePolicy struct {
 func NewTokenScopePolicy() *TokenScopePolicy {
 
 	return &TokenScopePolicy{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssignedScopes: []string{},
-		AssociatedTags: []string{},
-		Metadata:       []string{},
-		NormalizedTags: []string{},
-		Subject:        [][]string{},
+		ModelVersion:     1,
+		AssociatedTags:   []string{},
+		AllowedAudiences: []string{},
+		Annotations:      map[string][]string{},
+		AssignedScopes:   []string{},
+		Metadata:         []string{},
+		NormalizedTags:   []string{},
+		Subject:          [][]string{},
 	}
 }
 
@@ -447,6 +452,7 @@ func (o *TokenScopePolicy) ToSparse(fields ...string) elemental.SparseIdentifiab
 			ID:                   &o.ID,
 			ActiveDuration:       &o.ActiveDuration,
 			ActiveSchedule:       &o.ActiveSchedule,
+			AllowedAudiences:     &o.AllowedAudiences,
 			Annotations:          &o.Annotations,
 			AssignedScopes:       &o.AssignedScopes,
 			AssociatedTags:       &o.AssociatedTags,
@@ -477,6 +483,8 @@ func (o *TokenScopePolicy) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.ActiveDuration = &(o.ActiveDuration)
 		case "activeSchedule":
 			sp.ActiveSchedule = &(o.ActiveSchedule)
+		case "allowedAudiences":
+			sp.AllowedAudiences = &(o.AllowedAudiences)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "assignedScopes":
@@ -534,6 +542,9 @@ func (o *TokenScopePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ActiveSchedule != nil {
 		o.ActiveSchedule = *so.ActiveSchedule
+	}
+	if so.AllowedAudiences != nil {
+		o.AllowedAudiences = *so.AllowedAudiences
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
@@ -689,6 +700,8 @@ func (o *TokenScopePolicy) ValueForAttribute(name string) interface{} {
 		return o.ActiveDuration
 	case "activeSchedule":
 		return o.ActiveSchedule
+	case "allowedAudiences":
+		return o.AllowedAudiences
 	case "annotations":
 		return o.Annotations
 	case "assignedScopes":
@@ -769,6 +782,18 @@ The policy will be active for the given activeDuration.`,
 		Setter:  true,
 		Stored:  true,
 		Type:    "string",
+	},
+	"AllowedAudiences": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllowedAudiences",
+		Description: `A list of audience values that are allowed when issuing a service token. An
+empty list will allow any audience values.`,
+		Exposed:   true,
+		Name:      "allowedAudiences",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1046,6 +1071,18 @@ The policy will be active for the given activeDuration.`,
 		Setter:  true,
 		Stored:  true,
 		Type:    "string",
+	},
+	"allowedaudiences": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllowedAudiences",
+		Description: `A list of audience values that are allowed when issuing a service token. An
+empty list will allow any audience values.`,
+		Exposed:   true,
+		Name:      "allowedAudiences",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1361,6 +1398,10 @@ type SparseTokenScopePolicy struct {
 	// The policy will be active for the given activeDuration.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
+	// A list of audience values that are allowed when issuing a service token. An
+	// empty list will allow any audience values.
+	AllowedAudiences *[]string `json:"allowedAudiences,omitempty" msgpack:"allowedAudiences,omitempty" bson:"allowedaudiences,omitempty" mapstructure:"allowedAudiences,omitempty"`
+
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
@@ -1466,6 +1507,9 @@ func (o *SparseTokenScopePolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ActiveSchedule != nil {
 		out.ActiveSchedule = *o.ActiveSchedule
+	}
+	if o.AllowedAudiences != nil {
+		out.AllowedAudiences = *o.AllowedAudiences
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations

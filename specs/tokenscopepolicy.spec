@@ -39,6 +39,16 @@ indexes:
 # Attributes
 attributes:
   v1:
+  - name: allowedAudiences
+    description: |-
+      A list of audience values that are allowed when issuing a service token. An
+      empty list will allow any audience values.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    orderable: true
+
   - name: assignedScopes
     description: AssignedScopes is the the list of scopes that the policiy will assigns.
     type: list
