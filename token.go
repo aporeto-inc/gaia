@@ -7,6 +7,17 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// TokenTypeValue represents the possible values for attribute "type".
+type TokenTypeValue string
+
+const (
+	// TokenTypeEnforcer represents the value Enforcer.
+	TokenTypeEnforcer TokenTypeValue = "Enforcer"
+
+	// TokenTypeOAUTH represents the value OAUTH.
+	TokenTypeOAUTH TokenTypeValue = "OAUTH"
+)
+
 // TokenIdentity represents the Identity of the object.
 var TokenIdentity = elemental.Identity{
 	Name:     "token",
@@ -79,6 +90,9 @@ func (o TokensList) Version() int {
 
 // Token represents the model of a token
 type Token struct {
+	// Audience defines the audience of the token.
+	Audience string `json:"audience" msgpack:"audience" bson:"-" mapstructure:"audience,omitempty"`
+
 	// Certificate contains the client certificate to use to create a token.
 	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
@@ -90,6 +104,9 @@ type Token struct {
 
 	// Token contains the generated token.
 	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
+
+	// Type defines the token type (enforcer or external JWT).
+	Type TokenTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	// Validity contains the token validity duration.
 	Validity string `json:"validity" msgpack:"validity" bson:"-" mapstructure:"validity,omitempty"`
@@ -159,10 +176,12 @@ func (o *Token) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseToken{
+			Audience:     &o.Audience,
 			Certificate:  &o.Certificate,
 			SigningKeyID: &o.SigningKeyID,
 			Tags:         &o.Tags,
 			Token:        &o.Token,
+			Type:         &o.Type,
 			Validity:     &o.Validity,
 		}
 	}
@@ -170,6 +189,8 @@ func (o *Token) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	sp := &SparseToken{}
 	for _, f := range fields {
 		switch f {
+		case "audience":
+			sp.Audience = &(o.Audience)
 		case "certificate":
 			sp.Certificate = &(o.Certificate)
 		case "signingKeyID":
@@ -178,6 +199,8 @@ func (o *Token) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Tags = &(o.Tags)
 		case "token":
 			sp.Token = &(o.Token)
+		case "type":
+			sp.Type = &(o.Type)
 		case "validity":
 			sp.Validity = &(o.Validity)
 		}
@@ -193,6 +216,9 @@ func (o *Token) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseToken)
+	if so.Audience != nil {
+		o.Audience = *so.Audience
+	}
 	if so.Certificate != nil {
 		o.Certificate = *so.Certificate
 	}
@@ -204,6 +230,9 @@ func (o *Token) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Token != nil {
 		o.Token = *so.Token
+	}
+	if so.Type != nil {
+		o.Type = *so.Type
 	}
 	if so.Validity != nil {
 		o.Validity = *so.Validity
@@ -244,6 +273,10 @@ func (o *Token) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Enforcer", "OAUTH"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -278,6 +311,8 @@ func (*Token) AttributeSpecifications() map[string]elemental.AttributeSpecificat
 func (o *Token) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "audience":
+		return o.Audience
 	case "certificate":
 		return o.Certificate
 	case "signingKeyID":
@@ -286,6 +321,8 @@ func (o *Token) ValueForAttribute(name string) interface{} {
 		return o.Tags
 	case "token":
 		return o.Token
+	case "type":
+		return o.Type
 	case "validity":
 		return o.Validity
 	}
@@ -295,6 +332,15 @@ func (o *Token) ValueForAttribute(name string) interface{} {
 
 // TokenAttributesMap represents the map of attribute for Token.
 var TokenAttributesMap = map[string]elemental.AttributeSpecification{
+	"Audience": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Audience",
+		CreationOnly:   true,
+		Description:    `Audience defines the audience of the token.`,
+		Exposed:        true,
+		Name:           "audience",
+		Type:           "string",
+	},
 	"Certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
@@ -334,6 +380,15 @@ var TokenAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"Type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Enforcer", "OAUTH"},
+		ConvertedName:  "Type",
+		CreationOnly:   true,
+		Description:    `Type defines the token type (enforcer or external JWT).`,
+		Exposed:        true,
+		Name:           "type",
+		Type:           "enum",
+	},
 	"Validity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
@@ -347,6 +402,15 @@ var TokenAttributesMap = map[string]elemental.AttributeSpecification{
 
 // TokenLowerCaseAttributesMap represents the map of attribute for Token.
 var TokenLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"audience": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Audience",
+		CreationOnly:   true,
+		Description:    `Audience defines the audience of the token.`,
+		Exposed:        true,
+		Name:           "audience",
+		Type:           "string",
+	},
 	"certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
@@ -385,6 +449,15 @@ var TokenLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "token",
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Enforcer", "OAUTH"},
+		ConvertedName:  "Type",
+		CreationOnly:   true,
+		Description:    `Type defines the token type (enforcer or external JWT).`,
+		Exposed:        true,
+		Name:           "type",
+		Type:           "enum",
 	},
 	"validity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -460,6 +533,9 @@ func (o SparseTokensList) Version() int {
 
 // SparseToken represents the sparse version of a token.
 type SparseToken struct {
+	// Audience defines the audience of the token.
+	Audience *string `json:"audience,omitempty" msgpack:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
+
 	// Certificate contains the client certificate to use to create a token.
 	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
@@ -471,6 +547,9 @@ type SparseToken struct {
 
 	// Token contains the generated token.
 	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+
+	// Type defines the token type (enforcer or external JWT).
+	Type *TokenTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
 	// Validity contains the token validity duration.
 	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
@@ -510,6 +589,9 @@ func (o *SparseToken) Version() int {
 func (o *SparseToken) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewToken()
+	if o.Audience != nil {
+		out.Audience = *o.Audience
+	}
 	if o.Certificate != nil {
 		out.Certificate = *o.Certificate
 	}
@@ -521,6 +603,9 @@ func (o *SparseToken) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Token != nil {
 		out.Token = *o.Token
+	}
+	if o.Type != nil {
+		out.Type = *o.Type
 	}
 	if o.Validity != nil {
 		out.Validity = *o.Validity
