@@ -2317,6 +2317,15 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[OAUTHInfoIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"namespace": &elemental.RelationshipInfo{},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"namespace": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[OIDCProviderIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},

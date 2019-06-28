@@ -61,15 +61,17 @@ var (
 		"isolationprofile":         IsolationProfileIdentity,
 		"issue":                    IssueIdentity,
 		"jaegerbatch":              JaegerbatchIdentity,
-		"ldapprovider":             LDAPProviderIdentity,
-		"log":                      LogIdentity,
-		"message":                  MessageIdentity,
-		"namespace":                NamespaceIdentity,
-		"namespacemappingpolicy":   NamespaceMappingPolicyIdentity,
-		"networkaccesspolicy":      NetworkAccessPolicyIdentity,
-		"oidcprovider":             OIDCProviderIdentity,
-		"packetreport":             PacketReportIdentity,
-		"passwordreset":            PasswordResetIdentity,
+
+		"ldapprovider":           LDAPProviderIdentity,
+		"log":                    LogIdentity,
+		"message":                MessageIdentity,
+		"namespace":              NamespaceIdentity,
+		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
+		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
+		"oauthinfo":              OAUTHInfoIdentity,
+		"oidcprovider":           OIDCProviderIdentity,
+		"packetreport":           PacketReportIdentity,
+		"passwordreset":          PasswordResetIdentity,
 
 		"plan":                  PlanIdentity,
 		"poke":                  PokeIdentity,
@@ -183,15 +185,17 @@ var (
 		"isolationprofiles":          IsolationProfileIdentity,
 		"issue":                      IssueIdentity,
 		"jaegerbatchs":               JaegerbatchIdentity,
-		"ldapproviders":              LDAPProviderIdentity,
-		"logs":                       LogIdentity,
-		"messages":                   MessageIdentity,
-		"namespaces":                 NamespaceIdentity,
-		"namespacemappingpolicies":   NamespaceMappingPolicyIdentity,
-		"networkaccesspolicies":      NetworkAccessPolicyIdentity,
-		"oidcproviders":              OIDCProviderIdentity,
-		"packetreports":              PacketReportIdentity,
-		"passwordreset":              PasswordResetIdentity,
+
+		"ldapproviders":            LDAPProviderIdentity,
+		"logs":                     LogIdentity,
+		"messages":                 MessageIdentity,
+		"namespaces":               NamespaceIdentity,
+		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
+		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
+		"oauthinfo":                OAUTHInfoIdentity,
+		"oidcproviders":            OIDCProviderIdentity,
+		"packetreports":            PacketReportIdentity,
+		"passwordreset":            PasswordResetIdentity,
 
 		"plans":                  PlanIdentity,
 		"poke":                   PokeIdentity,
@@ -592,6 +596,7 @@ var (
 		},
 		"namespacemappingpolicy": nil,
 		"networkaccesspolicy":    nil,
+		"oauthinfo":              nil,
 		"oidcprovider": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -887,6 +892,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewNamespaceMappingPolicy()
 	case NetworkAccessPolicyIdentity:
 		return NewNetworkAccessPolicy()
+	case OAUTHInfoIdentity:
+		return NewOAUTHInfo()
 	case OIDCProviderIdentity:
 		return NewOIDCProvider()
 	case PacketReportIdentity:
@@ -1114,6 +1121,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseNamespaceMappingPolicy()
 	case NetworkAccessPolicyIdentity:
 		return NewSparseNetworkAccessPolicy()
+	case OAUTHInfoIdentity:
+		return NewSparseOAUTHInfo()
 	case OIDCProviderIdentity:
 		return NewSparseOIDCProvider()
 	case PacketReportIdentity:
@@ -1349,6 +1358,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &NamespaceMappingPoliciesList{}
 	case NetworkAccessPolicyIdentity:
 		return &NetworkAccessPoliciesList{}
+	case OAUTHInfoIdentity:
+		return &OAUTHInfosList{}
 	case OIDCProviderIdentity:
 		return &OIDCProvidersList{}
 	case PacketReportIdentity:
@@ -1574,6 +1585,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseNamespaceMappingPoliciesList{}
 	case NetworkAccessPolicyIdentity:
 		return &SparseNetworkAccessPoliciesList{}
+	case OAUTHInfoIdentity:
+		return &SparseOAUTHInfosList{}
 	case OIDCProviderIdentity:
 		return &SparseOIDCProvidersList{}
 	case PacketReportIdentity:
@@ -1755,6 +1768,7 @@ func AllIdentities() []elemental.Identity {
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
 		NetworkAccessPolicyIdentity,
+		OAUTHInfoIdentity,
 		OIDCProviderIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
@@ -2013,6 +2027,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"netpol",
 			"netpols",
 		}
+	case OAUTHInfoIdentity:
+		return []string{}
 	case OIDCProviderIdentity:
 		return []string{}
 	case PacketReportIdentity:
