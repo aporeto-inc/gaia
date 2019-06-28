@@ -42,8 +42,13 @@ type JWKS struct {
 	// Alg defines the algorithm used for signing as per the JWKS specification.
 	Alg JWKSAlgValue `json:"alg" msgpack:"alg" bson:"-" mapstructure:"alg,omitempty"`
 
-	// Curve is the curve type used for signing. Valid only when signing method is EC.
+	// Curve is the curve type used for signing. Valid only when signing method is EC
+	// (RFC 7518 section 6).
 	Curve JWKSCurveValue `json:"curve" msgpack:"curve" bson:"-" mapstructure:"curve,omitempty"`
+
+	// E is the exponent value of an RSA public key. Valid only when the signing
+	// method is RSA (RFC 7518 section 6).
+	E string `json:"e" msgpack:"e" bson:"-" mapstructure:"e,omitempty"`
 
 	// kid is the key ID as per the JWKS specification.
 	Kid string `json:"kid" msgpack:"kid" bson:"-" mapstructure:"kid,omitempty"`
@@ -51,17 +56,19 @@ type JWKS struct {
 	// kty defines the key type as per the JWKS specification.
 	Kty JWKSKtyValue `json:"kty" msgpack:"kty" bson:"-" mapstructure:"kty,omitempty"`
 
-	// Modulo is the modulo value of an RSA public key. Valid only when the signing
-	// method is RSA.
-	Modulo string `json:"modulo" msgpack:"modulo" bson:"-" mapstructure:"modulo,omitempty"`
+	// N is the modulos value of an RSA public key. Valid only when the signing
+	// method is RSA (RFC 7518 section 6).
+	N string `json:"n" msgpack:"n" bson:"-" mapstructure:"n,omitempty"`
 
 	// Use defines the use of the signing key as per the JWKS specification.
 	Use string `json:"use" msgpack:"use" bson:"-" mapstructure:"use,omitempty"`
 
-	// X is the X value of the public key. Valid only when signing method is EC.
+	// X is the X value of the public key. Valid only when signing method is EC (RFC
+	// 7518 section 6).
 	X string `json:"x" msgpack:"x" bson:"-" mapstructure:"x,omitempty"`
 
-	// Y is the Y value of the public key. Valid only when signing method is EC.
+	// Y is the Y value of the public key. Valid only when signing method is EC (RFC
+	// 7518 section 6).
 	Y string `json:"y" msgpack:"y" bson:"-" mapstructure:"y,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
