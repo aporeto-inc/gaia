@@ -45,11 +45,11 @@ type JWKS struct {
 
 	// Curve is the curve type used for signing. Valid only when signing method is EC
 	// (RFC 7518 section 6).
-	Curve JWKSCurveValue `json:"curve" msgpack:"curve" bson:"-" mapstructure:"curve,omitempty"`
+	Curve JWKSCurveValue `json:"curve,omitempty" msgpack:"curve,omitempty" bson:"-" mapstructure:"curve,omitempty"`
 
 	// E is the exponent value of an RSA public key. Valid only when the signing
 	// method is RSA (RFC 7518 section 6).
-	E string `json:"e" msgpack:"e" bson:"-" mapstructure:"e,omitempty"`
+	E string `json:"e,omitempty" msgpack:"e,omitempty" bson:"-" mapstructure:"e,omitempty"`
 
 	// kid is the key ID as per the JWKS specification.
 	Kid string `json:"kid" msgpack:"kid" bson:"-" mapstructure:"kid,omitempty"`
@@ -59,18 +59,18 @@ type JWKS struct {
 
 	// N is the modulos value of an RSA public key. Valid only when the signing
 	// method is RSA (RFC 7518 section 6).
-	N string `json:"n" msgpack:"n" bson:"-" mapstructure:"n,omitempty"`
+	N string `json:"n,omitempty" msgpack:"n,omitempty" bson:"-" mapstructure:"n,omitempty"`
 
 	// Use defines the use of the signing key as per the JWKS specification.
 	Use string `json:"use" msgpack:"use" bson:"-" mapstructure:"use,omitempty"`
 
 	// X is the X value of the public key. Valid only when signing method is EC (RFC
 	// 7518 section 6).
-	X string `json:"x" msgpack:"x" bson:"-" mapstructure:"x,omitempty"`
+	X string `json:"x,omitempty" msgpack:"x,omitempty" bson:"-" mapstructure:"x,omitempty"`
 
 	// Y is the Y value of the public key. Valid only when signing method is EC (RFC
 	// 7518 section 6).
-	Y string `json:"y" msgpack:"y" bson:"-" mapstructure:"y,omitempty"`
+	Y string `json:"y,omitempty" msgpack:"y,omitempty" bson:"-" mapstructure:"y,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
