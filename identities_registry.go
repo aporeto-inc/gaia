@@ -60,6 +60,7 @@ var (
 		"ipinfo":                   IPInfoIdentity,
 		"isolationprofile":         IsolationProfileIdentity,
 		"issue":                    IssueIdentity,
+		"issueservicetoken":        IssueServiceTokenIdentity,
 		"jaegerbatch":              JaegerbatchIdentity,
 
 		"ldapprovider":           LDAPProviderIdentity,
@@ -101,6 +102,7 @@ var (
 		"search":                 SearchIdentity,
 		"service":                ServiceIdentity,
 		"servicedependency":      ServiceDependencyIdentity,
+		"servicetoken":           ServiceTokenIdentity,
 		"squalltag":              SquallTagIdentity,
 		"sshauthority":           SSHAuthorityIdentity,
 		"sshauthorizationpolicy": SSHAuthorizationPolicyIdentity,
@@ -184,6 +186,7 @@ var (
 		"ipinfos":                    IPInfoIdentity,
 		"isolationprofiles":          IsolationProfileIdentity,
 		"issue":                      IssueIdentity,
+		"issueservicetokens":         IssueServiceTokenIdentity,
 		"jaegerbatchs":               JaegerbatchIdentity,
 
 		"ldapproviders":            LDAPProviderIdentity,
@@ -225,6 +228,7 @@ var (
 		"search":                   SearchIdentity,
 		"services":                 ServiceIdentity,
 		"servicedependencies":      ServiceDependencyIdentity,
+		"servicetoken":             ServiceTokenIdentity,
 		"squalltags":               SquallTagIdentity,
 		"sshauthorities":           SSHAuthorityIdentity,
 		"sshauthorizationpolicies": SSHAuthorizationPolicyIdentity,
@@ -565,8 +569,9 @@ var (
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 		},
-		"issue":       nil,
-		"jaegerbatch": nil,
+		"issue":             nil,
+		"issueservicetoken": nil,
+		"jaegerbatch":       nil,
 		"ldapprovider": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -694,6 +699,7 @@ var (
 			[]string{"allAPITags"},
 		},
 		"servicedependency": nil,
+		"servicetoken":      nil,
 		"squalltag":         nil,
 		"sshauthority": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -878,6 +884,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewIsolationProfile()
 	case IssueIdentity:
 		return NewIssue()
+	case IssueServiceTokenIdentity:
+		return NewIssueServiceToken()
 	case JaegerbatchIdentity:
 		return NewJaegerbatch()
 	case LDAPProviderIdentity:
@@ -952,6 +960,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewService()
 	case ServiceDependencyIdentity:
 		return NewServiceDependency()
+	case ServiceTokenIdentity:
+		return NewServiceToken()
 	case SquallTagIdentity:
 		return NewSquallTag()
 	case SSHAuthorityIdentity:
@@ -1107,6 +1117,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseIsolationProfile()
 	case IssueIdentity:
 		return NewSparseIssue()
+	case IssueServiceTokenIdentity:
+		return NewSparseIssueServiceToken()
 	case JaegerbatchIdentity:
 		return NewSparseJaegerbatch()
 	case LDAPProviderIdentity:
@@ -1179,6 +1191,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseService()
 	case ServiceDependencyIdentity:
 		return NewSparseServiceDependency()
+	case ServiceTokenIdentity:
+		return NewSparseServiceToken()
 	case SquallTagIdentity:
 		return NewSparseSquallTag()
 	case SSHAuthorityIdentity:
@@ -1344,6 +1358,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &IsolationProfilesList{}
 	case IssueIdentity:
 		return &IssuesList{}
+	case IssueServiceTokenIdentity:
+		return &IssueServiceTokensList{}
 	case JaegerbatchIdentity:
 		return &JaegerbatchesList{}
 	case LDAPProviderIdentity:
@@ -1416,6 +1432,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ServicesList{}
 	case ServiceDependencyIdentity:
 		return &ServiceDependenciesList{}
+	case ServiceTokenIdentity:
+		return &ServiceTokensList{}
 	case SquallTagIdentity:
 		return &SquallTagsList{}
 	case SSHAuthorityIdentity:
@@ -1571,6 +1589,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseIsolationProfilesList{}
 	case IssueIdentity:
 		return &SparseIssuesList{}
+	case IssueServiceTokenIdentity:
+		return &SparseIssueServiceTokensList{}
 	case JaegerbatchIdentity:
 		return &SparseJaegerbatchesList{}
 	case LDAPProviderIdentity:
@@ -1643,6 +1663,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseServicesList{}
 	case ServiceDependencyIdentity:
 		return &SparseServiceDependenciesList{}
+	case ServiceTokenIdentity:
+		return &SparseServiceTokensList{}
 	case SquallTagIdentity:
 		return &SparseSquallTagsList{}
 	case SSHAuthorityIdentity:
@@ -1761,6 +1783,7 @@ func AllIdentities() []elemental.Identity {
 		IPInfoIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
+		IssueServiceTokenIdentity,
 		JaegerbatchIdentity,
 		LDAPProviderIdentity,
 		LogIdentity,
@@ -1798,6 +1821,7 @@ func AllIdentities() []elemental.Identity {
 		SearchIdentity,
 		ServiceIdentity,
 		ServiceDependencyIdentity,
+		ServiceTokenIdentity,
 		SquallTagIdentity,
 		SSHAuthorityIdentity,
 		SSHAuthorizationPolicyIdentity,
@@ -1999,6 +2023,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case IssueIdentity:
 		return []string{}
+	case IssueServiceTokenIdentity:
+		return []string{}
 	case JaegerbatchIdentity:
 		return []string{
 			"sp",
@@ -2115,6 +2141,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"srvdep",
 			"srvdeps",
 		}
+	case ServiceTokenIdentity:
+		return []string{}
 	case SquallTagIdentity:
 		return []string{}
 	case SSHAuthorityIdentity:
