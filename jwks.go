@@ -39,7 +39,8 @@ const (
 
 // JWKS represents the model of a jwks
 type JWKS struct {
-	// Alg defines the algorithm used for signing as per the JWKS specification.
+	// Alg defines the algorithm used for signing as per the JWKS specification (RFC
+	// 7518 section 7).
 	Alg JWKSAlgValue `json:"alg" msgpack:"alg" bson:"-" mapstructure:"alg,omitempty"`
 
 	// Curve is the curve type used for signing. Valid only when signing method is EC

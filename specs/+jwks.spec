@@ -15,7 +15,9 @@ model:
 attributes:
   v1:
   - name: alg
-    description: Alg defines the algorithm used for signing as per the JWKS specification.
+    description: |-
+      Alg defines the algorithm used for signing as per the JWKS specification (RFC
+      7518 section 7).
     type: enum
     exposed: true
     read_only: true
