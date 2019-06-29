@@ -751,6 +751,21 @@ relations:
   create:
     description: Creates a new token scope policy.
 
+- rest_name: trustedca
+  get:
+    description: Retrieves the trusted CAs of a namespace.
+    parameters:
+      entries:
+      - name: type
+        description: The type of certificates that it should return.
+        type: enum
+        allowed_choices:
+        - Any
+        - X509
+        - SSH
+        - Token
+        default_value: Any
+
 - rest_name: useraccesspolicy
   get:
     description: Retrieves the list of user access policies.

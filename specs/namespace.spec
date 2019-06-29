@@ -167,3 +167,18 @@ relations:
 - rest_name: oauthinfo
   get:
     description: Retrieves the OAUTH info for this namespace.
+
+- rest_name: trustedca
+  get:
+    description: Returns the list of trusted CAs for this namespace.
+    parameters:
+      entries:
+      - name: type
+        description: Type of certificate to get.
+        type: enum
+        allowed_choices:
+        - Any
+        - X509
+        - SSH
+        - Token
+        default_value: Any

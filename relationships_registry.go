@@ -4021,6 +4021,36 @@ func init() {
 					},
 				},
 			},
+			"namespace": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "type",
+						Type:         "enum",
+						DefaultValue: "Any",
+						AllowedChoices: []string{
+							"Any",
+							"X509",
+							"SSH",
+							"Token",
+						},
+					},
+				},
+			},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "type",
+						Type:         "enum",
+						DefaultValue: "Any",
+						AllowedChoices: []string{
+							"Any",
+							"X509",
+							"SSH",
+							"Token",
+						},
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"enforcer": &elemental.RelationshipInfo{
@@ -4033,6 +4063,36 @@ func init() {
 							"Any",
 							"X509",
 							"SSH",
+						},
+					},
+				},
+			},
+			"namespace": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "type",
+						Type:         "enum",
+						DefaultValue: "Any",
+						AllowedChoices: []string{
+							"Any",
+							"X509",
+							"SSH",
+							"Token",
+						},
+					},
+				},
+			},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "type",
+						Type:         "enum",
+						DefaultValue: "Any",
+						AllowedChoices: []string{
+							"Any",
+							"X509",
+							"SSH",
+							"Token",
 						},
 					},
 				},
