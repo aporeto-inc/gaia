@@ -32,16 +32,18 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: JWTCertificateEnabled
+  - name: JWTCertificateType
     description: |-
-      JWTCertificateEnabled defines if a JWT signing certificate must be created for
-      this namespace. This certificate can be used to sign JWTs that can be recognized
-      and accepted by a third party. The certificate will be made available through
-      an OAUTH type well-known URI for this namespace.
-    type: boolean
+      JWTCertificateType defines the JWT signing certificate that must be created
+      for this namespace. If the type is none no certificate will be created.
+    type: enum
     exposed: true
     stored: true
-    orderable: true
+    allowed_choices:
+    - RSA
+    - EC
+    - None
+    default_value: None
 
   - name: JWTCertificates
     description: |-

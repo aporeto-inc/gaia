@@ -8,20 +8,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AuthorityTypeValue represents the possible values for attribute "type".
-type AuthorityTypeValue string
-
-const (
-	// AuthorityTypeCA represents the value CA.
-	AuthorityTypeCA AuthorityTypeValue = "CA"
-
-	// AuthorityTypeECServiceSigningCertificate represents the value ECServiceSigningCertificate.
-	AuthorityTypeECServiceSigningCertificate AuthorityTypeValue = "ECServiceSigningCertificate"
-
-	// AuthorityTypeRSAServiceSigningCertificate represents the value RSAServiceSigningCertificate.
-	AuthorityTypeRSAServiceSigningCertificate AuthorityTypeValue = "RSAServiceSigningCertificate"
-)
-
 // AuthorityIdentity represents the Identity of the object.
 var AuthorityIdentity = elemental.Identity{
 	Name:     "authority",
@@ -112,9 +98,6 @@ type Authority struct {
 	// serialNumber of the certificate.
 	SerialNumber string `json:"serialNumber" msgpack:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
-	// Type of certificate to be issued.
-	Type AuthorityTypeValue `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
-
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
@@ -131,7 +114,6 @@ func NewAuthority() *Authority {
 
 	return &Authority{
 		ModelVersion: 1,
-		Type:         AuthorityTypeCA,
 	}
 }
 
@@ -219,7 +201,6 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ExpirationDate: &o.ExpirationDate,
 			Key:            &o.Key,
 			SerialNumber:   &o.SerialNumber,
-			Type:           &o.Type,
 			ZHash:          &o.ZHash,
 			Zone:           &o.Zone,
 		}
@@ -240,8 +221,6 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Key = &(o.Key)
 		case "serialNumber":
 			sp.SerialNumber = &(o.SerialNumber)
-		case "type":
-			sp.Type = &(o.Type)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -276,9 +255,6 @@ func (o *Authority) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SerialNumber != nil {
 		o.SerialNumber = *so.SerialNumber
-	}
-	if so.Type != nil {
-		o.Type = *so.Type
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -368,8 +344,6 @@ func (o *Authority) ValueForAttribute(name string) interface{} {
 		return o.Key
 	case "serialNumber":
 		return o.SerialNumber
-	case "type":
-		return o.Type
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -446,16 +420,6 @@ var AuthorityAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"CA", "RSAServiceSigningCertificate", "ECServiceSigningCertificate"},
-		ConvertedName:  "Type",
-		CreationOnly:   true,
-		DefaultValue:   AuthorityTypeCA,
-		Description:    `Type of certificate to be issued.`,
-		Name:           "type",
-		Required:       true,
-		Type:           "enum",
 	},
 	"ZHash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -554,16 +518,6 @@ var AuthorityLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"CA", "RSAServiceSigningCertificate", "ECServiceSigningCertificate"},
-		ConvertedName:  "Type",
-		CreationOnly:   true,
-		DefaultValue:   AuthorityTypeCA,
-		Description:    `Type of certificate to be issued.`,
-		Name:           "type",
-		Required:       true,
-		Type:           "enum",
 	},
 	"zhash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -676,9 +630,6 @@ type SparseAuthority struct {
 	// serialNumber of the certificate.
 	SerialNumber *string `json:"serialNumber,omitempty" msgpack:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
 
-	// Type of certificate to be issued.
-	Type *AuthorityTypeValue `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
-
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
@@ -743,9 +694,6 @@ func (o *SparseAuthority) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SerialNumber != nil {
 		out.SerialNumber = *o.SerialNumber
-	}
-	if o.Type != nil {
-		out.Type = *o.Type
 	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash

@@ -8,6 +8,20 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// NamespaceJWTCertificateTypeValue represents the possible values for attribute "JWTCertificateType".
+type NamespaceJWTCertificateTypeValue string
+
+const (
+	// NamespaceJWTCertificateTypeEC represents the value EC.
+	NamespaceJWTCertificateTypeEC NamespaceJWTCertificateTypeValue = "EC"
+
+	// NamespaceJWTCertificateTypeNone represents the value None.
+	NamespaceJWTCertificateTypeNone NamespaceJWTCertificateTypeValue = "None"
+
+	// NamespaceJWTCertificateTypeRSA represents the value RSA.
+	NamespaceJWTCertificateTypeRSA NamespaceJWTCertificateTypeValue = "RSA"
+)
+
 // NamespaceIdentity represents the Identity of the object.
 var NamespaceIdentity = elemental.Identity{
 	Name:     "namespace",
@@ -86,11 +100,9 @@ type Namespace struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// JWTCertificateEnabled defines if a JWT signing certificate must be created for
-	// this namespace. This certificate can be used to sign JWTs that can be recognized
-	// and accepted by a third party. The certificate will be made available through
-	// an OAUTH type well-known URI for this namespace.
-	JWTCertificateEnabled bool `json:"JWTCertificateEnabled" msgpack:"JWTCertificateEnabled" bson:"jwtcertificateenabled" mapstructure:"JWTCertificateEnabled,omitempty"`
+	// JWTCertificateType defines the JWT signing certificate that must be created
+	// for this namespace. If the type is none no certificate will be created.
+	JWTCertificateType NamespaceJWTCertificateTypeValue `json:"JWTCertificateType" msgpack:"JWTCertificateType" bson:"jwtcertificatetype" mapstructure:"JWTCertificateType,omitempty"`
 
 	// JWTCertificates hold the certificates used to sign tokens for this namespace.
 	// This is map indexed by the ID of the certificate.
@@ -191,6 +203,7 @@ func NewNamespace() *Namespace {
 		NormalizedTags:             []string{},
 		JWTCertificates:            map[string]string{},
 		Metadata:                   []string{},
+		JWTCertificateType:         NamespaceJWTCertificateTypeNone,
 		ServiceCertificateValidity: "1h",
 	}
 }
@@ -436,7 +449,7 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseNamespace{
 			ID:                         &o.ID,
-			JWTCertificateEnabled:      &o.JWTCertificateEnabled,
+			JWTCertificateType:         &o.JWTCertificateType,
 			JWTCertificates:            &o.JWTCertificates,
 			SSHCA:                      &o.SSHCA,
 			SSHCAEnabled:               &o.SSHCAEnabled,
@@ -470,8 +483,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
-		case "JWTCertificateEnabled":
-			sp.JWTCertificateEnabled = &(o.JWTCertificateEnabled)
+		case "JWTCertificateType":
+			sp.JWTCertificateType = &(o.JWTCertificateType)
 		case "JWTCertificates":
 			sp.JWTCertificates = &(o.JWTCertificates)
 		case "SSHCA":
@@ -538,8 +551,8 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
-	if so.JWTCertificateEnabled != nil {
-		o.JWTCertificateEnabled = *so.JWTCertificateEnabled
+	if so.JWTCertificateType != nil {
+		o.JWTCertificateType = *so.JWTCertificateType
 	}
 	if so.JWTCertificates != nil {
 		o.JWTCertificates = *so.JWTCertificates
@@ -648,6 +661,10 @@ func (o *Namespace) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateStringInList("JWTCertificateType", string(o.JWTCertificateType), []string{"RSA", "EC", "None"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
 		errors = errors.Append(err)
 	}
@@ -712,8 +729,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
-	case "JWTCertificateEnabled":
-		return o.JWTCertificateEnabled
+	case "JWTCertificateType":
+		return o.JWTCertificateType
 	case "JWTCertificates":
 		return o.JWTCertificates
 	case "SSHCA":
@@ -785,18 +802,16 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"JWTCertificateEnabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "JWTCertificateEnabled",
-		Description: `JWTCertificateEnabled defines if a JWT signing certificate must be created for
-this namespace. This certificate can be used to sign JWTs that can be recognized
-and accepted by a third party. The certificate will be made available through
-an OAUTH type well-known URI for this namespace.`,
-		Exposed:   true,
-		Name:      "JWTCertificateEnabled",
-		Orderable: true,
-		Stored:    true,
-		Type:      "boolean",
+	"JWTCertificateType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"RSA", "EC", "None"},
+		ConvertedName:  "JWTCertificateType",
+		DefaultValue:   NamespaceJWTCertificateTypeNone,
+		Description: `JWTCertificateType defines the JWT signing certificate that must be created
+for this namespace. If the type is none no certificate will be created.`,
+		Exposed: true,
+		Name:    "JWTCertificateType",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"JWTCertificates": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1131,18 +1146,16 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
-	"jwtcertificateenabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "JWTCertificateEnabled",
-		Description: `JWTCertificateEnabled defines if a JWT signing certificate must be created for
-this namespace. This certificate can be used to sign JWTs that can be recognized
-and accepted by a third party. The certificate will be made available through
-an OAUTH type well-known URI for this namespace.`,
-		Exposed:   true,
-		Name:      "JWTCertificateEnabled",
-		Orderable: true,
-		Stored:    true,
-		Type:      "boolean",
+	"jwtcertificatetype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"RSA", "EC", "None"},
+		ConvertedName:  "JWTCertificateType",
+		DefaultValue:   NamespaceJWTCertificateTypeNone,
+		Description: `JWTCertificateType defines the JWT signing certificate that must be created
+for this namespace. If the type is none no certificate will be created.`,
+		Exposed: true,
+		Name:    "JWTCertificateType",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"jwtcertificates": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1530,11 +1543,9 @@ type SparseNamespace struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// JWTCertificateEnabled defines if a JWT signing certificate must be created for
-	// this namespace. This certificate can be used to sign JWTs that can be recognized
-	// and accepted by a third party. The certificate will be made available through
-	// an OAUTH type well-known URI for this namespace.
-	JWTCertificateEnabled *bool `json:"JWTCertificateEnabled,omitempty" msgpack:"JWTCertificateEnabled,omitempty" bson:"jwtcertificateenabled,omitempty" mapstructure:"JWTCertificateEnabled,omitempty"`
+	// JWTCertificateType defines the JWT signing certificate that must be created
+	// for this namespace. If the type is none no certificate will be created.
+	JWTCertificateType *NamespaceJWTCertificateTypeValue `json:"JWTCertificateType,omitempty" msgpack:"JWTCertificateType,omitempty" bson:"jwtcertificatetype,omitempty" mapstructure:"JWTCertificateType,omitempty"`
 
 	// JWTCertificates hold the certificates used to sign tokens for this namespace.
 	// This is map indexed by the ID of the certificate.
@@ -1663,8 +1674,8 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
-	if o.JWTCertificateEnabled != nil {
-		out.JWTCertificateEnabled = *o.JWTCertificateEnabled
+	if o.JWTCertificateType != nil {
+		out.JWTCertificateType = *o.JWTCertificateType
 	}
 	if o.JWTCertificates != nil {
 		out.JWTCertificates = *o.JWTCertificates
