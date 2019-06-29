@@ -82,11 +82,10 @@ type IssueServiceToken struct {
 	// Audience is the valid audience for this token.
 	Audience string `json:"audience" msgpack:"audience" bson:"-" mapstructure:"audience,omitempty"`
 
-	// Claims is a list of claims that have been validated provided as key/value pairs.
-	// If the same key is provided multiple times it will be converted to an array. The
-	// claims
-	// will appear under the Data section of the token.
-	Claims []string `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
+	// ServiceClaims is a list of service claims that have been validated provided as
+	// key/value pairs. If the same key is provided multiple times it will be converted
+	// to an array. The claims  will appear under the Data section of the token.
+	ServiceClaims []string `json:"serviceClaims" msgpack:"serviceClaims" bson:"-" mapstructure:"serviceClaims,omitempty"`
 
 	// SigningKeyID holds the ID of the private certificate to use to sign the token.
 	SigningKeyID string `json:"signingKeyID" msgpack:"signingKeyID" bson:"signingkeyid" mapstructure:"signingKeyID,omitempty"`
@@ -96,6 +95,11 @@ type IssueServiceToken struct {
 
 	// Token contains the generated token.
 	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
+
+	// UserClaims is a list of user claims that have been validated provided as
+	// key/value pairs. If the same key is provided multiple times it will be converted
+	// to an array. The claims  will appear under the Data section of the token.
+	UserClaims []string `json:"userClaims" msgpack:"userClaims" bson:"-" mapstructure:"userClaims,omitempty"`
 
 	// Validity contains the token validity duration.
 	Validity string `json:"validity" msgpack:"validity" bson:"-" mapstructure:"validity,omitempty"`
@@ -107,9 +111,10 @@ type IssueServiceToken struct {
 func NewIssueServiceToken() *IssueServiceToken {
 
 	return &IssueServiceToken{
-		ModelVersion: 1,
-		Claims:       []string{},
-		Validity:     "15m",
+		ModelVersion:  1,
+		ServiceClaims: []string{},
+		UserClaims:    []string{},
+		Validity:      "15m",
 	}
 }
 
@@ -167,12 +172,13 @@ func (o *IssueServiceToken) ToSparse(fields ...string) elemental.SparseIdentifia
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseIssueServiceToken{
-			Audience:     &o.Audience,
-			Claims:       &o.Claims,
-			SigningKeyID: &o.SigningKeyID,
-			Subject:      &o.Subject,
-			Token:        &o.Token,
-			Validity:     &o.Validity,
+			Audience:      &o.Audience,
+			ServiceClaims: &o.ServiceClaims,
+			SigningKeyID:  &o.SigningKeyID,
+			Subject:       &o.Subject,
+			Token:         &o.Token,
+			UserClaims:    &o.UserClaims,
+			Validity:      &o.Validity,
 		}
 	}
 
@@ -181,14 +187,16 @@ func (o *IssueServiceToken) ToSparse(fields ...string) elemental.SparseIdentifia
 		switch f {
 		case "audience":
 			sp.Audience = &(o.Audience)
-		case "claims":
-			sp.Claims = &(o.Claims)
+		case "serviceClaims":
+			sp.ServiceClaims = &(o.ServiceClaims)
 		case "signingKeyID":
 			sp.SigningKeyID = &(o.SigningKeyID)
 		case "subject":
 			sp.Subject = &(o.Subject)
 		case "token":
 			sp.Token = &(o.Token)
+		case "userClaims":
+			sp.UserClaims = &(o.UserClaims)
 		case "validity":
 			sp.Validity = &(o.Validity)
 		}
@@ -207,8 +215,8 @@ func (o *IssueServiceToken) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Audience != nil {
 		o.Audience = *so.Audience
 	}
-	if so.Claims != nil {
-		o.Claims = *so.Claims
+	if so.ServiceClaims != nil {
+		o.ServiceClaims = *so.ServiceClaims
 	}
 	if so.SigningKeyID != nil {
 		o.SigningKeyID = *so.SigningKeyID
@@ -218,6 +226,9 @@ func (o *IssueServiceToken) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Token != nil {
 		o.Token = *so.Token
+	}
+	if so.UserClaims != nil {
+		o.UserClaims = *so.UserClaims
 	}
 	if so.Validity != nil {
 		o.Validity = *so.Validity
@@ -258,7 +269,7 @@ func (o *IssueServiceToken) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("claims", o.Claims); err != nil {
+	if err := elemental.ValidateRequiredExternal("serviceClaims", o.ServiceClaims); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -268,6 +279,18 @@ func (o *IssueServiceToken) Validate() error {
 
 	if err := elemental.ValidateRequiredString("subject", o.Subject); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("userClaims", o.UserClaims); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("validity", o.Validity); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -306,14 +329,16 @@ func (o *IssueServiceToken) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "audience":
 		return o.Audience
-	case "claims":
-		return o.Claims
+	case "serviceClaims":
+		return o.ServiceClaims
 	case "signingKeyID":
 		return o.SigningKeyID
 	case "subject":
 		return o.Subject
 	case "token":
 		return o.Token
+	case "userClaims":
+		return o.UserClaims
 	case "validity":
 		return o.Validity
 	}
@@ -333,16 +358,15 @@ var IssueServiceTokenAttributesMap = map[string]elemental.AttributeSpecification
 		Required:       true,
 		Type:           "string",
 	},
-	"Claims": elemental.AttributeSpecification{
+	"ServiceClaims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Claims",
+		ConvertedName:  "ServiceClaims",
 		CreationOnly:   true,
-		Description: `Claims is a list of claims that have been validated provided as key/value pairs.
-If the same key is provided multiple times it will be converted to an array. The
-claims
-will appear under the Data section of the token.`,
+		Description: `ServiceClaims is a list of service claims that have been validated provided as
+key/value pairs. If the same key is provided multiple times it will be converted
+to an array. The claims  will appear under the Data section of the token.`,
 		Exposed:  true,
-		Name:     "claims",
+		Name:     "serviceClaims",
 		Required: true,
 		SubType:  "string",
 		Type:     "list",
@@ -377,6 +401,19 @@ will appear under the Data section of the token.`,
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"UserClaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UserClaims",
+		CreationOnly:   true,
+		Description: `UserClaims is a list of user claims that have been validated provided as
+key/value pairs. If the same key is provided multiple times it will be converted
+to an array. The claims  will appear under the Data section of the token.`,
+		Exposed:  true,
+		Name:     "userClaims",
+		Required: true,
+		SubType:  "string",
+		Type:     "list",
+	},
 	"Validity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
@@ -385,6 +422,7 @@ will appear under the Data section of the token.`,
 		Description:    `Validity contains the token validity duration.`,
 		Exposed:        true,
 		Name:           "validity",
+		Required:       true,
 		Type:           "string",
 	},
 }
@@ -401,16 +439,15 @@ var IssueServiceTokenLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		Required:       true,
 		Type:           "string",
 	},
-	"claims": elemental.AttributeSpecification{
+	"serviceclaims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Claims",
+		ConvertedName:  "ServiceClaims",
 		CreationOnly:   true,
-		Description: `Claims is a list of claims that have been validated provided as key/value pairs.
-If the same key is provided multiple times it will be converted to an array. The
-claims
-will appear under the Data section of the token.`,
+		Description: `ServiceClaims is a list of service claims that have been validated provided as
+key/value pairs. If the same key is provided multiple times it will be converted
+to an array. The claims  will appear under the Data section of the token.`,
 		Exposed:  true,
-		Name:     "claims",
+		Name:     "serviceClaims",
 		Required: true,
 		SubType:  "string",
 		Type:     "list",
@@ -445,6 +482,19 @@ will appear under the Data section of the token.`,
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"userclaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UserClaims",
+		CreationOnly:   true,
+		Description: `UserClaims is a list of user claims that have been validated provided as
+key/value pairs. If the same key is provided multiple times it will be converted
+to an array. The claims  will appear under the Data section of the token.`,
+		Exposed:  true,
+		Name:     "userClaims",
+		Required: true,
+		SubType:  "string",
+		Type:     "list",
+	},
 	"validity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
@@ -453,6 +503,7 @@ will appear under the Data section of the token.`,
 		Description:    `Validity contains the token validity duration.`,
 		Exposed:        true,
 		Name:           "validity",
+		Required:       true,
 		Type:           "string",
 	},
 }
@@ -523,11 +574,10 @@ type SparseIssueServiceToken struct {
 	// Audience is the valid audience for this token.
 	Audience *string `json:"audience,omitempty" msgpack:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
 
-	// Claims is a list of claims that have been validated provided as key/value pairs.
-	// If the same key is provided multiple times it will be converted to an array. The
-	// claims
-	// will appear under the Data section of the token.
-	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+	// ServiceClaims is a list of service claims that have been validated provided as
+	// key/value pairs. If the same key is provided multiple times it will be converted
+	// to an array. The claims  will appear under the Data section of the token.
+	ServiceClaims *[]string `json:"serviceClaims,omitempty" msgpack:"serviceClaims,omitempty" bson:"-" mapstructure:"serviceClaims,omitempty"`
 
 	// SigningKeyID holds the ID of the private certificate to use to sign the token.
 	SigningKeyID *string `json:"signingKeyID,omitempty" msgpack:"signingKeyID,omitempty" bson:"signingkeyid,omitempty" mapstructure:"signingKeyID,omitempty"`
@@ -537,6 +587,11 @@ type SparseIssueServiceToken struct {
 
 	// Token contains the generated token.
 	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+
+	// UserClaims is a list of user claims that have been validated provided as
+	// key/value pairs. If the same key is provided multiple times it will be converted
+	// to an array. The claims  will appear under the Data section of the token.
+	UserClaims *[]string `json:"userClaims,omitempty" msgpack:"userClaims,omitempty" bson:"-" mapstructure:"userClaims,omitempty"`
 
 	// Validity contains the token validity duration.
 	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
@@ -579,8 +634,8 @@ func (o *SparseIssueServiceToken) ToPlain() elemental.PlainIdentifiable {
 	if o.Audience != nil {
 		out.Audience = *o.Audience
 	}
-	if o.Claims != nil {
-		out.Claims = *o.Claims
+	if o.ServiceClaims != nil {
+		out.ServiceClaims = *o.ServiceClaims
 	}
 	if o.SigningKeyID != nil {
 		out.SigningKeyID = *o.SigningKeyID
@@ -590,6 +645,9 @@ func (o *SparseIssueServiceToken) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Token != nil {
 		out.Token = *o.Token
+	}
+	if o.UserClaims != nil {
+		out.UserClaims = *o.UserClaims
 	}
 	if o.Validity != nil {
 		out.Validity = *o.Validity

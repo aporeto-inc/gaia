@@ -414,6 +414,10 @@ relations:
         type: string
         example_value: xxx.yyyyyyyy.zzzz
 
+- rest_name: issueservicetoken
+  create:
+    description: Internal API to issue service tokens.
+
 - rest_name: jaegerbatch
   create:
     description: Sends a jaeger tracing batch.
@@ -629,6 +633,10 @@ relations:
     - $propagatable
   create:
     description: Creates a new service dependency.
+
+- rest_name: servicetoken
+  create:
+    description: Creates an OAUTH compatible service token.
 
 - rest_name: squalltag
   get:

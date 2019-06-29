@@ -258,6 +258,9 @@ const (
 	// ActionTokenScope is the system created action=scope tag.
 	ActionTokenScope = "action=scope"
 
+	// ActionTokenAudience is the system created action=scope tag.
+	ActionTokenAudience = "action=tokenaudience"
+
 	// ActionProtoPortsString is the system created action=restrictports tag.
 	ActionProtoPortsTagString = "action=restrictports"
 )

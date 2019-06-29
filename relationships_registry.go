@@ -2024,7 +2024,11 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[IssueServiceTokenIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[IssueServiceTokenIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
 
 	relationshipsRegistry[JaegerbatchIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
@@ -2320,6 +2324,9 @@ func init() {
 	}
 
 	relationshipsRegistry[OAUTHInfoIdentity] = &elemental.Relationship{
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"namespace": &elemental.RelationshipInfo{},
 		},
@@ -3568,7 +3575,11 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[ServiceTokenIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[ServiceTokenIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
 
 	relationshipsRegistry[SquallTagIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{

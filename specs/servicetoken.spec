@@ -25,7 +25,6 @@ attributes:
     description: ID of the object you want to issue a certificate for.
     type: string
     exposed: true
-    required: true
     example_value: 5c83035648675400019ab901
 
   - name: sessionID
@@ -49,7 +48,7 @@ attributes:
     allowed_choices:
     - Enforcer
     - Service
-    example_value: Service
+    default_value: Service
 
   - name: validity
     description: |-

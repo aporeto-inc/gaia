@@ -118,6 +118,7 @@ func NewServiceToken() *ServiceToken {
 
 	return &ServiceToken{
 		ModelVersion: 1,
+		Type:         ServiceTokenTypeService,
 		Validity:     "24h",
 	}
 }
@@ -267,10 +268,6 @@ func (o *ServiceToken) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("objectID", o.ObjectID); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Enforcer", "Service"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -347,7 +344,6 @@ empty, the audience will be ID of the namespace that signed the token.`,
 		Description:    `ID of the object you want to issue a certificate for.`,
 		Exposed:        true,
 		Name:           "objectID",
-		Required:       true,
 		Type:           "string",
 	},
 	"SessionID": elemental.AttributeSpecification{
@@ -371,6 +367,7 @@ empty, the audience will be ID of the namespace that signed the token.`,
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Enforcer", "Service"},
 		ConvertedName:  "Type",
+		DefaultValue:   ServiceTokenTypeService,
 		Description:    `Type of token request.`,
 		Exposed:        true,
 		Name:           "type",
@@ -406,7 +403,6 @@ empty, the audience will be ID of the namespace that signed the token.`,
 		Description:    `ID of the object you want to issue a certificate for.`,
 		Exposed:        true,
 		Name:           "objectID",
-		Required:       true,
 		Type:           "string",
 	},
 	"sessionid": elemental.AttributeSpecification{
@@ -430,6 +426,7 @@ empty, the audience will be ID of the namespace that signed the token.`,
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Enforcer", "Service"},
 		ConvertedName:  "Type",
+		DefaultValue:   ServiceTokenTypeService,
 		Description:    `Type of token request.`,
 		Exposed:        true,
 		Name:           "type",
