@@ -119,7 +119,7 @@ func NewServiceToken() *ServiceToken {
 	return &ServiceToken{
 		ModelVersion: 1,
 		Type:         ServiceTokenTypeService,
-		Validity:     "24h",
+		Validity:     "15m",
 	}
 }
 
@@ -376,7 +376,7 @@ empty, the audience will be ID of the namespace that signed the token.`,
 	"Validity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
-		DefaultValue:   "24h",
+		DefaultValue:   "15m",
 		Description: `Validity configures the max validity time for a token. If it is bigger than the
 configured max validity, it will be capped.`,
 		Exposed:   true,
@@ -435,7 +435,7 @@ empty, the audience will be ID of the namespace that signed the token.`,
 	"validity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
-		DefaultValue:   "24h",
+		DefaultValue:   "15m",
 		Description: `Validity configures the max validity time for a token. If it is bigger than the
 configured max validity, it will be capped.`,
 		Exposed:   true,

@@ -21,6 +21,13 @@ attributes:
     creation_only: true
     example_value: my-service
 
+  - name: namespaceID
+    description: The ID of the corresponding namespace.
+    type: string
+    exposed: true
+    creation_only: true
+    example_value: 12341234
+
   - name: serviceClaims
     description: |-
       ServiceClaims is a list of service claims that have been validated provided as

@@ -82,6 +82,9 @@ type IssueServiceToken struct {
 	// Audience is the valid audience for this token.
 	Audience string `json:"audience" msgpack:"audience" bson:"-" mapstructure:"audience,omitempty"`
 
+	// The ID of the corresponding namespace.
+	NamespaceID string `json:"namespaceID" msgpack:"namespaceID" bson:"-" mapstructure:"namespaceID,omitempty"`
+
 	// ServiceClaims is a list of service claims that have been validated provided as
 	// key/value pairs. If the same key is provided multiple times it will be converted
 	// to an array. The claims  will appear under the Data section of the token.
@@ -173,6 +176,7 @@ func (o *IssueServiceToken) ToSparse(fields ...string) elemental.SparseIdentifia
 		// nolint: goimports
 		return &SparseIssueServiceToken{
 			Audience:      &o.Audience,
+			NamespaceID:   &o.NamespaceID,
 			ServiceClaims: &o.ServiceClaims,
 			SigningKeyID:  &o.SigningKeyID,
 			Subject:       &o.Subject,
@@ -187,6 +191,8 @@ func (o *IssueServiceToken) ToSparse(fields ...string) elemental.SparseIdentifia
 		switch f {
 		case "audience":
 			sp.Audience = &(o.Audience)
+		case "namespaceID":
+			sp.NamespaceID = &(o.NamespaceID)
 		case "serviceClaims":
 			sp.ServiceClaims = &(o.ServiceClaims)
 		case "signingKeyID":
@@ -214,6 +220,9 @@ func (o *IssueServiceToken) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseIssueServiceToken)
 	if so.Audience != nil {
 		o.Audience = *so.Audience
+	}
+	if so.NamespaceID != nil {
+		o.NamespaceID = *so.NamespaceID
 	}
 	if so.ServiceClaims != nil {
 		o.ServiceClaims = *so.ServiceClaims
@@ -329,6 +338,8 @@ func (o *IssueServiceToken) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "audience":
 		return o.Audience
+	case "namespaceID":
+		return o.NamespaceID
 	case "serviceClaims":
 		return o.ServiceClaims
 	case "signingKeyID":
@@ -356,6 +367,15 @@ var IssueServiceTokenAttributesMap = map[string]elemental.AttributeSpecification
 		Exposed:        true,
 		Name:           "audience",
 		Required:       true,
+		Type:           "string",
+	},
+	"NamespaceID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NamespaceID",
+		CreationOnly:   true,
+		Description:    `The ID of the corresponding namespace.`,
+		Exposed:        true,
+		Name:           "namespaceID",
 		Type:           "string",
 	},
 	"ServiceClaims": elemental.AttributeSpecification{
@@ -437,6 +457,15 @@ var IssueServiceTokenLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		Exposed:        true,
 		Name:           "audience",
 		Required:       true,
+		Type:           "string",
+	},
+	"namespaceid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NamespaceID",
+		CreationOnly:   true,
+		Description:    `The ID of the corresponding namespace.`,
+		Exposed:        true,
+		Name:           "namespaceID",
 		Type:           "string",
 	},
 	"serviceclaims": elemental.AttributeSpecification{
@@ -574,6 +603,9 @@ type SparseIssueServiceToken struct {
 	// Audience is the valid audience for this token.
 	Audience *string `json:"audience,omitempty" msgpack:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
 
+	// The ID of the corresponding namespace.
+	NamespaceID *string `json:"namespaceID,omitempty" msgpack:"namespaceID,omitempty" bson:"-" mapstructure:"namespaceID,omitempty"`
+
 	// ServiceClaims is a list of service claims that have been validated provided as
 	// key/value pairs. If the same key is provided multiple times it will be converted
 	// to an array. The claims  will appear under the Data section of the token.
@@ -633,6 +665,9 @@ func (o *SparseIssueServiceToken) ToPlain() elemental.PlainIdentifiable {
 	out := NewIssueServiceToken()
 	if o.Audience != nil {
 		out.Audience = *o.Audience
+	}
+	if o.NamespaceID != nil {
+		out.NamespaceID = *o.NamespaceID
 	}
 	if o.ServiceClaims != nil {
 		out.ServiceClaims = *o.ServiceClaims

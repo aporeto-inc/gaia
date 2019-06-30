@@ -9038,7 +9038,7 @@ used by third party applications.
   "objectID": "5c83035648675400019ab901",
   "sessionID": "5c83035648675400019ab901",
   "type": "Service",
-  "validity": "24h"
+  "validity": "15m"
 }
 ```
 
@@ -9085,7 +9085,7 @@ configured max validity, it will be capped.
 Default value:
 
 ```json
-"24h"
+"15m"
 ```
 
 ## `policy/ssh`

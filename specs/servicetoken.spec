@@ -56,7 +56,7 @@ attributes:
       configured max validity, it will be capped.
     type: string
     exposed: true
-    default_value: 24h
+    default_value: 15m
     orderable: true
     validations:
     - $timeDuration
