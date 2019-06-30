@@ -70,6 +70,7 @@ var (
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
 		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
 		"oauthinfo":              OAUTHInfoIdentity,
+		"oauthkey":               OAUTHKeyIdentity,
 		"oidcprovider":           OIDCProviderIdentity,
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
@@ -196,6 +197,7 @@ var (
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
 		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
 		"oauthinfo":                OAUTHInfoIdentity,
+		"oauthkeys":                OAUTHKeyIdentity,
 		"oidcproviders":            OIDCProviderIdentity,
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
@@ -602,6 +604,7 @@ var (
 		"namespacemappingpolicy": nil,
 		"networkaccesspolicy":    nil,
 		"oauthinfo":              nil,
+		"oauthkey":               nil,
 		"oidcprovider": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -902,6 +905,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewNetworkAccessPolicy()
 	case OAUTHInfoIdentity:
 		return NewOAUTHInfo()
+	case OAUTHKeyIdentity:
+		return NewOAUTHKey()
 	case OIDCProviderIdentity:
 		return NewOIDCProvider()
 	case PacketReportIdentity:
@@ -1135,6 +1140,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseNetworkAccessPolicy()
 	case OAUTHInfoIdentity:
 		return NewSparseOAUTHInfo()
+	case OAUTHKeyIdentity:
+		return NewSparseOAUTHKey()
 	case OIDCProviderIdentity:
 		return NewSparseOIDCProvider()
 	case PacketReportIdentity:
@@ -1376,6 +1383,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &NetworkAccessPoliciesList{}
 	case OAUTHInfoIdentity:
 		return &OAUTHInfosList{}
+	case OAUTHKeyIdentity:
+		return &OAUTHKeysList{}
 	case OIDCProviderIdentity:
 		return &OIDCProvidersList{}
 	case PacketReportIdentity:
@@ -1607,6 +1616,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseNetworkAccessPoliciesList{}
 	case OAUTHInfoIdentity:
 		return &SparseOAUTHInfosList{}
+	case OAUTHKeyIdentity:
+		return &SparseOAUTHKeysList{}
 	case OIDCProviderIdentity:
 		return &SparseOIDCProvidersList{}
 	case PacketReportIdentity:
@@ -1792,6 +1803,7 @@ func AllIdentities() []elemental.Identity {
 		NamespaceMappingPolicyIdentity,
 		NetworkAccessPolicyIdentity,
 		OAUTHInfoIdentity,
+		OAUTHKeyIdentity,
 		OIDCProviderIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
@@ -2054,6 +2066,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"netpols",
 		}
 	case OAUTHInfoIdentity:
+		return []string{}
+	case OAUTHKeyIdentity:
 		return []string{}
 	case OIDCProviderIdentity:
 		return []string{}

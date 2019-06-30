@@ -168,6 +168,10 @@ relations:
   get:
     description: Retrieves the OAUTH info for this namespace.
 
+- rest_name: oauthkey
+  get:
+    description: Retrieves the OAUTH info for this namespace.
+
 - rest_name: trustedca
   get:
     description: Returns the list of trusted CAs for this namespace.
