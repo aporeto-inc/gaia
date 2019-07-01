@@ -167,10 +167,26 @@ relations:
 - rest_name: oauthinfo
   get:
     description: Retrieves the OAUTH info for this namespace.
+    parameters:
+      entries:
+      - name: mode
+        description: When set to oidc it will return the data as a raw JSON object
+          and not an Aporeto compatible API.
+        type: enum
+        allowed_choices:
+        - oidc
 
 - rest_name: oauthkey
   get:
     description: Retrieves the OAUTH info for this namespace.
+    parameters:
+      entries:
+      - name: mode
+        description: When set to oidc it will return the data as a raw JSON object
+          and not an Aporeto compatible API.
+        type: enum
+        allowed_choices:
+        - oidc
 
 - rest_name: trustedca
   get:

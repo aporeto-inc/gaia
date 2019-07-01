@@ -2328,10 +2328,30 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"namespace": &elemental.RelationshipInfo{},
+			"namespace": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "mode",
+						Type: "enum",
+						AllowedChoices: []string{
+							"oidc",
+						},
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"namespace": &elemental.RelationshipInfo{},
+			"namespace": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "mode",
+						Type: "enum",
+						AllowedChoices: []string{
+							"oidc",
+						},
+					},
+				},
+			},
 		},
 	}
 
@@ -2340,10 +2360,30 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"namespace": &elemental.RelationshipInfo{},
+			"namespace": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "mode",
+						Type: "enum",
+						AllowedChoices: []string{
+							"oidc",
+						},
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"namespace": &elemental.RelationshipInfo{},
+			"namespace": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "mode",
+						Type: "enum",
+						AllowedChoices: []string{
+							"oidc",
+						},
+					},
+				},
+			},
 		},
 	}
 
