@@ -36,7 +36,6 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    required: true
     creation_only: true
     example_value:
     - org=acme
@@ -74,7 +73,6 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    required: true
     creation_only: true
     example_value:
     - org=acme

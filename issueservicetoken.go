@@ -278,19 +278,11 @@ func (o *IssueServiceToken) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("serviceClaims", o.ServiceClaims); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("signingKeyID", o.SigningKeyID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("subject", o.Subject); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("userClaims", o.UserClaims); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -385,11 +377,10 @@ var IssueServiceTokenAttributesMap = map[string]elemental.AttributeSpecification
 		Description: `ServiceClaims is a list of service claims that have been validated provided as
 key/value pairs. If the same key is provided multiple times it will be converted
 to an array. The claims  will appear under the Data section of the token.`,
-		Exposed:  true,
-		Name:     "serviceClaims",
-		Required: true,
-		SubType:  "string",
-		Type:     "list",
+		Exposed: true,
+		Name:    "serviceClaims",
+		SubType: "string",
+		Type:    "list",
 	},
 	"SigningKeyID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -428,11 +419,10 @@ to an array. The claims  will appear under the Data section of the token.`,
 		Description: `UserClaims is a list of user claims that have been validated provided as
 key/value pairs. If the same key is provided multiple times it will be converted
 to an array. The claims  will appear under the Data section of the token.`,
-		Exposed:  true,
-		Name:     "userClaims",
-		Required: true,
-		SubType:  "string",
-		Type:     "list",
+		Exposed: true,
+		Name:    "userClaims",
+		SubType: "string",
+		Type:    "list",
 	},
 	"Validity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -475,11 +465,10 @@ var IssueServiceTokenLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		Description: `ServiceClaims is a list of service claims that have been validated provided as
 key/value pairs. If the same key is provided multiple times it will be converted
 to an array. The claims  will appear under the Data section of the token.`,
-		Exposed:  true,
-		Name:     "serviceClaims",
-		Required: true,
-		SubType:  "string",
-		Type:     "list",
+		Exposed: true,
+		Name:    "serviceClaims",
+		SubType: "string",
+		Type:    "list",
 	},
 	"signingkeyid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -518,11 +507,10 @@ to an array. The claims  will appear under the Data section of the token.`,
 		Description: `UserClaims is a list of user claims that have been validated provided as
 key/value pairs. If the same key is provided multiple times it will be converted
 to an array. The claims  will appear under the Data section of the token.`,
-		Exposed:  true,
-		Name:     "userClaims",
-		Required: true,
-		SubType:  "string",
-		Type:     "list",
+		Exposed: true,
+		Name:    "userClaims",
+		SubType: "string",
+		Type:    "list",
 	},
 	"validity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
