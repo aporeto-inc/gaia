@@ -79,35 +79,35 @@ func (o OAUTHInfosList) Version() int {
 
 // OAUTHInfo represents the model of a oauthinfo
 type OAUTHInfo struct {
+	// JWKS_URI is the URI that can be used to retrieve the public keys that will
+	// verify a JWT.
+	JWKSURI string `json:"jwks_uri" msgpack:"jwks_uri" bson:"-" mapstructure:"jwks_uri,omitempty"`
+
 	// Authorization_Endpoint is the authorization endpoint.
-	Auhorization_endpoint string `json:"auhorization_endpoint" msgpack:"auhorization_endpoint" bson:"-" mapstructure:"auhorization_endpoint,omitempty"`
+	AuhorizationEndpoint string `json:"auhorization_endpoint" msgpack:"auhorization_endpoint" bson:"-" mapstructure:"auhorization_endpoint,omitempty"`
 
 	// claims_supported is corresponding attribute of the OIDC spec.
-	Claims_supported []string `json:"claims_supported" msgpack:"claims_supported" bson:"-" mapstructure:"claims_supported,omitempty"`
+	ClaimsSupported []string `json:"claims_supported" msgpack:"claims_supported" bson:"-" mapstructure:"claims_supported,omitempty"`
 
 	// id_token_signing_alg_values_supported is corresponding attribute of the OIDC
 	// spec.
-	Id_token_signing_alg_values_supported []string `json:"id_token_signing_alg_values_supported" msgpack:"id_token_signing_alg_values_supported" bson:"-" mapstructure:"id_token_signing_alg_values_supported,omitempty"`
+	IdTokenSigningAlgValuesSupported []string `json:"id_token_signing_alg_values_supported" msgpack:"id_token_signing_alg_values_supported" bson:"-" mapstructure:"id_token_signing_alg_values_supported,omitempty"`
 
 	// Issuer is the the URL pointing to the issuer of the token.
 	Issuer string `json:"issuer" msgpack:"issuer" bson:"-" mapstructure:"issuer,omitempty"`
 
-	// JWKS_URI is the URI that can be used to retrieve the public keys that will
-	// verify a JWT.
-	Jwks_uri string `json:"jwks_uri" msgpack:"jwks_uri" bson:"-" mapstructure:"jwks_uri,omitempty"`
-
 	// Response_Types_Supported is corresponding attribute of the OIDC spec.
-	Response_types_supported []string `json:"response_types_supported" msgpack:"response_types_supported" bson:"-" mapstructure:"response_types_supported,omitempty"`
+	ResponseTypesSupported []string `json:"response_types_supported" msgpack:"response_types_supported" bson:"-" mapstructure:"response_types_supported,omitempty"`
 
 	// scopes_supported is corresponding attribute of the OIDC spec.
-	Scopes_supported []string `json:"scopes_supported" msgpack:"scopes_supported" bson:"-" mapstructure:"scopes_supported,omitempty"`
+	ScopesSupported []string `json:"scopes_supported" msgpack:"scopes_supported" bson:"-" mapstructure:"scopes_supported,omitempty"`
 
 	// Subject_Types_Supported is corresponding attribute of the OIDC spec.
-	Subject_types_supported []string `json:"subject_types_supported" msgpack:"subject_types_supported" bson:"-" mapstructure:"subject_types_supported,omitempty"`
+	SubjectTypesSupported []string `json:"subject_types_supported" msgpack:"subject_types_supported" bson:"-" mapstructure:"subject_types_supported,omitempty"`
 
 	// token_endpoint_auth_methods_supported is corresponding attribute of the OIDC
 	// spec.
-	Token_endpoint_auth_methods_supported []string `json:"token_endpoint_auth_methods_supported" msgpack:"token_endpoint_auth_methods_supported" bson:"-" mapstructure:"token_endpoint_auth_methods_supported,omitempty"`
+	TokenEndpointAuthMethodsSupported []string `json:"token_endpoint_auth_methods_supported" msgpack:"token_endpoint_auth_methods_supported" bson:"-" mapstructure:"token_endpoint_auth_methods_supported,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -116,13 +116,13 @@ type OAUTHInfo struct {
 func NewOAUTHInfo() *OAUTHInfo {
 
 	return &OAUTHInfo{
-		ModelVersion:                          1,
-		Claims_supported:                      []string{},
-		Id_token_signing_alg_values_supported: []string{},
-		Response_types_supported:              []string{},
-		Scopes_supported:                      []string{},
-		Subject_types_supported:               []string{},
-		Token_endpoint_auth_methods_supported: []string{},
+		ModelVersion:                      1,
+		ClaimsSupported:                   []string{},
+		IdTokenSigningAlgValuesSupported:  []string{},
+		ResponseTypesSupported:            []string{},
+		ScopesSupported:                   []string{},
+		SubjectTypesSupported:             []string{},
+		TokenEndpointAuthMethodsSupported: []string{},
 	}
 }
 
@@ -180,39 +180,39 @@ func (o *OAUTHInfo) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseOAUTHInfo{
-			Auhorization_endpoint:                 &o.Auhorization_endpoint,
-			Claims_supported:                      &o.Claims_supported,
-			Id_token_signing_alg_values_supported: &o.Id_token_signing_alg_values_supported,
-			Issuer:                                &o.Issuer,
-			Jwks_uri:                              &o.Jwks_uri,
-			Response_types_supported:              &o.Response_types_supported,
-			Scopes_supported:                      &o.Scopes_supported,
-			Subject_types_supported:               &o.Subject_types_supported,
-			Token_endpoint_auth_methods_supported: &o.Token_endpoint_auth_methods_supported,
+			JWKSURI:                           &o.JWKSURI,
+			AuhorizationEndpoint:              &o.AuhorizationEndpoint,
+			ClaimsSupported:                   &o.ClaimsSupported,
+			IdTokenSigningAlgValuesSupported:  &o.IdTokenSigningAlgValuesSupported,
+			Issuer:                            &o.Issuer,
+			ResponseTypesSupported:            &o.ResponseTypesSupported,
+			ScopesSupported:                   &o.ScopesSupported,
+			SubjectTypesSupported:             &o.SubjectTypesSupported,
+			TokenEndpointAuthMethodsSupported: &o.TokenEndpointAuthMethodsSupported,
 		}
 	}
 
 	sp := &SparseOAUTHInfo{}
 	for _, f := range fields {
 		switch f {
-		case "auhorization_endpoint":
-			sp.Auhorization_endpoint = &(o.Auhorization_endpoint)
-		case "claims_supported":
-			sp.Claims_supported = &(o.Claims_supported)
-		case "id_token_signing_alg_values_supported":
-			sp.Id_token_signing_alg_values_supported = &(o.Id_token_signing_alg_values_supported)
+		case "JWKSURI":
+			sp.JWKSURI = &(o.JWKSURI)
+		case "auhorizationEndpoint":
+			sp.AuhorizationEndpoint = &(o.AuhorizationEndpoint)
+		case "claimsSupported":
+			sp.ClaimsSupported = &(o.ClaimsSupported)
+		case "idTokenSigningAlgValuesSupported":
+			sp.IdTokenSigningAlgValuesSupported = &(o.IdTokenSigningAlgValuesSupported)
 		case "issuer":
 			sp.Issuer = &(o.Issuer)
-		case "jwks_uri":
-			sp.Jwks_uri = &(o.Jwks_uri)
-		case "response_types_supported":
-			sp.Response_types_supported = &(o.Response_types_supported)
-		case "scopes_supported":
-			sp.Scopes_supported = &(o.Scopes_supported)
-		case "subject_types_supported":
-			sp.Subject_types_supported = &(o.Subject_types_supported)
-		case "token_endpoint_auth_methods_supported":
-			sp.Token_endpoint_auth_methods_supported = &(o.Token_endpoint_auth_methods_supported)
+		case "responseTypesSupported":
+			sp.ResponseTypesSupported = &(o.ResponseTypesSupported)
+		case "scopesSupported":
+			sp.ScopesSupported = &(o.ScopesSupported)
+		case "subjectTypesSupported":
+			sp.SubjectTypesSupported = &(o.SubjectTypesSupported)
+		case "tokenEndpointAuthMethodsSupported":
+			sp.TokenEndpointAuthMethodsSupported = &(o.TokenEndpointAuthMethodsSupported)
 		}
 	}
 
@@ -226,32 +226,32 @@ func (o *OAUTHInfo) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseOAUTHInfo)
-	if so.Auhorization_endpoint != nil {
-		o.Auhorization_endpoint = *so.Auhorization_endpoint
+	if so.JWKSURI != nil {
+		o.JWKSURI = *so.JWKSURI
 	}
-	if so.Claims_supported != nil {
-		o.Claims_supported = *so.Claims_supported
+	if so.AuhorizationEndpoint != nil {
+		o.AuhorizationEndpoint = *so.AuhorizationEndpoint
 	}
-	if so.Id_token_signing_alg_values_supported != nil {
-		o.Id_token_signing_alg_values_supported = *so.Id_token_signing_alg_values_supported
+	if so.ClaimsSupported != nil {
+		o.ClaimsSupported = *so.ClaimsSupported
+	}
+	if so.IdTokenSigningAlgValuesSupported != nil {
+		o.IdTokenSigningAlgValuesSupported = *so.IdTokenSigningAlgValuesSupported
 	}
 	if so.Issuer != nil {
 		o.Issuer = *so.Issuer
 	}
-	if so.Jwks_uri != nil {
-		o.Jwks_uri = *so.Jwks_uri
+	if so.ResponseTypesSupported != nil {
+		o.ResponseTypesSupported = *so.ResponseTypesSupported
 	}
-	if so.Response_types_supported != nil {
-		o.Response_types_supported = *so.Response_types_supported
+	if so.ScopesSupported != nil {
+		o.ScopesSupported = *so.ScopesSupported
 	}
-	if so.Scopes_supported != nil {
-		o.Scopes_supported = *so.Scopes_supported
+	if so.SubjectTypesSupported != nil {
+		o.SubjectTypesSupported = *so.SubjectTypesSupported
 	}
-	if so.Subject_types_supported != nil {
-		o.Subject_types_supported = *so.Subject_types_supported
-	}
-	if so.Token_endpoint_auth_methods_supported != nil {
-		o.Token_endpoint_auth_methods_supported = *so.Token_endpoint_auth_methods_supported
+	if so.TokenEndpointAuthMethodsSupported != nil {
+		o.TokenEndpointAuthMethodsSupported = *so.TokenEndpointAuthMethodsSupported
 	}
 }
 
@@ -319,24 +319,24 @@ func (*OAUTHInfo) AttributeSpecifications() map[string]elemental.AttributeSpecif
 func (o *OAUTHInfo) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "auhorization_endpoint":
-		return o.Auhorization_endpoint
-	case "claims_supported":
-		return o.Claims_supported
-	case "id_token_signing_alg_values_supported":
-		return o.Id_token_signing_alg_values_supported
+	case "JWKSURI":
+		return o.JWKSURI
+	case "auhorizationEndpoint":
+		return o.AuhorizationEndpoint
+	case "claimsSupported":
+		return o.ClaimsSupported
+	case "idTokenSigningAlgValuesSupported":
+		return o.IdTokenSigningAlgValuesSupported
 	case "issuer":
 		return o.Issuer
-	case "jwks_uri":
-		return o.Jwks_uri
-	case "response_types_supported":
-		return o.Response_types_supported
-	case "scopes_supported":
-		return o.Scopes_supported
-	case "subject_types_supported":
-		return o.Subject_types_supported
-	case "token_endpoint_auth_methods_supported":
-		return o.Token_endpoint_auth_methods_supported
+	case "responseTypesSupported":
+		return o.ResponseTypesSupported
+	case "scopesSupported":
+		return o.ScopesSupported
+	case "subjectTypesSupported":
+		return o.SubjectTypesSupported
+	case "tokenEndpointAuthMethodsSupported":
+		return o.TokenEndpointAuthMethodsSupported
 	}
 
 	return nil
@@ -344,35 +344,46 @@ func (o *OAUTHInfo) ValueForAttribute(name string) interface{} {
 
 // OAUTHInfoAttributesMap represents the map of attribute for OAUTHInfo.
 var OAUTHInfoAttributesMap = map[string]elemental.AttributeSpecification{
-	"Auhorization_endpoint": elemental.AttributeSpecification{
+	"JWKSURI": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Auhorization_endpoint",
+		ConvertedName:  "JWKSURI",
+		Description: `JWKS_URI is the URI that can be used to retrieve the public keys that will
+verify a JWT.`,
+		Exposed:  true,
+		Name:     "JWKSURI",
+		ReadOnly: true,
+		Type:     "string",
+	},
+	"AuhorizationEndpoint": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AuhorizationEndpoint",
 		Description:    `Authorization_Endpoint is the authorization endpoint.`,
 		Exposed:        true,
-		Name:           "auhorization_endpoint",
+		Name:           "auhorizationEndpoint",
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"Claims_supported": elemental.AttributeSpecification{
+	"ClaimsSupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Claims_supported",
+		ConvertedName:  "ClaimsSupported",
 		Description:    `claims_supported is corresponding attribute of the OIDC spec.`,
 		Exposed:        true,
-		Name:           "claims_supported",
+		Name:           "claimsSupported",
 		ReadOnly:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
-	"Id_token_signing_alg_values_supported": elemental.AttributeSpecification{
+	"IdTokenSigningAlgValuesSupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Id_token_signing_alg_values_supported",
+		ConvertedName:  "IdTokenSigningAlgValuesSupported",
 		Description: `id_token_signing_alg_values_supported is corresponding attribute of the OIDC
 spec.`,
 		Exposed:  true,
-		Name:     "id_token_signing_alg_values_supported",
+		Name:     "idTokenSigningAlgValuesSupported",
 		ReadOnly: true,
 		SubType:  "string",
 		Type:     "list",
@@ -387,58 +398,47 @@ spec.`,
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"Jwks_uri": elemental.AttributeSpecification{
+	"ResponseTypesSupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Jwks_uri",
-		Description: `JWKS_URI is the URI that can be used to retrieve the public keys that will
-verify a JWT.`,
-		Exposed:  true,
-		Name:     "jwks_uri",
-		ReadOnly: true,
-		Type:     "string",
-	},
-	"Response_types_supported": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Response_types_supported",
+		ConvertedName:  "ResponseTypesSupported",
 		Description:    `Response_Types_Supported is corresponding attribute of the OIDC spec.`,
 		Exposed:        true,
-		Name:           "response_types_supported",
+		Name:           "responseTypesSupported",
 		ReadOnly:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
-	"Scopes_supported": elemental.AttributeSpecification{
+	"ScopesSupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Scopes_supported",
+		ConvertedName:  "ScopesSupported",
 		Description:    `scopes_supported is corresponding attribute of the OIDC spec.`,
 		Exposed:        true,
-		Name:           "scopes_supported",
+		Name:           "scopesSupported",
 		ReadOnly:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
-	"Subject_types_supported": elemental.AttributeSpecification{
+	"SubjectTypesSupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Subject_types_supported",
+		ConvertedName:  "SubjectTypesSupported",
 		Description:    `Subject_Types_Supported is corresponding attribute of the OIDC spec.`,
 		Exposed:        true,
-		Name:           "subject_types_supported",
+		Name:           "subjectTypesSupported",
 		ReadOnly:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
-	"Token_endpoint_auth_methods_supported": elemental.AttributeSpecification{
+	"TokenEndpointAuthMethodsSupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Token_endpoint_auth_methods_supported",
+		ConvertedName:  "TokenEndpointAuthMethodsSupported",
 		Description: `token_endpoint_auth_methods_supported is corresponding attribute of the OIDC
 spec.`,
 		Exposed:  true,
-		Name:     "token_endpoint_auth_methods_supported",
+		Name:     "tokenEndpointAuthMethodsSupported",
 		ReadOnly: true,
 		SubType:  "string",
 		Type:     "list",
@@ -447,35 +447,46 @@ spec.`,
 
 // OAUTHInfoLowerCaseAttributesMap represents the map of attribute for OAUTHInfo.
 var OAUTHInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"auhorization_endpoint": elemental.AttributeSpecification{
+	"jwksuri": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Auhorization_endpoint",
+		ConvertedName:  "JWKSURI",
+		Description: `JWKS_URI is the URI that can be used to retrieve the public keys that will
+verify a JWT.`,
+		Exposed:  true,
+		Name:     "JWKSURI",
+		ReadOnly: true,
+		Type:     "string",
+	},
+	"auhorizationendpoint": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AuhorizationEndpoint",
 		Description:    `Authorization_Endpoint is the authorization endpoint.`,
 		Exposed:        true,
-		Name:           "auhorization_endpoint",
+		Name:           "auhorizationEndpoint",
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"claims_supported": elemental.AttributeSpecification{
+	"claimssupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Claims_supported",
+		ConvertedName:  "ClaimsSupported",
 		Description:    `claims_supported is corresponding attribute of the OIDC spec.`,
 		Exposed:        true,
-		Name:           "claims_supported",
+		Name:           "claimsSupported",
 		ReadOnly:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
-	"id_token_signing_alg_values_supported": elemental.AttributeSpecification{
+	"idtokensigningalgvaluessupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Id_token_signing_alg_values_supported",
+		ConvertedName:  "IdTokenSigningAlgValuesSupported",
 		Description: `id_token_signing_alg_values_supported is corresponding attribute of the OIDC
 spec.`,
 		Exposed:  true,
-		Name:     "id_token_signing_alg_values_supported",
+		Name:     "idTokenSigningAlgValuesSupported",
 		ReadOnly: true,
 		SubType:  "string",
 		Type:     "list",
@@ -490,58 +501,47 @@ spec.`,
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"jwks_uri": elemental.AttributeSpecification{
+	"responsetypessupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Jwks_uri",
-		Description: `JWKS_URI is the URI that can be used to retrieve the public keys that will
-verify a JWT.`,
-		Exposed:  true,
-		Name:     "jwks_uri",
-		ReadOnly: true,
-		Type:     "string",
-	},
-	"response_types_supported": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Response_types_supported",
+		ConvertedName:  "ResponseTypesSupported",
 		Description:    `Response_Types_Supported is corresponding attribute of the OIDC spec.`,
 		Exposed:        true,
-		Name:           "response_types_supported",
+		Name:           "responseTypesSupported",
 		ReadOnly:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
-	"scopes_supported": elemental.AttributeSpecification{
+	"scopessupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Scopes_supported",
+		ConvertedName:  "ScopesSupported",
 		Description:    `scopes_supported is corresponding attribute of the OIDC spec.`,
 		Exposed:        true,
-		Name:           "scopes_supported",
+		Name:           "scopesSupported",
 		ReadOnly:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
-	"subject_types_supported": elemental.AttributeSpecification{
+	"subjecttypessupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Subject_types_supported",
+		ConvertedName:  "SubjectTypesSupported",
 		Description:    `Subject_Types_Supported is corresponding attribute of the OIDC spec.`,
 		Exposed:        true,
-		Name:           "subject_types_supported",
+		Name:           "subjectTypesSupported",
 		ReadOnly:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
-	"token_endpoint_auth_methods_supported": elemental.AttributeSpecification{
+	"tokenendpointauthmethodssupported": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "Token_endpoint_auth_methods_supported",
+		ConvertedName:  "TokenEndpointAuthMethodsSupported",
 		Description: `token_endpoint_auth_methods_supported is corresponding attribute of the OIDC
 spec.`,
 		Exposed:  true,
-		Name:     "token_endpoint_auth_methods_supported",
+		Name:     "tokenEndpointAuthMethodsSupported",
 		ReadOnly: true,
 		SubType:  "string",
 		Type:     "list",
@@ -611,35 +611,35 @@ func (o SparseOAUTHInfosList) Version() int {
 
 // SparseOAUTHInfo represents the sparse version of a oauthinfo.
 type SparseOAUTHInfo struct {
+	// JWKS_URI is the URI that can be used to retrieve the public keys that will
+	// verify a JWT.
+	JWKSURI *string `json:"jwks_uri,omitempty" msgpack:"jwks_uri,omitempty" bson:"-" mapstructure:"jwks_uri,omitempty"`
+
 	// Authorization_Endpoint is the authorization endpoint.
-	Auhorization_endpoint *string `json:"auhorization_endpoint,omitempty" msgpack:"auhorization_endpoint,omitempty" bson:"-" mapstructure:"auhorization_endpoint,omitempty"`
+	AuhorizationEndpoint *string `json:"auhorization_endpoint,omitempty" msgpack:"auhorization_endpoint,omitempty" bson:"-" mapstructure:"auhorization_endpoint,omitempty"`
 
 	// claims_supported is corresponding attribute of the OIDC spec.
-	Claims_supported *[]string `json:"claims_supported,omitempty" msgpack:"claims_supported,omitempty" bson:"-" mapstructure:"claims_supported,omitempty"`
+	ClaimsSupported *[]string `json:"claims_supported,omitempty" msgpack:"claims_supported,omitempty" bson:"-" mapstructure:"claims_supported,omitempty"`
 
 	// id_token_signing_alg_values_supported is corresponding attribute of the OIDC
 	// spec.
-	Id_token_signing_alg_values_supported *[]string `json:"id_token_signing_alg_values_supported,omitempty" msgpack:"id_token_signing_alg_values_supported,omitempty" bson:"-" mapstructure:"id_token_signing_alg_values_supported,omitempty"`
+	IdTokenSigningAlgValuesSupported *[]string `json:"id_token_signing_alg_values_supported,omitempty" msgpack:"id_token_signing_alg_values_supported,omitempty" bson:"-" mapstructure:"id_token_signing_alg_values_supported,omitempty"`
 
 	// Issuer is the the URL pointing to the issuer of the token.
 	Issuer *string `json:"issuer,omitempty" msgpack:"issuer,omitempty" bson:"-" mapstructure:"issuer,omitempty"`
 
-	// JWKS_URI is the URI that can be used to retrieve the public keys that will
-	// verify a JWT.
-	Jwks_uri *string `json:"jwks_uri,omitempty" msgpack:"jwks_uri,omitempty" bson:"-" mapstructure:"jwks_uri,omitempty"`
-
 	// Response_Types_Supported is corresponding attribute of the OIDC spec.
-	Response_types_supported *[]string `json:"response_types_supported,omitempty" msgpack:"response_types_supported,omitempty" bson:"-" mapstructure:"response_types_supported,omitempty"`
+	ResponseTypesSupported *[]string `json:"response_types_supported,omitempty" msgpack:"response_types_supported,omitempty" bson:"-" mapstructure:"response_types_supported,omitempty"`
 
 	// scopes_supported is corresponding attribute of the OIDC spec.
-	Scopes_supported *[]string `json:"scopes_supported,omitempty" msgpack:"scopes_supported,omitempty" bson:"-" mapstructure:"scopes_supported,omitempty"`
+	ScopesSupported *[]string `json:"scopes_supported,omitempty" msgpack:"scopes_supported,omitempty" bson:"-" mapstructure:"scopes_supported,omitempty"`
 
 	// Subject_Types_Supported is corresponding attribute of the OIDC spec.
-	Subject_types_supported *[]string `json:"subject_types_supported,omitempty" msgpack:"subject_types_supported,omitempty" bson:"-" mapstructure:"subject_types_supported,omitempty"`
+	SubjectTypesSupported *[]string `json:"subject_types_supported,omitempty" msgpack:"subject_types_supported,omitempty" bson:"-" mapstructure:"subject_types_supported,omitempty"`
 
 	// token_endpoint_auth_methods_supported is corresponding attribute of the OIDC
 	// spec.
-	Token_endpoint_auth_methods_supported *[]string `json:"token_endpoint_auth_methods_supported,omitempty" msgpack:"token_endpoint_auth_methods_supported,omitempty" bson:"-" mapstructure:"token_endpoint_auth_methods_supported,omitempty"`
+	TokenEndpointAuthMethodsSupported *[]string `json:"token_endpoint_auth_methods_supported,omitempty" msgpack:"token_endpoint_auth_methods_supported,omitempty" bson:"-" mapstructure:"token_endpoint_auth_methods_supported,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -676,32 +676,32 @@ func (o *SparseOAUTHInfo) Version() int {
 func (o *SparseOAUTHInfo) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewOAUTHInfo()
-	if o.Auhorization_endpoint != nil {
-		out.Auhorization_endpoint = *o.Auhorization_endpoint
+	if o.JWKSURI != nil {
+		out.JWKSURI = *o.JWKSURI
 	}
-	if o.Claims_supported != nil {
-		out.Claims_supported = *o.Claims_supported
+	if o.AuhorizationEndpoint != nil {
+		out.AuhorizationEndpoint = *o.AuhorizationEndpoint
 	}
-	if o.Id_token_signing_alg_values_supported != nil {
-		out.Id_token_signing_alg_values_supported = *o.Id_token_signing_alg_values_supported
+	if o.ClaimsSupported != nil {
+		out.ClaimsSupported = *o.ClaimsSupported
+	}
+	if o.IdTokenSigningAlgValuesSupported != nil {
+		out.IdTokenSigningAlgValuesSupported = *o.IdTokenSigningAlgValuesSupported
 	}
 	if o.Issuer != nil {
 		out.Issuer = *o.Issuer
 	}
-	if o.Jwks_uri != nil {
-		out.Jwks_uri = *o.Jwks_uri
+	if o.ResponseTypesSupported != nil {
+		out.ResponseTypesSupported = *o.ResponseTypesSupported
 	}
-	if o.Response_types_supported != nil {
-		out.Response_types_supported = *o.Response_types_supported
+	if o.ScopesSupported != nil {
+		out.ScopesSupported = *o.ScopesSupported
 	}
-	if o.Scopes_supported != nil {
-		out.Scopes_supported = *o.Scopes_supported
+	if o.SubjectTypesSupported != nil {
+		out.SubjectTypesSupported = *o.SubjectTypesSupported
 	}
-	if o.Subject_types_supported != nil {
-		out.Subject_types_supported = *o.Subject_types_supported
-	}
-	if o.Token_endpoint_auth_methods_supported != nil {
-		out.Token_endpoint_auth_methods_supported = *o.Token_endpoint_auth_methods_supported
+	if o.TokenEndpointAuthMethodsSupported != nil {
+		out.TokenEndpointAuthMethodsSupported = *o.TokenEndpointAuthMethodsSupported
 	}
 
 	return out

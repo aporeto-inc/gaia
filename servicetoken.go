@@ -11,8 +11,8 @@ import (
 type ServiceTokenTypeValue string
 
 const (
-	// ServiceTokenTypeEnforcer represents the value Enforcer.
-	ServiceTokenTypeEnforcer ServiceTokenTypeValue = "Enforcer"
+	// ServiceTokenTypeProcessingUnit represents the value ProcessingUnit.
+	ServiceTokenTypeProcessingUnit ServiceTokenTypeValue = "ProcessingUnit"
 
 	// ServiceTokenTypeService represents the value Service.
 	ServiceTokenTypeService ServiceTokenTypeValue = "Service"
@@ -94,7 +94,7 @@ type ServiceToken struct {
 	// empty, the audience will be ID of the namespace that signed the token.
 	Audience string `json:"audience" msgpack:"audience" bson:"-" mapstructure:"audience,omitempty"`
 
-	// ID of the object you want to issue a certificate for.
+	// ID of the object you want to issue a token for.
 	ObjectID string `json:"objectID" msgpack:"objectID" bson:"-" mapstructure:"objectID,omitempty"`
 
 	// Provides the session ID of the enforcer when retrieving a datapath certificate.
@@ -268,7 +268,7 @@ func (o *ServiceToken) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Enforcer", "Service"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"ProcessingUnit", "Service"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -341,7 +341,7 @@ empty, the audience will be ID of the namespace that signed the token.`,
 	"ObjectID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObjectID",
-		Description:    `ID of the object you want to issue a certificate for.`,
+		Description:    `ID of the object you want to issue a token for.`,
 		Exposed:        true,
 		Name:           "objectID",
 		Type:           "string",
@@ -365,7 +365,7 @@ empty, the audience will be ID of the namespace that signed the token.`,
 		Type:           "string",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Enforcer", "Service"},
+		AllowedChoices: []string{"ProcessingUnit", "Service"},
 		ConvertedName:  "Type",
 		DefaultValue:   ServiceTokenTypeService,
 		Description:    `Type of token request.`,
@@ -400,7 +400,7 @@ empty, the audience will be ID of the namespace that signed the token.`,
 	"objectid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObjectID",
-		Description:    `ID of the object you want to issue a certificate for.`,
+		Description:    `ID of the object you want to issue a token for.`,
 		Exposed:        true,
 		Name:           "objectID",
 		Type:           "string",
@@ -424,7 +424,7 @@ empty, the audience will be ID of the namespace that signed the token.`,
 		Type:           "string",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Enforcer", "Service"},
+		AllowedChoices: []string{"ProcessingUnit", "Service"},
 		ConvertedName:  "Type",
 		DefaultValue:   ServiceTokenTypeService,
 		Description:    `Type of token request.`,
@@ -512,7 +512,7 @@ type SparseServiceToken struct {
 	// empty, the audience will be ID of the namespace that signed the token.
 	Audience *string `json:"audience,omitempty" msgpack:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
 
-	// ID of the object you want to issue a certificate for.
+	// ID of the object you want to issue a token for.
 	ObjectID *string `json:"objectID,omitempty" msgpack:"objectID,omitempty" bson:"-" mapstructure:"objectID,omitempty"`
 
 	// Provides the session ID of the enforcer when retrieving a datapath certificate.

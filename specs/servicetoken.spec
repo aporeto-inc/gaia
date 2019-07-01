@@ -22,7 +22,7 @@ attributes:
     - $audience
 
   - name: objectID
-    description: ID of the object you want to issue a certificate for.
+    description: ID of the object you want to issue a token for.
     type: string
     exposed: true
     example_value: 5c83035648675400019ab901
@@ -46,7 +46,7 @@ attributes:
     type: enum
     exposed: true
     allowed_choices:
-    - Enforcer
+    - ProcessingUnit
     - Service
     default_value: Service
 
