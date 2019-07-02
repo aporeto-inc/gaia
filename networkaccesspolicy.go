@@ -126,8 +126,8 @@ type NetworkAccessPolicy struct {
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Defines the action to apply to a flow.
-	// - `+"`"+`Allow`+"`"+` (default): allows the defined
-	// traffic.
+	//
+	// - `+"`"+`Allow`+"`"+`: allows the defined traffic.
 	// - `+"`"+`Reject`+"`"+`: rejects the defined traffic; useful in conjunction with an allow all
 	// policy.
 	// - `+"`"+`Continue`+"`"+`: neither allows or rejects the traffic; useful for applying another
@@ -961,8 +961,8 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "Action",
 		DefaultValue:   NetworkAccessPolicyActionAllow,
 		Description: `Defines the action to apply to a flow.
-- ` + "`" + `Allow` + "`" + ` (default): allows the defined
-traffic.
+
+- ` + "`" + `Allow` + "`" + `: allows the defined traffic.
 - ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all
 policy.
 - ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another
@@ -1350,8 +1350,8 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		ConvertedName:  "Action",
 		DefaultValue:   NetworkAccessPolicyActionAllow,
 		Description: `Defines the action to apply to a flow.
-- ` + "`" + `Allow` + "`" + ` (default): allows the defined
-traffic.
+
+- ` + "`" + `Allow` + "`" + `: allows the defined traffic.
 - ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all
 policy.
 - ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another
@@ -1789,8 +1789,8 @@ type SparseNetworkAccessPolicy struct {
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Defines the action to apply to a flow.
-	// - `+"`"+`Allow`+"`"+` (default): allows the defined
-	// traffic.
+	//
+	// - `+"`"+`Allow`+"`"+`: allows the defined traffic.
 	// - `+"`"+`Reject`+"`"+`: rejects the defined traffic; useful in conjunction with an allow all
 	// policy.
 	// - `+"`"+`Continue`+"`"+`: neither allows or rejects the traffic; useful for applying another

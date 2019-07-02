@@ -47,8 +47,8 @@ attributes:
   - name: action
     description: |-
       Defines the action to apply to a flow.
-      - `Allow` (default): allows the defined
-      traffic.
+
+      - `Allow`: allows the defined traffic.
       - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
       policy.
       - `Continue`: neither allows or rejects the traffic; useful for applying another

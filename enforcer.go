@@ -161,11 +161,7 @@ type Enforcer struct {
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Contains one of the following values:
-	// - `+"`"+`Inactive`+"`"+` (default): the enforcer  is not enforcing any host service.
-	// - `+"`"+`Active`+"`"+`: the enforcer is enforcing a host service.
-	// - `+"`"+`Failed`+"`"+`: the enforcer could not apply enforcement. An EventLog will be
-	// reported.
+	// Status of the enforcement for host services.
 	EnforcementStatus EnforcerEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
 
 	// Identifies when the information was collected.
@@ -1069,16 +1065,12 @@ providing a renewed certificate.`,
 		AllowedChoices: []string{"Inactive", "Active", "Failed"},
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   EnforcerEnforcementStatusInactive,
-		Description: `Contains one of the following values:
-- ` + "`" + `Inactive` + "`" + ` (default): the enforcer  is not enforcing any host service.
-- ` + "`" + `Active` + "`" + `: the enforcer is enforcing a host service.
-- ` + "`" + `Failed` + "`" + `: the enforcer could not apply enforcement. An EventLog will be
-reported.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "enforcementStatus",
-		Stored:     true,
-		Type:       "enum",
+		Description:    `Status of the enforcement for host services.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "enforcementStatus",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"LastCollectionTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1509,16 +1501,12 @@ providing a renewed certificate.`,
 		AllowedChoices: []string{"Inactive", "Active", "Failed"},
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   EnforcerEnforcementStatusInactive,
-		Description: `Contains one of the following values:
-- ` + "`" + `Inactive` + "`" + ` (default): the enforcer  is not enforcing any host service.
-- ` + "`" + `Active` + "`" + `: the enforcer is enforcing a host service.
-- ` + "`" + `Failed` + "`" + `: the enforcer could not apply enforcement. An EventLog will be
-reported.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "enforcementStatus",
-		Stored:     true,
-		Type:       "enum",
+		Description:    `Status of the enforcement for host services.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "enforcementStatus",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"lastcollectiontime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1893,11 +1881,7 @@ type SparseEnforcer struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Contains one of the following values:
-	// - `+"`"+`Inactive`+"`"+` (default): the enforcer  is not enforcing any host service.
-	// - `+"`"+`Active`+"`"+`: the enforcer is enforcing a host service.
-	// - `+"`"+`Failed`+"`"+`: the enforcer could not apply enforcement. An EventLog will be
-	// reported.
+	// Status of the enforcement for host services.
 	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
 	// Identifies when the information was collected.

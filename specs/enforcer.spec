@@ -116,12 +116,7 @@ attributes:
     orderable: true
 
   - name: enforcementStatus
-    description: |-
-      Contains one of the following values:
-      - `Inactive` (default): the enforcer  is not enforcing any host service.
-      - `Active`: the enforcer is enforcing a host service.
-      - `Failed`: the enforcer could not apply enforcement. An EventLog will be
-      reported.
+    description: Status of the enforcement for host services.
     type: enum
     exposed: true
     stored: true
