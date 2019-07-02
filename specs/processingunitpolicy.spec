@@ -53,7 +53,8 @@ attributes:
 
   - name: isolationProfileSelector
     description: |-
-      The isolation profiles to be mapped. Only applies to `Enforce` and `LogCompliance` actions.
+      The isolation profiles to be mapped. Only applies to `Enforce` and
+      `LogCompliance` actions.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -63,7 +64,7 @@ attributes:
 
   - name: subject
     description: |-
-      A tag or tag expression identifying the processing unit(s) to which the 
+      A tag or tag expression identifying the processing unit(s) to which the
       isolation profile should be mapped.
     type: external
     exposed: true
@@ -76,8 +77,8 @@ attributes:
 relations:
 - rest_name: isolationprofile
   get:
-    description: Returns the list of isolation profiles associated with the mapping
+    description: Returns the list of isolation profiles associated with the mapping.
 
 - rest_name: processingunit
   get:
-    description: Returns the list of processing units referenced by the mapping. 
+    description: Returns the list of processing units referenced by the mapping.

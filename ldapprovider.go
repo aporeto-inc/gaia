@@ -97,7 +97,8 @@ type LDAPProvider struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Address holds the account authentication account's private LDAP server.
+	// Contains the fully qualified domain name (FQDN) or IP address of the private
+	// LDAP server.
 	Address string `json:"address" msgpack:"address" bson:"address" mapstructure:"address,omitempty"`
 
 	// Annotation stores additional information about an entity.
@@ -106,26 +107,33 @@ type LDAPProvider struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// BaseDN holds the base DN to use to LDAP queries.
+	// Contains the base distinguished name (DN) to use for LDAP queries. Example:
+	// `+"`"+`dc=example,dc=com`+"`"+`.
 	BaseDN string `json:"baseDN" msgpack:"baseDN" bson:"basedn" mapstructure:"baseDN,omitempty"`
 
-	// BindDN holds the account's internal LDAP bind DN for querying auth.
+	// Contains the DN to use to bind to the LDAP server. Example:
+	// `+"`"+`cn=admin,dc=example,dc=com`+"`"+`.
 	BindDN string `json:"bindDN" msgpack:"bindDN" bson:"binddn" mapstructure:"bindDN,omitempty"`
 
-	// BindPassword holds the password to the LDAP bind DN.
+	// Contains the password to be used with the `+"`"+`bindDN`+"`"+` to authenticate to the LDAP
+	// server.
 	BindPassword string `json:"bindPassword" msgpack:"bindPassword" bson:"bindpassword" mapstructure:"bindPassword,omitempty"`
 
-	// BindSearchFilter holds filter to be used to uniquely search a user. For
-	// Windows based systems, value may be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and
-	// other systems, value may be `+"`"+`uid={USERNAME}`+"`"+`.
+	// The filter to use to locate the relevant user accounts. For Windows-based
+	// systems, the value may
+	// be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and other systems, the value may be
+	// `+"`"+`uid={USERNAME}`+"`"+`.
 	BindSearchFilter string `json:"bindSearchFilter" msgpack:"bindSearchFilter" bson:"bindsearchfilter" mapstructure:"bindSearchFilter,omitempty"`
 
-	// CertificateAuthority contains the optional certificate authority that will
-	// be used to connect to the LDAP server. It is not needed if the TLS certificate
-	// of the LDAP is issued from a public truster CA.
+	// Can be left empty if the LDAP server's certificate is signed by a public,
+	// trusted certificate
+	// authority. Otherwise, include the public key of the certificate authority that
+	// signed the
+	// LDAP server's certificate.
 	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
-	// ConnSecurityProtocol holds the connection type for the LDAP provider.
+	// Specifies the connection type for the LDAP provider. `+"`"+`TLS`+"`"+` or `+"`"+`InbandTLS`+"`"+`
+	// (default).
 	ConnSecurityProtocol LDAPProviderConnSecurityProtocolValue `json:"connSecurityProtocol" msgpack:"connSecurityProtocol" bson:"connsecurityprotocol" mapstructure:"connSecurityProtocol,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -142,8 +150,7 @@ type LDAPProvider struct {
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// IgnoredKeys holds a list of keys that must not be imported into Aporeto
-	// authorization system.
+	// A list of keys that must not be imported into Aporeto authorization system.
 	IgnoredKeys []string `json:"ignoredKeys" msgpack:"ignoredKeys" bson:"ignoredkeys" mapstructure:"ignoredKeys,omitempty"`
 
 	// Name is the name of the entity.
@@ -158,10 +165,12 @@ type LDAPProvider struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// SubjectKey holds key to be used to populate the subject. If you want to
-	// use the user as a subject, for Windows based systems you may use
-	// 'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
-	// also use any alternate key.
+	// The key to be used to populate the subject of the Midguard token. If you want to
+	// use the user as a subject, for Windows-based systems you may use
+	// `+"`"+`sAMAccountName`+"`"+`.
+	// For Linux and other systems, you may wish to use `+"`"+`uid`+"`"+` (default). You can also
+	// use
+	// any alternate key.
 	SubjectKey string `json:"subjectKey" msgpack:"subjectKey" bson:"subjectkey" mapstructure:"subjectKey,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -238,7 +247,7 @@ func (o *LDAPProvider) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *LDAPProvider) Doc() string {
 
-	return `Allows to declare a generic LDAP provider that can be used in exchange
+	return `Allows you to declare a generic LDAP provider that can be used in exchange
 for a Midgard token.`
 }
 
@@ -747,14 +756,15 @@ var LDAPProviderAttributesMap = map[string]elemental.AttributeSpecification{
 	"Address": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Address",
-		Description:    `Address holds the account authentication account's private LDAP server.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "address",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Contains the fully qualified domain name (FQDN) or IP address of the private
+LDAP server.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "address",
+		Orderable:  true,
+		Required:   true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -783,45 +793,49 @@ var LDAPProviderAttributesMap = map[string]elemental.AttributeSpecification{
 	"BaseDN": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "BaseDN",
-		Description:    `BaseDN holds the base DN to use to LDAP queries.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "baseDN",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Contains the base distinguished name (DN) to use for LDAP queries. Example:
+` + "`" + `dc=example,dc=com` + "`" + `.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "baseDN",
+		Orderable:  true,
+		Required:   true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"BindDN": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "BindDN",
-		Description:    `BindDN holds the account's internal LDAP bind DN for querying auth.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "bindDN",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Contains the DN to use to bind to the LDAP server. Example:
+` + "`" + `cn=admin,dc=example,dc=com` + "`" + `.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "bindDN",
+		Orderable:  true,
+		Required:   true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"BindPassword": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "BindPassword",
-		Description:    `BindPassword holds the password to the LDAP bind DN.`,
-		Exposed:        true,
-		Name:           "bindPassword",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Contains the password to be used with the ` + "`" + `bindDN` + "`" + ` to authenticate to the LDAP
+server.`,
+		Exposed:   true,
+		Name:      "bindPassword",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"BindSearchFilter": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "BindSearchFilter",
 		DefaultValue:   "uid={USERNAME}",
-		Description: `BindSearchFilter holds filter to be used to uniquely search a user. For
-Windows based systems, value may be ` + "`" + `sAMAccountName={USERNAME}` + "`" + `. For Linux and
-other systems, value may be ` + "`" + `uid={USERNAME}` + "`" + `.`,
+		Description: `The filter to use to locate the relevant user accounts. For Windows-based
+systems, the value may
+be ` + "`" + `sAMAccountName={USERNAME}` + "`" + `. For Linux and other systems, the value may be
+` + "`" + `uid={USERNAME}` + "`" + `.`,
 		Exposed:   true,
 		Name:      "bindSearchFilter",
 		Orderable: true,
@@ -831,9 +845,11 @@ other systems, value may be ` + "`" + `uid={USERNAME}` + "`" + `.`,
 	"CertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateAuthority",
-		Description: `CertificateAuthority contains the optional certificate authority that will
-be used to connect to the LDAP server. It is not needed if the TLS certificate
-of the LDAP is issued from a public truster CA.`,
+		Description: `Can be left empty if the LDAP server's certificate is signed by a public,
+trusted certificate
+authority. Otherwise, include the public key of the certificate authority that
+signed the
+LDAP server's certificate.`,
 		Exposed:   true,
 		Name:      "certificateAuthority",
 		Orderable: true,
@@ -844,13 +860,14 @@ of the LDAP is issued from a public truster CA.`,
 		AllowedChoices: []string{"TLS", "InbandTLS"},
 		ConvertedName:  "ConnSecurityProtocol",
 		DefaultValue:   LDAPProviderConnSecurityProtocolInbandTLS,
-		Description:    `ConnSecurityProtocol holds the connection type for the LDAP provider.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "connSecurityProtocol",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
+		Description: `Specifies the connection type for the LDAP provider. ` + "`" + `TLS` + "`" + ` or ` + "`" + `InbandTLS` + "`" + `
+(default).`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "connSecurityProtocol",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "enum",
 	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -905,14 +922,13 @@ given, the default will be used.`,
 	"IgnoredKeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoredKeys",
-		Description: `IgnoredKeys holds a list of keys that must not be imported into Aporeto
-authorization system.`,
-		Exposed:   true,
-		Name:      "ignoredKeys",
-		Orderable: true,
-		Stored:    true,
-		SubType:   "string",
-		Type:      "list",
+		Description:    `A list of keys that must not be imported into Aporeto authorization system.`,
+		Exposed:        true,
+		Name:           "ignoredKeys",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -977,10 +993,12 @@ authorization system.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "SubjectKey",
 		DefaultValue:   "uid",
-		Description: `SubjectKey holds key to be used to populate the subject. If you want to
-use the user as a subject, for Windows based systems you may use
-'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
-also use any alternate key.`,
+		Description: `The key to be used to populate the subject of the Midguard token. If you want to
+use the user as a subject, for Windows-based systems you may use
+` + "`" + `sAMAccountName` + "`" + `.
+For Linux and other systems, you may wish to use ` + "`" + `uid` + "`" + ` (default). You can also
+use
+any alternate key.`,
 		Exposed:   true,
 		Name:      "subjectKey",
 		Orderable: true,
@@ -1062,14 +1080,15 @@ var LDAPProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"address": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Address",
-		Description:    `Address holds the account authentication account's private LDAP server.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "address",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Contains the fully qualified domain name (FQDN) or IP address of the private
+LDAP server.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "address",
+		Orderable:  true,
+		Required:   true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1098,45 +1117,49 @@ var LDAPProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"basedn": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "BaseDN",
-		Description:    `BaseDN holds the base DN to use to LDAP queries.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "baseDN",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Contains the base distinguished name (DN) to use for LDAP queries. Example:
+` + "`" + `dc=example,dc=com` + "`" + `.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "baseDN",
+		Orderable:  true,
+		Required:   true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"binddn": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "BindDN",
-		Description:    `BindDN holds the account's internal LDAP bind DN for querying auth.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "bindDN",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Contains the DN to use to bind to the LDAP server. Example:
+` + "`" + `cn=admin,dc=example,dc=com` + "`" + `.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "bindDN",
+		Orderable:  true,
+		Required:   true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"bindpassword": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "BindPassword",
-		Description:    `BindPassword holds the password to the LDAP bind DN.`,
-		Exposed:        true,
-		Name:           "bindPassword",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Contains the password to be used with the ` + "`" + `bindDN` + "`" + ` to authenticate to the LDAP
+server.`,
+		Exposed:   true,
+		Name:      "bindPassword",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"bindsearchfilter": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "BindSearchFilter",
 		DefaultValue:   "uid={USERNAME}",
-		Description: `BindSearchFilter holds filter to be used to uniquely search a user. For
-Windows based systems, value may be ` + "`" + `sAMAccountName={USERNAME}` + "`" + `. For Linux and
-other systems, value may be ` + "`" + `uid={USERNAME}` + "`" + `.`,
+		Description: `The filter to use to locate the relevant user accounts. For Windows-based
+systems, the value may
+be ` + "`" + `sAMAccountName={USERNAME}` + "`" + `. For Linux and other systems, the value may be
+` + "`" + `uid={USERNAME}` + "`" + `.`,
 		Exposed:   true,
 		Name:      "bindSearchFilter",
 		Orderable: true,
@@ -1146,9 +1169,11 @@ other systems, value may be ` + "`" + `uid={USERNAME}` + "`" + `.`,
 	"certificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateAuthority",
-		Description: `CertificateAuthority contains the optional certificate authority that will
-be used to connect to the LDAP server. It is not needed if the TLS certificate
-of the LDAP is issued from a public truster CA.`,
+		Description: `Can be left empty if the LDAP server's certificate is signed by a public,
+trusted certificate
+authority. Otherwise, include the public key of the certificate authority that
+signed the
+LDAP server's certificate.`,
 		Exposed:   true,
 		Name:      "certificateAuthority",
 		Orderable: true,
@@ -1159,13 +1184,14 @@ of the LDAP is issued from a public truster CA.`,
 		AllowedChoices: []string{"TLS", "InbandTLS"},
 		ConvertedName:  "ConnSecurityProtocol",
 		DefaultValue:   LDAPProviderConnSecurityProtocolInbandTLS,
-		Description:    `ConnSecurityProtocol holds the connection type for the LDAP provider.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "connSecurityProtocol",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
+		Description: `Specifies the connection type for the LDAP provider. ` + "`" + `TLS` + "`" + ` or ` + "`" + `InbandTLS` + "`" + `
+(default).`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "connSecurityProtocol",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "enum",
 	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1220,14 +1246,13 @@ given, the default will be used.`,
 	"ignoredkeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoredKeys",
-		Description: `IgnoredKeys holds a list of keys that must not be imported into Aporeto
-authorization system.`,
-		Exposed:   true,
-		Name:      "ignoredKeys",
-		Orderable: true,
-		Stored:    true,
-		SubType:   "string",
-		Type:      "list",
+		Description:    `A list of keys that must not be imported into Aporeto authorization system.`,
+		Exposed:        true,
+		Name:           "ignoredKeys",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1292,10 +1317,12 @@ authorization system.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "SubjectKey",
 		DefaultValue:   "uid",
-		Description: `SubjectKey holds key to be used to populate the subject. If you want to
-use the user as a subject, for Windows based systems you may use
-'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
-also use any alternate key.`,
+		Description: `The key to be used to populate the subject of the Midguard token. If you want to
+use the user as a subject, for Windows-based systems you may use
+` + "`" + `sAMAccountName` + "`" + `.
+For Linux and other systems, you may wish to use ` + "`" + `uid` + "`" + ` (default). You can also
+use
+any alternate key.`,
 		Exposed:   true,
 		Name:      "subjectKey",
 		Orderable: true,
@@ -1427,7 +1454,8 @@ type SparseLDAPProvider struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Address holds the account authentication account's private LDAP server.
+	// Contains the fully qualified domain name (FQDN) or IP address of the private
+	// LDAP server.
 	Address *string `json:"address,omitempty" msgpack:"address,omitempty" bson:"address,omitempty" mapstructure:"address,omitempty"`
 
 	// Annotation stores additional information about an entity.
@@ -1436,26 +1464,33 @@ type SparseLDAPProvider struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// BaseDN holds the base DN to use to LDAP queries.
+	// Contains the base distinguished name (DN) to use for LDAP queries. Example:
+	// `+"`"+`dc=example,dc=com`+"`"+`.
 	BaseDN *string `json:"baseDN,omitempty" msgpack:"baseDN,omitempty" bson:"basedn,omitempty" mapstructure:"baseDN,omitempty"`
 
-	// BindDN holds the account's internal LDAP bind DN for querying auth.
+	// Contains the DN to use to bind to the LDAP server. Example:
+	// `+"`"+`cn=admin,dc=example,dc=com`+"`"+`.
 	BindDN *string `json:"bindDN,omitempty" msgpack:"bindDN,omitempty" bson:"binddn,omitempty" mapstructure:"bindDN,omitempty"`
 
-	// BindPassword holds the password to the LDAP bind DN.
+	// Contains the password to be used with the `+"`"+`bindDN`+"`"+` to authenticate to the LDAP
+	// server.
 	BindPassword *string `json:"bindPassword,omitempty" msgpack:"bindPassword,omitempty" bson:"bindpassword,omitempty" mapstructure:"bindPassword,omitempty"`
 
-	// BindSearchFilter holds filter to be used to uniquely search a user. For
-	// Windows based systems, value may be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and
-	// other systems, value may be `+"`"+`uid={USERNAME}`+"`"+`.
+	// The filter to use to locate the relevant user accounts. For Windows-based
+	// systems, the value may
+	// be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and other systems, the value may be
+	// `+"`"+`uid={USERNAME}`+"`"+`.
 	BindSearchFilter *string `json:"bindSearchFilter,omitempty" msgpack:"bindSearchFilter,omitempty" bson:"bindsearchfilter,omitempty" mapstructure:"bindSearchFilter,omitempty"`
 
-	// CertificateAuthority contains the optional certificate authority that will
-	// be used to connect to the LDAP server. It is not needed if the TLS certificate
-	// of the LDAP is issued from a public truster CA.
+	// Can be left empty if the LDAP server's certificate is signed by a public,
+	// trusted certificate
+	// authority. Otherwise, include the public key of the certificate authority that
+	// signed the
+	// LDAP server's certificate.
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
 
-	// ConnSecurityProtocol holds the connection type for the LDAP provider.
+	// Specifies the connection type for the LDAP provider. `+"`"+`TLS`+"`"+` or `+"`"+`InbandTLS`+"`"+`
+	// (default).
 	ConnSecurityProtocol *LDAPProviderConnSecurityProtocolValue `json:"connSecurityProtocol,omitempty" msgpack:"connSecurityProtocol,omitempty" bson:"connsecurityprotocol,omitempty" mapstructure:"connSecurityProtocol,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1472,8 +1507,7 @@ type SparseLDAPProvider struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// IgnoredKeys holds a list of keys that must not be imported into Aporeto
-	// authorization system.
+	// A list of keys that must not be imported into Aporeto authorization system.
 	IgnoredKeys *[]string `json:"ignoredKeys,omitempty" msgpack:"ignoredKeys,omitempty" bson:"ignoredkeys,omitempty" mapstructure:"ignoredKeys,omitempty"`
 
 	// Name is the name of the entity.
@@ -1488,10 +1522,12 @@ type SparseLDAPProvider struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// SubjectKey holds key to be used to populate the subject. If you want to
-	// use the user as a subject, for Windows based systems you may use
-	// 'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
-	// also use any alternate key.
+	// The key to be used to populate the subject of the Midguard token. If you want to
+	// use the user as a subject, for Windows-based systems you may use
+	// `+"`"+`sAMAccountName`+"`"+`.
+	// For Linux and other systems, you may wish to use `+"`"+`uid`+"`"+` (default). You can also
+	// use
+	// any alternate key.
 	SubjectKey *string `json:"subjectKey,omitempty" msgpack:"subjectKey,omitempty" bson:"subjectkey,omitempty" mapstructure:"subjectKey,omitempty"`
 
 	// internal idempotency key for a update operation.

@@ -97,10 +97,10 @@ type FileAccessReport struct {
 	// Action taken.
 	Action FileAccessReportActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
-	// Host of the file.
+	// Host storing the file.
 	Host string `json:"host" msgpack:"host" bson:"-" mapstructure:"host,omitempty"`
 
-	// Mode of the file access.
+	// Mode of file access.
 	Mode string `json:"mode" msgpack:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
 	// Path of the file.
@@ -167,7 +167,7 @@ func (o *FileAccessReport) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *FileAccessReport) Doc() string {
 
-	return `Post a new file access statistics report.`
+	return `Post a new file access report.`
 }
 
 func (o *FileAccessReport) String() string {
@@ -375,7 +375,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Host",
 		DefaultValue:   "localhost",
-		Description:    `Host of the file.`,
+		Description:    `Host storing the file.`,
 		Exposed:        true,
 		Name:           "host",
 		Required:       true,
@@ -385,7 +385,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Mode",
 		DefaultValue:   "rxw",
-		Description:    `Mode of the file access.`,
+		Description:    `Mode of file access.`,
 		Exposed:        true,
 		Name:           "mode",
 		Required:       true,
@@ -445,7 +445,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChoices: []string{},
 		ConvertedName:  "Host",
 		DefaultValue:   "localhost",
-		Description:    `Host of the file.`,
+		Description:    `Host storing the file.`,
 		Exposed:        true,
 		Name:           "host",
 		Required:       true,
@@ -455,7 +455,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChoices: []string{},
 		ConvertedName:  "Mode",
 		DefaultValue:   "rxw",
-		Description:    `Mode of the file access.`,
+		Description:    `Mode of file access.`,
 		Exposed:        true,
 		Name:           "mode",
 		Required:       true,
@@ -566,10 +566,10 @@ type SparseFileAccessReport struct {
 	// Action taken.
 	Action *FileAccessReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
-	// Host of the file.
+	// Host storing the file.
 	Host *string `json:"host,omitempty" msgpack:"host,omitempty" bson:"-" mapstructure:"host,omitempty"`
 
-	// Mode of the file access.
+	// Mode of file access.
 	Mode *string `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
 
 	// Path of the file.

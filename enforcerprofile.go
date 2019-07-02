@@ -129,15 +129,18 @@ type EnforcerProfile struct {
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// ExcludedInterfaces is a list of interfaces that must be excluded.
+	// Ignore traffic with a source or destination matching the specified
+	// interfaces.
 	ExcludedInterfaces []string `json:"excludedInterfaces" msgpack:"excludedInterfaces" bson:"excludedinterfaces" mapstructure:"excludedInterfaces,omitempty"`
 
-	// ExcludedNetworks is the list of networks that must be excluded for this
-	// enforcer.
+	// Ignore any networks specified here and do not even report any flows.
+	// This can be useful for excluding localhost loopback traffic, ignoring
+	// traffic to the Kubernetes API, and using Aporeto for SSH only.
 	ExcludedNetworks []string `json:"excludedNetworks" msgpack:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
-	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
-	// docker container started with labels matching the rule.
+	// A tag expression that identifies processing units to ignore. This can be
+	// useful to exclude `+"`"+`kube-system`+"`"+` pods, AWS EC2 agent pods, and third-party
+	// agents.
 	IgnoreExpression [][]string `json:"ignoreExpression" msgpack:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
 	// This field is kept for backward compatibility for enforcers <= 3.5.
@@ -168,14 +171,19 @@ type EnforcerProfile struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// TargetNetworks is the list of networks that authorization should be applied.
+	// If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
+	// works best in Kubernetes and OpenShift deployments. You may need to manually
+	// specify the TCP networks if middle boxes exist that do not comply with
+	// [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).
 	TargetNetworks []string `json:"targetNetworks" msgpack:"targetNetworks" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
 
-	// TargetUDPNetworks is the list of UDP networks that authorization should be
-	// applied.
+	// If empty, Aporeto enforces all UDP networks. This works best when all UDP
+	// networks have enforcers. If some UDP networks do not have enforcers, you
+	// may need to manually specify the UDP networks that should be enforced.
 	TargetUDPNetworks []string `json:"targetUDPNetworks" msgpack:"targetUDPNetworks" bson:"targetudpnetworks" mapstructure:"targetUDPNetworks,omitempty"`
 
-	// List of trusted CA. If empty the main chain of trust will be used.
+	// List of trusted certificate authorities. If empty, the main chain of trust
+	// will be used.
 	TrustedCAs []string `json:"trustedCAs" msgpack:"trustedCAs" bson:"trustedcas" mapstructure:"trustedCAs,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -257,10 +265,11 @@ func (o *EnforcerProfile) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *EnforcerProfile) Doc() string {
 
-	return `Allows to create reusable configuration profile for your enforcers. Enforcer
-Profiles contains various startup information that can (for some) be updated
-live. Enforcer Profiles are assigned to some Enforcer using a Enforcer Profile
-Mapping Policy.`
+	return `Allows you to create reusable configuration profiles for your enforcers.
+Enforcer
+profiles contain various startup information that can (for some) be updated
+live. Enforcer profiles are assigned to enforcers using an enforcer profile
+mapping.`
 }
 
 func (o *EnforcerProfile) String() string {
@@ -864,19 +873,21 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExcludedInterfaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedInterfaces",
-		Description:    `ExcludedInterfaces is a list of interfaces that must be excluded.`,
-		Exposed:        true,
-		Name:           "excludedInterfaces",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `Ignore traffic with a source or destination matching the specified
+interfaces.`,
+		Exposed:   true,
+		Name:      "excludedInterfaces",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"ExcludedNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedNetworks",
-		Description: `ExcludedNetworks is the list of networks that must be excluded for this
-enforcer.`,
+		Description: `Ignore any networks specified here and do not even report any flows.
+This can be useful for excluding localhost loopback traffic, ignoring
+traffic to the Kubernetes API, and using Aporeto for SSH only.`,
 		Exposed:   true,
 		Name:      "excludedNetworks",
 		Orderable: true,
@@ -887,8 +898,9 @@ enforcer.`,
 	"IgnoreExpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoreExpression",
-		Description: `IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
-docker container started with labels matching the rule.`,
+		Description: `A tag expression that identifies processing units to ignore. This can be
+useful to exclude ` + "`" + `kube-system` + "`" + ` pods, AWS EC2 agent pods, and third-party
+agents.`,
 		Exposed: true,
 		Name:    "ignoreExpression",
 		Stored:  true,
@@ -1016,19 +1028,23 @@ with the '@' prefix, and should only be used by external systems.`,
 	"TargetNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNetworks",
-		Description:    `TargetNetworks is the list of networks that authorization should be applied.`,
-		Exposed:        true,
-		Name:           "targetNetworks",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
+works best in Kubernetes and OpenShift deployments. You may need to manually
+specify the TCP networks if middle boxes exist that do not comply with
+[TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).`,
+		Exposed:   true,
+		Name:      "targetNetworks",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"TargetUDPNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetUDPNetworks",
-		Description: `TargetUDPNetworks is the list of UDP networks that authorization should be
-applied.`,
+		Description: `If empty, Aporeto enforces all UDP networks. This works best when all UDP
+networks have enforcers. If some UDP networks do not have enforcers, you
+may need to manually specify the UDP networks that should be enforced.`,
 		Exposed:   true,
 		Name:      "targetUDPNetworks",
 		Orderable: true,
@@ -1039,12 +1055,13 @@ applied.`,
 	"TrustedCAs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TrustedCAs",
-		Description:    `List of trusted CA. If empty the main chain of trust will be used.`,
-		Exposed:        true,
-		Name:           "trustedCAs",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `List of trusted certificate authorities. If empty, the main chain of trust
+will be used.`,
+		Exposed: true,
+		Name:    "trustedCAs",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1184,19 +1201,21 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"excludedinterfaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedInterfaces",
-		Description:    `ExcludedInterfaces is a list of interfaces that must be excluded.`,
-		Exposed:        true,
-		Name:           "excludedInterfaces",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `Ignore traffic with a source or destination matching the specified
+interfaces.`,
+		Exposed:   true,
+		Name:      "excludedInterfaces",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"excludednetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedNetworks",
-		Description: `ExcludedNetworks is the list of networks that must be excluded for this
-enforcer.`,
+		Description: `Ignore any networks specified here and do not even report any flows.
+This can be useful for excluding localhost loopback traffic, ignoring
+traffic to the Kubernetes API, and using Aporeto for SSH only.`,
 		Exposed:   true,
 		Name:      "excludedNetworks",
 		Orderable: true,
@@ -1207,8 +1226,9 @@ enforcer.`,
 	"ignoreexpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoreExpression",
-		Description: `IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
-docker container started with labels matching the rule.`,
+		Description: `A tag expression that identifies processing units to ignore. This can be
+useful to exclude ` + "`" + `kube-system` + "`" + ` pods, AWS EC2 agent pods, and third-party
+agents.`,
 		Exposed: true,
 		Name:    "ignoreExpression",
 		Stored:  true,
@@ -1336,19 +1356,23 @@ with the '@' prefix, and should only be used by external systems.`,
 	"targetnetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNetworks",
-		Description:    `TargetNetworks is the list of networks that authorization should be applied.`,
-		Exposed:        true,
-		Name:           "targetNetworks",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
+works best in Kubernetes and OpenShift deployments. You may need to manually
+specify the TCP networks if middle boxes exist that do not comply with
+[TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).`,
+		Exposed:   true,
+		Name:      "targetNetworks",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"targetudpnetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetUDPNetworks",
-		Description: `TargetUDPNetworks is the list of UDP networks that authorization should be
-applied.`,
+		Description: `If empty, Aporeto enforces all UDP networks. This works best when all UDP
+networks have enforcers. If some UDP networks do not have enforcers, you
+may need to manually specify the UDP networks that should be enforced.`,
 		Exposed:   true,
 		Name:      "targetUDPNetworks",
 		Orderable: true,
@@ -1359,12 +1383,13 @@ applied.`,
 	"trustedcas": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TrustedCAs",
-		Description:    `List of trusted CA. If empty the main chain of trust will be used.`,
-		Exposed:        true,
-		Name:           "trustedCAs",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `List of trusted certificate authorities. If empty, the main chain of trust
+will be used.`,
+		Exposed: true,
+		Name:    "trustedCAs",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1506,15 +1531,18 @@ type SparseEnforcerProfile struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// ExcludedInterfaces is a list of interfaces that must be excluded.
+	// Ignore traffic with a source or destination matching the specified
+	// interfaces.
 	ExcludedInterfaces *[]string `json:"excludedInterfaces,omitempty" msgpack:"excludedInterfaces,omitempty" bson:"excludedinterfaces,omitempty" mapstructure:"excludedInterfaces,omitempty"`
 
-	// ExcludedNetworks is the list of networks that must be excluded for this
-	// enforcer.
+	// Ignore any networks specified here and do not even report any flows.
+	// This can be useful for excluding localhost loopback traffic, ignoring
+	// traffic to the Kubernetes API, and using Aporeto for SSH only.
 	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" msgpack:"excludedNetworks,omitempty" bson:"excludednetworks,omitempty" mapstructure:"excludedNetworks,omitempty"`
 
-	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
-	// docker container started with labels matching the rule.
+	// A tag expression that identifies processing units to ignore. This can be
+	// useful to exclude `+"`"+`kube-system`+"`"+` pods, AWS EC2 agent pods, and third-party
+	// agents.
 	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" msgpack:"ignoreExpression,omitempty" bson:"ignoreexpression,omitempty" mapstructure:"ignoreExpression,omitempty"`
 
 	// This field is kept for backward compatibility for enforcers <= 3.5.
@@ -1545,14 +1573,19 @@ type SparseEnforcerProfile struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// TargetNetworks is the list of networks that authorization should be applied.
+	// If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
+	// works best in Kubernetes and OpenShift deployments. You may need to manually
+	// specify the TCP networks if middle boxes exist that do not comply with
+	// [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).
 	TargetNetworks *[]string `json:"targetNetworks,omitempty" msgpack:"targetNetworks,omitempty" bson:"targetnetworks,omitempty" mapstructure:"targetNetworks,omitempty"`
 
-	// TargetUDPNetworks is the list of UDP networks that authorization should be
-	// applied.
+	// If empty, Aporeto enforces all UDP networks. This works best when all UDP
+	// networks have enforcers. If some UDP networks do not have enforcers, you
+	// may need to manually specify the UDP networks that should be enforced.
 	TargetUDPNetworks *[]string `json:"targetUDPNetworks,omitempty" msgpack:"targetUDPNetworks,omitempty" bson:"targetudpnetworks,omitempty" mapstructure:"targetUDPNetworks,omitempty"`
 
-	// List of trusted CA. If empty the main chain of trust will be used.
+	// List of trusted certificate authorities. If empty, the main chain of trust
+	// will be used.
 	TrustedCAs *[]string `json:"trustedCAs,omitempty" msgpack:"trustedCAs,omitempty" bson:"trustedcas,omitempty" mapstructure:"trustedCAs,omitempty"`
 
 	// internal idempotency key for a update operation.

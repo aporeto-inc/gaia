@@ -59,6 +59,9 @@ const (
 
 	// PolicyTypeTokenScope represents the value TokenScope.
 	PolicyTypeTokenScope PolicyTypeValue = "TokenScope"
+
+	// PolicyTypeUserAccess represents the value UserAccess.
+	PolicyTypeUserAccess PolicyTypeValue = "UserAccess"
 )
 
 // PolicyIdentity represents the Identity of the object.
@@ -139,7 +142,7 @@ type Policy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Action defines set of actions that must be enforced when a dependency is met.
+	// Defines aset of actions that must be enforced when a dependency is met.
 	Action map[string]map[string]interface{} `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
 
 	// ActiveDuration defines for how long the policy will be active according to the
@@ -174,7 +177,7 @@ type Policy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted at the given time.
+	// If set the policy will be automatically deleted at the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
@@ -195,7 +198,7 @@ type Policy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object represents set of entities that another entity depends on. As subjects,
+	// Represents set of entities that another entity depends on. As subjects,
 	// objects are identified as logical operations on tags when a policy is defined.
 	Object [][]string `json:"object" msgpack:"object" bson:"object" mapstructure:"object,omitempty"`
 
@@ -209,13 +212,13 @@ type Policy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Relation describes the required operation to be performed between subjects and
+	// Describes the required operation to be performed between subjects and
 	// objects.
 	Relation []string `json:"relation" msgpack:"relation" bson:"relation" mapstructure:"relation,omitempty"`
 
-	// Subject represent sets of entities that will have a dependency other entities.
+	// Represents sets of entities that will have a dependency other entities.
 	// Subjects are defined as logical operations on tags. Logical operations can
-	// includes AND/OR.
+	// include `+"`"+`AND`+"`"+` and `+"`"+`OR`+"`"+`.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// Type of the policy.
@@ -297,7 +300,7 @@ func (o *Policy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Policy) Doc() string {
 
-	return `Policy represents the policy primitive used by all aporeto policies.`
+	return `Represents the policy primitive used by all Aporeto policies.`
 }
 
 func (o *Policy) String() string {
@@ -845,7 +848,7 @@ func (o *Policy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization", "UserAccess"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -965,7 +968,7 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Action",
-		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
+		Description:    `Defines aset of actions that must be enforced when a dependency is met.`,
 		Exposed:        true,
 		Name:           "action",
 		Stored:         true,
@@ -1093,7 +1096,7 @@ The policy will be active for the given activeDuration.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted at the given time.`,
+		Description:    `If set the policy will be automatically deleted at the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1180,7 +1183,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object represents set of entities that another entity depends on. As subjects,
+		Description: `Represents set of entities that another entity depends on. As subjects,
 objects are identified as logical operations on tags when a policy is defined.`,
 		Exposed: true,
 		Getter:  true,
@@ -1230,7 +1233,7 @@ namespace, but still used for policy resolution.`,
 	"Relation": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Relation",
-		Description: `Relation describes the required operation to be performed between subjects and
+		Description: `Describes the required operation to be performed between subjects and
 objects.`,
 		Exposed: true,
 		Name:    "relation",
@@ -1241,9 +1244,9 @@ objects.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject represent sets of entities that will have a dependency other entities.
+		Description: `Represents sets of entities that will have a dependency other entities.
 Subjects are defined as logical operations on tags. Logical operations can
-includes AND/OR.`,
+include ` + "`" + `AND` + "`" + ` and ` + "`" + `OR` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "subject",
@@ -1253,7 +1256,7 @@ includes AND/OR.`,
 		Type:    "external",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"},
+		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization", "UserAccess"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy.`,
@@ -1337,7 +1340,7 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Action",
-		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
+		Description:    `Defines aset of actions that must be enforced when a dependency is met.`,
 		Exposed:        true,
 		Name:           "action",
 		Stored:         true,
@@ -1465,7 +1468,7 @@ The policy will be active for the given activeDuration.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted at the given time.`,
+		Description:    `If set the policy will be automatically deleted at the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1552,7 +1555,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object represents set of entities that another entity depends on. As subjects,
+		Description: `Represents set of entities that another entity depends on. As subjects,
 objects are identified as logical operations on tags when a policy is defined.`,
 		Exposed: true,
 		Getter:  true,
@@ -1602,7 +1605,7 @@ namespace, but still used for policy resolution.`,
 	"relation": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Relation",
-		Description: `Relation describes the required operation to be performed between subjects and
+		Description: `Describes the required operation to be performed between subjects and
 objects.`,
 		Exposed: true,
 		Name:    "relation",
@@ -1613,9 +1616,9 @@ objects.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject represent sets of entities that will have a dependency other entities.
+		Description: `Represents sets of entities that will have a dependency other entities.
 Subjects are defined as logical operations on tags. Logical operations can
-includes AND/OR.`,
+include ` + "`" + `AND` + "`" + ` and ` + "`" + `OR` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "subject",
@@ -1625,7 +1628,7 @@ includes AND/OR.`,
 		Type:    "external",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"},
+		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization", "UserAccess"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy.`,
@@ -1759,7 +1762,7 @@ type SparsePolicy struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Action defines set of actions that must be enforced when a dependency is met.
+	// Defines aset of actions that must be enforced when a dependency is met.
 	Action *map[string]map[string]interface{} `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
 
 	// ActiveDuration defines for how long the policy will be active according to the
@@ -1794,7 +1797,7 @@ type SparsePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted at the given time.
+	// If set the policy will be automatically deleted at the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
@@ -1815,7 +1818,7 @@ type SparsePolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Object represents set of entities that another entity depends on. As subjects,
+	// Represents set of entities that another entity depends on. As subjects,
 	// objects are identified as logical operations on tags when a policy is defined.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"object,omitempty" mapstructure:"object,omitempty"`
 
@@ -1829,13 +1832,13 @@ type SparsePolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Relation describes the required operation to be performed between subjects and
+	// Describes the required operation to be performed between subjects and
 	// objects.
 	Relation *[]string `json:"relation,omitempty" msgpack:"relation,omitempty" bson:"relation,omitempty" mapstructure:"relation,omitempty"`
 
-	// Subject represent sets of entities that will have a dependency other entities.
+	// Represents sets of entities that will have a dependency other entities.
 	// Subjects are defined as logical operations on tags. Logical operations can
-	// includes AND/OR.
+	// include `+"`"+`AND`+"`"+` and `+"`"+`OR`+"`"+`.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	// Type of the policy.

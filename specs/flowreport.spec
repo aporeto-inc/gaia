@@ -44,7 +44,7 @@ attributes:
     exposed: true
 
   - name: destinationType
-    description: Destination type: `ProcessingUnit`, `ExternalNetwork`, or `Claims`.
+    description: Destination type.
     type: enum
     exposed: true
     required: true
@@ -91,7 +91,7 @@ attributes:
 
   - name: observedDropReason
     description: |-
-      Specifies the reason for a rejection. Only set if `observedAction` is set 
+      Specifies the reason for a rejection. Only set if `observedAction` is set
       to `Reject`.
     type: string
     exposed: true

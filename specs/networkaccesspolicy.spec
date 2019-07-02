@@ -46,10 +46,13 @@ attributes:
   v1:
   - name: action
     description: |-
-      Defines the action to apply to a flow. `Allow` (default): allows the defined traffic. 
-      `Reject`: rejects the defined traffic; useful in conjunction with an allow all policy. 
-      `Continue`: neither allows or rejects the traffic; useful for applying another property 
-      to the traffic, such as encryption.
+      Defines the action to apply to a flow.
+      - `Allow` (default): allows the defined
+      traffic.
+      - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
+      policy.
+      - `Continue`: neither allows or rejects the traffic; useful for applying another
+      property to the traffic, such as encryption.
     type: enum
     exposed: true
     allowed_choices:
@@ -61,14 +64,21 @@ attributes:
 
   - name: applyPolicyMode
     description: |-
-      Sets three different types of policies. `IncomingTraffic`: applies the policy to all
-      processing units that match the `object` and allows them to *accept* connections from 
-      processing units or external networks that match the `subject`. `OutgoingTraffic`: applies 
-      the policy to all processing units that match the `subject` and allows them to *initiate* 
+      Sets three different types of policies. `IncomingTraffic`: applies the policy to
+      all
+      processing units that match the `object` and allows them to *accept* connections
+      from
+      processing units or external networks that match the `subject`.
+      `OutgoingTraffic`: applies
+      the policy to all processing units that match the `subject` and allows them to
+      *initiate*
       connections with processing units or external networks that match the `object`.
-      `Bidirectional` (default): applies the policy to all processing units that match the `object` 
-      and allows them to *accept* connections from processing units that match the `subject`. 
-      Also applies the policy to all processing units that match the `subject` and allows them 
+      `Bidirectional` (default): applies the policy to all processing units that match
+      the `object`
+      and allows them to *accept* connections from processing units that match the
+      `subject`.
+      Also applies the policy to all processing units that match the `subject` and
+      allows them
       to *initiate* connections with processing units that match the `object`.
     type: enum
     exposed: true
@@ -95,9 +105,11 @@ attributes:
 
   - name: logsEnabled
     description: |-
-      If `true`, the relevant flows are logged and available from the Aporeto control plane. 
-      Under some advanced scenarios you may wish to set this to `false`, such as to save space or 
-      improve performance. 
+      If `true`, the relevant flows are logged and available from the Aporeto control
+      plane.
+      Under some advanced scenarios you may wish to set this to `false`, such as to
+      save space or
+      improve performance.
     type: boolean
     exposed: true
     orderable: true
@@ -119,7 +131,7 @@ attributes:
 
   - name: observedTrafficAction
     description: |-
-      If `observationEnabled` is set to `true`, this defines the final action taken 
+      If `observationEnabled` is set to `true`, this defines the final action taken
       on the packets: `Apply` or `Continue` (default).
     type: enum
     exposed: true
@@ -151,8 +163,7 @@ attributes:
 relations:
 - rest_name: externalnetwork
   get:
-    description: Returns the list of external networks affected by a network 
-      policy.
+    description: Returns the list of external networks affected by a network policy.
     parameters:
       entries:
       - name: mode
@@ -165,8 +176,7 @@ relations:
 
 - rest_name: processingunit
   get:
-    description: Returns the list of processing units affected by a network 
-      policy.
+    description: Returns the list of processing units affected by a network policy.
     parameters:
       entries:
       - name: mode

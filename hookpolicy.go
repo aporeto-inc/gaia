@@ -106,18 +106,20 @@ type HookPolicy struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// CertificateAuthority contains the pem block of the certificate authority used by
-	// the remote endpoint.
+	// Contains the PEM block of the certificate authority used by the remote endpoint.
 	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
 	// ClientCertificate contains the client certificate that will be used to connect
-	// to the remote endoint.
+	// to the remote endpoint. If provided, the private key associated with this
+	// certificate must
+	// also be configured.
 	ClientCertificate string `json:"clientCertificate" msgpack:"clientCertificate" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
 
-	// ClientCertificateKey contains the key associated to the clientCertificate.
+	// Contains the key associated to the clientCertificate. It must be provided only
+	// when ClientCertificate has been configured.
 	ClientCertificateKey string `json:"clientCertificateKey" msgpack:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
-	// If set to true and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
+	// If set to `+"`"+`true`+"`"+` and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
 	// calling the hook fails.
 	ContinueOnError bool `json:"continueOnError" msgpack:"continueOnError" bson:"continueonerror" mapstructure:"continueOnError,omitempty"`
 
@@ -133,10 +135,10 @@ type HookPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// Endpoint contains the full address of the remote processor endoint.
+	// Contains the full address of the remote processor endpoint.
 	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the hook will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
@@ -148,7 +150,7 @@ type HookPolicy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Mode define the type of the hook.
+	// Defines the type of hook.
 	Mode HookPolicyModeValue `json:"mode" msgpack:"mode" bson:"mode" mapstructure:"mode,omitempty"`
 
 	// Name is the name of the entity.
@@ -170,8 +172,8 @@ type HookPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject contains the tag expression that an object must match in order to
-	// trigger the hook.
+	// Contains the tag expression that an object must match in order to trigger the
+	// hook.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -239,7 +241,7 @@ func (o *HookPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *HookPolicy) Doc() string {
 
-	return `Hook allows to to define hooks to the write operations in squall. Hooks are sent
+	return `Allows you to define hooks to the write operations in squall. Hooks are sent
 to an external Rufus server that will do the processing and eventually return a
 modified version of the object before we save it.`
 }
@@ -665,16 +667,8 @@ func (o *HookPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("certificateAuthority", o.CertificateAuthority); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := ValidatePEM("certificateAuthority", o.CertificateAuthority); err != nil {
 		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("clientCertificate", o.ClientCertificate); err != nil {
-		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := ValidatePEM("clientCertificate", o.ClientCertificate); err != nil {
@@ -840,44 +834,43 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"CertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateAuthority",
-		Description: `CertificateAuthority contains the pem block of the certificate authority used by
-the remote endpoint.`,
-		Exposed:   true,
-		Name:      "certificateAuthority",
-		Orderable: true,
-		Required:  true,
-		Stored:    true,
-		Type:      "string",
+		Description:    `Contains the PEM block of the certificate authority used by the remote endpoint.`,
+		Exposed:        true,
+		Name:           "certificateAuthority",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"ClientCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
 		Description: `ClientCertificate contains the client certificate that will be used to connect
-to the remote endoint.`,
+to the remote endpoint. If provided, the private key associated with this
+certificate must
+also be configured.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
 		Orderable: true,
-		Required:  true,
 		Stored:    true,
 		Type:      "string",
 	},
 	"ClientCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description:    `ClientCertificateKey contains the key associated to the clientCertificate.`,
-		Exposed:        true,
-		Name:           "clientCertificateKey",
-		Orderable:      true,
-		Required:       true,
-		Secret:         true,
-		Stored:         true,
-		Transient:      true,
-		Type:           "string",
+		Description: `Contains the key associated to the clientCertificate. It must be provided only
+when ClientCertificate has been configured.`,
+		Exposed:   true,
+		Name:      "clientCertificateKey",
+		Orderable: true,
+		Secret:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "string",
 	},
 	"ContinueOnError": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ContinueOnError",
-		Description: `If set to true and ` + "`" + `mode` + "`" + ` is in ` + "`" + `Pre` + "`" + `, the request will be honored even if
+		Description: `If set to ` + "`" + `true` + "`" + ` and ` + "`" + `mode` + "`" + ` is in ` + "`" + `Pre` + "`" + `, the request will be honored even if
 calling the hook fails.`,
 		Exposed: true,
 		Name:    "continueOnError",
@@ -938,7 +931,7 @@ calling the hook fails.`,
 	"Endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `Endpoint contains the full address of the remote processor endoint.`,
+		Description:    `Contains the full address of the remote processor endpoint.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
@@ -949,7 +942,7 @@ calling the hook fails.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the hook will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -990,7 +983,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{"Both", "Post", "Pre"},
 		ConvertedName:  "Mode",
 		DefaultValue:   HookPolicyModePre,
-		Description:    `Mode define the type of the hook.`,
+		Description:    `Defines the type of hook.`,
 		Exposed:        true,
 		Name:           "mode",
 		Orderable:      true,
@@ -1084,8 +1077,8 @@ namespace, but still used for policy resolution.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject contains the tag expression that an object must match in order to
-trigger the hook.`,
+		Description: `Contains the tag expression that an object must match in order to trigger the
+hook.`,
 		Exposed: true,
 		Name:    "subject",
 		Stored:  true,
@@ -1162,44 +1155,43 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"certificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateAuthority",
-		Description: `CertificateAuthority contains the pem block of the certificate authority used by
-the remote endpoint.`,
-		Exposed:   true,
-		Name:      "certificateAuthority",
-		Orderable: true,
-		Required:  true,
-		Stored:    true,
-		Type:      "string",
+		Description:    `Contains the PEM block of the certificate authority used by the remote endpoint.`,
+		Exposed:        true,
+		Name:           "certificateAuthority",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"clientcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
 		Description: `ClientCertificate contains the client certificate that will be used to connect
-to the remote endoint.`,
+to the remote endpoint. If provided, the private key associated with this
+certificate must
+also be configured.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
 		Orderable: true,
-		Required:  true,
 		Stored:    true,
 		Type:      "string",
 	},
 	"clientcertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description:    `ClientCertificateKey contains the key associated to the clientCertificate.`,
-		Exposed:        true,
-		Name:           "clientCertificateKey",
-		Orderable:      true,
-		Required:       true,
-		Secret:         true,
-		Stored:         true,
-		Transient:      true,
-		Type:           "string",
+		Description: `Contains the key associated to the clientCertificate. It must be provided only
+when ClientCertificate has been configured.`,
+		Exposed:   true,
+		Name:      "clientCertificateKey",
+		Orderable: true,
+		Secret:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "string",
 	},
 	"continueonerror": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ContinueOnError",
-		Description: `If set to true and ` + "`" + `mode` + "`" + ` is in ` + "`" + `Pre` + "`" + `, the request will be honored even if
+		Description: `If set to ` + "`" + `true` + "`" + ` and ` + "`" + `mode` + "`" + ` is in ` + "`" + `Pre` + "`" + `, the request will be honored even if
 calling the hook fails.`,
 		Exposed: true,
 		Name:    "continueOnError",
@@ -1260,7 +1252,7 @@ calling the hook fails.`,
 	"endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `Endpoint contains the full address of the remote processor endoint.`,
+		Description:    `Contains the full address of the remote processor endpoint.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
@@ -1271,7 +1263,7 @@ calling the hook fails.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the hook will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1312,7 +1304,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{"Both", "Post", "Pre"},
 		ConvertedName:  "Mode",
 		DefaultValue:   HookPolicyModePre,
-		Description:    `Mode define the type of the hook.`,
+		Description:    `Defines the type of hook.`,
 		Exposed:        true,
 		Name:           "mode",
 		Orderable:      true,
@@ -1406,8 +1398,8 @@ namespace, but still used for policy resolution.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject contains the tag expression that an object must match in order to
-trigger the hook.`,
+		Description: `Contains the tag expression that an object must match in order to trigger the
+hook.`,
 		Exposed: true,
 		Name:    "subject",
 		Stored:  true,
@@ -1517,18 +1509,20 @@ type SparseHookPolicy struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// CertificateAuthority contains the pem block of the certificate authority used by
-	// the remote endpoint.
+	// Contains the PEM block of the certificate authority used by the remote endpoint.
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
 
 	// ClientCertificate contains the client certificate that will be used to connect
-	// to the remote endoint.
+	// to the remote endpoint. If provided, the private key associated with this
+	// certificate must
+	// also be configured.
 	ClientCertificate *string `json:"clientCertificate,omitempty" msgpack:"clientCertificate,omitempty" bson:"clientcertificate,omitempty" mapstructure:"clientCertificate,omitempty"`
 
-	// ClientCertificateKey contains the key associated to the clientCertificate.
+	// Contains the key associated to the clientCertificate. It must be provided only
+	// when ClientCertificate has been configured.
 	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" msgpack:"clientCertificateKey,omitempty" bson:"clientcertificatekey,omitempty" mapstructure:"clientCertificateKey,omitempty"`
 
-	// If set to true and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
+	// If set to `+"`"+`true`+"`"+` and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
 	// calling the hook fails.
 	ContinueOnError *bool `json:"continueOnError,omitempty" msgpack:"continueOnError,omitempty" bson:"continueonerror,omitempty" mapstructure:"continueOnError,omitempty"`
 
@@ -1544,10 +1538,10 @@ type SparseHookPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// Endpoint contains the full address of the remote processor endoint.
+	// Contains the full address of the remote processor endpoint.
 	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the hook will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
@@ -1559,7 +1553,7 @@ type SparseHookPolicy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Mode define the type of the hook.
+	// Defines the type of hook.
 	Mode *HookPolicyModeValue `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"mode,omitempty" mapstructure:"mode,omitempty"`
 
 	// Name is the name of the entity.
@@ -1581,8 +1575,8 @@ type SparseHookPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject contains the tag expression that an object must match in order to
-	// trigger the hook.
+	// Contains the tag expression that an object must match in order to trigger the
+	// hook.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

@@ -91,22 +91,22 @@ func (o InvoicesList) Version() int {
 
 // Invoice represents the model of a invoice
 type Invoice struct {
-	// ID is the id of the invoice.
+	// The ID of the invoice.
 	ID string `json:"ID" msgpack:"ID" bson:"id" mapstructure:"ID,omitempty"`
 
-	// AccountID references the id of the customer that this invoice belongs to.
+	// The ID of the customer that this invoice belongs to.
 	AccountID string `json:"accountID" msgpack:"accountID" bson:"accountid" mapstructure:"accountID,omitempty"`
 
-	// BilledToProvider holds the name of the provider that this invoice was billed to.
+	// The name of the provider that this invoice was billed to.
 	BilledToProvider InvoiceBilledToProviderValue `json:"billedToProvider" msgpack:"billedToProvider" bson:"billedtoprovider" mapstructure:"billedToProvider,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// EndDate holds the end date for this invoice.
+	// The end date of the invoice.
 	EndDate time.Time `json:"endDate" msgpack:"endDate" bson:"enddate" mapstructure:"endDate,omitempty"`
 
-	// StartDate holds the start date for this invoice.
+	// The start date of this invoice.
 	StartDate time.Time `json:"startDate" msgpack:"startDate" bson:"startdate" mapstructure:"startDate,omitempty"`
 
 	// Last update date of the object.
@@ -162,7 +162,7 @@ func (o *Invoice) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Invoice) Doc() string {
 
-	return `This api allows to view invoices for Aporeto customers.`
+	return `Provides access to Aporeto customer invoices.`
 }
 
 func (o *Invoice) String() string {
@@ -356,7 +356,7 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID is the id of the invoice.`,
+		Description:    `The ID of the invoice.`,
 		Exposed:        true,
 		Name:           "ID",
 		Orderable:      true,
@@ -366,7 +366,7 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"AccountID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AccountID",
-		Description:    `AccountID references the id of the customer that this invoice belongs to.`,
+		Description:    `The ID of the customer that this invoice belongs to.`,
 		Exposed:        true,
 		Name:           "accountID",
 		Orderable:      true,
@@ -377,7 +377,7 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Aporeto", "AWS"},
 		ConvertedName:  "BilledToProvider",
 		DefaultValue:   InvoiceBilledToProviderAporeto,
-		Description:    `BilledToProvider holds the name of the provider that this invoice was billed to.`,
+		Description:    `The name of the provider that this invoice was billed to.`,
 		Exposed:        true,
 		Name:           "billedToProvider",
 		Stored:         true,
@@ -400,7 +400,7 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"EndDate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EndDate",
-		Description:    `EndDate holds the end date for this invoice.`,
+		Description:    `The end date of the invoice.`,
 		Exposed:        true,
 		Name:           "endDate",
 		Orderable:      true,
@@ -410,7 +410,7 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"StartDate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "StartDate",
-		Description:    `StartDate holds the start date for this invoice.`,
+		Description:    `The start date of this invoice.`,
 		Exposed:        true,
 		Name:           "startDate",
 		Orderable:      true,
@@ -438,7 +438,7 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID is the id of the invoice.`,
+		Description:    `The ID of the invoice.`,
 		Exposed:        true,
 		Name:           "ID",
 		Orderable:      true,
@@ -448,7 +448,7 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"accountid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AccountID",
-		Description:    `AccountID references the id of the customer that this invoice belongs to.`,
+		Description:    `The ID of the customer that this invoice belongs to.`,
 		Exposed:        true,
 		Name:           "accountID",
 		Orderable:      true,
@@ -459,7 +459,7 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Aporeto", "AWS"},
 		ConvertedName:  "BilledToProvider",
 		DefaultValue:   InvoiceBilledToProviderAporeto,
-		Description:    `BilledToProvider holds the name of the provider that this invoice was billed to.`,
+		Description:    `The name of the provider that this invoice was billed to.`,
 		Exposed:        true,
 		Name:           "billedToProvider",
 		Stored:         true,
@@ -482,7 +482,7 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"enddate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EndDate",
-		Description:    `EndDate holds the end date for this invoice.`,
+		Description:    `The end date of the invoice.`,
 		Exposed:        true,
 		Name:           "endDate",
 		Orderable:      true,
@@ -492,7 +492,7 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"startdate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "StartDate",
-		Description:    `StartDate holds the start date for this invoice.`,
+		Description:    `The start date of this invoice.`,
 		Exposed:        true,
 		Name:           "startDate",
 		Orderable:      true,
@@ -578,22 +578,22 @@ func (o SparseInvoicesList) Version() int {
 
 // SparseInvoice represents the sparse version of a invoice.
 type SparseInvoice struct {
-	// ID is the id of the invoice.
+	// The ID of the invoice.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
 
-	// AccountID references the id of the customer that this invoice belongs to.
+	// The ID of the customer that this invoice belongs to.
 	AccountID *string `json:"accountID,omitempty" msgpack:"accountID,omitempty" bson:"accountid,omitempty" mapstructure:"accountID,omitempty"`
 
-	// BilledToProvider holds the name of the provider that this invoice was billed to.
+	// The name of the provider that this invoice was billed to.
 	BilledToProvider *InvoiceBilledToProviderValue `json:"billedToProvider,omitempty" msgpack:"billedToProvider,omitempty" bson:"billedtoprovider,omitempty" mapstructure:"billedToProvider,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// EndDate holds the end date for this invoice.
+	// The end date of the invoice.
 	EndDate *time.Time `json:"endDate,omitempty" msgpack:"endDate,omitempty" bson:"enddate,omitempty" mapstructure:"endDate,omitempty"`
 
-	// StartDate holds the start date for this invoice.
+	// The start date of this invoice.
 	StartDate *time.Time `json:"startDate,omitempty" msgpack:"startDate,omitempty" bson:"startdate,omitempty" mapstructure:"startDate,omitempty"`
 
 	// Last update date of the object.

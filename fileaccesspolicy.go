@@ -94,13 +94,13 @@ type FileAccessPolicy struct {
 	// The policy will be active for the given activeDuration.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
-	// AllowsExecute allows to execute the files.
+	// Allows files to be executed.
 	AllowsExecute bool `json:"allowsExecute" msgpack:"allowsExecute" bson:"-" mapstructure:"allowsExecute,omitempty"`
 
-	// AllowsRead allows to read the files.
+	// Allows files to be read.
 	AllowsRead bool `json:"allowsRead" msgpack:"allowsRead" bson:"-" mapstructure:"allowsRead,omitempty"`
 
-	// AllowsWrite allows to write the files.
+	// Allows files to be written.
 	AllowsWrite bool `json:"allowsWrite" msgpack:"allowsWrite" bson:"-" mapstructure:"allowsWrite,omitempty"`
 
 	// Annotation stores additional information about an entity.
@@ -121,10 +121,10 @@ type FileAccessPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// EncryptionEnabled will enable the automatic encryption.
+	// Set to `+"`"+`true`+"`"+` to enable automatic encryption.
 	EncryptionEnabled bool `json:"encryptionEnabled" msgpack:"encryptionEnabled" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
@@ -132,7 +132,7 @@ type FileAccessPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// LogsEnabled will enable logging when this policy is used.
+	// A value of `+"`"+`true`+"`"+` enables logging.
 	LogsEnabled bool `json:"logsEnabled" msgpack:"logsEnabled" bson:"-" mapstructure:"logsEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -148,7 +148,7 @@ type FileAccessPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object is the object of the policy.
+	// The object of the policy.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
@@ -157,7 +157,7 @@ type FileAccessPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject is the subject of the policy.
+	// The subject of the policy.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -225,15 +225,15 @@ func (o *FileAccessPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *FileAccessPolicy) Doc() string {
 
-	return `A File Access Policy allows Processing Units to access various folder and files.
-It will use the tags of a File Path to know what is the path of the file or
-folder to allow access to. You can allow the Processing Unit to have any
-combination of read, write or execute.
+	return `A file access policy allows processing units to access various folder and files.
+It will use the tags of a file path to know what is the path of the file or
+folder to allow access to. You can allow the processing unit to have any
+combination of read, write, or execute.
 
-When a Processing Unit is Docker container, then it will police the volumes
-mount. executewon''t have any effect.
+When a processing unit is a Docker container, then it will police the volumes.
+Mount and execute won't have any effect.
 
-File path are not supported yet for standard Linux processes.`
+File paths are not supported yet for standard Linux processes.`
 }
 
 func (o *FileAccessPolicy) String() string {
@@ -837,7 +837,7 @@ The policy will be active for the given activeDuration.`,
 	"AllowsExecute": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllowsExecute",
-		Description:    `AllowsExecute allows to execute the files.`,
+		Description:    `Allows files to be executed.`,
 		Exposed:        true,
 		Name:           "allowsExecute",
 		Orderable:      true,
@@ -846,7 +846,7 @@ The policy will be active for the given activeDuration.`,
 	"AllowsRead": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllowsRead",
-		Description:    `AllowsRead allows to read the files.`,
+		Description:    `Allows files to be read.`,
 		Exposed:        true,
 		Name:           "allowsRead",
 		Orderable:      true,
@@ -855,7 +855,7 @@ The policy will be active for the given activeDuration.`,
 	"AllowsWrite": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllowsWrite",
-		Description:    `AllowsWrite allows to write the files.`,
+		Description:    `Allows files to be written.`,
 		Exposed:        true,
 		Name:           "allowsWrite",
 		Orderable:      true,
@@ -939,7 +939,7 @@ The policy will be active for the given activeDuration.`,
 	"EncryptionEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EncryptionEnabled",
-		Description:    `EncryptionEnabled will enable the automatic encryption.`,
+		Description:    `Set to ` + "`" + `true` + "`" + ` to enable automatic encryption.`,
 		Exposed:        true,
 		Name:           "encryptionEnabled",
 		Orderable:      true,
@@ -948,7 +948,7 @@ The policy will be active for the given activeDuration.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -973,7 +973,7 @@ propagated it will become a fallback for children namespaces.`,
 	"LogsEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LogsEnabled",
-		Description:    `LogsEnabled will enable logging when this policy is used.`,
+		Description:    `A value of ` + "`" + `true` + "`" + ` enables logging.`,
 		Exposed:        true,
 		Name:           "logsEnabled",
 		Orderable:      true,
@@ -1044,7 +1044,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object is the object of the policy.`,
+		Description:    `The object of the policy.`,
 		Exposed:        true,
 		Name:           "object",
 		Orderable:      true,
@@ -1078,7 +1078,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject is the subject of the policy.`,
+		Description:    `The subject of the policy.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
@@ -1156,7 +1156,7 @@ The policy will be active for the given activeDuration.`,
 	"allowsexecute": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllowsExecute",
-		Description:    `AllowsExecute allows to execute the files.`,
+		Description:    `Allows files to be executed.`,
 		Exposed:        true,
 		Name:           "allowsExecute",
 		Orderable:      true,
@@ -1165,7 +1165,7 @@ The policy will be active for the given activeDuration.`,
 	"allowsread": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllowsRead",
-		Description:    `AllowsRead allows to read the files.`,
+		Description:    `Allows files to be read.`,
 		Exposed:        true,
 		Name:           "allowsRead",
 		Orderable:      true,
@@ -1174,7 +1174,7 @@ The policy will be active for the given activeDuration.`,
 	"allowswrite": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllowsWrite",
-		Description:    `AllowsWrite allows to write the files.`,
+		Description:    `Allows files to be written.`,
 		Exposed:        true,
 		Name:           "allowsWrite",
 		Orderable:      true,
@@ -1258,7 +1258,7 @@ The policy will be active for the given activeDuration.`,
 	"encryptionenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EncryptionEnabled",
-		Description:    `EncryptionEnabled will enable the automatic encryption.`,
+		Description:    `Set to ` + "`" + `true` + "`" + ` to enable automatic encryption.`,
 		Exposed:        true,
 		Name:           "encryptionEnabled",
 		Orderable:      true,
@@ -1267,7 +1267,7 @@ The policy will be active for the given activeDuration.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1292,7 +1292,7 @@ propagated it will become a fallback for children namespaces.`,
 	"logsenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LogsEnabled",
-		Description:    `LogsEnabled will enable logging when this policy is used.`,
+		Description:    `A value of ` + "`" + `true` + "`" + ` enables logging.`,
 		Exposed:        true,
 		Name:           "logsEnabled",
 		Orderable:      true,
@@ -1363,7 +1363,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object is the object of the policy.`,
+		Description:    `The object of the policy.`,
 		Exposed:        true,
 		Name:           "object",
 		Orderable:      true,
@@ -1397,7 +1397,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject is the subject of the policy.`,
+		Description:    `The subject of the policy.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
@@ -1509,13 +1509,13 @@ type SparseFileAccessPolicy struct {
 	// The policy will be active for the given activeDuration.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
-	// AllowsExecute allows to execute the files.
+	// Allows files to be executed.
 	AllowsExecute *bool `json:"allowsExecute,omitempty" msgpack:"allowsExecute,omitempty" bson:"-" mapstructure:"allowsExecute,omitempty"`
 
-	// AllowsRead allows to read the files.
+	// Allows files to be read.
 	AllowsRead *bool `json:"allowsRead,omitempty" msgpack:"allowsRead,omitempty" bson:"-" mapstructure:"allowsRead,omitempty"`
 
-	// AllowsWrite allows to write the files.
+	// Allows files to be written.
 	AllowsWrite *bool `json:"allowsWrite,omitempty" msgpack:"allowsWrite,omitempty" bson:"-" mapstructure:"allowsWrite,omitempty"`
 
 	// Annotation stores additional information about an entity.
@@ -1536,10 +1536,10 @@ type SparseFileAccessPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// EncryptionEnabled will enable the automatic encryption.
+	// Set to `+"`"+`true`+"`"+` to enable automatic encryption.
 	EncryptionEnabled *bool `json:"encryptionEnabled,omitempty" msgpack:"encryptionEnabled,omitempty" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
@@ -1547,7 +1547,7 @@ type SparseFileAccessPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// LogsEnabled will enable logging when this policy is used.
+	// A value of `+"`"+`true`+"`"+` enables logging.
 	LogsEnabled *bool `json:"logsEnabled,omitempty" msgpack:"logsEnabled,omitempty" bson:"-" mapstructure:"logsEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -1563,7 +1563,7 @@ type SparseFileAccessPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Object is the object of the policy.
+	// The object of the policy.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
@@ -1572,7 +1572,7 @@ type SparseFileAccessPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject is the subject of the policy.
+	// The subject of the policy.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

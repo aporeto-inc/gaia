@@ -130,7 +130,7 @@ type ServiceDependency struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object of the policy.
+	// Object of the service dependency.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
@@ -139,7 +139,7 @@ type ServiceDependency struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject of the policy.
+	// Subject of the service dependency.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -207,7 +207,7 @@ func (o *ServiceDependency) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ServiceDependency) Doc() string {
 
-	return `Allows to define a service dependency where a set of processing units as defined
+	return `Allows you to define a service dependency where a set of processing units as defined
 by their tags require access to specific services.`
 }
 
@@ -903,7 +903,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object of the policy.`,
+		Description:    `Object of the service dependency.`,
 		Exposed:        true,
 		Name:           "object",
 		Orderable:      true,
@@ -937,7 +937,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject of the policy.`,
+		Description:    `Subject of the service dependency.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
@@ -1166,7 +1166,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object of the policy.`,
+		Description:    `Object of the service dependency.`,
 		Exposed:        true,
 		Name:           "object",
 		Orderable:      true,
@@ -1200,7 +1200,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject of the policy.`,
+		Description:    `Subject of the service dependency.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
@@ -1348,7 +1348,7 @@ type SparseServiceDependency struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Object of the policy.
+	// Object of the service dependency.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
@@ -1357,7 +1357,7 @@ type SparseServiceDependency struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject of the policy.
+	// Subject of the service dependency.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

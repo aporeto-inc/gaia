@@ -108,7 +108,7 @@ type InfrastructurePolicy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Action defines the action to apply to a flow.
+	// Defines the action to apply to a flow.
 	Action InfrastructurePolicyActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// ActiveDuration defines for how long the policy will be active according to the
@@ -122,9 +122,9 @@ type InfrastructurePolicy struct {
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// applyPolicyMode determines if the policy has to be applied to the
-	// outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-	// Default is both directions.
+	// Determines if the policy applies to the outgoing traffic of the `+"`"+`subject`+"`"+` or the
+	// incoming traffic of the `+"`"+`subject`+"`"+`. `+"`"+`OutgoingTraffic`+"`"+` (default) or
+	// `+"`"+`IncomingTraffic`+"`"+`.
 	ApplyPolicyMode InfrastructurePolicyApplyPolicyModeValue `json:"applyPolicyMode" msgpack:"applyPolicyMode" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
@@ -142,7 +142,7 @@ type InfrastructurePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -234,11 +234,12 @@ func (o *InfrastructurePolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *InfrastructurePolicy) Doc() string {
 
-	return `Infrastructure policies capture the network access rules of the underlying
-infrastructure and can be used to model cloud security groups, firewalls or
-other ACL based mechanisms. They are not used in the identity-based network
-authorization of Aporeto, but they can affect traffic flows in the underlying
-infrastructure.`
+	return `Infrastructure policies represent the network access rules of the underlying
+infrastructure. They can assist you in analyzing how AWS security groups,
+firewalls,
+and other access control list (ACL) mechanisms may affect Aporeto network
+policies.
+Aporeto's AWS integration app automatically populates AWS security groups.`
 }
 
 func (o *InfrastructurePolicy) String() string {
@@ -762,7 +763,7 @@ var InfrastructurePolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		AllowedChoices: []string{"Allow", "Reject"},
 		ConvertedName:  "Action",
 		DefaultValue:   InfrastructurePolicyActionAllow,
-		Description:    `Action defines the action to apply to a flow.`,
+		Description:    `Defines the action to apply to a flow.`,
 		Exposed:        true,
 		Name:           "action",
 		Orderable:      true,
@@ -809,9 +810,9 @@ The policy will be active for the given activeDuration.`,
 		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic"},
 		ConvertedName:  "ApplyPolicyMode",
 		DefaultValue:   InfrastructurePolicyApplyPolicyModeOutgoingTraffic,
-		Description: `applyPolicyMode determines if the policy has to be applied to the
-outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-Default is both directions.`,
+		Description: `Determines if the policy applies to the outgoing traffic of the ` + "`" + `subject` + "`" + ` or the
+incoming traffic of the ` + "`" + `subject` + "`" + `. ` + "`" + `OutgoingTraffic` + "`" + ` (default) or
+` + "`" + `IncomingTraffic` + "`" + `.`,
 		Exposed:   true,
 		Name:      "applyPolicyMode",
 		Orderable: true,
@@ -883,7 +884,7 @@ Default is both directions.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1032,7 +1033,7 @@ var InfrastructurePolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		AllowedChoices: []string{"Allow", "Reject"},
 		ConvertedName:  "Action",
 		DefaultValue:   InfrastructurePolicyActionAllow,
-		Description:    `Action defines the action to apply to a flow.`,
+		Description:    `Defines the action to apply to a flow.`,
 		Exposed:        true,
 		Name:           "action",
 		Orderable:      true,
@@ -1079,9 +1080,9 @@ The policy will be active for the given activeDuration.`,
 		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic"},
 		ConvertedName:  "ApplyPolicyMode",
 		DefaultValue:   InfrastructurePolicyApplyPolicyModeOutgoingTraffic,
-		Description: `applyPolicyMode determines if the policy has to be applied to the
-outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-Default is both directions.`,
+		Description: `Determines if the policy applies to the outgoing traffic of the ` + "`" + `subject` + "`" + ` or the
+incoming traffic of the ` + "`" + `subject` + "`" + `. ` + "`" + `OutgoingTraffic` + "`" + ` (default) or
+` + "`" + `IncomingTraffic` + "`" + `.`,
 		Exposed:   true,
 		Name:      "applyPolicyMode",
 		Orderable: true,
@@ -1153,7 +1154,7 @@ Default is both directions.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1352,7 +1353,7 @@ type SparseInfrastructurePolicy struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Action defines the action to apply to a flow.
+	// Defines the action to apply to a flow.
 	Action *InfrastructurePolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// ActiveDuration defines for how long the policy will be active according to the
@@ -1366,9 +1367,9 @@ type SparseInfrastructurePolicy struct {
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// applyPolicyMode determines if the policy has to be applied to the
-	// outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-	// Default is both directions.
+	// Determines if the policy applies to the outgoing traffic of the `+"`"+`subject`+"`"+` or the
+	// incoming traffic of the `+"`"+`subject`+"`"+`. `+"`"+`OutgoingTraffic`+"`"+` (default) or
+	// `+"`"+`IncomingTraffic`+"`"+`.
 	ApplyPolicyMode *InfrastructurePolicyApplyPolicyModeValue `json:"applyPolicyMode,omitempty" msgpack:"applyPolicyMode,omitempty" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
@@ -1386,7 +1387,7 @@ type SparseInfrastructurePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start

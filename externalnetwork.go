@@ -129,7 +129,7 @@ type ExternalNetwork struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// List of protocols (tcp, udp, or protocol number).
+	// List of protocols (`+"`"+`tcp`+"`"+`, `+"`"+`udp`+"`"+`, or protocol number).
 	Protocols []string `json:"protocols" msgpack:"protocols" bson:"protocols" mapstructure:"protocols,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -210,12 +210,13 @@ func (o *ExternalNetwork) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ExternalNetwork) Doc() string {
 
-	return `An External Network represents a random network or ip that is not managed by the
-system. They can be used in Network Access Policies in order to allow traffic
-from or to the declared network or IP, using the provided protocol and port or
-ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0
-as address, and 1-65000 for the ports. You will need to use the External
-Services tags to set some policies.`
+	return `An external network represents a random network or IP address that is not 
+managed by Aporeto. External networks can be used in network policies to 
+allow traffic from or to the declared network or IP, using the provided 
+protocol and port (or range of ports). If you want to describe the internet 
+(i.e., anywhere), use ` + "`" + `0.0.0.0/0` + "`" + ` as the address and ` + "`" + `1-65000` + "`" + ` for the ports. 
+You must assign the external network one or more tags. These allow you to
+reference the external network from your network policies.`
 }
 
 func (o *ExternalNetwork) String() string {
@@ -908,7 +909,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		DefaultValue: []string{
 			"tcp",
 		},
-		Description: `List of protocols (tcp, udp, or protocol number).`,
+		Description: `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
 		Exposed:     true,
 		Name:        "protocols",
 		Stored:      true,
@@ -1175,7 +1176,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		DefaultValue: []string{
 			"tcp",
 		},
-		Description: `List of protocols (tcp, udp, or protocol number).`,
+		Description: `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
 		Exposed:     true,
 		Name:        "protocols",
 		Stored:      true,
@@ -1350,7 +1351,7 @@ type SparseExternalNetwork struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// List of protocols (tcp, udp, or protocol number).
+	// List of protocols (`+"`"+`tcp`+"`"+`, `+"`"+`udp`+"`"+`, or protocol number).
 	Protocols *[]string `json:"protocols,omitempty" msgpack:"protocols,omitempty" bson:"protocols,omitempty" mapstructure:"protocols,omitempty"`
 
 	// internal idempotency key for a update operation.

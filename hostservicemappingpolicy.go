@@ -130,8 +130,7 @@ type HostServiceMappingPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object of the policy is the selector for the host services that must be applied
-	// to this enforcer.
+	// A tag or tag expression identifying the host service(s) to be mapped.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
@@ -140,8 +139,8 @@ type HostServiceMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject of the policy is the selector of the enforcers that the list of host
-	// services must apply to.
+	// A tag or tag expression identifying the enforcer(s) that should implement
+	// the specified host service(s).
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -209,8 +208,9 @@ func (o *HostServiceMappingPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *HostServiceMappingPolicy) Doc() string {
 
-	return `Defines a host service mapping policy that provides the relation between
-enforcers and host services that they must implement.`
+	return `Host service mapping allows you to map host services to the enforcers which should
+implement them. You must map host services to one or more enforcers for the host 
+services to have any effect.`
 }
 
 func (o *HostServiceMappingPolicy) String() string {
@@ -905,13 +905,12 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object of the policy is the selector for the host services that must be applied
-to this enforcer.`,
-		Exposed:   true,
-		Name:      "object",
-		Orderable: true,
-		SubType:   "[][]string",
-		Type:      "external",
+		Description:    `A tag or tag expression identifying the host service(s) to be mapped.`,
+		Exposed:        true,
+		Name:           "object",
+		Orderable:      true,
+		SubType:        "[][]string",
+		Type:           "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -940,8 +939,8 @@ to this enforcer.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject of the policy is the selector of the enforcers that the list of host
-services must apply to.`,
+		Description: `A tag or tag expression identifying the enforcer(s) that should implement
+the specified host service(s).`,
 		Exposed:   true,
 		Name:      "subject",
 		Orderable: true,
@@ -1170,13 +1169,12 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object of the policy is the selector for the host services that must be applied
-to this enforcer.`,
-		Exposed:   true,
-		Name:      "object",
-		Orderable: true,
-		SubType:   "[][]string",
-		Type:      "external",
+		Description:    `A tag or tag expression identifying the host service(s) to be mapped.`,
+		Exposed:        true,
+		Name:           "object",
+		Orderable:      true,
+		SubType:        "[][]string",
+		Type:           "external",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1205,8 +1203,8 @@ to this enforcer.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject of the policy is the selector of the enforcers that the list of host
-services must apply to.`,
+		Description: `A tag or tag expression identifying the enforcer(s) that should implement
+the specified host service(s).`,
 		Exposed:   true,
 		Name:      "subject",
 		Orderable: true,
@@ -1354,8 +1352,7 @@ type SparseHostServiceMappingPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Object of the policy is the selector for the host services that must be applied
-	// to this enforcer.
+	// A tag or tag expression identifying the host service(s) to be mapped.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
@@ -1364,8 +1361,8 @@ type SparseHostServiceMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject of the policy is the selector of the enforcers that the list of host
-	// services must apply to.
+	// A tag or tag expression identifying the enforcer(s) that should implement
+	// the specified host service(s).
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

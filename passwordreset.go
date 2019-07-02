@@ -79,10 +79,10 @@ func (o PasswordResetsList) Version() int {
 
 // PasswordReset represents the model of a passwordreset
 type PasswordReset struct {
-	// Password contains the new password.
+	// Contains the new password.
 	Password string `json:"password" msgpack:"password" bson:"-" mapstructure:"password,omitempty"`
 
-	// Token contains the reset password token.
+	// Contains the reset password token.
 	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -134,7 +134,7 @@ func (o *PasswordReset) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PasswordReset) Doc() string {
 
-	return `Used to reset an account password.`
+	return `Used to reset an Aporeto account password.`
 }
 
 func (o *PasswordReset) String() string {
@@ -268,7 +268,7 @@ var PasswordResetAttributesMap = map[string]elemental.AttributeSpecification{
 	"Password": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Password",
-		Description:    `Password contains the new password.`,
+		Description:    `Contains the new password.`,
 		Exposed:        true,
 		Name:           "password",
 		Required:       true,
@@ -277,7 +277,7 @@ var PasswordResetAttributesMap = map[string]elemental.AttributeSpecification{
 	"Token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
-		Description:    `Token contains the reset password token.`,
+		Description:    `Contains the reset password token.`,
 		Exposed:        true,
 		Name:           "token",
 		Required:       true,
@@ -290,7 +290,7 @@ var PasswordResetLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"password": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Password",
-		Description:    `Password contains the new password.`,
+		Description:    `Contains the new password.`,
 		Exposed:        true,
 		Name:           "password",
 		Required:       true,
@@ -299,7 +299,7 @@ var PasswordResetLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
-		Description:    `Token contains the reset password token.`,
+		Description:    `Contains the reset password token.`,
 		Exposed:        true,
 		Name:           "token",
 		Required:       true,
@@ -370,10 +370,10 @@ func (o SparsePasswordResetsList) Version() int {
 
 // SparsePasswordReset represents the sparse version of a passwordreset.
 type SparsePasswordReset struct {
-	// Password contains the new password.
+	// Contains the new password.
 	Password *string `json:"password,omitempty" msgpack:"password,omitempty" bson:"-" mapstructure:"password,omitempty"`
 
-	// Token contains the reset password token.
+	// Contains the reset password token.
 	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

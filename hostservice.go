@@ -104,11 +104,10 @@ type HostService struct {
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// HostModeEnabled forces the corresponding enforcers to enable complete host
-	// protection. When this option is turned on, all incoming and outgoing flows will
-	// be monitored. Flows will be allowed if and only if a network policy has been
-	// created to allow the flow. The option applies to all enforcers that match the
-	// subject constraints.
+	// Forces the corresponding enforcers to enable host protection. When `+"`"+`true`+"`"+`, all
+	// incoming and outgoing flows will be monitored. Flows will be allowed if and only
+	// if a network policy has been created to allow the flow. The option applies to all
+	// enforcers to which the host service is mapped.
 	HostModeEnabled bool `json:"hostModeEnabled" msgpack:"hostModeEnabled" bson:"hostmodeenabled" mapstructure:"hostModeEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -130,10 +129,10 @@ type HostService struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Services lists all protocols and ports a service is running. A service entry can
-	// be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
-	// '(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
-	// protocols are only tcp and udp.
+	// Lists all protocols and ports a service is running. A service entry can be defined
+	// by a protocol and port `+"`"+`(tcp/80)`+"`"+`, or range of protocol/port pairs `+"`"+`(udp/80:100)`+"`"+`.
+	// If no protocol is provided, it is assumed to be TCP. Only `+"`"+`tcp`+"`"+` and `+"`"+`udp`+"`"+` protocols
+	// are allowed.
 	Services []string `json:"services" msgpack:"services" bson:"services" mapstructure:"services,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -208,7 +207,7 @@ func (o *HostService) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *HostService) Doc() string {
 
-	return `Represents a set of services that a host must expose and protect.`
+	return `Represents services that a host must expose and protect.`
 }
 
 func (o *HostService) String() string {
@@ -774,11 +773,10 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"HostModeEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "HostModeEnabled",
-		Description: `HostModeEnabled forces the corresponding enforcers to enable complete host
-protection. When this option is turned on, all incoming and outgoing flows will
-be monitored. Flows will be allowed if and only if a network policy has been
-created to allow the flow. The option applies to all enforcers that match the
-subject constraints.`,
+		Description: `Forces the corresponding enforcers to enable host protection. When ` + "`" + `true` + "`" + `, all 
+incoming and outgoing flows will be monitored. Flows will be allowed if and only 
+if a network policy has been created to allow the flow. The option applies to all 
+enforcers to which the host service is mapped.`,
 		Exposed:   true,
 		Name:      "hostModeEnabled",
 		Orderable: true,
@@ -874,10 +872,10 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Services": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Services",
-		Description: `Services lists all protocols and ports a service is running. A service entry can
-be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
-'(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
-protocols are only tcp and udp.`,
+		Description: `Lists all protocols and ports a service is running. A service entry can be defined 
+by a protocol and port ` + "`" + `(tcp/80)` + "`" + `, or range of protocol/port pairs ` + "`" + `(udp/80:100)` + "`" + `. 
+If no protocol is provided, it is assumed to be TCP. Only ` + "`" + `tcp` + "`" + ` and ` + "`" + `udp` + "`" + ` protocols
+are allowed.`,
 		Exposed: true,
 		Name:    "services",
 		Stored:  true,
@@ -1032,11 +1030,10 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"hostmodeenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "HostModeEnabled",
-		Description: `HostModeEnabled forces the corresponding enforcers to enable complete host
-protection. When this option is turned on, all incoming and outgoing flows will
-be monitored. Flows will be allowed if and only if a network policy has been
-created to allow the flow. The option applies to all enforcers that match the
-subject constraints.`,
+		Description: `Forces the corresponding enforcers to enable host protection. When ` + "`" + `true` + "`" + `, all 
+incoming and outgoing flows will be monitored. Flows will be allowed if and only 
+if a network policy has been created to allow the flow. The option applies to all 
+enforcers to which the host service is mapped.`,
 		Exposed:   true,
 		Name:      "hostModeEnabled",
 		Orderable: true,
@@ -1132,10 +1129,10 @@ with the '@' prefix, and should only be used by external systems.`,
 	"services": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Services",
-		Description: `Services lists all protocols and ports a service is running. A service entry can
-be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
-'(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
-protocols are only tcp and udp.`,
+		Description: `Lists all protocols and ports a service is running. A service entry can be defined 
+by a protocol and port ` + "`" + `(tcp/80)` + "`" + `, or range of protocol/port pairs ` + "`" + `(udp/80:100)` + "`" + `. 
+If no protocol is provided, it is assumed to be TCP. Only ` + "`" + `tcp` + "`" + ` and ` + "`" + `udp` + "`" + ` protocols
+are allowed.`,
 		Exposed: true,
 		Name:    "services",
 		Stored:  true,
@@ -1285,11 +1282,10 @@ type SparseHostService struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// HostModeEnabled forces the corresponding enforcers to enable complete host
-	// protection. When this option is turned on, all incoming and outgoing flows will
-	// be monitored. Flows will be allowed if and only if a network policy has been
-	// created to allow the flow. The option applies to all enforcers that match the
-	// subject constraints.
+	// Forces the corresponding enforcers to enable host protection. When `+"`"+`true`+"`"+`, all
+	// incoming and outgoing flows will be monitored. Flows will be allowed if and only
+	// if a network policy has been created to allow the flow. The option applies to all
+	// enforcers to which the host service is mapped.
 	HostModeEnabled *bool `json:"hostModeEnabled,omitempty" msgpack:"hostModeEnabled,omitempty" bson:"hostmodeenabled,omitempty" mapstructure:"hostModeEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -1311,10 +1307,10 @@ type SparseHostService struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Services lists all protocols and ports a service is running. A service entry can
-	// be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
-	// '(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
-	// protocols are only tcp and udp.
+	// Lists all protocols and ports a service is running. A service entry can be defined
+	// by a protocol and port `+"`"+`(tcp/80)`+"`"+`, or range of protocol/port pairs `+"`"+`(udp/80:100)`+"`"+`.
+	// If no protocol is provided, it is assumed to be TCP. Only `+"`"+`tcp`+"`"+` and `+"`"+`udp`+"`"+` protocols
+	// are allowed.
 	Services *[]string `json:"services,omitempty" msgpack:"services,omitempty" bson:"services,omitempty" mapstructure:"services,omitempty"`
 
 	// internal idempotency key for a update operation.

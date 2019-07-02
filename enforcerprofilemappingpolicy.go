@@ -122,7 +122,8 @@ type EnforcerProfileMappingPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object is the list of tags to use to find a enforcer profile.
+	// The tag or tag expression that identifies the enforcer profile to
+	// be mapped.
 	Object [][]string `json:"object" msgpack:"object" bson:"object" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
@@ -131,7 +132,8 @@ type EnforcerProfileMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject is the subject of the policy.
+	// The tag or tag expression that dentifies the enforcers that should
+	// implement the mapped profile.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -199,9 +201,8 @@ func (o *EnforcerProfileMappingPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *EnforcerProfileMappingPolicy) Doc() string {
 
-	return `A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used
-by and Aporeto Agent based on the Enforcer that have been used during the
-registration. The policy can also be propagated down to the child namespace.`
+	return `Allows you to map an enforcer profile to one or more enforcers.
+The mapping can also be propagated down to the child namespace.`
 }
 
 func (o *EnforcerProfileMappingPolicy) String() string {
@@ -827,12 +828,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object is the list of tags to use to find a enforcer profile.`,
-		Exposed:        true,
-		Name:           "object",
-		Stored:         true,
-		SubType:        "[][]string",
-		Type:           "external",
+		Description: `The tag or tag expression that identifies the enforcer profile to 
+be mapped.`,
+		Exposed: true,
+		Name:    "object",
+		Stored:  true,
+		SubType: "[][]string",
+		Type:    "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -861,12 +863,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject is the subject of the policy.`,
-		Exposed:        true,
-		Name:           "subject",
-		Stored:         true,
-		SubType:        "[][]string",
-		Type:           "external",
+		Description: `The tag or tag expression that dentifies the enforcers that should 
+implement the mapped profile.`,
+		Exposed: true,
+		Name:    "subject",
+		Stored:  true,
+		SubType: "[][]string",
+		Type:    "external",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1065,12 +1068,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object is the list of tags to use to find a enforcer profile.`,
-		Exposed:        true,
-		Name:           "object",
-		Stored:         true,
-		SubType:        "[][]string",
-		Type:           "external",
+		Description: `The tag or tag expression that identifies the enforcer profile to 
+be mapped.`,
+		Exposed: true,
+		Name:    "object",
+		Stored:  true,
+		SubType: "[][]string",
+		Type:    "external",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1099,12 +1103,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject is the subject of the policy.`,
-		Exposed:        true,
-		Name:           "subject",
-		Stored:         true,
-		SubType:        "[][]string",
-		Type:           "external",
+		Description: `The tag or tag expression that dentifies the enforcers that should 
+implement the mapped profile.`,
+		Exposed: true,
+		Name:    "subject",
+		Stored:  true,
+		SubType: "[][]string",
+		Type:    "external",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1239,7 +1244,8 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Object is the list of tags to use to find a enforcer profile.
+	// The tag or tag expression that identifies the enforcer profile to
+	// be mapped.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"object,omitempty" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
@@ -1248,7 +1254,8 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject is the subject of the policy.
+	// The tag or tag expression that dentifies the enforcers that should
+	// implement the mapped profile.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

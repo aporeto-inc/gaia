@@ -104,7 +104,7 @@ type NamespaceMappingPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// mappedNamespace is the mapped namespace.
+	// The namespace to map the `+"`"+`subject`+"`"+` to.
 	MappedNamespace string `json:"mappedNamespace" msgpack:"mappedNamespace" bson:"mappednamespace" mapstructure:"mappedNamespace,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -123,7 +123,7 @@ type NamespaceMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject is the subject.
+	// A tag or tag expression identifying the entity to be mapped.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -190,17 +190,17 @@ func (o *NamespaceMappingPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *NamespaceMappingPolicy) Doc() string {
 
-	return `A Namespace Mapping Policy defines in which namespace a Processing Unit should
-be placed when it is created, based on its tags.  When an Aporeto Agent creates
-a new Processing Unit, the system will place it in its own namespace if no
-matching Namespace Mapping Policy can be found. If one match is found, then the
-Processing will be bumped down to the namespace declared in the policy. If it
-finds in that child namespace another matching Namespace Mapping Policy, then
-the Processing Unit will be bumped down again, until it reach a namespace with
-no matching policies.  This is very useful to dispatch processes and containers
-into a particular namespace, based on a lot of factor.   You can put in place a
-quarantine namespace that will grab all Processing Units with too much
-vulnerabilities for instances.`
+	return `A namespace mapping defines the namespace a processing unit should
+be placed when it is created, based on its tags.  When an Aporeto agent creates
+a new processing unit, the system will place it in its own namespace if no
+matching namespace mapping can be found. If one match is found, then the
+processing unit will be bumped down to the namespace declared in the namespace mapping. If it
+finds in that child namespace another matching namespace mapping, then
+the processing unit will be bumped down again, until it reaches a namespace with
+no matching namespace mappings.  This is very useful to dispatch processes and containers
+into a particular namespace, based on a lot of factors. For example, you can put in place a
+quarantine namespace mapping that will grab all processing units with excessive
+vulnerabilities.`
 }
 
 func (o *NamespaceMappingPolicy) String() string {
@@ -715,7 +715,7 @@ var NamespaceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "MappedNamespace",
-		Description:    `mappedNamespace is the mapped namespace.`,
+		Description:    `The namespace to map the ` + "`" + `subject` + "`" + ` to.`,
 		Exposed:        true,
 		Name:           "mappedNamespace",
 		Orderable:      true,
@@ -800,7 +800,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject is the subject.`,
+		Description:    `A tag or tag expression identifying the entity to be mapped.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
@@ -929,7 +929,7 @@ var NamespaceMappingPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "MappedNamespace",
-		Description:    `mappedNamespace is the mapped namespace.`,
+		Description:    `The namespace to map the ` + "`" + `subject` + "`" + ` to.`,
 		Exposed:        true,
 		Name:           "mappedNamespace",
 		Orderable:      true,
@@ -1014,7 +1014,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject is the subject.`,
+		Description:    `A tag or tag expression identifying the entity to be mapped.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
@@ -1136,7 +1136,7 @@ type SparseNamespaceMappingPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// mappedNamespace is the mapped namespace.
+	// The namespace to map the `+"`"+`subject`+"`"+` to.
 	MappedNamespace *string `json:"mappedNamespace,omitempty" msgpack:"mappedNamespace,omitempty" bson:"mappednamespace,omitempty" mapstructure:"mappedNamespace,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -1155,7 +1155,7 @@ type SparseNamespaceMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject is the subject.
+	// A tag or tag expression identifying the entity to be mapped.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

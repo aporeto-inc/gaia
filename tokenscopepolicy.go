@@ -97,7 +97,7 @@ type TokenScopePolicy struct {
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssignedScopes is the the list of scopes that the policiy will assigns.
+	// The list of scopes that the policy will assign.
 	AssignedScopes []string `json:"assignedScopes" msgpack:"assignedScopes" bson:"assignedscopes" mapstructure:"assignedScopes,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
@@ -115,7 +115,7 @@ type TokenScopePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
@@ -142,7 +142,7 @@ type TokenScopePolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject defines the selection criteria that this policy must match on identiy
+	// Defines the selection criteria that this policy must match on identiy
 	// and scope request information.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
@@ -211,7 +211,7 @@ func (o *TokenScopePolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *TokenScopePolicy) Doc() string {
 
-	return `The TokenScopePolicy defines a set of policies that allow customization of the
+	return `Defines a set of policies that allow customization of the
 authorization tokens issued by the Aporeto service. This allows Aporeto
 generated tokens to be used by external applications.`
 }
@@ -785,7 +785,7 @@ The policy will be active for the given activeDuration.`,
 	"AssignedScopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssignedScopes",
-		Description:    `AssignedScopes is the the list of scopes that the policiy will assigns.`,
+		Description:    `The list of scopes that the policy will assign.`,
 		Exposed:        true,
 		Name:           "assignedScopes",
 		Orderable:      true,
@@ -859,7 +859,7 @@ The policy will be active for the given activeDuration.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -970,7 +970,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject defines the selection criteria that this policy must match on identiy
+		Description: `Defines the selection criteria that this policy must match on identiy
 and scope request information.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1062,7 +1062,7 @@ The policy will be active for the given activeDuration.`,
 	"assignedscopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssignedScopes",
-		Description:    `AssignedScopes is the the list of scopes that the policiy will assigns.`,
+		Description:    `The list of scopes that the policy will assign.`,
 		Exposed:        true,
 		Name:           "assignedScopes",
 		Orderable:      true,
@@ -1136,7 +1136,7 @@ The policy will be active for the given activeDuration.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1247,7 +1247,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject defines the selection criteria that this policy must match on identiy
+		Description: `Defines the selection criteria that this policy must match on identiy
 and scope request information.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1364,7 +1364,7 @@ type SparseTokenScopePolicy struct {
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssignedScopes is the the list of scopes that the policiy will assigns.
+	// The list of scopes that the policy will assign.
 	AssignedScopes *[]string `json:"assignedScopes,omitempty" msgpack:"assignedScopes,omitempty" bson:"assignedscopes,omitempty" mapstructure:"assignedScopes,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
@@ -1382,7 +1382,7 @@ type SparseTokenScopePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
@@ -1409,7 +1409,7 @@ type SparseTokenScopePolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject defines the selection criteria that this policy must match on identiy
+	// Defines the selection criteria that this policy must match on identiy
 	// and scope request information.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 

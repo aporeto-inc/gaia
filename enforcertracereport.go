@@ -79,16 +79,16 @@ func (o EnforcerTraceReportsList) Version() int {
 
 // EnforcerTraceReport represents the model of a enforcertracereport
 type EnforcerTraceReport struct {
-	// EnforcerID of the enforcer where the trace was collected.
+	// ID of the enforcer where the trace was collected.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer where the trace was collected.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Namespace of the PU where the trace was collected.
+	// Namespace of the processing unit where the trace was collected.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// ID of the pu where the trace was collected.
+	// ID of the processing unit where the trace was collected.
 	PuID string `json:"puID" msgpack:"puID" bson:"puid" mapstructure:"puID,omitempty"`
 
 	// List of iptables trace records collected.
@@ -310,7 +310,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 	"EnforcerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `EnforcerID of the enforcer where the trace was collected.`,
+		Description:    `ID of the enforcer where the trace was collected.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -330,7 +330,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace of the PU where the trace was collected.`,
+		Description:    `Namespace of the processing unit where the trace was collected.`,
 		Exposed:        true,
 		Name:           "namespace",
 		Required:       true,
@@ -340,7 +340,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 	"PuID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PuID",
-		Description:    `ID of the pu where the trace was collected.`,
+		Description:    `ID of the processing unit where the trace was collected.`,
 		Exposed:        true,
 		Name:           "puID",
 		Required:       true,
@@ -363,7 +363,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"enforcerid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `EnforcerID of the enforcer where the trace was collected.`,
+		Description:    `ID of the enforcer where the trace was collected.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -383,7 +383,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace of the PU where the trace was collected.`,
+		Description:    `Namespace of the processing unit where the trace was collected.`,
 		Exposed:        true,
 		Name:           "namespace",
 		Required:       true,
@@ -393,7 +393,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"puid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PuID",
-		Description:    `ID of the pu where the trace was collected.`,
+		Description:    `ID of the processing unit where the trace was collected.`,
 		Exposed:        true,
 		Name:           "puID",
 		Required:       true,
@@ -474,16 +474,16 @@ func (o SparseEnforcerTraceReportsList) Version() int {
 
 // SparseEnforcerTraceReport represents the sparse version of a enforcertracereport.
 type SparseEnforcerTraceReport struct {
-	// EnforcerID of the enforcer where the trace was collected.
+	// ID of the enforcer where the trace was collected.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer where the trace was collected.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Namespace of the PU where the trace was collected.
+	// Namespace of the processing unit where the trace was collected.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// ID of the pu where the trace was collected.
+	// ID of the processing unit where the trace was collected.
 	PuID *string `json:"puID,omitempty" msgpack:"puID,omitempty" bson:"puid,omitempty" mapstructure:"puID,omitempty"`
 
 	// List of iptables trace records collected.

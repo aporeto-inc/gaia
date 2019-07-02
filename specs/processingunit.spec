@@ -7,7 +7,8 @@ model:
   group: core/processingunit
   description: |-
     A processing unit represents anything that can compute. It can be a Docker
-    container or a simple Unix process. Processing units are created, updated, and deleted by
+    container or a simple Unix process. Processing units are created, updated, and
+    deleted by
     the system as they come and go. You can only modify their tags. Processing units
     use network policies to define which other processing units or external
     networks they can communicate with and file access policies to define what file
@@ -54,7 +55,8 @@ attributes:
   v1:
   - name: collectInfo
     description: |-
-      A value of `true` indicates to the enforcer that it needs to collect information for 
+      A value of `true` indicates to the enforcer that it needs to collect information
+      for
       this processing unit.
     type: boolean
     exposed: true
@@ -62,7 +64,8 @@ attributes:
 
   - name: collectedInfo
     description: |-
-      Represents the latest information collected by the enforcer for this processing unit.
+      Represents the latest information collected by the enforcer for this processing
+      unit.
     type: external
     exposed: true
     subtype: map[string]string
@@ -70,9 +73,11 @@ attributes:
 
   - name: enforcementStatus
     description: |-
-      Contains the state of the enforcer for the processing unit. `Inactive` (default): 
-      the enforcer is not enforcing any host service. `Active`: the enforcer is enforcing 
-      a host service. `Failed`. 
+      Contains the state of the enforcer for the processing unit. `Inactive`
+      (default):
+      the enforcer is not enforcing any host service. `Active`: the enforcer is
+      enforcing
+      a host service. `Failed`.
     type: enum
     exposed: true
     stored: true
@@ -84,16 +89,14 @@ attributes:
     filterable: true
 
   - name: enforcerID
-    description: |-
-      The ID of the enforcer associated with the processing unit.
+    description: The ID of the enforcer associated with the processing unit.
     type: string
     exposed: true
     stored: true
     filterable: true
 
   - name: enforcerNamespace
-    description: |-
-      The namespace of the enforcer associated with the processing unit.
+    description: The namespace of the enforcer associated with the processing unit.
     type: string
     exposed: true
     stored: true
@@ -117,8 +120,7 @@ attributes:
     filterable: true
 
   - name: lastCollectionTime
-    description: |-
-      The date and time when the information was collected.
+    description: The date and time when the information was collected.
     type: time
     exposed: true
     stored: true
@@ -144,8 +146,10 @@ attributes:
 
   - name: networkServices
     description: |-
-      The list of services that this processing unit has declared that it will be listening to, 
-      either in its activation command or by exposing the ports in a container manifest.
+      The list of services that this processing unit has declared that it will be
+      listening to,
+      either in its activation command or by exposing the ports in a container
+      manifest.
     type: refList
     exposed: true
     subtype: processingunitservice
@@ -158,7 +162,8 @@ attributes:
 
   - name: operationalStatus
     description: |-
-      Operational status of the processing unit: `Initialized` (default), `Paused`, `Running`, 
+      Operational status of the processing unit: `Initialized` (default), `Paused`,
+      `Running`,
       `Stopped`, or `Terminated`.
     type: enum
     exposed: true
@@ -183,7 +188,8 @@ attributes:
 
   - name: type
     description: |-
-      Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`, `LinuxService`, 
+      Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
+      `LinuxService`,
       `RKT`, `User`, or `SSHSession`.
     type: enum
     exposed: true
@@ -203,7 +209,8 @@ attributes:
 
   - name: unreachable
     description: |-
-      The Aporeto control plane sets this value to `true` if it hasn't heard from the processing 
+      The Aporeto control plane sets this value to `true` if it hasn't heard from the
+      processing
       unit for more than five minutes.
     type: boolean
     exposed: true
@@ -216,8 +223,8 @@ relations:
 - rest_name: poke
   get:
     description: |-
-      Sends a poke empty object. This will send a snaphot of the processing unit to the
-      time series database.
+      Sends a poke empty object. This will send a snaphot of the processing unit to
+      the time series database.
     parameters:
       entries:
       - name: enforcementStatus

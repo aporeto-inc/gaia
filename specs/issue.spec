@@ -12,11 +12,13 @@ attributes:
   v1:
   - name: audience
     description: |-
-      If given, the issued token will only be valid for the specified namespace. 
-      Refer to [JSON Web Token (JWT) RFC 7519](https://tools.ietf.org/html/rfc7519#section-4.1.3) 
-      for further information. Example: `aud:*:*:/namespace`. 
+      If given, the issued token will only be valid for the specified namespace.
+      Refer to [JSON Web Token (JWT)RFC
+      7519](https://tools.ietf.org/html/rfc7519#section-4.1.3).
+      for further information.
     type: string
     exposed: true
+    example_value: aud:*:*:/namespace
     validations:
     - $audience
 
@@ -28,8 +30,7 @@ attributes:
     orderable: true
 
   - name: metadata
-    description: Contains various additional information. Meaning depends
-      on the `realm`.
+    description: Contains various additional information. Meaning depends on the `realm`.
     type: external
     exposed: true
     subtype: map[string]interface{}
@@ -52,7 +53,8 @@ attributes:
 
   - name: realm
     description: |-
-      The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`, `Certificate`, 
+      The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
+      `Certificate`,
       `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
     type: enum
     exposed: true
@@ -78,8 +80,9 @@ attributes:
 
   - name: validity
     description: |-
-      Configures the maximum length of validity for a token, using 
-      [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). If it is 
+      Configures the maximum length of validity for a token, using
+      [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). If it
+      is
       bigger than the configured max validity, it will be capped. Default: `24h`.
     type: string
     exposed: true

@@ -6,7 +6,8 @@ model:
   package: sephiroth
   group: integration/automation
   description: |-
-    Allows you to define some code and specify the conditions under which it should be executed.
+    Allows you to define some code and specify the conditions under which it should
+    be executed.
   aliases:
   - autos
   - auto
@@ -73,6 +74,14 @@ attributes:
     subtype: _automation_events
     stored: true
 
+  - name: immediateExecution
+    description: |-
+      If set and the trigger is of type Time, the automation will be run at create or
+      update before being scheduled.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: lastExecTime
     description: The last successful execution tine.
     type: time
@@ -115,7 +124,8 @@ attributes:
     transient: true
 
   - name: tokenRenew
-    description: If set to `true` a new token will be issued and the previous one invalidated.
+    description: If set to `true` a new token will be issued and the previous one
+      invalidated.
     type: boolean
     exposed: true
 

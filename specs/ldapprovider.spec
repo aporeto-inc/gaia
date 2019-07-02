@@ -30,7 +30,8 @@ attributes:
   v1:
   - name: address
     description: |-
-      Contains the fully qualified domain name (FQDN) or IP address of the private LDAP server.
+      Contains the fully qualified domain name (FQDN) or IP address of the private
+      LDAP server.
     type: string
     exposed: true
     stored: true
@@ -41,7 +42,8 @@ attributes:
 
   - name: baseDN
     description: |-
-      Contains the base distinguished name (DN) to use for LDAP queries. Example: `dc=example,dc=com`.
+      Contains the base distinguished name (DN) to use for LDAP queries. Example:
+      `dc=example,dc=com`.
     type: string
     exposed: true
     stored: true
@@ -52,7 +54,8 @@ attributes:
 
   - name: bindDN
     description: |-
-      Contains the DN to use to bind to the LDAP server. Example: `cn=admin,dc=example,dc=com`.
+      Contains the DN to use to bind to the LDAP server. Example:
+      `cn=admin,dc=example,dc=com`.
     type: string
     exposed: true
     stored: true
@@ -62,7 +65,9 @@ attributes:
     orderable: true
 
   - name: bindPassword
-    description: Contains the password to be used with the `bindDN` to authenticate to the LDAP server.
+    description: |-
+      Contains the password to be used with the `bindDN` to authenticate to the LDAP
+      server.
     type: string
     exposed: true
     stored: true
@@ -72,9 +77,10 @@ attributes:
 
   - name: bindSearchFilter
     description: |-
-      The filter to use to locate the relevant user accounts. For Windows-based systems, the value may 
-      be `sAMAccountName={USERNAME}`. For Linux and other systems, the value may be `uid={USERNAME}`. 
-      Default: `uid={USERNAME}`
+      The filter to use to locate the relevant user accounts. For Windows-based
+      systems, the value may
+      be `sAMAccountName={USERNAME}`. For Linux and other systems, the value may be
+      `uid={USERNAME}`.
     type: string
     exposed: true
     stored: true
@@ -83,8 +89,10 @@ attributes:
 
   - name: certificateAuthority
     description: |-
-      Can be left empty if the LDAP server's certificate is signed by a public, trusted certificate
-      authority. Otherwise, include the public key of the certificate authority that signed the
+      Can be left empty if the LDAP server's certificate is signed by a public,
+      trusted certificate
+      authority. Otherwise, include the public key of the certificate authority that
+      signed the
       LDAP server's certificate.
     type: string
     exposed: true
@@ -102,7 +110,9 @@ attributes:
     orderable: true
 
   - name: connSecurityProtocol
-    description: Specifies the connection type for the LDAP provider. `TLS` or `InbandTLS` (default).
+    description: |-
+      Specifies the connection type for the LDAP provider. `TLS` or `InbandTLS`
+      (default).
     type: enum
     exposed: true
     stored: true
@@ -123,8 +133,8 @@ attributes:
     stored: true
 
   - name: ignoredKeys
-    description: |-
-      A list of keys that must not be imported into Aporeto authorization system.
+    description: A list of keys that must not be imported into Aporeto authorization
+      system.
     type: list
     exposed: true
     subtype: string
@@ -133,9 +143,11 @@ attributes:
 
   - name: subjectKey
     description: |-
-      The key to be used to populate the subject of the Midguard token. If you want to 
-      use the user as a subject, for Windows-based systems you may use `sAMAccountName`. 
-      For Linux and other systems, you may wish to use `uid` (default). You can also use 
+      The key to be used to populate the subject of the Midguard token. If you want to
+      use the user as a subject, for Windows-based systems you may use
+      `sAMAccountName`.
+      For Linux and other systems, you may wish to use `uid` (default). You can also
+      use
       any alternate key.
     type: string
     exposed: true

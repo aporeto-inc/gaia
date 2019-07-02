@@ -83,16 +83,16 @@ type EnforcerReport struct {
 	// Total CPU utilization of the enforcer as a percentage of vCPUs.
 	CPULoad float64 `json:"CPULoad" msgpack:"CPULoad" bson:"-" mapstructure:"CPULoad,omitempty"`
 
-	// ID of the enforcer to report.
+	// ID of the enforcer.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Total resident memory used by the enforcer in bytes.
 	Memory int `json:"memory" msgpack:"memory" bson:"-" mapstructure:"memory,omitempty"`
 
-	// Name of the enforcer to report.
+	// Name of the enforcer.
 	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
-	// Namespace of the enforcer to report.
+	// Namespace of the enforcer.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Number of active processes of the enforcer.
@@ -340,7 +340,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID of the enforcer to report.`,
+		Description:    `ID of the enforcer.`,
 		Exposed:        true,
 		Name:           "ID",
 		Required:       true,
@@ -357,7 +357,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `Name of the enforcer to report.`,
+		Description:    `Name of the enforcer.`,
 		Exposed:        true,
 		Name:           "name",
 		Required:       true,
@@ -366,7 +366,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace of the enforcer to report.`,
+		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
 		Name:           "namespace",
 		Required:       true,
@@ -404,7 +404,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID of the enforcer to report.`,
+		Description:    `ID of the enforcer.`,
 		Exposed:        true,
 		Name:           "ID",
 		Required:       true,
@@ -421,7 +421,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `Name of the enforcer to report.`,
+		Description:    `Name of the enforcer.`,
 		Exposed:        true,
 		Name:           "name",
 		Required:       true,
@@ -430,7 +430,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace of the enforcer to report.`,
+		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
 		Name:           "namespace",
 		Required:       true,
@@ -521,16 +521,16 @@ type SparseEnforcerReport struct {
 	// Total CPU utilization of the enforcer as a percentage of vCPUs.
 	CPULoad *float64 `json:"CPULoad,omitempty" msgpack:"CPULoad,omitempty" bson:"-" mapstructure:"CPULoad,omitempty"`
 
-	// ID of the enforcer to report.
+	// ID of the enforcer.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Total resident memory used by the enforcer in bytes.
 	Memory *int `json:"memory,omitempty" msgpack:"memory,omitempty" bson:"-" mapstructure:"memory,omitempty"`
 
-	// Name of the enforcer to report.
+	// Name of the enforcer.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
-	// Namespace of the enforcer to report.
+	// Namespace of the enforcer.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Number of active processes of the enforcer.

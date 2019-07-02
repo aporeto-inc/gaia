@@ -41,7 +41,7 @@ attributes:
     orderable: true
 
   - name: level
-    description: Importance of the message: `Danger`, `Info` (default), or `Warning`
+    description: Importance of the message.
     type: enum
     exposed: true
     stored: true
@@ -54,7 +54,7 @@ attributes:
 
   - name: validity
     description: |-
-      Sets when the message will be automatically deleted using 
+      Sets when the message will be automatically deleted using
       [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
     type: string
     exposed: true

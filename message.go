@@ -115,10 +115,10 @@ type Message struct {
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// expirationTime is the time after which the message will be deleted.
+	// The time after which the message will be deleted.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
-	// Level defines how the message is important.
+	// Importance of the message.
 	Level MessageLevelValue `json:"level" msgpack:"level" bson:"level" mapstructure:"level,omitempty"`
 
 	// Name is the name of the entity.
@@ -142,8 +142,8 @@ type Message struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	// Validity set using golang time duration, when the message will be automatically
-	// deleted.
+	// Sets when the message will be automatically deleted using
+	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
 	Validity string `json:"validity" msgpack:"validity" bson:"validity" mapstructure:"validity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
@@ -211,7 +211,7 @@ func (o *Message) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Message) Doc() string {
 
-	return `The Message API allows to post public messages that will be visible through all
+	return `Allows you to post public messages that will be visible through all
 children namespaces.`
 }
 
@@ -735,7 +735,7 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `expirationTime is the time after which the message will be deleted.`,
+		Description:    `The time after which the message will be deleted.`,
 		Exposed:        true,
 		Name:           "expirationTime",
 		Orderable:      true,
@@ -746,7 +746,7 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Danger", "Info", "Warning"},
 		ConvertedName:  "Level",
 		DefaultValue:   MessageLevelInfo,
-		Description:    `Level defines how the message is important.`,
+		Description:    `Importance of the message.`,
 		Exposed:        true,
 		Name:           "level",
 		Orderable:      true,
@@ -854,8 +854,8 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
-		Description: `Validity set using golang time duration, when the message will be automatically
-deleted.`,
+		Description: `Sets when the message will be automatically deleted using
+[Golang duration syntax](https://golang.org/pkg/time/#example_Duration).`,
 		Exposed: true,
 		Name:    "validity",
 		Stored:  true,
@@ -973,7 +973,7 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `expirationTime is the time after which the message will be deleted.`,
+		Description:    `The time after which the message will be deleted.`,
 		Exposed:        true,
 		Name:           "expirationTime",
 		Orderable:      true,
@@ -984,7 +984,7 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Danger", "Info", "Warning"},
 		ConvertedName:  "Level",
 		DefaultValue:   MessageLevelInfo,
-		Description:    `Level defines how the message is important.`,
+		Description:    `Importance of the message.`,
 		Exposed:        true,
 		Name:           "level",
 		Orderable:      true,
@@ -1092,8 +1092,8 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
-		Description: `Validity set using golang time duration, when the message will be automatically
-deleted.`,
+		Description: `Sets when the message will be automatically deleted using
+[Golang duration syntax](https://golang.org/pkg/time/#example_Duration).`,
 		Exposed: true,
 		Name:    "validity",
 		Stored:  true,
@@ -1213,10 +1213,10 @@ type SparseMessage struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// expirationTime is the time after which the message will be deleted.
+	// The time after which the message will be deleted.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
-	// Level defines how the message is important.
+	// Importance of the message.
 	Level *MessageLevelValue `json:"level,omitempty" msgpack:"level,omitempty" bson:"level,omitempty" mapstructure:"level,omitempty"`
 
 	// Name is the name of the entity.
@@ -1240,8 +1240,8 @@ type SparseMessage struct {
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	// Validity set using golang time duration, when the message will be automatically
-	// deleted.
+	// Sets when the message will be automatically deleted using
+	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
 	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"validity,omitempty" mapstructure:"validity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and

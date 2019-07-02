@@ -118,7 +118,7 @@ type InstalledApp struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// CategoryID of the app.
+	// The category ID of the application.
 	CategoryID string `json:"categoryID" msgpack:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -127,7 +127,7 @@ type InstalledApp struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Version of the installed app.
+	// Version of the installed application.
 	CurrentVersion string `json:"currentVersion" msgpack:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
 
 	// DeploymentCount represents the number of expected deployment for this app.
@@ -142,16 +142,16 @@ type InstalledApp struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters contains the computed parameters to start the app.
+	// Contains the computed parameters to start the application.
 	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Status of the app.
+	// Status of the application.
 	Status InstalledAppStatusValue `json:"status" msgpack:"status" bson:"status" mapstructure:"status,omitempty"`
 
-	// Reason for the status of the app.
+	// Reason for the status of the application.
 	StatusMessage string `json:"statusMessage" msgpack:"statusMessage" bson:"statusmessage" mapstructure:"statusMessage,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -226,7 +226,7 @@ func (o *InstalledApp) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *InstalledApp) Doc() string {
 
-	return `InstalledApps represents an installed application.`
+	return `Represents an installed application.`
 }
 
 func (o *InstalledApp) String() string {
@@ -702,7 +702,7 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 	"CategoryID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the app.`,
+		Description:    `The category ID of the application.`,
 		Exposed:        true,
 		Name:           "categoryID",
 		Orderable:      true,
@@ -739,7 +739,7 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 	"CurrentVersion": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CurrentVersion",
-		Description:    `Version of the installed app.`,
+		Description:    `Version of the installed application.`,
 		Exposed:        true,
 		Name:           "currentVersion",
 		Stored:         true,
@@ -804,7 +804,7 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters to start the app.`,
+		Description:    `Contains the computed parameters to start the application.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
@@ -827,7 +827,7 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"},
 		ConvertedName:  "Status",
 		DefaultValue:   InstalledAppStatusUnknown,
-		Description:    `Status of the app.`,
+		Description:    `Status of the application.`,
 		Exposed:        true,
 		Name:           "status",
 		Orderable:      true,
@@ -838,7 +838,7 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 	"StatusMessage": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "StatusMessage",
-		Description:    `Reason for the status of the app.`,
+		Description:    `Reason for the status of the application.`,
 		Exposed:        true,
 		Name:           "statusMessage",
 		ReadOnly:       true,
@@ -952,7 +952,7 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"categoryid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the app.`,
+		Description:    `The category ID of the application.`,
 		Exposed:        true,
 		Name:           "categoryID",
 		Orderable:      true,
@@ -989,7 +989,7 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"currentversion": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CurrentVersion",
-		Description:    `Version of the installed app.`,
+		Description:    `Version of the installed application.`,
 		Exposed:        true,
 		Name:           "currentVersion",
 		Stored:         true,
@@ -1054,7 +1054,7 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters to start the app.`,
+		Description:    `Contains the computed parameters to start the application.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
@@ -1077,7 +1077,7 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		AllowedChoices: []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"},
 		ConvertedName:  "Status",
 		DefaultValue:   InstalledAppStatusUnknown,
-		Description:    `Status of the app.`,
+		Description:    `Status of the application.`,
 		Exposed:        true,
 		Name:           "status",
 		Orderable:      true,
@@ -1088,7 +1088,7 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"statusmessage": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "StatusMessage",
-		Description:    `Reason for the status of the app.`,
+		Description:    `Reason for the status of the application.`,
 		Exposed:        true,
 		Name:           "statusMessage",
 		ReadOnly:       true,
@@ -1229,7 +1229,7 @@ type SparseInstalledApp struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// CategoryID of the app.
+	// The category ID of the application.
 	CategoryID *string `json:"categoryID,omitempty" msgpack:"categoryID,omitempty" bson:"categoryid,omitempty" mapstructure:"categoryID,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1238,7 +1238,7 @@ type SparseInstalledApp struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Version of the installed app.
+	// Version of the installed application.
 	CurrentVersion *string `json:"currentVersion,omitempty" msgpack:"currentVersion,omitempty" bson:"currentversion,omitempty" mapstructure:"currentVersion,omitempty"`
 
 	// DeploymentCount represents the number of expected deployment for this app.
@@ -1253,16 +1253,16 @@ type SparseInstalledApp struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters contains the computed parameters to start the app.
+	// Contains the computed parameters to start the application.
 	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Status of the app.
+	// Status of the application.
 	Status *InstalledAppStatusValue `json:"status,omitempty" msgpack:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
 
-	// Reason for the status of the app.
+	// Reason for the status of the application.
 	StatusMessage *string `json:"statusMessage,omitempty" msgpack:"statusMessage,omitempty" bson:"statusmessage,omitempty" mapstructure:"statusMessage,omitempty"`
 
 	// internal idempotency key for a update operation.

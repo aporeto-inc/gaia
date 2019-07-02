@@ -143,8 +143,8 @@ type ProcessingUnitPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// IsolationProfileSelector are the profiles that must be applied when this policy
-	// matches. Only applies to Enforce and LogCompliance actions.
+	// The isolation profiles to be mapped. Only applies to `+"`"+`Enforce`+"`"+` and
+	// `+"`"+`LogCompliance`+"`"+` actions.
 	IsolationProfileSelector [][]string `json:"isolationProfileSelector" msgpack:"isolationProfileSelector" bson:"isolationprofileselector" mapstructure:"isolationProfileSelector,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -166,8 +166,8 @@ type ProcessingUnitPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject defines the tag selectors that identitfy the processing units to which
-	// this policy applies.
+	// A tag or tag expression identifying the processing unit(s) to which the
+	// isolation profile should be mapped.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -235,7 +235,7 @@ func (o *ProcessingUnitPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ProcessingUnitPolicy) Doc() string {
 
-	return `A ProcessingUnitPolicies needs a better description.`
+	return `Allows you to map isolation profiles to processing units.`
 }
 
 func (o *ProcessingUnitPolicy) String() string {
@@ -890,8 +890,8 @@ propagated it will become a fallback for children namespaces.`,
 	"IsolationProfileSelector": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IsolationProfileSelector",
-		Description: `IsolationProfileSelector are the profiles that must be applied when this policy
-matches. Only applies to Enforce and LogCompliance actions.`,
+		Description: `The isolation profiles to be mapped. Only applies to ` + "`" + `Enforce` + "`" + ` and
+` + "`" + `LogCompliance` + "`" + ` actions.`,
 		Exposed: true,
 		Name:    "isolationProfileSelector",
 		Stored:  true,
@@ -987,8 +987,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject defines the tag selectors that identitfy the processing units to which
-this policy applies.`,
+		Description: `A tag or tag expression identifying the processing unit(s) to which the
+isolation profile should be mapped.`,
 		Exposed: true,
 		Name:    "subject",
 		Stored:  true,
@@ -1165,8 +1165,8 @@ propagated it will become a fallback for children namespaces.`,
 	"isolationprofileselector": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IsolationProfileSelector",
-		Description: `IsolationProfileSelector are the profiles that must be applied when this policy
-matches. Only applies to Enforce and LogCompliance actions.`,
+		Description: `The isolation profiles to be mapped. Only applies to ` + "`" + `Enforce` + "`" + ` and
+` + "`" + `LogCompliance` + "`" + ` actions.`,
 		Exposed: true,
 		Name:    "isolationProfileSelector",
 		Stored:  true,
@@ -1262,8 +1262,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject defines the tag selectors that identitfy the processing units to which
-this policy applies.`,
+		Description: `A tag or tag expression identifying the processing unit(s) to which the
+isolation profile should be mapped.`,
 		Exposed: true,
 		Name:    "subject",
 		Stored:  true,
@@ -1401,8 +1401,8 @@ type SparseProcessingUnitPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// IsolationProfileSelector are the profiles that must be applied when this policy
-	// matches. Only applies to Enforce and LogCompliance actions.
+	// The isolation profiles to be mapped. Only applies to `+"`"+`Enforce`+"`"+` and
+	// `+"`"+`LogCompliance`+"`"+` actions.
 	IsolationProfileSelector *[][]string `json:"isolationProfileSelector,omitempty" msgpack:"isolationProfileSelector,omitempty" bson:"isolationprofileselector,omitempty" mapstructure:"isolationProfileSelector,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -1424,8 +1424,8 @@ type SparseProcessingUnitPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject defines the tag selectors that identitfy the processing units to which
-	// this policy applies.
+	// A tag or tag expression identifying the processing unit(s) to which the
+	// isolation profile should be mapped.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

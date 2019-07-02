@@ -144,3 +144,4 @@ attributes:
     - Syscall
     - TokenScope
     - SSHAuthorization
+    - UserAccess

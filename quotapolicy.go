@@ -104,7 +104,7 @@ type QuotaPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the quota will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
@@ -112,7 +112,7 @@ type QuotaPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// Identities contains the list of identity names where the quota will be applied.
+	// Contains the list of identity names where the quota will be applied.
 	Identities []string `json:"identities" msgpack:"identities" bson:"identities" mapstructure:"identities,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -138,11 +138,10 @@ type QuotaPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Quota contains the maximum number of object matching the policy subject that can
-	// be created.
+	// Specifies the maximum number of objects matching the policy subject that can be created.
 	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
-	// TargetNamespace contains the base namespace from where the count will be done.
+	// Contains the base namespace from where the count will be done.
 	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -209,7 +208,7 @@ func (o *QuotaPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *QuotaPolicy) Doc() string {
 
-	return `Quotas Policies allows to set quotas on the number of objects that can be
+	return `Allows you to set quotas on the number of objects that can be
 created in a namespace.`
 }
 
@@ -808,7 +807,7 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the quota will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -833,7 +832,7 @@ propagated it will become a fallback for children namespaces.`,
 	"Identities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Identities",
-		Description:    `Identities contains the list of identity names where the quota will be applied.`,
+		Description:    `Contains the list of identity names where the quota will be applied.`,
 		Exposed:        true,
 		Name:           "identities",
 		Required:       true,
@@ -943,16 +942,15 @@ namespace, but still used for policy resolution.`,
 	"Quota": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Quota",
-		Description: `Quota contains the maximum number of object matching the policy subject that can
-be created.`,
-		Exposed: true,
-		Name:    "quota",
-		Type:    "integer",
+		Description:    `Specifies the maximum number of objects matching the policy subject that can be created.`,
+		Exposed:        true,
+		Name:           "quota",
+		Type:           "integer",
 	},
 	"TargetNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
-		Description:    `TargetNamespace contains the base namespace from where the count will be done.`,
+		Description:    `Contains the base namespace from where the count will be done.`,
 		Exposed:        true,
 		Name:           "targetNamespace",
 		Required:       true,
@@ -1080,7 +1078,7 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the quota will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1105,7 +1103,7 @@ propagated it will become a fallback for children namespaces.`,
 	"identities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Identities",
-		Description:    `Identities contains the list of identity names where the quota will be applied.`,
+		Description:    `Contains the list of identity names where the quota will be applied.`,
 		Exposed:        true,
 		Name:           "identities",
 		Required:       true,
@@ -1215,16 +1213,15 @@ namespace, but still used for policy resolution.`,
 	"quota": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Quota",
-		Description: `Quota contains the maximum number of object matching the policy subject that can
-be created.`,
-		Exposed: true,
-		Name:    "quota",
-		Type:    "integer",
+		Description:    `Specifies the maximum number of objects matching the policy subject that can be created.`,
+		Exposed:        true,
+		Name:           "quota",
+		Type:           "integer",
 	},
 	"targetnamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
-		Description:    `TargetNamespace contains the base namespace from where the count will be done.`,
+		Description:    `Contains the base namespace from where the count will be done.`,
 		Exposed:        true,
 		Name:           "targetNamespace",
 		Required:       true,
@@ -1346,7 +1343,7 @@ type SparseQuotaPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the quota will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
@@ -1354,7 +1351,7 @@ type SparseQuotaPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// Identities contains the list of identity names where the quota will be applied.
+	// Contains the list of identity names where the quota will be applied.
 	Identities *[]string `json:"identities,omitempty" msgpack:"identities,omitempty" bson:"identities,omitempty" mapstructure:"identities,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -1380,11 +1377,10 @@ type SparseQuotaPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Quota contains the maximum number of object matching the policy subject that can
-	// be created.
+	// Specifies the maximum number of objects matching the policy subject that can be created.
 	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
-	// TargetNamespace contains the base namespace from where the count will be done.
+	// Contains the base namespace from where the count will be done.
 	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"targetnamespace,omitempty" mapstructure:"targetNamespace,omitempty"`
 
 	// internal idempotency key for a update operation.

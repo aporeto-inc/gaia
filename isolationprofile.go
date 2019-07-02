@@ -93,8 +93,7 @@ type IsolationProfile struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// CapabilitiesActions identifies the capabilities that should be added or removed
-	// from the processing unit.
+	// The capabilities that should be added to or removed from the processing unit.
 	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" msgpack:"capabilitiesActions" bson:"capabilitiesactions" mapstructure:"capabilitiesActions,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -103,8 +102,8 @@ type IsolationProfile struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// DefaultAction is the default action applied to all syscalls of this profile.
-	// Default is "Allow".
+	// The default action applied to all system calls of this profile.
+	// Default is `+"`"+`Allow`+"`"+`.
 	DefaultSyscallAction types.SyscallEnforcementAction `json:"defaultSyscallAction" msgpack:"defaultSyscallAction" bson:"defaultsyscallaction" mapstructure:"defaultSyscallAction,omitempty"`
 
 	// Description is the description of the object.
@@ -129,12 +128,11 @@ type IsolationProfile struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// SyscallRules is a list of syscall rules that identify actions for particular
-	// syscalls.
+	// A list of system call rules that identify actions for particular
+	// system calls.
 	SyscallRules types.SyscallEnforcementRulesMap `json:"syscallRules" msgpack:"syscallRules" bson:"syscallrules" mapstructure:"syscallRules,omitempty"`
 
-	// TargetArchitectures is the target processor architectures where this profile can
-	// be applied. Default all.
+	// The processor architectures that the profile supports. Default `+"`"+`all`+"`"+`.
 	TargetArchitectures types.ArchitecturesTypeList `json:"targetArchitectures" msgpack:"targetArchitectures" bson:"targetarchitectures" mapstructure:"targetArchitectures,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -211,7 +209,7 @@ func (o *IsolationProfile) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *IsolationProfile) Doc() string {
 
-	return `An IsolationProfile needs documentation.`
+	return `Defines system call rules, system call actions, and other capabilities on a processing unit.`
 }
 
 func (o *IsolationProfile) String() string {
@@ -719,14 +717,13 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"CapabilitiesActions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CapabilitiesActions",
-		Description: `CapabilitiesActions identifies the capabilities that should be added or removed
-from the processing unit.`,
-		Exposed:   true,
-		Name:      "capabilitiesActions",
-		Orderable: true,
-		Stored:    true,
-		SubType:   "_cap_map",
-		Type:      "external",
+		Description:    `The capabilities that should be added to or removed from the processing unit.`,
+		Exposed:        true,
+		Name:           "capabilitiesActions",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "_cap_map",
+		Type:           "external",
 	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -757,8 +754,8 @@ from the processing unit.`,
 	"DefaultSyscallAction": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DefaultSyscallAction",
-		Description: `DefaultAction is the default action applied to all syscalls of this profile.
-Default is "Allow".`,
+		Description: `The default action applied to all system calls of this profile.
+Default is ` + "`" + `Allow` + "`" + `.`,
 		Exposed: true,
 		Name:    "defaultSyscallAction",
 		Stored:  true,
@@ -867,8 +864,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"SyscallRules": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SyscallRules",
-		Description: `SyscallRules is a list of syscall rules that identify actions for particular
-syscalls.`,
+		Description: `A list of system call rules that identify actions for particular
+system calls.`,
 		Exposed:   true,
 		Name:      "syscallRules",
 		Orderable: true,
@@ -879,14 +876,13 @@ syscalls.`,
 	"TargetArchitectures": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetArchitectures",
-		Description: `TargetArchitectures is the target processor architectures where this profile can
-be applied. Default all.`,
-		Exposed:   true,
-		Name:      "targetArchitectures",
-		Orderable: true,
-		Stored:    true,
-		SubType:   "_arch_list",
-		Type:      "external",
+		Description:    `The processor architectures that the profile supports. Default ` + "`" + `all` + "`" + `.`,
+		Exposed:        true,
+		Name:           "targetArchitectures",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "_arch_list",
+		Type:           "external",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -987,14 +983,13 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"capabilitiesactions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CapabilitiesActions",
-		Description: `CapabilitiesActions identifies the capabilities that should be added or removed
-from the processing unit.`,
-		Exposed:   true,
-		Name:      "capabilitiesActions",
-		Orderable: true,
-		Stored:    true,
-		SubType:   "_cap_map",
-		Type:      "external",
+		Description:    `The capabilities that should be added to or removed from the processing unit.`,
+		Exposed:        true,
+		Name:           "capabilitiesActions",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "_cap_map",
+		Type:           "external",
 	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1025,8 +1020,8 @@ from the processing unit.`,
 	"defaultsyscallaction": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DefaultSyscallAction",
-		Description: `DefaultAction is the default action applied to all syscalls of this profile.
-Default is "Allow".`,
+		Description: `The default action applied to all system calls of this profile.
+Default is ` + "`" + `Allow` + "`" + `.`,
 		Exposed: true,
 		Name:    "defaultSyscallAction",
 		Stored:  true,
@@ -1135,8 +1130,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"syscallrules": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SyscallRules",
-		Description: `SyscallRules is a list of syscall rules that identify actions for particular
-syscalls.`,
+		Description: `A list of system call rules that identify actions for particular
+system calls.`,
 		Exposed:   true,
 		Name:      "syscallRules",
 		Orderable: true,
@@ -1147,14 +1142,13 @@ syscalls.`,
 	"targetarchitectures": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetArchitectures",
-		Description: `TargetArchitectures is the target processor architectures where this profile can
-be applied. Default all.`,
-		Exposed:   true,
-		Name:      "targetArchitectures",
-		Orderable: true,
-		Stored:    true,
-		SubType:   "_arch_list",
-		Type:      "external",
+		Description:    `The processor architectures that the profile supports. Default ` + "`" + `all` + "`" + `.`,
+		Exposed:        true,
+		Name:           "targetArchitectures",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "_arch_list",
+		Type:           "external",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1287,8 +1281,7 @@ type SparseIsolationProfile struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// CapabilitiesActions identifies the capabilities that should be added or removed
-	// from the processing unit.
+	// The capabilities that should be added to or removed from the processing unit.
 	CapabilitiesActions *types.CapabilitiesTypeMap `json:"capabilitiesActions,omitempty" msgpack:"capabilitiesActions,omitempty" bson:"capabilitiesactions,omitempty" mapstructure:"capabilitiesActions,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1297,8 +1290,8 @@ type SparseIsolationProfile struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// DefaultAction is the default action applied to all syscalls of this profile.
-	// Default is "Allow".
+	// The default action applied to all system calls of this profile.
+	// Default is `+"`"+`Allow`+"`"+`.
 	DefaultSyscallAction *types.SyscallEnforcementAction `json:"defaultSyscallAction,omitempty" msgpack:"defaultSyscallAction,omitempty" bson:"defaultsyscallaction,omitempty" mapstructure:"defaultSyscallAction,omitempty"`
 
 	// Description is the description of the object.
@@ -1323,12 +1316,11 @@ type SparseIsolationProfile struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// SyscallRules is a list of syscall rules that identify actions for particular
-	// syscalls.
+	// A list of system call rules that identify actions for particular
+	// system calls.
 	SyscallRules *types.SyscallEnforcementRulesMap `json:"syscallRules,omitempty" msgpack:"syscallRules,omitempty" bson:"syscallrules,omitempty" mapstructure:"syscallRules,omitempty"`
 
-	// TargetArchitectures is the target processor architectures where this profile can
-	// be applied. Default all.
+	// The processor architectures that the profile supports. Default `+"`"+`all`+"`"+`.
 	TargetArchitectures *types.ArchitecturesTypeList `json:"targetArchitectures,omitempty" msgpack:"targetArchitectures,omitempty" bson:"targetarchitectures,omitempty" mapstructure:"targetArchitectures,omitempty"`
 
 	// internal idempotency key for a update operation.

@@ -104,7 +104,7 @@ type HTTPResourceSpec struct {
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// EndPoints is a list of API endpoints that are exposed for the service.
+	// A list of API endpoints that are exposed for the service.
 	Endpoints []*Endpoint `json:"endpoints" msgpack:"endpoints" bson:"endpoints" mapstructure:"endpoints,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -198,8 +198,7 @@ func (o *HTTPResourceSpec) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *HTTPResourceSpec) Doc() string {
 
-	return `HTTPResourceSpec descibes an HTTP resource exposed by a service. These APIs
-can be associated with one or more services.`
+	return `Describes an HTTP resource exposed by one or more services.`
 }
 
 func (o *HTTPResourceSpec) String() string {
@@ -761,7 +760,7 @@ var HTTPResourceSpecAttributesMap = map[string]elemental.AttributeSpecification{
 	"Endpoints": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoints",
-		Description:    `EndPoints is a list of API endpoints that are exposed for the service.`,
+		Description:    `A list of API endpoints that are exposed for the service.`,
 		Exposed:        true,
 		Name:           "endpoints",
 		Stored:         true,
@@ -1002,7 +1001,7 @@ var HTTPResourceSpecLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"endpoints": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoints",
-		Description:    `EndPoints is a list of API endpoints that are exposed for the service.`,
+		Description:    `A list of API endpoints that are exposed for the service.`,
 		Exposed:        true,
 		Name:           "endpoints",
 		Stored:         true,
@@ -1238,7 +1237,7 @@ type SparseHTTPResourceSpec struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// EndPoints is a list of API endpoints that are exposed for the service.
+	// A list of API endpoints that are exposed for the service.
 	Endpoints *[]*Endpoint `json:"endpoints,omitempty" msgpack:"endpoints,omitempty" bson:"endpoints,omitempty" mapstructure:"endpoints,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start

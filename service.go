@@ -137,21 +137,25 @@ type Service struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// IPs is the list of IP addresses where the service can be accessed.
-	// This is an optional attribute and is only required if no host names are
-	// provided.
-	// The system will automatically resolve IP addresses from host names otherwise.
+	// The list of IP addresses where the service can be accessed. This is an optional
+	// attribute and
+	// is only required if no host names are provided. The system will automatically
+	// resolve IP
+	// addresses from host names otherwise.
 	IPs []string `json:"IPs" msgpack:"IPs" bson:"ips" mapstructure:"IPs,omitempty"`
 
-	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
-	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
+	// PEM-encoded certificate that will be used to validate the user's JSON web token
+	// (JWT)
+	// in HTTP requests. This is an optional field, needed only if the
+	// `+"`"+`authorizationType`+"`"+`
 	// is set to `+"`"+`JWT`+"`"+`.
 	JWTSigningCertificate string `json:"JWTSigningCertificate" msgpack:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// PEM encoded Certificate Authority to use to verify client
-	// certificates. This only applies if `+"`"+`authorizationType`+"`"+` is set to
-	// `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's Public Signing Certificate Authority will
-	// be used.
+	// PEM-encoded certificate authority to use to verify client certificates. This
+	// only applies
+	// if `+"`"+`authorizationType`+"`"+` is set to `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's public
+	// signing
+	// certificate authority will be used.
 	MTLSCertificateAuthority string `json:"MTLSCertificateAuthority" msgpack:"MTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
@@ -165,18 +169,21 @@ type Service struct {
 	// OIDC Client Secret. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCClientSecret string `json:"OIDCClientSecret" msgpack:"OIDCClientSecret" bson:"oidcclientsecret" mapstructure:"OIDCClientSecret,omitempty"`
 
-	// OIDC Provider URL. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	// OIDC discovery endpoint. Only has effect if the `+"`"+`authorizationType`+"`"+`
+	// is set to `+"`"+`OIDC`+"`"+`.
 	OIDCProviderURL string `json:"OIDCProviderURL" msgpack:"OIDCProviderURL" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
 
-	// Configures the scopes you want to add to the OIDC provider. Only has effect if
-	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	// Configures the scopes you want to request from the OIDC provider. Only has
+	// effect
+	// if `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCScopes []string `json:"OIDCScopes" msgpack:"OIDCScopes" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
 
-	// PEM encoded certificate to expose to the clients for TLS. Only has effect and
+	// PEM-encoded certificate to expose to the clients for TLS. Only has effect and
 	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
 	TLSCertificate string `json:"TLSCertificate" msgpack:"TLSCertificate" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
-	// PEM encoded certificate key associated to `+"`"+`TLSCertificate`+"`"+`. Only has effect and
+	// PEM-encoded certificate key associated with `+"`"+`TLSCertificate`+"`"+`. Only has effect
+	// and
 	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
 	TLSCertificateKey string `json:"TLSCertificateKey" msgpack:"TLSCertificateKey" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
@@ -203,21 +210,24 @@ type Service struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// AuthorizationType defines the user authorization type that should be used.
+	// Defines the user authorization type that should be used.
 	//
-	// - `+"`"+`None`+"`"+`: No auhtorization.
-	// - `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the HTTP `+"`"+`Auhorization`+"`"+`
-	// Header
-	// - `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set `+"`"+`OIDCClientID`+"`"+`,
-	// `+"`"+`OIDCClientSecret`+"`"+`, OIDCProviderURL`+"`"+`.
-	// - `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. Then you can optionaly
-	// `+"`"+`MTLSCertificateAuthority`+"`"+` otherwise Aporeto Public Signing Certificate will be
-	// used.
+	// - `+"`"+`None`+"`"+` (default): No authorization.
+	// - `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the HTTP `+"`"+`Authorization`+"`"+`
+	// header.
+	// - `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set
+	// `+"`"+`OIDCClientID`+"`"+`,`+"`"+`OIDCClientSecret`+"`"+`,
+	//   `+"`"+`OIDCProviderURL`+"`"+`.
+	// - `+"`"+`MTLS`+"`"+`: Configures client certificate authorization. Then you can optionally
+	// use
+	//   `+"`"+`MTLSCertificateAuthority`+"`"+`, otherwise Aporeto's public signing certificate
+	// will be used.
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" msgpack:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
-	// Defines a list of mappings between claims and
-	// HTTP headers. When these mappings are defined, the enforcer will copy the
-	// values of the claims to the corresponding HTTP headers.
+	// Defines a list of mappings between claims and HTTP headers. When these mappings
+	// are defined,
+	// the enforcer will copy the values of the claims to the corresponding HTTP
+	// headers.
 	ClaimsToHTTPHeaderMappings []*ClaimMapping `json:"claimsToHTTPHeaderMappings" msgpack:"claimsToHTTPHeaderMappings" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -232,31 +242,35 @@ type Service struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// Endpoints is a read only attribute that actually resolves the API
-	// endpoints that the service is exposing. Only valid during policy rendering.
+	// Resolves the API endpoints that the service is exposing. Only valid during
+	// policy rendering.
 	Endpoints []*Endpoint `json:"endpoints" msgpack:"endpoints" bson:"-" mapstructure:"endpoints,omitempty"`
 
-	// ExposedAPIs contains a tag expression that will determine which
-	// APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
-	// similar specifications for other L7 protocols.
+	// Contains a tag expression that will determine which APIs a service is exposing.
+	// The APIs can be defined as the `+"`"+`RESTAPISpec`+"`"+` or similar specifications for other
+	// layer 7 protocols.
 	ExposedAPIs [][]string `json:"exposedAPIs" msgpack:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
-	// ExposedPort is the port that the service can be accessed. Note that
-	// this is different from the Port attribute that describes the port that the
-	// service is actually listening. For example if a load balancer is used, the
-	// ExposedPort is the port that the load balancer is listening for the service,
-	// whereas the port that the implementation is listening can be different.
+	// The port that the service can be accessed on. Note that this is different from
+	// the
+	// `+"`"+`port`+"`"+` attribute that describes the port that the service is actually listening
+	// on.
+	// For example if a load balancer is used, the `+"`"+`exposedPort`+"`"+` is the port that the
+	// load
+	// balancer is listening for the service, whereas the port that the implementation
+	// is
+	// listening can be different.
 	ExposedPort int `json:"exposedPort" msgpack:"exposedPort" bson:"exposedport" mapstructure:"exposedPort,omitempty"`
 
-	// ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
-	// the enforcer has to initiate a TLS session in order to forrward traffic to the
-	// service.
+	// Indicates that the exposed service is TLS. This means that the enforcer has to
+	// initiate a
+	// TLS session in order to forward traffic to the service.
 	ExposedServiceIsTLS bool `json:"exposedServiceIsTLS" msgpack:"exposedServiceIsTLS" bson:"exposedserviceistls" mapstructure:"exposedServiceIsTLS,omitempty"`
 
-	// External is a boolean that indicates if this is an external service.
+	// Indicates if this is an external service.
 	External bool `json:"external" msgpack:"external" bson:"external" mapstructure:"external,omitempty"`
 
-	// Hosts are the names that the service can be accessed with.
+	// The host names that the service can be accessed on.
 	Hosts []string `json:"hosts" msgpack:"hosts" bson:"hosts" mapstructure:"hosts,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -272,38 +286,47 @@ type Service struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Port is the port that the implementation of the service is listening to and
-	// it can be different than the exposedPorts describing the service. This is needed
-	// for port mapping use cases where there is private and public ports.
+	// The port that the implementation of the service is listening to. It can be
+	// different than
+	// `+"`"+`exposedPort`+"`"+`. This is needed for port mapping use cases where there are private
+	// and
+	// public ports.
 	Port int `json:"port" msgpack:"port" bson:"port" mapstructure:"port,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// PublicApplicationPort is a new virtual port that the service can
-	// be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the
-	// application path, you might want to declare a new port where the enforcer
-	// listens for TLS. However, the application does not need to be modified and
-	// the enforcer will map the traffic to the correct application port. This useful
-	// when an application is being accessed from a public network.
+	// A new virtual port that the service can be accessed on, using HTTPS. Since the
+	// enforcer
+	// transparently inserts TLS in the application path, you might want to declare a
+	// new port
+	// where the enforcer listens for TLS. However, the application does not need to be
+	// modified
+	// and the enforcer will map the traffic to the correct application port. This
+	// useful when
+	// an application is being accessed from a public network.
 	PublicApplicationPort int `json:"publicApplicationPort" msgpack:"publicApplicationPort" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
 
 	// If this is set, the user will be redirected to that URL in case of any
-	// authorization failure to let you chance to provide a nice message to the user.
-	// The query parameter `+"`"+`?failure_message=<message>`+"`"+` will be added to that url
-	// explaining the possible reasons of the failure.
+	// authorization
+	// failure, allowing you to provide a nice message to the user. The query parameter
+	// `+"`"+`?failure_message=<message>`+"`"+` will be added to that URL explaining the possible
+	// reasons
+	// of the failure.
 	RedirectURLOnAuthorizationFailure string `json:"redirectURLOnAuthorizationFailure" msgpack:"redirectURLOnAuthorizationFailure" bson:"redirecturlonauthorizationfailure" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
 
-	// Selectors contains the tag expression that an a processing unit
-	// must match in order to implement this particular service.
+	// A tag or tag expression that identifies the processing unit that implements this
+	// particular service.
 	Selectors [][]string `json:"selectors" msgpack:"selectors" bson:"selectors" mapstructure:"selectors,omitempty"`
 
-	// PEM encoded Certificate Authorities to trust when additional hops are needed. It
-	// must be set if the service must reach a Service marked as `+"`"+`external`+"`"+` or must go
-	// through an additional TLS termination point like a L7 Load Balancer.
+	// PEM-encoded certificate authorities to trust when additional hops are needed. It
+	// must be
+	// set if the service must reach a service marked as `+"`"+`external`+"`"+` or must go through
+	// an
+	// additional TLS termination point like a layer 7 load balancer.
 	TrustedCertificateAuthorities string `json:"trustedCertificateAuthorities" msgpack:"trustedCertificateAuthorities" bson:"trustedcertificateauthorities" mapstructure:"trustedCertificateAuthorities,omitempty"`
 
-	// Type is the type of the service.
+	// Type of service.
 	Type ServiceTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -391,7 +414,7 @@ func (o *Service) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Service) Doc() string {
 
-	return `A Service defines a generic service object at L4 or L7 that encapsulates the
+	return `Defines a generic service object at layer 4 or layer 7 that encapsulates the
 description of a micro-service. A service exposes APIs and can be implemented
 through third party entities (such as a cloud provider) or through  processing
 units.`
@@ -1145,10 +1168,11 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"IPs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IPs",
-		Description: `IPs is the list of IP addresses where the service can be accessed.
-This is an optional attribute and is only required if no host names are
-provided.
-The system will automatically resolve IP addresses from host names otherwise.`,
+		Description: `The list of IP addresses where the service can be accessed. This is an optional
+attribute and
+is only required if no host names are provided. The system will automatically
+resolve IP
+addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
@@ -1158,8 +1182,10 @@ The system will automatically resolve IP addresses from host names otherwise.`,
 	"JWTSigningCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "JWTSigningCertificate",
-		Description: `PEM encoded certificate that will be used to validate user JWT in HTTP requests.
-This is an optional field, needed only if the ` + "`" + `authorizationType` + "`" + `
+		Description: `PEM-encoded certificate that will be used to validate the user's JSON web token
+(JWT)
+in HTTP requests. This is an optional field, needed only if the
+` + "`" + `authorizationType` + "`" + `
 is set to ` + "`" + `JWT` + "`" + `.`,
 		Exposed: true,
 		Name:    "JWTSigningCertificate",
@@ -1169,10 +1195,11 @@ is set to ` + "`" + `JWT` + "`" + `.`,
 	"MTLSCertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MTLSCertificateAuthority",
-		Description: `PEM encoded Certificate Authority to use to verify client
-certificates. This only applies if ` + "`" + `authorizationType` + "`" + ` is set to
-` + "`" + `MTLS` + "`" + `. If it is not set, Aporeto's Public Signing Certificate Authority will
-be used.`,
+		Description: `PEM-encoded certificate authority to use to verify client certificates. This
+only applies
+if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, Aporeto's public
+signing
+certificate authority will be used.`,
 		Exposed: true,
 		Name:    "MTLSCertificateAuthority",
 		Stored:  true,
@@ -1210,17 +1237,19 @@ Aporeto will autodiscover it. It will be
 	"OIDCProviderURL": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCProviderURL",
-		Description:    `OIDC Provider URL. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
-		Exposed:        true,
-		Name:           "OIDCProviderURL",
-		Stored:         true,
-		Type:           "string",
+		Description: `OIDC discovery endpoint. Only has effect if the ` + "`" + `authorizationType` + "`" + `
+is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed: true,
+		Name:    "OIDCProviderURL",
+		Stored:  true,
+		Type:    "string",
 	},
 	"OIDCScopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCScopes",
-		Description: `Configures the scopes you want to add to the OIDC provider. Only has effect if
-` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Description: `Configures the scopes you want to request from the OIDC provider. Only has
+effect
+if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
 		Exposed: true,
 		Name:    "OIDCScopes",
 		Stored:  true,
@@ -1230,7 +1259,7 @@ Aporeto will autodiscover it. It will be
 	"TLSCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
-		Description: `PEM encoded certificate to expose to the clients for TLS. Only has effect and
+		Description: `PEM-encoded certificate to expose to the clients for TLS. Only has effect and
 required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificate",
@@ -1240,7 +1269,8 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 	"TLSCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
-		Description: `PEM encoded certificate key associated to ` + "`" + `TLSCertificate` + "`" + `. Only has effect and
+		Description: `PEM-encoded certificate key associated with ` + "`" + `TLSCertificate` + "`" + `. Only has effect
+and
 required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificateKey",
@@ -1320,16 +1350,18 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		AllowedChoices: []string{"None", "JWT", "OIDC", "MTLS"},
 		ConvertedName:  "AuthorizationType",
 		DefaultValue:   ServiceAuthorizationTypeNone,
-		Description: `AuthorizationType defines the user authorization type that should be used.
+		Description: `Defines the user authorization type that should be used.
 
-- ` + "`" + `None` + "`" + `: No auhtorization.
-- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Auhorization` + "`" + `
-Header
-- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,
-` + "`" + `OIDCClientSecret` + "`" + `, OIDCProviderURL` + "`" + `.
-- ` + "`" + `MTLS` + "`" + `: Configures Client Certificate authorization. Then you can optionaly
-` + "`" + `MTLSCertificateAuthority` + "`" + ` otherwise Aporeto Public Signing Certificate will be
-used.`,
+- ` + "`" + `None` + "`" + ` (default): No authorization.
+- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Authorization` + "`" + `
+header.
+- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
+` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `,
+  ` + "`" + `OIDCProviderURL` + "`" + `.
+- ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
+use
+  ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate
+will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -1338,9 +1370,10 @@ used.`,
 	"ClaimsToHTTPHeaderMappings": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClaimsToHTTPHeaderMappings",
-		Description: `Defines a list of mappings between claims and
-HTTP headers. When these mappings are defined, the enforcer will copy the
-values of the claims to the corresponding HTTP headers.`,
+		Description: `Defines a list of mappings between claims and HTTP headers. When these mappings
+are defined,
+the enforcer will copy the values of the claims to the corresponding HTTP
+headers.`,
 		Exposed: true,
 		Name:    "claimsToHTTPHeaderMappings",
 		Stored:  true,
@@ -1401,8 +1434,8 @@ values of the claims to the corresponding HTTP headers.`,
 	"Endpoints": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoints",
-		Description: `Endpoints is a read only attribute that actually resolves the API
-endpoints that the service is exposing. Only valid during policy rendering.`,
+		Description: `Resolves the API endpoints that the service is exposing. Only valid during
+policy rendering.`,
 		Exposed:  true,
 		Name:     "endpoints",
 		ReadOnly: true,
@@ -1412,9 +1445,9 @@ endpoints that the service is exposing. Only valid during policy rendering.`,
 	"ExposedAPIs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedAPIs",
-		Description: `ExposedAPIs contains a tag expression that will determine which
-APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
-similar specifications for other L7 protocols.`,
+		Description: `Contains a tag expression that will determine which APIs a service is exposing.
+The APIs can be defined as the ` + "`" + `RESTAPISpec` + "`" + ` or similar specifications for other
+layer 7 protocols.`,
 		Exposed: true,
 		Name:    "exposedAPIs",
 		Stored:  true,
@@ -1424,11 +1457,15 @@ similar specifications for other L7 protocols.`,
 	"ExposedPort": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedPort",
-		Description: `ExposedPort is the port that the service can be accessed. Note that
-this is different from the Port attribute that describes the port that the
-service is actually listening. For example if a load balancer is used, the
-ExposedPort is the port that the load balancer is listening for the service,
-whereas the port that the implementation is listening can be different.`,
+		Description: `The port that the service can be accessed on. Note that this is different from
+the
+` + "`" + `port` + "`" + ` attribute that describes the port that the service is actually listening
+on.
+For example if a load balancer is used, the ` + "`" + `exposedPort` + "`" + ` is the port that the
+load
+balancer is listening for the service, whereas the port that the implementation
+is
+listening can be different.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "exposedPort",
@@ -1439,9 +1476,9 @@ whereas the port that the implementation is listening can be different.`,
 	"ExposedServiceIsTLS": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedServiceIsTLS",
-		Description: `ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
-the enforcer has to initiate a TLS session in order to forrward traffic to the
-service.`,
+		Description: `Indicates that the exposed service is TLS. This means that the enforcer has to
+initiate a
+TLS session in order to forward traffic to the service.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "exposedServiceIsTLS",
@@ -1452,7 +1489,7 @@ service.`,
 	"External": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "External",
-		Description:    `External is a boolean that indicates if this is an external service.`,
+		Description:    `Indicates if this is an external service.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "external",
@@ -1463,7 +1500,7 @@ service.`,
 	"Hosts": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Hosts",
-		Description:    `Hosts are the names that the service can be accessed with.`,
+		Description:    `The host names that the service can be accessed on.`,
 		Exposed:        true,
 		Name:           "hosts",
 		Orderable:      true,
@@ -1536,9 +1573,11 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
-		Description: `Port is the port that the implementation of the service is listening to and
-it can be different than the exposedPorts describing the service. This is needed
-for port mapping use cases where there is private and public ports.`,
+		Description: `The port that the implementation of the service is listening to. It can be
+different than
+` + "`" + `exposedPort` + "`" + `. This is needed for port mapping use cases where there are private
+and
+public ports.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "port",
@@ -1561,12 +1600,15 @@ for port mapping use cases where there is private and public ports.`,
 	"PublicApplicationPort": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PublicApplicationPort",
-		Description: `PublicApplicationPort is a new virtual port that the service can
-be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the
-application path, you might want to declare a new port where the enforcer
-listens for TLS. However, the application does not need to be modified and
-the enforcer will map the traffic to the correct application port. This useful
-when an application is being accessed from a public network.`,
+		Description: `A new virtual port that the service can be accessed on, using HTTPS. Since the
+enforcer
+transparently inserts TLS in the application path, you might want to declare a
+new port
+where the enforcer listens for TLS. However, the application does not need to be
+modified
+and the enforcer will map the traffic to the correct application port. This
+useful when
+an application is being accessed from a public network.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "publicApplicationPort",
@@ -1577,9 +1619,11 @@ when an application is being accessed from a public network.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RedirectURLOnAuthorizationFailure",
 		Description: `If this is set, the user will be redirected to that URL in case of any
-authorization failure to let you chance to provide a nice message to the user.
-The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that url
-explaining the possible reasons of the failure.`,
+authorization
+failure, allowing you to provide a nice message to the user. The query parameter
+` + "`" + `?failure_message=<message>` + "`" + ` will be added to that URL explaining the possible
+reasons
+of the failure.`,
 		Exposed: true,
 		Name:    "redirectURLOnAuthorizationFailure",
 		Stored:  true,
@@ -1588,8 +1632,8 @@ explaining the possible reasons of the failure.`,
 	"Selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
-		Description: `Selectors contains the tag expression that an a processing unit
-must match in order to implement this particular service.`,
+		Description: `A tag or tag expression that identifies the processing unit that implements this
+particular service.`,
 		Exposed: true,
 		Name:    "selectors",
 		Stored:  true,
@@ -1599,9 +1643,11 @@ must match in order to implement this particular service.`,
 	"TrustedCertificateAuthorities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TrustedCertificateAuthorities",
-		Description: `PEM encoded Certificate Authorities to trust when additional hops are needed. It
-must be set if the service must reach a Service marked as ` + "`" + `external` + "`" + ` or must go
-through an additional TLS termination point like a L7 Load Balancer.`,
+		Description: `PEM-encoded certificate authorities to trust when additional hops are needed. It
+must be
+set if the service must reach a service marked as ` + "`" + `external` + "`" + ` or must go through
+an
+additional TLS termination point like a layer 7 load balancer.`,
 		Exposed: true,
 		Name:    "trustedCertificateAuthorities",
 		Stored:  true,
@@ -1611,7 +1657,7 @@ through an additional TLS termination point like a L7 Load Balancer.`,
 		AllowedChoices: []string{"HTTP", "TCP", "KubernetesSecrets", "VaultSecrets"},
 		ConvertedName:  "Type",
 		DefaultValue:   ServiceTypeHTTP,
-		Description:    `Type is the type of the service.`,
+		Description:    `Type of service.`,
 		Exposed:        true,
 		Name:           "type",
 		Stored:         true,
@@ -1692,10 +1738,11 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"ips": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IPs",
-		Description: `IPs is the list of IP addresses where the service can be accessed.
-This is an optional attribute and is only required if no host names are
-provided.
-The system will automatically resolve IP addresses from host names otherwise.`,
+		Description: `The list of IP addresses where the service can be accessed. This is an optional
+attribute and
+is only required if no host names are provided. The system will automatically
+resolve IP
+addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
@@ -1705,8 +1752,10 @@ The system will automatically resolve IP addresses from host names otherwise.`,
 	"jwtsigningcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "JWTSigningCertificate",
-		Description: `PEM encoded certificate that will be used to validate user JWT in HTTP requests.
-This is an optional field, needed only if the ` + "`" + `authorizationType` + "`" + `
+		Description: `PEM-encoded certificate that will be used to validate the user's JSON web token
+(JWT)
+in HTTP requests. This is an optional field, needed only if the
+` + "`" + `authorizationType` + "`" + `
 is set to ` + "`" + `JWT` + "`" + `.`,
 		Exposed: true,
 		Name:    "JWTSigningCertificate",
@@ -1716,10 +1765,11 @@ is set to ` + "`" + `JWT` + "`" + `.`,
 	"mtlscertificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MTLSCertificateAuthority",
-		Description: `PEM encoded Certificate Authority to use to verify client
-certificates. This only applies if ` + "`" + `authorizationType` + "`" + ` is set to
-` + "`" + `MTLS` + "`" + `. If it is not set, Aporeto's Public Signing Certificate Authority will
-be used.`,
+		Description: `PEM-encoded certificate authority to use to verify client certificates. This
+only applies
+if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, Aporeto's public
+signing
+certificate authority will be used.`,
 		Exposed: true,
 		Name:    "MTLSCertificateAuthority",
 		Stored:  true,
@@ -1757,17 +1807,19 @@ Aporeto will autodiscover it. It will be
 	"oidcproviderurl": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCProviderURL",
-		Description:    `OIDC Provider URL. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
-		Exposed:        true,
-		Name:           "OIDCProviderURL",
-		Stored:         true,
-		Type:           "string",
+		Description: `OIDC discovery endpoint. Only has effect if the ` + "`" + `authorizationType` + "`" + `
+is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed: true,
+		Name:    "OIDCProviderURL",
+		Stored:  true,
+		Type:    "string",
 	},
 	"oidcscopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCScopes",
-		Description: `Configures the scopes you want to add to the OIDC provider. Only has effect if
-` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Description: `Configures the scopes you want to request from the OIDC provider. Only has
+effect
+if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
 		Exposed: true,
 		Name:    "OIDCScopes",
 		Stored:  true,
@@ -1777,7 +1829,7 @@ Aporeto will autodiscover it. It will be
 	"tlscertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
-		Description: `PEM encoded certificate to expose to the clients for TLS. Only has effect and
+		Description: `PEM-encoded certificate to expose to the clients for TLS. Only has effect and
 required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificate",
@@ -1787,7 +1839,8 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 	"tlscertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
-		Description: `PEM encoded certificate key associated to ` + "`" + `TLSCertificate` + "`" + `. Only has effect and
+		Description: `PEM-encoded certificate key associated with ` + "`" + `TLSCertificate` + "`" + `. Only has effect
+and
 required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificateKey",
@@ -1867,16 +1920,18 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		AllowedChoices: []string{"None", "JWT", "OIDC", "MTLS"},
 		ConvertedName:  "AuthorizationType",
 		DefaultValue:   ServiceAuthorizationTypeNone,
-		Description: `AuthorizationType defines the user authorization type that should be used.
+		Description: `Defines the user authorization type that should be used.
 
-- ` + "`" + `None` + "`" + `: No auhtorization.
-- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Auhorization` + "`" + `
-Header
-- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,
-` + "`" + `OIDCClientSecret` + "`" + `, OIDCProviderURL` + "`" + `.
-- ` + "`" + `MTLS` + "`" + `: Configures Client Certificate authorization. Then you can optionaly
-` + "`" + `MTLSCertificateAuthority` + "`" + ` otherwise Aporeto Public Signing Certificate will be
-used.`,
+- ` + "`" + `None` + "`" + ` (default): No authorization.
+- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Authorization` + "`" + `
+header.
+- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
+` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `,
+  ` + "`" + `OIDCProviderURL` + "`" + `.
+- ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
+use
+  ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate
+will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -1885,9 +1940,10 @@ used.`,
 	"claimstohttpheadermappings": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClaimsToHTTPHeaderMappings",
-		Description: `Defines a list of mappings between claims and
-HTTP headers. When these mappings are defined, the enforcer will copy the
-values of the claims to the corresponding HTTP headers.`,
+		Description: `Defines a list of mappings between claims and HTTP headers. When these mappings
+are defined,
+the enforcer will copy the values of the claims to the corresponding HTTP
+headers.`,
 		Exposed: true,
 		Name:    "claimsToHTTPHeaderMappings",
 		Stored:  true,
@@ -1948,8 +2004,8 @@ values of the claims to the corresponding HTTP headers.`,
 	"endpoints": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoints",
-		Description: `Endpoints is a read only attribute that actually resolves the API
-endpoints that the service is exposing. Only valid during policy rendering.`,
+		Description: `Resolves the API endpoints that the service is exposing. Only valid during
+policy rendering.`,
 		Exposed:  true,
 		Name:     "endpoints",
 		ReadOnly: true,
@@ -1959,9 +2015,9 @@ endpoints that the service is exposing. Only valid during policy rendering.`,
 	"exposedapis": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedAPIs",
-		Description: `ExposedAPIs contains a tag expression that will determine which
-APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
-similar specifications for other L7 protocols.`,
+		Description: `Contains a tag expression that will determine which APIs a service is exposing.
+The APIs can be defined as the ` + "`" + `RESTAPISpec` + "`" + ` or similar specifications for other
+layer 7 protocols.`,
 		Exposed: true,
 		Name:    "exposedAPIs",
 		Stored:  true,
@@ -1971,11 +2027,15 @@ similar specifications for other L7 protocols.`,
 	"exposedport": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedPort",
-		Description: `ExposedPort is the port that the service can be accessed. Note that
-this is different from the Port attribute that describes the port that the
-service is actually listening. For example if a load balancer is used, the
-ExposedPort is the port that the load balancer is listening for the service,
-whereas the port that the implementation is listening can be different.`,
+		Description: `The port that the service can be accessed on. Note that this is different from
+the
+` + "`" + `port` + "`" + ` attribute that describes the port that the service is actually listening
+on.
+For example if a load balancer is used, the ` + "`" + `exposedPort` + "`" + ` is the port that the
+load
+balancer is listening for the service, whereas the port that the implementation
+is
+listening can be different.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "exposedPort",
@@ -1986,9 +2046,9 @@ whereas the port that the implementation is listening can be different.`,
 	"exposedserviceistls": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedServiceIsTLS",
-		Description: `ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
-the enforcer has to initiate a TLS session in order to forrward traffic to the
-service.`,
+		Description: `Indicates that the exposed service is TLS. This means that the enforcer has to
+initiate a
+TLS session in order to forward traffic to the service.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "exposedServiceIsTLS",
@@ -1999,7 +2059,7 @@ service.`,
 	"external": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "External",
-		Description:    `External is a boolean that indicates if this is an external service.`,
+		Description:    `Indicates if this is an external service.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "external",
@@ -2010,7 +2070,7 @@ service.`,
 	"hosts": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Hosts",
-		Description:    `Hosts are the names that the service can be accessed with.`,
+		Description:    `The host names that the service can be accessed on.`,
 		Exposed:        true,
 		Name:           "hosts",
 		Orderable:      true,
@@ -2083,9 +2143,11 @@ with the '@' prefix, and should only be used by external systems.`,
 	"port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
-		Description: `Port is the port that the implementation of the service is listening to and
-it can be different than the exposedPorts describing the service. This is needed
-for port mapping use cases where there is private and public ports.`,
+		Description: `The port that the implementation of the service is listening to. It can be
+different than
+` + "`" + `exposedPort` + "`" + `. This is needed for port mapping use cases where there are private
+and
+public ports.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "port",
@@ -2108,12 +2170,15 @@ for port mapping use cases where there is private and public ports.`,
 	"publicapplicationport": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PublicApplicationPort",
-		Description: `PublicApplicationPort is a new virtual port that the service can
-be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the
-application path, you might want to declare a new port where the enforcer
-listens for TLS. However, the application does not need to be modified and
-the enforcer will map the traffic to the correct application port. This useful
-when an application is being accessed from a public network.`,
+		Description: `A new virtual port that the service can be accessed on, using HTTPS. Since the
+enforcer
+transparently inserts TLS in the application path, you might want to declare a
+new port
+where the enforcer listens for TLS. However, the application does not need to be
+modified
+and the enforcer will map the traffic to the correct application port. This
+useful when
+an application is being accessed from a public network.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "publicApplicationPort",
@@ -2124,9 +2189,11 @@ when an application is being accessed from a public network.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RedirectURLOnAuthorizationFailure",
 		Description: `If this is set, the user will be redirected to that URL in case of any
-authorization failure to let you chance to provide a nice message to the user.
-The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that url
-explaining the possible reasons of the failure.`,
+authorization
+failure, allowing you to provide a nice message to the user. The query parameter
+` + "`" + `?failure_message=<message>` + "`" + ` will be added to that URL explaining the possible
+reasons
+of the failure.`,
 		Exposed: true,
 		Name:    "redirectURLOnAuthorizationFailure",
 		Stored:  true,
@@ -2135,8 +2202,8 @@ explaining the possible reasons of the failure.`,
 	"selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
-		Description: `Selectors contains the tag expression that an a processing unit
-must match in order to implement this particular service.`,
+		Description: `A tag or tag expression that identifies the processing unit that implements this
+particular service.`,
 		Exposed: true,
 		Name:    "selectors",
 		Stored:  true,
@@ -2146,9 +2213,11 @@ must match in order to implement this particular service.`,
 	"trustedcertificateauthorities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TrustedCertificateAuthorities",
-		Description: `PEM encoded Certificate Authorities to trust when additional hops are needed. It
-must be set if the service must reach a Service marked as ` + "`" + `external` + "`" + ` or must go
-through an additional TLS termination point like a L7 Load Balancer.`,
+		Description: `PEM-encoded certificate authorities to trust when additional hops are needed. It
+must be
+set if the service must reach a service marked as ` + "`" + `external` + "`" + ` or must go through
+an
+additional TLS termination point like a layer 7 load balancer.`,
 		Exposed: true,
 		Name:    "trustedCertificateAuthorities",
 		Stored:  true,
@@ -2158,7 +2227,7 @@ through an additional TLS termination point like a L7 Load Balancer.`,
 		AllowedChoices: []string{"HTTP", "TCP", "KubernetesSecrets", "VaultSecrets"},
 		ConvertedName:  "Type",
 		DefaultValue:   ServiceTypeHTTP,
-		Description:    `Type is the type of the service.`,
+		Description:    `Type of service.`,
 		Exposed:        true,
 		Name:           "type",
 		Stored:         true,
@@ -2289,21 +2358,25 @@ type SparseService struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// IPs is the list of IP addresses where the service can be accessed.
-	// This is an optional attribute and is only required if no host names are
-	// provided.
-	// The system will automatically resolve IP addresses from host names otherwise.
+	// The list of IP addresses where the service can be accessed. This is an optional
+	// attribute and
+	// is only required if no host names are provided. The system will automatically
+	// resolve IP
+	// addresses from host names otherwise.
 	IPs *[]string `json:"IPs,omitempty" msgpack:"IPs,omitempty" bson:"ips,omitempty" mapstructure:"IPs,omitempty"`
 
-	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
-	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
+	// PEM-encoded certificate that will be used to validate the user's JSON web token
+	// (JWT)
+	// in HTTP requests. This is an optional field, needed only if the
+	// `+"`"+`authorizationType`+"`"+`
 	// is set to `+"`"+`JWT`+"`"+`.
 	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" msgpack:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate,omitempty" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// PEM encoded Certificate Authority to use to verify client
-	// certificates. This only applies if `+"`"+`authorizationType`+"`"+` is set to
-	// `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's Public Signing Certificate Authority will
-	// be used.
+	// PEM-encoded certificate authority to use to verify client certificates. This
+	// only applies
+	// if `+"`"+`authorizationType`+"`"+` is set to `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's public
+	// signing
+	// certificate authority will be used.
 	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" msgpack:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority,omitempty" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
@@ -2317,18 +2390,21 @@ type SparseService struct {
 	// OIDC Client Secret. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCClientSecret *string `json:"OIDCClientSecret,omitempty" msgpack:"OIDCClientSecret,omitempty" bson:"oidcclientsecret,omitempty" mapstructure:"OIDCClientSecret,omitempty"`
 
-	// OIDC Provider URL. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	// OIDC discovery endpoint. Only has effect if the `+"`"+`authorizationType`+"`"+`
+	// is set to `+"`"+`OIDC`+"`"+`.
 	OIDCProviderURL *string `json:"OIDCProviderURL,omitempty" msgpack:"OIDCProviderURL,omitempty" bson:"oidcproviderurl,omitempty" mapstructure:"OIDCProviderURL,omitempty"`
 
-	// Configures the scopes you want to add to the OIDC provider. Only has effect if
-	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	// Configures the scopes you want to request from the OIDC provider. Only has
+	// effect
+	// if `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCScopes *[]string `json:"OIDCScopes,omitempty" msgpack:"OIDCScopes,omitempty" bson:"oidcscopes,omitempty" mapstructure:"OIDCScopes,omitempty"`
 
-	// PEM encoded certificate to expose to the clients for TLS. Only has effect and
+	// PEM-encoded certificate to expose to the clients for TLS. Only has effect and
 	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
 	TLSCertificate *string `json:"TLSCertificate,omitempty" msgpack:"TLSCertificate,omitempty" bson:"tlscertificate,omitempty" mapstructure:"TLSCertificate,omitempty"`
 
-	// PEM encoded certificate key associated to `+"`"+`TLSCertificate`+"`"+`. Only has effect and
+	// PEM-encoded certificate key associated with `+"`"+`TLSCertificate`+"`"+`. Only has effect
+	// and
 	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
 	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" msgpack:"TLSCertificateKey,omitempty" bson:"tlscertificatekey,omitempty" mapstructure:"TLSCertificateKey,omitempty"`
 
@@ -2355,21 +2431,24 @@ type SparseService struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// AuthorizationType defines the user authorization type that should be used.
+	// Defines the user authorization type that should be used.
 	//
-	// - `+"`"+`None`+"`"+`: No auhtorization.
-	// - `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the HTTP `+"`"+`Auhorization`+"`"+`
-	// Header
-	// - `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set `+"`"+`OIDCClientID`+"`"+`,
-	// `+"`"+`OIDCClientSecret`+"`"+`, OIDCProviderURL`+"`"+`.
-	// - `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. Then you can optionaly
-	// `+"`"+`MTLSCertificateAuthority`+"`"+` otherwise Aporeto Public Signing Certificate will be
-	// used.
+	// - `+"`"+`None`+"`"+` (default): No authorization.
+	// - `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the HTTP `+"`"+`Authorization`+"`"+`
+	// header.
+	// - `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set
+	// `+"`"+`OIDCClientID`+"`"+`,`+"`"+`OIDCClientSecret`+"`"+`,
+	//   `+"`"+`OIDCProviderURL`+"`"+`.
+	// - `+"`"+`MTLS`+"`"+`: Configures client certificate authorization. Then you can optionally
+	// use
+	//   `+"`"+`MTLSCertificateAuthority`+"`"+`, otherwise Aporeto's public signing certificate
+	// will be used.
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" msgpack:"authorizationType,omitempty" bson:"authorizationtype,omitempty" mapstructure:"authorizationType,omitempty"`
 
-	// Defines a list of mappings between claims and
-	// HTTP headers. When these mappings are defined, the enforcer will copy the
-	// values of the claims to the corresponding HTTP headers.
+	// Defines a list of mappings between claims and HTTP headers. When these mappings
+	// are defined,
+	// the enforcer will copy the values of the claims to the corresponding HTTP
+	// headers.
 	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" msgpack:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings,omitempty" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -2384,31 +2463,35 @@ type SparseService struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// Endpoints is a read only attribute that actually resolves the API
-	// endpoints that the service is exposing. Only valid during policy rendering.
+	// Resolves the API endpoints that the service is exposing. Only valid during
+	// policy rendering.
 	Endpoints *[]*Endpoint `json:"endpoints,omitempty" msgpack:"endpoints,omitempty" bson:"-" mapstructure:"endpoints,omitempty"`
 
-	// ExposedAPIs contains a tag expression that will determine which
-	// APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
-	// similar specifications for other L7 protocols.
+	// Contains a tag expression that will determine which APIs a service is exposing.
+	// The APIs can be defined as the `+"`"+`RESTAPISpec`+"`"+` or similar specifications for other
+	// layer 7 protocols.
 	ExposedAPIs *[][]string `json:"exposedAPIs,omitempty" msgpack:"exposedAPIs,omitempty" bson:"exposedapis,omitempty" mapstructure:"exposedAPIs,omitempty"`
 
-	// ExposedPort is the port that the service can be accessed. Note that
-	// this is different from the Port attribute that describes the port that the
-	// service is actually listening. For example if a load balancer is used, the
-	// ExposedPort is the port that the load balancer is listening for the service,
-	// whereas the port that the implementation is listening can be different.
+	// The port that the service can be accessed on. Note that this is different from
+	// the
+	// `+"`"+`port`+"`"+` attribute that describes the port that the service is actually listening
+	// on.
+	// For example if a load balancer is used, the `+"`"+`exposedPort`+"`"+` is the port that the
+	// load
+	// balancer is listening for the service, whereas the port that the implementation
+	// is
+	// listening can be different.
 	ExposedPort *int `json:"exposedPort,omitempty" msgpack:"exposedPort,omitempty" bson:"exposedport,omitempty" mapstructure:"exposedPort,omitempty"`
 
-	// ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
-	// the enforcer has to initiate a TLS session in order to forrward traffic to the
-	// service.
+	// Indicates that the exposed service is TLS. This means that the enforcer has to
+	// initiate a
+	// TLS session in order to forward traffic to the service.
 	ExposedServiceIsTLS *bool `json:"exposedServiceIsTLS,omitempty" msgpack:"exposedServiceIsTLS,omitempty" bson:"exposedserviceistls,omitempty" mapstructure:"exposedServiceIsTLS,omitempty"`
 
-	// External is a boolean that indicates if this is an external service.
+	// Indicates if this is an external service.
 	External *bool `json:"external,omitempty" msgpack:"external,omitempty" bson:"external,omitempty" mapstructure:"external,omitempty"`
 
-	// Hosts are the names that the service can be accessed with.
+	// The host names that the service can be accessed on.
 	Hosts *[]string `json:"hosts,omitempty" msgpack:"hosts,omitempty" bson:"hosts,omitempty" mapstructure:"hosts,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -2424,38 +2507,47 @@ type SparseService struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Port is the port that the implementation of the service is listening to and
-	// it can be different than the exposedPorts describing the service. This is needed
-	// for port mapping use cases where there is private and public ports.
+	// The port that the implementation of the service is listening to. It can be
+	// different than
+	// `+"`"+`exposedPort`+"`"+`. This is needed for port mapping use cases where there are private
+	// and
+	// public ports.
 	Port *int `json:"port,omitempty" msgpack:"port,omitempty" bson:"port,omitempty" mapstructure:"port,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// PublicApplicationPort is a new virtual port that the service can
-	// be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the
-	// application path, you might want to declare a new port where the enforcer
-	// listens for TLS. However, the application does not need to be modified and
-	// the enforcer will map the traffic to the correct application port. This useful
-	// when an application is being accessed from a public network.
+	// A new virtual port that the service can be accessed on, using HTTPS. Since the
+	// enforcer
+	// transparently inserts TLS in the application path, you might want to declare a
+	// new port
+	// where the enforcer listens for TLS. However, the application does not need to be
+	// modified
+	// and the enforcer will map the traffic to the correct application port. This
+	// useful when
+	// an application is being accessed from a public network.
 	PublicApplicationPort *int `json:"publicApplicationPort,omitempty" msgpack:"publicApplicationPort,omitempty" bson:"publicapplicationport,omitempty" mapstructure:"publicApplicationPort,omitempty"`
 
 	// If this is set, the user will be redirected to that URL in case of any
-	// authorization failure to let you chance to provide a nice message to the user.
-	// The query parameter `+"`"+`?failure_message=<message>`+"`"+` will be added to that url
-	// explaining the possible reasons of the failure.
+	// authorization
+	// failure, allowing you to provide a nice message to the user. The query parameter
+	// `+"`"+`?failure_message=<message>`+"`"+` will be added to that URL explaining the possible
+	// reasons
+	// of the failure.
 	RedirectURLOnAuthorizationFailure *string `json:"redirectURLOnAuthorizationFailure,omitempty" msgpack:"redirectURLOnAuthorizationFailure,omitempty" bson:"redirecturlonauthorizationfailure,omitempty" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
 
-	// Selectors contains the tag expression that an a processing unit
-	// must match in order to implement this particular service.
+	// A tag or tag expression that identifies the processing unit that implements this
+	// particular service.
 	Selectors *[][]string `json:"selectors,omitempty" msgpack:"selectors,omitempty" bson:"selectors,omitempty" mapstructure:"selectors,omitempty"`
 
-	// PEM encoded Certificate Authorities to trust when additional hops are needed. It
-	// must be set if the service must reach a Service marked as `+"`"+`external`+"`"+` or must go
-	// through an additional TLS termination point like a L7 Load Balancer.
+	// PEM-encoded certificate authorities to trust when additional hops are needed. It
+	// must be
+	// set if the service must reach a service marked as `+"`"+`external`+"`"+` or must go through
+	// an
+	// additional TLS termination point like a layer 7 load balancer.
 	TrustedCertificateAuthorities *string `json:"trustedCertificateAuthorities,omitempty" msgpack:"trustedCertificateAuthorities,omitempty" bson:"trustedcertificateauthorities,omitempty" mapstructure:"trustedCertificateAuthorities,omitempty"`
 
-	// Type is the type of the service.
+	// Type of service.
 	Type *ServiceTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.

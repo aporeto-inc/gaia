@@ -101,16 +101,16 @@ type Recipe struct {
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Icon contains a base64 image for the recipe.
+	// Contains a base64-encoded image for the recipe.
 	Icon string `json:"icon" msgpack:"icon" bson:"icon" mapstructure:"icon,omitempty"`
 
-	// Key is the unique key of the recipe.
+	// The unique key of the recipe.
 	Key string `json:"key" msgpack:"key" bson:"key" mapstructure:"key,omitempty"`
 
-	// Label defines the recipe.
+	// Defines the recipe.
 	Label string `json:"label" msgpack:"label" bson:"label" mapstructure:"label,omitempty"`
 
-	// LongDescription provides a long description of the recipe.
+	// Provides a long description of the recipe.
 	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -135,19 +135,19 @@ type Recipe struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Steps contains all the steps with parameters to follow for the recipe.
+	// Contains all the steps with parameters to follow for the recipe.
 	Steps []*UIStep `json:"steps" msgpack:"steps" bson:"steps" mapstructure:"steps,omitempty"`
 
-	// successfullMessage is presented if present and success.
+	// A string message presented upon success (optional).
 	SuccessfullMessage string `json:"successfullMessage" msgpack:"successfullMessage" bson:"successfullmessage" mapstructure:"successfullMessage,omitempty"`
 
-	// TargetIdentities contains the list of identities the recipes will try to create.
+	// Contains the list of identities the recipes will try to create.
 	TargetIdentities []string `json:"targetIdentities" msgpack:"targetIdentities" bson:"targetidentities" mapstructure:"targetIdentities,omitempty"`
 
 	// Template of the recipe to import.
 	Template string `json:"template" msgpack:"template" bson:"template" mapstructure:"template,omitempty"`
 
-	// templateHash is a hash of the template.
+	// A hash of the template.
 	TemplateHash string `json:"templateHash" msgpack:"templateHash" bson:"templatehash" mapstructure:"templateHash,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -225,7 +225,7 @@ func (o *Recipe) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Recipe) Doc() string {
 
-	return `A Recipe defines a list of steps to define a workflow.`
+	return `Defines a list of steps that make up a workflow.`
 }
 
 func (o *Recipe) String() string {
@@ -843,7 +843,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"Icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the recipe.`,
+		Description:    `Contains a base64-encoded image for the recipe.`,
 		Exposed:        true,
 		Name:           "icon",
 		Stored:         true,
@@ -852,7 +852,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"Key": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Key",
-		Description:    `Key is the unique key of the recipe.`,
+		Description:    `The unique key of the recipe.`,
 		Exposed:        true,
 		Name:           "key",
 		ReadOnly:       true,
@@ -864,7 +864,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Label",
 		CreationOnly:   true,
 		DefaultValue:   "magicpanda",
-		Description:    `Label defines the recipe.`,
+		Description:    `Defines the recipe.`,
 		Exposed:        true,
 		Name:           "label",
 		Required:       true,
@@ -874,7 +874,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"LongDescription": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
-		Description:    `LongDescription provides a long description of the recipe.`,
+		Description:    `Provides a long description of the recipe.`,
 		Exposed:        true,
 		Name:           "longDescription",
 		Stored:         true,
@@ -979,7 +979,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Steps",
-		Description:    `Steps contains all the steps with parameters to follow for the recipe.`,
+		Description:    `Contains all the steps with parameters to follow for the recipe.`,
 		Exposed:        true,
 		Name:           "steps",
 		Stored:         true,
@@ -989,7 +989,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"SuccessfullMessage": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SuccessfullMessage",
-		Description:    `successfullMessage is presented if present and success.`,
+		Description:    `A string message presented upon success (optional).`,
 		Exposed:        true,
 		Name:           "successfullMessage",
 		Stored:         true,
@@ -998,7 +998,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"TargetIdentities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetIdentities",
-		Description:    `TargetIdentities contains the list of identities the recipes will try to create.`,
+		Description:    `Contains the list of identities the recipes will try to create.`,
 		Exposed:        true,
 		Name:           "targetIdentities",
 		Required:       true,
@@ -1018,7 +1018,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"TemplateHash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TemplateHash",
-		Description:    `templateHash is a hash of the template.`,
+		Description:    `A hash of the template.`,
 		Exposed:        true,
 		Name:           "templateHash",
 		ReadOnly:       true,
@@ -1163,7 +1163,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the recipe.`,
+		Description:    `Contains a base64-encoded image for the recipe.`,
 		Exposed:        true,
 		Name:           "icon",
 		Stored:         true,
@@ -1172,7 +1172,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"key": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Key",
-		Description:    `Key is the unique key of the recipe.`,
+		Description:    `The unique key of the recipe.`,
 		Exposed:        true,
 		Name:           "key",
 		ReadOnly:       true,
@@ -1184,7 +1184,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Label",
 		CreationOnly:   true,
 		DefaultValue:   "magicpanda",
-		Description:    `Label defines the recipe.`,
+		Description:    `Defines the recipe.`,
 		Exposed:        true,
 		Name:           "label",
 		Required:       true,
@@ -1194,7 +1194,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"longdescription": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
-		Description:    `LongDescription provides a long description of the recipe.`,
+		Description:    `Provides a long description of the recipe.`,
 		Exposed:        true,
 		Name:           "longDescription",
 		Stored:         true,
@@ -1299,7 +1299,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Steps",
-		Description:    `Steps contains all the steps with parameters to follow for the recipe.`,
+		Description:    `Contains all the steps with parameters to follow for the recipe.`,
 		Exposed:        true,
 		Name:           "steps",
 		Stored:         true,
@@ -1309,7 +1309,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"successfullmessage": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SuccessfullMessage",
-		Description:    `successfullMessage is presented if present and success.`,
+		Description:    `A string message presented upon success (optional).`,
 		Exposed:        true,
 		Name:           "successfullMessage",
 		Stored:         true,
@@ -1318,7 +1318,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"targetidentities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetIdentities",
-		Description:    `TargetIdentities contains the list of identities the recipes will try to create.`,
+		Description:    `Contains the list of identities the recipes will try to create.`,
 		Exposed:        true,
 		Name:           "targetIdentities",
 		Required:       true,
@@ -1338,7 +1338,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"templatehash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TemplateHash",
-		Description:    `templateHash is a hash of the template.`,
+		Description:    `A hash of the template.`,
 		Exposed:        true,
 		Name:           "templateHash",
 		ReadOnly:       true,
@@ -1485,16 +1485,16 @@ type SparseRecipe struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Icon contains a base64 image for the recipe.
+	// Contains a base64-encoded image for the recipe.
 	Icon *string `json:"icon,omitempty" msgpack:"icon,omitempty" bson:"icon,omitempty" mapstructure:"icon,omitempty"`
 
-	// Key is the unique key of the recipe.
+	// The unique key of the recipe.
 	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"key,omitempty" mapstructure:"key,omitempty"`
 
-	// Label defines the recipe.
+	// Defines the recipe.
 	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"label,omitempty" mapstructure:"label,omitempty"`
 
-	// LongDescription provides a long description of the recipe.
+	// Provides a long description of the recipe.
 	LongDescription *string `json:"longDescription,omitempty" msgpack:"longDescription,omitempty" bson:"longdescription,omitempty" mapstructure:"longDescription,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -1519,19 +1519,19 @@ type SparseRecipe struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Steps contains all the steps with parameters to follow for the recipe.
+	// Contains all the steps with parameters to follow for the recipe.
 	Steps *[]*UIStep `json:"steps,omitempty" msgpack:"steps,omitempty" bson:"steps,omitempty" mapstructure:"steps,omitempty"`
 
-	// successfullMessage is presented if present and success.
+	// A string message presented upon success (optional).
 	SuccessfullMessage *string `json:"successfullMessage,omitempty" msgpack:"successfullMessage,omitempty" bson:"successfullmessage,omitempty" mapstructure:"successfullMessage,omitempty"`
 
-	// TargetIdentities contains the list of identities the recipes will try to create.
+	// Contains the list of identities the recipes will try to create.
 	TargetIdentities *[]string `json:"targetIdentities,omitempty" msgpack:"targetIdentities,omitempty" bson:"targetidentities,omitempty" mapstructure:"targetIdentities,omitempty"`
 
 	// Template of the recipe to import.
 	Template *string `json:"template,omitempty" msgpack:"template,omitempty" bson:"template,omitempty" mapstructure:"template,omitempty"`
 
-	// templateHash is a hash of the template.
+	// A hash of the template.
 	TemplateHash *string `json:"templateHash,omitempty" msgpack:"templateHash,omitempty" bson:"templatehash,omitempty" mapstructure:"templateHash,omitempty"`
 
 	// internal idempotency key for a update operation.

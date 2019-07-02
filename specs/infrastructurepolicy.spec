@@ -7,8 +7,10 @@ model:
   group: policy/networking
   description: |-
     Infrastructure policies represent the network access rules of the underlying
-    infrastructure. They can assist you in analyzing how AWS security groups, firewalls, 
-    and other access control list (ACL) mechanisms may affect Aporeto network policies.
+    infrastructure. They can assist you in analyzing how AWS security groups,
+    firewalls,
+    and other access control list (ACL) mechanisms may affect Aporeto network
+    policies.
     Aporeto's AWS integration app automatically populates AWS security groups.
   aliases:
   - infrapol
@@ -40,7 +42,7 @@ indexes:
 attributes:
   v1:
   - name: action
-    description: Defines the action to apply to a flow: `Allow` (default) or `Reject`.
+    description: Defines the action to apply to a flow.
     type: enum
     exposed: true
     allowed_choices:
@@ -51,8 +53,9 @@ attributes:
 
   - name: applyPolicyMode
     description: |-
-      Determines if the policy applies to the outgoing traffic of the `subject` or the 
-      incoming traffic of the `subject`. `OutgoingTraffic` (default) or `IncomingTraffic`.
+      Determines if the policy applies to the outgoing traffic of the `subject` or the
+      incoming traffic of the `subject`. `OutgoingTraffic` (default) or
+      `IncomingTraffic`.
     type: enum
     exposed: true
     allowed_choices:

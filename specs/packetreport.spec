@@ -33,7 +33,7 @@ attributes:
 
   - name: dropReason
     description: |-
-      If `event` is set to `Dropped`, contains the reason that the packet was dropped. 
+      If `event` is set to `Dropped`, contains the reason that the packet was dropped.
       Otherwise empty.
     type: string
     exposed: true
@@ -44,7 +44,7 @@ attributes:
     exposed: true
 
   - name: event
-    description: The event that triggered the report: `Received`, `Transmitted`, or `Dropped`.
+    description: The event that triggered the report.
     type: enum
     exposed: true
     required: true

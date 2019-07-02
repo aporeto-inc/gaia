@@ -101,7 +101,7 @@ type ImportReference struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// The data to import.
+	// Data to import.
 	Data *Export `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
 
 	// Description is the description of the object.
@@ -196,7 +196,7 @@ func (o *ImportReference) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ImportReference) Doc() string {
 
-	return `Import and keep a reference.`
+	return `Allows you to import and keep a reference.`
 }
 
 func (o *ImportReference) String() string {
@@ -712,7 +712,7 @@ var ImportReferenceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
-		Description:    `The data to import.`,
+		Description:    `Data to import.`,
 		Exposed:        true,
 		Name:           "data",
 		Required:       true,
@@ -944,7 +944,7 @@ var ImportReferenceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
-		Description:    `The data to import.`,
+		Description:    `Data to import.`,
 		Exposed:        true,
 		Name:           "data",
 		Required:       true,
@@ -1179,7 +1179,7 @@ type SparseImportReference struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// The data to import.
+	// Data to import.
 	Data *Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
 	// Description is the description of the object.

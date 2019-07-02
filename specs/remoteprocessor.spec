@@ -36,7 +36,7 @@ attributes:
       }
 
   - name: mode
-    description: Defines the hook's type: `Post` or `Pre`.
+    description: Defines the hook's type.
     type: enum
     exposed: true
     allowed_choices:

@@ -108,7 +108,7 @@ type ImportRequest struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Post a new comment that will be added to the commentFeed.
+	// A new comment that will be added to `+"`"+`commentFeed`+"`"+`.
 	Comment string `json:"comment" msgpack:"comment" bson:"-" mapstructure:"comment,omitempty"`
 
 	// List of comments that have been added to that request.
@@ -120,7 +120,7 @@ type ImportRequest struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// The data to import.
+	// Data to import.
 	Data map[string][]map[string]interface{} `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
 
 	// Description is the description of the object.
@@ -135,28 +135,23 @@ type ImportRequest struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// The identity claims of the requester. This will be populated by the control
-	// plane.
+	// The identity claims of the requester; populated by the control plane.
 	RequesterClaims []string `json:"requesterClaims" msgpack:"requesterClaims" bson:"requesterclaims" mapstructure:"requesterClaims,omitempty"`
 
-	// The namespace from the request was created. This will be populated by the
+	// The namespace from which the request originated; populated by the
 	// control plane.
 	RequesterNamespace string `json:"requesterNamespace" msgpack:"requesterNamespace" bson:"requesternamespace" mapstructure:"requesterNamespace,omitempty"`
 
-	// The status of the request. The content of data can only be changed when the
-	// status is set to `+"`"+`Draft`+"`"+` or `+"`"+`ChangeRequested`+"`"+`. When the status is changed to
-	// `+"`"+`Submitted`+"`"+`, the request will move to the target namespace for validation.
-	// If the Status is set to `+"`"+`Approved`+"`"+` the data will be created immediately.
-	// If the status is set to `+"`"+`Rejected`+"`"+` the request cannot be changed anymore and can
-	// be deleted.
+	// Allows the content to be changed. `+"`"+`Submitted`+"`"+`: the request moves to the target namespace
+	// for approval. `+"`"+`Approved`+"`"+`: the data will be created immediately. `+"`"+`Rejected`+"`"+`: the request
+	// cannot be changed anymore and can be deleted.
 	Status ImportRequestStatusValue `json:"status" msgpack:"status" bson:"status" mapstructure:"status,omitempty"`
 
-	// Internal field to know if the request has been submit once.
+	// Internal field to know if the request has been submitted once.
 	SubmittedOnce bool `json:"-" msgpack:"-" bson:"submittedonce" mapstructure:"-,omitempty"`
 
-	// The namespace where the request will be sent. The requester can set any
-	// namespace but he needs to have an autorization to post the request in that
-	// namespace.
+	// The namespace where the request will be sent. The requester can set any namespace but
+	// needs to have an authorization to post the request in that namespace.
 	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -232,17 +227,16 @@ func (o *ImportRequest) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ImportRequest) Doc() string {
 
-	return `This API allows to send an import request to create objects to a namespace where
+	return `Allows you to send an import request to create objects to a namespace where
 the requester doesn't normally have the permission to do so (other than creating
 import requests).
 
-The requester must have the permission to create the request in his namespace
+The requester must have the permission to create the request in their namespace
 and the target namespace.
 
 When the request is created, the status is set to ` + "`" + `Draft` + "`" + `. The requester can
-edit the content as much as he desires.
-When he's ready to send the request, he must update the status to be
-` + "`" + `Submitted` + "`" + `.
+edit the content as much as desired.
+When ready to send the request, update the status to ` + "`" + `Submitted` + "`" + `.
 The request will then be moved to the target namespace.
 At that point nobody can edit the content of the requests other than adding
 comments.
@@ -256,10 +250,10 @@ The requestee will now see the request, and will either
   deleted.
 
 - Set the status back as ` + "`" + `Draft` + "`" + `. The request will go back to the requester
-  namespace so he can make changes. Once the change are ready, the requester
+  namespace so that the requester can make changes. Once the change are ready, the requester
   will set back the status as ` + "`" + `Submitted` + "`" + `.
 
-The ` + "`" + `data` + "`" + ` format is the same an ` + "`" + `Export` + "`" + `.`
+The ` + "`" + `data` + "`" + ` format is the same as ` + "`" + `Export` + "`" + `.`
 }
 
 func (o *ImportRequest) String() string {
@@ -735,7 +729,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 	"Comment": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Comment",
-		Description:    `Post a new comment that will be added to the commentFeed.`,
+		Description:    `A new comment that will be added to ` + "`" + `commentFeed` + "`" + `.`,
 		Exposed:        true,
 		Name:           "comment",
 		Transient:      true,
@@ -783,7 +777,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 	"Data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
-		Description:    `The data to import.`,
+		Description:    `Data to import.`,
 		Exposed:        true,
 		Name:           "data",
 		Required:       true,
@@ -851,20 +845,19 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "RequesterClaims",
-		Description: `The identity claims of the requester. This will be populated by the control
-plane.`,
-		Exposed:  true,
-		Name:     "requesterClaims",
-		ReadOnly: true,
-		Stored:   true,
-		SubType:  "string",
-		Type:     "list",
+		Description:    `The identity claims of the requester; populated by the control plane.`,
+		Exposed:        true,
+		Name:           "requesterClaims",
+		ReadOnly:       true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"RequesterNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "RequesterNamespace",
-		Description: `The namespace from the request was created. This will be populated by the
+		Description: `The namespace from which the request originated; populated by the
 control plane.`,
 		Exposed:  true,
 		Name:     "requesterNamespace",
@@ -876,12 +869,9 @@ control plane.`,
 		AllowedChoices: []string{"Draft", "Submitted", "Approved", "Rejected"},
 		ConvertedName:  "Status",
 		DefaultValue:   ImportRequestStatusDraft,
-		Description: `The status of the request. The content of data can only be changed when the
-status is set to ` + "`" + `Draft` + "`" + ` or ` + "`" + `ChangeRequested` + "`" + `. When the status is changed to
-` + "`" + `Submitted` + "`" + `, the request will move to the target namespace for validation.
-If the Status is set to ` + "`" + `Approved` + "`" + ` the data will be created immediately.
-If the status is set to ` + "`" + `Rejected` + "`" + ` the request cannot be changed anymore and can
-be deleted.`,
+		Description: `Allows the content to be changed. ` + "`" + `Submitted` + "`" + `: the request moves to the target namespace 
+for approval. ` + "`" + `Approved` + "`" + `: the data will be created immediately. ` + "`" + `Rejected` + "`" + `: the request 
+cannot be changed anymore and can be deleted.`,
 		Exposed: true,
 		Name:    "status",
 		Stored:  true,
@@ -890,7 +880,7 @@ be deleted.`,
 	"SubmittedOnce": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SubmittedOnce",
-		Description:    `Internal field to know if the request has been submit once.`,
+		Description:    `Internal field to know if the request has been submitted once.`,
 		Name:           "submittedOnce",
 		Stored:         true,
 		Type:           "boolean",
@@ -899,9 +889,8 @@ be deleted.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
 		CreationOnly:   true,
-		Description: `The namespace where the request will be sent. The requester can set any
-namespace but he needs to have an autorization to post the request in that
-namespace.`,
+		Description: `The namespace where the request will be sent. The requester can set any namespace but 
+needs to have an authorization to post the request in that namespace.`,
 		Exposed:   true,
 		Name:      "targetNamespace",
 		Required:  true,
@@ -1008,7 +997,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"comment": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Comment",
-		Description:    `Post a new comment that will be added to the commentFeed.`,
+		Description:    `A new comment that will be added to ` + "`" + `commentFeed` + "`" + `.`,
 		Exposed:        true,
 		Name:           "comment",
 		Transient:      true,
@@ -1056,7 +1045,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
-		Description:    `The data to import.`,
+		Description:    `Data to import.`,
 		Exposed:        true,
 		Name:           "data",
 		Required:       true,
@@ -1124,20 +1113,19 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "RequesterClaims",
-		Description: `The identity claims of the requester. This will be populated by the control
-plane.`,
-		Exposed:  true,
-		Name:     "requesterClaims",
-		ReadOnly: true,
-		Stored:   true,
-		SubType:  "string",
-		Type:     "list",
+		Description:    `The identity claims of the requester; populated by the control plane.`,
+		Exposed:        true,
+		Name:           "requesterClaims",
+		ReadOnly:       true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"requesternamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "RequesterNamespace",
-		Description: `The namespace from the request was created. This will be populated by the
+		Description: `The namespace from which the request originated; populated by the
 control plane.`,
 		Exposed:  true,
 		Name:     "requesterNamespace",
@@ -1149,12 +1137,9 @@ control plane.`,
 		AllowedChoices: []string{"Draft", "Submitted", "Approved", "Rejected"},
 		ConvertedName:  "Status",
 		DefaultValue:   ImportRequestStatusDraft,
-		Description: `The status of the request. The content of data can only be changed when the
-status is set to ` + "`" + `Draft` + "`" + ` or ` + "`" + `ChangeRequested` + "`" + `. When the status is changed to
-` + "`" + `Submitted` + "`" + `, the request will move to the target namespace for validation.
-If the Status is set to ` + "`" + `Approved` + "`" + ` the data will be created immediately.
-If the status is set to ` + "`" + `Rejected` + "`" + ` the request cannot be changed anymore and can
-be deleted.`,
+		Description: `Allows the content to be changed. ` + "`" + `Submitted` + "`" + `: the request moves to the target namespace 
+for approval. ` + "`" + `Approved` + "`" + `: the data will be created immediately. ` + "`" + `Rejected` + "`" + `: the request 
+cannot be changed anymore and can be deleted.`,
 		Exposed: true,
 		Name:    "status",
 		Stored:  true,
@@ -1163,7 +1148,7 @@ be deleted.`,
 	"submittedonce": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SubmittedOnce",
-		Description:    `Internal field to know if the request has been submit once.`,
+		Description:    `Internal field to know if the request has been submitted once.`,
 		Name:           "submittedOnce",
 		Stored:         true,
 		Type:           "boolean",
@@ -1172,9 +1157,8 @@ be deleted.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
 		CreationOnly:   true,
-		Description: `The namespace where the request will be sent. The requester can set any
-namespace but he needs to have an autorization to post the request in that
-namespace.`,
+		Description: `The namespace where the request will be sent. The requester can set any namespace but 
+needs to have an authorization to post the request in that namespace.`,
 		Exposed:   true,
 		Name:      "targetNamespace",
 		Required:  true,
@@ -1312,7 +1296,7 @@ type SparseImportRequest struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// Post a new comment that will be added to the commentFeed.
+	// A new comment that will be added to `+"`"+`commentFeed`+"`"+`.
 	Comment *string `json:"comment,omitempty" msgpack:"comment,omitempty" bson:"-" mapstructure:"comment,omitempty"`
 
 	// List of comments that have been added to that request.
@@ -1324,7 +1308,7 @@ type SparseImportRequest struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// The data to import.
+	// Data to import.
 	Data *map[string][]map[string]interface{} `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
 	// Description is the description of the object.
@@ -1339,28 +1323,23 @@ type SparseImportRequest struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// The identity claims of the requester. This will be populated by the control
-	// plane.
+	// The identity claims of the requester; populated by the control plane.
 	RequesterClaims *[]string `json:"requesterClaims,omitempty" msgpack:"requesterClaims,omitempty" bson:"requesterclaims,omitempty" mapstructure:"requesterClaims,omitempty"`
 
-	// The namespace from the request was created. This will be populated by the
+	// The namespace from which the request originated; populated by the
 	// control plane.
 	RequesterNamespace *string `json:"requesterNamespace,omitempty" msgpack:"requesterNamespace,omitempty" bson:"requesternamespace,omitempty" mapstructure:"requesterNamespace,omitempty"`
 
-	// The status of the request. The content of data can only be changed when the
-	// status is set to `+"`"+`Draft`+"`"+` or `+"`"+`ChangeRequested`+"`"+`. When the status is changed to
-	// `+"`"+`Submitted`+"`"+`, the request will move to the target namespace for validation.
-	// If the Status is set to `+"`"+`Approved`+"`"+` the data will be created immediately.
-	// If the status is set to `+"`"+`Rejected`+"`"+` the request cannot be changed anymore and can
-	// be deleted.
+	// Allows the content to be changed. `+"`"+`Submitted`+"`"+`: the request moves to the target namespace
+	// for approval. `+"`"+`Approved`+"`"+`: the data will be created immediately. `+"`"+`Rejected`+"`"+`: the request
+	// cannot be changed anymore and can be deleted.
 	Status *ImportRequestStatusValue `json:"status,omitempty" msgpack:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
 
-	// Internal field to know if the request has been submit once.
+	// Internal field to know if the request has been submitted once.
 	SubmittedOnce *bool `json:"-" msgpack:"-" bson:"submittedonce,omitempty" mapstructure:"-,omitempty"`
 
-	// The namespace where the request will be sent. The requester can set any
-	// namespace but he needs to have an autorization to post the request in that
-	// namespace.
+	// The namespace where the request will be sent. The requester can set any namespace but
+	// needs to have an authorization to post the request in that namespace.
 	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"targetnamespace,omitempty" mapstructure:"targetNamespace,omitempty"`
 
 	// internal idempotency key for a update operation.

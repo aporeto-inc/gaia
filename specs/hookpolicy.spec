@@ -43,12 +43,11 @@ indexes:
 attributes:
   v1:
   - name: certificateAuthority
-    description: |-
-      Contains the PEM block of the certificate authority used by the remote endpoint.
+    description: Contains the PEM block of the certificate authority used by the remote
+      endpoint.
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: |-
       -----BEGIN CERTIFICATE-----
       MIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN
@@ -66,11 +65,13 @@ attributes:
 
   - name: clientCertificate
     description: |-
-      Contains the client certificate that will be used to connect to the remote endpoint.
+      ClientCertificate contains the client certificate that will be used to connect
+      to the remote endpoint. If provided, the private key associated with this
+      certificate must
+      also be configured.
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: |-
       -----BEGIN CERTIFICATE-----
       MIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN
@@ -87,11 +88,12 @@ attributes:
     - $pem
 
   - name: clientCertificateKey
-    description: Contains the private key associated with the client certificate.
+    description: |-
+      Contains the key associated to the clientCertificate. It must be provided only
+      when ClientCertificate has been configured.
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: |-
       -----BEGIN EC PRIVATE KEY-----
       MHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49
@@ -106,7 +108,7 @@ attributes:
 
   - name: continueOnError
     description: |-
-      If set to `true` and `mode` is in `Pre`, the request will be honored even if 
+      If set to `true` and `mode` is in `Pre`, the request will be honored even if
       calling the hook fails.
     type: boolean
     exposed: true
@@ -130,7 +132,7 @@ attributes:
     setter: true
 
   - name: mode
-    description: Defines the type of hook: `Both`, `Post`, or `Pre` (default).
+    description: Defines the type of hook.
     type: enum
     exposed: true
     stored: true
@@ -143,7 +145,8 @@ attributes:
 
   - name: subject
     description: |-
-      Contains the tag expression that an object must match in order to trigger the hook.
+      Contains the tag expression that an object must match in order to trigger the
+      hook.
     type: external
     exposed: true
     subtype: '[][]string'

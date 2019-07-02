@@ -36,7 +36,7 @@ attributes:
     orderable: true
 
   - name: billedToProvider
-    description: The name of the provider that this invoice was billed to: `Aporeto` (default) or `AWS`.
+    description: The name of the provider that this invoice was billed to.
     type: enum
     exposed: true
     stored: true

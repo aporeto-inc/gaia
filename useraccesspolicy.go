@@ -8,43 +8,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// SSHAuthorizationPolicyIdentity represents the Identity of the object.
-var SSHAuthorizationPolicyIdentity = elemental.Identity{
-	Name:     "sshauthorizationpolicy",
-	Category: "sshauthorizationpolicies",
+// UserAccessPolicyIdentity represents the Identity of the object.
+var UserAccessPolicyIdentity = elemental.Identity{
+	Name:     "useraccesspolicy",
+	Category: "useraccesspolicies",
 	Package:  "squall",
 	Private:  false,
 }
 
-// SSHAuthorizationPoliciesList represents a list of SSHAuthorizationPolicies
-type SSHAuthorizationPoliciesList []*SSHAuthorizationPolicy
+// UserAccessPoliciesList represents a list of UserAccessPolicies
+type UserAccessPoliciesList []*UserAccessPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o SSHAuthorizationPoliciesList) Identity() elemental.Identity {
+func (o UserAccessPoliciesList) Identity() elemental.Identity {
 
-	return SSHAuthorizationPolicyIdentity
+	return UserAccessPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the SSHAuthorizationPoliciesList.
-func (o SSHAuthorizationPoliciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the UserAccessPoliciesList.
+func (o UserAccessPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(SSHAuthorizationPoliciesList{}, o...)
+	copy := append(UserAccessPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SSHAuthorizationPoliciesList.
-func (o SSHAuthorizationPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the UserAccessPoliciesList.
+func (o UserAccessPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SSHAuthorizationPoliciesList{}, o...)
+	out := append(UserAccessPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SSHAuthorizationPolicy))
+		out = append(out, obj.(*UserAccessPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SSHAuthorizationPoliciesList) List() elemental.IdentifiablesList {
+func (o UserAccessPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -55,7 +55,7 @@ func (o SSHAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SSHAuthorizationPoliciesList) DefaultOrder() []string {
+func (o UserAccessPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -63,26 +63,26 @@ func (o SSHAuthorizationPoliciesList) DefaultOrder() []string {
 	}
 }
 
-// ToSparse returns the SSHAuthorizationPoliciesList converted to SparseSSHAuthorizationPoliciesList.
+// ToSparse returns the UserAccessPoliciesList converted to SparseUserAccessPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o SSHAuthorizationPoliciesList) ToSparse(fields ...string) elemental.Identifiables {
+func (o UserAccessPoliciesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseSSHAuthorizationPoliciesList, len(o))
+	out := make(SparseUserAccessPoliciesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseSSHAuthorizationPolicy)
+		out[i] = o[i].ToSparse(fields...).(*SparseUserAccessPolicy)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o SSHAuthorizationPoliciesList) Version() int {
+func (o UserAccessPoliciesList) Version() int {
 
 	return 1
 }
 
-// SSHAuthorizationPolicy represents the model of a sshauthorizationpolicy
-type SSHAuthorizationPolicy struct {
+// UserAccessPolicy represents the model of a useraccesspolicy
+type UserAccessPolicy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -94,15 +94,14 @@ type SSHAuthorizationPolicy struct {
 	// The policy will be active for the given activeDuration.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
+	// AllowedSudoUsers indicates the list of user who can use sudo commands.
+	AllowedSudoUsers []string `json:"allowedSudoUsers" msgpack:"allowedSudoUsers" bson:"-" mapstructure:"allowedSudoUsers,omitempty"`
+
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// If set, the SSH authorization will only be valid if the request comes from one
-	// the declared subnets.
-	AuthorizedSubnets []string `json:"authorizedSubnets" msgpack:"authorizedSubnets" bson:"-" mapstructure:"authorizedSubnets,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
@@ -116,25 +115,8 @@ type SSHAuthorizationPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// If set the SSH authorization will be automatically deleted after the given time.
+	// If set the policy will be auto deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
-
-	// The list of permissions to apply to the OpenSSH certificate. You can check the list of
-	// standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
-	Extensions []string `json:"extensions" msgpack:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
-
-	// Fallback indicates that this is fallback policy. It will only be
-	// applied if no other policies have been resolved. If the policy is also
-	// propagated it will become a fallback for children namespaces.
-	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
-
-	// Specify a single command that the user can issue on the remote host. This can be useful
-	// for issuing single-purpose certificates; ensuring that users stay in their home directories
-	// (`+"`"+`internal-sftp`+"`"+`); and restricting users to a bash shell (`+"`"+`/bin/bash`+"`"+`), preventing them
-	// from running arbitrary and unlogged commands such as `+"`"+`scp`+"`"+`, `+"`"+`rsync`+"`"+`, `+"`"+`-essh`+"`"+`, and `+"`"+`sftp`+"`"+`.
-	// Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
-	// for more information.
-	ForceCommand string `json:"forceCommand" msgpack:"forceCommand" bson:"-" mapstructure:"forceCommand,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -149,15 +131,9 @@ type SSHAuthorizationPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the tag expression identifying the enforcers on the hosts the `+"`"+`subject`+"`"+` is
-	// allowed to access.
+	// Object contains the tag expression matching the enforcers the subject is allowed
+	// to connect to.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
-
-	// On systems without the Aporeto enforcer, you must provide the name of the Linux user.
-	// Otherwise, Aporeto will automatically populate this field and adding a value here is
-	// optional and not used during the authorization. However, the value becomes a tag
-	// associated with the SSH processing unit, which could be useful.
-	Principals []string `json:"principals" msgpack:"principals" bson:"-" mapstructure:"principals,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
@@ -165,9 +141,8 @@ type SSHAuthorizationPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Contains the tag expression that identifies the user or group of users that should be
-	// allowed to access the remote hosts. If the user authenticates against an OIDC provider,
-	// these tags correspond to claims in the ID token.
+	// Subject contains the tag expression the tags need to match for the policy to
+	// apply.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -176,62 +151,56 @@ type SSHAuthorizationPolicy struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	// Set the validity of the delivered SSH certificate.
-	Validity string `json:"validity" msgpack:"validity" bson:"-" mapstructure:"validity,omitempty"`
-
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSSHAuthorizationPolicy returns a new *SSHAuthorizationPolicy
-func NewSSHAuthorizationPolicy() *SSHAuthorizationPolicy {
+// NewUserAccessPolicy returns a new *UserAccessPolicy
+func NewUserAccessPolicy() *UserAccessPolicy {
 
-	return &SSHAuthorizationPolicy{
-		ModelVersion:      1,
-		Annotations:       map[string][]string{},
-		AssociatedTags:    []string{},
-		AuthorizedSubnets: []string{},
-		Extensions:        []string{},
-		Metadata:          []string{},
-		NormalizedTags:    []string{},
-		Object:            [][]string{},
-		Principals:        []string{},
-		Subject:           [][]string{},
-		Validity:          "1h",
+	return &UserAccessPolicy{
+		ModelVersion:     1,
+		AllowedSudoUsers: []string{},
+		Annotations:      map[string][]string{},
+		AssociatedTags:   []string{},
+		Metadata:         []string{},
+		NormalizedTags:   []string{},
+		Object:           [][]string{},
+		Subject:          [][]string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *SSHAuthorizationPolicy) Identity() elemental.Identity {
+func (o *UserAccessPolicy) Identity() elemental.Identity {
 
-	return SSHAuthorizationPolicyIdentity
+	return UserAccessPolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *SSHAuthorizationPolicy) Identifier() string {
+func (o *UserAccessPolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *SSHAuthorizationPolicy) SetIdentifier(id string) {
+func (o *UserAccessPolicy) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SSHAuthorizationPolicy) Version() int {
+func (o *UserAccessPolicy) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *SSHAuthorizationPolicy) BleveType() string {
+func (o *UserAccessPolicy) BleveType() string {
 
-	return "sshauthorizationpolicy"
+	return "useraccesspolicy"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *SSHAuthorizationPolicy) DefaultOrder() []string {
+func (o *UserAccessPolicy) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -240,273 +209,252 @@ func (o *SSHAuthorizationPolicy) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *SSHAuthorizationPolicy) Doc() string {
+func (o *UserAccessPolicy) Doc() string {
 
-	return `An SSH authorization allows you to define the permissions for the owner
-of a OpenSSH certificate issued by an Aporeto certificate authority. You can 
-define if a user with some claims can connect to an ` + "`" + `sshd` + "`" + ` server managed by 
-an instance of ` + "`" + `enforcerd` + "`" + ` according to its tags, what permissions he has and 
-for how long delivered certificates are valid.`
+	return `The enforcer policy controls user access.`
 }
 
-func (o *SSHAuthorizationPolicy) String() string {
+func (o *UserAccessPolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SSHAuthorizationPolicy) GetActiveDuration() string {
+func (o *UserAccessPolicy) GetActiveDuration() string {
 
 	return o.ActiveDuration
 }
 
 // SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetActiveDuration(activeDuration string) {
+func (o *UserAccessPolicy) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = activeDuration
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SSHAuthorizationPolicy) GetActiveSchedule() string {
+func (o *UserAccessPolicy) GetActiveSchedule() string {
 
 	return o.ActiveSchedule
 }
 
 // SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetActiveSchedule(activeSchedule string) {
+func (o *UserAccessPolicy) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = activeSchedule
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SSHAuthorizationPolicy) GetAnnotations() map[string][]string {
+func (o *UserAccessPolicy) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetAnnotations(annotations map[string][]string) {
+func (o *UserAccessPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SSHAuthorizationPolicy) GetAssociatedTags() []string {
+func (o *UserAccessPolicy) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetAssociatedTags(associatedTags []string) {
+func (o *UserAccessPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SSHAuthorizationPolicy) GetCreateIdempotencyKey() string {
+func (o *UserAccessPolicy) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *UserAccessPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SSHAuthorizationPolicy) GetCreateTime() time.Time {
+func (o *UserAccessPolicy) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetCreateTime(createTime time.Time) {
+func (o *UserAccessPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SSHAuthorizationPolicy) GetDescription() string {
+func (o *UserAccessPolicy) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetDescription(description string) {
+func (o *UserAccessPolicy) SetDescription(description string) {
 
 	o.Description = description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SSHAuthorizationPolicy) GetDisabled() bool {
+func (o *UserAccessPolicy) GetDisabled() bool {
 
 	return o.Disabled
 }
 
 // SetDisabled sets the property Disabled of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetDisabled(disabled bool) {
+func (o *UserAccessPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
 }
 
 // GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SSHAuthorizationPolicy) GetExpirationTime() time.Time {
+func (o *UserAccessPolicy) GetExpirationTime() time.Time {
 
 	return o.ExpirationTime
 }
 
 // SetExpirationTime sets the property ExpirationTime of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetExpirationTime(expirationTime time.Time) {
+func (o *UserAccessPolicy) SetExpirationTime(expirationTime time.Time) {
 
 	o.ExpirationTime = expirationTime
 }
 
-// GetFallback returns the Fallback of the receiver.
-func (o *SSHAuthorizationPolicy) GetFallback() bool {
-
-	return o.Fallback
-}
-
-// SetFallback sets the property Fallback of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetFallback(fallback bool) {
-
-	o.Fallback = fallback
-}
-
 // GetMetadata returns the Metadata of the receiver.
-func (o *SSHAuthorizationPolicy) GetMetadata() []string {
+func (o *UserAccessPolicy) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetMetadata(metadata []string) {
+func (o *UserAccessPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SSHAuthorizationPolicy) GetName() string {
+func (o *UserAccessPolicy) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetName(name string) {
+func (o *UserAccessPolicy) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SSHAuthorizationPolicy) GetNamespace() string {
+func (o *UserAccessPolicy) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetNamespace(namespace string) {
+func (o *UserAccessPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SSHAuthorizationPolicy) GetNormalizedTags() []string {
+func (o *UserAccessPolicy) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetNormalizedTags(normalizedTags []string) {
+func (o *UserAccessPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SSHAuthorizationPolicy) GetPropagate() bool {
+func (o *UserAccessPolicy) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetPropagate(propagate bool) {
+func (o *UserAccessPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SSHAuthorizationPolicy) GetProtected() bool {
+func (o *UserAccessPolicy) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetProtected(protected bool) {
+func (o *UserAccessPolicy) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SSHAuthorizationPolicy) GetUpdateIdempotencyKey() string {
+func (o *UserAccessPolicy) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *UserAccessPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SSHAuthorizationPolicy) GetUpdateTime() time.Time {
+func (o *UserAccessPolicy) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *SSHAuthorizationPolicy) SetUpdateTime(updateTime time.Time) {
+func (o *UserAccessPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *UserAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseSSHAuthorizationPolicy{
+		return &SparseUserAccessPolicy{
 			ID:                   &o.ID,
 			ActiveDuration:       &o.ActiveDuration,
 			ActiveSchedule:       &o.ActiveSchedule,
+			AllowedSudoUsers:     &o.AllowedSudoUsers,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
-			AuthorizedSubnets:    &o.AuthorizedSubnets,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
 			Disabled:             &o.Disabled,
 			ExpirationTime:       &o.ExpirationTime,
-			Extensions:           &o.Extensions,
-			Fallback:             &o.Fallback,
-			ForceCommand:         &o.ForceCommand,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
 			Object:               &o.Object,
-			Principals:           &o.Principals,
 			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
 			Subject:              &o.Subject,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
-			Validity:             &o.Validity,
 		}
 	}
 
-	sp := &SparseSSHAuthorizationPolicy{}
+	sp := &SparseUserAccessPolicy{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -515,12 +463,12 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.ActiveDuration = &(o.ActiveDuration)
 		case "activeSchedule":
 			sp.ActiveSchedule = &(o.ActiveSchedule)
+		case "allowedSudoUsers":
+			sp.AllowedSudoUsers = &(o.AllowedSudoUsers)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "authorizedSubnets":
-			sp.AuthorizedSubnets = &(o.AuthorizedSubnets)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
@@ -531,12 +479,6 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.Disabled = &(o.Disabled)
 		case "expirationTime":
 			sp.ExpirationTime = &(o.ExpirationTime)
-		case "extensions":
-			sp.Extensions = &(o.Extensions)
-		case "fallback":
-			sp.Fallback = &(o.Fallback)
-		case "forceCommand":
-			sp.ForceCommand = &(o.ForceCommand)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -547,8 +489,6 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "object":
 			sp.Object = &(o.Object)
-		case "principals":
-			sp.Principals = &(o.Principals)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
@@ -559,21 +499,19 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
-		case "validity":
-			sp.Validity = &(o.Validity)
 		}
 	}
 
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseSSHAuthorizationPolicy to the object.
-func (o *SSHAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseUserAccessPolicy to the object.
+func (o *UserAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseSSHAuthorizationPolicy)
+	so := sparse.(*SparseUserAccessPolicy)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -583,14 +521,14 @@ func (o *SSHAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ActiveSchedule != nil {
 		o.ActiveSchedule = *so.ActiveSchedule
 	}
+	if so.AllowedSudoUsers != nil {
+		o.AllowedSudoUsers = *so.AllowedSudoUsers
+	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
-	}
-	if so.AuthorizedSubnets != nil {
-		o.AuthorizedSubnets = *so.AuthorizedSubnets
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
@@ -607,15 +545,6 @@ func (o *SSHAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ExpirationTime != nil {
 		o.ExpirationTime = *so.ExpirationTime
 	}
-	if so.Extensions != nil {
-		o.Extensions = *so.Extensions
-	}
-	if so.Fallback != nil {
-		o.Fallback = *so.Fallback
-	}
-	if so.ForceCommand != nil {
-		o.ForceCommand = *so.ForceCommand
-	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
 	}
@@ -630,9 +559,6 @@ func (o *SSHAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Object != nil {
 		o.Object = *so.Object
-	}
-	if so.Principals != nil {
-		o.Principals = *so.Principals
 	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
@@ -649,37 +575,34 @@ func (o *SSHAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
-	if so.Validity != nil {
-		o.Validity = *so.Validity
-	}
 }
 
-// DeepCopy returns a deep copy if the SSHAuthorizationPolicy.
-func (o *SSHAuthorizationPolicy) DeepCopy() *SSHAuthorizationPolicy {
+// DeepCopy returns a deep copy if the UserAccessPolicy.
+func (o *UserAccessPolicy) DeepCopy() *UserAccessPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SSHAuthorizationPolicy{}
+	out := &UserAccessPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SSHAuthorizationPolicy.
-func (o *SSHAuthorizationPolicy) DeepCopyInto(out *SSHAuthorizationPolicy) {
+// DeepCopyInto copies the receiver into the given *UserAccessPolicy.
+func (o *UserAccessPolicy) DeepCopyInto(out *UserAccessPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SSHAuthorizationPolicy: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy UserAccessPolicy: %s", err))
 	}
 
-	*out = *target.(*SSHAuthorizationPolicy)
+	*out = *target.(*UserAccessPolicy)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *SSHAuthorizationPolicy) Validate() error {
+func (o *UserAccessPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -689,10 +612,6 @@ func (o *SSHAuthorizationPolicy) Validate() error {
 	}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := ValidateOptionalNetworkList("authorizedSubnets", o.AuthorizedSubnets); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -720,10 +639,6 @@ func (o *SSHAuthorizationPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -736,26 +651,26 @@ func (o *SSHAuthorizationPolicy) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*SSHAuthorizationPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*UserAccessPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := SSHAuthorizationPolicyAttributesMap[name]; ok {
+	if v, ok := UserAccessPolicyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return SSHAuthorizationPolicyLowerCaseAttributesMap[name]
+	return UserAccessPolicyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*SSHAuthorizationPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*UserAccessPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return SSHAuthorizationPolicyAttributesMap
+	return UserAccessPolicyAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *SSHAuthorizationPolicy) ValueForAttribute(name string) interface{} {
+func (o *UserAccessPolicy) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -764,12 +679,12 @@ func (o *SSHAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.ActiveDuration
 	case "activeSchedule":
 		return o.ActiveSchedule
+	case "allowedSudoUsers":
+		return o.AllowedSudoUsers
 	case "annotations":
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
-	case "authorizedSubnets":
-		return o.AuthorizedSubnets
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "createTime":
@@ -780,12 +695,6 @@ func (o *SSHAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.Disabled
 	case "expirationTime":
 		return o.ExpirationTime
-	case "extensions":
-		return o.Extensions
-	case "fallback":
-		return o.Fallback
-	case "forceCommand":
-		return o.ForceCommand
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -796,8 +705,6 @@ func (o *SSHAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "object":
 		return o.Object
-	case "principals":
-		return o.Principals
 	case "propagate":
 		return o.Propagate
 	case "protected":
@@ -808,15 +715,13 @@ func (o *SSHAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
-	case "validity":
-		return o.Validity
 	}
 
 	return nil
 }
 
-// SSHAuthorizationPolicyAttributesMap represents the map of attribute for SSHAuthorizationPolicy.
-var SSHAuthorizationPolicyAttributesMap = map[string]elemental.AttributeSpecification{
+// UserAccessPolicyAttributesMap represents the map of attribute for UserAccessPolicy.
+var UserAccessPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -855,6 +760,15 @@ The policy will be active for the given activeDuration.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"AllowedSudoUsers": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllowedSudoUsers",
+		Description:    `AllowedSudoUsers indicates the list of user who can use sudo commands.`,
+		Exposed:        true,
+		Name:           "allowedSudoUsers",
+		SubType:        "string",
+		Type:           "list",
+	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -878,16 +792,6 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
-	},
-	"AuthorizedSubnets": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizedSubnets",
-		Description: `If set, the SSH authorization will only be valid if the request comes from one
-the declared subnets.`,
-		Exposed: true,
-		Name:    "authorizedSubnets",
-		SubType: "string",
-		Type:    "list",
 	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -943,50 +847,13 @@ the declared subnets.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the SSH authorization will be automatically deleted after the given time.`,
+		Description:    `If set the policy will be auto deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"Extensions": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Extensions",
-		Description: `The list of permissions to apply to the OpenSSH certificate. You can check the list of 
-standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
-		Exposed: true,
-		Name:    "extensions",
-		SubType: "string",
-		Type:    "list",
-	},
-	"Fallback": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
-applied if no other policies have been resolved. If the policy is also
-propagated it will become a fallback for children namespaces.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "fallback",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
-	},
-	"ForceCommand": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ForceCommand",
-		Description: `Specify a single command that the user can issue on the remote host. This can be useful 
-for issuing single-purpose certificates; ensuring that users stay in their home directories 
-(` + "`" + `internal-sftp` + "`" + `); and restricting users to a bash shell (` + "`" + `/bin/bash` + "`" + `), preventing them 
-from running arbitrary and unlogged commands such as ` + "`" + `scp` + "`" + `, ` + "`" + `rsync` + "`" + `, ` + "`" + `-essh` + "`" + `, and ` + "`" + `sftp` + "`" + `. 
-Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5)) 
-for more information.`,
-		Exposed: true,
-		Name:    "forceCommand",
-		Type:    "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1053,25 +920,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Contains the tag expression identifying the enforcers on the hosts the ` + "`" + `subject` + "`" + ` is 
-allowed to access.`,
+		Description: `Object contains the tag expression matching the enforcers the subject is allowed
+to connect to.`,
 		Exposed:   true,
 		Name:      "object",
 		Orderable: true,
 		SubType:   "[][]string",
 		Type:      "external",
-	},
-	"Principals": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Principals",
-		Description: `On systems without the Aporeto enforcer, you must provide the name of the Linux user. 
-Otherwise, Aporeto will automatically populate this field and adding a value here is 
-optional and not used during the authorization. However, the value becomes a tag 
-associated with the SSH processing unit, which could be useful.`,
-		Exposed: true,
-		Name:    "principals",
-		SubType: "string",
-		Type:    "list",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1100,9 +955,8 @@ associated with the SSH processing unit, which could be useful.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Contains the tag expression that identifies the user or group of users that should be 
-allowed to access the remote hosts. If the user authenticates against an OIDC provider, 
-these tags correspond to claims in the ID token.`,
+		Description: `Subject contains the tag expression the tags need to match for the policy to
+apply.`,
 		Exposed:   true,
 		Name:      "subject",
 		Orderable: true,
@@ -1135,19 +989,10 @@ these tags correspond to claims in the ID token.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"Validity": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Validity",
-		DefaultValue:   "1h",
-		Description:    `Set the validity of the delivered SSH certificate.`,
-		Exposed:        true,
-		Name:           "validity",
-		Type:           "string",
-	},
 }
 
-// SSHAuthorizationPolicyLowerCaseAttributesMap represents the map of attribute for SSHAuthorizationPolicy.
-var SSHAuthorizationPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// UserAccessPolicyLowerCaseAttributesMap represents the map of attribute for UserAccessPolicy.
+var UserAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1186,6 +1031,15 @@ The policy will be active for the given activeDuration.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"allowedsudousers": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllowedSudoUsers",
+		Description:    `AllowedSudoUsers indicates the list of user who can use sudo commands.`,
+		Exposed:        true,
+		Name:           "allowedSudoUsers",
+		SubType:        "string",
+		Type:           "list",
+	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -1209,16 +1063,6 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
-	},
-	"authorizedsubnets": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizedSubnets",
-		Description: `If set, the SSH authorization will only be valid if the request comes from one
-the declared subnets.`,
-		Exposed: true,
-		Name:    "authorizedSubnets",
-		SubType: "string",
-		Type:    "list",
 	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1274,50 +1118,13 @@ the declared subnets.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the SSH authorization will be automatically deleted after the given time.`,
+		Description:    `If set the policy will be auto deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"extensions": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Extensions",
-		Description: `The list of permissions to apply to the OpenSSH certificate. You can check the list of 
-standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
-		Exposed: true,
-		Name:    "extensions",
-		SubType: "string",
-		Type:    "list",
-	},
-	"fallback": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
-applied if no other policies have been resolved. If the policy is also
-propagated it will become a fallback for children namespaces.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "fallback",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
-	},
-	"forcecommand": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ForceCommand",
-		Description: `Specify a single command that the user can issue on the remote host. This can be useful 
-for issuing single-purpose certificates; ensuring that users stay in their home directories 
-(` + "`" + `internal-sftp` + "`" + `); and restricting users to a bash shell (` + "`" + `/bin/bash` + "`" + `), preventing them 
-from running arbitrary and unlogged commands such as ` + "`" + `scp` + "`" + `, ` + "`" + `rsync` + "`" + `, ` + "`" + `-essh` + "`" + `, and ` + "`" + `sftp` + "`" + `. 
-Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5)) 
-for more information.`,
-		Exposed: true,
-		Name:    "forceCommand",
-		Type:    "string",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1384,25 +1191,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Contains the tag expression identifying the enforcers on the hosts the ` + "`" + `subject` + "`" + ` is 
-allowed to access.`,
+		Description: `Object contains the tag expression matching the enforcers the subject is allowed
+to connect to.`,
 		Exposed:   true,
 		Name:      "object",
 		Orderable: true,
 		SubType:   "[][]string",
 		Type:      "external",
-	},
-	"principals": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Principals",
-		Description: `On systems without the Aporeto enforcer, you must provide the name of the Linux user. 
-Otherwise, Aporeto will automatically populate this field and adding a value here is 
-optional and not used during the authorization. However, the value becomes a tag 
-associated with the SSH processing unit, which could be useful.`,
-		Exposed: true,
-		Name:    "principals",
-		SubType: "string",
-		Type:    "list",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1431,9 +1226,8 @@ associated with the SSH processing unit, which could be useful.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Contains the tag expression that identifies the user or group of users that should be 
-allowed to access the remote hosts. If the user authenticates against an OIDC provider, 
-these tags correspond to claims in the ID token.`,
+		Description: `Subject contains the tag expression the tags need to match for the policy to
+apply.`,
 		Exposed:   true,
 		Name:      "subject",
 		Orderable: true,
@@ -1466,46 +1260,37 @@ these tags correspond to claims in the ID token.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"validity": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Validity",
-		DefaultValue:   "1h",
-		Description:    `Set the validity of the delivered SSH certificate.`,
-		Exposed:        true,
-		Name:           "validity",
-		Type:           "string",
-	},
 }
 
-// SparseSSHAuthorizationPoliciesList represents a list of SparseSSHAuthorizationPolicies
-type SparseSSHAuthorizationPoliciesList []*SparseSSHAuthorizationPolicy
+// SparseUserAccessPoliciesList represents a list of SparseUserAccessPolicies
+type SparseUserAccessPoliciesList []*SparseUserAccessPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o SparseSSHAuthorizationPoliciesList) Identity() elemental.Identity {
+func (o SparseUserAccessPoliciesList) Identity() elemental.Identity {
 
-	return SSHAuthorizationPolicyIdentity
+	return UserAccessPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the SparseSSHAuthorizationPoliciesList.
-func (o SparseSSHAuthorizationPoliciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseUserAccessPoliciesList.
+func (o SparseUserAccessPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseSSHAuthorizationPoliciesList{}, o...)
+	copy := append(SparseUserAccessPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseSSHAuthorizationPoliciesList.
-func (o SparseSSHAuthorizationPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseUserAccessPoliciesList.
+func (o SparseUserAccessPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseSSHAuthorizationPoliciesList{}, o...)
+	out := append(SparseUserAccessPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseSSHAuthorizationPolicy))
+		out = append(out, obj.(*SparseUserAccessPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseSSHAuthorizationPoliciesList) List() elemental.IdentifiablesList {
+func (o SparseUserAccessPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1516,7 +1301,7 @@ func (o SparseSSHAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseSSHAuthorizationPoliciesList) DefaultOrder() []string {
+func (o SparseUserAccessPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -1524,8 +1309,8 @@ func (o SparseSSHAuthorizationPoliciesList) DefaultOrder() []string {
 	}
 }
 
-// ToPlain returns the SparseSSHAuthorizationPoliciesList converted to SSHAuthorizationPoliciesList.
-func (o SparseSSHAuthorizationPoliciesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseUserAccessPoliciesList converted to UserAccessPoliciesList.
+func (o SparseUserAccessPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1536,13 +1321,13 @@ func (o SparseSSHAuthorizationPoliciesList) ToPlain() elemental.IdentifiablesLis
 }
 
 // Version returns the version of the content.
-func (o SparseSSHAuthorizationPoliciesList) Version() int {
+func (o SparseUserAccessPoliciesList) Version() int {
 
 	return 1
 }
 
-// SparseSSHAuthorizationPolicy represents the sparse version of a sshauthorizationpolicy.
-type SparseSSHAuthorizationPolicy struct {
+// SparseUserAccessPolicy represents the sparse version of a useraccesspolicy.
+type SparseUserAccessPolicy struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1554,15 +1339,14 @@ type SparseSSHAuthorizationPolicy struct {
 	// The policy will be active for the given activeDuration.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
+	// AllowedSudoUsers indicates the list of user who can use sudo commands.
+	AllowedSudoUsers *[]string `json:"allowedSudoUsers,omitempty" msgpack:"allowedSudoUsers,omitempty" bson:"-" mapstructure:"allowedSudoUsers,omitempty"`
+
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
-
-	// If set, the SSH authorization will only be valid if the request comes from one
-	// the declared subnets.
-	AuthorizedSubnets *[]string `json:"authorizedSubnets,omitempty" msgpack:"authorizedSubnets,omitempty" bson:"-" mapstructure:"authorizedSubnets,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1576,25 +1360,8 @@ type SparseSSHAuthorizationPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// If set the SSH authorization will be automatically deleted after the given time.
+	// If set the policy will be auto deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
-
-	// The list of permissions to apply to the OpenSSH certificate. You can check the list of
-	// standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
-	Extensions *[]string `json:"extensions,omitempty" msgpack:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
-
-	// Fallback indicates that this is fallback policy. It will only be
-	// applied if no other policies have been resolved. If the policy is also
-	// propagated it will become a fallback for children namespaces.
-	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
-
-	// Specify a single command that the user can issue on the remote host. This can be useful
-	// for issuing single-purpose certificates; ensuring that users stay in their home directories
-	// (`+"`"+`internal-sftp`+"`"+`); and restricting users to a bash shell (`+"`"+`/bin/bash`+"`"+`), preventing them
-	// from running arbitrary and unlogged commands such as `+"`"+`scp`+"`"+`, `+"`"+`rsync`+"`"+`, `+"`"+`-essh`+"`"+`, and `+"`"+`sftp`+"`"+`.
-	// Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
-	// for more information.
-	ForceCommand *string `json:"forceCommand,omitempty" msgpack:"forceCommand,omitempty" bson:"-" mapstructure:"forceCommand,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -1609,15 +1376,9 @@ type SparseSSHAuthorizationPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the tag expression identifying the enforcers on the hosts the `+"`"+`subject`+"`"+` is
-	// allowed to access.
+	// Object contains the tag expression matching the enforcers the subject is allowed
+	// to connect to.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
-
-	// On systems without the Aporeto enforcer, you must provide the name of the Linux user.
-	// Otherwise, Aporeto will automatically populate this field and adding a value here is
-	// optional and not used during the authorization. However, the value becomes a tag
-	// associated with the SSH processing unit, which could be useful.
-	Principals *[]string `json:"principals,omitempty" msgpack:"principals,omitempty" bson:"-" mapstructure:"principals,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
@@ -1625,9 +1386,8 @@ type SparseSSHAuthorizationPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Contains the tag expression that identifies the user or group of users that should be
-	// allowed to access the remote hosts. If the user authenticates against an OIDC provider,
-	// these tags correspond to claims in the ID token.
+	// Subject contains the tag expression the tags need to match for the policy to
+	// apply.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1636,25 +1396,22 @@ type SparseSSHAuthorizationPolicy struct {
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	// Set the validity of the delivered SSH certificate.
-	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
-
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseSSHAuthorizationPolicy returns a new  SparseSSHAuthorizationPolicy.
-func NewSparseSSHAuthorizationPolicy() *SparseSSHAuthorizationPolicy {
-	return &SparseSSHAuthorizationPolicy{}
+// NewSparseUserAccessPolicy returns a new  SparseUserAccessPolicy.
+func NewSparseUserAccessPolicy() *SparseUserAccessPolicy {
+	return &SparseUserAccessPolicy{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseSSHAuthorizationPolicy) Identity() elemental.Identity {
+func (o *SparseUserAccessPolicy) Identity() elemental.Identity {
 
-	return SSHAuthorizationPolicyIdentity
+	return UserAccessPolicyIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseSSHAuthorizationPolicy) Identifier() string {
+func (o *SparseUserAccessPolicy) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1663,21 +1420,21 @@ func (o *SparseSSHAuthorizationPolicy) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseSSHAuthorizationPolicy) SetIdentifier(id string) {
+func (o *SparseUserAccessPolicy) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseSSHAuthorizationPolicy) Version() int {
+func (o *SparseUserAccessPolicy) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseSSHAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseUserAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewSSHAuthorizationPolicy()
+	out := NewUserAccessPolicy()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1687,14 +1444,14 @@ func (o *SparseSSHAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.ActiveSchedule != nil {
 		out.ActiveSchedule = *o.ActiveSchedule
 	}
+	if o.AllowedSudoUsers != nil {
+		out.AllowedSudoUsers = *o.AllowedSudoUsers
+	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
-	}
-	if o.AuthorizedSubnets != nil {
-		out.AuthorizedSubnets = *o.AuthorizedSubnets
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
@@ -1711,15 +1468,6 @@ func (o *SparseSSHAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.ExpirationTime != nil {
 		out.ExpirationTime = *o.ExpirationTime
 	}
-	if o.Extensions != nil {
-		out.Extensions = *o.Extensions
-	}
-	if o.Fallback != nil {
-		out.Fallback = *o.Fallback
-	}
-	if o.ForceCommand != nil {
-		out.ForceCommand = *o.ForceCommand
-	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
 	}
@@ -1734,9 +1482,6 @@ func (o *SparseSSHAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Object != nil {
 		out.Object = *o.Object
-	}
-	if o.Principals != nil {
-		out.Principals = *o.Principals
 	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
@@ -1753,249 +1498,234 @@ func (o *SparseSSHAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
-	if o.Validity != nil {
-		out.Validity = *o.Validity
-	}
 
 	return out
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetActiveDuration() string {
+func (o *SparseUserAccessPolicy) GetActiveDuration() string {
 
 	return *o.ActiveDuration
 }
 
 // SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetActiveDuration(activeDuration string) {
+func (o *SparseUserAccessPolicy) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = &activeDuration
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetActiveSchedule() string {
+func (o *SparseUserAccessPolicy) GetActiveSchedule() string {
 
 	return *o.ActiveSchedule
 }
 
 // SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetActiveSchedule(activeSchedule string) {
+func (o *SparseUserAccessPolicy) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = &activeSchedule
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetAnnotations() map[string][]string {
+func (o *SparseUserAccessPolicy) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetAnnotations(annotations map[string][]string) {
+func (o *SparseUserAccessPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetAssociatedTags() []string {
+func (o *SparseUserAccessPolicy) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetAssociatedTags(associatedTags []string) {
+func (o *SparseUserAccessPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetCreateIdempotencyKey() string {
+func (o *SparseUserAccessPolicy) GetCreateIdempotencyKey() string {
 
 	return *o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseUserAccessPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetCreateTime() time.Time {
+func (o *SparseUserAccessPolicy) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetCreateTime(createTime time.Time) {
+func (o *SparseUserAccessPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetDescription() string {
+func (o *SparseUserAccessPolicy) GetDescription() string {
 
 	return *o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetDescription(description string) {
+func (o *SparseUserAccessPolicy) SetDescription(description string) {
 
 	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetDisabled() bool {
+func (o *SparseUserAccessPolicy) GetDisabled() bool {
 
 	return *o.Disabled
 }
 
 // SetDisabled sets the property Disabled of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetDisabled(disabled bool) {
+func (o *SparseUserAccessPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
 }
 
 // GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetExpirationTime() time.Time {
+func (o *SparseUserAccessPolicy) GetExpirationTime() time.Time {
 
 	return *o.ExpirationTime
 }
 
 // SetExpirationTime sets the property ExpirationTime of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetExpirationTime(expirationTime time.Time) {
+func (o *SparseUserAccessPolicy) SetExpirationTime(expirationTime time.Time) {
 
 	o.ExpirationTime = &expirationTime
 }
 
-// GetFallback returns the Fallback of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetFallback() bool {
-
-	return *o.Fallback
-}
-
-// SetFallback sets the property Fallback of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetFallback(fallback bool) {
-
-	o.Fallback = &fallback
-}
-
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetMetadata() []string {
+func (o *SparseUserAccessPolicy) GetMetadata() []string {
 
 	return *o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetMetadata(metadata []string) {
+func (o *SparseUserAccessPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetName() string {
+func (o *SparseUserAccessPolicy) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetName(name string) {
+func (o *SparseUserAccessPolicy) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetNamespace() string {
+func (o *SparseUserAccessPolicy) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetNamespace(namespace string) {
+func (o *SparseUserAccessPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetNormalizedTags() []string {
+func (o *SparseUserAccessPolicy) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseUserAccessPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetPropagate() bool {
+func (o *SparseUserAccessPolicy) GetPropagate() bool {
 
 	return *o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetPropagate(propagate bool) {
+func (o *SparseUserAccessPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetProtected() bool {
+func (o *SparseUserAccessPolicy) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetProtected(protected bool) {
+func (o *SparseUserAccessPolicy) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseUserAccessPolicy) GetUpdateIdempotencyKey() string {
 
 	return *o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseUserAccessPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseSSHAuthorizationPolicy) GetUpdateTime() time.Time {
+func (o *SparseUserAccessPolicy) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseSSHAuthorizationPolicy) SetUpdateTime(updateTime time.Time) {
+func (o *SparseUserAccessPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
-// DeepCopy returns a deep copy if the SparseSSHAuthorizationPolicy.
-func (o *SparseSSHAuthorizationPolicy) DeepCopy() *SparseSSHAuthorizationPolicy {
+// DeepCopy returns a deep copy if the SparseUserAccessPolicy.
+func (o *SparseUserAccessPolicy) DeepCopy() *SparseUserAccessPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseSSHAuthorizationPolicy{}
+	out := &SparseUserAccessPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseSSHAuthorizationPolicy.
-func (o *SparseSSHAuthorizationPolicy) DeepCopyInto(out *SparseSSHAuthorizationPolicy) {
+// DeepCopyInto copies the receiver into the given *SparseUserAccessPolicy.
+func (o *SparseUserAccessPolicy) DeepCopyInto(out *SparseUserAccessPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseSSHAuthorizationPolicy: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseUserAccessPolicy: %s", err))
 	}
 
-	*out = *target.(*SparseSSHAuthorizationPolicy)
+	*out = *target.(*SparseUserAccessPolicy)
 }

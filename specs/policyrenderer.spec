@@ -5,8 +5,7 @@ model:
   entity_name: PolicyRenderer
   package: squall
   group: core
-  description: |-
-    Allows you to render policies of given tyoe for a given set of tags.
+  description: Allows you to render policies of given tyoe for a given set of tags.
 
 # Attributes
 attributes:
@@ -21,8 +20,10 @@ attributes:
 
   - name: processMode
     description: |-
-      `Subject` (default): Set if the `processMode` should use the subject. `Object`: Set if 
-      the `processMode` should use the object. This only has effect when rendering an SSH 
+      `Subject` (default): Set if the `processMode` should use the subject. `Object`:
+      Set if
+      the `processMode` should use the object. This only has effect when rendering an
+      SSH
       authorization for now.
     type: enum
     exposed: true
@@ -42,10 +43,7 @@ attributes:
     - b=b
 
   - name: type
-    description: |-
-      Type of policy to render. `APIAuthorization`, `EnforcerProfile`, `File`, `Hook`, 
-      `Infrastructure`, `NamespaceMapping`, `Network`, `ProcessingUnit`, `Quota`, `Syscall`, 
-      `TokenScope`, or `SSHAuthorization`. 
+    description: Type of policy to render.
     type: enum
     exposed: true
     required: true
@@ -62,4 +60,5 @@ attributes:
     - Syscall
     - TokenScope
     - SSHAuthorization
+    - UserAccess
     example_value: APIAuthorization

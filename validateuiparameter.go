@@ -79,13 +79,13 @@ func (o ValidateUIParametersList) Version() int {
 
 // ValidateUIParameter represents the model of a validateuiparameter
 type ValidateUIParameter struct {
-	// Errors contains the list of errors.
+	// Contains the list of errors.
 	Errors map[string]string `json:"errors" msgpack:"errors" bson:"-" mapstructure:"errors,omitempty"`
 
 	// List of parameters to validate.
 	Parameters []*UIParameter `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
-	// Values contains the computed values.
+	// Contains the computed values.
 	Values map[string]interface{} `json:"values" msgpack:"values" bson:"-" mapstructure:"values,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -140,7 +140,7 @@ func (o *ValidateUIParameter) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ValidateUIParameter) Doc() string {
 
-	return `This api validates a list of UIParameters.`
+	return `Validates a list of [UIParameter](#uiparameter) parameters.`
 }
 
 func (o *ValidateUIParameter) String() string {
@@ -283,7 +283,7 @@ var ValidateUIParameterAttributesMap = map[string]elemental.AttributeSpecificati
 	"Errors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Errors",
-		Description:    `Errors contains the list of errors.`,
+		Description:    `Contains the list of errors.`,
 		Exposed:        true,
 		Name:           "errors",
 		SubType:        "map[string]string",
@@ -302,7 +302,7 @@ var ValidateUIParameterAttributesMap = map[string]elemental.AttributeSpecificati
 	"Values": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Values",
-		Description:    `Values contains the computed values.`,
+		Description:    `Contains the computed values.`,
 		Exposed:        true,
 		Name:           "values",
 		SubType:        "map[string]interface{}",
@@ -315,7 +315,7 @@ var ValidateUIParameterLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"errors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Errors",
-		Description:    `Errors contains the list of errors.`,
+		Description:    `Contains the list of errors.`,
 		Exposed:        true,
 		Name:           "errors",
 		SubType:        "map[string]string",
@@ -334,7 +334,7 @@ var ValidateUIParameterLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"values": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Values",
-		Description:    `Values contains the computed values.`,
+		Description:    `Contains the computed values.`,
 		Exposed:        true,
 		Name:           "values",
 		SubType:        "map[string]interface{}",
@@ -405,13 +405,13 @@ func (o SparseValidateUIParametersList) Version() int {
 
 // SparseValidateUIParameter represents the sparse version of a validateuiparameter.
 type SparseValidateUIParameter struct {
-	// Errors contains the list of errors.
+	// Contains the list of errors.
 	Errors *map[string]string `json:"errors,omitempty" msgpack:"errors,omitempty" bson:"-" mapstructure:"errors,omitempty"`
 
 	// List of parameters to validate.
 	Parameters *[]*UIParameter `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
-	// Values contains the computed values.
+	// Contains the computed values.
 	Values *map[string]interface{} `json:"values,omitempty" msgpack:"values,omitempty" bson:"-" mapstructure:"values,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

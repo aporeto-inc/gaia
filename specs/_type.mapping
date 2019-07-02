@@ -131,9 +131,9 @@ _cap_map:
 
 _claims:
   elemental:
-    type: '*claims.MidgardClaims'
-    init: claims.NewMidgardClaims()
-    import: go.aporeto.io/midgard-lib/claims
+    type: '*types.MidgardClaims'
+    init: types.NewMidgardClaims()
+    import: go.aporeto.io/gaia/types
   jsonschema:
     type: |-
       {
