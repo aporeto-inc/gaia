@@ -176,7 +176,7 @@ func (o *APICheck) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *APICheck) Doc() string {
 
-	return `Allows you to verify if a client identitied by his token is allowed to do
+	return `Allows you to verify if a client identified by his token is allowed to do
 some operations on some APIs. For example, a third-party system can use ` + "`" + `APICheck` + "`" + `
 to impersonate a user and determine if a proxied request should be allowed.`
 }

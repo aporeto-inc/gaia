@@ -57,7 +57,7 @@ attributes:
 
   - name: subject
     description: |-
-      Defines the selection criteria that this policy must match on identiy
+      Defines the selection criteria that this policy must match on identity
       and scope request information.
     type: external
     exposed: true

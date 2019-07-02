@@ -18,7 +18,7 @@ attributes:
     stored: true
 
   - name: allowedScopes
-    description: AllowedScopes authorized to access the API.
+    description: The scopes authorized to access the API.
     type: external
     exposed: true
     subtype: '[][]string'

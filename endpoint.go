@@ -12,7 +12,7 @@ type Endpoint struct {
 	// URI of the exposed API.
 	URI string `json:"URI" msgpack:"URI" bson:"uri" mapstructure:"URI,omitempty"`
 
-	// AllowedScopes authorized to access the API.
+	// The scopes authorized to access the API.
 	AllowedScopes [][]string `json:"allowedScopes" msgpack:"allowedScopes" bson:"allowedscopes" mapstructure:"allowedScopes,omitempty"`
 
 	// Methods exposed to access the API.

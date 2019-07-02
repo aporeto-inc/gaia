@@ -65,10 +65,9 @@ attributes:
 
   - name: clientCertificate
     description: |-
-      ClientCertificate contains the client certificate that will be used to connect
+      Contains the client certificate that will be used to connect
       to the remote endpoint. If provided, the private key associated with this
-      certificate must
-      also be configured.
+      certificate must also be configured.
     type: string
     exposed: true
     stored: true
@@ -89,8 +88,8 @@ attributes:
 
   - name: clientCertificateKey
     description: |-
-      Contains the key associated to the clientCertificate. It must be provided only
-      when ClientCertificate has been configured.
+      Contains the key associated with the `clientCertificate`. It must be provided only
+      when `clientCertificate` has been configured.
     type: string
     exposed: true
     stored: true

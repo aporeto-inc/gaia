@@ -109,14 +109,13 @@ type HookPolicy struct {
 	// Contains the PEM block of the certificate authority used by the remote endpoint.
 	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
-	// ClientCertificate contains the client certificate that will be used to connect
+	// Contains the client certificate that will be used to connect
 	// to the remote endpoint. If provided, the private key associated with this
-	// certificate must
-	// also be configured.
+	// certificate must also be configured.
 	ClientCertificate string `json:"clientCertificate" msgpack:"clientCertificate" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
 
-	// Contains the key associated to the clientCertificate. It must be provided only
-	// when ClientCertificate has been configured.
+	// Contains the key associated with the `+"`"+`clientCertificate`+"`"+`. It must be provided only
+	// when `+"`"+`clientCertificate`+"`"+` has been configured.
 	ClientCertificateKey string `json:"clientCertificateKey" msgpack:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
 	// If set to `+"`"+`true`+"`"+` and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
@@ -844,10 +843,9 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ClientCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
-		Description: `ClientCertificate contains the client certificate that will be used to connect
+		Description: `Contains the client certificate that will be used to connect
 to the remote endpoint. If provided, the private key associated with this
-certificate must
-also be configured.`,
+certificate must also be configured.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
 		Orderable: true,
@@ -857,8 +855,8 @@ also be configured.`,
 	"ClientCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `Contains the key associated to the clientCertificate. It must be provided only
-when ClientCertificate has been configured.`,
+		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided only
+when ` + "`" + `clientCertificate` + "`" + ` has been configured.`,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
 		Orderable: true,
@@ -1165,10 +1163,9 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"clientcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
-		Description: `ClientCertificate contains the client certificate that will be used to connect
+		Description: `Contains the client certificate that will be used to connect
 to the remote endpoint. If provided, the private key associated with this
-certificate must
-also be configured.`,
+certificate must also be configured.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
 		Orderable: true,
@@ -1178,8 +1175,8 @@ also be configured.`,
 	"clientcertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `Contains the key associated to the clientCertificate. It must be provided only
-when ClientCertificate has been configured.`,
+		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided only
+when ` + "`" + `clientCertificate` + "`" + ` has been configured.`,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
 		Orderable: true,
@@ -1512,14 +1509,13 @@ type SparseHookPolicy struct {
 	// Contains the PEM block of the certificate authority used by the remote endpoint.
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
 
-	// ClientCertificate contains the client certificate that will be used to connect
+	// Contains the client certificate that will be used to connect
 	// to the remote endpoint. If provided, the private key associated with this
-	// certificate must
-	// also be configured.
+	// certificate must also be configured.
 	ClientCertificate *string `json:"clientCertificate,omitempty" msgpack:"clientCertificate,omitempty" bson:"clientcertificate,omitempty" mapstructure:"clientCertificate,omitempty"`
 
-	// Contains the key associated to the clientCertificate. It must be provided only
-	// when ClientCertificate has been configured.
+	// Contains the key associated with the `+"`"+`clientCertificate`+"`"+`. It must be provided only
+	// when `+"`"+`clientCertificate`+"`"+` has been configured.
 	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" msgpack:"clientCertificateKey,omitempty" bson:"clientcertificatekey,omitempty" mapstructure:"clientCertificateKey,omitempty"`
 
 	// If set to `+"`"+`true`+"`"+` and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if

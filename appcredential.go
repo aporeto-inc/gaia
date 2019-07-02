@@ -87,7 +87,7 @@ type AppCredential struct {
 	// only be set during a renew.
 	//
 	// - The CN **MUST** be `+"`"+`app:credential:<appcred-id>:<appcred-name>`+"`"+`
-	// - The O **MUST** be the namespace of the appcred
+	// - The O **MUST** be the namespace of the app credential
 	//
 	// If you send anything else, the signing request will be rejected.
 	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
@@ -739,7 +739,7 @@ var AppCredentialAttributesMap = map[string]elemental.AttributeSpecification{
 only be set during a renew.
 
 - The CN **MUST** be ` + "`" + `app:credential:<appcred-id>:<appcred-name>` + "`" + `
-- The O **MUST** be the namespace of the appcred
+- The O **MUST** be the namespace of the app credential
 
 If you send anything else, the signing request will be rejected.`,
 		Exposed: true,
@@ -1049,7 +1049,7 @@ var AppCredentialLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 only be set during a renew.
 
 - The CN **MUST** be ` + "`" + `app:credential:<appcred-id>:<appcred-name>` + "`" + `
-- The O **MUST** be the namespace of the appcred
+- The O **MUST** be the namespace of the app credential
 
 If you send anything else, the signing request will be rejected.`,
 		Exposed: true,
@@ -1420,7 +1420,7 @@ type SparseAppCredential struct {
 	// only be set during a renew.
 	//
 	// - The CN **MUST** be `+"`"+`app:credential:<appcred-id>:<appcred-name>`+"`"+`
-	// - The O **MUST** be the namespace of the appcred
+	// - The O **MUST** be the namespace of the app credential
 	//
 	// If you send anything else, the signing request will be rejected.
 	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`

@@ -132,7 +132,7 @@ type EnforcerProfileMappingPolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// The tag or tag expression that dentifies the enforcers that should
+	// The tag or tag expression that identifies the enforcers that should
 	// implement the mapped profile.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
@@ -863,7 +863,7 @@ be mapped.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `The tag or tag expression that dentifies the enforcers that should 
+		Description: `The tag or tag expression that identifies the enforcers that should 
 implement the mapped profile.`,
 		Exposed: true,
 		Name:    "subject",
@@ -1103,7 +1103,7 @@ be mapped.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `The tag or tag expression that dentifies the enforcers that should 
+		Description: `The tag or tag expression that identifies the enforcers that should 
 implement the mapped profile.`,
 		Exposed: true,
 		Name:    "subject",
@@ -1254,7 +1254,7 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// The tag or tag expression that dentifies the enforcers that should
+	// The tag or tag expression that identifies the enforcers that should
 	// implement the mapped profile.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 

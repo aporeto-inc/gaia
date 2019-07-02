@@ -46,7 +46,7 @@ type TraceRecord struct {
 	// Source TCP or UDP port of the packet.
 	SourcePort int `json:"sourcePort" msgpack:"sourcePort" bson:"sourceport" mapstructure:"sourcePort,omitempty"`
 
-	// The iptable name that the trace collected.
+	// The iptables name that the trace collected.
 	TableName string `json:"tableName" msgpack:"tableName" bson:"tablename" mapstructure:"tableName,omitempty"`
 
 	// The time-date stamp of the report.

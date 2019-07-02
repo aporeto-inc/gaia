@@ -8,7 +8,7 @@ model:
   description: |-
     Contains logs of all the activity that happened in a namespace. All successful or
     failed actions will be available, errors, as well as the claims of
-    the user who triggered the actiions. This log is capped and only keeps the last
+    the user who triggered the actions. This log is capped and only keeps the last
     50,000 entries by default.
   get:
     description: Retrieves the object with the given ID.

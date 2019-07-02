@@ -202,7 +202,7 @@ func (o *PolicyRenderer) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PolicyRenderer) Doc() string {
 
-	return `Allows you to render policies of given tyoe for a given set of tags.`
+	return `Allows you to render policies of a given type for a given set of tags.`
 }
 
 func (o *PolicyRenderer) String() string {

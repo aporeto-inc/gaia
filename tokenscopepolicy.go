@@ -142,7 +142,7 @@ type TokenScopePolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Defines the selection criteria that this policy must match on identiy
+	// Defines the selection criteria that this policy must match on identity
 	// and scope request information.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
@@ -970,7 +970,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Defines the selection criteria that this policy must match on identiy
+		Description: `Defines the selection criteria that this policy must match on identity
 and scope request information.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1247,7 +1247,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Defines the selection criteria that this policy must match on identiy
+		Description: `Defines the selection criteria that this policy must match on identity
 and scope request information.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1409,7 +1409,7 @@ type SparseTokenScopePolicy struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Defines the selection criteria that this policy must match on identiy
+	// Defines the selection criteria that this policy must match on identity
 	// and scope request information.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 

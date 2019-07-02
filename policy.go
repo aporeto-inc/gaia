@@ -142,7 +142,7 @@ type Policy struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Defines aset of actions that must be enforced when a dependency is met.
+	// Defines a set of actions that must be enforced when a dependency is met.
 	Action map[string]map[string]interface{} `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
@@ -967,7 +967,7 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Action",
-		Description:    `Defines aset of actions that must be enforced when a dependency is met.`,
+		Description:    `Defines a set of actions that must be enforced when a dependency is met.`,
 		Exposed:        true,
 		Name:           "action",
 		Stored:         true,
@@ -1338,7 +1338,7 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Action",
-		Description:    `Defines aset of actions that must be enforced when a dependency is met.`,
+		Description:    `Defines a set of actions that must be enforced when a dependency is met.`,
 		Exposed:        true,
 		Name:           "action",
 		Stored:         true,
@@ -1759,7 +1759,7 @@ type SparsePolicy struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Defines aset of actions that must be enforced when a dependency is met.
+	// Defines a set of actions that must be enforced when a dependency is met.
 	Action *map[string]map[string]interface{} `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the

@@ -46,7 +46,7 @@ different namespace.
 
 ##### `POST /export`
 
-Exports all policies and related object of a namespace.
+Exports all policies and related objects of a namespace.
 
 Parameters:
 
@@ -513,7 +513,7 @@ Parameters:
 
 ##### `GET /processingunits/:id/poke`
 
-Sends a poke empty object. This will send a snaphot of the processing unit to
+Sends a poke empty object. This will send a snapshot of the processing unit to
 the time series database.
 
 Parameters:
@@ -526,7 +526,7 @@ Parameters:
 
 ### PolicyRenderer
 
-Allows you to render policies of given tyoe for a given set of tags.
+Allows you to render policies of a given type for a given set of tags.
 
 #### Example
 
@@ -652,7 +652,7 @@ Parameters:
 
 ##### `POST /accounts`
 
-Creates a new Account.
+Creates a new account.
 
 ##### `DELETE /accounts/:id`
 
@@ -779,7 +779,7 @@ Activates a pending account.
 
 Parameters:
 
-- `noRedirect` (`boolean`): If set, do not redirect the request to the UI.
+- `noRedirect` (`boolean`): If set, do not redirect the request to the web interface.
 - `token` (`string`): Activation token.
 
 Mandatory Parameters
@@ -875,7 +875,7 @@ of enforcers running on EC2 instances.
 
 ##### `GET /awsaccounts`
 
-Retrieves the list of aws account bindings.
+Retrieves the list of AWS account bindings.
 
 Parameters:
 
@@ -884,7 +884,7 @@ Parameters:
 
 ##### `POST /awsaccounts`
 
-Creates a new aws account binding.
+Creates a new AWS account binding.
 
 ##### `DELETE /awsaccounts/:id`
 
@@ -2042,7 +2042,7 @@ Source TCP or UDP port of the packet.
 
 ##### `tableName` `string` [`required`]
 
-The iptable name that the trace collected.
+The iptables name that the trace collected.
 
 ##### `timestamp` `time` [`required`]
 
@@ -2054,7 +2054,7 @@ The time-date stamp of the report.
 
 Contains logs of all the activity that happened in a namespace. All successful or
 failed actions will be available, errors, as well as the claims of
-the user who triggered the actiions. This log is capped and only keeps the last
+the user who triggered the actions. This log is capped and only keeps the last
 50,000 entries by default.
 
 #### Relations
@@ -2270,7 +2270,7 @@ Allows you to report various events on any object.
 
 ##### `POST /eventlogs`
 
-Creates a new eventlog for a particular entity.
+Creates a new event log for a particular entity.
 
 #### Attributes
 
@@ -2446,7 +2446,7 @@ any tags you like as columns.
 
 ##### `GET /tabulations`
 
-Retrieves tabulated informations based on parameters.
+Retrieves tabulated information based on parameters.
 
 Parameters:
 
@@ -2659,7 +2659,7 @@ vulnerabilities.
 
 ##### `GET /namespacemappingpolicies`
 
-Retrieves the list namespace mapping policies.
+Retrieves the list namespace mappings.
 
 Parameters:
 
@@ -2667,7 +2667,7 @@ Parameters:
 
 ##### `POST /namespacemappingpolicies`
 
-Creates a new namespace mapping policy.
+Creates a new namespace mapping.
 
 ##### `DELETE /namespacemappingpolicies/:id`
 
@@ -2795,7 +2795,7 @@ Identifier of the object.
 
 ##### `action` `map[string]map[string]interface{}`
 
-Defines aset of actions that must be enforced when a dependency is met.
+Defines a set of actions that must be enforced when a dependency is met.
 
 ##### `activeDuration` `string` [`format=^[0-9]+[smh]$`]
 
@@ -3134,7 +3134,7 @@ ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
 
 ##### `POST /datapathcertificates`
 
-Creates a new Certificate for datapath.
+Creates a new certificate for datapath.
 
 #### Attributes
 
@@ -3267,7 +3267,7 @@ Retrieves the processing units affected by the vulnerability.
 
 ##### `GET /processingunits/:id/poke`
 
-Sends a poke empty object. This will send a snaphot of the processing unit to
+Sends a poke empty object. This will send a snapshot of the processing unit to
 the time series database.
 
 Parameters:
@@ -3799,7 +3799,7 @@ Default value of the parameter.
 
 ##### `description` `string`
 
-Description of the paramerter.
+Description of the parameter.
 
 ##### `key` `string` [`required`]
 
@@ -3811,7 +3811,7 @@ Long explanation of the parameter.
 
 ##### `name` `string`
 
-Name of the paramerter.
+Name of the parameter.
 
 ##### `optional` `boolean`
 
@@ -3904,7 +3904,7 @@ Validates a list of [UIParameter](#uiparameter) parameters.
 
 ##### `POST /validateuiparameters`
 
-Validates some ui parameters.
+Validates some UI parameters.
 
 #### Attributes
 
@@ -4167,7 +4167,7 @@ be executed.
 
 ##### `GET /automations`
 
-Retrieves the list of Automations.
+Retrieves the list of automations.
 
 Parameters:
 
@@ -4501,7 +4501,7 @@ Type of the report.
 
 ### UserAccessPolicy
 
-The enforcer policy controls user access.
+The enforcer policy that controls user access.
 
 #### Example
 
@@ -4531,7 +4531,7 @@ Creates a new enforcer policy.
 
 ##### `DELETE /useraccesspolicies/:id`
 
-Deletes the UserAccessPolicy with the given ID.
+Deletes the policy with the given ID.
 
 Parameters:
 
@@ -4539,7 +4539,7 @@ Parameters:
 
 ##### `GET /useraccesspolicies/:id`
 
-Retrieves the UserAccessPolicy with the given ID.
+Retrieves the policy with the given ID.
 
 Parameters:
 
@@ -4547,7 +4547,7 @@ Parameters:
 
 ##### `PUT /useraccesspolicies/:id`
 
-Updates the UserAccessPolicy with the given ID.
+Updates the policy with the given ID.
 
 #### Attributes
 
@@ -4567,7 +4567,7 @@ The policy will be active for the given `activeDuration`.
 
 ##### `allowedSudoUsers` `[]string`
 
-AllowedSudoUsers indicates the list of user who can use sudo commands.
+Indicates the list of user who can use `sudo` commands.
 
 ##### `annotations` `map[string][]string`
 
@@ -4591,7 +4591,7 @@ Defines if the property is disabled.
 
 ##### `expirationTime` `time`
 
-If set the policy will be auto deleted after the given time.
+If set the policy will be automatically deleted after the given time.
 
 ##### `metadata` `[]string` [`creation_only`]
 
@@ -4612,7 +4612,7 @@ Contains the list of normalized tags of the entities.
 
 ##### `object` `[][]string`
 
-Object contains the tag expression matching the enforcers the subject is allowed
+Contains the tag expression matching the enforcers the subject is allowed
 to connect to.
 
 ##### `propagate` `boolean`
@@ -4625,7 +4625,7 @@ Defines if the object is protected.
 
 ##### `subject` `[][]string`
 
-Subject contains the tag expression the tags need to match for the policy to
+Contains the tag expression the tags need to match for the policy to
 apply.
 
 ##### `updateTime` `time` [`autogenerated`,`read_only`]
@@ -5092,7 +5092,7 @@ propagate to all the children of the current namespace.
 
 ##### `GET /apiauthorizationpolicies`
 
-Retrieves the list of API authorization policies.
+Retrieves the list of API authorizations.
 
 Parameters:
 
@@ -5101,7 +5101,7 @@ Parameters:
 
 ##### `POST /apiauthorizationpolicies`
 
-Creates a new API authorization policies.
+Creates a new API authorization.
 
 ##### `DELETE /apiauthorizationpolicies/:id`
 
@@ -5218,7 +5218,7 @@ Last update date of the object.
 
 ### APICheck
 
-Allows you to verify if a client identitied by his token is allowed to do
+Allows you to verify if a client identified by his token is allowed to do
 some operations on some APIs. For example, a third-party system can use `APICheck`
 to impersonate a user and determine if a proxied request should be allowed.
 
@@ -5308,7 +5308,7 @@ ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
 
 ##### `GET /appcredentials`
 
-Retrieves the list of application credentials.
+Retrieves the list of app credentials.
 
 Parameters:
 
@@ -5316,7 +5316,7 @@ Parameters:
 
 ##### `POST /appcredentials`
 
-Creates a new application credential.
+Creates a new app credential.
 
 ##### `DELETE /appcredentials/:id`
 
@@ -5342,7 +5342,7 @@ Contains a PEM-encoded certificate signing request (CSR). It can
 only be set during a renew.
 
 - The CN **MUST** be `app:credential:<appcred-id>:<appcred-name>`
-- The O **MUST** be the namespace of the appcred
+- The O **MUST** be the namespace of the app credential
 
 If you send anything else, the signing request will be rejected.
 
@@ -5713,7 +5713,7 @@ The mapping can also be propagated down to the child namespace.
 
 ##### `GET /enforcerprofilemappingpolicies`
 
-Retrieves the list of enforcer profile mapping policies.
+Retrieves the list of enforcer profile mappings.
 
 Parameters:
 
@@ -5722,7 +5722,7 @@ Parameters:
 
 ##### `POST /enforcerprofilemappingpolicies`
 
-Creates a new enforcer profile mapping policies.
+Creates a new enforcer profile mappings.
 
 ##### `DELETE /enforcerprofilemappingpolicies/:id`
 
@@ -5813,7 +5813,7 @@ Defines if the object is protected.
 
 ##### `subject` `[][]string`
 
-The tag or tag expression that dentifies the enforcers that should 
+The tag or tag expression that identifies the enforcers that should 
 implement the mapped profile.
 
 ##### `updateTime` `time` [`autogenerated`,`read_only`]
@@ -6112,7 +6112,7 @@ to set some policies. A good example would be `volume=web` or `file=/etc/passwd`
 
 ##### `GET /filepaths`
 
-Retrieves the list of file path.
+Retrieves the list of file paths.
 
 Parameters:
 
@@ -6270,7 +6270,7 @@ F9eXFkofGX3UgRtsHe123456789xQ1naSw==
 
 ##### `GET /hookpolicies`
 
-Retrieves the list of hook policies.
+Retrieves the list of hooks.
 
 Parameters:
 
@@ -6279,7 +6279,7 @@ Parameters:
 
 ##### `POST /hookpolicies`
 
-Creates a new hook policy.
+Creates a new hook.
 
 ##### `DELETE /hookpolicies/:id`
 
@@ -6317,15 +6317,14 @@ Contains the PEM block of the certificate authority used by the remote endpoint.
 
 ##### `clientCertificate` `string`
 
-ClientCertificate contains the client certificate that will be used to connect
+Contains the client certificate that will be used to connect
 to the remote endpoint. If provided, the private key associated with this
-certificate must
-also be configured.
+certificate must also be configured.
 
 ##### `clientCertificateKey` `string`
 
-Contains the key associated to the clientCertificate. It must be provided only
-when ClientCertificate has been configured.
+Contains the key associated with the `clientCertificate`. It must be provided only
+when `clientCertificate` has been configured.
 
 ##### `continueOnError` `boolean`
 
@@ -6628,7 +6627,7 @@ services to have any effect.
 
 ##### `GET /hostservicemappingpolicies`
 
-Retrieves the list of host service mapping policies.
+Retrieves the list of host service mappings.
 
 Parameters:
 
@@ -6637,7 +6636,7 @@ Parameters:
 
 ##### `POST /hostservicemappingpolicies`
 
-Creates a new host service mapping policy.
+Creates a new host service mapping.
 
 ##### `DELETE /hostservicemappingpolicies/:id`
 
@@ -6856,7 +6855,7 @@ reference the external network from your network policies.
 
 ##### `GET /externalnetworks`
 
-Retrieves the list of external network.
+Retrieves the list of external networks.
 
 Parameters:
 
@@ -7358,7 +7357,7 @@ identified by their tags to talk to other processing units or external networks
 
 ##### `GET /networkaccesspolicies`
 
-Retrieves the list of network access policies.
+Retrieves the list of network policies.
 
 Parameters:
 
@@ -7367,7 +7366,7 @@ Parameters:
 
 ##### `POST /networkaccesspolicies`
 
-Creates a new network access policy.
+Creates a new network policy.
 
 ##### `DELETE /networkaccesspolicies/:id`
 
@@ -7890,7 +7889,7 @@ created in a namespace.
 
 ##### `GET /quotapolicies`
 
-Retrieves the list of quota policies.
+Retrieves the list of quotas.
 
 Parameters:
 
@@ -7899,7 +7898,7 @@ Parameters:
 
 ##### `POST /quotapolicies`
 
-Creates a new quota policy.
+Creates a new quota.
 
 ##### `DELETE /quotapolicies/:id`
 
@@ -8046,7 +8045,7 @@ URI of the exposed API.
 
 ##### `allowedScopes` `[][]string`
 
-AllowedScopes authorized to access the API.
+The scopes authorized to access the API.
 
 ##### `methods` `[]string`
 
@@ -8080,7 +8079,7 @@ Describes an HTTP resource exposed by one or more services.
 
 ##### `GET /httpresourcespecs`
 
-Retrieves the list of HTTP Resource specifications.
+Retrieves the list of HTTP resource specifications.
 
 Parameters:
 
@@ -8090,7 +8089,7 @@ Parameters:
 
 ##### `POST /httpresourcespecs`
 
-Creates a new HTTP Resource specification.
+Creates a new HTTP resource specification.
 
 ##### `DELETE /httpresourcespecs/:id`
 
@@ -8219,7 +8218,7 @@ units.
 
 ##### `GET /services`
 
-Retrieves the list of Services.
+Retrieves the list of services.
 
 Parameters:
 
@@ -8228,7 +8227,7 @@ Parameters:
 
 ##### `POST /services`
 
-Creates a new Service.
+Creates a new service.
 
 ##### `DELETE /services/:id`
 
@@ -8357,7 +8356,7 @@ required if `TLSType` is set to `External`.
 Set how to provide a server certificate to the service.
 
 - `Aporeto`: Generate a certificate issued from Aporeto public CA.
-- `LetsEncrypt`: Issue a certificate from letsencrypt.
+- `LetsEncrypt`: Issue a certificate from Let's Encrypt.
 - `External`: : Let you define your own certificate and key to use.
 - `None`: : TLS is disabled (not recommended).
 
@@ -8806,7 +8805,7 @@ Defines if the object is protected.
 
 ##### `subject` `[][]string`
 
-Defines the selection criteria that this policy must match on identiy
+Defines the selection criteria that this policy must match on identity
 and scope request information.
 
 ##### `updateTime` `time` [`autogenerated`,`read_only`]
@@ -8840,7 +8839,7 @@ for how long delivered certificates are valid.
 
 ##### `GET /sshauthorizationpolicies`
 
-Retrieves the list of SSH authorization policies.
+Retrieves the list of SSH authorizations.
 
 Parameters:
 
@@ -8849,7 +8848,7 @@ Parameters:
 
 ##### `POST /sshauthorizationpolicies`
 
-Creates a new SSH authorization policies.
+Creates a new SSH authorizations.
 
 ##### `DELETE /sshauthorizationpolicies/:id`
 
@@ -9010,7 +9009,7 @@ be used to connect to a node where enforcer is protecting SSH sessions.
 
 ##### `POST /sshidentities`
 
-Creates a new SSH Identity Certificate.
+Creates a new SSH certificate.
 
 #### Attributes
 
@@ -9066,7 +9065,7 @@ For example:
 
 ##### `GET /dependencymaps`
 
-Retrieves the dependencymap of a namespace.
+Retrieves the dependency map of a namespace.
 
 Parameters:
 
@@ -9372,7 +9371,7 @@ Allows you to obtain network policy suggestions.
 
 ##### `GET /suggestedpolicies`
 
-Retrieves a list of network policy suggestion.
+Retrieves a list of network policy suggestions.
 
 Parameters:
 

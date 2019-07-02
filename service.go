@@ -190,7 +190,7 @@ type Service struct {
 	// Set how to provide a server certificate to the service.
 	//
 	// - `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
-	// - `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
+	// - `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from Let's Encrypt.
 	// - `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
 	// - `+"`"+`None`+"`"+`: : TLS is disabled (not recommended).
 	TLSType ServiceTLSTypeValue `json:"TLSType" msgpack:"TLSType" bson:"tlstype" mapstructure:"TLSType,omitempty"`
@@ -1283,7 +1283,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Description: `Set how to provide a server certificate to the service.
 
 - ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
-- ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from letsencrypt.
+- ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from Let's Encrypt.
 - ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.
 - ` + "`" + `None` + "`" + `: : TLS is disabled (not recommended).`,
 		Exposed: true,
@@ -1852,7 +1852,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Description: `Set how to provide a server certificate to the service.
 
 - ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
-- ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from letsencrypt.
+- ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from Let's Encrypt.
 - ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.
 - ` + "`" + `None` + "`" + `: : TLS is disabled (not recommended).`,
 		Exposed: true,
@@ -2408,7 +2408,7 @@ type SparseService struct {
 	// Set how to provide a server certificate to the service.
 	//
 	// - `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
-	// - `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
+	// - `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from Let's Encrypt.
 	// - `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
 	// - `+"`"+`None`+"`"+`: : TLS is disabled (not recommended).
 	TLSType *ServiceTLSTypeValue `json:"TLSType,omitempty" msgpack:"TLSType,omitempty" bson:"tlstype,omitempty" mapstructure:"TLSType,omitempty"`

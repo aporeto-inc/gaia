@@ -58,7 +58,7 @@ indexes:
 attributes:
   v1:
   - name: action
-    description: Defines aset of actions that must be enforced when a dependency
+    description: Defines a set of actions that must be enforced when a dependency
       is met.
     type: external
     exposed: true

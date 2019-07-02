@@ -94,7 +94,7 @@ type UserAccessPolicy struct {
 	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
-	// AllowedSudoUsers indicates the list of user who can use sudo commands.
+	// Indicates the list of user who can use `+"`"+`sudo`+"`"+` commands.
 	AllowedSudoUsers []string `json:"allowedSudoUsers" msgpack:"allowedSudoUsers" bson:"-" mapstructure:"allowedSudoUsers,omitempty"`
 
 	// Stores additional information about an entity.
@@ -115,7 +115,7 @@ type UserAccessPolicy struct {
 	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
@@ -131,7 +131,7 @@ type UserAccessPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object contains the tag expression matching the enforcers the subject is allowed
+	// Contains the tag expression matching the enforcers the subject is allowed
 	// to connect to.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
@@ -141,7 +141,7 @@ type UserAccessPolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject contains the tag expression the tags need to match for the policy to
+	// Contains the tag expression the tags need to match for the policy to
 	// apply.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -211,7 +211,7 @@ func (o *UserAccessPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *UserAccessPolicy) Doc() string {
 
-	return `The enforcer policy controls user access.`
+	return `The enforcer policy that controls user access.`
 }
 
 func (o *UserAccessPolicy) String() string {
@@ -763,7 +763,7 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 	"AllowedSudoUsers": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllowedSudoUsers",
-		Description:    `AllowedSudoUsers indicates the list of user who can use sudo commands.`,
+		Description:    `Indicates the list of user who can use ` + "`" + `sudo` + "`" + ` commands.`,
 		Exposed:        true,
 		Name:           "allowedSudoUsers",
 		SubType:        "string",
@@ -847,7 +847,7 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -920,7 +920,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object contains the tag expression matching the enforcers the subject is allowed
+		Description: `Contains the tag expression matching the enforcers the subject is allowed
 to connect to.`,
 		Exposed:   true,
 		Name:      "object",
@@ -955,7 +955,7 @@ to connect to.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject contains the tag expression the tags need to match for the policy to
+		Description: `Contains the tag expression the tags need to match for the policy to
 apply.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1034,7 +1034,7 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 	"allowedsudousers": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllowedSudoUsers",
-		Description:    `AllowedSudoUsers indicates the list of user who can use sudo commands.`,
+		Description:    `Indicates the list of user who can use ` + "`" + `sudo` + "`" + ` commands.`,
 		Exposed:        true,
 		Name:           "allowedSudoUsers",
 		SubType:        "string",
@@ -1118,7 +1118,7 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1191,7 +1191,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object contains the tag expression matching the enforcers the subject is allowed
+		Description: `Contains the tag expression matching the enforcers the subject is allowed
 to connect to.`,
 		Exposed:   true,
 		Name:      "object",
@@ -1226,7 +1226,7 @@ to connect to.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject contains the tag expression the tags need to match for the policy to
+		Description: `Contains the tag expression the tags need to match for the policy to
 apply.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1339,7 +1339,7 @@ type SparseUserAccessPolicy struct {
 	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
-	// AllowedSudoUsers indicates the list of user who can use sudo commands.
+	// Indicates the list of user who can use `+"`"+`sudo`+"`"+` commands.
 	AllowedSudoUsers *[]string `json:"allowedSudoUsers,omitempty" msgpack:"allowedSudoUsers,omitempty" bson:"-" mapstructure:"allowedSudoUsers,omitempty"`
 
 	// Stores additional information about an entity.
@@ -1360,7 +1360,7 @@ type SparseUserAccessPolicy struct {
 	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
@@ -1376,7 +1376,7 @@ type SparseUserAccessPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Object contains the tag expression matching the enforcers the subject is allowed
+	// Contains the tag expression matching the enforcers the subject is allowed
 	// to connect to.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
@@ -1386,7 +1386,7 @@ type SparseUserAccessPolicy struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject contains the tag expression the tags need to match for the policy to
+	// Contains the tag expression the tags need to match for the policy to
 	// apply.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 

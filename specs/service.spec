@@ -149,7 +149,7 @@ attributes:
       Set how to provide a server certificate to the service.
 
       - `Aporeto`: Generate a certificate issued from Aporeto public CA.
-      - `LetsEncrypt`: Issue a certificate from letsencrypt.
+      - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
       - `External`: : Let you define your own certificate and key to use.
       - `None`: : TLS is disabled (not recommended).
     type: enum

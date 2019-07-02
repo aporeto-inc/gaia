@@ -65,7 +65,7 @@ type UIParameter struct {
 	// Default value of the parameter.
 	DefaultValue interface{} `json:"defaultValue" msgpack:"defaultValue" bson:"defaultvalue" mapstructure:"defaultValue,omitempty"`
 
-	// Description of the paramerter.
+	// Description of the parameter.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Key identifying the parameter.
@@ -74,7 +74,7 @@ type UIParameter struct {
 	// Long explanation of the parameter.
 	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
 
-	// Name of the paramerter.
+	// Name of the parameter.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// A value of `+"`"+`true`+"`"+` designates the parameter as optional.

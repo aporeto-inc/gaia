@@ -38,7 +38,7 @@ attributes:
     stored: true
 
   - name: description
-    description: Description of the paramerter.
+    description: Description of the parameter.
     type: string
     exposed: true
     stored: true
@@ -58,7 +58,7 @@ attributes:
     stored: true
 
   - name: name
-    description: Name of the paramerter.
+    description: Name of the parameter.
     type: string
     exposed: true
     stored: true

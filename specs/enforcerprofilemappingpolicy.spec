@@ -56,7 +56,7 @@ attributes:
 
   - name: subject
     description: |-
-      The tag or tag expression that dentifies the enforcers that should 
+      The tag or tag expression that identifies the enforcers that should 
       implement the mapped profile.
     type: external
     exposed: true

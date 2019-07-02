@@ -223,7 +223,7 @@ relations:
 - rest_name: poke
   get:
     description: |-
-      Sends a poke empty object. This will send a snaphot of the processing unit to
+      Sends a poke empty object. This will send a snapshot of the processing unit to
       the time series database.
     parameters:
       entries:

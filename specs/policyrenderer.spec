@@ -5,7 +5,7 @@ model:
   entity_name: PolicyRenderer
   package: squall
   group: core
-  description: Allows you to render policies of given tyoe for a given set of tags.
+  description: Allows you to render policies of a given type for a given set of tags.
 
 # Attributes
 attributes:

@@ -113,7 +113,7 @@ attributes:
     min_value: 1
 
   - name: tableName
-    description: The iptable name that the trace collected.
+    description: The iptables name that the trace collected.
     type: string
     exposed: true
     stored: true

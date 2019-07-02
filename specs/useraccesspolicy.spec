@@ -5,18 +5,18 @@ model:
   entity_name: UserAccessPolicy
   package: squall
   group: policy/access
-  description: The enforcer policy controls user access.
+  description: The enforcer policy that controls user access.
   aliases:
   - usrpol
   - usrpols
   get:
-    description: Retrieves the UserAccessPolicy with the given ID.
+    description: Retrieves the policy with the given ID.
     global_parameters:
     - $propagatable
   update:
-    description: Updates the UserAccessPolicy with the given ID.
+    description: Updates the policy with the given ID.
   delete:
-    description: Deletes the UserAccessPolicy with the given ID.
+    description: Deletes the policy with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -39,13 +39,13 @@ indexes:
 attributes:
   v1:
   - name: allowedSudoUsers
-    description: AllowedSudoUsers indicates the list of user who can use sudo commands.
+    description: Indicates the list of user who can use `sudo` commands.
     type: list
     exposed: true
     subtype: string
 
   - name: expirationTime
-    description: If set the policy will be auto deleted after the given time.
+    description: If set the policy will be automatically deleted after the given time.
     type: time
     exposed: true
     stored: true
@@ -54,7 +54,7 @@ attributes:
 
   - name: object
     description: |-
-      Object contains the tag expression matching the enforcers the subject is allowed
+      Contains the tag expression matching the enforcers the subject is allowed
       to connect to.
     type: external
     exposed: true
@@ -65,7 +65,7 @@ attributes:
 
   - name: subject
     description: |-
-      Subject contains the tag expression the tags need to match for the policy to
+      Contains the tag expression the tags need to match for the policy to
       apply.
     type: external
     exposed: true
