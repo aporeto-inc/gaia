@@ -7,7 +7,7 @@ indexes:
 attributes:
   v1:
   - name: annotations
-    description: Annotation stores additional information about an entity.
+    description: Stores additional information about an entity.
     type: external
     exposed: true
     subtype: map[string][]string
@@ -16,7 +16,7 @@ attributes:
     setter: true
 
   - name: associatedTags
-    description: AssociatedTags are the list of tags attached to an entity.
+    description: List of tags attached to an entity.
     type: list
     exposed: true
     subtype: string
@@ -36,7 +36,7 @@ attributes:
     setter: true
 
   - name: normalizedTags
-    description: NormalizedTags contains the list of normalized tags of the entities.
+    description: Contains the list of normalized tags of the entities.
     type: list
     exposed: true
     subtype: string
@@ -48,7 +48,7 @@ attributes:
     transient: true
 
   - name: protected
-    description: Protected defines if the object is protected.
+    description: Defines if the object is protected.
     type: boolean
     exposed: true
     stored: true

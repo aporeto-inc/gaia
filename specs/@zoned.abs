@@ -21,8 +21,7 @@ attributes:
 
   - name: zone
     description: |-
-      geographical zone. This is used for sharding and
-      georedundancy.
+      Geographical zone. Used for sharding and georedundancy.
     type: integer
     exposed: true
     stored: true

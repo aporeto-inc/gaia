@@ -83,21 +83,21 @@ func (o SSHAuthorizationPoliciesList) Version() int {
 
 // SSHAuthorizationPolicy represents the model of a sshauthorizationpolicy
 type SSHAuthorizationPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `+"`"+`activeSchedule`+"`"+`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// If set, the SSH authorization will only be valid if the request comes from one
@@ -110,10 +110,10 @@ type SSHAuthorizationPolicy struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
 	// If set the SSH authorization will be automatically deleted after the given time.
@@ -123,7 +123,7 @@ type SSHAuthorizationPolicy struct {
 	// standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
 	Extensions []string `json:"extensions" msgpack:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
@@ -136,17 +136,17 @@ type SSHAuthorizationPolicy struct {
 	// for more information.
 	ForceCommand string `json:"forceCommand" msgpack:"forceCommand" bson:"-" mapstructure:"forceCommand,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Contains the tag expression identifying the enforcers on the hosts the `+"`"+`subject`+"`"+` is
@@ -159,10 +159,10 @@ type SSHAuthorizationPolicy struct {
 	// associated with the SSH processing unit, which could be useful.
 	Principals []string `json:"principals" msgpack:"principals" bson:"-" mapstructure:"principals,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Contains the tag expression that identifies the user or group of users that should be
@@ -821,7 +821,7 @@ var SSHAuthorizationPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -834,8 +834,8 @@ var SSHAuthorizationPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -846,8 +846,8 @@ activeSchedule.`,
 	"ActiveSchedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -858,7 +858,7 @@ The policy will be active for the given activeDuration.`,
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -870,7 +870,7 @@ The policy will be active for the given activeDuration.`,
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -918,7 +918,7 @@ the declared subnets.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -931,7 +931,7 @@ the declared subnets.`,
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -964,7 +964,7 @@ standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -992,7 +992,7 @@ for more information.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1007,7 +1007,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1039,7 +1039,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1076,7 +1076,7 @@ associated with the SSH processing unit, which could be useful.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1088,7 +1088,7 @@ associated with the SSH processing unit, which could be useful.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1152,7 +1152,7 @@ var SSHAuthorizationPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1165,8 +1165,8 @@ var SSHAuthorizationPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -1177,8 +1177,8 @@ activeSchedule.`,
 	"activeschedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -1189,7 +1189,7 @@ The policy will be active for the given activeDuration.`,
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1201,7 +1201,7 @@ The policy will be active for the given activeDuration.`,
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1249,7 +1249,7 @@ the declared subnets.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1262,7 +1262,7 @@ the declared subnets.`,
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1295,7 +1295,7 @@ standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -1323,7 +1323,7 @@ for more information.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1338,7 +1338,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1370,7 +1370,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1407,7 +1407,7 @@ associated with the SSH processing unit, which could be useful.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1419,7 +1419,7 @@ associated with the SSH processing unit, which could be useful.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1543,21 +1543,21 @@ func (o SparseSSHAuthorizationPoliciesList) Version() int {
 
 // SparseSSHAuthorizationPolicy represents the sparse version of a sshauthorizationpolicy.
 type SparseSSHAuthorizationPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `+"`"+`activeSchedule`+"`"+`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// If set, the SSH authorization will only be valid if the request comes from one
@@ -1570,10 +1570,10 @@ type SparseSSHAuthorizationPolicy struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
 	// If set the SSH authorization will be automatically deleted after the given time.
@@ -1583,7 +1583,7 @@ type SparseSSHAuthorizationPolicy struct {
 	// standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
 	Extensions *[]string `json:"extensions,omitempty" msgpack:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
@@ -1596,17 +1596,17 @@ type SparseSSHAuthorizationPolicy struct {
 	// for more information.
 	ForceCommand *string `json:"forceCommand,omitempty" msgpack:"forceCommand,omitempty" bson:"-" mapstructure:"forceCommand,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Contains the tag expression identifying the enforcers on the hosts the `+"`"+`subject`+"`"+` is
@@ -1619,10 +1619,10 @@ type SparseSSHAuthorizationPolicy struct {
 	// associated with the SSH processing unit, which could be useful.
 	Principals *[]string `json:"principals,omitempty" msgpack:"principals,omitempty" bson:"-" mapstructure:"principals,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Contains the tag expression that identifies the user or group of users that should be

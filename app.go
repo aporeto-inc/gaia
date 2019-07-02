@@ -87,7 +87,7 @@ type App struct {
 	// Category ID of the app.
 	CategoryID string `json:"categoryID" msgpack:"categoryID" bson:"-" mapstructure:"categoryID,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Contains a base64-encoded image for the app.
@@ -99,7 +99,7 @@ type App struct {
 	// Contains a more detailed description of the app.
 	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"-" mapstructure:"longDescription,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// List of steps that contain parameters.
@@ -405,7 +405,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -444,7 +444,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -499,7 +499,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -538,7 +538,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -641,7 +641,7 @@ type SparseApp struct {
 	// Category ID of the app.
 	CategoryID *string `json:"categoryID,omitempty" msgpack:"categoryID,omitempty" bson:"-" mapstructure:"categoryID,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Contains a base64-encoded image for the app.
@@ -653,7 +653,7 @@ type SparseApp struct {
 	// Contains a more detailed description of the app.
 	LongDescription *string `json:"longDescription,omitempty" msgpack:"longDescription,omitempty" bson:"-" mapstructure:"longDescription,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// List of steps that contain parameters.

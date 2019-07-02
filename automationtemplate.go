@@ -92,7 +92,7 @@ func (o AutomationTemplatesList) Version() int {
 
 // AutomationTemplate represents the model of a automationtemplate
 type AutomationTemplate struct {
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Contains the entitlements needed for executing the function.
@@ -107,7 +107,7 @@ type AutomationTemplate struct {
 	// Represents the kind of template.
 	Kind AutomationTemplateKindValue `json:"kind" msgpack:"kind" bson:"-" mapstructure:"kind,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Contains the computed parameters.
@@ -394,7 +394,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -442,7 +442,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -479,7 +479,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -527,7 +527,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -624,7 +624,7 @@ func (o SparseAutomationTemplatesList) Version() int {
 
 // SparseAutomationTemplate represents the sparse version of a automationtemplate.
 type SparseAutomationTemplate struct {
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Contains the entitlements needed for executing the function.
@@ -639,7 +639,7 @@ type SparseAutomationTemplate struct {
 	// Represents the kind of template.
 	Kind *AutomationTemplateKindValue `json:"kind,omitempty" msgpack:"kind,omitempty" bson:"-" mapstructure:"kind,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Contains the computed parameters.
