@@ -771,7 +771,7 @@ relations:
         - Any
         - X509
         - SSH
-        - Token
+        - JWT
         default_value: Any
 
 - rest_name: useraccesspolicy

@@ -200,5 +200,5 @@ relations:
         - Any
         - X509
         - SSH
-        - Token
+        - JWT
         default_value: Any
