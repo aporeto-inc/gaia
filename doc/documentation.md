@@ -8857,6 +8857,11 @@ empty list will allow any audience values.
 
 Annotation stores additional information about an entity.
 
+##### `assignedAudience` `string`
+
+The audience that should be assigned to a request if the caller is not
+requesting any specific audience.
+
 ##### `assignedScopes` `[]string`
 
 AssignedScopes is the the list of scopes that the policiy will assigns.
@@ -8886,6 +8891,12 @@ If set the policy will be auto deleted after the given time.
 Fallback indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.
+
+##### `inheritedClaimKeys` `[]string`
+
+A list of claim keys that should be inherited from the claims of the caller to
+the assigned token. In this case, some of the caller claims will be propagated
+to resolved token.
 
 ##### `metadata` `[]string` [`creation_only`]
 
@@ -8950,7 +8961,8 @@ Creates an OAUTH compatible service token.
 ##### `audience` `string`
 
 If given, the issued token will only be valid for the audience provided. If
-empty, the audience will be ID of the namespace that signed the token.
+empty, the audience will be resolved from the policies. If no audience can be
+resolved, the request will be rejected with an error.
 
 ##### `objectID` `string`
 

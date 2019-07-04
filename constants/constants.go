@@ -261,6 +261,12 @@ const (
 	// ActionTokenAudience is the system created action=scope tag.
 	ActionTokenAudience = "action=tokenaudience"
 
+	// ActionInheritedClaimKeys is the system craeted action=inehritedkeys tag.
+	ActionInheritedClaimKeys = "action=inheritedkeys"
+
+	// ActionAssignedAudience is the system create action=assignedaudience tag.
+	ActionAssignedAudience = "action=assignedaudience"
+
 	// ActionProtoPortsString is the system created action=restrictports tag.
 	ActionProtoPortsTagString = "action=restrictports"
 )

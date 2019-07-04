@@ -49,6 +49,15 @@ attributes:
     stored: true
     orderable: true
 
+  - name: assignedAudience
+    description: |-
+      The audience that should be assigned to a request if the caller is not
+      requesting any specific audience.
+    type: string
+    exposed: true
+    stored: true
+    orderable: true
+
   - name: assignedScopes
     description: AssignedScopes is the the list of scopes that the policiy will assigns.
     type: list
@@ -64,6 +73,17 @@ attributes:
     stored: true
     getter: true
     setter: true
+
+  - name: inheritedClaimKeys
+    description: |-
+      A list of claim keys that should be inherited from the claims of the caller to
+      the assigned token. In this case, some of the caller claims will be propagated
+      to resolved token.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    orderable: true
 
   - name: subject
     description: |-

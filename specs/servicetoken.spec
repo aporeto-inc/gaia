@@ -15,7 +15,8 @@ attributes:
   - name: audience
     description: |-
       If given, the issued token will only be valid for the audience provided. If
-      empty, the audience will be ID of the namespace that signed the token.
+      empty, the audience will be resolved from the policies. If no audience can be
+      resolved, the request will be rejected with an error.
     type: string
     exposed: true
     validations:

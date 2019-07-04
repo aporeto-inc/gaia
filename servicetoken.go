@@ -91,7 +91,8 @@ func (o ServiceTokensList) Version() int {
 // ServiceToken represents the model of a servicetoken
 type ServiceToken struct {
 	// If given, the issued token will only be valid for the audience provided. If
-	// empty, the audience will be ID of the namespace that signed the token.
+	// empty, the audience will be resolved from the policies. If no audience can be
+	// resolved, the request will be rejected with an error.
 	Audience string `json:"audience" msgpack:"audience" bson:"-" mapstructure:"audience,omitempty"`
 
 	// ID of the object you want to issue a token for.
@@ -333,7 +334,8 @@ var ServiceTokenAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Audience",
 		Description: `If given, the issued token will only be valid for the audience provided. If
-empty, the audience will be ID of the namespace that signed the token.`,
+empty, the audience will be resolved from the policies. If no audience can be
+resolved, the request will be rejected with an error.`,
 		Exposed: true,
 		Name:    "audience",
 		Type:    "string",
@@ -392,7 +394,8 @@ var ServiceTokenLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		AllowedChoices: []string{},
 		ConvertedName:  "Audience",
 		Description: `If given, the issued token will only be valid for the audience provided. If
-empty, the audience will be ID of the namespace that signed the token.`,
+empty, the audience will be resolved from the policies. If no audience can be
+resolved, the request will be rejected with an error.`,
 		Exposed: true,
 		Name:    "audience",
 		Type:    "string",
@@ -509,7 +512,8 @@ func (o SparseServiceTokensList) Version() int {
 // SparseServiceToken represents the sparse version of a servicetoken.
 type SparseServiceToken struct {
 	// If given, the issued token will only be valid for the audience provided. If
-	// empty, the audience will be ID of the namespace that signed the token.
+	// empty, the audience will be resolved from the policies. If no audience can be
+	// resolved, the request will be rejected with an error.
 	Audience *string `json:"audience,omitempty" msgpack:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
 
 	// ID of the object you want to issue a token for.
