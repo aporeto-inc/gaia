@@ -550,6 +550,12 @@ relations:
 - rest_name: quotacheck
   create:
     description: Verifies if the quota is exceeded for a particular object.
+    parameters:
+      entries:
+      - name: remaining
+        description: Makes the system count how many object are left available in
+          the quota.
+        type: boolean
 
 - rest_name: quotapolicy
   get:
