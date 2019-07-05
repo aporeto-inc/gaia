@@ -87,11 +87,11 @@ type HostServiceMappingPolicy struct {
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Stores additional information about an entity.
@@ -1309,11 +1309,11 @@ type SparseHostServiceMappingPolicy struct {
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
 	// Stores additional information about an entity.

@@ -129,7 +129,7 @@ type ExternalNetwork struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// List of protocols (`+"`"+`tcp`+"`"+`, `+"`"+`udp`+"`"+`, or protocol number).
+	// List of protocols (`tcp`, `udp`, or protocol number).
 	Protocols []string `json:"protocols" msgpack:"protocols" bson:"protocols" mapstructure:"protocols,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1348,7 +1348,7 @@ type SparseExternalNetwork struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// List of protocols (`+"`"+`tcp`+"`"+`, `+"`"+`udp`+"`"+`, or protocol number).
+	// List of protocols (`tcp`, `udp`, or protocol number).
 	Protocols *[]string `json:"protocols,omitempty" msgpack:"protocols,omitempty" bson:"protocols,omitempty" mapstructure:"protocols,omitempty"`
 
 	// internal idempotency key for a update operation.

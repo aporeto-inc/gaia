@@ -147,52 +147,52 @@ type Service struct {
 	// PEM-encoded certificate that will be used to validate the user's JSON web token
 	// (JWT)
 	// in HTTP requests. This is an optional field, needed only if the
-	// `+"`"+`authorizationType`+"`"+`
-	// is set to `+"`"+`JWT`+"`"+`.
+	// `authorizationType`
+	// is set to `JWT`.
 	JWTSigningCertificate string `json:"JWTSigningCertificate" msgpack:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
 	// PEM-encoded certificate authority to use to verify client certificates. This
 	// only applies
-	// if `+"`"+`authorizationType`+"`"+` is set to `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's public
+	// if `authorizationType` is set to `MTLS`. If it is not set, Aporeto's public
 	// signing
 	// certificate authority will be used.
 	MTLSCertificateAuthority string `json:"MTLSCertificateAuthority" msgpack:"MTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
 	// Aporeto will autodiscover it. It will be
-	// `+"`"+`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`+"`"+`.
+	// `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`.
 	OIDCCallbackURL string `json:"OIDCCallbackURL" msgpack:"OIDCCallbackURL" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
 
-	// OIDC Client ID. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	// OIDC Client ID. Only has effect if the `authorizationType` is set to `OIDC`.
 	OIDCClientID string `json:"OIDCClientID" msgpack:"OIDCClientID" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
 
-	// OIDC Client Secret. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	// OIDC Client Secret. Only has effect if the `authorizationType` is set to `OIDC`.
 	OIDCClientSecret string `json:"OIDCClientSecret" msgpack:"OIDCClientSecret" bson:"oidcclientsecret" mapstructure:"OIDCClientSecret,omitempty"`
 
-	// OIDC discovery endpoint. Only has effect if the `+"`"+`authorizationType`+"`"+`
-	// is set to `+"`"+`OIDC`+"`"+`.
+	// OIDC discovery endpoint. Only has effect if the `authorizationType`
+	// is set to `OIDC`.
 	OIDCProviderURL string `json:"OIDCProviderURL" msgpack:"OIDCProviderURL" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
 
 	// Configures the scopes you want to request from the OIDC provider. Only has
 	// effect
-	// if `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	// if `authorizationType` is set to `OIDC`.
 	OIDCScopes []string `json:"OIDCScopes" msgpack:"OIDCScopes" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
 
 	// PEM-encoded certificate to expose to the clients for TLS. Only has effect and
-	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
+	// required if `TLSType` is set to `External`.
 	TLSCertificate string `json:"TLSCertificate" msgpack:"TLSCertificate" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
-	// PEM-encoded certificate key associated with `+"`"+`TLSCertificate`+"`"+`. Only has effect
+	// PEM-encoded certificate key associated with `TLSCertificate`. Only has effect
 	// and
-	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
+	// required if `TLSType` is set to `External`.
 	TLSCertificateKey string `json:"TLSCertificateKey" msgpack:"TLSCertificateKey" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
 	// Set how to provide a server certificate to the service.
 	//
-	// - `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
-	// - `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from Let's Encrypt.
-	// - `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
-	// - `+"`"+`None`+"`"+`: : TLS is disabled (not recommended).
+	// - `Aporeto`: Generate a certificate issued from Aporeto public CA.
+	// - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
+	// - `External`: : Let you define your own certificate and key to use.
+	// - `None`: : TLS is disabled (not recommended).
 	TLSType ServiceTLSTypeValue `json:"TLSType" msgpack:"TLSType" bson:"tlstype" mapstructure:"TLSType,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
@@ -212,15 +212,15 @@ type Service struct {
 
 	// Defines the user authorization type that should be used.
 	//
-	// - `+"`"+`None`+"`"+` (default): No authorization.
-	// - `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the HTTP `+"`"+`Authorization`+"`"+`
+	// - `None` (default): No authorization.
+	// - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization`
 	// header.
-	// - `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set
-	// `+"`"+`OIDCClientID`+"`"+`,`+"`"+`OIDCClientSecret`+"`"+`,
-	//   `+"`"+`OIDCProviderURL`+"`"+`.
-	// - `+"`"+`MTLS`+"`"+`: Configures client certificate authorization. Then you can optionally
+	// - `OIDC`: Configures OIDC authorization. You must then set
+	// `OIDCClientID`,`OIDCClientSecret`,
+	//   `OIDCProviderURL`.
+	// - `MTLS`: Configures client certificate authorization. Then you can optionally
 	// use
-	//   `+"`"+`MTLSCertificateAuthority`+"`"+`, otherwise Aporeto's public signing certificate
+	//   `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
 	// will be used.
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" msgpack:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
@@ -247,15 +247,15 @@ type Service struct {
 	Endpoints []*Endpoint `json:"endpoints" msgpack:"endpoints" bson:"-" mapstructure:"endpoints,omitempty"`
 
 	// Contains a tag expression that will determine which APIs a service is exposing.
-	// The APIs can be defined as the `+"`"+`RESTAPISpec`+"`"+` or similar specifications for other
+	// The APIs can be defined as the `RESTAPISpec` or similar specifications for other
 	// layer 7 protocols.
 	ExposedAPIs [][]string `json:"exposedAPIs" msgpack:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
 	// The port that the service can be accessed on. Note that this is different from
 	// the
-	// `+"`"+`port`+"`"+` attribute that describes the port that the service is actually listening
+	// `port` attribute that describes the port that the service is actually listening
 	// on.
-	// For example if a load balancer is used, the `+"`"+`exposedPort`+"`"+` is the port that the
+	// For example if a load balancer is used, the `exposedPort` is the port that the
 	// load
 	// balancer is listening for the service, whereas the port that the implementation
 	// is
@@ -288,7 +288,7 @@ type Service struct {
 
 	// The port that the implementation of the service is listening to. It can be
 	// different than
-	// `+"`"+`exposedPort`+"`"+`. This is needed for port mapping use cases where there are private
+	// `exposedPort`. This is needed for port mapping use cases where there are private
 	// and
 	// public ports.
 	Port int `json:"port" msgpack:"port" bson:"port" mapstructure:"port,omitempty"`
@@ -310,7 +310,7 @@ type Service struct {
 	// If this is set, the user will be redirected to that URL in case of any
 	// authorization
 	// failure, allowing you to provide a nice message to the user. The query parameter
-	// `+"`"+`?failure_message=<message>`+"`"+` will be added to that URL explaining the possible
+	// `?failure_message=<message>` will be added to that URL explaining the possible
 	// reasons
 	// of the failure.
 	RedirectURLOnAuthorizationFailure string `json:"redirectURLOnAuthorizationFailure" msgpack:"redirectURLOnAuthorizationFailure" bson:"redirecturlonauthorizationfailure" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
@@ -321,7 +321,7 @@ type Service struct {
 
 	// PEM-encoded certificate authorities to trust when additional hops are needed. It
 	// must be
-	// set if the service must reach a service marked as `+"`"+`external`+"`"+` or must go through
+	// set if the service must reach a service marked as `external` or must go through
 	// an
 	// additional TLS termination point like a layer 7 load balancer.
 	TrustedCertificateAuthorities string `json:"trustedCertificateAuthorities" msgpack:"trustedCertificateAuthorities" bson:"trustedcertificateauthorities" mapstructure:"trustedCertificateAuthorities,omitempty"`
@@ -2365,52 +2365,52 @@ type SparseService struct {
 	// PEM-encoded certificate that will be used to validate the user's JSON web token
 	// (JWT)
 	// in HTTP requests. This is an optional field, needed only if the
-	// `+"`"+`authorizationType`+"`"+`
-	// is set to `+"`"+`JWT`+"`"+`.
+	// `authorizationType`
+	// is set to `JWT`.
 	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" msgpack:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate,omitempty" mapstructure:"JWTSigningCertificate,omitempty"`
 
 	// PEM-encoded certificate authority to use to verify client certificates. This
 	// only applies
-	// if `+"`"+`authorizationType`+"`"+` is set to `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's public
+	// if `authorizationType` is set to `MTLS`. If it is not set, Aporeto's public
 	// signing
 	// certificate authority will be used.
 	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" msgpack:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority,omitempty" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
 	// Aporeto will autodiscover it. It will be
-	// `+"`"+`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`+"`"+`.
+	// `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`.
 	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" msgpack:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl,omitempty" mapstructure:"OIDCCallbackURL,omitempty"`
 
-	// OIDC Client ID. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	// OIDC Client ID. Only has effect if the `authorizationType` is set to `OIDC`.
 	OIDCClientID *string `json:"OIDCClientID,omitempty" msgpack:"OIDCClientID,omitempty" bson:"oidcclientid,omitempty" mapstructure:"OIDCClientID,omitempty"`
 
-	// OIDC Client Secret. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	// OIDC Client Secret. Only has effect if the `authorizationType` is set to `OIDC`.
 	OIDCClientSecret *string `json:"OIDCClientSecret,omitempty" msgpack:"OIDCClientSecret,omitempty" bson:"oidcclientsecret,omitempty" mapstructure:"OIDCClientSecret,omitempty"`
 
-	// OIDC discovery endpoint. Only has effect if the `+"`"+`authorizationType`+"`"+`
-	// is set to `+"`"+`OIDC`+"`"+`.
+	// OIDC discovery endpoint. Only has effect if the `authorizationType`
+	// is set to `OIDC`.
 	OIDCProviderURL *string `json:"OIDCProviderURL,omitempty" msgpack:"OIDCProviderURL,omitempty" bson:"oidcproviderurl,omitempty" mapstructure:"OIDCProviderURL,omitempty"`
 
 	// Configures the scopes you want to request from the OIDC provider. Only has
 	// effect
-	// if `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	// if `authorizationType` is set to `OIDC`.
 	OIDCScopes *[]string `json:"OIDCScopes,omitempty" msgpack:"OIDCScopes,omitempty" bson:"oidcscopes,omitempty" mapstructure:"OIDCScopes,omitempty"`
 
 	// PEM-encoded certificate to expose to the clients for TLS. Only has effect and
-	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
+	// required if `TLSType` is set to `External`.
 	TLSCertificate *string `json:"TLSCertificate,omitempty" msgpack:"TLSCertificate,omitempty" bson:"tlscertificate,omitempty" mapstructure:"TLSCertificate,omitempty"`
 
-	// PEM-encoded certificate key associated with `+"`"+`TLSCertificate`+"`"+`. Only has effect
+	// PEM-encoded certificate key associated with `TLSCertificate`. Only has effect
 	// and
-	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
+	// required if `TLSType` is set to `External`.
 	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" msgpack:"TLSCertificateKey,omitempty" bson:"tlscertificatekey,omitempty" mapstructure:"TLSCertificateKey,omitempty"`
 
 	// Set how to provide a server certificate to the service.
 	//
-	// - `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
-	// - `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from Let's Encrypt.
-	// - `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
-	// - `+"`"+`None`+"`"+`: : TLS is disabled (not recommended).
+	// - `Aporeto`: Generate a certificate issued from Aporeto public CA.
+	// - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
+	// - `External`: : Let you define your own certificate and key to use.
+	// - `None`: : TLS is disabled (not recommended).
 	TLSType *ServiceTLSTypeValue `json:"TLSType,omitempty" msgpack:"TLSType,omitempty" bson:"tlstype,omitempty" mapstructure:"TLSType,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
@@ -2430,15 +2430,15 @@ type SparseService struct {
 
 	// Defines the user authorization type that should be used.
 	//
-	// - `+"`"+`None`+"`"+` (default): No authorization.
-	// - `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the HTTP `+"`"+`Authorization`+"`"+`
+	// - `None` (default): No authorization.
+	// - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization`
 	// header.
-	// - `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set
-	// `+"`"+`OIDCClientID`+"`"+`,`+"`"+`OIDCClientSecret`+"`"+`,
-	//   `+"`"+`OIDCProviderURL`+"`"+`.
-	// - `+"`"+`MTLS`+"`"+`: Configures client certificate authorization. Then you can optionally
+	// - `OIDC`: Configures OIDC authorization. You must then set
+	// `OIDCClientID`,`OIDCClientSecret`,
+	//   `OIDCProviderURL`.
+	// - `MTLS`: Configures client certificate authorization. Then you can optionally
 	// use
-	//   `+"`"+`MTLSCertificateAuthority`+"`"+`, otherwise Aporeto's public signing certificate
+	//   `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
 	// will be used.
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" msgpack:"authorizationType,omitempty" bson:"authorizationtype,omitempty" mapstructure:"authorizationType,omitempty"`
 
@@ -2465,15 +2465,15 @@ type SparseService struct {
 	Endpoints *[]*Endpoint `json:"endpoints,omitempty" msgpack:"endpoints,omitempty" bson:"-" mapstructure:"endpoints,omitempty"`
 
 	// Contains a tag expression that will determine which APIs a service is exposing.
-	// The APIs can be defined as the `+"`"+`RESTAPISpec`+"`"+` or similar specifications for other
+	// The APIs can be defined as the `RESTAPISpec` or similar specifications for other
 	// layer 7 protocols.
 	ExposedAPIs *[][]string `json:"exposedAPIs,omitempty" msgpack:"exposedAPIs,omitempty" bson:"exposedapis,omitempty" mapstructure:"exposedAPIs,omitempty"`
 
 	// The port that the service can be accessed on. Note that this is different from
 	// the
-	// `+"`"+`port`+"`"+` attribute that describes the port that the service is actually listening
+	// `port` attribute that describes the port that the service is actually listening
 	// on.
-	// For example if a load balancer is used, the `+"`"+`exposedPort`+"`"+` is the port that the
+	// For example if a load balancer is used, the `exposedPort` is the port that the
 	// load
 	// balancer is listening for the service, whereas the port that the implementation
 	// is
@@ -2506,7 +2506,7 @@ type SparseService struct {
 
 	// The port that the implementation of the service is listening to. It can be
 	// different than
-	// `+"`"+`exposedPort`+"`"+`. This is needed for port mapping use cases where there are private
+	// `exposedPort`. This is needed for port mapping use cases where there are private
 	// and
 	// public ports.
 	Port *int `json:"port,omitempty" msgpack:"port,omitempty" bson:"port,omitempty" mapstructure:"port,omitempty"`
@@ -2528,7 +2528,7 @@ type SparseService struct {
 	// If this is set, the user will be redirected to that URL in case of any
 	// authorization
 	// failure, allowing you to provide a nice message to the user. The query parameter
-	// `+"`"+`?failure_message=<message>`+"`"+` will be added to that URL explaining the possible
+	// `?failure_message=<message>` will be added to that URL explaining the possible
 	// reasons
 	// of the failure.
 	RedirectURLOnAuthorizationFailure *string `json:"redirectURLOnAuthorizationFailure,omitempty" msgpack:"redirectURLOnAuthorizationFailure,omitempty" bson:"redirecturlonauthorizationfailure,omitempty" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
@@ -2539,7 +2539,7 @@ type SparseService struct {
 
 	// PEM-encoded certificate authorities to trust when additional hops are needed. It
 	// must be
-	// set if the service must reach a service marked as `+"`"+`external`+"`"+` or must go through
+	// set if the service must reach a service marked as `external` or must go through
 	// an
 	// additional TLS termination point like a layer 7 load balancer.
 	TrustedCertificateAuthorities *string `json:"trustedCertificateAuthorities,omitempty" msgpack:"trustedCertificateAuthorities,omitempty" bson:"trustedcertificateauthorities,omitempty" mapstructure:"trustedCertificateAuthorities,omitempty"`

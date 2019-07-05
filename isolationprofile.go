@@ -103,7 +103,7 @@ type IsolationProfile struct {
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// The default action applied to all system calls of this profile.
-	// Default is `+"`"+`Allow`+"`"+`.
+	// Default is `Allow`.
 	DefaultSyscallAction types.SyscallEnforcementAction `json:"defaultSyscallAction" msgpack:"defaultSyscallAction" bson:"defaultsyscallaction" mapstructure:"defaultSyscallAction,omitempty"`
 
 	// Description of the object.
@@ -132,7 +132,7 @@ type IsolationProfile struct {
 	// system calls.
 	SyscallRules types.SyscallEnforcementRulesMap `json:"syscallRules" msgpack:"syscallRules" bson:"syscallrules" mapstructure:"syscallRules,omitempty"`
 
-	// The processor architectures that the profile supports. Default `+"`"+`all`+"`"+`.
+	// The processor architectures that the profile supports. Default `all`.
 	TargetArchitectures types.ArchitecturesTypeList `json:"targetArchitectures" msgpack:"targetArchitectures" bson:"targetarchitectures" mapstructure:"targetArchitectures,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1288,7 +1288,7 @@ type SparseIsolationProfile struct {
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// The default action applied to all system calls of this profile.
-	// Default is `+"`"+`Allow`+"`"+`.
+	// Default is `Allow`.
 	DefaultSyscallAction *types.SyscallEnforcementAction `json:"defaultSyscallAction,omitempty" msgpack:"defaultSyscallAction,omitempty" bson:"defaultsyscallaction,omitempty" mapstructure:"defaultSyscallAction,omitempty"`
 
 	// Description of the object.
@@ -1317,7 +1317,7 @@ type SparseIsolationProfile struct {
 	// system calls.
 	SyscallRules *types.SyscallEnforcementRulesMap `json:"syscallRules,omitempty" msgpack:"syscallRules,omitempty" bson:"syscallrules,omitempty" mapstructure:"syscallRules,omitempty"`
 
-	// The processor architectures that the profile supports. Default `+"`"+`all`+"`"+`.
+	// The processor architectures that the profile supports. Default `all`.
 	TargetArchitectures *types.ArchitecturesTypeList `json:"targetArchitectures,omitempty" msgpack:"targetArchitectures,omitempty" bson:"targetarchitectures,omitempty" mapstructure:"targetArchitectures,omitempty"`
 
 	// internal idempotency key for a update operation.

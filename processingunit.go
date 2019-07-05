@@ -158,7 +158,7 @@ type ProcessingUnit struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// A value of `+"`"+`true`+"`"+` indicates to the enforcer that it needs to collect information
+	// A value of `true` indicates to the enforcer that it needs to collect information
 	// for
 	// this processing unit.
 	CollectInfo bool `json:"collectInfo" msgpack:"collectInfo" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
@@ -176,11 +176,11 @@ type ProcessingUnit struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Contains the state of the enforcer for the processing unit. `+"`"+`Inactive`+"`"+`
+	// Contains the state of the enforcer for the processing unit. `Inactive`
 	// (default):
-	// the enforcer is not enforcing any host service. `+"`"+`Active`+"`"+`: the enforcer is
+	// the enforcer is not enforcing any host service. `Active`: the enforcer is
 	// enforcing
-	// a host service. `+"`"+`Failed`+"`"+`.
+	// a host service. `Failed`.
 	EnforcementStatus ProcessingUnitEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
 
 	// The ID of the enforcer associated with the processing unit.
@@ -190,7 +190,7 @@ type ProcessingUnit struct {
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
 	// This field is deprecated and it is there for backward compatibility. Use
-	// `+"`"+`images`+"`"+` instead.
+	// `images` instead.
 	Image string `json:"image" msgpack:"image" bson:"-" mapstructure:"image,omitempty"`
 
 	// List of images or executable paths used by the processing unit.
@@ -227,9 +227,9 @@ type ProcessingUnit struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Operational status of the processing unit: `+"`"+`Initialized`+"`"+` (default), `+"`"+`Paused`+"`"+`,
-	// `+"`"+`Running`+"`"+`,
-	// `+"`"+`Stopped`+"`"+`, or `+"`"+`Terminated`+"`"+`.
+	// Operational status of the processing unit: `Initialized` (default), `Paused`,
+	// `Running`,
+	// `Stopped`, or `Terminated`.
 	OperationalStatus ProcessingUnitOperationalStatusValue `json:"operationalStatus" msgpack:"operationalStatus" bson:"operationalstatus" mapstructure:"operationalStatus,omitempty"`
 
 	// Defines if the object is protected.
@@ -238,12 +238,12 @@ type ProcessingUnit struct {
 	// Indicates if this processing unit must be placed in tracing mode.
 	Tracing *TraceMode `json:"tracing" msgpack:"tracing" bson:"tracing" mapstructure:"tracing,omitempty"`
 
-	// Type of processing unit: `+"`"+`APIGateway`+"`"+`, `+"`"+`Docker`+"`"+`, `+"`"+`Host`+"`"+`, `+"`"+`HostService`+"`"+`,
-	// `+"`"+`LinuxService`+"`"+`,
-	// `+"`"+`RKT`+"`"+`, `+"`"+`User`+"`"+`, or `+"`"+`SSHSession`+"`"+`.
+	// Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
+	// `LinuxService`,
+	// `RKT`, `User`, or `SSHSession`.
 	Type ProcessingUnitTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
-	// The Aporeto control plane sets this value to `+"`"+`true`+"`"+` if it hasn't heard from the
+	// The Aporeto control plane sets this value to `true` if it hasn't heard from the
 	// processing
 	// unit for more than five minutes.
 	Unreachable bool `json:"unreachable" msgpack:"unreachable" bson:"unreachable" mapstructure:"unreachable,omitempty"`
@@ -1794,7 +1794,7 @@ type SparseProcessingUnit struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// A value of `+"`"+`true`+"`"+` indicates to the enforcer that it needs to collect information
+	// A value of `true` indicates to the enforcer that it needs to collect information
 	// for
 	// this processing unit.
 	CollectInfo *bool `json:"collectInfo,omitempty" msgpack:"collectInfo,omitempty" bson:"collectinfo,omitempty" mapstructure:"collectInfo,omitempty"`
@@ -1812,11 +1812,11 @@ type SparseProcessingUnit struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Contains the state of the enforcer for the processing unit. `+"`"+`Inactive`+"`"+`
+	// Contains the state of the enforcer for the processing unit. `Inactive`
 	// (default):
-	// the enforcer is not enforcing any host service. `+"`"+`Active`+"`"+`: the enforcer is
+	// the enforcer is not enforcing any host service. `Active`: the enforcer is
 	// enforcing
-	// a host service. `+"`"+`Failed`+"`"+`.
+	// a host service. `Failed`.
 	EnforcementStatus *ProcessingUnitEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
 	// The ID of the enforcer associated with the processing unit.
@@ -1826,7 +1826,7 @@ type SparseProcessingUnit struct {
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// This field is deprecated and it is there for backward compatibility. Use
-	// `+"`"+`images`+"`"+` instead.
+	// `images` instead.
 	Image *string `json:"image,omitempty" msgpack:"image,omitempty" bson:"-" mapstructure:"image,omitempty"`
 
 	// List of images or executable paths used by the processing unit.
@@ -1863,9 +1863,9 @@ type SparseProcessingUnit struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Operational status of the processing unit: `+"`"+`Initialized`+"`"+` (default), `+"`"+`Paused`+"`"+`,
-	// `+"`"+`Running`+"`"+`,
-	// `+"`"+`Stopped`+"`"+`, or `+"`"+`Terminated`+"`"+`.
+	// Operational status of the processing unit: `Initialized` (default), `Paused`,
+	// `Running`,
+	// `Stopped`, or `Terminated`.
 	OperationalStatus *ProcessingUnitOperationalStatusValue `json:"operationalStatus,omitempty" msgpack:"operationalStatus,omitempty" bson:"operationalstatus,omitempty" mapstructure:"operationalStatus,omitempty"`
 
 	// Defines if the object is protected.
@@ -1874,12 +1874,12 @@ type SparseProcessingUnit struct {
 	// Indicates if this processing unit must be placed in tracing mode.
 	Tracing *TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"tracing,omitempty" mapstructure:"tracing,omitempty"`
 
-	// Type of processing unit: `+"`"+`APIGateway`+"`"+`, `+"`"+`Docker`+"`"+`, `+"`"+`Host`+"`"+`, `+"`"+`HostService`+"`"+`,
-	// `+"`"+`LinuxService`+"`"+`,
-	// `+"`"+`RKT`+"`"+`, `+"`"+`User`+"`"+`, or `+"`"+`SSHSession`+"`"+`.
+	// Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
+	// `LinuxService`,
+	// `RKT`, `User`, or `SSHSession`.
 	Type *ProcessingUnitTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
-	// The Aporeto control plane sets this value to `+"`"+`true`+"`"+` if it hasn't heard from the
+	// The Aporeto control plane sets this value to `true` if it hasn't heard from the
 	// processing
 	// unit for more than five minutes.
 	Unreachable *bool `json:"unreachable,omitempty" msgpack:"unreachable,omitempty" bson:"unreachable,omitempty" mapstructure:"unreachable,omitempty"`

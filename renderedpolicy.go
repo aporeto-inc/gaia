@@ -102,7 +102,7 @@ type RenderedPolicy struct {
 	// Contains the list of tags that matched the policies.
 	MatchingTags []string `json:"matchingTags" msgpack:"matchingTags" bson:"-" mapstructure:"matchingTags,omitempty"`
 
-	// Can be set during a `+"`"+`POST`+"`"+` operation to render a policy on a processing unit that
+	// Can be set during a `POST` operation to render a policy on a processing unit that
 	// has not been created yet.
 	ProcessingUnit *ProcessingUnit `json:"processingUnit" msgpack:"processingUnit" bson:"-" mapstructure:"processingUnit,omitempty"`
 
@@ -687,7 +687,7 @@ type SparseRenderedPolicy struct {
 	// Contains the list of tags that matched the policies.
 	MatchingTags *[]string `json:"matchingTags,omitempty" msgpack:"matchingTags,omitempty" bson:"-" mapstructure:"matchingTags,omitempty"`
 
-	// Can be set during a `+"`"+`POST`+"`"+` operation to render a policy on a processing unit that
+	// Can be set during a `POST` operation to render a policy on a processing unit that
 	// has not been created yet.
 	ProcessingUnit *ProcessingUnit `json:"processingUnit,omitempty" msgpack:"processingUnit,omitempty" bson:"-" mapstructure:"processingUnit,omitempty"`
 

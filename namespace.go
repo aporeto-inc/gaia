@@ -89,7 +89,7 @@ type Namespace struct {
 	// The SSH certificate authority used by the namespace.
 	SSHCA string `json:"SSHCA" msgpack:"SSHCA" bson:"sshca" mapstructure:"SSHCA,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, an SSH certificate authority (CA) will be generated for the namespace. This CA
+	// If `true`, an SSH certificate authority (CA) will be generated for the namespace. This CA
 	// can be deployed in SSH server to validate SSH certificates issued by the platform.
 	SSHCAEnabled bool `json:"SSHCAEnabled" msgpack:"SSHCAEnabled" bson:"sshcaenabled" mapstructure:"SSHCAEnabled,omitempty"`
 
@@ -111,8 +111,8 @@ type Namespace struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Defines if the namespace should inherit its parent zone. If this property is set to `+"`"+`false`+"`"+`,
-	// the `+"`"+`zoning`+"`"+` property will be ignored and the namespace will have the same zone as its parent.
+	// Defines if the namespace should inherit its parent zone. If this property is set to `false`,
+	// the `zoning` property will be ignored and the namespace will have the same zone as its parent.
 	CustomZoning bool `json:"customZoning" msgpack:"customZoning" bson:"customzoning" mapstructure:"customZoning,omitempty"`
 
 	// Description of the object.
@@ -135,7 +135,7 @@ type Namespace struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// List of tags that will be added to every `+"`"+`or`+"`"+` clause of all network access
+	// List of tags that will be added to every `or` clause of all network access
 	// policies in the namespace and its children.
 	NetworkAccessPolicyTags []string `json:"networkAccessPolicyTags" msgpack:"networkAccessPolicyTags" bson:"networkaccesspolicytags" mapstructure:"networkAccessPolicyTags,omitempty"`
 
@@ -146,7 +146,7 @@ type Namespace struct {
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Determines the length of validity of certificates issued in this namespace using
-	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default value is `+"`"+`1h`+"`"+`.
+	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default value is `1h`.
 	ServiceCertificateValidity string `json:"serviceCertificateValidity" msgpack:"serviceCertificateValidity" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1448,7 +1448,7 @@ type SparseNamespace struct {
 	// The SSH certificate authority used by the namespace.
 	SSHCA *string `json:"SSHCA,omitempty" msgpack:"SSHCA,omitempty" bson:"sshca,omitempty" mapstructure:"SSHCA,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, an SSH certificate authority (CA) will be generated for the namespace. This CA
+	// If `true`, an SSH certificate authority (CA) will be generated for the namespace. This CA
 	// can be deployed in SSH server to validate SSH certificates issued by the platform.
 	SSHCAEnabled *bool `json:"SSHCAEnabled,omitempty" msgpack:"SSHCAEnabled,omitempty" bson:"sshcaenabled,omitempty" mapstructure:"SSHCAEnabled,omitempty"`
 
@@ -1470,8 +1470,8 @@ type SparseNamespace struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Defines if the namespace should inherit its parent zone. If this property is set to `+"`"+`false`+"`"+`,
-	// the `+"`"+`zoning`+"`"+` property will be ignored and the namespace will have the same zone as its parent.
+	// Defines if the namespace should inherit its parent zone. If this property is set to `false`,
+	// the `zoning` property will be ignored and the namespace will have the same zone as its parent.
 	CustomZoning *bool `json:"customZoning,omitempty" msgpack:"customZoning,omitempty" bson:"customzoning,omitempty" mapstructure:"customZoning,omitempty"`
 
 	// Description of the object.
@@ -1494,7 +1494,7 @@ type SparseNamespace struct {
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// List of tags that will be added to every `+"`"+`or`+"`"+` clause of all network access
+	// List of tags that will be added to every `or` clause of all network access
 	// policies in the namespace and its children.
 	NetworkAccessPolicyTags *[]string `json:"networkAccessPolicyTags,omitempty" msgpack:"networkAccessPolicyTags,omitempty" bson:"networkaccesspolicytags,omitempty" mapstructure:"networkAccessPolicyTags,omitempty"`
 
@@ -1505,7 +1505,7 @@ type SparseNamespace struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Determines the length of validity of certificates issued in this namespace using
-	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default value is `+"`"+`1h`+"`"+`.
+	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default value is `1h`.
 	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" msgpack:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity,omitempty" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// internal idempotency key for a update operation.

@@ -101,7 +101,7 @@ type Claims struct {
 	FirstSeen time.Time `json:"-" msgpack:"-" bson:"firstseen" mapstructure:"-,omitempty"`
 
 	// XXH64 hash of the claims content. It will be used as ID. To compute a correct hash,
-	// you must first clob `+"`"+`content`+"`"+` as an string array in the form `+"`"+`key=value`+"`"+`, sort it
+	// you must first clob `content` as an string array in the form `key=value`, sort it
 	// then apply the XXH64 function.
 	Hash string `json:"hash" msgpack:"hash" bson:"-" mapstructure:"hash,omitempty"`
 
@@ -956,7 +956,7 @@ type SparseClaims struct {
 	FirstSeen *time.Time `json:"-" msgpack:"-" bson:"firstseen,omitempty" mapstructure:"-,omitempty"`
 
 	// XXH64 hash of the claims content. It will be used as ID. To compute a correct hash,
-	// you must first clob `+"`"+`content`+"`"+` as an string array in the form `+"`"+`key=value`+"`"+`, sort it
+	// you must first clob `content` as an string array in the form `key=value`, sort it
 	// then apply the XXH64 function.
 	Hash *string `json:"hash,omitempty" msgpack:"hash,omitempty" bson:"-" mapstructure:"hash,omitempty"`
 

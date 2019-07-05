@@ -106,7 +106,7 @@ type RemoteProcessor struct {
 	// Defines the operation that is currently handled by the service.
 	Operation elemental.Operation `json:"operation" msgpack:"operation" bson:"-" mapstructure:"operation,omitempty"`
 
-	// Returns `+"`"+`OutputData`+"`"+` filled with the processor information.
+	// Returns `OutputData` filled with the processor information.
 	Output elemental.Identifiable `json:"output" msgpack:"output" bson:"-" mapstructure:"output,omitempty"`
 
 	// Gives the ID of the request coming from the main server.
@@ -598,7 +598,7 @@ type SparseRemoteProcessor struct {
 	// Defines the operation that is currently handled by the service.
 	Operation *elemental.Operation `json:"operation,omitempty" msgpack:"operation,omitempty" bson:"-" mapstructure:"operation,omitempty"`
 
-	// Returns `+"`"+`OutputData`+"`"+` filled with the processor information.
+	// Returns `OutputData` filled with the processor information.
 	Output *elemental.Identifiable `json:"output,omitempty" msgpack:"output,omitempty" bson:"-" mapstructure:"output,omitempty"`
 
 	// Gives the ID of the request coming from the main server.

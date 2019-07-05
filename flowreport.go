@@ -168,24 +168,24 @@ type FlowReport struct {
 	// Destination type.
 	DestinationType FlowReportDestinationTypeValue `json:"destinationType" msgpack:"destinationType" bson:"-" mapstructure:"destinationType,omitempty"`
 
-	// This field is only set if `+"`"+`action`+"`"+` is set to `+"`"+`Reject`+"`"+`. It specifies the reason
+	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
 	DropReason string `json:"dropReason" msgpack:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, the flow was encrypted.
+	// If `true`, the flow was encrypted.
 	Encrypted bool `json:"encrypted" msgpack:"encrypted" bson:"-" mapstructure:"encrypted,omitempty"`
 
 	// This is here for backward compatibility.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, design mode is on.
+	// If `true`, design mode is on.
 	Observed bool `json:"observed" msgpack:"observed" bson:"-" mapstructure:"observed,omitempty"`
 
 	// Action observed on the flow.
 	ObservedAction FlowReportObservedActionValue `json:"observedAction" msgpack:"observedAction" bson:"-" mapstructure:"observedAction,omitempty"`
 
-	// Specifies the reason for a rejection. Only set if `+"`"+`observedAction`+"`"+` is set
-	// to `+"`"+`Reject`+"`"+`.
+	// Specifies the reason for a rejection. Only set if `observedAction` is set
+	// to `Reject`.
 	ObservedDropReason string `json:"observedDropReason" msgpack:"observedDropReason" bson:"-" mapstructure:"observedDropReason,omitempty"`
 
 	// Value of the encryption of the network policy that observed the flow.
@@ -1270,24 +1270,24 @@ type SparseFlowReport struct {
 	// Destination type.
 	DestinationType *FlowReportDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"-" mapstructure:"destinationType,omitempty"`
 
-	// This field is only set if `+"`"+`action`+"`"+` is set to `+"`"+`Reject`+"`"+`. It specifies the reason
+	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
 	DropReason *string `json:"dropReason,omitempty" msgpack:"dropReason,omitempty" bson:"-" mapstructure:"dropReason,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, the flow was encrypted.
+	// If `true`, the flow was encrypted.
 	Encrypted *bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"-" mapstructure:"encrypted,omitempty"`
 
 	// This is here for backward compatibility.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, design mode is on.
+	// If `true`, design mode is on.
 	Observed *bool `json:"observed,omitempty" msgpack:"observed,omitempty" bson:"-" mapstructure:"observed,omitempty"`
 
 	// Action observed on the flow.
 	ObservedAction *FlowReportObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"-" mapstructure:"observedAction,omitempty"`
 
-	// Specifies the reason for a rejection. Only set if `+"`"+`observedAction`+"`"+` is set
-	// to `+"`"+`Reject`+"`"+`.
+	// Specifies the reason for a rejection. Only set if `observedAction` is set
+	// to `Reject`.
 	ObservedDropReason *string `json:"observedDropReason,omitempty" msgpack:"observedDropReason,omitempty" bson:"-" mapstructure:"observedDropReason,omitempty"`
 
 	// Value of the encryption of the network policy that observed the flow.

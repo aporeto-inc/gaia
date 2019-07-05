@@ -112,7 +112,7 @@ type StatsQuery struct {
 	Descending bool `json:"descending" msgpack:"descending" bson:"-" mapstructure:"descending,omitempty"`
 
 	// List of fields to extract. If you don't pass anything, all available fields will
-	// be returned. It is also possible to use a function like `+"`"+`sum(value)`+"`"+`.
+	// be returned. It is also possible to use a function like `sum(value)`.
 	Fields []string `json:"fields" msgpack:"fields" bson:"-" mapstructure:"fields,omitempty"`
 
 	// Apply a filter to the query.
@@ -122,7 +122,7 @@ type StatsQuery struct {
 	// group the results.
 	Groups []string `json:"groups" msgpack:"groups" bson:"-" mapstructure:"groups,omitempty"`
 
-	// Limits the number of results. `+"`"+`-1`+"`"+` means no limit.
+	// Limits the number of results. `-1` means no limit.
 	Limit int `json:"limit" msgpack:"limit" bson:"-" mapstructure:"limit,omitempty"`
 
 	// Name of the measurement.
@@ -596,7 +596,7 @@ type SparseStatsQuery struct {
 	Descending *bool `json:"descending,omitempty" msgpack:"descending,omitempty" bson:"-" mapstructure:"descending,omitempty"`
 
 	// List of fields to extract. If you don't pass anything, all available fields will
-	// be returned. It is also possible to use a function like `+"`"+`sum(value)`+"`"+`.
+	// be returned. It is also possible to use a function like `sum(value)`.
 	Fields *[]string `json:"fields,omitempty" msgpack:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
 
 	// Apply a filter to the query.
@@ -606,7 +606,7 @@ type SparseStatsQuery struct {
 	// group the results.
 	Groups *[]string `json:"groups,omitempty" msgpack:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
 
-	// Limits the number of results. `+"`"+`-1`+"`"+` means no limit.
+	// Limits the number of results. `-1` means no limit.
 	Limit *int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
 
 	// Name of the measurement.

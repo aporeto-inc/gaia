@@ -87,11 +87,11 @@ type SSHAuthorizationPolicy struct {
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Stores additional information about an entity.
@@ -130,8 +130,8 @@ type SSHAuthorizationPolicy struct {
 
 	// Specify a single command that the user can issue on the remote host. This can be useful
 	// for issuing single-purpose certificates; ensuring that users stay in their home directories
-	// (`+"`"+`internal-sftp`+"`"+`); and restricting users to a bash shell (`+"`"+`/bin/bash`+"`"+`), preventing them
-	// from running arbitrary and unlogged commands such as `+"`"+`scp`+"`"+`, `+"`"+`rsync`+"`"+`, `+"`"+`-essh`+"`"+`, and `+"`"+`sftp`+"`"+`.
+	// (`internal-sftp`); and restricting users to a bash shell (`/bin/bash`), preventing them
+	// from running arbitrary and unlogged commands such as `scp`, `rsync`, `-essh`, and `sftp`.
 	// Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
 	// for more information.
 	ForceCommand string `json:"forceCommand" msgpack:"forceCommand" bson:"-" mapstructure:"forceCommand,omitempty"`
@@ -149,7 +149,7 @@ type SSHAuthorizationPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the tag expression identifying the enforcers on the hosts the `+"`"+`subject`+"`"+` is
+	// Contains the tag expression identifying the enforcers on the hosts the `subject` is
 	// allowed to access.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
@@ -1547,11 +1547,11 @@ type SparseSSHAuthorizationPolicy struct {
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
 	// Stores additional information about an entity.
@@ -1590,8 +1590,8 @@ type SparseSSHAuthorizationPolicy struct {
 
 	// Specify a single command that the user can issue on the remote host. This can be useful
 	// for issuing single-purpose certificates; ensuring that users stay in their home directories
-	// (`+"`"+`internal-sftp`+"`"+`); and restricting users to a bash shell (`+"`"+`/bin/bash`+"`"+`), preventing them
-	// from running arbitrary and unlogged commands such as `+"`"+`scp`+"`"+`, `+"`"+`rsync`+"`"+`, `+"`"+`-essh`+"`"+`, and `+"`"+`sftp`+"`"+`.
+	// (`internal-sftp`); and restricting users to a bash shell (`/bin/bash`), preventing them
+	// from running arbitrary and unlogged commands such as `scp`, `rsync`, `-essh`, and `sftp`.
 	// Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
 	// for more information.
 	ForceCommand *string `json:"forceCommand,omitempty" msgpack:"forceCommand,omitempty" bson:"-" mapstructure:"forceCommand,omitempty"`
@@ -1609,7 +1609,7 @@ type SparseSSHAuthorizationPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the tag expression identifying the enforcers on the hosts the `+"`"+`subject`+"`"+` is
+	// Contains the tag expression identifying the enforcers on the hosts the `subject` is
 	// allowed to access.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 

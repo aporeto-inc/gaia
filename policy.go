@@ -146,11 +146,11 @@ type Policy struct {
 	Action map[string]map[string]interface{} `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// This is a set of all object tags for matching in the DB.
@@ -205,7 +205,7 @@ type Policy struct {
 	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to `+"`"+`true`+"`"+` while the policy is propagating, it won't be visible to children
+	// If set to `true` while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" msgpack:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
@@ -218,7 +218,7 @@ type Policy struct {
 
 	// Represents sets of entities that will have a dependency other entities.
 	// Subjects are defined as logical operations on tags. Logical operations can
-	// include `+"`"+`AND`+"`"+` and `+"`"+`OR`+"`"+`.
+	// include `AND` and `OR`.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// Type of the policy.
@@ -1763,11 +1763,11 @@ type SparsePolicy struct {
 	Action *map[string]map[string]interface{} `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
 	// This is a set of all object tags for matching in the DB.
@@ -1822,7 +1822,7 @@ type SparsePolicy struct {
 	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// If set to `+"`"+`true`+"`"+` while the policy is propagating, it won't be visible to children
+	// If set to `true` while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
 	PropagationHidden *bool `json:"propagationHidden,omitempty" msgpack:"propagationHidden,omitempty" bson:"propagationhidden,omitempty" mapstructure:"propagationHidden,omitempty"`
 
@@ -1835,7 +1835,7 @@ type SparsePolicy struct {
 
 	// Represents sets of entities that will have a dependency other entities.
 	// Subjects are defined as logical operations on tags. Logical operations can
-	// include `+"`"+`AND`+"`"+` and `+"`"+`OR`+"`"+`.
+	// include `AND` and `OR`.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	// Type of the policy.

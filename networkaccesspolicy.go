@@ -127,40 +127,40 @@ type NetworkAccessPolicy struct {
 
 	// Defines the action to apply to a flow.
 	//
-	// - `+"`"+`Allow`+"`"+`: allows the defined traffic.
-	// - `+"`"+`Reject`+"`"+`: rejects the defined traffic; useful in conjunction with an allow all
+	// - `Allow`: allows the defined traffic.
+	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
 	// policy.
-	// - `+"`"+`Continue`+"`"+`: neither allows or rejects the traffic; useful for applying another
+	// - `Continue`: neither allows or rejects the traffic; useful for applying another
 	// property to the traffic, such as encryption.
 	Action NetworkAccessPolicyActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Sets three different types of policies. `+"`"+`IncomingTraffic`+"`"+`: applies the policy to
+	// Sets three different types of policies. `IncomingTraffic`: applies the policy to
 	// all
-	// processing units that match the `+"`"+`object`+"`"+` and allows them to *accept* connections
+	// processing units that match the `object` and allows them to *accept* connections
 	// from
-	// processing units or external networks that match the `+"`"+`subject`+"`"+`.
-	// `+"`"+`OutgoingTraffic`+"`"+`: applies
-	// the policy to all processing units that match the `+"`"+`subject`+"`"+` and allows them to
+	// processing units or external networks that match the `subject`.
+	// `OutgoingTraffic`: applies
+	// the policy to all processing units that match the `subject` and allows them to
 	// *initiate*
-	// connections with processing units or external networks that match the `+"`"+`object`+"`"+`.
-	// `+"`"+`Bidirectional`+"`"+` (default): applies the policy to all processing units that match
-	// the `+"`"+`object`+"`"+`
+	// connections with processing units or external networks that match the `object`.
+	// `Bidirectional` (default): applies the policy to all processing units that match
+	// the `object`
 	// and allows them to *accept* connections from processing units that match the
-	// `+"`"+`subject`+"`"+`.
-	// Also applies the policy to all processing units that match the `+"`"+`subject`+"`"+` and
+	// `subject`.
+	// Also applies the policy to all processing units that match the `subject` and
 	// allows them
-	// to *initiate* connections with processing units that match the `+"`"+`object`+"`"+`.
+	// to *initiate* connections with processing units that match the `object`.
 	ApplyPolicyMode NetworkAccessPolicyApplyPolicyModeValue `json:"applyPolicyMode" msgpack:"applyPolicyMode" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
 	// List of tags attached to an entity.
@@ -189,9 +189,9 @@ type NetworkAccessPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, the relevant flows are logged and available from the Aporeto control
+	// If `true`, the relevant flows are logged and available from the Aporeto control
 	// plane.
-	// Under some advanced scenarios you may wish to set this to `+"`"+`false`+"`"+`, such as to
+	// Under some advanced scenarios you may wish to set this to `false`, such as to
 	// save space or
 	// improve performance.
 	LogsEnabled bool `json:"logsEnabled" msgpack:"logsEnabled" bson:"-" mapstructure:"logsEnabled,omitempty"`
@@ -206,10 +206,10 @@ type NetworkAccessPolicy struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Setting this to `+"`"+`true`+"`"+` will invert the object to find what is not matching.
+	// Setting this to `true` will invert the object to find what is not matching.
 	NegateObject bool `json:"negateObject" msgpack:"negateObject" bson:"negateobject" mapstructure:"negateObject,omitempty"`
 
-	// Setting this to `+"`"+`true`+"`"+` will invert the subject to find what is not matching.
+	// Setting this to `true` will invert the subject to find what is not matching.
 	NegateSubject bool `json:"negateSubject" msgpack:"negateSubject" bson:"negatesubject" mapstructure:"negateSubject,omitempty"`
 
 	// Contains the list of normalized tags of the entities.
@@ -218,11 +218,11 @@ type NetworkAccessPolicy struct {
 	// A tag or tag expression identifying the object of the policy.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
-	// If set to `+"`"+`true`+"`"+`, the flow will be in observation mode.
+	// If set to `true`, the flow will be in observation mode.
 	ObservationEnabled bool `json:"observationEnabled" msgpack:"observationEnabled" bson:"-" mapstructure:"observationEnabled,omitempty"`
 
-	// If `+"`"+`observationEnabled`+"`"+` is set to `+"`"+`true`+"`"+`, this defines the final action taken
-	// on the packets: `+"`"+`Apply`+"`"+` or `+"`"+`Continue`+"`"+` (default).
+	// If `observationEnabled` is set to `true`, this defines the final action taken
+	// on the packets: `Apply` or `Continue` (default).
 	ObservedTrafficAction NetworkAccessPolicyObservedTrafficActionValue `json:"observedTrafficAction" msgpack:"observedTrafficAction" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
 	// Represents the ports and protocols this policy applies to.
@@ -1790,40 +1790,40 @@ type SparseNetworkAccessPolicy struct {
 
 	// Defines the action to apply to a flow.
 	//
-	// - `+"`"+`Allow`+"`"+`: allows the defined traffic.
-	// - `+"`"+`Reject`+"`"+`: rejects the defined traffic; useful in conjunction with an allow all
+	// - `Allow`: allows the defined traffic.
+	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
 	// policy.
-	// - `+"`"+`Continue`+"`"+`: neither allows or rejects the traffic; useful for applying another
+	// - `Continue`: neither allows or rejects the traffic; useful for applying another
 	// property to the traffic, such as encryption.
 	Action *NetworkAccessPolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// Sets three different types of policies. `+"`"+`IncomingTraffic`+"`"+`: applies the policy to
+	// Sets three different types of policies. `IncomingTraffic`: applies the policy to
 	// all
-	// processing units that match the `+"`"+`object`+"`"+` and allows them to *accept* connections
+	// processing units that match the `object` and allows them to *accept* connections
 	// from
-	// processing units or external networks that match the `+"`"+`subject`+"`"+`.
-	// `+"`"+`OutgoingTraffic`+"`"+`: applies
-	// the policy to all processing units that match the `+"`"+`subject`+"`"+` and allows them to
+	// processing units or external networks that match the `subject`.
+	// `OutgoingTraffic`: applies
+	// the policy to all processing units that match the `subject` and allows them to
 	// *initiate*
-	// connections with processing units or external networks that match the `+"`"+`object`+"`"+`.
-	// `+"`"+`Bidirectional`+"`"+` (default): applies the policy to all processing units that match
-	// the `+"`"+`object`+"`"+`
+	// connections with processing units or external networks that match the `object`.
+	// `Bidirectional` (default): applies the policy to all processing units that match
+	// the `object`
 	// and allows them to *accept* connections from processing units that match the
-	// `+"`"+`subject`+"`"+`.
-	// Also applies the policy to all processing units that match the `+"`"+`subject`+"`"+` and
+	// `subject`.
+	// Also applies the policy to all processing units that match the `subject` and
 	// allows them
-	// to *initiate* connections with processing units that match the `+"`"+`object`+"`"+`.
+	// to *initiate* connections with processing units that match the `object`.
 	ApplyPolicyMode *NetworkAccessPolicyApplyPolicyModeValue `json:"applyPolicyMode,omitempty" msgpack:"applyPolicyMode,omitempty" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
 	// List of tags attached to an entity.
@@ -1852,9 +1852,9 @@ type SparseNetworkAccessPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, the relevant flows are logged and available from the Aporeto control
+	// If `true`, the relevant flows are logged and available from the Aporeto control
 	// plane.
-	// Under some advanced scenarios you may wish to set this to `+"`"+`false`+"`"+`, such as to
+	// Under some advanced scenarios you may wish to set this to `false`, such as to
 	// save space or
 	// improve performance.
 	LogsEnabled *bool `json:"logsEnabled,omitempty" msgpack:"logsEnabled,omitempty" bson:"-" mapstructure:"logsEnabled,omitempty"`
@@ -1869,10 +1869,10 @@ type SparseNetworkAccessPolicy struct {
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// Setting this to `+"`"+`true`+"`"+` will invert the object to find what is not matching.
+	// Setting this to `true` will invert the object to find what is not matching.
 	NegateObject *bool `json:"negateObject,omitempty" msgpack:"negateObject,omitempty" bson:"negateobject,omitempty" mapstructure:"negateObject,omitempty"`
 
-	// Setting this to `+"`"+`true`+"`"+` will invert the subject to find what is not matching.
+	// Setting this to `true` will invert the subject to find what is not matching.
 	NegateSubject *bool `json:"negateSubject,omitempty" msgpack:"negateSubject,omitempty" bson:"negatesubject,omitempty" mapstructure:"negateSubject,omitempty"`
 
 	// Contains the list of normalized tags of the entities.
@@ -1881,11 +1881,11 @@ type SparseNetworkAccessPolicy struct {
 	// A tag or tag expression identifying the object of the policy.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
-	// If set to `+"`"+`true`+"`"+`, the flow will be in observation mode.
+	// If set to `true`, the flow will be in observation mode.
 	ObservationEnabled *bool `json:"observationEnabled,omitempty" msgpack:"observationEnabled,omitempty" bson:"-" mapstructure:"observationEnabled,omitempty"`
 
-	// If `+"`"+`observationEnabled`+"`"+` is set to `+"`"+`true`+"`"+`, this defines the final action taken
-	// on the packets: `+"`"+`Apply`+"`"+` or `+"`"+`Continue`+"`"+` (default).
+	// If `observationEnabled` is set to `true`, this defines the final action taken
+	// on the packets: `Apply` or `Continue` (default).
 	ObservedTrafficAction *NetworkAccessPolicyObservedTrafficActionValue `json:"observedTrafficAction,omitempty" msgpack:"observedTrafficAction,omitempty" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
 	// Represents the ports and protocols this policy applies to.

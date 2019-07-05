@@ -114,11 +114,11 @@ type HookPolicy struct {
 	// certificate must also be configured.
 	ClientCertificate string `json:"clientCertificate" msgpack:"clientCertificate" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
 
-	// Contains the key associated with the `+"`"+`clientCertificate`+"`"+`. It must be provided only
-	// when `+"`"+`clientCertificate`+"`"+` has been configured.
+	// Contains the key associated with the `clientCertificate`. It must be provided only
+	// when `clientCertificate` has been configured.
 	ClientCertificateKey string `json:"clientCertificateKey" msgpack:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
-	// If set to `+"`"+`true`+"`"+` and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
+	// If set to `true` and `mode` is in `Pre`, the request will be honored even if
 	// calling the hook fails.
 	ContinueOnError bool `json:"continueOnError" msgpack:"continueOnError" bson:"continueonerror" mapstructure:"continueOnError,omitempty"`
 
@@ -164,7 +164,7 @@ type HookPolicy struct {
 	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to `+"`"+`true`+"`"+` while the policy is propagating, it won't be visible to children
+	// If set to `true` while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" msgpack:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
@@ -1514,11 +1514,11 @@ type SparseHookPolicy struct {
 	// certificate must also be configured.
 	ClientCertificate *string `json:"clientCertificate,omitempty" msgpack:"clientCertificate,omitempty" bson:"clientcertificate,omitempty" mapstructure:"clientCertificate,omitempty"`
 
-	// Contains the key associated with the `+"`"+`clientCertificate`+"`"+`. It must be provided only
-	// when `+"`"+`clientCertificate`+"`"+` has been configured.
+	// Contains the key associated with the `clientCertificate`. It must be provided only
+	// when `clientCertificate` has been configured.
 	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" msgpack:"clientCertificateKey,omitempty" bson:"clientcertificatekey,omitempty" mapstructure:"clientCertificateKey,omitempty"`
 
-	// If set to `+"`"+`true`+"`"+` and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
+	// If set to `true` and `mode` is in `Pre`, the request will be honored even if
 	// calling the hook fails.
 	ContinueOnError *bool `json:"continueOnError,omitempty" msgpack:"continueOnError,omitempty" bson:"continueonerror,omitempty" mapstructure:"continueOnError,omitempty"`
 
@@ -1564,7 +1564,7 @@ type SparseHookPolicy struct {
 	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// If set to `+"`"+`true`+"`"+` while the policy is propagating, it won't be visible to children
+	// If set to `true` while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
 	PropagationHidden *bool `json:"propagationHidden,omitempty" msgpack:"propagationHidden,omitempty" bson:"propagationhidden,omitempty" mapstructure:"propagationHidden,omitempty"`
 

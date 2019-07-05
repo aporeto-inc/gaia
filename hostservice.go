@@ -104,7 +104,7 @@ type HostService struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Forces the corresponding enforcers to enable host protection. When `+"`"+`true`+"`"+`, all
+	// Forces the corresponding enforcers to enable host protection. When `true`, all
 	// incoming and outgoing flows will be monitored. Flows will be allowed if and only
 	// if a network policy has been created to allow the flow. The option applies to all
 	// enforcers to which the host service is mapped.
@@ -130,8 +130,8 @@ type HostService struct {
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Lists all protocols and ports a service is running. A service entry can be defined
-	// by a protocol and port `+"`"+`(tcp/80)`+"`"+`, or range of protocol/port pairs `+"`"+`(udp/80:100)`+"`"+`.
-	// If no protocol is provided, it is assumed to be TCP. Only `+"`"+`tcp`+"`"+` and `+"`"+`udp`+"`"+` protocols
+	// by a protocol and port `(tcp/80)`, or range of protocol/port pairs `(udp/80:100)`.
+	// If no protocol is provided, it is assumed to be TCP. Only `tcp` and `udp` protocols
 	// are allowed.
 	Services []string `json:"services" msgpack:"services" bson:"services" mapstructure:"services,omitempty"`
 
@@ -1279,7 +1279,7 @@ type SparseHostService struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Forces the corresponding enforcers to enable host protection. When `+"`"+`true`+"`"+`, all
+	// Forces the corresponding enforcers to enable host protection. When `true`, all
 	// incoming and outgoing flows will be monitored. Flows will be allowed if and only
 	// if a network policy has been created to allow the flow. The option applies to all
 	// enforcers to which the host service is mapped.
@@ -1305,8 +1305,8 @@ type SparseHostService struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Lists all protocols and ports a service is running. A service entry can be defined
-	// by a protocol and port `+"`"+`(tcp/80)`+"`"+`, or range of protocol/port pairs `+"`"+`(udp/80:100)`+"`"+`.
-	// If no protocol is provided, it is assumed to be TCP. Only `+"`"+`tcp`+"`"+` and `+"`"+`udp`+"`"+` protocols
+	// by a protocol and port `(tcp/80)`, or range of protocol/port pairs `(udp/80:100)`.
+	// If no protocol is provided, it is assumed to be TCP. Only `tcp` and `udp` protocols
 	// are allowed.
 	Services *[]string `json:"services,omitempty" msgpack:"services,omitempty" bson:"services,omitempty" mapstructure:"services,omitempty"`
 

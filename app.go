@@ -81,7 +81,7 @@ func (o AppsList) Version() int {
 
 // App represents the model of a app
 type App struct {
-	// Set to `+"`"+`true`+"`"+` to indicate that the app is in a beta version.
+	// Set to `true` to indicate that the app is in a beta version.
 	Beta bool `json:"beta" msgpack:"beta" bson:"-" mapstructure:"beta,omitempty"`
 
 	// Category ID of the app.
@@ -635,7 +635,7 @@ func (o SparseAppsList) Version() int {
 
 // SparseApp represents the sparse version of a app.
 type SparseApp struct {
-	// Set to `+"`"+`true`+"`"+` to indicate that the app is in a beta version.
+	// Set to `true` to indicate that the app is in a beta version.
 	Beta *bool `json:"beta,omitempty" msgpack:"beta,omitempty" bson:"-" mapstructure:"beta,omitempty"`
 
 	// Category ID of the app.

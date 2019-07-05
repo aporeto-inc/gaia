@@ -113,11 +113,11 @@ type ProcessingUnitPolicy struct {
 	Action ProcessingUnitPolicyActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Stores additional information about an entity.
@@ -143,8 +143,8 @@ type ProcessingUnitPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// The isolation profiles to be mapped. Only applies to `+"`"+`Enforce`+"`"+` and
-	// `+"`"+`LogCompliance`+"`"+` actions.
+	// The isolation profiles to be mapped. Only applies to `Enforce` and
+	// `LogCompliance` actions.
 	IsolationProfileSelector [][]string `json:"isolationProfileSelector" msgpack:"isolationProfileSelector" bson:"isolationprofileselector" mapstructure:"isolationProfileSelector,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
@@ -1371,11 +1371,11 @@ type SparseProcessingUnitPolicy struct {
 	Action *ProcessingUnitPolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
 	// Stores additional information about an entity.
@@ -1401,8 +1401,8 @@ type SparseProcessingUnitPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// The isolation profiles to be mapped. Only applies to `+"`"+`Enforce`+"`"+` and
-	// `+"`"+`LogCompliance`+"`"+` actions.
+	// The isolation profiles to be mapped. Only applies to `Enforce` and
+	// `LogCompliance` actions.
 	IsolationProfileSelector *[][]string `json:"isolationProfileSelector,omitempty" msgpack:"isolationProfileSelector,omitempty" bson:"isolationprofileselector,omitempty" mapstructure:"isolationProfileSelector,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start

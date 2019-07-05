@@ -18,10 +18,10 @@ type Endpoint struct {
 	// Methods exposed to access the API.
 	Methods []string `json:"methods" msgpack:"methods" bson:"methods" mapstructure:"methods,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, the API is public.
+	// If `true`, the API is public.
 	Public bool `json:"public" msgpack:"public" bson:"public" mapstructure:"public,omitempty"`
 
-	// Use `+"`"+`allowedScopes`+"`"+`.
+	// Use `allowedScopes`.
 	Scopes []string `json:"scopes" msgpack:"scopes" bson:"-" mapstructure:"scopes,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

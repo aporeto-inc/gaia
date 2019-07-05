@@ -43,10 +43,10 @@ type GraphEdge struct {
 	// Number of accepted flows in the edge.
 	AcceptedFlows int `json:"acceptedFlows" msgpack:"acceptedFlows" bson:"-" mapstructure:"acceptedFlows,omitempty"`
 
-	// ID of the destination `+"`"+`GraphNode`+"`"+` of the edge.
+	// ID of the destination `GraphNode` of the edge.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"-" mapstructure:"destinationID,omitempty"`
 
-	// Type of the destination `+"`"+`GraphNode`+"`"+` of the edge.
+	// Type of the destination `GraphNode` of the edge.
 	DestinationType GraphEdgeDestinationTypeValue `json:"destinationType" msgpack:"destinationType" bson:"-" mapstructure:"destinationType,omitempty"`
 
 	// The number of encrypted flows in the edge.
@@ -75,10 +75,10 @@ type GraphEdge struct {
 	// Number of rejected flows in the edge.
 	RejectedFlows int `json:"rejectedFlows" msgpack:"rejectedFlows" bson:"-" mapstructure:"rejectedFlows,omitempty"`
 
-	// ID of the source `+"`"+`GraphNode`+"`"+` of the edge.
+	// ID of the source `GraphNode` of the edge.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"-" mapstructure:"sourceID,omitempty"`
 
-	// Type of the source `+"`"+`GraphNode`+"`"+` of the edge.
+	// Type of the source `GraphNode` of the edge.
 	SourceType GraphEdgeSourceTypeValue `json:"sourceType" msgpack:"sourceType" bson:"-" mapstructure:"sourceType,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

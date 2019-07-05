@@ -112,7 +112,7 @@ type Account struct {
 	// Holds the SSH certificate authority used by the account namespace.
 	SSHCA string `json:"SSHCA" msgpack:"SSHCA" bson:"sshca" mapstructure:"SSHCA,omitempty"`
 
-	// Set to `+"`"+`true`+"`"+` to renew the SSH certificate authority of the account namespace.
+	// Set to `true` to renew the SSH certificate authority of the account namespace.
 	SSHCARenew bool `json:"SSHCARenew" msgpack:"SSHCARenew" bson:"-" mapstructure:"SSHCARenew,omitempty"`
 
 	// Defines if the account holder should have access to the system.
@@ -1345,7 +1345,7 @@ type SparseAccount struct {
 	// Holds the SSH certificate authority used by the account namespace.
 	SSHCA *string `json:"SSHCA,omitempty" msgpack:"SSHCA,omitempty" bson:"sshca,omitempty" mapstructure:"SSHCA,omitempty"`
 
-	// Set to `+"`"+`true`+"`"+` to renew the SSH certificate authority of the account namespace.
+	// Set to `true` to renew the SSH certificate authority of the account namespace.
 	SSHCARenew *bool `json:"SSHCARenew,omitempty" msgpack:"SSHCARenew,omitempty" bson:"-" mapstructure:"SSHCARenew,omitempty"`
 
 	// Defines if the account holder should have access to the system.

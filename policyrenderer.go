@@ -137,9 +137,9 @@ type PolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
 	Policies PolicyRulesList `json:"policies" msgpack:"policies" bson:"-" mapstructure:"policies,omitempty"`
 
-	// `+"`"+`Subject`+"`"+` (default): Set if the `+"`"+`processMode`+"`"+` should use the subject. `+"`"+`Object`+"`"+`:
+	// `Subject` (default): Set if the `processMode` should use the subject. `Object`:
 	// Set if
-	// the `+"`"+`processMode`+"`"+` should use the object. This only has effect when rendering an
+	// the `processMode` should use the object. This only has effect when rendering an
 	// SSH
 	// authorization for now.
 	ProcessMode PolicyRendererProcessModeValue `json:"processMode" msgpack:"processMode" bson:"-" mapstructure:"processMode,omitempty"`
@@ -524,9 +524,9 @@ type SparsePolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
 	Policies *PolicyRulesList `json:"policies,omitempty" msgpack:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
 
-	// `+"`"+`Subject`+"`"+` (default): Set if the `+"`"+`processMode`+"`"+` should use the subject. `+"`"+`Object`+"`"+`:
+	// `Subject` (default): Set if the `processMode` should use the subject. `Object`:
 	// Set if
-	// the `+"`"+`processMode`+"`"+` should use the object. This only has effect when rendering an
+	// the `processMode` should use the object. This only has effect when rendering an
 	// SSH
 	// authorization for now.
 	ProcessMode *PolicyRendererProcessModeValue `json:"processMode,omitempty" msgpack:"processMode,omitempty" bson:"-" mapstructure:"processMode,omitempty"`

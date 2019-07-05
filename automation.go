@@ -158,7 +158,7 @@ type Automation struct {
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Specifies when to run the automation. Must be in valid CRON format. This
-	// only applies if the trigger is set to `+"`"+`Time`+"`"+`.
+	// only applies if the trigger is set to `Time`.
 	Schedule string `json:"schedule" msgpack:"schedule" bson:"schedule" mapstructure:"schedule,omitempty"`
 
 	// Contains the standard output of the last run.
@@ -168,7 +168,7 @@ type Automation struct {
 	// authentication. It will be visible only after creation.
 	Token string `json:"token" msgpack:"token" bson:"token" mapstructure:"token,omitempty"`
 
-	// If set to `+"`"+`true`+"`"+` a new token will be issued and the previous one invalidated.
+	// If set to `true` a new token will be issued and the previous one invalidated.
 	TokenRenew bool `json:"tokenRenew" msgpack:"tokenRenew" bson:"-" mapstructure:"tokenRenew,omitempty"`
 
 	// Controls when the automation should be triggered.
@@ -1582,7 +1582,7 @@ type SparseAutomation struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Specifies when to run the automation. Must be in valid CRON format. This
-	// only applies if the trigger is set to `+"`"+`Time`+"`"+`.
+	// only applies if the trigger is set to `Time`.
 	Schedule *string `json:"schedule,omitempty" msgpack:"schedule,omitempty" bson:"schedule,omitempty" mapstructure:"schedule,omitempty"`
 
 	// Contains the standard output of the last run.
@@ -1592,7 +1592,7 @@ type SparseAutomation struct {
 	// authentication. It will be visible only after creation.
 	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"token,omitempty" mapstructure:"token,omitempty"`
 
-	// If set to `+"`"+`true`+"`"+` a new token will be issued and the previous one invalidated.
+	// If set to `true` a new token will be issued and the previous one invalidated.
 	TokenRenew *bool `json:"tokenRenew,omitempty" msgpack:"tokenRenew,omitempty" bson:"-" mapstructure:"tokenRenew,omitempty"`
 
 	// Controls when the automation should be triggered.

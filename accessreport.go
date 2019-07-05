@@ -126,7 +126,7 @@ type AccessReport struct {
 	// Namespace of the processing unit of the report.
 	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
-	// This field is only set if `+"`"+`action`+"`"+` is set to `+"`"+`Reject`+"`"+`. It specifies the reason
+	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
 	Reason string `json:"reason" msgpack:"reason" bson:"-" mapstructure:"reason,omitempty"`
 
@@ -629,7 +629,7 @@ type SparseAccessReport struct {
 	// Namespace of the processing unit of the report.
 	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
-	// This field is only set if `+"`"+`action`+"`"+` is set to `+"`"+`Reject`+"`"+`. It specifies the reason
+	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
 	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"-" mapstructure:"reason,omitempty"`
 
