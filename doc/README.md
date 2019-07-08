@@ -89,11 +89,11 @@ curl https://api.console.aporeto.com/issue \
   -X POST \
   -H 'Content-Type: application/json' \
   -d '{
-  "realm": "<realm>",
-  "validity: "24h",
-  "quota": 0,
-  "metadata": {<realm-specific-identification>}
-}'
+    "realm": "<realm>",
+    "validity: "24h",
+    "quota": 0,
+    "metadata": {<realm-specific-identification>}
+  }'
 ```
 
 The `realm` property can be one of:
@@ -140,12 +140,12 @@ curl https://api.console.aporeto.com/issue \
   -X POST \
   -H 'Content-Type: application/json' \
   -d '{
-  "realm": "Vince",
-  "metadata": {
-    "vinceAccount": "<account-name>",
-    "vincePassword": "<account-password>"
-  }
-}'
+    "realm": "Vince",
+    "metadata": {
+      "vinceAccount": "<account-name>",
+      "vincePassword": "<account-password>"
+    }
+  }'
 ```
 
 ### Authenticating with a X.509 Certificate
@@ -232,7 +232,7 @@ For instance, if you issue the following command twice:
 curl https://api.console.aporeto.com/namespaces \
   -X POST \
   -H 'Content-Type: application/json' \
-  -H 'X-Namespace: /apomux' \
+  -H 'X-Namespace: /company' \
   -H 'Idempotency-Key: abcdef1234' \
   -H 'Authorization: Bearer <token>' \
   -H 'X-Fields: ID' \
@@ -263,7 +263,7 @@ However, if you set the `Idempotency-Key` header and issue the following request
 curl \
   -X POST \
   -H 'Content-Type: application/json' \
-  -H 'X-Namespace: /apomux' \
+  -H 'X-Namespace: /company' \
   -H 'Idempotency-Key: abcdef1234' \
   -H 'Authorization: Bearer <token>' \
   -H 'X-Fields: ID' \
@@ -383,13 +383,13 @@ curl https://api.console.aporeto.com/namespaces/5d07f89c7ddf1f5e0210582d \
     "localCA": "",
     "localCAEnabled": false,
     "metadata": [],
-    "name": "/apomux/apps",
-    "namespace": "/apomux",
+    "name": "/company/apps",
+    "namespace": "/company",
     "networkAccessPolicyTags" :[],
     "normalizedTags": [
       "$identity=namespace",
-      "$name=/apomux/apps",
-      "$namespace=/apomux",
+      "$name=/company/apps",
+      "$namespace=/company",
       "$id=5d07f89c7ddf1f5e0210582d"
     ],
     "protected": false,
