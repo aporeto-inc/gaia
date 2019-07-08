@@ -40,8 +40,8 @@ CRD
 CRDs
 CRI-O
 cron
-DaemonSet
 daemonset
+DaemonSet
 datapath
 DataPathCertificate
 DependencyMap
@@ -80,6 +80,8 @@ HostService
 HostServiceMappingPolicy
 HTTPResourceSpec
 i.e.
+Idempotency
+idempotency
 ImportReference
 ImportRequest
 InfluxDB
@@ -89,7 +91,7 @@ InstalledApp
 ints
 InvoiceRecord
 iOS
-IPInfo 
+IPInfo
 IPs
 iptables
 iSCSI
@@ -112,6 +114,7 @@ LDAPProvider
 localhost
 loopback
 macOS
+MessagePack
 metadata
 Midguard
 misconfigured
@@ -147,11 +150,11 @@ PolicyRenderer
 PolicyRule
 pre-created
 preinstall
-processingunit
 ProcessingUnit
+processingunit
 ProcessingUnitPolicy
-processingunits
 ProcessingUnitRefresh
+processingunits
 ProcessingUnitService
 Prometheus
 proxied
@@ -185,7 +188,7 @@ SSHAuthorizationPolicy
 SSHD
 SSHIdentity
 stateful
-StatsInfo 
+StatsInfo
 statsquery
 StatsQuery
 subcommand
@@ -206,7 +209,7 @@ TraceRecord
 TrustedCA
 Ubuntu
 UIParameter
-UIParameterVisibility 
+UIParameterVisibility
 UIStep
 unencrypted
 unlogged
