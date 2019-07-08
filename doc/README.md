@@ -82,8 +82,6 @@ bits into claims that are inserted in the JWT.
 Administrators can then write API authorization policies based on these claims to authorize actions
 on various parts of the system.
 
-### Request
-
 Generally speaking, you need to call the `/issue` API in order to get a token:
 
 ```shell
@@ -118,8 +116,6 @@ The `quota` controls how many times a token can be used. Not setting this value 
 quota so the token can be used as much as you like during its validity period.
 
 The `metadata` attribute contains various realm-dependent information (see below).
-
-### Response
 
 Upon correct authentication, Aporeto will return a JWT wrapped into a JSON or MessagePack object:
 
