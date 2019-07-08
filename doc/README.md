@@ -319,7 +319,7 @@ The `POST` method can be used with the following resource URLs:
 Example:
 
 ```shell
-curl https://api.console.aporeto.com/namespace \
+curl https://api.console.aporeto.com/namespaces \
   -X POST \
   -H 'Content-Type: application/json' \
   -H 'X-Namespace: /company/ns1' \
@@ -344,7 +344,7 @@ A `pageSize` or `0` returns the full list of objects.
 Example:
 
 ```shell
-curl https://api.console.aporeto.com/namespace?page=2&pageSize=10 \
+curl https://api.console.aporeto.com/namespaces?page=2&pageSize=10 \
   -H 'Content-Type: application/json' \
   -H 'X-Namespace: /company/ns1' \
   -H 'Authorization: Bearer <token>'
@@ -365,7 +365,7 @@ in the case two clients are updating the same resource at the same time.
 Example:
 
 ```shell
-curl https://api.console.aporeto.com/namespace/5d07f89c7ddf1f5e0210582d \
+curl https://api.console.aporeto.com/namespaces/5d07f89c7ddf1f5e0210582d \
   -X PUT \
   -H 'Content-Type: application/json' \
   -H 'X-Namespace: /company/ns1' \
@@ -409,7 +409,7 @@ The `DELETE` method can only be used with the following resource URLs:
 Example:
 
 ```shell
-curl https://api.console.aporeto.com/namespace/5d07f89c7ddf1f5e0210582d \
+curl https://api.console.aporeto.com/namespaces/5d07f89c7ddf1f5e0210582d \
   -X DELETE \
   -H 'Content-Type: application/json' \
   -H 'X-Namespace: /company/ns1' \
