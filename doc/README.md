@@ -326,7 +326,7 @@ curl https://api.console.aporeto.com/namespace \
   -H 'X-Fields: name' \
   -H 'Authorization: Bearer <token>' \
   -d '{
-    "name": "mynamespace",
+    "name": "mynamespace"
   }'
 ```
 
@@ -396,7 +396,7 @@ curl https://api.console.aporeto.com/namespace/5d07f89c7ddf1f5e0210582d \
     "serviceCertificateValidity": "1h",
     "updateTime": "2019-06-17T20:31:24.681Z",
     "zone": 0,
-    "zoning": 0,
+    "zoning": 0
   }'
 ```
 
