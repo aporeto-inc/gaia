@@ -82,7 +82,7 @@ type QuotaCheck struct {
 	// Contains the maximum number of matching entities that can be created.
 	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
-	// If the parameter `+"`"+`remaining=true`+"`"+` is passed, this value will be populated with
+	// If the parameter `remaining=true` is passed, this value will be populated with
 	// the number of remaining objects in the quota.
 	Remaining int `json:"remaining" msgpack:"remaining" bson:"-" mapstructure:"remaining,omitempty"`
 
@@ -142,7 +142,7 @@ func (o *QuotaCheck) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *QuotaCheck) Doc() string {
 
-	return `This api allows to verify the quota for a given identity in a given namespace
+	return `Allows you to verify the quota for a given identity in a given namespace
 with the given tags.`
 }
 
@@ -436,7 +436,7 @@ type SparseQuotaCheck struct {
 	// Contains the maximum number of matching entities that can be created.
 	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
-	// If the parameter `+"`"+`remaining=true`+"`"+` is passed, this value will be populated with
+	// If the parameter `remaining=true` is passed, this value will be populated with
 	// the number of remaining objects in the quota.
 	Remaining *int `json:"remaining,omitempty" msgpack:"remaining,omitempty" bson:"-" mapstructure:"remaining,omitempty"`
 
