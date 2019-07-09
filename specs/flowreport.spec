@@ -5,7 +5,7 @@ model:
   entity_name: FlowReport
   package: zack
   group: policy/networking
-  description: Post a new flow statistics report.
+  description: Post a new flow log.
 
 # Attributes
 attributes:
@@ -28,12 +28,12 @@ attributes:
     example_value: xxx-xxx-xxx
 
   - name: destinationIP
-    description: Type of the destination.
+    description: Destination IP address.
     type: string
     exposed: true
 
   - name: destinationNamespace
-    description: Namespace of the receiver.
+    description: Namespace of the destination.
     type: string
     exposed: true
     example_value: /my/namespace
@@ -44,7 +44,7 @@ attributes:
     exposed: true
 
   - name: destinationType
-    description: Type of the source.
+    description: Destination type.
     type: enum
     exposed: true
     required: true
@@ -56,13 +56,13 @@ attributes:
 
   - name: dropReason
     description: |-
-      This field is only set if 'action' is set to 'Reject' and specifies the reason
+      This field is only set if `action` is set to `Reject`. It specifies the reason
       for the rejection.
     type: string
     exposed: true
 
   - name: encrypted
-    description: Tells is the flow has been encrypted.
+    description: If `true`, the flow was encrypted.
     type: boolean
     exposed: true
 
@@ -75,7 +75,7 @@ attributes:
     example_value: /my/namespace
 
   - name: observed
-    description: Tells if the flow is from design mode.
+    description: If `true`, design mode is on.
     type: boolean
     exposed: true
 
@@ -91,8 +91,8 @@ attributes:
 
   - name: observedDropReason
     description: |-
-      This field is only set if 'observedAction' is set to 'Reject' and specifies the
-      reason for the rejection.
+      Specifies the reason for a rejection. Only set if `observedAction` is set
+      to `Reject`.
     type: string
     exposed: true
 
@@ -128,7 +128,7 @@ attributes:
     example_value: /my/namespace
 
   - name: protocol
-    description: protocol number.
+    description: Protocol number.
     type: integer
     exposed: true
     required: true
@@ -178,7 +178,7 @@ attributes:
     exposed: true
 
   - name: sourceNamespace
-    description: Namespace of the receiver.
+    description: Namespace of the source.
     type: string
     exposed: true
     example_value: /my/namespace
@@ -195,12 +195,12 @@ attributes:
     example_value: ProcessingUnit
 
   - name: timestamp
-    description: Date of the report.
+    description: Time and date of the log.
     type: time
     exposed: true
 
   - name: value
-    description: Number of flows in the report.
+    description: Number of flows in the log.
     type: integer
     exposed: true
     required: true

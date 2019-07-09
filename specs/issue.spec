@@ -5,30 +5,32 @@ model:
   entity_name: Issue
   package: midgard
   group: core/authentication
-  description: This API issues a new token according to given data.
+  description: Issues a new Aporeto token according to given data.
 
 # Attributes
 attributes:
   v1:
   - name: audience
     description: |-
-      If given, the issued token will only be valid from that namespace declared in
-      that value.
+      If given, the issued token will only be valid for the specified namespace.
+      Refer to [JSON Web Token (JWT)RFC
+      7519](https://tools.ietf.org/html/rfc7519#section-4.1.3).
+      for further information.
     type: string
     exposed: true
+    example_value: aud:*:*:/namespace
     validations:
     - $audience
 
   - name: data
-    description: Data contains additional data. The value depends on the issuer type.
+    description: Contains additional data. The value depends on the issuer type.
     type: string
     exposed: true
     deprecated: true
     orderable: true
 
   - name: metadata
-    description: Metadata contains various additional information. Meaning depends
-      on the realm.
+    description: Contains various additional information. Meaning depends on the `realm`.
     type: external
     exposed: true
     subtype: map[string]interface{}
@@ -45,12 +47,15 @@ attributes:
     subtype: map[string]string
 
   - name: quota
-    description: Restricts the number of time the issued token should be used.
+    description: Restricts the number of times the issued token can be used.
     type: integer
     exposed: true
 
   - name: realm
-    description: Realm is the authentication realm.
+    description: |-
+      The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
+      `Certificate`,
+      `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
     type: enum
     exposed: true
     required: true
@@ -67,7 +72,7 @@ attributes:
     example_value: Vince
 
   - name: token
-    description: Token is the token to use for the registration.
+    description: The token to use for the registration.
     type: string
     exposed: true
     read_only: true
@@ -75,8 +80,10 @@ attributes:
 
   - name: validity
     description: |-
-      Validity configures the max validity time for a token. If it is bigger than the
-      configured max validity, it will be capped.
+      Configures the maximum length of validity for a token, using
+      [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). If it
+      is
+      bigger than the configured max validity, it will be capped. Default: `24h`.
     type: string
     exposed: true
     default_value: 24h

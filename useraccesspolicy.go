@@ -83,24 +83,24 @@ func (o UserAccessPoliciesList) Version() int {
 
 // UserAccessPolicy represents the model of a useraccesspolicy
 type UserAccessPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `+"`"+`activeSchedule`+"`"+`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
-	// AllowedSudoUsers indicates the list of user who can use sudo commands.
+	// Indicates the list of user who can use `+"`"+`sudo`+"`"+` commands.
 	AllowedSudoUsers []string `json:"allowedSudoUsers" msgpack:"allowedSudoUsers" bson:"-" mapstructure:"allowedSudoUsers,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -109,39 +109,39 @@ type UserAccessPolicy struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object contains the tag expression matching the enforcers the subject is allowed
+	// Contains the tag expression matching the enforcers the subject is allowed
 	// to connect to.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject contains the tag expression the tags need to match for the policy to
+	// Contains the tag expression the tags need to match for the policy to
 	// apply.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -211,7 +211,7 @@ func (o *UserAccessPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *UserAccessPolicy) Doc() string {
 
-	return `The enforcer policy controls user access.`
+	return `The enforcer policy that controls user access.`
 }
 
 func (o *UserAccessPolicy) String() string {
@@ -726,7 +726,7 @@ var UserAccessPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -739,8 +739,8 @@ var UserAccessPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -751,8 +751,8 @@ activeSchedule.`,
 	"ActiveSchedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -763,7 +763,7 @@ The policy will be active for the given activeDuration.`,
 	"AllowedSudoUsers": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllowedSudoUsers",
-		Description:    `AllowedSudoUsers indicates the list of user who can use sudo commands.`,
+		Description:    `Indicates the list of user who can use ` + "`" + `sudo` + "`" + ` commands.`,
 		Exposed:        true,
 		Name:           "allowedSudoUsers",
 		SubType:        "string",
@@ -772,7 +772,7 @@ The policy will be active for the given activeDuration.`,
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -784,7 +784,7 @@ The policy will be active for the given activeDuration.`,
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -822,7 +822,7 @@ The policy will be active for the given activeDuration.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -835,7 +835,7 @@ The policy will be active for the given activeDuration.`,
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -847,7 +847,7 @@ The policy will be active for the given activeDuration.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -859,7 +859,7 @@ The policy will be active for the given activeDuration.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -874,7 +874,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -906,7 +906,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -920,7 +920,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object contains the tag expression matching the enforcers the subject is allowed
+		Description: `Contains the tag expression matching the enforcers the subject is allowed
 to connect to.`,
 		Exposed:   true,
 		Name:      "object",
@@ -931,7 +931,7 @@ to connect to.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -943,7 +943,7 @@ to connect to.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -955,7 +955,7 @@ to connect to.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject contains the tag expression the tags need to match for the policy to
+		Description: `Contains the tag expression the tags need to match for the policy to
 apply.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -997,7 +997,7 @@ var UserAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1010,8 +1010,8 @@ var UserAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -1022,8 +1022,8 @@ activeSchedule.`,
 	"activeschedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -1034,7 +1034,7 @@ The policy will be active for the given activeDuration.`,
 	"allowedsudousers": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllowedSudoUsers",
-		Description:    `AllowedSudoUsers indicates the list of user who can use sudo commands.`,
+		Description:    `Indicates the list of user who can use ` + "`" + `sudo` + "`" + ` commands.`,
 		Exposed:        true,
 		Name:           "allowedSudoUsers",
 		SubType:        "string",
@@ -1043,7 +1043,7 @@ The policy will be active for the given activeDuration.`,
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1055,7 +1055,7 @@ The policy will be active for the given activeDuration.`,
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1093,7 +1093,7 @@ The policy will be active for the given activeDuration.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1106,7 +1106,7 @@ The policy will be active for the given activeDuration.`,
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1118,7 +1118,7 @@ The policy will be active for the given activeDuration.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1130,7 +1130,7 @@ The policy will be active for the given activeDuration.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1145,7 +1145,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1177,7 +1177,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1191,7 +1191,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object contains the tag expression matching the enforcers the subject is allowed
+		Description: `Contains the tag expression matching the enforcers the subject is allowed
 to connect to.`,
 		Exposed:   true,
 		Name:      "object",
@@ -1202,7 +1202,7 @@ to connect to.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1214,7 +1214,7 @@ to connect to.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1226,7 +1226,7 @@ to connect to.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject contains the tag expression the tags need to match for the policy to
+		Description: `Contains the tag expression the tags need to match for the policy to
 apply.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1328,24 +1328,24 @@ func (o SparseUserAccessPoliciesList) Version() int {
 
 // SparseUserAccessPolicy represents the sparse version of a useraccesspolicy.
 type SparseUserAccessPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `+"`"+`activeSchedule`+"`"+`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
-	// AllowedSudoUsers indicates the list of user who can use sudo commands.
+	// Indicates the list of user who can use `+"`"+`sudo`+"`"+` commands.
 	AllowedSudoUsers *[]string `json:"allowedSudoUsers,omitempty" msgpack:"allowedSudoUsers,omitempty" bson:"-" mapstructure:"allowedSudoUsers,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1354,39 +1354,39 @@ type SparseUserAccessPolicy struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Object contains the tag expression matching the enforcers the subject is allowed
+	// Contains the tag expression matching the enforcers the subject is allowed
 	// to connect to.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject contains the tag expression the tags need to match for the policy to
+	// Contains the tag expression the tags need to match for the policy to
 	// apply.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 

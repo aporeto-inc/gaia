@@ -83,32 +83,32 @@ func (o AppCredentialsList) Version() int {
 
 // AppCredential represents the model of a appcredential
 type AppCredential struct {
-	// CSR contains the Certificate Signing Request as a PEM encoded string. It can
+	// Contains a PEM-encoded certificate signing request (CSR). It can
 	// only be set during a renew.
 	//
 	// - The CN **MUST** be `+"`"+`app:credential:<appcred-id>:<appcred-name>`+"`"+`
-	// - The O **MUST** be the namespace of the appcred
+	// - The O **MUST** be the namespace of the app credential
 	//
 	// If you send anything else, the signing request will be rejected.
 	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
 
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// If set, the it will only be valid if the request comes from one
+	// If set, the app credential will only be valid if the request comes from one
 	// the declared subnets.
 	AuthorizedSubnets []string `json:"authorizedSubnets" msgpack:"authorizedSubnets" bson:"authorizedsubnets" mapstructure:"authorizedSubnets,omitempty"`
 
-	// The string representation of the Certificate used by the application.
+	// The string representation of the certificate used by the app credential.
 	Certificate string `json:"certificate" msgpack:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
-	// Link to the certificate created for this application.
+	// Link to the certificate created for this app credential.
 	CertificateSN string `json:"-" msgpack:"-" bson:"certificatesn" mapstructure:"-,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -117,38 +117,39 @@ type AppCredential struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// The credential data.
+	// The app credential data.
 	Credentials *Credential `json:"credentials" msgpack:"credentials" bson:"-" mapstructure:"credentials,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// The email address that will receive a copy of the application credentials.
+	// The email address that will receive a copy of the app credential.
 	Email string `json:"email" msgpack:"email" bson:"email" mapstructure:"email,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the ID of the parent Appcred if this is a derived appcred.
+	// Contains the ID of the parent app credential if this is a derived app
+	// credential.
 	ParentIDs []string `json:"parentIDs" msgpack:"parentIDs" bson:"parentids" mapstructure:"parentIDs,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// List of roles to give the credentials.
+	// List of roles to give the app credential.
 	Roles []string `json:"roles" msgpack:"roles" bson:"roles" mapstructure:"roles,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -161,8 +162,7 @@ type AppCredential struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -225,7 +225,7 @@ func (o *AppCredential) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *AppCredential) Doc() string {
 
-	return `Create a credential for an application.`
+	return `Create an app credential.`
 }
 
 func (o *AppCredential) String() string {
@@ -735,11 +735,11 @@ var AppCredentialAttributesMap = map[string]elemental.AttributeSpecification{
 	"CSR": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
-		Description: `CSR contains the Certificate Signing Request as a PEM encoded string. It can
+		Description: `Contains a PEM-encoded certificate signing request (CSR). It can
 only be set during a renew.
 
 - The CN **MUST** be ` + "`" + `app:credential:<appcred-id>:<appcred-name>` + "`" + `
-- The O **MUST** be the namespace of the appcred
+- The O **MUST** be the namespace of the app credential
 
 If you send anything else, the signing request will be rejected.`,
 		Exposed: true,
@@ -750,7 +750,7 @@ If you send anything else, the signing request will be rejected.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -763,7 +763,7 @@ If you send anything else, the signing request will be rejected.`,
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -775,7 +775,7 @@ If you send anything else, the signing request will be rejected.`,
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -787,7 +787,7 @@ If you send anything else, the signing request will be rejected.`,
 	"AuthorizedSubnets": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AuthorizedSubnets",
-		Description: `If set, the it will only be valid if the request comes from one
+		Description: `If set, the app credential will only be valid if the request comes from one
 the declared subnets.`,
 		Exposed: true,
 		Name:    "authorizedSubnets",
@@ -798,7 +798,7 @@ the declared subnets.`,
 	"Certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
-		Description:    `The string representation of the Certificate used by the application.`,
+		Description:    `The string representation of the certificate used by the app credential.`,
 		Exposed:        true,
 		Name:           "certificate",
 		ReadOnly:       true,
@@ -808,7 +808,7 @@ the declared subnets.`,
 	"CertificateSN": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateSN",
-		Description:    `Link to the certificate created for this application.`,
+		Description:    `Link to the certificate created for this app credential.`,
 		Name:           "certificateSN",
 		Stored:         true,
 		Type:           "string",
@@ -843,7 +843,7 @@ the declared subnets.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Credentials",
-		Description:    `The credential data.`,
+		Description:    `The app credential data.`,
 		Exposed:        true,
 		Name:           "credentials",
 		Orderable:      true,
@@ -855,7 +855,7 @@ the declared subnets.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -868,7 +868,7 @@ the declared subnets.`,
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -880,7 +880,7 @@ the declared subnets.`,
 	"Email": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Email",
-		Description:    `The email address that will receive a copy of the application credentials.`,
+		Description:    `The email address that will receive a copy of the app credential.`,
 		Exposed:        true,
 		Name:           "email",
 		Orderable:      true,
@@ -891,7 +891,7 @@ the declared subnets.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -906,7 +906,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -938,7 +938,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -953,18 +953,19 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ParentIDs",
-		Description:    `Contains the ID of the parent Appcred if this is a derived appcred.`,
-		Exposed:        true,
-		Name:           "parentIDs",
-		ReadOnly:       true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `Contains the ID of the parent app credential if this is a derived app
+credential.`,
+		Exposed:  true,
+		Name:     "parentIDs",
+		ReadOnly: true,
+		Stored:   true,
+		SubType:  "string",
+		Type:     "list",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -976,7 +977,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Roles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Roles",
-		Description:    `List of roles to give the credentials.`,
+		Description:    `List of roles to give the app credential.`,
 		Exposed:        true,
 		Name:           "roles",
 		Required:       true,
@@ -1027,16 +1028,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1045,11 +1045,11 @@ var AppCredentialLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"csr": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
-		Description: `CSR contains the Certificate Signing Request as a PEM encoded string. It can
+		Description: `Contains a PEM-encoded certificate signing request (CSR). It can
 only be set during a renew.
 
 - The CN **MUST** be ` + "`" + `app:credential:<appcred-id>:<appcred-name>` + "`" + `
-- The O **MUST** be the namespace of the appcred
+- The O **MUST** be the namespace of the app credential
 
 If you send anything else, the signing request will be rejected.`,
 		Exposed: true,
@@ -1060,7 +1060,7 @@ If you send anything else, the signing request will be rejected.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1073,7 +1073,7 @@ If you send anything else, the signing request will be rejected.`,
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1085,7 +1085,7 @@ If you send anything else, the signing request will be rejected.`,
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1097,7 +1097,7 @@ If you send anything else, the signing request will be rejected.`,
 	"authorizedsubnets": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AuthorizedSubnets",
-		Description: `If set, the it will only be valid if the request comes from one
+		Description: `If set, the app credential will only be valid if the request comes from one
 the declared subnets.`,
 		Exposed: true,
 		Name:    "authorizedSubnets",
@@ -1108,7 +1108,7 @@ the declared subnets.`,
 	"certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
-		Description:    `The string representation of the Certificate used by the application.`,
+		Description:    `The string representation of the certificate used by the app credential.`,
 		Exposed:        true,
 		Name:           "certificate",
 		ReadOnly:       true,
@@ -1118,7 +1118,7 @@ the declared subnets.`,
 	"certificatesn": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateSN",
-		Description:    `Link to the certificate created for this application.`,
+		Description:    `Link to the certificate created for this app credential.`,
 		Name:           "certificateSN",
 		Stored:         true,
 		Type:           "string",
@@ -1153,7 +1153,7 @@ the declared subnets.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Credentials",
-		Description:    `The credential data.`,
+		Description:    `The app credential data.`,
 		Exposed:        true,
 		Name:           "credentials",
 		Orderable:      true,
@@ -1165,7 +1165,7 @@ the declared subnets.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1178,7 +1178,7 @@ the declared subnets.`,
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1190,7 +1190,7 @@ the declared subnets.`,
 	"email": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Email",
-		Description:    `The email address that will receive a copy of the application credentials.`,
+		Description:    `The email address that will receive a copy of the app credential.`,
 		Exposed:        true,
 		Name:           "email",
 		Orderable:      true,
@@ -1201,7 +1201,7 @@ the declared subnets.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1216,7 +1216,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1248,7 +1248,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1263,18 +1263,19 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ParentIDs",
-		Description:    `Contains the ID of the parent Appcred if this is a derived appcred.`,
-		Exposed:        true,
-		Name:           "parentIDs",
-		ReadOnly:       true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `Contains the ID of the parent app credential if this is a derived app
+credential.`,
+		Exposed:  true,
+		Name:     "parentIDs",
+		ReadOnly: true,
+		Stored:   true,
+		SubType:  "string",
+		Type:     "list",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1286,7 +1287,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"roles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Roles",
-		Description:    `List of roles to give the credentials.`,
+		Description:    `List of roles to give the app credential.`,
 		Exposed:        true,
 		Name:           "roles",
 		Required:       true,
@@ -1337,16 +1338,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1416,32 +1416,32 @@ func (o SparseAppCredentialsList) Version() int {
 
 // SparseAppCredential represents the sparse version of a appcredential.
 type SparseAppCredential struct {
-	// CSR contains the Certificate Signing Request as a PEM encoded string. It can
+	// Contains a PEM-encoded certificate signing request (CSR). It can
 	// only be set during a renew.
 	//
 	// - The CN **MUST** be `+"`"+`app:credential:<appcred-id>:<appcred-name>`+"`"+`
-	// - The O **MUST** be the namespace of the appcred
+	// - The O **MUST** be the namespace of the app credential
 	//
 	// If you send anything else, the signing request will be rejected.
 	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
 
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// If set, the it will only be valid if the request comes from one
+	// If set, the app credential will only be valid if the request comes from one
 	// the declared subnets.
 	AuthorizedSubnets *[]string `json:"authorizedSubnets,omitempty" msgpack:"authorizedSubnets,omitempty" bson:"authorizedsubnets,omitempty" mapstructure:"authorizedSubnets,omitempty"`
 
-	// The string representation of the Certificate used by the application.
+	// The string representation of the certificate used by the app credential.
 	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
 
-	// Link to the certificate created for this application.
+	// Link to the certificate created for this app credential.
 	CertificateSN *string `json:"-" msgpack:"-" bson:"certificatesn,omitempty" mapstructure:"-,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1450,38 +1450,39 @@ type SparseAppCredential struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// The credential data.
+	// The app credential data.
 	Credentials *Credential `json:"credentials,omitempty" msgpack:"credentials,omitempty" bson:"-" mapstructure:"credentials,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// The email address that will receive a copy of the application credentials.
+	// The email address that will receive a copy of the app credential.
 	Email *string `json:"email,omitempty" msgpack:"email,omitempty" bson:"email,omitempty" mapstructure:"email,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the ID of the parent Appcred if this is a derived appcred.
+	// Contains the ID of the parent app credential if this is a derived app
+	// credential.
 	ParentIDs *[]string `json:"parentIDs,omitempty" msgpack:"parentIDs,omitempty" bson:"parentids,omitempty" mapstructure:"parentIDs,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// List of roles to give the credentials.
+	// List of roles to give the app credential.
 	Roles *[]string `json:"roles,omitempty" msgpack:"roles,omitempty" bson:"roles,omitempty" mapstructure:"roles,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1494,8 +1495,7 @@ type SparseAppCredential struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

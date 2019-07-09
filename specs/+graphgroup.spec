@@ -22,7 +22,7 @@ attributes:
     exposed: true
 
   - name: match
-    description: List of tag that was used to create this group.
+    description: List of tags that were used to create this group.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -33,6 +33,6 @@ attributes:
     exposed: true
 
   - name: parentID
-    description: ID of the parent group if any.
+    description: ID of the parent group, if any.
     type: string
     exposed: true

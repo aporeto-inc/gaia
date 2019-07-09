@@ -5,14 +5,14 @@ model:
   entity_name: RecipeOptions
   package: ignis
   group: recipes
-  description: Represents a Recipe Options.
+  description: Represents recipe options.
   detached: true
 
 # Attributes
 attributes:
   v1:
   - name: appCrendentialFormat
-    description: AppCrendentialFormat indicates the format of the AppCredential.
+    description: Indicates the format of the app credential.
     type: enum
     exposed: true
     stored: true

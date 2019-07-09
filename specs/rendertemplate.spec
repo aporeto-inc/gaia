@@ -5,7 +5,7 @@ model:
   entity_name: RenderTemplate
   package: ignis
   group: workflow
-  description: A RenderTemplate cooks a template based some parameters.
+  description: Cooks a template based some parameters.
   aliases:
   - cook
   - rtpl
@@ -14,12 +14,12 @@ model:
 attributes:
   v1:
   - name: output
-    description: Output holds the rendered template.
+    description: Holds the rendered template.
     type: string
     exposed: true
 
   - name: parameters
-    description: Parameters contains the computed parameters.
+    description: Contains the computed parameters.
     type: external
     exposed: true
     subtype: map[string]interface{}

@@ -83,24 +83,24 @@ func (o SSHAuthorizationPoliciesList) Version() int {
 
 // SSHAuthorizationPolicy represents the model of a sshauthorizationpolicy
 type SSHAuthorizationPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `+"`"+`activeSchedule`+"`"+`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// If set, the api authorization will only be valid if the request comes from one
+	// If set, the SSH authorization will only be valid if the request comes from one
 	// the declared subnets.
 	AuthorizedSubnets []string `json:"authorizedSubnets" msgpack:"authorizedSubnets" bson:"-" mapstructure:"authorizedSubnets,omitempty"`
 
@@ -110,60 +110,64 @@ type SSHAuthorizationPolicy struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the SSH authorization will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
-	// The list of SSH permissions to apply to SSH certificate. You can check the list
-	// of standard extensions at
-	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
+	// The list of permissions to apply to the OpenSSH certificate. You can check the list of
+	// standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
 	Extensions []string `json:"extensions" msgpack:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// If set, this will configure the `+"`"+`force-command`+"`"+` option in the SSH Certificate.
-	// More info can be found at
-	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L249>.
+	// Specify a single command that the user can issue on the remote host. This can be useful
+	// for issuing single-purpose certificates; ensuring that users stay in their home directories
+	// (`+"`"+`internal-sftp`+"`"+`); and restricting users to a bash shell (`+"`"+`/bin/bash`+"`"+`), preventing them
+	// from running arbitrary and unlogged commands such as `+"`"+`scp`+"`"+`, `+"`"+`rsync`+"`"+`, `+"`"+`-essh`+"`"+`, and `+"`"+`sftp`+"`"+`.
+	// Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
+	// for more information.
 	ForceCommand string `json:"forceCommand" msgpack:"forceCommand" bson:"-" mapstructure:"forceCommand,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object contains the tag expression matching the enforcers the subject is allowed
-	// to connect to.
+	// Contains the tag expression identifying the enforcers on the hosts the `+"`"+`subject`+"`"+` is
+	// allowed to access.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
-	// You can set some principals that will be applied to delivered certificate. If
-	// not
-	// set, the user's claim Subject will be used.
+	// On systems without the Aporeto enforcer, you must provide the name of the Linux user.
+	// Otherwise, Aporeto will automatically populate this field and adding a value here is
+	// optional and not used during the authorization. However, the value becomes a tag
+	// associated with the SSH processing unit, which could be useful.
 	Principals []string `json:"principals" msgpack:"principals" bson:"-" mapstructure:"principals,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject contains the tag expression the authentication claims need to match for
-	// the policy to apply.
+	// Contains the tag expression that identifies the user or group of users that should be
+	// allowed to access the remote hosts. If the user authenticates against an OIDC provider,
+	// these tags correspond to claims in the ID token.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -238,11 +242,11 @@ func (o *SSHAuthorizationPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *SSHAuthorizationPolicy) Doc() string {
 
-	return `An SSHAuthorizationPolicy allows to define the permissions for the owner
-of a SSH Identity Certificate. You can define if a user with some claims
-can connect to an sshd server managed by an instance of enforcerd according
-to its tags, what permissions he has and for how long delivered
-certificates are valid.`
+	return `An SSH authorization allows you to define the permissions for the owner
+of a OpenSSH certificate issued by an Aporeto certificate authority. You can 
+define if a user with some claims can connect to an ` + "`" + `sshd` + "`" + ` server managed by 
+an instance of ` + "`" + `enforcerd` + "`" + ` according to its tags, what permissions he has and 
+for how long delivered certificates are valid.`
 }
 
 func (o *SSHAuthorizationPolicy) String() string {
@@ -817,7 +821,7 @@ var SSHAuthorizationPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -830,8 +834,8 @@ var SSHAuthorizationPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -842,8 +846,8 @@ activeSchedule.`,
 	"ActiveSchedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -854,7 +858,7 @@ The policy will be active for the given activeDuration.`,
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -866,7 +870,7 @@ The policy will be active for the given activeDuration.`,
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -878,7 +882,7 @@ The policy will be active for the given activeDuration.`,
 	"AuthorizedSubnets": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AuthorizedSubnets",
-		Description: `If set, the api authorization will only be valid if the request comes from one
+		Description: `If set, the SSH authorization will only be valid if the request comes from one
 the declared subnets.`,
 		Exposed: true,
 		Name:    "authorizedSubnets",
@@ -914,7 +918,7 @@ the declared subnets.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -927,7 +931,7 @@ the declared subnets.`,
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -939,7 +943,7 @@ the declared subnets.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the SSH authorization will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -950,9 +954,8 @@ the declared subnets.`,
 	"Extensions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
-		Description: `The list of SSH permissions to apply to SSH certificate. You can check the list
-of standard extensions at
-<https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
+		Description: `The list of permissions to apply to the OpenSSH certificate. You can check the list of 
+standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
 		Exposed: true,
 		Name:    "extensions",
 		SubType: "string",
@@ -961,7 +964,7 @@ of standard extensions at
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -975,9 +978,12 @@ propagated it will become a fallback for children namespaces.`,
 	"ForceCommand": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ForceCommand",
-		Description: `If set, this will configure the ` + "`" + `force-command` + "`" + ` option in the SSH Certificate.
-More info can be found at
-<https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L249>.`,
+		Description: `Specify a single command that the user can issue on the remote host. This can be useful 
+for issuing single-purpose certificates; ensuring that users stay in their home directories 
+(` + "`" + `internal-sftp` + "`" + `); and restricting users to a bash shell (` + "`" + `/bin/bash` + "`" + `), preventing them 
+from running arbitrary and unlogged commands such as ` + "`" + `scp` + "`" + `, ` + "`" + `rsync` + "`" + `, ` + "`" + `-essh` + "`" + `, and ` + "`" + `sftp` + "`" + `. 
+Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5)) 
+for more information.`,
 		Exposed: true,
 		Name:    "forceCommand",
 		Type:    "string",
@@ -986,7 +992,7 @@ More info can be found at
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1001,7 +1007,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1033,7 +1039,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1047,8 +1053,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object contains the tag expression matching the enforcers the subject is allowed
-to connect to.`,
+		Description: `Contains the tag expression identifying the enforcers on the hosts the ` + "`" + `subject` + "`" + ` is 
+allowed to access.`,
 		Exposed:   true,
 		Name:      "object",
 		Orderable: true,
@@ -1058,9 +1064,10 @@ to connect to.`,
 	"Principals": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Principals",
-		Description: `You can set some principals that will be applied to delivered certificate. If
-not
-set, the user's claim Subject will be used.`,
+		Description: `On systems without the Aporeto enforcer, you must provide the name of the Linux user. 
+Otherwise, Aporeto will automatically populate this field and adding a value here is 
+optional and not used during the authorization. However, the value becomes a tag 
+associated with the SSH processing unit, which could be useful.`,
 		Exposed: true,
 		Name:    "principals",
 		SubType: "string",
@@ -1069,7 +1076,7 @@ set, the user's claim Subject will be used.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1081,7 +1088,7 @@ set, the user's claim Subject will be used.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1093,8 +1100,9 @@ set, the user's claim Subject will be used.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject contains the tag expression the authentication claims need to match for
-the policy to apply.`,
+		Description: `Contains the tag expression that identifies the user or group of users that should be 
+allowed to access the remote hosts. If the user authenticates against an OIDC provider, 
+these tags correspond to claims in the ID token.`,
 		Exposed:   true,
 		Name:      "subject",
 		Orderable: true,
@@ -1144,7 +1152,7 @@ var SSHAuthorizationPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1157,8 +1165,8 @@ var SSHAuthorizationPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -1169,8 +1177,8 @@ activeSchedule.`,
 	"activeschedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -1181,7 +1189,7 @@ The policy will be active for the given activeDuration.`,
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1193,7 +1201,7 @@ The policy will be active for the given activeDuration.`,
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1205,7 +1213,7 @@ The policy will be active for the given activeDuration.`,
 	"authorizedsubnets": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AuthorizedSubnets",
-		Description: `If set, the api authorization will only be valid if the request comes from one
+		Description: `If set, the SSH authorization will only be valid if the request comes from one
 the declared subnets.`,
 		Exposed: true,
 		Name:    "authorizedSubnets",
@@ -1241,7 +1249,7 @@ the declared subnets.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1254,7 +1262,7 @@ the declared subnets.`,
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1266,7 +1274,7 @@ the declared subnets.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the SSH authorization will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1277,9 +1285,8 @@ the declared subnets.`,
 	"extensions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
-		Description: `The list of SSH permissions to apply to SSH certificate. You can check the list
-of standard extensions at
-<https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
+		Description: `The list of permissions to apply to the OpenSSH certificate. You can check the list of 
+standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
 		Exposed: true,
 		Name:    "extensions",
 		SubType: "string",
@@ -1288,7 +1295,7 @@ of standard extensions at
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -1302,9 +1309,12 @@ propagated it will become a fallback for children namespaces.`,
 	"forcecommand": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ForceCommand",
-		Description: `If set, this will configure the ` + "`" + `force-command` + "`" + ` option in the SSH Certificate.
-More info can be found at
-<https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L249>.`,
+		Description: `Specify a single command that the user can issue on the remote host. This can be useful 
+for issuing single-purpose certificates; ensuring that users stay in their home directories 
+(` + "`" + `internal-sftp` + "`" + `); and restricting users to a bash shell (` + "`" + `/bin/bash` + "`" + `), preventing them 
+from running arbitrary and unlogged commands such as ` + "`" + `scp` + "`" + `, ` + "`" + `rsync` + "`" + `, ` + "`" + `-essh` + "`" + `, and ` + "`" + `sftp` + "`" + `. 
+Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5)) 
+for more information.`,
 		Exposed: true,
 		Name:    "forceCommand",
 		Type:    "string",
@@ -1313,7 +1323,7 @@ More info can be found at
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1328,7 +1338,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1360,7 +1370,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1374,8 +1384,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object contains the tag expression matching the enforcers the subject is allowed
-to connect to.`,
+		Description: `Contains the tag expression identifying the enforcers on the hosts the ` + "`" + `subject` + "`" + ` is 
+allowed to access.`,
 		Exposed:   true,
 		Name:      "object",
 		Orderable: true,
@@ -1385,9 +1395,10 @@ to connect to.`,
 	"principals": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Principals",
-		Description: `You can set some principals that will be applied to delivered certificate. If
-not
-set, the user's claim Subject will be used.`,
+		Description: `On systems without the Aporeto enforcer, you must provide the name of the Linux user. 
+Otherwise, Aporeto will automatically populate this field and adding a value here is 
+optional and not used during the authorization. However, the value becomes a tag 
+associated with the SSH processing unit, which could be useful.`,
 		Exposed: true,
 		Name:    "principals",
 		SubType: "string",
@@ -1396,7 +1407,7 @@ set, the user's claim Subject will be used.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1408,7 +1419,7 @@ set, the user's claim Subject will be used.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1420,8 +1431,9 @@ set, the user's claim Subject will be used.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject contains the tag expression the authentication claims need to match for
-the policy to apply.`,
+		Description: `Contains the tag expression that identifies the user or group of users that should be 
+allowed to access the remote hosts. If the user authenticates against an OIDC provider, 
+these tags correspond to claims in the ID token.`,
 		Exposed:   true,
 		Name:      "subject",
 		Orderable: true,
@@ -1531,24 +1543,24 @@ func (o SparseSSHAuthorizationPoliciesList) Version() int {
 
 // SparseSSHAuthorizationPolicy represents the sparse version of a sshauthorizationpolicy.
 type SparseSSHAuthorizationPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `+"`"+`activeSchedule`+"`"+`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// If set, the api authorization will only be valid if the request comes from one
+	// If set, the SSH authorization will only be valid if the request comes from one
 	// the declared subnets.
 	AuthorizedSubnets *[]string `json:"authorizedSubnets,omitempty" msgpack:"authorizedSubnets,omitempty" bson:"-" mapstructure:"authorizedSubnets,omitempty"`
 
@@ -1558,60 +1570,64 @@ type SparseSSHAuthorizationPolicy struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the SSH authorization will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
-	// The list of SSH permissions to apply to SSH certificate. You can check the list
-	// of standard extensions at
-	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
+	// The list of permissions to apply to the OpenSSH certificate. You can check the list of
+	// standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
 	Extensions *[]string `json:"extensions,omitempty" msgpack:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// If set, this will configure the `+"`"+`force-command`+"`"+` option in the SSH Certificate.
-	// More info can be found at
-	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L249>.
+	// Specify a single command that the user can issue on the remote host. This can be useful
+	// for issuing single-purpose certificates; ensuring that users stay in their home directories
+	// (`+"`"+`internal-sftp`+"`"+`); and restricting users to a bash shell (`+"`"+`/bin/bash`+"`"+`), preventing them
+	// from running arbitrary and unlogged commands such as `+"`"+`scp`+"`"+`, `+"`"+`rsync`+"`"+`, `+"`"+`-essh`+"`"+`, and `+"`"+`sftp`+"`"+`.
+	// Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
+	// for more information.
 	ForceCommand *string `json:"forceCommand,omitempty" msgpack:"forceCommand,omitempty" bson:"-" mapstructure:"forceCommand,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Object contains the tag expression matching the enforcers the subject is allowed
-	// to connect to.
+	// Contains the tag expression identifying the enforcers on the hosts the `+"`"+`subject`+"`"+` is
+	// allowed to access.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
-	// You can set some principals that will be applied to delivered certificate. If
-	// not
-	// set, the user's claim Subject will be used.
+	// On systems without the Aporeto enforcer, you must provide the name of the Linux user.
+	// Otherwise, Aporeto will automatically populate this field and adding a value here is
+	// optional and not used during the authorization. However, the value becomes a tag
+	// associated with the SSH processing unit, which could be useful.
 	Principals *[]string `json:"principals,omitempty" msgpack:"principals,omitempty" bson:"-" mapstructure:"principals,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject contains the tag expression the authentication claims need to match for
-	// the policy to apply.
+	// Contains the tag expression that identifies the user or group of users that should be
+	// allowed to access the remote hosts. If the user authenticates against an OIDC provider,
+	// these tags correspond to claims in the ID token.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

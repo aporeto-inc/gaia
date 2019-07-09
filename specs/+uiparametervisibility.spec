@@ -5,7 +5,7 @@ model:
   entity_name: UIParameterVisibility
   package: ignis
   group: core/workflow
-  description: Represent a visibility condition for a uiparameter.
+  description: Represents a visibility condition for a [UIParameter](#uiparameter).
   detached: true
 
 # Attributes

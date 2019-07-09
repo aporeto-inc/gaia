@@ -6,10 +6,10 @@ model:
   package: hojo
   group: core/monitoring
   description: |-
-    Contains all the activity log that happened in a namespace. All successful or
-    failed actions will be available, and eventual errors as well as the claims of
-    the user who triggered the actiions. This log is capped and only keeps the last
-    50k entries by default.
+    Contains logs of all the activity that happened in a namespace. All successful or
+    failed actions will be available, errors, as well as the claims of
+    the user who triggered the actions. This log is capped and only keeps the last
+    50,000 entries by default.
   get:
     description: Retrieves the object with the given ID.
   extends:
@@ -54,7 +54,7 @@ attributes:
     orderable: true
 
   - name: date
-    description: Date of the notification.
+    description: Time-date stamp of the notification.
     type: time
     exposed: true
     stored: true
@@ -63,7 +63,7 @@ attributes:
     orderable: true
 
   - name: error
-    description: Error contains the eventual error.
+    description: Contains the error.
     type: object
     exposed: true
     stored: true
@@ -79,7 +79,7 @@ attributes:
     orderable: true
 
   - name: operation
-    description: Operation describe what kind of operation the notification represents.
+    description: Describes what kind of operation the notification represents.
     type: string
     exposed: true
     stored: true
@@ -88,9 +88,7 @@ attributes:
     filterable: true
 
   - name: originalData
-    description: |-
-      OriginalData contains the eventual original data of the object that has been
-      modified.
+    description: Contains the original data of the object that was modified.
     type: object
     exposed: true
     stored: true
@@ -99,7 +97,7 @@ attributes:
     orderable: true
 
   - name: source
-    description: Source contains meta information about the source.
+    description: Contains meta information about the source.
     type: string
     exposed: true
     stored: true
@@ -109,7 +107,7 @@ attributes:
     orderable: true
 
   - name: targetIdentity
-    description: TargetIdentity is the Identity of the related object.
+    description: The identity of the related object.
     type: string
     exposed: true
     stored: true

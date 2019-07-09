@@ -18,7 +18,7 @@ attributes:
     stored: true
 
   - name: allowedScopes
-    description: AllowedScopes authorized to access the API.
+    description: The scopes authorized to access the API.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -26,7 +26,7 @@ attributes:
     orderable: true
 
   - name: methods
-    description: methods exposed to access the API.
+    description: Methods exposed to access the API.
     type: list
     exposed: true
     subtype: string
@@ -35,13 +35,13 @@ attributes:
     - $httpMethods
 
   - name: public
-    description: public defines if the api is public or not.
+    description: If `true`, the API is public.
     type: boolean
     exposed: true
     stored: true
 
   - name: scopes
-    description: Scopes is deprecated.
+    description: Use `allowedScopes`.
     type: list
     exposed: true
     subtype: string

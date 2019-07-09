@@ -9,7 +9,7 @@ attributes:
   v1:
   - name: fallback
     description: |-
-      Fallback indicates that this is fallback policy. It will only be
+      Indicates that this is fallback policy. It will only be
       applied if no other policies have been resolved. If the policy is also
       propagated it will become a fallback for children namespaces.
     type: boolean

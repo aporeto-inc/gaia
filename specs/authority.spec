@@ -25,7 +25,7 @@ indexes:
 attributes:
   v1:
   - name: algorithm
-    description: Algorithm defines the the signing algorithm to be used.
+    description: Algorithm defines the signing algorithm to be used.
     type: enum
     exposed: true
     stored: true

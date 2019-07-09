@@ -11,7 +11,7 @@ model:
 attributes:
   v1:
   - name: data
-    description: The data to import.
+    description: Data to import.
     type: ref
     exposed: true
     subtype: export
@@ -50,8 +50,9 @@ attributes:
 
   - name: mode
     description: |-
-      How to import the data. ReplacePartial is deprecated and should be Import. Right
-      now the API considers both equivalent.
+      How to import the data: `ReplacePartial`, `Import` (default), or `Remove`. `ReplacePartial` 
+      is deprecated. Use `Import` instead. While you can use `ReplacePartial` it will be interpreted 
+      as `Import`.
     type: enum
     exposed: true
     allowed_choices:

@@ -83,16 +83,16 @@ func (o ExternalNetworksList) Version() int {
 
 // ExternalNetwork represents the model of a externalnetwork
 type ExternalNetwork struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
+	// Defines if the object is archived.
 	Archived bool `json:"-" msgpack:"-" bson:"archived" mapstructure:"-,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -101,35 +101,35 @@ type ExternalNetwork struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// List of CIDRs or domain name.
 	Entries []string `json:"entries" msgpack:"entries" bson:"entries" mapstructure:"entries,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// List of single ports or range (xx:yy).
 	Ports []string `json:"ports" msgpack:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// List of protocols (tcp, udp, or protocol number).
+	// List of protocols (`+"`"+`tcp`+"`"+`, `+"`"+`udp`+"`"+`, or protocol number).
 	Protocols []string `json:"protocols" msgpack:"protocols" bson:"protocols" mapstructure:"protocols,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -142,8 +142,7 @@ type ExternalNetwork struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -210,12 +209,13 @@ func (o *ExternalNetwork) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ExternalNetwork) Doc() string {
 
-	return `An External Network represents a random network or ip that is not managed by the
-system. They can be used in Network Access Policies in order to allow traffic
-from or to the declared network or IP, using the provided protocol and port or
-ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0
-as address, and 1-65000 for the ports. You will need to use the External
-Services tags to set some policies.`
+	return `An external network represents a random network or IP address that is not 
+managed by Aporeto. External networks can be used in network policies to 
+allow traffic from or to the declared network or IP, using the provided 
+protocol and port (or range of ports). If you want to describe the internet 
+(i.e., anywhere), use ` + "`" + `0.0.0.0/0` + "`" + ` as the address and ` + "`" + `1-65000` + "`" + ` for the ports. 
+You must assign the external network one or more tags. These allow you to
+reference the external network from your network policies.`
 }
 
 func (o *ExternalNetwork) String() string {
@@ -710,7 +710,7 @@ var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -723,7 +723,7 @@ var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -735,7 +735,7 @@ var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 	"Archived": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
+		Description:    `Defines if the object is archived.`,
 		Getter:         true,
 		Name:           "archived",
 		Setter:         true,
@@ -745,7 +745,7 @@ var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -783,7 +783,7 @@ var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -807,7 +807,7 @@ var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -822,7 +822,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -854,7 +854,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -881,7 +881,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -893,7 +893,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -908,7 +908,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		DefaultValue: []string{
 			"tcp",
 		},
-		Description: `List of protocols (tcp, udp, or protocol number).`,
+		Description: `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
 		Exposed:     true,
 		Name:        "protocols",
 		Stored:      true,
@@ -958,16 +958,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -977,7 +976,7 @@ var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -990,7 +989,7 @@ var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1002,7 +1001,7 @@ var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"archived": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
+		Description:    `Defines if the object is archived.`,
 		Getter:         true,
 		Name:           "archived",
 		Setter:         true,
@@ -1012,7 +1011,7 @@ var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1050,7 +1049,7 @@ var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1074,7 +1073,7 @@ var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1089,7 +1088,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1121,7 +1120,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1148,7 +1147,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1160,7 +1159,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1175,7 +1174,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		DefaultValue: []string{
 			"tcp",
 		},
-		Description: `List of protocols (tcp, udp, or protocol number).`,
+		Description: `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
 		Exposed:     true,
 		Name:        "protocols",
 		Stored:      true,
@@ -1225,16 +1224,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1304,16 +1302,16 @@ func (o SparseExternalNetworksList) Version() int {
 
 // SparseExternalNetwork represents the sparse version of a externalnetwork.
 type SparseExternalNetwork struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
+	// Defines if the object is archived.
 	Archived *bool `json:"-" msgpack:"-" bson:"archived,omitempty" mapstructure:"-,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1322,35 +1320,35 @@ type SparseExternalNetwork struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// List of CIDRs or domain name.
 	Entries *[]string `json:"entries,omitempty" msgpack:"entries,omitempty" bson:"entries,omitempty" mapstructure:"entries,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// List of single ports or range (xx:yy).
 	Ports *[]string `json:"ports,omitempty" msgpack:"ports,omitempty" bson:"ports,omitempty" mapstructure:"ports,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// List of protocols (tcp, udp, or protocol number).
+	// List of protocols (`+"`"+`tcp`+"`"+`, `+"`"+`udp`+"`"+`, or protocol number).
 	Protocols *[]string `json:"protocols,omitempty" msgpack:"protocols,omitempty" bson:"protocols,omitempty" mapstructure:"protocols,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1363,8 +1361,7 @@ type SparseExternalNetwork struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

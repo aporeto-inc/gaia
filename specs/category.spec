@@ -5,7 +5,7 @@ model:
   entity_name: Category
   package: highwind
   group: integration/app
-  description: Category allows to categorized services.
+  description: Allows you to categorize services.
   extends:
   - '@identifiable-stored'
   - '@named'

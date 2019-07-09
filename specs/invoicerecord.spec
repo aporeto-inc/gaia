@@ -5,7 +5,7 @@ model:
   entity_name: InvoiceRecord
   package: bill
   group: core/billing
-  description: This api allows to view detailed records of invoices for Aporeto customers.
+  description: Provides detailed records of invoices for Aporeto customers.
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -22,7 +22,7 @@ model:
 attributes:
   v1:
   - name: ID
-    description: ID is the id of this invoice record.
+    description: The ID of the invoice record.
     type: string
     exposed: true
     stored: true
@@ -30,15 +30,14 @@ attributes:
 
   - name: invoiceID
     description: |-
-      InvoiceID references the id of the invoice that this invoice record provides
-      details for.
+      The ID of the invoice associated with the invoice record.
     type: string
     exposed: true
     stored: true
     orderable: true
 
   - name: invoiceRecords
-    description: InvoiceRecords provides details about billing units.
+    description: Details about billing units.
     type: list
     exposed: true
     subtype: string

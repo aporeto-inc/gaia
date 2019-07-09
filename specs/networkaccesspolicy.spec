@@ -6,20 +6,20 @@ model:
   package: squall
   group: policy/networking
   description: |-
-    Allows to define networking policies to allow or prevent processing units
-    identitied by their tags to talk to other processing units or external services
+    Allows you to define network policies to allow or prevent processing units
+    identified by their tags to talk to other processing units or external networks
     (also identified by their tags).
   aliases:
   - netpol
   - netpols
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the policy with the given ID.
     global_parameters:
     - $propagatable
   update:
-    description: Updates the object with the given ID.
+    description: Updates the policy with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the policy with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -45,7 +45,14 @@ indexes:
 attributes:
   v1:
   - name: action
-    description: Action defines the action to apply to a flow.
+    description: |-
+      Defines the action to apply to a flow.
+
+      - `Allow`: allows the defined traffic.
+      - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
+      policy.
+      - `Continue`: neither allows or rejects the traffic; useful for applying another
+      property to the traffic, such as encryption.
     type: enum
     exposed: true
     allowed_choices:
@@ -57,9 +64,22 @@ attributes:
 
   - name: applyPolicyMode
     description: |-
-      applyPolicyMode determines if the policy has to be applied to the
-      outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-      Default is both directions.
+      Sets three different types of policies. `IncomingTraffic`: applies the policy to
+      all
+      processing units that match the `object` and allows them to *accept* connections
+      from
+      processing units or external networks that match the `subject`.
+      `OutgoingTraffic`: applies
+      the policy to all processing units that match the `subject` and allows them to
+      *initiate*
+      connections with processing units or external networks that match the `object`.
+      `Bidirectional` (default): applies the policy to all processing units that match
+      the `object`
+      and allows them to *accept* connections from processing units that match the
+      `subject`.
+      Also applies the policy to all processing units that match the `subject` and
+      allows them
+      to *initiate* connections with processing units that match the `object`.
     type: enum
     exposed: true
     allowed_choices:
@@ -70,13 +90,13 @@ attributes:
     orderable: true
 
   - name: encryptionEnabled
-    description: EncryptionEnabled defines if the flow has to be encrypted.
+    description: Defines if the flow has to be encrypted.
     type: boolean
     exposed: true
     orderable: true
 
   - name: expirationTime
-    description: If set the policy will be auto deleted after the given time.
+    description: If set the policy will be automatically deleted after the given time.
     type: time
     exposed: true
     stored: true
@@ -84,13 +104,18 @@ attributes:
     setter: true
 
   - name: logsEnabled
-    description: LogsEnabled defines if the flow has to be logged.
+    description: |-
+      If `true`, the relevant flows are logged and available from the Aporeto control
+      plane.
+      Under some advanced scenarios you may wish to set this to `false`, such as to
+      save space or
+      improve performance.
     type: boolean
     exposed: true
     orderable: true
 
   - name: object
-    description: Object of the policy.
+    description: A tag or tag expression identifying the object of the policy.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -99,15 +124,15 @@ attributes:
     - $tagsExpression
 
   - name: observationEnabled
-    description: If set to true, the flow will be in observation mode.
+    description: If set to `true`, the flow will be in observation mode.
     type: boolean
     exposed: true
     orderable: true
 
   - name: observedTrafficAction
     description: |-
-      If observationEnabled is set to true, this will be the final action taken on the
-      packets.
+      If `observationEnabled` is set to `true`, this defines the final action taken
+      on the packets: `Apply` or `Continue` (default).
     type: enum
     exposed: true
     allowed_choices:
@@ -126,7 +151,7 @@ attributes:
     - $protoports
 
   - name: subject
-    description: Subject of the policy.
+    description: A tag or tag expression identifying the subject of the policy.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -138,8 +163,7 @@ attributes:
 relations:
 - rest_name: externalnetwork
   get:
-    description: Returns the list of external networks affected by a network access
-      policy.
+    description: Returns the list of external networks affected by a network policy.
     parameters:
       entries:
       - name: mode
@@ -152,8 +176,7 @@ relations:
 
 - rest_name: processingunit
   get:
-    description: Returns the list of Processing Units affected by a network access
-      policy.
+    description: Returns the list of processing units affected by a network policy.
     parameters:
       entries:
       - name: mode
@@ -166,7 +189,7 @@ relations:
 
 - rest_name: service
   get:
-    description: Returns the list of services affected by a network access policy.
+    description: Returns the list of services affected by a network policy.
     parameters:
       entries:
       - name: mode

@@ -37,11 +37,11 @@ relations:
         type: string
         example_value: status
   create:
-    description: Creates a new Account.
+    description: Creates a new account.
 
 - rest_name: accountcheck
   create:
-    description: Verifies an account credentials.
+    description: Verifies account credentials.
 
 - rest_name: activate
   get:
@@ -51,7 +51,7 @@ relations:
       - - - token
       entries:
       - name: noRedirect
-        description: If set, do not redirect the request to the UI.
+        description: If set, do not redirect the request to the web interface.
         type: boolean
 
       - name: token
@@ -75,12 +75,12 @@ relations:
 
 - rest_name: apiauthorizationpolicy
   get:
-    description: Retrieves the list of API authorization policies.
+    description: Retrieves the list of API authorizations.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new API authorization policies.
+    description: Creates a new API authorization.
 
 - rest_name: apicheck
   create:
@@ -94,11 +94,11 @@ relations:
 
 - rest_name: appcredential
   get:
-    description: Retrieves the list of application credentials.
+    description: Retrieves the list of app credentials.
     global_parameters:
     - $filtering
   create:
-    description: Creates a new application credential.
+    description: Creates a new app credential.
 
 - rest_name: auditprofile
   get:
@@ -140,7 +140,7 @@ relations:
 
 - rest_name: automation
   get:
-    description: Retrieves the list of Automations.
+    description: Retrieves the list of automations.
     global_parameters:
     - $filtering
   create:
@@ -152,7 +152,7 @@ relations:
 
 - rest_name: awsaccount
   get:
-    description: Retrieves the list of aws account bindings.
+    description: Retrieves the list of AWS account bindings.
     global_parameters:
     - $filtering
     parameters:
@@ -162,19 +162,19 @@ relations:
         type: string
         example_value: xxx-xxx-xxx-xxx
   create:
-    description: Creates a new aws account binding.
+    description: Creates a new AWS account binding.
 
 - rest_name: awsapigateway
   get:
-    description: create an AWS API Gateway.
+    description: create an AWS API gateway.
     global_parameters:
     - $filtering
   create:
-    description: Manages the AWS API Gateway.
+    description: Manages the AWS API gateway.
 
 - rest_name: awsregister
   create:
-    description: Creates a new aws registration for billing.
+    description: Creates a new AWS registration for billing.
 
 - rest_name: claims
   get:
@@ -186,11 +186,11 @@ relations:
 
 - rest_name: datapathcertificate
   create:
-    description: Creates a new Certificate for datapath.
+    description: Creates a new certificate for datapath.
 
 - rest_name: dependencymap
   get:
-    description: Retrieves the dependencymap of a namespace.
+    description: Retrieves the dependency map of a namespace.
     global_parameters:
     - $timewindow
     - $flowoffset
@@ -234,12 +234,12 @@ relations:
 
 - rest_name: enforcerprofilemappingpolicy
   get:
-    description: Retrieves the list of enforcer profile mapping policies.
+    description: Retrieves the list of enforcer profile mappings.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new enforcer profile mapping policies.
+    description: Creates a new enforcer profile mappings.
 
 - rest_name: enforcerreport
   create:
@@ -251,11 +251,11 @@ relations:
 
 - rest_name: eventlog
   create:
-    description: Creates a new eventlog for a particular entity.
+    description: Creates a new event log for a particular entity.
 
 - rest_name: export
   create:
-    description: Exports all policies and related object of a namespace.
+    description: Exports all policies and related objects of a namespace.
     parameters:
       entries:
       - name: ignoredTags
@@ -266,7 +266,7 @@ relations:
 
 - rest_name: externalnetwork
   get:
-    description: Retrieves the list of external network.
+    description: Retrieves the list of external networks.
     global_parameters:
     - $filtering
     - $archivable
@@ -289,7 +289,7 @@ relations:
 
 - rest_name: filepath
   get:
-    description: Retrieves the list of file path.
+    description: Retrieves the list of file paths.
     global_parameters:
     - $filtering
     - $archivable
@@ -303,12 +303,12 @@ relations:
 
 - rest_name: hookpolicy
   get:
-    description: Retrieves the list of hook policies.
+    description: Retrieves the list of hooks.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new hook policy.
+    description: Creates a new hook.
 
 - rest_name: hostservice
   get:
@@ -322,22 +322,22 @@ relations:
 
 - rest_name: hostservicemappingpolicy
   get:
-    description: Retrieves the list of host service mapping policies.
+    description: Retrieves the list of host service mappings.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new host service mapping policy.
+    description: Creates a new host service mapping.
 
 - rest_name: httpresourcespec
   get:
-    description: Retrieves the list of HTTP Resource specifications.
+    description: Retrieves the list of HTTP resource specifications.
     global_parameters:
     - $filtering
     - $propagatable
     - $archivable
   create:
-    description: Creates a new HTTP Resource specification.
+    description: Creates a new HTTP resource specification.
 
 - rest_name: import
   create:
@@ -455,20 +455,20 @@ relations:
 
 - rest_name: namespacemappingpolicy
   get:
-    description: Retrieves the list namespace mapping policies.
+    description: Retrieves the list namespace mappings.
     global_parameters:
     - $filtering
   create:
-    description: Creates a new namespace mapping policy.
+    description: Creates a new namespace mapping.
 
 - rest_name: networkaccesspolicy
   get:
-    description: Retrieves the list of network access policies.
+    description: Retrieves the list of network policies.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new network access policy.
+    description: Creates a new network policy.
 
 - rest_name: oidcprovider
   get:
@@ -559,12 +559,12 @@ relations:
 
 - rest_name: quotapolicy
   get:
-    description: Retrieves the list of quota policies.
+    description: Retrieves the list of quotas.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new quota policy.
+    description: Creates a new quota.
 
 - rest_name: recipe
   get:
@@ -624,12 +624,12 @@ relations:
 
 - rest_name: service
   get:
-    description: Retrieves the list of Services.
+    description: Retrieves the list of services.
     global_parameters:
     - $filtering
     - $archivable
   create:
-    description: Creates a new Service.
+    description: Creates a new service.
 
 - rest_name: servicedependency
   get:
@@ -658,26 +658,26 @@ relations:
 
 - rest_name: sshauthority
   create:
-    description: Creates a new SSH CA.
+    description: Creates a new SSH certificate authority.
   delete:
-    description: Deletes an existing SSH CA.
+    description: Deletes an existing SSH certificate authority.
 
 - rest_name: sshauthorizationpolicy
   get:
-    description: Retrieves the list of SSH authorization policies.
+    description: Retrieves the list of SSH authorizations.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new SSH authorization policies.
+    description: Creates a new SSH authorizations.
 
 - rest_name: sshcertificate
   create:
-    description: Creates a new SSH Certificate.
+    description: Creates a new SSH certificate.
 
 - rest_name: sshidentity
   create:
-    description: Creates a new SSH Identity Certificate.
+    description: Creates a new SSH certificate.
 
 - rest_name: statsinfo
   create:
@@ -692,7 +692,7 @@ relations:
 
 - rest_name: suggestedpolicy
   get:
-    description: Retrieves a list of network policy suggestion.
+    description: Retrieves a list of network policy suggestions.
     global_parameters:
     - $timewindow
     - $flowoffset
@@ -713,7 +713,7 @@ relations:
 
 - rest_name: tabulation
   get:
-    description: Retrieves tabulated informations based on parameters.
+    description: Retrieves tabulated information based on parameters.
     global_parameters:
     - $filtering
     parameters:
@@ -737,7 +737,7 @@ relations:
 
 - rest_name: taginject
   create:
-    description: Internal api to inject tags.
+    description: Internal API to inject tags.
 
 - rest_name: tagvalue
   get:
@@ -791,7 +791,7 @@ relations:
 
 - rest_name: validateuiparameter
   create:
-    description: Validates some ui parameters.
+    description: Validates some UI parameters.
 
 - rest_name: vulnerability
   get:
@@ -803,10 +803,10 @@ relations:
 
 - rest_name: x509certificate
   create:
-    description: Creates a new x509 certificate.
+    description: Creates a new X.509 certificate.
 
 - rest_name: x509certificatecheck
   get:
-    description: Verifies if a x509 certificate is valid.
+    description: Verifies if a X.509 certificate is valid.
     global_parameters:
     - $filtering

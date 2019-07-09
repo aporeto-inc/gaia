@@ -83,16 +83,16 @@ func (o HostServicesList) Version() int {
 
 // HostService represents the model of a hostservice
 type HostService struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
+	// Defines if the object is archived.
 	Archived bool `json:"-" msgpack:"-" bson:"archived" mapstructure:"-,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -101,39 +101,38 @@ type HostService struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// HostModeEnabled forces the corresponding enforcers to enable complete host
-	// protection. When this option is turned on, all incoming and outgoing flows will
-	// be monitored. Flows will be allowed if and only if a network policy has been
-	// created to allow the flow. The option applies to all enforcers that match the
-	// subject constraints.
+	// Forces the corresponding enforcers to enable host protection. When `+"`"+`true`+"`"+`, all
+	// incoming and outgoing flows will be monitored. Flows will be allowed if and only
+	// if a network policy has been created to allow the flow. The option applies to all
+	// enforcers to which the host service is mapped.
 	HostModeEnabled bool `json:"hostModeEnabled" msgpack:"hostModeEnabled" bson:"hostmodeenabled" mapstructure:"hostModeEnabled,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Services lists all protocols and ports a service is running. A service entry can
-	// be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
-	// '(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
-	// protocols are only tcp and udp.
+	// Lists all protocols and ports a service is running. A service entry can be defined
+	// by a protocol and port `+"`"+`(tcp/80)`+"`"+`, or range of protocol/port pairs `+"`"+`(udp/80:100)`+"`"+`.
+	// If no protocol is provided, it is assumed to be TCP. Only `+"`"+`tcp`+"`"+` and `+"`"+`udp`+"`"+` protocols
+	// are allowed.
 	Services []string `json:"services" msgpack:"services" bson:"services" mapstructure:"services,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -146,8 +145,7 @@ type HostService struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -208,7 +206,7 @@ func (o *HostService) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *HostService) Doc() string {
 
-	return `Represents a set of services that a host must expose and protect.`
+	return `Represents services that a host must expose and protect.`
 }
 
 func (o *HostService) String() string {
@@ -688,7 +686,7 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -701,7 +699,7 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -713,7 +711,7 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Archived": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
+		Description:    `Defines if the object is archived.`,
 		Getter:         true,
 		Name:           "archived",
 		Setter:         true,
@@ -723,7 +721,7 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -761,7 +759,7 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -774,11 +772,10 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"HostModeEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "HostModeEnabled",
-		Description: `HostModeEnabled forces the corresponding enforcers to enable complete host
-protection. When this option is turned on, all incoming and outgoing flows will
-be monitored. Flows will be allowed if and only if a network policy has been
-created to allow the flow. The option applies to all enforcers that match the
-subject constraints.`,
+		Description: `Forces the corresponding enforcers to enable host protection. When ` + "`" + `true` + "`" + `, all 
+incoming and outgoing flows will be monitored. Flows will be allowed if and only 
+if a network policy has been created to allow the flow. The option applies to all 
+enforcers to which the host service is mapped.`,
 		Exposed:   true,
 		Name:      "hostModeEnabled",
 		Orderable: true,
@@ -789,7 +786,7 @@ subject constraints.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -804,7 +801,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -836,7 +833,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -850,7 +847,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -862,7 +859,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -874,10 +871,10 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Services": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Services",
-		Description: `Services lists all protocols and ports a service is running. A service entry can
-be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
-'(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
-protocols are only tcp and udp.`,
+		Description: `Lists all protocols and ports a service is running. A service entry can be defined 
+by a protocol and port ` + "`" + `(tcp/80)` + "`" + `, or range of protocol/port pairs ` + "`" + `(udp/80:100)` + "`" + `. 
+If no protocol is provided, it is assumed to be TCP. Only ` + "`" + `tcp` + "`" + ` and ` + "`" + `udp` + "`" + ` protocols
+are allowed.`,
 		Exposed: true,
 		Name:    "services",
 		Stored:  true,
@@ -927,16 +924,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -946,7 +942,7 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -959,7 +955,7 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -971,7 +967,7 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"archived": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
+		Description:    `Defines if the object is archived.`,
 		Getter:         true,
 		Name:           "archived",
 		Setter:         true,
@@ -981,7 +977,7 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1019,7 +1015,7 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1032,11 +1028,10 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"hostmodeenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "HostModeEnabled",
-		Description: `HostModeEnabled forces the corresponding enforcers to enable complete host
-protection. When this option is turned on, all incoming and outgoing flows will
-be monitored. Flows will be allowed if and only if a network policy has been
-created to allow the flow. The option applies to all enforcers that match the
-subject constraints.`,
+		Description: `Forces the corresponding enforcers to enable host protection. When ` + "`" + `true` + "`" + `, all 
+incoming and outgoing flows will be monitored. Flows will be allowed if and only 
+if a network policy has been created to allow the flow. The option applies to all 
+enforcers to which the host service is mapped.`,
 		Exposed:   true,
 		Name:      "hostModeEnabled",
 		Orderable: true,
@@ -1047,7 +1042,7 @@ subject constraints.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1062,7 +1057,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1094,7 +1089,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1108,7 +1103,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1120,7 +1115,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1132,10 +1127,10 @@ with the '@' prefix, and should only be used by external systems.`,
 	"services": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Services",
-		Description: `Services lists all protocols and ports a service is running. A service entry can
-be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
-'(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
-protocols are only tcp and udp.`,
+		Description: `Lists all protocols and ports a service is running. A service entry can be defined 
+by a protocol and port ` + "`" + `(tcp/80)` + "`" + `, or range of protocol/port pairs ` + "`" + `(udp/80:100)` + "`" + `. 
+If no protocol is provided, it is assumed to be TCP. Only ` + "`" + `tcp` + "`" + ` and ` + "`" + `udp` + "`" + ` protocols
+are allowed.`,
 		Exposed: true,
 		Name:    "services",
 		Stored:  true,
@@ -1185,16 +1180,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1264,16 +1258,16 @@ func (o SparseHostServicesList) Version() int {
 
 // SparseHostService represents the sparse version of a hostservice.
 type SparseHostService struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
+	// Defines if the object is archived.
 	Archived *bool `json:"-" msgpack:"-" bson:"archived,omitempty" mapstructure:"-,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1282,39 +1276,38 @@ type SparseHostService struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// HostModeEnabled forces the corresponding enforcers to enable complete host
-	// protection. When this option is turned on, all incoming and outgoing flows will
-	// be monitored. Flows will be allowed if and only if a network policy has been
-	// created to allow the flow. The option applies to all enforcers that match the
-	// subject constraints.
+	// Forces the corresponding enforcers to enable host protection. When `+"`"+`true`+"`"+`, all
+	// incoming and outgoing flows will be monitored. Flows will be allowed if and only
+	// if a network policy has been created to allow the flow. The option applies to all
+	// enforcers to which the host service is mapped.
 	HostModeEnabled *bool `json:"hostModeEnabled,omitempty" msgpack:"hostModeEnabled,omitempty" bson:"hostmodeenabled,omitempty" mapstructure:"hostModeEnabled,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Services lists all protocols and ports a service is running. A service entry can
-	// be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
-	// '(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
-	// protocols are only tcp and udp.
+	// Lists all protocols and ports a service is running. A service entry can be defined
+	// by a protocol and port `+"`"+`(tcp/80)`+"`"+`, or range of protocol/port pairs `+"`"+`(udp/80:100)`+"`"+`.
+	// If no protocol is provided, it is assumed to be TCP. Only `+"`"+`tcp`+"`"+` and `+"`"+`udp`+"`"+` protocols
+	// are allowed.
 	Services *[]string `json:"services,omitempty" msgpack:"services,omitempty" bson:"services,omitempty" mapstructure:"services,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1327,8 +1320,7 @@ type SparseHostService struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

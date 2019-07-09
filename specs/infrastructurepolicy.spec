@@ -6,20 +6,21 @@ model:
   package: squall
   group: policy/networking
   description: |-
-    Infrastructure policies capture the network access rules of the underlying
-    infrastructure and can be used to model cloud security groups, firewalls or
-    other ACL based mechanisms. They are not used in the identity-based network
-    authorization of Aporeto, but they can affect traffic flows in the underlying
-    infrastructure.
+    Infrastructure policies represent the network access rules of the underlying
+    infrastructure. They can assist you in analyzing how AWS security groups,
+    firewalls,
+    and other access control list (ACL) mechanisms may affect Aporeto network
+    policies.
+    Aporeto's AWS integration app automatically populates AWS security groups.
   aliases:
   - infrapol
   - infrapols
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the infrastructure policy with the given ID.
   update:
-    description: Updates the object with the given ID.
+    description: Updates the infrastructure policy with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the infrastructure policy with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -41,7 +42,7 @@ indexes:
 attributes:
   v1:
   - name: action
-    description: Action defines the action to apply to a flow.
+    description: Defines the action to apply to a flow.
     type: enum
     exposed: true
     allowed_choices:
@@ -52,9 +53,9 @@ attributes:
 
   - name: applyPolicyMode
     description: |-
-      applyPolicyMode determines if the policy has to be applied to the
-      outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-      Default is both directions.
+      Determines if the policy applies to the outgoing traffic of the `subject` or the
+      incoming traffic of the `subject`. `OutgoingTraffic` (default) or
+      `IncomingTraffic`.
     type: enum
     exposed: true
     allowed_choices:
@@ -64,7 +65,7 @@ attributes:
     orderable: true
 
   - name: expirationTime
-    description: If set the policy will be auto deleted after the given time.
+    description: If set the policy will be automatically deleted after the given time.
     type: time
     exposed: true
     stored: true
@@ -107,7 +108,7 @@ relations:
 
 - rest_name: processingunit
   get:
-    description: Returns the list of Processing Units affected by an infrastructure
+    description: Returns the list of processing units affected by an infrastructure
       policy.
     parameters:
       entries:

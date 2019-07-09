@@ -83,13 +83,13 @@ func (o QuotaPoliciesList) Version() int {
 
 // QuotaPolicy represents the model of a quotapolicy
 type QuotaPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -98,51 +98,50 @@ type QuotaPolicy struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the quota will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// Identities contains the list of identity names where the quota will be applied.
+	// Contains the list of identity names where the quota will be applied.
 	Identities []string `json:"identities" msgpack:"identities" bson:"identities" mapstructure:"identities,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
+	// If set to `+"`"+`true`+"`"+` while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" msgpack:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Quota contains the maximum number of object matching the policy subject that can
-	// be created.
+	// Specifies the maximum number of objects matching the policy subject that can be created.
 	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
-	// TargetNamespace contains the base namespace from where the count will be done.
+	// Contains the base namespace from where the count will be done.
 	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -209,7 +208,7 @@ func (o *QuotaPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *QuotaPolicy) Doc() string {
 
-	return `Quotas Policies allows to set quotas on the number of objects that can be
+	return `Allows you to set quotas on the number of objects that can be
 created in a namespace.`
 }
 
@@ -721,7 +720,7 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -733,7 +732,7 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -745,7 +744,7 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -783,7 +782,7 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -796,7 +795,7 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -808,7 +807,7 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the quota will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -819,7 +818,7 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -833,7 +832,7 @@ propagated it will become a fallback for children namespaces.`,
 	"Identities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Identities",
-		Description:    `Identities contains the list of identity names where the quota will be applied.`,
+		Description:    `Contains the list of identity names where the quota will be applied.`,
 		Exposed:        true,
 		Name:           "identities",
 		Required:       true,
@@ -845,7 +844,7 @@ propagated it will become a fallback for children namespaces.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -860,7 +859,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -892,7 +891,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -906,7 +905,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -918,7 +917,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"PropagationHidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
+		Description: `If set to ` + "`" + `true` + "`" + ` while the policy is propagating, it won't be visible to children
 namespace, but still used for policy resolution.`,
 		Exposed:   true,
 		Getter:    true,
@@ -931,7 +930,7 @@ namespace, but still used for policy resolution.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -943,16 +942,15 @@ namespace, but still used for policy resolution.`,
 	"Quota": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Quota",
-		Description: `Quota contains the maximum number of object matching the policy subject that can
-be created.`,
-		Exposed: true,
-		Name:    "quota",
-		Type:    "integer",
+		Description:    `Specifies the maximum number of objects matching the policy subject that can be created.`,
+		Exposed:        true,
+		Name:           "quota",
+		Type:           "integer",
 	},
 	"TargetNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
-		Description:    `TargetNamespace contains the base namespace from where the count will be done.`,
+		Description:    `Contains the base namespace from where the count will be done.`,
 		Exposed:        true,
 		Name:           "targetNamespace",
 		Required:       true,
@@ -993,7 +991,7 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1005,7 +1003,7 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1017,7 +1015,7 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1055,7 +1053,7 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1068,7 +1066,7 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1080,7 +1078,7 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the quota will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1091,7 +1089,7 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -1105,7 +1103,7 @@ propagated it will become a fallback for children namespaces.`,
 	"identities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Identities",
-		Description:    `Identities contains the list of identity names where the quota will be applied.`,
+		Description:    `Contains the list of identity names where the quota will be applied.`,
 		Exposed:        true,
 		Name:           "identities",
 		Required:       true,
@@ -1117,7 +1115,7 @@ propagated it will become a fallback for children namespaces.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1132,7 +1130,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1164,7 +1162,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1178,7 +1176,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1190,7 +1188,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"propagationhidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
+		Description: `If set to ` + "`" + `true` + "`" + ` while the policy is propagating, it won't be visible to children
 namespace, but still used for policy resolution.`,
 		Exposed:   true,
 		Getter:    true,
@@ -1203,7 +1201,7 @@ namespace, but still used for policy resolution.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1215,16 +1213,15 @@ namespace, but still used for policy resolution.`,
 	"quota": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Quota",
-		Description: `Quota contains the maximum number of object matching the policy subject that can
-be created.`,
-		Exposed: true,
-		Name:    "quota",
-		Type:    "integer",
+		Description:    `Specifies the maximum number of objects matching the policy subject that can be created.`,
+		Exposed:        true,
+		Name:           "quota",
+		Type:           "integer",
 	},
 	"targetnamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
-		Description:    `TargetNamespace contains the base namespace from where the count will be done.`,
+		Description:    `Contains the base namespace from where the count will be done.`,
 		Exposed:        true,
 		Name:           "targetNamespace",
 		Required:       true,
@@ -1325,13 +1322,13 @@ func (o SparseQuotaPoliciesList) Version() int {
 
 // SparseQuotaPolicy represents the sparse version of a quotapolicy.
 type SparseQuotaPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1340,51 +1337,50 @@ type SparseQuotaPolicy struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the quota will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// Identities contains the list of identity names where the quota will be applied.
+	// Contains the list of identity names where the quota will be applied.
 	Identities *[]string `json:"identities,omitempty" msgpack:"identities,omitempty" bson:"identities,omitempty" mapstructure:"identities,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
+	// If set to `+"`"+`true`+"`"+` while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
 	PropagationHidden *bool `json:"propagationHidden,omitempty" msgpack:"propagationHidden,omitempty" bson:"propagationhidden,omitempty" mapstructure:"propagationHidden,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Quota contains the maximum number of object matching the policy subject that can
-	// be created.
+	// Specifies the maximum number of objects matching the policy subject that can be created.
 	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
-	// TargetNamespace contains the base namespace from where the count will be done.
+	// Contains the base namespace from where the count will be done.
 	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"targetnamespace,omitempty" mapstructure:"targetNamespace,omitempty"`
 
 	// internal idempotency key for a update operation.

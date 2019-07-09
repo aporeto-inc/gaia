@@ -80,17 +80,16 @@ func (o InvoiceRecordsList) Version() int {
 
 // InvoiceRecord represents the model of a invoicerecord
 type InvoiceRecord struct {
-	// ID is the id of this invoice record.
+	// The ID of the invoice record.
 	ID string `json:"ID" msgpack:"ID" bson:"id" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// InvoiceID references the id of the invoice that this invoice record provides
-	// details for.
+	// The ID of the invoice associated with the invoice record.
 	InvoiceID string `json:"invoiceID" msgpack:"invoiceID" bson:"invoiceid" mapstructure:"invoiceID,omitempty"`
 
-	// InvoiceRecords provides details about billing units.
+	// Details about billing units.
 	InvoiceRecords []string `json:"invoiceRecords" msgpack:"invoiceRecords" bson:"invoicerecords" mapstructure:"invoiceRecords,omitempty"`
 
 	// Last update date of the object.
@@ -146,7 +145,7 @@ func (o *InvoiceRecord) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *InvoiceRecord) Doc() string {
 
-	return `This api allows to view detailed records of invoices for Aporeto customers.`
+	return `Provides detailed records of invoices for Aporeto customers.`
 }
 
 func (o *InvoiceRecord) String() string {
@@ -320,7 +319,7 @@ var InvoiceRecordAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID is the id of this invoice record.`,
+		Description:    `The ID of the invoice record.`,
 		Exposed:        true,
 		Name:           "ID",
 		Orderable:      true,
@@ -344,18 +343,17 @@ var InvoiceRecordAttributesMap = map[string]elemental.AttributeSpecification{
 	"InvoiceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "InvoiceID",
-		Description: `InvoiceID references the id of the invoice that this invoice record provides
-details for.`,
-		Exposed:   true,
-		Name:      "invoiceID",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
+		Description:    `The ID of the invoice associated with the invoice record.`,
+		Exposed:        true,
+		Name:           "invoiceID",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"InvoiceRecords": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "InvoiceRecords",
-		Description:    `InvoiceRecords provides details about billing units.`,
+		Description:    `Details about billing units.`,
 		Exposed:        true,
 		Name:           "invoiceRecords",
 		Orderable:      true,
@@ -384,7 +382,7 @@ var InvoiceRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID is the id of this invoice record.`,
+		Description:    `The ID of the invoice record.`,
 		Exposed:        true,
 		Name:           "ID",
 		Orderable:      true,
@@ -408,18 +406,17 @@ var InvoiceRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"invoiceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "InvoiceID",
-		Description: `InvoiceID references the id of the invoice that this invoice record provides
-details for.`,
-		Exposed:   true,
-		Name:      "invoiceID",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
+		Description:    `The ID of the invoice associated with the invoice record.`,
+		Exposed:        true,
+		Name:           "invoiceID",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"invoicerecords": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "InvoiceRecords",
-		Description:    `InvoiceRecords provides details about billing units.`,
+		Description:    `Details about billing units.`,
 		Exposed:        true,
 		Name:           "invoiceRecords",
 		Orderable:      true,
@@ -506,17 +503,16 @@ func (o SparseInvoiceRecordsList) Version() int {
 
 // SparseInvoiceRecord represents the sparse version of a invoicerecord.
 type SparseInvoiceRecord struct {
-	// ID is the id of this invoice record.
+	// The ID of the invoice record.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// InvoiceID references the id of the invoice that this invoice record provides
-	// details for.
+	// The ID of the invoice associated with the invoice record.
 	InvoiceID *string `json:"invoiceID,omitempty" msgpack:"invoiceID,omitempty" bson:"invoiceid,omitempty" mapstructure:"invoiceID,omitempty"`
 
-	// InvoiceRecords provides details about billing units.
+	// Details about billing units.
 	InvoiceRecords *[]string `json:"invoiceRecords,omitempty" msgpack:"invoiceRecords,omitempty" bson:"invoicerecords,omitempty" mapstructure:"invoiceRecords,omitempty"`
 
 	// Last update date of the object.

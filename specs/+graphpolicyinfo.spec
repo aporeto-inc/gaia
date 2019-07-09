@@ -5,14 +5,14 @@ model:
   entity_name: GraphPolicyInfo
   package: jenova
   group: visualization/depmaps
-  description: Represents a policy information.
+  description: Represents policy information.
   detached: true
 
 # Attributes
 attributes:
   v1:
   - name: count
-    description: Number of time the policy has been hit.
+    description: Number of times the policy has been hit.
     type: integer
     exposed: true
 

@@ -97,7 +97,7 @@ func (o NamespacesList) Version() int {
 
 // Namespace represents the model of a namespace
 type Namespace struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// JWTCertificateType defines the JWT signing certificate that must be created
@@ -108,23 +108,23 @@ type Namespace struct {
 	// This is map indexed by the ID of the certificate.
 	JWTCertificates map[string]string `json:"JWTCertificates" msgpack:"JWTCertificates" bson:"jwtcertificates" mapstructure:"JWTCertificates,omitempty"`
 
-	// SSHCA holds the eventual SSH authority used by this namespace.
+	// The SSH certificate authority used by the namespace.
 	SSHCA string `json:"SSHCA" msgpack:"SSHCA" bson:"sshca" mapstructure:"SSHCA,omitempty"`
 
-	// If enabled, the a SSH CA will be generated for the namespace. This CA can be
-	// deployed in SSH server to validate SSH certificates issued by the platform.
+	// If `+"`"+`true`+"`"+`, an SSH certificate authority (CA) will be generated for the namespace. This CA
+	// can be deployed in SSH server to validate SSH certificates issued by the platform.
 	SSHCAEnabled bool `json:"SSHCAEnabled" msgpack:"SSHCAEnabled" bson:"sshcaenabled" mapstructure:"SSHCAEnabled,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedLocalCAID holds the remote ID of the certificate authority to use.
 	AssociatedLocalCAID string `json:"-" msgpack:"-" bson:"associatedlocalcaid" mapstructure:"-,omitempty"`
 
-	// associatedSSHCAID holds the remote ID of the SSH authority to use.
+	// The remote ID of the SSH certificate authority to use.
 	AssociatedSSHCAID string `json:"associatedSSHCAID" msgpack:"associatedSSHCAID" bson:"associatedsshcaid" mapstructure:"associatedSSHCAID,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -133,26 +133,25 @@ type Namespace struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Defines if the namespace should inherit its parent zone. If this property is set
-	// to false, the `+"`"+`zoning`+"`"+` property will be ignored and the namespace will have the
-	// same zone as its parent.
+	// Defines if the namespace should inherit its parent zone. If this property is set to `+"`"+`false`+"`"+`,
+	// the `+"`"+`zoning`+"`"+` property will be ignored and the namespace will have the same zone as its parent.
 	CustomZoning bool `json:"customZoning" msgpack:"customZoning" bson:"customzoning" mapstructure:"customZoning,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// LocalCA holds the eventual certificate authority used by this namespace.
+	// The certificate authority used by this namespace.
 	LocalCA string `json:"localCA" msgpack:"localCA" bson:"localca" mapstructure:"localCA,omitempty"`
 
-	// LocalCAEnabled defines if the namespace should use a local Certificate
-	// Authority. Switching it off and on again will regenerate a new CA.
+	// Defines if the namespace should use a local certificate
+	// authority (CA). Switching it off and on again will regenerate a new CA.
 	LocalCAEnabled bool `json:"localCAEnabled" msgpack:"localCAEnabled" bson:"localcaenabled" mapstructure:"localCAEnabled,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the namespace.
+	// The name of the namespace.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -162,14 +161,14 @@ type Namespace struct {
 	// policies in the namespace and its children.
 	NetworkAccessPolicyTags []string `json:"networkAccessPolicyTags" msgpack:"networkAccessPolicyTags" bson:"networkaccesspolicytags" mapstructure:"networkAccessPolicyTags,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Determines the validity time of certificates issued in this namespace. Default
-	// value is 1 hour.
+	// Determines the length of validity of certificates issued in this namespace using
+	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default value is `+"`"+`1h`+"`"+`.
 	ServiceCertificateValidity string `json:"serviceCertificateValidity" msgpack:"serviceCertificateValidity" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -182,8 +181,7 @@ type Namespace struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	// Defines what zone the namespace should live in.
@@ -250,8 +248,8 @@ func (o *Namespace) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Namespace) Doc() string {
 
-	return `A Namespace represents the core organizational unit of the system. All objects
-always exists in a single namespace. A Namespace can also have child namespaces.
+	return `A namespace represents the core organizational unit of the system. All objects
+always exist in a single namespace. A namespace can also have child namespaces.
 They can be used to split the system into organizations, business units,
 applications, services or any combination you like.`
 }
@@ -792,7 +790,7 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -830,7 +828,7 @@ This is map indexed by the ID of the certificate.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "SSHCA",
-		Description:    `SSHCA holds the eventual SSH authority used by this namespace.`,
+		Description:    `The SSH certificate authority used by the namespace.`,
 		Exposed:        true,
 		Name:           "SSHCA",
 		ReadOnly:       true,
@@ -840,8 +838,8 @@ This is map indexed by the ID of the certificate.`,
 	"SSHCAEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SSHCAEnabled",
-		Description: `If enabled, the a SSH CA will be generated for the namespace. This CA can be
-deployed in SSH server to validate SSH certificates issued by the platform.`,
+		Description: `If ` + "`" + `true` + "`" + `, an SSH certificate authority (CA) will be generated for the namespace. This CA 
+can be deployed in SSH server to validate SSH certificates issued by the platform.`,
 		Exposed:   true,
 		Name:      "SSHCAEnabled",
 		Orderable: true,
@@ -851,7 +849,7 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -872,7 +870,7 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 	"AssociatedSSHCAID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedSSHCAID",
-		Description:    `associatedSSHCAID holds the remote ID of the SSH authority to use.`,
+		Description:    `The remote ID of the SSH certificate authority to use.`,
 		Exposed:        true,
 		Name:           "associatedSSHCAID",
 		ReadOnly:       true,
@@ -882,7 +880,7 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -921,9 +919,8 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "CustomZoning",
 		CreationOnly:   true,
-		Description: `Defines if the namespace should inherit its parent zone. If this property is set
-to false, the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have the
-same zone as its parent.`,
+		Description: `Defines if the namespace should inherit its parent zone. If this property is set to ` + "`" + `false` + "`" + `, 
+the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have the same zone as its parent.`,
 		Exposed: true,
 		Name:    "customZoning",
 		Stored:  true,
@@ -932,7 +929,7 @@ same zone as its parent.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -946,7 +943,7 @@ same zone as its parent.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "LocalCA",
-		Description:    `LocalCA holds the eventual certificate authority used by this namespace.`,
+		Description:    `The certificate authority used by this namespace.`,
 		Exposed:        true,
 		Name:           "localCA",
 		ReadOnly:       true,
@@ -956,8 +953,8 @@ same zone as its parent.`,
 	"LocalCAEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LocalCAEnabled",
-		Description: `LocalCAEnabled defines if the namespace should use a local Certificate
-Authority. Switching it off and on again will regenerate a new CA.`,
+		Description: `Defines if the namespace should use a local certificate
+authority (CA). Switching it off and on again will regenerate a new CA.`,
 		Exposed:   true,
 		Name:      "localCAEnabled",
 		Orderable: true,
@@ -968,7 +965,7 @@ Authority. Switching it off and on again will regenerate a new CA.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -985,7 +982,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Name",
 		CreationOnly:   true,
 		DefaultOrder:   true,
-		Description:    `Name is the name of the namespace.`,
+		Description:    `The name of the namespace.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1028,7 +1025,7 @@ policies in the namespace and its children.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1042,7 +1039,7 @@ policies in the namespace and its children.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1055,8 +1052,8 @@ policies in the namespace and its children.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ServiceCertificateValidity",
 		DefaultValue:   "1h",
-		Description: `Determines the validity time of certificates issued in this namespace. Default
-value is 1 hour.`,
+		Description: `Determines the length of validity of certificates issued in this namespace using 
+[Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default value is ` + "`" + `1h` + "`" + `.`,
 		Exposed: true,
 		Name:    "serviceCertificateValidity",
 		Stored:  true,
@@ -1105,16 +1102,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 	"Zoning": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1136,7 +1132,7 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1174,7 +1170,7 @@ This is map indexed by the ID of the certificate.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "SSHCA",
-		Description:    `SSHCA holds the eventual SSH authority used by this namespace.`,
+		Description:    `The SSH certificate authority used by the namespace.`,
 		Exposed:        true,
 		Name:           "SSHCA",
 		ReadOnly:       true,
@@ -1184,8 +1180,8 @@ This is map indexed by the ID of the certificate.`,
 	"sshcaenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SSHCAEnabled",
-		Description: `If enabled, the a SSH CA will be generated for the namespace. This CA can be
-deployed in SSH server to validate SSH certificates issued by the platform.`,
+		Description: `If ` + "`" + `true` + "`" + `, an SSH certificate authority (CA) will be generated for the namespace. This CA 
+can be deployed in SSH server to validate SSH certificates issued by the platform.`,
 		Exposed:   true,
 		Name:      "SSHCAEnabled",
 		Orderable: true,
@@ -1195,7 +1191,7 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1216,7 +1212,7 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 	"associatedsshcaid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedSSHCAID",
-		Description:    `associatedSSHCAID holds the remote ID of the SSH authority to use.`,
+		Description:    `The remote ID of the SSH certificate authority to use.`,
 		Exposed:        true,
 		Name:           "associatedSSHCAID",
 		ReadOnly:       true,
@@ -1226,7 +1222,7 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1265,9 +1261,8 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "CustomZoning",
 		CreationOnly:   true,
-		Description: `Defines if the namespace should inherit its parent zone. If this property is set
-to false, the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have the
-same zone as its parent.`,
+		Description: `Defines if the namespace should inherit its parent zone. If this property is set to ` + "`" + `false` + "`" + `, 
+the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have the same zone as its parent.`,
 		Exposed: true,
 		Name:    "customZoning",
 		Stored:  true,
@@ -1276,7 +1271,7 @@ same zone as its parent.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1290,7 +1285,7 @@ same zone as its parent.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "LocalCA",
-		Description:    `LocalCA holds the eventual certificate authority used by this namespace.`,
+		Description:    `The certificate authority used by this namespace.`,
 		Exposed:        true,
 		Name:           "localCA",
 		ReadOnly:       true,
@@ -1300,8 +1295,8 @@ same zone as its parent.`,
 	"localcaenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LocalCAEnabled",
-		Description: `LocalCAEnabled defines if the namespace should use a local Certificate
-Authority. Switching it off and on again will regenerate a new CA.`,
+		Description: `Defines if the namespace should use a local certificate
+authority (CA). Switching it off and on again will regenerate a new CA.`,
 		Exposed:   true,
 		Name:      "localCAEnabled",
 		Orderable: true,
@@ -1312,7 +1307,7 @@ Authority. Switching it off and on again will regenerate a new CA.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1329,7 +1324,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Name",
 		CreationOnly:   true,
 		DefaultOrder:   true,
-		Description:    `Name is the name of the namespace.`,
+		Description:    `The name of the namespace.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1372,7 +1367,7 @@ policies in the namespace and its children.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1386,7 +1381,7 @@ policies in the namespace and its children.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1399,8 +1394,8 @@ policies in the namespace and its children.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ServiceCertificateValidity",
 		DefaultValue:   "1h",
-		Description: `Determines the validity time of certificates issued in this namespace. Default
-value is 1 hour.`,
+		Description: `Determines the length of validity of certificates issued in this namespace using 
+[Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default value is ` + "`" + `1h` + "`" + `.`,
 		Exposed: true,
 		Name:    "serviceCertificateValidity",
 		Stored:  true,
@@ -1449,16 +1444,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 	"zoning": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1540,7 +1534,7 @@ func (o SparseNamespacesList) Version() int {
 
 // SparseNamespace represents the sparse version of a namespace.
 type SparseNamespace struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// JWTCertificateType defines the JWT signing certificate that must be created
@@ -1551,23 +1545,23 @@ type SparseNamespace struct {
 	// This is map indexed by the ID of the certificate.
 	JWTCertificates *map[string]string `json:"JWTCertificates,omitempty" msgpack:"JWTCertificates,omitempty" bson:"jwtcertificates,omitempty" mapstructure:"JWTCertificates,omitempty"`
 
-	// SSHCA holds the eventual SSH authority used by this namespace.
+	// The SSH certificate authority used by the namespace.
 	SSHCA *string `json:"SSHCA,omitempty" msgpack:"SSHCA,omitempty" bson:"sshca,omitempty" mapstructure:"SSHCA,omitempty"`
 
-	// If enabled, the a SSH CA will be generated for the namespace. This CA can be
-	// deployed in SSH server to validate SSH certificates issued by the platform.
+	// If `+"`"+`true`+"`"+`, an SSH certificate authority (CA) will be generated for the namespace. This CA
+	// can be deployed in SSH server to validate SSH certificates issued by the platform.
 	SSHCAEnabled *bool `json:"SSHCAEnabled,omitempty" msgpack:"SSHCAEnabled,omitempty" bson:"sshcaenabled,omitempty" mapstructure:"SSHCAEnabled,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedLocalCAID holds the remote ID of the certificate authority to use.
 	AssociatedLocalCAID *string `json:"-" msgpack:"-" bson:"associatedlocalcaid,omitempty" mapstructure:"-,omitempty"`
 
-	// associatedSSHCAID holds the remote ID of the SSH authority to use.
+	// The remote ID of the SSH certificate authority to use.
 	AssociatedSSHCAID *string `json:"associatedSSHCAID,omitempty" msgpack:"associatedSSHCAID,omitempty" bson:"associatedsshcaid,omitempty" mapstructure:"associatedSSHCAID,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1576,26 +1570,25 @@ type SparseNamespace struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Defines if the namespace should inherit its parent zone. If this property is set
-	// to false, the `+"`"+`zoning`+"`"+` property will be ignored and the namespace will have the
-	// same zone as its parent.
+	// Defines if the namespace should inherit its parent zone. If this property is set to `+"`"+`false`+"`"+`,
+	// the `+"`"+`zoning`+"`"+` property will be ignored and the namespace will have the same zone as its parent.
 	CustomZoning *bool `json:"customZoning,omitempty" msgpack:"customZoning,omitempty" bson:"customzoning,omitempty" mapstructure:"customZoning,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// LocalCA holds the eventual certificate authority used by this namespace.
+	// The certificate authority used by this namespace.
 	LocalCA *string `json:"localCA,omitempty" msgpack:"localCA,omitempty" bson:"localca,omitempty" mapstructure:"localCA,omitempty"`
 
-	// LocalCAEnabled defines if the namespace should use a local Certificate
-	// Authority. Switching it off and on again will regenerate a new CA.
+	// Defines if the namespace should use a local certificate
+	// authority (CA). Switching it off and on again will regenerate a new CA.
 	LocalCAEnabled *bool `json:"localCAEnabled,omitempty" msgpack:"localCAEnabled,omitempty" bson:"localcaenabled,omitempty" mapstructure:"localCAEnabled,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the namespace.
+	// The name of the namespace.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -1605,14 +1598,14 @@ type SparseNamespace struct {
 	// policies in the namespace and its children.
 	NetworkAccessPolicyTags *[]string `json:"networkAccessPolicyTags,omitempty" msgpack:"networkAccessPolicyTags,omitempty" bson:"networkaccesspolicytags,omitempty" mapstructure:"networkAccessPolicyTags,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Determines the validity time of certificates issued in this namespace. Default
-	// value is 1 hour.
+	// Determines the length of validity of certificates issued in this namespace using
+	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default value is `+"`"+`1h`+"`"+`.
 	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" msgpack:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity,omitempty" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1625,8 +1618,7 @@ type SparseNamespace struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	// Defines what zone the namespace should live in.

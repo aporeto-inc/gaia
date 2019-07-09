@@ -146,23 +146,25 @@ func (o ProcessingUnitsList) Version() int {
 
 // ProcessingUnit represents the model of a processingunit
 type ProcessingUnit struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
+	// Defines if the object is archived.
 	Archived bool `json:"-" msgpack:"-" bson:"archived" mapstructure:"-,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// CollectInfo indicates to the enforcer it needs to collect information for this
-	// PU.
+	// A value of `+"`"+`true`+"`"+` indicates to the enforcer that it needs to collect information
+	// for
+	// this processing unit.
 	CollectInfo bool `json:"collectInfo" msgpack:"collectInfo" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
 
-	// CollectedInfo represents the latest info collected by the enforcer for this PU.
+	// Represents the latest information collected by the enforcer for this processing
+	// unit.
 	CollectedInfo map[string]string `json:"collectedInfo" msgpack:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -171,71 +173,79 @@ type ProcessingUnit struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// EnforcementStatus communicates the state of the enforcer for that PU.
+	// Contains the state of the enforcer for the processing unit. `+"`"+`Inactive`+"`"+`
+	// (default):
+	// the enforcer is not enforcing any host service. `+"`"+`Active`+"`"+`: the enforcer is
+	// enforcing
+	// a host service. `+"`"+`Failed`+"`"+`.
 	EnforcementStatus ProcessingUnitEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
 
-	// EnforcerID is the ID of the enforcer associated with the processing unit.
+	// The ID of the enforcer associated with the processing unit.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
-	// enforcerNamespace is the namespace of the enforcer associated with the
-	// processing unit.
+	// The namespace of the enforcer associated with the processing unit.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
 	// This field is deprecated and it is there for backward compatibility. Use
 	// `+"`"+`images`+"`"+` instead.
 	Image string `json:"image" msgpack:"image" bson:"-" mapstructure:"image,omitempty"`
 
-	// List of images or executable paths used by the Processing Unit.
+	// List of images or executable paths used by the processing unit.
 	Images []string `json:"images" msgpack:"images" bson:"images" mapstructure:"images,omitempty"`
 
-	// LastCollectionTime represents the date and time when the info have been
-	// collected.
+	// The date and time when the information was collected.
 	LastCollectionTime time.Time `json:"lastCollectionTime" msgpack:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
 
 	// Last poke is the time when the pu got last poked.
 	LastPokeTime time.Time `json:"-" msgpack:"-" bson:"lastpoketime" mapstructure:"-,omitempty"`
 
-	// LastSyncTime is the time when the policy was last resolved.
+	// The date and time of the last policy resolution.
 	LastSyncTime time.Time `json:"lastSyncTime" msgpack:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NativeContextID is the Docker UUID or service PID.
+	// The Docker UUID or service PID.
 	NativeContextID string `json:"nativeContextID" msgpack:"nativeContextID" bson:"nativecontextid" mapstructure:"nativeContextID,omitempty"`
 
-	// NetworkServices is the list of services that this processing unit has declared
-	// that it will be listening to. This can happen either with an activation command
-	// or by exposing the ports in a container manifest.
+	// The list of services that this processing unit has declared that it will be
+	// listening to,
+	// either in its activation command or by exposing the ports in a container
+	// manifest.
 	NetworkServices []*ProcessingUnitService `json:"networkServices" msgpack:"networkServices" bson:"networkservices" mapstructure:"networkServices,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// OperationalStatus of the processing unit.
+	// Operational status of the processing unit: `+"`"+`Initialized`+"`"+` (default), `+"`"+`Paused`+"`"+`,
+	// `+"`"+`Running`+"`"+`,
+	// `+"`"+`Stopped`+"`"+`, or `+"`"+`Terminated`+"`"+`.
 	OperationalStatus ProcessingUnitOperationalStatusValue `json:"operationalStatus" msgpack:"operationalStatus" bson:"operationalstatus" mapstructure:"operationalStatus,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Tracing indicates if this PU must be placed in tracing mode.
+	// Indicates if this processing unit must be placed in tracing mode.
 	Tracing *TraceMode `json:"tracing" msgpack:"tracing" bson:"tracing" mapstructure:"tracing,omitempty"`
 
-	// Type of the container ecosystem.
+	// Type of processing unit: `+"`"+`APIGateway`+"`"+`, `+"`"+`Docker`+"`"+`, `+"`"+`Host`+"`"+`, `+"`"+`HostService`+"`"+`,
+	// `+"`"+`LinuxService`+"`"+`,
+	// `+"`"+`RKT`+"`"+`, `+"`"+`User`+"`"+`, or `+"`"+`SSHSession`+"`"+`.
 	Type ProcessingUnitTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
-	// Control plane will set this value to true if it hasn't heard from the pu for
-	// more than 5m.
+	// The Aporeto control plane sets this value to `+"`"+`true`+"`"+` if it hasn't heard from the
+	// processing
+	// unit for more than five minutes.
 	Unreachable bool `json:"unreachable" msgpack:"unreachable" bson:"unreachable" mapstructure:"unreachable,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -248,8 +258,7 @@ type ProcessingUnit struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -315,12 +324,13 @@ func (o *ProcessingUnit) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ProcessingUnit) Doc() string {
 
-	return `A Processing Unit reprents anything that can compute. It can be a Docker
-container, or a simple Unix process. They are created, updated and deleted by
-the system as they come and go. You can only modify its tags.  Processing Units
-use Network Access Policies to define which other Processing Units or External
-Services they can communicate with and File Access Policies to define what File
-Paths they can use.`
+	return `A processing unit represents anything that can compute. It can be a Docker
+container or a simple Unix process. Processing units are created, updated, and
+deleted by
+the system as they come and go. You can only modify their tags. Processing units
+use network policies to define which other processing units or external
+networks they can communicate with and file access policies to define what file
+paths they can use.`
 }
 
 func (o *ProcessingUnit) String() string {
@@ -918,7 +928,7 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -931,7 +941,7 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -943,7 +953,7 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 	"Archived": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
+		Description:    `Defines if the object is archived.`,
 		Getter:         true,
 		Name:           "archived",
 		Setter:         true,
@@ -953,7 +963,7 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -965,8 +975,9 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 	"CollectInfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectInfo",
-		Description: `CollectInfo indicates to the enforcer it needs to collect information for this
-PU.`,
+		Description: `A value of ` + "`" + `true` + "`" + ` indicates to the enforcer that it needs to collect information
+for
+this processing unit.`,
 		Exposed: true,
 		Name:    "collectInfo",
 		Stored:  true,
@@ -975,12 +986,13 @@ PU.`,
 	"CollectedInfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectedInfo",
-		Description:    `CollectedInfo represents the latest info collected by the enforcer for this PU.`,
-		Exposed:        true,
-		Name:           "collectedInfo",
-		Stored:         true,
-		SubType:        "map[string]string",
-		Type:           "external",
+		Description: `Represents the latest information collected by the enforcer for this processing
+unit.`,
+		Exposed: true,
+		Name:    "collectedInfo",
+		Stored:  true,
+		SubType: "map[string]string",
+		Type:    "external",
 	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1011,7 +1023,7 @@ PU.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1025,17 +1037,21 @@ PU.`,
 		AllowedChoices: []string{"Active", "Failed", "Inactive"},
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   ProcessingUnitEnforcementStatusInactive,
-		Description:    `EnforcementStatus communicates the state of the enforcer for that PU.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "enforcementStatus",
-		Stored:         true,
-		Type:           "enum",
+		Description: `Contains the state of the enforcer for the processing unit. ` + "`" + `Inactive` + "`" + `
+(default):
+the enforcer is not enforcing any host service. ` + "`" + `Active` + "`" + `: the enforcer is
+enforcing
+a host service. ` + "`" + `Failed` + "`" + `.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "enforcementStatus",
+		Stored:     true,
+		Type:       "enum",
 	},
 	"EnforcerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `EnforcerID is the ID of the enforcer associated with the processing unit.`,
+		Description:    `The ID of the enforcer associated with the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "enforcerID",
@@ -1045,13 +1061,12 @@ PU.`,
 	"EnforcerNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description: `enforcerNamespace is the namespace of the enforcer associated with the
-processing unit.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "enforcerNamespace",
-		Stored:     true,
-		Type:       "string",
+		Description:    `The namespace of the enforcer associated with the processing unit.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "enforcerNamespace",
+		Stored:         true,
+		Type:           "string",
 	},
 	"Image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1067,7 +1082,7 @@ processing unit.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Images",
 		CreationOnly:   true,
-		Description:    `List of images or executable paths used by the Processing Unit.`,
+		Description:    `List of images or executable paths used by the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "images",
@@ -1078,12 +1093,11 @@ processing unit.`,
 	"LastCollectionTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastCollectionTime",
-		Description: `LastCollectionTime represents the date and time when the info have been
-collected.`,
-		Exposed: true,
-		Name:    "lastCollectionTime",
-		Stored:  true,
-		Type:    "time",
+		Description:    `The date and time when the information was collected.`,
+		Exposed:        true,
+		Name:           "lastCollectionTime",
+		Stored:         true,
+		Type:           "time",
 	},
 	"LastPokeTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1097,7 +1111,7 @@ collected.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "LastSyncTime",
-		Description:    `LastSyncTime is the time when the policy was last resolved.`,
+		Description:    `The date and time of the last policy resolution.`,
 		Exposed:        true,
 		Name:           "lastSyncTime",
 		Orderable:      true,
@@ -1108,7 +1122,7 @@ collected.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1123,7 +1137,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1154,7 +1168,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"NativeContextID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NativeContextID",
-		Description:    `NativeContextID is the Docker UUID or service PID.`,
+		Description:    `The Docker UUID or service PID.`,
 		Exposed:        true,
 		Name:           "nativeContextID",
 		Stored:         true,
@@ -1163,9 +1177,10 @@ with the '@' prefix, and should only be used by external systems.`,
 	"NetworkServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkServices",
-		Description: `NetworkServices is the list of services that this processing unit has declared
-that it will be listening to. This can happen either with an activation command
-or by exposing the ports in a container manifest.`,
+		Description: `The list of services that this processing unit has declared that it will be
+listening to,
+either in its activation command or by exposing the ports in a container
+manifest.`,
 		Exposed:   true,
 		Name:      "networkServices",
 		Orderable: true,
@@ -1177,7 +1192,7 @@ or by exposing the ports in a container manifest.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1192,17 +1207,19 @@ or by exposing the ports in a container manifest.`,
 		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"},
 		ConvertedName:  "OperationalStatus",
 		DefaultValue:   ProcessingUnitOperationalStatusInitialized,
-		Description:    `OperationalStatus of the processing unit.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "operationalStatus",
-		Stored:         true,
-		Type:           "enum",
+		Description: `Operational status of the processing unit: ` + "`" + `Initialized` + "`" + ` (default), ` + "`" + `Paused` + "`" + `,
+` + "`" + `Running` + "`" + `,
+` + "`" + `Stopped` + "`" + `, or ` + "`" + `Terminated` + "`" + `.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "operationalStatus",
+		Stored:     true,
+		Type:       "enum",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1214,7 +1231,7 @@ or by exposing the ports in a container manifest.`,
 	"Tracing": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Tracing",
-		Description:    `Tracing indicates if this PU must be placed in tracing mode.`,
+		Description:    `Indicates if this processing unit must be placed in tracing mode.`,
 		Exposed:        true,
 		Name:           "tracing",
 		Stored:         true,
@@ -1225,19 +1242,22 @@ or by exposing the ports in a container manifest.`,
 		AllowedChoices: []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "RKT", "User", "SSHSession"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
-		Description:    `Type of the container ecosystem.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "type",
-		Stored:         true,
-		Type:           "enum",
+		Description: `Type of processing unit: ` + "`" + `APIGateway` + "`" + `, ` + "`" + `Docker` + "`" + `, ` + "`" + `Host` + "`" + `, ` + "`" + `HostService` + "`" + `,
+` + "`" + `LinuxService` + "`" + `,
+` + "`" + `RKT` + "`" + `, ` + "`" + `User` + "`" + `, or ` + "`" + `SSHSession` + "`" + `.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "type",
+		Stored:     true,
+		Type:       "enum",
 	},
 	"Unreachable": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Unreachable",
-		Description: `Control plane will set this value to true if it hasn't heard from the pu for
-more than 5m.`,
+		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from the
+processing
+unit for more than five minutes.`,
 		Exposed:  true,
 		Name:     "unreachable",
 		ReadOnly: true,
@@ -1287,16 +1307,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1306,7 +1325,7 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1319,7 +1338,7 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1331,7 +1350,7 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"archived": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
+		Description:    `Defines if the object is archived.`,
 		Getter:         true,
 		Name:           "archived",
 		Setter:         true,
@@ -1341,7 +1360,7 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1353,8 +1372,9 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"collectinfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectInfo",
-		Description: `CollectInfo indicates to the enforcer it needs to collect information for this
-PU.`,
+		Description: `A value of ` + "`" + `true` + "`" + ` indicates to the enforcer that it needs to collect information
+for
+this processing unit.`,
 		Exposed: true,
 		Name:    "collectInfo",
 		Stored:  true,
@@ -1363,12 +1383,13 @@ PU.`,
 	"collectedinfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectedInfo",
-		Description:    `CollectedInfo represents the latest info collected by the enforcer for this PU.`,
-		Exposed:        true,
-		Name:           "collectedInfo",
-		Stored:         true,
-		SubType:        "map[string]string",
-		Type:           "external",
+		Description: `Represents the latest information collected by the enforcer for this processing
+unit.`,
+		Exposed: true,
+		Name:    "collectedInfo",
+		Stored:  true,
+		SubType: "map[string]string",
+		Type:    "external",
 	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1399,7 +1420,7 @@ PU.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1413,17 +1434,21 @@ PU.`,
 		AllowedChoices: []string{"Active", "Failed", "Inactive"},
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   ProcessingUnitEnforcementStatusInactive,
-		Description:    `EnforcementStatus communicates the state of the enforcer for that PU.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "enforcementStatus",
-		Stored:         true,
-		Type:           "enum",
+		Description: `Contains the state of the enforcer for the processing unit. ` + "`" + `Inactive` + "`" + `
+(default):
+the enforcer is not enforcing any host service. ` + "`" + `Active` + "`" + `: the enforcer is
+enforcing
+a host service. ` + "`" + `Failed` + "`" + `.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "enforcementStatus",
+		Stored:     true,
+		Type:       "enum",
 	},
 	"enforcerid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `EnforcerID is the ID of the enforcer associated with the processing unit.`,
+		Description:    `The ID of the enforcer associated with the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "enforcerID",
@@ -1433,13 +1458,12 @@ PU.`,
 	"enforcernamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description: `enforcerNamespace is the namespace of the enforcer associated with the
-processing unit.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "enforcerNamespace",
-		Stored:     true,
-		Type:       "string",
+		Description:    `The namespace of the enforcer associated with the processing unit.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "enforcerNamespace",
+		Stored:         true,
+		Type:           "string",
 	},
 	"image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1455,7 +1479,7 @@ processing unit.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Images",
 		CreationOnly:   true,
-		Description:    `List of images or executable paths used by the Processing Unit.`,
+		Description:    `List of images or executable paths used by the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "images",
@@ -1466,12 +1490,11 @@ processing unit.`,
 	"lastcollectiontime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastCollectionTime",
-		Description: `LastCollectionTime represents the date and time when the info have been
-collected.`,
-		Exposed: true,
-		Name:    "lastCollectionTime",
-		Stored:  true,
-		Type:    "time",
+		Description:    `The date and time when the information was collected.`,
+		Exposed:        true,
+		Name:           "lastCollectionTime",
+		Stored:         true,
+		Type:           "time",
 	},
 	"lastpoketime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1485,7 +1508,7 @@ collected.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "LastSyncTime",
-		Description:    `LastSyncTime is the time when the policy was last resolved.`,
+		Description:    `The date and time of the last policy resolution.`,
 		Exposed:        true,
 		Name:           "lastSyncTime",
 		Orderable:      true,
@@ -1496,7 +1519,7 @@ collected.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1511,7 +1534,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1542,7 +1565,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"nativecontextid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NativeContextID",
-		Description:    `NativeContextID is the Docker UUID or service PID.`,
+		Description:    `The Docker UUID or service PID.`,
 		Exposed:        true,
 		Name:           "nativeContextID",
 		Stored:         true,
@@ -1551,9 +1574,10 @@ with the '@' prefix, and should only be used by external systems.`,
 	"networkservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkServices",
-		Description: `NetworkServices is the list of services that this processing unit has declared
-that it will be listening to. This can happen either with an activation command
-or by exposing the ports in a container manifest.`,
+		Description: `The list of services that this processing unit has declared that it will be
+listening to,
+either in its activation command or by exposing the ports in a container
+manifest.`,
 		Exposed:   true,
 		Name:      "networkServices",
 		Orderable: true,
@@ -1565,7 +1589,7 @@ or by exposing the ports in a container manifest.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1580,17 +1604,19 @@ or by exposing the ports in a container manifest.`,
 		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"},
 		ConvertedName:  "OperationalStatus",
 		DefaultValue:   ProcessingUnitOperationalStatusInitialized,
-		Description:    `OperationalStatus of the processing unit.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "operationalStatus",
-		Stored:         true,
-		Type:           "enum",
+		Description: `Operational status of the processing unit: ` + "`" + `Initialized` + "`" + ` (default), ` + "`" + `Paused` + "`" + `,
+` + "`" + `Running` + "`" + `,
+` + "`" + `Stopped` + "`" + `, or ` + "`" + `Terminated` + "`" + `.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "operationalStatus",
+		Stored:     true,
+		Type:       "enum",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1602,7 +1628,7 @@ or by exposing the ports in a container manifest.`,
 	"tracing": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Tracing",
-		Description:    `Tracing indicates if this PU must be placed in tracing mode.`,
+		Description:    `Indicates if this processing unit must be placed in tracing mode.`,
 		Exposed:        true,
 		Name:           "tracing",
 		Stored:         true,
@@ -1613,19 +1639,22 @@ or by exposing the ports in a container manifest.`,
 		AllowedChoices: []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "RKT", "User", "SSHSession"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
-		Description:    `Type of the container ecosystem.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "type",
-		Stored:         true,
-		Type:           "enum",
+		Description: `Type of processing unit: ` + "`" + `APIGateway` + "`" + `, ` + "`" + `Docker` + "`" + `, ` + "`" + `Host` + "`" + `, ` + "`" + `HostService` + "`" + `,
+` + "`" + `LinuxService` + "`" + `,
+` + "`" + `RKT` + "`" + `, ` + "`" + `User` + "`" + `, or ` + "`" + `SSHSession` + "`" + `.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "type",
+		Stored:     true,
+		Type:       "enum",
 	},
 	"unreachable": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Unreachable",
-		Description: `Control plane will set this value to true if it hasn't heard from the pu for
-more than 5m.`,
+		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from the
+processing
+unit for more than five minutes.`,
 		Exposed:  true,
 		Name:     "unreachable",
 		ReadOnly: true,
@@ -1675,16 +1704,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1754,23 +1782,25 @@ func (o SparseProcessingUnitsList) Version() int {
 
 // SparseProcessingUnit represents the sparse version of a processingunit.
 type SparseProcessingUnit struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
+	// Defines if the object is archived.
 	Archived *bool `json:"-" msgpack:"-" bson:"archived,omitempty" mapstructure:"-,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// CollectInfo indicates to the enforcer it needs to collect information for this
-	// PU.
+	// A value of `+"`"+`true`+"`"+` indicates to the enforcer that it needs to collect information
+	// for
+	// this processing unit.
 	CollectInfo *bool `json:"collectInfo,omitempty" msgpack:"collectInfo,omitempty" bson:"collectinfo,omitempty" mapstructure:"collectInfo,omitempty"`
 
-	// CollectedInfo represents the latest info collected by the enforcer for this PU.
+	// Represents the latest information collected by the enforcer for this processing
+	// unit.
 	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" msgpack:"collectedInfo,omitempty" bson:"collectedinfo,omitempty" mapstructure:"collectedInfo,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1779,71 +1809,79 @@ type SparseProcessingUnit struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// EnforcementStatus communicates the state of the enforcer for that PU.
+	// Contains the state of the enforcer for the processing unit. `+"`"+`Inactive`+"`"+`
+	// (default):
+	// the enforcer is not enforcing any host service. `+"`"+`Active`+"`"+`: the enforcer is
+	// enforcing
+	// a host service. `+"`"+`Failed`+"`"+`.
 	EnforcementStatus *ProcessingUnitEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
-	// EnforcerID is the ID of the enforcer associated with the processing unit.
+	// The ID of the enforcer associated with the processing unit.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// enforcerNamespace is the namespace of the enforcer associated with the
-	// processing unit.
+	// The namespace of the enforcer associated with the processing unit.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// This field is deprecated and it is there for backward compatibility. Use
 	// `+"`"+`images`+"`"+` instead.
 	Image *string `json:"image,omitempty" msgpack:"image,omitempty" bson:"-" mapstructure:"image,omitempty"`
 
-	// List of images or executable paths used by the Processing Unit.
+	// List of images or executable paths used by the processing unit.
 	Images *[]string `json:"images,omitempty" msgpack:"images,omitempty" bson:"images,omitempty" mapstructure:"images,omitempty"`
 
-	// LastCollectionTime represents the date and time when the info have been
-	// collected.
+	// The date and time when the information was collected.
 	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" msgpack:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
 
 	// Last poke is the time when the pu got last poked.
 	LastPokeTime *time.Time `json:"-" msgpack:"-" bson:"lastpoketime,omitempty" mapstructure:"-,omitempty"`
 
-	// LastSyncTime is the time when the policy was last resolved.
+	// The date and time of the last policy resolution.
 	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" msgpack:"lastSyncTime,omitempty" bson:"lastsynctime,omitempty" mapstructure:"lastSyncTime,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NativeContextID is the Docker UUID or service PID.
+	// The Docker UUID or service PID.
 	NativeContextID *string `json:"nativeContextID,omitempty" msgpack:"nativeContextID,omitempty" bson:"nativecontextid,omitempty" mapstructure:"nativeContextID,omitempty"`
 
-	// NetworkServices is the list of services that this processing unit has declared
-	// that it will be listening to. This can happen either with an activation command
-	// or by exposing the ports in a container manifest.
+	// The list of services that this processing unit has declared that it will be
+	// listening to,
+	// either in its activation command or by exposing the ports in a container
+	// manifest.
 	NetworkServices *[]*ProcessingUnitService `json:"networkServices,omitempty" msgpack:"networkServices,omitempty" bson:"networkservices,omitempty" mapstructure:"networkServices,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// OperationalStatus of the processing unit.
+	// Operational status of the processing unit: `+"`"+`Initialized`+"`"+` (default), `+"`"+`Paused`+"`"+`,
+	// `+"`"+`Running`+"`"+`,
+	// `+"`"+`Stopped`+"`"+`, or `+"`"+`Terminated`+"`"+`.
 	OperationalStatus *ProcessingUnitOperationalStatusValue `json:"operationalStatus,omitempty" msgpack:"operationalStatus,omitempty" bson:"operationalstatus,omitempty" mapstructure:"operationalStatus,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Tracing indicates if this PU must be placed in tracing mode.
+	// Indicates if this processing unit must be placed in tracing mode.
 	Tracing *TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"tracing,omitempty" mapstructure:"tracing,omitempty"`
 
-	// Type of the container ecosystem.
+	// Type of processing unit: `+"`"+`APIGateway`+"`"+`, `+"`"+`Docker`+"`"+`, `+"`"+`Host`+"`"+`, `+"`"+`HostService`+"`"+`,
+	// `+"`"+`LinuxService`+"`"+`,
+	// `+"`"+`RKT`+"`"+`, `+"`"+`User`+"`"+`, or `+"`"+`SSHSession`+"`"+`.
 	Type *ProcessingUnitTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
-	// Control plane will set this value to true if it hasn't heard from the pu for
-	// more than 5m.
+	// The Aporeto control plane sets this value to `+"`"+`true`+"`"+` if it hasn't heard from the
+	// processing
+	// unit for more than five minutes.
 	Unreachable *bool `json:"unreachable,omitempty" msgpack:"unreachable,omitempty" bson:"unreachable,omitempty" mapstructure:"unreachable,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1856,8 +1894,7 @@ type SparseProcessingUnit struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

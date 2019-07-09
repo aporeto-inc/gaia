@@ -79,7 +79,7 @@ func (o ActivatesList) Version() int {
 
 // Activate represents the model of a activate
 type Activate struct {
-	// Token contains the activation token.
+	// Contains the activation token.
 	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -250,7 +250,7 @@ var ActivateAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
 		CreationOnly:   true,
-		Description:    `Token contains the activation token.`,
+		Description:    `Contains the activation token.`,
 		Exposed:        true,
 		Name:           "token",
 		Type:           "string",
@@ -263,7 +263,7 @@ var ActivateLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
 		CreationOnly:   true,
-		Description:    `Token contains the activation token.`,
+		Description:    `Contains the activation token.`,
 		Exposed:        true,
 		Name:           "token",
 		Type:           "string",
@@ -333,7 +333,7 @@ func (o SparseActivatesList) Version() int {
 
 // SparseActivate represents the sparse version of a activate.
 type SparseActivate struct {
-	// Token contains the activation token.
+	// Contains the activation token.
 	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

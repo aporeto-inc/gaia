@@ -144,7 +144,7 @@ func (o *Token) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Token) Doc() string {
 
-	return `This api issue signed token from the given certificate.`
+	return `Issues a signed token from the given certificate.`
 }
 
 func (o *Token) String() string {

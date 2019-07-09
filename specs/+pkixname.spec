@@ -5,14 +5,14 @@ model:
   entity_name: PKIXName
   package: barret
   group: internal/x509
-  description: Represents a PKIX.Name.
+  description: Represents a public key infrastructure X.509 (PKIX) certificate.
   detached: true
 
 # Attributes
 attributes:
   v1:
   - name: commonName
-    description: Represents the CommonName field.
+    description: Represents the Common Name field.
     type: string
     exposed: true
 
@@ -35,13 +35,13 @@ attributes:
     subtype: string
 
   - name: organizationalUnit
-    description: Represents the OrganizationalUnit field.
+    description: Represents the Organizational Unit field.
     type: list
     exposed: true
     subtype: string
 
   - name: postalCode
-    description: Represents the PostalCode field.
+    description: Represents the Postal Code field.
     type: list
     exposed: true
     subtype: string
@@ -53,7 +53,7 @@ attributes:
     subtype: string
 
   - name: streetAddress
-    description: Represents the StreetAddress field.
+    description: Represents the Street Address field.
     type: list
     exposed: true
     subtype: string

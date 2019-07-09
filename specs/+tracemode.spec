@@ -5,15 +5,15 @@ model:
   entity_name: TraceMode
   package: squall
   group: core/enforcer
-  description: TraceMode is the tracing mode that must be applied to a PU.
+  description: Represents the tracing mode to apply to a processing unit.
   detached: true
 
 # Attributes
 attributes:
   v1:
   - name: IPTables
-    description: IPTables instructs the enforcers to provide an iptables trace for
-      a PU.
+    description: Instructs the enforcers to provide an iptables trace for
+      a processing unit.
     type: boolean
     exposed: true
     stored: true
@@ -21,7 +21,7 @@ attributes:
   - name: applicationConnections
     description: |-
       Instructs the enforcer to send records for all
-      application initiated connections.
+      application-initiated connections.
     type: boolean
     exposed: true
     stored: true
@@ -29,7 +29,7 @@ attributes:
   - name: interval
     description: |-
       Determines the length of the time interval that the trace must be
-      enabled.
+      enabled, using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
     type: string
     exposed: true
     stored: true
@@ -37,8 +37,8 @@ attributes:
 
   - name: networkConnections
     description: |-
-      Instructs the enforcer to send records for all network
-      initiated connections.
+      Instructs the enforcer to send records for all
+      network-initiated connections.
     type: boolean
     exposed: true
     stored: true

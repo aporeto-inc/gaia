@@ -6,18 +6,18 @@ model:
   package: squall
   group: core/monitoring
   description: |-
-    The Message API allows to post public messages that will be visible through all
+    Allows you to post public messages that will be visible through all
     children namespaces.
   aliases:
   - mess
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the message with the given ID.
     global_parameters:
     - $propagatable
   update:
-    description: Updates the object with the given ID.
+    description: Updates the message with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the message with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -34,14 +34,14 @@ model:
 attributes:
   v1:
   - name: expirationTime
-    description: expirationTime is the time after which the message will be deleted.
+    description: The time after which the message will be deleted.
     type: time
     exposed: true
     stored: true
     orderable: true
 
   - name: level
-    description: Level defines how the message is important.
+    description: Importance of the message.
     type: enum
     exposed: true
     stored: true
@@ -54,8 +54,8 @@ attributes:
 
   - name: validity
     description: |-
-      Validity set using golang time duration, when the message will be automatically
-      deleted.
+      Sets when the message will be automatically deleted using
+      [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
     type: string
     exposed: true
     stored: true

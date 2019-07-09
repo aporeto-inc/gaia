@@ -2,7 +2,7 @@
 attributes:
   v1:
   - name: ID
-    description: ID is the identifier of the object.
+    description: Identifier of the object.
     type: string
     exposed: true
     read_only: true

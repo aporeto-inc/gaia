@@ -5,9 +5,7 @@ model:
   entity_name: StatsInfo
   package: jenova
   group: visualization/statsquery
-  description: |-
-    StatsInfo API can be used to list the fields and tags available in a
-    statistics measurement.
+  description: Lists the fields and tags available in a statistics measurement.
   aliases:
   - si
 

@@ -9,7 +9,7 @@ import (
 
 // ProcessingUnitService represents the model of a processingunitservice
 type ProcessingUnitService struct {
-	// ports contains the list of allowed ports and ranges.
+	// Contains the list of allowed ports and ranges.
 	Ports string `json:"ports" msgpack:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 
 	// Protocol used by the service.

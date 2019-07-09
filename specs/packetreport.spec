@@ -20,12 +20,12 @@ attributes:
     subtype: string
 
   - name: destinationIP
-    description: DestinationIP is the IP address of the destination.
+    description: The destination IP address of the packet.
     type: string
     exposed: true
 
   - name: destinationPort
-    description: DestinationPort is the destination port of a TCP or UDP packet.
+    description: The destination port of a TCP or UDP packet.
     type: integer
     exposed: true
     example_value: 11000
@@ -33,18 +33,18 @@ attributes:
 
   - name: dropReason
     description: |-
-      This field is only set if 'event' is set to 'Dropped' and specifies the reason
-      for the drop.
+      If `event` is set to `Dropped`, contains the reason that the packet was dropped.
+      Otherwise empty.
     type: string
     exposed: true
 
   - name: encrypt
-    description: Encrypt indicates that the packet was encrypted.
+    description: Set to `true` if the packet was encrypted.
     type: boolean
     exposed: true
 
   - name: event
-    description: Event is the event that triggered the report.
+    description: The event that triggered the report.
     type: enum
     exposed: true
     required: true
@@ -67,7 +67,7 @@ attributes:
     example_value: 123123
 
   - name: namespace
-    description: Namespace of the PU reporting the packet.
+    description: Namespace of the processing unit reporting the packet.
     type: string
     exposed: true
     required: true
@@ -89,7 +89,7 @@ attributes:
     max_value: 255
 
   - name: puID
-    description: PUID is the ID of the PU reporting the packet.
+    description: The ID of the processing unit reporting the packet.
     type: string
     exposed: true
     required: true
@@ -97,26 +97,26 @@ attributes:
     filterable: true
 
   - name: sourceIP
-    description: SourceIP is the source IP address of the packet.
+    description: The source IP address of the packet.
     type: string
     exposed: true
 
   - name: sourcePort
-    description: SourcePort is the source port of the packet.
+    description: The source port of the packet.
     type: integer
     exposed: true
     example_value: 80
     max_value: 65536
 
   - name: timestamp
-    description: Timestamp is the date of the report.
+    description: The time-date stamp of the report.
     type: time
     exposed: true
     required: true
     example_value: "2018-06-14T23:10:46.420397985Z"
 
   - name: triremePacket
-    description: TriremePacket is set if the packet arrived with the Trireme options.
+    description: Set to `true` if the packet arrived with the Trireme options (default).
     type: boolean
     exposed: true
     stored: true

@@ -9,10 +9,10 @@ import (
 
 // TimeSeriesRow represents the model of a timeseriesrow
 type TimeSeriesRow struct {
-	// colums of the row.
+	// Columns of the row.
 	Columns []string `json:"columns" msgpack:"columns" bson:"-" mapstructure:"columns,omitempty"`
 
-	// the name of row.
+	// Name of the row.
 	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// List of tags.

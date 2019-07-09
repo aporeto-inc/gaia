@@ -6,14 +6,14 @@ model:
   package: midgard
   group: core/authentication
   description: |-
-    This API verifies if the given token is valid or not. If it is valid it will
+    Verifies if the given token is valid or not. If it is valid it will
     return the claims of the token.
 
 # Attributes
 attributes:
   v1:
   - name: claims
-    description: Claims are the claims.
+    description: The claims in the token.
     type: external
     exposed: true
     subtype: _claims

@@ -137,14 +137,17 @@ type PolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
 	Policies PolicyRulesList `json:"policies" msgpack:"policies" bson:"-" mapstructure:"policies,omitempty"`
 
-	// Define if the processMode should be using the object or subject. This only has
-	// effect when rendering a SSHAuthorizationPolicy for now.
+	// `+"`"+`Subject`+"`"+` (default): Set if the `+"`"+`processMode`+"`"+` should use the subject. `+"`"+`Object`+"`"+`:
+	// Set if
+	// the `+"`"+`processMode`+"`"+` should use the object. This only has effect when rendering an
+	// SSH
+	// authorization for now.
 	ProcessMode PolicyRendererProcessModeValue `json:"processMode" msgpack:"processMode" bson:"-" mapstructure:"processMode,omitempty"`
 
-	// List of tags of the object to render the hook policy for.
+	// List of tags of the object to render the hook for.
 	Tags []string `json:"tags" msgpack:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
-	// Type of the policy to render.
+	// Type of policy to render.
 	Type PolicyRendererTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -199,8 +202,7 @@ func (o *PolicyRenderer) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PolicyRenderer) Doc() string {
 
-	return `Render is a low level api that allows to render policies of given tyoe for a
-given set of tags.`
+	return `Allows you to render policies of a given type for a given set of tags.`
 }
 
 func (o *PolicyRenderer) String() string {
@@ -379,8 +381,11 @@ var PolicyRendererAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Subject", "Object"},
 		ConvertedName:  "ProcessMode",
 		DefaultValue:   PolicyRendererProcessModeSubject,
-		Description: `Define if the processMode should be using the object or subject. This only has
-effect when rendering a SSHAuthorizationPolicy for now.`,
+		Description: `` + "`" + `Subject` + "`" + ` (default): Set if the ` + "`" + `processMode` + "`" + ` should use the subject. ` + "`" + `Object` + "`" + `:
+Set if
+the ` + "`" + `processMode` + "`" + ` should use the object. This only has effect when rendering an
+SSH
+authorization for now.`,
 		Exposed: true,
 		Name:    "processMode",
 		Type:    "enum",
@@ -388,7 +393,7 @@ effect when rendering a SSHAuthorizationPolicy for now.`,
 	"Tags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Tags",
-		Description:    `List of tags of the object to render the hook policy for.`,
+		Description:    `List of tags of the object to render the hook for.`,
 		Exposed:        true,
 		Name:           "tags",
 		Required:       true,
@@ -398,7 +403,7 @@ effect when rendering a SSHAuthorizationPolicy for now.`,
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization", "UserAccess"},
 		ConvertedName:  "Type",
-		Description:    `Type of the policy to render.`,
+		Description:    `Type of policy to render.`,
 		Exposed:        true,
 		Name:           "type",
 		Required:       true,
@@ -423,8 +428,11 @@ var PolicyRendererLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		AllowedChoices: []string{"Subject", "Object"},
 		ConvertedName:  "ProcessMode",
 		DefaultValue:   PolicyRendererProcessModeSubject,
-		Description: `Define if the processMode should be using the object or subject. This only has
-effect when rendering a SSHAuthorizationPolicy for now.`,
+		Description: `` + "`" + `Subject` + "`" + ` (default): Set if the ` + "`" + `processMode` + "`" + ` should use the subject. ` + "`" + `Object` + "`" + `:
+Set if
+the ` + "`" + `processMode` + "`" + ` should use the object. This only has effect when rendering an
+SSH
+authorization for now.`,
 		Exposed: true,
 		Name:    "processMode",
 		Type:    "enum",
@@ -432,7 +440,7 @@ effect when rendering a SSHAuthorizationPolicy for now.`,
 	"tags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Tags",
-		Description:    `List of tags of the object to render the hook policy for.`,
+		Description:    `List of tags of the object to render the hook for.`,
 		Exposed:        true,
 		Name:           "tags",
 		Required:       true,
@@ -442,7 +450,7 @@ effect when rendering a SSHAuthorizationPolicy for now.`,
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization", "UserAccess"},
 		ConvertedName:  "Type",
-		Description:    `Type of the policy to render.`,
+		Description:    `Type of policy to render.`,
 		Exposed:        true,
 		Name:           "type",
 		Required:       true,
@@ -516,14 +524,17 @@ type SparsePolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
 	Policies *PolicyRulesList `json:"policies,omitempty" msgpack:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
 
-	// Define if the processMode should be using the object or subject. This only has
-	// effect when rendering a SSHAuthorizationPolicy for now.
+	// `+"`"+`Subject`+"`"+` (default): Set if the `+"`"+`processMode`+"`"+` should use the subject. `+"`"+`Object`+"`"+`:
+	// Set if
+	// the `+"`"+`processMode`+"`"+` should use the object. This only has effect when rendering an
+	// SSH
+	// authorization for now.
 	ProcessMode *PolicyRendererProcessModeValue `json:"processMode,omitempty" msgpack:"processMode,omitempty" bson:"-" mapstructure:"processMode,omitempty"`
 
-	// List of tags of the object to render the hook policy for.
+	// List of tags of the object to render the hook for.
 	Tags *[]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
 
-	// Type of the policy to render.
+	// Type of policy to render.
 	Type *PolicyRendererTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

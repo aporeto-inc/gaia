@@ -22,12 +22,12 @@ attributes:
     exposed: true
 
   - name: destinationID
-    description: ID of the destination GraphNode of the edge.
+    description: ID of the destination `GraphNode` of the edge.
     type: string
     exposed: true
 
   - name: destinationType
-    description: Type of the destination GraphNode of the edge.
+    description: Type of the destination `GraphNode` of the edge. 
     type: enum
     exposed: true
     allowed_choices:
@@ -36,7 +36,7 @@ attributes:
     - Node
 
   - name: encrypted
-    description: Tells the number of encrypted flows in the edge.
+    description: The number of encrypted flows in the edge.
     type: integer
     exposed: true
 
@@ -52,8 +52,8 @@ attributes:
 
   - name: observedPolicyIDs
     description: |-
-      Information about the observation policies that was hit in the flows
-      represented by that edge.
+      Information about the observed policies that were hit in the flows
+      represented by the edge.
     type: refMap
     exposed: true
     subtype: graphpolicyinfo
@@ -66,14 +66,14 @@ attributes:
     exposed: true
 
   - name: observedServiceIDs
-    description: Map of ints...
+    description: Map of ints.
     type: external
     exposed: true
     subtype: map[string]int
 
   - name: policyIDs
     description: |-
-      Information about the policies that was hit in the flows represented by that
+      Information about the policies that were hit in the flows represented by the
       edge.
     type: refMap
     exposed: true
@@ -87,12 +87,12 @@ attributes:
     exposed: true
 
   - name: sourceID
-    description: ID of the source GraphNode of the edge.
+    description: ID of the source `GraphNode` of the edge.
     type: string
     exposed: true
 
   - name: sourceType
-    description: Type of the source GraphNode of the edge.
+    description: Type of the source `GraphNode` of the edge.
     type: enum
     exposed: true
     allowed_choices:

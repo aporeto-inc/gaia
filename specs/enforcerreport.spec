@@ -17,7 +17,7 @@ attributes:
     example_value: 10
 
   - name: ID
-    description: ID of the enforcer to report.
+    description: ID of the enforcer.
     type: string
     exposed: true
     required: true
@@ -30,14 +30,14 @@ attributes:
     example_value: 10000
 
   - name: name
-    description: Name of the enforcer to report.
+    description: Name of the enforcer.
     type: string
     exposed: true
     required: true
     example_value: aporeto-enforcerd-xxx
 
   - name: namespace
-    description: Namespace of the enforcer to report.
+    description: Namespace of the enforcer.
     type: string
     exposed: true
     required: true

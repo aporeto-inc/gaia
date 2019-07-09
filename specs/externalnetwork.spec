@@ -6,12 +6,13 @@ model:
   package: squall
   group: policy/networking
   description: |-
-    An External Network represents a random network or ip that is not managed by the
-    system. They can be used in Network Access Policies in order to allow traffic
-    from or to the declared network or IP, using the provided protocol and port or
-    ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0
-    as address, and 1-65000 for the ports. You will need to use the External
-    Services tags to set some policies.
+    An external network represents a random network or IP address that is not 
+    managed by Aporeto. External networks can be used in network policies to 
+    allow traffic from or to the declared network or IP, using the provided 
+    protocol and port (or range of ports). If you want to describe the internet 
+    (i.e., anywhere), use `0.0.0.0/0` as the address and `1-65000` for the ports. 
+    You must assign the external network one or more tags. These allow you to
+    reference the external network from your network policies.
   aliases:
   - extnet
   - extnets
@@ -62,7 +63,7 @@ attributes:
     - $ports
 
   - name: protocols
-    description: List of protocols (tcp, udp, or protocol number).
+    description: List of protocols (`tcp`, `udp`, or protocol number).
     type: list
     exposed: true
     subtype: string

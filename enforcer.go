@@ -114,37 +114,39 @@ func (o EnforcersList) Version() int {
 
 // Enforcer represents the model of a enforcer
 type Enforcer struct {
-	// FQDN contains the fqdn of the server where the enforcer is running.
+	// Contains the fully qualified domain name (FQDN) of the server where the
+	// enforcer is running.
 	FQDN string `json:"FQDN" msgpack:"FQDN" bson:"fqdn" mapstructure:"FQDN,omitempty"`
 
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Certificate is the certificate of the enforcer.
+	// The certificate of the enforcer.
 	Certificate string `json:"certificate" msgpack:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
-	// CertificateExpirationDate is the expiration date of the certificate. This is an
+	// The expiration date of the certificate. This is an
 	// internal attribute, not exposed in the API.
 	CertificateExpirationDate time.Time `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	// CertificateKey is the certificate key of the enforcer. This is an internal
+	// The certificate key of the enforcer. This is an internal
 	// attribute, not exposed in the API.
 	CertificateKey string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	// If not empty during a create or update generation, the provided CSR will be
-	// validated and signed by the backend providing a renewed certificate.
+	// If not empty during a create or update operation, the provided certificate
+	// signing request (CSR) will be validated and signed by the control plane,
+	// providing a renewed certificate.
 	CertificateRequest string `json:"certificateRequest" msgpack:"certificateRequest" bson:"-" mapstructure:"certificateRequest,omitempty"`
 
-	// CollectInfo indicates to the enforcer it needs to collect information.
+	// Indicates to the enforcer whether or not it needs to collect information.
 	CollectInfo bool `json:"collectInfo" msgpack:"collectInfo" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
 
-	// CollectedInfo represents the latest info collected by the enforcer.
+	// Represents the latest information collected by the enforcer.
 	CollectedInfo map[string]string `json:"collectedInfo" msgpack:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -153,24 +155,22 @@ type Enforcer struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// CurrentVersion holds the enforcerd binary version that is currently associated
-	// to this object.
+	// The version number of the installed enforcer binary.
 	CurrentVersion string `json:"currentVersion" msgpack:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Status of enforcement for PU managed directly by enforcerd, like Host PUs.
+	// Status of the enforcement for host services.
 	EnforcementStatus EnforcerEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
 
-	// LastCollectionTime represents the date and time when the info have been
-	// collected.
+	// Identifies when the information was collected.
 	LastCollectionTime time.Time `json:"lastCollectionTime" msgpack:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
 
-	// Last poke is the time when the enforcer got last poked.
+	// The time and date of the last poke.
 	LastPokeTime time.Time `json:"-" msgpack:"-" bson:"lastpoketime" mapstructure:"-,omitempty"`
 
-	// LastSyncTime holds the last heart beat time.
+	// The time and date of the last heartbeat.
 	LastSyncTime time.Time `json:"lastSyncTime" msgpack:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
 
 	// LastValidHostServices is a read only attribute that stores the list valid host
@@ -179,50 +179,50 @@ type Enforcer struct {
 	// into conflicts.
 	LastValidHostServices HostServicesList `json:"-" msgpack:"-" bson:"lastvalidhostservices" mapstructure:"-,omitempty"`
 
-	// LocalCA contains the initial chain of trust for the enforcer. This valud is only
+	// Contains the initial chain of trust for the enforcer. This value is only
 	// given when you retrieve a single enforcer.
 	LocalCA string `json:"localCA" msgpack:"localCA" bson:"-" mapstructure:"localCA,omitempty"`
 
-	// MachineID holds a unique identifier for every machine as detected by the
-	// enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
-	// addresses of interfaces or cloud provider IDs.
+	// A unique identifier for every machine as detected by the enforcer. It is
+	// based on hardware information such as the SMBIOS UUID, MAC addresses of
+	// interfaces, or cloud provider IDs.
 	MachineID string `json:"machineID" msgpack:"machineID" bson:"machineid" mapstructure:"machineID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// OperationalStatus tells the status of the enforcer.
+	// The status of the enforcer.
 	OperationalStatus EnforcerOperationalStatusValue `json:"operationalStatus" msgpack:"operationalStatus" bson:"operationalstatus" mapstructure:"operationalStatus,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// PublicToken is the public token of the server that will be included in the
-	// datapath and its signed by the private CA.
+	// The public token of the server that will be included in the datapath and
+	// is signed by the private certificate authority.
 	PublicToken string `json:"publicToken" msgpack:"publicToken" bson:"publictoken" mapstructure:"publicToken,omitempty"`
 
-	// startTime holds the time this enforcerd was started. This time-stamp is reported
-	// by the enforcer and is is preserved across disconnects.
+	// The time and date on which this enforcer was started. The enforcer reports
+	// this and the value is preserved across disconnects.
 	StartTime time.Time `json:"startTime" msgpack:"startTime" bson:"starttime" mapstructure:"startTime,omitempty"`
 
 	// Local subnets of this enforcer.
 	Subnets []string `json:"subnets" msgpack:"subnets" bson:"subnets" mapstructure:"subnets,omitempty"`
 
-	// Control plane will set this value to true if it hasn't heard from the enforcer
-	// for more than 5m.
+	// The Aporeto control plane sets this value to `+"`"+`true`+"`"+` if it hasn't heard from
+	// the enforcer in the last five minutes.
 	Unreachable bool `json:"unreachable" msgpack:"unreachable" bson:"unreachable" mapstructure:"unreachable,omitempty"`
 
-	// Tells if the the version of enforcerd is outdated and should be updated.
+	// If `+"`"+`true`+"`"+`, the enforcer version is outdated and should be updated.
 	UpdateAvailable bool `json:"updateAvailable" msgpack:"updateAvailable" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -235,8 +235,7 @@ type Enforcer struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -301,8 +300,8 @@ func (o *Enforcer) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Enforcer) Doc() string {
 
-	return `An Enforcer contains all parameters associated with a registered enforcer. The
-object is mainly by maintained by the enforcers themselves. Users can read the
+	return `Contains all parameters associated with a registered enforcer. The
+object is mainly maintained by the enforcers themselves. Users can read the
 object in order to understand the current status of the enforcers.`
 }
 
@@ -902,19 +901,20 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FQDN",
 		CreationOnly:   true,
-		Description:    `FQDN contains the fqdn of the server where the enforcer is running.`,
-		Exposed:        true,
-		Name:           "FQDN",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Contains the fully qualified domain name (FQDN) of the server where the
+enforcer is running.`,
+		Exposed:   true,
+		Name:      "FQDN",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -927,7 +927,7 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -939,7 +939,7 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -952,7 +952,7 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Certificate",
-		Description:    `Certificate is the certificate of the enforcer.`,
+		Description:    `The certificate of the enforcer.`,
 		Exposed:        true,
 		Name:           "certificate",
 		Orderable:      true,
@@ -964,7 +964,7 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CertificateExpirationDate",
-		Description: `CertificateExpirationDate is the expiration date of the certificate. This is an
+		Description: `The expiration date of the certificate. This is an
 internal attribute, not exposed in the API.`,
 		Name:     "certificateExpirationDate",
 		ReadOnly: true,
@@ -974,7 +974,7 @@ internal attribute, not exposed in the API.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CertificateKey",
-		Description: `CertificateKey is the certificate key of the enforcer. This is an internal
+		Description: `The certificate key of the enforcer. This is an internal
 attribute, not exposed in the API.`,
 		Name:     "certificateKey",
 		ReadOnly: true,
@@ -983,8 +983,9 @@ attribute, not exposed in the API.`,
 	"CertificateRequest": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequest",
-		Description: `If not empty during a create or update generation, the provided CSR will be
-validated and signed by the backend providing a renewed certificate.`,
+		Description: `If not empty during a create or update operation, the provided certificate
+signing request (CSR) will be validated and signed by the control plane,
+providing a renewed certificate.`,
 		Exposed:   true,
 		Name:      "certificateRequest",
 		Transient: true,
@@ -993,7 +994,7 @@ validated and signed by the backend providing a renewed certificate.`,
 	"CollectInfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectInfo",
-		Description:    `CollectInfo indicates to the enforcer it needs to collect information.`,
+		Description:    `Indicates to the enforcer whether or not it needs to collect information.`,
 		Exposed:        true,
 		Name:           "collectInfo",
 		Stored:         true,
@@ -1002,7 +1003,7 @@ validated and signed by the backend providing a renewed certificate.`,
 	"CollectedInfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectedInfo",
-		Description:    `CollectedInfo represents the latest info collected by the enforcer.`,
+		Description:    `Represents the latest information collected by the enforcer.`,
 		Exposed:        true,
 		Name:           "collectedInfo",
 		Stored:         true,
@@ -1038,19 +1039,18 @@ validated and signed by the backend providing a renewed certificate.`,
 	"CurrentVersion": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CurrentVersion",
-		Description: `CurrentVersion holds the enforcerd binary version that is currently associated
-to this object.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "currentVersion",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "string",
+		Description:    `The version number of the installed enforcer binary.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "currentVersion",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1064,7 +1064,7 @@ to this object.`,
 		AllowedChoices: []string{"Inactive", "Active", "Failed"},
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   EnforcerEnforcementStatusInactive,
-		Description:    `Status of enforcement for PU managed directly by enforcerd, like Host PUs.`,
+		Description:    `Status of the enforcement for host services.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "enforcementStatus",
@@ -1074,17 +1074,16 @@ to this object.`,
 	"LastCollectionTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastCollectionTime",
-		Description: `LastCollectionTime represents the date and time when the info have been
-collected.`,
-		Exposed: true,
-		Name:    "lastCollectionTime",
-		Stored:  true,
-		Type:    "time",
+		Description:    `Identifies when the information was collected.`,
+		Exposed:        true,
+		Name:           "lastCollectionTime",
+		Stored:         true,
+		Type:           "time",
 	},
 	"LastPokeTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastPokeTime",
-		Description:    `Last poke is the time when the enforcer got last poked.`,
+		Description:    `The time and date of the last poke.`,
 		Name:           "lastPokeTime",
 		Stored:         true,
 		Type:           "time",
@@ -1092,7 +1091,7 @@ collected.`,
 	"LastSyncTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastSyncTime",
-		Description:    `LastSyncTime holds the last heart beat time.`,
+		Description:    `The time and date of the last heartbeat.`,
 		Exposed:        true,
 		Name:           "lastSyncTime",
 		Orderable:      true,
@@ -1116,7 +1115,7 @@ into conflicts.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "LocalCA",
-		Description: `LocalCA contains the initial chain of trust for the enforcer. This valud is only
+		Description: `Contains the initial chain of trust for the enforcer. This value is only
 given when you retrieve a single enforcer.`,
 		Exposed:   true,
 		Name:      "localCA",
@@ -1126,9 +1125,9 @@ given when you retrieve a single enforcer.`,
 	"MachineID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MachineID",
-		Description: `MachineID holds a unique identifier for every machine as detected by the
-enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
-addresses of interfaces or cloud provider IDs.`,
+		Description: `A unique identifier for every machine as detected by the enforcer. It is
+based on hardware information such as the SMBIOS UUID, MAC addresses of
+interfaces, or cloud provider IDs.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "machineID",
@@ -1139,7 +1138,7 @@ addresses of interfaces or cloud provider IDs.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1154,7 +1153,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1186,7 +1185,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1201,7 +1200,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{"Registered", "Connected", "Disconnected", "Initialized"},
 		ConvertedName:  "OperationalStatus",
 		DefaultValue:   EnforcerOperationalStatusRegistered,
-		Description:    `OperationalStatus tells the status of the enforcer.`,
+		Description:    `The status of the enforcer.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "operationalStatus",
@@ -1211,7 +1210,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1224,8 +1223,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "PublicToken",
-		Description: `PublicToken is the public token of the server that will be included in the
-datapath and its signed by the private CA.`,
+		Description: `The public token of the server that will be included in the datapath and
+is signed by the private certificate authority.`,
 		Exposed:   true,
 		Name:      "publicToken",
 		ReadOnly:  true,
@@ -1236,8 +1235,8 @@ datapath and its signed by the private CA.`,
 	"StartTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "StartTime",
-		Description: `startTime holds the time this enforcerd was started. This time-stamp is reported
-by the enforcer and is is preserved across disconnects.`,
+		Description: `The time and date on which this enforcer was started. The enforcer reports
+this and the value is preserved across disconnects.`,
 		Exposed:   true,
 		Name:      "startTime",
 		Orderable: true,
@@ -1258,8 +1257,8 @@ by the enforcer and is is preserved across disconnects.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Unreachable",
-		Description: `Control plane will set this value to true if it hasn't heard from the enforcer
-for more than 5m.`,
+		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from
+the enforcer in the last five minutes.`,
 		Exposed:  true,
 		Name:     "unreachable",
 		ReadOnly: true,
@@ -1269,7 +1268,7 @@ for more than 5m.`,
 	"UpdateAvailable": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "UpdateAvailable",
-		Description:    `Tells if the the version of enforcerd is outdated and should be updated.`,
+		Description:    `If ` + "`" + `true` + "`" + `, the enforcer version is outdated and should be updated.`,
 		Exposed:        true,
 		Name:           "updateAvailable",
 		Orderable:      true,
@@ -1319,16 +1318,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1338,19 +1336,20 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		ConvertedName:  "FQDN",
 		CreationOnly:   true,
-		Description:    `FQDN contains the fqdn of the server where the enforcer is running.`,
-		Exposed:        true,
-		Name:           "FQDN",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Contains the fully qualified domain name (FQDN) of the server where the
+enforcer is running.`,
+		Exposed:   true,
+		Name:      "FQDN",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1363,7 +1362,7 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1375,7 +1374,7 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1388,7 +1387,7 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Certificate",
-		Description:    `Certificate is the certificate of the enforcer.`,
+		Description:    `The certificate of the enforcer.`,
 		Exposed:        true,
 		Name:           "certificate",
 		Orderable:      true,
@@ -1400,7 +1399,7 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CertificateExpirationDate",
-		Description: `CertificateExpirationDate is the expiration date of the certificate. This is an
+		Description: `The expiration date of the certificate. This is an
 internal attribute, not exposed in the API.`,
 		Name:     "certificateExpirationDate",
 		ReadOnly: true,
@@ -1410,7 +1409,7 @@ internal attribute, not exposed in the API.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CertificateKey",
-		Description: `CertificateKey is the certificate key of the enforcer. This is an internal
+		Description: `The certificate key of the enforcer. This is an internal
 attribute, not exposed in the API.`,
 		Name:     "certificateKey",
 		ReadOnly: true,
@@ -1419,8 +1418,9 @@ attribute, not exposed in the API.`,
 	"certificaterequest": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequest",
-		Description: `If not empty during a create or update generation, the provided CSR will be
-validated and signed by the backend providing a renewed certificate.`,
+		Description: `If not empty during a create or update operation, the provided certificate
+signing request (CSR) will be validated and signed by the control plane,
+providing a renewed certificate.`,
 		Exposed:   true,
 		Name:      "certificateRequest",
 		Transient: true,
@@ -1429,7 +1429,7 @@ validated and signed by the backend providing a renewed certificate.`,
 	"collectinfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectInfo",
-		Description:    `CollectInfo indicates to the enforcer it needs to collect information.`,
+		Description:    `Indicates to the enforcer whether or not it needs to collect information.`,
 		Exposed:        true,
 		Name:           "collectInfo",
 		Stored:         true,
@@ -1438,7 +1438,7 @@ validated and signed by the backend providing a renewed certificate.`,
 	"collectedinfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectedInfo",
-		Description:    `CollectedInfo represents the latest info collected by the enforcer.`,
+		Description:    `Represents the latest information collected by the enforcer.`,
 		Exposed:        true,
 		Name:           "collectedInfo",
 		Stored:         true,
@@ -1474,19 +1474,18 @@ validated and signed by the backend providing a renewed certificate.`,
 	"currentversion": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CurrentVersion",
-		Description: `CurrentVersion holds the enforcerd binary version that is currently associated
-to this object.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "currentVersion",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "string",
+		Description:    `The version number of the installed enforcer binary.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "currentVersion",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1500,7 +1499,7 @@ to this object.`,
 		AllowedChoices: []string{"Inactive", "Active", "Failed"},
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   EnforcerEnforcementStatusInactive,
-		Description:    `Status of enforcement for PU managed directly by enforcerd, like Host PUs.`,
+		Description:    `Status of the enforcement for host services.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "enforcementStatus",
@@ -1510,17 +1509,16 @@ to this object.`,
 	"lastcollectiontime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastCollectionTime",
-		Description: `LastCollectionTime represents the date and time when the info have been
-collected.`,
-		Exposed: true,
-		Name:    "lastCollectionTime",
-		Stored:  true,
-		Type:    "time",
+		Description:    `Identifies when the information was collected.`,
+		Exposed:        true,
+		Name:           "lastCollectionTime",
+		Stored:         true,
+		Type:           "time",
 	},
 	"lastpoketime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastPokeTime",
-		Description:    `Last poke is the time when the enforcer got last poked.`,
+		Description:    `The time and date of the last poke.`,
 		Name:           "lastPokeTime",
 		Stored:         true,
 		Type:           "time",
@@ -1528,7 +1526,7 @@ collected.`,
 	"lastsynctime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastSyncTime",
-		Description:    `LastSyncTime holds the last heart beat time.`,
+		Description:    `The time and date of the last heartbeat.`,
 		Exposed:        true,
 		Name:           "lastSyncTime",
 		Orderable:      true,
@@ -1552,7 +1550,7 @@ into conflicts.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "LocalCA",
-		Description: `LocalCA contains the initial chain of trust for the enforcer. This valud is only
+		Description: `Contains the initial chain of trust for the enforcer. This value is only
 given when you retrieve a single enforcer.`,
 		Exposed:   true,
 		Name:      "localCA",
@@ -1562,9 +1560,9 @@ given when you retrieve a single enforcer.`,
 	"machineid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MachineID",
-		Description: `MachineID holds a unique identifier for every machine as detected by the
-enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
-addresses of interfaces or cloud provider IDs.`,
+		Description: `A unique identifier for every machine as detected by the enforcer. It is
+based on hardware information such as the SMBIOS UUID, MAC addresses of
+interfaces, or cloud provider IDs.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "machineID",
@@ -1575,7 +1573,7 @@ addresses of interfaces or cloud provider IDs.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1590,7 +1588,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1622,7 +1620,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1637,7 +1635,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{"Registered", "Connected", "Disconnected", "Initialized"},
 		ConvertedName:  "OperationalStatus",
 		DefaultValue:   EnforcerOperationalStatusRegistered,
-		Description:    `OperationalStatus tells the status of the enforcer.`,
+		Description:    `The status of the enforcer.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "operationalStatus",
@@ -1647,7 +1645,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1660,8 +1658,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "PublicToken",
-		Description: `PublicToken is the public token of the server that will be included in the
-datapath and its signed by the private CA.`,
+		Description: `The public token of the server that will be included in the datapath and
+is signed by the private certificate authority.`,
 		Exposed:   true,
 		Name:      "publicToken",
 		ReadOnly:  true,
@@ -1672,8 +1670,8 @@ datapath and its signed by the private CA.`,
 	"starttime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "StartTime",
-		Description: `startTime holds the time this enforcerd was started. This time-stamp is reported
-by the enforcer and is is preserved across disconnects.`,
+		Description: `The time and date on which this enforcer was started. The enforcer reports
+this and the value is preserved across disconnects.`,
 		Exposed:   true,
 		Name:      "startTime",
 		Orderable: true,
@@ -1694,8 +1692,8 @@ by the enforcer and is is preserved across disconnects.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Unreachable",
-		Description: `Control plane will set this value to true if it hasn't heard from the enforcer
-for more than 5m.`,
+		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from
+the enforcer in the last five minutes.`,
 		Exposed:  true,
 		Name:     "unreachable",
 		ReadOnly: true,
@@ -1705,7 +1703,7 @@ for more than 5m.`,
 	"updateavailable": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "UpdateAvailable",
-		Description:    `Tells if the the version of enforcerd is outdated and should be updated.`,
+		Description:    `If ` + "`" + `true` + "`" + `, the enforcer version is outdated and should be updated.`,
 		Exposed:        true,
 		Name:           "updateAvailable",
 		Orderable:      true,
@@ -1755,16 +1753,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1834,37 +1831,39 @@ func (o SparseEnforcersList) Version() int {
 
 // SparseEnforcer represents the sparse version of a enforcer.
 type SparseEnforcer struct {
-	// FQDN contains the fqdn of the server where the enforcer is running.
+	// Contains the fully qualified domain name (FQDN) of the server where the
+	// enforcer is running.
 	FQDN *string `json:"FQDN,omitempty" msgpack:"FQDN,omitempty" bson:"fqdn,omitempty" mapstructure:"FQDN,omitempty"`
 
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// Certificate is the certificate of the enforcer.
+	// The certificate of the enforcer.
 	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
 
-	// CertificateExpirationDate is the expiration date of the certificate. This is an
+	// The expiration date of the certificate. This is an
 	// internal attribute, not exposed in the API.
 	CertificateExpirationDate *time.Time `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	// CertificateKey is the certificate key of the enforcer. This is an internal
+	// The certificate key of the enforcer. This is an internal
 	// attribute, not exposed in the API.
 	CertificateKey *string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	// If not empty during a create or update generation, the provided CSR will be
-	// validated and signed by the backend providing a renewed certificate.
+	// If not empty during a create or update operation, the provided certificate
+	// signing request (CSR) will be validated and signed by the control plane,
+	// providing a renewed certificate.
 	CertificateRequest *string `json:"certificateRequest,omitempty" msgpack:"certificateRequest,omitempty" bson:"-" mapstructure:"certificateRequest,omitempty"`
 
-	// CollectInfo indicates to the enforcer it needs to collect information.
+	// Indicates to the enforcer whether or not it needs to collect information.
 	CollectInfo *bool `json:"collectInfo,omitempty" msgpack:"collectInfo,omitempty" bson:"collectinfo,omitempty" mapstructure:"collectInfo,omitempty"`
 
-	// CollectedInfo represents the latest info collected by the enforcer.
+	// Represents the latest information collected by the enforcer.
 	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" msgpack:"collectedInfo,omitempty" bson:"collectedinfo,omitempty" mapstructure:"collectedInfo,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1873,24 +1872,22 @@ type SparseEnforcer struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// CurrentVersion holds the enforcerd binary version that is currently associated
-	// to this object.
+	// The version number of the installed enforcer binary.
 	CurrentVersion *string `json:"currentVersion,omitempty" msgpack:"currentVersion,omitempty" bson:"currentversion,omitempty" mapstructure:"currentVersion,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Status of enforcement for PU managed directly by enforcerd, like Host PUs.
+	// Status of the enforcement for host services.
 	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
-	// LastCollectionTime represents the date and time when the info have been
-	// collected.
+	// Identifies when the information was collected.
 	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" msgpack:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
 
-	// Last poke is the time when the enforcer got last poked.
+	// The time and date of the last poke.
 	LastPokeTime *time.Time `json:"-" msgpack:"-" bson:"lastpoketime,omitempty" mapstructure:"-,omitempty"`
 
-	// LastSyncTime holds the last heart beat time.
+	// The time and date of the last heartbeat.
 	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" msgpack:"lastSyncTime,omitempty" bson:"lastsynctime,omitempty" mapstructure:"lastSyncTime,omitempty"`
 
 	// LastValidHostServices is a read only attribute that stores the list valid host
@@ -1899,50 +1896,50 @@ type SparseEnforcer struct {
 	// into conflicts.
 	LastValidHostServices *HostServicesList `json:"-" msgpack:"-" bson:"lastvalidhostservices,omitempty" mapstructure:"-,omitempty"`
 
-	// LocalCA contains the initial chain of trust for the enforcer. This valud is only
+	// Contains the initial chain of trust for the enforcer. This value is only
 	// given when you retrieve a single enforcer.
 	LocalCA *string `json:"localCA,omitempty" msgpack:"localCA,omitempty" bson:"-" mapstructure:"localCA,omitempty"`
 
-	// MachineID holds a unique identifier for every machine as detected by the
-	// enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
-	// addresses of interfaces or cloud provider IDs.
+	// A unique identifier for every machine as detected by the enforcer. It is
+	// based on hardware information such as the SMBIOS UUID, MAC addresses of
+	// interfaces, or cloud provider IDs.
 	MachineID *string `json:"machineID,omitempty" msgpack:"machineID,omitempty" bson:"machineid,omitempty" mapstructure:"machineID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// OperationalStatus tells the status of the enforcer.
+	// The status of the enforcer.
 	OperationalStatus *EnforcerOperationalStatusValue `json:"operationalStatus,omitempty" msgpack:"operationalStatus,omitempty" bson:"operationalstatus,omitempty" mapstructure:"operationalStatus,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// PublicToken is the public token of the server that will be included in the
-	// datapath and its signed by the private CA.
+	// The public token of the server that will be included in the datapath and
+	// is signed by the private certificate authority.
 	PublicToken *string `json:"publicToken,omitempty" msgpack:"publicToken,omitempty" bson:"publictoken,omitempty" mapstructure:"publicToken,omitempty"`
 
-	// startTime holds the time this enforcerd was started. This time-stamp is reported
-	// by the enforcer and is is preserved across disconnects.
+	// The time and date on which this enforcer was started. The enforcer reports
+	// this and the value is preserved across disconnects.
 	StartTime *time.Time `json:"startTime,omitempty" msgpack:"startTime,omitempty" bson:"starttime,omitempty" mapstructure:"startTime,omitempty"`
 
 	// Local subnets of this enforcer.
 	Subnets *[]string `json:"subnets,omitempty" msgpack:"subnets,omitempty" bson:"subnets,omitempty" mapstructure:"subnets,omitempty"`
 
-	// Control plane will set this value to true if it hasn't heard from the enforcer
-	// for more than 5m.
+	// The Aporeto control plane sets this value to `+"`"+`true`+"`"+` if it hasn't heard from
+	// the enforcer in the last five minutes.
 	Unreachable *bool `json:"unreachable,omitempty" msgpack:"unreachable,omitempty" bson:"unreachable,omitempty" mapstructure:"unreachable,omitempty"`
 
-	// Tells if the the version of enforcerd is outdated and should be updated.
+	// If `+"`"+`true`+"`"+`, the enforcer version is outdated and should be updated.
 	UpdateAvailable *bool `json:"updateAvailable,omitempty" msgpack:"updateAvailable,omitempty" bson:"updateavailable,omitempty" mapstructure:"updateAvailable,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1955,8 +1952,7 @@ type SparseEnforcer struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

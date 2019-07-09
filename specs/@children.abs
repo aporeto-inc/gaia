@@ -6,7 +6,7 @@ indexes:
 attributes:
   v1:
   - name: parentID
-    description: parentID contains the ID of the parent.
+    description: Contains the ID of the parent.
     type: string
     exposed: true
     stored: true
@@ -18,7 +18,7 @@ attributes:
     orderable: true
 
   - name: parentType
-    description: parentType contains the identiy name of the parent.
+    description: Contains the identity name of the parent.
     type: string
     exposed: true
     stored: true

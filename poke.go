@@ -129,7 +129,7 @@ func (o *Poke) DefaultOrder() []string {
 func (o *Poke) Doc() string {
 
 	return `When available, poke can be used to update various information about the parent.
-For instance, for enforcers, poke will be use as the heartbeat.`
+For instance, for enforcers, poke will be used as the heartbeat.`
 }
 
 func (o *Poke) String() string {

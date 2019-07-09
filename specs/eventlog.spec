@@ -5,13 +5,13 @@ model:
   entity_name: EventLog
   package: leon
   group: core/monitoring
-  description: This api allows to report various event on any objects.
+  description: Allows you to report various events on any object.
 
 # Attributes
 attributes:
   v1:
   - name: category
-    description: Category of the log.
+    description: Category of the event log.
     type: string
     exposed: true
     stored: true
@@ -20,7 +20,7 @@ attributes:
     example_value: enforcerd:policy
 
   - name: content
-    description: Content of the log.
+    description: Content of the event log.
     type: string
     exposed: true
     stored: true
@@ -29,7 +29,7 @@ attributes:
     example_value: Unable to activate docker container xyz because abc.
 
   - name: date
-    description: Creation date of the eventlog.
+    description: Creation date of the event log.
     type: time
     exposed: true
     stored: true
@@ -38,7 +38,7 @@ attributes:
     orderable: true
 
   - name: level
-    description: Represent the level of the log .
+    description: Sets the log level.
     type: enum
     exposed: true
     stored: true
@@ -52,7 +52,7 @@ attributes:
     default_value: Info
 
   - name: namespace
-    description: Namespace tag attached to an entity.
+    description: Namespace tag attached to the event log.
     type: string
     exposed: true
     stored: true
@@ -64,7 +64,7 @@ attributes:
     orderable: true
 
   - name: opaque
-    description: Opaque data that can attached to the log, for further machine processing.
+    description: Opaque data that can be attached to the event log, for further machine processing.
     type: string
     exposed: true
     stored: true
@@ -73,8 +73,8 @@ attributes:
 
   - name: targetID
     description: |-
-      ID of the object this eventlog is attached to. The object must be in the same
-      namespace than the eventlog.
+      ID of the object this event log is attached to. The object must be in the same
+      namespace than the event log.
     type: string
     exposed: true
     stored: true
@@ -83,7 +83,7 @@ attributes:
     example_value: xxx-xxx-xxx-xxx
 
   - name: targetIdentity
-    description: Identity of the object this eventlog is attached to.
+    description: Identity of the object this event log is attached to.
     type: string
     exposed: true
     stored: true
@@ -92,7 +92,7 @@ attributes:
     example_value: processingunit
 
   - name: title
-    description: Title of the eventlog.
+    description: Title of the event log.
     type: string
     exposed: true
     stored: true

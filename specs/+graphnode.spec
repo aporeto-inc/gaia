@@ -69,7 +69,7 @@ attributes:
     - Node
 
   - name: unreachable
-    description: If true the node is marked as unreachable.
+    description: If `true` the node is marked as unreachable.
     type: boolean
     exposed: true
 

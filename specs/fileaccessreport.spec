@@ -5,7 +5,7 @@ model:
   entity_name: FileAccessReport
   package: zack
   group: policy/files
-  description: Post a new file access statistics report.
+  description: Post a new file access report.
 
 # Attributes
 attributes:
@@ -22,14 +22,14 @@ attributes:
     example_value: Accepted
 
   - name: host
-    description: Host of the file.
+    description: Host storing the file.
     type: string
     exposed: true
     required: true
     default_value: localhost
 
   - name: mode
-    description: Mode of the file access.
+    description: Mode of file access.
     type: string
     exposed: true
     required: true

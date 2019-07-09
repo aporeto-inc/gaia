@@ -5,7 +5,7 @@ model:
   entity_name: AccessReport
   package: zack
   group: policy/access
-  description: Access report represents any access made by the user.
+  description: Represents any access made by the user.
 
 # Attributes
 attributes:
@@ -53,7 +53,7 @@ attributes:
 
   - name: reason
     description: |-
-      This field is only set if 'action' is set to 'Reject' and specifies the reason
+      This field is only set if `action` is set to `Reject`. It specifies the reason
       for the rejection.
     type: string
     exposed: true

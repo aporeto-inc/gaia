@@ -97,49 +97,49 @@ func (o AccountsList) Version() int {
 
 // Account represents the model of a account
 type Account struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Set to enable or disable two factor authentication.
+	// Enable or disable two-factor authentication.
 	OTPEnabled bool `json:"OTPEnabled" msgpack:"OTPEnabled" bson:"otpenabled" mapstructure:"OTPEnabled,omitempty"`
 
-	// Returns the base64 encoded QRCode for setting up 2 factor auth.
+	// Returns the base64-encoded QR code for setting up two-factor authentication.
 	OTPQRCode string `json:"OTPQRCode" msgpack:"OTPQRCode" bson:"-" mapstructure:"OTPQRCode,omitempty"`
 
-	// Stores the 2 factor secret.
+	// Stores the two-factor authentication secret.
 	OTPSecret string `json:"-" msgpack:"-" bson:"otpsecret" mapstructure:"-,omitempty"`
 
-	// SSHCA holds the eventual SSH authority used by the account namespace.
+	// Holds the SSH certificate authority used by the account namespace.
 	SSHCA string `json:"SSHCA" msgpack:"SSHCA" bson:"sshca" mapstructure:"SSHCA,omitempty"`
 
-	// If enabled, renew the SSH authority of the account namespace.
+	// Set to `+"`"+`true`+"`"+` to renew the SSH certificate authority of the account namespace.
 	SSHCARenew bool `json:"SSHCARenew" msgpack:"SSHCARenew" bson:"-" mapstructure:"SSHCARenew,omitempty"`
 
-	// AccessEnabled defines if the account holder should have access to the systems.
+	// Defines if the account holder should have access to the system.
 	AccessEnabled bool `json:"accessEnabled" msgpack:"accessEnabled" bson:"accessenabled" mapstructure:"accessEnabled,omitempty"`
 
-	// ActivationExpiration contains the expiration date of the activation token.
+	// Contains the expiration date of the activation token.
 	ActivationExpiration time.Time `json:"-" msgpack:"-" bson:"activationexpiration" mapstructure:"-,omitempty"`
 
-	// ActivationToken contains the activation token.
+	// Contains the activation token.
 	ActivationToken string `json:"activationToken,omitempty" msgpack:"activationToken,omitempty" bson:"activationtoken" mapstructure:"activationToken,omitempty"`
 
-	// AssociatedAPIAuthPolicyID holds the ID of the associated API auth policy.
+	// Holds the ID of the associated API authorization.
 	AssociatedAPIAuthPolicyID string `json:"-" msgpack:"-" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
 
-	// AssociatedAWSPolicies contains a map of associated AWS Enforcerd Policies.
+	// Contains a map of associated AWS enforcer policies.
 	AssociatedAWSPolicies map[string]string `json:"-" msgpack:"-" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
 
-	// associatedBillingID holds the ID of the associated billing customer.
+	// Holds the ID of the associated billing customer.
 	AssociatedBillingID string `json:"associatedBillingID" msgpack:"associatedBillingID" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
 
-	// AssociatedNamespaceID contains the ID of the associated namespace.
+	// Contains the ID of the associated namespace.
 	AssociatedNamespaceID string `json:"-" msgpack:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
 
-	// AssociatedPlanKey contains the plan key that is associated to this account.
+	// Contains the plan key associated with this account.
 	AssociatedPlanKey string `json:"associatedPlanKey" msgpack:"associatedPlanKey" bson:"associatedplankey" mapstructure:"associatedPlanKey,omitempty"`
 
-	// AssociatedQuotaPolicies contains a mapping to the associated quota pollicies.
+	// Contains a map of the associated quotas.
 	AssociatedQuotaPolicies map[string]string `json:"-" msgpack:"-" bson:"associatedquotapolicies" mapstructure:"-,omitempty"`
 
 	// Company of the account user.
@@ -151,10 +151,10 @@ type Account struct {
 	// Email of the account holder.
 	Email string `json:"email" msgpack:"email" bson:"email" mapstructure:"email,omitempty"`
 
-	// First Name of the account user.
+	// First name of the account user.
 	FirstName string `json:"firstName" msgpack:"firstName" bson:"firstname" mapstructure:"firstName,omitempty"`
 
-	// Last Name of the account user.
+	// Last name of the account user.
 	LastName string `json:"lastName" msgpack:"lastName" bson:"lastname" mapstructure:"lastName,omitempty"`
 
 	// Name of the account.
@@ -163,13 +163,14 @@ type Account struct {
 	// Password for the account.
 	Password string `json:"password" msgpack:"password" bson:"password" mapstructure:"password,omitempty"`
 
-	// ReCAPTCHAKey contains the capcha validation if reCAPTCH is enabled.
+	// Contains the completely automated public Turing test (CAPTCHA)
+	// validation if reCAPTCHA is enabled.
 	ReCAPTCHAKey string `json:"reCAPTCHAKey" msgpack:"reCAPTCHAKey" bson:"-" mapstructure:"reCAPTCHAKey,omitempty"`
 
-	// ResetPasswordExpiration contains the expiration time for reseting the password.
+	// Contains the expiration time for resetting the password.
 	ResetPasswordExpiration time.Time `json:"-" msgpack:"-" bson:"resetpasswordexpiration" mapstructure:"-,omitempty"`
 
-	// ResetPasswordToken contains the token to use for resetting password.
+	// Contains the token to use for resetting password.
 	ResetPasswordToken string `json:"-" msgpack:"-" bson:"resetpasswordtoken" mapstructure:"-,omitempty"`
 
 	// Status of the account.
@@ -182,8 +183,7 @@ type Account struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -239,8 +239,8 @@ func (o *Account) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Account) Doc() string {
 
-	return `This api allows to view and manage basic information about your account like
-your name, password, enable 2 factor authentication.`
+	return `Allows you to view and manage basic information about your account like
+your name, password, and whether or not two-factor authentication is enabled.`
 }
 
 func (o *Account) String() string {
@@ -647,7 +647,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -660,7 +660,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"OTPEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OTPEnabled",
-		Description:    `Set to enable or disable two factor authentication.`,
+		Description:    `Enable or disable two-factor authentication.`,
 		Exposed:        true,
 		Name:           "OTPEnabled",
 		Stored:         true,
@@ -670,7 +670,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "OTPQRCode",
-		Description:    `Returns the base64 encoded QRCode for setting up 2 factor auth.`,
+		Description:    `Returns the base64-encoded QR code for setting up two-factor authentication.`,
 		Exposed:        true,
 		Name:           "OTPQRCode",
 		ReadOnly:       true,
@@ -680,7 +680,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"OTPSecret": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OTPSecret",
-		Description:    `Stores the 2 factor secret.`,
+		Description:    `Stores the two-factor authentication secret.`,
 		Name:           "OTPSecret",
 		Stored:         true,
 		Type:           "string",
@@ -689,7 +689,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "SSHCA",
-		Description:    `SSHCA holds the eventual SSH authority used by the account namespace.`,
+		Description:    `Holds the SSH certificate authority used by the account namespace.`,
 		Exposed:        true,
 		Name:           "SSHCA",
 		ReadOnly:       true,
@@ -699,7 +699,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"SSHCARenew": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SSHCARenew",
-		Description:    `If enabled, renew the SSH authority of the account namespace.`,
+		Description:    `Set to ` + "`" + `true` + "`" + ` to renew the SSH certificate authority of the account namespace.`,
 		Exposed:        true,
 		Name:           "SSHCARenew",
 		Type:           "boolean",
@@ -707,7 +707,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"AccessEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AccessEnabled",
-		Description:    `AccessEnabled defines if the account holder should have access to the systems.`,
+		Description:    `Defines if the account holder should have access to the system.`,
 		Exposed:        true,
 		Name:           "accessEnabled",
 		Orderable:      true,
@@ -718,7 +718,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ActivationExpiration",
-		Description:    `ActivationExpiration contains the expiration date of the activation token.`,
+		Description:    `Contains the expiration date of the activation token.`,
 		Name:           "activationExpiration",
 		Stored:         true,
 		Type:           "time",
@@ -727,7 +727,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ActivationToken",
-		Description:    `ActivationToken contains the activation token.`,
+		Description:    `Contains the activation token.`,
 		Exposed:        true,
 		Name:           "activationToken",
 		Stored:         true,
@@ -736,7 +736,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedAPIAuthPolicyID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedAPIAuthPolicyID",
-		Description:    `AssociatedAPIAuthPolicyID holds the ID of the associated API auth policy.`,
+		Description:    `Holds the ID of the associated API authorization.`,
 		Name:           "associatedAPIAuthPolicyID",
 		Stored:         true,
 		Type:           "string",
@@ -744,7 +744,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedAWSPolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedAWSPolicies",
-		Description:    `AssociatedAWSPolicies contains a map of associated AWS Enforcerd Policies.`,
+		Description:    `Contains a map of associated AWS enforcer policies.`,
 		Name:           "associatedAWSPolicies",
 		Stored:         true,
 		SubType:        "map[string]string",
@@ -753,7 +753,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedBillingID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedBillingID",
-		Description:    `associatedBillingID holds the ID of the associated billing customer.`,
+		Description:    `Holds the ID of the associated billing customer.`,
 		Exposed:        true,
 		Name:           "associatedBillingID",
 		Stored:         true,
@@ -762,7 +762,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedNamespaceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedNamespaceID",
-		Description:    `AssociatedNamespaceID contains the ID of the associated namespace.`,
+		Description:    `Contains the ID of the associated namespace.`,
 		Name:           "associatedNamespaceID",
 		Stored:         true,
 		Type:           "string",
@@ -771,7 +771,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedPlanKey",
 		CreationOnly:   true,
-		Description:    `AssociatedPlanKey contains the plan key that is associated to this account.`,
+		Description:    `Contains the plan key associated with this account.`,
 		Exposed:        true,
 		Name:           "associatedPlanKey",
 		Stored:         true,
@@ -780,7 +780,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedQuotaPolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedQuotaPolicies",
-		Description:    `AssociatedQuotaPolicies contains a mapping to the associated quota pollicies.`,
+		Description:    `Contains a map of the associated quotas.`,
 		Name:           "associatedQuotaPolicies",
 		Stored:         true,
 		SubType:        "map[string]string",
@@ -826,7 +826,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"FirstName": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FirstName",
-		Description:    `First Name of the account user.`,
+		Description:    `First name of the account user.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "firstName",
@@ -837,7 +837,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"LastName": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastName",
-		Description:    `Last Name of the account user.`,
+		Description:    `Last name of the account user.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "lastName",
@@ -873,16 +873,17 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ReCAPTCHAKey",
 		CreationOnly:   true,
-		Description:    `ReCAPTCHAKey contains the capcha validation if reCAPTCH is enabled.`,
-		Exposed:        true,
-		Name:           "reCAPTCHAKey",
-		Type:           "string",
+		Description: `Contains the completely automated public Turing test (CAPTCHA)
+validation if reCAPTCHA is enabled.`,
+		Exposed: true,
+		Name:    "reCAPTCHAKey",
+		Type:    "string",
 	},
 	"ResetPasswordExpiration": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ResetPasswordExpiration",
-		Description:    `ResetPasswordExpiration contains the expiration time for reseting the password.`,
+		Description:    `Contains the expiration time for resetting the password.`,
 		Name:           "resetPasswordExpiration",
 		Stored:         true,
 		Type:           "time",
@@ -891,7 +892,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ResetPasswordToken",
-		Description:    `ResetPasswordToken contains the token to use for resetting password.`,
+		Description:    `Contains the token to use for resetting password.`,
 		Name:           "resetPasswordToken",
 		Stored:         true,
 		Type:           "string",
@@ -941,16 +942,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -960,7 +960,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -973,7 +973,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"otpenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OTPEnabled",
-		Description:    `Set to enable or disable two factor authentication.`,
+		Description:    `Enable or disable two-factor authentication.`,
 		Exposed:        true,
 		Name:           "OTPEnabled",
 		Stored:         true,
@@ -983,7 +983,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "OTPQRCode",
-		Description:    `Returns the base64 encoded QRCode for setting up 2 factor auth.`,
+		Description:    `Returns the base64-encoded QR code for setting up two-factor authentication.`,
 		Exposed:        true,
 		Name:           "OTPQRCode",
 		ReadOnly:       true,
@@ -993,7 +993,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"otpsecret": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OTPSecret",
-		Description:    `Stores the 2 factor secret.`,
+		Description:    `Stores the two-factor authentication secret.`,
 		Name:           "OTPSecret",
 		Stored:         true,
 		Type:           "string",
@@ -1002,7 +1002,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "SSHCA",
-		Description:    `SSHCA holds the eventual SSH authority used by the account namespace.`,
+		Description:    `Holds the SSH certificate authority used by the account namespace.`,
 		Exposed:        true,
 		Name:           "SSHCA",
 		ReadOnly:       true,
@@ -1012,7 +1012,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"sshcarenew": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SSHCARenew",
-		Description:    `If enabled, renew the SSH authority of the account namespace.`,
+		Description:    `Set to ` + "`" + `true` + "`" + ` to renew the SSH certificate authority of the account namespace.`,
 		Exposed:        true,
 		Name:           "SSHCARenew",
 		Type:           "boolean",
@@ -1020,7 +1020,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"accessenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AccessEnabled",
-		Description:    `AccessEnabled defines if the account holder should have access to the systems.`,
+		Description:    `Defines if the account holder should have access to the system.`,
 		Exposed:        true,
 		Name:           "accessEnabled",
 		Orderable:      true,
@@ -1031,7 +1031,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ActivationExpiration",
-		Description:    `ActivationExpiration contains the expiration date of the activation token.`,
+		Description:    `Contains the expiration date of the activation token.`,
 		Name:           "activationExpiration",
 		Stored:         true,
 		Type:           "time",
@@ -1040,7 +1040,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ActivationToken",
-		Description:    `ActivationToken contains the activation token.`,
+		Description:    `Contains the activation token.`,
 		Exposed:        true,
 		Name:           "activationToken",
 		Stored:         true,
@@ -1049,7 +1049,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"associatedapiauthpolicyid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedAPIAuthPolicyID",
-		Description:    `AssociatedAPIAuthPolicyID holds the ID of the associated API auth policy.`,
+		Description:    `Holds the ID of the associated API authorization.`,
 		Name:           "associatedAPIAuthPolicyID",
 		Stored:         true,
 		Type:           "string",
@@ -1057,7 +1057,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"associatedawspolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedAWSPolicies",
-		Description:    `AssociatedAWSPolicies contains a map of associated AWS Enforcerd Policies.`,
+		Description:    `Contains a map of associated AWS enforcer policies.`,
 		Name:           "associatedAWSPolicies",
 		Stored:         true,
 		SubType:        "map[string]string",
@@ -1066,7 +1066,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"associatedbillingid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedBillingID",
-		Description:    `associatedBillingID holds the ID of the associated billing customer.`,
+		Description:    `Holds the ID of the associated billing customer.`,
 		Exposed:        true,
 		Name:           "associatedBillingID",
 		Stored:         true,
@@ -1075,7 +1075,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"associatednamespaceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedNamespaceID",
-		Description:    `AssociatedNamespaceID contains the ID of the associated namespace.`,
+		Description:    `Contains the ID of the associated namespace.`,
 		Name:           "associatedNamespaceID",
 		Stored:         true,
 		Type:           "string",
@@ -1084,7 +1084,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedPlanKey",
 		CreationOnly:   true,
-		Description:    `AssociatedPlanKey contains the plan key that is associated to this account.`,
+		Description:    `Contains the plan key associated with this account.`,
 		Exposed:        true,
 		Name:           "associatedPlanKey",
 		Stored:         true,
@@ -1093,7 +1093,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"associatedquotapolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedQuotaPolicies",
-		Description:    `AssociatedQuotaPolicies contains a mapping to the associated quota pollicies.`,
+		Description:    `Contains a map of the associated quotas.`,
 		Name:           "associatedQuotaPolicies",
 		Stored:         true,
 		SubType:        "map[string]string",
@@ -1139,7 +1139,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"firstname": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FirstName",
-		Description:    `First Name of the account user.`,
+		Description:    `First name of the account user.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "firstName",
@@ -1150,7 +1150,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"lastname": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastName",
-		Description:    `Last Name of the account user.`,
+		Description:    `Last name of the account user.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "lastName",
@@ -1186,16 +1186,17 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ReCAPTCHAKey",
 		CreationOnly:   true,
-		Description:    `ReCAPTCHAKey contains the capcha validation if reCAPTCH is enabled.`,
-		Exposed:        true,
-		Name:           "reCAPTCHAKey",
-		Type:           "string",
+		Description: `Contains the completely automated public Turing test (CAPTCHA)
+validation if reCAPTCHA is enabled.`,
+		Exposed: true,
+		Name:    "reCAPTCHAKey",
+		Type:    "string",
 	},
 	"resetpasswordexpiration": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ResetPasswordExpiration",
-		Description:    `ResetPasswordExpiration contains the expiration time for reseting the password.`,
+		Description:    `Contains the expiration time for resetting the password.`,
 		Name:           "resetPasswordExpiration",
 		Stored:         true,
 		Type:           "time",
@@ -1204,7 +1205,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ResetPasswordToken",
-		Description:    `ResetPasswordToken contains the token to use for resetting password.`,
+		Description:    `Contains the token to use for resetting password.`,
 		Name:           "resetPasswordToken",
 		Stored:         true,
 		Type:           "string",
@@ -1254,16 +1255,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1330,49 +1330,49 @@ func (o SparseAccountsList) Version() int {
 
 // SparseAccount represents the sparse version of a account.
 type SparseAccount struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Set to enable or disable two factor authentication.
+	// Enable or disable two-factor authentication.
 	OTPEnabled *bool `json:"OTPEnabled,omitempty" msgpack:"OTPEnabled,omitempty" bson:"otpenabled,omitempty" mapstructure:"OTPEnabled,omitempty"`
 
-	// Returns the base64 encoded QRCode for setting up 2 factor auth.
+	// Returns the base64-encoded QR code for setting up two-factor authentication.
 	OTPQRCode *string `json:"OTPQRCode,omitempty" msgpack:"OTPQRCode,omitempty" bson:"-" mapstructure:"OTPQRCode,omitempty"`
 
-	// Stores the 2 factor secret.
+	// Stores the two-factor authentication secret.
 	OTPSecret *string `json:"-" msgpack:"-" bson:"otpsecret,omitempty" mapstructure:"-,omitempty"`
 
-	// SSHCA holds the eventual SSH authority used by the account namespace.
+	// Holds the SSH certificate authority used by the account namespace.
 	SSHCA *string `json:"SSHCA,omitempty" msgpack:"SSHCA,omitempty" bson:"sshca,omitempty" mapstructure:"SSHCA,omitempty"`
 
-	// If enabled, renew the SSH authority of the account namespace.
+	// Set to `+"`"+`true`+"`"+` to renew the SSH certificate authority of the account namespace.
 	SSHCARenew *bool `json:"SSHCARenew,omitempty" msgpack:"SSHCARenew,omitempty" bson:"-" mapstructure:"SSHCARenew,omitempty"`
 
-	// AccessEnabled defines if the account holder should have access to the systems.
+	// Defines if the account holder should have access to the system.
 	AccessEnabled *bool `json:"accessEnabled,omitempty" msgpack:"accessEnabled,omitempty" bson:"accessenabled,omitempty" mapstructure:"accessEnabled,omitempty"`
 
-	// ActivationExpiration contains the expiration date of the activation token.
+	// Contains the expiration date of the activation token.
 	ActivationExpiration *time.Time `json:"-" msgpack:"-" bson:"activationexpiration,omitempty" mapstructure:"-,omitempty"`
 
-	// ActivationToken contains the activation token.
+	// Contains the activation token.
 	ActivationToken *string `json:"activationToken,omitempty" msgpack:"activationToken,omitempty" bson:"activationtoken,omitempty" mapstructure:"activationToken,omitempty"`
 
-	// AssociatedAPIAuthPolicyID holds the ID of the associated API auth policy.
+	// Holds the ID of the associated API authorization.
 	AssociatedAPIAuthPolicyID *string `json:"-" msgpack:"-" bson:"associatedapiauthpolicyid,omitempty" mapstructure:"-,omitempty"`
 
-	// AssociatedAWSPolicies contains a map of associated AWS Enforcerd Policies.
+	// Contains a map of associated AWS enforcer policies.
 	AssociatedAWSPolicies *map[string]string `json:"-" msgpack:"-" bson:"associatedawspolicies,omitempty" mapstructure:"-,omitempty"`
 
-	// associatedBillingID holds the ID of the associated billing customer.
+	// Holds the ID of the associated billing customer.
 	AssociatedBillingID *string `json:"associatedBillingID,omitempty" msgpack:"associatedBillingID,omitempty" bson:"associatedbillingid,omitempty" mapstructure:"associatedBillingID,omitempty"`
 
-	// AssociatedNamespaceID contains the ID of the associated namespace.
+	// Contains the ID of the associated namespace.
 	AssociatedNamespaceID *string `json:"-" msgpack:"-" bson:"associatednamespaceid,omitempty" mapstructure:"-,omitempty"`
 
-	// AssociatedPlanKey contains the plan key that is associated to this account.
+	// Contains the plan key associated with this account.
 	AssociatedPlanKey *string `json:"associatedPlanKey,omitempty" msgpack:"associatedPlanKey,omitempty" bson:"associatedplankey,omitempty" mapstructure:"associatedPlanKey,omitempty"`
 
-	// AssociatedQuotaPolicies contains a mapping to the associated quota pollicies.
+	// Contains a map of the associated quotas.
 	AssociatedQuotaPolicies *map[string]string `json:"-" msgpack:"-" bson:"associatedquotapolicies,omitempty" mapstructure:"-,omitempty"`
 
 	// Company of the account user.
@@ -1384,10 +1384,10 @@ type SparseAccount struct {
 	// Email of the account holder.
 	Email *string `json:"email,omitempty" msgpack:"email,omitempty" bson:"email,omitempty" mapstructure:"email,omitempty"`
 
-	// First Name of the account user.
+	// First name of the account user.
 	FirstName *string `json:"firstName,omitempty" msgpack:"firstName,omitempty" bson:"firstname,omitempty" mapstructure:"firstName,omitempty"`
 
-	// Last Name of the account user.
+	// Last name of the account user.
 	LastName *string `json:"lastName,omitempty" msgpack:"lastName,omitempty" bson:"lastname,omitempty" mapstructure:"lastName,omitempty"`
 
 	// Name of the account.
@@ -1396,13 +1396,14 @@ type SparseAccount struct {
 	// Password for the account.
 	Password *string `json:"password,omitempty" msgpack:"password,omitempty" bson:"password,omitempty" mapstructure:"password,omitempty"`
 
-	// ReCAPTCHAKey contains the capcha validation if reCAPTCH is enabled.
+	// Contains the completely automated public Turing test (CAPTCHA)
+	// validation if reCAPTCHA is enabled.
 	ReCAPTCHAKey *string `json:"reCAPTCHAKey,omitempty" msgpack:"reCAPTCHAKey,omitempty" bson:"-" mapstructure:"reCAPTCHAKey,omitempty"`
 
-	// ResetPasswordExpiration contains the expiration time for reseting the password.
+	// Contains the expiration time for resetting the password.
 	ResetPasswordExpiration *time.Time `json:"-" msgpack:"-" bson:"resetpasswordexpiration,omitempty" mapstructure:"-,omitempty"`
 
-	// ResetPasswordToken contains the token to use for resetting password.
+	// Contains the token to use for resetting password.
 	ResetPasswordToken *string `json:"-" msgpack:"-" bson:"resetpasswordtoken,omitempty" mapstructure:"-,omitempty"`
 
 	// Status of the account.
@@ -1415,8 +1416,7 @@ type SparseAccount struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

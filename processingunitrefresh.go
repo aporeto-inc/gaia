@@ -79,10 +79,10 @@ func (o ProcessingUnitRefreshsList) Version() int {
 
 // ProcessingUnitRefresh represents the model of a processingunitrefresh
 type ProcessingUnitRefresh struct {
-	// ID contains the original ID of the Processing Unit.
+	// Contains the original ID of the processing unit.
 	ID string `json:"ID" msgpack:"ID" bson:"id" mapstructure:"ID,omitempty"`
 
-	// Namespace contains the original namespace of the Processing Unit.
+	// Contains the original namespace of the processing unit.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -134,8 +134,8 @@ func (o *ProcessingUnitRefresh) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ProcessingUnitRefresh) Doc() string {
 
-	return `ProcessingUnitRefresh is sent to client when a poke has been triggered using the
-parameter ` + "`" + `?notify=true` + "`" + `. This is used by instances of enforcerd to be notify an
+	return `Sent to client when a poke has been triggered using the
+parameter ` + "`" + `?notify=true` + "`" + `. This is used by instances of enforcerd to notify an
 external change on the processing unit must be processed.`
 }
 
@@ -262,7 +262,7 @@ var ProcessingUnitRefreshAttributesMap = map[string]elemental.AttributeSpecifica
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID contains the original ID of the Processing Unit.`,
+		Description:    `Contains the original ID of the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "ID",
@@ -273,7 +273,7 @@ var ProcessingUnitRefreshAttributesMap = map[string]elemental.AttributeSpecifica
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace contains the original namespace of the Processing Unit.`,
+		Description:    `Contains the original namespace of the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "namespace",
@@ -288,7 +288,7 @@ var ProcessingUnitRefreshLowerCaseAttributesMap = map[string]elemental.Attribute
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID contains the original ID of the Processing Unit.`,
+		Description:    `Contains the original ID of the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "ID",
@@ -299,7 +299,7 @@ var ProcessingUnitRefreshLowerCaseAttributesMap = map[string]elemental.Attribute
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace contains the original namespace of the Processing Unit.`,
+		Description:    `Contains the original namespace of the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "namespace",
@@ -372,10 +372,10 @@ func (o SparseProcessingUnitRefreshsList) Version() int {
 
 // SparseProcessingUnitRefresh represents the sparse version of a processingunitrefresh.
 type SparseProcessingUnitRefresh struct {
-	// ID contains the original ID of the Processing Unit.
+	// Contains the original ID of the processing unit.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
 
-	// Namespace contains the original namespace of the Processing Unit.
+	// Contains the original namespace of the processing unit.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

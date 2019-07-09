@@ -5,13 +5,13 @@ model:
   entity_name: Log
   package: highwind
   group: integration/app
-  description: Retrieves the log of a deployed app.
+  description: Retrieves the logs of a deployed application.
 
 # Attributes
 attributes:
   v1:
   - name: data
-    description: Data contains all logs data.
+    description: Contains all log data.
     type: external
     exposed: true
     subtype: map[string]string

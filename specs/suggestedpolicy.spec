@@ -5,7 +5,7 @@ model:
   entity_name: SuggestedPolicy
   package: jenova
   group: visualization/depmaps
-  description: Allows to get policy suggestions.
+  description: Allows you to obtain network policy suggestions.
   aliases:
   - sugpol
   - sugpols
@@ -16,7 +16,7 @@ model:
 attributes:
   v1:
   - name: networkAccessPolicies
-    description: List of suggested network access policies.
+    description: List of suggested network policies.
     type: refList
     exposed: true
     subtype: networkaccesspolicy

@@ -6,14 +6,13 @@ model:
   package: squall
   group: core/policy
   description: |-
-    PolicyRefresh is sent to client when as a push event when a policy refresh is
-    needed on their side.
+    Sent to a client as a push event when a policy refresh is needed on their side.
 
 # Attributes
 attributes:
   v1:
   - name: sourceID
-    description: SourceNamespace contains the original ID of the updated object.
+    description: Contains the original ID of the updated object.
     type: string
     exposed: true
     stored: true
@@ -21,7 +20,7 @@ attributes:
     orderable: true
 
   - name: sourceNamespace
-    description: SourceNamespace contains the original namespace of the updated object.
+    description: Contains the original namespace of the updated object.
     type: string
     exposed: true
     stored: true
@@ -29,7 +28,7 @@ attributes:
     orderable: true
 
   - name: type
-    description: Type contains the policy type that is affected.
+    description: Contains the policy type that is affected.
     type: string
     exposed: true
     stored: true

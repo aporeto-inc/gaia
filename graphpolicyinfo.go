@@ -9,7 +9,7 @@ import (
 
 // GraphPolicyInfo represents the model of a graphpolicyinfo
 type GraphPolicyInfo struct {
-	// Number of time the policy has been hit.
+	// Number of times the policy has been hit.
 	Count int `json:"count" msgpack:"count" bson:"-" mapstructure:"count,omitempty"`
 
 	// Namespace of the policy.

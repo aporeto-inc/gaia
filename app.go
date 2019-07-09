@@ -81,31 +81,31 @@ func (o AppsList) Version() int {
 
 // App represents the model of a app
 type App struct {
-	// Beta indicates if the app is in a beta version.
+	// Set to `+"`"+`true`+"`"+` to indicate that the app is in a beta version.
 	Beta bool `json:"beta" msgpack:"beta" bson:"-" mapstructure:"beta,omitempty"`
 
-	// CategoryID of the app.
+	// Category ID of the app.
 	CategoryID string `json:"categoryID" msgpack:"categoryID" bson:"-" mapstructure:"categoryID,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Icon contains a base64 image for the app.
+	// Contains a base64-encoded image for the app.
 	Icon string `json:"icon" msgpack:"icon" bson:"-" mapstructure:"icon,omitempty"`
 
-	// LatestVersion represents the latest version available of the app.
+	// Represents the latest version available of the app.
 	LatestVersion string `json:"latestVersion" msgpack:"latestVersion" bson:"-" mapstructure:"latestVersion,omitempty"`
 
-	// LongDescription contains a more detailed description of the app.
+	// Contains a more detailed description of the app.
 	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"-" mapstructure:"longDescription,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// List of steps that contains parameters.
+	// List of steps that contain parameters.
 	Steps []*UIStep `json:"steps" msgpack:"steps" bson:"steps" mapstructure:"steps,omitempty"`
 
-	// Title represents the title of the app.
+	// Represents the title of the app.
 	Title string `json:"title" msgpack:"title" bson:"-" mapstructure:"title,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -160,7 +160,7 @@ func (o *App) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *App) Doc() string {
 
-	return `App represents an application that can be installed.`
+	return `Represents an application that can be installed.`
 }
 
 func (o *App) String() string {
@@ -387,7 +387,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"Beta": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Beta",
-		Description:    `Beta indicates if the app is in a beta version.`,
+		Description:    `Set to ` + "`" + `true` + "`" + ` to indicate that the app is in a beta version.`,
 		Exposed:        true,
 		Name:           "beta",
 		ReadOnly:       true,
@@ -396,7 +396,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"CategoryID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the app.`,
+		Description:    `Category ID of the app.`,
 		Exposed:        true,
 		Name:           "categoryID",
 		ReadOnly:       true,
@@ -405,7 +405,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -418,7 +418,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"Icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the app.`,
+		Description:    `Contains a base64-encoded image for the app.`,
 		Exposed:        true,
 		Name:           "icon",
 		ReadOnly:       true,
@@ -427,7 +427,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"LatestVersion": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LatestVersion",
-		Description:    `LatestVersion represents the latest version available of the app.`,
+		Description:    `Represents the latest version available of the app.`,
 		Exposed:        true,
 		Name:           "latestVersion",
 		Type:           "string",
@@ -435,7 +435,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"LongDescription": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
-		Description:    `LongDescription contains a more detailed description of the app.`,
+		Description:    `Contains a more detailed description of the app.`,
 		Exposed:        true,
 		Name:           "longDescription",
 		Type:           "string",
@@ -444,7 +444,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -459,7 +459,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"Steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Steps",
-		Description:    `List of steps that contains parameters.`,
+		Description:    `List of steps that contain parameters.`,
 		Exposed:        true,
 		Name:           "steps",
 		Stored:         true,
@@ -469,7 +469,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"Title": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Title",
-		Description:    `Title represents the title of the app.`,
+		Description:    `Represents the title of the app.`,
 		Exposed:        true,
 		Name:           "title",
 		Type:           "string",
@@ -481,7 +481,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"beta": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Beta",
-		Description:    `Beta indicates if the app is in a beta version.`,
+		Description:    `Set to ` + "`" + `true` + "`" + ` to indicate that the app is in a beta version.`,
 		Exposed:        true,
 		Name:           "beta",
 		ReadOnly:       true,
@@ -490,7 +490,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"categoryid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the app.`,
+		Description:    `Category ID of the app.`,
 		Exposed:        true,
 		Name:           "categoryID",
 		ReadOnly:       true,
@@ -499,7 +499,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -512,7 +512,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the app.`,
+		Description:    `Contains a base64-encoded image for the app.`,
 		Exposed:        true,
 		Name:           "icon",
 		ReadOnly:       true,
@@ -521,7 +521,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"latestversion": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LatestVersion",
-		Description:    `LatestVersion represents the latest version available of the app.`,
+		Description:    `Represents the latest version available of the app.`,
 		Exposed:        true,
 		Name:           "latestVersion",
 		Type:           "string",
@@ -529,7 +529,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"longdescription": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
-		Description:    `LongDescription contains a more detailed description of the app.`,
+		Description:    `Contains a more detailed description of the app.`,
 		Exposed:        true,
 		Name:           "longDescription",
 		Type:           "string",
@@ -538,7 +538,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -553,7 +553,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Steps",
-		Description:    `List of steps that contains parameters.`,
+		Description:    `List of steps that contain parameters.`,
 		Exposed:        true,
 		Name:           "steps",
 		Stored:         true,
@@ -563,7 +563,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"title": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Title",
-		Description:    `Title represents the title of the app.`,
+		Description:    `Represents the title of the app.`,
 		Exposed:        true,
 		Name:           "title",
 		Type:           "string",
@@ -635,31 +635,31 @@ func (o SparseAppsList) Version() int {
 
 // SparseApp represents the sparse version of a app.
 type SparseApp struct {
-	// Beta indicates if the app is in a beta version.
+	// Set to `+"`"+`true`+"`"+` to indicate that the app is in a beta version.
 	Beta *bool `json:"beta,omitempty" msgpack:"beta,omitempty" bson:"-" mapstructure:"beta,omitempty"`
 
-	// CategoryID of the app.
+	// Category ID of the app.
 	CategoryID *string `json:"categoryID,omitempty" msgpack:"categoryID,omitempty" bson:"-" mapstructure:"categoryID,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Icon contains a base64 image for the app.
+	// Contains a base64-encoded image for the app.
 	Icon *string `json:"icon,omitempty" msgpack:"icon,omitempty" bson:"-" mapstructure:"icon,omitempty"`
 
-	// LatestVersion represents the latest version available of the app.
+	// Represents the latest version available of the app.
 	LatestVersion *string `json:"latestVersion,omitempty" msgpack:"latestVersion,omitempty" bson:"-" mapstructure:"latestVersion,omitempty"`
 
-	// LongDescription contains a more detailed description of the app.
+	// Contains a more detailed description of the app.
 	LongDescription *string `json:"longDescription,omitempty" msgpack:"longDescription,omitempty" bson:"-" mapstructure:"longDescription,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
-	// List of steps that contains parameters.
+	// List of steps that contain parameters.
 	Steps *[]*UIStep `json:"steps,omitempty" msgpack:"steps,omitempty" bson:"steps,omitempty" mapstructure:"steps,omitempty"`
 
-	// Title represents the title of the app.
+	// Represents the title of the app.
 	Title *string `json:"title,omitempty" msgpack:"title,omitempty" bson:"-" mapstructure:"title,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

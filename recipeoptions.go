@@ -20,7 +20,7 @@ const (
 
 // RecipeOptions represents the model of a recipeoptions
 type RecipeOptions struct {
-	// AppCrendentialFormat indicates the format of the AppCredential.
+	// Indicates the format of the app credential.
 	AppCrendentialFormat RecipeOptionsAppCrendentialFormatValue `json:"appCrendentialFormat" msgpack:"appCrendentialFormat" bson:"appcrendentialformat" mapstructure:"appCrendentialFormat,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

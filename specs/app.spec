@@ -5,7 +5,7 @@ model:
   entity_name: App
   package: highwind
   group: integration/app
-  description: App represents an application that can be installed.
+  description: Represents an application that can be installed.
   extends:
   - '@described'
   - '@named'
@@ -18,35 +18,35 @@ indexes:
 attributes:
   v1:
   - name: beta
-    description: Beta indicates if the app is in a beta version.
+    description: Set to `true` to indicate that the app is in a beta version.
     type: boolean
     exposed: true
     read_only: true
 
   - name: categoryID
-    description: CategoryID of the app.
+    description: Category ID of the app.
     type: string
     exposed: true
     read_only: true
 
   - name: icon
-    description: Icon contains a base64 image for the app.
+    description: Contains a base64-encoded image for the app.
     type: string
     exposed: true
     read_only: true
 
   - name: latestVersion
-    description: LatestVersion represents the latest version available of the app.
+    description: Represents the latest version available of the app.
     type: string
     exposed: true
 
   - name: longDescription
-    description: LongDescription contains a more detailed description of the app.
+    description: Contains a more detailed description of the app.
     type: string
     exposed: true
 
   - name: steps
-    description: List of steps that contains parameters.
+    description: List of steps that contain parameters.
     type: refList
     exposed: true
     subtype: uistep
@@ -55,6 +55,6 @@ attributes:
       refMode: pointer
 
   - name: title
-    description: Title represents the title of the app.
+    description: Represents the title of the app.
     type: string
     exposed: true

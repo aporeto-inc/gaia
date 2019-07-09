@@ -6,7 +6,7 @@ model:
   package: squall
   group: policy/hooks
   description: |-
-    Hook allows to to define hooks to the write operations in squall. Hooks are sent
+    Allows you to define hooks to the write operations in squall. Hooks are sent
     to an external Rufus server that will do the processing and eventually return a
     modified version of the object before we save it.
   aliases:
@@ -15,11 +15,11 @@ model:
   - hookpol
   - hookpols
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the hook with the given ID.
   update:
-    description: Updates the object with the given ID.
+    description: Updates the hook with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the hook with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -43,9 +43,8 @@ indexes:
 attributes:
   v1:
   - name: certificateAuthority
-    description: |-
-      CertificateAuthority contains the pem block of the certificate authority used by
-      the remote endpoint.
+    description: Contains the PEM block of the certificate authority used by the remote
+      endpoint.
     type: string
     exposed: true
     stored: true
@@ -66,10 +65,9 @@ attributes:
 
   - name: clientCertificate
     description: |-
-      ClientCertificate contains the client certificate that will be used to connect
+      Contains the client certificate that will be used to connect
       to the remote endpoint. If provided, the private key associated with this
-      certificate must
-      also be configured.
+      certificate must also be configured.
     type: string
     exposed: true
     stored: true
@@ -90,9 +88,8 @@ attributes:
 
   - name: clientCertificateKey
     description: |-
-      ClientCertificateKey contains the key associated to the clientCertificate. Must
-      be provided only when
-      ClientCertificate has been configured.
+      Contains the key associated with the `clientCertificate`. It must be provided only
+      when `clientCertificate` has been configured.
     type: string
     exposed: true
     stored: true
@@ -110,14 +107,14 @@ attributes:
 
   - name: continueOnError
     description: |-
-      If set to true and `mode` is in `Pre`, the request will be honored even if
+      If set to `true` and `mode` is in `Pre`, the request will be honored even if
       calling the hook fails.
     type: boolean
     exposed: true
     stored: true
 
   - name: endpoint
-    description: Endpoint contains the full address of the remote processor endpoint.
+    description: Contains the full address of the remote processor endpoint.
     type: string
     exposed: true
     stored: true
@@ -126,7 +123,7 @@ attributes:
     orderable: true
 
   - name: expirationTime
-    description: If set the policy will be auto deleted after the given time.
+    description: If set the hook will be automatically deleted after the given time.
     type: time
     exposed: true
     stored: true
@@ -134,7 +131,7 @@ attributes:
     setter: true
 
   - name: mode
-    description: Mode define the type of the hook.
+    description: Defines the type of hook.
     type: enum
     exposed: true
     stored: true
@@ -147,8 +144,8 @@ attributes:
 
   - name: subject
     description: |-
-      Subject contains the tag expression that an object must match in order to
-      trigger the hook.
+      Contains the tag expression that an object must match in order to trigger the
+      hook.
     type: external
     exposed: true
     subtype: '[][]string'

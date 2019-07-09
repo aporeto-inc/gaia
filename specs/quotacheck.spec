@@ -6,7 +6,7 @@ model:
   package: squall
   group: policy/quota
   description: |-
-    This api allows to verify the quota for a given identity in a given namespace
+    Allows you to verify the quota for a given identity in a given namespace
     with the given tags.
 
 # Attributes

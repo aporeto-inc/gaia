@@ -5,16 +5,16 @@ model:
   entity_name: InstalledApp
   package: highwind
   group: integration/app
-  description: InstalledApps represents an installed application.
+  description: Represents an installed application.
   aliases:
   - iapps
   - iapp
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the application with the given ID.
   update:
-    description: Updates the object with the given ID.
+    description: Updates the application with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the application with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -34,7 +34,7 @@ attributes:
     stored: true
 
   - name: categoryID
-    description: CategoryID of the app.
+    description: The category ID of the application.
     type: string
     exposed: true
     stored: true
@@ -42,7 +42,7 @@ attributes:
     orderable: true
 
   - name: currentVersion
-    description: Version of the installed app.
+    description: Version of the installed application.
     type: string
     exposed: true
     stored: true
@@ -55,14 +55,14 @@ attributes:
     read_only: true
 
   - name: parameters
-    description: Parameters contains the computed parameters to start the app.
+    description: Contains the computed parameters to start the application.
     type: external
     exposed: true
     subtype: map[string]interface{}
     stored: true
 
   - name: status
-    description: Status of the app.
+    description: Status of the application.
     type: enum
     exposed: true
     stored: true
@@ -78,7 +78,7 @@ attributes:
     orderable: true
 
   - name: statusMessage
-    description: Reason for the status of the app.
+    description: Reason for the status of the application.
     type: string
     exposed: true
     stored: true
@@ -88,4 +88,4 @@ attributes:
 relations:
 - rest_name: log
   get:
-    description: Returns the logs for a app.
+    description: Returns the logs for an application.

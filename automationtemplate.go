@@ -92,28 +92,28 @@ func (o AutomationTemplatesList) Version() int {
 
 // AutomationTemplate represents the model of a automationtemplate
 type AutomationTemplate struct {
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Entitlements contains the entitlements needed for executing the function.
+	// Contains the entitlements needed for executing the function.
 	Entitlements map[string][]elemental.Operation `json:"entitlements" msgpack:"entitlements" bson:"-" mapstructure:"entitlements,omitempty"`
 
 	// Function contains the code.
 	Function string `json:"function" msgpack:"function" bson:"-" mapstructure:"function,omitempty"`
 
-	// Key contains the unique identifier key for the template.
+	// Contains the unique identifier key for the template.
 	Key string `json:"key" msgpack:"key" bson:"-" mapstructure:"key,omitempty"`
 
-	// Kind represents the kind of template.
+	// Represents the kind of template.
 	Kind AutomationTemplateKindValue `json:"kind" msgpack:"kind" bson:"-" mapstructure:"kind,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Parameters contains the computed parameters.
+	// Contains the computed parameters.
 	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
-	// Steps contains all the steps with parameters.
+	// Contains all the steps with parameters.
 	Steps []*UIStep `json:"steps" msgpack:"steps" bson:"-" mapstructure:"steps,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -171,7 +171,7 @@ func (o *AutomationTemplate) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *AutomationTemplate) Doc() string {
 
-	return `Templates that ca be used in automations.`
+	return `Templates that can be used in automations.`
 }
 
 func (o *AutomationTemplate) String() string {
@@ -394,7 +394,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -407,7 +407,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 	"Entitlements": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Entitlements",
-		Description:    `Entitlements contains the entitlements needed for executing the function.`,
+		Description:    `Contains the entitlements needed for executing the function.`,
 		Exposed:        true,
 		Name:           "entitlements",
 		SubType:        "_automation_entitlements",
@@ -424,7 +424,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 	"Key": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Key",
-		Description:    `Key contains the unique identifier key for the template.`,
+		Description:    `Contains the unique identifier key for the template.`,
 		Exposed:        true,
 		Name:           "key",
 		Type:           "string",
@@ -433,7 +433,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{"Action", "Condition"},
 		ConvertedName:  "Kind",
 		DefaultValue:   AutomationTemplateKindCondition,
-		Description:    `Kind represents the kind of template.`,
+		Description:    `Represents the kind of template.`,
 		Exposed:        true,
 		Name:           "kind",
 		Type:           "enum",
@@ -442,7 +442,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -457,7 +457,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters.`,
+		Description:    `Contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
 		SubType:        "map[string]interface{}",
@@ -466,7 +466,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 	"Steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Steps",
-		Description:    `Steps contains all the steps with parameters.`,
+		Description:    `Contains all the steps with parameters.`,
 		Exposed:        true,
 		Name:           "steps",
 		SubType:        "uistep",
@@ -479,7 +479,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -492,7 +492,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 	"entitlements": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Entitlements",
-		Description:    `Entitlements contains the entitlements needed for executing the function.`,
+		Description:    `Contains the entitlements needed for executing the function.`,
 		Exposed:        true,
 		Name:           "entitlements",
 		SubType:        "_automation_entitlements",
@@ -509,7 +509,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 	"key": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Key",
-		Description:    `Key contains the unique identifier key for the template.`,
+		Description:    `Contains the unique identifier key for the template.`,
 		Exposed:        true,
 		Name:           "key",
 		Type:           "string",
@@ -518,7 +518,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		AllowedChoices: []string{"Action", "Condition"},
 		ConvertedName:  "Kind",
 		DefaultValue:   AutomationTemplateKindCondition,
-		Description:    `Kind represents the kind of template.`,
+		Description:    `Represents the kind of template.`,
 		Exposed:        true,
 		Name:           "kind",
 		Type:           "enum",
@@ -527,7 +527,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -542,7 +542,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters.`,
+		Description:    `Contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
 		SubType:        "map[string]interface{}",
@@ -551,7 +551,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 	"steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Steps",
-		Description:    `Steps contains all the steps with parameters.`,
+		Description:    `Contains all the steps with parameters.`,
 		Exposed:        true,
 		Name:           "steps",
 		SubType:        "uistep",
@@ -624,28 +624,28 @@ func (o SparseAutomationTemplatesList) Version() int {
 
 // SparseAutomationTemplate represents the sparse version of a automationtemplate.
 type SparseAutomationTemplate struct {
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Entitlements contains the entitlements needed for executing the function.
+	// Contains the entitlements needed for executing the function.
 	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" msgpack:"entitlements,omitempty" bson:"-" mapstructure:"entitlements,omitempty"`
 
 	// Function contains the code.
 	Function *string `json:"function,omitempty" msgpack:"function,omitempty" bson:"-" mapstructure:"function,omitempty"`
 
-	// Key contains the unique identifier key for the template.
+	// Contains the unique identifier key for the template.
 	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
 
-	// Kind represents the kind of template.
+	// Represents the kind of template.
 	Kind *AutomationTemplateKindValue `json:"kind,omitempty" msgpack:"kind,omitempty" bson:"-" mapstructure:"kind,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
-	// Parameters contains the computed parameters.
+	// Contains the computed parameters.
 	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
 
-	// Steps contains all the steps with parameters.
+	// Contains all the steps with parameters.
 	Steps *[]*UIStep `json:"steps,omitempty" msgpack:"steps,omitempty" bson:"-" mapstructure:"steps,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

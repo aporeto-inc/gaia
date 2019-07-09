@@ -152,7 +152,7 @@ func (o *TrustedCA) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *TrustedCA) Doc() string {
 
-	return `Represents a trusted Certificate Authority.`
+	return `Represents a trusted certificate authority (CA).`
 }
 
 func (o *TrustedCA) String() string {

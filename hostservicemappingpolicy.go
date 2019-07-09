@@ -83,21 +83,21 @@ func (o HostServiceMappingPoliciesList) Version() int {
 
 // HostServiceMappingPolicy represents the model of a hostservicemappingpolicy
 type HostServiceMappingPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `+"`"+`activeSchedule`+"`"+`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -106,42 +106,41 @@ type HostServiceMappingPolicy struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object of the policy is the selector for the host services that must be applied
-	// to this enforcer.
+	// A tag or tag expression identifying the host service(s) to be mapped.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject of the policy is the selector of the enforcers that the list of host
-	// services must apply to.
+	// A tag or tag expression identifying the enforcer(s) that should implement
+	// the specified host service(s).
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -209,8 +208,9 @@ func (o *HostServiceMappingPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *HostServiceMappingPolicy) Doc() string {
 
-	return `Defines a host service mapping policy that provides the relation between
-enforcers and host services that they must implement.`
+	return `Host service mapping allows you to map host services to the enforcers which should
+implement them. You must map host services to one or more enforcers for the host 
+services to have any effect.`
 }
 
 func (o *HostServiceMappingPolicy) String() string {
@@ -717,7 +717,7 @@ var HostServiceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -730,8 +730,8 @@ var HostServiceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -742,8 +742,8 @@ activeSchedule.`,
 	"ActiveSchedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -754,7 +754,7 @@ The policy will be active for the given activeDuration.`,
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -766,7 +766,7 @@ The policy will be active for the given activeDuration.`,
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -804,7 +804,7 @@ The policy will be active for the given activeDuration.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -817,7 +817,7 @@ The policy will be active for the given activeDuration.`,
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -829,7 +829,7 @@ The policy will be active for the given activeDuration.`,
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -844,7 +844,7 @@ propagated it will become a fallback for children namespaces.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -859,7 +859,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -891,7 +891,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -905,18 +905,17 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object of the policy is the selector for the host services that must be applied
-to this enforcer.`,
-		Exposed:   true,
-		Name:      "object",
-		Orderable: true,
-		SubType:   "[][]string",
-		Type:      "external",
+		Description:    `A tag or tag expression identifying the host service(s) to be mapped.`,
+		Exposed:        true,
+		Name:           "object",
+		Orderable:      true,
+		SubType:        "[][]string",
+		Type:           "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -928,7 +927,7 @@ to this enforcer.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -940,8 +939,8 @@ to this enforcer.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject of the policy is the selector of the enforcers that the list of host
-services must apply to.`,
+		Description: `A tag or tag expression identifying the enforcer(s) that should implement
+the specified host service(s).`,
 		Exposed:   true,
 		Name:      "subject",
 		Orderable: true,
@@ -982,7 +981,7 @@ var HostServiceMappingPolicyLowerCaseAttributesMap = map[string]elemental.Attrib
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -995,8 +994,8 @@ var HostServiceMappingPolicyLowerCaseAttributesMap = map[string]elemental.Attrib
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -1007,8 +1006,8 @@ activeSchedule.`,
 	"activeschedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -1019,7 +1018,7 @@ The policy will be active for the given activeDuration.`,
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1031,7 +1030,7 @@ The policy will be active for the given activeDuration.`,
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1069,7 +1068,7 @@ The policy will be active for the given activeDuration.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1082,7 +1081,7 @@ The policy will be active for the given activeDuration.`,
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1094,7 +1093,7 @@ The policy will be active for the given activeDuration.`,
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -1109,7 +1108,7 @@ propagated it will become a fallback for children namespaces.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1124,7 +1123,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1156,7 +1155,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1170,18 +1169,17 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object of the policy is the selector for the host services that must be applied
-to this enforcer.`,
-		Exposed:   true,
-		Name:      "object",
-		Orderable: true,
-		SubType:   "[][]string",
-		Type:      "external",
+		Description:    `A tag or tag expression identifying the host service(s) to be mapped.`,
+		Exposed:        true,
+		Name:           "object",
+		Orderable:      true,
+		SubType:        "[][]string",
+		Type:           "external",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1193,7 +1191,7 @@ to this enforcer.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1205,8 +1203,8 @@ to this enforcer.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject of the policy is the selector of the enforcers that the list of host
-services must apply to.`,
+		Description: `A tag or tag expression identifying the enforcer(s) that should implement
+the specified host service(s).`,
 		Exposed:   true,
 		Name:      "subject",
 		Orderable: true,
@@ -1307,21 +1305,21 @@ func (o SparseHostServiceMappingPoliciesList) Version() int {
 
 // SparseHostServiceMappingPolicy represents the sparse version of a hostservicemappingpolicy.
 type SparseHostServiceMappingPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `+"`"+`activeSchedule`+"`"+`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1330,42 +1328,41 @@ type SparseHostServiceMappingPolicy struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Object of the policy is the selector for the host services that must be applied
-	// to this enforcer.
+	// A tag or tag expression identifying the host service(s) to be mapped.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject of the policy is the selector of the enforcers that the list of host
-	// services must apply to.
+	// A tag or tag expression identifying the enforcer(s) that should implement
+	// the specified host service(s).
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

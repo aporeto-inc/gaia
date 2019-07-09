@@ -99,16 +99,16 @@ func (o ImportRequestsList) Version() int {
 
 // ImportRequest represents the model of a importrequest
 type ImportRequest struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Post a new comment that will be added to the commentFeed.
+	// A new comment that will be added to `+"`"+`commentFeed`+"`"+`.
 	Comment string `json:"comment" msgpack:"comment" bson:"-" mapstructure:"comment,omitempty"`
 
 	// List of comments that have been added to that request.
@@ -120,43 +120,38 @@ type ImportRequest struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// The data to import.
+	// Data to import.
 	Data map[string][]map[string]interface{} `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// The identity claims of the requester. This will be populated by the control
-	// plane.
+	// The identity claims of the requester; populated by the control plane.
 	RequesterClaims []string `json:"requesterClaims" msgpack:"requesterClaims" bson:"requesterclaims" mapstructure:"requesterClaims,omitempty"`
 
-	// The namespace from the request was created. This will be populated by the
+	// The namespace from which the request originated; populated by the
 	// control plane.
 	RequesterNamespace string `json:"requesterNamespace" msgpack:"requesterNamespace" bson:"requesternamespace" mapstructure:"requesterNamespace,omitempty"`
 
-	// The status of the request. The content of data can only be changed when the
-	// status is set to `+"`"+`Draft`+"`"+` or `+"`"+`ChangeRequested`+"`"+`. When the status is changed to
-	// `+"`"+`Submitted`+"`"+`, the request will move to the target namespace for validation.
-	// If the Status is set to `+"`"+`Approved`+"`"+` the data will be created immediately.
-	// If the status is set to `+"`"+`Rejected`+"`"+` the request cannot be changed anymore and can
-	// be deleted.
+	// Allows the content to be changed. `+"`"+`Submitted`+"`"+`: the request moves to the target namespace
+	// for approval. `+"`"+`Approved`+"`"+`: the data will be created immediately. `+"`"+`Rejected`+"`"+`: the request
+	// cannot be changed anymore and can be deleted.
 	Status ImportRequestStatusValue `json:"status" msgpack:"status" bson:"status" mapstructure:"status,omitempty"`
 
-	// Internal field to know if the request has been submit once.
+	// Internal field to know if the request has been submitted once.
 	SubmittedOnce bool `json:"-" msgpack:"-" bson:"submittedonce" mapstructure:"-,omitempty"`
 
-	// The namespace where the request will be sent. The requester can set any
-	// namespace but he needs to have an autorization to post the request in that
-	// namespace.
+	// The namespace where the request will be sent. The requester can set any namespace but
+	// needs to have an authorization to post the request in that namespace.
 	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -169,8 +164,7 @@ type ImportRequest struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -232,17 +226,16 @@ func (o *ImportRequest) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ImportRequest) Doc() string {
 
-	return `This API allows to send an import request to create objects to a namespace where
+	return `Allows you to send an import request to create objects to a namespace where
 the requester doesn't normally have the permission to do so (other than creating
 import requests).
 
-The requester must have the permission to create the request in his namespace
+The requester must have the permission to create the request in their namespace
 and the target namespace.
 
 When the request is created, the status is set to ` + "`" + `Draft` + "`" + `. The requester can
-edit the content as much as he desires.
-When he's ready to send the request, he must update the status to be
-` + "`" + `Submitted` + "`" + `.
+edit the content as much as desired.
+When ready to send the request, update the status to ` + "`" + `Submitted` + "`" + `.
 The request will then be moved to the target namespace.
 At that point nobody can edit the content of the requests other than adding
 comments.
@@ -256,10 +249,10 @@ The requestee will now see the request, and will either
   deleted.
 
 - Set the status back as ` + "`" + `Draft` + "`" + `. The request will go back to the requester
-  namespace so he can make changes. Once the change are ready, the requester
+  namespace so that the requester can make changes. Once the change are ready, the requester
   will set back the status as ` + "`" + `Submitted` + "`" + `.
 
-The ` + "`" + `data` + "`" + ` format is the same an ` + "`" + `Export` + "`" + `.`
+The ` + "`" + `data` + "`" + ` format is the same as ` + "`" + `Export` + "`" + `.`
 }
 
 func (o *ImportRequest) String() string {
@@ -698,7 +691,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -711,7 +704,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -723,7 +716,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -735,7 +728,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 	"Comment": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Comment",
-		Description:    `Post a new comment that will be added to the commentFeed.`,
+		Description:    `A new comment that will be added to ` + "`" + `commentFeed` + "`" + `.`,
 		Exposed:        true,
 		Name:           "comment",
 		Transient:      true,
@@ -783,7 +776,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 	"Data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
-		Description:    `The data to import.`,
+		Description:    `Data to import.`,
 		Exposed:        true,
 		Name:           "data",
 		Required:       true,
@@ -794,7 +787,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -824,7 +817,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -838,7 +831,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -851,20 +844,19 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "RequesterClaims",
-		Description: `The identity claims of the requester. This will be populated by the control
-plane.`,
-		Exposed:  true,
-		Name:     "requesterClaims",
-		ReadOnly: true,
-		Stored:   true,
-		SubType:  "string",
-		Type:     "list",
+		Description:    `The identity claims of the requester; populated by the control plane.`,
+		Exposed:        true,
+		Name:           "requesterClaims",
+		ReadOnly:       true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"RequesterNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "RequesterNamespace",
-		Description: `The namespace from the request was created. This will be populated by the
+		Description: `The namespace from which the request originated; populated by the
 control plane.`,
 		Exposed:  true,
 		Name:     "requesterNamespace",
@@ -876,12 +868,9 @@ control plane.`,
 		AllowedChoices: []string{"Draft", "Submitted", "Approved", "Rejected"},
 		ConvertedName:  "Status",
 		DefaultValue:   ImportRequestStatusDraft,
-		Description: `The status of the request. The content of data can only be changed when the
-status is set to ` + "`" + `Draft` + "`" + ` or ` + "`" + `ChangeRequested` + "`" + `. When the status is changed to
-` + "`" + `Submitted` + "`" + `, the request will move to the target namespace for validation.
-If the Status is set to ` + "`" + `Approved` + "`" + ` the data will be created immediately.
-If the status is set to ` + "`" + `Rejected` + "`" + ` the request cannot be changed anymore and can
-be deleted.`,
+		Description: `Allows the content to be changed. ` + "`" + `Submitted` + "`" + `: the request moves to the target namespace 
+for approval. ` + "`" + `Approved` + "`" + `: the data will be created immediately. ` + "`" + `Rejected` + "`" + `: the request 
+cannot be changed anymore and can be deleted.`,
 		Exposed: true,
 		Name:    "status",
 		Stored:  true,
@@ -890,7 +879,7 @@ be deleted.`,
 	"SubmittedOnce": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SubmittedOnce",
-		Description:    `Internal field to know if the request has been submit once.`,
+		Description:    `Internal field to know if the request has been submitted once.`,
 		Name:           "submittedOnce",
 		Stored:         true,
 		Type:           "boolean",
@@ -899,9 +888,8 @@ be deleted.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
 		CreationOnly:   true,
-		Description: `The namespace where the request will be sent. The requester can set any
-namespace but he needs to have an autorization to post the request in that
-namespace.`,
+		Description: `The namespace where the request will be sent. The requester can set any namespace but 
+needs to have an authorization to post the request in that namespace.`,
 		Exposed:   true,
 		Name:      "targetNamespace",
 		Required:  true,
@@ -952,16 +940,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -971,7 +958,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -984,7 +971,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -996,7 +983,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1008,7 +995,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"comment": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Comment",
-		Description:    `Post a new comment that will be added to the commentFeed.`,
+		Description:    `A new comment that will be added to ` + "`" + `commentFeed` + "`" + `.`,
 		Exposed:        true,
 		Name:           "comment",
 		Transient:      true,
@@ -1056,7 +1043,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
-		Description:    `The data to import.`,
+		Description:    `Data to import.`,
 		Exposed:        true,
 		Name:           "data",
 		Required:       true,
@@ -1067,7 +1054,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1097,7 +1084,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1111,7 +1098,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1124,20 +1111,19 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "RequesterClaims",
-		Description: `The identity claims of the requester. This will be populated by the control
-plane.`,
-		Exposed:  true,
-		Name:     "requesterClaims",
-		ReadOnly: true,
-		Stored:   true,
-		SubType:  "string",
-		Type:     "list",
+		Description:    `The identity claims of the requester; populated by the control plane.`,
+		Exposed:        true,
+		Name:           "requesterClaims",
+		ReadOnly:       true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"requesternamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "RequesterNamespace",
-		Description: `The namespace from the request was created. This will be populated by the
+		Description: `The namespace from which the request originated; populated by the
 control plane.`,
 		Exposed:  true,
 		Name:     "requesterNamespace",
@@ -1149,12 +1135,9 @@ control plane.`,
 		AllowedChoices: []string{"Draft", "Submitted", "Approved", "Rejected"},
 		ConvertedName:  "Status",
 		DefaultValue:   ImportRequestStatusDraft,
-		Description: `The status of the request. The content of data can only be changed when the
-status is set to ` + "`" + `Draft` + "`" + ` or ` + "`" + `ChangeRequested` + "`" + `. When the status is changed to
-` + "`" + `Submitted` + "`" + `, the request will move to the target namespace for validation.
-If the Status is set to ` + "`" + `Approved` + "`" + ` the data will be created immediately.
-If the status is set to ` + "`" + `Rejected` + "`" + ` the request cannot be changed anymore and can
-be deleted.`,
+		Description: `Allows the content to be changed. ` + "`" + `Submitted` + "`" + `: the request moves to the target namespace 
+for approval. ` + "`" + `Approved` + "`" + `: the data will be created immediately. ` + "`" + `Rejected` + "`" + `: the request 
+cannot be changed anymore and can be deleted.`,
 		Exposed: true,
 		Name:    "status",
 		Stored:  true,
@@ -1163,7 +1146,7 @@ be deleted.`,
 	"submittedonce": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SubmittedOnce",
-		Description:    `Internal field to know if the request has been submit once.`,
+		Description:    `Internal field to know if the request has been submitted once.`,
 		Name:           "submittedOnce",
 		Stored:         true,
 		Type:           "boolean",
@@ -1172,9 +1155,8 @@ be deleted.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
 		CreationOnly:   true,
-		Description: `The namespace where the request will be sent. The requester can set any
-namespace but he needs to have an autorization to post the request in that
-namespace.`,
+		Description: `The namespace where the request will be sent. The requester can set any namespace but 
+needs to have an authorization to post the request in that namespace.`,
 		Exposed:   true,
 		Name:      "targetNamespace",
 		Required:  true,
@@ -1225,16 +1207,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1303,16 +1284,16 @@ func (o SparseImportRequestsList) Version() int {
 
 // SparseImportRequest represents the sparse version of a importrequest.
 type SparseImportRequest struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// Post a new comment that will be added to the commentFeed.
+	// A new comment that will be added to `+"`"+`commentFeed`+"`"+`.
 	Comment *string `json:"comment,omitempty" msgpack:"comment,omitempty" bson:"-" mapstructure:"comment,omitempty"`
 
 	// List of comments that have been added to that request.
@@ -1324,43 +1305,38 @@ type SparseImportRequest struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// The data to import.
+	// Data to import.
 	Data *map[string][]map[string]interface{} `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// The identity claims of the requester. This will be populated by the control
-	// plane.
+	// The identity claims of the requester; populated by the control plane.
 	RequesterClaims *[]string `json:"requesterClaims,omitempty" msgpack:"requesterClaims,omitempty" bson:"requesterclaims,omitempty" mapstructure:"requesterClaims,omitempty"`
 
-	// The namespace from the request was created. This will be populated by the
+	// The namespace from which the request originated; populated by the
 	// control plane.
 	RequesterNamespace *string `json:"requesterNamespace,omitempty" msgpack:"requesterNamespace,omitempty" bson:"requesternamespace,omitempty" mapstructure:"requesterNamespace,omitempty"`
 
-	// The status of the request. The content of data can only be changed when the
-	// status is set to `+"`"+`Draft`+"`"+` or `+"`"+`ChangeRequested`+"`"+`. When the status is changed to
-	// `+"`"+`Submitted`+"`"+`, the request will move to the target namespace for validation.
-	// If the Status is set to `+"`"+`Approved`+"`"+` the data will be created immediately.
-	// If the status is set to `+"`"+`Rejected`+"`"+` the request cannot be changed anymore and can
-	// be deleted.
+	// Allows the content to be changed. `+"`"+`Submitted`+"`"+`: the request moves to the target namespace
+	// for approval. `+"`"+`Approved`+"`"+`: the data will be created immediately. `+"`"+`Rejected`+"`"+`: the request
+	// cannot be changed anymore and can be deleted.
 	Status *ImportRequestStatusValue `json:"status,omitempty" msgpack:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
 
-	// Internal field to know if the request has been submit once.
+	// Internal field to know if the request has been submitted once.
 	SubmittedOnce *bool `json:"-" msgpack:"-" bson:"submittedonce,omitempty" mapstructure:"-,omitempty"`
 
-	// The namespace where the request will be sent. The requester can set any
-	// namespace but he needs to have an autorization to post the request in that
-	// namespace.
+	// The namespace where the request will be sent. The requester can set any namespace but
+	// needs to have an authorization to post the request in that namespace.
 	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"targetnamespace,omitempty" mapstructure:"targetNamespace,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1373,8 +1349,7 @@ type SparseImportRequest struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

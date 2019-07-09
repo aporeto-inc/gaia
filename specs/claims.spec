@@ -5,7 +5,7 @@ model:
   entity_name: Claims
   package: guy
   group: policy/networking
-  description: This API represents the claims that accessed a service.
+  description: Represents the claims in the token used to access a service.
   get:
     description: Retrieves the object with the given ID.
   extends:
@@ -18,7 +18,7 @@ model:
 attributes:
   v1:
   - name: content
-    description: Content contains the raw JWT claims.
+    description: Contains the raw JSON web token (JWT) claims.
     type: external
     exposed: true
     subtype: map[string]string
@@ -31,7 +31,7 @@ attributes:
       sub: alice@acme.com
 
   - name: firstSeen
-    description: firstSeen contains the date of the first appearance of the claims.
+    description: Contains the date of the first appearance of the claims.
     type: time
     stored: true
     read_only: true
@@ -39,16 +39,16 @@ attributes:
 
   - name: hash
     description: |-
-      XXH64 of the claims content. It will be used as ID. To compute a correct hash,
-      you must first clob Content as an string array in the form `key=value`, sort it
-      then apply the xxhash function.
+      XXH64 hash of the claims content. It will be used as ID. To compute a correct hash,
+      you must first clob `content` as an string array in the form `key=value`, sort it
+      then apply the XXH64 function.
     type: string
     exposed: true
     required: true
     example_value: "1134423925458173049"
 
   - name: lastSeen
-    description: lastSeen contains the date of the last appearance of the claims.
+    description: Contains the date of the last appearance of the claims.
     type: time
     stored: true
     read_only: true

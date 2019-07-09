@@ -5,7 +5,7 @@ model:
   entity_name: Token
   package: barret
   group: internal/x509
-  description: This api issue signed token from the given certificate.
+  description: Issues a signed token from the given certificate.
   private: true
 
 # Attributes

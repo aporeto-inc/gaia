@@ -126,7 +126,7 @@ type AccessReport struct {
 	// Namespace of the processing unit of the report.
 	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
-	// This field is only set if 'action' is set to 'Reject' and specifies the reason
+	// This field is only set if `+"`"+`action`+"`"+` is set to `+"`"+`Reject`+"`"+`. It specifies the reason
 	// for the rejection.
 	Reason string `json:"reason" msgpack:"reason" bson:"-" mapstructure:"reason,omitempty"`
 
@@ -185,7 +185,7 @@ func (o *AccessReport) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *AccessReport) Doc() string {
 
-	return `Access report represents any access made by the user.`
+	return `Represents any access made by the user.`
 }
 
 func (o *AccessReport) String() string {
@@ -442,7 +442,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Reason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Reason",
-		Description: `This field is only set if 'action' is set to 'Reject' and specifies the reason
+		Description: `This field is only set if ` + "`" + `action` + "`" + ` is set to ` + "`" + `Reject` + "`" + `. It specifies the reason
 for the rejection.`,
 		Exposed: true,
 		Name:    "reason",
@@ -523,7 +523,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"reason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Reason",
-		Description: `This field is only set if 'action' is set to 'Reject' and specifies the reason
+		Description: `This field is only set if ` + "`" + `action` + "`" + ` is set to ` + "`" + `Reject` + "`" + `. It specifies the reason
 for the rejection.`,
 		Exposed: true,
 		Name:    "reason",
@@ -629,7 +629,7 @@ type SparseAccessReport struct {
 	// Namespace of the processing unit of the report.
 	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
-	// This field is only set if 'action' is set to 'Reject' and specifies the reason
+	// This field is only set if `+"`"+`action`+"`"+` is set to `+"`"+`Reject`+"`"+`. It specifies the reason
 	// for the rejection.
 	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"-" mapstructure:"reason,omitempty"`
 

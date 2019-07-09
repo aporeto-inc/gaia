@@ -6,22 +6,21 @@ model:
   package: squall
   group: policy/authorization
   description: |-
-    An API Authorization Policy defines what kind of operations a user of a system
-    can do in a namespace. The operations can be any combination of GET, POST, PUT,
-    DELETE,PATCH or HEAD. By default, an API Authorization Policy will only give
-    permissions in the context of the current namespace but you can make it
-    propagate to all the child namespaces. It is also possible restrict permissions
-    to apply only on a particular subset of the apis by setting the target
-    identities.
+    An API authorization defines the operations a user can perform in a 
+    namespace: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, and/or `HEAD`. 
+    It is also possible to restrict the user to a subset of the APIs in the
+    namespace by setting `authorizedIdentities`. By default, an API authorization 
+    will only give permissions in the the current namespace but you can set it to 
+    propagate to all the children of the current namespace.
   aliases:
   - apiauth
   - apiauths
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the authorization with the given ID.
   update:
-    description: Updates the object with the given ID.
+    description: Updates the authorization with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the authorization with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -46,8 +45,7 @@ indexes:
 attributes:
   v1:
   - name: authorizedIdentities
-    description: AuthorizedIdentities defines the list of api identities the policy
-      applies to.
+    description: A list of roles assigned to the user.
     type: list
     exposed: true
     subtype: string
@@ -56,7 +54,7 @@ attributes:
     - '@auth:role=namespace.editor'
 
   - name: authorizedNamespace
-    description: AuthorizedNamespace defines on what namespace the policy applies.
+    description: Defines the namespace the user is authorized to access.
     type: string
     exposed: true
     required: true
@@ -64,7 +62,7 @@ attributes:
 
   - name: authorizedSubnets
     description: |-
-      If set, the api authorization will only be valid if the request comes from one
+      If set, the API authorization will only be valid if the request comes from one
       the declared subnets.
     type: list
     exposed: true
@@ -73,7 +71,7 @@ attributes:
     - $optionalnetworks
 
   - name: expirationTime
-    description: If set the policy will be auto deleted after the given time.
+    description: If set, the policy will be automatically deleted after the given time.
     type: time
     exposed: true
     stored: true
@@ -81,7 +79,7 @@ attributes:
     setter: true
 
   - name: subject
-    description: Subject is the subject.
+    description: A tag or tag expression that identifies the authorized user(s).
     type: external
     exposed: true
     subtype: '[][]string'

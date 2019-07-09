@@ -5,7 +5,7 @@ model:
   entity_name: TrustedCA
   package: squall
   group: policy/enforcerconfig
-  description: Represents a trusted Certificate Authority.
+  description: Represents a trusted certificate authority (CA).
   aliases: []
 
 # Attributes

@@ -9,25 +9,25 @@ import (
 
 // Credential represents the model of a credential
 type Credential struct {
-	// The Aporeto API URL.
+	// The URL of the Aporeto API.
 	APIURL string `json:"APIURL" msgpack:"APIURL" bson:"-" mapstructure:"APIURL,omitempty"`
 
-	// The ID of app credential.
+	// The ID of the app credential.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// The certificate data encoded in base64.
+	// The base64-encoded certificate.
 	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
-	// The certificate authority data encoded in base64.
+	// The base64-encoded certificate authority.
 	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"-" mapstructure:"certificateAuthority,omitempty"`
 
-	// The certificate key data encoded in base64.
+	// The base64-encoded certificate key.
 	CertificateKey string `json:"certificateKey" msgpack:"certificateKey" bson:"-" mapstructure:"certificateKey,omitempty"`
 
-	// The name of app credential.
+	// The name of the app credential.
 	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
-	// The namespace of app credential.
+	// The namespace of the app credential.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

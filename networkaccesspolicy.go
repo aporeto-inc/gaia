@@ -122,29 +122,48 @@ func (o NetworkAccessPoliciesList) Version() int {
 
 // NetworkAccessPolicy represents the model of a networkaccesspolicy
 type NetworkAccessPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Action defines the action to apply to a flow.
+	// Defines the action to apply to a flow.
+	//
+	// - `+"`"+`Allow`+"`"+`: allows the defined traffic.
+	// - `+"`"+`Reject`+"`"+`: rejects the defined traffic; useful in conjunction with an allow all
+	// policy.
+	// - `+"`"+`Continue`+"`"+`: neither allows or rejects the traffic; useful for applying another
+	// property to the traffic, such as encryption.
 	Action NetworkAccessPolicyActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `+"`"+`activeSchedule`+"`"+`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// applyPolicyMode determines if the policy has to be applied to the
-	// outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-	// Default is both directions.
+	// Sets three different types of policies. `+"`"+`IncomingTraffic`+"`"+`: applies the policy to
+	// all
+	// processing units that match the `+"`"+`object`+"`"+` and allows them to *accept* connections
+	// from
+	// processing units or external networks that match the `+"`"+`subject`+"`"+`.
+	// `+"`"+`OutgoingTraffic`+"`"+`: applies
+	// the policy to all processing units that match the `+"`"+`subject`+"`"+` and allows them to
+	// *initiate*
+	// connections with processing units or external networks that match the `+"`"+`object`+"`"+`.
+	// `+"`"+`Bidirectional`+"`"+` (default): applies the policy to all processing units that match
+	// the `+"`"+`object`+"`"+`
+	// and allows them to *accept* connections from processing units that match the
+	// `+"`"+`subject`+"`"+`.
+	// Also applies the policy to all processing units that match the `+"`"+`subject`+"`"+` and
+	// allows them
+	// to *initiate* connections with processing units that match the `+"`"+`object`+"`"+`.
 	ApplyPolicyMode NetworkAccessPolicyApplyPolicyModeValue `json:"applyPolicyMode" msgpack:"applyPolicyMode" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -153,65 +172,69 @@ type NetworkAccessPolicy struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// EncryptionEnabled defines if the flow has to be encrypted.
+	// Defines if the flow has to be encrypted.
 	EncryptionEnabled bool `json:"encryptionEnabled" msgpack:"encryptionEnabled" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// LogsEnabled defines if the flow has to be logged.
+	// If `+"`"+`true`+"`"+`, the relevant flows are logged and available from the Aporeto control
+	// plane.
+	// Under some advanced scenarios you may wish to set this to `+"`"+`false`+"`"+`, such as to
+	// save space or
+	// improve performance.
 	LogsEnabled bool `json:"logsEnabled" msgpack:"logsEnabled" bson:"-" mapstructure:"logsEnabled,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Setting this to true will invert the object to find what is not matching.
+	// Setting this to `+"`"+`true`+"`"+` will invert the object to find what is not matching.
 	NegateObject bool `json:"negateObject" msgpack:"negateObject" bson:"negateobject" mapstructure:"negateObject,omitempty"`
 
-	// Setting this to true will invert the subject to find what is not matching.
+	// Setting this to `+"`"+`true`+"`"+` will invert the subject to find what is not matching.
 	NegateSubject bool `json:"negateSubject" msgpack:"negateSubject" bson:"negatesubject" mapstructure:"negateSubject,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object of the policy.
+	// A tag or tag expression identifying the object of the policy.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
-	// If set to true, the flow will be in observation mode.
+	// If set to `+"`"+`true`+"`"+`, the flow will be in observation mode.
 	ObservationEnabled bool `json:"observationEnabled" msgpack:"observationEnabled" bson:"-" mapstructure:"observationEnabled,omitempty"`
 
-	// If observationEnabled is set to true, this will be the final action taken on the
-	// packets.
+	// If `+"`"+`observationEnabled`+"`"+` is set to `+"`"+`true`+"`"+`, this defines the final action taken
+	// on the packets: `+"`"+`Apply`+"`"+` or `+"`"+`Continue`+"`"+` (default).
 	ObservedTrafficAction NetworkAccessPolicyObservedTrafficActionValue `json:"observedTrafficAction" msgpack:"observedTrafficAction" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
 	// Represents the ports and protocols this policy applies to.
 	Ports []string `json:"ports" msgpack:"ports" bson:"-" mapstructure:"ports,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject of the policy.
+	// A tag or tag expression identifying the subject of the policy.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -283,8 +306,8 @@ func (o *NetworkAccessPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *NetworkAccessPolicy) Doc() string {
 
-	return `Allows to define networking policies to allow or prevent processing units
-identitied by their tags to talk to other processing units or external services
+	return `Allows you to define network policies to allow or prevent processing units
+identified by their tags to talk to other processing units or external networks
 (also identified by their tags).`
 }
 
@@ -924,7 +947,7 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -937,18 +960,24 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{"Allow", "Reject", "Continue"},
 		ConvertedName:  "Action",
 		DefaultValue:   NetworkAccessPolicyActionAllow,
-		Description:    `Action defines the action to apply to a flow.`,
-		Exposed:        true,
-		Name:           "action",
-		Orderable:      true,
-		Type:           "enum",
+		Description: `Defines the action to apply to a flow.
+
+- ` + "`" + `Allow` + "`" + `: allows the defined traffic.
+- ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all
+policy.
+- ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another
+property to the traffic, such as encryption.`,
+		Exposed:   true,
+		Name:      "action",
+		Orderable: true,
+		Type:      "enum",
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -959,8 +988,8 @@ activeSchedule.`,
 	"ActiveSchedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -971,7 +1000,7 @@ The policy will be active for the given activeDuration.`,
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -984,9 +1013,22 @@ The policy will be active for the given activeDuration.`,
 		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"},
 		ConvertedName:  "ApplyPolicyMode",
 		DefaultValue:   NetworkAccessPolicyApplyPolicyModeBidirectional,
-		Description: `applyPolicyMode determines if the policy has to be applied to the
-outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-Default is both directions.`,
+		Description: `Sets three different types of policies. ` + "`" + `IncomingTraffic` + "`" + `: applies the policy to
+all
+processing units that match the ` + "`" + `object` + "`" + ` and allows them to *accept* connections
+from
+processing units or external networks that match the ` + "`" + `subject` + "`" + `.
+` + "`" + `OutgoingTraffic` + "`" + `: applies
+the policy to all processing units that match the ` + "`" + `subject` + "`" + ` and allows them to
+*initiate*
+connections with processing units or external networks that match the ` + "`" + `object` + "`" + `.
+` + "`" + `Bidirectional` + "`" + ` (default): applies the policy to all processing units that match
+the ` + "`" + `object` + "`" + `
+and allows them to *accept* connections from processing units that match the
+` + "`" + `subject` + "`" + `.
+Also applies the policy to all processing units that match the ` + "`" + `subject` + "`" + ` and
+allows them
+to *initiate* connections with processing units that match the ` + "`" + `object` + "`" + `.`,
 		Exposed:   true,
 		Name:      "applyPolicyMode",
 		Orderable: true,
@@ -995,7 +1037,7 @@ Default is both directions.`,
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1033,7 +1075,7 @@ Default is both directions.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1046,7 +1088,7 @@ Default is both directions.`,
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1058,7 +1100,7 @@ Default is both directions.`,
 	"EncryptionEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EncryptionEnabled",
-		Description:    `EncryptionEnabled defines if the flow has to be encrypted.`,
+		Description:    `Defines if the flow has to be encrypted.`,
 		Exposed:        true,
 		Name:           "encryptionEnabled",
 		Orderable:      true,
@@ -1067,7 +1109,7 @@ Default is both directions.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1078,7 +1120,7 @@ Default is both directions.`,
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -1092,17 +1134,21 @@ propagated it will become a fallback for children namespaces.`,
 	"LogsEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LogsEnabled",
-		Description:    `LogsEnabled defines if the flow has to be logged.`,
-		Exposed:        true,
-		Name:           "logsEnabled",
-		Orderable:      true,
-		Type:           "boolean",
+		Description: `If ` + "`" + `true` + "`" + `, the relevant flows are logged and available from the Aporeto control
+plane.
+Under some advanced scenarios you may wish to set this to ` + "`" + `false` + "`" + `, such as to
+save space or
+improve performance.`,
+		Exposed:   true,
+		Name:      "logsEnabled",
+		Orderable: true,
+		Type:      "boolean",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1117,7 +1163,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1148,7 +1194,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"NegateObject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NegateObject",
-		Description:    `Setting this to true will invert the object to find what is not matching.`,
+		Description:    `Setting this to ` + "`" + `true` + "`" + ` will invert the object to find what is not matching.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "negateObject",
@@ -1159,7 +1205,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"NegateSubject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NegateSubject",
-		Description:    `Setting this to true will invert the subject to find what is not matching.`,
+		Description:    `Setting this to ` + "`" + `true` + "`" + ` will invert the subject to find what is not matching.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "negateSubject",
@@ -1171,7 +1217,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1185,7 +1231,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object of the policy.`,
+		Description:    `A tag or tag expression identifying the object of the policy.`,
 		Exposed:        true,
 		Name:           "object",
 		Orderable:      true,
@@ -1195,7 +1241,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"ObservationEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservationEnabled",
-		Description:    `If set to true, the flow will be in observation mode.`,
+		Description:    `If set to ` + "`" + `true` + "`" + `, the flow will be in observation mode.`,
 		Exposed:        true,
 		Name:           "observationEnabled",
 		Orderable:      true,
@@ -1205,8 +1251,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{"Apply", "Continue"},
 		ConvertedName:  "ObservedTrafficAction",
 		DefaultValue:   NetworkAccessPolicyObservedTrafficActionContinue,
-		Description: `If observationEnabled is set to true, this will be the final action taken on the
-packets.`,
+		Description: `If ` + "`" + `observationEnabled` + "`" + ` is set to ` + "`" + `true` + "`" + `, this defines the final action taken
+on the packets: ` + "`" + `Apply` + "`" + ` or ` + "`" + `Continue` + "`" + ` (default).`,
 		Exposed:   true,
 		Name:      "observedTrafficAction",
 		Orderable: true,
@@ -1225,7 +1271,7 @@ packets.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1237,7 +1283,7 @@ packets.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1249,7 +1295,7 @@ packets.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject of the policy.`,
+		Description:    `A tag or tag expression identifying the subject of the policy.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
@@ -1290,7 +1336,7 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1303,18 +1349,24 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		AllowedChoices: []string{"Allow", "Reject", "Continue"},
 		ConvertedName:  "Action",
 		DefaultValue:   NetworkAccessPolicyActionAllow,
-		Description:    `Action defines the action to apply to a flow.`,
-		Exposed:        true,
-		Name:           "action",
-		Orderable:      true,
-		Type:           "enum",
+		Description: `Defines the action to apply to a flow.
+
+- ` + "`" + `Allow` + "`" + `: allows the defined traffic.
+- ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all
+policy.
+- ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another
+property to the traffic, such as encryption.`,
+		Exposed:   true,
+		Name:      "action",
+		Orderable: true,
+		Type:      "enum",
 	},
 	"activeduration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -1325,8 +1377,8 @@ activeSchedule.`,
 	"activeschedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -1337,7 +1389,7 @@ The policy will be active for the given activeDuration.`,
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1350,9 +1402,22 @@ The policy will be active for the given activeDuration.`,
 		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"},
 		ConvertedName:  "ApplyPolicyMode",
 		DefaultValue:   NetworkAccessPolicyApplyPolicyModeBidirectional,
-		Description: `applyPolicyMode determines if the policy has to be applied to the
-outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-Default is both directions.`,
+		Description: `Sets three different types of policies. ` + "`" + `IncomingTraffic` + "`" + `: applies the policy to
+all
+processing units that match the ` + "`" + `object` + "`" + ` and allows them to *accept* connections
+from
+processing units or external networks that match the ` + "`" + `subject` + "`" + `.
+` + "`" + `OutgoingTraffic` + "`" + `: applies
+the policy to all processing units that match the ` + "`" + `subject` + "`" + ` and allows them to
+*initiate*
+connections with processing units or external networks that match the ` + "`" + `object` + "`" + `.
+` + "`" + `Bidirectional` + "`" + ` (default): applies the policy to all processing units that match
+the ` + "`" + `object` + "`" + `
+and allows them to *accept* connections from processing units that match the
+` + "`" + `subject` + "`" + `.
+Also applies the policy to all processing units that match the ` + "`" + `subject` + "`" + ` and
+allows them
+to *initiate* connections with processing units that match the ` + "`" + `object` + "`" + `.`,
 		Exposed:   true,
 		Name:      "applyPolicyMode",
 		Orderable: true,
@@ -1361,7 +1426,7 @@ Default is both directions.`,
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1399,7 +1464,7 @@ Default is both directions.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1412,7 +1477,7 @@ Default is both directions.`,
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1424,7 +1489,7 @@ Default is both directions.`,
 	"encryptionenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EncryptionEnabled",
-		Description:    `EncryptionEnabled defines if the flow has to be encrypted.`,
+		Description:    `Defines if the flow has to be encrypted.`,
 		Exposed:        true,
 		Name:           "encryptionEnabled",
 		Orderable:      true,
@@ -1433,7 +1498,7 @@ Default is both directions.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1444,7 +1509,7 @@ Default is both directions.`,
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -1458,17 +1523,21 @@ propagated it will become a fallback for children namespaces.`,
 	"logsenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LogsEnabled",
-		Description:    `LogsEnabled defines if the flow has to be logged.`,
-		Exposed:        true,
-		Name:           "logsEnabled",
-		Orderable:      true,
-		Type:           "boolean",
+		Description: `If ` + "`" + `true` + "`" + `, the relevant flows are logged and available from the Aporeto control
+plane.
+Under some advanced scenarios you may wish to set this to ` + "`" + `false` + "`" + `, such as to
+save space or
+improve performance.`,
+		Exposed:   true,
+		Name:      "logsEnabled",
+		Orderable: true,
+		Type:      "boolean",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1483,7 +1552,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1514,7 +1583,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"negateobject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NegateObject",
-		Description:    `Setting this to true will invert the object to find what is not matching.`,
+		Description:    `Setting this to ` + "`" + `true` + "`" + ` will invert the object to find what is not matching.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "negateObject",
@@ -1525,7 +1594,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"negatesubject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NegateSubject",
-		Description:    `Setting this to true will invert the subject to find what is not matching.`,
+		Description:    `Setting this to ` + "`" + `true` + "`" + ` will invert the subject to find what is not matching.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "negateSubject",
@@ -1537,7 +1606,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1551,7 +1620,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object of the policy.`,
+		Description:    `A tag or tag expression identifying the object of the policy.`,
 		Exposed:        true,
 		Name:           "object",
 		Orderable:      true,
@@ -1561,7 +1630,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"observationenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservationEnabled",
-		Description:    `If set to true, the flow will be in observation mode.`,
+		Description:    `If set to ` + "`" + `true` + "`" + `, the flow will be in observation mode.`,
 		Exposed:        true,
 		Name:           "observationEnabled",
 		Orderable:      true,
@@ -1571,8 +1640,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{"Apply", "Continue"},
 		ConvertedName:  "ObservedTrafficAction",
 		DefaultValue:   NetworkAccessPolicyObservedTrafficActionContinue,
-		Description: `If observationEnabled is set to true, this will be the final action taken on the
-packets.`,
+		Description: `If ` + "`" + `observationEnabled` + "`" + ` is set to ` + "`" + `true` + "`" + `, this defines the final action taken
+on the packets: ` + "`" + `Apply` + "`" + ` or ` + "`" + `Continue` + "`" + ` (default).`,
 		Exposed:   true,
 		Name:      "observedTrafficAction",
 		Orderable: true,
@@ -1591,7 +1660,7 @@ packets.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1603,7 +1672,7 @@ packets.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1615,7 +1684,7 @@ packets.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject of the policy.`,
+		Description:    `A tag or tag expression identifying the subject of the policy.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
@@ -1716,29 +1785,48 @@ func (o SparseNetworkAccessPoliciesList) Version() int {
 
 // SparseNetworkAccessPolicy represents the sparse version of a networkaccesspolicy.
 type SparseNetworkAccessPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Action defines the action to apply to a flow.
+	// Defines the action to apply to a flow.
+	//
+	// - `+"`"+`Allow`+"`"+`: allows the defined traffic.
+	// - `+"`"+`Reject`+"`"+`: rejects the defined traffic; useful in conjunction with an allow all
+	// policy.
+	// - `+"`"+`Continue`+"`"+`: neither allows or rejects the traffic; useful for applying another
+	// property to the traffic, such as encryption.
 	Action *NetworkAccessPolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `+"`"+`activeSchedule`+"`"+`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// applyPolicyMode determines if the policy has to be applied to the
-	// outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-	// Default is both directions.
+	// Sets three different types of policies. `+"`"+`IncomingTraffic`+"`"+`: applies the policy to
+	// all
+	// processing units that match the `+"`"+`object`+"`"+` and allows them to *accept* connections
+	// from
+	// processing units or external networks that match the `+"`"+`subject`+"`"+`.
+	// `+"`"+`OutgoingTraffic`+"`"+`: applies
+	// the policy to all processing units that match the `+"`"+`subject`+"`"+` and allows them to
+	// *initiate*
+	// connections with processing units or external networks that match the `+"`"+`object`+"`"+`.
+	// `+"`"+`Bidirectional`+"`"+` (default): applies the policy to all processing units that match
+	// the `+"`"+`object`+"`"+`
+	// and allows them to *accept* connections from processing units that match the
+	// `+"`"+`subject`+"`"+`.
+	// Also applies the policy to all processing units that match the `+"`"+`subject`+"`"+` and
+	// allows them
+	// to *initiate* connections with processing units that match the `+"`"+`object`+"`"+`.
 	ApplyPolicyMode *NetworkAccessPolicyApplyPolicyModeValue `json:"applyPolicyMode,omitempty" msgpack:"applyPolicyMode,omitempty" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1747,65 +1835,69 @@ type SparseNetworkAccessPolicy struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// EncryptionEnabled defines if the flow has to be encrypted.
+	// Defines if the flow has to be encrypted.
 	EncryptionEnabled *bool `json:"encryptionEnabled,omitempty" msgpack:"encryptionEnabled,omitempty" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// LogsEnabled defines if the flow has to be logged.
+	// If `+"`"+`true`+"`"+`, the relevant flows are logged and available from the Aporeto control
+	// plane.
+	// Under some advanced scenarios you may wish to set this to `+"`"+`false`+"`"+`, such as to
+	// save space or
+	// improve performance.
 	LogsEnabled *bool `json:"logsEnabled,omitempty" msgpack:"logsEnabled,omitempty" bson:"-" mapstructure:"logsEnabled,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// Setting this to true will invert the object to find what is not matching.
+	// Setting this to `+"`"+`true`+"`"+` will invert the object to find what is not matching.
 	NegateObject *bool `json:"negateObject,omitempty" msgpack:"negateObject,omitempty" bson:"negateobject,omitempty" mapstructure:"negateObject,omitempty"`
 
-	// Setting this to true will invert the subject to find what is not matching.
+	// Setting this to `+"`"+`true`+"`"+` will invert the subject to find what is not matching.
 	NegateSubject *bool `json:"negateSubject,omitempty" msgpack:"negateSubject,omitempty" bson:"negatesubject,omitempty" mapstructure:"negateSubject,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Object of the policy.
+	// A tag or tag expression identifying the object of the policy.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
-	// If set to true, the flow will be in observation mode.
+	// If set to `+"`"+`true`+"`"+`, the flow will be in observation mode.
 	ObservationEnabled *bool `json:"observationEnabled,omitempty" msgpack:"observationEnabled,omitempty" bson:"-" mapstructure:"observationEnabled,omitempty"`
 
-	// If observationEnabled is set to true, this will be the final action taken on the
-	// packets.
+	// If `+"`"+`observationEnabled`+"`"+` is set to `+"`"+`true`+"`"+`, this defines the final action taken
+	// on the packets: `+"`"+`Apply`+"`"+` or `+"`"+`Continue`+"`"+` (default).
 	ObservedTrafficAction *NetworkAccessPolicyObservedTrafficActionValue `json:"observedTrafficAction,omitempty" msgpack:"observedTrafficAction,omitempty" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
 	// Represents the ports and protocols this policy applies to.
 	Ports *[]string `json:"ports,omitempty" msgpack:"ports,omitempty" bson:"-" mapstructure:"ports,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject of the policy.
+	// A tag or tag expression identifying the subject of the policy.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

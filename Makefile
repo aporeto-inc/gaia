@@ -26,7 +26,7 @@ codegen:
 	data=$$(rego doc -d specs || exit 1) && \
 		echo -e "$${data}" > doc/documentation.md
 
-lint:
+lint: spelling
 	# --enable=unparam
 	golangci-lint run \
 		--disable-all \
@@ -45,6 +45,9 @@ lint:
 		--enable=prealloc \
 		--enable=nakedret \
 		./...
+
+spelling:
+	docker run --rm -v $$PWD:/workdir tmaier/markdown-spellcheck:latest "doc/*.md" -r -a -n --en-us
 
 .PHONY: test
 test:
