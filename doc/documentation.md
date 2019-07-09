@@ -8202,43 +8202,6 @@ Contains the base namespace from where the count will be done.
 
 Last update date of the object.
 
-## policy/service
-
-### IdentityProvider
-
-The IdentityProvider object contains the parameters of a trusted identity
-provider that can be used by the datapath to validate JWT tokens.
-
-#### Example
-
-```json
-{
-  "audiences": [
-    "aporetoID"
-  ],
-  "issuer": "https://accounts.google.com",
-  "keyURL": "https://www.googleapis.com/oauth2/v3/certs"
-}
-```
-
-#### Attributes
-
-##### `audiences` `[]string`
-
-Audiences is a list of approved audiences that a token originating from this
-Identity Provider must be specifying. In several common identity providers this
-is equal to the ClientID of the provider.
-
-##### `issuer` `string` [`required`]
-
-Issuer is a URL to the IDP. When the ".well-known/opendid-configuration" suffix
-is added to the URL path, it should form the discovery URL of the issuer.
-
-##### `keyURL` `string`
-
-This is a URL to retrieve the signing keys. The target must respond with the
-standard JWKS format as described in the OIDC standards.
-
 ## policy/services
 
 ### ClaimMapping
