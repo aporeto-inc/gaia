@@ -414,10 +414,6 @@ relations:
         type: string
         example_value: xxx.yyyyyyyy.zzzz
 
-- rest_name: jaegerbatch
-  create:
-    description: Sends a jaeger tracing batch.
-
 - rest_name: ldapprovider
   get:
     description: Retrieves the list of the account LDAP providers.

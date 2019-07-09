@@ -60,7 +60,6 @@ var (
 		"ipinfo":                   IPInfoIdentity,
 		"isolationprofile":         IsolationProfileIdentity,
 		"issue":                    IssueIdentity,
-		"jaegerbatch":              JaegerbatchIdentity,
 		"ldapprovider":             LDAPProviderIdentity,
 		"log":                      LogIdentity,
 		"message":                  MessageIdentity,
@@ -182,7 +181,6 @@ var (
 		"ipinfos":                    IPInfoIdentity,
 		"isolationprofiles":          IsolationProfileIdentity,
 		"issue":                      IssueIdentity,
-		"jaegerbatchs":               JaegerbatchIdentity,
 		"ldapproviders":              LDAPProviderIdentity,
 		"logs":                       LogIdentity,
 		"messages":                   MessageIdentity,
@@ -295,7 +293,6 @@ var (
 		"iapps":          InstalledAppIdentity,
 		"iapp":           InstalledAppIdentity,
 		"ip":             IsolationProfileIdentity,
-		"sp":             JaegerbatchIdentity,
 		"mess":           MessageIdentity,
 		"ns":             NamespaceIdentity,
 		"nspolicy":       NamespaceMappingPolicyIdentity,
@@ -561,8 +558,7 @@ var (
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 		},
-		"issue":       nil,
-		"jaegerbatch": nil,
+		"issue": nil,
 		"ldapprovider": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -873,8 +869,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewIsolationProfile()
 	case IssueIdentity:
 		return NewIssue()
-	case JaegerbatchIdentity:
-		return NewJaegerbatch()
 	case LDAPProviderIdentity:
 		return NewLDAPProvider()
 	case LogIdentity:
@@ -1100,8 +1094,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseIsolationProfile()
 	case IssueIdentity:
 		return NewSparseIssue()
-	case JaegerbatchIdentity:
-		return NewSparseJaegerbatch()
 	case LDAPProviderIdentity:
 		return NewSparseLDAPProvider()
 	case LogIdentity:
@@ -1335,8 +1327,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &IsolationProfilesList{}
 	case IssueIdentity:
 		return &IssuesList{}
-	case JaegerbatchIdentity:
-		return &JaegerbatchesList{}
 	case LDAPProviderIdentity:
 		return &LDAPProvidersList{}
 	case LogIdentity:
@@ -1560,8 +1550,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseIsolationProfilesList{}
 	case IssueIdentity:
 		return &SparseIssuesList{}
-	case JaegerbatchIdentity:
-		return &SparseJaegerbatchesList{}
 	case LDAPProviderIdentity:
 		return &SparseLDAPProvidersList{}
 	case LogIdentity:
@@ -1748,7 +1736,6 @@ func AllIdentities() []elemental.Identity {
 		IPInfoIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
-		JaegerbatchIdentity,
 		LDAPProviderIdentity,
 		LogIdentity,
 		MessageIdentity,
@@ -1985,10 +1972,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case IssueIdentity:
 		return []string{}
-	case JaegerbatchIdentity:
-		return []string{
-			"sp",
-		}
 	case LDAPProviderIdentity:
 		return []string{}
 	case LogIdentity:

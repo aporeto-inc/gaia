@@ -2024,12 +2024,6 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[JaegerbatchIdentity] = &elemental.Relationship{
-		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-	}
-
 	relationshipsRegistry[LDAPProviderIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
