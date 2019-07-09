@@ -139,7 +139,7 @@ type EnforcerProfile struct {
 	ExcludedNetworks []string `json:"excludedNetworks" msgpack:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
 	// A tag expression that identifies processing units to ignore. This can be
-	// useful to exclude `+"`"+`kube-system`+"`"+` pods, AWS EC2 agent pods, and third-party
+	// useful to exclude `kube-system` pods, AWS EC2 agent pods, and third-party
 	// agents.
 	IgnoreExpression [][]string `json:"ignoreExpression" msgpack:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
@@ -1538,7 +1538,7 @@ type SparseEnforcerProfile struct {
 	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" msgpack:"excludedNetworks,omitempty" bson:"excludednetworks,omitempty" mapstructure:"excludedNetworks,omitempty"`
 
 	// A tag expression that identifies processing units to ignore. This can be
-	// useful to exclude `+"`"+`kube-system`+"`"+` pods, AWS EC2 agent pods, and third-party
+	// useful to exclude `kube-system` pods, AWS EC2 agent pods, and third-party
 	// agents.
 	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" msgpack:"ignoreExpression,omitempty" bson:"ignoreexpression,omitempty" mapstructure:"ignoreExpression,omitempty"`
 

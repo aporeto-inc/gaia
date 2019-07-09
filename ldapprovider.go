@@ -108,21 +108,21 @@ type LDAPProvider struct {
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// Contains the base distinguished name (DN) to use for LDAP queries. Example:
-	// `+"`"+`dc=example,dc=com`+"`"+`.
+	// `dc=example,dc=com`.
 	BaseDN string `json:"baseDN" msgpack:"baseDN" bson:"basedn" mapstructure:"baseDN,omitempty"`
 
 	// Contains the DN to use to bind to the LDAP server. Example:
-	// `+"`"+`cn=admin,dc=example,dc=com`+"`"+`.
+	// `cn=admin,dc=example,dc=com`.
 	BindDN string `json:"bindDN" msgpack:"bindDN" bson:"binddn" mapstructure:"bindDN,omitempty"`
 
-	// Contains the password to be used with the `+"`"+`bindDN`+"`"+` to authenticate to the LDAP
+	// Contains the password to be used with the `bindDN` to authenticate to the LDAP
 	// server.
 	BindPassword string `json:"bindPassword" msgpack:"bindPassword" bson:"bindpassword" mapstructure:"bindPassword,omitempty"`
 
 	// The filter to use to locate the relevant user accounts. For Windows-based
 	// systems, the value may
-	// be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and other systems, the value may be
-	// `+"`"+`uid={USERNAME}`+"`"+`.
+	// be `sAMAccountName={USERNAME}`. For Linux and other systems, the value may be
+	// `uid={USERNAME}`.
 	BindSearchFilter string `json:"bindSearchFilter" msgpack:"bindSearchFilter" bson:"bindsearchfilter" mapstructure:"bindSearchFilter,omitempty"`
 
 	// Can be left empty if the LDAP server's certificate is signed by a public,
@@ -132,7 +132,7 @@ type LDAPProvider struct {
 	// LDAP server's certificate.
 	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
-	// Specifies the connection type for the LDAP provider. `+"`"+`TLS`+"`"+` or `+"`"+`InbandTLS`+"`"+`
+	// Specifies the connection type for the LDAP provider. `TLS` or `InbandTLS`
 	// (default).
 	ConnSecurityProtocol LDAPProviderConnSecurityProtocolValue `json:"connSecurityProtocol" msgpack:"connSecurityProtocol" bson:"connsecurityprotocol" mapstructure:"connSecurityProtocol,omitempty"`
 
@@ -167,8 +167,8 @@ type LDAPProvider struct {
 
 	// The key to be used to populate the subject of the Midguard token. If you want to
 	// use the user as a subject, for Windows-based systems you may use
-	// `+"`"+`sAMAccountName`+"`"+`.
-	// For Linux and other systems, you may wish to use `+"`"+`uid`+"`"+` (default). You can also
+	// `sAMAccountName`.
+	// For Linux and other systems, you may wish to use `uid` (default). You can also
 	// use
 	// any alternate key.
 	SubjectKey string `json:"subjectKey" msgpack:"subjectKey" bson:"subjectkey" mapstructure:"subjectKey,omitempty"`
@@ -1462,21 +1462,21 @@ type SparseLDAPProvider struct {
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// Contains the base distinguished name (DN) to use for LDAP queries. Example:
-	// `+"`"+`dc=example,dc=com`+"`"+`.
+	// `dc=example,dc=com`.
 	BaseDN *string `json:"baseDN,omitempty" msgpack:"baseDN,omitempty" bson:"basedn,omitempty" mapstructure:"baseDN,omitempty"`
 
 	// Contains the DN to use to bind to the LDAP server. Example:
-	// `+"`"+`cn=admin,dc=example,dc=com`+"`"+`.
+	// `cn=admin,dc=example,dc=com`.
 	BindDN *string `json:"bindDN,omitempty" msgpack:"bindDN,omitempty" bson:"binddn,omitempty" mapstructure:"bindDN,omitempty"`
 
-	// Contains the password to be used with the `+"`"+`bindDN`+"`"+` to authenticate to the LDAP
+	// Contains the password to be used with the `bindDN` to authenticate to the LDAP
 	// server.
 	BindPassword *string `json:"bindPassword,omitempty" msgpack:"bindPassword,omitempty" bson:"bindpassword,omitempty" mapstructure:"bindPassword,omitempty"`
 
 	// The filter to use to locate the relevant user accounts. For Windows-based
 	// systems, the value may
-	// be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and other systems, the value may be
-	// `+"`"+`uid={USERNAME}`+"`"+`.
+	// be `sAMAccountName={USERNAME}`. For Linux and other systems, the value may be
+	// `uid={USERNAME}`.
 	BindSearchFilter *string `json:"bindSearchFilter,omitempty" msgpack:"bindSearchFilter,omitempty" bson:"bindsearchfilter,omitempty" mapstructure:"bindSearchFilter,omitempty"`
 
 	// Can be left empty if the LDAP server's certificate is signed by a public,
@@ -1486,7 +1486,7 @@ type SparseLDAPProvider struct {
 	// LDAP server's certificate.
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
 
-	// Specifies the connection type for the LDAP provider. `+"`"+`TLS`+"`"+` or `+"`"+`InbandTLS`+"`"+`
+	// Specifies the connection type for the LDAP provider. `TLS` or `InbandTLS`
 	// (default).
 	ConnSecurityProtocol *LDAPProviderConnSecurityProtocolValue `json:"connSecurityProtocol,omitempty" msgpack:"connSecurityProtocol,omitempty" bson:"connsecurityprotocol,omitempty" mapstructure:"connSecurityProtocol,omitempty"`
 
@@ -1521,8 +1521,8 @@ type SparseLDAPProvider struct {
 
 	// The key to be used to populate the subject of the Midguard token. If you want to
 	// use the user as a subject, for Windows-based systems you may use
-	// `+"`"+`sAMAccountName`+"`"+`.
-	// For Linux and other systems, you may wish to use `+"`"+`uid`+"`"+` (default). You can also
+	// `sAMAccountName`.
+	// For Linux and other systems, you may wish to use `uid` (default). You can also
 	// use
 	// any alternate key.
 	SubjectKey *string `json:"subjectKey,omitempty" msgpack:"subjectKey,omitempty" bson:"subjectkey,omitempty" mapstructure:"subjectKey,omitempty"`

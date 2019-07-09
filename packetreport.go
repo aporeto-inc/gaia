@@ -106,11 +106,11 @@ type PacketReport struct {
 	// The destination port of a TCP or UDP packet.
 	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
 
-	// If `+"`"+`event`+"`"+` is set to `+"`"+`Dropped`+"`"+`, contains the reason that the packet was dropped.
+	// If `event` is set to `Dropped`, contains the reason that the packet was dropped.
 	// Otherwise empty.
 	DropReason string `json:"dropReason" msgpack:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
 
-	// Set to `+"`"+`true`+"`"+` if the packet was encrypted.
+	// Set to `true` if the packet was encrypted.
 	Encrypt bool `json:"encrypt" msgpack:"encrypt" bson:"-" mapstructure:"encrypt,omitempty"`
 
 	// The event that triggered the report.
@@ -143,7 +143,7 @@ type PacketReport struct {
 	// The time-date stamp of the report.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	// Set to `+"`"+`true`+"`"+` if the packet arrived with the Trireme options (default).
+	// Set to `true` if the packet arrived with the Trireme options (default).
 	TriremePacket bool `json:"triremePacket" msgpack:"triremePacket" bson:"triremepacket" mapstructure:"triremePacket,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -855,11 +855,11 @@ type SparsePacketReport struct {
 	// The destination port of a TCP or UDP packet.
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
 
-	// If `+"`"+`event`+"`"+` is set to `+"`"+`Dropped`+"`"+`, contains the reason that the packet was dropped.
+	// If `event` is set to `Dropped`, contains the reason that the packet was dropped.
 	// Otherwise empty.
 	DropReason *string `json:"dropReason,omitempty" msgpack:"dropReason,omitempty" bson:"-" mapstructure:"dropReason,omitempty"`
 
-	// Set to `+"`"+`true`+"`"+` if the packet was encrypted.
+	// Set to `true` if the packet was encrypted.
 	Encrypt *bool `json:"encrypt,omitempty" msgpack:"encrypt,omitempty" bson:"-" mapstructure:"encrypt,omitempty"`
 
 	// The event that triggered the report.
@@ -892,7 +892,7 @@ type SparsePacketReport struct {
 	// The time-date stamp of the report.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	// Set to `+"`"+`true`+"`"+` if the packet arrived with the Trireme options (default).
+	// Set to `true` if the packet arrived with the Trireme options (default).
 	TriremePacket *bool `json:"triremePacket,omitempty" msgpack:"triremePacket,omitempty" bson:"triremepacket,omitempty" mapstructure:"triremePacket,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

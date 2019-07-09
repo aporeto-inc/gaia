@@ -112,19 +112,19 @@ type InfrastructurePolicy struct {
 	Action InfrastructurePolicyActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Determines if the policy applies to the outgoing traffic of the `+"`"+`subject`+"`"+` or the
-	// incoming traffic of the `+"`"+`subject`+"`"+`. `+"`"+`OutgoingTraffic`+"`"+` (default) or
-	// `+"`"+`IncomingTraffic`+"`"+`.
+	// Determines if the policy applies to the outgoing traffic of the `subject` or the
+	// incoming traffic of the `subject`. `OutgoingTraffic` (default) or
+	// `IncomingTraffic`.
 	ApplyPolicyMode InfrastructurePolicyApplyPolicyModeValue `json:"applyPolicyMode" msgpack:"applyPolicyMode" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
 	// List of tags attached to an entity.
@@ -1357,19 +1357,19 @@ type SparseInfrastructurePolicy struct {
 	Action *InfrastructurePolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
-	// `+"`"+`activeSchedule`+"`"+`.
+	// `activeSchedule`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
 	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `+"`"+`activeDuration`+"`"+`.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// Determines if the policy applies to the outgoing traffic of the `+"`"+`subject`+"`"+` or the
-	// incoming traffic of the `+"`"+`subject`+"`"+`. `+"`"+`OutgoingTraffic`+"`"+` (default) or
-	// `+"`"+`IncomingTraffic`+"`"+`.
+	// Determines if the policy applies to the outgoing traffic of the `subject` or the
+	// incoming traffic of the `subject`. `OutgoingTraffic` (default) or
+	// `IncomingTraffic`.
 	ApplyPolicyMode *InfrastructurePolicyApplyPolicyModeValue `json:"applyPolicyMode,omitempty" msgpack:"applyPolicyMode,omitempty" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
 	// List of tags attached to an entity.

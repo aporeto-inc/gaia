@@ -83,7 +83,7 @@ type SSHIdentity struct {
 	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// Contains the public key to sign in OpenSSH format. You can generate an SSH
-	// public key with the standard `+"`"+`ssh-keygen`+"`"+` tool.
+	// public key with the standard `ssh-keygen` tool.
 	PublicKey string `json:"publicKey" msgpack:"publicKey" bson:"-" mapstructure:"publicKey,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -376,7 +376,7 @@ type SparseSSHIdentity struct {
 	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// Contains the public key to sign in OpenSSH format. You can generate an SSH
-	// public key with the standard `+"`"+`ssh-keygen`+"`"+` tool.
+	// public key with the standard `ssh-keygen` tool.
 	PublicKey *string `json:"publicKey,omitempty" msgpack:"publicKey,omitempty" bson:"-" mapstructure:"publicKey,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

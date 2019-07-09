@@ -218,11 +218,11 @@ type Enforcer struct {
 	// Local subnets of this enforcer.
 	Subnets []string `json:"subnets" msgpack:"subnets" bson:"subnets" mapstructure:"subnets,omitempty"`
 
-	// The Aporeto control plane sets this value to `+"`"+`true`+"`"+` if it hasn't heard from
+	// The Aporeto control plane sets this value to `true` if it hasn't heard from
 	// the enforcer in the last five minutes.
 	Unreachable bool `json:"unreachable" msgpack:"unreachable" bson:"unreachable" mapstructure:"unreachable,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, the enforcer version is outdated and should be updated.
+	// If `true`, the enforcer version is outdated and should be updated.
 	UpdateAvailable bool `json:"updateAvailable" msgpack:"updateAvailable" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1935,11 +1935,11 @@ type SparseEnforcer struct {
 	// Local subnets of this enforcer.
 	Subnets *[]string `json:"subnets,omitempty" msgpack:"subnets,omitempty" bson:"subnets,omitempty" mapstructure:"subnets,omitempty"`
 
-	// The Aporeto control plane sets this value to `+"`"+`true`+"`"+` if it hasn't heard from
+	// The Aporeto control plane sets this value to `true` if it hasn't heard from
 	// the enforcer in the last five minutes.
 	Unreachable *bool `json:"unreachable,omitempty" msgpack:"unreachable,omitempty" bson:"unreachable,omitempty" mapstructure:"unreachable,omitempty"`
 
-	// If `+"`"+`true`+"`"+`, the enforcer version is outdated and should be updated.
+	// If `true`, the enforcer version is outdated and should be updated.
 	UpdateAvailable *bool `json:"updateAvailable,omitempty" msgpack:"updateAvailable,omitempty" bson:"updateavailable,omitempty" mapstructure:"updateAvailable,omitempty"`
 
 	// internal idempotency key for a update operation.

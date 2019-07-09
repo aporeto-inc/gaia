@@ -86,7 +86,7 @@ type AppCredential struct {
 	// Contains a PEM-encoded certificate signing request (CSR). It can
 	// only be set during a renew.
 	//
-	// - The CN **MUST** be `+"`"+`app:credential:<appcred-id>:<appcred-name>`+"`"+`
+	// - The CN **MUST** be `app:credential:<appcred-id>:<appcred-name>`
 	// - The O **MUST** be the namespace of the app credential
 	//
 	// If you send anything else, the signing request will be rejected.
@@ -1419,7 +1419,7 @@ type SparseAppCredential struct {
 	// Contains a PEM-encoded certificate signing request (CSR). It can
 	// only be set during a renew.
 	//
-	// - The CN **MUST** be `+"`"+`app:credential:<appcred-id>:<appcred-name>`+"`"+`
+	// - The CN **MUST** be `app:credential:<appcred-id>:<appcred-name>`
 	// - The O **MUST** be the namespace of the app credential
 	//
 	// If you send anything else, the signing request will be rejected.

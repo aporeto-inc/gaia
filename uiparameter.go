@@ -53,7 +53,7 @@ const (
 
 // UIParameter represents the model of a uiparameter
 type UIParameter struct {
-	// A value of `+"`"+`true`+"`"+` designates the parameter as advanced.
+	// A value of `true` designates the parameter as advanced.
 	Advanced bool `json:"advanced" msgpack:"advanced" bson:"advanced" mapstructure:"advanced,omitempty"`
 
 	// Lists all the choices in case of an enum.
@@ -77,7 +77,7 @@ type UIParameter struct {
 	// Name of the parameter.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// A value of `+"`"+`true`+"`"+` designates the parameter as optional.
+	// A value of `true` designates the parameter as optional.
 	Optional bool `json:"optional" msgpack:"optional" bson:"optional" mapstructure:"optional,omitempty"`
 
 	// The datatype of the parameter.

@@ -82,7 +82,7 @@ type QuotaCheck struct {
 	// Contains the maximum number of matching entities that can be created.
 	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
-	// If the parameter `+"`"+`remaining=true`+"`"+` is passed, this value will be populated with
+	// If the parameter `remaining=true` is passed, this value will be populated with
 	// the number of remaining objects in the quota.
 	Remaining int `json:"remaining" msgpack:"remaining" bson:"-" mapstructure:"remaining,omitempty"`
 
@@ -436,7 +436,7 @@ type SparseQuotaCheck struct {
 	// Contains the maximum number of matching entities that can be created.
 	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
-	// If the parameter `+"`"+`remaining=true`+"`"+` is passed, this value will be populated with
+	// If the parameter `remaining=true` is passed, this value will be populated with
 	// the number of remaining objects in the quota.
 	Remaining *int `json:"remaining,omitempty" msgpack:"remaining,omitempty" bson:"-" mapstructure:"remaining,omitempty"`
 

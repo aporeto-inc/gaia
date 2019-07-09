@@ -120,7 +120,7 @@ type Issue struct {
 	// Contains additional data. The value depends on the issuer type.
 	Data string `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
-	// Contains various additional information. Meaning depends on the `+"`"+`realm`+"`"+`.
+	// Contains various additional information. Meaning depends on the `realm`.
 	Metadata map[string]interface{} `json:"metadata" msgpack:"metadata" bson:"-" mapstructure:"metadata,omitempty"`
 
 	// Opaque data that will be included in the issued token.
@@ -129,9 +129,9 @@ type Issue struct {
 	// Restricts the number of times the issued token can be used.
 	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
-	// The authentication realm. `+"`"+`AWSIdentityDocument`+"`"+`, `+"`"+`AWSSecurityToken`+"`"+`,
-	// `+"`"+`Certificate`+"`"+`,
-	// `+"`"+`Google`+"`"+`, `+"`"+`LDAP`+"`"+`, `+"`"+`Vince`+"`"+`, `+"`"+`GCPIdentityToken`+"`"+`, `+"`"+`AzureIdentityToken`+"`"+`, or `+"`"+`OIDC`+"`"+`.
+	// The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
+	// `Certificate`,
+	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
 	Realm IssueRealmValue `json:"realm" msgpack:"realm" bson:"-" mapstructure:"realm,omitempty"`
 
 	// The token to use for the registration.
@@ -140,7 +140,7 @@ type Issue struct {
 	// Configures the maximum length of validity for a token, using
 	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). If it
 	// is
-	// bigger than the configured max validity, it will be capped. Default: `+"`"+`24h`+"`"+`.
+	// bigger than the configured max validity, it will be capped. Default: `24h`.
 	Validity string `json:"validity" msgpack:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -624,7 +624,7 @@ type SparseIssue struct {
 	// Contains additional data. The value depends on the issuer type.
 	Data *string `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
-	// Contains various additional information. Meaning depends on the `+"`"+`realm`+"`"+`.
+	// Contains various additional information. Meaning depends on the `realm`.
 	Metadata *map[string]interface{} `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"-" mapstructure:"metadata,omitempty"`
 
 	// Opaque data that will be included in the issued token.
@@ -633,9 +633,9 @@ type SparseIssue struct {
 	// Restricts the number of times the issued token can be used.
 	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
-	// The authentication realm. `+"`"+`AWSIdentityDocument`+"`"+`, `+"`"+`AWSSecurityToken`+"`"+`,
-	// `+"`"+`Certificate`+"`"+`,
-	// `+"`"+`Google`+"`"+`, `+"`"+`LDAP`+"`"+`, `+"`"+`Vince`+"`"+`, `+"`"+`GCPIdentityToken`+"`"+`, `+"`"+`AzureIdentityToken`+"`"+`, or `+"`"+`OIDC`+"`"+`.
+	// The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
+	// `Certificate`,
+	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
 	Realm *IssueRealmValue `json:"realm,omitempty" msgpack:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
 
 	// The token to use for the registration.
@@ -644,7 +644,7 @@ type SparseIssue struct {
 	// Configures the maximum length of validity for a token, using
 	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). If it
 	// is
-	// bigger than the configured max validity, it will be capped. Default: `+"`"+`24h`+"`"+`.
+	// bigger than the configured max validity, it will be capped. Default: `24h`.
 	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

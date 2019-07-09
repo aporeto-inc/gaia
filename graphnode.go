@@ -60,7 +60,7 @@ type GraphNode struct {
 	// Type of object represented by the node.
 	Type GraphNodeTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
-	// If `+"`"+`true`+"`"+` the node is marked as unreachable.
+	// If `true` the node is marked as unreachable.
 	Unreachable bool `json:"unreachable" msgpack:"unreachable" bson:"-" mapstructure:"unreachable,omitempty"`
 
 	// Tags of object represented by the node.

@@ -104,7 +104,7 @@ type NamespaceMappingPolicy struct {
 	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// The namespace to map the `+"`"+`subject`+"`"+` to.
+	// The namespace to map the `subject` to.
 	MappedNamespace string `json:"mappedNamespace" msgpack:"mappedNamespace" bson:"mappednamespace" mapstructure:"mappedNamespace,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
@@ -1136,7 +1136,7 @@ type SparseNamespaceMappingPolicy struct {
 	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// The namespace to map the `+"`"+`subject`+"`"+` to.
+	// The namespace to map the `subject` to.
 	MappedNamespace *string `json:"mappedNamespace,omitempty" msgpack:"mappedNamespace,omitempty" bson:"mappednamespace,omitempty" mapstructure:"mappedNamespace,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start

@@ -108,7 +108,7 @@ type ImportRequest struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// A new comment that will be added to `+"`"+`commentFeed`+"`"+`.
+	// A new comment that will be added to `commentFeed`.
 	Comment string `json:"comment" msgpack:"comment" bson:"-" mapstructure:"comment,omitempty"`
 
 	// List of comments that have been added to that request.
@@ -142,8 +142,8 @@ type ImportRequest struct {
 	// control plane.
 	RequesterNamespace string `json:"requesterNamespace" msgpack:"requesterNamespace" bson:"requesternamespace" mapstructure:"requesterNamespace,omitempty"`
 
-	// Allows the content to be changed. `+"`"+`Submitted`+"`"+`: the request moves to the target namespace
-	// for approval. `+"`"+`Approved`+"`"+`: the data will be created immediately. `+"`"+`Rejected`+"`"+`: the request
+	// Allows the content to be changed. `Submitted`: the request moves to the target namespace
+	// for approval. `Approved`: the data will be created immediately. `Rejected`: the request
 	// cannot be changed anymore and can be deleted.
 	Status ImportRequestStatusValue `json:"status" msgpack:"status" bson:"status" mapstructure:"status,omitempty"`
 
@@ -1293,7 +1293,7 @@ type SparseImportRequest struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// A new comment that will be added to `+"`"+`commentFeed`+"`"+`.
+	// A new comment that will be added to `commentFeed`.
 	Comment *string `json:"comment,omitempty" msgpack:"comment,omitempty" bson:"-" mapstructure:"comment,omitempty"`
 
 	// List of comments that have been added to that request.
@@ -1327,8 +1327,8 @@ type SparseImportRequest struct {
 	// control plane.
 	RequesterNamespace *string `json:"requesterNamespace,omitempty" msgpack:"requesterNamespace,omitempty" bson:"requesternamespace,omitempty" mapstructure:"requesterNamespace,omitempty"`
 
-	// Allows the content to be changed. `+"`"+`Submitted`+"`"+`: the request moves to the target namespace
-	// for approval. `+"`"+`Approved`+"`"+`: the data will be created immediately. `+"`"+`Rejected`+"`"+`: the request
+	// Allows the content to be changed. `Submitted`: the request moves to the target namespace
+	// for approval. `Approved`: the data will be created immediately. `Rejected`: the request
 	// cannot be changed anymore and can be deleted.
 	Status *ImportRequestStatusValue `json:"status,omitempty" msgpack:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
 

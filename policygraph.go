@@ -101,8 +101,8 @@ type PolicyGraph struct {
 	// as created by other APIs.
 	DependencyMap *DependencyMap `json:"dependencyMap" msgpack:"dependencyMap" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
-	// Identifies the type of policy that should be analyzed: `+"`"+`Authorization`+"`"+` (default),
-	// `+"`"+`Infrastructure`+"`"+`, or `+"`"+`Combined`+"`"+`.
+	// Identifies the type of policy that should be analyzed: `Authorization` (default),
+	// `Infrastructure`, or `Combined`.
 	PolicyType PolicyGraphPolicyTypeValue `json:"policyType" msgpack:"policyType" bson:"-" mapstructure:"policyType,omitempty"`
 
 	// Contains the tag expression that a processing unit must match in order to evaluate
@@ -476,8 +476,8 @@ type SparsePolicyGraph struct {
 	// as created by other APIs.
 	DependencyMap *DependencyMap `json:"dependencyMap,omitempty" msgpack:"dependencyMap,omitempty" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
-	// Identifies the type of policy that should be analyzed: `+"`"+`Authorization`+"`"+` (default),
-	// `+"`"+`Infrastructure`+"`"+`, or `+"`"+`Combined`+"`"+`.
+	// Identifies the type of policy that should be analyzed: `Authorization` (default),
+	// `Infrastructure`, or `Combined`.
 	PolicyType *PolicyGraphPolicyTypeValue `json:"policyType,omitempty" msgpack:"policyType,omitempty" bson:"-" mapstructure:"policyType,omitempty"`
 
 	// Contains the tag expression that a processing unit must match in order to evaluate
