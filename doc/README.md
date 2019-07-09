@@ -1,13 +1,13 @@
-# Aporeto API Concepts and Usage
+# Aporeto API concepts and usage
 
-Aporeto provides a ReST API to allow programmatic manipulation of all parts of the system.
-Everything the web client or apoctl do is done through the ReST API.
+Aporeto provides a REST API to allow programmatic manipulation of all parts of the system.
+Everything the web client or apoctl do is done through the REST API.
 
 The Aporeto API accepts and returns [JSON](http://www.json.org) or [MessagePack](http://www.json.org)
-encoded object.
+encoded objects.
 This is controlled by the the `Accept` and `Content-Type` HTTP headers.
 
-Most of the resources require to be authenticated and authorized:
+Most of the resources require authentication and authorization:
 
 - For a request to be authenticated, it must provide the `Authorization` HTTP header.
 - For a request to be authorized, a policy must be in place to grant you access.
@@ -15,12 +15,12 @@ Most of the resources require to be authenticated and authorized:
 ## Errors
 
 When an error occurred, either due to the user input or platform error, it is returned as list of errors.
-One error always has the same structure:
+Errors always have the same structure:
 
 - `title`: The title of the error
 - `description`: A more detailed description of the error
 - `code`: The status code of the error
-- `trace`: Eventual trace ID that can help Aporeto engineers to trace the cause of the error.
+- `trace`: Trace ID that can help Aporeto engineers to trace the cause of the error.
 - `data`: Additional opaque data related to the error.
 
 For example:
@@ -46,8 +46,9 @@ The error codes follows the HTTP status codes:
 - `204 No content`: The request is a success and there is no additional body.
 - `400 Bad Request`: The data of your request is invalid or incomplete.
 - `401 Unauthorized`: You are not correctly authenticated.
-- `403 Forbidden`: You are authenticated, but you do not have sufficient permissions.
-- `415 Usupported Media Type`: Invalid `Content-Type` or `Accept` HTTP Header.
+- `403 Forbidden`: You are authenticated, but you are not authorized.
+- `404 Not Found`: The resource you try to access does not exist.
+- `415 Unsupported Media Type`: Invalid `Content-Type` or `Accept` HTTP header.
 - `417 Expectation Failed`: Your token quota has been exhausted.
 - `422 Unprocessable Entity`: Validation error (missing required attributes, number not in range etc.)
 - `423 Locked`: The API is locked for write operations during maintenance.
@@ -67,7 +68,7 @@ Authorization: Bearer <token>
 ```
 
 The token is a [JSON Web Token (JWT)](https://jwt.io) that can be exchanged from one of the supported authentication
-source:
+sources:
 
 - Aporeto account: username and password.
 - App credentials: X.509 certificate.
@@ -79,7 +80,7 @@ These various sources are called realms.
 Regardless of the realm, Aporeto will validate the user provided info and will convert identification
 bits into claims that are inserted in the JWT.
 
-Administrators can then write API authorization policies based on these claims to authorize actions
+Administrators can then write API authorizations based on these claims to authorize actions
 on various parts of the system.
 
 Generally speaking, you need to call the `/issue` API in order to get a token:
@@ -109,7 +110,7 @@ The `realm` property can be one of:
 - `AWSIdentityDocument`: This realm is deprecated.
 
 The `validity` property controls how long the token will be valid.
-It is expressed in a simple duration format, like `10s`, `6h` or `24h`.
+It is expressed in the [Golang duration format](https://golang.org/pkg/time/#ParseDuration), like `10s`, `6h` or `24h`.
 By default, if you omit this value or set it to `0`, the validity will be `24h`.
 
 The `quota` controls how many times a token can be used. Not setting this value or setting it to `0` disables
@@ -117,7 +118,7 @@ quota so the token can be used as much as you like during its validity period.
 
 The `metadata` attribute contains various realm-dependent information (see below).
 
-Upon correct authentication, Aporeto will return a JWT wrapped into a JSON or MessagePack object:
+Upon correct authentication, Aporeto will return a JWT wrapped in a JSON or MessagePack object:
 
 ```json
 {
@@ -129,7 +130,7 @@ Upon correct authentication, Aporeto will return a JWT wrapped into a JSON or Me
 ```
 
 The `token` attribute contains the actual JWT you need to pass into the `Authorization` HTTP header for every
-subsequent requests.
+subsequent request.
 
 ### Authenticating with an Aporeto account
 
@@ -148,7 +149,7 @@ curl https://api.console.aporeto.com/issue \
   }'
 ```
 
-### Authenticating with a X.509 Certificate
+### Authenticating with a X.509 certificate
 
 > How to retrieve a X.509 certificate from Aporeto is not in the scope of this document.
 
@@ -170,9 +171,9 @@ curl https://api.console.aporeto.com/issue \
 
 Most of the resources in Aporeto live in a namespace.
 When you issue a command, in addition to your JWT, you must pass the `X-Namespace` HTTP header.
-This will tell the system which namespace the request is targeting and what API authorization policy to apply.
+This will tell the system which namespace the request is targeting and what API authorizations to apply.
 
-Note that the API authorization associated to your JWT claims will depends on the namespace you target.
+Note that the API authorization associated with your JWT claims will depend on the namespace you target.
 
 For instance, you may get the permission to list the namespace in `/company/ns1`:
 
@@ -224,7 +225,7 @@ If you issue two subsequent `POST` requests with the same idempotency key, the s
 
 The idempotency key is passed through the HTTP header `Idempotency-Key`.
 The value needs to be a unique identifier.
-[UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) are generally widely used.
+[UUID](https://tools.ietf.org/html/rfc4122) are generally widely used.
 
 For instance, if you issue the following command twice:
 
@@ -287,21 +288,21 @@ And the second one:
 
 ### Hierarchy layout
 
-The Aporeto API follows a 3-level structure to traverse the hierarchy.
+The Aporeto API follows a three-level structure to traverse the hierarchy.
 For instance, for an hypothetical object `parent` that can have `children` who can in turn
-have `grandchildren`, Aporeto layouts the API URLs as follow:
+have `grandchildren`, Aporeto lays out the API URLs as follows:
 
 - `/parents`: Affects all parents.
 - `/parents/:id`: Affects a particular parent with the given ID.
-- `/parents/:id/children`: Affects a all children in parent with the given ID.
+- `/parents/:id/children`: Affects all children in parent with the given ID.
 - `/children`: Affects all children
-- `/children/:id`: Affects a particular children with the given ID.
-- `/children/:id/grandchildren`: Affects a all grand children in child with the given ID.
+- `/children/:id`: Affects a particular child with the given ID.
+- `/children/:id/grandchildren`: Affects all grandchildren in child with the given ID.
 
 ### Methods
 
-Aporeto API uses standard HTTP methods to perform actions on resources.
-Not all methods apply to all URL.
+The Aporeto API uses standard HTTP methods to perform actions on resources.
+Not all methods apply to all URLs.
 
 - `GET`: Retrieves many or retrieve one.
 - `POST`: Creates a new resource.
@@ -360,8 +361,6 @@ Updating a resource requires to resend the entire object, not just the parts you
 change. This will ensure (especially through the `updateTime` property) there is not conflicts
 in the case two clients are updating the same resource at the same time.
 
-> NOTE: `PATCH` method support will be available later.
-
 Example:
 
 ```shell
@@ -404,7 +403,7 @@ curl https://api.console.aporeto.com/namespaces/5d07f89c7ddf1f5e0210582d \
 
 The `DELETE` method can only be used with the following resource URLs:
 
-- `PUT /parents/:id`: Deletes the parent with the given ID.
+- `DELETE /parents/:id`: Deletes the parent with the given ID.
 
 Example:
 
