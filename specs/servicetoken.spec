@@ -4,7 +4,7 @@ model:
   resource_name: servicetoken
   entity_name: ServiceToken
   package: cactuar
-  group: policy/servicetoken
+  group: policy/token
   description: |-
     This API issues a new service token using the namespace certificate that can be
     used by third party applications.

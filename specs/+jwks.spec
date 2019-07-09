@@ -4,7 +4,7 @@ model:
   resource_name: jwks
   entity_name: JWKS
   package: squall
-  group: internal/oauth
+  group: internal/token
   description: |-
     The JWKS object contains the set of parameters that are read by an OIDC
     compliant server to validate a JWT issued by an OIDC provider.

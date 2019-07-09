@@ -4,7 +4,7 @@ model:
   resource_name: oauthinfo
   entity_name: OAUTHInfo
   package: cactuar
-  group: internal/oauth
+  group: internal/token
   description: |-
     OAUTHInfo provides the information for an OAUTH server to retrieve the secrets
     that can validate a JWT token issued by us.
@@ -17,7 +17,7 @@ attributes:
   - name: IDTokenSigningAlgValuesSupported
     exposed_name: id_token_signing_alg_values_supported
     description: |-
-      id_token_signing_alg_values_supported is corresponding attribute of the OIDC
+      IDTokenSigningAlgValuesSupported is corresponding attribute of the OIDC
       spec.
     type: list
     exposed: true
@@ -28,7 +28,7 @@ attributes:
   - name: JWKSURI
     exposed_name: jwks_uri
     description: |-
-      JWKS_URI is the URI that can be used to retrieve the public keys that will
+      JWKSURI is the URI that can be used to retrieve the public keys that will
       verify a JWT.
     type: string
     exposed: true
@@ -37,7 +37,7 @@ attributes:
 
   - name: auhorizationEndpoint
     exposed_name: auhorization_endpoint
-    description: Authorization_Endpoint is the authorization endpoint.
+    description: AuhorizationEndpoint is the authorization endpoint.
     type: string
     exposed: true
     read_only: true
@@ -45,7 +45,7 @@ attributes:
 
   - name: claimsSupported
     exposed_name: claims_supported
-    description: claims_supported is corresponding attribute of the OIDC spec.
+    description: ClaimsSupported is corresponding attribute of the OIDC spec.
     type: list
     exposed: true
     subtype: string
@@ -61,7 +61,7 @@ attributes:
 
   - name: responseTypesSupported
     exposed_name: response_types_supported
-    description: Response_Types_Supported is corresponding attribute of the OIDC spec.
+    description: ResponseTypesSupported is corresponding attribute of the OIDC spec.
     type: list
     exposed: true
     subtype: string
@@ -70,7 +70,7 @@ attributes:
 
   - name: scopesSupported
     exposed_name: scopes_supported
-    description: scopes_supported is corresponding attribute of the OIDC spec.
+    description: ScopesSupported is corresponding attribute of the OIDC spec.
     type: list
     exposed: true
     subtype: string
@@ -79,7 +79,7 @@ attributes:
 
   - name: subjectTypesSupported
     exposed_name: subject_types_supported
-    description: Subject_Types_Supported is corresponding attribute of the OIDC spec.
+    description: SubjectTypesSupported is corresponding attribute of the OIDC spec.
     type: list
     exposed: true
     subtype: string
@@ -89,7 +89,7 @@ attributes:
   - name: tokenEndpointAuthMethodsSupported
     exposed_name: token_endpoint_auth_methods_supported
     description: |-
-      token_endpoint_auth_methods_supported is corresponding attribute of the OIDC
+      TokenEndpointAuthMethodsSupported is corresponding attribute of the OIDC
       spec.
     type: list
     exposed: true

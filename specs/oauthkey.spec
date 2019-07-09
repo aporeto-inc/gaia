@@ -4,7 +4,7 @@ model:
   resource_name: oauthkeys
   entity_name: OAUTHKey
   package: cactuar
-  group: internal/oauth
+  group: internal/token
   description: |-
     OAUTHInfo provides the information for an OAUTH server to retrieve the secrets
     that can validate a JWT token issued by us.
