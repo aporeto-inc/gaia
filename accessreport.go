@@ -123,6 +123,9 @@ type AccessReport struct {
 	// ID of the processing unit of the report.
 	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
+	// Name of the processing unit of the report.
+	ProcessingUnitName string `json:"processingUnitName" msgpack:"processingUnitName" bson:"-" mapstructure:"processingUnitName,omitempty"`
+
 	// Namespace of the processing unit of the report.
 	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
@@ -205,6 +208,7 @@ func (o *AccessReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			EnforcerID:              &o.EnforcerID,
 			EnforcerNamespace:       &o.EnforcerNamespace,
 			ProcessingUnitID:        &o.ProcessingUnitID,
+			ProcessingUnitName:      &o.ProcessingUnitName,
 			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
 			Reason:                  &o.Reason,
 			Timestamp:               &o.Timestamp,
@@ -225,6 +229,8 @@ func (o *AccessReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
+		case "processingUnitName":
+			sp.ProcessingUnitName = &(o.ProcessingUnitName)
 		case "processingUnitNamespace":
 			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
 		case "reason":
@@ -260,6 +266,9 @@ func (o *AccessReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
+	}
+	if so.ProcessingUnitName != nil {
+		o.ProcessingUnitName = *so.ProcessingUnitName
 	}
 	if so.ProcessingUnitNamespace != nil {
 		o.ProcessingUnitNamespace = *so.ProcessingUnitNamespace
@@ -373,6 +382,8 @@ func (o *AccessReport) ValueForAttribute(name string) interface{} {
 		return o.EnforcerNamespace
 	case "processingUnitID":
 		return o.ProcessingUnitID
+	case "processingUnitName":
+		return o.ProcessingUnitName
 	case "processingUnitNamespace":
 		return o.ProcessingUnitNamespace
 	case "reason":
@@ -429,6 +440,14 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID of the processing unit of the report.`,
 		Exposed:        true,
 		Name:           "processingUnitID",
+		Type:           "string",
+	},
+	"ProcessingUnitName": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ProcessingUnitName",
+		Description:    `Name of the processing unit of the report.`,
+		Exposed:        true,
+		Name:           "processingUnitName",
 		Type:           "string",
 	},
 	"ProcessingUnitNamespace": elemental.AttributeSpecification{
@@ -510,6 +529,14 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `ID of the processing unit of the report.`,
 		Exposed:        true,
 		Name:           "processingUnitID",
+		Type:           "string",
+	},
+	"processingunitname": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ProcessingUnitName",
+		Description:    `Name of the processing unit of the report.`,
+		Exposed:        true,
+		Name:           "processingUnitName",
 		Type:           "string",
 	},
 	"processingunitnamespace": elemental.AttributeSpecification{
@@ -626,6 +653,9 @@ type SparseAccessReport struct {
 	// ID of the processing unit of the report.
 	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
+	// Name of the processing unit of the report.
+	ProcessingUnitName *string `json:"processingUnitName,omitempty" msgpack:"processingUnitName,omitempty" bson:"-" mapstructure:"processingUnitName,omitempty"`
+
 	// Namespace of the processing unit of the report.
 	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
@@ -688,6 +718,9 @@ func (o *SparseAccessReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID
+	}
+	if o.ProcessingUnitName != nil {
+		out.ProcessingUnitName = *o.ProcessingUnitName
 	}
 	if o.ProcessingUnitNamespace != nil {
 		out.ProcessingUnitNamespace = *o.ProcessingUnitNamespace

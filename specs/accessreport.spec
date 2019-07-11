@@ -45,6 +45,12 @@ attributes:
     exposed: true
     example_value: xxx-xxx-xxx-xxx
 
+  - name: processingUnitName
+    description: Name of the processing unit of the report.
+    type: string
+    exposed: true
+    example_value: pu1
+
   - name: processingUnitNamespace
     description: Namespace of the processing unit of the report.
     type: string

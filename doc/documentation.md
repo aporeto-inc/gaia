@@ -4449,6 +4449,7 @@ Represents any access made by the user.
   "enforcerID": "xxx-xxx-xxx",
   "enforcerNamespace": "/my/namespace",
   "processingUnitID": "xxx-xxx-xxx-xxx",
+  "processingUnitName": "pu1",
   "processingUnitNamespace": "/my/ns",
   "type": "SSHLogin"
 }
@@ -4481,6 +4482,10 @@ Namespace of the enforcer.
 ##### `processingUnitID` `string`
 
 ID of the processing unit of the report.
+
+##### `processingUnitName` `string`
+
+Name of the processing unit of the report.
 
 ##### `processingUnitNamespace` `string`
 
