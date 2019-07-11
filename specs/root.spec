@@ -418,10 +418,6 @@ relations:
   create:
     description: Internal API to issue service tokens.
 
-- rest_name: jaegerbatch
-  create:
-    description: Sends a jaeger tracing batch.
-
 - rest_name: ldapprovider
   get:
     description: Retrieves the list of the account LDAP providers.
