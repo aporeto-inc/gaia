@@ -3,7 +3,7 @@ model:
   rest_name: jwks
   resource_name: jwks
   entity_name: JWKS
-  package: squall
+  package: cactuar
   group: internal/token
   description: |-
     The JWKS object contains the set of parameters that are read by an OIDC
