@@ -152,6 +152,7 @@ attributes:
       - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
       - `External`: : Let you define your own certificate and key to use.
       - `None`: : TLS is disabled (not recommended).
+
     type: enum
     exposed: true
     stored: true
@@ -181,15 +182,10 @@ attributes:
       Defines the user authorization type that should be used.
 
       - `None` (default): No authorization.
-      - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization`
-      header.
-      - `OIDC`: Configures OIDC authorization. You must then set
-      `OIDCClientID`,`OIDCClientSecret`,
-        `OIDCProviderURL`.
-      - `MTLS`: Configures client certificate authorization. Then you can optionally
-      use
-        `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
-      will be used.
+      - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization` header.
+      - `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
+      - `MTLS`: Configures client certificate authorization. Then you can optionally use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate will be used.
+      
     type: enum
     exposed: true
     stored: true

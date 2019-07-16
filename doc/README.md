@@ -153,7 +153,7 @@ curl https://api.console.aporeto.com/issue \
   }'
 ```
 
-### Authenticating with a X.509 certificate
+### Authenticating with an X.509 certificate
 
 :::note
 How to retrieve an X.509 certificate from Aporeto is not in the scope of this document.
