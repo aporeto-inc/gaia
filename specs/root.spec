@@ -256,13 +256,8 @@ relations:
 - rest_name: export
   create:
     description: Exports all policies and related objects of a namespace.
-    parameters:
-      entries:
-      - name: ignoredTags
-        description: List of tags to ignore from the export.
-        type: string
-        multiple: true
-        example_value: a=a
+    global_parameters:
+    - $filtering
 
 - rest_name: externalnetwork
   get:

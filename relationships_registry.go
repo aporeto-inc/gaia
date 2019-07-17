@@ -1097,7 +1097,7 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
-						Name:     "ignoredTags",
+						Name:     "q",
 						Type:     "string",
 						Multiple: true,
 					},
