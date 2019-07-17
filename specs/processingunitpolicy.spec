@@ -5,7 +5,7 @@ model:
   entity_name: ProcessingUnitPolicy
   package: squall
   group: policy/processingunits
-  description: A ProcessingUnitPolicies needs a better description.
+  description: Allows you to map isolation profiles to processing units.
   aliases:
   - pup
   get:
@@ -53,8 +53,8 @@ attributes:
 
   - name: isolationProfileSelector
     description: |-
-      IsolationProfileSelector are the profiles that must be applied when this policy
-      matches. Only applies to Enforce and LogCompliance actions.
+      The isolation profiles to be mapped. Only applies to `Enforce` and
+      `LogCompliance` actions.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -64,8 +64,8 @@ attributes:
 
   - name: subject
     description: |-
-      Subject defines the tag selectors that identitfy the processing units to which
-      this policy applies.
+      A tag or tag expression identifying the processing unit(s) to which the
+      isolation profile should be mapped.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -77,9 +77,8 @@ attributes:
 relations:
 - rest_name: isolationprofile
   get:
-    description: Returns the list of IsolationProfiles by a given processing unit
-      policies.
+    description: Returns the list of isolation profiles associated with the mapping.
 
 - rest_name: processingunit
   get:
-    description: Returns the list of ProcessingUnits by a given processing unit policies.
+    description: Returns the list of processing units referenced by the mapping.

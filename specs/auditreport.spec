@@ -5,13 +5,13 @@ model:
   entity_name: AuditReport
   package: zack
   group: policy/audit
-  description: Post a new audit statistics report.
+  description: Post a new audit report.
 
 # Attributes
 attributes:
   v1:
   - name: AUID
-    description: The Audit User ID that is the loginID of the user.
+    description: The login ID of the user who started the audited process.
     type: string
     exposed: true
     example_value: xxx-xxx
@@ -23,12 +23,12 @@ attributes:
     example_value: /etc
 
   - name: EGID
-    description: Effective group ID of the user who started the analyzed process.
+    description: Effective group ID of the user who started the audited process.
     type: integer
     exposed: true
 
   - name: EUID
-    description: Effective user ID of the user who started the analyzed process.
+    description: Effective user ID of the user who started the audited process.
     type: integer
     exposed: true
 
@@ -39,12 +39,12 @@ attributes:
     example_value: /bin/ls
 
   - name: FSGID
-    description: File system group ID of the user who started the analyzed process.
+    description: File system group ID of the user who started the audited process.
     type: integer
     exposed: true
 
   - name: FSUID
-    description: File system user ID of the user who started the analyzed process.
+    description: File system user ID of the user who started the audited process.
     type: integer
     exposed: true
 
@@ -64,22 +64,22 @@ attributes:
     exposed: true
 
   - name: PID
-    description: PID of the executable.
+    description: Process ID of the executable.
     type: integer
     exposed: true
 
   - name: PPID
-    description: PID of the parent executable.
+    description: Process ID of the parent executable.
     type: integer
     exposed: true
 
   - name: SGID
-    description: Set group ID of the user who started the analyzed process.
+    description: Set group ID of the user who started the audited process.
     type: integer
     exposed: true
 
   - name: SUID
-    description: Set user ID of the user who started the analyzed process.
+    description: Set user ID of the user who started the audited process.
     type: integer
     exposed: true
 
@@ -119,14 +119,14 @@ attributes:
     example_value: x86_64
 
   - name: auditProfileID
-    description: ID the audit profile that triggered the report.
+    description: ID of the audit profile that triggered the report.
     type: string
     exposed: true
     required: true
     example_value: xxx-xxx-xxx-xxx
 
   - name: auditProfileNamespace
-    description: Namespace the audit profile that triggered the report.
+    description: Namespace of the audit profile that triggered the report.
     type: string
     exposed: true
     required: true
@@ -172,7 +172,7 @@ attributes:
     example_value: /my/ns
 
   - name: recordType
-    description: Type of Audit Record.
+    description: Type of audit record.
     type: string
     exposed: true
     required: true
@@ -184,12 +184,12 @@ attributes:
     exposed: true
 
   - name: success
-    description: Tells if the operation has been a success of a failure.
+    description: Tells if the operation has been a success or a failure.
     type: boolean
     exposed: true
 
   - name: syscall
-    description: Syscall executed.
+    description: System call executed.
     type: string
     exposed: true
     example_value: execve

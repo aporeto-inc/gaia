@@ -5,13 +5,16 @@ model:
   entity_name: Export
   package: yuna
   group: core
-  description: Export the policies and related objects in a given namespace.
+  description: |-
+    Allows you to obtain a JSON object containing policies and other objects 
+    from a given namespace. You can then import this JSON object into a 
+    different namespace.
 
 # Attributes
 attributes:
   v1:
   - name: APIVersion
-    description: APIVersion of the api used for the exported data.
+    description: Version of the Aporeto API used for the exported data.
     type: integer
     exposed: true
     stored: true
@@ -38,7 +41,7 @@ attributes:
 
   - name: label
     description: |-
-      Label allows to define a unique label for this export. When importing the
+      Allows you to define a unique label for this export. When importing the
       content of the export, this label will be added as a tag that will be used to
       recognize imported object in a later import.
     type: string

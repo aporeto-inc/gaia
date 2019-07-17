@@ -6,7 +6,7 @@ indexes:
 attributes:
   v1:
   - name: propagate
-    description: Propagate will propagate the policy to all of its children.
+    description: Propagates the policy to all of its children.
     type: boolean
     exposed: true
     stored: true

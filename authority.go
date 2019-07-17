@@ -8,6 +8,28 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// AuthorityAlgorithmValue represents the possible values for attribute "algorithm".
+type AuthorityAlgorithmValue string
+
+const (
+	// AuthorityAlgorithmECDSA represents the value ECDSA.
+	AuthorityAlgorithmECDSA AuthorityAlgorithmValue = "ECDSA"
+
+	// AuthorityAlgorithmRSA represents the value RSA.
+	AuthorityAlgorithmRSA AuthorityAlgorithmValue = "RSA"
+)
+
+// AuthorityTypeValue represents the possible values for attribute "type".
+type AuthorityTypeValue string
+
+const (
+	// AuthorityTypeCA represents the value CA.
+	AuthorityTypeCA AuthorityTypeValue = "CA"
+
+	// AuthorityTypeTokenSigning represents the value TokenSigning.
+	AuthorityTypeTokenSigning AuthorityTypeValue = "TokenSigning"
+)
+
 // AuthorityIdentity represents the Identity of the object.
 var AuthorityIdentity = elemental.Identity{
 	Name:     "authority",
@@ -80,16 +102,19 @@ func (o AuthoritiesList) Version() int {
 
 // Authority represents the model of a authority
 type Authority struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Algorithm defines the signing algorithm to be used.
+	Algorithm AuthorityAlgorithmValue `json:"algorithm" msgpack:"algorithm" bson:"algorithm" mapstructure:"algorithm,omitempty"`
 
 	// PEM encoded certificate data.
 	Certificate string `json:"certificate" msgpack:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
-	// CommonName contains the common name of the CA.
+	// CommonName contains the common name of the certificate.
 	CommonName string `json:"commonName" msgpack:"commonName" bson:"commonname" mapstructure:"commonName,omitempty"`
 
-	// Date of expiration of the authority.
+	// Date of expiration of the issued certificate.
 	ExpirationDate time.Time `json:"expirationDate" msgpack:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// Encrypted private key of the Authority.
@@ -98,12 +123,14 @@ type Authority struct {
 	// serialNumber of the certificate.
 	SerialNumber string `json:"serialNumber" msgpack:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
+	// Type of signing authority can be a CA or a JWT signing certificate.
+	Type AuthorityTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
+
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -114,6 +141,8 @@ func NewAuthority() *Authority {
 
 	return &Authority{
 		ModelVersion: 1,
+		Algorithm:    AuthorityAlgorithmECDSA,
+		Type:         AuthorityTypeCA,
 	}
 }
 
@@ -196,11 +225,13 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseAuthority{
 			ID:             &o.ID,
+			Algorithm:      &o.Algorithm,
 			Certificate:    &o.Certificate,
 			CommonName:     &o.CommonName,
 			ExpirationDate: &o.ExpirationDate,
 			Key:            &o.Key,
 			SerialNumber:   &o.SerialNumber,
+			Type:           &o.Type,
 			ZHash:          &o.ZHash,
 			Zone:           &o.Zone,
 		}
@@ -211,6 +242,8 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "algorithm":
+			sp.Algorithm = &(o.Algorithm)
 		case "certificate":
 			sp.Certificate = &(o.Certificate)
 		case "commonName":
@@ -221,6 +254,8 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Key = &(o.Key)
 		case "serialNumber":
 			sp.SerialNumber = &(o.SerialNumber)
+		case "type":
+			sp.Type = &(o.Type)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -241,6 +276,9 @@ func (o *Authority) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
+	if so.Algorithm != nil {
+		o.Algorithm = *so.Algorithm
+	}
 	if so.Certificate != nil {
 		o.Certificate = *so.Certificate
 	}
@@ -255,6 +293,9 @@ func (o *Authority) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SerialNumber != nil {
 		o.SerialNumber = *so.SerialNumber
+	}
+	if so.Type != nil {
+		o.Type = *so.Type
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -294,8 +335,16 @@ func (o *Authority) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateStringInList("algorithm", string(o.Algorithm), []string{"ECDSA", "RSA"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("commonName", o.CommonName); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"CA", "TokenSigning"}, true); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -334,6 +383,8 @@ func (o *Authority) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
+	case "algorithm":
+		return o.Algorithm
 	case "certificate":
 		return o.Certificate
 	case "commonName":
@@ -344,6 +395,8 @@ func (o *Authority) ValueForAttribute(name string) interface{} {
 		return o.Key
 	case "serialNumber":
 		return o.SerialNumber
+	case "type":
+		return o.Type
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -359,7 +412,7 @@ var AuthorityAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -368,6 +421,16 @@ var AuthorityAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"Algorithm": elemental.AttributeSpecification{
+		AllowedChoices: []string{"ECDSA", "RSA"},
+		ConvertedName:  "Algorithm",
+		DefaultValue:   AuthorityAlgorithmECDSA,
+		Description:    `Algorithm defines the signing algorithm to be used.`,
+		Exposed:        true,
+		Name:           "algorithm",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"Certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -384,7 +447,7 @@ var AuthorityAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CommonName",
 		CreationOnly:   true,
-		Description:    `CommonName contains the common name of the CA.`,
+		Description:    `CommonName contains the common name of the certificate.`,
 		Exposed:        true,
 		Name:           "commonName",
 		Required:       true,
@@ -395,7 +458,7 @@ var AuthorityAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationDate",
 		CreationOnly:   true,
-		Description:    `Date of expiration of the authority.`,
+		Description:    `Date of expiration of the issued certificate.`,
 		Exposed:        true,
 		Name:           "expirationDate",
 		Stored:         true,
@@ -421,6 +484,18 @@ var AuthorityAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"Type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"CA", "TokenSigning"},
+		Autogenerated:  true,
+		ConvertedName:  "Type",
+		DefaultValue:   AuthorityTypeCA,
+		Description:    `Type of signing authority can be a CA or a JWT signing certificate.`,
+		Exposed:        true,
+		Name:           "type",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "enum",
+	},
 	"ZHash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -438,16 +513,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -457,7 +531,7 @@ var AuthorityLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -466,6 +540,16 @@ var AuthorityLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"algorithm": elemental.AttributeSpecification{
+		AllowedChoices: []string{"ECDSA", "RSA"},
+		ConvertedName:  "Algorithm",
+		DefaultValue:   AuthorityAlgorithmECDSA,
+		Description:    `Algorithm defines the signing algorithm to be used.`,
+		Exposed:        true,
+		Name:           "algorithm",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -482,7 +566,7 @@ var AuthorityLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		ConvertedName:  "CommonName",
 		CreationOnly:   true,
-		Description:    `CommonName contains the common name of the CA.`,
+		Description:    `CommonName contains the common name of the certificate.`,
 		Exposed:        true,
 		Name:           "commonName",
 		Required:       true,
@@ -493,7 +577,7 @@ var AuthorityLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationDate",
 		CreationOnly:   true,
-		Description:    `Date of expiration of the authority.`,
+		Description:    `Date of expiration of the issued certificate.`,
 		Exposed:        true,
 		Name:           "expirationDate",
 		Stored:         true,
@@ -519,6 +603,18 @@ var AuthorityLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
+	"type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"CA", "TokenSigning"},
+		Autogenerated:  true,
+		ConvertedName:  "Type",
+		DefaultValue:   AuthorityTypeCA,
+		Description:    `Type of signing authority can be a CA or a JWT signing certificate.`,
+		Exposed:        true,
+		Name:           "type",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "enum",
+	},
 	"zhash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -536,16 +632,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -612,16 +707,19 @@ func (o SparseAuthoritiesList) Version() int {
 
 // SparseAuthority represents the sparse version of a authority.
 type SparseAuthority struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Algorithm defines the signing algorithm to be used.
+	Algorithm *AuthorityAlgorithmValue `json:"algorithm,omitempty" msgpack:"algorithm,omitempty" bson:"algorithm,omitempty" mapstructure:"algorithm,omitempty"`
 
 	// PEM encoded certificate data.
 	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
 
-	// CommonName contains the common name of the CA.
+	// CommonName contains the common name of the certificate.
 	CommonName *string `json:"commonName,omitempty" msgpack:"commonName,omitempty" bson:"commonname,omitempty" mapstructure:"commonName,omitempty"`
 
-	// Date of expiration of the authority.
+	// Date of expiration of the issued certificate.
 	ExpirationDate *time.Time `json:"expirationDate,omitempty" msgpack:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
 
 	// Encrypted private key of the Authority.
@@ -630,12 +728,14 @@ type SparseAuthority struct {
 	// serialNumber of the certificate.
 	SerialNumber *string `json:"serialNumber,omitempty" msgpack:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
 
+	// Type of signing authority can be a CA or a JWT signing certificate.
+	Type *AuthorityTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -680,6 +780,9 @@ func (o *SparseAuthority) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
+	if o.Algorithm != nil {
+		out.Algorithm = *o.Algorithm
+	}
 	if o.Certificate != nil {
 		out.Certificate = *o.Certificate
 	}
@@ -694,6 +797,9 @@ func (o *SparseAuthority) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SerialNumber != nil {
 		out.SerialNumber = *o.SerialNumber
+	}
+	if o.Type != nil {
+		out.Type = *o.Type
 	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash

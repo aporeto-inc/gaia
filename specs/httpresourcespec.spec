@@ -6,20 +6,19 @@ model:
   package: squall
   group: policy/services
   description: |-
-    HTTPResourceSpec descibes an HTTP resource exposed by a service. These APIs
-    can be associated with one or more services.
+    Describes an HTTP resource exposed by one or more services.
   aliases:
   - httpresource
   - resource
   - httpspec
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the HTTP resource with the given ID.
     global_parameters:
     - $archivable
   update:
-    description: Updates the object with the given ID.
+    description: Updates the HTTP resource with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the HTTP resource with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -38,7 +37,7 @@ model:
 attributes:
   v1:
   - name: endpoints
-    description: EndPoints is a list of API endpoints that are exposed for the service.
+    description: A list of API endpoints that are exposed for the service.
     type: refList
     exposed: true
     subtype: endpoint

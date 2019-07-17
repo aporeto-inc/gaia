@@ -15,13 +15,13 @@ type GraphGroup struct {
 	// Color to use for the group.
 	Color string `json:"color" msgpack:"color" bson:"-" mapstructure:"color,omitempty"`
 
-	// List of tag that was used to create this group.
+	// List of tags that were used to create this group.
 	Match [][]string `json:"match" msgpack:"match" bson:"-" mapstructure:"match,omitempty"`
 
 	// Name of the group.
 	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
-	// ID of the parent group if any.
+	// ID of the parent group, if any.
 	ParentID string `json:"parentID" msgpack:"parentID" bson:"-" mapstructure:"parentID,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

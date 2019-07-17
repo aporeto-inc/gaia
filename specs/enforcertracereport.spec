@@ -11,7 +11,7 @@ model:
 attributes:
   v1:
   - name: enforcerID
-    description: EnforcerID of the enforcer where the trace was collected.
+    description: ID of the enforcer where the trace was collected.
     type: string
     exposed: true
     stored: true
@@ -27,7 +27,7 @@ attributes:
     example_value: /acme/prod
 
   - name: namespace
-    description: Namespace of the PU where the trace was collected.
+    description: Namespace of the processing unit where the trace was collected.
     type: string
     exposed: true
     stored: true
@@ -35,7 +35,7 @@ attributes:
     example_value: /acme/prod/database
 
   - name: puID
-    description: ID of the pu where the trace was collected.
+    description: ID of the processing unit where the trace was collected.
     type: string
     exposed: true
     stored: true

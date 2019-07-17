@@ -6,7 +6,7 @@ model:
   package: squall
   group: policy/quota
   description: |-
-    Quotas Policies allows to set quotas on the number of objects that can be
+    Allows you to set quotas on the number of objects that can be
     created in a namespace.
   aliases:
   - quota
@@ -14,11 +14,11 @@ model:
   - quotapol
   - quotapols
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the quota with the given ID.
   update:
-    description: Updates the object with the given ID.
+    description: Updates the quota with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the quota with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -42,7 +42,7 @@ indexes:
 attributes:
   v1:
   - name: expirationTime
-    description: If set the policy will be auto deleted after the given time.
+    description: If set the quota will be automatically deleted after the given time.
     type: time
     exposed: true
     stored: true
@@ -50,8 +50,8 @@ attributes:
     setter: true
 
   - name: identities
-    description: Identities contains the list of identity names where the quota will
-      be applied.
+    description: |-
+      Contains the list of identity names where the quota will be applied.
     type: list
     exposed: true
     subtype: string
@@ -63,14 +63,12 @@ attributes:
 
   - name: quota
     description: |-
-      Quota contains the maximum number of object matching the policy subject that can
-      be created.
+      Specifies the maximum number of objects matching the policy subject that can be created.
     type: integer
     exposed: true
 
   - name: targetNamespace
-    description: TargetNamespace contains the base namespace from where the count
-      will be done.
+    description: Contains the base namespace from where the count will be done.
     type: string
     exposed: true
     stored: true

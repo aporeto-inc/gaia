@@ -6,17 +6,16 @@ model:
   package: vivi
   group: core
   description: |-
-    This API allows to send an import request to create objects to a namespace where
+    Allows you to send an import request to create objects to a namespace where
     the requester doesn't normally have the permission to do so (other than creating
     import requests).
 
-    The requester must have the permission to create the request in his namespace
+    The requester must have the permission to create the request in their namespace
     and the target namespace.
 
     When the request is created, the status is set to `Draft`. The requester can
-    edit the content as much as he desires.
-    When he's ready to send the request, he must update the status to be
-    `Submitted`.
+    edit the content as much as desired.
+    When ready to send the request, update the status to `Submitted`.
     The request will then be moved to the target namespace.
     At that point nobody can edit the content of the requests other than adding
     comments.
@@ -30,10 +29,10 @@ model:
       deleted.
 
     - Set the status back as `Draft`. The request will go back to the requester
-      namespace so he can make changes. Once the change are ready, the requester
+      namespace so that the requester can make changes. Once the change are ready, the requester
       will set back the status as `Submitted`.
 
-    The `data` format is the same an `Export`.
+    The `data` format is the same as `Export`.
   aliases:
   - req
   - reqs
@@ -58,7 +57,7 @@ model:
 attributes:
   v1:
   - name: comment
-    description: Post a new comment that will be added to the commentFeed.
+    description: A new comment that will be added to `commentFeed`.
     type: string
     exposed: true
     transient: true
@@ -76,7 +75,7 @@ attributes:
       refMode: pointer
 
   - name: data
-    description: The data to import.
+    description: Data to import.
     type: external
     exposed: true
     subtype: map[string][]map[string]interface{}
@@ -98,8 +97,7 @@ attributes:
 
   - name: requesterClaims
     description: |-
-      The identity claims of the requester. This will be populated by the control
-      plane.
+      The identity claims of the requester; populated by the control plane.
     type: list
     exposed: true
     subtype: string
@@ -112,7 +110,7 @@ attributes:
 
   - name: requesterNamespace
     description: |-
-      The namespace from the request was created. This will be populated by the
+      The namespace from which the request originated; populated by the
       control plane.
     type: string
     exposed: true
@@ -122,12 +120,9 @@ attributes:
 
   - name: status
     description: |-
-      The status of the request. The content of data can only be changed when the
-      status is set to `Draft` or `ChangeRequested`. When the status is changed to
-      `Submitted`, the request will move to the target namespace for validation.
-      If the Status is set to `Approved` the data will be created immediately.
-      If the status is set to `Rejected` the request cannot be changed anymore and can
-      be deleted.
+      Allows the content to be changed. `Submitted`: the request moves to the target namespace 
+      for approval. `Approved`: the data will be created immediately. `Rejected`: the request 
+      cannot be changed anymore and can be deleted.
     type: enum
     exposed: true
     stored: true
@@ -139,15 +134,14 @@ attributes:
     default_value: Draft
 
   - name: submittedOnce
-    description: Internal field to know if the request has been submit once.
+    description: Internal field to know if the request has been submitted once.
     type: boolean
     stored: true
 
   - name: targetNamespace
     description: |-
-      The namespace where the request will be sent. The requester can set any
-      namespace but he needs to have an autorization to post the request in that
-      namespace.
+      The namespace where the request will be sent. The requester can set any namespace but 
+      needs to have an authorization to post the request in that namespace.
     type: string
     exposed: true
     stored: true

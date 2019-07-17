@@ -5,20 +5,20 @@ model:
   entity_name: TimeSeriesRow
   package: jenova
   group: visualization/statsquery
-  description: Represent a time series row.
+  description: Represents a time-series row.
   detached: true
 
 # Attributes
 attributes:
   v1:
   - name: columns
-    description: colums of the row.
+    description: Columns of the row.
     type: list
     exposed: true
     subtype: string
 
   - name: name
-    description: the name of row.
+    description: Name of the row.
     type: string
     exposed: true
 

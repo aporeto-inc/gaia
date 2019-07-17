@@ -5,7 +5,7 @@ model:
   entity_name: UIStep
   package: ignis
   group: core/workflow
-  description: Represents a parameter that will be shown in the UI.
+  description: Represents a step that will be shown in the web interface.
   detached: true
 
 # Attributes

@@ -9,7 +9,7 @@ import (
 
 // PKIXName represents the model of a pkixname
 type PKIXName struct {
-	// Represents the CommonName field.
+	// Represents the Common Name field.
 	CommonName string `json:"commonName" msgpack:"commonName" bson:"-" mapstructure:"commonName,omitempty"`
 
 	// Represents the Country field.
@@ -21,16 +21,16 @@ type PKIXName struct {
 	// Represents the Organization field.
 	Organization []string `json:"organization" msgpack:"organization" bson:"-" mapstructure:"organization,omitempty"`
 
-	// Represents the OrganizationalUnit field.
+	// Represents the Organizational Unit field.
 	OrganizationalUnit []string `json:"organizationalUnit" msgpack:"organizationalUnit" bson:"-" mapstructure:"organizationalUnit,omitempty"`
 
-	// Represents the PostalCode field.
+	// Represents the Postal Code field.
 	PostalCode []string `json:"postalCode" msgpack:"postalCode" bson:"-" mapstructure:"postalCode,omitempty"`
 
 	// Represents the Province field.
 	Province []string `json:"province" msgpack:"province" bson:"-" mapstructure:"province,omitempty"`
 
-	// Represents the StreetAddress field.
+	// Represents the Street Address field.
 	StreetAddress []string `json:"streetAddress" msgpack:"streetAddress" bson:"-" mapstructure:"streetAddress,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

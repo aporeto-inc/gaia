@@ -79,16 +79,16 @@ func (o DependencyMapsList) Version() int {
 
 // DependencyMap represents the model of a dependencymap
 type DependencyMap struct {
-	// edges are the edges of the map.
+	// The edges of the map.
 	Edges map[string]*GraphEdge `json:"edges" msgpack:"edges" bson:"-" mapstructure:"edges,omitempty"`
 
-	// Groups provide information about the group values.
+	// Provides information about the group values.
 	Groups map[string]*GraphGroup `json:"groups" msgpack:"groups" bson:"-" mapstructure:"groups,omitempty"`
 
-	// nodes refers to the nodes of the map.
+	// Refers to the nodes of the map.
 	Nodes map[string]*GraphNode `json:"nodes" msgpack:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
 
-	// viewSuggestions provides suggestion of views based on relevant tags.
+	// Provides suggested views based on relevant tags.
 	ViewSuggestions []string `json:"viewSuggestions" msgpack:"viewSuggestions" bson:"-" mapstructure:"viewSuggestions,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -144,13 +144,14 @@ func (o *DependencyMap) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *DependencyMap) Doc() string {
 
-	return `This api returns a data structure representing the graph of all processing units
+	return `Returns a data structure representing the graph of all processing units
 and their connections in a particular namespace, in a given time window. To pass
-the time window you can use the query parameters 'startAbsolute', 'endAbsolute',
-'startRelative', 'endRelative'.
+the time window you can use the query parameters ` + "`" + `startAbsolute` + "`" + `, ` + "`" + `endAbsolute` + "`" + `,
+` + "`" + `startRelative` + "`" + `, ` + "`" + `endRelative` + "`" + `.
 
-For example
-  "/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000".`
+For example:
+
+` + "`" + `/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000` + "`" + `.`
 }
 
 func (o *DependencyMap) String() string {
@@ -319,7 +320,7 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 	"Edges": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Edges",
-		Description:    `edges are the edges of the map.`,
+		Description:    `The edges of the map.`,
 		Exposed:        true,
 		Name:           "edges",
 		ReadOnly:       true,
@@ -329,7 +330,7 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 	"Groups": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Groups",
-		Description:    `Groups provide information about the group values.`,
+		Description:    `Provides information about the group values.`,
 		Exposed:        true,
 		Name:           "groups",
 		ReadOnly:       true,
@@ -339,7 +340,7 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 	"Nodes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Nodes",
-		Description:    `nodes refers to the nodes of the map.`,
+		Description:    `Refers to the nodes of the map.`,
 		Exposed:        true,
 		Name:           "nodes",
 		ReadOnly:       true,
@@ -349,7 +350,7 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 	"ViewSuggestions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ViewSuggestions",
-		Description:    `viewSuggestions provides suggestion of views based on relevant tags.`,
+		Description:    `Provides suggested views based on relevant tags.`,
 		Exposed:        true,
 		Name:           "viewSuggestions",
 		ReadOnly:       true,
@@ -363,7 +364,7 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"edges": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Edges",
-		Description:    `edges are the edges of the map.`,
+		Description:    `The edges of the map.`,
 		Exposed:        true,
 		Name:           "edges",
 		ReadOnly:       true,
@@ -373,7 +374,7 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"groups": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Groups",
-		Description:    `Groups provide information about the group values.`,
+		Description:    `Provides information about the group values.`,
 		Exposed:        true,
 		Name:           "groups",
 		ReadOnly:       true,
@@ -383,7 +384,7 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"nodes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Nodes",
-		Description:    `nodes refers to the nodes of the map.`,
+		Description:    `Refers to the nodes of the map.`,
 		Exposed:        true,
 		Name:           "nodes",
 		ReadOnly:       true,
@@ -393,7 +394,7 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"viewsuggestions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ViewSuggestions",
-		Description:    `viewSuggestions provides suggestion of views based on relevant tags.`,
+		Description:    `Provides suggested views based on relevant tags.`,
 		Exposed:        true,
 		Name:           "viewSuggestions",
 		ReadOnly:       true,
@@ -465,16 +466,16 @@ func (o SparseDependencyMapsList) Version() int {
 
 // SparseDependencyMap represents the sparse version of a dependencymap.
 type SparseDependencyMap struct {
-	// edges are the edges of the map.
+	// The edges of the map.
 	Edges *map[string]*GraphEdge `json:"edges,omitempty" msgpack:"edges,omitempty" bson:"-" mapstructure:"edges,omitempty"`
 
-	// Groups provide information about the group values.
+	// Provides information about the group values.
 	Groups *map[string]*GraphGroup `json:"groups,omitempty" msgpack:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
 
-	// nodes refers to the nodes of the map.
+	// Refers to the nodes of the map.
 	Nodes *map[string]*GraphNode `json:"nodes,omitempty" msgpack:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
 
-	// viewSuggestions provides suggestion of views based on relevant tags.
+	// Provides suggested views based on relevant tags.
 	ViewSuggestions *[]string `json:"viewSuggestions,omitempty" msgpack:"viewSuggestions,omitempty" bson:"-" mapstructure:"viewSuggestions,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

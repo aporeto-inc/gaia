@@ -6,21 +6,22 @@ model:
   package: squall
   group: policy/enforcerconfig
   description: |-
-    Allows to create reusable configuration profile for your enforcers. Enforcer
-    Profiles contains various startup information that can (for some) be updated
-    live. Enforcer Profiles are assigned to some Enforcer using a Enforcer Profile
-    Mapping Policy.
+    Allows you to create reusable configuration profiles for your enforcers.
+    Enforcer
+    profiles contain various startup information that can (for some) be updated
+    live. Enforcer profiles are assigned to enforcers using an enforcer profile
+    mapping.
   aliases:
   - profile
   - profiles
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the enforcer profile with the given ID.
     global_parameters:
     - $propagatable
   update:
-    description: Updates the object with the given ID.
+    description: Updates the enforcer profile with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the enforcer profile with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -40,7 +41,9 @@ model:
 attributes:
   v1:
   - name: excludedInterfaces
-    description: ExcludedInterfaces is a list of interfaces that must be excluded.
+    description: |-
+      Ignore traffic with a source or destination matching the specified
+      interfaces.
     type: list
     exposed: true
     subtype: string
@@ -49,8 +52,9 @@ attributes:
 
   - name: excludedNetworks
     description: |-
-      ExcludedNetworks is the list of networks that must be excluded for this
-      enforcer.
+      Ignore any networks specified here and do not even report any flows.
+      This can be useful for excluding localhost loopback traffic, ignoring
+      traffic to the Kubernetes API, and using Aporeto for SSH only.
     type: list
     exposed: true
     subtype: string
@@ -59,8 +63,9 @@ attributes:
 
   - name: ignoreExpression
     description: |-
-      IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
-      docker container started with labels matching the rule.
+      A tag expression that identifies processing units to ignore. This can be
+      useful to exclude `kube-system` pods, AWS EC2 agent pods, and third-party
+      agents.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -100,8 +105,11 @@ attributes:
     deprecated: true
 
   - name: targetNetworks
-    description: TargetNetworks is the list of networks that authorization should
-      be applied.
+    description: |-
+      If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
+      works best in Kubernetes and OpenShift deployments. You may need to manually
+      specify the TCP networks if middle boxes exist that do not comply with
+      [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).
     type: list
     exposed: true
     subtype: string
@@ -110,8 +118,9 @@ attributes:
 
   - name: targetUDPNetworks
     description: |-
-      TargetUDPNetworks is the list of UDP networks that authorization should be
-      applied.
+      If empty, Aporeto enforces all UDP networks. This works best when all UDP
+      networks have enforcers. If some UDP networks do not have enforcers, you
+      may need to manually specify the UDP networks that should be enforced.
     type: list
     exposed: true
     subtype: string
@@ -119,7 +128,9 @@ attributes:
     orderable: true
 
   - name: trustedCAs
-    description: List of trusted CA. If empty the main chain of trust will be used.
+    description: |-
+      List of trusted certificate authorities. If empty, the main chain of trust
+      will be used.
     type: list
     exposed: true
     subtype: string

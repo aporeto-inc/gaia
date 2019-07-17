@@ -93,21 +93,20 @@ func (o PolicyGraphsList) Version() int {
 
 // PolicyGraph represents the model of a policygraph
 type PolicyGraph struct {
-	// puIdentity is the set of tags that a future activated PU will have for which the
-	// user wants to evaluate policies and understand its connectivity options.
+	// The set of tags that a future-activated processing unit will have for which the user
+	// wants to evaluate policies and understand its connectivity options.
 	PUIdentity []string `json:"PUIdentity" msgpack:"PUIdentity" bson:"-" mapstructure:"PUIdentity,omitempty"`
 
-	// The dependencyMap contains the output of the policy evalation, and it is the
-	// same
-	// type of dependency map as created by other APIs.
+	// Contains the output of the policy evaluation. It is the same type of dependency map
+	// as created by other APIs.
 	DependencyMap *DependencyMap `json:"dependencyMap" msgpack:"dependencyMap" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
-	// Defines the type of policy that should be analyzed (Network Authorzation
-	// Policies, Infrastructure Policies or Combined).
+	// Identifies the type of policy that should be analyzed: `Authorization` (default),
+	// `Infrastructure`, or `Combined`.
 	PolicyType PolicyGraphPolicyTypeValue `json:"policyType" msgpack:"policyType" bson:"-" mapstructure:"policyType,omitempty"`
 
-	// Selectors contains the tag expression that an a processing unit
-	// must match in order to evaluate policy for it.
+	// Contains the tag expression that a processing unit must match in order to evaluate
+	// policy for it.
 	Selectors [][]string `json:"selectors" msgpack:"selectors" bson:"-" mapstructure:"selectors,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -163,11 +162,11 @@ func (o *PolicyGraph) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PolicyGraph) Doc() string {
 
-	return `This api returns a data structure representing the policy graph of all selected
+	return `Returns a data structure representing the policy graph of all selected
 processing units and their possible connectivity based on the current policies
 associated with the namespace. Users can define a selector of processing units
-for which theyare interestedor define the identity tags of a virtual processing
-unit that is not yetactivated.`
+in which they are interested or define the identity tags of a virtual processing
+unit that is not yet activated.`
 }
 
 func (o *PolicyGraph) String() string {
@@ -323,8 +322,8 @@ var PolicyGraphAttributesMap = map[string]elemental.AttributeSpecification{
 	"PUIdentity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PUIdentity",
-		Description: `puIdentity is the set of tags that a future activated PU will have for which the
-user wants to evaluate policies and understand its connectivity options.`,
+		Description: `The set of tags that a future-activated processing unit will have for which the user 
+wants to evaluate policies and understand its connectivity options.`,
 		Exposed: true,
 		Name:    "PUIdentity",
 		SubType: "string",
@@ -333,9 +332,8 @@ user wants to evaluate policies and understand its connectivity options.`,
 	"DependencyMap": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DependencyMap",
-		Description: `The dependencyMap contains the output of the policy evalation, and it is the
-same
-type of dependency map as created by other APIs.`,
+		Description: `Contains the output of the policy evaluation. It is the same type of dependency map 
+as created by other APIs.`,
 		Exposed: true,
 		Name:    "dependencyMap",
 		SubType: "dependencymap",
@@ -345,8 +343,8 @@ type of dependency map as created by other APIs.`,
 		AllowedChoices: []string{"Authorization", "Infrastructure", "Combined"},
 		ConvertedName:  "PolicyType",
 		DefaultValue:   PolicyGraphPolicyTypeAuthorization,
-		Description: `Defines the type of policy that should be analyzed (Network Authorzation
-Policies, Infrastructure Policies or Combined).`,
+		Description: `Identifies the type of policy that should be analyzed: ` + "`" + `Authorization` + "`" + ` (default), 
+` + "`" + `Infrastructure` + "`" + `, or ` + "`" + `Combined` + "`" + `.`,
 		Exposed: true,
 		Name:    "policyType",
 		Type:    "enum",
@@ -354,8 +352,8 @@ Policies, Infrastructure Policies or Combined).`,
 	"Selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
-		Description: `Selectors contains the tag expression that an a processing unit
-must match in order to evaluate policy for it.`,
+		Description: `Contains the tag expression that a processing unit must match in order to evaluate 
+policy for it.`,
 		Exposed: true,
 		Name:    "selectors",
 		SubType: "[][]string",
@@ -368,8 +366,8 @@ var PolicyGraphLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"puidentity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PUIdentity",
-		Description: `puIdentity is the set of tags that a future activated PU will have for which the
-user wants to evaluate policies and understand its connectivity options.`,
+		Description: `The set of tags that a future-activated processing unit will have for which the user 
+wants to evaluate policies and understand its connectivity options.`,
 		Exposed: true,
 		Name:    "PUIdentity",
 		SubType: "string",
@@ -378,9 +376,8 @@ user wants to evaluate policies and understand its connectivity options.`,
 	"dependencymap": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DependencyMap",
-		Description: `The dependencyMap contains the output of the policy evalation, and it is the
-same
-type of dependency map as created by other APIs.`,
+		Description: `Contains the output of the policy evaluation. It is the same type of dependency map 
+as created by other APIs.`,
 		Exposed: true,
 		Name:    "dependencyMap",
 		SubType: "dependencymap",
@@ -390,8 +387,8 @@ type of dependency map as created by other APIs.`,
 		AllowedChoices: []string{"Authorization", "Infrastructure", "Combined"},
 		ConvertedName:  "PolicyType",
 		DefaultValue:   PolicyGraphPolicyTypeAuthorization,
-		Description: `Defines the type of policy that should be analyzed (Network Authorzation
-Policies, Infrastructure Policies or Combined).`,
+		Description: `Identifies the type of policy that should be analyzed: ` + "`" + `Authorization` + "`" + ` (default), 
+` + "`" + `Infrastructure` + "`" + `, or ` + "`" + `Combined` + "`" + `.`,
 		Exposed: true,
 		Name:    "policyType",
 		Type:    "enum",
@@ -399,8 +396,8 @@ Policies, Infrastructure Policies or Combined).`,
 	"selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
-		Description: `Selectors contains the tag expression that an a processing unit
-must match in order to evaluate policy for it.`,
+		Description: `Contains the tag expression that a processing unit must match in order to evaluate 
+policy for it.`,
 		Exposed: true,
 		Name:    "selectors",
 		SubType: "[][]string",
@@ -471,21 +468,20 @@ func (o SparsePolicyGraphsList) Version() int {
 
 // SparsePolicyGraph represents the sparse version of a policygraph.
 type SparsePolicyGraph struct {
-	// puIdentity is the set of tags that a future activated PU will have for which the
-	// user wants to evaluate policies and understand its connectivity options.
+	// The set of tags that a future-activated processing unit will have for which the user
+	// wants to evaluate policies and understand its connectivity options.
 	PUIdentity *[]string `json:"PUIdentity,omitempty" msgpack:"PUIdentity,omitempty" bson:"-" mapstructure:"PUIdentity,omitempty"`
 
-	// The dependencyMap contains the output of the policy evalation, and it is the
-	// same
-	// type of dependency map as created by other APIs.
+	// Contains the output of the policy evaluation. It is the same type of dependency map
+	// as created by other APIs.
 	DependencyMap *DependencyMap `json:"dependencyMap,omitempty" msgpack:"dependencyMap,omitempty" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
-	// Defines the type of policy that should be analyzed (Network Authorzation
-	// Policies, Infrastructure Policies or Combined).
+	// Identifies the type of policy that should be analyzed: `Authorization` (default),
+	// `Infrastructure`, or `Combined`.
 	PolicyType *PolicyGraphPolicyTypeValue `json:"policyType,omitempty" msgpack:"policyType,omitempty" bson:"-" mapstructure:"policyType,omitempty"`
 
-	// Selectors contains the tag expression that an a processing unit
-	// must match in order to evaluate policy for it.
+	// Contains the tag expression that a processing unit must match in order to evaluate
+	// policy for it.
 	Selectors *[][]string `json:"selectors,omitempty" msgpack:"selectors,omitempty" bson:"-" mapstructure:"selectors,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

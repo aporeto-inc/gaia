@@ -10,46 +10,46 @@ import (
 
 // TraceRecord represents the model of a tracerecord
 type TraceRecord struct {
-	// TTL is the TTL value of the packet.
+	// The time to live (TTL) value of the packet.
 	TTL int `json:"TTL" msgpack:"TTL" bson:"ttl" mapstructure:"TTL,omitempty"`
 
-	// Chain is the chain that the trace was collected from.
+	// Chain that the trace was collected from.
 	Chain string `json:"chain" msgpack:"chain" bson:"chain" mapstructure:"chain,omitempty"`
 
-	// DestinationIP is the destination IP.
+	// The destination IP.
 	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"destinationip" mapstructure:"destinationIP,omitempty"`
 
-	// DestinationInterface is the destination interface of the packet.
+	// The destination interface of the packet.
 	DestinationInterface string `json:"destinationInterface" msgpack:"destinationInterface" bson:"destinationinterface" mapstructure:"destinationInterface,omitempty"`
 
-	// DestinationPort is the destination UPD or TCP port of the packet.
+	// The destination UPD or TCP port of the packet.
 	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"destinationport" mapstructure:"destinationPort,omitempty"`
 
 	// Length of the observed packet.
 	Length int `json:"length" msgpack:"length" bson:"length" mapstructure:"length,omitempty"`
 
-	// PacketID is the IP packet header ID.
+	// The IP packet header ID.
 	PacketID int `json:"packetID" msgpack:"packetID" bson:"packetid" mapstructure:"packetID,omitempty"`
 
-	// Protocol is the protocol of the packets.
+	// The protocol of the packet.
 	Protocol int `json:"protocol" msgpack:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
 
-	// ruleID is the priority index of the iptables entry that was hit.
+	// Priority index of the iptables entry that was hit.
 	RuleID int `json:"ruleID" msgpack:"ruleID" bson:"ruleid" mapstructure:"ruleID,omitempty"`
 
-	// SourceIP is the source IP of the packet.
+	// Source IP of the packet.
 	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"sourceip" mapstructure:"sourceIP,omitempty"`
 
-	// SourceInterface is the source interface of the packet.
+	// Source interface of the packet.
 	SourceInterface string `json:"sourceInterface" msgpack:"sourceInterface" bson:"sourceinterface" mapstructure:"sourceInterface,omitempty"`
 
-	// SourcePort is the source TCP or UDP Port of the packet.
+	// Source TCP or UDP port of the packet.
 	SourcePort int `json:"sourcePort" msgpack:"sourcePort" bson:"sourceport" mapstructure:"sourcePort,omitempty"`
 
-	// TableName is the iptable name that the trace was collected.
+	// The iptables name that the trace collected.
 	TableName string `json:"tableName" msgpack:"tableName" bson:"tablename" mapstructure:"tableName,omitempty"`
 
-	// Timestamp is the date of the report.
+	// The time-date stamp of the report.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

@@ -6,14 +6,14 @@ model:
   package: cactuar
   group: core/authentication
   description: |-
-    Allows to declare a generic LDAP provider that can be used in exchange
+    Allows you to declare a generic LDAP provider that can be used in exchange
     for a Midgard token.
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the provider with the given ID.
   update:
-    description: Updates the object with the given ID.
+    description: Updates the provider with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the provider with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -29,7 +29,9 @@ model:
 attributes:
   v1:
   - name: address
-    description: Address holds the account authentication account's private LDAP server.
+    description: |-
+      Contains the fully qualified domain name (FQDN) or IP address of the private
+      LDAP server.
     type: string
     exposed: true
     stored: true
@@ -39,7 +41,9 @@ attributes:
     orderable: true
 
   - name: baseDN
-    description: BaseDN holds the base DN to use to LDAP queries.
+    description: |-
+      Contains the base distinguished name (DN) to use for LDAP queries. Example:
+      `dc=example,dc=com`.
     type: string
     exposed: true
     stored: true
@@ -49,7 +53,9 @@ attributes:
     orderable: true
 
   - name: bindDN
-    description: BindDN holds the account's internal LDAP bind DN for querying auth.
+    description: |-
+      Contains the DN to use to bind to the LDAP server. Example:
+      `cn=admin,dc=example,dc=com`.
     type: string
     exposed: true
     stored: true
@@ -59,7 +65,9 @@ attributes:
     orderable: true
 
   - name: bindPassword
-    description: BindPassword holds the password to the LDAP bind DN.
+    description: |-
+      Contains the password to be used with the `bindDN` to authenticate to the LDAP
+      server.
     type: string
     exposed: true
     stored: true
@@ -69,9 +77,10 @@ attributes:
 
   - name: bindSearchFilter
     description: |-
-      BindSearchFilter holds filter to be used to uniquely search a user. For
-      Windows based systems, value may be `sAMAccountName={USERNAME}`. For Linux and
-      other systems, value may be `uid={USERNAME}`.
+      The filter to use to locate the relevant user accounts. For Windows-based
+      systems, the value may
+      be `sAMAccountName={USERNAME}`. For Linux and other systems, the value may be
+      `uid={USERNAME}`.
     type: string
     exposed: true
     stored: true
@@ -80,9 +89,11 @@ attributes:
 
   - name: certificateAuthority
     description: |-
-      CertificateAuthority contains the optional certificate authority that will
-      be used to connect to the LDAP server. It is not needed if the TLS certificate
-      of the LDAP is issued from a public truster CA.
+      Can be left empty if the LDAP server's certificate is signed by a public,
+      trusted certificate
+      authority. Otherwise, include the public key of the certificate authority that
+      signed the
+      LDAP server's certificate.
     type: string
     exposed: true
     stored: true
@@ -99,7 +110,9 @@ attributes:
     orderable: true
 
   - name: connSecurityProtocol
-    description: ConnSecurityProtocol holds the connection type for the LDAP provider.
+    description: |-
+      Specifies the connection type for the LDAP provider. `TLS` or `InbandTLS`
+      (default).
     type: enum
     exposed: true
     stored: true
@@ -120,9 +133,8 @@ attributes:
     stored: true
 
   - name: ignoredKeys
-    description: |-
-      IgnoredKeys holds a list of keys that must not be imported into Aporeto
-      authorization system.
+    description: A list of keys that must not be imported into Aporeto authorization
+      system.
     type: list
     exposed: true
     subtype: string
@@ -131,10 +143,12 @@ attributes:
 
   - name: subjectKey
     description: |-
-      SubjectKey holds key to be used to populate the subject. If you want to
-      use the user as a subject, for Windows based systems you may use
-      'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
-      also use any alternate key.
+      The key to be used to populate the subject of the Midguard token. If you want to
+      use the user as a subject, for Windows-based systems you may use
+      `sAMAccountName`.
+      For Linux and other systems, you may wish to use `uid` (default). You can also
+      use
+      any alternate key.
     type: string
     exposed: true
     stored: true

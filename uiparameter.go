@@ -53,10 +53,10 @@ const (
 
 // UIParameter represents the model of a uiparameter
 type UIParameter struct {
-	// Defines if the parameter is an advanced one.
+	// A value of `true` designates the parameter as advanced.
 	Advanced bool `json:"advanced" msgpack:"advanced" bson:"advanced" mapstructure:"advanced,omitempty"`
 
-	// allowedChoices lists all the choices in case of an enum.
+	// Lists all the choices in case of an enum.
 	AllowedChoices map[string]string `json:"allowedChoices" msgpack:"allowedChoices" bson:"allowedchoices" mapstructure:"allowedChoices,omitempty"`
 
 	// List of values that can be used.
@@ -65,7 +65,7 @@ type UIParameter struct {
 	// Default value of the parameter.
 	DefaultValue interface{} `json:"defaultValue" msgpack:"defaultValue" bson:"defaultvalue" mapstructure:"defaultValue,omitempty"`
 
-	// Description of the paramerter.
+	// Description of the parameter.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Key identifying the parameter.
@@ -74,23 +74,24 @@ type UIParameter struct {
 	// Long explanation of the parameter.
 	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
 
-	// Name of the paramerter.
+	// Name of the parameter.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Defines if the parameter is optional.
+	// A value of `true` designates the parameter as optional.
 	Optional bool `json:"optional" msgpack:"optional" bson:"optional" mapstructure:"optional,omitempty"`
 
-	// The type of the parameter.
+	// The datatype of the parameter.
 	Type UIParameterTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
-	// ValidationFunction represents the function to validate the parameter.
+	// A function that validates the parameter.
 	ValidationFunction string `json:"validationFunction" msgpack:"validationFunction" bson:"validationfunction" mapstructure:"validationFunction,omitempty"`
 
 	// Value of the parameter.
 	Value interface{} `json:"value" msgpack:"value" bson:"value" mapstructure:"value,omitempty"`
 
-	// List of ors of ands of uiparametervisibility that must be verified for the
-	// parameter to be displayed to the user.
+	// A logical expression consisting of one or more [UIParameterVisibility](#uiparametervisibility)
+	// conditions linked together using AND or OR operators. If the expression evaluates to true
+	// the parameter is displayed to the user.
 	VisibilityCondition [][]*UIParameterVisibility `json:"visibilityCondition" msgpack:"visibilityCondition" bson:"visibilitycondition" mapstructure:"visibilityCondition,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

@@ -6,28 +6,28 @@ model:
   package: squall
   group: core/namespace
   description: |-
-    A Namespace Mapping Policy defines in which namespace a Processing Unit should
-    be placed when it is created, based on its tags.  When an Aporeto Agent creates
-    a new Processing Unit, the system will place it in its own namespace if no
-    matching Namespace Mapping Policy can be found. If one match is found, then the
-    Processing will be bumped down to the namespace declared in the policy. If it
-    finds in that child namespace another matching Namespace Mapping Policy, then
-    the Processing Unit will be bumped down again, until it reach a namespace with
-    no matching policies.  This is very useful to dispatch processes and containers
-    into a particular namespace, based on a lot of factor.   You can put in place a
-    quarantine namespace that will grab all Processing Units with too much
-    vulnerabilities for instances.
+    A namespace mapping defines the namespace a processing unit should
+    be placed when it is created, based on its tags.  When an Aporeto agent creates
+    a new processing unit, the system will place it in its own namespace if no
+    matching namespace mapping can be found. If one match is found, then the
+    processing unit will be bumped down to the namespace declared in the namespace mapping. If it
+    finds in that child namespace another matching namespace mapping, then
+    the processing unit will be bumped down again, until it reaches a namespace with
+    no matching namespace mappings.  This is very useful to dispatch processes and containers
+    into a particular namespace, based on a lot of factors. For example, you can put in place a
+    quarantine namespace mapping that will grab all processing units with excessive
+    vulnerabilities.
   aliases:
   - nspolicy
   - nspolicies
   - nsmap
   - nsmaps
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the mapping with the given ID.
   update:
-    description: Updates the object with the given ID.
+    description: Updates the mapping with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the mapping with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -48,7 +48,7 @@ indexes:
 attributes:
   v1:
   - name: mappedNamespace
-    description: mappedNamespace is the mapped namespace.
+    description: The namespace to map the `subject` to.
     type: string
     exposed: true
     stored: true
@@ -59,7 +59,7 @@ attributes:
     orderable: true
 
   - name: subject
-    description: Subject is the subject.
+    description: A tag or tag expression identifying the entity to be mapped.
     type: external
     exposed: true
     subtype: '[][]string'

@@ -111,13 +111,13 @@ func (o EnforcerProfilesList) Version() int {
 
 // EnforcerProfile represents the model of a enforcerprofile
 type EnforcerProfile struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -126,18 +126,21 @@ type EnforcerProfile struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// ExcludedInterfaces is a list of interfaces that must be excluded.
+	// Ignore traffic with a source or destination matching the specified
+	// interfaces.
 	ExcludedInterfaces []string `json:"excludedInterfaces" msgpack:"excludedInterfaces" bson:"excludedinterfaces" mapstructure:"excludedInterfaces,omitempty"`
 
-	// ExcludedNetworks is the list of networks that must be excluded for this
-	// enforcer.
+	// Ignore any networks specified here and do not even report any flows.
+	// This can be useful for excluding localhost loopback traffic, ignoring
+	// traffic to the Kubernetes API, and using Aporeto for SSH only.
 	ExcludedNetworks []string `json:"excludedNetworks" msgpack:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
-	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
-	// docker container started with labels matching the rule.
+	// A tag expression that identifies processing units to ignore. This can be
+	// useful to exclude `kube-system` pods, AWS EC2 agent pods, and third-party
+	// agents.
 	IgnoreExpression [][]string `json:"ignoreExpression" msgpack:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
 	// This field is kept for backward compatibility for enforcers <= 3.5.
@@ -146,36 +149,41 @@ type EnforcerProfile struct {
 	// This field is kept for backward compatibility for enforcers <= 3.5.
 	KubernetesSupportEnabled bool `json:"kubernetesSupportEnabled" msgpack:"kubernetesSupportEnabled" bson:"kubernetessupportenabled" mapstructure:"kubernetesSupportEnabled,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// This field is kept for backward compatibility for enforcers <= 3.5.
 	MetadataExtractor EnforcerProfileMetadataExtractorValue `json:"metadataExtractor" msgpack:"metadataExtractor" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// TargetNetworks is the list of networks that authorization should be applied.
+	// If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
+	// works best in Kubernetes and OpenShift deployments. You may need to manually
+	// specify the TCP networks if middle boxes exist that do not comply with
+	// [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).
 	TargetNetworks []string `json:"targetNetworks" msgpack:"targetNetworks" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
 
-	// TargetUDPNetworks is the list of UDP networks that authorization should be
-	// applied.
+	// If empty, Aporeto enforces all UDP networks. This works best when all UDP
+	// networks have enforcers. If some UDP networks do not have enforcers, you
+	// may need to manually specify the UDP networks that should be enforced.
 	TargetUDPNetworks []string `json:"targetUDPNetworks" msgpack:"targetUDPNetworks" bson:"targetudpnetworks" mapstructure:"targetUDPNetworks,omitempty"`
 
-	// List of trusted CA. If empty the main chain of trust will be used.
+	// List of trusted certificate authorities. If empty, the main chain of trust
+	// will be used.
 	TrustedCAs []string `json:"trustedCAs" msgpack:"trustedCAs" bson:"trustedcas" mapstructure:"trustedCAs,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -188,8 +196,7 @@ type EnforcerProfile struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -257,10 +264,11 @@ func (o *EnforcerProfile) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *EnforcerProfile) Doc() string {
 
-	return `Allows to create reusable configuration profile for your enforcers. Enforcer
-Profiles contains various startup information that can (for some) be updated
-live. Enforcer Profiles are assigned to some Enforcer using a Enforcer Profile
-Mapping Policy.`
+	return `Allows you to create reusable configuration profiles for your enforcers.
+Enforcer
+profiles contain various startup information that can (for some) be updated
+live. Enforcer profiles are assigned to enforcers using an enforcer profile
+mapping.`
 }
 
 func (o *EnforcerProfile) String() string {
@@ -788,7 +796,7 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -801,7 +809,7 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -813,7 +821,7 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -851,7 +859,7 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -864,19 +872,21 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExcludedInterfaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedInterfaces",
-		Description:    `ExcludedInterfaces is a list of interfaces that must be excluded.`,
-		Exposed:        true,
-		Name:           "excludedInterfaces",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `Ignore traffic with a source or destination matching the specified
+interfaces.`,
+		Exposed:   true,
+		Name:      "excludedInterfaces",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"ExcludedNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedNetworks",
-		Description: `ExcludedNetworks is the list of networks that must be excluded for this
-enforcer.`,
+		Description: `Ignore any networks specified here and do not even report any flows.
+This can be useful for excluding localhost loopback traffic, ignoring
+traffic to the Kubernetes API, and using Aporeto for SSH only.`,
 		Exposed:   true,
 		Name:      "excludedNetworks",
 		Orderable: true,
@@ -887,8 +897,9 @@ enforcer.`,
 	"IgnoreExpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoreExpression",
-		Description: `IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
-docker container started with labels matching the rule.`,
+		Description: `A tag expression that identifies processing units to ignore. This can be
+useful to exclude ` + "`" + `kube-system` + "`" + ` pods, AWS EC2 agent pods, and third-party
+agents.`,
 		Exposed: true,
 		Name:    "ignoreExpression",
 		Stored:  true,
@@ -920,7 +931,7 @@ docker container started with labels matching the rule.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -946,7 +957,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -978,7 +989,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -992,7 +1003,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1004,7 +1015,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1016,19 +1027,23 @@ with the '@' prefix, and should only be used by external systems.`,
 	"TargetNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNetworks",
-		Description:    `TargetNetworks is the list of networks that authorization should be applied.`,
-		Exposed:        true,
-		Name:           "targetNetworks",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
+works best in Kubernetes and OpenShift deployments. You may need to manually
+specify the TCP networks if middle boxes exist that do not comply with
+[TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).`,
+		Exposed:   true,
+		Name:      "targetNetworks",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"TargetUDPNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetUDPNetworks",
-		Description: `TargetUDPNetworks is the list of UDP networks that authorization should be
-applied.`,
+		Description: `If empty, Aporeto enforces all UDP networks. This works best when all UDP
+networks have enforcers. If some UDP networks do not have enforcers, you
+may need to manually specify the UDP networks that should be enforced.`,
 		Exposed:   true,
 		Name:      "targetUDPNetworks",
 		Orderable: true,
@@ -1039,12 +1054,13 @@ applied.`,
 	"TrustedCAs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TrustedCAs",
-		Description:    `List of trusted CA. If empty the main chain of trust will be used.`,
-		Exposed:        true,
-		Name:           "trustedCAs",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `List of trusted certificate authorities. If empty, the main chain of trust
+will be used.`,
+		Exposed: true,
+		Name:    "trustedCAs",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1089,16 +1105,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1108,7 +1123,7 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1121,7 +1136,7 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1133,7 +1148,7 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1171,7 +1186,7 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1184,19 +1199,21 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"excludedinterfaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedInterfaces",
-		Description:    `ExcludedInterfaces is a list of interfaces that must be excluded.`,
-		Exposed:        true,
-		Name:           "excludedInterfaces",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `Ignore traffic with a source or destination matching the specified
+interfaces.`,
+		Exposed:   true,
+		Name:      "excludedInterfaces",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"excludednetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedNetworks",
-		Description: `ExcludedNetworks is the list of networks that must be excluded for this
-enforcer.`,
+		Description: `Ignore any networks specified here and do not even report any flows.
+This can be useful for excluding localhost loopback traffic, ignoring
+traffic to the Kubernetes API, and using Aporeto for SSH only.`,
 		Exposed:   true,
 		Name:      "excludedNetworks",
 		Orderable: true,
@@ -1207,8 +1224,9 @@ enforcer.`,
 	"ignoreexpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoreExpression",
-		Description: `IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
-docker container started with labels matching the rule.`,
+		Description: `A tag expression that identifies processing units to ignore. This can be
+useful to exclude ` + "`" + `kube-system` + "`" + ` pods, AWS EC2 agent pods, and third-party
+agents.`,
 		Exposed: true,
 		Name:    "ignoreExpression",
 		Stored:  true,
@@ -1240,7 +1258,7 @@ docker container started with labels matching the rule.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1266,7 +1284,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1298,7 +1316,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1312,7 +1330,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1324,7 +1342,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1336,19 +1354,23 @@ with the '@' prefix, and should only be used by external systems.`,
 	"targetnetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNetworks",
-		Description:    `TargetNetworks is the list of networks that authorization should be applied.`,
-		Exposed:        true,
-		Name:           "targetNetworks",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
+works best in Kubernetes and OpenShift deployments. You may need to manually
+specify the TCP networks if middle boxes exist that do not comply with
+[TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).`,
+		Exposed:   true,
+		Name:      "targetNetworks",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"targetudpnetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetUDPNetworks",
-		Description: `TargetUDPNetworks is the list of UDP networks that authorization should be
-applied.`,
+		Description: `If empty, Aporeto enforces all UDP networks. This works best when all UDP
+networks have enforcers. If some UDP networks do not have enforcers, you
+may need to manually specify the UDP networks that should be enforced.`,
 		Exposed:   true,
 		Name:      "targetUDPNetworks",
 		Orderable: true,
@@ -1359,12 +1381,13 @@ applied.`,
 	"trustedcas": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TrustedCAs",
-		Description:    `List of trusted CA. If empty the main chain of trust will be used.`,
-		Exposed:        true,
-		Name:           "trustedCAs",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `List of trusted certificate authorities. If empty, the main chain of trust
+will be used.`,
+		Exposed: true,
+		Name:    "trustedCAs",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1409,16 +1432,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1488,13 +1510,13 @@ func (o SparseEnforcerProfilesList) Version() int {
 
 // SparseEnforcerProfile represents the sparse version of a enforcerprofile.
 type SparseEnforcerProfile struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1503,18 +1525,21 @@ type SparseEnforcerProfile struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// ExcludedInterfaces is a list of interfaces that must be excluded.
+	// Ignore traffic with a source or destination matching the specified
+	// interfaces.
 	ExcludedInterfaces *[]string `json:"excludedInterfaces,omitempty" msgpack:"excludedInterfaces,omitempty" bson:"excludedinterfaces,omitempty" mapstructure:"excludedInterfaces,omitempty"`
 
-	// ExcludedNetworks is the list of networks that must be excluded for this
-	// enforcer.
+	// Ignore any networks specified here and do not even report any flows.
+	// This can be useful for excluding localhost loopback traffic, ignoring
+	// traffic to the Kubernetes API, and using Aporeto for SSH only.
 	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" msgpack:"excludedNetworks,omitempty" bson:"excludednetworks,omitempty" mapstructure:"excludedNetworks,omitempty"`
 
-	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
-	// docker container started with labels matching the rule.
+	// A tag expression that identifies processing units to ignore. This can be
+	// useful to exclude `kube-system` pods, AWS EC2 agent pods, and third-party
+	// agents.
 	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" msgpack:"ignoreExpression,omitempty" bson:"ignoreexpression,omitempty" mapstructure:"ignoreExpression,omitempty"`
 
 	// This field is kept for backward compatibility for enforcers <= 3.5.
@@ -1523,36 +1548,41 @@ type SparseEnforcerProfile struct {
 	// This field is kept for backward compatibility for enforcers <= 3.5.
 	KubernetesSupportEnabled *bool `json:"kubernetesSupportEnabled,omitempty" msgpack:"kubernetesSupportEnabled,omitempty" bson:"kubernetessupportenabled,omitempty" mapstructure:"kubernetesSupportEnabled,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// This field is kept for backward compatibility for enforcers <= 3.5.
 	MetadataExtractor *EnforcerProfileMetadataExtractorValue `json:"metadataExtractor,omitempty" msgpack:"metadataExtractor,omitempty" bson:"metadataextractor,omitempty" mapstructure:"metadataExtractor,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// TargetNetworks is the list of networks that authorization should be applied.
+	// If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
+	// works best in Kubernetes and OpenShift deployments. You may need to manually
+	// specify the TCP networks if middle boxes exist that do not comply with
+	// [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).
 	TargetNetworks *[]string `json:"targetNetworks,omitempty" msgpack:"targetNetworks,omitempty" bson:"targetnetworks,omitempty" mapstructure:"targetNetworks,omitempty"`
 
-	// TargetUDPNetworks is the list of UDP networks that authorization should be
-	// applied.
+	// If empty, Aporeto enforces all UDP networks. This works best when all UDP
+	// networks have enforcers. If some UDP networks do not have enforcers, you
+	// may need to manually specify the UDP networks that should be enforced.
 	TargetUDPNetworks *[]string `json:"targetUDPNetworks,omitempty" msgpack:"targetUDPNetworks,omitempty" bson:"targetudpnetworks,omitempty" mapstructure:"targetUDPNetworks,omitempty"`
 
-	// List of trusted CA. If empty the main chain of trust will be used.
+	// List of trusted certificate authorities. If empty, the main chain of trust
+	// will be used.
 	TrustedCAs *[]string `json:"trustedCAs,omitempty" msgpack:"trustedCAs,omitempty" bson:"trustedcas,omitempty" mapstructure:"trustedCAs,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1565,8 +1595,7 @@ type SparseEnforcerProfile struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

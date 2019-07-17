@@ -6,7 +6,7 @@ model:
   package: squall
   group: policy/services
   description: |-
-    Allows to define a service dependency where a set of processing units as defined
+    Allows you to define a service dependency where a set of processing units as defined
     by their tags require access to specific services.
   aliases:
   - srvdep
@@ -40,7 +40,7 @@ indexes:
 attributes:
   v1:
   - name: object
-    description: Object of the policy.
+    description: Object of the service dependency.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -49,7 +49,7 @@ attributes:
     - $tagsExpression
 
   - name: subject
-    description: Subject of the policy.
+    description: Subject of the service dependency.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -61,7 +61,7 @@ attributes:
 relations:
 - rest_name: processingunit
   get:
-    description: Returns the list of Processing Units that depend on an service.
+    description: Returns the list of processing units that depend on an service.
 
 - rest_name: service
   get:

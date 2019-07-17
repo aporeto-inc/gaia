@@ -6,8 +6,8 @@ model:
   package: jenova
   group: visualization/statsquery
   description: |-
-    StatsQuery is a generic API to retrieve time series data stored by the Aporeto
-    system. The API allows different types of queries that are all protected within
+    Retrieves time-series data stored by the Aporeto
+    system. Allows different types of queries that are all protected within
     the namespace of the user.
   aliases:
   - sq
@@ -24,7 +24,7 @@ attributes:
   - name: fields
     description: |-
       List of fields to extract. If you don't pass anything, all available fields will
-      be returned. It is also possible to use function like `sum(value)`.
+      be returned. It is also possible to use a function like `sum(value)`.
     type: list
     exposed: true
     subtype: string
@@ -43,7 +43,7 @@ attributes:
     subtype: string
 
   - name: limit
-    description: Limits the number of results. -1 means no limit.
+    description: Limits the number of results. `-1` means no limit.
     type: integer
     exposed: true
     default_value: -1
@@ -64,13 +64,13 @@ attributes:
     default_value: Flows
 
   - name: offset
-    description: Offsets the of results. -1 means no offset.
+    description: Offsets the results. -1 means no offset.
     type: integer
     exposed: true
     default_value: -1
 
   - name: results
-    description: Results contains the result of the query.
+    description: Contains the result of the query.
     type: refList
     exposed: true
     subtype: timeseriesqueryresults

@@ -6,14 +6,14 @@ model:
   package: cactuar
   group: core/authentication
   description: |-
-    Allows to declare a generic OpenID Connect provider that can be used in exchange
-    for a Midgard token.
+    Allows to declare a generic OpenID Connect (OIDC) provider that can be used in exchange 
+    for a Midguard token.
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the provider with the given ID.
   update:
-    description: Updates the object with the given ID.
+    description: Updates the provider with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the provider with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -45,15 +45,16 @@ attributes:
 
   - name: default
     description: |-
-      If set, this will be the default OIDCProvider. There can be only one default
-      provider in your account. When logging in with OIDC, if not provider name is
+      If set, this will be the default OIDC provider. There can be only one default
+      provider in your account. When logging in with OIDC, if no provider name is
       given, the default will be used.
     type: boolean
     exposed: true
     stored: true
 
   - name: endpoint
-    description: OIDC information endpoint.
+    description: |-
+      OIDC [discovery endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
     type: string
     exposed: true
     stored: true
@@ -61,7 +62,7 @@ attributes:
     example_value: https://accounts.google.com
 
   - name: parentID
-    description: ParentID contains the parent Vince account ID.
+    description: Contains the parent Aporeto account ID.
     type: string
     exposed: true
     stored: true
@@ -70,7 +71,7 @@ attributes:
     filterable: true
 
   - name: parentName
-    description: ParentName contains the name of the Vince parent Account.
+    description: Contains the name of the parent Aporeto account.
     type: string
     exposed: true
     stored: true
@@ -89,7 +90,7 @@ attributes:
     - profile
 
   - name: subjects
-    description: Subjects is the list of claims that will provide the subject.
+    description: List of claims that will provide the subject.
     type: list
     exposed: true
     subtype: string

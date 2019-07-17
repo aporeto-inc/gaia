@@ -79,10 +79,10 @@ func (o RenderTemplatesList) Version() int {
 
 // RenderTemplate represents the model of a rendertemplate
 type RenderTemplate struct {
-	// Output holds the rendered template.
+	// Holds the rendered template.
 	Output string `json:"output" msgpack:"output" bson:"-" mapstructure:"output,omitempty"`
 
-	// Parameters contains the computed parameters.
+	// Contains the computed parameters.
 	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
 	// Template of the recipe.
@@ -138,7 +138,7 @@ func (o *RenderTemplate) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *RenderTemplate) Doc() string {
 
-	return `A RenderTemplate cooks a template based some parameters.`
+	return `Cooks a template based some parameters.`
 }
 
 func (o *RenderTemplate) String() string {
@@ -272,7 +272,7 @@ var RenderTemplateAttributesMap = map[string]elemental.AttributeSpecification{
 	"Output": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Output",
-		Description:    `Output holds the rendered template.`,
+		Description:    `Holds the rendered template.`,
 		Exposed:        true,
 		Name:           "output",
 		Type:           "string",
@@ -280,7 +280,7 @@ var RenderTemplateAttributesMap = map[string]elemental.AttributeSpecification{
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters.`,
+		Description:    `Contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
 		SubType:        "map[string]interface{}",
@@ -301,7 +301,7 @@ var RenderTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"output": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Output",
-		Description:    `Output holds the rendered template.`,
+		Description:    `Holds the rendered template.`,
 		Exposed:        true,
 		Name:           "output",
 		Type:           "string",
@@ -309,7 +309,7 @@ var RenderTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters.`,
+		Description:    `Contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
 		SubType:        "map[string]interface{}",
@@ -388,10 +388,10 @@ func (o SparseRenderTemplatesList) Version() int {
 
 // SparseRenderTemplate represents the sparse version of a rendertemplate.
 type SparseRenderTemplate struct {
-	// Output holds the rendered template.
+	// Holds the rendered template.
 	Output *string `json:"output,omitempty" msgpack:"output,omitempty" bson:"-" mapstructure:"output,omitempty"`
 
-	// Parameters contains the computed parameters.
+	// Contains the computed parameters.
 	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
 
 	// Template of the recipe.

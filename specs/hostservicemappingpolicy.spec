@@ -6,19 +6,20 @@ model:
   package: squall
   group: policy/hosts
   description: |-
-    Defines a host service mapping policy that provides the relation between
-    enforcers and host services that they must implement.
+    Host service mapping allows you to map host services to the enforcers which should
+    implement them. You must map host services to one or more enforcers for the host 
+    services to have any effect.
   aliases:
   - hostsrvmappol
   - hostsrvmappols
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the mapping with the given ID.
     global_parameters:
     - $propagatable
   update:
-    description: Updates the object with the given ID.
+    description: Updates the mapping with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the mapping with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -43,8 +44,7 @@ attributes:
   v1:
   - name: object
     description: |-
-      Object of the policy is the selector for the host services that must be applied
-      to this enforcer.
+      A tag or tag expression identifying the host service(s) to be mapped.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -54,8 +54,8 @@ attributes:
 
   - name: subject
     description: |-
-      Subject of the policy is the selector of the enforcers that the list of host
-      services must apply to.
+      A tag or tag expression identifying the enforcer(s) that should implement
+      the specified host service(s).
     type: external
     exposed: true
     subtype: '[][]string'
@@ -67,8 +67,8 @@ attributes:
 relations:
 - rest_name: enforcer
   get:
-    description: Returns the list of enforcers that are affected by this poliy.
+    description: Returns the list of enforcers that are affected by this mapping.
 
 - rest_name: hostservice
   get:
-    description: Returns the list of host services that are referred by this policy.
+    description: Returns the list of host services that are referenced by this mapping.

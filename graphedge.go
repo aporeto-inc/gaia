@@ -43,13 +43,13 @@ type GraphEdge struct {
 	// Number of accepted flows in the edge.
 	AcceptedFlows int `json:"acceptedFlows" msgpack:"acceptedFlows" bson:"-" mapstructure:"acceptedFlows,omitempty"`
 
-	// ID of the destination GraphNode of the edge.
+	// ID of the destination `GraphNode` of the edge.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"-" mapstructure:"destinationID,omitempty"`
 
-	// Type of the destination GraphNode of the edge.
+	// Type of the destination `GraphNode` of the edge.
 	DestinationType GraphEdgeDestinationTypeValue `json:"destinationType" msgpack:"destinationType" bson:"-" mapstructure:"destinationType,omitempty"`
 
-	// Tells the number of encrypted flows in the edge.
+	// The number of encrypted flows in the edge.
 	Encrypted int `json:"encrypted" msgpack:"encrypted" bson:"-" mapstructure:"encrypted,omitempty"`
 
 	// Number of accepted observed flows.
@@ -58,27 +58,27 @@ type GraphEdge struct {
 	// Number of encrypted observed flows.
 	ObservedEncrypted int `json:"observedEncrypted" msgpack:"observedEncrypted" bson:"-" mapstructure:"observedEncrypted,omitempty"`
 
-	// Information about the observation policies that was hit in the flows
-	// represented by that edge.
+	// Information about the observed policies that were hit in the flows
+	// represented by the edge.
 	ObservedPolicyIDs map[string]*GraphPolicyInfo `json:"observedPolicyIDs" msgpack:"observedPolicyIDs" bson:"-" mapstructure:"observedPolicyIDs,omitempty"`
 
 	// Number of rejected observed flows.
 	ObservedRejectedFlows int `json:"observedRejectedFlows" msgpack:"observedRejectedFlows" bson:"-" mapstructure:"observedRejectedFlows,omitempty"`
 
-	// Map of ints...
+	// Map of ints.
 	ObservedServiceIDs map[string]int `json:"observedServiceIDs" msgpack:"observedServiceIDs" bson:"-" mapstructure:"observedServiceIDs,omitempty"`
 
-	// Information about the policies that was hit in the flows represented by that
+	// Information about the policies that were hit in the flows represented by the
 	// edge.
 	PolicyIDs map[string]*GraphPolicyInfo `json:"policyIDs" msgpack:"policyIDs" bson:"-" mapstructure:"policyIDs,omitempty"`
 
 	// Number of rejected flows in the edge.
 	RejectedFlows int `json:"rejectedFlows" msgpack:"rejectedFlows" bson:"-" mapstructure:"rejectedFlows,omitempty"`
 
-	// ID of the source GraphNode of the edge.
+	// ID of the source `GraphNode` of the edge.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"-" mapstructure:"sourceID,omitempty"`
 
-	// Type of the source GraphNode of the edge.
+	// Type of the source `GraphNode` of the edge.
 	SourceType GraphEdgeSourceTypeValue `json:"sourceType" msgpack:"sourceType" bson:"-" mapstructure:"sourceType,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

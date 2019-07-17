@@ -97,16 +97,16 @@ func (o AutomationsList) Version() int {
 
 // Automation represents the model of a automation
 type Automation struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Action contains the code that will be executed if the condition is met.
+	// Contains the code that will be executed if the condition is met.
 	Actions []string `json:"actions" msgpack:"actions" bson:"actions" mapstructure:"actions,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// Condition contains the code that will be executed to decide if any action should
@@ -119,19 +119,19 @@ type Automation struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// Entitlements declares which operations are allowed on which identities.
+	// Declares which operations are allowed on which identities.
 	Entitlements map[string][]elemental.Operation `json:"entitlements" msgpack:"entitlements" bson:"entitlements" mapstructure:"entitlements,omitempty"`
 
-	// Error contains the eventual error of the last run.
+	// Contains the error of the last run.
 	Errors []string `json:"errors" msgpack:"errors" bson:"errors" mapstructure:"errors,omitempty"`
 
-	// Events contains the identity and operation an event must have to trigger the
+	// Contains the identity and operation an event must have to trigger the
 	// automation.
 	Events map[string][]elemental.EventType `json:"events" msgpack:"events" bson:"events" mapstructure:"events,omitempty"`
 
@@ -139,39 +139,39 @@ type Automation struct {
 	// update before being scheduled.
 	ImmediateExecution bool `json:"immediateExecution" msgpack:"immediateExecution" bson:"immediateexecution" mapstructure:"immediateExecution,omitempty"`
 
-	// LastExecTime holds the last successful execution tine.
+	// The last successful execution tine.
 	LastExecTime time.Time `json:"lastExecTime" msgpack:"lastExecTime" bson:"lastexectime" mapstructure:"lastExecTime,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters contains the computed parameters.
+	// Contains the computed parameters.
 	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Schedule tells when to run the automation. Must be a valid CRON format. This
-	// only applies if the trigger is set to Time.
+	// Specifies when to run the automation. Must be in valid CRON format. This
+	// only applies if the trigger is set to `Time`.
 	Schedule string `json:"schedule" msgpack:"schedule" bson:"schedule" mapstructure:"schedule,omitempty"`
 
-	// Stdout contains the last run standard output.
+	// Contains the standard output of the last run.
 	Stdout string `json:"stdout" msgpack:"stdout" bson:"stdout" mapstructure:"stdout,omitempty"`
 
-	// Token holds the unique access token used as a password to trigger the
+	// Holds the unique access token used as a password to trigger the
 	// authentication. It will be visible only after creation.
 	Token string `json:"token" msgpack:"token" bson:"token" mapstructure:"token,omitempty"`
 
-	// If set to true a new token will be issued, and the previous one invalidated.
+	// If set to `true` a new token will be issued and the previous one invalidated.
 	TokenRenew bool `json:"tokenRenew" msgpack:"tokenRenew" bson:"-" mapstructure:"tokenRenew,omitempty"`
 
-	// Trigger controls when the automation should be triggered.
+	// Controls when the automation should be triggered.
 	Trigger AutomationTriggerValue `json:"trigger" msgpack:"trigger" bson:"trigger" mapstructure:"trigger,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -184,8 +184,7 @@ type Automation struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -250,7 +249,8 @@ func (o *Automation) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Automation) Doc() string {
 
-	return `An automation needs documentation.`
+	return `Allows you to define some code and specify the conditions under which it should
+be executed.`
 }
 
 func (o *Automation) String() string {
@@ -777,7 +777,7 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -790,7 +790,7 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 	"Actions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Actions",
-		Description:    `Action contains the code that will be executed if the condition is met.`,
+		Description:    `Contains the code that will be executed if the condition is met.`,
 		Exposed:        true,
 		Name:           "actions",
 		Stored:         true,
@@ -800,7 +800,7 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -812,7 +812,7 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -861,7 +861,7 @@ be taken.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -874,7 +874,7 @@ be taken.`,
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -886,7 +886,7 @@ be taken.`,
 	"Entitlements": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Entitlements",
-		Description:    `Entitlements declares which operations are allowed on which identities.`,
+		Description:    `Declares which operations are allowed on which identities.`,
 		Exposed:        true,
 		Name:           "entitlements",
 		Stored:         true,
@@ -897,7 +897,7 @@ be taken.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Errors",
-		Description:    `Error contains the eventual error of the last run.`,
+		Description:    `Contains the error of the last run.`,
 		Exposed:        true,
 		Name:           "errors",
 		ReadOnly:       true,
@@ -908,7 +908,7 @@ be taken.`,
 	"Events": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Events",
-		Description: `Events contains the identity and operation an event must have to trigger the
+		Description: `Contains the identity and operation an event must have to trigger the
 automation.`,
 		Exposed: true,
 		Name:    "events",
@@ -930,7 +930,7 @@ update before being scheduled.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "LastExecTime",
-		Description:    `LastExecTime holds the last successful execution tine.`,
+		Description:    `The last successful execution tine.`,
 		Exposed:        true,
 		Name:           "lastExecTime",
 		ReadOnly:       true,
@@ -941,7 +941,7 @@ update before being scheduled.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -973,7 +973,7 @@ update before being scheduled.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -987,7 +987,7 @@ update before being scheduled.`,
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters.`,
+		Description:    `Contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
@@ -997,7 +997,7 @@ update before being scheduled.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1009,8 +1009,8 @@ update before being scheduled.`,
 	"Schedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Schedule",
-		Description: `Schedule tells when to run the automation. Must be a valid CRON format. This
-only applies if the trigger is set to Time.`,
+		Description: `Specifies when to run the automation. Must be in valid CRON format. This
+only applies if the trigger is set to ` + "`" + `Time` + "`" + `.`,
 		Exposed: true,
 		Name:    "schedule",
 		Stored:  true,
@@ -1020,7 +1020,7 @@ only applies if the trigger is set to Time.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Stdout",
-		Description:    `Stdout contains the last run standard output.`,
+		Description:    `Contains the standard output of the last run.`,
 		Exposed:        true,
 		Name:           "stdout",
 		ReadOnly:       true,
@@ -1031,7 +1031,7 @@ only applies if the trigger is set to Time.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Token",
-		Description: `Token holds the unique access token used as a password to trigger the
+		Description: `Holds the unique access token used as a password to trigger the
 authentication. It will be visible only after creation.`,
 		Exposed:   true,
 		Name:      "token",
@@ -1042,7 +1042,7 @@ authentication. It will be visible only after creation.`,
 	"TokenRenew": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TokenRenew",
-		Description:    `If set to true a new token will be issued, and the previous one invalidated.`,
+		Description:    `If set to ` + "`" + `true` + "`" + ` a new token will be issued and the previous one invalidated.`,
 		Exposed:        true,
 		Name:           "tokenRenew",
 		Type:           "boolean",
@@ -1051,7 +1051,7 @@ authentication. It will be visible only after creation.`,
 		AllowedChoices: []string{"Event", "RemoteCall", "Time"},
 		ConvertedName:  "Trigger",
 		DefaultValue:   AutomationTriggerTime,
-		Description:    `Trigger controls when the automation should be triggered.`,
+		Description:    `Controls when the automation should be triggered.`,
 		Exposed:        true,
 		Name:           "trigger",
 		Orderable:      true,
@@ -1101,16 +1101,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1120,7 +1119,7 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1133,7 +1132,7 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"actions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Actions",
-		Description:    `Action contains the code that will be executed if the condition is met.`,
+		Description:    `Contains the code that will be executed if the condition is met.`,
 		Exposed:        true,
 		Name:           "actions",
 		Stored:         true,
@@ -1143,7 +1142,7 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1155,7 +1154,7 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1204,7 +1203,7 @@ be taken.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1217,7 +1216,7 @@ be taken.`,
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1229,7 +1228,7 @@ be taken.`,
 	"entitlements": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Entitlements",
-		Description:    `Entitlements declares which operations are allowed on which identities.`,
+		Description:    `Declares which operations are allowed on which identities.`,
 		Exposed:        true,
 		Name:           "entitlements",
 		Stored:         true,
@@ -1240,7 +1239,7 @@ be taken.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Errors",
-		Description:    `Error contains the eventual error of the last run.`,
+		Description:    `Contains the error of the last run.`,
 		Exposed:        true,
 		Name:           "errors",
 		ReadOnly:       true,
@@ -1251,7 +1250,7 @@ be taken.`,
 	"events": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Events",
-		Description: `Events contains the identity and operation an event must have to trigger the
+		Description: `Contains the identity and operation an event must have to trigger the
 automation.`,
 		Exposed: true,
 		Name:    "events",
@@ -1273,7 +1272,7 @@ update before being scheduled.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "LastExecTime",
-		Description:    `LastExecTime holds the last successful execution tine.`,
+		Description:    `The last successful execution tine.`,
 		Exposed:        true,
 		Name:           "lastExecTime",
 		ReadOnly:       true,
@@ -1284,7 +1283,7 @@ update before being scheduled.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1316,7 +1315,7 @@ update before being scheduled.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1330,7 +1329,7 @@ update before being scheduled.`,
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters.`,
+		Description:    `Contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
@@ -1340,7 +1339,7 @@ update before being scheduled.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1352,8 +1351,8 @@ update before being scheduled.`,
 	"schedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Schedule",
-		Description: `Schedule tells when to run the automation. Must be a valid CRON format. This
-only applies if the trigger is set to Time.`,
+		Description: `Specifies when to run the automation. Must be in valid CRON format. This
+only applies if the trigger is set to ` + "`" + `Time` + "`" + `.`,
 		Exposed: true,
 		Name:    "schedule",
 		Stored:  true,
@@ -1363,7 +1362,7 @@ only applies if the trigger is set to Time.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Stdout",
-		Description:    `Stdout contains the last run standard output.`,
+		Description:    `Contains the standard output of the last run.`,
 		Exposed:        true,
 		Name:           "stdout",
 		ReadOnly:       true,
@@ -1374,7 +1373,7 @@ only applies if the trigger is set to Time.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Token",
-		Description: `Token holds the unique access token used as a password to trigger the
+		Description: `Holds the unique access token used as a password to trigger the
 authentication. It will be visible only after creation.`,
 		Exposed:   true,
 		Name:      "token",
@@ -1385,7 +1384,7 @@ authentication. It will be visible only after creation.`,
 	"tokenrenew": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TokenRenew",
-		Description:    `If set to true a new token will be issued, and the previous one invalidated.`,
+		Description:    `If set to ` + "`" + `true` + "`" + ` a new token will be issued and the previous one invalidated.`,
 		Exposed:        true,
 		Name:           "tokenRenew",
 		Type:           "boolean",
@@ -1394,7 +1393,7 @@ authentication. It will be visible only after creation.`,
 		AllowedChoices: []string{"Event", "RemoteCall", "Time"},
 		ConvertedName:  "Trigger",
 		DefaultValue:   AutomationTriggerTime,
-		Description:    `Trigger controls when the automation should be triggered.`,
+		Description:    `Controls when the automation should be triggered.`,
 		Exposed:        true,
 		Name:           "trigger",
 		Orderable:      true,
@@ -1444,16 +1443,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1523,16 +1521,16 @@ func (o SparseAutomationsList) Version() int {
 
 // SparseAutomation represents the sparse version of a automation.
 type SparseAutomation struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Action contains the code that will be executed if the condition is met.
+	// Contains the code that will be executed if the condition is met.
 	Actions *[]string `json:"actions,omitempty" msgpack:"actions,omitempty" bson:"actions,omitempty" mapstructure:"actions,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// Condition contains the code that will be executed to decide if any action should
@@ -1545,19 +1543,19 @@ type SparseAutomation struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// Entitlements declares which operations are allowed on which identities.
+	// Declares which operations are allowed on which identities.
 	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" msgpack:"entitlements,omitempty" bson:"entitlements,omitempty" mapstructure:"entitlements,omitempty"`
 
-	// Error contains the eventual error of the last run.
+	// Contains the error of the last run.
 	Errors *[]string `json:"errors,omitempty" msgpack:"errors,omitempty" bson:"errors,omitempty" mapstructure:"errors,omitempty"`
 
-	// Events contains the identity and operation an event must have to trigger the
+	// Contains the identity and operation an event must have to trigger the
 	// automation.
 	Events *map[string][]elemental.EventType `json:"events,omitempty" msgpack:"events,omitempty" bson:"events,omitempty" mapstructure:"events,omitempty"`
 
@@ -1565,39 +1563,39 @@ type SparseAutomation struct {
 	// update before being scheduled.
 	ImmediateExecution *bool `json:"immediateExecution,omitempty" msgpack:"immediateExecution,omitempty" bson:"immediateexecution,omitempty" mapstructure:"immediateExecution,omitempty"`
 
-	// LastExecTime holds the last successful execution tine.
+	// The last successful execution tine.
 	LastExecTime *time.Time `json:"lastExecTime,omitempty" msgpack:"lastExecTime,omitempty" bson:"lastexectime,omitempty" mapstructure:"lastExecTime,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters contains the computed parameters.
+	// Contains the computed parameters.
 	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Schedule tells when to run the automation. Must be a valid CRON format. This
-	// only applies if the trigger is set to Time.
+	// Specifies when to run the automation. Must be in valid CRON format. This
+	// only applies if the trigger is set to `Time`.
 	Schedule *string `json:"schedule,omitempty" msgpack:"schedule,omitempty" bson:"schedule,omitempty" mapstructure:"schedule,omitempty"`
 
-	// Stdout contains the last run standard output.
+	// Contains the standard output of the last run.
 	Stdout *string `json:"stdout,omitempty" msgpack:"stdout,omitempty" bson:"stdout,omitempty" mapstructure:"stdout,omitempty"`
 
-	// Token holds the unique access token used as a password to trigger the
+	// Holds the unique access token used as a password to trigger the
 	// authentication. It will be visible only after creation.
 	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"token,omitempty" mapstructure:"token,omitempty"`
 
-	// If set to true a new token will be issued, and the previous one invalidated.
+	// If set to `true` a new token will be issued and the previous one invalidated.
 	TokenRenew *bool `json:"tokenRenew,omitempty" msgpack:"tokenRenew,omitempty" bson:"-" mapstructure:"tokenRenew,omitempty"`
 
-	// Trigger controls when the automation should be triggered.
+	// Controls when the automation should be triggered.
 	Trigger *AutomationTriggerValue `json:"trigger,omitempty" msgpack:"trigger,omitempty" bson:"trigger,omitempty" mapstructure:"trigger,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1610,8 +1608,7 @@ type SparseAutomation struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

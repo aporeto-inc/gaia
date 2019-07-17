@@ -2,7 +2,7 @@
 attributes:
   v1:
   - name: description
-    description: Description is the description of the object.
+    description: Description of the object.
     type: string
     exposed: true
     stored: true

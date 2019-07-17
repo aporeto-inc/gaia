@@ -97,31 +97,28 @@ func (o HookPoliciesList) Version() int {
 
 // HookPolicy represents the model of a hookpolicy
 type HookPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// CertificateAuthority contains the pem block of the certificate authority used by
-	// the remote endpoint.
+	// Contains the PEM block of the certificate authority used by the remote endpoint.
 	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
-	// ClientCertificate contains the client certificate that will be used to connect
+	// Contains the client certificate that will be used to connect
 	// to the remote endpoint. If provided, the private key associated with this
-	// certificate must
-	// also be configured.
+	// certificate must also be configured.
 	ClientCertificate string `json:"clientCertificate" msgpack:"clientCertificate" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
 
-	// ClientCertificateKey contains the key associated to the clientCertificate. Must
-	// be provided only when
-	// ClientCertificate has been configured.
+	// Contains the key associated with the `clientCertificate`. It must be provided only
+	// when `clientCertificate` has been configured.
 	ClientCertificateKey string `json:"clientCertificateKey" msgpack:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
-	// If set to true and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
+	// If set to `true` and `mode` is in `Pre`, the request will be honored even if
 	// calling the hook fails.
 	ContinueOnError bool `json:"continueOnError" msgpack:"continueOnError" bson:"continueonerror" mapstructure:"continueOnError,omitempty"`
 
@@ -131,51 +128,51 @@ type HookPolicy struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// Endpoint contains the full address of the remote processor endpoint.
+	// Contains the full address of the remote processor endpoint.
 	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the hook will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Mode define the type of the hook.
+	// Defines the type of hook.
 	Mode HookPolicyModeValue `json:"mode" msgpack:"mode" bson:"mode" mapstructure:"mode,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
+	// If set to `true` while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" msgpack:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject contains the tag expression that an object must match in order to
-	// trigger the hook.
+	// Contains the tag expression that an object must match in order to trigger the
+	// hook.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -243,7 +240,7 @@ func (o *HookPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *HookPolicy) Doc() string {
 
-	return `Hook allows to to define hooks to the write operations in squall. Hooks are sent
+	return `Allows you to define hooks to the write operations in squall. Hooks are sent
 to an external Rufus server that will do the processing and eventually return a
 modified version of the object before we save it.`
 }
@@ -800,7 +797,7 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -812,7 +809,7 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -824,7 +821,7 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -836,21 +833,19 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"CertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateAuthority",
-		Description: `CertificateAuthority contains the pem block of the certificate authority used by
-the remote endpoint.`,
-		Exposed:   true,
-		Name:      "certificateAuthority",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
+		Description:    `Contains the PEM block of the certificate authority used by the remote endpoint.`,
+		Exposed:        true,
+		Name:           "certificateAuthority",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"ClientCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
-		Description: `ClientCertificate contains the client certificate that will be used to connect
+		Description: `Contains the client certificate that will be used to connect
 to the remote endpoint. If provided, the private key associated with this
-certificate must
-also be configured.`,
+certificate must also be configured.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
 		Orderable: true,
@@ -860,9 +855,8 @@ also be configured.`,
 	"ClientCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `ClientCertificateKey contains the key associated to the clientCertificate. Must
-be provided only when
-ClientCertificate has been configured.`,
+		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided only
+when ` + "`" + `clientCertificate` + "`" + ` has been configured.`,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
 		Orderable: true,
@@ -874,7 +868,7 @@ ClientCertificate has been configured.`,
 	"ContinueOnError": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ContinueOnError",
-		Description: `If set to true and ` + "`" + `mode` + "`" + ` is in ` + "`" + `Pre` + "`" + `, the request will be honored even if
+		Description: `If set to ` + "`" + `true` + "`" + ` and ` + "`" + `mode` + "`" + ` is in ` + "`" + `Pre` + "`" + `, the request will be honored even if
 calling the hook fails.`,
 		Exposed: true,
 		Name:    "continueOnError",
@@ -910,7 +904,7 @@ calling the hook fails.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -923,7 +917,7 @@ calling the hook fails.`,
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -935,7 +929,7 @@ calling the hook fails.`,
 	"Endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `Endpoint contains the full address of the remote processor endpoint.`,
+		Description:    `Contains the full address of the remote processor endpoint.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
@@ -946,7 +940,7 @@ calling the hook fails.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the hook will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -957,7 +951,7 @@ calling the hook fails.`,
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -972,7 +966,7 @@ propagated it will become a fallback for children namespaces.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -987,7 +981,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{"Both", "Post", "Pre"},
 		ConvertedName:  "Mode",
 		DefaultValue:   HookPolicyModePre,
-		Description:    `Mode define the type of the hook.`,
+		Description:    `Defines the type of hook.`,
 		Exposed:        true,
 		Name:           "mode",
 		Orderable:      true,
@@ -998,7 +992,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1030,7 +1024,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1044,7 +1038,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1056,7 +1050,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"PropagationHidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
+		Description: `If set to ` + "`" + `true` + "`" + ` while the policy is propagating, it won't be visible to children
 namespace, but still used for policy resolution.`,
 		Exposed:   true,
 		Getter:    true,
@@ -1069,7 +1063,7 @@ namespace, but still used for policy resolution.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1081,8 +1075,8 @@ namespace, but still used for policy resolution.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject contains the tag expression that an object must match in order to
-trigger the hook.`,
+		Description: `Contains the tag expression that an object must match in order to trigger the
+hook.`,
 		Exposed: true,
 		Name:    "subject",
 		Stored:  true,
@@ -1123,7 +1117,7 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1135,7 +1129,7 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1147,7 +1141,7 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1159,21 +1153,19 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"certificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateAuthority",
-		Description: `CertificateAuthority contains the pem block of the certificate authority used by
-the remote endpoint.`,
-		Exposed:   true,
-		Name:      "certificateAuthority",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
+		Description:    `Contains the PEM block of the certificate authority used by the remote endpoint.`,
+		Exposed:        true,
+		Name:           "certificateAuthority",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"clientcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
-		Description: `ClientCertificate contains the client certificate that will be used to connect
+		Description: `Contains the client certificate that will be used to connect
 to the remote endpoint. If provided, the private key associated with this
-certificate must
-also be configured.`,
+certificate must also be configured.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
 		Orderable: true,
@@ -1183,9 +1175,8 @@ also be configured.`,
 	"clientcertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `ClientCertificateKey contains the key associated to the clientCertificate. Must
-be provided only when
-ClientCertificate has been configured.`,
+		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided only
+when ` + "`" + `clientCertificate` + "`" + ` has been configured.`,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
 		Orderable: true,
@@ -1197,7 +1188,7 @@ ClientCertificate has been configured.`,
 	"continueonerror": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ContinueOnError",
-		Description: `If set to true and ` + "`" + `mode` + "`" + ` is in ` + "`" + `Pre` + "`" + `, the request will be honored even if
+		Description: `If set to ` + "`" + `true` + "`" + ` and ` + "`" + `mode` + "`" + ` is in ` + "`" + `Pre` + "`" + `, the request will be honored even if
 calling the hook fails.`,
 		Exposed: true,
 		Name:    "continueOnError",
@@ -1233,7 +1224,7 @@ calling the hook fails.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1246,7 +1237,7 @@ calling the hook fails.`,
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1258,7 +1249,7 @@ calling the hook fails.`,
 	"endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `Endpoint contains the full address of the remote processor endpoint.`,
+		Description:    `Contains the full address of the remote processor endpoint.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
@@ -1269,7 +1260,7 @@ calling the hook fails.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the hook will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1280,7 +1271,7 @@ calling the hook fails.`,
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -1295,7 +1286,7 @@ propagated it will become a fallback for children namespaces.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1310,7 +1301,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{"Both", "Post", "Pre"},
 		ConvertedName:  "Mode",
 		DefaultValue:   HookPolicyModePre,
-		Description:    `Mode define the type of the hook.`,
+		Description:    `Defines the type of hook.`,
 		Exposed:        true,
 		Name:           "mode",
 		Orderable:      true,
@@ -1321,7 +1312,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1353,7 +1344,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1367,7 +1358,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1379,7 +1370,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"propagationhidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
+		Description: `If set to ` + "`" + `true` + "`" + ` while the policy is propagating, it won't be visible to children
 namespace, but still used for policy resolution.`,
 		Exposed:   true,
 		Getter:    true,
@@ -1392,7 +1383,7 @@ namespace, but still used for policy resolution.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1404,8 +1395,8 @@ namespace, but still used for policy resolution.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject contains the tag expression that an object must match in order to
-trigger the hook.`,
+		Description: `Contains the tag expression that an object must match in order to trigger the
+hook.`,
 		Exposed: true,
 		Name:    "subject",
 		Stored:  true,
@@ -1506,31 +1497,28 @@ func (o SparseHookPoliciesList) Version() int {
 
 // SparseHookPolicy represents the sparse version of a hookpolicy.
 type SparseHookPolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// CertificateAuthority contains the pem block of the certificate authority used by
-	// the remote endpoint.
+	// Contains the PEM block of the certificate authority used by the remote endpoint.
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
 
-	// ClientCertificate contains the client certificate that will be used to connect
+	// Contains the client certificate that will be used to connect
 	// to the remote endpoint. If provided, the private key associated with this
-	// certificate must
-	// also be configured.
+	// certificate must also be configured.
 	ClientCertificate *string `json:"clientCertificate,omitempty" msgpack:"clientCertificate,omitempty" bson:"clientcertificate,omitempty" mapstructure:"clientCertificate,omitempty"`
 
-	// ClientCertificateKey contains the key associated to the clientCertificate. Must
-	// be provided only when
-	// ClientCertificate has been configured.
+	// Contains the key associated with the `clientCertificate`. It must be provided only
+	// when `clientCertificate` has been configured.
 	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" msgpack:"clientCertificateKey,omitempty" bson:"clientcertificatekey,omitempty" mapstructure:"clientCertificateKey,omitempty"`
 
-	// If set to true and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
+	// If set to `true` and `mode` is in `Pre`, the request will be honored even if
 	// calling the hook fails.
 	ContinueOnError *bool `json:"continueOnError,omitempty" msgpack:"continueOnError,omitempty" bson:"continueonerror,omitempty" mapstructure:"continueOnError,omitempty"`
 
@@ -1540,51 +1528,51 @@ type SparseHookPolicy struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// Endpoint contains the full address of the remote processor endpoint.
+	// Contains the full address of the remote processor endpoint.
 	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the hook will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Mode define the type of the hook.
+	// Defines the type of hook.
 	Mode *HookPolicyModeValue `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"mode,omitempty" mapstructure:"mode,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
+	// If set to `true` while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
 	PropagationHidden *bool `json:"propagationHidden,omitempty" msgpack:"propagationHidden,omitempty" bson:"propagationhidden,omitempty" mapstructure:"propagationHidden,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject contains the tag expression that an object must match in order to
-	// trigger the hook.
+	// Contains the tag expression that an object must match in order to trigger the
+	// hook.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.

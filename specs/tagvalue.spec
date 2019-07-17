@@ -5,7 +5,7 @@ model:
   entity_name: TagValue
   package: tagle
   group: core/tag
-  description: Represents all values associated to tag key.
+  description: Represents all values associated to a tag key.
 
 # Attributes
 attributes:

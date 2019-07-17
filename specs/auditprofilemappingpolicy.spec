@@ -6,19 +6,19 @@ model:
   package: squall
   group: policy/audit
   description: |-
-    Defines an audit policy that determine the sets of enforcers that must implement
-    a specific audit profile.
+    Use an audit profile mapping to define the set of enforcers that must 
+    implement a specific audit profile.
   aliases:
   - audpol
   - audpols
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the mapping with the given ID.
     global_parameters:
     - $propagatable
   update:
-    description: Updates the object with the given ID.
+    description: Updates the mapping with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the mapping with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -43,8 +43,7 @@ attributes:
   v1:
   - name: object
     description: |-
-      Object of the policy is the selector of the audit profiles that must be applied
-      based on this policy.
+      The tag or tag expression that identifies the audit profile to be mapped.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -53,8 +52,7 @@ attributes:
 
   - name: subject
     description: |-
-      Subject of the policy is a selector of the enforcers that must implement the
-      policy.
+      The tag or tag expression that identifies the enforcer(s) to implement the audit profile.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -65,8 +63,8 @@ attributes:
 relations:
 - rest_name: auditprofile
   get:
-    description: Returns the list of audit profiles that are referred by this policy.
+    description: Returns the list of audit profiles that are referred to by this mapping.
 
 - rest_name: enforcer
   get:
-    description: Returns the list of enforcers that are affected by this poliy.
+    description: Returns the list of enforcers that are affected by this mapping.

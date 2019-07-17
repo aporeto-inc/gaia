@@ -5,3 +5,4 @@ vendor
 artifacts
 .idea/*
 values_codecgen.go
+.DS_Store

@@ -6,13 +6,14 @@ model:
   package: jenova
   group: visualization/depmaps
   description: |-
-    This api returns a data structure representing the graph of all processing units
+    Returns a data structure representing the graph of all processing units
     and their connections in a particular namespace, in a given time window. To pass
-    the time window you can use the query parameters 'startAbsolute', 'endAbsolute',
-    'startRelative', 'endRelative'.
+    the time window you can use the query parameters `startAbsolute`, `endAbsolute`,
+    `startRelative`, `endRelative`.
 
-    For example
-      "/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000".
+    For example:
+
+    `/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000`.
   aliases:
   - depmaps
   - depmap
@@ -21,7 +22,7 @@ model:
 attributes:
   v1:
   - name: edges
-    description: edges are the edges of the map.
+    description: The edges of the map.
     type: refMap
     exposed: true
     subtype: graphedge
@@ -30,7 +31,7 @@ attributes:
       refMode: pointer
 
   - name: groups
-    description: Groups provide information about the group values.
+    description: Provides information about the group values.
     type: refMap
     exposed: true
     subtype: graphgroup
@@ -39,7 +40,7 @@ attributes:
       refMode: pointer
 
   - name: nodes
-    description: nodes refers to the nodes of the map.
+    description: Refers to the nodes of the map.
     type: refMap
     exposed: true
     subtype: graphnode
@@ -48,7 +49,7 @@ attributes:
       refMode: pointer
 
   - name: viewSuggestions
-    description: viewSuggestions provides suggestion of views based on relevant tags.
+    description: Provides suggested views based on relevant tags.
     type: list
     exposed: true
     subtype: string

@@ -5,14 +5,17 @@ model:
   entity_name: ClaimMapping
   package: squall
   group: policy/services
-  description: Represents a mapping from a claim name to an HTTP header.
+  description: |-
+    Allows you to map a claim in a token to an HTTP header. This can be useful 
+    when offloading authentication and authorization to Aporeto. Some applications 
+    may expect to receive information in the HTTP header.
   detached: true
 
 # Attributes
 attributes:
   v1:
   - name: claimName
-    description: Claim name is the name of the claim that must be mapped to an HTTP
+    description: The name of the claim to map to the HTTP header.
       header.
     type: string
     exposed: true
@@ -24,7 +27,7 @@ attributes:
     example_value: email
 
   - name: targetHTTPHeader
-    description: The target HTTP header where this claim name must be mapped.
+    description: The HTTP header that will be the destination of the mapped claim.
     type: string
     exposed: true
     stored: true

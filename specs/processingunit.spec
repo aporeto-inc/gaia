@@ -6,23 +6,24 @@ model:
   package: squall
   group: core/processingunit
   description: |-
-    A Processing Unit reprents anything that can compute. It can be a Docker
-    container, or a simple Unix process. They are created, updated and deleted by
-    the system as they come and go. You can only modify its tags.  Processing Units
-    use Network Access Policies to define which other Processing Units or External
-    Services they can communicate with and File Access Policies to define what File
-    Paths they can use.
+    A processing unit represents anything that can compute. It can be a Docker
+    container or a simple Unix process. Processing units are created, updated, and
+    deleted by
+    the system as they come and go. You can only modify their tags. Processing units
+    use network policies to define which other processing units or external
+    networks they can communicate with and file access policies to define what file
+    paths they can use.
   aliases:
   - pu
   - pus
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the processing unit with the given ID.
     global_parameters:
     - $archivable
   update:
-    description: Updates the object with the given ID.
+    description: Updates the processing unit with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the processing unit with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -54,23 +55,29 @@ attributes:
   v1:
   - name: collectInfo
     description: |-
-      CollectInfo indicates to the enforcer it needs to collect information for this
-      PU.
+      A value of `true` indicates to the enforcer that it needs to collect information
+      for
+      this processing unit.
     type: boolean
     exposed: true
     stored: true
 
   - name: collectedInfo
-    description: CollectedInfo represents the latest info collected by the enforcer
-      for this PU.
+    description: |-
+      Represents the latest information collected by the enforcer for this processing
+      unit.
     type: external
     exposed: true
     subtype: map[string]string
     stored: true
 
   - name: enforcementStatus
-    description: EnforcementStatus communicates the state of the enforcer for that
-      PU.
+    description: |-
+      Contains the state of the enforcer for the processing unit. `Inactive`
+      (default):
+      the enforcer is not enforcing any host service. `Active`: the enforcer is
+      enforcing
+      a host service. `Failed`.
     type: enum
     exposed: true
     stored: true
@@ -82,17 +89,14 @@ attributes:
     filterable: true
 
   - name: enforcerID
-    description: EnforcerID is the ID of the enforcer associated with the processing
-      unit.
+    description: The ID of the enforcer associated with the processing unit.
     type: string
     exposed: true
     stored: true
     filterable: true
 
   - name: enforcerNamespace
-    description: |-
-      enforcerNamespace is the namespace of the enforcer associated with the
-      processing unit.
+    description: The namespace of the enforcer associated with the processing unit.
     type: string
     exposed: true
     stored: true
@@ -107,7 +111,7 @@ attributes:
     deprecated: true
 
   - name: images
-    description: List of images or executable paths used by the Processing Unit.
+    description: List of images or executable paths used by the processing unit.
     type: list
     exposed: true
     subtype: string
@@ -116,9 +120,7 @@ attributes:
     filterable: true
 
   - name: lastCollectionTime
-    description: |-
-      LastCollectionTime represents the date and time when the info have been
-      collected.
+    description: The date and time when the information was collected.
     type: time
     exposed: true
     stored: true
@@ -129,7 +131,7 @@ attributes:
     stored: true
 
   - name: lastSyncTime
-    description: LastSyncTime is the time when the policy was last resolved.
+    description: The date and time of the last policy resolution.
     type: time
     exposed: true
     stored: true
@@ -137,16 +139,17 @@ attributes:
     orderable: true
 
   - name: nativeContextID
-    description: NativeContextID is the Docker UUID or service PID.
+    description: The Docker UUID or service PID.
     type: string
     exposed: true
     stored: true
 
   - name: networkServices
     description: |-
-      NetworkServices is the list of services that this processing unit has declared
-      that it will be listening to. This can happen either with an activation command
-      or by exposing the ports in a container manifest.
+      The list of services that this processing unit has declared that it will be
+      listening to,
+      either in its activation command or by exposing the ports in a container
+      manifest.
     type: refList
     exposed: true
     subtype: processingunitservice
@@ -158,7 +161,10 @@ attributes:
       refMode: pointer
 
   - name: operationalStatus
-    description: OperationalStatus of the processing unit.
+    description: |-
+      Operational status of the processing unit: `Initialized` (default), `Paused`,
+      `Running`,
+      `Stopped`, or `Terminated`.
     type: enum
     exposed: true
     stored: true
@@ -172,7 +178,7 @@ attributes:
     filterable: true
 
   - name: tracing
-    description: Tracing indicates if this PU must be placed in tracing mode.
+    description: Indicates if this processing unit must be placed in tracing mode.
     type: ref
     exposed: true
     subtype: tracemode
@@ -181,7 +187,10 @@ attributes:
       refMode: pointer
 
   - name: type
-    description: Type of the container ecosystem.
+    description: |-
+      Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
+      `LinuxService`,
+      `RKT`, `User`, or `SSHSession`.
     type: enum
     exposed: true
     stored: true
@@ -200,8 +209,9 @@ attributes:
 
   - name: unreachable
     description: |-
-      Control plane will set this value to true if it hasn't heard from the pu for
-      more than 5m.
+      The Aporeto control plane sets this value to `true` if it hasn't heard from the
+      processing
+      unit for more than five minutes.
     type: boolean
     exposed: true
     stored: true
@@ -213,8 +223,8 @@ relations:
 - rest_name: poke
   get:
     description: |-
-      Sends a poke empty object. This will send a snaphot of the pu to time series
-      database.
+      Sends a poke empty object. This will send a snapshot of the processing unit to
+      the time series database.
     parameters:
       entries:
       - name: enforcementStatus
@@ -231,7 +241,7 @@ relations:
         type: boolean
 
       - name: notify
-        description: Can be sent to trigger a ProcessingUnitRefresh event that will
+        description: Can be sent to trigger a `ProcessingUnitRefresh` event that will
           be handled by the enforcer. If this is set, all other additional parameters
           will be ignored.
         type: boolean

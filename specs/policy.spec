@@ -5,7 +5,7 @@ model:
   entity_name: Policy
   package: squall
   group: core/policy
-  description: Policy represents the policy primitive used by all aporeto policies.
+  description: Represents the policy primitive used by all Aporeto policies.
   get:
     description: Retrieves the object with the given ID.
   delete:
@@ -58,7 +58,7 @@ indexes:
 attributes:
   v1:
   - name: action
-    description: Action defines set of actions that must be enforced when a dependency
+    description: Defines a set of actions that must be enforced when a dependency
       is met.
     type: external
     exposed: true
@@ -78,7 +78,7 @@ attributes:
     stored: true
 
   - name: expirationTime
-    description: If set the policy will be auto deleted at the given time.
+    description: If set the policy will be automatically deleted at the given time.
     type: time
     exposed: true
     stored: true
@@ -87,7 +87,7 @@ attributes:
 
   - name: object
     description: |-
-      Object represents set of entities that another entity depends on. As subjects,
+      Represents set of entities that another entity depends on. As subjects,
       objects are identified as logical operations on tags when a policy is defined.
     type: external
     exposed: true
@@ -100,7 +100,7 @@ attributes:
 
   - name: relation
     description: |-
-      Relation describes the required operation to be performed between subjects and
+      Describes the required operation to be performed between subjects and
       objects.
     type: list
     exposed: true
@@ -109,9 +109,9 @@ attributes:
 
   - name: subject
     description: |-
-      Subject represent sets of entities that will have a dependency other entities.
+      Represents sets of entities that will have a dependency other entities.
       Subjects are defined as logical operations on tags. Logical operations can
-      includes AND/OR.
+      include `AND` and `OR`.
     type: external
     exposed: true
     subtype: '[][]string'

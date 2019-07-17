@@ -156,36 +156,36 @@ type FlowReport struct {
 	// ID of the destination.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"-" mapstructure:"destinationID,omitempty"`
 
-	// Type of the destination.
+	// Destination IP address.
 	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
 
-	// Namespace of the receiver.
+	// Namespace of the destination.
 	DestinationNamespace string `json:"destinationNamespace" msgpack:"destinationNamespace" bson:"-" mapstructure:"destinationNamespace,omitempty"`
 
 	// Port of the destination.
 	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
 
-	// Type of the source.
+	// Destination type.
 	DestinationType FlowReportDestinationTypeValue `json:"destinationType" msgpack:"destinationType" bson:"-" mapstructure:"destinationType,omitempty"`
 
-	// This field is only set if 'action' is set to 'Reject' and specifies the reason
+	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
 	DropReason string `json:"dropReason" msgpack:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
 
-	// Tells is the flow has been encrypted.
+	// If `true`, the flow was encrypted.
 	Encrypted bool `json:"encrypted" msgpack:"encrypted" bson:"-" mapstructure:"encrypted,omitempty"`
 
 	// This is here for backward compatibility.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// Tells if the flow is from design mode.
+	// If `true`, design mode is on.
 	Observed bool `json:"observed" msgpack:"observed" bson:"-" mapstructure:"observed,omitempty"`
 
 	// Action observed on the flow.
 	ObservedAction FlowReportObservedActionValue `json:"observedAction" msgpack:"observedAction" bson:"-" mapstructure:"observedAction,omitempty"`
 
-	// This field is only set if 'observedAction' is set to 'Reject' and specifies the
-	// reason for the rejection.
+	// Specifies the reason for a rejection. Only set if `observedAction` is set
+	// to `Reject`.
 	ObservedDropReason string `json:"observedDropReason" msgpack:"observedDropReason" bson:"-" mapstructure:"observedDropReason,omitempty"`
 
 	// Value of the encryption of the network policy that observed the flow.
@@ -203,7 +203,7 @@ type FlowReport struct {
 	// Namespace of the network policy that accepted the flow.
 	PolicyNamespace string `json:"policyNamespace" msgpack:"policyNamespace" bson:"-" mapstructure:"policyNamespace,omitempty"`
 
-	// protocol number.
+	// Protocol number.
 	Protocol int `json:"protocol" msgpack:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
 
 	// Hash of the claims used to communicate.
@@ -227,16 +227,16 @@ type FlowReport struct {
 	// Type of the source.
 	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
 
-	// Namespace of the receiver.
+	// Namespace of the source.
 	SourceNamespace string `json:"sourceNamespace" msgpack:"sourceNamespace" bson:"-" mapstructure:"sourceNamespace,omitempty"`
 
 	// Type of the source.
 	SourceType FlowReportSourceTypeValue `json:"sourceType" msgpack:"sourceType" bson:"-" mapstructure:"sourceType,omitempty"`
 
-	// Date of the report.
+	// Time and date of the log.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	// Number of flows in the report.
+	// Number of flows in the log.
 	Value int `json:"value" msgpack:"value" bson:"-" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -290,7 +290,7 @@ func (o *FlowReport) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *FlowReport) Doc() string {
 
-	return `Post a new flow statistics report.`
+	return `Post a new flow log.`
 }
 
 func (o *FlowReport) String() string {
@@ -710,7 +710,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"DestinationIP": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationIP",
-		Description:    `Type of the destination.`,
+		Description:    `Destination IP address.`,
 		Exposed:        true,
 		Name:           "destinationIP",
 		Type:           "string",
@@ -718,7 +718,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"DestinationNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationNamespace",
-		Description:    `Namespace of the receiver.`,
+		Description:    `Namespace of the destination.`,
 		Exposed:        true,
 		Name:           "destinationNamespace",
 		Type:           "string",
@@ -734,7 +734,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"DestinationType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
 		ConvertedName:  "DestinationType",
-		Description:    `Type of the source.`,
+		Description:    `Destination type.`,
 		Exposed:        true,
 		Name:           "destinationType",
 		Required:       true,
@@ -743,7 +743,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"DropReason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DropReason",
-		Description: `This field is only set if 'action' is set to 'Reject' and specifies the reason
+		Description: `This field is only set if ` + "`" + `action` + "`" + ` is set to ` + "`" + `Reject` + "`" + `. It specifies the reason
 for the rejection.`,
 		Exposed: true,
 		Name:    "dropReason",
@@ -752,7 +752,7 @@ for the rejection.`,
 	"Encrypted": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Encrypted",
-		Description:    `Tells is the flow has been encrypted.`,
+		Description:    `If ` + "`" + `true` + "`" + `, the flow was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypted",
 		Type:           "boolean",
@@ -770,7 +770,7 @@ for the rejection.`,
 	"Observed": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Observed",
-		Description:    `Tells if the flow is from design mode.`,
+		Description:    `If ` + "`" + `true` + "`" + `, design mode is on.`,
 		Exposed:        true,
 		Name:           "observed",
 		Type:           "boolean",
@@ -787,8 +787,8 @@ for the rejection.`,
 	"ObservedDropReason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservedDropReason",
-		Description: `This field is only set if 'observedAction' is set to 'Reject' and specifies the
-reason for the rejection.`,
+		Description: `Specifies the reason for a rejection. Only set if ` + "`" + `observedAction` + "`" + ` is set
+to ` + "`" + `Reject` + "`" + `.`,
 		Exposed: true,
 		Name:    "observedDropReason",
 		Type:    "string",
@@ -838,7 +838,7 @@ reason for the rejection.`,
 	"Protocol": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocol",
-		Description:    `protocol number.`,
+		Description:    `Protocol number.`,
 		Exposed:        true,
 		Name:           "protocol",
 		Required:       true,
@@ -905,7 +905,7 @@ reason for the rejection.`,
 	"SourceNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
-		Description:    `Namespace of the receiver.`,
+		Description:    `Namespace of the source.`,
 		Exposed:        true,
 		Name:           "sourceNamespace",
 		Type:           "string",
@@ -922,7 +922,7 @@ reason for the rejection.`,
 	"Timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
-		Description:    `Date of the report.`,
+		Description:    `Time and date of the log.`,
 		Exposed:        true,
 		Name:           "timestamp",
 		Type:           "time",
@@ -930,7 +930,7 @@ reason for the rejection.`,
 	"Value": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Value",
-		Description:    `Number of flows in the report.`,
+		Description:    `Number of flows in the log.`,
 		Exposed:        true,
 		Name:           "value",
 		Required:       true,
@@ -961,7 +961,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"destinationip": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationIP",
-		Description:    `Type of the destination.`,
+		Description:    `Destination IP address.`,
 		Exposed:        true,
 		Name:           "destinationIP",
 		Type:           "string",
@@ -969,7 +969,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"destinationnamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationNamespace",
-		Description:    `Namespace of the receiver.`,
+		Description:    `Namespace of the destination.`,
 		Exposed:        true,
 		Name:           "destinationNamespace",
 		Type:           "string",
@@ -985,7 +985,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"destinationtype": elemental.AttributeSpecification{
 		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
 		ConvertedName:  "DestinationType",
-		Description:    `Type of the source.`,
+		Description:    `Destination type.`,
 		Exposed:        true,
 		Name:           "destinationType",
 		Required:       true,
@@ -994,7 +994,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"dropreason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DropReason",
-		Description: `This field is only set if 'action' is set to 'Reject' and specifies the reason
+		Description: `This field is only set if ` + "`" + `action` + "`" + ` is set to ` + "`" + `Reject` + "`" + `. It specifies the reason
 for the rejection.`,
 		Exposed: true,
 		Name:    "dropReason",
@@ -1003,7 +1003,7 @@ for the rejection.`,
 	"encrypted": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Encrypted",
-		Description:    `Tells is the flow has been encrypted.`,
+		Description:    `If ` + "`" + `true` + "`" + `, the flow was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypted",
 		Type:           "boolean",
@@ -1021,7 +1021,7 @@ for the rejection.`,
 	"observed": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Observed",
-		Description:    `Tells if the flow is from design mode.`,
+		Description:    `If ` + "`" + `true` + "`" + `, design mode is on.`,
 		Exposed:        true,
 		Name:           "observed",
 		Type:           "boolean",
@@ -1038,8 +1038,8 @@ for the rejection.`,
 	"observeddropreason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservedDropReason",
-		Description: `This field is only set if 'observedAction' is set to 'Reject' and specifies the
-reason for the rejection.`,
+		Description: `Specifies the reason for a rejection. Only set if ` + "`" + `observedAction` + "`" + ` is set
+to ` + "`" + `Reject` + "`" + `.`,
 		Exposed: true,
 		Name:    "observedDropReason",
 		Type:    "string",
@@ -1089,7 +1089,7 @@ reason for the rejection.`,
 	"protocol": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocol",
-		Description:    `protocol number.`,
+		Description:    `Protocol number.`,
 		Exposed:        true,
 		Name:           "protocol",
 		Required:       true,
@@ -1156,7 +1156,7 @@ reason for the rejection.`,
 	"sourcenamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
-		Description:    `Namespace of the receiver.`,
+		Description:    `Namespace of the source.`,
 		Exposed:        true,
 		Name:           "sourceNamespace",
 		Type:           "string",
@@ -1173,7 +1173,7 @@ reason for the rejection.`,
 	"timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
-		Description:    `Date of the report.`,
+		Description:    `Time and date of the log.`,
 		Exposed:        true,
 		Name:           "timestamp",
 		Type:           "time",
@@ -1181,7 +1181,7 @@ reason for the rejection.`,
 	"value": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Value",
-		Description:    `Number of flows in the report.`,
+		Description:    `Number of flows in the log.`,
 		Exposed:        true,
 		Name:           "value",
 		Required:       true,
@@ -1258,36 +1258,36 @@ type SparseFlowReport struct {
 	// ID of the destination.
 	DestinationID *string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"-" mapstructure:"destinationID,omitempty"`
 
-	// Type of the destination.
+	// Destination IP address.
 	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
 
-	// Namespace of the receiver.
+	// Namespace of the destination.
 	DestinationNamespace *string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
 
 	// Port of the destination.
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
 
-	// Type of the source.
+	// Destination type.
 	DestinationType *FlowReportDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"-" mapstructure:"destinationType,omitempty"`
 
-	// This field is only set if 'action' is set to 'Reject' and specifies the reason
+	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
 	DropReason *string `json:"dropReason,omitempty" msgpack:"dropReason,omitempty" bson:"-" mapstructure:"dropReason,omitempty"`
 
-	// Tells is the flow has been encrypted.
+	// If `true`, the flow was encrypted.
 	Encrypted *bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"-" mapstructure:"encrypted,omitempty"`
 
 	// This is here for backward compatibility.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// Tells if the flow is from design mode.
+	// If `true`, design mode is on.
 	Observed *bool `json:"observed,omitempty" msgpack:"observed,omitempty" bson:"-" mapstructure:"observed,omitempty"`
 
 	// Action observed on the flow.
 	ObservedAction *FlowReportObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"-" mapstructure:"observedAction,omitempty"`
 
-	// This field is only set if 'observedAction' is set to 'Reject' and specifies the
-	// reason for the rejection.
+	// Specifies the reason for a rejection. Only set if `observedAction` is set
+	// to `Reject`.
 	ObservedDropReason *string `json:"observedDropReason,omitempty" msgpack:"observedDropReason,omitempty" bson:"-" mapstructure:"observedDropReason,omitempty"`
 
 	// Value of the encryption of the network policy that observed the flow.
@@ -1305,7 +1305,7 @@ type SparseFlowReport struct {
 	// Namespace of the network policy that accepted the flow.
 	PolicyNamespace *string `json:"policyNamespace,omitempty" msgpack:"policyNamespace,omitempty" bson:"-" mapstructure:"policyNamespace,omitempty"`
 
-	// protocol number.
+	// Protocol number.
 	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`
 
 	// Hash of the claims used to communicate.
@@ -1329,16 +1329,16 @@ type SparseFlowReport struct {
 	// Type of the source.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
 
-	// Namespace of the receiver.
+	// Namespace of the source.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
 
 	// Type of the source.
 	SourceType *FlowReportSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"-" mapstructure:"sourceType,omitempty"`
 
-	// Date of the report.
+	// Time and date of the log.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	// Number of flows in the report.
+	// Number of flows in the log.
 	Value *int `json:"value,omitempty" msgpack:"value,omitempty" bson:"-" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

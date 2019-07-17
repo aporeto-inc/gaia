@@ -83,13 +83,13 @@ func (o RecipesList) Version() int {
 
 // Recipe represents the model of a recipe
 type Recipe struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -98,56 +98,56 @@ type Recipe struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Icon contains a base64 image for the recipe.
+	// Contains a base64-encoded image for the recipe.
 	Icon string `json:"icon" msgpack:"icon" bson:"icon" mapstructure:"icon,omitempty"`
 
-	// Key is the unique key of the recipe.
+	// The unique key of the recipe.
 	Key string `json:"key" msgpack:"key" bson:"key" mapstructure:"key,omitempty"`
 
-	// Label defines the recipe.
+	// Defines the recipe.
 	Label string `json:"label" msgpack:"label" bson:"label" mapstructure:"label,omitempty"`
 
-	// LongDescription provides a long description of the recipe.
+	// Provides a long description of the recipe.
 	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Options of the recipe.
 	Options *RecipeOptions `json:"options" msgpack:"options" bson:"options" mapstructure:"options,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Steps contains all the steps with parameters to follow for the recipe.
+	// Contains all the steps with parameters to follow for the recipe.
 	Steps []*UIStep `json:"steps" msgpack:"steps" bson:"steps" mapstructure:"steps,omitempty"`
 
-	// successfullMessage is presented if present and success.
+	// A string message presented upon success (optional).
 	SuccessfullMessage string `json:"successfullMessage" msgpack:"successfullMessage" bson:"successfullmessage" mapstructure:"successfullMessage,omitempty"`
 
-	// TargetIdentities contains the list of identities the recipes will try to create.
+	// Contains the list of identities the recipes will try to create.
 	TargetIdentities []string `json:"targetIdentities" msgpack:"targetIdentities" bson:"targetidentities" mapstructure:"targetIdentities,omitempty"`
 
 	// Template of the recipe to import.
 	Template string `json:"template" msgpack:"template" bson:"template" mapstructure:"template,omitempty"`
 
-	// templateHash is a hash of the template.
+	// A hash of the template.
 	TemplateHash string `json:"templateHash" msgpack:"templateHash" bson:"templatehash" mapstructure:"templateHash,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -160,8 +160,7 @@ type Recipe struct {
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -225,7 +224,7 @@ func (o *Recipe) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Recipe) Doc() string {
 
-	return `A Recipe defines a list of steps to define a workflow.`
+	return `Defines a list of steps that make up a workflow.`
 }
 
 func (o *Recipe) String() string {
@@ -767,7 +766,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -780,7 +779,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -792,7 +791,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -830,7 +829,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -843,7 +842,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"Icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the recipe.`,
+		Description:    `Contains a base64-encoded image for the recipe.`,
 		Exposed:        true,
 		Name:           "icon",
 		Stored:         true,
@@ -852,7 +851,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"Key": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Key",
-		Description:    `Key is the unique key of the recipe.`,
+		Description:    `The unique key of the recipe.`,
 		Exposed:        true,
 		Name:           "key",
 		ReadOnly:       true,
@@ -864,7 +863,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Label",
 		CreationOnly:   true,
 		DefaultValue:   "magicpanda",
-		Description:    `Label defines the recipe.`,
+		Description:    `Defines the recipe.`,
 		Exposed:        true,
 		Name:           "label",
 		Required:       true,
@@ -874,7 +873,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"LongDescription": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
-		Description:    `LongDescription provides a long description of the recipe.`,
+		Description:    `Provides a long description of the recipe.`,
 		Exposed:        true,
 		Name:           "longDescription",
 		Stored:         true,
@@ -884,7 +883,7 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -899,7 +898,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -931,7 +930,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -955,7 +954,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -967,7 +966,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -979,7 +978,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Steps",
-		Description:    `Steps contains all the steps with parameters to follow for the recipe.`,
+		Description:    `Contains all the steps with parameters to follow for the recipe.`,
 		Exposed:        true,
 		Name:           "steps",
 		Stored:         true,
@@ -989,7 +988,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"SuccessfullMessage": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SuccessfullMessage",
-		Description:    `successfullMessage is presented if present and success.`,
+		Description:    `A string message presented upon success (optional).`,
 		Exposed:        true,
 		Name:           "successfullMessage",
 		Stored:         true,
@@ -998,7 +997,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"TargetIdentities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetIdentities",
-		Description:    `TargetIdentities contains the list of identities the recipes will try to create.`,
+		Description:    `Contains the list of identities the recipes will try to create.`,
 		Exposed:        true,
 		Name:           "targetIdentities",
 		Required:       true,
@@ -1018,7 +1017,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"TemplateHash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TemplateHash",
-		Description:    `templateHash is a hash of the template.`,
+		Description:    `A hash of the template.`,
 		Exposed:        true,
 		Name:           "templateHash",
 		ReadOnly:       true,
@@ -1068,16 +1067,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1087,7 +1085,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1100,7 +1098,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1112,7 +1110,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1150,7 +1148,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1163,7 +1161,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the recipe.`,
+		Description:    `Contains a base64-encoded image for the recipe.`,
 		Exposed:        true,
 		Name:           "icon",
 		Stored:         true,
@@ -1172,7 +1170,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"key": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Key",
-		Description:    `Key is the unique key of the recipe.`,
+		Description:    `The unique key of the recipe.`,
 		Exposed:        true,
 		Name:           "key",
 		ReadOnly:       true,
@@ -1184,7 +1182,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Label",
 		CreationOnly:   true,
 		DefaultValue:   "magicpanda",
-		Description:    `Label defines the recipe.`,
+		Description:    `Defines the recipe.`,
 		Exposed:        true,
 		Name:           "label",
 		Required:       true,
@@ -1194,7 +1192,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"longdescription": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
-		Description:    `LongDescription provides a long description of the recipe.`,
+		Description:    `Provides a long description of the recipe.`,
 		Exposed:        true,
 		Name:           "longDescription",
 		Stored:         true,
@@ -1204,7 +1202,7 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1219,7 +1217,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1251,7 +1249,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1275,7 +1273,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1287,7 +1285,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1299,7 +1297,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Steps",
-		Description:    `Steps contains all the steps with parameters to follow for the recipe.`,
+		Description:    `Contains all the steps with parameters to follow for the recipe.`,
 		Exposed:        true,
 		Name:           "steps",
 		Stored:         true,
@@ -1309,7 +1307,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"successfullmessage": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SuccessfullMessage",
-		Description:    `successfullMessage is presented if present and success.`,
+		Description:    `A string message presented upon success (optional).`,
 		Exposed:        true,
 		Name:           "successfullMessage",
 		Stored:         true,
@@ -1318,7 +1316,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"targetidentities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetIdentities",
-		Description:    `TargetIdentities contains the list of identities the recipes will try to create.`,
+		Description:    `Contains the list of identities the recipes will try to create.`,
 		Exposed:        true,
 		Name:           "targetIdentities",
 		Required:       true,
@@ -1338,7 +1336,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"templatehash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TemplateHash",
-		Description:    `templateHash is a hash of the template.`,
+		Description:    `A hash of the template.`,
 		Exposed:        true,
 		Name:           "templateHash",
 		ReadOnly:       true,
@@ -1388,16 +1386,15 @@ georedundancy.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1467,13 +1464,13 @@ func (o SparseRecipesList) Version() int {
 
 // SparseRecipe represents the sparse version of a recipe.
 type SparseRecipe struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1482,56 +1479,56 @@ type SparseRecipe struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Icon contains a base64 image for the recipe.
+	// Contains a base64-encoded image for the recipe.
 	Icon *string `json:"icon,omitempty" msgpack:"icon,omitempty" bson:"icon,omitempty" mapstructure:"icon,omitempty"`
 
-	// Key is the unique key of the recipe.
+	// The unique key of the recipe.
 	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"key,omitempty" mapstructure:"key,omitempty"`
 
-	// Label defines the recipe.
+	// Defines the recipe.
 	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"label,omitempty" mapstructure:"label,omitempty"`
 
-	// LongDescription provides a long description of the recipe.
+	// Provides a long description of the recipe.
 	LongDescription *string `json:"longDescription,omitempty" msgpack:"longDescription,omitempty" bson:"longdescription,omitempty" mapstructure:"longDescription,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Options of the recipe.
 	Options *RecipeOptions `json:"options,omitempty" msgpack:"options,omitempty" bson:"options,omitempty" mapstructure:"options,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Steps contains all the steps with parameters to follow for the recipe.
+	// Contains all the steps with parameters to follow for the recipe.
 	Steps *[]*UIStep `json:"steps,omitempty" msgpack:"steps,omitempty" bson:"steps,omitempty" mapstructure:"steps,omitempty"`
 
-	// successfullMessage is presented if present and success.
+	// A string message presented upon success (optional).
 	SuccessfullMessage *string `json:"successfullMessage,omitempty" msgpack:"successfullMessage,omitempty" bson:"successfullmessage,omitempty" mapstructure:"successfullMessage,omitempty"`
 
-	// TargetIdentities contains the list of identities the recipes will try to create.
+	// Contains the list of identities the recipes will try to create.
 	TargetIdentities *[]string `json:"targetIdentities,omitempty" msgpack:"targetIdentities,omitempty" bson:"targetidentities,omitempty" mapstructure:"targetIdentities,omitempty"`
 
 	// Template of the recipe to import.
 	Template *string `json:"template,omitempty" msgpack:"template,omitempty" bson:"template,omitempty" mapstructure:"template,omitempty"`
 
-	// templateHash is a hash of the template.
+	// A hash of the template.
 	TemplateHash *string `json:"templateHash,omitempty" msgpack:"templateHash,omitempty" bson:"templatehash,omitempty" mapstructure:"templateHash,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1544,8 +1541,7 @@ type SparseRecipe struct {
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
-	// geographical zone. This is used for sharding and
-	// georedundancy.
+	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

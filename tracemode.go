@@ -9,19 +9,19 @@ import (
 
 // TraceMode represents the model of a tracemode
 type TraceMode struct {
-	// IPTables instructs the enforcers to provide an iptables trace for a PU.
+	// Instructs the enforcers to provide an iptables trace for a processing unit.
 	IPTables bool `json:"IPTables" msgpack:"IPTables" bson:"iptables" mapstructure:"IPTables,omitempty"`
 
 	// Instructs the enforcer to send records for all
-	// application initiated connections.
+	// application-initiated connections.
 	ApplicationConnections bool `json:"applicationConnections" msgpack:"applicationConnections" bson:"applicationconnections" mapstructure:"applicationConnections,omitempty"`
 
 	// Determines the length of the time interval that the trace must be
-	// enabled.
+	// enabled, using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
 	Interval string `json:"interval" msgpack:"interval" bson:"interval" mapstructure:"interval,omitempty"`
 
-	// Instructs the enforcer to send records for all network
-	// initiated connections.
+	// Instructs the enforcer to send records for all
+	// network-initiated connections.
 	NetworkConnections bool `json:"networkConnections" msgpack:"networkConnections" bson:"networkconnections" mapstructure:"networkConnections,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

@@ -6,15 +6,15 @@ model:
   package: gaga
   group: core/policy
   description: |-
-    ProcessingUnitRefresh is sent to client when a poke has been triggered using the
-    parameter `?notify=true`. This is used by instances of enforcerd to be notify an
+    Sent to client when a poke has been triggered using the
+    parameter `?notify=true`. This is used by instances of enforcerd to notify an
     external change on the processing unit must be processed.
 
 # Attributes
 attributes:
   v1:
   - name: ID
-    description: ID contains the original ID of the Processing Unit.
+    description: Contains the original ID of the processing unit.
     type: string
     exposed: true
     stored: true
@@ -22,7 +22,7 @@ attributes:
     orderable: true
 
   - name: namespace
-    description: Namespace contains the original namespace of the Processing Unit.
+    description: Contains the original namespace of the processing unit.
     type: string
     exposed: true
     stored: true

@@ -9,10 +9,10 @@ import (
 
 // ClaimMapping represents the model of a claimmapping
 type ClaimMapping struct {
-	// Claim name is the name of the claim that must be mapped to an HTTP header.
+	// The name of the claim to map to the HTTP header. header.
 	ClaimName string `json:"claimName" msgpack:"claimName" bson:"claimname" mapstructure:"claimName,omitempty"`
 
-	// The target HTTP header where this claim name must be mapped.
+	// The HTTP header that will be the destination of the mapped claim.
 	TargetHTTPHeader string `json:"targetHTTPHeader" msgpack:"targetHTTPHeader" bson:"targethttpheader" mapstructure:"targetHTTPHeader,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

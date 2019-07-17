@@ -6,11 +6,11 @@ model:
   package: yeul
   group: visualization/depmaps
   description: |-
-    This api returns a data structure representing the policy graph of all selected
+    Returns a data structure representing the policy graph of all selected
     processing units and their possible connectivity based on the current policies
     associated with the namespace. Users can define a selector of processing units
-    for which theyare interestedor define the identity tags of a virtual processing
-    unit that is not yetactivated.
+    in which they are interested or define the identity tags of a virtual processing
+    unit that is not yet activated.
   aliases:
   - polgraph
 
@@ -19,17 +19,16 @@ attributes:
   v1:
   - name: PUIdentity
     description: |-
-      puIdentity is the set of tags that a future activated PU will have for which the
-      user wants to evaluate policies and understand its connectivity options.
+      The set of tags that a future-activated processing unit will have for which the user 
+      wants to evaluate policies and understand its connectivity options.
     type: list
     exposed: true
     subtype: string
 
   - name: dependencyMap
     description: |-
-      The dependencyMap contains the output of the policy evalation, and it is the
-      same
-      type of dependency map as created by other APIs.
+      Contains the output of the policy evaluation. It is the same type of dependency map 
+      as created by other APIs.
     type: ref
     exposed: true
     subtype: dependencymap
@@ -38,8 +37,8 @@ attributes:
 
   - name: policyType
     description: |-
-      Defines the type of policy that should be analyzed (Network Authorzation
-      Policies, Infrastructure Policies or Combined).
+      Identifies the type of policy that should be analyzed: `Authorization` (default), 
+      `Infrastructure`, or `Combined`.
     type: enum
     exposed: true
     allowed_choices:
@@ -50,8 +49,8 @@ attributes:
 
   - name: selectors
     description: |-
-      Selectors contains the tag expression that an a processing unit
-      must match in order to evaluate policy for it.
+      Contains the tag expression that a processing unit must match in order to evaluate 
+      policy for it.
     type: external
     exposed: true
     subtype: '[][]string'

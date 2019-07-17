@@ -6,8 +6,8 @@ model:
   package: squall
   group: policy/audit
   description: |-
-    AuditProfile is an audit policy that consists of a set of audit rules. An audit
-    policy will determine that types of events that must be captured in the kernel.
+    A set of audit rules that determine the types of events that must be captured in 
+    the kernel.
   aliases:
   - ap
   get:
@@ -15,9 +15,9 @@ model:
     global_parameters:
     - $propagatable
   update:
-    description: Updates the object with the given ID.
+    description: Updates the profile with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the profile with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -35,7 +35,7 @@ model:
 attributes:
   v1:
   - name: rules
-    description: Rules is the list of audit policy rules associated with this policy.
+    description: List of audit rules associated with this profile.
     type: external
     exposed: true
     subtype: _audit_profile_rule_list

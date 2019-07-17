@@ -19,3 +19,11 @@ func NewMidgardClaims() *MidgardClaims {
 		StandardClaims: jwt.StandardClaims{},
 	}
 }
+
+// ServiceToken is a struct to represent the service tokens issued by the system.
+type ServiceToken struct {
+	User    map[string]interface{} `json:"user,omitempty"`
+	Service map[string]interface{} `json:"service,omitempty"`
+
+	jwt.StandardClaims
+}

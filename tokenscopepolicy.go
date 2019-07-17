@@ -83,24 +83,32 @@ func (o TokenScopePoliciesList) Version() int {
 
 // TokenScopePolicy represents the model of a tokenscopepolicy
 type TokenScopePolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `activeSchedule`.
 	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// A list of audience values that are allowed when issuing a service token. An
+	// empty list will allow any audience values.
+	AllowedAudiences []string `json:"allowedAudiences" msgpack:"allowedAudiences" bson:"allowedaudiences" mapstructure:"allowedAudiences,omitempty"`
+
+	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AssignedScopes is the the list of scopes that the policiy will assigns.
+	// The audience that should be assigned to a request if the caller is not
+	// requesting any specific audience.
+	AssignedAudience string `json:"assignedAudience" msgpack:"assignedAudience" bson:"assignedaudience" mapstructure:"assignedAudience,omitempty"`
+
+	// The list of scopes that the policy will assign.
 	AssignedScopes []string `json:"assignedScopes" msgpack:"assignedScopes" bson:"assignedscopes" mapstructure:"assignedScopes,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -109,40 +117,45 @@ type TokenScopePolicy struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// A list of claim keys that should be inherited from the claims of the caller to
+	// the assigned token. In this case, some of the caller claims will be propagated
+	// to resolved token.
+	InheritedClaimKeys []string `json:"inheritedClaimKeys" msgpack:"inheritedClaimKeys" bson:"inheritedclaimkeys" mapstructure:"inheritedClaimKeys,omitempty"`
+
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject defines the selection criteria that this policy must match on identiy
+	// Defines the selection criteria that this policy must match on identity
 	// and scope request information.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
@@ -159,13 +172,15 @@ type TokenScopePolicy struct {
 func NewTokenScopePolicy() *TokenScopePolicy {
 
 	return &TokenScopePolicy{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssignedScopes: []string{},
-		AssociatedTags: []string{},
-		Metadata:       []string{},
-		NormalizedTags: []string{},
-		Subject:        [][]string{},
+		ModelVersion:       1,
+		AssignedScopes:     []string{},
+		AllowedAudiences:   []string{},
+		Annotations:        map[string][]string{},
+		AssociatedTags:     []string{},
+		InheritedClaimKeys: []string{},
+		Metadata:           []string{},
+		NormalizedTags:     []string{},
+		Subject:            [][]string{},
 	}
 }
 
@@ -211,7 +226,7 @@ func (o *TokenScopePolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *TokenScopePolicy) Doc() string {
 
-	return `The TokenScopePolicy defines a set of policies that allow customization of the
+	return `Defines a set of policies that allow customization of the
 authorization tokens issued by the Aporeto service. This allows Aporeto
 generated tokens to be used by external applications.`
 }
@@ -447,7 +462,9 @@ func (o *TokenScopePolicy) ToSparse(fields ...string) elemental.SparseIdentifiab
 			ID:                   &o.ID,
 			ActiveDuration:       &o.ActiveDuration,
 			ActiveSchedule:       &o.ActiveSchedule,
+			AllowedAudiences:     &o.AllowedAudiences,
 			Annotations:          &o.Annotations,
+			AssignedAudience:     &o.AssignedAudience,
 			AssignedScopes:       &o.AssignedScopes,
 			AssociatedTags:       &o.AssociatedTags,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
@@ -456,6 +473,7 @@ func (o *TokenScopePolicy) ToSparse(fields ...string) elemental.SparseIdentifiab
 			Disabled:             &o.Disabled,
 			ExpirationTime:       &o.ExpirationTime,
 			Fallback:             &o.Fallback,
+			InheritedClaimKeys:   &o.InheritedClaimKeys,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -477,8 +495,12 @@ func (o *TokenScopePolicy) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.ActiveDuration = &(o.ActiveDuration)
 		case "activeSchedule":
 			sp.ActiveSchedule = &(o.ActiveSchedule)
+		case "allowedAudiences":
+			sp.AllowedAudiences = &(o.AllowedAudiences)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
+		case "assignedAudience":
+			sp.AssignedAudience = &(o.AssignedAudience)
 		case "assignedScopes":
 			sp.AssignedScopes = &(o.AssignedScopes)
 		case "associatedTags":
@@ -495,6 +517,8 @@ func (o *TokenScopePolicy) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.ExpirationTime = &(o.ExpirationTime)
 		case "fallback":
 			sp.Fallback = &(o.Fallback)
+		case "inheritedClaimKeys":
+			sp.InheritedClaimKeys = &(o.InheritedClaimKeys)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -535,8 +559,14 @@ func (o *TokenScopePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ActiveSchedule != nil {
 		o.ActiveSchedule = *so.ActiveSchedule
 	}
+	if so.AllowedAudiences != nil {
+		o.AllowedAudiences = *so.AllowedAudiences
+	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
+	}
+	if so.AssignedAudience != nil {
+		o.AssignedAudience = *so.AssignedAudience
 	}
 	if so.AssignedScopes != nil {
 		o.AssignedScopes = *so.AssignedScopes
@@ -561,6 +591,9 @@ func (o *TokenScopePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Fallback != nil {
 		o.Fallback = *so.Fallback
+	}
+	if so.InheritedClaimKeys != nil {
+		o.InheritedClaimKeys = *so.InheritedClaimKeys
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -689,8 +722,12 @@ func (o *TokenScopePolicy) ValueForAttribute(name string) interface{} {
 		return o.ActiveDuration
 	case "activeSchedule":
 		return o.ActiveSchedule
+	case "allowedAudiences":
+		return o.AllowedAudiences
 	case "annotations":
 		return o.Annotations
+	case "assignedAudience":
+		return o.AssignedAudience
 	case "assignedScopes":
 		return o.AssignedScopes
 	case "associatedTags":
@@ -707,6 +744,8 @@ func (o *TokenScopePolicy) ValueForAttribute(name string) interface{} {
 		return o.ExpirationTime
 	case "fallback":
 		return o.Fallback
+	case "inheritedClaimKeys":
+		return o.InheritedClaimKeys
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -736,7 +775,7 @@ var TokenScopePolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -749,8 +788,8 @@ var TokenScopePolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -761,8 +800,8 @@ activeSchedule.`,
 	"ActiveSchedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -770,10 +809,22 @@ The policy will be active for the given activeDuration.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"AllowedAudiences": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllowedAudiences",
+		Description: `A list of audience values that are allowed when issuing a service token. An
+empty list will allow any audience values.`,
+		Exposed:   true,
+		Name:      "allowedAudiences",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
+	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -782,10 +833,21 @@ The policy will be active for the given activeDuration.`,
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
+	"AssignedAudience": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssignedAudience",
+		Description: `The audience that should be assigned to a request if the caller is not
+requesting any specific audience.`,
+		Exposed:   true,
+		Name:      "assignedAudience",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
+	},
 	"AssignedScopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssignedScopes",
-		Description:    `AssignedScopes is the the list of scopes that the policiy will assigns.`,
+		Description:    `The list of scopes that the policy will assign.`,
 		Exposed:        true,
 		Name:           "assignedScopes",
 		Orderable:      true,
@@ -796,7 +858,7 @@ The policy will be active for the given activeDuration.`,
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -834,7 +896,7 @@ The policy will be active for the given activeDuration.`,
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -847,7 +909,7 @@ The policy will be active for the given activeDuration.`,
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -859,7 +921,7 @@ The policy will be active for the given activeDuration.`,
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -870,7 +932,7 @@ The policy will be active for the given activeDuration.`,
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -881,11 +943,24 @@ propagated it will become a fallback for children namespaces.`,
 		Stored:    true,
 		Type:      "boolean",
 	},
+	"InheritedClaimKeys": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "InheritedClaimKeys",
+		Description: `A list of claim keys that should be inherited from the claims of the caller to
+the assigned token. In this case, some of the caller claims will be propagated
+to resolved token.`,
+		Exposed:   true,
+		Name:      "inheritedClaimKeys",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
+	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -900,7 +975,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -932,7 +1007,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -946,7 +1021,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -958,7 +1033,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -970,7 +1045,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject defines the selection criteria that this policy must match on identiy
+		Description: `Defines the selection criteria that this policy must match on identity
 and scope request information.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1013,7 +1088,7 @@ var TokenScopePolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID is the identifier of the object.`,
+		Description:    `Identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Identifier:     true,
@@ -1026,8 +1101,8 @@ var TokenScopePolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description: `ActiveDuration defines for how long the policy will be active according to the
-activeSchedule.`,
+		Description: `Defines for how long the policy will be active according to the
+` + "`" + `activeSchedule` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeDuration",
@@ -1038,8 +1113,8 @@ activeSchedule.`,
 	"activeschedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
-The policy will be active for the given activeDuration.`,
+		Description: `Defines when the policy should be active using the cron notation.
+The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Exposed: true,
 		Getter:  true,
 		Name:    "activeSchedule",
@@ -1047,10 +1122,22 @@ The policy will be active for the given activeDuration.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"allowedaudiences": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllowedAudiences",
+		Description: `A list of audience values that are allowed when issuing a service token. An
+empty list will allow any audience values.`,
+		Exposed:   true,
+		Name:      "allowedAudiences",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
+	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
-		Description:    `Annotation stores additional information about an entity.`,
+		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "annotations",
@@ -1059,10 +1146,21 @@ The policy will be active for the given activeDuration.`,
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
+	"assignedaudience": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssignedAudience",
+		Description: `The audience that should be assigned to a request if the caller is not
+requesting any specific audience.`,
+		Exposed:   true,
+		Name:      "assignedAudience",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
+	},
 	"assignedscopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssignedScopes",
-		Description:    `AssignedScopes is the the list of scopes that the policiy will assigns.`,
+		Description:    `The list of scopes that the policy will assign.`,
 		Exposed:        true,
 		Name:           "assignedScopes",
 		Orderable:      true,
@@ -1073,7 +1171,7 @@ The policy will be active for the given activeDuration.`,
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
-		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
@@ -1111,7 +1209,7 @@ The policy will be active for the given activeDuration.`,
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description is the description of the object.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		MaxLength:      1024,
@@ -1124,7 +1222,7 @@ The policy will be active for the given activeDuration.`,
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		Description:    `Defines if the property is disabled.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "disabled",
@@ -1136,7 +1234,7 @@ The policy will be active for the given activeDuration.`,
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be auto deleted after the given time.`,
+		Description:    `If set the policy will be automatically deleted after the given time.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "expirationTime",
@@ -1147,7 +1245,7 @@ The policy will be active for the given activeDuration.`,
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
+		Description: `Indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
@@ -1158,11 +1256,24 @@ propagated it will become a fallback for children namespaces.`,
 		Stored:    true,
 		Type:      "boolean",
 	},
+	"inheritedclaimkeys": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "InheritedClaimKeys",
+		Description: `A list of claim keys that should be inherited from the claims of the caller to
+the assigned token. In this case, some of the caller claims will be propagated
+to resolved token.`,
+		Exposed:   true,
+		Name:      "inheritedClaimKeys",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
+		Description: `Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1177,7 +1288,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1209,7 +1320,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "NormalizedTags",
-		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "normalizedTags",
@@ -1223,7 +1334,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "propagate",
@@ -1235,7 +1346,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
-		Description:    `Protected defines if the object is protected.`,
+		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "protected",
@@ -1247,7 +1358,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject defines the selection criteria that this policy must match on identiy
+		Description: `Defines the selection criteria that this policy must match on identity
 and scope request information.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1350,24 +1461,32 @@ func (o SparseTokenScopePoliciesList) Version() int {
 
 // SparseTokenScopePolicy represents the sparse version of a tokenscopepolicy.
 type SparseTokenScopePolicy struct {
-	// ID is the identifier of the object.
+	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
+	// Defines for how long the policy will be active according to the
+	// `activeSchedule`.
 	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
+	// Defines when the policy should be active using the cron notation.
+	// The policy will be active for the given `activeDuration`.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
-	// Annotation stores additional information about an entity.
+	// A list of audience values that are allowed when issuing a service token. An
+	// empty list will allow any audience values.
+	AllowedAudiences *[]string `json:"allowedAudiences,omitempty" msgpack:"allowedAudiences,omitempty" bson:"allowedaudiences,omitempty" mapstructure:"allowedAudiences,omitempty"`
+
+	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AssignedScopes is the the list of scopes that the policiy will assigns.
+	// The audience that should be assigned to a request if the caller is not
+	// requesting any specific audience.
+	AssignedAudience *string `json:"assignedAudience,omitempty" msgpack:"assignedAudience,omitempty" bson:"assignedaudience,omitempty" mapstructure:"assignedAudience,omitempty"`
+
+	// The list of scopes that the policy will assign.
 	AssignedScopes *[]string `json:"assignedScopes,omitempty" msgpack:"assignedScopes,omitempty" bson:"assignedscopes,omitempty" mapstructure:"assignedScopes,omitempty"`
 
-	// AssociatedTags are the list of tags attached to an entity.
+	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1376,40 +1495,45 @@ type SparseTokenScopePolicy struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Description is the description of the object.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
+	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// If set the policy will be auto deleted after the given time.
+	// If set the policy will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
+	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start
+	// A list of claim keys that should be inherited from the claims of the caller to
+	// the assigned token. In this case, some of the caller claims will be propagated
+	// to resolved token.
+	InheritedClaimKeys *[]string `json:"inheritedClaimKeys,omitempty" msgpack:"inheritedClaimKeys,omitempty" bson:"inheritedclaimkeys,omitempty" mapstructure:"inheritedClaimKeys,omitempty"`
+
+	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Name is the name of the entity.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// NormalizedTags contains the list of normalized tags of the entities.
+	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
+	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
-	// Protected defines if the object is protected.
+	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Subject defines the selection criteria that this policy must match on identiy
+	// Defines the selection criteria that this policy must match on identity
 	// and scope request information.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
@@ -1467,8 +1591,14 @@ func (o *SparseTokenScopePolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.ActiveSchedule != nil {
 		out.ActiveSchedule = *o.ActiveSchedule
 	}
+	if o.AllowedAudiences != nil {
+		out.AllowedAudiences = *o.AllowedAudiences
+	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
+	}
+	if o.AssignedAudience != nil {
+		out.AssignedAudience = *o.AssignedAudience
 	}
 	if o.AssignedScopes != nil {
 		out.AssignedScopes = *o.AssignedScopes
@@ -1493,6 +1623,9 @@ func (o *SparseTokenScopePolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Fallback != nil {
 		out.Fallback = *o.Fallback
+	}
+	if o.InheritedClaimKeys != nil {
+		out.InheritedClaimKeys = *o.InheritedClaimKeys
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata

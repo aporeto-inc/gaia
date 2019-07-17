@@ -5,43 +5,43 @@ model:
   entity_name: Credential
   package: cactuar
   group: policy/authorization
-  description: Represents an application credential data.
+  description: Represents an app credential.
   detached: true
 
 # Attributes
 attributes:
   v1:
   - name: APIURL
-    description: The Aporeto API URL.
+    description: The URL of the Aporeto API.
     type: string
     exposed: true
 
   - name: ID
-    description: The ID of app credential.
+    description: The ID of the app credential.
     type: string
     exposed: true
 
   - name: certificate
-    description: The certificate data encoded in base64.
+    description: The base64-encoded certificate.
     type: string
     exposed: true
 
   - name: certificateAuthority
-    description: The certificate authority data encoded in base64.
+    description: The base64-encoded certificate authority.
     type: string
     exposed: true
 
   - name: certificateKey
-    description: The certificate key data encoded in base64.
+    description: The base64-encoded certificate key.
     type: string
     exposed: true
 
   - name: name
-    description: The name of app credential.
+    description: The name of the app credential.
     type: string
     exposed: true
 
   - name: namespace
-    description: The namespace of app credential.
+    description: The namespace of the app credential.
     type: string
     exposed: true

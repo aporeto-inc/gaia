@@ -5,7 +5,7 @@ model:
   entity_name: ValidateUIParameter
   package: ignis
   group: core/workflow
-  description: This api validates a list of UIParameters.
+  description: Validates a list of [UIParameter](#uiparameter) parameters.
   aliases:
   - validparam
 
@@ -13,7 +13,7 @@ model:
 attributes:
   v1:
   - name: errors
-    description: Errors contains the list of errors.
+    description: Contains the list of errors.
     type: external
     exposed: true
     subtype: map[string]string
@@ -28,7 +28,7 @@ attributes:
       refMode: pointer
 
   - name: values
-    description: Values contains the computed values.
+    description: Contains the computed values.
     type: external
     exposed: true
     subtype: map[string]interface{}

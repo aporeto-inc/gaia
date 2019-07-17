@@ -79,7 +79,7 @@ func (o SuggestedPoliciesList) Version() int {
 
 // SuggestedPolicy represents the model of a suggestedpolicy
 type SuggestedPolicy struct {
-	// List of suggested network access policies.
+	// List of suggested network policies.
 	NetworkAccessPolicies NetworkAccessPoliciesList `json:"networkAccessPolicies" msgpack:"networkAccessPolicies" bson:"networkaccesspolicies" mapstructure:"networkAccessPolicies,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -132,7 +132,7 @@ func (o *SuggestedPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *SuggestedPolicy) Doc() string {
 
-	return `Allows to get policy suggestions.`
+	return `Allows you to obtain network policy suggestions.`
 }
 
 func (o *SuggestedPolicy) String() string {
@@ -259,7 +259,7 @@ var SuggestedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"NetworkAccessPolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkAccessPolicies",
-		Description:    `List of suggested network access policies.`,
+		Description:    `List of suggested network policies.`,
 		Exposed:        true,
 		Name:           "networkAccessPolicies",
 		Orderable:      true,
@@ -274,7 +274,7 @@ var SuggestedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"networkaccesspolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkAccessPolicies",
-		Description:    `List of suggested network access policies.`,
+		Description:    `List of suggested network policies.`,
 		Exposed:        true,
 		Name:           "networkAccessPolicies",
 		Orderable:      true,
@@ -347,7 +347,7 @@ func (o SparseSuggestedPoliciesList) Version() int {
 
 // SparseSuggestedPolicy represents the sparse version of a suggestedpolicy.
 type SparseSuggestedPolicy struct {
-	// List of suggested network access policies.
+	// List of suggested network policies.
 	NetworkAccessPolicies *NetworkAccessPoliciesList `json:"networkAccessPolicies,omitempty" msgpack:"networkAccessPolicies,omitempty" bson:"networkaccesspolicies,omitempty" mapstructure:"networkAccessPolicies,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

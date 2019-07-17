@@ -60,16 +60,19 @@ var (
 		"ipinfo":                   IPInfoIdentity,
 		"isolationprofile":         IsolationProfileIdentity,
 		"issue":                    IssueIdentity,
-		"jaegerbatch":              JaegerbatchIdentity,
-		"ldapprovider":             LDAPProviderIdentity,
-		"log":                      LogIdentity,
-		"message":                  MessageIdentity,
-		"namespace":                NamespaceIdentity,
-		"namespacemappingpolicy":   NamespaceMappingPolicyIdentity,
-		"networkaccesspolicy":      NetworkAccessPolicyIdentity,
-		"oidcprovider":             OIDCProviderIdentity,
-		"packetreport":             PacketReportIdentity,
-		"passwordreset":            PasswordResetIdentity,
+		"issueservicetoken":        IssueServiceTokenIdentity,
+
+		"ldapprovider":           LDAPProviderIdentity,
+		"log":                    LogIdentity,
+		"message":                MessageIdentity,
+		"namespace":              NamespaceIdentity,
+		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
+		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
+		"oauthinfo":              OAUTHInfoIdentity,
+		"oauthkey":               OAUTHKeyIdentity,
+		"oidcprovider":           OIDCProviderIdentity,
+		"packetreport":           PacketReportIdentity,
+		"passwordreset":          PasswordResetIdentity,
 
 		"plan":                  PlanIdentity,
 		"poke":                  PokeIdentity,
@@ -99,6 +102,7 @@ var (
 		"search":                 SearchIdentity,
 		"service":                ServiceIdentity,
 		"servicedependency":      ServiceDependencyIdentity,
+		"servicetoken":           ServiceTokenIdentity,
 		"squalltag":              SquallTagIdentity,
 		"sshauthority":           SSHAuthorityIdentity,
 		"sshauthorizationpolicy": SSHAuthorizationPolicyIdentity,
@@ -182,16 +186,19 @@ var (
 		"ipinfos":                    IPInfoIdentity,
 		"isolationprofiles":          IsolationProfileIdentity,
 		"issue":                      IssueIdentity,
-		"jaegerbatchs":               JaegerbatchIdentity,
-		"ldapproviders":              LDAPProviderIdentity,
-		"logs":                       LogIdentity,
-		"messages":                   MessageIdentity,
-		"namespaces":                 NamespaceIdentity,
-		"namespacemappingpolicies":   NamespaceMappingPolicyIdentity,
-		"networkaccesspolicies":      NetworkAccessPolicyIdentity,
-		"oidcproviders":              OIDCProviderIdentity,
-		"packetreports":              PacketReportIdentity,
-		"passwordreset":              PasswordResetIdentity,
+		"issueservicetokens":         IssueServiceTokenIdentity,
+
+		"ldapproviders":            LDAPProviderIdentity,
+		"logs":                     LogIdentity,
+		"messages":                 MessageIdentity,
+		"namespaces":               NamespaceIdentity,
+		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
+		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
+		"oauthinfo":                OAUTHInfoIdentity,
+		"oauthkeys":                OAUTHKeyIdentity,
+		"oidcproviders":            OIDCProviderIdentity,
+		"packetreports":            PacketReportIdentity,
+		"passwordreset":            PasswordResetIdentity,
 
 		"plans":                  PlanIdentity,
 		"poke":                   PokeIdentity,
@@ -221,6 +228,7 @@ var (
 		"search":                   SearchIdentity,
 		"services":                 ServiceIdentity,
 		"servicedependencies":      ServiceDependencyIdentity,
+		"servicetoken":             ServiceTokenIdentity,
 		"squalltags":               SquallTagIdentity,
 		"sshauthorities":           SSHAuthorityIdentity,
 		"sshauthorizationpolicies": SSHAuthorizationPolicyIdentity,
@@ -295,7 +303,6 @@ var (
 		"iapps":          InstalledAppIdentity,
 		"iapp":           InstalledAppIdentity,
 		"ip":             IsolationProfileIdentity,
-		"sp":             JaegerbatchIdentity,
 		"mess":           MessageIdentity,
 		"ns":             NamespaceIdentity,
 		"nspolicy":       NamespaceMappingPolicyIdentity,
@@ -561,8 +568,8 @@ var (
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 		},
-		"issue":       nil,
-		"jaegerbatch": nil,
+		"issue":             nil,
+		"issueservicetoken": nil,
 		"ldapprovider": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -592,6 +599,8 @@ var (
 		},
 		"namespacemappingpolicy": nil,
 		"networkaccesspolicy":    nil,
+		"oauthinfo":              nil,
+		"oauthkey":               nil,
 		"oidcprovider": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -689,6 +698,7 @@ var (
 			[]string{"allAPITags"},
 		},
 		"servicedependency": nil,
+		"servicetoken":      nil,
 		"squalltag":         nil,
 		"sshauthority": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -873,8 +883,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewIsolationProfile()
 	case IssueIdentity:
 		return NewIssue()
-	case JaegerbatchIdentity:
-		return NewJaegerbatch()
+	case IssueServiceTokenIdentity:
+		return NewIssueServiceToken()
 	case LDAPProviderIdentity:
 		return NewLDAPProvider()
 	case LogIdentity:
@@ -887,6 +897,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewNamespaceMappingPolicy()
 	case NetworkAccessPolicyIdentity:
 		return NewNetworkAccessPolicy()
+	case OAUTHInfoIdentity:
+		return NewOAUTHInfo()
+	case OAUTHKeyIdentity:
+		return NewOAUTHKey()
 	case OIDCProviderIdentity:
 		return NewOIDCProvider()
 	case PacketReportIdentity:
@@ -945,6 +959,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewService()
 	case ServiceDependencyIdentity:
 		return NewServiceDependency()
+	case ServiceTokenIdentity:
+		return NewServiceToken()
 	case SquallTagIdentity:
 		return NewSquallTag()
 	case SSHAuthorityIdentity:
@@ -1100,8 +1116,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseIsolationProfile()
 	case IssueIdentity:
 		return NewSparseIssue()
-	case JaegerbatchIdentity:
-		return NewSparseJaegerbatch()
+	case IssueServiceTokenIdentity:
+		return NewSparseIssueServiceToken()
 	case LDAPProviderIdentity:
 		return NewSparseLDAPProvider()
 	case LogIdentity:
@@ -1114,6 +1130,10 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseNamespaceMappingPolicy()
 	case NetworkAccessPolicyIdentity:
 		return NewSparseNetworkAccessPolicy()
+	case OAUTHInfoIdentity:
+		return NewSparseOAUTHInfo()
+	case OAUTHKeyIdentity:
+		return NewSparseOAUTHKey()
 	case OIDCProviderIdentity:
 		return NewSparseOIDCProvider()
 	case PacketReportIdentity:
@@ -1170,6 +1190,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseService()
 	case ServiceDependencyIdentity:
 		return NewSparseServiceDependency()
+	case ServiceTokenIdentity:
+		return NewSparseServiceToken()
 	case SquallTagIdentity:
 		return NewSparseSquallTag()
 	case SSHAuthorityIdentity:
@@ -1335,8 +1357,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &IsolationProfilesList{}
 	case IssueIdentity:
 		return &IssuesList{}
-	case JaegerbatchIdentity:
-		return &JaegerbatchesList{}
+	case IssueServiceTokenIdentity:
+		return &IssueServiceTokensList{}
 	case LDAPProviderIdentity:
 		return &LDAPProvidersList{}
 	case LogIdentity:
@@ -1349,6 +1371,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &NamespaceMappingPoliciesList{}
 	case NetworkAccessPolicyIdentity:
 		return &NetworkAccessPoliciesList{}
+	case OAUTHInfoIdentity:
+		return &OAUTHInfosList{}
+	case OAUTHKeyIdentity:
+		return &OAUTHKeysList{}
 	case OIDCProviderIdentity:
 		return &OIDCProvidersList{}
 	case PacketReportIdentity:
@@ -1405,6 +1431,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ServicesList{}
 	case ServiceDependencyIdentity:
 		return &ServiceDependenciesList{}
+	case ServiceTokenIdentity:
+		return &ServiceTokensList{}
 	case SquallTagIdentity:
 		return &SquallTagsList{}
 	case SSHAuthorityIdentity:
@@ -1560,8 +1588,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseIsolationProfilesList{}
 	case IssueIdentity:
 		return &SparseIssuesList{}
-	case JaegerbatchIdentity:
-		return &SparseJaegerbatchesList{}
+	case IssueServiceTokenIdentity:
+		return &SparseIssueServiceTokensList{}
 	case LDAPProviderIdentity:
 		return &SparseLDAPProvidersList{}
 	case LogIdentity:
@@ -1574,6 +1602,10 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseNamespaceMappingPoliciesList{}
 	case NetworkAccessPolicyIdentity:
 		return &SparseNetworkAccessPoliciesList{}
+	case OAUTHInfoIdentity:
+		return &SparseOAUTHInfosList{}
+	case OAUTHKeyIdentity:
+		return &SparseOAUTHKeysList{}
 	case OIDCProviderIdentity:
 		return &SparseOIDCProvidersList{}
 	case PacketReportIdentity:
@@ -1630,6 +1662,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseServicesList{}
 	case ServiceDependencyIdentity:
 		return &SparseServiceDependenciesList{}
+	case ServiceTokenIdentity:
+		return &SparseServiceTokensList{}
 	case SquallTagIdentity:
 		return &SparseSquallTagsList{}
 	case SSHAuthorityIdentity:
@@ -1748,13 +1782,15 @@ func AllIdentities() []elemental.Identity {
 		IPInfoIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
-		JaegerbatchIdentity,
+		IssueServiceTokenIdentity,
 		LDAPProviderIdentity,
 		LogIdentity,
 		MessageIdentity,
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
 		NetworkAccessPolicyIdentity,
+		OAUTHInfoIdentity,
+		OAUTHKeyIdentity,
 		OIDCProviderIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
@@ -1784,6 +1820,7 @@ func AllIdentities() []elemental.Identity {
 		SearchIdentity,
 		ServiceIdentity,
 		ServiceDependencyIdentity,
+		ServiceTokenIdentity,
 		SquallTagIdentity,
 		SSHAuthorityIdentity,
 		SSHAuthorizationPolicyIdentity,
@@ -1985,10 +2022,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case IssueIdentity:
 		return []string{}
-	case JaegerbatchIdentity:
-		return []string{
-			"sp",
-		}
+	case IssueServiceTokenIdentity:
+		return []string{}
 	case LDAPProviderIdentity:
 		return []string{}
 	case LogIdentity:
@@ -2013,6 +2048,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"netpol",
 			"netpols",
 		}
+	case OAUTHInfoIdentity:
+		return []string{}
+	case OAUTHKeyIdentity:
+		return []string{}
 	case OIDCProviderIdentity:
 		return []string{}
 	case PacketReportIdentity:
@@ -2099,6 +2138,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"srvdep",
 			"srvdeps",
 		}
+	case ServiceTokenIdentity:
+		return []string{}
 	case SquallTagIdentity:
 		return []string{}
 	case SSHAuthorityIdentity:

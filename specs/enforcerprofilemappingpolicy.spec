@@ -6,19 +6,18 @@ model:
   package: squall
   group: policy/enforcerconfig
   description: |-
-    A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used
-    by and Aporeto Agent based on the Enforcer that have been used during the
-    registration. The policy can also be propagated down to the child namespace.
+    Allows you to map an enforcer profile to one or more enforcers.
+    The mapping can also be propagated down to the child namespace.
   aliases:
   - enfpols
   - enfpol
   - epm
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the mapping with the given ID.
   update:
-    description: Updates the object with the given ID.
+    description: Updates the mapping with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the mapping with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -41,7 +40,9 @@ indexes:
 attributes:
   v1:
   - name: object
-    description: Object is the list of tags to use to find a enforcer profile.
+    description: |-
+      The tag or tag expression that identifies the enforcer profile to 
+      be mapped.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -54,7 +55,9 @@ attributes:
     - $tagsExpression
 
   - name: subject
-    description: Subject is the subject of the policy.
+    description: |-
+      The tag or tag expression that identifies the enforcers that should 
+      implement the mapped profile.
     type: external
     exposed: true
     subtype: '[][]string'
@@ -70,11 +73,10 @@ attributes:
 relations:
 - rest_name: enforcer
   get:
-    description: Returns the list of enforcers affected by an enforcer profile mapping
-      policy.
+    description: Returns the list of enforcers affected by an enforcer profile mapping.
 
 - rest_name: enforcerprofile
   get:
     description: |-
-      Returns the list of enforcer profiles that an enforcer profile mapping policy
+      Returns the list of enforcer profiles that an enforcer profile mapping
       matches.

@@ -5,7 +5,7 @@ model:
   entity_name: Alarm
   package: sephiroth
   group: core/monitoring
-  description: An alarm represents an event requiring attention.
+  description: Represents an event requiring attention.
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -41,7 +41,7 @@ attributes:
     example_value: This is an alarm
 
   - name: data
-    description: Data represent user data related to the alams.
+    description: Data represent user data related to the alarms.
     type: external
     exposed: true
     subtype: '[]map[string]string'
@@ -49,7 +49,7 @@ attributes:
 
   - name: emails
     description: |-
-      Emails is a list of recipients that should be emailed when this alarm is
+      A list of recipients that should be emailed when this alarm is
       created.
     type: list
     exposed: true
@@ -61,7 +61,7 @@ attributes:
 
   - name: kind
     description: |-
-      Kind identifies the kind of alarms. If two alarms are created with the same
+      Identifies the kind of alarm. If two alarms are created with the same
       identifier, then only the occurrence will be incremented.
     type: string
     exposed: true
@@ -72,7 +72,7 @@ attributes:
     orderable: true
 
   - name: occurrences
-    description: Number of time this alarm have been seen.
+    description: Number of times this alarm has been seen.
     type: external
     exposed: true
     subtype: '[]time.Time'

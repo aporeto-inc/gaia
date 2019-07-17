@@ -79,13 +79,13 @@ func (o PolicyRefreshsList) Version() int {
 
 // PolicyRefresh represents the model of a policyrefresh
 type PolicyRefresh struct {
-	// SourceNamespace contains the original ID of the updated object.
+	// Contains the original ID of the updated object.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
 
-	// SourceNamespace contains the original namespace of the updated object.
+	// Contains the original namespace of the updated object.
 	SourceNamespace string `json:"sourceNamespace" msgpack:"sourceNamespace" bson:"sourcenamespace" mapstructure:"sourceNamespace,omitempty"`
 
-	// Type contains the policy type that is affected.
+	// Contains the policy type that is affected.
 	Type string `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -137,8 +137,7 @@ func (o *PolicyRefresh) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PolicyRefresh) Doc() string {
 
-	return `PolicyRefresh is sent to client when as a push event when a policy refresh is
-needed on their side.`
+	return `Sent to a client as a push event when a policy refresh is needed on their side.`
 }
 
 func (o *PolicyRefresh) String() string {
@@ -272,7 +271,7 @@ var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 	"SourceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
-		Description:    `SourceNamespace contains the original ID of the updated object.`,
+		Description:    `Contains the original ID of the updated object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "sourceID",
@@ -283,7 +282,7 @@ var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 	"SourceNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
-		Description:    `SourceNamespace contains the original namespace of the updated object.`,
+		Description:    `Contains the original namespace of the updated object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "sourceNamespace",
@@ -294,7 +293,7 @@ var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Type",
-		Description:    `Type contains the policy type that is affected.`,
+		Description:    `Contains the policy type that is affected.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
@@ -309,7 +308,7 @@ var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"sourceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
-		Description:    `SourceNamespace contains the original ID of the updated object.`,
+		Description:    `Contains the original ID of the updated object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "sourceID",
@@ -320,7 +319,7 @@ var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"sourcenamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
-		Description:    `SourceNamespace contains the original namespace of the updated object.`,
+		Description:    `Contains the original namespace of the updated object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "sourceNamespace",
@@ -331,7 +330,7 @@ var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Type",
-		Description:    `Type contains the policy type that is affected.`,
+		Description:    `Contains the policy type that is affected.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
@@ -404,13 +403,13 @@ func (o SparsePolicyRefreshsList) Version() int {
 
 // SparsePolicyRefresh represents the sparse version of a policyrefresh.
 type SparsePolicyRefresh struct {
-	// SourceNamespace contains the original ID of the updated object.
+	// Contains the original ID of the updated object.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"sourceid,omitempty" mapstructure:"sourceID,omitempty"`
 
-	// SourceNamespace contains the original namespace of the updated object.
+	// Contains the original namespace of the updated object.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"sourcenamespace,omitempty" mapstructure:"sourceNamespace,omitempty"`
 
-	// Type contains the policy type that is affected.
+	// Contains the policy type that is affected.
 	Type *string `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

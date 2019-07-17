@@ -5,20 +5,20 @@ model:
   entity_name: PasswordReset
   package: vince
   group: core/account
-  description: Used to reset an account password.
+  description: Used to reset an Aporeto account password.
 
 # Attributes
 attributes:
   v1:
   - name: password
-    description: Password contains the new password.
+    description: Contains the new password.
     type: string
     exposed: true
     required: true
     example_value: NewPassword123@
 
   - name: token
-    description: Token contains the reset password token.
+    description: Contains the reset password token.
     type: string
     exposed: true
     required: true

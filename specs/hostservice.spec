@@ -5,19 +5,19 @@ model:
   entity_name: HostService
   package: squall
   group: policy/hosts
-  description: Represents a set of services that a host must expose and protect.
+  description: Represents services that a host must expose and protect.
   aliases:
   - hostsrv
   - hostsrvs
   get:
-    description: Retrieves the object with the given ID.
+    description: Retrieves the host service with the given ID.
     global_parameters:
     - $archivable
     - $propagatable
   update:
-    description: Updates the object with the given ID.
+    description: Updates the host service with the given ID.
   delete:
-    description: Deletes the object with the given ID.
+    description: Deletes the host service with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -39,11 +39,10 @@ attributes:
   v1:
   - name: hostModeEnabled
     description: |-
-      HostModeEnabled forces the corresponding enforcers to enable complete host
-      protection. When this option is turned on, all incoming and outgoing flows will
-      be monitored. Flows will be allowed if and only if a network policy has been
-      created to allow the flow. The option applies to all enforcers that match the
-      subject constraints.
+      Forces the corresponding enforcers to enable host protection. When `true`, all 
+      incoming and outgoing flows will be monitored. Flows will be allowed if and only 
+      if a network policy has been created to allow the flow. The option applies to all 
+      enforcers to which the host service is mapped.
     type: boolean
     exposed: true
     stored: true
@@ -51,10 +50,10 @@ attributes:
 
   - name: services
     description: |-
-      Services lists all protocols and ports a service is running. A service entry can
-      be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
-      '(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
-      protocols are only tcp and udp.
+      Lists all protocols and ports a service is running. A service entry can be defined 
+      by a protocol and port `(tcp/80)`, or range of protocol/port pairs `(udp/80:100)`. 
+      If no protocol is provided, it is assumed to be TCP. Only `tcp` and `udp` protocols
+      are allowed.
     type: list
     exposed: true
     subtype: string

@@ -111,30 +111,36 @@ func (o IssuesList) Version() int {
 
 // Issue represents the model of a issue
 type Issue struct {
-	// If given, the issued token will only be valid from that namespace declared in
-	// that value.
+	// If given, the issued token will only be valid for the specified namespace.
+	// Refer to [JSON Web Token (JWT)RFC
+	// 7519](https://tools.ietf.org/html/rfc7519#section-4.1.3).
+	// for further information.
 	Audience string `json:"audience" msgpack:"audience" bson:"-" mapstructure:"audience,omitempty"`
 
-	// Data contains additional data. The value depends on the issuer type.
+	// Contains additional data. The value depends on the issuer type.
 	Data string `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
-	// Metadata contains various additional information. Meaning depends on the realm.
+	// Contains various additional information. Meaning depends on the `realm`.
 	Metadata map[string]interface{} `json:"metadata" msgpack:"metadata" bson:"-" mapstructure:"metadata,omitempty"`
 
 	// Opaque data that will be included in the issued token.
 	Opaque map[string]string `json:"opaque" msgpack:"opaque" bson:"-" mapstructure:"opaque,omitempty"`
 
-	// Restricts the number of time the issued token should be used.
+	// Restricts the number of times the issued token can be used.
 	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
-	// Realm is the authentication realm.
+	// The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
+	// `Certificate`,
+	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
 	Realm IssueRealmValue `json:"realm" msgpack:"realm" bson:"-" mapstructure:"realm,omitempty"`
 
-	// Token is the token to use for the registration.
+	// The token to use for the registration.
 	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
-	// Validity configures the max validity time for a token. If it is bigger than the
-	// configured max validity, it will be capped.
+	// Configures the maximum length of validity for a token, using
+	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). If it
+	// is
+	// bigger than the configured max validity, it will be capped. Default: `24h`.
 	Validity string `json:"validity" msgpack:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -189,7 +195,7 @@ func (o *Issue) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Issue) Doc() string {
 
-	return `This API issues a new token according to given data.`
+	return `Issues a new Aporeto token according to given data.`
 }
 
 func (o *Issue) String() string {
@@ -379,8 +385,10 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 	"Audience": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Audience",
-		Description: `If given, the issued token will only be valid from that namespace declared in
-that value.`,
+		Description: `If given, the issued token will only be valid for the specified namespace.
+Refer to [JSON Web Token (JWT)RFC
+7519](https://tools.ietf.org/html/rfc7519#section-4.1.3).
+for further information.`,
 		Exposed: true,
 		Name:    "audience",
 		Type:    "string",
@@ -389,7 +397,7 @@ that value.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
 		Deprecated:     true,
-		Description:    `Data contains additional data. The value depends on the issuer type.`,
+		Description:    `Contains additional data. The value depends on the issuer type.`,
 		Exposed:        true,
 		Name:           "data",
 		Orderable:      true,
@@ -398,7 +406,7 @@ that value.`,
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
-		Description:    `Metadata contains various additional information. Meaning depends on the realm.`,
+		Description:    `Contains various additional information. Meaning depends on the ` + "`" + `realm` + "`" + `.`,
 		Exposed:        true,
 		Name:           "metadata",
 		Orderable:      true,
@@ -417,7 +425,7 @@ that value.`,
 	"Quota": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Quota",
-		Description:    `Restricts the number of time the issued token should be used.`,
+		Description:    `Restricts the number of times the issued token can be used.`,
 		Exposed:        true,
 		Name:           "quota",
 		Type:           "integer",
@@ -425,17 +433,19 @@ that value.`,
 	"Realm": elemental.AttributeSpecification{
 		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"},
 		ConvertedName:  "Realm",
-		Description:    `Realm is the authentication realm.`,
-		Exposed:        true,
-		Name:           "realm",
-		Required:       true,
-		Type:           "enum",
+		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
+` + "`" + `Certificate` + "`" + `,
+` + "`" + `Google` + "`" + `, ` + "`" + `LDAP` + "`" + `, ` + "`" + `Vince` + "`" + `, ` + "`" + `GCPIdentityToken` + "`" + `, ` + "`" + `AzureIdentityToken` + "`" + `, or ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:  true,
+		Name:     "realm",
+		Required: true,
+		Type:     "enum",
 	},
 	"Token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Token",
-		Description:    `Token is the token to use for the registration.`,
+		Description:    `The token to use for the registration.`,
 		Exposed:        true,
 		Name:           "token",
 		ReadOnly:       true,
@@ -445,8 +455,10 @@ that value.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		DefaultValue:   "24h",
-		Description: `Validity configures the max validity time for a token. If it is bigger than the
-configured max validity, it will be capped.`,
+		Description: `Configures the maximum length of validity for a token, using
+[Golang duration syntax](https://golang.org/pkg/time/#example_Duration). If it
+is
+bigger than the configured max validity, it will be capped. Default: ` + "`" + `24h` + "`" + `.`,
 		Exposed:   true,
 		Name:      "validity",
 		Orderable: true,
@@ -459,8 +471,10 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"audience": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Audience",
-		Description: `If given, the issued token will only be valid from that namespace declared in
-that value.`,
+		Description: `If given, the issued token will only be valid for the specified namespace.
+Refer to [JSON Web Token (JWT)RFC
+7519](https://tools.ietf.org/html/rfc7519#section-4.1.3).
+for further information.`,
 		Exposed: true,
 		Name:    "audience",
 		Type:    "string",
@@ -469,7 +483,7 @@ that value.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
 		Deprecated:     true,
-		Description:    `Data contains additional data. The value depends on the issuer type.`,
+		Description:    `Contains additional data. The value depends on the issuer type.`,
 		Exposed:        true,
 		Name:           "data",
 		Orderable:      true,
@@ -478,7 +492,7 @@ that value.`,
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
-		Description:    `Metadata contains various additional information. Meaning depends on the realm.`,
+		Description:    `Contains various additional information. Meaning depends on the ` + "`" + `realm` + "`" + `.`,
 		Exposed:        true,
 		Name:           "metadata",
 		Orderable:      true,
@@ -497,7 +511,7 @@ that value.`,
 	"quota": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Quota",
-		Description:    `Restricts the number of time the issued token should be used.`,
+		Description:    `Restricts the number of times the issued token can be used.`,
 		Exposed:        true,
 		Name:           "quota",
 		Type:           "integer",
@@ -505,17 +519,19 @@ that value.`,
 	"realm": elemental.AttributeSpecification{
 		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"},
 		ConvertedName:  "Realm",
-		Description:    `Realm is the authentication realm.`,
-		Exposed:        true,
-		Name:           "realm",
-		Required:       true,
-		Type:           "enum",
+		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
+` + "`" + `Certificate` + "`" + `,
+` + "`" + `Google` + "`" + `, ` + "`" + `LDAP` + "`" + `, ` + "`" + `Vince` + "`" + `, ` + "`" + `GCPIdentityToken` + "`" + `, ` + "`" + `AzureIdentityToken` + "`" + `, or ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:  true,
+		Name:     "realm",
+		Required: true,
+		Type:     "enum",
 	},
 	"token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Token",
-		Description:    `Token is the token to use for the registration.`,
+		Description:    `The token to use for the registration.`,
 		Exposed:        true,
 		Name:           "token",
 		ReadOnly:       true,
@@ -525,8 +541,10 @@ that value.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		DefaultValue:   "24h",
-		Description: `Validity configures the max validity time for a token. If it is bigger than the
-configured max validity, it will be capped.`,
+		Description: `Configures the maximum length of validity for a token, using
+[Golang duration syntax](https://golang.org/pkg/time/#example_Duration). If it
+is
+bigger than the configured max validity, it will be capped. Default: ` + "`" + `24h` + "`" + `.`,
 		Exposed:   true,
 		Name:      "validity",
 		Orderable: true,
@@ -597,30 +615,36 @@ func (o SparseIssuesList) Version() int {
 
 // SparseIssue represents the sparse version of a issue.
 type SparseIssue struct {
-	// If given, the issued token will only be valid from that namespace declared in
-	// that value.
+	// If given, the issued token will only be valid for the specified namespace.
+	// Refer to [JSON Web Token (JWT)RFC
+	// 7519](https://tools.ietf.org/html/rfc7519#section-4.1.3).
+	// for further information.
 	Audience *string `json:"audience,omitempty" msgpack:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
 
-	// Data contains additional data. The value depends on the issuer type.
+	// Contains additional data. The value depends on the issuer type.
 	Data *string `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
-	// Metadata contains various additional information. Meaning depends on the realm.
+	// Contains various additional information. Meaning depends on the `realm`.
 	Metadata *map[string]interface{} `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"-" mapstructure:"metadata,omitempty"`
 
 	// Opaque data that will be included in the issued token.
 	Opaque *map[string]string `json:"opaque,omitempty" msgpack:"opaque,omitempty" bson:"-" mapstructure:"opaque,omitempty"`
 
-	// Restricts the number of time the issued token should be used.
+	// Restricts the number of times the issued token can be used.
 	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
-	// Realm is the authentication realm.
+	// The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
+	// `Certificate`,
+	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
 	Realm *IssueRealmValue `json:"realm,omitempty" msgpack:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
 
-	// Token is the token to use for the registration.
+	// The token to use for the registration.
 	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
-	// Validity configures the max validity time for a token. If it is bigger than the
-	// configured max validity, it will be capped.
+	// Configures the maximum length of validity for a token, using
+	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). If it
+	// is
+	// bigger than the configured max validity, it will be capped. Default: `24h`.
 	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
