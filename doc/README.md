@@ -1,5 +1,7 @@
 # Aporeto API concepts and usage
 
+## Overview
+
 Aporeto provides a REST API to allow programmatic manipulation of all parts of the system.
 Everything the web client or apoctl do is done through the REST API.
 
@@ -7,14 +9,14 @@ The Aporeto API accepts and returns [JSON](http://www.json.org) or [MessagePack]
 encoded objects.
 This is controlled by the the `Accept` and `Content-Type` HTTP headers.
 
-Most of the resources require authentication and authorization:
+Most of the resources require authentication and authorization.
 
 - For a request to be authenticated, it must provide the `Authorization` HTTP header.
 - For a request to be authorized, a policy must be in place to grant you access.
 
 ## Errors
 
-When an error occurred, either due to the user input or platform error, it is returned as list of errors.
+When an error occurs, either due to the user input or platform error, it is returned as list of errors.
 Errors always have the same structure:
 
 - `title`: The title of the error
@@ -40,7 +42,7 @@ For example:
 ]
 ```
 
-The error codes follows the HTTP status codes:
+The error codes follow the HTTP status codes:
 
 - `200 OK`: The request is a success and the body contains the response.
 - `204 No content`: The request is a success and there is no additional body.
@@ -56,8 +58,10 @@ The error codes follows the HTTP status codes:
 - `500 Internal Server Error`: Something wrong happened in the server
 - `502 Bad Gateway`, `503 Service Unavailable`, `504 Gateway Timeout`: Temporary communication failure.
 
-> There may be additional error codes in certain circumstances.
-> Please refer to the HTTP error code documentation for more information.
+:::note
+There may be additional error codes in certain circumstances.
+Please refer to the HTTP error code documentation for more information.
+:::
 
 ## Authentication
 
@@ -83,7 +87,7 @@ bits into claims that are inserted in the JWT.
 Administrators can then write API authorizations based on these claims to authorize actions
 on various parts of the system.
 
-Generally speaking, you need to call the `/issue` API in order to get a token:
+Generally speaking, you need to call the `/issue` API in order to get a token.
 
 ```shell
 curl https://api.console.aporeto.com/issue \
@@ -118,7 +122,7 @@ quota so the token can be used as much as you like during its validity period.
 
 The `metadata` attribute contains various realm-dependent information (see below).
 
-Upon correct authentication, Aporeto will return a JWT wrapped in a JSON or MessagePack object:
+Upon correct authentication, Aporeto will return a JWT wrapped in a JSON or MessagePack object.
 
 ```json
 {
@@ -134,7 +138,7 @@ subsequent request.
 
 ### Authenticating with an Aporeto account
 
-To authenticate from your Aporeto account, you can issue the following command:
+To authenticate from your Aporeto account, you can issue the following command.
 
 ```shell
 curl https://api.console.aporeto.com/issue \
@@ -149,11 +153,13 @@ curl https://api.console.aporeto.com/issue \
   }'
 ```
 
-### Authenticating with a X.509 certificate
+### Authenticating with an X.509 certificate
 
-> How to retrieve a X.509 certificate from Aporeto is not in the scope of this document.
+:::note
+How to retrieve an X.509 certificate from Aporeto is not in the scope of this document.
+:::
 
-To use a X.509 user certificate, you must configure your client to pass it on the
+To use an X.509 user certificate, you must configure your client to pass it on the
 TLS layer.
 
 Assuming your certificate (containing the key) is at `~/aporeto.pem`, you can retrieve
@@ -219,7 +225,7 @@ curl https://api.console.aporeto.com/namespaces \
 ## Idempotency
 
 The Aporeto API supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for `POST` operations.
-This allows to safely retry requests that returned a communication error, but actually was honored by the system.
+This allows you to safely retry requests that returned a communication error, but actually were honored by the system.
 
 If you issue two subsequent `POST` requests with the same idempotency key, the second will return the exact same response as the first one, while it will not have done anything in the system.
 
@@ -312,7 +318,7 @@ Not all methods apply to all URLs.
 
 ### Creating resources
 
-The `POST` method can be used with the following resource URLs:
+The `POST` method can be used with the following resource URLs.
 
 - `POST /parents`: Creates a new parent object.
 - `POST /parents/:id/children`: Creates a new child under the parent with the given ID.
@@ -333,7 +339,7 @@ curl https://api.console.aporeto.com/namespaces \
 
 ### Retrieving resources
 
-The `GET` (or `HEAD`) method can be used with the following resource URLs:
+The `GET` (or `HEAD`) method can be used with the following resource URLs.
 
 - `GET /parents`: Returns all parents.
 - `GET /parents/:id`: Returns the parent with the given ID.
@@ -353,13 +359,12 @@ curl https://api.console.aporeto.com/namespaces?page=2&pageSize=10 \
 
 ### Updating resources
 
-The `PUT` method can only be used with the following resource URLs:
+The `PUT` method can only be used with the `PUT /parents/:id` resource URL.
+It updates the parent with the given ID.
 
-- `PUT /parents/:id`: Updates the parent with the given ID.
-
-Updating a resource requires to resend the entire object, not just the parts your want to
-change. This will ensure (especially through the `updateTime` property) there is not conflicts
-in the case two clients are updating the same resource at the same time.
+Updating a resource requires you to resend the entire object, not just the parts you want to
+change. This ensures (especially through the `updateTime` property) no conflicts should
+two clients update the same resource at the same time.
 
 Example:
 
@@ -401,9 +406,8 @@ curl https://api.console.aporeto.com/namespaces/5d07f89c7ddf1f5e0210582d \
 
 ### Deleting resources
 
-The `DELETE` method can only be used with the following resource URLs:
-
-- `DELETE /parents/:id`: Deletes the parent with the given ID.
+The `DELETE` method can only be used with the `DELETE /parents/:id` resource URL.
+It deletes the parent with the given ID.
 
 Example:
 

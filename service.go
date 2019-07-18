@@ -213,15 +213,9 @@ type Service struct {
 	// Defines the user authorization type that should be used.
 	//
 	// - `None` (default): No authorization.
-	// - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization`
-	// header.
-	// - `OIDC`: Configures OIDC authorization. You must then set
-	// `OIDCClientID`,`OIDCClientSecret`,
-	//   `OIDCProviderURL`.
-	// - `MTLS`: Configures client certificate authorization. Then you can optionally
-	// use
-	//   `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
-	// will be used.
+	// - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization` header.
+	// - `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
+	// - `MTLS`: Configures client certificate authorization. Then you can optionally use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate will be used.
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" msgpack:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
@@ -1352,15 +1346,9 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Description: `Defines the user authorization type that should be used.
 
 - ` + "`" + `None` + "`" + ` (default): No authorization.
-- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Authorization` + "`" + `
-header.
-- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
-` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `,
-  ` + "`" + `OIDCProviderURL` + "`" + `.
-- ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
-use
-  ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate
-will be used.`,
+- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Authorization` + "`" + ` header.
+- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
+- ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -1921,15 +1909,9 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Description: `Defines the user authorization type that should be used.
 
 - ` + "`" + `None` + "`" + ` (default): No authorization.
-- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Authorization` + "`" + `
-header.
-- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
-` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `,
-  ` + "`" + `OIDCProviderURL` + "`" + `.
-- ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
-use
-  ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate
-will be used.`,
+- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Authorization` + "`" + ` header.
+- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
+- ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -2431,15 +2413,9 @@ type SparseService struct {
 	// Defines the user authorization type that should be used.
 	//
 	// - `None` (default): No authorization.
-	// - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization`
-	// header.
-	// - `OIDC`: Configures OIDC authorization. You must then set
-	// `OIDCClientID`,`OIDCClientSecret`,
-	//   `OIDCProviderURL`.
-	// - `MTLS`: Configures client certificate authorization. Then you can optionally
-	// use
-	//   `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
-	// will be used.
+	// - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization` header.
+	// - `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
+	// - `MTLS`: Configures client certificate authorization. Then you can optionally use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate will be used.
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" msgpack:"authorizationType,omitempty" bson:"authorizationtype,omitempty" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings

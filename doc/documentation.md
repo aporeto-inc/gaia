@@ -50,7 +50,7 @@ Exports all policies and related objects of a namespace.
 
 Parameters:
 
-- `ignoredTags` (`string`): List of tags to ignore from the export.
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
 #### Attributes
 
@@ -7583,10 +7583,8 @@ Identifier of the object.
 Defines the action to apply to a flow.
 
 - `Allow`: allows the defined traffic.
-- `Reject`: rejects the defined traffic; useful in conjunction with an allow all
-policy.
-- `Continue`: neither allows or rejects the traffic; useful for applying another
-property to the traffic, such as encryption.
+- `Reject`: rejects the defined traffic; useful in conjunction with an allow all policy.
+- `Continue`: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.
 
 Default value:
 
@@ -8588,15 +8586,9 @@ List of tags attached to an entity.
 Defines the user authorization type that should be used.
 
 - `None` (default): No authorization.
-- `JWT`:  Configures a simple JWT verification from the HTTP `Authorization`
-header.
-- `OIDC`: Configures OIDC authorization. You must then set
-`OIDCClientID`,`OIDCClientSecret`,
-  `OIDCProviderURL`.
-- `MTLS`: Configures client certificate authorization. Then you can optionally
-use
-  `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
-will be used.
+- `JWT`:  Configures a simple JWT verification from the HTTP `Authorization` header.
+- `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
+- `MTLS`: Configures client certificate authorization. Then you can optionally use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate will be used.
 
 Default value:
 
