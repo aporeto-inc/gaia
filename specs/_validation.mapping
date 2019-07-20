@@ -2,6 +2,10 @@ $audience:
   elemental:
     name: ValidateAudience
 
+$automations:
+  elemental:
+    name: ValidateAutomation
+
 $enforcerprofile:
   elemental:
     name: ValidateEnforcerProfile

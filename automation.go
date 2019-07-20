@@ -20,6 +20,9 @@ const (
 
 	// AutomationTriggerTime represents the value Time.
 	AutomationTriggerTime AutomationTriggerValue = "Time"
+
+	// AutomationTriggerWebhook represents the value Webhook.
+	AutomationTriggerWebhook AutomationTriggerValue = "Webhook"
 )
 
 // AutomationIdentity represents the Identity of the object.
@@ -672,7 +675,12 @@ func (o *Automation) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("trigger", string(o.Trigger), []string{"Event", "RemoteCall", "Time"}, false); err != nil {
+	if err := elemental.ValidateStringInList("trigger", string(o.Trigger), []string{"Event", "RemoteCall", "Webhook", "Time"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	// Custom object validation.
+	if err := ValidateAutomation(o); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1048,7 +1056,7 @@ authentication. It will be visible only after creation.`,
 		Type:           "boolean",
 	},
 	"Trigger": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Event", "RemoteCall", "Time"},
+		AllowedChoices: []string{"Event", "RemoteCall", "Webhook", "Time"},
 		ConvertedName:  "Trigger",
 		DefaultValue:   AutomationTriggerTime,
 		Description:    `Controls when the automation should be triggered.`,
@@ -1390,7 +1398,7 @@ authentication. It will be visible only after creation.`,
 		Type:           "boolean",
 	},
 	"trigger": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Event", "RemoteCall", "Time"},
+		AllowedChoices: []string{"Event", "RemoteCall", "Webhook", "Time"},
 		ConvertedName:  "Trigger",
 		DefaultValue:   AutomationTriggerTime,
 		Description:    `Controls when the automation should be triggered.`,

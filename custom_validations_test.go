@@ -1,7 +1,10 @@
 package gaia
 
 import (
+	"net/http"
 	"testing"
+
+	"go.aporeto.io/elemental"
 )
 
 func TestValidatePortString(t *testing.T) {
@@ -904,6 +907,82 @@ func TestValidateOptionalNetworkList(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateOptionalNetworkList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateOptionalNetworkList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateAutomation(t *testing.T) {
+	testCases := []struct {
+		scenario    string
+		automation  *Automation
+		shouldError bool
+	}{
+		{
+			scenario: "should not return an error if trigger type is not webhook and multiple actions have been defined",
+			automation: &Automation{
+				Trigger: AutomationTriggerRemoteCall,
+				Actions: []string{
+					"Action 1",
+					"Action 2",
+				},
+			},
+			shouldError: false,
+		},
+		{
+			scenario: "should not return an error if trigger type is webhook and one action has been defined",
+			automation: &Automation{
+				Trigger: AutomationTriggerWebhook,
+				Actions: []string{
+					"Action 1",
+				},
+			},
+			shouldError: false,
+		},
+		{
+			scenario: "should return an error if trigger type is set to webhook and more than one action has been defined",
+			automation: &Automation{
+				Trigger: AutomationTriggerWebhook,
+				Actions: []string{
+					"Action 1",
+					"Action 2",
+				},
+			},
+			shouldError: true,
+		},
+		{
+			scenario: "should return an error if trigger type is set to webhook and no actions have been defined",
+			automation: &Automation{
+				Trigger: AutomationTriggerWebhook,
+				Actions: nil,
+			},
+			shouldError: true,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.scenario, func(t *testing.T) {
+			err := ValidateAutomation(tc.automation)
+			switch {
+			case err != nil && tc.shouldError:
+
+				ee, ok := err.(elemental.Error)
+				if !ok {
+					t.Fatalf("error could not be asserted to type \"elemental.Error\"")
+				}
+
+				if ee.Code != http.StatusUnprocessableEntity {
+					t.Errorf("expected elemental error code to be 422, but got %d", ee.Code)
+				}
+
+				if ee.Title != "Validation Error" {
+					t.Errorf("expected elemental error code to be 'Validation Error', but got %s", ee.Title)
+				}
+
+			case err != nil && !tc.shouldError:
+				t.Fatalf("did not expect to get an error, but received: %+v", err)
+			case err == nil && tc.shouldError:
+				t.Fatalf("expected to get an error, but got nothing")
 			}
 		})
 	}
