@@ -22,6 +22,32 @@ const (
 	EnforcerEnforcementStatusInactive EnforcerEnforcementStatusValue = "Inactive"
 )
 
+// EnforcerLogLevelValue represents the possible values for attribute "logLevel".
+type EnforcerLogLevelValue string
+
+const (
+	// EnforcerLogLevelDPanic represents the value DPanic.
+	EnforcerLogLevelDPanic EnforcerLogLevelValue = "DPanic"
+
+	// EnforcerLogLevelDebug represents the value Debug.
+	EnforcerLogLevelDebug EnforcerLogLevelValue = "Debug"
+
+	// EnforcerLogLevelError represents the value Error.
+	EnforcerLogLevelError EnforcerLogLevelValue = "Error"
+
+	// EnforcerLogLevelFatal represents the value Fatal.
+	EnforcerLogLevelFatal EnforcerLogLevelValue = "Fatal"
+
+	// EnforcerLogLevelInfo represents the value Info.
+	EnforcerLogLevelInfo EnforcerLogLevelValue = "Info"
+
+	// EnforcerLogLevelPanic represents the value Panic.
+	EnforcerLogLevelPanic EnforcerLogLevelValue = "Panic"
+
+	// EnforcerLogLevelWarn represents the value Warn.
+	EnforcerLogLevelWarn EnforcerLogLevelValue = "Warn"
+)
+
 // EnforcerOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type EnforcerOperationalStatusValue string
 
@@ -183,6 +209,9 @@ type Enforcer struct {
 	// given when you retrieve a single enforcer.
 	LocalCA string `json:"localCA" msgpack:"localCA" bson:"-" mapstructure:"localCA,omitempty"`
 
+	// Log level of the enforcer.
+	LogLevel EnforcerLogLevelValue `json:"logLevel" msgpack:"logLevel" bson:"loglevel" mapstructure:"logLevel,omitempty"`
+
 	// A unique identifier for every machine as detected by the enforcer. It is
 	// based on hardware information such as the SMBIOS UUID, MAC addresses of
 	// interfaces, or cloud provider IDs.
@@ -251,9 +280,10 @@ func NewEnforcer() *Enforcer {
 		CollectedInfo:         map[string]string{},
 		EnforcementStatus:     EnforcerEnforcementStatusInactive,
 		LastValidHostServices: HostServicesList{},
+		NormalizedTags:        []string{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
 		Subnets:               []string{},
-		NormalizedTags:        []string{},
+		LogLevel:              EnforcerLogLevelInfo,
 		Metadata:              []string{},
 	}
 }
@@ -505,6 +535,7 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			LastSyncTime:              &o.LastSyncTime,
 			LastValidHostServices:     &o.LastValidHostServices,
 			LocalCA:                   &o.LocalCA,
+			LogLevel:                  &o.LogLevel,
 			MachineID:                 &o.MachineID,
 			Metadata:                  &o.Metadata,
 			Name:                      &o.Name,
@@ -567,6 +598,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.LastValidHostServices = &(o.LastValidHostServices)
 		case "localCA":
 			sp.LocalCA = &(o.LocalCA)
+		case "logLevel":
+			sp.LogLevel = &(o.LogLevel)
 		case "machineID":
 			sp.MachineID = &(o.MachineID)
 		case "metadata":
@@ -672,6 +705,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.LocalCA != nil {
 		o.LocalCA = *so.LocalCA
 	}
+	if so.LogLevel != nil {
+		o.LogLevel = *so.LogLevel
+	}
 	if so.MachineID != nil {
 		o.MachineID = *so.MachineID
 	}
@@ -768,6 +804,10 @@ func (o *Enforcer) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("logLevel", string(o.LogLevel), []string{"Info", "Debug", "Warn", "Error", "DPanic", "Panic", "Fatal"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
@@ -858,6 +898,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.LastValidHostServices
 	case "localCA":
 		return o.LocalCA
+	case "logLevel":
+		return o.LogLevel
 	case "machineID":
 		return o.MachineID
 	case "metadata":
@@ -1121,6 +1163,16 @@ given when you retrieve a single enforcer.`,
 		Name:      "localCA",
 		Transient: true,
 		Type:      "string",
+	},
+	"LogLevel": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Info", "Debug", "Warn", "Error", "DPanic", "Panic", "Fatal"},
+		ConvertedName:  "LogLevel",
+		DefaultValue:   EnforcerLogLevelInfo,
+		Description:    `Log level of the enforcer.`,
+		Exposed:        true,
+		Name:           "logLevel",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"MachineID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1557,6 +1609,16 @@ given when you retrieve a single enforcer.`,
 		Transient: true,
 		Type:      "string",
 	},
+	"loglevel": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Info", "Debug", "Warn", "Error", "DPanic", "Panic", "Fatal"},
+		ConvertedName:  "LogLevel",
+		DefaultValue:   EnforcerLogLevelInfo,
+		Description:    `Log level of the enforcer.`,
+		Exposed:        true,
+		Name:           "logLevel",
+		Stored:         true,
+		Type:           "enum",
+	},
 	"machineid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MachineID",
@@ -1900,6 +1962,9 @@ type SparseEnforcer struct {
 	// given when you retrieve a single enforcer.
 	LocalCA *string `json:"localCA,omitempty" msgpack:"localCA,omitempty" bson:"-" mapstructure:"localCA,omitempty"`
 
+	// Log level of the enforcer.
+	LogLevel *EnforcerLogLevelValue `json:"logLevel,omitempty" msgpack:"logLevel,omitempty" bson:"loglevel,omitempty" mapstructure:"logLevel,omitempty"`
+
 	// A unique identifier for every machine as detected by the enforcer. It is
 	// based on hardware information such as the SMBIOS UUID, MAC addresses of
 	// interfaces, or cloud provider IDs.
@@ -2053,6 +2118,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.LocalCA != nil {
 		out.LocalCA = *o.LocalCA
+	}
+	if o.LogLevel != nil {
+		out.LogLevel = *o.LogLevel
 	}
 	if o.MachineID != nil {
 		out.MachineID = *o.MachineID
