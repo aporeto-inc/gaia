@@ -160,6 +160,10 @@ type Account struct {
 	// Name of the account.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
+	// New password for the account. If set the previous password must be given through
+	// the property `password`.
+	NewPassword string `json:"newPassword" msgpack:"newPassword" bson:"-" mapstructure:"newPassword,omitempty"`
+
 	// Password for the account.
 	Password string `json:"password" msgpack:"password" bson:"password" mapstructure:"password,omitempty"`
 
@@ -324,6 +328,7 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			FirstName:                 &o.FirstName,
 			LastName:                  &o.LastName,
 			Name:                      &o.Name,
+			NewPassword:               &o.NewPassword,
 			Password:                  &o.Password,
 			ReCAPTCHAKey:              &o.ReCAPTCHAKey,
 			ResetPasswordExpiration:   &o.ResetPasswordExpiration,
@@ -380,6 +385,8 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.LastName = &(o.LastName)
 		case "name":
 			sp.Name = &(o.Name)
+		case "newPassword":
+			sp.NewPassword = &(o.NewPassword)
 		case "password":
 			sp.Password = &(o.Password)
 		case "reCAPTCHAKey":
@@ -471,6 +478,9 @@ func (o *Account) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
+	}
+	if so.NewPassword != nil {
+		o.NewPassword = *so.NewPassword
 	}
 	if so.Password != nil {
 		o.Password = *so.Password
@@ -620,6 +630,8 @@ func (o *Account) ValueForAttribute(name string) interface{} {
 		return o.LastName
 	case "name":
 		return o.Name
+	case "newPassword":
+		return o.NewPassword
 	case "password":
 		return o.Password
 	case "reCAPTCHAKey":
@@ -859,13 +871,21 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"NewPassword": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NewPassword",
+		Description: `New password for the account. If set the previous password must be given through
+the property ` + "`" + `password` + "`" + `.`,
+		Exposed: true,
+		Name:    "newPassword",
+		Type:    "string",
+	},
 	"Password": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Password",
 		Description:    `Password for the account.`,
 		Exposed:        true,
 		Name:           "password",
-		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1172,13 +1192,21 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"newpassword": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NewPassword",
+		Description: `New password for the account. If set the previous password must be given through
+the property ` + "`" + `password` + "`" + `.`,
+		Exposed: true,
+		Name:    "newPassword",
+		Type:    "string",
+	},
 	"password": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Password",
 		Description:    `Password for the account.`,
 		Exposed:        true,
 		Name:           "password",
-		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1393,6 +1421,10 @@ type SparseAccount struct {
 	// Name of the account.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
+	// New password for the account. If set the previous password must be given through
+	// the property `password`.
+	NewPassword *string `json:"newPassword,omitempty" msgpack:"newPassword,omitempty" bson:"-" mapstructure:"newPassword,omitempty"`
+
 	// Password for the account.
 	Password *string `json:"password,omitempty" msgpack:"password,omitempty" bson:"password,omitempty" mapstructure:"password,omitempty"`
 
@@ -1520,6 +1552,9 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
+	}
+	if o.NewPassword != nil {
+		out.NewPassword = *o.NewPassword
 	}
 	if o.Password != nil {
 		out.Password = *o.Password

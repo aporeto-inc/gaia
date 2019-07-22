@@ -732,6 +732,11 @@ Last name of the account user.
 
 Name of the account.
 
+##### `newPassword` `string`
+
+New password for the account. If set the previous password must be given through
+the property `password`.
+
 ##### `password` `string`
 
 Password for the account.
