@@ -26,23 +26,14 @@ const (
 type EnforcerLogLevelValue string
 
 const (
-	// EnforcerLogLevelDPanic represents the value DPanic.
-	EnforcerLogLevelDPanic EnforcerLogLevelValue = "DPanic"
-
 	// EnforcerLogLevelDebug represents the value Debug.
 	EnforcerLogLevelDebug EnforcerLogLevelValue = "Debug"
 
 	// EnforcerLogLevelError represents the value Error.
 	EnforcerLogLevelError EnforcerLogLevelValue = "Error"
 
-	// EnforcerLogLevelFatal represents the value Fatal.
-	EnforcerLogLevelFatal EnforcerLogLevelValue = "Fatal"
-
 	// EnforcerLogLevelInfo represents the value Info.
 	EnforcerLogLevelInfo EnforcerLogLevelValue = "Info"
-
-	// EnforcerLogLevelPanic represents the value Panic.
-	EnforcerLogLevelPanic EnforcerLogLevelValue = "Panic"
 
 	// EnforcerLogLevelWarn represents the value Warn.
 	EnforcerLogLevelWarn EnforcerLogLevelValue = "Warn"
@@ -804,7 +795,7 @@ func (o *Enforcer) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("logLevel", string(o.LogLevel), []string{"Info", "Debug", "Warn", "Error", "DPanic", "Panic", "Fatal"}, false); err != nil {
+	if err := elemental.ValidateStringInList("logLevel", string(o.LogLevel), []string{"Info", "Debug", "Warn", "Error"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1165,7 +1156,7 @@ given when you retrieve a single enforcer.`,
 		Type:      "string",
 	},
 	"LogLevel": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Info", "Debug", "Warn", "Error", "DPanic", "Panic", "Fatal"},
+		AllowedChoices: []string{"Info", "Debug", "Warn", "Error"},
 		ConvertedName:  "LogLevel",
 		DefaultValue:   EnforcerLogLevelInfo,
 		Description:    `Log level of the enforcer.`,
@@ -1610,7 +1601,7 @@ given when you retrieve a single enforcer.`,
 		Type:      "string",
 	},
 	"loglevel": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Info", "Debug", "Warn", "Error", "DPanic", "Panic", "Fatal"},
+		AllowedChoices: []string{"Info", "Debug", "Warn", "Error"},
 		ConvertedName:  "LogLevel",
 		DefaultValue:   EnforcerLogLevelInfo,
 		Description:    `Log level of the enforcer.`,

@@ -175,9 +175,6 @@ attributes:
     - Debug
     - Warn
     - Error
-    - DPanic
-    - Panic
-    - Fatal
     default_value: Info
 
   - name: machineID
