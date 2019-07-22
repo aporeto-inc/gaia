@@ -35,9 +35,6 @@ const (
 	// EnforcerLogLevelInfo represents the value Info.
 	EnforcerLogLevelInfo EnforcerLogLevelValue = "Info"
 
-	// EnforcerLogLevelTrace represents the value Trace.
-	EnforcerLogLevelTrace EnforcerLogLevelValue = "Trace"
-
 	// EnforcerLogLevelWarn represents the value Warn.
 	EnforcerLogLevelWarn EnforcerLogLevelValue = "Warn"
 )
@@ -798,7 +795,7 @@ func (o *Enforcer) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("logLevel", string(o.LogLevel), []string{"Info", "Debug", "Warn", "Error", "Trace"}, false); err != nil {
+	if err := elemental.ValidateStringInList("logLevel", string(o.LogLevel), []string{"Info", "Debug", "Warn", "Error"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1159,7 +1156,7 @@ given when you retrieve a single enforcer.`,
 		Type:      "string",
 	},
 	"LogLevel": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Info", "Debug", "Warn", "Error", "Trace"},
+		AllowedChoices: []string{"Info", "Debug", "Warn", "Error"},
 		ConvertedName:  "LogLevel",
 		DefaultValue:   EnforcerLogLevelInfo,
 		Description:    `Log level of the enforcer.`,
@@ -1604,7 +1601,7 @@ given when you retrieve a single enforcer.`,
 		Type:      "string",
 	},
 	"loglevel": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Info", "Debug", "Warn", "Error", "Trace"},
+		AllowedChoices: []string{"Info", "Debug", "Warn", "Error"},
 		ConvertedName:  "LogLevel",
 		DefaultValue:   EnforcerLogLevelInfo,
 		Description:    `Log level of the enforcer.`,
