@@ -1685,7 +1685,7 @@ The time and date of the last heartbeat.
 Contains the initial chain of trust for the enforcer. This value is only
 given when you retrieve a single enforcer.
 
-##### `logLevel` `emum(Info | Debug | Warn | Error)`
+##### `logLevel` `emum(Info | Debug | Warn | Error | Trace)`
 
 Log level of the enforcer.
 

@@ -175,6 +175,7 @@ attributes:
     - Debug
     - Warn
     - Error
+    - Trace
     default_value: Info
 
   - name: machineID
