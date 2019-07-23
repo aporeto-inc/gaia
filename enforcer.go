@@ -184,6 +184,11 @@ type Enforcer struct {
 	// Status of the enforcement for host services.
 	EnforcementStatus EnforcerEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
 
+	// Determines the length of the time interval that the log level must be
+	// enabled, switched back to default after limit,
+	// using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
+	Interval string `json:"interval" msgpack:"interval" bson:"interval" mapstructure:"interval,omitempty"`
+
 	// Identifies when the information was collected.
 	LastCollectionTime time.Time `json:"lastCollectionTime" msgpack:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
 
@@ -278,6 +283,7 @@ func NewEnforcer() *Enforcer {
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
 		Subnets:               []string{},
 		LogLevel:              EnforcerLogLevelInfo,
+		Interval:              "10s",
 		Metadata:              []string{},
 	}
 }
@@ -524,6 +530,7 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CurrentVersion:            &o.CurrentVersion,
 			Description:               &o.Description,
 			EnforcementStatus:         &o.EnforcementStatus,
+			Interval:                  &o.Interval,
 			LastCollectionTime:        &o.LastCollectionTime,
 			LastPokeTime:              &o.LastPokeTime,
 			LastSyncTime:              &o.LastSyncTime,
@@ -582,6 +589,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "enforcementStatus":
 			sp.EnforcementStatus = &(o.EnforcementStatus)
+		case "interval":
+			sp.Interval = &(o.Interval)
 		case "lastCollectionTime":
 			sp.LastCollectionTime = &(o.LastCollectionTime)
 		case "lastPokeTime":
@@ -683,6 +692,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EnforcementStatus != nil {
 		o.EnforcementStatus = *so.EnforcementStatus
+	}
+	if so.Interval != nil {
+		o.Interval = *so.Interval
 	}
 	if so.LastCollectionTime != nil {
 		o.LastCollectionTime = *so.LastCollectionTime
@@ -882,6 +894,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "enforcementStatus":
 		return o.EnforcementStatus
+	case "interval":
+		return o.Interval
 	case "lastCollectionTime":
 		return o.LastCollectionTime
 	case "lastPokeTime":
@@ -1106,6 +1120,18 @@ providing a renewed certificate.`,
 		Name:           "enforcementStatus",
 		Stored:         true,
 		Type:           "enum",
+	},
+	"Interval": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Interval",
+		DefaultValue:   "10s",
+		Description: `Determines the length of the time interval that the log level must be
+enabled, switched back to default after limit, 
+using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).`,
+		Exposed: true,
+		Name:    "interval",
+		Stored:  true,
+		Type:    "string",
 	},
 	"LastCollectionTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1552,6 +1578,18 @@ providing a renewed certificate.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"interval": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Interval",
+		DefaultValue:   "10s",
+		Description: `Determines the length of the time interval that the log level must be
+enabled, switched back to default after limit, 
+using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).`,
+		Exposed: true,
+		Name:    "interval",
+		Stored:  true,
+		Type:    "string",
+	},
 	"lastcollectiontime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastCollectionTime",
@@ -1937,6 +1975,11 @@ type SparseEnforcer struct {
 	// Status of the enforcement for host services.
 	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
+	// Determines the length of the time interval that the log level must be
+	// enabled, switched back to default after limit,
+	// using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
+	Interval *string `json:"interval,omitempty" msgpack:"interval,omitempty" bson:"interval,omitempty" mapstructure:"interval,omitempty"`
+
 	// Identifies when the information was collected.
 	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" msgpack:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
 
@@ -2097,6 +2140,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EnforcementStatus != nil {
 		out.EnforcementStatus = *o.EnforcementStatus
+	}
+	if o.Interval != nil {
+		out.Interval = *o.Interval
 	}
 	if o.LastCollectionTime != nil {
 		out.LastCollectionTime = *o.LastCollectionTime
