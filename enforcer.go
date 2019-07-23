@@ -185,8 +185,8 @@ type Enforcer struct {
 	EnforcementStatus EnforcerEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
 
 	// Determines the length of the time interval that the log level must be
-	// enabled, switched back to default after limit,
-	// using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
+	// enabled, using [Golang duration
+	// syntax](https://golang.org/pkg/time/#example_Duration).
 	Interval string `json:"interval" msgpack:"interval" bson:"interval" mapstructure:"interval,omitempty"`
 
 	// Identifies when the information was collected.
@@ -1126,8 +1126,8 @@ providing a renewed certificate.`,
 		ConvertedName:  "Interval",
 		DefaultValue:   "10s",
 		Description: `Determines the length of the time interval that the log level must be
-enabled, switched back to default after limit, 
-using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).`,
+enabled, using [Golang duration
+syntax](https://golang.org/pkg/time/#example_Duration).`,
 		Exposed: true,
 		Name:    "interval",
 		Stored:  true,
@@ -1583,8 +1583,8 @@ providing a renewed certificate.`,
 		ConvertedName:  "Interval",
 		DefaultValue:   "10s",
 		Description: `Determines the length of the time interval that the log level must be
-enabled, switched back to default after limit, 
-using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).`,
+enabled, using [Golang duration
+syntax](https://golang.org/pkg/time/#example_Duration).`,
 		Exposed: true,
 		Name:    "interval",
 		Stored:  true,
@@ -1976,8 +1976,8 @@ type SparseEnforcer struct {
 	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
 	// Determines the length of the time interval that the log level must be
-	// enabled, switched back to default after limit,
-	// using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
+	// enabled, using [Golang duration
+	// syntax](https://golang.org/pkg/time/#example_Duration).
 	Interval *string `json:"interval,omitempty" msgpack:"interval,omitempty" bson:"interval,omitempty" mapstructure:"interval,omitempty"`
 
 	// Identifies when the information was collected.

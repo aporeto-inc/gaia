@@ -128,9 +128,10 @@ attributes:
     filterable: true
 
   - name: interval
-    description: "Determines the length of the time interval that the log level must
-      be\nenabled, switched back to default after limit, \nusing [Golang duration
-      syntax](https://golang.org/pkg/time/#example_Duration)."
+    description: |-
+      Determines the length of the time interval that the log level must be
+      enabled, using [Golang duration
+      syntax](https://golang.org/pkg/time/#example_Duration).
     type: string
     exposed: true
     stored: true

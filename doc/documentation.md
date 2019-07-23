@@ -2348,8 +2348,8 @@ Default value:
 ##### `interval` `string`
 
 Determines the length of the time interval that the log level must be
-enabled, switched back to default after limit,
-using [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
+enabled, using [Golang duration
+syntax](https://golang.org/pkg/time/#example_Duration).
 
 Default value:
 
