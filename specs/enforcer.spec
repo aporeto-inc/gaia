@@ -127,16 +127,6 @@ attributes:
     default_value: Inactive
     filterable: true
 
-  - name: interval
-    description: |-
-      Determines the length of the time interval that the log level must be
-      enabled, using [Golang duration
-      syntax](https://golang.org/pkg/time/#example_Duration).
-    type: string
-    exposed: true
-    stored: true
-    default_value: 10s
-
   - name: lastCollectionTime
     description: Identifies when the information was collected.
     type: time
@@ -187,6 +177,15 @@ attributes:
     - Error
     - Trace
     default_value: Info
+
+  - name: logLevelDuration
+    description: |-
+      Determines the duration of which the log level will be active, using [Golang
+      duration syntax](https://golang.org/pkg/time/#example_Duration).
+    type: string
+    exposed: true
+    stored: true
+    default_value: 10s
 
   - name: machineID
     description: |-

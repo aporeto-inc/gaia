@@ -2191,8 +2191,8 @@ ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
 -----END CERTIFICATE REQUEST-----",
   "collectInfo": false,
   "enforcementStatus": "Inactive",
-  "interval": "10s",
   "logLevel": "Info",
+  "logLevelDuration": "10s",
   "machineID": "3F23E8DF-C56D-45CF-89B8-A867F3956409",
   "name": "the name",
   "operationalStatus": "Registered",
@@ -2345,18 +2345,6 @@ Default value:
 "Inactive"
 ```
 
-##### `interval` `string`
-
-Determines the length of the time interval that the log level must be
-enabled, using [Golang duration
-syntax](https://golang.org/pkg/time/#example_Duration).
-
-Default value:
-
-```json
-"10s"
-```
-
 ##### `lastCollectionTime` `time`
 
 Identifies when the information was collected.
@@ -2378,6 +2366,17 @@ Default value:
 
 ```json
 "Info"
+```
+
+##### `logLevelDuration` `string`
+
+Determines the duration of which the log level will be active, using [Golang
+duration syntax](https://golang.org/pkg/time/#example_Duration).
+
+Default value:
+
+```json
+"10s"
 ```
 
 ##### `machineID` `string`
