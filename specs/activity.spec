@@ -6,7 +6,8 @@ model:
   package: hojo
   group: core/monitoring
   description: |-
-    Contains logs of all the activity that happened in a namespace. All successful or
+    Contains logs of all the activity that happened in a namespace. All successful
+    or
     failed actions will be available, errors, as well as the claims of
     the user who triggered the actions. This log is capped and only keeps the last
     50,000 entries by default.
@@ -14,6 +15,7 @@ model:
     description: Retrieves the object with the given ID.
   extends:
   - '@zoned'
+  - '@migratable'
   - '@identifiable-stored'
   - '@namespaced'
 

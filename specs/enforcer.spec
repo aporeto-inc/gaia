@@ -20,6 +20,7 @@ model:
   extends:
   - '@zoned'
   - '@base'
+  - '@migratable'
   - '@namespaced'
   - '@described'
   - '@identifiable-stored'

@@ -100,6 +100,9 @@ type Activity struct {
 	// Message of the notification.
 	Message string `json:"message" msgpack:"message" bson:"message" mapstructure:"message,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
@@ -129,7 +132,8 @@ type Activity struct {
 func NewActivity() *Activity {
 
 	return &Activity{
-		ModelVersion: 1,
+		ModelVersion:  1,
+		MigrationsLog: map[string]string{},
 	}
 }
 
@@ -174,7 +178,8 @@ func (o *Activity) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Activity) Doc() string {
 
-	return `Contains logs of all the activity that happened in a namespace. All successful or
+	return `Contains logs of all the activity that happened in a namespace. All successful
+or
 failed actions will be available, errors, as well as the claims of
 the user who triggered the actions. This log is capped and only keeps the last
 50,000 entries by default.`
@@ -183,6 +188,18 @@ the user who triggered the actions. This log is capped and only keeps the last
 func (o *Activity) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Activity) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Activity) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -234,6 +251,7 @@ func (o *Activity) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Date:           &o.Date,
 			Error:          &o.Error,
 			Message:        &o.Message,
+			MigrationsLog:  &o.MigrationsLog,
 			Namespace:      &o.Namespace,
 			Operation:      &o.Operation,
 			OriginalData:   &o.OriginalData,
@@ -259,6 +277,8 @@ func (o *Activity) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Error = &(o.Error)
 		case "message":
 			sp.Message = &(o.Message)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "operation":
@@ -303,6 +323,9 @@ func (o *Activity) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Message != nil {
 		o.Message = *so.Message
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
@@ -403,6 +426,8 @@ func (o *Activity) ValueForAttribute(name string) interface{} {
 		return o.Error
 	case "message":
 		return o.Message
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "namespace":
 		return o.Namespace
 	case "operation":
@@ -495,6 +520,17 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -664,6 +700,17 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -843,6 +890,9 @@ type SparseActivity struct {
 	// Message of the notification.
 	Message *string `json:"message,omitempty" msgpack:"message,omitempty" bson:"message,omitempty" mapstructure:"message,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
@@ -922,6 +972,9 @@ func (o *SparseActivity) ToPlain() elemental.PlainIdentifiable {
 	if o.Message != nil {
 		out.Message = *o.Message
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
@@ -945,6 +998,18 @@ func (o *SparseActivity) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseActivity) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseActivity) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetNamespace returns the Namespace of the receiver.

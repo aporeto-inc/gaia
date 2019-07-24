@@ -10,6 +10,7 @@ model:
     description: Retrieves the object with the given ID.
   extends:
   - '@zoned'
+  - '@migratable'
   - '@base'
   - '@namespaced'
   - '@identifiable-stored'

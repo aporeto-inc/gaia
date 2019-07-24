@@ -87,6 +87,9 @@ type Revocation struct {
 	// certificates that have expired.
 	ExpirationDate time.Time `json:"expirationDate" msgpack:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Set time from when the certificate will be revoked.
 	RevokeDate time.Time `json:"revokeDate" msgpack:"revokeDate" bson:"revokedate" mapstructure:"revokeDate,omitempty"`
 
@@ -110,7 +113,8 @@ type Revocation struct {
 func NewRevocation() *Revocation {
 
 	return &Revocation{
-		ModelVersion: 1,
+		ModelVersion:  1,
+		MigrationsLog: map[string]string{},
 	}
 }
 
@@ -161,6 +165,18 @@ func (o *Revocation) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Revocation) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Revocation) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetZHash returns the ZHash of the receiver.
 func (o *Revocation) GetZHash() int {
 
@@ -194,6 +210,7 @@ func (o *Revocation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparseRevocation{
 			ID:             &o.ID,
 			ExpirationDate: &o.ExpirationDate,
+			MigrationsLog:  &o.MigrationsLog,
 			RevokeDate:     &o.RevokeDate,
 			SerialNumber:   &o.SerialNumber,
 			Subject:        &o.Subject,
@@ -209,6 +226,8 @@ func (o *Revocation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ID = &(o.ID)
 		case "expirationDate":
 			sp.ExpirationDate = &(o.ExpirationDate)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "revokeDate":
 			sp.RevokeDate = &(o.RevokeDate)
 		case "serialNumber":
@@ -237,6 +256,9 @@ func (o *Revocation) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ExpirationDate != nil {
 		o.ExpirationDate = *so.ExpirationDate
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.RevokeDate != nil {
 		o.RevokeDate = *so.RevokeDate
@@ -323,6 +345,8 @@ func (o *Revocation) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "expirationDate":
 		return o.ExpirationDate
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "revokeDate":
 		return o.RevokeDate
 	case "serialNumber":
@@ -361,6 +385,17 @@ certificates that have expired.`,
 		Name:    "expirationDate",
 		Stored:  true,
 		Type:    "time",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"RevokeDate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -443,6 +478,17 @@ certificates that have expired.`,
 		Name:    "expirationDate",
 		Stored:  true,
 		Type:    "time",
+	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"revokedate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -572,6 +618,9 @@ type SparseRevocation struct {
 	// certificates that have expired.
 	ExpirationDate *time.Time `json:"expirationDate,omitempty" msgpack:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Set time from when the certificate will be revoked.
 	RevokeDate *time.Time `json:"revokeDate,omitempty" msgpack:"revokeDate,omitempty" bson:"revokedate,omitempty" mapstructure:"revokeDate,omitempty"`
 
@@ -633,6 +682,9 @@ func (o *SparseRevocation) ToPlain() elemental.PlainIdentifiable {
 	if o.ExpirationDate != nil {
 		out.ExpirationDate = *o.ExpirationDate
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.RevokeDate != nil {
 		out.RevokeDate = *o.RevokeDate
 	}
@@ -650,6 +702,18 @@ func (o *SparseRevocation) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseRevocation) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseRevocation) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetZHash returns the ZHash of the receiver.

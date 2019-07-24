@@ -111,6 +111,9 @@ type HTTPResourceSpec struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -150,6 +153,7 @@ func NewHTTPResourceSpec() *HTTPResourceSpec {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Endpoints:      []*Endpoint{},
+		MigrationsLog:  map[string]string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
 	}
@@ -289,6 +293,18 @@ func (o *HTTPResourceSpec) SetMetadata(metadata []string) {
 	o.Metadata = metadata
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *HTTPResourceSpec) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *HTTPResourceSpec) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetName returns the Name of the receiver.
 func (o *HTTPResourceSpec) GetName() string {
 
@@ -413,6 +429,7 @@ func (o *HTTPResourceSpec) ToSparse(fields ...string) elemental.SparseIdentifiab
 			Description:          &o.Description,
 			Endpoints:            &o.Endpoints,
 			Metadata:             &o.Metadata,
+			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
@@ -446,6 +463,8 @@ func (o *HTTPResourceSpec) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.Endpoints = &(o.Endpoints)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -503,6 +522,9 @@ func (o *HTTPResourceSpec) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -644,6 +666,8 @@ func (o *HTTPResourceSpec) ValueForAttribute(name string) interface{} {
 		return o.Endpoints
 	case "metadata":
 		return o.Metadata
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -780,6 +804,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1021,6 +1056,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1241,6 +1287,9 @@ type SparseHTTPResourceSpec struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1334,6 +1383,9 @@ func (o *SparseHTTPResourceSpec) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
+	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1448,6 +1500,18 @@ func (o *SparseHTTPResourceSpec) GetMetadata() []string {
 func (o *SparseHTTPResourceSpec) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseHTTPResourceSpec) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseHTTPResourceSpec) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

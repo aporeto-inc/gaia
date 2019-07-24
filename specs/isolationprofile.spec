@@ -5,7 +5,9 @@ model:
   entity_name: IsolationProfile
   package: squall
   group: policy/processingunits
-  description: Defines system call rules, system call actions, and other capabilities on a processing unit.
+  description: |-
+    Defines system call rules, system call actions, and other capabilities on a
+    processing unit.
   aliases:
   - ip
   get:
@@ -18,6 +20,7 @@ model:
     description: Deletes the profile with the given ID.
   extends:
   - '@zoned'
+  - '@migratable'
   - '@base'
   - '@namespaced'
   - '@described'
@@ -31,8 +34,8 @@ model:
 attributes:
   v1:
   - name: capabilitiesActions
-    description: |-
-      The capabilities that should be added to or removed from the processing unit.
+    description: The capabilities that should be added to or removed from the processing
+      unit.
     type: external
     exposed: true
     subtype: _cap_map
@@ -59,8 +62,7 @@ attributes:
     orderable: true
 
   - name: targetArchitectures
-    description: |-
-      The processor architectures that the profile supports. Default `all`.
+    description: The processor architectures that the profile supports. Default `all`.
     type: external
     exposed: true
     subtype: _arch_list

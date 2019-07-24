@@ -29,7 +29,8 @@ model:
       deleted.
 
     - Set the status back as `Draft`. The request will go back to the requester
-      namespace so that the requester can make changes. Once the change are ready, the requester
+      namespace so that the requester can make changes. Once the change are ready,
+    the requester
       will set back the status as `Submitted`.
 
     The `data` format is the same as `Export`.
@@ -46,6 +47,7 @@ model:
     description: Delete an existing import request.
   extends:
   - '@zoned'
+  - '@migratable'
   - '@base'
   - '@namespaced'
   - '@described'
@@ -96,8 +98,7 @@ attributes:
           - app=partner-data
 
   - name: requesterClaims
-    description: |-
-      The identity claims of the requester; populated by the control plane.
+    description: The identity claims of the requester; populated by the control plane.
     type: list
     exposed: true
     subtype: string
@@ -120,8 +121,10 @@ attributes:
 
   - name: status
     description: |-
-      Allows the content to be changed. `Submitted`: the request moves to the target namespace 
-      for approval. `Approved`: the data will be created immediately. `Rejected`: the request 
+      Allows the content to be changed. `Submitted`: the request moves to the target
+      namespace
+      for approval. `Approved`: the data will be created immediately. `Rejected`: the
+      request
       cannot be changed anymore and can be deleted.
     type: enum
     exposed: true
@@ -140,7 +143,8 @@ attributes:
 
   - name: targetNamespace
     description: |-
-      The namespace where the request will be sent. The requester can set any namespace but 
+      The namespace where the request will be sent. The requester can set any
+      namespace but
       needs to have an authorization to post the request in that namespace.
     type: string
     exposed: true

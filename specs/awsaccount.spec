@@ -6,7 +6,8 @@ model:
   package: vince
   group: core/authentication
   description: |-
-    Allows you to bind an AWS account to your Aporeto account to allow auto-registration
+    Allows you to bind an AWS account to your Aporeto account to allow
+    auto-registration
     of enforcers running on EC2 instances.
   aliases:
   - aws
@@ -20,6 +21,7 @@ model:
     - $filtering
   extends:
   - '@zoned'
+  - '@migratable'
   - '@identifiable-stored'
   - '@timeable'
 

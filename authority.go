@@ -120,6 +120,9 @@ type Authority struct {
 	// Encrypted private key of the Authority.
 	Key string `json:"-" msgpack:"-" bson:"key" mapstructure:"-,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// serialNumber of the certificate.
 	SerialNumber string `json:"serialNumber" msgpack:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
@@ -140,9 +143,10 @@ type Authority struct {
 func NewAuthority() *Authority {
 
 	return &Authority{
-		ModelVersion: 1,
-		Algorithm:    AuthorityAlgorithmECDSA,
-		Type:         AuthorityTypeCA,
+		ModelVersion:  1,
+		Algorithm:     AuthorityAlgorithmECDSA,
+		MigrationsLog: map[string]string{},
+		Type:          AuthorityTypeCA,
 	}
 }
 
@@ -193,6 +197,18 @@ func (o *Authority) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Authority) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Authority) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetZHash returns the ZHash of the receiver.
 func (o *Authority) GetZHash() int {
 
@@ -230,6 +246,7 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CommonName:     &o.CommonName,
 			ExpirationDate: &o.ExpirationDate,
 			Key:            &o.Key,
+			MigrationsLog:  &o.MigrationsLog,
 			SerialNumber:   &o.SerialNumber,
 			Type:           &o.Type,
 			ZHash:          &o.ZHash,
@@ -252,6 +269,8 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ExpirationDate = &(o.ExpirationDate)
 		case "key":
 			sp.Key = &(o.Key)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "serialNumber":
 			sp.SerialNumber = &(o.SerialNumber)
 		case "type":
@@ -290,6 +309,9 @@ func (o *Authority) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Key != nil {
 		o.Key = *so.Key
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.SerialNumber != nil {
 		o.SerialNumber = *so.SerialNumber
@@ -393,6 +415,8 @@ func (o *Authority) ValueForAttribute(name string) interface{} {
 		return o.ExpirationDate
 	case "key":
 		return o.Key
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "serialNumber":
 		return o.SerialNumber
 	case "type":
@@ -472,6 +496,17 @@ var AuthorityAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "key",
 		Stored:         true,
 		Type:           "string",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"SerialNumber": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -591,6 +626,17 @@ var AuthorityLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Name:           "key",
 		Stored:         true,
 		Type:           "string",
+	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"serialnumber": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -725,6 +771,9 @@ type SparseAuthority struct {
 	// Encrypted private key of the Authority.
 	Key *string `json:"-" msgpack:"-" bson:"key,omitempty" mapstructure:"-,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// serialNumber of the certificate.
 	SerialNumber *string `json:"serialNumber,omitempty" msgpack:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
 
@@ -795,6 +844,9 @@ func (o *SparseAuthority) ToPlain() elemental.PlainIdentifiable {
 	if o.Key != nil {
 		out.Key = *o.Key
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.SerialNumber != nil {
 		out.SerialNumber = *o.SerialNumber
 	}
@@ -809,6 +861,18 @@ func (o *SparseAuthority) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseAuthority) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseAuthority) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetZHash returns the ZHash of the receiver.

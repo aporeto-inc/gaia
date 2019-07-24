@@ -116,6 +116,9 @@ type AWSAPIGateway struct {
 	// API method that handled this request.
 	Method string `json:"method" msgpack:"method" bson:"-" mapstructure:"method,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -163,8 +166,9 @@ func NewAWSAPIGateway() *AWSAPIGateway {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Metadata:       []string{},
 		NormalizedTags: []string{},
+		Metadata:       []string{},
+		MigrationsLog:  map[string]string{},
 	}
 }
 
@@ -289,6 +293,18 @@ func (o *AWSAPIGateway) SetMetadata(metadata []string) {
 	o.Metadata = metadata
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *AWSAPIGateway) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *AWSAPIGateway) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetName returns the Name of the receiver.
 func (o *AWSAPIGateway) GetName() string {
 
@@ -391,6 +407,7 @@ func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			Description:          &o.Description,
 			Metadata:             &o.Metadata,
 			Method:               &o.Method,
+			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			NamespaceID:          &o.NamespaceID,
 			NormalizedTags:       &o.NormalizedTags,
@@ -431,6 +448,8 @@ func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Metadata = &(o.Metadata)
 		case "method":
 			sp.Method = &(o.Method)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespaceID":
@@ -500,6 +519,9 @@ func (o *AWSAPIGateway) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Method != nil {
 		o.Method = *so.Method
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -645,6 +667,8 @@ func (o *AWSAPIGateway) ValueForAttribute(name string) interface{} {
 		return o.Metadata
 	case "method":
 		return o.Method
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespaceID":
@@ -801,6 +825,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "method",
 		Type:           "string",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1068,6 +1103,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:           "method",
 		Type:           "string",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1305,6 +1351,9 @@ type SparseAWSAPIGateway struct {
 	// API method that handled this request.
 	Method *string `json:"method,omitempty" msgpack:"method,omitempty" bson:"-" mapstructure:"method,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1413,6 +1462,9 @@ func (o *SparseAWSAPIGateway) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Method != nil {
 		out.Method = *o.Method
+	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1524,6 +1576,18 @@ func (o *SparseAWSAPIGateway) GetMetadata() []string {
 func (o *SparseAWSAPIGateway) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseAWSAPIGateway) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

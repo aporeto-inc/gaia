@@ -17,6 +17,7 @@ model:
   extends:
   - '@base'
   - '@zoned'
+  - '@migratable'
   - '@described'
   - '@identifiable-stored'
   - '@metadatable'

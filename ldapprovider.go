@@ -153,6 +153,9 @@ type LDAPProvider struct {
 	// A list of keys that must not be imported into Aporeto authorization system.
 	IgnoredKeys []string `json:"ignoredKeys" msgpack:"ignoredKeys" bson:"ignoredkeys" mapstructure:"ignoredKeys,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -199,6 +202,7 @@ func NewLDAPProvider() *LDAPProvider {
 		BindSearchFilter:     "uid={USERNAME}",
 		ConnSecurityProtocol: LDAPProviderConnSecurityProtocolInbandTLS,
 		IgnoredKeys:          []string{},
+		MigrationsLog:        map[string]string{},
 		NormalizedTags:       []string{},
 		SubjectKey:           "uid",
 	}
@@ -313,6 +317,18 @@ func (o *LDAPProvider) GetDescription() string {
 func (o *LDAPProvider) SetDescription(description string) {
 
 	o.Description = description
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *LDAPProvider) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *LDAPProvider) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
@@ -433,6 +449,7 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Default:              &o.Default,
 			Description:          &o.Description,
 			IgnoredKeys:          &o.IgnoredKeys,
+			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
@@ -478,6 +495,8 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "ignoredKeys":
 			sp.IgnoredKeys = &(o.IgnoredKeys)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -553,6 +572,9 @@ func (o *LDAPProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.IgnoredKeys != nil {
 		o.IgnoredKeys = *so.IgnoredKeys
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -713,6 +735,8 @@ func (o *LDAPProvider) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "ignoredKeys":
 		return o.IgnoredKeys
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -928,6 +952,17 @@ given, the default will be used.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1252,6 +1287,17 @@ given, the default will be used.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1507,6 +1553,9 @@ type SparseLDAPProvider struct {
 	// A list of keys that must not be imported into Aporeto authorization system.
 	IgnoredKeys *[]string `json:"ignoredKeys,omitempty" msgpack:"ignoredKeys,omitempty" bson:"ignoredkeys,omitempty" mapstructure:"ignoredKeys,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1624,6 +1673,9 @@ func (o *SparseLDAPProvider) ToPlain() elemental.PlainIdentifiable {
 	if o.IgnoredKeys != nil {
 		out.IgnoredKeys = *o.IgnoredKeys
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1713,6 +1765,18 @@ func (o *SparseLDAPProvider) GetDescription() string {
 func (o *SparseLDAPProvider) SetDescription(description string) {
 
 	o.Description = &description
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseLDAPProvider) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseLDAPProvider) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

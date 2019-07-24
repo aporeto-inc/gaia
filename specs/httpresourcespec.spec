@@ -5,8 +5,7 @@ model:
   entity_name: HTTPResourceSpec
   package: squall
   group: policy/services
-  description: |-
-    Describes an HTTP resource exposed by one or more services.
+  description: Describes an HTTP resource exposed by one or more services.
   aliases:
   - httpresource
   - resource
@@ -23,6 +22,7 @@ model:
     - $filtering
   extends:
   - '@zoned'
+  - '@migratable'
   - '@base'
   - '@namespaced'
   - '@archivable'

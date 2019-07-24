@@ -145,6 +145,9 @@ type Automation struct {
 	// The last successful execution tine.
 	LastExecTime time.Time `json:"lastExecTime" msgpack:"lastExecTime" bson:"lastexectime" mapstructure:"lastExecTime,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -204,6 +207,7 @@ func NewAutomation() *Automation {
 		Events:         map[string][]elemental.EventType{},
 		Entitlements:   map[string][]elemental.Operation{},
 		Errors:         []string{},
+		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
 		Parameters:     map[string]interface{}{},
 		Trigger:        AutomationTriggerTime,
@@ -333,6 +337,18 @@ func (o *Automation) SetDisabled(disabled bool) {
 	o.Disabled = disabled
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Automation) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Automation) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetName returns the Name of the receiver.
 func (o *Automation) GetName() string {
 
@@ -450,6 +466,7 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Events:               &o.Events,
 			ImmediateExecution:   &o.ImmediateExecution,
 			LastExecTime:         &o.LastExecTime,
+			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
@@ -498,6 +515,8 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ImmediateExecution = &(o.ImmediateExecution)
 		case "lastExecTime":
 			sp.LastExecTime = &(o.LastExecTime)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -580,6 +599,9 @@ func (o *Automation) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.LastExecTime != nil {
 		o.LastExecTime = *so.LastExecTime
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -746,6 +768,8 @@ func (o *Automation) ValueForAttribute(name string) interface{} {
 		return o.ImmediateExecution
 	case "lastExecTime":
 		return o.LastExecTime
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -944,6 +968,17 @@ update before being scheduled.`,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1287,6 +1322,17 @@ update before being scheduled.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1574,6 +1620,9 @@ type SparseAutomation struct {
 	// The last successful execution tine.
 	LastExecTime *time.Time `json:"lastExecTime,omitempty" msgpack:"lastExecTime,omitempty" bson:"lastexectime,omitempty" mapstructure:"lastExecTime,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1700,6 +1749,9 @@ func (o *SparseAutomation) ToPlain() elemental.PlainIdentifiable {
 	if o.LastExecTime != nil {
 		out.LastExecTime = *o.LastExecTime
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1816,6 +1868,18 @@ func (o *SparseAutomation) GetDisabled() bool {
 func (o *SparseAutomation) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseAutomation) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseAutomation) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

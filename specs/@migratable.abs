@@ -1,0 +1,11 @@
+# Attributes
+attributes:
+  v1:
+  - name: migrationsLog
+    description: Internal property maintaining migrations information.
+    type: external
+    subtype: map[string]string
+    stored: true
+    getter: true
+    setter: true
+    omit_empty: true

@@ -129,6 +129,9 @@ type Alarm struct {
 	// identifier, then only the occurrence will be incremented.
 	Kind string `json:"kind" msgpack:"kind" bson:"kind" mapstructure:"kind,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -172,6 +175,7 @@ func NewAlarm() *Alarm {
 		Data:           []map[string]string{},
 		AssociatedTags: []string{},
 		Emails:         []string{},
+		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
 		Occurrences:    []time.Time{},
 		Status:         AlarmStatusOpen,
@@ -288,6 +292,18 @@ func (o *Alarm) SetDescription(description string) {
 	o.Description = description
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Alarm) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Alarm) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetName returns the Name of the receiver.
 func (o *Alarm) GetName() string {
 
@@ -401,6 +417,7 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Description:          &o.Description,
 			Emails:               &o.Emails,
 			Kind:                 &o.Kind,
+			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
@@ -437,6 +454,8 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Emails = &(o.Emails)
 		case "kind":
 			sp.Kind = &(o.Kind)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -499,6 +518,9 @@ func (o *Alarm) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Kind != nil {
 		o.Kind = *so.Kind
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -644,6 +666,8 @@ func (o *Alarm) ValueForAttribute(name string) interface{} {
 		return o.Emails
 	case "kind":
 		return o.Kind
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -792,6 +816,17 @@ identifier, then only the occurrence will be incremented.`,
 		Required:  true,
 		Stored:    true,
 		Type:      "string",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1054,6 +1089,17 @@ identifier, then only the occurrence will be incremented.`,
 		Stored:    true,
 		Type:      "string",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1289,6 +1335,9 @@ type SparseAlarm struct {
 	// identifier, then only the occurrence will be incremented.
 	Kind *string `json:"kind,omitempty" msgpack:"kind,omitempty" bson:"kind,omitempty" mapstructure:"kind,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1389,6 +1438,9 @@ func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 	if o.Kind != nil {
 		out.Kind = *o.Kind
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1481,6 +1533,18 @@ func (o *SparseAlarm) GetDescription() string {
 func (o *SparseAlarm) SetDescription(description string) {
 
 	o.Description = &description
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseAlarm) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseAlarm) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

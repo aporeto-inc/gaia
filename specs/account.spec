@@ -18,6 +18,7 @@ model:
     - $filtering
   extends:
   - '@zoned'
+  - '@migratable'
   - '@identifiable-stored'
   - '@timeable'
 

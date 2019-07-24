@@ -6,7 +6,8 @@ model:
   package: cactuar
   group: core/authentication
   description: |-
-    Allows to declare a generic OpenID Connect (OIDC) provider that can be used in exchange 
+    Allows to declare a generic OpenID Connect (OIDC) provider that can be used in
+    exchange
     for a Midguard token.
   get:
     description: Retrieves the provider with the given ID.
@@ -18,6 +19,7 @@ model:
     - $filtering
   extends:
   - '@zoned'
+  - '@migratable'
   - '@base'
   - '@namespaced'
   - '@identifiable-stored'
@@ -54,7 +56,8 @@ attributes:
 
   - name: endpoint
     description: |-
-      OIDC [discovery endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
+      OIDC [discovery
+      endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
     type: string
     exposed: true
     stored: true

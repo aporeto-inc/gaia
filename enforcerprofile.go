@@ -156,6 +156,9 @@ type EnforcerProfile struct {
 	// This field is kept for backward compatibility for enforcers <= 3.5.
 	MetadataExtractor EnforcerProfileMetadataExtractorValue `json:"metadataExtractor" msgpack:"metadataExtractor" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -211,12 +214,13 @@ func NewEnforcerProfile() *EnforcerProfile {
 		ExcludedInterfaces:          []string{},
 		AssociatedTags:              []string{},
 		ExcludedNetworks:            []string{},
-		MetadataExtractor:           EnforcerProfileMetadataExtractorDocker,
-		KubernetesMetadataExtractor: EnforcerProfileKubernetesMetadataExtractorPodAtomic,
-		TargetNetworks:              []string{},
-		Metadata:                    []string{},
-		NormalizedTags:              []string{},
+		MigrationsLog:               map[string]string{},
 		IgnoreExpression:            [][]string{},
+		TargetNetworks:              []string{},
+		MetadataExtractor:           EnforcerProfileMetadataExtractorDocker,
+		NormalizedTags:              []string{},
+		KubernetesMetadataExtractor: EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		Metadata:                    []string{},
 		TargetUDPNetworks:           []string{},
 		TrustedCAs:                  []string{},
 	}
@@ -348,6 +352,18 @@ func (o *EnforcerProfile) SetMetadata(metadata []string) {
 	o.Metadata = metadata
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *EnforcerProfile) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *EnforcerProfile) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetName returns the Name of the receiver.
 func (o *EnforcerProfile) GetName() string {
 
@@ -476,6 +492,7 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			KubernetesSupportEnabled:    &o.KubernetesSupportEnabled,
 			Metadata:                    &o.Metadata,
 			MetadataExtractor:           &o.MetadataExtractor,
+			MigrationsLog:               &o.MigrationsLog,
 			Name:                        &o.Name,
 			Namespace:                   &o.Namespace,
 			NormalizedTags:              &o.NormalizedTags,
@@ -520,6 +537,8 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Metadata = &(o.Metadata)
 		case "metadataExtractor":
 			sp.MetadataExtractor = &(o.MetadataExtractor)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -595,6 +614,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.MetadataExtractor != nil {
 		o.MetadataExtractor = *so.MetadataExtractor
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -761,6 +783,8 @@ func (o *EnforcerProfile) ValueForAttribute(name string) interface{} {
 		return o.Metadata
 	case "metadataExtractor":
 		return o.MetadataExtractor
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -952,6 +976,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:           "metadataExtractor",
 		Stored:         true,
 		Type:           "enum",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1280,6 +1315,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1555,6 +1601,9 @@ type SparseEnforcerProfile struct {
 	// This field is kept for backward compatibility for enforcers <= 3.5.
 	MetadataExtractor *EnforcerProfileMetadataExtractorValue `json:"metadataExtractor,omitempty" msgpack:"metadataExtractor,omitempty" bson:"metadataextractor,omitempty" mapstructure:"metadataExtractor,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1676,6 +1725,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.MetadataExtractor != nil {
 		out.MetadataExtractor = *o.MetadataExtractor
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1786,6 +1838,18 @@ func (o *SparseEnforcerProfile) GetMetadata() []string {
 func (o *SparseEnforcerProfile) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseEnforcerProfile) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

@@ -11,6 +11,7 @@ model:
     description: Updates the object with the given ID.
   extends:
   - '@zoned'
+  - '@migratable'
 
 # Attributes
 attributes:

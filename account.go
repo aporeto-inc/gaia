@@ -157,6 +157,9 @@ type Account struct {
 	// Last name of the account user.
 	LastName string `json:"lastName" msgpack:"lastName" bson:"lastname" mapstructure:"lastName,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the account.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -200,6 +203,7 @@ func NewAccount() *Account {
 		ModelVersion:            1,
 		AssociatedAWSPolicies:   map[string]string{},
 		AssociatedQuotaPolicies: map[string]string{},
+		MigrationsLog:           map[string]string{},
 		Status:                  AccountStatusPending,
 	}
 }
@@ -262,6 +266,18 @@ func (o *Account) GetCreateTime() time.Time {
 func (o *Account) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Account) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Account) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
@@ -327,6 +343,7 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Email:                     &o.Email,
 			FirstName:                 &o.FirstName,
 			LastName:                  &o.LastName,
+			MigrationsLog:             &o.MigrationsLog,
 			Name:                      &o.Name,
 			NewPassword:               &o.NewPassword,
 			Password:                  &o.Password,
@@ -383,6 +400,8 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.FirstName = &(o.FirstName)
 		case "lastName":
 			sp.LastName = &(o.LastName)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "newPassword":
@@ -475,6 +494,9 @@ func (o *Account) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.LastName != nil {
 		o.LastName = *so.LastName
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -628,6 +650,8 @@ func (o *Account) ValueForAttribute(name string) interface{} {
 		return o.FirstName
 	case "lastName":
 		return o.LastName
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "newPassword":
@@ -856,6 +880,17 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChars:   `^[^\*\=]*$`,
@@ -1178,6 +1213,17 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChars:   `^[^\*\=]*$`,
 		AllowedChoices: []string{},
@@ -1418,6 +1464,9 @@ type SparseAccount struct {
 	// Last name of the account user.
 	LastName *string `json:"lastName,omitempty" msgpack:"lastName,omitempty" bson:"lastname,omitempty" mapstructure:"lastName,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the account.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1550,6 +1599,9 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 	if o.LastName != nil {
 		out.LastName = *o.LastName
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1594,6 +1646,18 @@ func (o *SparseAccount) GetCreateTime() time.Time {
 func (o *SparseAccount) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseAccount) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseAccount) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
