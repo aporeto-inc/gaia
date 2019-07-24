@@ -121,6 +121,9 @@ type Message struct {
 	// Importance of the message.
 	Level MessageLevelValue `json:"level" msgpack:"level" bson:"level" mapstructure:"level,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -164,6 +167,7 @@ func NewMessage() *Message {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Level:          MessageLevelInfo,
+		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
 	}
 }
@@ -277,6 +281,18 @@ func (o *Message) GetDescription() string {
 func (o *Message) SetDescription(description string) {
 
 	o.Description = description
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Message) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Message) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
@@ -402,6 +418,7 @@ func (o *Message) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Description:          &o.Description,
 			ExpirationTime:       &o.ExpirationTime,
 			Level:                &o.Level,
+			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
@@ -434,6 +451,8 @@ func (o *Message) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ExpirationTime = &(o.ExpirationTime)
 		case "level":
 			sp.Level = &(o.Level)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -490,6 +509,9 @@ func (o *Message) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Level != nil {
 		o.Level = *so.Level
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -627,6 +649,8 @@ func (o *Message) ValueForAttribute(name string) interface{} {
 		return o.ExpirationTime
 	case "level":
 		return o.Level
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -751,6 +775,17 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -989,6 +1024,17 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "enum",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1216,6 +1262,9 @@ type SparseMessage struct {
 	// Importance of the message.
 	Level *MessageLevelValue `json:"level,omitempty" msgpack:"level,omitempty" bson:"level,omitempty" mapstructure:"level,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1311,6 +1360,9 @@ func (o *SparseMessage) ToPlain() elemental.PlainIdentifiable {
 	if o.Level != nil {
 		out.Level = *o.Level
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1403,6 +1455,18 @@ func (o *SparseMessage) GetDescription() string {
 func (o *SparseMessage) SetDescription(description string) {
 
 	o.Description = &description
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseMessage) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseMessage) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

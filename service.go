@@ -213,9 +213,13 @@ type Service struct {
 	// Defines the user authorization type that should be used.
 	//
 	// - `None` (default): No authorization.
-	// - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization` header.
-	// - `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
-	// - `MTLS`: Configures client certificate authorization. Then you can optionally use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate will be used.
+	// - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization`
+	// header.
+	// - `OIDC`: Configures OIDC authorization. You must then set
+	// `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
+	// - `MTLS`: Configures client certificate authorization. Then you can optionally
+	// use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
+	// will be used.
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" msgpack:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
@@ -270,6 +274,9 @@ type Service struct {
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -355,13 +362,14 @@ func NewService() *Service {
 		Endpoints:                  []*Endpoint{},
 		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		AssociatedTags:             []string{},
-		TLSType:                    ServiceTLSTypeAporeto,
 		NormalizedTags:             []string{},
+		OIDCScopes:                 []string{},
 		Selectors:                  [][]string{},
+		MigrationsLog:              map[string]string{},
 		Type:                       ServiceTypeHTTP,
 		IPs:                        []string{},
-		OIDCScopes:                 []string{},
 		Metadata:                   []string{},
+		TLSType:                    ServiceTLSTypeAporeto,
 	}
 }
 
@@ -514,6 +522,18 @@ func (o *Service) SetMetadata(metadata []string) {
 	o.Metadata = metadata
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Service) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Service) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetName returns the Name of the receiver.
 func (o *Service) GetName() string {
 
@@ -647,6 +667,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			External:                          &o.External,
 			Hosts:                             &o.Hosts,
 			Metadata:                          &o.Metadata,
+			MigrationsLog:                     &o.MigrationsLog,
 			Name:                              &o.Name,
 			Namespace:                         &o.Namespace,
 			NormalizedTags:                    &o.NormalizedTags,
@@ -727,6 +748,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Hosts = &(o.Hosts)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -857,6 +880,9 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -1109,6 +1135,8 @@ func (o *Service) ValueForAttribute(name string) interface{} {
 		return o.Hosts
 	case "metadata":
 		return o.Metadata
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -1346,9 +1374,13 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Description: `Defines the user authorization type that should be used.
 
 - ` + "`" + `None` + "`" + ` (default): No authorization.
-- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Authorization` + "`" + ` header.
-- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
-- ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate will be used.`,
+- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Authorization` + "`" + `
+header.
+- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
+` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
+- ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
+use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate
+will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -1509,6 +1541,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1909,9 +1952,13 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Description: `Defines the user authorization type that should be used.
 
 - ` + "`" + `None` + "`" + ` (default): No authorization.
-- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Authorization` + "`" + ` header.
-- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
-- ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate will be used.`,
+- ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Authorization` + "`" + `
+header.
+- ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
+` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
+- ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
+use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate
+will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -2072,6 +2119,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -2413,9 +2471,13 @@ type SparseService struct {
 	// Defines the user authorization type that should be used.
 	//
 	// - `None` (default): No authorization.
-	// - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization` header.
-	// - `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
-	// - `MTLS`: Configures client certificate authorization. Then you can optionally use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate will be used.
+	// - `JWT`:  Configures a simple JWT verification from the HTTP `Authorization`
+	// header.
+	// - `OIDC`: Configures OIDC authorization. You must then set
+	// `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
+	// - `MTLS`: Configures client certificate authorization. Then you can optionally
+	// use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
+	// will be used.
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" msgpack:"authorizationType,omitempty" bson:"authorizationtype,omitempty" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
@@ -2470,6 +2532,9 @@ type SparseService struct {
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
@@ -2665,6 +2730,9 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -2805,6 +2873,18 @@ func (o *SparseService) GetMetadata() []string {
 func (o *SparseService) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseService) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseService) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

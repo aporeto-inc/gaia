@@ -60,6 +60,7 @@ attributes:
     - EventLogs
     - Packets
     - EnforcerTraces
+    - Counters
     - Accesses
     default_value: Flows
 

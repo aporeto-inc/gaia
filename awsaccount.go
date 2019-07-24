@@ -97,6 +97,9 @@ type AWSAccount struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Contains the parent Vince account ID.
 	ParentID string `json:"parentID" msgpack:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
 
@@ -127,7 +130,8 @@ type AWSAccount struct {
 func NewAWSAccount() *AWSAccount {
 
 	return &AWSAccount{
-		ModelVersion: 1,
+		ModelVersion:  1,
+		MigrationsLog: map[string]string{},
 	}
 }
 
@@ -170,7 +174,8 @@ func (o *AWSAccount) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *AWSAccount) Doc() string {
 
-	return `Allows you to bind an AWS account to your Aporeto account to allow auto-registration
+	return `Allows you to bind an AWS account to your Aporeto account to allow
+auto-registration
 of enforcers running on EC2 instances.`
 }
 
@@ -189,6 +194,18 @@ func (o *AWSAccount) GetCreateTime() time.Time {
 func (o *AWSAccount) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *AWSAccount) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *AWSAccount) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
@@ -239,6 +256,7 @@ func (o *AWSAccount) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AccessToken:     &o.AccessToken,
 			AccountID:       &o.AccountID,
 			CreateTime:      &o.CreateTime,
+			MigrationsLog:   &o.MigrationsLog,
 			ParentID:        &o.ParentID,
 			ParentName:      &o.ParentName,
 			Region:          &o.Region,
@@ -262,6 +280,8 @@ func (o *AWSAccount) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AccountID = &(o.AccountID)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "parentID":
 			sp.ParentID = &(o.ParentID)
 		case "parentName":
@@ -303,6 +323,9 @@ func (o *AWSAccount) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.ParentID != nil {
 		o.ParentID = *so.ParentID
@@ -413,6 +436,8 @@ func (o *AWSAccount) ValueForAttribute(name string) interface{} {
 		return o.AccountID
 	case "createTime":
 		return o.CreateTime
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "parentID":
 		return o.ParentID
 	case "parentName":
@@ -495,6 +520,17 @@ account ID and does not store the value.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"ParentID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -650,6 +686,17 @@ account ID and does not store the value.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"parentid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -822,6 +869,9 @@ type SparseAWSAccount struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Contains the parent Vince account ID.
 	ParentID *string `json:"parentID,omitempty" msgpack:"parentID,omitempty" bson:"parentid,omitempty" mapstructure:"parentID,omitempty"`
 
@@ -899,6 +949,9 @@ func (o *SparseAWSAccount) ToPlain() elemental.PlainIdentifiable {
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.ParentID != nil {
 		out.ParentID = *o.ParentID
 	}
@@ -934,6 +987,18 @@ func (o *SparseAWSAccount) GetCreateTime() time.Time {
 func (o *SparseAWSAccount) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseAWSAccount) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseAWSAccount) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

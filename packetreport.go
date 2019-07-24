@@ -113,6 +113,12 @@ type PacketReport struct {
 	// Set to `true` if the packet was encrypted.
 	Encrypt bool `json:"encrypt" msgpack:"encrypt" bson:"-" mapstructure:"encrypt,omitempty"`
 
+	// Identifier of the enforcer sending the report.
+	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
+
+	// Namespace of the enforcer sending the report.
+	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
+
 	// The event that triggered the report.
 	Event PacketReportEventValue `json:"event" msgpack:"event" bson:"-" mapstructure:"event,omitempty"`
 
@@ -133,6 +139,9 @@ type PacketReport struct {
 
 	// The ID of the processing unit reporting the packet.
 	PuID string `json:"puID" msgpack:"puID" bson:"-" mapstructure:"puID,omitempty"`
+
+	// The first 64 bytes of the packet.
+	RawPacket string `json:"rawPacket" msgpack:"rawPacket" bson:"rawpacket" mapstructure:"rawPacket,omitempty"`
 
 	// The source IP address of the packet.
 	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
@@ -155,6 +164,7 @@ func NewPacketReport() *PacketReport {
 	return &PacketReport{
 		ModelVersion:  1,
 		Claims:        []string{},
+		RawPacket:     "abcd",
 		TriremePacket: true,
 	}
 }
@@ -212,23 +222,26 @@ func (o *PacketReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePacketReport{
-			TCPFlags:        &o.TCPFlags,
-			Claims:          &o.Claims,
-			DestinationIP:   &o.DestinationIP,
-			DestinationPort: &o.DestinationPort,
-			DropReason:      &o.DropReason,
-			Encrypt:         &o.Encrypt,
-			Event:           &o.Event,
-			Length:          &o.Length,
-			Mark:            &o.Mark,
-			Namespace:       &o.Namespace,
-			PacketID:        &o.PacketID,
-			Protocol:        &o.Protocol,
-			PuID:            &o.PuID,
-			SourceIP:        &o.SourceIP,
-			SourcePort:      &o.SourcePort,
-			Timestamp:       &o.Timestamp,
-			TriremePacket:   &o.TriremePacket,
+			TCPFlags:          &o.TCPFlags,
+			Claims:            &o.Claims,
+			DestinationIP:     &o.DestinationIP,
+			DestinationPort:   &o.DestinationPort,
+			DropReason:        &o.DropReason,
+			Encrypt:           &o.Encrypt,
+			EnforcerID:        &o.EnforcerID,
+			EnforcerNamespace: &o.EnforcerNamespace,
+			Event:             &o.Event,
+			Length:            &o.Length,
+			Mark:              &o.Mark,
+			Namespace:         &o.Namespace,
+			PacketID:          &o.PacketID,
+			Protocol:          &o.Protocol,
+			PuID:              &o.PuID,
+			RawPacket:         &o.RawPacket,
+			SourceIP:          &o.SourceIP,
+			SourcePort:        &o.SourcePort,
+			Timestamp:         &o.Timestamp,
+			TriremePacket:     &o.TriremePacket,
 		}
 	}
 
@@ -247,6 +260,10 @@ func (o *PacketReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.DropReason = &(o.DropReason)
 		case "encrypt":
 			sp.Encrypt = &(o.Encrypt)
+		case "enforcerID":
+			sp.EnforcerID = &(o.EnforcerID)
+		case "enforcerNamespace":
+			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "event":
 			sp.Event = &(o.Event)
 		case "length":
@@ -261,6 +278,8 @@ func (o *PacketReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protocol = &(o.Protocol)
 		case "puID":
 			sp.PuID = &(o.PuID)
+		case "rawPacket":
+			sp.RawPacket = &(o.RawPacket)
 		case "sourceIP":
 			sp.SourceIP = &(o.SourceIP)
 		case "sourcePort":
@@ -300,6 +319,12 @@ func (o *PacketReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Encrypt != nil {
 		o.Encrypt = *so.Encrypt
 	}
+	if so.EnforcerID != nil {
+		o.EnforcerID = *so.EnforcerID
+	}
+	if so.EnforcerNamespace != nil {
+		o.EnforcerNamespace = *so.EnforcerNamespace
+	}
 	if so.Event != nil {
 		o.Event = *so.Event
 	}
@@ -320,6 +345,9 @@ func (o *PacketReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.PuID != nil {
 		o.PuID = *so.PuID
+	}
+	if so.RawPacket != nil {
+		o.RawPacket = *so.RawPacket
 	}
 	if so.SourceIP != nil {
 		o.SourceIP = *so.SourceIP
@@ -367,6 +395,14 @@ func (o *PacketReport) Validate() error {
 
 	if err := elemental.ValidateMaximumInt("destinationPort", o.DestinationPort, int(65536), false); err != nil {
 		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("enforcerID", o.EnforcerID); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("enforcerNamespace", o.EnforcerNamespace); err != nil {
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("event", string(o.Event)); err != nil {
@@ -447,6 +483,10 @@ func (o *PacketReport) ValueForAttribute(name string) interface{} {
 		return o.DropReason
 	case "encrypt":
 		return o.Encrypt
+	case "enforcerID":
+		return o.EnforcerID
+	case "enforcerNamespace":
+		return o.EnforcerNamespace
 	case "event":
 		return o.Event
 	case "length":
@@ -461,6 +501,8 @@ func (o *PacketReport) ValueForAttribute(name string) interface{} {
 		return o.Protocol
 	case "puID":
 		return o.PuID
+	case "rawPacket":
+		return o.RawPacket
 	case "sourceIP":
 		return o.SourceIP
 	case "sourcePort":
@@ -525,6 +567,26 @@ Otherwise empty.`,
 		Name:           "encrypt",
 		Type:           "boolean",
 	},
+	"EnforcerID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcerID",
+		Description:    `Identifier of the enforcer sending the report.`,
+		Exposed:        true,
+		Name:           "enforcerID",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"EnforcerNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcerNamespace",
+		Description:    `Namespace of the enforcer sending the report.`,
+		Exposed:        true,
+		Name:           "enforcerNamespace",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"Event": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Received", "Transmitted", "Dropped"},
 		ConvertedName:  "Event",
@@ -586,6 +648,16 @@ Otherwise empty.`,
 		Filterable:     true,
 		Name:           "puID",
 		Required:       true,
+		Type:           "string",
+	},
+	"RawPacket": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RawPacket",
+		DefaultValue:   "abcd",
+		Description:    `The first 64 bytes of the packet.`,
+		Exposed:        true,
+		Name:           "rawPacket",
+		Stored:         true,
 		Type:           "string",
 	},
 	"SourceIP": elemental.AttributeSpecification{
@@ -678,6 +750,26 @@ Otherwise empty.`,
 		Name:           "encrypt",
 		Type:           "boolean",
 	},
+	"enforcerid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcerID",
+		Description:    `Identifier of the enforcer sending the report.`,
+		Exposed:        true,
+		Name:           "enforcerID",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"enforcernamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcerNamespace",
+		Description:    `Namespace of the enforcer sending the report.`,
+		Exposed:        true,
+		Name:           "enforcerNamespace",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"event": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Received", "Transmitted", "Dropped"},
 		ConvertedName:  "Event",
@@ -739,6 +831,16 @@ Otherwise empty.`,
 		Filterable:     true,
 		Name:           "puID",
 		Required:       true,
+		Type:           "string",
+	},
+	"rawpacket": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RawPacket",
+		DefaultValue:   "abcd",
+		Description:    `The first 64 bytes of the packet.`,
+		Exposed:        true,
+		Name:           "rawPacket",
+		Stored:         true,
 		Type:           "string",
 	},
 	"sourceip": elemental.AttributeSpecification{
@@ -862,6 +964,12 @@ type SparsePacketReport struct {
 	// Set to `true` if the packet was encrypted.
 	Encrypt *bool `json:"encrypt,omitempty" msgpack:"encrypt,omitempty" bson:"-" mapstructure:"encrypt,omitempty"`
 
+	// Identifier of the enforcer sending the report.
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
+
+	// Namespace of the enforcer sending the report.
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
+
 	// The event that triggered the report.
 	Event *PacketReportEventValue `json:"event,omitempty" msgpack:"event,omitempty" bson:"-" mapstructure:"event,omitempty"`
 
@@ -882,6 +990,9 @@ type SparsePacketReport struct {
 
 	// The ID of the processing unit reporting the packet.
 	PuID *string `json:"puID,omitempty" msgpack:"puID,omitempty" bson:"-" mapstructure:"puID,omitempty"`
+
+	// The first 64 bytes of the packet.
+	RawPacket *string `json:"rawPacket,omitempty" msgpack:"rawPacket,omitempty" bson:"rawpacket,omitempty" mapstructure:"rawPacket,omitempty"`
 
 	// The source IP address of the packet.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
@@ -948,6 +1059,12 @@ func (o *SparsePacketReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Encrypt != nil {
 		out.Encrypt = *o.Encrypt
 	}
+	if o.EnforcerID != nil {
+		out.EnforcerID = *o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		out.EnforcerNamespace = *o.EnforcerNamespace
+	}
 	if o.Event != nil {
 		out.Event = *o.Event
 	}
@@ -968,6 +1085,9 @@ func (o *SparsePacketReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.PuID != nil {
 		out.PuID = *o.PuID
+	}
+	if o.RawPacket != nil {
+		out.RawPacket = *o.RawPacket
 	}
 	if o.SourceIP != nil {
 		out.SourceIP = *o.SourceIP

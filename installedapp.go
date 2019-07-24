@@ -133,6 +133,9 @@ type InstalledApp struct {
 	// DeploymentCount represents the number of expected deployment for this app.
 	DeploymentCount int `json:"-" msgpack:"-" bson:"deploymentcount" mapstructure:"-,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -177,6 +180,7 @@ func NewInstalledApp() *InstalledApp {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
+		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
 		Parameters:     map[string]interface{}{},
 		Status:         InstalledAppStatusUnknown,
@@ -279,6 +283,18 @@ func (o *InstalledApp) GetCreateTime() time.Time {
 func (o *InstalledApp) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *InstalledApp) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *InstalledApp) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
@@ -393,6 +409,7 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateTime:           &o.CreateTime,
 			CurrentVersion:       &o.CurrentVersion,
 			DeploymentCount:      &o.DeploymentCount,
+			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
@@ -428,6 +445,8 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CurrentVersion = &(o.CurrentVersion)
 		case "deploymentCount":
 			sp.DeploymentCount = &(o.DeploymentCount)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -489,6 +508,9 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DeploymentCount != nil {
 		o.DeploymentCount = *so.DeploymentCount
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -623,6 +645,8 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.CurrentVersion
 	case "deploymentCount":
 		return o.DeploymentCount
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -752,6 +776,17 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "integer",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1002,6 +1037,17 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "integer",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1241,6 +1287,9 @@ type SparseInstalledApp struct {
 	// DeploymentCount represents the number of expected deployment for this app.
 	DeploymentCount *int `json:"-" msgpack:"-" bson:"deploymentcount,omitempty" mapstructure:"-,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1341,6 +1390,9 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.DeploymentCount != nil {
 		out.DeploymentCount = *o.DeploymentCount
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1424,6 +1476,18 @@ func (o *SparseInstalledApp) GetCreateTime() time.Time {
 func (o *SparseInstalledApp) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseInstalledApp) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseInstalledApp) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

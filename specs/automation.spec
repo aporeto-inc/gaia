@@ -22,6 +22,7 @@ model:
   extends:
   - '@base'
   - '@zoned'
+  - '@migratable'
   - '@namespaced'
   - '@described'
   - '@disabled'

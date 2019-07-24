@@ -28,6 +28,7 @@ model:
     - $filtering
   extends:
   - '@zoned'
+  - '@migratable'
   - '@base'
   - '@namespaced'
   - '@archivable'

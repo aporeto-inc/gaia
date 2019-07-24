@@ -16,6 +16,7 @@ model:
   extends:
   - '@identifiable-stored'
   - '@zoned'
+  - '@migratable'
 
 # Indexes
 indexes:

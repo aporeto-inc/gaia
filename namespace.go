@@ -155,6 +155,9 @@ type Namespace struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// The name of the namespace.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -204,9 +207,10 @@ func NewNamespace() *Namespace {
 		AssociatedTags:             []string{},
 		NetworkAccessPolicyTags:    []string{},
 		NormalizedTags:             []string{},
+		JWTCertificateType:         NamespaceJWTCertificateTypeNone,
+		MigrationsLog:              map[string]string{},
 		JWTCertificates:            map[string]string{},
 		Metadata:                   []string{},
-		JWTCertificateType:         NamespaceJWTCertificateTypeNone,
 		ServiceCertificateValidity: "1h",
 	}
 }
@@ -334,6 +338,18 @@ func (o *Namespace) GetMetadata() []string {
 func (o *Namespace) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Namespace) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Namespace) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
@@ -467,6 +483,7 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			LocalCA:                    &o.LocalCA,
 			LocalCAEnabled:             &o.LocalCAEnabled,
 			Metadata:                   &o.Metadata,
+			MigrationsLog:              &o.MigrationsLog,
 			Name:                       &o.Name,
 			Namespace:                  &o.Namespace,
 			NetworkAccessPolicyTags:    &o.NetworkAccessPolicyTags,
@@ -516,6 +533,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.LocalCAEnabled = &(o.LocalCAEnabled)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -598,6 +617,9 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -762,6 +784,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.LocalCAEnabled
 	case "metadata":
 		return o.Metadata
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -984,6 +1008,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
@@ -1332,6 +1367,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
 		AllowedChoices: []string{},
@@ -1607,6 +1653,9 @@ type SparseNamespace struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// The name of the namespace.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1731,6 +1780,9 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1838,6 +1890,18 @@ func (o *SparseNamespace) GetMetadata() []string {
 func (o *SparseNamespace) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseNamespace) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseNamespace) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

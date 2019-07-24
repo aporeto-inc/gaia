@@ -102,6 +102,9 @@ type SSHAuthority struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -128,8 +131,9 @@ type SSHAuthority struct {
 func NewSSHAuthority() *SSHAuthority {
 
 	return &SSHAuthority{
-		ModelVersion: 1,
-		Alg:          SSHAuthorityAlgECDSA,
+		ModelVersion:  1,
+		Alg:           SSHAuthorityAlgECDSA,
+		MigrationsLog: map[string]string{},
 	}
 }
 
@@ -194,6 +198,18 @@ func (o *SSHAuthority) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SSHAuthority) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *SSHAuthority) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetName returns the Name of the receiver.
 func (o *SSHAuthority) GetName() string {
 
@@ -249,15 +265,16 @@ func (o *SSHAuthority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseSSHAuthority{
-			ID:         &o.ID,
-			Alg:        &o.Alg,
-			CreateTime: &o.CreateTime,
-			Name:       &o.Name,
-			PrivateKey: &o.PrivateKey,
-			PublicKey:  &o.PublicKey,
-			UpdateTime: &o.UpdateTime,
-			ZHash:      &o.ZHash,
-			Zone:       &o.Zone,
+			ID:            &o.ID,
+			Alg:           &o.Alg,
+			CreateTime:    &o.CreateTime,
+			MigrationsLog: &o.MigrationsLog,
+			Name:          &o.Name,
+			PrivateKey:    &o.PrivateKey,
+			PublicKey:     &o.PublicKey,
+			UpdateTime:    &o.UpdateTime,
+			ZHash:         &o.ZHash,
+			Zone:          &o.Zone,
 		}
 	}
 
@@ -270,6 +287,8 @@ func (o *SSHAuthority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Alg = &(o.Alg)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "privateKey":
@@ -303,6 +322,9 @@ func (o *SSHAuthority) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -406,6 +428,8 @@ func (o *SSHAuthority) ValueForAttribute(name string) interface{} {
 		return o.Alg
 	case "createTime":
 		return o.CreateTime
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "privateKey":
@@ -462,6 +486,17 @@ var SSHAuthorityAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -582,6 +617,17 @@ var SSHAuthorityLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -737,6 +783,9 @@ type SparseSSHAuthority struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -804,6 +853,9 @@ func (o *SparseSSHAuthority) ToPlain() elemental.PlainIdentifiable {
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -836,6 +888,18 @@ func (o *SparseSSHAuthority) GetCreateTime() time.Time {
 func (o *SparseSSHAuthority) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseSSHAuthority) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseSSHAuthority) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

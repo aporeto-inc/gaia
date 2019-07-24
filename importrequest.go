@@ -126,6 +126,9 @@ type ImportRequest struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
@@ -142,15 +145,18 @@ type ImportRequest struct {
 	// control plane.
 	RequesterNamespace string `json:"requesterNamespace" msgpack:"requesterNamespace" bson:"requesternamespace" mapstructure:"requesterNamespace,omitempty"`
 
-	// Allows the content to be changed. `Submitted`: the request moves to the target namespace
-	// for approval. `Approved`: the data will be created immediately. `Rejected`: the request
+	// Allows the content to be changed. `Submitted`: the request moves to the target
+	// namespace
+	// for approval. `Approved`: the data will be created immediately. `Rejected`: the
+	// request
 	// cannot be changed anymore and can be deleted.
 	Status ImportRequestStatusValue `json:"status" msgpack:"status" bson:"status" mapstructure:"status,omitempty"`
 
 	// Internal field to know if the request has been submitted once.
 	SubmittedOnce bool `json:"-" msgpack:"-" bson:"submittedonce" mapstructure:"-,omitempty"`
 
-	// The namespace where the request will be sent. The requester can set any namespace but
+	// The namespace where the request will be sent. The requester can set any
+	// namespace but
 	// needs to have an authorization to post the request in that namespace.
 	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
 
@@ -180,8 +186,9 @@ func NewImportRequest() *ImportRequest {
 		CommentFeed:     []*Comment{},
 		Data:            map[string][]map[string]interface{}{},
 		NormalizedTags:  []string{},
-		RequesterClaims: []string{},
 		Status:          ImportRequestStatusDraft,
+		RequesterClaims: []string{},
+		MigrationsLog:   map[string]string{},
 	}
 }
 
@@ -249,7 +256,8 @@ The requestee will now see the request, and will either
   deleted.
 
 - Set the status back as ` + "`" + `Draft` + "`" + `. The request will go back to the requester
-  namespace so that the requester can make changes. Once the change are ready, the requester
+  namespace so that the requester can make changes. Once the change are ready,
+the requester
   will set back the status as ` + "`" + `Submitted` + "`" + `.
 
 The ` + "`" + `data` + "`" + ` format is the same as ` + "`" + `Export` + "`" + `.`
@@ -318,6 +326,18 @@ func (o *ImportRequest) GetDescription() string {
 func (o *ImportRequest) SetDescription(description string) {
 
 	o.Description = description
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *ImportRequest) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *ImportRequest) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -420,6 +440,7 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			CreateTime:           &o.CreateTime,
 			Data:                 &o.Data,
 			Description:          &o.Description,
+			MigrationsLog:        &o.MigrationsLog,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
 			Protected:            &o.Protected,
@@ -456,6 +477,8 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Data = &(o.Data)
 		case "description":
 			sp.Description = &(o.Description)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
@@ -519,6 +542,9 @@ func (o *ImportRequest) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
@@ -656,6 +682,8 @@ func (o *ImportRequest) ValueForAttribute(name string) interface{} {
 		return o.Data
 	case "description":
 		return o.Description
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "namespace":
 		return o.Namespace
 	case "normalizedTags":
@@ -797,6 +825,17 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -868,8 +907,10 @@ control plane.`,
 		AllowedChoices: []string{"Draft", "Submitted", "Approved", "Rejected"},
 		ConvertedName:  "Status",
 		DefaultValue:   ImportRequestStatusDraft,
-		Description: `Allows the content to be changed. ` + "`" + `Submitted` + "`" + `: the request moves to the target namespace 
-for approval. ` + "`" + `Approved` + "`" + `: the data will be created immediately. ` + "`" + `Rejected` + "`" + `: the request 
+		Description: `Allows the content to be changed. ` + "`" + `Submitted` + "`" + `: the request moves to the target
+namespace
+for approval. ` + "`" + `Approved` + "`" + `: the data will be created immediately. ` + "`" + `Rejected` + "`" + `: the
+request
 cannot be changed anymore and can be deleted.`,
 		Exposed: true,
 		Name:    "status",
@@ -888,7 +929,8 @@ cannot be changed anymore and can be deleted.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
 		CreationOnly:   true,
-		Description: `The namespace where the request will be sent. The requester can set any namespace but 
+		Description: `The namespace where the request will be sent. The requester can set any
+namespace but
 needs to have an authorization to post the request in that namespace.`,
 		Exposed:   true,
 		Name:      "targetNamespace",
@@ -1064,6 +1106,17 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		Type:           "string",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1135,8 +1188,10 @@ control plane.`,
 		AllowedChoices: []string{"Draft", "Submitted", "Approved", "Rejected"},
 		ConvertedName:  "Status",
 		DefaultValue:   ImportRequestStatusDraft,
-		Description: `Allows the content to be changed. ` + "`" + `Submitted` + "`" + `: the request moves to the target namespace 
-for approval. ` + "`" + `Approved` + "`" + `: the data will be created immediately. ` + "`" + `Rejected` + "`" + `: the request 
+		Description: `Allows the content to be changed. ` + "`" + `Submitted` + "`" + `: the request moves to the target
+namespace
+for approval. ` + "`" + `Approved` + "`" + `: the data will be created immediately. ` + "`" + `Rejected` + "`" + `: the
+request
 cannot be changed anymore and can be deleted.`,
 		Exposed: true,
 		Name:    "status",
@@ -1155,7 +1210,8 @@ cannot be changed anymore and can be deleted.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
 		CreationOnly:   true,
-		Description: `The namespace where the request will be sent. The requester can set any namespace but 
+		Description: `The namespace where the request will be sent. The requester can set any
+namespace but
 needs to have an authorization to post the request in that namespace.`,
 		Exposed:   true,
 		Name:      "targetNamespace",
@@ -1311,6 +1367,9 @@ type SparseImportRequest struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
@@ -1327,15 +1386,18 @@ type SparseImportRequest struct {
 	// control plane.
 	RequesterNamespace *string `json:"requesterNamespace,omitempty" msgpack:"requesterNamespace,omitempty" bson:"requesternamespace,omitempty" mapstructure:"requesterNamespace,omitempty"`
 
-	// Allows the content to be changed. `Submitted`: the request moves to the target namespace
-	// for approval. `Approved`: the data will be created immediately. `Rejected`: the request
+	// Allows the content to be changed. `Submitted`: the request moves to the target
+	// namespace
+	// for approval. `Approved`: the data will be created immediately. `Rejected`: the
+	// request
 	// cannot be changed anymore and can be deleted.
 	Status *ImportRequestStatusValue `json:"status,omitempty" msgpack:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
 
 	// Internal field to know if the request has been submitted once.
 	SubmittedOnce *bool `json:"-" msgpack:"-" bson:"submittedonce,omitempty" mapstructure:"-,omitempty"`
 
-	// The namespace where the request will be sent. The requester can set any namespace but
+	// The namespace where the request will be sent. The requester can set any
+	// namespace but
 	// needs to have an authorization to post the request in that namespace.
 	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"targetnamespace,omitempty" mapstructure:"targetNamespace,omitempty"`
 
@@ -1417,6 +1479,9 @@ func (o *SparseImportRequest) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
+	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
@@ -1516,6 +1581,18 @@ func (o *SparseImportRequest) GetDescription() string {
 func (o *SparseImportRequest) SetDescription(description string) {
 
 	o.Description = &description
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseImportRequest) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseImportRequest) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetNamespace returns the Namespace of the receiver.

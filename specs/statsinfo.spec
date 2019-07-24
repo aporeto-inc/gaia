@@ -30,6 +30,7 @@ attributes:
     - Enforcers
     - Files
     - EventLogs
+    - Counters
     - Accesses
     default_value: Flows
 

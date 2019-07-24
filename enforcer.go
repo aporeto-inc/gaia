@@ -22,6 +22,26 @@ const (
 	EnforcerEnforcementStatusInactive EnforcerEnforcementStatusValue = "Inactive"
 )
 
+// EnforcerLogLevelValue represents the possible values for attribute "logLevel".
+type EnforcerLogLevelValue string
+
+const (
+	// EnforcerLogLevelDebug represents the value Debug.
+	EnforcerLogLevelDebug EnforcerLogLevelValue = "Debug"
+
+	// EnforcerLogLevelError represents the value Error.
+	EnforcerLogLevelError EnforcerLogLevelValue = "Error"
+
+	// EnforcerLogLevelInfo represents the value Info.
+	EnforcerLogLevelInfo EnforcerLogLevelValue = "Info"
+
+	// EnforcerLogLevelTrace represents the value Trace.
+	EnforcerLogLevelTrace EnforcerLogLevelValue = "Trace"
+
+	// EnforcerLogLevelWarn represents the value Warn.
+	EnforcerLogLevelWarn EnforcerLogLevelValue = "Warn"
+)
+
 // EnforcerOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type EnforcerOperationalStatusValue string
 
@@ -183,6 +203,9 @@ type Enforcer struct {
 	// given when you retrieve a single enforcer.
 	LocalCA string `json:"localCA" msgpack:"localCA" bson:"-" mapstructure:"localCA,omitempty"`
 
+	// Log level of the enforcer.
+	LogLevel EnforcerLogLevelValue `json:"logLevel" msgpack:"logLevel" bson:"loglevel" mapstructure:"logLevel,omitempty"`
+
 	// A unique identifier for every machine as detected by the enforcer. It is
 	// based on hardware information such as the SMBIOS UUID, MAC addresses of
 	// interfaces, or cloud provider IDs.
@@ -191,6 +214,9 @@ type Enforcer struct {
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -250,11 +276,13 @@ func NewEnforcer() *Enforcer {
 		AssociatedTags:        []string{},
 		CollectedInfo:         map[string]string{},
 		EnforcementStatus:     EnforcerEnforcementStatusInactive,
-		LastValidHostServices: HostServicesList{},
-		OperationalStatus:     EnforcerOperationalStatusRegistered,
-		Subnets:               []string{},
 		NormalizedTags:        []string{},
+		OperationalStatus:     EnforcerOperationalStatusRegistered,
+		LastValidHostServices: HostServicesList{},
+		LogLevel:              EnforcerLogLevelInfo,
 		Metadata:              []string{},
+		Subnets:               []string{},
+		MigrationsLog:         map[string]string{},
 	}
 }
 
@@ -382,6 +410,18 @@ func (o *Enforcer) SetMetadata(metadata []string) {
 	o.Metadata = metadata
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Enforcer) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Enforcer) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetName returns the Name of the receiver.
 func (o *Enforcer) GetName() string {
 
@@ -505,8 +545,10 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			LastSyncTime:              &o.LastSyncTime,
 			LastValidHostServices:     &o.LastValidHostServices,
 			LocalCA:                   &o.LocalCA,
+			LogLevel:                  &o.LogLevel,
 			MachineID:                 &o.MachineID,
 			Metadata:                  &o.Metadata,
+			MigrationsLog:             &o.MigrationsLog,
 			Name:                      &o.Name,
 			Namespace:                 &o.Namespace,
 			NormalizedTags:            &o.NormalizedTags,
@@ -567,10 +609,14 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.LastValidHostServices = &(o.LastValidHostServices)
 		case "localCA":
 			sp.LocalCA = &(o.LocalCA)
+		case "logLevel":
+			sp.LogLevel = &(o.LogLevel)
 		case "machineID":
 			sp.MachineID = &(o.MachineID)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -672,11 +718,17 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.LocalCA != nil {
 		o.LocalCA = *so.LocalCA
 	}
+	if so.LogLevel != nil {
+		o.LogLevel = *so.LogLevel
+	}
 	if so.MachineID != nil {
 		o.MachineID = *so.MachineID
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -765,6 +817,10 @@ func (o *Enforcer) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("enforcementStatus", string(o.EnforcementStatus), []string{"Inactive", "Active", "Failed"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("logLevel", string(o.LogLevel), []string{"Info", "Debug", "Warn", "Error", "Trace"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -858,10 +914,14 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.LastValidHostServices
 	case "localCA":
 		return o.LocalCA
+	case "logLevel":
+		return o.LogLevel
 	case "machineID":
 		return o.MachineID
 	case "metadata":
 		return o.Metadata
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -1122,6 +1182,16 @@ given when you retrieve a single enforcer.`,
 		Transient: true,
 		Type:      "string",
 	},
+	"LogLevel": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Info", "Debug", "Warn", "Error", "Trace"},
+		ConvertedName:  "LogLevel",
+		DefaultValue:   EnforcerLogLevelInfo,
+		Description:    `Log level of the enforcer.`,
+		Exposed:        true,
+		Name:           "logLevel",
+		Stored:         true,
+		Type:           "enum",
+	},
 	"MachineID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MachineID",
@@ -1148,6 +1218,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1557,6 +1638,16 @@ given when you retrieve a single enforcer.`,
 		Transient: true,
 		Type:      "string",
 	},
+	"loglevel": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Info", "Debug", "Warn", "Error", "Trace"},
+		ConvertedName:  "LogLevel",
+		DefaultValue:   EnforcerLogLevelInfo,
+		Description:    `Log level of the enforcer.`,
+		Exposed:        true,
+		Name:           "logLevel",
+		Stored:         true,
+		Type:           "enum",
+	},
 	"machineid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MachineID",
@@ -1583,6 +1674,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1900,6 +2002,9 @@ type SparseEnforcer struct {
 	// given when you retrieve a single enforcer.
 	LocalCA *string `json:"localCA,omitempty" msgpack:"localCA,omitempty" bson:"-" mapstructure:"localCA,omitempty"`
 
+	// Log level of the enforcer.
+	LogLevel *EnforcerLogLevelValue `json:"logLevel,omitempty" msgpack:"logLevel,omitempty" bson:"loglevel,omitempty" mapstructure:"logLevel,omitempty"`
+
 	// A unique identifier for every machine as detected by the enforcer. It is
 	// based on hardware information such as the SMBIOS UUID, MAC addresses of
 	// interfaces, or cloud provider IDs.
@@ -1908,6 +2013,9 @@ type SparseEnforcer struct {
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
@@ -2054,11 +2162,17 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	if o.LocalCA != nil {
 		out.LocalCA = *o.LocalCA
 	}
+	if o.LogLevel != nil {
+		out.LogLevel = *o.LogLevel
+	}
 	if o.MachineID != nil {
 		out.MachineID = *o.MachineID
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
+	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -2176,6 +2290,18 @@ func (o *SparseEnforcer) GetMetadata() []string {
 func (o *SparseEnforcer) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseEnforcer) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseEnforcer) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

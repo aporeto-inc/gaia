@@ -100,13 +100,18 @@ type Claims struct {
 	// Contains the date of the first appearance of the claims.
 	FirstSeen time.Time `json:"-" msgpack:"-" bson:"firstseen" mapstructure:"-,omitempty"`
 
-	// XXH64 hash of the claims content. It will be used as ID. To compute a correct hash,
-	// you must first clob `content` as an string array in the form `key=value`, sort it
+	// XXH64 hash of the claims content. It will be used as ID. To compute a correct
+	// hash,
+	// you must first clob `content` as an string array in the form `key=value`, sort
+	// it
 	// then apply the XXH64 function.
 	Hash string `json:"hash" msgpack:"hash" bson:"-" mapstructure:"hash,omitempty"`
 
 	// Contains the date of the last appearance of the claims.
 	LastSeen time.Time `json:"-" msgpack:"-" bson:"lastseen" mapstructure:"-,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
@@ -138,6 +143,7 @@ func NewClaims() *Claims {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Content:        map[string]string{},
+		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
 	}
 }
@@ -227,6 +233,18 @@ func (o *Claims) SetCreateIdempotencyKey(createIdempotencyKey string) {
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *Claims) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *Claims) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *Claims) GetNamespace() string {
 
@@ -314,6 +332,7 @@ func (o *Claims) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			FirstSeen:            &o.FirstSeen,
 			Hash:                 &o.Hash,
 			LastSeen:             &o.LastSeen,
+			MigrationsLog:        &o.MigrationsLog,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
 			Protected:            &o.Protected,
@@ -342,6 +361,8 @@ func (o *Claims) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Hash = &(o.Hash)
 		case "lastSeen":
 			sp.LastSeen = &(o.LastSeen)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
@@ -390,6 +411,9 @@ func (o *Claims) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.LastSeen != nil {
 		o.LastSeen = *so.LastSeen
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
@@ -499,6 +523,8 @@ func (o *Claims) ValueForAttribute(name string) interface{} {
 		return o.Hash
 	case "lastSeen":
 		return o.LastSeen
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "namespace":
 		return o.Namespace
 	case "normalizedTags":
@@ -592,8 +618,10 @@ var ClaimsAttributesMap = map[string]elemental.AttributeSpecification{
 	"Hash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Hash",
-		Description: `XXH64 hash of the claims content. It will be used as ID. To compute a correct hash,
-you must first clob ` + "`" + `content` + "`" + ` as an string array in the form ` + "`" + `key=value` + "`" + `, sort it
+		Description: `XXH64 hash of the claims content. It will be used as ID. To compute a correct
+hash,
+you must first clob ` + "`" + `content` + "`" + ` as an string array in the form ` + "`" + `key=value` + "`" + `, sort
+it
 then apply the XXH64 function.`,
 		Exposed:  true,
 		Name:     "hash",
@@ -609,6 +637,17 @@ then apply the XXH64 function.`,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -770,8 +809,10 @@ var ClaimsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"hash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Hash",
-		Description: `XXH64 hash of the claims content. It will be used as ID. To compute a correct hash,
-you must first clob ` + "`" + `content` + "`" + ` as an string array in the form ` + "`" + `key=value` + "`" + `, sort it
+		Description: `XXH64 hash of the claims content. It will be used as ID. To compute a correct
+hash,
+you must first clob ` + "`" + `content` + "`" + ` as an string array in the form ` + "`" + `key=value` + "`" + `, sort
+it
 then apply the XXH64 function.`,
 		Exposed:  true,
 		Name:     "hash",
@@ -787,6 +828,17 @@ then apply the XXH64 function.`,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -955,13 +1007,18 @@ type SparseClaims struct {
 	// Contains the date of the first appearance of the claims.
 	FirstSeen *time.Time `json:"-" msgpack:"-" bson:"firstseen,omitempty" mapstructure:"-,omitempty"`
 
-	// XXH64 hash of the claims content. It will be used as ID. To compute a correct hash,
-	// you must first clob `content` as an string array in the form `key=value`, sort it
+	// XXH64 hash of the claims content. It will be used as ID. To compute a correct
+	// hash,
+	// you must first clob `content` as an string array in the form `key=value`, sort
+	// it
 	// then apply the XXH64 function.
 	Hash *string `json:"hash,omitempty" msgpack:"hash,omitempty" bson:"-" mapstructure:"hash,omitempty"`
 
 	// Contains the date of the last appearance of the claims.
 	LastSeen *time.Time `json:"-" msgpack:"-" bson:"lastseen,omitempty" mapstructure:"-,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
@@ -1045,6 +1102,9 @@ func (o *SparseClaims) ToPlain() elemental.PlainIdentifiable {
 	if o.LastSeen != nil {
 		out.LastSeen = *o.LastSeen
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
@@ -1101,6 +1161,18 @@ func (o *SparseClaims) GetCreateIdempotencyKey() string {
 func (o *SparseClaims) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseClaims) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseClaims) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetNamespace returns the Namespace of the receiver.

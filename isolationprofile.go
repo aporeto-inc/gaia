@@ -113,6 +113,9 @@ type IsolationProfile struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -159,8 +162,9 @@ func NewIsolationProfile() *IsolationProfile {
 		Annotations:         map[string][]string{},
 		AssociatedTags:      []string{},
 		CapabilitiesActions: types.CapabilitiesTypeMap{},
-		Metadata:            []string{},
+		MigrationsLog:       map[string]string{},
 		NormalizedTags:      []string{},
+		Metadata:            []string{},
 		SyscallRules:        types.SyscallEnforcementRulesMap{},
 		TargetArchitectures: types.ArchitecturesTypeList{},
 	}
@@ -208,7 +212,8 @@ func (o *IsolationProfile) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *IsolationProfile) Doc() string {
 
-	return `Defines system call rules, system call actions, and other capabilities on a processing unit.`
+	return `Defines system call rules, system call actions, and other capabilities on a
+processing unit.`
 }
 
 func (o *IsolationProfile) String() string {
@@ -286,6 +291,18 @@ func (o *IsolationProfile) GetMetadata() []string {
 func (o *IsolationProfile) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *IsolationProfile) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *IsolationProfile) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
@@ -412,6 +429,7 @@ func (o *IsolationProfile) ToSparse(fields ...string) elemental.SparseIdentifiab
 			DefaultSyscallAction: &o.DefaultSyscallAction,
 			Description:          &o.Description,
 			Metadata:             &o.Metadata,
+			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
@@ -447,6 +465,8 @@ func (o *IsolationProfile) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.Description = &(o.Description)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -508,6 +528,9 @@ func (o *IsolationProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -646,6 +669,8 @@ func (o *IsolationProfile) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "metadata":
 		return o.Metadata
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -788,6 +813,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1054,6 +1090,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1298,6 +1345,9 @@ type SparseIsolationProfile struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1398,6 +1448,9 @@ func (o *SparseIsolationProfile) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
+	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1506,6 +1559,18 @@ func (o *SparseIsolationProfile) GetMetadata() []string {
 func (o *SparseIsolationProfile) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseIsolationProfile) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseIsolationProfile) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

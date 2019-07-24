@@ -6,7 +6,7 @@ model:
   package: squall
   group: policy/audit
   description: |-
-    A set of audit rules that determine the types of events that must be captured in 
+    A set of audit rules that determine the types of events that must be captured in
     the kernel.
   aliases:
   - ap
@@ -22,6 +22,7 @@ model:
     - $filtering
   extends:
   - '@zoned'
+  - '@migratable'
   - '@base'
   - '@namespaced'
   - '@described'

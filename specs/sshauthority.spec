@@ -11,6 +11,7 @@ model:
     description: Deletes the SSH CA with the given ID.
   extends:
   - '@zoned'
+  - '@migratable'
   - '@named'
   - '@timeable'
   - '@identifiable-stored'

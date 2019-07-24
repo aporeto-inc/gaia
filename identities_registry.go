@@ -28,6 +28,8 @@ var (
 
 		"claims": ClaimsIdentity,
 
+		"counterreport": CounterReportIdentity,
+
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
 		"dependencymap":       DependencyMapIdentity,
@@ -153,6 +155,8 @@ var (
 		"categories":                  CategoryIdentity,
 
 		"claims": ClaimsIdentity,
+
+		"counterreports": CounterReportIdentity,
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
@@ -445,6 +449,7 @@ var (
 			[]string{"namespace", "normalizedTags"},
 			[]string{"createIdempotencyKey"},
 		},
+		"counterreport": nil,
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
 		},
@@ -823,6 +828,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCategory()
 	case ClaimsIdentity:
 		return NewClaims()
+	case CounterReportIdentity:
+		return NewCounterReport()
 	case CustomerIdentity:
 		return NewCustomer()
 	case DataPathCertificateIdentity:
@@ -1056,6 +1063,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCategory()
 	case ClaimsIdentity:
 		return NewSparseClaims()
+	case CounterReportIdentity:
+		return NewSparseCounterReport()
 	case CustomerIdentity:
 		return NewSparseCustomer()
 	case DataPathCertificateIdentity:
@@ -1297,6 +1306,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CategoriesList{}
 	case ClaimsIdentity:
 		return &ClaimsList{}
+	case CounterReportIdentity:
+		return &CounterReportsList{}
 	case CustomerIdentity:
 		return &CustomersList{}
 	case DataPathCertificateIdentity:
@@ -1528,6 +1539,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCategoriesList{}
 	case ClaimsIdentity:
 		return &SparseClaimsList{}
+	case CounterReportIdentity:
+		return &SparseCounterReportsList{}
 	case CustomerIdentity:
 		return &SparseCustomersList{}
 	case DataPathCertificateIdentity:
@@ -1752,6 +1765,7 @@ func AllIdentities() []elemental.Identity {
 		AWSRegisterIdentity,
 		CategoryIdentity,
 		ClaimsIdentity,
+		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
 		DependencyMapIdentity,
@@ -1914,6 +1928,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CategoryIdentity:
 		return []string{}
 	case ClaimsIdentity:
+		return []string{}
+	case CounterReportIdentity:
 		return []string{}
 	case CustomerIdentity:
 		return []string{}

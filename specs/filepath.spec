@@ -9,7 +9,8 @@ model:
     A file path represents a random path to a file or a folder. They can be used in
     file access policies to allow processing units to access them, using
     various modes (read, write, execute). You will need to use the file paths tags
-    to set some policies. A good example would be `volume=web` or `file=/etc/passwd`.
+    to set some policies. A good example would be `volume=web` or
+    `file=/etc/passwd`.
   aliases:
   - fp
   - fps
@@ -27,6 +28,7 @@ model:
   extends:
   - '@zoned'
   - '@base'
+  - '@migratable'
   - '@namespaced'
   - '@described'
   - '@identifiable-stored'

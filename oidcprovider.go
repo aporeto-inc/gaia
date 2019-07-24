@@ -109,8 +109,12 @@ type OIDCProvider struct {
 	// given, the default will be used.
 	Default bool `json:"default" msgpack:"default" bson:"default" mapstructure:"default,omitempty"`
 
-	// OIDC [discovery endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
+	// OIDC [discovery
+	// endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
 	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -160,6 +164,7 @@ func NewOIDCProvider() *OIDCProvider {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		NormalizedTags: []string{},
+		MigrationsLog:  map[string]string{},
 		Scopes:         []string{},
 		Subjects:       []string{},
 	}
@@ -207,7 +212,8 @@ func (o *OIDCProvider) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *OIDCProvider) Doc() string {
 
-	return `Allows to declare a generic OpenID Connect (OIDC) provider that can be used in exchange 
+	return `Allows to declare a generic OpenID Connect (OIDC) provider that can be used in
+exchange
 for a Midguard token.`
 }
 
@@ -262,6 +268,18 @@ func (o *OIDCProvider) GetCreateTime() time.Time {
 func (o *OIDCProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *OIDCProvider) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *OIDCProvider) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
@@ -376,6 +394,7 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateTime:           &o.CreateTime,
 			Default:              &o.Default,
 			Endpoint:             &o.Endpoint,
+			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
@@ -412,6 +431,8 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Default = &(o.Default)
 		case "endpoint":
 			sp.Endpoint = &(o.Endpoint)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -475,6 +496,9 @@ func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Endpoint != nil {
 		o.Endpoint = *so.Endpoint
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -620,6 +644,8 @@ func (o *OIDCProvider) ValueForAttribute(name string) interface{} {
 		return o.Default
 	case "endpoint":
 		return o.Endpoint
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -749,12 +775,24 @@ given, the default will be used.`,
 	"Endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `OIDC [discovery endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).`,
-		Exposed:        true,
-		Name:           "endpoint",
-		Required:       true,
+		Description: `OIDC [discovery
+endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).`,
+		Exposed:  true,
+		Name:     "endpoint",
+		Required: true,
+		Stored:   true,
+		Type:     "string",
+	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1014,12 +1052,24 @@ given, the default will be used.`,
 	"endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `OIDC [discovery endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).`,
-		Exposed:        true,
-		Name:           "endpoint",
-		Required:       true,
+		Description: `OIDC [discovery
+endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).`,
+		Exposed:  true,
+		Name:     "endpoint",
+		Required: true,
+		Stored:   true,
+		Type:     "string",
+	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1271,8 +1321,12 @@ type SparseOIDCProvider struct {
 	// given, the default will be used.
 	Default *bool `json:"default,omitempty" msgpack:"default,omitempty" bson:"default,omitempty" mapstructure:"default,omitempty"`
 
-	// OIDC [discovery endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
+	// OIDC [discovery
+	// endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
 	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
@@ -1377,6 +1431,9 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	if o.Endpoint != nil {
 		out.Endpoint = *o.Endpoint
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1463,6 +1520,18 @@ func (o *SparseOIDCProvider) GetCreateTime() time.Time {
 func (o *SparseOIDCProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseOIDCProvider) GetMigrationsLog() map[string]string {
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.

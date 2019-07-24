@@ -20,6 +20,7 @@ model:
     - $filtering
   extends:
   - '@zoned'
+  - '@migratable'
   - '@base'
   - '@namespaced'
   - '@described'
@@ -46,7 +47,7 @@ attributes:
     read_only: true
 
   - name: label
-    description: Defines the recipe. 
+    description: Defines the recipe.
     type: string
     exposed: true
     stored: true
