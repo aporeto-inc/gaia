@@ -282,12 +282,11 @@ func NewEnforcer() *Enforcer {
 		EnforcementStatus:     EnforcerEnforcementStatusInactive,
 		NormalizedTags:        []string{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
-		LastValidHostServices: HostServicesList{},
-		LogLevel:              EnforcerLogLevelInfo,
-		Subnets:               []string{},
 		LogLevelDuration:      "10s",
 		Metadata:              []string{},
+		LogLevel:              EnforcerLogLevelInfo,
 		Subnets:               []string{},
+		LastValidHostServices: HostServicesList{},
 		MigrationsLog:         map[string]string{},
 	}
 }
