@@ -108,9 +108,6 @@ type APICheck struct {
 	// Contains the results of the check.
 	Authorized map[string]bool `json:"authorized" msgpack:"authorized" bson:"-" mapstructure:"authorized,omitempty"`
 
-	// Contains the decoded claims used.
-	Claims []string `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
-
 	// The namespace to use to check the API authorization.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
@@ -121,9 +118,6 @@ type APICheck struct {
 	// authorization of.
 	TargetIdentities []string `json:"targetIdentities" msgpack:"targetIdentities" bson:"-" mapstructure:"targetIdentities,omitempty"`
 
-	// The token to use to check the API authorization.
-	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
-
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -133,7 +127,6 @@ func NewAPICheck() *APICheck {
 	return &APICheck{
 		ModelVersion:     1,
 		Authorized:       map[string]bool{},
-		Claims:           []string{},
 		TargetIdentities: []string{},
 	}
 }
@@ -177,7 +170,8 @@ func (o *APICheck) DefaultOrder() []string {
 func (o *APICheck) Doc() string {
 
 	return `Allows you to verify if a client identified by his token is allowed to do
-some operations on some APIs. For example, a third-party system can use ` + "`" + `APICheck` + "`" + `
+some operations on some APIs. For example, a third-party system can use
+` + "`" + `APICheck` + "`" + `
 to impersonate a user and determine if a proxied request should be allowed.`
 }
 
@@ -194,11 +188,9 @@ func (o *APICheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseAPICheck{
 			Authorized:       &o.Authorized,
-			Claims:           &o.Claims,
 			Namespace:        &o.Namespace,
 			Operation:        &o.Operation,
 			TargetIdentities: &o.TargetIdentities,
-			Token:            &o.Token,
 		}
 	}
 
@@ -207,16 +199,12 @@ func (o *APICheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "authorized":
 			sp.Authorized = &(o.Authorized)
-		case "claims":
-			sp.Claims = &(o.Claims)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "operation":
 			sp.Operation = &(o.Operation)
 		case "targetIdentities":
 			sp.TargetIdentities = &(o.TargetIdentities)
-		case "token":
-			sp.Token = &(o.Token)
 		}
 	}
 
@@ -233,9 +221,6 @@ func (o *APICheck) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Authorized != nil {
 		o.Authorized = *so.Authorized
 	}
-	if so.Claims != nil {
-		o.Claims = *so.Claims
-	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
@@ -244,9 +229,6 @@ func (o *APICheck) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.TargetIdentities != nil {
 		o.TargetIdentities = *so.TargetIdentities
-	}
-	if so.Token != nil {
-		o.Token = *so.Token
 	}
 }
 
@@ -292,10 +274,6 @@ func (o *APICheck) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -332,16 +310,12 @@ func (o *APICheck) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "authorized":
 		return o.Authorized
-	case "claims":
-		return o.Claims
 	case "namespace":
 		return o.Namespace
 	case "operation":
 		return o.Operation
 	case "targetIdentities":
 		return o.TargetIdentities
-	case "token":
-		return o.Token
 	}
 
 	return nil
@@ -359,16 +333,6 @@ var APICheckAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		SubType:        "map[string]bool",
 		Type:           "external",
-	},
-	"Claims": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Claims",
-		Description:    `Contains the decoded claims used.`,
-		Exposed:        true,
-		Name:           "claims",
-		ReadOnly:       true,
-		SubType:        "string",
-		Type:           "list",
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -401,15 +365,6 @@ authorization of.`,
 		SubType:  "string",
 		Type:     "list",
 	},
-	"Token": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Token",
-		Description:    `The token to use to check the API authorization.`,
-		Exposed:        true,
-		Name:           "token",
-		Required:       true,
-		Type:           "string",
-	},
 }
 
 // APICheckLowerCaseAttributesMap represents the map of attribute for APICheck.
@@ -424,16 +379,6 @@ var APICheckLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ReadOnly:       true,
 		SubType:        "map[string]bool",
 		Type:           "external",
-	},
-	"claims": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Claims",
-		Description:    `Contains the decoded claims used.`,
-		Exposed:        true,
-		Name:           "claims",
-		ReadOnly:       true,
-		SubType:        "string",
-		Type:           "list",
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -465,15 +410,6 @@ authorization of.`,
 		Required: true,
 		SubType:  "string",
 		Type:     "list",
-	},
-	"token": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Token",
-		Description:    `The token to use to check the API authorization.`,
-		Exposed:        true,
-		Name:           "token",
-		Required:       true,
-		Type:           "string",
 	},
 }
 
@@ -543,9 +479,6 @@ type SparseAPICheck struct {
 	// Contains the results of the check.
 	Authorized *map[string]bool `json:"authorized,omitempty" msgpack:"authorized,omitempty" bson:"-" mapstructure:"authorized,omitempty"`
 
-	// Contains the decoded claims used.
-	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
-
 	// The namespace to use to check the API authorization.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
@@ -555,9 +488,6 @@ type SparseAPICheck struct {
 	// Contains the list of identities you want to check the
 	// authorization of.
 	TargetIdentities *[]string `json:"targetIdentities,omitempty" msgpack:"targetIdentities,omitempty" bson:"-" mapstructure:"targetIdentities,omitempty"`
-
-	// The token to use to check the API authorization.
-	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -597,9 +527,6 @@ func (o *SparseAPICheck) ToPlain() elemental.PlainIdentifiable {
 	if o.Authorized != nil {
 		out.Authorized = *o.Authorized
 	}
-	if o.Claims != nil {
-		out.Claims = *o.Claims
-	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
@@ -608,9 +535,6 @@ func (o *SparseAPICheck) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.TargetIdentities != nil {
 		out.TargetIdentities = *o.TargetIdentities
-	}
-	if o.Token != nil {
-		out.Token = *o.Token
 	}
 
 	return out

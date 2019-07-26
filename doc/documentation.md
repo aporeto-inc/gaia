@@ -6087,7 +6087,8 @@ Last update date of the object.
 ### APICheck
 
 Allows you to verify if a client identified by his token is allowed to do
-some operations on some APIs. For example, a third-party system can use `APICheck`
+some operations on some APIs. For example, a third-party system can use
+`APICheck`
 to impersonate a user and determine if a proxied request should be allowed.
 
 #### Example
@@ -6099,8 +6100,7 @@ to impersonate a user and determine if a proxied request should be allowed.
   "targetIdentities": [
     "processingunit",
     "enforcer"
-  ],
-  "token": "valid.jwt.token"
+  ]
 }
 ```
 
@@ -6116,10 +6116,6 @@ Verifies the authorizations on various identities for a given token.
 
 Contains the results of the check.
 
-##### `claims` `[]string` [`read_only`]
-
-Contains the decoded claims used.
-
 ##### `namespace` `string` [`required`]
 
 The namespace to use to check the API authorization.
@@ -6132,10 +6128,6 @@ The operation you want to check.
 
 Contains the list of identities you want to check the
 authorization of.
-
-##### `token` `string` [`required`]
-
-The token to use to check the API authorization.
 
 ### AppCredential
 
