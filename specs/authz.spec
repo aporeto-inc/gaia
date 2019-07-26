@@ -23,6 +23,7 @@ attributes:
     type: list
     exposed: true
     subtype: string
+    required: true
     example_value:
     - '@auth:account=acme'
     - '@auth:realm=vince'
@@ -58,6 +59,7 @@ attributes:
     description: description.
     type: string
     exposed: true
+    required: true
     example_value: /acme
 
   - name: targetOperation

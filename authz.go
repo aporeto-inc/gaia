@@ -299,6 +299,14 @@ func (o *Authz) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredExternal("claims", o.Claims); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("targetNamespace", o.TargetNamespace); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateStringInList("targetOperation", string(o.TargetOperation), []string{"Any", "Create", "Delete", "Info", "Patch", "Retrieve", "RetrieveMany", "Update"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -376,6 +384,7 @@ var AuthzAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The list of verified claims.`,
 		Exposed:        true,
 		Name:           "claims",
+		Required:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -422,6 +431,7 @@ ignored and this attribute will contain all the permission for the given claims
 		Description:    `description.`,
 		Exposed:        true,
 		Name:           "targetNamespace",
+		Required:       true,
 		Type:           "string",
 	},
 	"TargetOperation": elemental.AttributeSpecification{
@@ -452,6 +462,7 @@ var AuthzLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The list of verified claims.`,
 		Exposed:        true,
 		Name:           "claims",
+		Required:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -498,6 +509,7 @@ ignored and this attribute will contain all the permission for the given claims
 		Description:    `description.`,
 		Exposed:        true,
 		Name:           "targetNamespace",
+		Required:       true,
 		Type:           "string",
 	},
 	"targetoperation": elemental.AttributeSpecification{
