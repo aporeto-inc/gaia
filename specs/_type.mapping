@@ -288,6 +288,22 @@ map[string]interface{}:
         "additionalProperties": true
       }
 
+map[string]map[string]bool:
+  elemental:
+    type: map[string]map[string]bool
+    init: map[string]map[string]bool{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        }
+      }
+
 map[string]map[string]interface{}:
   elemental:
     type: map[string]map[string]interface{}

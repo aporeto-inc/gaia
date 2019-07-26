@@ -844,14 +844,14 @@ Contains the reset password token.
 
 ## core/authentication
 
-### Auth
+### Authn
 
 Verifies if the given token is valid or not. If it is valid it will
 return the claims of the token.
 
 #### Relations
 
-##### `GET /auth`
+##### `GET /authn`
 
 Verify the validity of a token.
 

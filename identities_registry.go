@@ -17,8 +17,9 @@ var (
 		"auditprofile":              AuditProfileIdentity,
 		"auditprofilemappingpolicy": AuditProfileMappingPolicyIdentity,
 		"auditreport":               AuditReportIdentity,
-		"auth":                      AuthIdentity,
+		"authn":                     AuthnIdentity,
 		"authority":                 AuthorityIdentity,
+		"authz":                     AuthzIdentity,
 		"automation":                AutomationIdentity,
 		"automationtemplate":        AutomationTemplateIdentity,
 		"awsaccount":                AWSAccountIdentity,
@@ -145,8 +146,9 @@ var (
 		"auditprofiles":               AuditProfileIdentity,
 		"auditprofilemappingpolicies": AuditProfileMappingPolicyIdentity,
 		"auditreports":                AuditReportIdentity,
-		"auth":                        AuthIdentity,
+		"authn":                       AuthnIdentity,
 		"authorities":                 AuthorityIdentity,
+		"authz":                       AuthzIdentity,
 		"automations":                 AutomationIdentity,
 		"automationtemplates":         AutomationTemplateIdentity,
 		"awsaccounts":                 AWSAccountIdentity,
@@ -413,11 +415,12 @@ var (
 		},
 		"auditprofilemappingpolicy": nil,
 		"auditreport":               nil,
-		"auth":                      nil,
+		"authn":                     nil,
 		"authority": [][]string{
 			[]string{"commonName"},
 			[]string{":shard", ":unique", "zone", "zHash"},
 		},
+		"authz": nil,
 		"automation": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -810,10 +813,12 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAuditProfileMappingPolicy()
 	case AuditReportIdentity:
 		return NewAuditReport()
-	case AuthIdentity:
-		return NewAuth()
+	case AuthnIdentity:
+		return NewAuthn()
 	case AuthorityIdentity:
 		return NewAuthority()
+	case AuthzIdentity:
+		return NewAuthz()
 	case AutomationIdentity:
 		return NewAutomation()
 	case AutomationTemplateIdentity:
@@ -1045,10 +1050,12 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAuditProfileMappingPolicy()
 	case AuditReportIdentity:
 		return NewSparseAuditReport()
-	case AuthIdentity:
-		return NewSparseAuth()
+	case AuthnIdentity:
+		return NewSparseAuthn()
 	case AuthorityIdentity:
 		return NewSparseAuthority()
+	case AuthzIdentity:
+		return NewSparseAuthz()
 	case AutomationIdentity:
 		return NewSparseAutomation()
 	case AutomationTemplateIdentity:
@@ -1288,10 +1295,12 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AuditProfileMappingPoliciesList{}
 	case AuditReportIdentity:
 		return &AuditReportsList{}
-	case AuthIdentity:
-		return &AuthsList{}
+	case AuthnIdentity:
+		return &AuthnsList{}
 	case AuthorityIdentity:
 		return &AuthoritiesList{}
+	case AuthzIdentity:
+		return &AuthzsList{}
 	case AutomationIdentity:
 		return &AutomationsList{}
 	case AutomationTemplateIdentity:
@@ -1521,10 +1530,12 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAuditProfileMappingPoliciesList{}
 	case AuditReportIdentity:
 		return &SparseAuditReportsList{}
-	case AuthIdentity:
-		return &SparseAuthsList{}
+	case AuthnIdentity:
+		return &SparseAuthnsList{}
 	case AuthorityIdentity:
 		return &SparseAuthoritiesList{}
+	case AuthzIdentity:
+		return &SparseAuthzsList{}
 	case AutomationIdentity:
 		return &SparseAutomationsList{}
 	case AutomationTemplateIdentity:
@@ -1756,8 +1767,9 @@ func AllIdentities() []elemental.Identity {
 		AuditProfileIdentity,
 		AuditProfileMappingPolicyIdentity,
 		AuditReportIdentity,
-		AuthIdentity,
+		AuthnIdentity,
 		AuthorityIdentity,
+		AuthzIdentity,
 		AutomationIdentity,
 		AutomationTemplateIdentity,
 		AWSAccountIdentity,
@@ -1900,12 +1912,14 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case AuditReportIdentity:
 		return []string{}
-	case AuthIdentity:
+	case AuthnIdentity:
 		return []string{}
 	case AuthorityIdentity:
 		return []string{
 			"ca",
 		}
+	case AuthzIdentity:
+		return []string{}
 	case AutomationIdentity:
 		return []string{
 			"autos",
