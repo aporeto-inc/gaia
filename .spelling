@@ -15,6 +15,7 @@ AuditProfileMappingPolicy
 AuditReport
 AuhorizationEndpoint
 Auth0
+Authn
 Authorization_Endpoint
 AutomationTemplate
 CA
@@ -90,7 +91,7 @@ OAUTHInfo
 OAUTHKey
 OAuth
 OAuth2
-OIDC 
+OIDC
 OIDC-based
 OIDC-compliant
 OIDCProvider
