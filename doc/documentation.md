@@ -6087,9 +6087,7 @@ Last update date of the object.
 ### APICheck
 
 Allows you to verify if a client identified by his token is allowed to do
-some operations on some APIs. For example, a third-party system can use
-`APICheck`
-to impersonate a user and determine if a proxied request should be allowed.
+some operations on some APIs.
 
 #### Example
 

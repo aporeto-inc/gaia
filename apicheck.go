@@ -37,7 +37,7 @@ const (
 var APICheckIdentity = elemental.Identity{
 	Name:     "apicheck",
 	Category: "apichecks",
-	Package:  "squall",
+	Package:  "cid",
 	Private:  false,
 }
 
@@ -170,9 +170,7 @@ func (o *APICheck) DefaultOrder() []string {
 func (o *APICheck) Doc() string {
 
 	return `Allows you to verify if a client identified by his token is allowed to do
-some operations on some APIs. For example, a third-party system can use
-` + "`" + `APICheck` + "`" + `
-to impersonate a user and determine if a proxied request should be allowed.`
+some operations on some APIs.`
 }
 
 func (o *APICheck) String() string {
