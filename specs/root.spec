@@ -141,11 +141,6 @@ relations:
 - rest_name: authz
   create:
     description: Verifies if a request should be accepted.
-    parameters:
-      entries:
-      - name: permissions
-        description: If set, populate the permissions.
-        type: boolean
 
 - rest_name: automation
   get:

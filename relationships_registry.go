@@ -634,14 +634,7 @@ func init() {
 
 	relationshipsRegistry[AuthzIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name: "permissions",
-						Type: "boolean",
-					},
-				},
-			},
+			"root": &elemental.RelationshipInfo{},
 		},
 	}
 

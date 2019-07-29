@@ -7,35 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AuthzTargetOperationValue represents the possible values for attribute "targetOperation".
-type AuthzTargetOperationValue string
-
-const (
-	// AuthzTargetOperationAny represents the value Any.
-	AuthzTargetOperationAny AuthzTargetOperationValue = "Any"
-
-	// AuthzTargetOperationCreate represents the value Create.
-	AuthzTargetOperationCreate AuthzTargetOperationValue = "Create"
-
-	// AuthzTargetOperationDelete represents the value Delete.
-	AuthzTargetOperationDelete AuthzTargetOperationValue = "Delete"
-
-	// AuthzTargetOperationInfo represents the value Info.
-	AuthzTargetOperationInfo AuthzTargetOperationValue = "Info"
-
-	// AuthzTargetOperationPatch represents the value Patch.
-	AuthzTargetOperationPatch AuthzTargetOperationValue = "Patch"
-
-	// AuthzTargetOperationRetrieve represents the value Retrieve.
-	AuthzTargetOperationRetrieve AuthzTargetOperationValue = "Retrieve"
-
-	// AuthzTargetOperationRetrieveMany represents the value RetrieveMany.
-	AuthzTargetOperationRetrieveMany AuthzTargetOperationValue = "RetrieveMany"
-
-	// AuthzTargetOperationUpdate represents the value Update.
-	AuthzTargetOperationUpdate AuthzTargetOperationValue = "Update"
-)
-
 // AuthzIdentity represents the Identity of the object.
 var AuthzIdentity = elemental.Identity{
 	Name:     "authz",
@@ -108,9 +79,6 @@ func (o AuthzsList) Version() int {
 
 // Authz represents the model of a authz
 type Authz struct {
-	// Return if the request should be authorized.
-	Authorized bool `json:"authorized,omitempty" msgpack:"authorized,omitempty" bson:"-" mapstructure:"authorized,omitempty"`
-
 	// The list of verified claims.
 	Claims []string `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
@@ -124,14 +92,8 @@ type Authz struct {
 	// ignored and this attribute will contain all the permission for the given claims.
 	Permissions map[string]map[string]bool `json:"permissions,omitempty" msgpack:"permissions,omitempty" bson:"-" mapstructure:"permissions,omitempty"`
 
-	// The identity.
-	TargetIdentity string `json:"targetIdentity" msgpack:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
-
 	// description.
 	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
-
-	// Operation.
-	TargetOperation AuthzTargetOperationValue `json:"targetOperation" msgpack:"targetOperation" bson:"-" mapstructure:"targetOperation,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -199,22 +161,17 @@ func (o *Authz) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAuthz{
-			Authorized:      &o.Authorized,
 			Claims:          &o.Claims,
 			ClientIP:        &o.ClientIP,
 			Error:           &o.Error,
 			Permissions:     &o.Permissions,
-			TargetIdentity:  &o.TargetIdentity,
 			TargetNamespace: &o.TargetNamespace,
-			TargetOperation: &o.TargetOperation,
 		}
 	}
 
 	sp := &SparseAuthz{}
 	for _, f := range fields {
 		switch f {
-		case "authorized":
-			sp.Authorized = &(o.Authorized)
 		case "claims":
 			sp.Claims = &(o.Claims)
 		case "clientIP":
@@ -223,12 +180,8 @@ func (o *Authz) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Error = &(o.Error)
 		case "permissions":
 			sp.Permissions = &(o.Permissions)
-		case "targetIdentity":
-			sp.TargetIdentity = &(o.TargetIdentity)
 		case "targetNamespace":
 			sp.TargetNamespace = &(o.TargetNamespace)
-		case "targetOperation":
-			sp.TargetOperation = &(o.TargetOperation)
 		}
 	}
 
@@ -242,9 +195,6 @@ func (o *Authz) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseAuthz)
-	if so.Authorized != nil {
-		o.Authorized = *so.Authorized
-	}
 	if so.Claims != nil {
 		o.Claims = *so.Claims
 	}
@@ -257,14 +207,8 @@ func (o *Authz) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Permissions != nil {
 		o.Permissions = *so.Permissions
 	}
-	if so.TargetIdentity != nil {
-		o.TargetIdentity = *so.TargetIdentity
-	}
 	if so.TargetNamespace != nil {
 		o.TargetNamespace = *so.TargetNamespace
-	}
-	if so.TargetOperation != nil {
-		o.TargetOperation = *so.TargetOperation
 	}
 }
 
@@ -306,10 +250,6 @@ func (o *Authz) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("targetOperation", string(o.TargetOperation), []string{"Any", "Create", "Delete", "Info", "Patch", "Retrieve", "RetrieveMany", "Update"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -344,8 +284,6 @@ func (*Authz) AttributeSpecifications() map[string]elemental.AttributeSpecificat
 func (o *Authz) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "authorized":
-		return o.Authorized
 	case "claims":
 		return o.Claims
 	case "clientIP":
@@ -354,12 +292,8 @@ func (o *Authz) ValueForAttribute(name string) interface{} {
 		return o.Error
 	case "permissions":
 		return o.Permissions
-	case "targetIdentity":
-		return o.TargetIdentity
 	case "targetNamespace":
 		return o.TargetNamespace
-	case "targetOperation":
-		return o.TargetOperation
 	}
 
 	return nil
@@ -367,16 +301,6 @@ func (o *Authz) ValueForAttribute(name string) interface{} {
 
 // AuthzAttributesMap represents the map of attribute for Authz.
 var AuthzAttributesMap = map[string]elemental.AttributeSpecification{
-	"Authorized": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Authorized",
-		Description:    `Return if the request should be authorized.`,
-		Exposed:        true,
-		Name:           "authorized",
-		ReadOnly:       true,
-		Type:           "boolean",
-	},
 	"Claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
@@ -417,14 +341,6 @@ ignored and this attribute will contain all the permission for the given claims.
 		SubType:  "map[string]map[string]bool",
 		Type:     "external",
 	},
-	"TargetIdentity": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TargetIdentity",
-		Description:    `The identity.`,
-		Exposed:        true,
-		Name:           "targetIdentity",
-		Type:           "string",
-	},
 	"TargetNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
@@ -434,28 +350,10 @@ ignored and this attribute will contain all the permission for the given claims.
 		Required:       true,
 		Type:           "string",
 	},
-	"TargetOperation": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Any", "Create", "Delete", "Info", "Patch", "Retrieve", "RetrieveMany", "Update"},
-		ConvertedName:  "TargetOperation",
-		Description:    `Operation.`,
-		Exposed:        true,
-		Name:           "targetOperation",
-		Type:           "enum",
-	},
 }
 
 // AuthzLowerCaseAttributesMap represents the map of attribute for Authz.
 var AuthzLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"authorized": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Authorized",
-		Description:    `Return if the request should be authorized.`,
-		Exposed:        true,
-		Name:           "authorized",
-		ReadOnly:       true,
-		Type:           "boolean",
-	},
 	"claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
@@ -496,14 +394,6 @@ ignored and this attribute will contain all the permission for the given claims.
 		SubType:  "map[string]map[string]bool",
 		Type:     "external",
 	},
-	"targetidentity": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TargetIdentity",
-		Description:    `The identity.`,
-		Exposed:        true,
-		Name:           "targetIdentity",
-		Type:           "string",
-	},
 	"targetnamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
@@ -512,14 +402,6 @@ ignored and this attribute will contain all the permission for the given claims.
 		Name:           "targetNamespace",
 		Required:       true,
 		Type:           "string",
-	},
-	"targetoperation": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Any", "Create", "Delete", "Info", "Patch", "Retrieve", "RetrieveMany", "Update"},
-		ConvertedName:  "TargetOperation",
-		Description:    `Operation.`,
-		Exposed:        true,
-		Name:           "targetOperation",
-		Type:           "enum",
 	},
 }
 
@@ -586,9 +468,6 @@ func (o SparseAuthzsList) Version() int {
 
 // SparseAuthz represents the sparse version of a authz.
 type SparseAuthz struct {
-	// Return if the request should be authorized.
-	Authorized *bool `json:"authorized,omitempty" msgpack:"authorized,omitempty" bson:"-" mapstructure:"authorized,omitempty"`
-
 	// The list of verified claims.
 	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
@@ -602,14 +481,8 @@ type SparseAuthz struct {
 	// ignored and this attribute will contain all the permission for the given claims.
 	Permissions *map[string]map[string]bool `json:"permissions,omitempty" msgpack:"permissions,omitempty" bson:"-" mapstructure:"permissions,omitempty"`
 
-	// The identity.
-	TargetIdentity *string `json:"targetIdentity,omitempty" msgpack:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
-
 	// description.
 	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
-
-	// Operation.
-	TargetOperation *AuthzTargetOperationValue `json:"targetOperation,omitempty" msgpack:"targetOperation,omitempty" bson:"-" mapstructure:"targetOperation,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -646,9 +519,6 @@ func (o *SparseAuthz) Version() int {
 func (o *SparseAuthz) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAuthz()
-	if o.Authorized != nil {
-		out.Authorized = *o.Authorized
-	}
 	if o.Claims != nil {
 		out.Claims = *o.Claims
 	}
@@ -661,14 +531,8 @@ func (o *SparseAuthz) ToPlain() elemental.PlainIdentifiable {
 	if o.Permissions != nil {
 		out.Permissions = *o.Permissions
 	}
-	if o.TargetIdentity != nil {
-		out.TargetIdentity = *o.TargetIdentity
-	}
 	if o.TargetNamespace != nil {
 		out.TargetNamespace = *o.TargetNamespace
-	}
-	if o.TargetOperation != nil {
-		out.TargetOperation = *o.TargetOperation
 	}
 
 	return out
