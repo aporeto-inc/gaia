@@ -243,8 +243,6 @@ func makeValidationError(attribute string, message string) elemental.Error {
 	return err
 }
 
-var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
-
 // ValidateEnforcerProfile validates a an enforcer profile.
 func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 
@@ -437,11 +435,6 @@ func ValidateAutomation(auto *Automation) error {
 
 // ValidateHostServices validates a host service. Applies to the new API only.
 func ValidateHostServices(hs *HostService) error {
-
-	// Constraint on regex is used because the enforcer is using the name as nativeContextID.
-	if !regHostServiceName.MatchString(hs.Name) {
-		return makeValidationError("name", "Host service name must be less than 12 characters and contains only alphanumeric or _")
-	}
 
 	if !hs.HostModeEnabled && len(hs.Services) == 0 {
 		return makeValidationError("services", "Host service must have either HostModeEnabled or must declare services")
