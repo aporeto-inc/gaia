@@ -2199,6 +2199,7 @@ ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
   "collectInfo": false,
   "enforcementStatus": "Inactive",
   "logLevel": "Info",
+  "logLevelDuration": "10s",
   "machineID": "3F23E8DF-C56D-45CF-89B8-A867F3956409",
   "name": "the name",
   "operationalStatus": "Registered",
@@ -2372,6 +2373,17 @@ Default value:
 
 ```json
 "Info"
+```
+
+##### `logLevelDuration` `string`
+
+Determines the duration of which the log level will be active, using [Golang
+duration syntax](https://golang.org/pkg/time/#example_Duration).
+
+Default value:
+
+```json
+"10s"
 ```
 
 ##### `machineID` `string`

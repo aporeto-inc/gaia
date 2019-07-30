@@ -179,6 +179,15 @@ attributes:
     - Trace
     default_value: Info
 
+  - name: logLevelDuration
+    description: |-
+      Determines the duration of which the log level will be active, using [Golang
+      duration syntax](https://golang.org/pkg/time/#example_Duration).
+    type: string
+    exposed: true
+    stored: true
+    default_value: 10s
+
   - name: machineID
     description: |-
       A unique identifier for every machine as detected by the enforcer. It is
