@@ -8,43 +8,43 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// AuthIdentity represents the Identity of the object.
-var AuthIdentity = elemental.Identity{
-	Name:     "auth",
-	Category: "auth",
+// AuthnIdentity represents the Identity of the object.
+var AuthnIdentity = elemental.Identity{
+	Name:     "authn",
+	Category: "authn",
 	Package:  "midgard",
 	Private:  false,
 }
 
-// AuthsList represents a list of Auths
-type AuthsList []*Auth
+// AuthnsList represents a list of Authns
+type AuthnsList []*Authn
 
 // Identity returns the identity of the objects in the list.
-func (o AuthsList) Identity() elemental.Identity {
+func (o AuthnsList) Identity() elemental.Identity {
 
-	return AuthIdentity
+	return AuthnIdentity
 }
 
-// Copy returns a pointer to a copy the AuthsList.
-func (o AuthsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the AuthnsList.
+func (o AuthnsList) Copy() elemental.Identifiables {
 
-	copy := append(AuthsList{}, o...)
+	copy := append(AuthnsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the AuthsList.
-func (o AuthsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the AuthnsList.
+func (o AuthnsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(AuthsList{}, o...)
+	out := append(AuthnsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*Auth))
+		out = append(out, obj.(*Authn))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o AuthsList) List() elemental.IdentifiablesList {
+func (o AuthnsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -55,105 +55,105 @@ func (o AuthsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o AuthsList) DefaultOrder() []string {
+func (o AuthnsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the AuthsList converted to SparseAuthsList.
+// ToSparse returns the AuthnsList converted to SparseAuthnsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AuthsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o AuthnsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseAuthsList, len(o))
+	out := make(SparseAuthnsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseAuth)
+		out[i] = o[i].ToSparse(fields...).(*SparseAuthn)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o AuthsList) Version() int {
+func (o AuthnsList) Version() int {
 
 	return 1
 }
 
-// Auth represents the model of a auth
-type Auth struct {
+// Authn represents the model of a authn
+type Authn struct {
 	// The claims in the token.
 	Claims *types.MidgardClaims `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewAuth returns a new *Auth
-func NewAuth() *Auth {
+// NewAuthn returns a new *Authn
+func NewAuthn() *Authn {
 
-	return &Auth{
+	return &Authn{
 		ModelVersion: 1,
 		Claims:       types.NewMidgardClaims(),
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Auth) Identity() elemental.Identity {
+func (o *Authn) Identity() elemental.Identity {
 
-	return AuthIdentity
+	return AuthnIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Auth) Identifier() string {
+func (o *Authn) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Auth) SetIdentifier(id string) {
+func (o *Authn) SetIdentifier(id string) {
 
 }
 
 // Version returns the hardcoded version of the model.
-func (o *Auth) Version() int {
+func (o *Authn) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *Auth) BleveType() string {
+func (o *Authn) BleveType() string {
 
-	return "auth"
+	return "authn"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Auth) DefaultOrder() []string {
+func (o *Authn) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *Auth) Doc() string {
+func (o *Authn) Doc() string {
 
 	return `Verifies if the given token is valid or not. If it is valid it will
 return the claims of the token.`
 }
 
-func (o *Auth) String() string {
+func (o *Authn) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *Auth) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *Authn) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseAuth{
+		return &SparseAuthn{
 			Claims: o.Claims,
 		}
 	}
 
-	sp := &SparseAuth{}
+	sp := &SparseAuthn{}
 	for _, f := range fields {
 		switch f {
 		case "claims":
@@ -164,44 +164,44 @@ func (o *Auth) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseAuth to the object.
-func (o *Auth) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseAuthn to the object.
+func (o *Authn) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseAuth)
+	so := sparse.(*SparseAuthn)
 	if so.Claims != nil {
 		o.Claims = so.Claims
 	}
 }
 
-// DeepCopy returns a deep copy if the Auth.
-func (o *Auth) DeepCopy() *Auth {
+// DeepCopy returns a deep copy if the Authn.
+func (o *Authn) DeepCopy() *Authn {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &Auth{}
+	out := &Authn{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *Auth.
-func (o *Auth) DeepCopyInto(out *Auth) {
+// DeepCopyInto copies the receiver into the given *Authn.
+func (o *Authn) DeepCopyInto(out *Authn) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy Auth: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy Authn: %s", err))
 	}
 
-	*out = *target.(*Auth)
+	*out = *target.(*Authn)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Auth) Validate() error {
+func (o *Authn) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -218,26 +218,26 @@ func (o *Auth) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Auth) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*Authn) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := AuthAttributesMap[name]; ok {
+	if v, ok := AuthnAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return AuthLowerCaseAttributesMap[name]
+	return AuthnLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Auth) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*Authn) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return AuthAttributesMap
+	return AuthnAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *Auth) ValueForAttribute(name string) interface{} {
+func (o *Authn) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "claims":
@@ -247,8 +247,8 @@ func (o *Auth) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// AuthAttributesMap represents the map of attribute for Auth.
-var AuthAttributesMap = map[string]elemental.AttributeSpecification{
+// AuthnAttributesMap represents the map of attribute for Authn.
+var AuthnAttributesMap = map[string]elemental.AttributeSpecification{
 	"Claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -262,8 +262,8 @@ var AuthAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// AuthLowerCaseAttributesMap represents the map of attribute for Auth.
-var AuthLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// AuthnLowerCaseAttributesMap represents the map of attribute for Authn.
+var AuthnLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -277,35 +277,35 @@ var AuthLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// SparseAuthsList represents a list of SparseAuths
-type SparseAuthsList []*SparseAuth
+// SparseAuthnsList represents a list of SparseAuthns
+type SparseAuthnsList []*SparseAuthn
 
 // Identity returns the identity of the objects in the list.
-func (o SparseAuthsList) Identity() elemental.Identity {
+func (o SparseAuthnsList) Identity() elemental.Identity {
 
-	return AuthIdentity
+	return AuthnIdentity
 }
 
-// Copy returns a pointer to a copy the SparseAuthsList.
-func (o SparseAuthsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseAuthnsList.
+func (o SparseAuthnsList) Copy() elemental.Identifiables {
 
-	copy := append(SparseAuthsList{}, o...)
+	copy := append(SparseAuthnsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseAuthsList.
-func (o SparseAuthsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseAuthnsList.
+func (o SparseAuthnsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseAuthsList{}, o...)
+	out := append(SparseAuthnsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseAuth))
+		out = append(out, obj.(*SparseAuthn))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseAuthsList) List() elemental.IdentifiablesList {
+func (o SparseAuthnsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -316,13 +316,13 @@ func (o SparseAuthsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseAuthsList) DefaultOrder() []string {
+func (o SparseAuthnsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparseAuthsList converted to AuthsList.
-func (o SparseAuthsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseAuthnsList converted to AuthnsList.
+func (o SparseAuthnsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -333,51 +333,51 @@ func (o SparseAuthsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseAuthsList) Version() int {
+func (o SparseAuthnsList) Version() int {
 
 	return 1
 }
 
-// SparseAuth represents the sparse version of a auth.
-type SparseAuth struct {
+// SparseAuthn represents the sparse version of a authn.
+type SparseAuthn struct {
 	// The claims in the token.
 	Claims *types.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseAuth returns a new  SparseAuth.
-func NewSparseAuth() *SparseAuth {
-	return &SparseAuth{}
+// NewSparseAuthn returns a new  SparseAuthn.
+func NewSparseAuthn() *SparseAuthn {
+	return &SparseAuthn{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseAuth) Identity() elemental.Identity {
+func (o *SparseAuthn) Identity() elemental.Identity {
 
-	return AuthIdentity
+	return AuthnIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseAuth) Identifier() string {
+func (o *SparseAuthn) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseAuth) SetIdentifier(id string) {
+func (o *SparseAuthn) SetIdentifier(id string) {
 
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseAuth) Version() int {
+func (o *SparseAuthn) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseAuth) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseAuthn) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewAuth()
+	out := NewAuthn()
 	if o.Claims != nil {
 		out.Claims = o.Claims
 	}
@@ -385,26 +385,26 @@ func (o *SparseAuth) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
-// DeepCopy returns a deep copy if the SparseAuth.
-func (o *SparseAuth) DeepCopy() *SparseAuth {
+// DeepCopy returns a deep copy if the SparseAuthn.
+func (o *SparseAuthn) DeepCopy() *SparseAuthn {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseAuth{}
+	out := &SparseAuthn{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseAuth.
-func (o *SparseAuth) DeepCopyInto(out *SparseAuth) {
+// DeepCopyInto copies the receiver into the given *SparseAuthn.
+func (o *SparseAuthn) DeepCopyInto(out *SparseAuthn) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseAuth: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseAuthn: %s", err))
 	}
 
-	*out = *target.(*SparseAuth)
+	*out = *target.(*SparseAuthn)
 }

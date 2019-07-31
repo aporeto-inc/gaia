@@ -3,10 +3,9 @@ model:
   rest_name: role
   resource_name: roles
   entity_name: Role
-  package: squall
+  package: cid
   group: policy/authorization
-  description: |-
-    Returns the available roles that can be used with API authorizations.
+  description: Returns the available roles that can be used with API authorizations.
 
 # Attributes
 attributes:

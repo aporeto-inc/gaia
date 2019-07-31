@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: auth
-  resource_name: auth
-  entity_name: Auth
+  rest_name: authn
+  resource_name: authn
+  entity_name: Authn
   package: midgard
   group: core/authentication
   description: |-

@@ -122,7 +122,7 @@ relations:
   create:
     description: Create a audit statistics report.
 
-- rest_name: auth
+- rest_name: authn
   get:
     description: Verify the validity of a token.
     parameters:
@@ -137,6 +137,10 @@ relations:
     description: Creates a new certificate authority.
     global_parameters:
     - $filtering
+
+- rest_name: authz
+  create:
+    description: Verifies if a request should be accepted.
 
 - rest_name: automation
   get:
