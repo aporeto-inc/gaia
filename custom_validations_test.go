@@ -1004,6 +1004,24 @@ func TestValidateHostService(t *testing.T) {
 			false,
 		},
 		{
+			"valid service name < 128",
+			&HostService{
+				Name:            "asdasdsakljfslahfjashjkdlaksfjaksjfvfsadlkjkljsad",
+				HostModeEnabled: false,
+				Services:        []string{"tcp/80"},
+			},
+			false,
+		},
+		{
+			"valid service name > 128",
+			&HostService{
+				Name:            "asdasdsakljfslahfjashjkdlaksfsdhkjfhsdjkhfsiudfhsdjkfnsdkjfn1342141397asldjasklfjakslfj879797kjasdhjaksjfvfsadlkjkljsaddasfhsajlhdkajshfjksahfjksahdjksahdkjashdkasdhkjsa",
+				HostModeEnabled: false,
+				Services:        []string{"tcp/80"},
+			},
+			true,
+		},
+		{
 			"invalid name",
 			&HostService{
 				Name:            "jboss@!#$!$!",
