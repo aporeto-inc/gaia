@@ -208,10 +208,10 @@ func ValidateServiceEntity(service *Service) error {
 	allHosts := map[string]bool{}
 	for _, name := range service.Hosts {
 		if !isFQDN(name) {
-			errs = errs.Append(makeValidationError("Hosts", "`Hosts` must be a valid hostname or FQDN, compliant with RF952"))
+			errs = errs.Append(makeValidationError("hosts", "`Hosts` must be a valid hostname or FQDN, compliant with RF952"))
 		}
 		if _, ok := allHosts[name]; ok {
-			errs = errs.Append(makeValidationError("Hosts", "`Hosts` must be unique"))
+			errs = errs.Append(makeValidationError("hosts", "`Hosts` must be unique"))
 		}
 		allHosts[name] = true
 	}
