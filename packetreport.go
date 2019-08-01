@@ -417,10 +417,6 @@ func (o *PacketReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredInt("protocol", o.Protocol); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateMaximumInt("protocol", o.Protocol, int(255), false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -637,7 +633,6 @@ Otherwise empty.`,
 		Exposed:        true,
 		MaxValue:       255,
 		Name:           "protocol",
-		Required:       true,
 		Type:           "integer",
 	},
 	"PuID": elemental.AttributeSpecification{
@@ -820,7 +815,6 @@ Otherwise empty.`,
 		Exposed:        true,
 		MaxValue:       255,
 		Name:           "protocol",
-		Required:       true,
 		Type:           "integer",
 	},
 	"puid": elemental.AttributeSpecification{
