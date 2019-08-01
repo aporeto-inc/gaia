@@ -10432,7 +10432,7 @@ Retrieves information about the content of the stats measurement.
 
 Contains the list of fields. You cannot group by these fields.
 
-##### `measurement` `emum(Flows | Audit | Enforcers | Files | EventLogs | Counters | Accesses)`
+##### `measurement` `emum(Flows | Audit | Enforcers | Files | EventLogs | Counters | Accesses | Packets)`
 
 Name of the measurement.
 
