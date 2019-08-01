@@ -2611,7 +2611,7 @@ The event that triggered the report.
 
 Namespace of the processing unit reporting the packet.
 
-##### `protocol` `integer` [`required`,`max_value=255.000000`]
+##### `protocol` `integer` [`max_value=255.000000`]
 
 Protocol number.
 

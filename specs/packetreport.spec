@@ -100,7 +100,6 @@ attributes:
     description: Protocol number.
     type: integer
     exposed: true
-    required: true
     example_value: 6
     max_value: 255
 
