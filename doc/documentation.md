@@ -2611,7 +2611,7 @@ The event that triggered the report.
 
 Namespace of the processing unit reporting the packet.
 
-##### `protocol` `integer` [`required`,`max_value=255.000000`]
+##### `protocol` `integer` [`max_value=255.000000`]
 
 Protocol number.
 
@@ -10432,7 +10432,7 @@ Retrieves information about the content of the stats measurement.
 
 Contains the list of fields. You cannot group by these fields.
 
-##### `measurement` `emum(Flows | Audit | Enforcers | Files | EventLogs | Counters | Accesses)`
+##### `measurement` `emum(Flows | Audit | Enforcers | Files | EventLogs | Counters | Accesses | Packets)`
 
 Name of the measurement.
 

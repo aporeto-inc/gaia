@@ -32,6 +32,7 @@ attributes:
     - EventLogs
     - Counters
     - Accesses
+    - Packets
     default_value: Flows
 
   - name: tags
