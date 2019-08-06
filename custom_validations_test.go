@@ -919,6 +919,13 @@ func TestValidateAutomation(t *testing.T) {
 	}{
 		"should not return an error if trigger type is not webhook and multiple actions have been defined": {
 			automation: &Automation{
+				Condition: `
+						function when(api, params) {
+							return {
+								continue: true,
+							};
+						}
+			 	`,
 				Trigger: AutomationTriggerRemoteCall,
 				Actions: []string{
 					"Action 1",
