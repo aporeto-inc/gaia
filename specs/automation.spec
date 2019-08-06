@@ -44,12 +44,14 @@ attributes:
 
   - name: condition
     description: |-
-      Condition contains the code that will be executed to decide if any action should
-      be taken.
+      Condition contains the code that will be executed to decide if any action(s)
+      should be executed. This attribute is required only if the automation trigger
+      type is NOT set to "Webhook". Providing a condition for an automation with a
+      "Webhook" trigger type will have no impact as the condition will NOT be
+      evaluated.
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: 'function when(m, params) { return { continue: true }}'
 
   - name: entitlements
