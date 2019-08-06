@@ -960,6 +960,57 @@ func TestValidateAutomation(t *testing.T) {
 			},
 			shouldError: true,
 		},
+		"should return an error if trigger type is set to remotecall and no condition has been defined": {
+			automation: &Automation{
+				Trigger: AutomationTriggerRemoteCall,
+				// notice how no condition has been defined!
+				Condition: "",
+			},
+			shouldError: true,
+		},
+		"should return an error if trigger type is set to time and no condition has been defined": {
+			automation: &Automation{
+				Trigger: AutomationTriggerTime,
+				// notice how no condition has been defined!
+				Condition: "",
+			},
+			shouldError: true,
+		},
+		"should return an error if trigger type is set to event and no condition has been defined": {
+			automation: &Automation{
+				Trigger: AutomationTriggerEvent,
+				// notice how no condition has been defined!
+				Condition: "",
+			},
+			shouldError: true,
+		},
+		"should not return an error if trigger type is set to webhook and no condition has been defined": {
+			automation: &Automation{
+				Trigger: AutomationTriggerWebhook,
+				Actions: []string{
+					"Action 1",
+				},
+				// notice how no condition has been defined!
+				Condition: "",
+			},
+			shouldError: false,
+		},
+		"should not return an error if trigger type is set to webhook and a condition has been defined": {
+			automation: &Automation{
+				Trigger: AutomationTriggerWebhook,
+				Actions: []string{
+					"Action 1",
+				},
+				Condition: `
+						function when(api, params) {
+							return {
+								continue: true,
+							};
+						}
+			 	`,
+			},
+			shouldError: false,
+		},
 	}
 
 	for scenario, tc := range testCases {
