@@ -47,7 +47,8 @@ attributes:
       Condition contains the code that will be executed to decide if any action(s)
       should be executed. Providing a condition for an automation with a
       "Webhook" trigger type will have no impact as the condition will not be
-      evaluated.
+      evaluated. If no condition is defined, then the automation action(s) will be
+      executed; this behaves akin to a condition that always succeeds.
     type: string
     exposed: true
     stored: true
