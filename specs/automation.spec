@@ -45,9 +45,8 @@ attributes:
   - name: condition
     description: |-
       Condition contains the code that will be executed to decide if any action(s)
-      should be executed. This attribute is required only if the automation trigger
-      type is NOT set to "Webhook". Providing a condition for an automation with a
-      "Webhook" trigger type will have no impact as the condition will NOT be
+      should be executed. Providing a condition for an automation with a
+      "Webhook" trigger type will have no impact as the condition will not be
       evaluated.
     type: string
     exposed: true
