@@ -107,7 +107,7 @@ type Account struct {
 	OTPQRCode string `json:"OTPQRCode" msgpack:"OTPQRCode" bson:"-" mapstructure:"OTPQRCode,omitempty"`
 
 	// Stores the two-factor authentication secret.
-	OTPSecret string `json:"-" msgpack:"-" bson:"otpsecret" mapstructure:"OTPSecret,omitempty"`
+	OTPSecret string `json:"-" msgpack:"-" bson:"otpsecret" mapstructure:"-,omitempty"`
 
 	// Holds the SSH certificate authority used by the account namespace.
 	SSHCA string `json:"SSHCA" msgpack:"SSHCA" bson:"sshca" mapstructure:"SSHCA,omitempty"`
@@ -119,28 +119,28 @@ type Account struct {
 	AccessEnabled bool `json:"accessEnabled" msgpack:"accessEnabled" bson:"accessenabled" mapstructure:"accessEnabled,omitempty"`
 
 	// Contains the expiration date of the activation token.
-	ActivationExpiration time.Time `json:"-" msgpack:"-" bson:"activationexpiration" mapstructure:"activationExpiration,omitempty"`
+	ActivationExpiration time.Time `json:"-" msgpack:"-" bson:"activationexpiration" mapstructure:"-,omitempty"`
 
 	// Contains the activation token.
 	ActivationToken string `json:"activationToken,omitempty" msgpack:"activationToken,omitempty" bson:"activationtoken" mapstructure:"activationToken,omitempty"`
 
 	// Holds the ID of the associated API authorization.
-	AssociatedAPIAuthPolicyID string `json:"-" msgpack:"-" bson:"associatedapiauthpolicyid" mapstructure:"associatedAPIAuthPolicyID,omitempty"`
+	AssociatedAPIAuthPolicyID string `json:"-" msgpack:"-" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
 
 	// Contains a map of associated AWS enforcer policies.
-	AssociatedAWSPolicies map[string]string `json:"-" msgpack:"-" bson:"associatedawspolicies" mapstructure:"associatedAWSPolicies,omitempty"`
+	AssociatedAWSPolicies map[string]string `json:"-" msgpack:"-" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
 
 	// Holds the ID of the associated billing customer.
 	AssociatedBillingID string `json:"associatedBillingID" msgpack:"associatedBillingID" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
 
 	// Contains the ID of the associated namespace.
-	AssociatedNamespaceID string `json:"-" msgpack:"-" bson:"associatednamespaceid" mapstructure:"associatedNamespaceID,omitempty"`
+	AssociatedNamespaceID string `json:"-" msgpack:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
 
 	// Contains the plan key associated with this account.
 	AssociatedPlanKey string `json:"associatedPlanKey" msgpack:"associatedPlanKey" bson:"associatedplankey" mapstructure:"associatedPlanKey,omitempty"`
 
 	// Contains a map of the associated quotas.
-	AssociatedQuotaPolicies map[string]string `json:"-" msgpack:"-" bson:"associatedquotapolicies" mapstructure:"associatedQuotaPolicies,omitempty"`
+	AssociatedQuotaPolicies map[string]string `json:"-" msgpack:"-" bson:"associatedquotapolicies" mapstructure:"-,omitempty"`
 
 	// Company of the account user.
 	Company string `json:"company" msgpack:"company" bson:"company" mapstructure:"company,omitempty"`
@@ -158,7 +158,7 @@ type Account struct {
 	LastName string `json:"lastName" msgpack:"lastName" bson:"lastname" mapstructure:"lastName,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"migrationsLog,omitempty"`
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
 	// Name of the account.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -175,10 +175,10 @@ type Account struct {
 	ReCAPTCHAKey string `json:"reCAPTCHAKey" msgpack:"reCAPTCHAKey" bson:"-" mapstructure:"reCAPTCHAKey,omitempty"`
 
 	// Contains the expiration time for resetting the password.
-	ResetPasswordExpiration time.Time `json:"-" msgpack:"-" bson:"resetpasswordexpiration" mapstructure:"resetPasswordExpiration,omitempty"`
+	ResetPasswordExpiration time.Time `json:"-" msgpack:"-" bson:"resetpasswordexpiration" mapstructure:"-,omitempty"`
 
 	// Contains the token to use for resetting password.
-	ResetPasswordToken string `json:"-" msgpack:"-" bson:"resetpasswordtoken" mapstructure:"resetPasswordToken,omitempty"`
+	ResetPasswordToken string `json:"-" msgpack:"-" bson:"resetpasswordtoken" mapstructure:"-,omitempty"`
 
 	// Status of the account.
 	Status AccountStatusValue `json:"status" msgpack:"status" bson:"status" mapstructure:"status,omitempty"`
@@ -188,7 +188,7 @@ type Account struct {
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"zHash,omitempty"`
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
@@ -1414,7 +1414,7 @@ type SparseAccount struct {
 	OTPQRCode *string `json:"OTPQRCode,omitempty" msgpack:"OTPQRCode,omitempty" bson:"-" mapstructure:"OTPQRCode,omitempty"`
 
 	// Stores the two-factor authentication secret.
-	OTPSecret *string `json:"-" msgpack:"-" bson:"otpsecret,omitempty" mapstructure:"OTPSecret,omitempty"`
+	OTPSecret *string `json:"-" msgpack:"-" bson:"otpsecret,omitempty" mapstructure:"-,omitempty"`
 
 	// Holds the SSH certificate authority used by the account namespace.
 	SSHCA *string `json:"SSHCA,omitempty" msgpack:"SSHCA,omitempty" bson:"sshca,omitempty" mapstructure:"SSHCA,omitempty"`
@@ -1426,28 +1426,28 @@ type SparseAccount struct {
 	AccessEnabled *bool `json:"accessEnabled,omitempty" msgpack:"accessEnabled,omitempty" bson:"accessenabled,omitempty" mapstructure:"accessEnabled,omitempty"`
 
 	// Contains the expiration date of the activation token.
-	ActivationExpiration *time.Time `json:"-" msgpack:"-" bson:"activationexpiration,omitempty" mapstructure:"activationExpiration,omitempty"`
+	ActivationExpiration *time.Time `json:"-" msgpack:"-" bson:"activationexpiration,omitempty" mapstructure:"-,omitempty"`
 
 	// Contains the activation token.
 	ActivationToken *string `json:"activationToken,omitempty" msgpack:"activationToken,omitempty" bson:"activationtoken,omitempty" mapstructure:"activationToken,omitempty"`
 
 	// Holds the ID of the associated API authorization.
-	AssociatedAPIAuthPolicyID *string `json:"-" msgpack:"-" bson:"associatedapiauthpolicyid,omitempty" mapstructure:"associatedAPIAuthPolicyID,omitempty"`
+	AssociatedAPIAuthPolicyID *string `json:"-" msgpack:"-" bson:"associatedapiauthpolicyid,omitempty" mapstructure:"-,omitempty"`
 
 	// Contains a map of associated AWS enforcer policies.
-	AssociatedAWSPolicies *map[string]string `json:"-" msgpack:"-" bson:"associatedawspolicies,omitempty" mapstructure:"associatedAWSPolicies,omitempty"`
+	AssociatedAWSPolicies *map[string]string `json:"-" msgpack:"-" bson:"associatedawspolicies,omitempty" mapstructure:"-,omitempty"`
 
 	// Holds the ID of the associated billing customer.
 	AssociatedBillingID *string `json:"associatedBillingID,omitempty" msgpack:"associatedBillingID,omitempty" bson:"associatedbillingid,omitempty" mapstructure:"associatedBillingID,omitempty"`
 
 	// Contains the ID of the associated namespace.
-	AssociatedNamespaceID *string `json:"-" msgpack:"-" bson:"associatednamespaceid,omitempty" mapstructure:"associatedNamespaceID,omitempty"`
+	AssociatedNamespaceID *string `json:"-" msgpack:"-" bson:"associatednamespaceid,omitempty" mapstructure:"-,omitempty"`
 
 	// Contains the plan key associated with this account.
 	AssociatedPlanKey *string `json:"associatedPlanKey,omitempty" msgpack:"associatedPlanKey,omitempty" bson:"associatedplankey,omitempty" mapstructure:"associatedPlanKey,omitempty"`
 
 	// Contains a map of the associated quotas.
-	AssociatedQuotaPolicies *map[string]string `json:"-" msgpack:"-" bson:"associatedquotapolicies,omitempty" mapstructure:"associatedQuotaPolicies,omitempty"`
+	AssociatedQuotaPolicies *map[string]string `json:"-" msgpack:"-" bson:"associatedquotapolicies,omitempty" mapstructure:"-,omitempty"`
 
 	// Company of the account user.
 	Company *string `json:"company,omitempty" msgpack:"company,omitempty" bson:"company,omitempty" mapstructure:"company,omitempty"`
@@ -1465,7 +1465,7 @@ type SparseAccount struct {
 	LastName *string `json:"lastName,omitempty" msgpack:"lastName,omitempty" bson:"lastname,omitempty" mapstructure:"lastName,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"migrationsLog,omitempty"`
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Name of the account.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
@@ -1482,10 +1482,10 @@ type SparseAccount struct {
 	ReCAPTCHAKey *string `json:"reCAPTCHAKey,omitempty" msgpack:"reCAPTCHAKey,omitempty" bson:"-" mapstructure:"reCAPTCHAKey,omitempty"`
 
 	// Contains the expiration time for resetting the password.
-	ResetPasswordExpiration *time.Time `json:"-" msgpack:"-" bson:"resetpasswordexpiration,omitempty" mapstructure:"resetPasswordExpiration,omitempty"`
+	ResetPasswordExpiration *time.Time `json:"-" msgpack:"-" bson:"resetpasswordexpiration,omitempty" mapstructure:"-,omitempty"`
 
 	// Contains the token to use for resetting password.
-	ResetPasswordToken *string `json:"-" msgpack:"-" bson:"resetpasswordtoken,omitempty" mapstructure:"resetPasswordToken,omitempty"`
+	ResetPasswordToken *string `json:"-" msgpack:"-" bson:"resetpasswordtoken,omitempty" mapstructure:"-,omitempty"`
 
 	// Status of the account.
 	Status *AccountStatusValue `json:"status,omitempty" msgpack:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
@@ -1495,7 +1495,7 @@ type SparseAccount struct {
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"zHash,omitempty"`
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`

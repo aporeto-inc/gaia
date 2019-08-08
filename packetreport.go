@@ -95,10 +95,10 @@ func (o PacketReportsList) Version() int {
 // PacketReport represents the model of a packetreport
 type PacketReport struct {
 	// Flags are the TCP flags of the packet.
-	TCPFlags int `json:"-" msgpack:"-" bson:"-" mapstructure:"TCPFlags,omitempty"`
+	TCPFlags int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims []string `json:"-" msgpack:"-" bson:"-" mapstructure:"claims,omitempty"`
+	Claims []string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// The destination IP address of the packet.
 	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
@@ -123,16 +123,16 @@ type PacketReport struct {
 	Event PacketReportEventValue `json:"event" msgpack:"event" bson:"-" mapstructure:"event,omitempty"`
 
 	// Length is the length of the packet.
-	Length int `json:"-" msgpack:"-" bson:"-" mapstructure:"length,omitempty"`
+	Length int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
-	Mark int `json:"-" msgpack:"-" bson:"-" mapstructure:"mark,omitempty"`
+	Mark int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Namespace of the processing unit reporting the packet.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// PacketID is the ID from the IP header of the packet.
-	PacketID int `json:"-" msgpack:"-" bson:"-" mapstructure:"packetID,omitempty"`
+	PacketID int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Protocol number.
 	Protocol int `json:"protocol" msgpack:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
@@ -940,10 +940,10 @@ func (o SparsePacketReportsList) Version() int {
 // SparsePacketReport represents the sparse version of a packetreport.
 type SparsePacketReport struct {
 	// Flags are the TCP flags of the packet.
-	TCPFlags *int `json:"-" msgpack:"-" bson:"-" mapstructure:"TCPFlags,omitempty"`
+	TCPFlags *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims *[]string `json:"-" msgpack:"-" bson:"-" mapstructure:"claims,omitempty"`
+	Claims *[]string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// The destination IP address of the packet.
 	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
@@ -968,16 +968,16 @@ type SparsePacketReport struct {
 	Event *PacketReportEventValue `json:"event,omitempty" msgpack:"event,omitempty" bson:"-" mapstructure:"event,omitempty"`
 
 	// Length is the length of the packet.
-	Length *int `json:"-" msgpack:"-" bson:"-" mapstructure:"length,omitempty"`
+	Length *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
-	Mark *int `json:"-" msgpack:"-" bson:"-" mapstructure:"mark,omitempty"`
+	Mark *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Namespace of the processing unit reporting the packet.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// PacketID is the ID from the IP header of the packet.
-	PacketID *int `json:"-" msgpack:"-" bson:"-" mapstructure:"packetID,omitempty"`
+	PacketID *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Protocol number.
 	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`

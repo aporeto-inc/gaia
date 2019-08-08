@@ -81,14 +81,14 @@ func (o RevocationsList) Version() int {
 // Revocation represents the model of a revocation
 type Revocation struct {
 	// ID contains the ID of the revocation.
-	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// Contains the certificate expiration date. This will be used to clean up revoked
 	// certificates that have expired.
 	ExpirationDate time.Time `json:"expirationDate" msgpack:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"migrationsLog,omitempty"`
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
 	// Set time from when the certificate will be revoked.
 	RevokeDate time.Time `json:"revokeDate" msgpack:"revokeDate" bson:"revokedate" mapstructure:"revokeDate,omitempty"`
@@ -101,7 +101,7 @@ type Revocation struct {
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"zHash,omitempty"`
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
@@ -612,14 +612,14 @@ func (o SparseRevocationsList) Version() int {
 // SparseRevocation represents the sparse version of a revocation.
 type SparseRevocation struct {
 	// ID contains the ID of the revocation.
-	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// Contains the certificate expiration date. This will be used to clean up revoked
 	// certificates that have expired.
 	ExpirationDate *time.Time `json:"expirationDate,omitempty" msgpack:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"migrationsLog,omitempty"`
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Set time from when the certificate will be revoked.
 	RevokeDate *time.Time `json:"revokeDate,omitempty" msgpack:"revokeDate,omitempty" bson:"revokedate,omitempty" mapstructure:"revokeDate,omitempty"`
@@ -632,7 +632,7 @@ type SparseRevocation struct {
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"zHash,omitempty"`
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`

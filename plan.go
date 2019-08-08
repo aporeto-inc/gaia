@@ -89,13 +89,13 @@ type Plan struct {
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Defines the quota for each identity.
-	Quotas map[string]int `json:"-" msgpack:"-" bson:"-" mapstructure:"quotas,omitempty"`
+	Quotas map[string]int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// RequireAdminValidation indicates if the plan requires an admin approval.
-	RequireAdminValidation bool `json:"-" msgpack:"-" bson:"requireadminvalidation" mapstructure:"requireAdminValidation,omitempty"`
+	RequireAdminValidation bool `json:"-" msgpack:"-" bson:"requireadminvalidation" mapstructure:"-,omitempty"`
 
 	// Roles defines the roles given to the account.
-	Roles []string `json:"-" msgpack:"-" bson:"-" mapstructure:"roles,omitempty"`
+	Roles []string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -508,13 +508,13 @@ type SparsePlan struct {
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Defines the quota for each identity.
-	Quotas *map[string]int `json:"-" msgpack:"-" bson:"-" mapstructure:"quotas,omitempty"`
+	Quotas *map[string]int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// RequireAdminValidation indicates if the plan requires an admin approval.
-	RequireAdminValidation *bool `json:"-" msgpack:"-" bson:"requireadminvalidation,omitempty" mapstructure:"requireAdminValidation,omitempty"`
+	RequireAdminValidation *bool `json:"-" msgpack:"-" bson:"requireadminvalidation,omitempty" mapstructure:"-,omitempty"`
 
 	// Roles defines the roles given to the account.
-	Roles *[]string `json:"-" msgpack:"-" bson:"-" mapstructure:"roles,omitempty"`
+	Roles *[]string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }

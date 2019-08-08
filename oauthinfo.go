@@ -81,33 +81,33 @@ func (o OAUTHInfosList) Version() int {
 type OAUTHInfo struct {
 	// IDTokenSigningAlgValuesSupported is corresponding attribute of the OIDC
 	// spec.
-	IDTokenSigningAlgValuesSupported []string `json:"id_token_signing_alg_values_supported" msgpack:"id_token_signing_alg_values_supported" bson:"-" mapstructure:"IDTokenSigningAlgValuesSupported,omitempty"`
+	IDTokenSigningAlgValuesSupported []string `json:"id_token_signing_alg_values_supported" msgpack:"id_token_signing_alg_values_supported" bson:"-" mapstructure:"id_token_signing_alg_values_supported,omitempty"`
 
 	// JWKSURI is the URI that can be used to retrieve the public keys that will
 	// verify a JWT.
-	JWKSURI string `json:"jwks_uri" msgpack:"jwks_uri" bson:"-" mapstructure:"JWKSURI,omitempty"`
+	JWKSURI string `json:"jwks_uri" msgpack:"jwks_uri" bson:"-" mapstructure:"jwks_uri,omitempty"`
 
 	// AuhorizationEndpoint is the authorization endpoint.
-	AuhorizationEndpoint string `json:"auhorization_endpoint" msgpack:"auhorization_endpoint" bson:"-" mapstructure:"auhorizationEndpoint,omitempty"`
+	AuhorizationEndpoint string `json:"auhorization_endpoint" msgpack:"auhorization_endpoint" bson:"-" mapstructure:"auhorization_endpoint,omitempty"`
 
 	// ClaimsSupported is corresponding attribute of the OIDC spec.
-	ClaimsSupported []string `json:"claims_supported" msgpack:"claims_supported" bson:"-" mapstructure:"claimsSupported,omitempty"`
+	ClaimsSupported []string `json:"claims_supported" msgpack:"claims_supported" bson:"-" mapstructure:"claims_supported,omitempty"`
 
 	// Issuer is the the URL pointing to the issuer of the token.
 	Issuer string `json:"issuer" msgpack:"issuer" bson:"-" mapstructure:"issuer,omitempty"`
 
 	// ResponseTypesSupported is corresponding attribute of the OIDC spec.
-	ResponseTypesSupported []string `json:"response_types_supported" msgpack:"response_types_supported" bson:"-" mapstructure:"responseTypesSupported,omitempty"`
+	ResponseTypesSupported []string `json:"response_types_supported" msgpack:"response_types_supported" bson:"-" mapstructure:"response_types_supported,omitempty"`
 
 	// ScopesSupported is corresponding attribute of the OIDC spec.
-	ScopesSupported []string `json:"scopes_supported" msgpack:"scopes_supported" bson:"-" mapstructure:"scopesSupported,omitempty"`
+	ScopesSupported []string `json:"scopes_supported" msgpack:"scopes_supported" bson:"-" mapstructure:"scopes_supported,omitempty"`
 
 	// SubjectTypesSupported is corresponding attribute of the OIDC spec.
-	SubjectTypesSupported []string `json:"subject_types_supported" msgpack:"subject_types_supported" bson:"-" mapstructure:"subjectTypesSupported,omitempty"`
+	SubjectTypesSupported []string `json:"subject_types_supported" msgpack:"subject_types_supported" bson:"-" mapstructure:"subject_types_supported,omitempty"`
 
 	// TokenEndpointAuthMethodsSupported is corresponding attribute of the OIDC
 	// spec.
-	TokenEndpointAuthMethodsSupported []string `json:"token_endpoint_auth_methods_supported" msgpack:"token_endpoint_auth_methods_supported" bson:"-" mapstructure:"tokenEndpointAuthMethodsSupported,omitempty"`
+	TokenEndpointAuthMethodsSupported []string `json:"token_endpoint_auth_methods_supported" msgpack:"token_endpoint_auth_methods_supported" bson:"-" mapstructure:"token_endpoint_auth_methods_supported,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -613,33 +613,33 @@ func (o SparseOAUTHInfosList) Version() int {
 type SparseOAUTHInfo struct {
 	// IDTokenSigningAlgValuesSupported is corresponding attribute of the OIDC
 	// spec.
-	IDTokenSigningAlgValuesSupported *[]string `json:"id_token_signing_alg_values_supported,omitempty" msgpack:"id_token_signing_alg_values_supported,omitempty" bson:"-" mapstructure:"IDTokenSigningAlgValuesSupported,omitempty"`
+	IDTokenSigningAlgValuesSupported *[]string `json:"id_token_signing_alg_values_supported,omitempty" msgpack:"id_token_signing_alg_values_supported,omitempty" bson:"-" mapstructure:"id_token_signing_alg_values_supported,omitempty"`
 
 	// JWKSURI is the URI that can be used to retrieve the public keys that will
 	// verify a JWT.
-	JWKSURI *string `json:"jwks_uri,omitempty" msgpack:"jwks_uri,omitempty" bson:"-" mapstructure:"JWKSURI,omitempty"`
+	JWKSURI *string `json:"jwks_uri,omitempty" msgpack:"jwks_uri,omitempty" bson:"-" mapstructure:"jwks_uri,omitempty"`
 
 	// AuhorizationEndpoint is the authorization endpoint.
-	AuhorizationEndpoint *string `json:"auhorization_endpoint,omitempty" msgpack:"auhorization_endpoint,omitempty" bson:"-" mapstructure:"auhorizationEndpoint,omitempty"`
+	AuhorizationEndpoint *string `json:"auhorization_endpoint,omitempty" msgpack:"auhorization_endpoint,omitempty" bson:"-" mapstructure:"auhorization_endpoint,omitempty"`
 
 	// ClaimsSupported is corresponding attribute of the OIDC spec.
-	ClaimsSupported *[]string `json:"claims_supported,omitempty" msgpack:"claims_supported,omitempty" bson:"-" mapstructure:"claimsSupported,omitempty"`
+	ClaimsSupported *[]string `json:"claims_supported,omitempty" msgpack:"claims_supported,omitempty" bson:"-" mapstructure:"claims_supported,omitempty"`
 
 	// Issuer is the the URL pointing to the issuer of the token.
 	Issuer *string `json:"issuer,omitempty" msgpack:"issuer,omitempty" bson:"-" mapstructure:"issuer,omitempty"`
 
 	// ResponseTypesSupported is corresponding attribute of the OIDC spec.
-	ResponseTypesSupported *[]string `json:"response_types_supported,omitempty" msgpack:"response_types_supported,omitempty" bson:"-" mapstructure:"responseTypesSupported,omitempty"`
+	ResponseTypesSupported *[]string `json:"response_types_supported,omitempty" msgpack:"response_types_supported,omitempty" bson:"-" mapstructure:"response_types_supported,omitempty"`
 
 	// ScopesSupported is corresponding attribute of the OIDC spec.
-	ScopesSupported *[]string `json:"scopes_supported,omitempty" msgpack:"scopes_supported,omitempty" bson:"-" mapstructure:"scopesSupported,omitempty"`
+	ScopesSupported *[]string `json:"scopes_supported,omitempty" msgpack:"scopes_supported,omitempty" bson:"-" mapstructure:"scopes_supported,omitempty"`
 
 	// SubjectTypesSupported is corresponding attribute of the OIDC spec.
-	SubjectTypesSupported *[]string `json:"subject_types_supported,omitempty" msgpack:"subject_types_supported,omitempty" bson:"-" mapstructure:"subjectTypesSupported,omitempty"`
+	SubjectTypesSupported *[]string `json:"subject_types_supported,omitempty" msgpack:"subject_types_supported,omitempty" bson:"-" mapstructure:"subject_types_supported,omitempty"`
 
 	// TokenEndpointAuthMethodsSupported is corresponding attribute of the OIDC
 	// spec.
-	TokenEndpointAuthMethodsSupported *[]string `json:"token_endpoint_auth_methods_supported,omitempty" msgpack:"token_endpoint_auth_methods_supported,omitempty" bson:"-" mapstructure:"tokenEndpointAuthMethodsSupported,omitempty"`
+	TokenEndpointAuthMethodsSupported *[]string `json:"token_endpoint_auth_methods_supported,omitempty" msgpack:"token_endpoint_auth_methods_supported,omitempty" bson:"-" mapstructure:"token_endpoint_auth_methods_supported,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }

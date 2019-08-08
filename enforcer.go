@@ -152,11 +152,11 @@ type Enforcer struct {
 
 	// The expiration date of the certificate. This is an
 	// internal attribute, not exposed in the API.
-	CertificateExpirationDate time.Time `json:"-" msgpack:"-" bson:"-" mapstructure:"certificateExpirationDate,omitempty"`
+	CertificateExpirationDate time.Time `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// The certificate key of the enforcer. This is an internal
 	// attribute, not exposed in the API.
-	CertificateKey string `json:"-" msgpack:"-" bson:"-" mapstructure:"certificateKey,omitempty"`
+	CertificateKey string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// If not empty during a create or update operation, the provided certificate
 	// signing request (CSR) will be validated and signed by the control plane,
@@ -170,7 +170,7 @@ type Enforcer struct {
 	CollectedInfo map[string]string `json:"collectedInfo" msgpack:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"createIdempotencyKey,omitempty"`
+	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -188,7 +188,7 @@ type Enforcer struct {
 	LastCollectionTime time.Time `json:"lastCollectionTime" msgpack:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
 
 	// The time and date of the last poke.
-	LastPokeTime time.Time `json:"-" msgpack:"-" bson:"lastpoketime" mapstructure:"lastPokeTime,omitempty"`
+	LastPokeTime time.Time `json:"-" msgpack:"-" bson:"lastpoketime" mapstructure:"-,omitempty"`
 
 	// The time and date of the last heartbeat.
 	LastSyncTime time.Time `json:"lastSyncTime" msgpack:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
@@ -197,7 +197,7 @@ type Enforcer struct {
 	// services that have been applied to this enforcer. This list might be different
 	// from the list retrieved through policy, if the dynamically calculated list leads
 	// into conflicts.
-	LastValidHostServices HostServicesList `json:"-" msgpack:"-" bson:"lastvalidhostservices" mapstructure:"lastValidHostServices,omitempty"`
+	LastValidHostServices HostServicesList `json:"-" msgpack:"-" bson:"lastvalidhostservices" mapstructure:"-,omitempty"`
 
 	// Contains the initial chain of trust for the enforcer. This value is only
 	// given when you retrieve a single enforcer.
@@ -220,7 +220,7 @@ type Enforcer struct {
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"migrationsLog,omitempty"`
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -256,14 +256,14 @@ type Enforcer struct {
 	UpdateAvailable bool `json:"updateAvailable" msgpack:"updateAvailable" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"updateIdempotencyKey,omitempty"`
+	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"zHash,omitempty"`
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
@@ -1986,11 +1986,11 @@ type SparseEnforcer struct {
 
 	// The expiration date of the certificate. This is an
 	// internal attribute, not exposed in the API.
-	CertificateExpirationDate *time.Time `json:"-" msgpack:"-" bson:"-" mapstructure:"certificateExpirationDate,omitempty"`
+	CertificateExpirationDate *time.Time `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// The certificate key of the enforcer. This is an internal
 	// attribute, not exposed in the API.
-	CertificateKey *string `json:"-" msgpack:"-" bson:"-" mapstructure:"certificateKey,omitempty"`
+	CertificateKey *string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// If not empty during a create or update operation, the provided certificate
 	// signing request (CSR) will be validated and signed by the control plane,
@@ -2004,7 +2004,7 @@ type SparseEnforcer struct {
 	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" msgpack:"collectedInfo,omitempty" bson:"collectedinfo,omitempty" mapstructure:"collectedInfo,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"createIdempotencyKey,omitempty"`
+	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
@@ -2022,7 +2022,7 @@ type SparseEnforcer struct {
 	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" msgpack:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
 
 	// The time and date of the last poke.
-	LastPokeTime *time.Time `json:"-" msgpack:"-" bson:"lastpoketime,omitempty" mapstructure:"lastPokeTime,omitempty"`
+	LastPokeTime *time.Time `json:"-" msgpack:"-" bson:"lastpoketime,omitempty" mapstructure:"-,omitempty"`
 
 	// The time and date of the last heartbeat.
 	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" msgpack:"lastSyncTime,omitempty" bson:"lastsynctime,omitempty" mapstructure:"lastSyncTime,omitempty"`
@@ -2031,7 +2031,7 @@ type SparseEnforcer struct {
 	// services that have been applied to this enforcer. This list might be different
 	// from the list retrieved through policy, if the dynamically calculated list leads
 	// into conflicts.
-	LastValidHostServices *HostServicesList `json:"-" msgpack:"-" bson:"lastvalidhostservices,omitempty" mapstructure:"lastValidHostServices,omitempty"`
+	LastValidHostServices *HostServicesList `json:"-" msgpack:"-" bson:"lastvalidhostservices,omitempty" mapstructure:"-,omitempty"`
 
 	// Contains the initial chain of trust for the enforcer. This value is only
 	// given when you retrieve a single enforcer.
@@ -2054,7 +2054,7 @@ type SparseEnforcer struct {
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"migrationsLog,omitempty"`
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
@@ -2090,14 +2090,14 @@ type SparseEnforcer struct {
 	UpdateAvailable *bool `json:"updateAvailable,omitempty" msgpack:"updateAvailable,omitempty" bson:"updateavailable,omitempty" mapstructure:"updateAvailable,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"updateIdempotencyKey,omitempty"`
+	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"zHash,omitempty"`
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`

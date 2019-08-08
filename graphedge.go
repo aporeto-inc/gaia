@@ -109,13 +109,13 @@ func (o GraphEdgesList) Version() int {
 // GraphEdge represents the model of a graphedge
 type GraphEdge struct {
 	// DB Identifier of the edge.
-	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// Number of accepted flows in the edge.
 	AcceptedFlows int `json:"acceptedFlows" msgpack:"acceptedFlows" bson:"acceptedflows" mapstructure:"acceptedFlows,omitempty"`
 
 	// Date on which the edge has been inserted.
-	CreateTime time.Time `json:"-" msgpack:"-" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"-" msgpack:"-" bson:"createtime" mapstructure:"-,omitempty"`
 
 	// ID of the destination `GraphNode` of the edge.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"destinationid" mapstructure:"destinationID,omitempty"`
@@ -130,7 +130,7 @@ type GraphEdge struct {
 	FirstSeen time.Time `json:"firstSeen" msgpack:"firstSeen" bson:"firstseen" mapstructure:"firstSeen,omitempty"`
 
 	// Identifier of the edge.
-	FlowID string `json:"ID" msgpack:"ID" bson:"flowid" mapstructure:"flowID,omitempty"`
+	FlowID string `json:"ID" msgpack:"ID" bson:"flowid" mapstructure:"ID,omitempty"`
 
 	// Contains the date when the edge was last seen.
 	LastSeen time.Time `json:"lastSeen" msgpack:"lastSeen" bson:"lastseen" mapstructure:"lastSeen,omitempty"`
@@ -169,7 +169,7 @@ type GraphEdge struct {
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"zHash,omitempty"`
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// Geographical zone. Used for sharding and georedundancy.
 	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
@@ -1026,13 +1026,13 @@ func (o SparseGraphEdgesList) Version() int {
 // SparseGraphEdge represents the sparse version of a graphedge.
 type SparseGraphEdge struct {
 	// DB Identifier of the edge.
-	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// Number of accepted flows in the edge.
 	AcceptedFlows *int `json:"acceptedFlows,omitempty" msgpack:"acceptedFlows,omitempty" bson:"acceptedflows,omitempty" mapstructure:"acceptedFlows,omitempty"`
 
 	// Date on which the edge has been inserted.
-	CreateTime *time.Time `json:"-" msgpack:"-" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"-" msgpack:"-" bson:"createtime,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the destination `GraphNode` of the edge.
 	DestinationID *string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"destinationid,omitempty" mapstructure:"destinationID,omitempty"`
@@ -1047,7 +1047,7 @@ type SparseGraphEdge struct {
 	FirstSeen *time.Time `json:"firstSeen,omitempty" msgpack:"firstSeen,omitempty" bson:"firstseen,omitempty" mapstructure:"firstSeen,omitempty"`
 
 	// Identifier of the edge.
-	FlowID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"flowid,omitempty" mapstructure:"flowID,omitempty"`
+	FlowID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"flowid,omitempty" mapstructure:"ID,omitempty"`
 
 	// Contains the date when the edge was last seen.
 	LastSeen *time.Time `json:"lastSeen,omitempty" msgpack:"lastSeen,omitempty" bson:"lastseen,omitempty" mapstructure:"lastSeen,omitempty"`
@@ -1086,7 +1086,7 @@ type SparseGraphEdge struct {
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"zHash,omitempty"`
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// Geographical zone. Used for sharding and georedundancy.
 	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`

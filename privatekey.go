@@ -80,14 +80,14 @@ func (o PrivateKeysList) Version() int {
 // PrivateKey represents the model of a privatekey
 type PrivateKey struct {
 	// ID is the internal ID of the key.
-	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// CertificateSerialNumber represents the certificate serial number associated to
 	// this key.
-	CertificateSerialNumber string `json:"-" msgpack:"-" bson:"certificateserialnumber" mapstructure:"certificateSerialNumber,omitempty"`
+	CertificateSerialNumber string `json:"-" msgpack:"-" bson:"certificateserialnumber" mapstructure:"-,omitempty"`
 
 	// Data contains the privateKey data.
-	Data string `json:"-" msgpack:"-" bson:"data" mapstructure:"data,omitempty"`
+	Data string `json:"-" msgpack:"-" bson:"data" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -394,14 +394,14 @@ func (o SparsePrivateKeysList) Version() int {
 // SparsePrivateKey represents the sparse version of a privatekey.
 type SparsePrivateKey struct {
 	// ID is the internal ID of the key.
-	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// CertificateSerialNumber represents the certificate serial number associated to
 	// this key.
-	CertificateSerialNumber *string `json:"-" msgpack:"-" bson:"certificateserialnumber,omitempty" mapstructure:"certificateSerialNumber,omitempty"`
+	CertificateSerialNumber *string `json:"-" msgpack:"-" bson:"certificateserialnumber,omitempty" mapstructure:"-,omitempty"`
 
 	// Data contains the privateKey data.
-	Data *string `json:"-" msgpack:"-" bson:"data,omitempty" mapstructure:"data,omitempty"`
+	Data *string `json:"-" msgpack:"-" bson:"data,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
