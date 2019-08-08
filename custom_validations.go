@@ -520,6 +520,21 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 	return nil
 }
 
+// ValidateServicePorts validates a list of service ports has no overlap with any given parameter.
+func ValidateServicePorts(servicePorts []string) error {
+
+	for _, servicePort := range servicePorts {
+
+		pr, protocol, err = portutils.ExtractPortsAndProtocolFromHostService(svc)
+		if err != nil {
+			return err
+		}
+
+	}
+
+	return nil
+}
+
 // ValidateAudience validates an audience string.
 func ValidateAudience(attribute string, audience string) error {
 	// TODO: not liking the idea of importing addedeffect here

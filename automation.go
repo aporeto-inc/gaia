@@ -115,8 +115,8 @@ type Automation struct {
 	// Condition contains the code that will be executed to decide if any action(s)
 	// should be executed. Providing a condition for an automation with a
 	// "Webhook" trigger type will have no impact as the condition will not be
-	// evaluated. If no condition is defined, then the automation action(s) will be executed;
-	// this behaves akin to a condition that always succeeds.
+	// evaluated. If no condition is defined, then the automation action(s) will be
+	// executed; this behaves akin to a condition that always succeeds.
 	Condition string `json:"condition" msgpack:"condition" bson:"condition" mapstructure:"condition,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -858,8 +858,8 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		Description: `Condition contains the code that will be executed to decide if any action(s)
 should be executed. Providing a condition for an automation with a
 "Webhook" trigger type will have no impact as the condition will not be
-evaluated. If no condition is defined, then the automation action(s) will be executed;
-this behaves akin to a condition that always succeeds.`,
+evaluated. If no condition is defined, then the automation action(s) will be
+executed; this behaves akin to a condition that always succeeds.`,
 		Exposed: true,
 		Name:    "condition",
 		Stored:  true,
@@ -1213,8 +1213,8 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description: `Condition contains the code that will be executed to decide if any action(s)
 should be executed. Providing a condition for an automation with a
 "Webhook" trigger type will have no impact as the condition will not be
-evaluated. If no condition is defined, then the automation action(s) will be executed;
-this behaves akin to a condition that always succeeds.`,
+evaluated. If no condition is defined, then the automation action(s) will be
+executed; this behaves akin to a condition that always succeeds.`,
 		Exposed: true,
 		Name:    "condition",
 		Stored:  true,
@@ -1593,8 +1593,8 @@ type SparseAutomation struct {
 	// Condition contains the code that will be executed to decide if any action(s)
 	// should be executed. Providing a condition for an automation with a
 	// "Webhook" trigger type will have no impact as the condition will not be
-	// evaluated. If no condition is defined, then the automation action(s) will be executed;
-	// this behaves akin to a condition that always succeeds.
+	// evaluated. If no condition is defined, then the automation action(s) will be
+	// executed; this behaves akin to a condition that always succeeds.
 	Condition *string `json:"condition,omitempty" msgpack:"condition,omitempty" bson:"condition,omitempty" mapstructure:"condition,omitempty"`
 
 	// internal idempotency key for a create operation.
