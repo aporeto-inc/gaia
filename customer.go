@@ -120,9 +120,13 @@ type Customer struct {
 	// Provider holds the name of the provider to be billed for this service.
 	Provider CustomerProviderValue `json:"provider" msgpack:"provider" bson:"provider" mapstructure:"provider,omitempty"`
 
-	// ProviderCustomerID holds the customer id as used by the provider for this
+	// providerCustomerID holds the customer id as used by the provider for this
 	// customer to enable provider billing.
 	ProviderCustomerID string `json:"providerCustomerID" msgpack:"providerCustomerID" bson:"providercustomerid" mapstructure:"providerCustomerID,omitempty"`
+
+	// providerProductID holds the product id as used by the provider for this
+	// customer to enable provider billing.
+	ProviderProductID string `json:"providerProductID" msgpack:"providerProductID" bson:"providerproductid" mapstructure:"providerProductID,omitempty"`
 
 	// State holds the status of the customer with the provider.
 	State CustomerStateValue `json:"state" msgpack:"state" bson:"state" mapstructure:"state,omitempty"`
@@ -226,6 +230,7 @@ func (o *Customer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateTime:         &o.CreateTime,
 			Provider:           &o.Provider,
 			ProviderCustomerID: &o.ProviderCustomerID,
+			ProviderProductID:  &o.ProviderProductID,
 			State:              &o.State,
 			UpdateTime:         &o.UpdateTime,
 		}
@@ -242,6 +247,8 @@ func (o *Customer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Provider = &(o.Provider)
 		case "providerCustomerID":
 			sp.ProviderCustomerID = &(o.ProviderCustomerID)
+		case "providerProductID":
+			sp.ProviderProductID = &(o.ProviderProductID)
 		case "state":
 			sp.State = &(o.State)
 		case "updateTime":
@@ -270,6 +277,9 @@ func (o *Customer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ProviderCustomerID != nil {
 		o.ProviderCustomerID = *so.ProviderCustomerID
+	}
+	if so.ProviderProductID != nil {
+		o.ProviderProductID = *so.ProviderProductID
 	}
 	if so.State != nil {
 		o.State = *so.State
@@ -359,6 +369,8 @@ func (o *Customer) ValueForAttribute(name string) interface{} {
 		return o.Provider
 	case "providerCustomerID":
 		return o.ProviderCustomerID
+	case "providerProductID":
+		return o.ProviderProductID
 	case "state":
 		return o.State
 	case "updateTime":
@@ -412,10 +424,21 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 	"ProviderCustomerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ProviderCustomerID",
-		Description: `ProviderCustomerID holds the customer id as used by the provider for this
+		Description: `providerCustomerID holds the customer id as used by the provider for this
 customer to enable provider billing.`,
 		Exposed:   true,
 		Name:      "providerCustomerID",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
+	},
+	"ProviderProductID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ProviderProductID",
+		Description: `providerProductID holds the product id as used by the provider for this
+customer to enable provider billing.`,
+		Exposed:   true,
+		Name:      "providerProductID",
 		Orderable: true,
 		Stored:    true,
 		Type:      "string",
@@ -491,10 +514,21 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	"providercustomerid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ProviderCustomerID",
-		Description: `ProviderCustomerID holds the customer id as used by the provider for this
+		Description: `providerCustomerID holds the customer id as used by the provider for this
 customer to enable provider billing.`,
 		Exposed:   true,
 		Name:      "providerCustomerID",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
+	},
+	"providerproductid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ProviderProductID",
+		Description: `providerProductID holds the product id as used by the provider for this
+customer to enable provider billing.`,
+		Exposed:   true,
+		Name:      "providerProductID",
 		Orderable: true,
 		Stored:    true,
 		Type:      "string",
@@ -598,9 +632,13 @@ type SparseCustomer struct {
 	// Provider holds the name of the provider to be billed for this service.
 	Provider *CustomerProviderValue `json:"provider,omitempty" msgpack:"provider,omitempty" bson:"provider,omitempty" mapstructure:"provider,omitempty"`
 
-	// ProviderCustomerID holds the customer id as used by the provider for this
+	// providerCustomerID holds the customer id as used by the provider for this
 	// customer to enable provider billing.
 	ProviderCustomerID *string `json:"providerCustomerID,omitempty" msgpack:"providerCustomerID,omitempty" bson:"providercustomerid,omitempty" mapstructure:"providerCustomerID,omitempty"`
+
+	// providerProductID holds the product id as used by the provider for this
+	// customer to enable provider billing.
+	ProviderProductID *string `json:"providerProductID,omitempty" msgpack:"providerProductID,omitempty" bson:"providerproductid,omitempty" mapstructure:"providerProductID,omitempty"`
 
 	// State holds the status of the customer with the provider.
 	State *CustomerStateValue `json:"state,omitempty" msgpack:"state,omitempty" bson:"state,omitempty" mapstructure:"state,omitempty"`
@@ -658,6 +696,9 @@ func (o *SparseCustomer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ProviderCustomerID != nil {
 		out.ProviderCustomerID = *o.ProviderCustomerID
+	}
+	if o.ProviderProductID != nil {
+		out.ProviderProductID = *o.ProviderProductID
 	}
 	if o.State != nil {
 		out.State = *o.State
