@@ -7203,7 +7203,8 @@ certificate must also be configured.
 
 ##### `clientCertificateKey` `string`
 
-Contains the key associated with the `clientCertificate`. It must be provided only
+Contains the key associated with the `clientCertificate`. It must be provided
+only
 when `clientCertificate` has been configured.
 
 ##### `continueOnError` `boolean`
@@ -10089,7 +10090,7 @@ Parameters:
 - `endRelative` (`duration`): Set the relative end of the time window.
 - `startAbsolute` (`time`): Set the absolute start of the time window.
 - `startRelative` (`duration`): Set the relative start of the time window.
-- `flowOffset` (`duration`): Apply an offset to the time window for flows.
+- `flowOffset` (`duration`): Deprecated. This does not do anything anymore.
 
 Mandatory Parameters
 
@@ -10112,79 +10113,6 @@ Refers to the nodes of the map.
 ##### `viewSuggestions` `[]string` [`read_only`]
 
 Provides suggested views based on relevant tags.
-
-### GraphEdge
-
-Represents an edge from the dependency map.
-
-#### Example
-
-```json
-{
-  "destinationType": "ProcessingUnit",
-  "sourceType": "ProcessingUnit"
-}
-```
-
-#### Attributes
-
-##### `ID` `string`
-
-Identifier of the edge.
-
-##### `acceptedFlows` `integer`
-
-Number of accepted flows in the edge.
-
-##### `destinationID` `string`
-
-ID of the destination `GraphNode` of the edge.
-
-##### `destinationType` `emum(ProcessingUnit | ExternalNetwork | Node)`
-
-Type of the destination `GraphNode` of the edge.
-
-##### `encrypted` `integer`
-
-The number of encrypted flows in the edge.
-
-##### `observedAcceptedFlows` `integer`
-
-Number of accepted observed flows.
-
-##### `observedEncrypted` `integer`
-
-Number of encrypted observed flows.
-
-##### `observedPolicyIDs` [`map[string]graphpolicyinfo`](#graphpolicyinfo)
-
-Information about the observed policies that were hit in the flows
-represented by the edge.
-
-##### `observedRejectedFlows` `integer`
-
-Number of rejected observed flows.
-
-##### `observedServiceIDs` `map[string]int`
-
-Map of ints.
-
-##### `policyIDs` [`map[string]graphpolicyinfo`](#graphpolicyinfo)
-
-Information about the policies that were hit in the flows represented by the
-edge.
-
-##### `rejectedFlows` `integer`
-
-Number of rejected flows in the edge.
-
-##### `sourceID` `string`
-
-ID of the source `GraphNode` of the edge.
-
-##### `sourceType` `emum(ProcessingUnit | ExternalNetwork | Node)`
-
-Type of the source `GraphNode` of the edge.
 
 ### GraphGroup
 
@@ -10211,65 +10139,6 @@ Name of the group.
 ##### `parentID` `string`
 
 ID of the parent group, if any.
-
-### GraphNode
-
-Represents an node from the dependency map.
-
-#### Example
-
-```json
-{
-  "type": "Docker",
-  "unreachable": false
-}
-```
-
-#### Attributes
-
-##### `ID` `string`
-
-Identifier of object represented by the node.
-
-##### `enforcementStatus` `string`
-
-Enforcement status of processing unit represented by the node.
-
-##### `groupID` `string`
-
-ID of the group the node is eventually part of.
-
-##### `images` `[]string`
-
-List of images.
-
-##### `lastUpdate` `time`
-
-Last update of the node.
-
-##### `name` `string`
-
-Name of object represented by the node.
-
-##### `namespace` `string`
-
-Namespace of object represented by the node.
-
-##### `status` `string`
-
-Status of object represented by the node.
-
-##### `type` `emum(Docker | ExternalNetwork | Volume | Claim | Node)`
-
-Type of object represented by the node.
-
-##### `unreachable` `boolean`
-
-If `true` the node is marked as unreachable.
-
-##### `vulnerabilityLevel` `string`
-
-Tags of object represented by the node.
 
 ### GraphPolicyInfo
 
@@ -10394,7 +10263,7 @@ Parameters:
 - `endRelative` (`duration`): Set the relative end of the time window.
 - `startAbsolute` (`time`): Set the absolute start of the time window.
 - `startRelative` (`duration`): Set the relative start of the time window.
-- `flowOffset` (`duration`): Apply an offset to the time window for flows.
+- `flowOffset` (`duration`): Deprecated. This does not do anything anymore.
 
 Mandatory Parameters
 

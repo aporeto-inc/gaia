@@ -304,6 +304,21 @@ relations:
   create:
     description: Create a flow statistics report.
 
+- rest_name: graphedge
+  get:
+    description: Retrieves the graphedges.
+    global_parameters:
+    - $timewindow
+    - $filtering
+
+- rest_name: graphnode
+  get:
+    description: Retrieves the pu nodes.
+    global_parameters:
+    - $timewindow
+    - $archivable
+    - $filtering
+
 - rest_name: hookpolicy
   get:
     description: Retrieves the list of hooks.
@@ -537,14 +552,6 @@ relations:
     - $propagatable
   create:
     description: Creates a new processing unit policy.
-
-- rest_name: punode
-  get:
-    description: Retrieves the pu nodes.
-    global_parameters:
-    - $timewindow
-    - $archivable
-    - $filtering
 
 - rest_name: quotacheck
   create:

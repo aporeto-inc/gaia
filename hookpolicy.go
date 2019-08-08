@@ -114,7 +114,8 @@ type HookPolicy struct {
 	// certificate must also be configured.
 	ClientCertificate string `json:"clientCertificate" msgpack:"clientCertificate" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
 
-	// Contains the key associated with the `clientCertificate`. It must be provided only
+	// Contains the key associated with the `clientCertificate`. It must be provided
+	// only
 	// when `clientCertificate` has been configured.
 	ClientCertificateKey string `json:"clientCertificateKey" msgpack:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
@@ -123,7 +124,7 @@ type HookPolicy struct {
 	ContinueOnError bool `json:"continueOnError" msgpack:"continueOnError" bson:"continueonerror" mapstructure:"continueOnError,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"createIdempotencyKey,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -176,7 +177,7 @@ type HookPolicy struct {
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"updateIdempotencyKey,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -855,7 +856,8 @@ certificate must also be configured.`,
 	"ClientCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided only
+		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided
+only
 when ` + "`" + `clientCertificate` + "`" + ` has been configured.`,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
@@ -1175,7 +1177,8 @@ certificate must also be configured.`,
 	"clientcertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided only
+		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided
+only
 when ` + "`" + `clientCertificate` + "`" + ` has been configured.`,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
@@ -1514,7 +1517,8 @@ type SparseHookPolicy struct {
 	// certificate must also be configured.
 	ClientCertificate *string `json:"clientCertificate,omitempty" msgpack:"clientCertificate,omitempty" bson:"clientcertificate,omitempty" mapstructure:"clientCertificate,omitempty"`
 
-	// Contains the key associated with the `clientCertificate`. It must be provided only
+	// Contains the key associated with the `clientCertificate`. It must be provided
+	// only
 	// when `clientCertificate` has been configured.
 	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" msgpack:"clientCertificateKey,omitempty" bson:"clientcertificatekey,omitempty" mapstructure:"clientCertificateKey,omitempty"`
 
@@ -1523,7 +1527,7 @@ type SparseHookPolicy struct {
 	ContinueOnError *bool `json:"continueOnError,omitempty" msgpack:"continueOnError,omitempty" bson:"continueonerror,omitempty" mapstructure:"continueOnError,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"createIdempotencyKey,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
@@ -1576,7 +1580,7 @@ type SparseHookPolicy struct {
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"updateIdempotencyKey,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`

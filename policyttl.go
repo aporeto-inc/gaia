@@ -84,7 +84,7 @@ type PolicyTTL struct {
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
-	ExpirationTime time.Time `json:"-" msgpack:"-" bson:"expirationtime" mapstructure:"-,omitempty"`
+	ExpirationTime time.Time `json:"-" msgpack:"-" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -377,7 +377,7 @@ type SparsePolicyTTL struct {
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
-	ExpirationTime *time.Time `json:"-" msgpack:"-" bson:"expirationtime,omitempty" mapstructure:"-,omitempty"`
+	ExpirationTime *time.Time `json:"-" msgpack:"-" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }

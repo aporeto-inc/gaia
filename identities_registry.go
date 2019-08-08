@@ -48,6 +48,9 @@ var (
 		"fileaccessreport":             FileAccessReportIdentity,
 		"filepath":                     FilePathIdentity,
 		"flowreport":                   FlowReportIdentity,
+		"graphedge":                    GraphEdgeIdentity,
+
+		"graphnode": GraphNodeIdentity,
 
 		"hookpolicy":               HookPolicyIdentity,
 		"hostservice":              HostServiceIdentity,
@@ -90,7 +93,6 @@ var (
 		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
 		"processingunitrefresh": ProcessingUnitRefreshIdentity,
 
-		"punode":      PUNodeIdentity,
 		"quotacheck":  QuotaCheckIdentity,
 		"quotapolicy": QuotaPolicyIdentity,
 		"recipe":      RecipeIdentity,
@@ -177,6 +179,9 @@ var (
 		"fileaccessreports":              FileAccessReportIdentity,
 		"filepaths":                      FilePathIdentity,
 		"flowreports":                    FlowReportIdentity,
+		"graphedges":                     GraphEdgeIdentity,
+
+		"graphnodes": GraphNodeIdentity,
 
 		"hookpolicies":               HookPolicyIdentity,
 		"hostservices":               HostServiceIdentity,
@@ -219,7 +224,6 @@ var (
 		"processingunitpolicies": ProcessingUnitPolicyIdentity,
 		"processingunitrefreshs": ProcessingUnitRefreshIdentity,
 
-		"punodes":       PUNodeIdentity,
 		"quotacheck":    QuotaCheckIdentity,
 		"quotapolicies": QuotaPolicyIdentity,
 		"recipes":       RecipeIdentity,
@@ -510,6 +514,16 @@ var (
 			[]string{"archived"},
 		},
 		"flowreport": nil,
+		"graphedge": [][]string{
+			[]string{"namespace"},
+			[]string{"lastSeen"},
+			[]string{"firstSeen"},
+			[]string{"createTime"},
+			[]string{":shard", ":unique", "zone", "zHash"},
+		},
+		"graphnode": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+		},
 		"hookpolicy": nil,
 		"hostservice": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -665,7 +679,6 @@ var (
 		},
 		"processingunitpolicy":  nil,
 		"processingunitrefresh": nil,
-		"punode":                nil,
 		"quotacheck":            nil,
 		"quotapolicy":           nil,
 		"recipe": [][]string{
@@ -867,6 +880,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFilePath()
 	case FlowReportIdentity:
 		return NewFlowReport()
+	case GraphEdgeIdentity:
+		return NewGraphEdge()
+	case GraphNodeIdentity:
+		return NewGraphNode()
 	case HookPolicyIdentity:
 		return NewHookPolicy()
 	case HostServiceIdentity:
@@ -943,8 +960,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewProcessingUnitPolicy()
 	case ProcessingUnitRefreshIdentity:
 		return NewProcessingUnitRefresh()
-	case PUNodeIdentity:
-		return NewPUNode()
 	case QuotaCheckIdentity:
 		return NewQuotaCheck()
 	case QuotaPolicyIdentity:
@@ -1104,6 +1119,10 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseFilePath()
 	case FlowReportIdentity:
 		return NewSparseFlowReport()
+	case GraphEdgeIdentity:
+		return NewSparseGraphEdge()
+	case GraphNodeIdentity:
+		return NewSparseGraphNode()
 	case HookPolicyIdentity:
 		return NewSparseHookPolicy()
 	case HostServiceIdentity:
@@ -1180,8 +1199,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseProcessingUnitPolicy()
 	case ProcessingUnitRefreshIdentity:
 		return NewSparseProcessingUnitRefresh()
-	case PUNodeIdentity:
-		return NewSparsePUNode()
 	case QuotaCheckIdentity:
 		return NewSparseQuotaCheck()
 	case QuotaPolicyIdentity:
@@ -1349,6 +1366,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FilePathsList{}
 	case FlowReportIdentity:
 		return &FlowReportsList{}
+	case GraphEdgeIdentity:
+		return &GraphEdgesList{}
+	case GraphNodeIdentity:
+		return &GraphNodesList{}
 	case HookPolicyIdentity:
 		return &HookPoliciesList{}
 	case HostServiceIdentity:
@@ -1425,8 +1446,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ProcessingUnitPoliciesList{}
 	case ProcessingUnitRefreshIdentity:
 		return &ProcessingUnitRefreshsList{}
-	case PUNodeIdentity:
-		return &PUNodesList{}
 	case QuotaCheckIdentity:
 		return &QuotaChecksList{}
 	case QuotaPolicyIdentity:
@@ -1584,6 +1603,10 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseFilePathsList{}
 	case FlowReportIdentity:
 		return &SparseFlowReportsList{}
+	case GraphEdgeIdentity:
+		return &SparseGraphEdgesList{}
+	case GraphNodeIdentity:
+		return &SparseGraphNodesList{}
 	case HookPolicyIdentity:
 		return &SparseHookPoliciesList{}
 	case HostServiceIdentity:
@@ -1660,8 +1683,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseProcessingUnitPoliciesList{}
 	case ProcessingUnitRefreshIdentity:
 		return &SparseProcessingUnitRefreshsList{}
-	case PUNodeIdentity:
-		return &SparsePUNodesList{}
 	case QuotaCheckIdentity:
 		return &SparseQuotaChecksList{}
 	case QuotaPolicyIdentity:
@@ -1794,6 +1815,8 @@ func AllIdentities() []elemental.Identity {
 		FileAccessReportIdentity,
 		FilePathIdentity,
 		FlowReportIdentity,
+		GraphEdgeIdentity,
+		GraphNodeIdentity,
 		HookPolicyIdentity,
 		HostServiceIdentity,
 		HostServiceMappingPolicyIdentity,
@@ -1832,7 +1855,6 @@ func AllIdentities() []elemental.Identity {
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
 		ProcessingUnitRefreshIdentity,
-		PUNodeIdentity,
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
 		RecipeIdentity,
@@ -1993,6 +2015,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case FlowReportIdentity:
 		return []string{}
+	case GraphEdgeIdentity:
+		return []string{}
+	case GraphNodeIdentity:
+		return []string{}
 	case HookPolicyIdentity:
 		return []string{
 			"hook",
@@ -2118,8 +2144,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"pup",
 		}
 	case ProcessingUnitRefreshIdentity:
-		return []string{}
-	case PUNodeIdentity:
 		return []string{}
 	case QuotaCheckIdentity:
 		return []string{}

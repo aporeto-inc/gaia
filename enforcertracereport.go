@@ -92,7 +92,7 @@ type EnforcerTraceReport struct {
 	PuID string `json:"puID" msgpack:"puID" bson:"puid" mapstructure:"puID,omitempty"`
 
 	// List of iptables trace records collected.
-	Records []*TraceRecord `json:"-" msgpack:"-" bson:"records" mapstructure:"-,omitempty"`
+	Records []*TraceRecord `json:"-" msgpack:"-" bson:"records" mapstructure:"records,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -487,7 +487,7 @@ type SparseEnforcerTraceReport struct {
 	PuID *string `json:"puID,omitempty" msgpack:"puID,omitempty" bson:"puid,omitempty" mapstructure:"puID,omitempty"`
 
 	// List of iptables trace records collected.
-	Records *[]*TraceRecord `json:"-" msgpack:"-" bson:"records,omitempty" mapstructure:"-,omitempty"`
+	Records *[]*TraceRecord `json:"-" msgpack:"-" bson:"records,omitempty" mapstructure:"records,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }

@@ -15,8 +15,10 @@ attributes:
     description: Number of times the policy has been hit.
     type: integer
     exposed: true
+    stored: true
 
   - name: namespace
     description: Namespace of the policy.
     type: string
     exposed: true
+    stored: true

@@ -1390,6 +1390,240 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[GraphEdgeIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+	}
+
+	relationshipsRegistry[GraphNodeIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+	}
+
 	relationshipsRegistry[HTTPResourceSpecIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -2431,127 +2665,6 @@ func init() {
 		Info: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-				},
-			},
-		},
-	}
-
-	relationshipsRegistry[PUNodeIdentity] = &elemental.Relationship{
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-							},
-							[]string{
-								"startRelative",
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-								"endAbsolute",
-							},
-							[]string{
-								"startAbsolute",
-								"endRelative",
-							},
-							[]string{
-								"startAbsolute",
-								"endAbsolute",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name: "endAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "startAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "startRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "archived",
-						Type: "boolean",
-					},
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-				},
-			},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-							},
-							[]string{
-								"startRelative",
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-								"endAbsolute",
-							},
-							[]string{
-								"startAbsolute",
-								"endRelative",
-							},
-							[]string{
-								"startAbsolute",
-								"endAbsolute",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name: "endAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "startAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "startRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "archived",
-						Type: "boolean",
-					},
 					elemental.ParameterDefinition{
 						Name:     "q",
 						Type:     "string",
