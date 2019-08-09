@@ -7,8 +7,6 @@ model:
   group: visualization/depmaps
   description: Represents an node from the dependency map.
   private: true
-  extends:
-  - '@zoned'
 
 # Attributes
 attributes:

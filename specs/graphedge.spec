@@ -13,9 +13,13 @@ model:
 # Indexes
 indexes:
 - - createTime
+- - namespace
+  - lastSeen
+  - firstSeen
+- - lastSeen
+  - firstSeen
 - - lastSeen
 - - firstSeen
-- - namespace
 
 # Attributes
 attributes:
@@ -66,7 +70,7 @@ attributes:
     stored: true
 
   - name: flowID
-    exposed_name: ID
+    exposed_name: flowID
     description: Identifier of the edge.
     type: string
     exposed: true
@@ -111,13 +115,6 @@ attributes:
     description: Number of rejected observed flows.
     type: integer
     exposed: true
-    stored: true
-
-  - name: observedServiceIDs
-    description: Map of ints.
-    type: external
-    exposed: true
-    subtype: map[string]int
     stored: true
 
   - name: policyIDs

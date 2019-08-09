@@ -515,15 +515,14 @@ var (
 		},
 		"flowreport": nil,
 		"graphedge": [][]string{
-			[]string{"namespace"},
+			[]string{"namespace", "lastSeen", "firstSeen"},
+			[]string{"lastSeen", "firstSeen"},
 			[]string{"lastSeen"},
 			[]string{"firstSeen"},
 			[]string{"createTime"},
 			[]string{":shard", ":unique", "zone", "zHash"},
 		},
-		"graphnode": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-		},
+		"graphnode":  nil,
 		"hookpolicy": nil,
 		"hostservice": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},

@@ -130,7 +130,7 @@ type GraphEdge struct {
 	FirstSeen time.Time `json:"firstSeen" msgpack:"firstSeen" bson:"firstseen" mapstructure:"firstSeen,omitempty"`
 
 	// Identifier of the edge.
-	FlowID string `json:"ID" msgpack:"ID" bson:"flowid" mapstructure:"ID,omitempty"`
+	FlowID string `json:"flowID" msgpack:"flowID" bson:"flowid" mapstructure:"flowID,omitempty"`
 
 	// Contains the date when the edge was last seen.
 	LastSeen time.Time `json:"lastSeen" msgpack:"lastSeen" bson:"lastseen" mapstructure:"lastSeen,omitempty"`
@@ -150,9 +150,6 @@ type GraphEdge struct {
 
 	// Number of rejected observed flows.
 	ObservedRejectedFlows int `json:"observedRejectedFlows" msgpack:"observedRejectedFlows" bson:"observedrejectedflows" mapstructure:"observedRejectedFlows,omitempty"`
-
-	// Map of ints.
-	ObservedServiceIDs map[string]int `json:"observedServiceIDs" msgpack:"observedServiceIDs" bson:"observedserviceids" mapstructure:"observedServiceIDs,omitempty"`
 
 	// Information about the policies that were hit in the flows represented by the
 	// edge.
@@ -181,10 +178,9 @@ type GraphEdge struct {
 func NewGraphEdge() *GraphEdge {
 
 	return &GraphEdge{
-		ModelVersion:       1,
-		ObservedServiceIDs: map[string]int{},
-		ObservedPolicyIDs:  map[string]*GraphPolicyInfo{},
-		PolicyIDs:          map[string]*GraphPolicyInfo{},
+		ModelVersion:      1,
+		ObservedPolicyIDs: map[string]*GraphPolicyInfo{},
+		PolicyIDs:         map[string]*GraphPolicyInfo{},
 	}
 }
 
@@ -280,7 +276,6 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ObservedEncrypted:     &o.ObservedEncrypted,
 			ObservedPolicyIDs:     &o.ObservedPolicyIDs,
 			ObservedRejectedFlows: &o.ObservedRejectedFlows,
-			ObservedServiceIDs:    &o.ObservedServiceIDs,
 			PolicyIDs:             &o.PolicyIDs,
 			RejectedFlows:         &o.RejectedFlows,
 			SourceID:              &o.SourceID,
@@ -321,8 +316,6 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ObservedPolicyIDs = &(o.ObservedPolicyIDs)
 		case "observedRejectedFlows":
 			sp.ObservedRejectedFlows = &(o.ObservedRejectedFlows)
-		case "observedServiceIDs":
-			sp.ObservedServiceIDs = &(o.ObservedServiceIDs)
 		case "policyIDs":
 			sp.PolicyIDs = &(o.PolicyIDs)
 		case "rejectedFlows":
@@ -389,9 +382,6 @@ func (o *GraphEdge) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ObservedRejectedFlows != nil {
 		o.ObservedRejectedFlows = *so.ObservedRejectedFlows
-	}
-	if so.ObservedServiceIDs != nil {
-		o.ObservedServiceIDs = *so.ObservedServiceIDs
 	}
 	if so.PolicyIDs != nil {
 		o.PolicyIDs = *so.PolicyIDs
@@ -531,8 +521,6 @@ func (o *GraphEdge) ValueForAttribute(name string) interface{} {
 		return o.ObservedPolicyIDs
 	case "observedRejectedFlows":
 		return o.ObservedRejectedFlows
-	case "observedServiceIDs":
-		return o.ObservedServiceIDs
 	case "policyIDs":
 		return o.PolicyIDs
 	case "rejectedFlows":
@@ -678,16 +666,6 @@ represented by the edge.`,
 		Name:           "observedRejectedFlows",
 		Stored:         true,
 		Type:           "integer",
-	},
-	"ObservedServiceIDs": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ObservedServiceIDs",
-		Description:    `Map of ints.`,
-		Exposed:        true,
-		Name:           "observedServiceIDs",
-		Stored:         true,
-		SubType:        "map[string]int",
-		Type:           "external",
 	},
 	"PolicyIDs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -885,16 +863,6 @@ represented by the edge.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"observedserviceids": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ObservedServiceIDs",
-		Description:    `Map of ints.`,
-		Exposed:        true,
-		Name:           "observedServiceIDs",
-		Stored:         true,
-		SubType:        "map[string]int",
-		Type:           "external",
-	},
 	"policyids": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicyIDs",
@@ -1047,7 +1015,7 @@ type SparseGraphEdge struct {
 	FirstSeen *time.Time `json:"firstSeen,omitempty" msgpack:"firstSeen,omitempty" bson:"firstseen,omitempty" mapstructure:"firstSeen,omitempty"`
 
 	// Identifier of the edge.
-	FlowID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"flowid,omitempty" mapstructure:"ID,omitempty"`
+	FlowID *string `json:"flowID,omitempty" msgpack:"flowID,omitempty" bson:"flowid,omitempty" mapstructure:"flowID,omitempty"`
 
 	// Contains the date when the edge was last seen.
 	LastSeen *time.Time `json:"lastSeen,omitempty" msgpack:"lastSeen,omitempty" bson:"lastseen,omitempty" mapstructure:"lastSeen,omitempty"`
@@ -1067,9 +1035,6 @@ type SparseGraphEdge struct {
 
 	// Number of rejected observed flows.
 	ObservedRejectedFlows *int `json:"observedRejectedFlows,omitempty" msgpack:"observedRejectedFlows,omitempty" bson:"observedrejectedflows,omitempty" mapstructure:"observedRejectedFlows,omitempty"`
-
-	// Map of ints.
-	ObservedServiceIDs *map[string]int `json:"observedServiceIDs,omitempty" msgpack:"observedServiceIDs,omitempty" bson:"observedserviceids,omitempty" mapstructure:"observedServiceIDs,omitempty"`
 
 	// Information about the policies that were hit in the flows represented by the
 	// edge.
@@ -1171,9 +1136,6 @@ func (o *SparseGraphEdge) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ObservedRejectedFlows != nil {
 		out.ObservedRejectedFlows = *o.ObservedRejectedFlows
-	}
-	if o.ObservedServiceIDs != nil {
-		out.ObservedServiceIDs = *o.ObservedServiceIDs
 	}
 	if o.PolicyIDs != nil {
 		out.PolicyIDs = *o.PolicyIDs
