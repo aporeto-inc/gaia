@@ -524,27 +524,33 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 func ValidateServicePorts(attribute string, servicePorts []string) error {
 
 	for _, servicePort := range servicePorts {
-		parts := strings.SplitN(servicePort, "/", 2)
-		protocol := parts[0]
-		if err := ValidateProtocol(attribute, protocol); err != nil {
-			return err
-		}
-
-		if len(parts) == 1 {
-			upperProto := strings.ToUpper(protocol)
-			if upperProto == protocols.L4ProtocolTCP || upperProto == protocols.L4ProtocolUDP {
-				return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used without ports", upperProto))
-			}
-			continue
-		}
-
-		ports := parts[1]
-		if err := ValidatePortString(attribute, ports); err != nil {
+		if err := ValidateServicePort(attribute, servicePort); err != nil {
 			return err
 		}
 	}
 
 	return nil
+}
+
+// ValidateServicePort validates a single serviceport.
+func ValidateServicePort(attribute string, servicePort string) error {
+
+	parts := strings.SplitN(servicePort, "/", 2)
+	protocol := parts[0]
+	if err := ValidateProtocol(attribute, protocol); err != nil {
+		return err
+	}
+
+	if len(parts) == 1 {
+		upperProto := strings.ToUpper(protocol)
+		if upperProto == protocols.L4ProtocolTCP || upperProto == protocols.L4ProtocolUDP {
+			return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used without ports", upperProto))
+		}
+		return nil
+	}
+
+	ports := parts[1]
+	return ValidatePortString(attribute, ports)
 }
 
 // ValidateAudience validates an audience string.
