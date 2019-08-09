@@ -80,3 +80,5 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    validations:
+    - $serviceports

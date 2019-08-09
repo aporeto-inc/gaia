@@ -152,6 +152,95 @@ func TestValidatePortString(t *testing.T) {
 	}
 }
 
+func TestValidateServicePorts(t *testing.T) {
+	type args struct {
+		servicePorts []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid serviceports",
+			args{
+				[]string{"tcp/80", "udp/80", "icmp", "ISIS"},
+			},
+			false,
+		},
+		{
+			"invalid tcp serviceports",
+			args{
+				[]string{"tcp", "udp/80", "icmp", "ISIS"},
+			},
+			true,
+		},
+		{
+			"invalid udp serviceports",
+			args{
+				[]string{"tcp/80", "udp/", "icmp", "ISIS"},
+			},
+			true,
+		},
+		{
+			"invalid protocol",
+			args{
+				[]string{"nope"},
+			},
+			true,
+		},
+		{
+			"invalid serviceports",
+			args{
+				[]string{"tcp/80/90"},
+			},
+			true,
+		},
+		{
+			"serviceports with valid port range",
+			args{
+				[]string{"tcp/90:8000", "udp/90:8000"},
+			},
+			false,
+		},
+		{
+			"serviceports with invalid port range",
+			args{
+				[]string{"tcp/90:8000", "udp/90:800000"},
+			},
+			true,
+		},
+		{
+			"serviceports with just port range",
+			args{
+				[]string{"88", "90:8000"},
+			},
+			true,
+		},
+		{
+			"empty serviceports",
+			args{
+				[]string{""},
+			},
+			true,
+		},
+		{
+			"nil serviceports",
+			args{
+				nil,
+			},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateServicePorts("serviceports", tt.args.servicePorts); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateServicePorts() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func TestValidatePortStringList(t *testing.T) {
 	type args struct {
 		attribute string

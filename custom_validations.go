@@ -36,7 +36,7 @@ func ValidatePortString(attribute string, portExp string) error {
 	}
 
 	if p1 < 1 || p1 > 65535 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a between 1 and 65535", attribute))
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 1 and 65535", attribute))
 	}
 
 	if len(ports) == 1 {
@@ -49,7 +49,7 @@ func ValidatePortString(attribute string, portExp string) error {
 	}
 
 	if p2 < 1 || p2 > 65535 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a between 1 and 65535", attribute))
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 1 and 65535", attribute))
 	}
 
 	if p1 >= p2 {
@@ -520,16 +520,28 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 	return nil
 }
 
-// ValidateServicePorts validates a list of service ports has no overlap with any given parameter.
-func ValidateServicePorts(servicePorts []string) error {
+// ValidateServicePorts validates a list of serviceports.
+func ValidateServicePorts(attribute string, servicePorts []string) error {
 
 	for _, servicePort := range servicePorts {
-
-		pr, protocol, err = portutils.ExtractPortsAndProtocolFromHostService(svc)
-		if err != nil {
+		parts := strings.SplitN(servicePort, "/", 2)
+		protocol := parts[0]
+		if err := ValidateProtocol(attribute, protocol); err != nil {
 			return err
 		}
 
+		if len(parts) == 1 {
+			upperProto := strings.ToUpper(protocol)
+			if upperProto == protocols.L4ProtocolTCP || upperProto == protocols.L4ProtocolUDP {
+				return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used without ports", upperProto))
+			}
+			continue
+		}
+
+		ports := parts[1]
+		if err := ValidatePortString(attribute, ports); err != nil {
+			return err
+		}
 	}
 
 	return nil

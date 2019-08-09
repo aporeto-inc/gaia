@@ -657,6 +657,10 @@ func (o *ExternalNetwork) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateServicePorts("servicePorts", o.ServicePorts); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}

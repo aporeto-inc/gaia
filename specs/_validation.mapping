@@ -66,6 +66,10 @@ $serviceEntity:
   elemental:
     name: ValidateServiceEntity
 
+$serviceports:
+  elemental:
+    name: ValidateServicePorts
+
 $tag:
   elemental:
     name: ValidateTag
