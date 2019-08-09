@@ -417,7 +417,8 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 	return nil
 }
 
-// ValidateAutomation validates an automation
+// ValidateAutomation validates an automation by checking for the following:
+//   - Exactly one action MUST be defined if the automation trigger type is set to "Webhook"
 func ValidateAutomation(auto *Automation) error {
 	switch auto.Trigger {
 	case AutomationTriggerWebhook:

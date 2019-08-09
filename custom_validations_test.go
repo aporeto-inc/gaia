@@ -913,14 +913,19 @@ func TestValidateOptionalNetworkList(t *testing.T) {
 }
 
 func TestValidateAutomation(t *testing.T) {
-	testCases := []struct {
-		scenario    string
+	testCases := map[string]struct {
 		automation  *Automation
 		shouldError bool
 	}{
-		{
-			scenario: "should not return an error if trigger type is not webhook and multiple actions have been defined",
+		"should not return an error if trigger type is not webhook and multiple actions have been defined": {
 			automation: &Automation{
+				Condition: `
+						function when(api, params) {
+							return {
+								continue: true,
+							};
+						}
+			 	`,
 				Trigger: AutomationTriggerRemoteCall,
 				Actions: []string{
 					"Action 1",
@@ -929,8 +934,7 @@ func TestValidateAutomation(t *testing.T) {
 			},
 			shouldError: false,
 		},
-		{
-			scenario: "should not return an error if trigger type is webhook and one action has been defined",
+		"should not return an error if trigger type is webhook and one action has been defined": {
 			automation: &Automation{
 				Trigger: AutomationTriggerWebhook,
 				Actions: []string{
@@ -939,8 +943,7 @@ func TestValidateAutomation(t *testing.T) {
 			},
 			shouldError: false,
 		},
-		{
-			scenario: "should return an error if trigger type is set to webhook and more than one action has been defined",
+		"should return an error if trigger type is set to webhook and more than one action has been defined": {
 			automation: &Automation{
 				Trigger: AutomationTriggerWebhook,
 				Actions: []string{
@@ -950,8 +953,7 @@ func TestValidateAutomation(t *testing.T) {
 			},
 			shouldError: true,
 		},
-		{
-			scenario: "should return an error if trigger type is set to webhook and no actions have been defined",
+		"should return an error if trigger type is set to webhook and no actions have been defined": {
 			automation: &Automation{
 				Trigger: AutomationTriggerWebhook,
 				Actions: nil,
@@ -960,8 +962,8 @@ func TestValidateAutomation(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.scenario, func(t *testing.T) {
+	for scenario, tc := range testCases {
+		t.Run(scenario, func(t *testing.T) {
 			err := ValidateAutomation(tc.automation)
 			switch {
 			case err != nil && tc.shouldError:
