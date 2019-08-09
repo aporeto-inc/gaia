@@ -462,11 +462,10 @@ var (
 		"enforcer": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
-			[]string{"namespace"},
 			[]string{"namespace", "machineID"},
 			[]string{"namespace", "name"},
+			[]string{"namespace"},
 			[]string{"namespace", "operationalStatus"},
-			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "normalizedTags"},
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},

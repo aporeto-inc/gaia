@@ -33,8 +33,6 @@ indexes:
 - - namespace
   - operationalStatus
 - - namespace
-  - normalizedTags
-- - namespace
   - machineID
 
 # Attributes
