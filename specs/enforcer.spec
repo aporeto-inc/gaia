@@ -28,6 +28,13 @@ model:
   - '@named'
   - '@timeable'
 
+# Indexes
+indexes:
+- - namespace
+  - operationalStatus
+- - namespace
+  - machineID
+
 # Attributes
 attributes:
   v1:
@@ -187,6 +194,8 @@ attributes:
     exposed: true
     stored: true
     default_value: 10s
+    validations:
+    - $timeDuration
 
   - name: machineID
     description: |-

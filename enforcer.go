@@ -835,6 +835,10 @@ func (o *Enforcer) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateTimeDuration("logLevelDuration", o.LogLevelDuration); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
