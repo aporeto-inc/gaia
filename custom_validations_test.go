@@ -218,11 +218,18 @@ func TestValidateServicePorts(t *testing.T) {
 			true,
 		},
 		{
-			"empty serviceports",
+			"empty string serviceports",
 			args{
 				[]string{""},
 			},
 			true,
+		},
+		{
+			"empty serviceports",
+			args{
+				[]string{},
+			},
+			false,
 		},
 		{
 			"nil serviceports",
