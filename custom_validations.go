@@ -544,7 +544,7 @@ func ValidateServicePort(attribute string, servicePort string) error {
 	if len(parts) == 1 {
 		upperProto := strings.ToUpper(protocol)
 		if upperProto == protocols.L4ProtocolTCP || upperProto == protocols.L4ProtocolUDP {
-			return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used without ports", upperProto))
+			return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used without ports", protocol))
 		}
 		return nil
 	}
