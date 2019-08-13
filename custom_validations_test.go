@@ -197,6 +197,20 @@ func TestValidateServicePorts(t *testing.T) {
 			true,
 		},
 		{
+			"serviceports with protocol with ports not supported",
+			args{
+				[]string{"tcp/90:8000", "udp/90:8000", "icmp/9090"},
+			},
+			true,
+		},
+		{
+			"one serviceport with protocol with ports not supported",
+			args{
+				[]string{"isis/9090"},
+			},
+			true,
+		},
+		{
 			"serviceports with valid port range",
 			args{
 				[]string{"tcp/90:8000", "udp/90:8000"},

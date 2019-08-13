@@ -536,17 +536,20 @@ func ValidateServicePorts(attribute string, servicePorts []string) error {
 func ValidateServicePort(attribute string, servicePort string) error {
 
 	parts := strings.SplitN(servicePort, "/", 2)
-	protocol := parts[0]
-	if err := ValidateProtocol(attribute, protocol); err != nil {
+	upperProto := strings.ToUpper(parts[0])
+	if err := ValidateProtocol(attribute, upperProto); err != nil {
 		return err
 	}
 
 	if len(parts) == 1 {
-		upperProto := strings.ToUpper(protocol)
 		if upperProto == protocols.L4ProtocolTCP || upperProto == protocols.L4ProtocolUDP {
-			return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used without ports", protocol))
+			return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used without ports", upperProto))
 		}
 		return nil
+	}
+
+	if upperProto != protocols.L4ProtocolTCP && upperProto != protocols.L4ProtocolUDP {
+		return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used with ports", upperProto))
 	}
 
 	ports := parts[1]
