@@ -7714,6 +7714,51 @@ Defines if the object is protected.
 
 Geographical zone. Used for sharding and georedundancy.
 
+### DNSReport
+
+Post a new dns request report.
+
+#### Example
+
+```json
+{
+  "nameLookup": "www.google.com",
+  "result": true,
+  "sourceID": "xxx-xxx-xxx",
+  "sourceNamespace": "/my/namespace"
+}
+```
+
+#### Attributes
+
+##### `error` `string`
+
+If the result is false, error reports the reason of the dns failure.
+
+##### `nameLookup` `string` [`required`]
+
+name looked up by PU.
+
+##### `result` `boolean` [`required`]
+
+Result reports whether dns request succeeded or failed.
+
+##### `sourceID` `string` [`required`]
+
+ID of the source.
+
+##### `sourceIP` `string`
+
+Type of the source.
+
+##### `sourceNamespace` `string`
+
+Namespace of the source.
+
+##### `timestamp` `time`
+
+Time and date of the log.
+
 ### ExternalNetwork
 
 An external network represents a random network or IP address that is not

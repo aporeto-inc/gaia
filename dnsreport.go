@@ -1,4 +1,3 @@
-```
 package gaia
 
 import (
@@ -84,6 +83,9 @@ type DNSReport struct {
 	// If the result is false, error reports the reason of the dns failure.
 	Error string `json:"error" msgpack:"error" bson:"-" mapstructure:"error,omitempty"`
 
+	// name looked up by PU.
+	NameLookup string `json:"nameLookup" msgpack:"nameLookup" bson:"-" mapstructure:"nameLookup,omitempty"`
+
 	// Result reports whether dns request succeeded or failed.
 	Result bool `json:"result" msgpack:"result" bson:"-" mapstructure:"result,omitempty"`
 
@@ -107,7 +109,6 @@ func NewDNSReport() *DNSReport {
 
 	return &DNSReport{
 		ModelVersion: 1,
-		Result:       "",
 	}
 }
 
@@ -165,6 +166,7 @@ func (o *DNSReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseDNSReport{
 			Error:           &o.Error,
+			NameLookup:      &o.NameLookup,
 			Result:          &o.Result,
 			SourceID:        &o.SourceID,
 			SourceIP:        &o.SourceIP,
@@ -178,6 +180,8 @@ func (o *DNSReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "error":
 			sp.Error = &(o.Error)
+		case "nameLookup":
+			sp.NameLookup = &(o.NameLookup)
 		case "result":
 			sp.Result = &(o.Result)
 		case "sourceID":
@@ -203,6 +207,9 @@ func (o *DNSReport) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseDNSReport)
 	if so.Error != nil {
 		o.Error = *so.Error
+	}
+	if so.NameLookup != nil {
+		o.NameLookup = *so.NameLookup
 	}
 	if so.Result != nil {
 		o.Result = *so.Result
@@ -251,6 +258,10 @@ func (o *DNSReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredString("nameLookup", o.NameLookup); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("sourceID", o.SourceID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -291,6 +302,8 @@ func (o *DNSReport) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "error":
 		return o.Error
+	case "nameLookup":
+		return o.NameLookup
 	case "result":
 		return o.Result
 	case "sourceID":
@@ -314,6 +327,15 @@ var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `If the result is false, error reports the reason of the dns failure.`,
 		Exposed:        true,
 		Name:           "error",
+		Type:           "string",
+	},
+	"NameLookup": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NameLookup",
+		Description:    `name looked up by PU.`,
+		Exposed:        true,
+		Name:           "nameLookup",
+		Required:       true,
 		Type:           "string",
 	},
 	"Result": elemental.AttributeSpecification{
@@ -368,6 +390,15 @@ var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `If the result is false, error reports the reason of the dns failure.`,
 		Exposed:        true,
 		Name:           "error",
+		Type:           "string",
+	},
+	"namelookup": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NameLookup",
+		Description:    `name looked up by PU.`,
+		Exposed:        true,
+		Name:           "nameLookup",
+		Required:       true,
 		Type:           "string",
 	},
 	"result": elemental.AttributeSpecification{
@@ -480,6 +511,9 @@ type SparseDNSReport struct {
 	// If the result is false, error reports the reason of the dns failure.
 	Error *string `json:"error,omitempty" msgpack:"error,omitempty" bson:"-" mapstructure:"error,omitempty"`
 
+	// name looked up by PU.
+	NameLookup *string `json:"nameLookup,omitempty" msgpack:"nameLookup,omitempty" bson:"-" mapstructure:"nameLookup,omitempty"`
+
 	// Result reports whether dns request succeeded or failed.
 	Result *bool `json:"result,omitempty" msgpack:"result,omitempty" bson:"-" mapstructure:"result,omitempty"`
 
@@ -533,6 +567,9 @@ func (o *SparseDNSReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Error != nil {
 		out.Error = *o.Error
 	}
+	if o.NameLookup != nil {
+		out.NameLookup = *o.NameLookup
+	}
 	if o.Result != nil {
 		out.Result = *o.Result
 	}
@@ -575,4 +612,3 @@ func (o *SparseDNSReport) DeepCopyInto(out *SparseDNSReport) {
 
 	*out = *target.(*SparseDNSReport)
 }
-```

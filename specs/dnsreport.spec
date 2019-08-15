@@ -29,30 +29,25 @@ attributes:
     exposed: true
 
   - name: nameLookup
-	description: name looked up by PU
+    description: name looked up by PU.
     type: string
     exposed: true
     required: true
     example_value: www.google.com
-	
+
   - name: result
     description: Result reports whether dns request succeeded or failed.
     type: boolean
     exposed: true
-	required: true
-	
+    required: true
+    example_value: true
+
   - name: error
     description: If the result is false, error reports the reason of the dns failure.
-	type: string
+    type: string
     exposed: true
 
   - name: timestamp
     description: Time and date of the log.
     type: time
     exposed: true
-
-
-
-
-	
-	
