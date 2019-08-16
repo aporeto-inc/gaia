@@ -249,14 +249,14 @@ func TestValidateServicePorts(t *testing.T) {
 			args{
 				[]string{},
 			},
-			true,
+			false,
 		},
 		{
 			"nil serviceports",
 			args{
 				nil,
 			},
-			true,
+			false,
 		},
 	}
 	for _, tt := range tests {

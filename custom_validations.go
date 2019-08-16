@@ -523,10 +523,6 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 // ValidateServicePorts validates a list of serviceports.
 func ValidateServicePorts(attribute string, servicePorts []string) error {
 
-	if len(servicePorts) == 0 {
-		return makeValidationError(attribute, fmt.Sprintf("'%s' cannot be empty", attribute))
-	}
-
 	for _, servicePort := range servicePorts {
 		if err := ValidateServicePort(attribute, servicePort); err != nil {
 			return err
