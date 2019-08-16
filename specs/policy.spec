@@ -146,3 +146,4 @@ attributes:
     - TokenScope
     - SSHAuthorization
     - UserAccess
+    filterable: true
