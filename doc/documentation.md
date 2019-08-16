@@ -10143,20 +10143,6 @@ Name of the group.
 
 ID of the parent group, if any.
 
-### GraphPolicyInfo
-
-Represents policy information.
-
-#### Attributes
-
-##### `count` `integer`
-
-Number of times the policy has been hit.
-
-##### `namespace` `string`
-
-Namespace of the policy.
-
 ### IPInfo
 
 Provides information about IP address resolution.

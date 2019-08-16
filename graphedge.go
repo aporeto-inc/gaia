@@ -144,16 +144,8 @@ type GraphEdge struct {
 	// Number of encrypted observed flows.
 	ObservedEncrypted int `json:"observedEncrypted" msgpack:"observedEncrypted" bson:"observedencrypted" mapstructure:"observedEncrypted,omitempty"`
 
-	// Information about the observed policies that were hit in the flows
-	// represented by the edge.
-	ObservedPolicyIDs map[string]*GraphPolicyInfo `json:"observedPolicyIDs" msgpack:"observedPolicyIDs" bson:"observedpolicyids" mapstructure:"observedPolicyIDs,omitempty"`
-
 	// Number of rejected observed flows.
 	ObservedRejectedFlows int `json:"observedRejectedFlows" msgpack:"observedRejectedFlows" bson:"observedrejectedflows" mapstructure:"observedRejectedFlows,omitempty"`
-
-	// Information about the policies that were hit in the flows represented by the
-	// edge.
-	PolicyIDs map[string]*GraphPolicyInfo `json:"policyIDs" msgpack:"policyIDs" bson:"policyids" mapstructure:"policyIDs,omitempty"`
 
 	// Number of rejected flows in the edge.
 	RejectedFlows int `json:"rejectedFlows" msgpack:"rejectedFlows" bson:"rejectedflows" mapstructure:"rejectedFlows,omitempty"`
@@ -178,9 +170,7 @@ type GraphEdge struct {
 func NewGraphEdge() *GraphEdge {
 
 	return &GraphEdge{
-		ModelVersion:      1,
-		ObservedPolicyIDs: map[string]*GraphPolicyInfo{},
-		PolicyIDs:         map[string]*GraphPolicyInfo{},
+		ModelVersion: 1,
 	}
 }
 
@@ -274,9 +264,7 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Namespace:             &o.Namespace,
 			ObservedAcceptedFlows: &o.ObservedAcceptedFlows,
 			ObservedEncrypted:     &o.ObservedEncrypted,
-			ObservedPolicyIDs:     &o.ObservedPolicyIDs,
 			ObservedRejectedFlows: &o.ObservedRejectedFlows,
-			PolicyIDs:             &o.PolicyIDs,
 			RejectedFlows:         &o.RejectedFlows,
 			SourceID:              &o.SourceID,
 			SourceType:            &o.SourceType,
@@ -312,12 +300,8 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ObservedAcceptedFlows = &(o.ObservedAcceptedFlows)
 		case "observedEncrypted":
 			sp.ObservedEncrypted = &(o.ObservedEncrypted)
-		case "observedPolicyIDs":
-			sp.ObservedPolicyIDs = &(o.ObservedPolicyIDs)
 		case "observedRejectedFlows":
 			sp.ObservedRejectedFlows = &(o.ObservedRejectedFlows)
-		case "policyIDs":
-			sp.PolicyIDs = &(o.PolicyIDs)
 		case "rejectedFlows":
 			sp.RejectedFlows = &(o.RejectedFlows)
 		case "sourceID":
@@ -377,14 +361,8 @@ func (o *GraphEdge) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ObservedEncrypted != nil {
 		o.ObservedEncrypted = *so.ObservedEncrypted
 	}
-	if so.ObservedPolicyIDs != nil {
-		o.ObservedPolicyIDs = *so.ObservedPolicyIDs
-	}
 	if so.ObservedRejectedFlows != nil {
 		o.ObservedRejectedFlows = *so.ObservedRejectedFlows
-	}
-	if so.PolicyIDs != nil {
-		o.PolicyIDs = *so.PolicyIDs
 	}
 	if so.RejectedFlows != nil {
 		o.RejectedFlows = *so.RejectedFlows
@@ -435,24 +413,6 @@ func (o *GraphEdge) Validate() error {
 
 	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Node"}, false); err != nil {
 		errors = errors.Append(err)
-	}
-
-	for _, sub := range o.ObservedPolicyIDs {
-		if sub == nil {
-			continue
-		}
-		if err := sub.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
-	}
-
-	for _, sub := range o.PolicyIDs {
-		if sub == nil {
-			continue
-		}
-		if err := sub.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
 	}
 
 	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Node"}, false); err != nil {
@@ -517,12 +477,8 @@ func (o *GraphEdge) ValueForAttribute(name string) interface{} {
 		return o.ObservedAcceptedFlows
 	case "observedEncrypted":
 		return o.ObservedEncrypted
-	case "observedPolicyIDs":
-		return o.ObservedPolicyIDs
 	case "observedRejectedFlows":
 		return o.ObservedRejectedFlows
-	case "policyIDs":
-		return o.PolicyIDs
 	case "rejectedFlows":
 		return o.RejectedFlows
 	case "sourceID":
@@ -647,17 +603,6 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "integer",
 	},
-	"ObservedPolicyIDs": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ObservedPolicyIDs",
-		Description: `Information about the observed policies that were hit in the flows
-represented by the edge.`,
-		Exposed: true,
-		Name:    "observedPolicyIDs",
-		Stored:  true,
-		SubType: "graphpolicyinfo",
-		Type:    "refMap",
-	},
 	"ObservedRejectedFlows": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservedRejectedFlows",
@@ -666,17 +611,6 @@ represented by the edge.`,
 		Name:           "observedRejectedFlows",
 		Stored:         true,
 		Type:           "integer",
-	},
-	"PolicyIDs": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PolicyIDs",
-		Description: `Information about the policies that were hit in the flows represented by the
-edge.`,
-		Exposed: true,
-		Name:    "policyIDs",
-		Stored:  true,
-		SubType: "graphpolicyinfo",
-		Type:    "refMap",
 	},
 	"RejectedFlows": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -843,17 +777,6 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "integer",
 	},
-	"observedpolicyids": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ObservedPolicyIDs",
-		Description: `Information about the observed policies that were hit in the flows
-represented by the edge.`,
-		Exposed: true,
-		Name:    "observedPolicyIDs",
-		Stored:  true,
-		SubType: "graphpolicyinfo",
-		Type:    "refMap",
-	},
 	"observedrejectedflows": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservedRejectedFlows",
@@ -862,17 +785,6 @@ represented by the edge.`,
 		Name:           "observedRejectedFlows",
 		Stored:         true,
 		Type:           "integer",
-	},
-	"policyids": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PolicyIDs",
-		Description: `Information about the policies that were hit in the flows represented by the
-edge.`,
-		Exposed: true,
-		Name:    "policyIDs",
-		Stored:  true,
-		SubType: "graphpolicyinfo",
-		Type:    "refMap",
 	},
 	"rejectedflows": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1029,16 +941,8 @@ type SparseGraphEdge struct {
 	// Number of encrypted observed flows.
 	ObservedEncrypted *int `json:"observedEncrypted,omitempty" msgpack:"observedEncrypted,omitempty" bson:"observedencrypted,omitempty" mapstructure:"observedEncrypted,omitempty"`
 
-	// Information about the observed policies that were hit in the flows
-	// represented by the edge.
-	ObservedPolicyIDs *map[string]*GraphPolicyInfo `json:"observedPolicyIDs,omitempty" msgpack:"observedPolicyIDs,omitempty" bson:"observedpolicyids,omitempty" mapstructure:"observedPolicyIDs,omitempty"`
-
 	// Number of rejected observed flows.
 	ObservedRejectedFlows *int `json:"observedRejectedFlows,omitempty" msgpack:"observedRejectedFlows,omitempty" bson:"observedrejectedflows,omitempty" mapstructure:"observedRejectedFlows,omitempty"`
-
-	// Information about the policies that were hit in the flows represented by the
-	// edge.
-	PolicyIDs *map[string]*GraphPolicyInfo `json:"policyIDs,omitempty" msgpack:"policyIDs,omitempty" bson:"policyids,omitempty" mapstructure:"policyIDs,omitempty"`
 
 	// Number of rejected flows in the edge.
 	RejectedFlows *int `json:"rejectedFlows,omitempty" msgpack:"rejectedFlows,omitempty" bson:"rejectedflows,omitempty" mapstructure:"rejectedFlows,omitempty"`
@@ -1131,14 +1035,8 @@ func (o *SparseGraphEdge) ToPlain() elemental.PlainIdentifiable {
 	if o.ObservedEncrypted != nil {
 		out.ObservedEncrypted = *o.ObservedEncrypted
 	}
-	if o.ObservedPolicyIDs != nil {
-		out.ObservedPolicyIDs = *o.ObservedPolicyIDs
-	}
 	if o.ObservedRejectedFlows != nil {
 		out.ObservedRejectedFlows = *o.ObservedRejectedFlows
-	}
-	if o.PolicyIDs != nil {
-		out.PolicyIDs = *o.PolicyIDs
 	}
 	if o.RejectedFlows != nil {
 		out.RejectedFlows = *o.RejectedFlows

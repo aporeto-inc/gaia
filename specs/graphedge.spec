@@ -100,33 +100,11 @@ attributes:
     exposed: true
     stored: true
 
-  - name: observedPolicyIDs
-    description: |-
-      Information about the observed policies that were hit in the flows
-      represented by the edge.
-    type: refMap
-    exposed: true
-    subtype: graphpolicyinfo
-    stored: true
-    extensions:
-      refMode: pointer
-
   - name: observedRejectedFlows
     description: Number of rejected observed flows.
     type: integer
     exposed: true
     stored: true
-
-  - name: policyIDs
-    description: |-
-      Information about the policies that were hit in the flows represented by the
-      edge.
-    type: refMap
-    exposed: true
-    subtype: graphpolicyinfo
-    stored: true
-    extensions:
-      refMode: pointer
 
   - name: rejectedFlows
     description: Number of rejected flows in the edge.

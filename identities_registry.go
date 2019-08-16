@@ -50,8 +50,7 @@ var (
 		"flowreport":                   FlowReportIdentity,
 		"graphedge":                    GraphEdgeIdentity,
 
-		"graphnode": GraphNodeIdentity,
-
+		"graphnode":                GraphNodeIdentity,
 		"hookpolicy":               HookPolicyIdentity,
 		"hostservice":              HostServiceIdentity,
 		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
@@ -181,8 +180,7 @@ var (
 		"flowreports":                    FlowReportIdentity,
 		"graphedges":                     GraphEdgeIdentity,
 
-		"graphnodes": GraphNodeIdentity,
-
+		"graphnodes":                 GraphNodeIdentity,
 		"hookpolicies":               HookPolicyIdentity,
 		"hostservices":               HostServiceIdentity,
 		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
