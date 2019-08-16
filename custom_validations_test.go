@@ -216,6 +216,12 @@ func TestValidateServicePorts(t *testing.T) {
 				[]string{"tcp/90:8000", "udp/90:8000"},
 			},
 			false,
+		}, {
+			"serviceports with protocol numbers",
+			args{
+				[]string{"udp/90:8000", "6/90:8000"},
+			},
+			true,
 		},
 		{
 			"serviceports with invalid port range",
@@ -243,14 +249,14 @@ func TestValidateServicePorts(t *testing.T) {
 			args{
 				[]string{},
 			},
-			false,
+			true,
 		},
 		{
 			"nil serviceports",
 			args{
 				nil,
 			},
-			false,
+			true,
 		},
 	}
 	for _, tt := range tests {
