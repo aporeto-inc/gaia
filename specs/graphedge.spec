@@ -70,7 +70,7 @@ attributes:
     stored: true
 
   - name: flowID
-    exposed_name: flowID
+    exposed_name: ID
     description: Identifier of the edge.
     type: string
     exposed: true
