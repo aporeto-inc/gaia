@@ -88,7 +88,8 @@ attributes:
 
   - name: clientCertificateKey
     description: |-
-      Contains the key associated with the `clientCertificate`. It must be provided only
+      Contains the key associated with the `clientCertificate`. It must be provided
+      only
       when `clientCertificate` has been configured.
     type: string
     exposed: true

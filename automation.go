@@ -112,8 +112,11 @@ type Automation struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Condition contains the code that will be executed to decide if any action should
-	// be taken.
+	// Condition contains the code that will be executed to decide if any action(s)
+	// should be executed. Providing a condition for an automation with a
+	// "Webhook" trigger type will have no impact as the condition will not be
+	// evaluated. If no condition is defined, then the automation action(s) will be
+	// executed; this behaves akin to a condition that always succeeds.
 	Condition string `json:"condition" msgpack:"condition" bson:"condition" mapstructure:"condition,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -681,10 +684,6 @@ func (o *Automation) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("condition", o.Condition); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -856,13 +855,15 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 	"Condition": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Condition",
-		Description: `Condition contains the code that will be executed to decide if any action should
-be taken.`,
-		Exposed:  true,
-		Name:     "condition",
-		Required: true,
-		Stored:   true,
-		Type:     "string",
+		Description: `Condition contains the code that will be executed to decide if any action(s)
+should be executed. Providing a condition for an automation with a
+"Webhook" trigger type will have no impact as the condition will not be
+evaluated. If no condition is defined, then the automation action(s) will be
+executed; this behaves akin to a condition that always succeeds.`,
+		Exposed: true,
+		Name:    "condition",
+		Stored:  true,
+		Type:    "string",
 	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1209,13 +1210,15 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"condition": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Condition",
-		Description: `Condition contains the code that will be executed to decide if any action should
-be taken.`,
-		Exposed:  true,
-		Name:     "condition",
-		Required: true,
-		Stored:   true,
-		Type:     "string",
+		Description: `Condition contains the code that will be executed to decide if any action(s)
+should be executed. Providing a condition for an automation with a
+"Webhook" trigger type will have no impact as the condition will not be
+evaluated. If no condition is defined, then the automation action(s) will be
+executed; this behaves akin to a condition that always succeeds.`,
+		Exposed: true,
+		Name:    "condition",
+		Stored:  true,
+		Type:    "string",
 	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1587,8 +1590,11 @@ type SparseAutomation struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// Condition contains the code that will be executed to decide if any action should
-	// be taken.
+	// Condition contains the code that will be executed to decide if any action(s)
+	// should be executed. Providing a condition for an automation with a
+	// "Webhook" trigger type will have no impact as the condition will not be
+	// evaluated. If no condition is defined, then the automation action(s) will be
+	// executed; this behaves akin to a condition that always succeeds.
 	Condition *string `json:"condition,omitempty" msgpack:"condition,omitempty" bson:"condition,omitempty" mapstructure:"condition,omitempty"`
 
 	// internal idempotency key for a create operation.
