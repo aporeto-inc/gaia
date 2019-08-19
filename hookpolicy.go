@@ -114,7 +114,8 @@ type HookPolicy struct {
 	// certificate must also be configured.
 	ClientCertificate string `json:"clientCertificate" msgpack:"clientCertificate" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
 
-	// Contains the key associated with the `clientCertificate`. It must be provided only
+	// Contains the key associated with the `clientCertificate`. It must be provided
+	// only
 	// when `clientCertificate` has been configured.
 	ClientCertificateKey string `json:"clientCertificateKey" msgpack:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
@@ -855,7 +856,8 @@ certificate must also be configured.`,
 	"ClientCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided only
+		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided
+only
 when ` + "`" + `clientCertificate` + "`" + ` has been configured.`,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
@@ -1175,7 +1177,8 @@ certificate must also be configured.`,
 	"clientcertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided only
+		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided
+only
 when ` + "`" + `clientCertificate` + "`" + ` has been configured.`,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
@@ -1514,7 +1517,8 @@ type SparseHookPolicy struct {
 	// certificate must also be configured.
 	ClientCertificate *string `json:"clientCertificate,omitempty" msgpack:"clientCertificate,omitempty" bson:"clientcertificate,omitempty" mapstructure:"clientCertificate,omitempty"`
 
-	// Contains the key associated with the `clientCertificate`. It must be provided only
+	// Contains the key associated with the `clientCertificate`. It must be provided
+	// only
 	// when `clientCertificate` has been configured.
 	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" msgpack:"clientCertificateKey,omitempty" bson:"clientcertificatekey,omitempty" mapstructure:"clientCertificateKey,omitempty"`
 
