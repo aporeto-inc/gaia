@@ -62,6 +62,10 @@ $protoports:
   elemental:
     name: ValidateProtoPorts
 
+$samlprovider:
+  elemental:
+    name: ValidateSAMLProvider
+
 $serviceEntity:
   elemental:
     name: ValidateServiceEntity

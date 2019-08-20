@@ -1428,15 +1428,21 @@ Updates the provider with the given ID.
 
 Identifier of the object.
 
-##### `IDPCertificate` `string` [`required`]
+##### `IDPCertificate` `string`
 
 Identity Provider Certificate in PEM format.
 
-##### `IDPIssuer` `string` [`required`]
+##### `IDPIssuer` `string`
 
 Identity Provider Issuer (also called Entity ID).
 
-##### `IDPURL` `string` [`required`]
+##### `IDPMetadata` `string`
+
+Pass a xml data containing the IDP metadata that can be used for automatic
+configuration. If you pass this attribute, every other one will be overwritten
+with the data contained in the metadata file.
+
+##### `IDPURL` `string`
 
 URL of the identity provider.
 

@@ -92,6 +92,11 @@ type SAMLProvider struct {
 	// Identity Provider Issuer (also called Entity ID).
 	IDPIssuer string `json:"IDPIssuer" msgpack:"IDPIssuer" bson:"idpissuer" mapstructure:"IDPIssuer,omitempty"`
 
+	// Pass a xml data containing the IDP metadata that can be used for automatic
+	// configuration. If you pass this attribute, every other one will be overwritten
+	// with the data contained in the metadata file.
+	IDPMetadata string `json:"IDPMetadata,omitempty" msgpack:"IDPMetadata,omitempty" bson:"-" mapstructure:"IDPMetadata,omitempty"`
+
 	// URL of the identity provider.
 	IDPURL string `json:"IDPURL" msgpack:"IDPURL" bson:"idpurl" mapstructure:"IDPURL,omitempty"`
 
@@ -151,8 +156,8 @@ func NewSAMLProvider() *SAMLProvider {
 
 	return &SAMLProvider{
 		ModelVersion:   1,
-		AssociatedTags: []string{},
 		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
 		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
 		Subjects:       []string{},
@@ -376,6 +381,7 @@ func (o *SAMLProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ID:                   &o.ID,
 			IDPCertificate:       &o.IDPCertificate,
 			IDPIssuer:            &o.IDPIssuer,
+			IDPMetadata:          &o.IDPMetadata,
 			IDPURL:               &o.IDPURL,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
@@ -404,6 +410,8 @@ func (o *SAMLProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.IDPCertificate = &(o.IDPCertificate)
 		case "IDPIssuer":
 			sp.IDPIssuer = &(o.IDPIssuer)
+		case "IDPMetadata":
+			sp.IDPMetadata = &(o.IDPMetadata)
 		case "IDPURL":
 			sp.IDPURL = &(o.IDPURL)
 		case "annotations":
@@ -457,6 +465,9 @@ func (o *SAMLProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.IDPIssuer != nil {
 		o.IDPIssuer = *so.IDPIssuer
+	}
+	if so.IDPMetadata != nil {
+		o.IDPMetadata = *so.IDPMetadata
 	}
 	if so.IDPURL != nil {
 		o.IDPURL = *so.IDPURL
@@ -538,18 +549,6 @@ func (o *SAMLProvider) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("IDPCertificate", o.IDPCertificate); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("IDPIssuer", o.IDPIssuer); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("IDPURL", o.IDPURL); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
 		errors = errors.Append(err)
 	}
@@ -559,6 +558,11 @@ func (o *SAMLProvider) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	// Custom object validation.
+	if err := ValidateSAMLProvider(o); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -602,6 +606,8 @@ func (o *SAMLProvider) ValueForAttribute(name string) interface{} {
 		return o.IDPCertificate
 	case "IDPIssuer":
 		return o.IDPIssuer
+	case "IDPMetadata":
+		return o.IDPMetadata
 	case "IDPURL":
 		return o.IDPURL
 	case "annotations":
@@ -661,7 +667,6 @@ var SAMLProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Identity Provider Certificate in PEM format.`,
 		Exposed:        true,
 		Name:           "IDPCertificate",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -671,9 +676,18 @@ var SAMLProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Identity Provider Issuer (also called Entity ID).`,
 		Exposed:        true,
 		Name:           "IDPIssuer",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"IDPMetadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IDPMetadata",
+		Description: `Pass a xml data containing the IDP metadata that can be used for automatic
+configuration. If you pass this attribute, every other one will be overwritten
+with the data contained in the metadata file.`,
+		Exposed: true,
+		Name:    "IDPMetadata",
+		Type:    "string",
 	},
 	"IDPURL": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -681,7 +695,6 @@ var SAMLProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `URL of the identity provider.`,
 		Exposed:        true,
 		Name:           "IDPURL",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -903,7 +916,6 @@ var SAMLProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `Identity Provider Certificate in PEM format.`,
 		Exposed:        true,
 		Name:           "IDPCertificate",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -913,9 +925,18 @@ var SAMLProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `Identity Provider Issuer (also called Entity ID).`,
 		Exposed:        true,
 		Name:           "IDPIssuer",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"idpmetadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IDPMetadata",
+		Description: `Pass a xml data containing the IDP metadata that can be used for automatic
+configuration. If you pass this attribute, every other one will be overwritten
+with the data contained in the metadata file.`,
+		Exposed: true,
+		Name:    "IDPMetadata",
+		Type:    "string",
 	},
 	"idpurl": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -923,7 +944,6 @@ var SAMLProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `URL of the identity provider.`,
 		Exposed:        true,
 		Name:           "IDPURL",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1198,6 +1218,11 @@ type SparseSAMLProvider struct {
 	// Identity Provider Issuer (also called Entity ID).
 	IDPIssuer *string `json:"IDPIssuer,omitempty" msgpack:"IDPIssuer,omitempty" bson:"idpissuer,omitempty" mapstructure:"IDPIssuer,omitempty"`
 
+	// Pass a xml data containing the IDP metadata that can be used for automatic
+	// configuration. If you pass this attribute, every other one will be overwritten
+	// with the data contained in the metadata file.
+	IDPMetadata *string `json:"IDPMetadata,omitempty" msgpack:"IDPMetadata,omitempty" bson:"-" mapstructure:"IDPMetadata,omitempty"`
+
 	// URL of the identity provider.
 	IDPURL *string `json:"IDPURL,omitempty" msgpack:"IDPURL,omitempty" bson:"idpurl,omitempty" mapstructure:"IDPURL,omitempty"`
 
@@ -1296,6 +1321,9 @@ func (o *SparseSAMLProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.IDPIssuer != nil {
 		out.IDPIssuer = *o.IDPIssuer
+	}
+	if o.IDPMetadata != nil {
+		out.IDPMetadata = *o.IDPMetadata
 	}
 	if o.IDPURL != nil {
 		out.IDPURL = *o.IDPURL

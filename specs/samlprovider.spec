@@ -24,6 +24,8 @@ model:
   - '@identifiable-stored'
   - '@timeable'
   - '@named'
+  validations:
+  - $samlprovider
 
 # Attributes
 attributes:
@@ -33,7 +35,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: |-
       -----BEGIN CERTIFICATE REQUEST-----
       MIICvDCCAaQCAQAwdzELMAkGA1UEBhMCVVMxDTALBgNVBAgMBFV0YWgxDzANBgNV
@@ -58,15 +59,22 @@ attributes:
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: https://accounts.google.com/o/saml2/idp?idpid=AbDcef123
+
+  - name: IDPMetadata
+    description: |-
+      Pass a xml data containing the IDP metadata that can be used for automatic
+      configuration. If you pass this attribute, every other one will be overwritten
+      with the data contained in the metadata file.
+    type: string
+    exposed: true
+    omit_empty: true
 
   - name: IDPURL
     description: URL of the identity provider.
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: https://accounts.google.com/o/saml2/idp?idpid=AbDcef123
 
   - name: default
