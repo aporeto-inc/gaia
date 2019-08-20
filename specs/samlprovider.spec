@@ -63,7 +63,7 @@ attributes:
 
   - name: IDPMetadata
     description: |-
-      Pass a xml data containing the IDP metadata that can be used for automatic
+      Pass some XML data containing the IDP metadata that can be used for automatic
       configuration. If you pass this attribute, every other one will be overwritten
       with the data contained in the metadata file.
     type: string

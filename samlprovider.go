@@ -92,7 +92,7 @@ type SAMLProvider struct {
 	// Identity Provider Issuer (also called Entity ID).
 	IDPIssuer string `json:"IDPIssuer" msgpack:"IDPIssuer" bson:"idpissuer" mapstructure:"IDPIssuer,omitempty"`
 
-	// Pass a xml data containing the IDP metadata that can be used for automatic
+	// Pass some XML data containing the IDP metadata that can be used for automatic
 	// configuration. If you pass this attribute, every other one will be overwritten
 	// with the data contained in the metadata file.
 	IDPMetadata string `json:"IDPMetadata,omitempty" msgpack:"IDPMetadata,omitempty" bson:"-" mapstructure:"IDPMetadata,omitempty"`
@@ -682,7 +682,7 @@ var SAMLProviderAttributesMap = map[string]elemental.AttributeSpecification{
 	"IDPMetadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IDPMetadata",
-		Description: `Pass a xml data containing the IDP metadata that can be used for automatic
+		Description: `Pass some XML data containing the IDP metadata that can be used for automatic
 configuration. If you pass this attribute, every other one will be overwritten
 with the data contained in the metadata file.`,
 		Exposed: true,
@@ -931,7 +931,7 @@ var SAMLProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"idpmetadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IDPMetadata",
-		Description: `Pass a xml data containing the IDP metadata that can be used for automatic
+		Description: `Pass some XML data containing the IDP metadata that can be used for automatic
 configuration. If you pass this attribute, every other one will be overwritten
 with the data contained in the metadata file.`,
 		Exposed: true,
@@ -1218,7 +1218,7 @@ type SparseSAMLProvider struct {
 	// Identity Provider Issuer (also called Entity ID).
 	IDPIssuer *string `json:"IDPIssuer,omitempty" msgpack:"IDPIssuer,omitempty" bson:"idpissuer,omitempty" mapstructure:"IDPIssuer,omitempty"`
 
-	// Pass a xml data containing the IDP metadata that can be used for automatic
+	// Pass some XML data containing the IDP metadata that can be used for automatic
 	// configuration. If you pass this attribute, every other one will be overwritten
 	// with the data contained in the metadata file.
 	IDPMetadata *string `json:"IDPMetadata,omitempty" msgpack:"IDPMetadata,omitempty" bson:"-" mapstructure:"IDPMetadata,omitempty"`

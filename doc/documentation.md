@@ -1438,7 +1438,7 @@ Identity Provider Issuer (also called Entity ID).
 
 ##### `IDPMetadata` `string`
 
-Pass a xml data containing the IDP metadata that can be used for automatic
+Pass some XML data containing the IDP metadata that can be used for automatic
 configuration. If you pass this attribute, every other one will be overwritten
 with the data contained in the metadata file.
 
