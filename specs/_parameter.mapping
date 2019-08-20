@@ -15,7 +15,7 @@ $filtering:
 $flowoffset:
   entries:
   - name: flowOffset
-    description: Apply an offset to the time window for flows.
+    description: Deprecated. This does not do anything anymore.
     type: duration
     example_value: -3s
 

@@ -8,6 +8,6 @@ require (
 	github.com/mitchellh/copystructure v1.0.0
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a
-	go.aporeto.io/elemental v1.85.0
+	go.aporeto.io/elemental v1.88.0
 	gopkg.in/yaml.v2 v2.2.2
 )
