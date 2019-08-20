@@ -47,6 +47,13 @@ attributes:
     type: string
     exposed: true
 
+  - name: count
+    description: Number of times the client saw this activity.
+    type: integer
+    exposed: true
+    required: true
+    example_value: 1
+
   - name: timestamp
     description: Time and date of the log.
     type: time

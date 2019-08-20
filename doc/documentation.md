@@ -7731,6 +7731,7 @@ Post a new dns request report.
 
 ```json
 {
+  "count": 1,
   "nameLookup": "www.google.com",
   "result": true,
   "sourceID": "xxx-xxx-xxx",
@@ -7739,6 +7740,10 @@ Post a new dns request report.
 ```
 
 #### Attributes
+
+##### `count` `integer` [`required`]
+
+Number of times the client saw this activity.
 
 ##### `error` `string`
 

@@ -80,6 +80,9 @@ func (o DNSReportsList) Version() int {
 
 // DNSReport represents the model of a dnsreport
 type DNSReport struct {
+	// Number of times the client saw this activity.
+	Count int `json:"count" msgpack:"count" bson:"-" mapstructure:"count,omitempty"`
+
 	// If the result is false, error reports the reason of the dns failure.
 	Error string `json:"error" msgpack:"error" bson:"-" mapstructure:"error,omitempty"`
 
@@ -165,6 +168,7 @@ func (o *DNSReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseDNSReport{
+			Count:           &o.Count,
 			Error:           &o.Error,
 			NameLookup:      &o.NameLookup,
 			Result:          &o.Result,
@@ -178,6 +182,8 @@ func (o *DNSReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	sp := &SparseDNSReport{}
 	for _, f := range fields {
 		switch f {
+		case "count":
+			sp.Count = &(o.Count)
 		case "error":
 			sp.Error = &(o.Error)
 		case "nameLookup":
@@ -205,6 +211,9 @@ func (o *DNSReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseDNSReport)
+	if so.Count != nil {
+		o.Count = *so.Count
+	}
 	if so.Error != nil {
 		o.Error = *so.Error
 	}
@@ -258,6 +267,10 @@ func (o *DNSReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredInt("count", o.Count); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("nameLookup", o.NameLookup); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -300,6 +313,8 @@ func (*DNSReport) AttributeSpecifications() map[string]elemental.AttributeSpecif
 func (o *DNSReport) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "count":
+		return o.Count
 	case "error":
 		return o.Error
 	case "nameLookup":
@@ -321,6 +336,15 @@ func (o *DNSReport) ValueForAttribute(name string) interface{} {
 
 // DNSReportAttributesMap represents the map of attribute for DNSReport.
 var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
+	"Count": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Count",
+		Description:    `Number of times the client saw this activity.`,
+		Exposed:        true,
+		Name:           "count",
+		Required:       true,
+		Type:           "integer",
+	},
 	"Error": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Error",
@@ -384,6 +408,15 @@ var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
 
 // DNSReportLowerCaseAttributesMap represents the map of attribute for DNSReport.
 var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"count": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Count",
+		Description:    `Number of times the client saw this activity.`,
+		Exposed:        true,
+		Name:           "count",
+		Required:       true,
+		Type:           "integer",
+	},
 	"error": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Error",
@@ -508,6 +541,9 @@ func (o SparseDNSReportsList) Version() int {
 
 // SparseDNSReport represents the sparse version of a dnsreport.
 type SparseDNSReport struct {
+	// Number of times the client saw this activity.
+	Count *int `json:"count,omitempty" msgpack:"count,omitempty" bson:"-" mapstructure:"count,omitempty"`
+
 	// If the result is false, error reports the reason of the dns failure.
 	Error *string `json:"error,omitempty" msgpack:"error,omitempty" bson:"-" mapstructure:"error,omitempty"`
 
@@ -564,6 +600,9 @@ func (o *SparseDNSReport) Version() int {
 func (o *SparseDNSReport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewDNSReport()
+	if o.Count != nil {
+		out.Count = *o.Count
+	}
 	if o.Error != nil {
 		out.Error = *o.Error
 	}
