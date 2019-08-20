@@ -35,6 +35,9 @@ const (
 	// IssueRealmOIDC represents the value OIDC.
 	IssueRealmOIDC IssueRealmValue = "OIDC"
 
+	// IssueRealmSAML represents the value SAML.
+	IssueRealmSAML IssueRealmValue = "SAML"
+
 	// IssueRealmVince represents the value Vince.
 	IssueRealmVince IssueRealmValue = "Vince"
 )
@@ -317,7 +320,7 @@ func (o *Issue) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"}, false); err != nil {
+	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -431,7 +434,7 @@ for further information.`,
 		Type:           "integer",
 	},
 	"Realm": elemental.AttributeSpecification{
-		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"},
+		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML"},
 		ConvertedName:  "Realm",
 		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
 ` + "`" + `Certificate` + "`" + `,
@@ -517,7 +520,7 @@ for further information.`,
 		Type:           "integer",
 	},
 	"realm": elemental.AttributeSpecification{
-		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"},
+		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML"},
 		ConvertedName:  "Realm",
 		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
 ` + "`" + `Certificate` + "`" + `,
