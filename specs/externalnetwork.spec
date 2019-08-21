@@ -57,9 +57,10 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    stored: true
+    read_only: true
     default_value:
     - 1:65535
+    deprecated: true
     validations:
     - $ports
 
@@ -68,9 +69,10 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    stored: true
+    read_only: true
     default_value:
     - tcp
+    deprecated: true
     validations:
     - $protocols
 

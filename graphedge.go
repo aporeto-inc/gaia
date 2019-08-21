@@ -130,7 +130,7 @@ type GraphEdge struct {
 	FirstSeen time.Time `json:"firstSeen" msgpack:"firstSeen" bson:"firstseen" mapstructure:"firstSeen,omitempty"`
 
 	// Identifier of the edge.
-	FlowID string `json:"ID" msgpack:"ID" bson:"flowid" mapstructure:"ID,omitempty"`
+	FlowID string `json:"ID" msgpack:"ID" bson:"id" mapstructure:"ID,omitempty"`
 
 	// Contains the date when the edge was last seen.
 	LastSeen time.Time `json:"lastSeen" msgpack:"lastSeen" bson:"lastseen" mapstructure:"lastSeen,omitempty"`
@@ -927,7 +927,7 @@ type SparseGraphEdge struct {
 	FirstSeen *time.Time `json:"firstSeen,omitempty" msgpack:"firstSeen,omitempty" bson:"firstseen,omitempty" mapstructure:"firstSeen,omitempty"`
 
 	// Identifier of the edge.
-	FlowID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"flowid,omitempty" mapstructure:"ID,omitempty"`
+	FlowID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
 
 	// Contains the date when the edge was last seen.
 	LastSeen *time.Time `json:"lastSeen,omitempty" msgpack:"lastSeen,omitempty" bson:"lastseen,omitempty" mapstructure:"lastSeen,omitempty"`

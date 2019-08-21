@@ -124,7 +124,7 @@ type ExternalNetwork struct {
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// List of single ports or range (xx:yy).
-	Ports []string `json:"ports" msgpack:"ports" bson:"ports" mapstructure:"ports,omitempty"`
+	Ports []string `json:"ports" msgpack:"ports" bson:"-" mapstructure:"ports,omitempty"`
 
 	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
@@ -133,7 +133,7 @@ type ExternalNetwork struct {
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// List of protocols (`tcp`, `udp`, or protocol number).
-	Protocols []string `json:"protocols" msgpack:"protocols" bson:"protocols" mapstructure:"protocols,omitempty"`
+	Protocols []string `json:"protocols" msgpack:"protocols" bson:"-" mapstructure:"protocols,omitempty"`
 
 	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
 	ServicePorts []string `json:"servicePorts" msgpack:"servicePorts" bson:"serviceports" mapstructure:"servicePorts,omitempty"`
@@ -922,10 +922,11 @@ with the '@' prefix, and should only be used by external systems.`,
 		DefaultValue: []string{
 			"1:65535",
 		},
+		Deprecated:  true,
 		Description: `List of single ports or range (xx:yy).`,
 		Exposed:     true,
 		Name:        "ports",
-		Stored:      true,
+		ReadOnly:    true,
 		SubType:     "string",
 		Type:        "list",
 	},
@@ -959,10 +960,11 @@ with the '@' prefix, and should only be used by external systems.`,
 		DefaultValue: []string{
 			"tcp",
 		},
+		Deprecated:  true,
 		Description: `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
 		Exposed:     true,
 		Name:        "protocols",
-		Stored:      true,
+		ReadOnly:    true,
 		SubType:     "string",
 		Type:        "list",
 	},
@@ -1209,10 +1211,11 @@ with the '@' prefix, and should only be used by external systems.`,
 		DefaultValue: []string{
 			"1:65535",
 		},
+		Deprecated:  true,
 		Description: `List of single ports or range (xx:yy).`,
 		Exposed:     true,
 		Name:        "ports",
-		Stored:      true,
+		ReadOnly:    true,
 		SubType:     "string",
 		Type:        "list",
 	},
@@ -1246,10 +1249,11 @@ with the '@' prefix, and should only be used by external systems.`,
 		DefaultValue: []string{
 			"tcp",
 		},
+		Deprecated:  true,
 		Description: `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
 		Exposed:     true,
 		Name:        "protocols",
-		Stored:      true,
+		ReadOnly:    true,
 		SubType:     "string",
 		Type:        "list",
 	},
@@ -1425,7 +1429,7 @@ type SparseExternalNetwork struct {
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// List of single ports or range (xx:yy).
-	Ports *[]string `json:"ports,omitempty" msgpack:"ports,omitempty" bson:"ports,omitempty" mapstructure:"ports,omitempty"`
+	Ports *[]string `json:"ports,omitempty" msgpack:"ports,omitempty" bson:"-" mapstructure:"ports,omitempty"`
 
 	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
@@ -1434,7 +1438,7 @@ type SparseExternalNetwork struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// List of protocols (`tcp`, `udp`, or protocol number).
-	Protocols *[]string `json:"protocols,omitempty" msgpack:"protocols,omitempty" bson:"protocols,omitempty" mapstructure:"protocols,omitempty"`
+	Protocols *[]string `json:"protocols,omitempty" msgpack:"protocols,omitempty" bson:"-" mapstructure:"protocols,omitempty"`
 
 	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
 	ServicePorts *[]string `json:"servicePorts,omitempty" msgpack:"servicePorts,omitempty" bson:"serviceports,omitempty" mapstructure:"servicePorts,omitempty"`
