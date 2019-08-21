@@ -8,43 +8,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// OIDCProviderIdentity represents the Identity of the object.
-var OIDCProviderIdentity = elemental.Identity{
-	Name:     "oidcprovider",
-	Category: "oidcproviders",
+// SAMLProviderIdentity represents the Identity of the object.
+var SAMLProviderIdentity = elemental.Identity{
+	Name:     "samlprovider",
+	Category: "samlproviders",
 	Package:  "cactuar",
 	Private:  false,
 }
 
-// OIDCProvidersList represents a list of OIDCProviders
-type OIDCProvidersList []*OIDCProvider
+// SAMLProvidersList represents a list of SAMLProviders
+type SAMLProvidersList []*SAMLProvider
 
 // Identity returns the identity of the objects in the list.
-func (o OIDCProvidersList) Identity() elemental.Identity {
+func (o SAMLProvidersList) Identity() elemental.Identity {
 
-	return OIDCProviderIdentity
+	return SAMLProviderIdentity
 }
 
-// Copy returns a pointer to a copy the OIDCProvidersList.
-func (o OIDCProvidersList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SAMLProvidersList.
+func (o SAMLProvidersList) Copy() elemental.Identifiables {
 
-	copy := append(OIDCProvidersList{}, o...)
+	copy := append(SAMLProvidersList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the OIDCProvidersList.
-func (o OIDCProvidersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SAMLProvidersList.
+func (o SAMLProvidersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(OIDCProvidersList{}, o...)
+	out := append(SAMLProvidersList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*OIDCProvider))
+		out = append(out, obj.(*SAMLProvider))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o OIDCProvidersList) List() elemental.IdentifiablesList {
+func (o SAMLProvidersList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -55,7 +55,7 @@ func (o OIDCProvidersList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o OIDCProvidersList) DefaultOrder() []string {
+func (o SAMLProvidersList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -63,28 +63,42 @@ func (o OIDCProvidersList) DefaultOrder() []string {
 	}
 }
 
-// ToSparse returns the OIDCProvidersList converted to SparseOIDCProvidersList.
+// ToSparse returns the SAMLProvidersList converted to SparseSAMLProvidersList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o OIDCProvidersList) ToSparse(fields ...string) elemental.Identifiables {
+func (o SAMLProvidersList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseOIDCProvidersList, len(o))
+	out := make(SparseSAMLProvidersList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseOIDCProvider)
+		out[i] = o[i].ToSparse(fields...).(*SparseSAMLProvider)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o OIDCProvidersList) Version() int {
+func (o SAMLProvidersList) Version() int {
 
 	return 1
 }
 
-// OIDCProvider represents the model of a oidcprovider
-type OIDCProvider struct {
+// SAMLProvider represents the model of a samlprovider
+type SAMLProvider struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Identity Provider Certificate in PEM format.
+	IDPCertificate string `json:"IDPCertificate" msgpack:"IDPCertificate" bson:"idpcertificate" mapstructure:"IDPCertificate,omitempty"`
+
+	// Identity Provider Issuer (also called Entity ID).
+	IDPIssuer string `json:"IDPIssuer" msgpack:"IDPIssuer" bson:"idpissuer" mapstructure:"IDPIssuer,omitempty"`
+
+	// Pass some XML data containing the IDP metadata that can be used for automatic
+	// configuration. If you pass this attribute, every other one will be overwritten
+	// with the data contained in the metadata file.
+	IDPMetadata string `json:"IDPMetadata,omitempty" msgpack:"IDPMetadata,omitempty" bson:"-" mapstructure:"IDPMetadata,omitempty"`
+
+	// URL of the identity provider.
+	IDPURL string `json:"IDPURL" msgpack:"IDPURL" bson:"idpurl" mapstructure:"IDPURL,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -92,26 +106,16 @@ type OIDCProvider struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Unique client ID.
-	ClientID string `json:"clientID" msgpack:"clientID" bson:"clientid" mapstructure:"clientID,omitempty"`
-
-	// Client secret associated with the client ID.
-	ClientSecret string `json:"clientSecret" msgpack:"clientSecret" bson:"clientsecret" mapstructure:"clientSecret,omitempty"`
-
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// If set, this will be the default OIDC provider. There can be only one default
-	// provider in your account. When logging in with OIDC, if no provider name is
+	// If set, this will be the default SAML provider. There can be only one default
+	// provider in your account. When logging in with SAML, if no provider name is
 	// given, the default will be used.
 	Default bool `json:"default" msgpack:"default" bson:"default" mapstructure:"default,omitempty"`
-
-	// OIDC [discovery
-	// endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
-	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
@@ -125,17 +129,8 @@ type OIDCProvider struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the parent Aporeto account ID.
-	ParentID string `json:"parentID" msgpack:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
-
-	// Contains the name of the parent Aporeto account.
-	ParentName string `json:"parentName" msgpack:"parentName" bson:"parentname" mapstructure:"parentName,omitempty"`
-
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
-	// List of scopes to allow.
-	Scopes []string `json:"scopes" msgpack:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
 
 	// List of claims that will provide the subject.
 	Subjects []string `json:"subjects" msgpack:"subjects" bson:"subjects" mapstructure:"subjects,omitempty"`
@@ -156,52 +151,51 @@ type OIDCProvider struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewOIDCProvider returns a new *OIDCProvider
-func NewOIDCProvider() *OIDCProvider {
+// NewSAMLProvider returns a new *SAMLProvider
+func NewSAMLProvider() *SAMLProvider {
 
-	return &OIDCProvider{
+	return &SAMLProvider{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		NormalizedTags: []string{},
 		MigrationsLog:  map[string]string{},
-		Scopes:         []string{},
+		NormalizedTags: []string{},
 		Subjects:       []string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *OIDCProvider) Identity() elemental.Identity {
+func (o *SAMLProvider) Identity() elemental.Identity {
 
-	return OIDCProviderIdentity
+	return SAMLProviderIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *OIDCProvider) Identifier() string {
+func (o *SAMLProvider) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *OIDCProvider) SetIdentifier(id string) {
+func (o *SAMLProvider) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *OIDCProvider) Version() int {
+func (o *SAMLProvider) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *OIDCProvider) BleveType() string {
+func (o *SAMLProvider) BleveType() string {
 
-	return "oidcprovider"
+	return "samlprovider"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *OIDCProvider) DefaultOrder() []string {
+func (o *SAMLProvider) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -210,198 +204,195 @@ func (o *OIDCProvider) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *OIDCProvider) Doc() string {
+func (o *SAMLProvider) Doc() string {
 
-	return `Allows to declare a generic OpenID Connect (OIDC) provider that can be used in
-exchange
-for a Midgard token.`
+	return `Allows to declare a generic SAML provider that can be used in
+exchange for a Midgard token.`
 }
 
-func (o *OIDCProvider) String() string {
+func (o *SAMLProvider) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *OIDCProvider) GetAnnotations() map[string][]string {
+func (o *SAMLProvider) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *OIDCProvider) SetAnnotations(annotations map[string][]string) {
+func (o *SAMLProvider) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *OIDCProvider) GetAssociatedTags() []string {
+func (o *SAMLProvider) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *OIDCProvider) SetAssociatedTags(associatedTags []string) {
+func (o *SAMLProvider) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *OIDCProvider) GetCreateIdempotencyKey() string {
+func (o *SAMLProvider) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *OIDCProvider) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SAMLProvider) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *OIDCProvider) GetCreateTime() time.Time {
+func (o *SAMLProvider) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *OIDCProvider) SetCreateTime(createTime time.Time) {
+func (o *SAMLProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *OIDCProvider) GetMigrationsLog() map[string]string {
+func (o *SAMLProvider) GetMigrationsLog() map[string]string {
 
 	return o.MigrationsLog
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
-func (o *OIDCProvider) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *SAMLProvider) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *OIDCProvider) GetName() string {
+func (o *SAMLProvider) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *OIDCProvider) SetName(name string) {
+func (o *SAMLProvider) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *OIDCProvider) GetNamespace() string {
+func (o *SAMLProvider) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *OIDCProvider) SetNamespace(namespace string) {
+func (o *SAMLProvider) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *OIDCProvider) GetNormalizedTags() []string {
+func (o *SAMLProvider) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *OIDCProvider) SetNormalizedTags(normalizedTags []string) {
+func (o *SAMLProvider) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *OIDCProvider) GetProtected() bool {
+func (o *SAMLProvider) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *OIDCProvider) SetProtected(protected bool) {
+func (o *SAMLProvider) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *OIDCProvider) GetUpdateIdempotencyKey() string {
+func (o *SAMLProvider) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *OIDCProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SAMLProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *OIDCProvider) GetUpdateTime() time.Time {
+func (o *SAMLProvider) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *OIDCProvider) SetUpdateTime(updateTime time.Time) {
+func (o *SAMLProvider) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *OIDCProvider) GetZHash() int {
+func (o *SAMLProvider) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *OIDCProvider) SetZHash(zHash int) {
+func (o *SAMLProvider) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *OIDCProvider) GetZone() int {
+func (o *SAMLProvider) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *OIDCProvider) SetZone(zone int) {
+func (o *SAMLProvider) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *SAMLProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseOIDCProvider{
+		return &SparseSAMLProvider{
 			ID:                   &o.ID,
+			IDPCertificate:       &o.IDPCertificate,
+			IDPIssuer:            &o.IDPIssuer,
+			IDPMetadata:          &o.IDPMetadata,
+			IDPURL:               &o.IDPURL,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
-			ClientID:             &o.ClientID,
-			ClientSecret:         &o.ClientSecret,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			Default:              &o.Default,
-			Endpoint:             &o.Endpoint,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
-			ParentID:             &o.ParentID,
-			ParentName:           &o.ParentName,
 			Protected:            &o.Protected,
-			Scopes:               &o.Scopes,
 			Subjects:             &o.Subjects,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
@@ -410,27 +401,29 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparseOIDCProvider{}
+	sp := &SparseSAMLProvider{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "IDPCertificate":
+			sp.IDPCertificate = &(o.IDPCertificate)
+		case "IDPIssuer":
+			sp.IDPIssuer = &(o.IDPIssuer)
+		case "IDPMetadata":
+			sp.IDPMetadata = &(o.IDPMetadata)
+		case "IDPURL":
+			sp.IDPURL = &(o.IDPURL)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "clientID":
-			sp.ClientID = &(o.ClientID)
-		case "clientSecret":
-			sp.ClientSecret = &(o.ClientSecret)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "default":
 			sp.Default = &(o.Default)
-		case "endpoint":
-			sp.Endpoint = &(o.Endpoint)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -439,14 +432,8 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "parentID":
-			sp.ParentID = &(o.ParentID)
-		case "parentName":
-			sp.ParentName = &(o.ParentName)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "scopes":
-			sp.Scopes = &(o.Scopes)
 		case "subjects":
 			sp.Subjects = &(o.Subjects)
 		case "updateIdempotencyKey":
@@ -463,27 +450,33 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseOIDCProvider to the object.
-func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseSAMLProvider to the object.
+func (o *SAMLProvider) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseOIDCProvider)
+	so := sparse.(*SparseSAMLProvider)
 	if so.ID != nil {
 		o.ID = *so.ID
+	}
+	if so.IDPCertificate != nil {
+		o.IDPCertificate = *so.IDPCertificate
+	}
+	if so.IDPIssuer != nil {
+		o.IDPIssuer = *so.IDPIssuer
+	}
+	if so.IDPMetadata != nil {
+		o.IDPMetadata = *so.IDPMetadata
+	}
+	if so.IDPURL != nil {
+		o.IDPURL = *so.IDPURL
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
-	}
-	if so.ClientID != nil {
-		o.ClientID = *so.ClientID
-	}
-	if so.ClientSecret != nil {
-		o.ClientSecret = *so.ClientSecret
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
@@ -493,9 +486,6 @@ func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Default != nil {
 		o.Default = *so.Default
-	}
-	if so.Endpoint != nil {
-		o.Endpoint = *so.Endpoint
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -509,17 +499,8 @@ func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
-	if so.ParentID != nil {
-		o.ParentID = *so.ParentID
-	}
-	if so.ParentName != nil {
-		o.ParentName = *so.ParentName
-	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
-	}
-	if so.Scopes != nil {
-		o.Scopes = *so.Scopes
 	}
 	if so.Subjects != nil {
 		o.Subjects = *so.Subjects
@@ -538,32 +519,32 @@ func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the OIDCProvider.
-func (o *OIDCProvider) DeepCopy() *OIDCProvider {
+// DeepCopy returns a deep copy if the SAMLProvider.
+func (o *SAMLProvider) DeepCopy() *SAMLProvider {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &OIDCProvider{}
+	out := &SAMLProvider{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *OIDCProvider.
-func (o *OIDCProvider) DeepCopyInto(out *OIDCProvider) {
+// DeepCopyInto copies the receiver into the given *SAMLProvider.
+func (o *SAMLProvider) DeepCopyInto(out *SAMLProvider) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy OIDCProvider: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SAMLProvider: %s", err))
 	}
 
-	*out = *target.(*OIDCProvider)
+	*out = *target.(*SAMLProvider)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *OIDCProvider) Validate() error {
+func (o *SAMLProvider) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -572,23 +553,16 @@ func (o *OIDCProvider) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("clientID", o.ClientID); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("clientSecret", o.ClientSecret); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("endpoint", o.Endpoint); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	// Custom object validation.
+	if err := ValidateSAMLProvider(o); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -604,46 +578,48 @@ func (o *OIDCProvider) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*OIDCProvider) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*SAMLProvider) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := OIDCProviderAttributesMap[name]; ok {
+	if v, ok := SAMLProviderAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return OIDCProviderLowerCaseAttributesMap[name]
+	return SAMLProviderLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*OIDCProvider) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*SAMLProvider) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return OIDCProviderAttributesMap
+	return SAMLProviderAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *OIDCProvider) ValueForAttribute(name string) interface{} {
+func (o *SAMLProvider) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
 		return o.ID
+	case "IDPCertificate":
+		return o.IDPCertificate
+	case "IDPIssuer":
+		return o.IDPIssuer
+	case "IDPMetadata":
+		return o.IDPMetadata
+	case "IDPURL":
+		return o.IDPURL
 	case "annotations":
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
-	case "clientID":
-		return o.ClientID
-	case "clientSecret":
-		return o.ClientSecret
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "default":
 		return o.Default
-	case "endpoint":
-		return o.Endpoint
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -652,14 +628,8 @@ func (o *OIDCProvider) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "parentID":
-		return o.ParentID
-	case "parentName":
-		return o.ParentName
 	case "protected":
 		return o.Protected
-	case "scopes":
-		return o.Scopes
 	case "subjects":
 		return o.Subjects
 	case "updateIdempotencyKey":
@@ -675,8 +645,8 @@ func (o *OIDCProvider) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// OIDCProviderAttributesMap represents the map of attribute for OIDCProvider.
-var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
+// SAMLProviderAttributesMap represents the map of attribute for SAMLProvider.
+var SAMLProviderAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -688,6 +658,43 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"IDPCertificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IDPCertificate",
+		Description:    `Identity Provider Certificate in PEM format.`,
+		Exposed:        true,
+		Name:           "IDPCertificate",
+		Stored:         true,
+		Type:           "string",
+	},
+	"IDPIssuer": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IDPIssuer",
+		Description:    `Identity Provider Issuer (also called Entity ID).`,
+		Exposed:        true,
+		Name:           "IDPIssuer",
+		Stored:         true,
+		Type:           "string",
+	},
+	"IDPMetadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IDPMetadata",
+		Description: `Pass some XML data containing the IDP metadata that can be used for automatic
+configuration. If you pass this attribute, every other one will be overwritten
+with the data contained in the metadata file.`,
+		Exposed: true,
+		Name:    "IDPMetadata",
+		Type:    "string",
+	},
+	"IDPURL": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IDPURL",
+		Description:    `URL of the identity provider.`,
+		Exposed:        true,
+		Name:           "IDPURL",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -714,26 +721,6 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
-	},
-	"ClientID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ClientID",
-		Description:    `Unique client ID.`,
-		Exposed:        true,
-		Name:           "clientID",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"ClientSecret": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ClientSecret",
-		Description:    `Client secret associated with the client ID.`,
-		Exposed:        true,
-		Name:           "clientSecret",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -764,24 +751,13 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 	"Default": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Default",
-		Description: `If set, this will be the default OIDC provider. There can be only one default
-provider in your account. When logging in with OIDC, if no provider name is
+		Description: `If set, this will be the default SAML provider. There can be only one default
+provider in your account. When logging in with SAML, if no provider name is
 given, the default will be used.`,
 		Exposed: true,
 		Name:    "default",
 		Stored:  true,
 		Type:    "boolean",
-	},
-	"Endpoint": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Endpoint",
-		Description: `OIDC [discovery
-endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).`,
-		Exposed:  true,
-		Name:     "endpoint",
-		Required: true,
-		Stored:   true,
-		Type:     "string",
 	},
 	"MigrationsLog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -841,30 +817,6 @@ endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDisco
 		Transient:      true,
 		Type:           "list",
 	},
-	"ParentID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "ParentID",
-		Description:    `Contains the parent Aporeto account ID.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "parentID",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"ParentName": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "ParentName",
-		Description:    `Contains the name of the parent Aporeto account.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "parentName",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -876,16 +828,6 @@ endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDisco
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"Scopes": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Scopes",
-		Description:    `List of scopes to allow.`,
-		Exposed:        true,
-		Name:           "scopes",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
 	},
 	"Subjects": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -952,8 +894,8 @@ georedundancy.`,
 	},
 }
 
-// OIDCProviderLowerCaseAttributesMap represents the map of attribute for OIDCProvider.
-var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// SAMLProviderLowerCaseAttributesMap represents the map of attribute for SAMLProvider.
+var SAMLProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -965,6 +907,43 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"idpcertificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IDPCertificate",
+		Description:    `Identity Provider Certificate in PEM format.`,
+		Exposed:        true,
+		Name:           "IDPCertificate",
+		Stored:         true,
+		Type:           "string",
+	},
+	"idpissuer": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IDPIssuer",
+		Description:    `Identity Provider Issuer (also called Entity ID).`,
+		Exposed:        true,
+		Name:           "IDPIssuer",
+		Stored:         true,
+		Type:           "string",
+	},
+	"idpmetadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IDPMetadata",
+		Description: `Pass some XML data containing the IDP metadata that can be used for automatic
+configuration. If you pass this attribute, every other one will be overwritten
+with the data contained in the metadata file.`,
+		Exposed: true,
+		Name:    "IDPMetadata",
+		Type:    "string",
+	},
+	"idpurl": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IDPURL",
+		Description:    `URL of the identity provider.`,
+		Exposed:        true,
+		Name:           "IDPURL",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -991,26 +970,6 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
-	},
-	"clientid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ClientID",
-		Description:    `Unique client ID.`,
-		Exposed:        true,
-		Name:           "clientID",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"clientsecret": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ClientSecret",
-		Description:    `Client secret associated with the client ID.`,
-		Exposed:        true,
-		Name:           "clientSecret",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1041,24 +1000,13 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"default": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Default",
-		Description: `If set, this will be the default OIDC provider. There can be only one default
-provider in your account. When logging in with OIDC, if no provider name is
+		Description: `If set, this will be the default SAML provider. There can be only one default
+provider in your account. When logging in with SAML, if no provider name is
 given, the default will be used.`,
 		Exposed: true,
 		Name:    "default",
 		Stored:  true,
 		Type:    "boolean",
-	},
-	"endpoint": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Endpoint",
-		Description: `OIDC [discovery
-endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).`,
-		Exposed:  true,
-		Name:     "endpoint",
-		Required: true,
-		Stored:   true,
-		Type:     "string",
 	},
 	"migrationslog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1118,30 +1066,6 @@ endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDisco
 		Transient:      true,
 		Type:           "list",
 	},
-	"parentid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "ParentID",
-		Description:    `Contains the parent Aporeto account ID.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "parentID",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"parentname": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "ParentName",
-		Description:    `Contains the name of the parent Aporeto account.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "parentName",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1153,16 +1077,6 @@ endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDisco
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"scopes": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Scopes",
-		Description:    `List of scopes to allow.`,
-		Exposed:        true,
-		Name:           "scopes",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
 	},
 	"subjects": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1229,35 +1143,35 @@ georedundancy.`,
 	},
 }
 
-// SparseOIDCProvidersList represents a list of SparseOIDCProviders
-type SparseOIDCProvidersList []*SparseOIDCProvider
+// SparseSAMLProvidersList represents a list of SparseSAMLProviders
+type SparseSAMLProvidersList []*SparseSAMLProvider
 
 // Identity returns the identity of the objects in the list.
-func (o SparseOIDCProvidersList) Identity() elemental.Identity {
+func (o SparseSAMLProvidersList) Identity() elemental.Identity {
 
-	return OIDCProviderIdentity
+	return SAMLProviderIdentity
 }
 
-// Copy returns a pointer to a copy the SparseOIDCProvidersList.
-func (o SparseOIDCProvidersList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseSAMLProvidersList.
+func (o SparseSAMLProvidersList) Copy() elemental.Identifiables {
 
-	copy := append(SparseOIDCProvidersList{}, o...)
+	copy := append(SparseSAMLProvidersList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseOIDCProvidersList.
-func (o SparseOIDCProvidersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseSAMLProvidersList.
+func (o SparseSAMLProvidersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseOIDCProvidersList{}, o...)
+	out := append(SparseSAMLProvidersList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseOIDCProvider))
+		out = append(out, obj.(*SparseSAMLProvider))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseOIDCProvidersList) List() elemental.IdentifiablesList {
+func (o SparseSAMLProvidersList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1268,7 +1182,7 @@ func (o SparseOIDCProvidersList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseOIDCProvidersList) DefaultOrder() []string {
+func (o SparseSAMLProvidersList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -1276,8 +1190,8 @@ func (o SparseOIDCProvidersList) DefaultOrder() []string {
 	}
 }
 
-// ToPlain returns the SparseOIDCProvidersList converted to OIDCProvidersList.
-func (o SparseOIDCProvidersList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseSAMLProvidersList converted to SAMLProvidersList.
+func (o SparseSAMLProvidersList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1288,15 +1202,29 @@ func (o SparseOIDCProvidersList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseOIDCProvidersList) Version() int {
+func (o SparseSAMLProvidersList) Version() int {
 
 	return 1
 }
 
-// SparseOIDCProvider represents the sparse version of a oidcprovider.
-type SparseOIDCProvider struct {
+// SparseSAMLProvider represents the sparse version of a samlprovider.
+type SparseSAMLProvider struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Identity Provider Certificate in PEM format.
+	IDPCertificate *string `json:"IDPCertificate,omitempty" msgpack:"IDPCertificate,omitempty" bson:"idpcertificate,omitempty" mapstructure:"IDPCertificate,omitempty"`
+
+	// Identity Provider Issuer (also called Entity ID).
+	IDPIssuer *string `json:"IDPIssuer,omitempty" msgpack:"IDPIssuer,omitempty" bson:"idpissuer,omitempty" mapstructure:"IDPIssuer,omitempty"`
+
+	// Pass some XML data containing the IDP metadata that can be used for automatic
+	// configuration. If you pass this attribute, every other one will be overwritten
+	// with the data contained in the metadata file.
+	IDPMetadata *string `json:"IDPMetadata,omitempty" msgpack:"IDPMetadata,omitempty" bson:"-" mapstructure:"IDPMetadata,omitempty"`
+
+	// URL of the identity provider.
+	IDPURL *string `json:"IDPURL,omitempty" msgpack:"IDPURL,omitempty" bson:"idpurl,omitempty" mapstructure:"IDPURL,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
@@ -1304,26 +1232,16 @@ type SparseOIDCProvider struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// Unique client ID.
-	ClientID *string `json:"clientID,omitempty" msgpack:"clientID,omitempty" bson:"clientid,omitempty" mapstructure:"clientID,omitempty"`
-
-	// Client secret associated with the client ID.
-	ClientSecret *string `json:"clientSecret,omitempty" msgpack:"clientSecret,omitempty" bson:"clientsecret,omitempty" mapstructure:"clientSecret,omitempty"`
-
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// If set, this will be the default OIDC provider. There can be only one default
-	// provider in your account. When logging in with OIDC, if no provider name is
+	// If set, this will be the default SAML provider. There can be only one default
+	// provider in your account. When logging in with SAML, if no provider name is
 	// given, the default will be used.
 	Default *bool `json:"default,omitempty" msgpack:"default,omitempty" bson:"default,omitempty" mapstructure:"default,omitempty"`
-
-	// OIDC [discovery
-	// endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
-	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1337,17 +1255,8 @@ type SparseOIDCProvider struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the parent Aporeto account ID.
-	ParentID *string `json:"parentID,omitempty" msgpack:"parentID,omitempty" bson:"parentid,omitempty" mapstructure:"parentID,omitempty"`
-
-	// Contains the name of the parent Aporeto account.
-	ParentName *string `json:"parentName,omitempty" msgpack:"parentName,omitempty" bson:"parentname,omitempty" mapstructure:"parentName,omitempty"`
-
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
-
-	// List of scopes to allow.
-	Scopes *[]string `json:"scopes,omitempty" msgpack:"scopes,omitempty" bson:"scopes,omitempty" mapstructure:"scopes,omitempty"`
 
 	// List of claims that will provide the subject.
 	Subjects *[]string `json:"subjects,omitempty" msgpack:"subjects,omitempty" bson:"subjects,omitempty" mapstructure:"subjects,omitempty"`
@@ -1368,19 +1277,19 @@ type SparseOIDCProvider struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseOIDCProvider returns a new  SparseOIDCProvider.
-func NewSparseOIDCProvider() *SparseOIDCProvider {
-	return &SparseOIDCProvider{}
+// NewSparseSAMLProvider returns a new  SparseSAMLProvider.
+func NewSparseSAMLProvider() *SparseSAMLProvider {
+	return &SparseSAMLProvider{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseOIDCProvider) Identity() elemental.Identity {
+func (o *SparseSAMLProvider) Identity() elemental.Identity {
 
-	return OIDCProviderIdentity
+	return SAMLProviderIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseOIDCProvider) Identifier() string {
+func (o *SparseSAMLProvider) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1389,35 +1298,41 @@ func (o *SparseOIDCProvider) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseOIDCProvider) SetIdentifier(id string) {
+func (o *SparseSAMLProvider) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseOIDCProvider) Version() int {
+func (o *SparseSAMLProvider) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseSAMLProvider) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewOIDCProvider()
+	out := NewSAMLProvider()
 	if o.ID != nil {
 		out.ID = *o.ID
+	}
+	if o.IDPCertificate != nil {
+		out.IDPCertificate = *o.IDPCertificate
+	}
+	if o.IDPIssuer != nil {
+		out.IDPIssuer = *o.IDPIssuer
+	}
+	if o.IDPMetadata != nil {
+		out.IDPMetadata = *o.IDPMetadata
+	}
+	if o.IDPURL != nil {
+		out.IDPURL = *o.IDPURL
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
-	}
-	if o.ClientID != nil {
-		out.ClientID = *o.ClientID
-	}
-	if o.ClientSecret != nil {
-		out.ClientSecret = *o.ClientSecret
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
@@ -1427,9 +1342,6 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Default != nil {
 		out.Default = *o.Default
-	}
-	if o.Endpoint != nil {
-		out.Endpoint = *o.Endpoint
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1443,17 +1355,8 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
-	if o.ParentID != nil {
-		out.ParentID = *o.ParentID
-	}
-	if o.ParentName != nil {
-		out.ParentName = *o.ParentName
-	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
-	}
-	if o.Scopes != nil {
-		out.Scopes = *o.Scopes
 	}
 	if o.Subjects != nil {
 		out.Subjects = *o.Subjects
@@ -1475,181 +1378,181 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseOIDCProvider) GetAnnotations() map[string][]string {
+func (o *SparseSAMLProvider) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetAnnotations(annotations map[string][]string) {
+func (o *SparseSAMLProvider) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseOIDCProvider) GetAssociatedTags() []string {
+func (o *SparseSAMLProvider) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetAssociatedTags(associatedTags []string) {
+func (o *SparseSAMLProvider) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseOIDCProvider) GetCreateIdempotencyKey() string {
+func (o *SparseSAMLProvider) GetCreateIdempotencyKey() string {
 
 	return *o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseSAMLProvider) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseOIDCProvider) GetCreateTime() time.Time {
+func (o *SparseSAMLProvider) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetCreateTime(createTime time.Time) {
+func (o *SparseSAMLProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseOIDCProvider) GetMigrationsLog() map[string]string {
+func (o *SparseSAMLProvider) GetMigrationsLog() map[string]string {
 
 	return *o.MigrationsLog
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *SparseSAMLProvider) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseOIDCProvider) GetName() string {
+func (o *SparseSAMLProvider) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetName(name string) {
+func (o *SparseSAMLProvider) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseOIDCProvider) GetNamespace() string {
+func (o *SparseSAMLProvider) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetNamespace(namespace string) {
+func (o *SparseSAMLProvider) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseOIDCProvider) GetNormalizedTags() []string {
+func (o *SparseSAMLProvider) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseSAMLProvider) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseOIDCProvider) GetProtected() bool {
+func (o *SparseSAMLProvider) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetProtected(protected bool) {
+func (o *SparseSAMLProvider) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseOIDCProvider) GetUpdateIdempotencyKey() string {
+func (o *SparseSAMLProvider) GetUpdateIdempotencyKey() string {
 
 	return *o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseSAMLProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseOIDCProvider) GetUpdateTime() time.Time {
+func (o *SparseSAMLProvider) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetUpdateTime(updateTime time.Time) {
+func (o *SparseSAMLProvider) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseOIDCProvider) GetZHash() int {
+func (o *SparseSAMLProvider) GetZHash() int {
 
 	return *o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetZHash(zHash int) {
+func (o *SparseSAMLProvider) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseOIDCProvider) GetZone() int {
+func (o *SparseSAMLProvider) GetZone() int {
 
 	return *o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseOIDCProvider) SetZone(zone int) {
+func (o *SparseSAMLProvider) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseOIDCProvider.
-func (o *SparseOIDCProvider) DeepCopy() *SparseOIDCProvider {
+// DeepCopy returns a deep copy if the SparseSAMLProvider.
+func (o *SparseSAMLProvider) DeepCopy() *SparseSAMLProvider {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseOIDCProvider{}
+	out := &SparseSAMLProvider{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseOIDCProvider.
-func (o *SparseOIDCProvider) DeepCopyInto(out *SparseOIDCProvider) {
+// DeepCopyInto copies the receiver into the given *SparseSAMLProvider.
+func (o *SparseSAMLProvider) DeepCopyInto(out *SparseSAMLProvider) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseOIDCProvider: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseSAMLProvider: %s", err))
 	}
 
-	*out = *target.(*SparseOIDCProvider)
+	*out = *target.(*SparseSAMLProvider)
 }
