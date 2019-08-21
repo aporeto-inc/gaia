@@ -117,6 +117,10 @@ type Customer struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// lastReportTime holds the last time the customer was reported to their
+	// provider.
+	LastReportTime time.Time `json:"lastReportTime" msgpack:"lastReportTime" bson:"lastreporttime" mapstructure:"lastReportTime,omitempty"`
+
 	// Provider holds the name of the provider to be billed for this service.
 	Provider CustomerProviderValue `json:"provider" msgpack:"provider" bson:"provider" mapstructure:"provider,omitempty"`
 
@@ -228,6 +232,7 @@ func (o *Customer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparseCustomer{
 			ID:                 &o.ID,
 			CreateTime:         &o.CreateTime,
+			LastReportTime:     &o.LastReportTime,
 			Provider:           &o.Provider,
 			ProviderCustomerID: &o.ProviderCustomerID,
 			ProviderProductID:  &o.ProviderProductID,
@@ -243,6 +248,8 @@ func (o *Customer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ID = &(o.ID)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "lastReportTime":
+			sp.LastReportTime = &(o.LastReportTime)
 		case "provider":
 			sp.Provider = &(o.Provider)
 		case "providerCustomerID":
@@ -271,6 +278,9 @@ func (o *Customer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.LastReportTime != nil {
+		o.LastReportTime = *so.LastReportTime
 	}
 	if so.Provider != nil {
 		o.Provider = *so.Provider
@@ -365,6 +375,8 @@ func (o *Customer) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "createTime":
 		return o.CreateTime
+	case "lastReportTime":
+		return o.LastReportTime
 	case "provider":
 		return o.Provider
 	case "providerCustomerID":
@@ -409,6 +421,17 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"LastReportTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LastReportTime",
+		Description: `lastReportTime holds the last time the customer was reported to their
+provider.`,
+		Exposed:   true,
+		Name:      "lastReportTime",
+		Orderable: true,
+		Stored:    true,
+		Type:      "time",
 	},
 	"Provider": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Aporeto", "AWS"},
@@ -499,6 +522,17 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"lastreporttime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LastReportTime",
+		Description: `lastReportTime holds the last time the customer was reported to their
+provider.`,
+		Exposed:   true,
+		Name:      "lastReportTime",
+		Orderable: true,
+		Stored:    true,
+		Type:      "time",
 	},
 	"provider": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Aporeto", "AWS"},
@@ -629,6 +663,10 @@ type SparseCustomer struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
+	// lastReportTime holds the last time the customer was reported to their
+	// provider.
+	LastReportTime *time.Time `json:"lastReportTime,omitempty" msgpack:"lastReportTime,omitempty" bson:"lastreporttime,omitempty" mapstructure:"lastReportTime,omitempty"`
+
 	// Provider holds the name of the provider to be billed for this service.
 	Provider *CustomerProviderValue `json:"provider,omitempty" msgpack:"provider,omitempty" bson:"provider,omitempty" mapstructure:"provider,omitempty"`
 
@@ -690,6 +728,9 @@ func (o *SparseCustomer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
+	}
+	if o.LastReportTime != nil {
+		out.LastReportTime = *o.LastReportTime
 	}
 	if o.Provider != nil {
 		out.Provider = *o.Provider
