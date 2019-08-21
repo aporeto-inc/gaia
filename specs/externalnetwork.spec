@@ -58,11 +58,7 @@ attributes:
     exposed: true
     subtype: string
     read_only: true
-    default_value:
-    - 1:65535
     deprecated: true
-    validations:
-    - $ports
 
   - name: protocols
     description: List of protocols (`tcp`, `udp`, or protocol number).
@@ -70,11 +66,7 @@ attributes:
     exposed: true
     subtype: string
     read_only: true
-    default_value:
-    - tcp
     deprecated: true
-    validations:
-    - $protocols
 
   - name: servicePorts
     description: List of protocol/ports `(tcp/80)` or `(udp/80:100)`.

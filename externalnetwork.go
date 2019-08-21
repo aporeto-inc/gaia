@@ -164,14 +164,10 @@ func NewExternalNetwork() *ExternalNetwork {
 		Entries:        []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Ports: []string{
-			"1:65535",
-		},
-		MigrationsLog: map[string]string{},
-		Protocols: []string{
-			"tcp",
-		},
-		ServicePorts: []string{},
+		Ports:          []string{},
+		MigrationsLog:  map[string]string{},
+		Protocols:      []string{},
+		ServicePorts:   []string{},
 	}
 }
 
@@ -649,14 +645,6 @@ func (o *ExternalNetwork) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidatePortStringList("ports", o.Ports); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := ValidateProtocolList("protocols", o.Protocols); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := ValidateServicePorts("servicePorts", o.ServicePorts); err != nil {
 		errors = errors.Append(err)
 	}
@@ -919,16 +907,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Ports",
-		DefaultValue: []string{
-			"1:65535",
-		},
-		Deprecated:  true,
-		Description: `List of single ports or range (xx:yy).`,
-		Exposed:     true,
-		Name:        "ports",
-		ReadOnly:    true,
-		SubType:     "string",
-		Type:        "list",
+		Deprecated:     true,
+		Description:    `List of single ports or range (xx:yy).`,
+		Exposed:        true,
+		Name:           "ports",
+		ReadOnly:       true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -957,16 +942,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Protocols": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocols",
-		DefaultValue: []string{
-			"tcp",
-		},
-		Deprecated:  true,
-		Description: `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
-		Exposed:     true,
-		Name:        "protocols",
-		ReadOnly:    true,
-		SubType:     "string",
-		Type:        "list",
+		Deprecated:     true,
+		Description:    `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
+		Exposed:        true,
+		Name:           "protocols",
+		ReadOnly:       true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"ServicePorts": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1208,16 +1190,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Ports",
-		DefaultValue: []string{
-			"1:65535",
-		},
-		Deprecated:  true,
-		Description: `List of single ports or range (xx:yy).`,
-		Exposed:     true,
-		Name:        "ports",
-		ReadOnly:    true,
-		SubType:     "string",
-		Type:        "list",
+		Deprecated:     true,
+		Description:    `List of single ports or range (xx:yy).`,
+		Exposed:        true,
+		Name:           "ports",
+		ReadOnly:       true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1246,16 +1225,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"protocols": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocols",
-		DefaultValue: []string{
-			"tcp",
-		},
-		Deprecated:  true,
-		Description: `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
-		Exposed:     true,
-		Name:        "protocols",
-		ReadOnly:    true,
-		SubType:     "string",
-		Type:        "list",
+		Deprecated:     true,
+		Description:    `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
+		Exposed:        true,
+		Name:           "protocols",
+		ReadOnly:       true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"serviceports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -7876,14 +7876,8 @@ reference the external network from your network policies.
 ```json
 {
   "name": "the name",
-  "ports": [
-    "1:65535"
-  ],
   "propagate": false,
-  "protected": false,
-  "protocols": [
-    "tcp"
-  ]
+  "protected": false
 }
 ```
 
@@ -7989,14 +7983,6 @@ _This attribute is deprecated_.
 
 List of single ports or range (xx:yy).
 
-Default value:
-
-```json
-[
-  "1:65535"
-]
-```
-
 ##### `propagate` `boolean`
 
 Propagates the policy to all of its children.
@@ -8010,14 +7996,6 @@ Defines if the object is protected.
 _This attribute is deprecated_.
 
 List of protocols (`tcp`, `udp`, or protocol number).
-
-Default value:
-
-```json
-[
-  "tcp"
-]
-```
 
 ##### `servicePorts` `[]string`
 
