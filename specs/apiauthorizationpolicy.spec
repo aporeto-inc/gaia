@@ -6,11 +6,11 @@ model:
   package: squall
   group: policy/authorization
   description: |-
-    An API authorization defines the operations a user can perform in a 
-    namespace: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, and/or `HEAD`. 
+    An API authorization defines the operations a user can perform in a
+    namespace: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, and/or `HEAD`.
     It is also possible to restrict the user to a subset of the APIs in the
-    namespace by setting `authorizedIdentities`. By default, an API authorization 
-    will only give permissions in the the current namespace but you can set it to 
+    namespace by setting `authorizedIdentities`. By default, an API authorization
+    will only give permissions in the the current namespace but you can set it to
     propagate to all the children of the current namespace.
   aliases:
   - apiauth
@@ -31,7 +31,6 @@ model:
   - '@identifiable-not-stored'
   - '@metadatable'
   - '@named'
-  - '@propagated'
   - '@hidden'
   - '@fallback'
   - '@schedulable'
@@ -71,7 +70,8 @@ attributes:
     - $optionalnetworks
 
   - name: expirationTime
-    description: If set, the policy will be automatically deleted after the given time.
+    description: If set, the policy will be automatically deleted after the given
+      time.
     type: time
     exposed: true
     stored: true
