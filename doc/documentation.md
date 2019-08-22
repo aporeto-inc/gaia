@@ -7977,7 +7977,7 @@ Namespace tag attached to an entity.
 
 Contains the list of normalized tags of the entities.
 
-##### `ports` `[]string` [`read_only`]
+##### `ports` `[]string`
 
 _This attribute is deprecated_.
 
@@ -7991,7 +7991,7 @@ Propagates the policy to all of its children.
 
 Defines if the object is protected.
 
-##### `protocols` `[]string` [`read_only`]
+##### `protocols` `[]string`
 
 _This attribute is deprecated_.
 

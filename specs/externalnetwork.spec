@@ -57,7 +57,6 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    read_only: true
     deprecated: true
 
   - name: protocols
@@ -65,7 +64,6 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    read_only: true
     deprecated: true
 
   - name: servicePorts
