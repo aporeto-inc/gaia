@@ -1451,3 +1451,67 @@ things:
 		})
 	}
 }
+
+func TestValidateSAMLProvider(t *testing.T) {
+	type args struct {
+		provider *SAMLProvider
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"with nothing",
+			args{&SAMLProvider{}},
+			true,
+		},
+		{
+			"with IDP metadata",
+			args{&SAMLProvider{
+				IDPMetadata: "m",
+			}},
+			false,
+		},
+		{
+			"with every other field",
+			args{&SAMLProvider{
+				IDPURL:         "IDPURL",
+				IDPIssuer:      "IDPIssuer",
+				IDPCertificate: "IDPCertificate",
+			}},
+			false,
+		},
+		{
+			"with every other field but IDPURL",
+			args{&SAMLProvider{
+				IDPIssuer:      "IDPIssuer",
+				IDPCertificate: "IDPCertificate",
+			}},
+			true,
+		},
+		{
+			"with every other field but IDPIssuer",
+			args{&SAMLProvider{
+				IDPURL:         "IDPURL",
+				IDPCertificate: "IDPCertificate",
+			}},
+			true,
+		},
+		{
+			"with every other field but IDPCertificate",
+			args{&SAMLProvider{
+				IDPURL:    "IDPURL",
+				IDPIssuer: "IDPIssuer",
+			}},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateSAMLProvider(tt.args.provider); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateSAMLProvider() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

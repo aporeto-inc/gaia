@@ -168,7 +168,7 @@ type LDAPProvider struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// The key to be used to populate the subject of the Midguard token. If you want to
+	// The key to be used to populate the subject of the Midgard token. If you want to
 	// use the user as a subject, for Windows-based systems you may use
 	// `sAMAccountName`.
 	// For Linux and other systems, you may wish to use `uid` (default). You can also
@@ -1027,7 +1027,7 @@ given, the default will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "SubjectKey",
 		DefaultValue:   "uid",
-		Description: `The key to be used to populate the subject of the Midguard token. If you want to
+		Description: `The key to be used to populate the subject of the Midgard token. If you want to
 use the user as a subject, for Windows-based systems you may use
 ` + "`" + `sAMAccountName` + "`" + `.
 For Linux and other systems, you may wish to use ` + "`" + `uid` + "`" + ` (default). You can also
@@ -1361,7 +1361,7 @@ given, the default will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "SubjectKey",
 		DefaultValue:   "uid",
-		Description: `The key to be used to populate the subject of the Midguard token. If you want to
+		Description: `The key to be used to populate the subject of the Midgard token. If you want to
 use the user as a subject, for Windows-based systems you may use
 ` + "`" + `sAMAccountName` + "`" + `.
 For Linux and other systems, you may wish to use ` + "`" + `uid` + "`" + ` (default). You can also
@@ -1568,7 +1568,7 @@ type SparseLDAPProvider struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// The key to be used to populate the subject of the Midguard token. If you want to
+	// The key to be used to populate the subject of the Midgard token. If you want to
 	// use the user as a subject, for Windows-based systems you may use
 	// `sAMAccountName`.
 	// For Linux and other systems, you may wish to use `uid` (default). You can also

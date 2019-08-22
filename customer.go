@@ -124,7 +124,7 @@ type Customer struct {
 	// customer to enable provider billing.
 	ProviderCustomerID string `json:"providerCustomerID" msgpack:"providerCustomerID" bson:"providercustomerid" mapstructure:"providerCustomerID,omitempty"`
 
-	// providerProductID holds the product id as used by the provider for this
+	// ProviderProductID holds the product id as used by the provider for this
 	// customer to enable provider billing.
 	ProviderProductID string `json:"providerProductID" msgpack:"providerProductID" bson:"providerproductid" mapstructure:"providerProductID,omitempty"`
 
@@ -435,7 +435,7 @@ customer to enable provider billing.`,
 	"ProviderProductID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ProviderProductID",
-		Description: `providerProductID holds the product id as used by the provider for this
+		Description: `ProviderProductID holds the product id as used by the provider for this
 customer to enable provider billing.`,
 		Exposed:   true,
 		Name:      "providerProductID",
@@ -525,7 +525,7 @@ customer to enable provider billing.`,
 	"providerproductid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ProviderProductID",
-		Description: `providerProductID holds the product id as used by the provider for this
+		Description: `ProviderProductID holds the product id as used by the provider for this
 customer to enable provider billing.`,
 		Exposed:   true,
 		Name:      "providerProductID",
@@ -636,7 +636,7 @@ type SparseCustomer struct {
 	// customer to enable provider billing.
 	ProviderCustomerID *string `json:"providerCustomerID,omitempty" msgpack:"providerCustomerID,omitempty" bson:"providercustomerid,omitempty" mapstructure:"providerCustomerID,omitempty"`
 
-	// providerProductID holds the product id as used by the provider for this
+	// ProviderProductID holds the product id as used by the provider for this
 	// customer to enable provider billing.
 	ProviderProductID *string `json:"providerProductID,omitempty" msgpack:"providerProductID,omitempty" bson:"providerproductid,omitempty" mapstructure:"providerProductID,omitempty"`
 

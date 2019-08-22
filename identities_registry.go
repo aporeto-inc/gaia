@@ -104,6 +104,7 @@ var (
 		"revocation":             RevocationIdentity,
 		"role":                   RoleIdentity,
 		"root":                   RootIdentity,
+		"samlprovider":           SAMLProviderIdentity,
 		"search":                 SearchIdentity,
 		"service":                ServiceIdentity,
 		"servicedependency":      ServiceDependencyIdentity,
@@ -235,6 +236,7 @@ var (
 		"revocations":              RevocationIdentity,
 		"roles":                    RoleIdentity,
 		"root":                     RootIdentity,
+		"samlproviders":            SAMLProviderIdentity,
 		"search":                   SearchIdentity,
 		"services":                 ServiceIdentity,
 		"servicedependencies":      ServiceDependencyIdentity,
@@ -518,6 +520,7 @@ var (
 		},
 		"flowreport": nil,
 		"graphedge": [][]string{
+			[]string{"namespace"},
 			[]string{"namespace", "lastSeen", "firstSeen"},
 			[]string{"lastSeen", "firstSeen"},
 			[]string{"lastSeen"},
@@ -700,8 +703,17 @@ var (
 		"revocation": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 		},
-		"role":   nil,
-		"root":   nil,
+		"role": nil,
+		"root": nil,
+		"samlprovider": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+		},
 		"search": nil,
 		"service": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -984,6 +996,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRole()
 	case RootIdentity:
 		return NewRoot()
+	case SAMLProviderIdentity:
+		return NewSAMLProvider()
 	case SearchIdentity:
 		return NewSearch()
 	case ServiceIdentity:
@@ -1223,6 +1237,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRevocation()
 	case RoleIdentity:
 		return NewSparseRole()
+	case SAMLProviderIdentity:
+		return NewSparseSAMLProvider()
 	case SearchIdentity:
 		return NewSparseSearch()
 	case ServiceIdentity:
@@ -1472,6 +1488,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RevocationsList{}
 	case RoleIdentity:
 		return &RolesList{}
+	case SAMLProviderIdentity:
+		return &SAMLProvidersList{}
 	case SearchIdentity:
 		return &SearchesList{}
 	case ServiceIdentity:
@@ -1711,6 +1729,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRevocationsList{}
 	case RoleIdentity:
 		return &SparseRolesList{}
+	case SAMLProviderIdentity:
+		return &SparseSAMLProvidersList{}
 	case SearchIdentity:
 		return &SparseSearchesList{}
 	case ServiceIdentity:
@@ -1876,6 +1896,7 @@ func AllIdentities() []elemental.Identity {
 		RevocationIdentity,
 		RoleIdentity,
 		RootIdentity,
+		SAMLProviderIdentity,
 		SearchIdentity,
 		ServiceIdentity,
 		ServiceDependencyIdentity,
@@ -2193,6 +2214,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case RoleIdentity:
 		return []string{}
 	case RootIdentity:
+		return []string{}
+	case SAMLProviderIdentity:
 		return []string{}
 	case SearchIdentity:
 		return []string{}

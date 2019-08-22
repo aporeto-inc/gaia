@@ -638,3 +638,25 @@ func ValidateYAMLString(attribute, data string) error {
 	}
 	return nil
 }
+
+// ValidateSAMLProvider validate the given SAMLProvider
+func ValidateSAMLProvider(provider *SAMLProvider) error {
+
+	if provider.IDPMetadata != "" {
+		return nil
+	}
+
+	if provider.IDPURL == "" {
+		return makeValidationError("IDPURL", "IDPURL is required when no IDPMetadata is provided")
+	}
+
+	if provider.IDPIssuer == "" {
+		return makeValidationError("IDPIssuer", "IDPIssuer is required when no IDPMetadata is provided")
+	}
+
+	if provider.IDPCertificate == "" {
+		return makeValidationError("IDPCertificate", "IDPCertificate is required when no IDPMetadata is provided")
+	}
+
+	return nil
+}

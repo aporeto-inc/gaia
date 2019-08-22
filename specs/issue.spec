@@ -69,6 +69,7 @@ attributes:
     - GCPIdentityToken
     - AzureIdentityToken
     - OIDC
+    - SAML
     example_value: Vince
 
   - name: token

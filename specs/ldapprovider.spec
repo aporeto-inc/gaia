@@ -144,7 +144,7 @@ attributes:
 
   - name: subjectKey
     description: |-
-      The key to be used to populate the subject of the Midguard token. If you want to
+      The key to be used to populate the subject of the Midgard token. If you want to
       use the user as a subject, for Windows-based systems you may use
       `sAMAccountName`.
       For Linux and other systems, you may wish to use `uid` (default). You can also

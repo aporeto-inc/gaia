@@ -438,7 +438,7 @@ relations:
 
 - rest_name: ldapprovider
   get:
-    description: Retrieves the list of the account LDAP providers.
+    description: Retrieves the list of the namespace LDAP providers.
     global_parameters:
     - $filtering
   create:
@@ -615,6 +615,14 @@ relations:
 - rest_name: role
   get:
     description: Retrieves the list of existing roles.
+
+- rest_name: samlprovider
+  get:
+    description: Retrieves the list of the namespace SAML providers.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new LDAP provider.
 
 - rest_name: search
   get:

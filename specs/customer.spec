@@ -50,7 +50,7 @@ attributes:
 
   - name: providerProductID
     description: |-
-      providerProductID holds the product id as used by the provider for this
+      ProviderProductID holds the product id as used by the provider for this
       customer to enable provider billing.
     type: string
     exposed: true

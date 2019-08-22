@@ -8,7 +8,7 @@ model:
   description: |-
     Allows to declare a generic OpenID Connect (OIDC) provider that can be used in
     exchange
-    for a Midguard token.
+    for a Midgard token.
   get:
     description: Retrieves the provider with the given ID.
   update:
