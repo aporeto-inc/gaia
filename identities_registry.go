@@ -517,6 +517,7 @@ var (
 		},
 		"flowreport": nil,
 		"graphedge": [][]string{
+			[]string{"namespace"},
 			[]string{"namespace", "lastSeen", "firstSeen"},
 			[]string{"lastSeen", "firstSeen"},
 			[]string{"lastSeen"},

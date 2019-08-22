@@ -15,6 +15,7 @@ model:
 # Indexes
 indexes:
 - - namespace
+- - namespace
   - lastSeen
   - firstSeen
 - - lastSeen
