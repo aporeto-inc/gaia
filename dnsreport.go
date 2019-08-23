@@ -159,7 +159,10 @@ func (o *DNSReport) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *DNSReport) Doc() string {
 
-	return `Post a new dns request report.`
+	return `` + "`" + `dnsreport` + "`" + ` is used to report all the dns lookups that are happening on
+behalf of the PU. If the DNS server is on the standard udp port 53 then
+enforcer is able to proxy the dns traffic and report the dns lookups. It
+also reports whether the lookup was successful or not.`
 }
 
 func (o *DNSReport) String() string {
