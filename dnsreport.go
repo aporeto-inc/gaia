@@ -101,7 +101,7 @@ type DNSReport struct {
 	// Type of the source.
 	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
 
-	// Result reports whether dns request succeeded or failed.
+	// Result reports whether `dns` request succeeded or failed.
 	Success bool `json:"success" msgpack:"success" bson:"-" mapstructure:"success,omitempty"`
 
 	// Time and date of the log.
@@ -159,9 +159,9 @@ func (o *DNSReport) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *DNSReport) Doc() string {
 
-	return `` + "`" + `dnsreport` + "`" + ` is used to report all the dns lookups that are happening on
+	return `` + "`" + `dnsreport` + "`" + ` is used to report all the ` + "`" + `dns` + "`" + ` look ups that are happening on
 behalf of the PU. If the DNS server is on the standard udp port 53 then
-enforcer is able to proxy the dns traffic and report the dns lookups. It
+enforcer is able to proxy the ` + "`" + `dns` + "`" + ` traffic and report the ` + "`" + `dns` + "`" + ` look ups. It
 also reports whether the lookup was successful or not.`
 }
 
@@ -437,7 +437,7 @@ var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Success": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Success",
-		Description:    `Result reports whether dns request succeeded or failed.`,
+		Description:    `Result reports whether ` + "`" + `dns` + "`" + ` request succeeded or failed.`,
 		Exposed:        true,
 		Name:           "success",
 		Required:       true,
@@ -528,7 +528,7 @@ var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"success": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Success",
-		Description:    `Result reports whether dns request succeeded or failed.`,
+		Description:    `Result reports whether ` + "`" + `dns` + "`" + ` request succeeded or failed.`,
 		Exposed:        true,
 		Name:           "success",
 		Required:       true,
@@ -637,7 +637,7 @@ type SparseDNSReport struct {
 	// Type of the source.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
 
-	// Result reports whether dns request succeeded or failed.
+	// Result reports whether `dns` request succeeded or failed.
 	Success *bool `json:"success,omitempty" msgpack:"success,omitempty" bson:"-" mapstructure:"success,omitempty"`
 
 	// Time and date of the log.

@@ -6,9 +6,9 @@ model:
   package: zack
   group: policy/networking
   description: |-
-     `dnsreport` is used to report all the dns lookups that are happening on
+     `dnsreport` is used to report all the `dns` look ups that are happening on
      behalf of the PU. If the DNS server is on the standard udp port 53 then
-     enforcer is able to proxy the dns traffic and report the dns lookups. It
+     enforcer is able to proxy the `dns` traffic and report the `dns` look ups. It
      also reports whether the lookup was successful or not.
 
 # Attributes
@@ -55,7 +55,7 @@ attributes:
     example_value: www.google.com
 
   - name: success
-    description: Result reports whether dns request succeeded or failed.
+    description: Result reports whether `dns` request succeeded or failed.
     type: boolean
     exposed: true
     required: true

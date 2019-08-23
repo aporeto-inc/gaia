@@ -7857,9 +7857,9 @@ Geographical zone. Used for sharding and georedundancy.
 
 ### DNSReport
 
-`dnsreport` is used to report all the dns lookups that are happening on
+`dnsreport` is used to report all the `dns` look ups that are happening on
 behalf of the PU. If the DNS server is on the standard udp port 53 then
-enforcer is able to proxy the dns traffic and report the dns lookups. It
+enforcer is able to proxy the `dns` traffic and report the `dns` look ups. It
 also reports whether the lookup was successful or not.
 
 #### Example
@@ -7908,7 +7908,7 @@ Type of the source.
 
 ##### `success` `boolean` [`required`]
 
-Result reports whether dns request succeeded or failed.
+Result reports whether `dns` request succeeded or failed.
 
 ##### `timestamp` `time`
 
