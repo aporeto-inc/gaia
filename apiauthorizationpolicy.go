@@ -222,9 +222,8 @@ func (o *APIAuthorizationPolicy) Doc() string {
 	return `An API authorization defines the operations a user can perform in a
 namespace: ` + "`" + `GET` + "`" + `, ` + "`" + `POST` + "`" + `, ` + "`" + `PUT` + "`" + `, ` + "`" + `DELETE` + "`" + `, ` + "`" + `PATCH` + "`" + `, and/or ` + "`" + `HEAD` + "`" + `.
 It is also possible to restrict the user to a subset of the APIs in the
-namespace by setting ` + "`" + `authorizedIdentities` + "`" + `. By default, an API authorization
-will only give permissions in the the current namespace but you can set it to
-propagate to all the children of the current namespace.`
+namespace by setting ` + "`" + `authorizedIdentities` + "`" + `. An API authorization always
+propagates down to all the children of the current namespace.`
 }
 
 func (o *APIAuthorizationPolicy) String() string {
