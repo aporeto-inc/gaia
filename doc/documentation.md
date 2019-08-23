@@ -7882,10 +7882,6 @@ also reports whether the lookup was successful or not.
 
 ID of the enforcer.
 
-##### `error` `string`
-
-If the result is false, error reports the reason of the dns failure.
-
 ##### `nameLookup` `string` [`required`]
 
 name looked up by PU.
@@ -7901,6 +7897,10 @@ ID of the PU.
 ##### `processingUnitNamespace` `string` [`required`]
 
 Namespace of the PU.
+
+##### `reason` `string`
+
+This field is only set when the lookup fails. It specifies the reason for the failure.
 
 ##### `sourceIP` `string` [`required`]
 

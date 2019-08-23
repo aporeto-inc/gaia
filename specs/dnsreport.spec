@@ -61,8 +61,8 @@ attributes:
     required: true
     example_value: true
 
-  - name: error
-    description: If the result is false, error reports the reason of the dns failure.
+  - name: reason
+    description: This field is only set when the lookup fails. It specifies the reason for the failure.
     type: string
     exposed: true
 
