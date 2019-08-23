@@ -98,11 +98,11 @@ type DNSReport struct {
 	// Namespace of the PU.
 	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
-	// Result reports whether dns request succeeded or failed.
-	Result bool `json:"result" msgpack:"result" bson:"-" mapstructure:"result,omitempty"`
-
 	// Type of the source.
 	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
+
+	// Result reports whether dns request succeeded or failed.
+	Success bool `json:"success" msgpack:"success" bson:"-" mapstructure:"success,omitempty"`
 
 	// Time and date of the log.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -183,8 +183,8 @@ func (o *DNSReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Namespace:               &o.Namespace,
 			ProcessingUnitID:        &o.ProcessingUnitID,
 			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
-			Result:                  &o.Result,
 			SourceIP:                &o.SourceIP,
+			Success:                 &o.Success,
 			Timestamp:               &o.Timestamp,
 			Value:                   &o.Value,
 		}
@@ -205,10 +205,10 @@ func (o *DNSReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
 		case "processingUnitNamespace":
 			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
-		case "result":
-			sp.Result = &(o.Result)
 		case "sourceIP":
 			sp.SourceIP = &(o.SourceIP)
+		case "success":
+			sp.Success = &(o.Success)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
 		case "value":
@@ -244,11 +244,11 @@ func (o *DNSReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ProcessingUnitNamespace != nil {
 		o.ProcessingUnitNamespace = *so.ProcessingUnitNamespace
 	}
-	if so.Result != nil {
-		o.Result = *so.Result
-	}
 	if so.SourceIP != nil {
 		o.SourceIP = *so.SourceIP
+	}
+	if so.Success != nil {
+		o.Success = *so.Success
 	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
@@ -358,10 +358,10 @@ func (o *DNSReport) ValueForAttribute(name string) interface{} {
 		return o.ProcessingUnitID
 	case "processingUnitNamespace":
 		return o.ProcessingUnitNamespace
-	case "result":
-		return o.Result
 	case "sourceIP":
 		return o.SourceIP
+	case "success":
+		return o.Success
 	case "timestamp":
 		return o.Timestamp
 	case "value":
@@ -425,15 +425,6 @@ var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"Result": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Result",
-		Description:    `Result reports whether dns request succeeded or failed.`,
-		Exposed:        true,
-		Name:           "result",
-		Required:       true,
-		Type:           "boolean",
-	},
 	"SourceIP": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
@@ -442,6 +433,15 @@ var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "sourceIP",
 		Required:       true,
 		Type:           "string",
+	},
+	"Success": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Success",
+		Description:    `Result reports whether dns request succeeded or failed.`,
+		Exposed:        true,
+		Name:           "success",
+		Required:       true,
+		Type:           "boolean",
 	},
 	"Timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -516,15 +516,6 @@ var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Required:       true,
 		Type:           "string",
 	},
-	"result": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Result",
-		Description:    `Result reports whether dns request succeeded or failed.`,
-		Exposed:        true,
-		Name:           "result",
-		Required:       true,
-		Type:           "boolean",
-	},
 	"sourceip": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
@@ -533,6 +524,15 @@ var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Name:           "sourceIP",
 		Required:       true,
 		Type:           "string",
+	},
+	"success": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Success",
+		Description:    `Result reports whether dns request succeeded or failed.`,
+		Exposed:        true,
+		Name:           "success",
+		Required:       true,
+		Type:           "boolean",
 	},
 	"timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -634,11 +634,11 @@ type SparseDNSReport struct {
 	// Namespace of the PU.
 	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
-	// Result reports whether dns request succeeded or failed.
-	Result *bool `json:"result,omitempty" msgpack:"result,omitempty" bson:"-" mapstructure:"result,omitempty"`
-
 	// Type of the source.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
+
+	// Result reports whether dns request succeeded or failed.
+	Success *bool `json:"success,omitempty" msgpack:"success,omitempty" bson:"-" mapstructure:"success,omitempty"`
 
 	// Time and date of the log.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -699,11 +699,11 @@ func (o *SparseDNSReport) ToPlain() elemental.PlainIdentifiable {
 	if o.ProcessingUnitNamespace != nil {
 		out.ProcessingUnitNamespace = *o.ProcessingUnitNamespace
 	}
-	if o.Result != nil {
-		out.Result = *o.Result
-	}
 	if o.SourceIP != nil {
 		out.SourceIP = *o.SourceIP
+	}
+	if o.Success != nil {
+		out.Success = *o.Success
 	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp

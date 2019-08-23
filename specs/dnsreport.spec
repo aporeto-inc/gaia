@@ -54,7 +54,7 @@ attributes:
     required: true
     example_value: www.google.com
 
-  - name: result
+  - name: success
     description: Result reports whether dns request succeeded or failed.
     type: boolean
     exposed: true

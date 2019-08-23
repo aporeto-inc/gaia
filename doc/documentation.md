@@ -7870,8 +7870,8 @@ also reports whether the lookup was successful or not.
   "namespace": "/my/namespace",
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
-  "result": true,
   "sourceIP": "10.0.0.1",
+  "success": true,
   "value": 1
 }
 ```
@@ -7902,13 +7902,13 @@ ID of the PU.
 
 Namespace of the PU.
 
-##### `result` `boolean` [`required`]
-
-Result reports whether dns request succeeded or failed.
-
 ##### `sourceIP` `string` [`required`]
 
 Type of the source.
+
+##### `success` `boolean` [`required`]
+
+Result reports whether dns request succeeded or failed.
 
 ##### `timestamp` `time`
 
