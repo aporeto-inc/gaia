@@ -10,23 +10,38 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: sourceNamespace
-    description: Namespace of the source.
+  - name: processingUnitNamespace
+    description: Namespace of the PU.
     type: string
     exposed: true
+    required: true
     example_value: /my/namespace
 
-  - name: sourceID
-    description: ID of the source.
+  - name: namespace
+    description: Namespace of the enforcer.
+    type: string
+    exposed: true
+    required: true
+    example_value: /my/namespace
+   
+  - name: processingUnitID
+    description: ID of the PU.
     type: string
     exposed: true
     required: true
     example_value: xxx-xxx-xxx
 
+  - name: enforcerID
+    description: ID of the enforcer.
+    type: string
+    exposed: true
+
   - name: sourceIP
     description: Type of the source.
     type: string
+    required: true
     exposed: true
+    example_value: 10.0.0.1
 
   - name: nameLookup
     description: name looked up by PU.
@@ -47,7 +62,7 @@ attributes:
     type: string
     exposed: true
 
-  - name: count
+  - name: value
     description: Number of times the client saw this activity.
     type: integer
     exposed: true

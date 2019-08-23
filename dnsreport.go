@@ -80,8 +80,8 @@ func (o DNSReportsList) Version() int {
 
 // DNSReport represents the model of a dnsreport
 type DNSReport struct {
-	// Number of times the client saw this activity.
-	Count int `json:"count" msgpack:"count" bson:"-" mapstructure:"count,omitempty"`
+	// ID of the enforcer.
+	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
 
 	// If the result is false, error reports the reason of the dns failure.
 	Error string `json:"error" msgpack:"error" bson:"-" mapstructure:"error,omitempty"`
@@ -89,20 +89,26 @@ type DNSReport struct {
 	// name looked up by PU.
 	NameLookup string `json:"nameLookup" msgpack:"nameLookup" bson:"-" mapstructure:"nameLookup,omitempty"`
 
+	// Namespace of the enforcer.
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// ID of the PU.
+	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
+
+	// Namespace of the PU.
+	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+
 	// Result reports whether dns request succeeded or failed.
 	Result bool `json:"result" msgpack:"result" bson:"-" mapstructure:"result,omitempty"`
-
-	// ID of the source.
-	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"-" mapstructure:"sourceID,omitempty"`
 
 	// Type of the source.
 	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
 
-	// Namespace of the source.
-	SourceNamespace string `json:"sourceNamespace" msgpack:"sourceNamespace" bson:"-" mapstructure:"sourceNamespace,omitempty"`
-
 	// Time and date of the log.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	// Number of times the client saw this activity.
+	Value int `json:"value" msgpack:"value" bson:"-" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -168,36 +174,42 @@ func (o *DNSReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseDNSReport{
-			Count:           &o.Count,
-			Error:           &o.Error,
-			NameLookup:      &o.NameLookup,
-			Result:          &o.Result,
-			SourceID:        &o.SourceID,
-			SourceIP:        &o.SourceIP,
-			SourceNamespace: &o.SourceNamespace,
-			Timestamp:       &o.Timestamp,
+			EnforcerID:              &o.EnforcerID,
+			Error:                   &o.Error,
+			NameLookup:              &o.NameLookup,
+			Namespace:               &o.Namespace,
+			ProcessingUnitID:        &o.ProcessingUnitID,
+			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
+			Result:                  &o.Result,
+			SourceIP:                &o.SourceIP,
+			Timestamp:               &o.Timestamp,
+			Value:                   &o.Value,
 		}
 	}
 
 	sp := &SparseDNSReport{}
 	for _, f := range fields {
 		switch f {
-		case "count":
-			sp.Count = &(o.Count)
+		case "enforcerID":
+			sp.EnforcerID = &(o.EnforcerID)
 		case "error":
 			sp.Error = &(o.Error)
 		case "nameLookup":
 			sp.NameLookup = &(o.NameLookup)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "processingUnitID":
+			sp.ProcessingUnitID = &(o.ProcessingUnitID)
+		case "processingUnitNamespace":
+			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
 		case "result":
 			sp.Result = &(o.Result)
-		case "sourceID":
-			sp.SourceID = &(o.SourceID)
 		case "sourceIP":
 			sp.SourceIP = &(o.SourceIP)
-		case "sourceNamespace":
-			sp.SourceNamespace = &(o.SourceNamespace)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
+		case "value":
+			sp.Value = &(o.Value)
 		}
 	}
 
@@ -211,8 +223,8 @@ func (o *DNSReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseDNSReport)
-	if so.Count != nil {
-		o.Count = *so.Count
+	if so.EnforcerID != nil {
+		o.EnforcerID = *so.EnforcerID
 	}
 	if so.Error != nil {
 		o.Error = *so.Error
@@ -220,20 +232,26 @@ func (o *DNSReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NameLookup != nil {
 		o.NameLookup = *so.NameLookup
 	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.ProcessingUnitID != nil {
+		o.ProcessingUnitID = *so.ProcessingUnitID
+	}
+	if so.ProcessingUnitNamespace != nil {
+		o.ProcessingUnitNamespace = *so.ProcessingUnitNamespace
+	}
 	if so.Result != nil {
 		o.Result = *so.Result
-	}
-	if so.SourceID != nil {
-		o.SourceID = *so.SourceID
 	}
 	if so.SourceIP != nil {
 		o.SourceIP = *so.SourceIP
 	}
-	if so.SourceNamespace != nil {
-		o.SourceNamespace = *so.SourceNamespace
-	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
+	}
+	if so.Value != nil {
+		o.Value = *so.Value
 	}
 }
 
@@ -267,15 +285,27 @@ func (o *DNSReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredInt("count", o.Count); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("nameLookup", o.NameLookup); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("sourceID", o.SourceID); err != nil {
+	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("processingUnitID", o.ProcessingUnitID); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("processingUnitNamespace", o.ProcessingUnitNamespace); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("sourceIP", o.SourceIP); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredInt("value", o.Value); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -313,22 +343,26 @@ func (*DNSReport) AttributeSpecifications() map[string]elemental.AttributeSpecif
 func (o *DNSReport) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "count":
-		return o.Count
+	case "enforcerID":
+		return o.EnforcerID
 	case "error":
 		return o.Error
 	case "nameLookup":
 		return o.NameLookup
+	case "namespace":
+		return o.Namespace
+	case "processingUnitID":
+		return o.ProcessingUnitID
+	case "processingUnitNamespace":
+		return o.ProcessingUnitNamespace
 	case "result":
 		return o.Result
-	case "sourceID":
-		return o.SourceID
 	case "sourceIP":
 		return o.SourceIP
-	case "sourceNamespace":
-		return o.SourceNamespace
 	case "timestamp":
 		return o.Timestamp
+	case "value":
+		return o.Value
 	}
 
 	return nil
@@ -336,14 +370,13 @@ func (o *DNSReport) ValueForAttribute(name string) interface{} {
 
 // DNSReportAttributesMap represents the map of attribute for DNSReport.
 var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
-	"Count": elemental.AttributeSpecification{
+	"EnforcerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Count",
-		Description:    `Number of times the client saw this activity.`,
+		ConvertedName:  "EnforcerID",
+		Description:    `ID of the enforcer.`,
 		Exposed:        true,
-		Name:           "count",
-		Required:       true,
-		Type:           "integer",
+		Name:           "enforcerID",
+		Type:           "string",
 	},
 	"Error": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -362,6 +395,33 @@ var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
+	"Namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Namespace",
+		Description:    `Namespace of the enforcer.`,
+		Exposed:        true,
+		Name:           "namespace",
+		Required:       true,
+		Type:           "string",
+	},
+	"ProcessingUnitID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ProcessingUnitID",
+		Description:    `ID of the PU.`,
+		Exposed:        true,
+		Name:           "processingUnitID",
+		Required:       true,
+		Type:           "string",
+	},
+	"ProcessingUnitNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ProcessingUnitNamespace",
+		Description:    `Namespace of the PU.`,
+		Exposed:        true,
+		Name:           "processingUnitNamespace",
+		Required:       true,
+		Type:           "string",
+	},
 	"Result": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Result",
@@ -371,29 +431,13 @@ var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "boolean",
 	},
-	"SourceID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "SourceID",
-		Description:    `ID of the source.`,
-		Exposed:        true,
-		Name:           "sourceID",
-		Required:       true,
-		Type:           "string",
-	},
 	"SourceIP": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
 		Description:    `Type of the source.`,
 		Exposed:        true,
 		Name:           "sourceIP",
-		Type:           "string",
-	},
-	"SourceNamespace": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "SourceNamespace",
-		Description:    `Namespace of the source.`,
-		Exposed:        true,
-		Name:           "sourceNamespace",
+		Required:       true,
 		Type:           "string",
 	},
 	"Timestamp": elemental.AttributeSpecification{
@@ -404,18 +448,26 @@ var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "timestamp",
 		Type:           "time",
 	},
+	"Value": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Value",
+		Description:    `Number of times the client saw this activity.`,
+		Exposed:        true,
+		Name:           "value",
+		Required:       true,
+		Type:           "integer",
+	},
 }
 
 // DNSReportLowerCaseAttributesMap represents the map of attribute for DNSReport.
 var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"count": elemental.AttributeSpecification{
+	"enforcerid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Count",
-		Description:    `Number of times the client saw this activity.`,
+		ConvertedName:  "EnforcerID",
+		Description:    `ID of the enforcer.`,
 		Exposed:        true,
-		Name:           "count",
-		Required:       true,
-		Type:           "integer",
+		Name:           "enforcerID",
+		Type:           "string",
 	},
 	"error": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -434,6 +486,33 @@ var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Required:       true,
 		Type:           "string",
 	},
+	"namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Namespace",
+		Description:    `Namespace of the enforcer.`,
+		Exposed:        true,
+		Name:           "namespace",
+		Required:       true,
+		Type:           "string",
+	},
+	"processingunitid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ProcessingUnitID",
+		Description:    `ID of the PU.`,
+		Exposed:        true,
+		Name:           "processingUnitID",
+		Required:       true,
+		Type:           "string",
+	},
+	"processingunitnamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ProcessingUnitNamespace",
+		Description:    `Namespace of the PU.`,
+		Exposed:        true,
+		Name:           "processingUnitNamespace",
+		Required:       true,
+		Type:           "string",
+	},
 	"result": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Result",
@@ -443,29 +522,13 @@ var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Required:       true,
 		Type:           "boolean",
 	},
-	"sourceid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "SourceID",
-		Description:    `ID of the source.`,
-		Exposed:        true,
-		Name:           "sourceID",
-		Required:       true,
-		Type:           "string",
-	},
 	"sourceip": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
 		Description:    `Type of the source.`,
 		Exposed:        true,
 		Name:           "sourceIP",
-		Type:           "string",
-	},
-	"sourcenamespace": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "SourceNamespace",
-		Description:    `Namespace of the source.`,
-		Exposed:        true,
-		Name:           "sourceNamespace",
+		Required:       true,
 		Type:           "string",
 	},
 	"timestamp": elemental.AttributeSpecification{
@@ -475,6 +538,15 @@ var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "timestamp",
 		Type:           "time",
+	},
+	"value": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Value",
+		Description:    `Number of times the client saw this activity.`,
+		Exposed:        true,
+		Name:           "value",
+		Required:       true,
+		Type:           "integer",
 	},
 }
 
@@ -541,8 +613,8 @@ func (o SparseDNSReportsList) Version() int {
 
 // SparseDNSReport represents the sparse version of a dnsreport.
 type SparseDNSReport struct {
-	// Number of times the client saw this activity.
-	Count *int `json:"count,omitempty" msgpack:"count,omitempty" bson:"-" mapstructure:"count,omitempty"`
+	// ID of the enforcer.
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
 
 	// If the result is false, error reports the reason of the dns failure.
 	Error *string `json:"error,omitempty" msgpack:"error,omitempty" bson:"-" mapstructure:"error,omitempty"`
@@ -550,20 +622,26 @@ type SparseDNSReport struct {
 	// name looked up by PU.
 	NameLookup *string `json:"nameLookup,omitempty" msgpack:"nameLookup,omitempty" bson:"-" mapstructure:"nameLookup,omitempty"`
 
+	// Namespace of the enforcer.
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// ID of the PU.
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+
+	// Namespace of the PU.
+	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+
 	// Result reports whether dns request succeeded or failed.
 	Result *bool `json:"result,omitempty" msgpack:"result,omitempty" bson:"-" mapstructure:"result,omitempty"`
-
-	// ID of the source.
-	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"-" mapstructure:"sourceID,omitempty"`
 
 	// Type of the source.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
 
-	// Namespace of the source.
-	SourceNamespace *string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
-
 	// Time and date of the log.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	// Number of times the client saw this activity.
+	Value *int `json:"value,omitempty" msgpack:"value,omitempty" bson:"-" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -600,8 +678,8 @@ func (o *SparseDNSReport) Version() int {
 func (o *SparseDNSReport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewDNSReport()
-	if o.Count != nil {
-		out.Count = *o.Count
+	if o.EnforcerID != nil {
+		out.EnforcerID = *o.EnforcerID
 	}
 	if o.Error != nil {
 		out.Error = *o.Error
@@ -609,20 +687,26 @@ func (o *SparseDNSReport) ToPlain() elemental.PlainIdentifiable {
 	if o.NameLookup != nil {
 		out.NameLookup = *o.NameLookup
 	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.ProcessingUnitID != nil {
+		out.ProcessingUnitID = *o.ProcessingUnitID
+	}
+	if o.ProcessingUnitNamespace != nil {
+		out.ProcessingUnitNamespace = *o.ProcessingUnitNamespace
+	}
 	if o.Result != nil {
 		out.Result = *o.Result
-	}
-	if o.SourceID != nil {
-		out.SourceID = *o.SourceID
 	}
 	if o.SourceIP != nil {
 		out.SourceIP = *o.SourceIP
 	}
-	if o.SourceNamespace != nil {
-		out.SourceNamespace = *o.SourceNamespace
-	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp
+	}
+	if o.Value != nil {
+		out.Value = *o.Value
 	}
 
 	return out

@@ -7863,19 +7863,21 @@ Post a new dns request report.
 
 ```json
 {
-  "count": 1,
   "nameLookup": "www.google.com",
+  "namespace": "/my/namespace",
+  "processingUnitID": "xxx-xxx-xxx",
+  "processingUnitNamespace": "/my/namespace",
   "result": true,
-  "sourceID": "xxx-xxx-xxx",
-  "sourceNamespace": "/my/namespace"
+  "sourceIP": "10.0.0.1",
+  "value": 1
 }
 ```
 
 #### Attributes
 
-##### `count` `integer` [`required`]
+##### `enforcerID` `string`
 
-Number of times the client saw this activity.
+ID of the enforcer.
 
 ##### `error` `string`
 
@@ -7885,25 +7887,33 @@ If the result is false, error reports the reason of the dns failure.
 
 name looked up by PU.
 
+##### `namespace` `string` [`required`]
+
+Namespace of the enforcer.
+
+##### `processingUnitID` `string` [`required`]
+
+ID of the PU.
+
+##### `processingUnitNamespace` `string` [`required`]
+
+Namespace of the PU.
+
 ##### `result` `boolean` [`required`]
 
 Result reports whether dns request succeeded or failed.
 
-##### `sourceID` `string` [`required`]
-
-ID of the source.
-
-##### `sourceIP` `string`
+##### `sourceIP` `string` [`required`]
 
 Type of the source.
-
-##### `sourceNamespace` `string`
-
-Namespace of the source.
 
 ##### `timestamp` `time`
 
 Time and date of the log.
+
+##### `value` `integer` [`required`]
+
+Number of times the client saw this activity.
 
 ### ExternalNetwork
 
