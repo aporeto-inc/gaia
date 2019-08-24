@@ -37,6 +37,7 @@ attributes:
     required: true
     creation_only: true
     example_value: AKIAIOSFODNN7EXAMPLE
+    encrypted: true
 
   - name: accessToken
     description: |-
@@ -45,6 +46,7 @@ attributes:
     type: string
     exposed: true
     creation_only: true
+    encrypted: true
 
   - name: accountID
     description: Contains your verified account ID.
@@ -94,3 +96,4 @@ attributes:
     required: true
     creation_only: true
     example_value: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+    encrypted: true
