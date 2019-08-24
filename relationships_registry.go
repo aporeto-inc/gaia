@@ -760,7 +760,11 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[DNSReportIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[DNSReportIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
 
 	relationshipsRegistry[DataPathCertificateIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{

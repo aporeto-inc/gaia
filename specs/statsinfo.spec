@@ -33,6 +33,7 @@ attributes:
     - Counters
     - Accesses
     - Packets
+    - DNSLookups
     default_value: Flows
 
   - name: tags
