@@ -788,7 +788,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 func (o *Service) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.TLSCertificateKey, err = encrypter.EncryptString(o.TLSCertificateKey); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'TLSCertificateKey': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'TLSCertificateKey' for 'Service' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -798,7 +798,7 @@ func (o *Service) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err
 func (o *Service) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.TLSCertificateKey, err = encrypter.DecryptString(o.TLSCertificateKey); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'TLSCertificateKey': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'TLSCertificateKey' for 'Service' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -2805,7 +2805,7 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 func (o *SparseService) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.TLSCertificateKey, err = encrypter.EncryptString(*o.TLSCertificateKey); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'TLSCertificateKey': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'TLSCertificateKey' for 'SparseService' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -2815,7 +2815,7 @@ func (o *SparseService) EncryptAttributes(encrypter elemental.AttributeEncrypter
 func (o *SparseService) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.TLSCertificateKey, err = encrypter.DecryptString(*o.TLSCertificateKey); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'TLSCertificateKey': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'TLSCertificateKey' for 'SparseService' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil

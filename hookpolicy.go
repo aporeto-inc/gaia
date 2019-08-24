@@ -553,7 +553,7 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 func (o *HookPolicy) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.ClientCertificateKey, err = encrypter.EncryptString(o.ClientCertificateKey); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'ClientCertificateKey': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'ClientCertificateKey' for 'HookPolicy' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -563,7 +563,7 @@ func (o *HookPolicy) EncryptAttributes(encrypter elemental.AttributeEncrypter) (
 func (o *HookPolicy) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.ClientCertificateKey, err = encrypter.DecryptString(o.ClientCertificateKey); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'ClientCertificateKey': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'ClientCertificateKey' for 'HookPolicy' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -1729,7 +1729,7 @@ func (o *SparseHookPolicy) ToPlain() elemental.PlainIdentifiable {
 func (o *SparseHookPolicy) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.ClientCertificateKey, err = encrypter.EncryptString(*o.ClientCertificateKey); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'ClientCertificateKey': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'ClientCertificateKey' for 'SparseHookPolicy' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -1739,7 +1739,7 @@ func (o *SparseHookPolicy) EncryptAttributes(encrypter elemental.AttributeEncryp
 func (o *SparseHookPolicy) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.ClientCertificateKey, err = encrypter.DecryptString(*o.ClientCertificateKey); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'ClientCertificateKey': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'ClientCertificateKey' for 'SparseHookPolicy' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil

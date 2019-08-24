@@ -467,7 +467,7 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 func (o *OIDCProvider) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.ClientSecret, err = encrypter.EncryptString(o.ClientSecret); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'ClientSecret': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'ClientSecret' for 'OIDCProvider' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -477,7 +477,7 @@ func (o *OIDCProvider) EncryptAttributes(encrypter elemental.AttributeEncrypter)
 func (o *OIDCProvider) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.ClientSecret, err = encrypter.DecryptString(o.ClientSecret); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'ClientSecret': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'ClientSecret' for 'OIDCProvider' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -1500,7 +1500,7 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 func (o *SparseOIDCProvider) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.ClientSecret, err = encrypter.EncryptString(*o.ClientSecret); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'ClientSecret': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'ClientSecret' for 'SparseOIDCProvider' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -1510,7 +1510,7 @@ func (o *SparseOIDCProvider) EncryptAttributes(encrypter elemental.AttributeEncr
 func (o *SparseOIDCProvider) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.ClientSecret, err = encrypter.DecryptString(*o.ClientSecret); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'ClientSecret': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'ClientSecret' for 'SparseOIDCProvider' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil

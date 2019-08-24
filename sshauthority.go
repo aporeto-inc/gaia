@@ -311,7 +311,7 @@ func (o *SSHAuthority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 func (o *SSHAuthority) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.PrivateKey, err = encrypter.EncryptString(o.PrivateKey); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'PrivateKey': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'PrivateKey' for 'SSHAuthority' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -321,7 +321,7 @@ func (o *SSHAuthority) EncryptAttributes(encrypter elemental.AttributeEncrypter)
 func (o *SSHAuthority) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.PrivateKey, err = encrypter.DecryptString(o.PrivateKey); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'PrivateKey': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'PrivateKey' for 'SSHAuthority' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -904,7 +904,7 @@ func (o *SparseSSHAuthority) ToPlain() elemental.PlainIdentifiable {
 func (o *SparseSSHAuthority) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.PrivateKey, err = encrypter.EncryptString(*o.PrivateKey); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'PrivateKey': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'PrivateKey' for 'SparseSSHAuthority' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -914,7 +914,7 @@ func (o *SparseSSHAuthority) EncryptAttributes(encrypter elemental.AttributeEncr
 func (o *SparseSSHAuthority) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.PrivateKey, err = encrypter.DecryptString(*o.PrivateKey); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'PrivateKey': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'PrivateKey' for 'SparseSSHAuthority' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil

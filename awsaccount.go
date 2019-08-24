@@ -306,13 +306,13 @@ func (o *AWSAccount) ToSparse(fields ...string) elemental.SparseIdentifiable {
 func (o *AWSAccount) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.AccessKeyID, err = encrypter.EncryptString(o.AccessKeyID); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'AccessKeyID': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'AccessKeyID' for 'AWSAccount' (%s): %s", o.Identifier(), err)
 	}
 	if o.AccessToken, err = encrypter.EncryptString(o.AccessToken); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'AccessToken': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'AccessToken' for 'AWSAccount' (%s): %s", o.Identifier(), err)
 	}
 	if o.SecretAccessKey, err = encrypter.EncryptString(o.SecretAccessKey); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'SecretAccessKey': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'SecretAccessKey' for 'AWSAccount' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -322,13 +322,13 @@ func (o *AWSAccount) EncryptAttributes(encrypter elemental.AttributeEncrypter) (
 func (o *AWSAccount) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.AccessKeyID, err = encrypter.DecryptString(o.AccessKeyID); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'AccessKeyID': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'AccessKeyID' for 'AWSAccount' (%s): %s", o.Identifier(), err)
 	}
 	if o.AccessToken, err = encrypter.DecryptString(o.AccessToken); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'AccessToken': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'AccessToken' for 'AWSAccount' (%s): %s", o.Identifier(), err)
 	}
 	if o.SecretAccessKey, err = encrypter.DecryptString(o.SecretAccessKey); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'SecretAccessKey': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'SecretAccessKey' for 'AWSAccount' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -1019,13 +1019,13 @@ func (o *SparseAWSAccount) ToPlain() elemental.PlainIdentifiable {
 func (o *SparseAWSAccount) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.AccessKeyID, err = encrypter.EncryptString(*o.AccessKeyID); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'AccessKeyID': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'AccessKeyID' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
 	}
 	if *o.AccessToken, err = encrypter.EncryptString(*o.AccessToken); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'AccessToken': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'AccessToken' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
 	}
 	if *o.SecretAccessKey, err = encrypter.EncryptString(*o.SecretAccessKey); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'SecretAccessKey': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'SecretAccessKey' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -1035,13 +1035,13 @@ func (o *SparseAWSAccount) EncryptAttributes(encrypter elemental.AttributeEncryp
 func (o *SparseAWSAccount) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.AccessKeyID, err = encrypter.DecryptString(*o.AccessKeyID); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'AccessKeyID': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'AccessKeyID' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
 	}
 	if *o.AccessToken, err = encrypter.DecryptString(*o.AccessToken); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'AccessToken': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'AccessToken' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
 	}
 	if *o.SecretAccessKey, err = encrypter.DecryptString(*o.SecretAccessKey); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'SecretAccessKey': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'SecretAccessKey' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil

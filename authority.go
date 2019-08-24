@@ -289,7 +289,7 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 func (o *Authority) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.Key, err = encrypter.EncryptString(o.Key); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'Key': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'Key' for 'Authority' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -299,7 +299,7 @@ func (o *Authority) EncryptAttributes(encrypter elemental.AttributeEncrypter) (e
 func (o *Authority) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if o.Key, err = encrypter.DecryptString(o.Key); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'Key': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'Key' for 'Authority' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -889,7 +889,7 @@ func (o *SparseAuthority) ToPlain() elemental.PlainIdentifiable {
 func (o *SparseAuthority) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.Key, err = encrypter.EncryptString(*o.Key); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'Key': %s", err)
+		return fmt.Errorf("unable to encrypt attribute 'Key' for 'SparseAuthority' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
@@ -899,7 +899,7 @@ func (o *SparseAuthority) EncryptAttributes(encrypter elemental.AttributeEncrypt
 func (o *SparseAuthority) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
 	if *o.Key, err = encrypter.DecryptString(*o.Key); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'Key': %s", err)
+		return fmt.Errorf("unable to decrypt attribute 'Key' for 'SparseAuthority' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
