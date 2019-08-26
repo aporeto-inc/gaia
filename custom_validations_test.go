@@ -245,6 +245,34 @@ func TestValidateServicePorts(t *testing.T) {
 			true,
 		},
 		{
+			"serviceports with all",
+			args{
+				[]string{"all"},
+			},
+			false,
+		},
+		{
+			"serviceports with ALL",
+			args{
+				[]string{"ALL"},
+			},
+			false,
+		},
+		{
+			"serviceports with all and other protocol",
+			args{
+				[]string{"ALL", "TCP/80"},
+			},
+			true,
+		},
+		{
+			"empty string serviceports",
+			args{
+				[]string{""},
+			},
+			true,
+		},
+		{
 			"empty serviceports",
 			args{
 				[]string{},

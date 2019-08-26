@@ -523,6 +523,10 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 // ValidateServicePorts validates a list of serviceports.
 func ValidateServicePorts(attribute string, servicePorts []string) error {
 
+	if servicePortsHasProtocolAll(servicePorts) && len(servicePorts) != 1 {
+		return makeValidationError(attribute, fmt.Sprintf("all cannot be used with other protocols"))
+	}
+
 	for _, servicePort := range servicePorts {
 		if err := ValidateServicePort(attribute, servicePort); err != nil {
 			return err
@@ -537,7 +541,7 @@ func ValidateServicePort(attribute string, servicePort string) error {
 
 	parts := strings.SplitN(servicePort, "/", 2)
 	upperProto := strings.ToUpper(parts[0])
-	if protocols.L4ProtocolNumberFromName(upperProto) == -1 {
+	if protocols.L4ProtocolNumberFromName(upperProto) == -1 && upperProto != protocols.ALL {
 		return makeValidationError(attribute, fmt.Sprintf("'%s' is not a valid protocol", upperProto))
 	}
 
@@ -554,6 +558,17 @@ func ValidateServicePort(attribute string, servicePort string) error {
 
 	ports := parts[1]
 	return ValidatePortString(attribute, ports)
+}
+
+func servicePortsHasProtocolAll(servicePorts []string) bool {
+
+	for _, servicePort := range servicePorts {
+		if strings.ToUpper(servicePort) == protocols.ALL {
+			return true
+		}
+	}
+
+	return false
 }
 
 // ValidateAudience validates an audience string.
