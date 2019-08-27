@@ -56,6 +56,7 @@ datapath
 DataPathCertificate
 DependencyMap
 depmaps
+dns
 DNSReport
 Docker
 e.g.
