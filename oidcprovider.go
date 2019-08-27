@@ -463,6 +463,26 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *OIDCProvider) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.ClientSecret, err = encrypter.EncryptString(o.ClientSecret); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'ClientSecret' for 'OIDCProvider' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *OIDCProvider) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.ClientSecret, err = encrypter.DecryptString(o.ClientSecret); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'ClientSecret' for 'OIDCProvider' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
 // Patch apply the non nil value of a *SparseOIDCProvider to the object.
 func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
@@ -729,6 +749,7 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientSecret",
 		Description:    `Client secret associated with the client ID.`,
+		Encrypted:      true,
 		Exposed:        true,
 		Name:           "clientSecret",
 		Required:       true,
@@ -1006,6 +1027,7 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientSecret",
 		Description:    `Client secret associated with the client ID.`,
+		Encrypted:      true,
 		Exposed:        true,
 		Name:           "clientSecret",
 		Required:       true,
@@ -1472,6 +1494,26 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *SparseOIDCProvider) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.ClientSecret, err = encrypter.EncryptString(*o.ClientSecret); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'ClientSecret' for 'SparseOIDCProvider' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *SparseOIDCProvider) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.ClientSecret, err = encrypter.DecryptString(*o.ClientSecret); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'ClientSecret' for 'SparseOIDCProvider' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
 }
 
 // GetAnnotations returns the Annotations of the receiver.
