@@ -223,6 +223,14 @@ func TestValidateNetwork(t *testing.T) {
 			},
 			false,
 		},
+		{
+			"valid DNS name",
+			args{
+				"cidr",
+				"*.google.com",
+			},
+			false,
+		},
 
 		// invalid CIDR
 		{
@@ -1133,34 +1141,6 @@ func TestValidateProtoPorts(t *testing.T) {
 			}
 		})
 	}
-}
-
-func Test_FQDNWildcard(t *testing.T) {
-	type args struct {
-		name string
-	}
-	tests := []struct {
-		name      string
-		args      args
-		wantValue bool
-	}{
-		{
-			"valid fqdn",
-			args{
-				"*.google.com",
-			},
-			true,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if isFQDN(tt.args.name) != tt.wantValue {
-				t.Errorf("isFQDN() failed at test: %s", tt.name)
-			}
-		})
-	}
-
 }
 
 func Test_isFQDN(t *testing.T) {
