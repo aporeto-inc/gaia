@@ -11,9 +11,6 @@ import (
 type IssueRealmValue string
 
 const (
-	// IssueRealmAWSIdentityDocument represents the value AWSIdentityDocument.
-	IssueRealmAWSIdentityDocument IssueRealmValue = "AWSIdentityDocument"
-
 	// IssueRealmAWSSecurityToken represents the value AWSSecurityToken.
 	IssueRealmAWSSecurityToken IssueRealmValue = "AWSSecurityToken"
 
@@ -320,7 +317,7 @@ func (o *Issue) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML"}, false); err != nil {
+	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -434,7 +431,7 @@ for further information.`,
 		Type:           "integer",
 	},
 	"Realm": elemental.AttributeSpecification{
-		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML"},
+		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML"},
 		ConvertedName:  "Realm",
 		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
 ` + "`" + `Certificate` + "`" + `,
@@ -520,7 +517,7 @@ for further information.`,
 		Type:           "integer",
 	},
 	"realm": elemental.AttributeSpecification{
-		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML"},
+		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML"},
 		ConvertedName:  "Realm",
 		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
 ` + "`" + `Certificate` + "`" + `,
