@@ -1515,3 +1515,89 @@ func TestValidateSAMLProvider(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
+	type args struct {
+		attribute string
+		subject   [][]string
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantErr       bool
+		wantErrString string
+	}{
+		{
+			"valid subject",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=certificate", "@auth:claim=a"},
+					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			false,
+			"",
+		},
+		{
+			"missing realm claim",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=certificate", "@auth:claim=a"},
+					[]string{"@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Subject line 2 must contain the '@auth:realm' key",
+		},
+		{
+			"2 realm claims",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=certificate", "@auth:claim=a", "@auth:realm=vince"},
+					[]string{"@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Subject line 1 must contain only one '@auth:realm' key",
+		},
+		{
+			"single claim line",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=certificate", "@auth:claim=a"},
+					[]string{"@auth:realm=certificate"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Subject and line should contain at least 2 claims",
+		},
+		{
+			"missing auth prefix claim",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=certificate", "@auth:claim=a"},
+					[]string{"@auth:claim=a", "@auth:claim=b", "not:good"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Subject claims 'not:good' on line 2 must be prefixed by '@auth:'",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := ValidateAPIAuthorizationPolicySubject(tt.args.attribute, tt.args.subject)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ValidateAPIAuthorizationPolicySubject() error = %v, wantErr %v", err, tt.wantErr)
+			}
+
+			if err != nil && err.Error() != tt.wantErrString {
+				t.Errorf("ValidateAPIAuthorizationPolicySubject() error = '%v', wantErrString = '%v'", err, tt.wantErrString)
+			}
+		})
+	}
+}
