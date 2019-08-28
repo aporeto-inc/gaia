@@ -302,6 +302,38 @@ func (o *AWSAccount) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *AWSAccount) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.AccessKeyID, err = encrypter.EncryptString(o.AccessKeyID); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AccessKeyID' for 'AWSAccount' (%s): %s", o.Identifier(), err)
+	}
+	if o.AccessToken, err = encrypter.EncryptString(o.AccessToken); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AccessToken' for 'AWSAccount' (%s): %s", o.Identifier(), err)
+	}
+	if o.SecretAccessKey, err = encrypter.EncryptString(o.SecretAccessKey); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'SecretAccessKey' for 'AWSAccount' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *AWSAccount) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.AccessKeyID, err = encrypter.DecryptString(o.AccessKeyID); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AccessKeyID' for 'AWSAccount' (%s): %s", o.Identifier(), err)
+	}
+	if o.AccessToken, err = encrypter.DecryptString(o.AccessToken); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AccessToken' for 'AWSAccount' (%s): %s", o.Identifier(), err)
+	}
+	if o.SecretAccessKey, err = encrypter.DecryptString(o.SecretAccessKey); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'SecretAccessKey' for 'AWSAccount' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
 // Patch apply the non nil value of a *SparseAWSAccount to the object.
 func (o *AWSAccount) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
@@ -479,10 +511,11 @@ var AWSAccountAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description: `Contains the AWS access key ID. Aporeto uses this just to retrieve your
 account ID and does not store the value.`,
-		Exposed:  true,
-		Name:     "accessKeyID",
-		Required: true,
-		Type:     "string",
+		Encrypted: true,
+		Exposed:   true,
+		Name:      "accessKeyID",
+		Required:  true,
+		Type:      "string",
 	},
 	"AccessToken": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -490,9 +523,10 @@ account ID and does not store the value.`,
 		CreationOnly:   true,
 		Description: `Contains your AWS access token. Aporeto uses this just to retrieve your
 account ID and does not store the value.`,
-		Exposed: true,
-		Name:    "accessToken",
-		Type:    "string",
+		Encrypted: true,
+		Exposed:   true,
+		Name:      "accessToken",
+		Type:      "string",
 	},
 	"AccountID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -575,10 +609,11 @@ account ID and does not store the value.`,
 		CreationOnly:   true,
 		Description: `Contains the AWS secret access key. Aporeto uses this just to retrieve your
 account ID and does not store the value.`,
-		Exposed:  true,
-		Name:     "secretAccessKey",
-		Required: true,
-		Type:     "string",
+		Encrypted: true,
+		Exposed:   true,
+		Name:      "secretAccessKey",
+		Required:  true,
+		Type:      "string",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -645,10 +680,11 @@ var AWSAccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		CreationOnly:   true,
 		Description: `Contains the AWS access key ID. Aporeto uses this just to retrieve your
 account ID and does not store the value.`,
-		Exposed:  true,
-		Name:     "accessKeyID",
-		Required: true,
-		Type:     "string",
+		Encrypted: true,
+		Exposed:   true,
+		Name:      "accessKeyID",
+		Required:  true,
+		Type:      "string",
 	},
 	"accesstoken": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -656,9 +692,10 @@ account ID and does not store the value.`,
 		CreationOnly:   true,
 		Description: `Contains your AWS access token. Aporeto uses this just to retrieve your
 account ID and does not store the value.`,
-		Exposed: true,
-		Name:    "accessToken",
-		Type:    "string",
+		Encrypted: true,
+		Exposed:   true,
+		Name:      "accessToken",
+		Type:      "string",
 	},
 	"accountid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -741,10 +778,11 @@ account ID and does not store the value.`,
 		CreationOnly:   true,
 		Description: `Contains the AWS secret access key. Aporeto uses this just to retrieve your
 account ID and does not store the value.`,
-		Exposed:  true,
-		Name:     "secretAccessKey",
-		Required: true,
-		Type:     "string",
+		Encrypted: true,
+		Exposed:   true,
+		Name:      "secretAccessKey",
+		Required:  true,
+		Type:      "string",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -975,6 +1013,38 @@ func (o *SparseAWSAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *SparseAWSAccount) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.AccessKeyID, err = encrypter.EncryptString(*o.AccessKeyID); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AccessKeyID' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
+	}
+	if *o.AccessToken, err = encrypter.EncryptString(*o.AccessToken); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AccessToken' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
+	}
+	if *o.SecretAccessKey, err = encrypter.EncryptString(*o.SecretAccessKey); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'SecretAccessKey' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *SparseAWSAccount) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.AccessKeyID, err = encrypter.DecryptString(*o.AccessKeyID); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AccessKeyID' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
+	}
+	if *o.AccessToken, err = encrypter.DecryptString(*o.AccessToken); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AccessToken' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
+	}
+	if *o.SecretAccessKey, err = encrypter.DecryptString(*o.SecretAccessKey); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'SecretAccessKey' for 'SparseAWSAccount' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
 }
 
 // GetCreateTime returns the CreateTime of the receiver.

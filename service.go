@@ -784,6 +784,26 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *Service) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.TLSCertificateKey, err = encrypter.EncryptString(o.TLSCertificateKey); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'TLSCertificateKey' for 'Service' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *Service) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.TLSCertificateKey, err = encrypter.DecryptString(o.TLSCertificateKey); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'TLSCertificateKey' for 'Service' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
 // Patch apply the non nil value of a *SparseService to the object.
 func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
@@ -1293,10 +1313,11 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Description: `PEM-encoded certificate key associated with ` + "`" + `TLSCertificate` + "`" + `. Only has effect
 and
 required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
-		Exposed: true,
-		Name:    "TLSCertificateKey",
-		Stored:  true,
-		Type:    "string",
+		Encrypted: true,
+		Exposed:   true,
+		Name:      "TLSCertificateKey",
+		Stored:    true,
+		Type:      "string",
 	},
 	"TLSType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External", "None"},
@@ -1871,10 +1892,11 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Description: `PEM-encoded certificate key associated with ` + "`" + `TLSCertificate` + "`" + `. Only has effect
 and
 required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
-		Exposed: true,
-		Name:    "TLSCertificateKey",
-		Stored:  true,
-		Type:    "string",
+		Encrypted: true,
+		Exposed:   true,
+		Name:      "TLSCertificateKey",
+		Stored:    true,
+		Type:      "string",
 	},
 	"tlstype": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External", "None"},
@@ -2777,6 +2799,26 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *SparseService) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.TLSCertificateKey, err = encrypter.EncryptString(*o.TLSCertificateKey); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'TLSCertificateKey' for 'SparseService' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *SparseService) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.TLSCertificateKey, err = encrypter.DecryptString(*o.TLSCertificateKey); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'TLSCertificateKey' for 'SparseService' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
 }
 
 // GetAnnotations returns the Annotations of the receiver.

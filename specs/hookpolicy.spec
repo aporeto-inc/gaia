@@ -103,6 +103,7 @@ attributes:
     orderable: true
     secret: true
     transient: true
+    encrypted: true
     validations:
     - $pem
 

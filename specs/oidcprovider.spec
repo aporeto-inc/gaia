@@ -44,6 +44,7 @@ attributes:
     stored: true
     required: true
     example_value: Ytgbfjtj4652jHDFGls99jF
+    encrypted: true
 
   - name: default
     description: |-
