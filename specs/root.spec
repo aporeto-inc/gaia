@@ -304,6 +304,21 @@ relations:
   create:
     description: Create a flow statistics report.
 
+- rest_name: graphedge
+  get:
+    description: Retrieves the graph edges.
+    global_parameters:
+    - $timewindow
+    - $filtering
+
+- rest_name: graphnode
+  get:
+    description: Retrieves the pu nodes.
+    global_parameters:
+    - $timewindow
+    - $archivable
+    - $filtering
+
 - rest_name: hookpolicy
   get:
     description: Retrieves the list of hooks.
@@ -423,7 +438,7 @@ relations:
 
 - rest_name: ldapprovider
   get:
-    description: Retrieves the list of the account LDAP providers.
+    description: Retrieves the list of the namespace LDAP providers.
     global_parameters:
     - $filtering
   create:
@@ -538,14 +553,6 @@ relations:
   create:
     description: Creates a new processing unit policy.
 
-- rest_name: punode
-  get:
-    description: Retrieves the pu nodes.
-    global_parameters:
-    - $timewindow
-    - $archivable
-    - $filtering
-
 - rest_name: quotacheck
   create:
     description: Verifies if the quota is exceeded for a particular object.
@@ -608,6 +615,14 @@ relations:
 - rest_name: role
   get:
     description: Retrieves the list of existing roles.
+
+- rest_name: samlprovider
+  get:
+    description: Retrieves the list of the namespace SAML providers.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new LDAP provider.
 
 - rest_name: search
   get:

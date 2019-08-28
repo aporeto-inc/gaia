@@ -144,6 +144,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    encrypted: true
 
   - name: TLSType
     description: |-

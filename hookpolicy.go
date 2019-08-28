@@ -114,7 +114,8 @@ type HookPolicy struct {
 	// certificate must also be configured.
 	ClientCertificate string `json:"clientCertificate" msgpack:"clientCertificate" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
 
-	// Contains the key associated with the `clientCertificate`. It must be provided only
+	// Contains the key associated with the `clientCertificate`. It must be provided
+	// only
 	// when `clientCertificate` has been configured.
 	ClientCertificateKey string `json:"clientCertificateKey" msgpack:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
@@ -548,6 +549,26 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *HookPolicy) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.ClientCertificateKey, err = encrypter.EncryptString(o.ClientCertificateKey); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'ClientCertificateKey' for 'HookPolicy' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *HookPolicy) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.ClientCertificateKey, err = encrypter.DecryptString(o.ClientCertificateKey); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'ClientCertificateKey' for 'HookPolicy' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
 // Patch apply the non nil value of a *SparseHookPolicy to the object.
 func (o *HookPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
@@ -855,8 +876,10 @@ certificate must also be configured.`,
 	"ClientCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided only
+		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided
+only
 when ` + "`" + `clientCertificate` + "`" + ` has been configured.`,
+		Encrypted: true,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
 		Orderable: true,
@@ -1175,8 +1198,10 @@ certificate must also be configured.`,
 	"clientcertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided only
+		Description: `Contains the key associated with the ` + "`" + `clientCertificate` + "`" + `. It must be provided
+only
 when ` + "`" + `clientCertificate` + "`" + ` has been configured.`,
+		Encrypted: true,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
 		Orderable: true,
@@ -1514,7 +1539,8 @@ type SparseHookPolicy struct {
 	// certificate must also be configured.
 	ClientCertificate *string `json:"clientCertificate,omitempty" msgpack:"clientCertificate,omitempty" bson:"clientcertificate,omitempty" mapstructure:"clientCertificate,omitempty"`
 
-	// Contains the key associated with the `clientCertificate`. It must be provided only
+	// Contains the key associated with the `clientCertificate`. It must be provided
+	// only
 	// when `clientCertificate` has been configured.
 	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" msgpack:"clientCertificateKey,omitempty" bson:"clientcertificatekey,omitempty" mapstructure:"clientCertificateKey,omitempty"`
 
@@ -1697,6 +1723,26 @@ func (o *SparseHookPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *SparseHookPolicy) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.ClientCertificateKey, err = encrypter.EncryptString(*o.ClientCertificateKey); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'ClientCertificateKey' for 'SparseHookPolicy' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *SparseHookPolicy) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.ClientCertificateKey, err = encrypter.DecryptString(*o.ClientCertificateKey); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'ClientCertificateKey' for 'SparseHookPolicy' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
 }
 
 // GetAnnotations returns the Annotations of the receiver.

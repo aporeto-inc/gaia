@@ -50,6 +50,8 @@ indexes:
   - archived
   - createTime
   - lastPokeTime
+- - namespace
+  - nativeContextID
 
 # Attributes
 attributes:

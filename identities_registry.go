@@ -48,7 +48,9 @@ var (
 		"fileaccessreport":             FileAccessReportIdentity,
 		"filepath":                     FilePathIdentity,
 		"flowreport":                   FlowReportIdentity,
+		"graphedge":                    GraphEdgeIdentity,
 
+		"graphnode":                GraphNodeIdentity,
 		"hookpolicy":               HookPolicyIdentity,
 		"hostservice":              HostServiceIdentity,
 		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
@@ -85,12 +87,10 @@ var (
 		"policyrenderer":        PolicyRendererIdentity,
 		"policyrule":            PolicyRuleIdentity,
 		"policyttl":             PolicyTTLIdentity,
-		"privatekey":            PrivateKeyIdentity,
 		"processingunit":        ProcessingUnitIdentity,
 		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
 		"processingunitrefresh": ProcessingUnitRefreshIdentity,
 
-		"punode":      PUNodeIdentity,
 		"quotacheck":  QuotaCheckIdentity,
 		"quotapolicy": QuotaPolicyIdentity,
 		"recipe":      RecipeIdentity,
@@ -102,6 +102,7 @@ var (
 		"revocation":             RevocationIdentity,
 		"role":                   RoleIdentity,
 		"root":                   RootIdentity,
+		"samlprovider":           SAMLProviderIdentity,
 		"search":                 SearchIdentity,
 		"service":                ServiceIdentity,
 		"servicedependency":      ServiceDependencyIdentity,
@@ -177,7 +178,9 @@ var (
 		"fileaccessreports":              FileAccessReportIdentity,
 		"filepaths":                      FilePathIdentity,
 		"flowreports":                    FlowReportIdentity,
+		"graphedges":                     GraphEdgeIdentity,
 
+		"graphnodes":                 GraphNodeIdentity,
 		"hookpolicies":               HookPolicyIdentity,
 		"hostservices":               HostServiceIdentity,
 		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
@@ -214,12 +217,10 @@ var (
 		"policyrenderers":        PolicyRendererIdentity,
 		"policyrules":            PolicyRuleIdentity,
 		"policyttls":             PolicyTTLIdentity,
-		"privatekeys":            PrivateKeyIdentity,
 		"processingunits":        ProcessingUnitIdentity,
 		"processingunitpolicies": ProcessingUnitPolicyIdentity,
 		"processingunitrefreshs": ProcessingUnitRefreshIdentity,
 
-		"punodes":       PUNodeIdentity,
 		"quotacheck":    QuotaCheckIdentity,
 		"quotapolicies": QuotaPolicyIdentity,
 		"recipes":       RecipeIdentity,
@@ -231,6 +232,7 @@ var (
 		"revocations":              RevocationIdentity,
 		"roles":                    RoleIdentity,
 		"root":                     RootIdentity,
+		"samlproviders":            SAMLProviderIdentity,
 		"search":                   SearchIdentity,
 		"services":                 ServiceIdentity,
 		"servicedependencies":      ServiceDependencyIdentity,
@@ -462,8 +464,10 @@ var (
 		"enforcer": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "machineID"},
 			[]string{"namespace", "name"},
 			[]string{"namespace"},
+			[]string{"namespace", "operationalStatus"},
 			[]string{"namespace", "normalizedTags"},
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
@@ -510,6 +514,15 @@ var (
 			[]string{"archived"},
 		},
 		"flowreport": nil,
+		"graphedge": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "lastSeen", "firstSeen"},
+			[]string{"lastSeen", "firstSeen"},
+			[]string{"lastSeen"},
+			[]string{"firstSeen"},
+			[]string{":shard", ":unique", "zone", "zHash"},
+		},
+		"graphnode":  nil,
 		"hookpolicy": nil,
 		"hostservice": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -648,24 +661,23 @@ var (
 		"policyrenderer": nil,
 		"policyrule":     nil,
 		"policyttl":      nil,
-		"privatekey":     nil,
 		"processingunit": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "name"},
+			[]string{"namespace", "nativeContextID"},
 			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "archived"},
 			[]string{"namespace", "operationalStatus", "archived"},
+			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags", "archived"},
-			[]string{"namespace"},
 			[]string{"namespace", "archived", "createTime", "lastPokeTime"},
+			[]string{"namespace"},
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"namespace", "archived"},
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 			[]string{"archived"},
 		},
 		"processingunitpolicy":  nil,
 		"processingunitrefresh": nil,
-		"punode":                nil,
 		"quotacheck":            nil,
 		"quotapolicy":           nil,
 		"recipe": [][]string{
@@ -685,8 +697,17 @@ var (
 		"revocation": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 		},
-		"role":   nil,
-		"root":   nil,
+		"role": nil,
+		"root": nil,
+		"samlprovider": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+		},
 		"search": nil,
 		"service": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -867,6 +888,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFilePath()
 	case FlowReportIdentity:
 		return NewFlowReport()
+	case GraphEdgeIdentity:
+		return NewGraphEdge()
+	case GraphNodeIdentity:
+		return NewGraphNode()
 	case HookPolicyIdentity:
 		return NewHookPolicy()
 	case HostServiceIdentity:
@@ -935,16 +960,12 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPolicyRule()
 	case PolicyTTLIdentity:
 		return NewPolicyTTL()
-	case PrivateKeyIdentity:
-		return NewPrivateKey()
 	case ProcessingUnitIdentity:
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewProcessingUnitPolicy()
 	case ProcessingUnitRefreshIdentity:
 		return NewProcessingUnitRefresh()
-	case PUNodeIdentity:
-		return NewPUNode()
 	case QuotaCheckIdentity:
 		return NewQuotaCheck()
 	case QuotaPolicyIdentity:
@@ -965,6 +986,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRole()
 	case RootIdentity:
 		return NewRoot()
+	case SAMLProviderIdentity:
+		return NewSAMLProvider()
 	case SearchIdentity:
 		return NewSearch()
 	case ServiceIdentity:
@@ -1104,6 +1127,10 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseFilePath()
 	case FlowReportIdentity:
 		return NewSparseFlowReport()
+	case GraphEdgeIdentity:
+		return NewSparseGraphEdge()
+	case GraphNodeIdentity:
+		return NewSparseGraphNode()
 	case HookPolicyIdentity:
 		return NewSparseHookPolicy()
 	case HostServiceIdentity:
@@ -1172,16 +1199,12 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePolicyRule()
 	case PolicyTTLIdentity:
 		return NewSparsePolicyTTL()
-	case PrivateKeyIdentity:
-		return NewSparsePrivateKey()
 	case ProcessingUnitIdentity:
 		return NewSparseProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewSparseProcessingUnitPolicy()
 	case ProcessingUnitRefreshIdentity:
 		return NewSparseProcessingUnitRefresh()
-	case PUNodeIdentity:
-		return NewSparsePUNode()
 	case QuotaCheckIdentity:
 		return NewSparseQuotaCheck()
 	case QuotaPolicyIdentity:
@@ -1200,6 +1223,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRevocation()
 	case RoleIdentity:
 		return NewSparseRole()
+	case SAMLProviderIdentity:
+		return NewSparseSAMLProvider()
 	case SearchIdentity:
 		return NewSparseSearch()
 	case ServiceIdentity:
@@ -1349,6 +1374,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FilePathsList{}
 	case FlowReportIdentity:
 		return &FlowReportsList{}
+	case GraphEdgeIdentity:
+		return &GraphEdgesList{}
+	case GraphNodeIdentity:
+		return &GraphNodesList{}
 	case HookPolicyIdentity:
 		return &HookPoliciesList{}
 	case HostServiceIdentity:
@@ -1417,16 +1446,12 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PolicyRulesList{}
 	case PolicyTTLIdentity:
 		return &PolicyTTLsList{}
-	case PrivateKeyIdentity:
-		return &PrivateKeysList{}
 	case ProcessingUnitIdentity:
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &ProcessingUnitPoliciesList{}
 	case ProcessingUnitRefreshIdentity:
 		return &ProcessingUnitRefreshsList{}
-	case PUNodeIdentity:
-		return &PUNodesList{}
 	case QuotaCheckIdentity:
 		return &QuotaChecksList{}
 	case QuotaPolicyIdentity:
@@ -1445,6 +1470,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RevocationsList{}
 	case RoleIdentity:
 		return &RolesList{}
+	case SAMLProviderIdentity:
+		return &SAMLProvidersList{}
 	case SearchIdentity:
 		return &SearchesList{}
 	case ServiceIdentity:
@@ -1584,6 +1611,10 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseFilePathsList{}
 	case FlowReportIdentity:
 		return &SparseFlowReportsList{}
+	case GraphEdgeIdentity:
+		return &SparseGraphEdgesList{}
+	case GraphNodeIdentity:
+		return &SparseGraphNodesList{}
 	case HookPolicyIdentity:
 		return &SparseHookPoliciesList{}
 	case HostServiceIdentity:
@@ -1652,16 +1683,12 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePolicyRulesList{}
 	case PolicyTTLIdentity:
 		return &SparsePolicyTTLsList{}
-	case PrivateKeyIdentity:
-		return &SparsePrivateKeysList{}
 	case ProcessingUnitIdentity:
 		return &SparseProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &SparseProcessingUnitPoliciesList{}
 	case ProcessingUnitRefreshIdentity:
 		return &SparseProcessingUnitRefreshsList{}
-	case PUNodeIdentity:
-		return &SparsePUNodesList{}
 	case QuotaCheckIdentity:
 		return &SparseQuotaChecksList{}
 	case QuotaPolicyIdentity:
@@ -1680,6 +1707,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRevocationsList{}
 	case RoleIdentity:
 		return &SparseRolesList{}
+	case SAMLProviderIdentity:
+		return &SparseSAMLProvidersList{}
 	case SearchIdentity:
 		return &SparseSearchesList{}
 	case ServiceIdentity:
@@ -1794,6 +1823,8 @@ func AllIdentities() []elemental.Identity {
 		FileAccessReportIdentity,
 		FilePathIdentity,
 		FlowReportIdentity,
+		GraphEdgeIdentity,
+		GraphNodeIdentity,
 		HookPolicyIdentity,
 		HostServiceIdentity,
 		HostServiceMappingPolicyIdentity,
@@ -1828,11 +1859,9 @@ func AllIdentities() []elemental.Identity {
 		PolicyRendererIdentity,
 		PolicyRuleIdentity,
 		PolicyTTLIdentity,
-		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
 		ProcessingUnitRefreshIdentity,
-		PUNodeIdentity,
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
 		RecipeIdentity,
@@ -1843,6 +1872,7 @@ func AllIdentities() []elemental.Identity {
 		RevocationIdentity,
 		RoleIdentity,
 		RootIdentity,
+		SAMLProviderIdentity,
 		SearchIdentity,
 		ServiceIdentity,
 		ServiceDependencyIdentity,
@@ -1993,6 +2023,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case FlowReportIdentity:
 		return []string{}
+	case GraphEdgeIdentity:
+		return []string{}
+	case GraphNodeIdentity:
+		return []string{}
 	case HookPolicyIdentity:
 		return []string{
 			"hook",
@@ -2106,8 +2140,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PolicyTTLIdentity:
 		return []string{}
-	case PrivateKeyIdentity:
-		return []string{}
 	case ProcessingUnitIdentity:
 		return []string{
 			"pu",
@@ -2118,8 +2150,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"pup",
 		}
 	case ProcessingUnitRefreshIdentity:
-		return []string{}
-	case PUNodeIdentity:
 		return []string{}
 	case QuotaCheckIdentity:
 		return []string{}
@@ -2156,6 +2186,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case RoleIdentity:
 		return []string{}
 	case RootIdentity:
+		return []string{}
+	case SAMLProviderIdentity:
 		return []string{}
 	case SearchIdentity:
 		return []string{}
