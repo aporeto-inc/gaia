@@ -505,13 +505,13 @@ Sends a poke empty object. This is used to ensure an enforcer is up and running.
 Parameters:
 
 - `cpuload` (`float`): Deprecated.
-- `enforcementStatus` (`enum`): If set, changes the enforcement status of the enforcer alongside with the poke.
+- `enforcementStatus` (`enum(Failed | Inactive | Active)`): If set, changes the enforcement status of the enforcer alongside with the poke.
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
 - `memory` (`integer`): Deprecated.
 - `processes` (`integer`): Deprecated.
 - `sessionClose` (`boolean`): If set, terminates a session for an enforcer.
 - `sessionID` (`string`): If set, sends the current session ID of an enforcer.
-- `status` (`enum`): If set, changes the status of the enforcer alongside with the poke.
+- `status` (`enum(Registered | Connected | Disconnected)`): If set, changes the status of the enforcer alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
 - `version` (`string`): If set, version of the current running enforcer.
 
@@ -522,10 +522,10 @@ the time series database.
 
 Parameters:
 
-- `enforcementStatus` (`enum`): If set, changes the enforcement status of the processing unit alongside with the poke.
+- `enforcementStatus` (`enum(Failed | Inactive | Active)`): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
 - `notify` (`boolean`): Can be sent to trigger a `ProcessingUnitRefresh` event that will be handled by the enforcer. If this is set, all other additional parameters will be ignored.
-- `status` (`enum`): If set, changes the status of the processing unit alongside with the poke.
+- `status` (`enum(Initialized | Paused | Running | Stopped)`): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
 
 ### PolicyRenderer
@@ -2412,13 +2412,13 @@ Sends a poke empty object. This is used to ensure an enforcer is up and running.
 Parameters:
 
 - `cpuload` (`float`): Deprecated.
-- `enforcementStatus` (`enum`): If set, changes the enforcement status of the enforcer alongside with the poke.
+- `enforcementStatus` (`enum(Failed | Inactive | Active)`): If set, changes the enforcement status of the enforcer alongside with the poke.
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
 - `memory` (`integer`): Deprecated.
 - `processes` (`integer`): Deprecated.
 - `sessionClose` (`boolean`): If set, terminates a session for an enforcer.
 - `sessionID` (`string`): If set, sends the current session ID of an enforcer.
-- `status` (`enum`): If set, changes the status of the enforcer alongside with the poke.
+- `status` (`enum(Registered | Connected | Disconnected)`): If set, changes the status of the enforcer alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
 - `version` (`string`): If set, version of the current running enforcer.
 
@@ -2429,7 +2429,7 @@ enforcer.
 
 Parameters:
 
-- `type` (`enum`): Type of certificate to get.
+- `type` (`enum(Any | X509 | SSH)`): Type of certificate to get.
 
 #### Attributes
 
@@ -3407,7 +3407,7 @@ Retrieves the OAUTH info for this namespace.
 
 Parameters:
 
-- `mode` (`enum`): When set to type `OIDC` it will return the data as a raw JSON object and not an Aporeto compatible API.
+- `mode` (`enum(oidc)`): When set to type `OIDC` it will return the data as a raw JSON object and not an Aporeto compatible API.
 
 ##### `GET /namespaces/:id/oauthkeys`
 
@@ -3415,7 +3415,7 @@ Retrieves the OAUTH info for this namespace.
 
 Parameters:
 
-- `mode` (`enum`): When set to `OIDC` it will return the data as a raw JSON object and not an Aporeto compatible API.
+- `mode` (`enum(oidc)`): When set to `OIDC` it will return the data as a raw JSON object and not an Aporeto compatible API.
 
 ##### `GET /namespaces/:id/trustedcas`
 
@@ -3423,7 +3423,7 @@ Returns the list of trusted CAs for this namespace.
 
 Parameters:
 
-- `type` (`enum`): Type of certificate to get.
+- `type` (`enum(Any | X509 | SSH | JWT)`): Type of certificate to get.
 
 #### Attributes
 
@@ -4156,7 +4156,7 @@ Returns the list of processing units affected by an infrastructure policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 ##### `GET /networkaccesspolicies/:id/processingunits`
 
@@ -4164,7 +4164,7 @@ Returns the list of processing units affected by a network policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 ##### `GET /processingunitpolicies/:id/processingunits`
 
@@ -4180,7 +4180,7 @@ Retrieves the processing units that implement this service.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subjects | object)`): Matching mode.
 
 ##### `GET /vulnerabilities/:id/processingunits`
 
@@ -4193,10 +4193,10 @@ the time series database.
 
 Parameters:
 
-- `enforcementStatus` (`enum`): If set, changes the enforcement status of the processing unit alongside with the poke.
+- `enforcementStatus` (`enum(Failed | Inactive | Active)`): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
 - `notify` (`boolean`): Can be sent to trigger a `ProcessingUnitRefresh` event that will be handled by the enforcer. If this is set, all other additional parameters will be ignored.
-- `status` (`enum`): If set, changes the status of the processing unit alongside with the poke.
+- `status` (`enum(Initialized | Paused | Running | Stopped)`): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
 
 ##### `GET /processingunits/:id/renderedpolicies`
@@ -5338,7 +5338,7 @@ Retrieves the OAUTH info for this namespace.
 
 Parameters:
 
-- `mode` (`enum`): When set to type `OIDC` it will return the data as a raw JSON object and not an Aporeto compatible API.
+- `mode` (`enum(oidc)`): When set to type `OIDC` it will return the data as a raw JSON object and not an Aporeto compatible API.
 
 #### Attributes
 
@@ -5398,7 +5398,7 @@ Retrieves the OAUTH info for this namespace.
 
 Parameters:
 
-- `mode` (`enum`): When set to `OIDC` it will return the data as a raw JSON object and not an Aporeto compatible API.
+- `mode` (`enum(oidc)`): When set to `OIDC` it will return the data as a raw JSON object and not an Aporeto compatible API.
 
 #### Attributes
 
@@ -6490,9 +6490,9 @@ Name of the role.
 
 ## policy/dns
 
-### DNSReport
+### DNSLookupReport
 
-A DNSReport is used to report a DNS lookup that is happening on
+A DNS Lookup report is used to report a DNS lookup that is happening on
 behalf of a processing unit. If the DNS server is on the standard udp port 53
 then enforcer is able to proxy the DNS traffic and make a report. The report
 indicate whether or not the lookup was successful.
@@ -6503,9 +6503,9 @@ indicate whether or not the lookup was successful.
 {
   "action": "Accept",
   "enforcerNamespace": "/my/namespace",
-  "nameLookup": "www.google.com",
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
+  "resolvedName": "www.google.com",
   "sourceIP": "10.0.0.1",
   "value": 1
 }
@@ -6513,9 +6513,9 @@ indicate whether or not the lookup was successful.
 
 #### Relations
 
-##### `POST /dnsreports`
+##### `POST /dnslookupreports`
 
-Create a DNS report.
+Create a DNS Lookup report.
 
 #### Attributes
 
@@ -6531,10 +6531,6 @@ ID of the enforcer.
 
 Namespace of the enforcer.
 
-##### `nameLookup` `string` [`required`]
-
-name looked up by PU.
-
 ##### `processingUnitID` `string` [`required`]
 
 ID of the PU.
@@ -6547,6 +6543,10 @@ Namespace of the PU.
 
 This field is only set when the lookup fails. It specifies the reason for the
 failure.
+
+##### `resolvedName` `string` [`required`]
+
+name used for DNS resolution.
 
 ##### `sourceIP` `string` [`required`]
 
@@ -6905,7 +6905,7 @@ Retrieves the trusted CAs of a namespace.
 
 Parameters:
 
-- `type` (`enum`): The type of certificates that it should return.
+- `type` (`enum(Any | X509 | SSH | JWT)`): The type of certificates that it should return.
 
 ##### `GET /enforcers/:id/trustedcas`
 
@@ -6914,7 +6914,7 @@ enforcer.
 
 Parameters:
 
-- `type` (`enum`): Type of certificate to get.
+- `type` (`enum(Any | X509 | SSH)`): Type of certificate to get.
 
 ##### `GET /namespaces/:id/trustedcas`
 
@@ -6922,7 +6922,7 @@ Returns the list of trusted CAs for this namespace.
 
 Parameters:
 
-- `type` (`enum`): Type of certificate to get.
+- `type` (`enum(Any | X509 | SSH | JWT)`): Type of certificate to get.
 
 #### Attributes
 
@@ -7996,7 +7996,7 @@ Returns the list of external networks affected by an infrastructure policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 ##### `GET /networkaccesspolicies/:id/externalnetworks`
 
@@ -8004,7 +8004,7 @@ Returns the list of external networks affected by a network policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 #### Attributes
 
@@ -8316,7 +8316,7 @@ Returns the list of external networks affected by an infrastructure policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 ##### `GET /infrastructurepolicies/:id/processingunits`
 
@@ -8324,7 +8324,7 @@ Returns the list of processing units affected by an infrastructure policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 ##### `GET /infrastructurepolicies/:id/services`
 
@@ -8332,7 +8332,7 @@ Returns the list of services affected by an infrastructure policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 #### Attributes
 
@@ -8496,7 +8496,7 @@ Returns the list of external networks affected by a network policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 ##### `GET /networkaccesspolicies/:id/processingunits`
 
@@ -8504,7 +8504,7 @@ Returns the list of processing units affected by a network policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 ##### `GET /networkaccesspolicies/:id/services`
 
@@ -8512,7 +8512,7 @@ Returns the list of services affected by a network policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 #### Attributes
 
@@ -9405,7 +9405,7 @@ Returns the list of services affected by an infrastructure policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 ##### `GET /networkaccesspolicies/:id/services`
 
@@ -9413,7 +9413,7 @@ Returns the list of services affected by a network policy.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subject | object)`): Matching mode.
 
 ##### `GET /processingunits/:id/services`
 
@@ -9433,7 +9433,7 @@ Retrieves the processing units that implement this service.
 
 Parameters:
 
-- `mode` (`enum`): Matching mode.
+- `mode` (`enum(subjects | object)`): Matching mode.
 
 #### Attributes
 
@@ -10637,7 +10637,7 @@ Retrieves a list of network policy suggestions.
 
 Parameters:
 
-- `filterAction` (`enum`): Action to take with the filter tags.
+- `filterAction` (`enum(include | exclude)`): Action to take with the filter tags.
 - `filterTags` (`string`): Tags to filter in the policy suggestions.
 - `endAbsolute` (`time`): Set the absolute end of the time window.
 - `endRelative` (`duration`): Set the relative end of the time window.

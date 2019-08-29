@@ -8,54 +8,54 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// DNSReportActionValue represents the possible values for attribute "action".
-type DNSReportActionValue string
+// DNSLookupReportActionValue represents the possible values for attribute "action".
+type DNSLookupReportActionValue string
 
 const (
-	// DNSReportActionAccept represents the value Accept.
-	DNSReportActionAccept DNSReportActionValue = "Accept"
+	// DNSLookupReportActionAccept represents the value Accept.
+	DNSLookupReportActionAccept DNSLookupReportActionValue = "Accept"
 
-	// DNSReportActionReject represents the value Reject.
-	DNSReportActionReject DNSReportActionValue = "Reject"
+	// DNSLookupReportActionReject represents the value Reject.
+	DNSLookupReportActionReject DNSLookupReportActionValue = "Reject"
 )
 
-// DNSReportIdentity represents the Identity of the object.
-var DNSReportIdentity = elemental.Identity{
-	Name:     "dnsreport",
-	Category: "dnsreports",
+// DNSLookupReportIdentity represents the Identity of the object.
+var DNSLookupReportIdentity = elemental.Identity{
+	Name:     "dnslookupreport",
+	Category: "dnslookupreports",
 	Package:  "zack",
 	Private:  false,
 }
 
-// DNSReportsList represents a list of DNSReports
-type DNSReportsList []*DNSReport
+// DNSLookupReportsList represents a list of DNSLookupReports
+type DNSLookupReportsList []*DNSLookupReport
 
 // Identity returns the identity of the objects in the list.
-func (o DNSReportsList) Identity() elemental.Identity {
+func (o DNSLookupReportsList) Identity() elemental.Identity {
 
-	return DNSReportIdentity
+	return DNSLookupReportIdentity
 }
 
-// Copy returns a pointer to a copy the DNSReportsList.
-func (o DNSReportsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the DNSLookupReportsList.
+func (o DNSLookupReportsList) Copy() elemental.Identifiables {
 
-	copy := append(DNSReportsList{}, o...)
+	copy := append(DNSLookupReportsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the DNSReportsList.
-func (o DNSReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the DNSLookupReportsList.
+func (o DNSLookupReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(DNSReportsList{}, o...)
+	out := append(DNSLookupReportsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*DNSReport))
+		out = append(out, obj.(*DNSLookupReport))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o DNSReportsList) List() elemental.IdentifiablesList {
+func (o DNSLookupReportsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -66,42 +66,39 @@ func (o DNSReportsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o DNSReportsList) DefaultOrder() []string {
+func (o DNSLookupReportsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the DNSReportsList converted to SparseDNSReportsList.
+// ToSparse returns the DNSLookupReportsList converted to SparseDNSLookupReportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o DNSReportsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o DNSLookupReportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseDNSReportsList, len(o))
+	out := make(SparseDNSLookupReportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseDNSReport)
+		out[i] = o[i].ToSparse(fields...).(*SparseDNSLookupReport)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o DNSReportsList) Version() int {
+func (o DNSLookupReportsList) Version() int {
 
 	return 1
 }
 
-// DNSReport represents the model of a dnsreport
-type DNSReport struct {
+// DNSLookupReport represents the model of a dnslookupreport
+type DNSLookupReport struct {
 	// Action of the DNS request.
-	Action DNSReportActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
+	Action DNSLookupReportActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// ID of the enforcer.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
-
-	// name looked up by PU.
-	NameLookup string `json:"nameLookup" msgpack:"nameLookup" bson:"-" mapstructure:"nameLookup,omitempty"`
 
 	// ID of the PU.
 	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
@@ -112,6 +109,9 @@ type DNSReport struct {
 	// This field is only set when the lookup fails. It specifies the reason for the
 	// failure.
 	Reason string `json:"reason" msgpack:"reason" bson:"-" mapstructure:"reason,omitempty"`
+
+	// name used for DNS resolution.
+	ResolvedName string `json:"resolvedName" msgpack:"resolvedName" bson:"-" mapstructure:"resolvedName,omitempty"`
 
 	// Type of the source.
 	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
@@ -125,84 +125,84 @@ type DNSReport struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewDNSReport returns a new *DNSReport
-func NewDNSReport() *DNSReport {
+// NewDNSLookupReport returns a new *DNSLookupReport
+func NewDNSLookupReport() *DNSLookupReport {
 
-	return &DNSReport{
+	return &DNSLookupReport{
 		ModelVersion: 1,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *DNSReport) Identity() elemental.Identity {
+func (o *DNSLookupReport) Identity() elemental.Identity {
 
-	return DNSReportIdentity
+	return DNSLookupReportIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *DNSReport) Identifier() string {
+func (o *DNSLookupReport) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *DNSReport) SetIdentifier(id string) {
+func (o *DNSLookupReport) SetIdentifier(id string) {
 
 }
 
 // Version returns the hardcoded version of the model.
-func (o *DNSReport) Version() int {
+func (o *DNSLookupReport) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *DNSReport) BleveType() string {
+func (o *DNSLookupReport) BleveType() string {
 
-	return "dnsreport"
+	return "dnslookupreport"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *DNSReport) DefaultOrder() []string {
+func (o *DNSLookupReport) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *DNSReport) Doc() string {
+func (o *DNSLookupReport) Doc() string {
 
-	return `A DNSReport is used to report a DNS lookup that is happening on
+	return `A DNS Lookup report is used to report a DNS lookup that is happening on
 behalf of a processing unit. If the DNS server is on the standard udp port 53
 then enforcer is able to proxy the DNS traffic and make a report. The report
 indicate whether or not the lookup was successful.`
 }
 
-func (o *DNSReport) String() string {
+func (o *DNSLookupReport) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *DNSReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *DNSLookupReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseDNSReport{
+		return &SparseDNSLookupReport{
 			Action:                  &o.Action,
 			EnforcerID:              &o.EnforcerID,
 			EnforcerNamespace:       &o.EnforcerNamespace,
-			NameLookup:              &o.NameLookup,
 			ProcessingUnitID:        &o.ProcessingUnitID,
 			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
 			Reason:                  &o.Reason,
+			ResolvedName:            &o.ResolvedName,
 			SourceIP:                &o.SourceIP,
 			Timestamp:               &o.Timestamp,
 			Value:                   &o.Value,
 		}
 	}
 
-	sp := &SparseDNSReport{}
+	sp := &SparseDNSLookupReport{}
 	for _, f := range fields {
 		switch f {
 		case "action":
@@ -211,14 +211,14 @@ func (o *DNSReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.EnforcerID = &(o.EnforcerID)
 		case "enforcerNamespace":
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
-		case "nameLookup":
-			sp.NameLookup = &(o.NameLookup)
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
 		case "processingUnitNamespace":
 			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
 		case "reason":
 			sp.Reason = &(o.Reason)
+		case "resolvedName":
+			sp.ResolvedName = &(o.ResolvedName)
 		case "sourceIP":
 			sp.SourceIP = &(o.SourceIP)
 		case "timestamp":
@@ -231,13 +231,13 @@ func (o *DNSReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseDNSReport to the object.
-func (o *DNSReport) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseDNSLookupReport to the object.
+func (o *DNSLookupReport) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseDNSReport)
+	so := sparse.(*SparseDNSLookupReport)
 	if so.Action != nil {
 		o.Action = *so.Action
 	}
@@ -247,9 +247,6 @@ func (o *DNSReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.EnforcerNamespace != nil {
 		o.EnforcerNamespace = *so.EnforcerNamespace
 	}
-	if so.NameLookup != nil {
-		o.NameLookup = *so.NameLookup
-	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
 	}
@@ -258,6 +255,9 @@ func (o *DNSReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Reason != nil {
 		o.Reason = *so.Reason
+	}
+	if so.ResolvedName != nil {
+		o.ResolvedName = *so.ResolvedName
 	}
 	if so.SourceIP != nil {
 		o.SourceIP = *so.SourceIP
@@ -270,32 +270,32 @@ func (o *DNSReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the DNSReport.
-func (o *DNSReport) DeepCopy() *DNSReport {
+// DeepCopy returns a deep copy if the DNSLookupReport.
+func (o *DNSLookupReport) DeepCopy() *DNSLookupReport {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &DNSReport{}
+	out := &DNSLookupReport{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *DNSReport.
-func (o *DNSReport) DeepCopyInto(out *DNSReport) {
+// DeepCopyInto copies the receiver into the given *DNSLookupReport.
+func (o *DNSLookupReport) DeepCopyInto(out *DNSLookupReport) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy DNSReport: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy DNSLookupReport: %s", err))
 	}
 
-	*out = *target.(*DNSReport)
+	*out = *target.(*DNSLookupReport)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *DNSReport) Validate() error {
+func (o *DNSLookupReport) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -312,15 +312,15 @@ func (o *DNSReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("nameLookup", o.NameLookup); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("processingUnitID", o.ProcessingUnitID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("processingUnitNamespace", o.ProcessingUnitNamespace); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("resolvedName", o.ResolvedName); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -344,26 +344,26 @@ func (o *DNSReport) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*DNSReport) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*DNSLookupReport) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := DNSReportAttributesMap[name]; ok {
+	if v, ok := DNSLookupReportAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return DNSReportLowerCaseAttributesMap[name]
+	return DNSLookupReportLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*DNSReport) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*DNSLookupReport) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return DNSReportAttributesMap
+	return DNSLookupReportAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *DNSReport) ValueForAttribute(name string) interface{} {
+func (o *DNSLookupReport) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "action":
@@ -372,14 +372,14 @@ func (o *DNSReport) ValueForAttribute(name string) interface{} {
 		return o.EnforcerID
 	case "enforcerNamespace":
 		return o.EnforcerNamespace
-	case "nameLookup":
-		return o.NameLookup
 	case "processingUnitID":
 		return o.ProcessingUnitID
 	case "processingUnitNamespace":
 		return o.ProcessingUnitNamespace
 	case "reason":
 		return o.Reason
+	case "resolvedName":
+		return o.ResolvedName
 	case "sourceIP":
 		return o.SourceIP
 	case "timestamp":
@@ -391,8 +391,8 @@ func (o *DNSReport) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// DNSReportAttributesMap represents the map of attribute for DNSReport.
-var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
+// DNSLookupReportAttributesMap represents the map of attribute for DNSLookupReport.
+var DNSLookupReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Accept", "Reject"},
 		ConvertedName:  "Action",
@@ -416,15 +416,6 @@ var DNSReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
-		Required:       true,
-		Type:           "string",
-	},
-	"NameLookup": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "NameLookup",
-		Description:    `name looked up by PU.`,
-		Exposed:        true,
-		Name:           "nameLookup",
 		Required:       true,
 		Type:           "string",
 	},
@@ -455,6 +446,15 @@ failure.`,
 		Name:    "reason",
 		Type:    "string",
 	},
+	"ResolvedName": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ResolvedName",
+		Description:    `name used for DNS resolution.`,
+		Exposed:        true,
+		Name:           "resolvedName",
+		Required:       true,
+		Type:           "string",
+	},
 	"SourceIP": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
@@ -483,8 +483,8 @@ failure.`,
 	},
 }
 
-// DNSReportLowerCaseAttributesMap represents the map of attribute for DNSReport.
-var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// DNSLookupReportLowerCaseAttributesMap represents the map of attribute for DNSLookupReport.
+var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"action": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Accept", "Reject"},
 		ConvertedName:  "Action",
@@ -508,15 +508,6 @@ var DNSReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
-		Required:       true,
-		Type:           "string",
-	},
-	"namelookup": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "NameLookup",
-		Description:    `name looked up by PU.`,
-		Exposed:        true,
-		Name:           "nameLookup",
 		Required:       true,
 		Type:           "string",
 	},
@@ -547,6 +538,15 @@ failure.`,
 		Name:    "reason",
 		Type:    "string",
 	},
+	"resolvedname": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ResolvedName",
+		Description:    `name used for DNS resolution.`,
+		Exposed:        true,
+		Name:           "resolvedName",
+		Required:       true,
+		Type:           "string",
+	},
 	"sourceip": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
@@ -575,35 +575,35 @@ failure.`,
 	},
 }
 
-// SparseDNSReportsList represents a list of SparseDNSReports
-type SparseDNSReportsList []*SparseDNSReport
+// SparseDNSLookupReportsList represents a list of SparseDNSLookupReports
+type SparseDNSLookupReportsList []*SparseDNSLookupReport
 
 // Identity returns the identity of the objects in the list.
-func (o SparseDNSReportsList) Identity() elemental.Identity {
+func (o SparseDNSLookupReportsList) Identity() elemental.Identity {
 
-	return DNSReportIdentity
+	return DNSLookupReportIdentity
 }
 
-// Copy returns a pointer to a copy the SparseDNSReportsList.
-func (o SparseDNSReportsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseDNSLookupReportsList.
+func (o SparseDNSLookupReportsList) Copy() elemental.Identifiables {
 
-	copy := append(SparseDNSReportsList{}, o...)
+	copy := append(SparseDNSLookupReportsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseDNSReportsList.
-func (o SparseDNSReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseDNSLookupReportsList.
+func (o SparseDNSLookupReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseDNSReportsList{}, o...)
+	out := append(SparseDNSLookupReportsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseDNSReport))
+		out = append(out, obj.(*SparseDNSLookupReport))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseDNSReportsList) List() elemental.IdentifiablesList {
+func (o SparseDNSLookupReportsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -614,13 +614,13 @@ func (o SparseDNSReportsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseDNSReportsList) DefaultOrder() []string {
+func (o SparseDNSLookupReportsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparseDNSReportsList converted to DNSReportsList.
-func (o SparseDNSReportsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseDNSLookupReportsList converted to DNSLookupReportsList.
+func (o SparseDNSLookupReportsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -631,24 +631,21 @@ func (o SparseDNSReportsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseDNSReportsList) Version() int {
+func (o SparseDNSLookupReportsList) Version() int {
 
 	return 1
 }
 
-// SparseDNSReport represents the sparse version of a dnsreport.
-type SparseDNSReport struct {
+// SparseDNSLookupReport represents the sparse version of a dnslookupreport.
+type SparseDNSLookupReport struct {
 	// Action of the DNS request.
-	Action *DNSReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
+	Action *DNSLookupReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// ID of the enforcer.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
-
-	// name looked up by PU.
-	NameLookup *string `json:"nameLookup,omitempty" msgpack:"nameLookup,omitempty" bson:"-" mapstructure:"nameLookup,omitempty"`
 
 	// ID of the PU.
 	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
@@ -659,6 +656,9 @@ type SparseDNSReport struct {
 	// This field is only set when the lookup fails. It specifies the reason for the
 	// failure.
 	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"-" mapstructure:"reason,omitempty"`
+
+	// name used for DNS resolution.
+	ResolvedName *string `json:"resolvedName,omitempty" msgpack:"resolvedName,omitempty" bson:"-" mapstructure:"resolvedName,omitempty"`
 
 	// Type of the source.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
@@ -672,38 +672,38 @@ type SparseDNSReport struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseDNSReport returns a new  SparseDNSReport.
-func NewSparseDNSReport() *SparseDNSReport {
-	return &SparseDNSReport{}
+// NewSparseDNSLookupReport returns a new  SparseDNSLookupReport.
+func NewSparseDNSLookupReport() *SparseDNSLookupReport {
+	return &SparseDNSLookupReport{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseDNSReport) Identity() elemental.Identity {
+func (o *SparseDNSLookupReport) Identity() elemental.Identity {
 
-	return DNSReportIdentity
+	return DNSLookupReportIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseDNSReport) Identifier() string {
+func (o *SparseDNSLookupReport) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseDNSReport) SetIdentifier(id string) {
+func (o *SparseDNSLookupReport) SetIdentifier(id string) {
 
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseDNSReport) Version() int {
+func (o *SparseDNSLookupReport) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseDNSReport) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseDNSLookupReport) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewDNSReport()
+	out := NewDNSLookupReport()
 	if o.Action != nil {
 		out.Action = *o.Action
 	}
@@ -713,9 +713,6 @@ func (o *SparseDNSReport) ToPlain() elemental.PlainIdentifiable {
 	if o.EnforcerNamespace != nil {
 		out.EnforcerNamespace = *o.EnforcerNamespace
 	}
-	if o.NameLookup != nil {
-		out.NameLookup = *o.NameLookup
-	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID
 	}
@@ -724,6 +721,9 @@ func (o *SparseDNSReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Reason != nil {
 		out.Reason = *o.Reason
+	}
+	if o.ResolvedName != nil {
+		out.ResolvedName = *o.ResolvedName
 	}
 	if o.SourceIP != nil {
 		out.SourceIP = *o.SourceIP
@@ -738,26 +738,26 @@ func (o *SparseDNSReport) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
-// DeepCopy returns a deep copy if the SparseDNSReport.
-func (o *SparseDNSReport) DeepCopy() *SparseDNSReport {
+// DeepCopy returns a deep copy if the SparseDNSLookupReport.
+func (o *SparseDNSLookupReport) DeepCopy() *SparseDNSLookupReport {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseDNSReport{}
+	out := &SparseDNSLookupReport{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseDNSReport.
-func (o *SparseDNSReport) DeepCopyInto(out *SparseDNSReport) {
+// DeepCopyInto copies the receiver into the given *SparseDNSLookupReport.
+func (o *SparseDNSLookupReport) DeepCopyInto(out *SparseDNSLookupReport) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseDNSReport: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseDNSLookupReport: %s", err))
 	}
 
-	*out = *target.(*SparseDNSReport)
+	*out = *target.(*SparseDNSLookupReport)
 }

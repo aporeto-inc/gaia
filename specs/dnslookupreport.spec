@@ -1,12 +1,12 @@
 # Model
 model:
-  rest_name: dnsreport
-  resource_name: dnsreports
-  entity_name: DNSReport
+  rest_name: dnslookupreport
+  resource_name: dnslookupreports
+  entity_name: DNSLookupReport
   package: zack
   group: policy/dns
   description: |-
-    A DNSReport is used to report a DNS lookup that is happening on
+    A DNS Lookup report is used to report a DNS lookup that is happening on
     behalf of a processing unit. If the DNS server is on the standard udp port 53
     then enforcer is able to proxy the DNS traffic and make a report. The report
     indicate whether or not the lookup was successful.
@@ -36,13 +36,6 @@ attributes:
     required: true
     example_value: /my/namespace
 
-  - name: nameLookup
-    description: name looked up by PU.
-    type: string
-    exposed: true
-    required: true
-    example_value: www.google.com
-
   - name: processingUnitID
     description: ID of the PU.
     type: string
@@ -63,6 +56,13 @@ attributes:
       failure.
     type: string
     exposed: true
+
+  - name: resolvedName
+    description: name used for DNS resolution.
+    type: string
+    exposed: true
+    required: true
+    example_value: www.google.com
 
   - name: sourceIP
     description: Type of the source.

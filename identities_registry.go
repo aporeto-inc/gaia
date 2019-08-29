@@ -34,7 +34,7 @@ var (
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
 		"dependencymap":       DependencyMapIdentity,
-		"dnsreport":           DNSReportIdentity,
+		"dnslookupreport":     DNSLookupReportIdentity,
 		"email":               EmailIdentity,
 
 		"enforcer":                     EnforcerIdentity,
@@ -165,7 +165,7 @@ var (
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
 		"dependencymaps":       DependencyMapIdentity,
-		"dnsreports":           DNSReportIdentity,
+		"dnslookupreports":     DNSLookupReportIdentity,
 		"emails":               EmailIdentity,
 
 		"enforcers":                      EnforcerIdentity,
@@ -462,7 +462,7 @@ var (
 		},
 		"datapathcertificate": nil,
 		"dependencymap":       nil,
-		"dnsreport":           nil,
+		"dnslookupreport":     nil,
 		"email":               nil,
 		"enforcer": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -865,8 +865,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewDataPathCertificate()
 	case DependencyMapIdentity:
 		return NewDependencyMap()
-	case DNSReportIdentity:
-		return NewDNSReport()
+	case DNSLookupReportIdentity:
+		return NewDNSLookupReport()
 	case EmailIdentity:
 		return NewEmail()
 	case EnforcerIdentity:
@@ -1106,8 +1106,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseDataPathCertificate()
 	case DependencyMapIdentity:
 		return NewSparseDependencyMap()
-	case DNSReportIdentity:
-		return NewSparseDNSReport()
+	case DNSLookupReportIdentity:
+		return NewSparseDNSLookupReport()
 	case EmailIdentity:
 		return NewSparseEmail()
 	case EnforcerIdentity:
@@ -1355,8 +1355,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &DataPathCertificatesList{}
 	case DependencyMapIdentity:
 		return &DependencyMapsList{}
-	case DNSReportIdentity:
-		return &DNSReportsList{}
+	case DNSLookupReportIdentity:
+		return &DNSLookupReportsList{}
 	case EmailIdentity:
 		return &EmailsList{}
 	case EnforcerIdentity:
@@ -1594,8 +1594,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseDataPathCertificatesList{}
 	case DependencyMapIdentity:
 		return &SparseDependencyMapsList{}
-	case DNSReportIdentity:
-		return &SparseDNSReportsList{}
+	case DNSLookupReportIdentity:
+		return &SparseDNSLookupReportsList{}
 	case EmailIdentity:
 		return &SparseEmailsList{}
 	case EnforcerIdentity:
@@ -1821,7 +1821,7 @@ func AllIdentities() []elemental.Identity {
 		CustomerIdentity,
 		DataPathCertificateIdentity,
 		DependencyMapIdentity,
-		DNSReportIdentity,
+		DNSLookupReportIdentity,
 		EmailIdentity,
 		EnforcerIdentity,
 		EnforcerProfileIdentity,
@@ -1996,7 +1996,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"depmaps",
 			"depmap",
 		}
-	case DNSReportIdentity:
+	case DNSLookupReportIdentity:
 		return []string{}
 	case EmailIdentity:
 		return []string{}

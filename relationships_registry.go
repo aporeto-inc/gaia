@@ -760,7 +760,7 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[DNSReportIdentity] = &elemental.Relationship{
+	relationshipsRegistry[DNSLookupReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
 		},
