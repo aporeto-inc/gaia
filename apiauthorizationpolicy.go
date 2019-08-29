@@ -679,6 +679,9 @@ func (o *APIAuthorizationPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateAPIAuthorizationPolicySubject("subject", o.Subject); err != nil {
+		errors = errors.Append(err)
+	}
 	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = errors.Append(err)
 	}

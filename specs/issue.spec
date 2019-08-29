@@ -60,7 +60,6 @@ attributes:
     exposed: true
     required: true
     allowed_choices:
-    - AWSIdentityDocument
     - AWSSecurityToken
     - Certificate
     - Google
