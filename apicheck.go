@@ -264,6 +264,10 @@ func (o *APICheck) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("operation", string(o.Operation)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateStringInList("operation", string(o.Operation), []string{"Create", "Delete", "Info", "Patch", "Retrieve", "RetrieveMany", "Update"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -349,6 +353,7 @@ var APICheckAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "operation",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -395,6 +400,7 @@ var APICheckLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Filterable:     true,
 		Name:           "operation",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},

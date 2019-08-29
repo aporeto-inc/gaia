@@ -6169,7 +6169,7 @@ Contains the results of the check.
 
 The namespace to use to check the API authorization.
 
-##### `operation` `emum(Create | Delete | Info | Patch | Retrieve | RetrieveMany | Update)`
+##### `operation` `emum(Create | Delete | Info | Patch | Retrieve | RetrieveMany | Update)` [`required`]
 
 The operation you want to check.
 
