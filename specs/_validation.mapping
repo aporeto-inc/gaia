@@ -1,3 +1,7 @@
+$apiauthsubject:
+  elemental:
+    name: ValidateAPIAuthorizationPolicySubject
+
 $audience:
   elemental:
     name: ValidateAudience
