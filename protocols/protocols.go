@@ -7,6 +7,9 @@ import (
 // ALL defines all protocols
 const ALL = "ALL"
 
+// ALLWildcard defines all protocols
+const ALLWildcard = "*/*"
+
 // All L4 Protocols
 // (Ref https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)
 const (

@@ -77,6 +77,10 @@ func ValidatePortStringListV2(attribute string, ports []string) error {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must not be empty", attribute))
 	}
 
+	if portsHasAllOrWildcard(ports) && len(ports) != 1 {
+		return makeValidationError(attribute, fmt.Sprintf("'%s' cannot be used with other protocol/ports", ports[0]))
+	}
+
 	for _, port := range ports {
 		if err := ValidatePortString(attribute, port); err != nil {
 			if err := ValidateServicePort(attribute, port); err != nil {
@@ -91,8 +95,13 @@ func ValidatePortStringListV2(attribute string, ports []string) error {
 // ValidateServicePort validates a single serviceport.
 func ValidateServicePort(attribute string, servicePort string) error {
 
+	if portIsAllOrWildcard(servicePort) {
+		return nil
+	}
+
 	parts := strings.SplitN(servicePort, "/", 2)
 	upperProto := strings.ToUpper(parts[0])
+
 	if protocols.L4ProtocolNumberFromName(upperProto) == -1 {
 		return makeValidationError(attribute, fmt.Sprintf("'%s' is not a valid protocol", upperProto))
 	}
@@ -109,7 +118,29 @@ func ValidateServicePort(attribute string, servicePort string) error {
 	}
 
 	ports := parts[1]
+
+	if ports == "*" {
+		return nil
+	}
+
 	return ValidatePortString(attribute, ports)
+}
+
+func portsHasAllOrWildcard(ports []string) bool {
+
+	for _, port := range ports {
+
+		if portIsAllOrWildcard(port) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func portIsAllOrWildcard(port string) bool {
+
+	return strings.EqualFold(port, protocols.ALL) || port == protocols.ALLWildcard
 }
 
 var rxDNSName = regexp.MustCompile(`^([a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62}){1}(\.[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62})*[\._]?$`)
