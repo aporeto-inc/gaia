@@ -154,20 +154,6 @@ relations:
   get:
     description: Retrieves the list of automation templates.
 
-- rest_name: awsaccount
-  get:
-    description: Retrieves the list of AWS account bindings.
-    global_parameters:
-    - $filtering
-    parameters:
-      entries:
-      - name: accountid
-        description: Id of the account.
-        type: string
-        example_value: xxx-xxx-xxx-xxx
-  create:
-    description: Creates a new AWS account binding.
-
 - rest_name: awsapigateway
   get:
     description: create an AWS API gateway.

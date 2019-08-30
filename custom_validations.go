@@ -12,12 +12,11 @@ import (
 	"strings"
 	"time"
 
-	"go.aporeto.io/gaia/constants"
-	"gopkg.in/yaml.v2"
-
 	"go.aporeto.io/elemental"
+	"go.aporeto.io/gaia/constants"
 	"go.aporeto.io/gaia/portutils"
 	"go.aporeto.io/gaia/protocols"
+	"gopkg.in/yaml.v2"
 )
 
 // ValidatePortString validates a string represents a port or a range of port.
@@ -585,6 +584,10 @@ func ValidateTag(attribute string, tag string) error {
 		return makeValidationError(attribute, fmt.Sprintf("`%s must contain at least one '=' symbol separating two valid words", tag))
 	}
 
+	if len([]byte(tag)) >= 1024 {
+		return makeValidationError(attribute, fmt.Sprintf("`%s must be less than 1024 bytes", tag))
+	}
+
 	return nil
 }
 
@@ -656,6 +659,39 @@ func ValidateSAMLProvider(provider *SAMLProvider) error {
 
 	if provider.IDPCertificate == "" {
 		return makeValidationError("IDPCertificate", "IDPCertificate is required when no IDPMetadata is provided")
+	}
+
+	return nil
+}
+
+// ValidateAPIAuthorizationPolicySubject makes sure api authorization subject is at least secured a bit.
+func ValidateAPIAuthorizationPolicySubject(attribute string, subject [][]string) error {
+
+	for i, ands := range subject {
+
+		if len(ands) < 2 {
+			return makeValidationError(attribute, "Subject and line should contain at least 2 claims")
+		}
+
+		var realmClaims int
+		for _, claim := range ands {
+
+			if !strings.HasPrefix(claim, "@auth:") {
+				return makeValidationError(attribute, fmt.Sprintf("Subject claims '%s' on line %d must be prefixed by '@auth:'", claim, i+1))
+			}
+
+			if strings.HasPrefix(claim, "@auth:realm=") {
+				realmClaims++
+			}
+		}
+
+		if realmClaims == 0 {
+			return makeValidationError(attribute, fmt.Sprintf("Subject line %d must contain the '@auth:realm' key", i+1))
+		}
+
+		if realmClaims > 1 {
+			return makeValidationError(attribute, fmt.Sprintf("Subject line %d must contain only one '@auth:realm' key", i+1))
+		}
 	}
 
 	return nil

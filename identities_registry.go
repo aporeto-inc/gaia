@@ -22,7 +22,6 @@ var (
 		"authz":                     AuthzIdentity,
 		"automation":                AutomationIdentity,
 		"automationtemplate":        AutomationTemplateIdentity,
-		"awsaccount":                AWSAccountIdentity,
 		"awsapigateway":             AWSAPIGatewayIdentity,
 		"awsregister":               AWSRegisterIdentity,
 		"category":                  CategoryIdentity,
@@ -153,7 +152,6 @@ var (
 		"authz":                       AuthzIdentity,
 		"automations":                 AutomationIdentity,
 		"automationtemplates":         AutomationTemplateIdentity,
-		"awsaccounts":                 AWSAccountIdentity,
 		"awsapigateways":              AWSAPIGatewayIdentity,
 		"awsregister":                 AWSRegisterIdentity,
 		"categories":                  CategoryIdentity,
@@ -277,9 +275,6 @@ var (
 		"autos":          AutomationIdentity,
 		"auto":           AutomationIdentity,
 		"autotmpl":       AutomationTemplateIdentity,
-		"aws":            AWSAccountIdentity,
-		"awsaccs":        AWSAccountIdentity,
-		"awsacc":         AWSAccountIdentity,
 		"depmaps":        DependencyMapIdentity,
 		"depmap":         DependencyMapIdentity,
 		"profile":        EnforcerProfileIdentity,
@@ -437,9 +432,6 @@ var (
 			[]string{"createIdempotencyKey"},
 		},
 		"automationtemplate": nil,
-		"awsaccount": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-		},
 		"awsapigateway": [][]string{
 			[]string{"updateIdempotencyKey"},
 			[]string{"namespace", "name"},
@@ -847,8 +839,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAutomation()
 	case AutomationTemplateIdentity:
 		return NewAutomationTemplate()
-	case AWSAccountIdentity:
-		return NewAWSAccount()
 	case AWSAPIGatewayIdentity:
 		return NewAWSAPIGateway()
 	case AWSRegisterIdentity:
@@ -1088,8 +1078,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAutomation()
 	case AutomationTemplateIdentity:
 		return NewSparseAutomationTemplate()
-	case AWSAccountIdentity:
-		return NewSparseAWSAccount()
 	case AWSAPIGatewayIdentity:
 		return NewSparseAWSAPIGateway()
 	case AWSRegisterIdentity:
@@ -1337,8 +1325,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AutomationsList{}
 	case AutomationTemplateIdentity:
 		return &AutomationTemplatesList{}
-	case AWSAccountIdentity:
-		return &AWSAccountsList{}
 	case AWSAPIGatewayIdentity:
 		return &AWSAPIGatewaysList{}
 	case AWSRegisterIdentity:
@@ -1576,8 +1562,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAutomationsList{}
 	case AutomationTemplateIdentity:
 		return &SparseAutomationTemplatesList{}
-	case AWSAccountIdentity:
-		return &SparseAWSAccountsList{}
 	case AWSAPIGatewayIdentity:
 		return &SparseAWSAPIGatewaysList{}
 	case AWSRegisterIdentity:
@@ -1812,7 +1796,6 @@ func AllIdentities() []elemental.Identity {
 		AuthzIdentity,
 		AutomationIdentity,
 		AutomationTemplateIdentity,
-		AWSAccountIdentity,
 		AWSAPIGatewayIdentity,
 		AWSRegisterIdentity,
 		CategoryIdentity,
@@ -1970,12 +1953,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case AutomationTemplateIdentity:
 		return []string{
 			"autotmpl",
-		}
-	case AWSAccountIdentity:
-		return []string{
-			"aws",
-			"awsaccs",
-			"awsacc",
 		}
 	case AWSAPIGatewayIdentity:
 		return []string{}
