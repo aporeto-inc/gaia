@@ -3021,19 +3021,7 @@ func init() {
 					},
 				},
 			},
-			"service": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:         "mode",
-						Type:         "enum",
-						DefaultValue: "objects",
-						AllowedChoices: []string{
-							"subjects",
-							"object",
-						},
-					},
-				},
-			},
+			"service":           &elemental.RelationshipInfo{},
 			"servicedependency": &elemental.RelationshipInfo{},
 			"vulnerability":     &elemental.RelationshipInfo{},
 		},
@@ -3079,19 +3067,7 @@ func init() {
 					},
 				},
 			},
-			"service": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:         "mode",
-						Type:         "enum",
-						DefaultValue: "objects",
-						AllowedChoices: []string{
-							"subjects",
-							"object",
-						},
-					},
-				},
-			},
+			"service":           &elemental.RelationshipInfo{},
 			"servicedependency": &elemental.RelationshipInfo{},
 			"vulnerability":     &elemental.RelationshipInfo{},
 		},
