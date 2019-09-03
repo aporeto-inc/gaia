@@ -32,6 +32,7 @@ attributes:
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - Create
     - Delete
@@ -40,6 +41,7 @@ attributes:
     - Retrieve
     - RetrieveMany
     - Update
+    example_value: Create
     filterable: true
     orderable: true
 

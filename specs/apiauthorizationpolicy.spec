@@ -85,3 +85,4 @@ attributes:
     orderable: true
     validations:
     - $tagsExpression
+    - $apiauthsubject

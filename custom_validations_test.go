@@ -1517,6 +1517,29 @@ func TestValidateTag(t *testing.T) {
 			},
 			true,
 		},
+
+		// tag size
+		{
+			"tags is exactly 1024 bytes",
+			args{
+				"l=ah6ooPaelaizohkee6iephoomueMaekosoothae9ieCheR8Foo7aivoo4Aicohphe0bu8wiM8Uu8eidiwui7doowiashahf7niepheeboh7quicaixuPosia3Jee0dahco0do6Teilae4quah9uequeer6che3ojudi2echee8eic1gaeNgiesh0baosh8oo4Fie1Ou8aithaphah4quae4ooteiKoayai7to6ahf8aex8ieDaiw9ag3aodii8tho3ik8Aquaeshaejah8ain0thax3au8ooqueew2eike2kuiShohk4dohw7soogh0zeibieg0idae6pedooma5Lei1ohhaech5Esh7tashieBoolahshohm5Qua1aiy0uho5eichiev0ohp0iu0Izaizi8aisepoox3dahvai7Sudeek6Ea1Ooshoo7aZoofiesh7ithah0Wee1eechoh1xi8Ohd5xahHae5phoiw7eejengu2Eich1Oonahgh3gi1kaHiaD5eeSh7Goophakeiqu7meevi3phiezooSie2uf7PhooThoo6Mooqu1dood2Zeshohm1CheiGh6ShierahJooshohphi6eephi9aeM1isu0IejahQuea9Io1Ahcahque1ce4od7xaYeejoh2ahtimaoluyahyie3ahYohFoVieGup8eYu0maep4Eeghoh3beisheu9ieloe7ichei6johfahLaeCat0naeque5EoyohjieN2era2AejieCou0sei3aej9Che5javah5equ1ieB3eiliegefahfoo3ieth1iequ7zayie9ocheiSaisiech6nai3Ucieroov6iogoonim4zo1iigai7haiF0Yae4cev7Phe0boir3eiteuga8Phuayei6Oj5ohNgog9aeThiewoowoh7shair9wa4Oongairangaa0baemaemae1saefutechah6iev0Aex3aevizeath2ep3hooceaxabuchukahP7Iphae6na",
+			},
+			true,
+		},
+		{
+			"tags is exactly 1026 bytes",
+			args{
+				"l=ah6ooPaelaizohakee6iephoomueMaekosoothae9ieCheR8Foo7aivoo4Aicohphe0bu8wiM8Uu8eidiwui7doowiashahf7niepheeboh7quicaixuPosia3Jee0dahco0do6Teilae4quah9uequeer6che3ojudi2echee8eic1gaeNgiesh0baosh8oo4Fie1Ou8aithaphah4quae4ooteiKoayai7to6ahf8aex8ieDaiw9ag3aodii8tho3ik8Aquaeshaejah8ain0thax3au8ooqueew2eike2kuiShohk4dohw7soogh0zeibieg0idae6pedooma5Lei1ohhaech5Esh7tashieBoolahshohm5Qua1aiy0uho5eichiev0ohp0iu0Izaizi8aisepoox3dahvai7Sudeek6Ea1Ooshoo7aZoofiesh7ithah0Wee1eechoh1xi8Ohd5xahHae5phoiw7eejengu2Eich1Oonahgh3gi1kaHiaD5eeSh7Goophakeiqu7meevi3phiezooSie2uf7PhooThoo6Mooqu1dood2Zeshohm1CheiGh6ShierahJooshohphi6eephi9aeM1isu0IejahQuea9Io1Ahcahque1ce4od7xaYeejoh2ahtimaoluyahyie3ahYohFoVieGup8eYu0maep4Eeghoh3beisheu9ieloe7ichei6johfahLaeCat0naeque5EoyohjieN2era2AejieCou0sei3aej9Che5javah5equ1ieB3eiliegefahfoo3ieth1iequ7zayie9ocheiSaisiech6nai3Ucieroov6iogoonim4zo1iigai7haiF0Yae4cev7Phe0boir3eiteuga8Phuayei6Oj5ohNgog9aeThiewoowoh7shair9wa4Oongairangaa0baemaemae1saefutechah6iev0Aex3aevizeath2ep3hooceaxabuchukahP7Iphae6na",
+			},
+			true,
+		},
+		{
+			"tags is exacty 1023 bytes",
+			args{
+				"l=ahooPaelaizohkee6iephoomueMaekosoothae9ieCheR8Foo7aivoo4Aicohphe0bu8wiM8Uu8eidiwui7doowiashahf7niepheeboh7quicaixuPosia3Jee0dahco0do6Teilae4quah9uequeer6che3ojudi2echee8eic1gaeNgiesh0baosh8oo4Fie1Ou8aithaphah4quae4ooteiKoayai7to6ahf8aex8ieDaiw9ag3aodii8tho3ik8Aquaeshaejah8ain0thax3au8ooqueew2eike2kuiShohk4dohw7soogh0zeibieg0idae6pedooma5Lei1ohhaech5Esh7tashieBoolahshohm5Qua1aiy0uho5eichiev0ohp0iu0Izaizi8aisepoox3dahvai7Sudeek6Ea1Ooshoo7aZoofiesh7ithah0Wee1eechoh1xi8Ohd5xahHae5phoiw7eejengu2Eich1Oonahgh3gi1kaHiaD5eeSh7Goophakeiqu7meevi3phiezooSie2uf7PhooThoo6Mooqu1dood2Zeshohm1CheiGh6ShierahJooshohphi6eephi9aeM1isu0IejahQuea9Io1Ahcahque1ce4od7xaYeejoh2ahtimaoluyahyie3ahYohFoVieGup8eYu0maep4Eeghoh3beisheu9ieloe7ichei6johfahLaeCat0naeque5EoyohjieN2era2AejieCou0sei3aej9Che5javah5equ1ieB3eiliegefahfoo3ieth1iequ7zayie9ocheiSaisiech6nai3Ucieroov6iogoonim4zo1iigai7haiF0Yae4cev7Phe0boir3eiteuga8Phuayei6Oj5ohNgog9aeThiewoowoh7shair9wa4Oongairangaa0baemaemae1saefutechah6iev0Aex3aevizeath2ep3hooceaxabuchukahP7Iphae6na",
+			},
+			false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -1627,6 +1650,92 @@ func TestValidateSAMLProvider(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateSAMLProvider(tt.args.provider); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateSAMLProvider() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
+	type args struct {
+		attribute string
+		subject   [][]string
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantErr       bool
+		wantErrString string
+	}{
+		{
+			"valid subject",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=certificate", "@auth:claim=a"},
+					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			false,
+			"",
+		},
+		{
+			"missing realm claim",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=certificate", "@auth:claim=a"},
+					[]string{"@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Subject line 2 must contain the '@auth:realm' key",
+		},
+		{
+			"2 realm claims",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=certificate", "@auth:claim=a", "@auth:realm=vince"},
+					[]string{"@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Subject line 1 must contain only one '@auth:realm' key",
+		},
+		{
+			"single claim line",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=certificate", "@auth:claim=a"},
+					[]string{"@auth:realm=certificate"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Subject and line should contain at least 2 claims",
+		},
+		{
+			"missing auth prefix claim",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=certificate", "@auth:claim=a"},
+					[]string{"@auth:claim=a", "@auth:claim=b", "not:good"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Subject claims 'not:good' on line 2 must be prefixed by '@auth:'",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := ValidateAPIAuthorizationPolicySubject(tt.args.attribute, tt.args.subject)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ValidateAPIAuthorizationPolicySubject() error = %v, wantErr %v", err, tt.wantErr)
+			}
+
+			if err != nil && err.Error() != tt.wantErrString {
+				t.Errorf("ValidateAPIAuthorizationPolicySubject() error = '%v', wantErrString = '%v'", err, tt.wantErrString)
 			}
 		})
 	}
