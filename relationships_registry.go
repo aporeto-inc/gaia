@@ -166,6 +166,10 @@ func init() {
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
+						Name: "associatedBillingID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
@@ -182,6 +186,10 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "status",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "associatedBillingID",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
