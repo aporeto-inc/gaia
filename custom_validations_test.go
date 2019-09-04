@@ -579,7 +579,7 @@ func TestValidateProtocolList(t *testing.T) {
 				"proto",
 				[]string{},
 			},
-			true,
+			false,
 		},
 	}
 	for _, tt := range tests {
