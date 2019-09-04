@@ -4086,10 +4086,6 @@ Returns the list of processing units that depend on an service.
 
 Retrieves the processing units that implement this service.
 
-Parameters:
-
-- `mode` (`enum(subjects | object)`): Matching mode.
-
 ##### `GET /vulnerabilities/:id/processingunits`
 
 Retrieves the processing units affected by the vulnerability.
@@ -9338,10 +9334,6 @@ Retrieves the HTTP Resource exposed by this service.
 ##### `GET /services/:id/processingunits`
 
 Retrieves the processing units that implement this service.
-
-Parameters:
-
-- `mode` (`enum(subjects | object)`): Matching mode.
 
 #### Attributes
 
