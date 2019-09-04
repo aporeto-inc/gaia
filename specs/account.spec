@@ -102,6 +102,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    filterable: true
 
   - name: associatedNamespaceID
     description: Contains the ID of the associated namespace.
