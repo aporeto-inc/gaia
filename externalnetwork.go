@@ -135,6 +135,9 @@ type ExternalNetwork struct {
 	// List of protocols (`tcp`, `udp`, or protocol number).
 	Protocols []string `json:"protocols" msgpack:"protocols" bson:"protocols" mapstructure:"protocols,omitempty"`
 
+	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
+	ServicePorts []string `json:"servicePorts" msgpack:"servicePorts" bson:"serviceports" mapstructure:"servicePorts,omitempty"`
+
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
@@ -159,15 +162,12 @@ func NewExternalNetwork() *ExternalNetwork {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Entries:        []string{},
-		MigrationsLog:  map[string]string{},
+		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Ports: []string{
-			"1:65535",
-		},
-		Metadata: []string{},
-		Protocols: []string{
-			"tcp",
-		},
+		Ports:          []string{},
+		MigrationsLog:  map[string]string{},
+		Protocols:      []string{},
+		ServicePorts:   []string{},
 	}
 }
 
@@ -455,6 +455,7 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
 			Protocols:            &o.Protocols,
+			ServicePorts:         &o.ServicePorts,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 			ZHash:                &o.ZHash,
@@ -499,6 +500,8 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Protected = &(o.Protected)
 		case "protocols":
 			sp.Protocols = &(o.Protocols)
+		case "servicePorts":
+			sp.ServicePorts = &(o.ServicePorts)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -570,6 +573,9 @@ func (o *ExternalNetwork) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Protocols != nil {
 		o.Protocols = *so.Protocols
+	}
+	if so.ServicePorts != nil {
+		o.ServicePorts = *so.ServicePorts
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -647,6 +653,10 @@ func (o *ExternalNetwork) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateServicePorts("servicePorts", o.ServicePorts); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -715,6 +725,8 @@ func (o *ExternalNetwork) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "protocols":
 		return o.Protocols
+	case "servicePorts":
+		return o.ServicePorts
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -903,15 +915,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Ports",
-		DefaultValue: []string{
-			"1:65535",
-		},
-		Description: `List of single ports or range (xx:yy).`,
-		Exposed:     true,
-		Name:        "ports",
-		Stored:      true,
-		SubType:     "string",
-		Type:        "list",
+		Deprecated:     true,
+		Description:    `List of single ports or range (xx:yy).`,
+		Exposed:        true,
+		Name:           "ports",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -940,15 +950,23 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Protocols": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocols",
-		DefaultValue: []string{
-			"tcp",
-		},
-		Description: `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
-		Exposed:     true,
-		Name:        "protocols",
-		Stored:      true,
-		SubType:     "string",
-		Type:        "list",
+		Deprecated:     true,
+		Description:    `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
+		Exposed:        true,
+		Name:           "protocols",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
+	"ServicePorts": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ServicePorts",
+		Description:    `List of protocol/ports ` + "`" + `(tcp/80)` + "`" + ` or ` + "`" + `(udp/80:100)` + "`" + `.`,
+		Exposed:        true,
+		Name:           "servicePorts",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1180,15 +1198,13 @@ with the '@' prefix, and should only be used by external systems.`,
 	"ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Ports",
-		DefaultValue: []string{
-			"1:65535",
-		},
-		Description: `List of single ports or range (xx:yy).`,
-		Exposed:     true,
-		Name:        "ports",
-		Stored:      true,
-		SubType:     "string",
-		Type:        "list",
+		Deprecated:     true,
+		Description:    `List of single ports or range (xx:yy).`,
+		Exposed:        true,
+		Name:           "ports",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1217,15 +1233,23 @@ with the '@' prefix, and should only be used by external systems.`,
 	"protocols": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocols",
-		DefaultValue: []string{
-			"tcp",
-		},
-		Description: `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
-		Exposed:     true,
-		Name:        "protocols",
-		Stored:      true,
-		SubType:     "string",
-		Type:        "list",
+		Deprecated:     true,
+		Description:    `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
+		Exposed:        true,
+		Name:           "protocols",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
+	"serviceports": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ServicePorts",
+		Description:    `List of protocol/ports ` + "`" + `(tcp/80)` + "`" + ` or ` + "`" + `(udp/80:100)` + "`" + `.`,
+		Exposed:        true,
+		Name:           "servicePorts",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1400,6 +1424,9 @@ type SparseExternalNetwork struct {
 	// List of protocols (`tcp`, `udp`, or protocol number).
 	Protocols *[]string `json:"protocols,omitempty" msgpack:"protocols,omitempty" bson:"protocols,omitempty" mapstructure:"protocols,omitempty"`
 
+	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
+	ServicePorts *[]string `json:"servicePorts,omitempty" msgpack:"servicePorts,omitempty" bson:"serviceports,omitempty" mapstructure:"servicePorts,omitempty"`
+
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
@@ -1502,6 +1529,9 @@ func (o *SparseExternalNetwork) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protocols != nil {
 		out.Protocols = *o.Protocols
+	}
+	if o.ServicePorts != nil {
+		out.ServicePorts = *o.ServicePorts
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey

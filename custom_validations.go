@@ -35,7 +35,7 @@ func ValidatePortString(attribute string, portExp string) error {
 	}
 
 	if p1 < 1 || p1 > 65535 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a between 1 and 65535", attribute))
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 1 and 65535", attribute))
 	}
 
 	if len(ports) == 1 {
@@ -48,7 +48,7 @@ func ValidatePortString(attribute string, portExp string) error {
 	}
 
 	if p2 < 1 || p2 > 65535 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a between 1 and 65535", attribute))
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 1 and 65535", attribute))
 	}
 
 	if p1 >= p2 {
@@ -132,10 +132,6 @@ func ValidateProtocol(attribute string, proto string) error {
 
 // ValidateProtocolList validates a list of protocols.
 func ValidateProtocolList(attribute string, protocols []string) error {
-
-	if len(protocols) == 0 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must not be empty", attribute))
-	}
 
 	for _, proto := range protocols {
 		if err := ValidateProtocol(attribute, proto); err != nil {
@@ -517,6 +513,42 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 	}
 
 	return nil
+}
+
+// ValidateServicePorts validates a list of serviceports.
+func ValidateServicePorts(attribute string, servicePorts []string) error {
+
+	for _, servicePort := range servicePorts {
+		if err := ValidateServicePort(attribute, servicePort); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ValidateServicePort validates a single serviceport.
+func ValidateServicePort(attribute string, servicePort string) error {
+
+	parts := strings.SplitN(servicePort, "/", 2)
+	upperProto := strings.ToUpper(parts[0])
+	if protocols.L4ProtocolNumberFromName(upperProto) == -1 {
+		return makeValidationError(attribute, fmt.Sprintf("'%s' is not a valid protocol", upperProto))
+	}
+
+	if len(parts) == 1 {
+		if upperProto == protocols.L4ProtocolTCP || upperProto == protocols.L4ProtocolUDP {
+			return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used without ports", upperProto))
+		}
+		return nil
+	}
+
+	if upperProto != protocols.L4ProtocolTCP && upperProto != protocols.L4ProtocolUDP {
+		return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used with ports", upperProto))
+	}
+
+	ports := parts[1]
+	return ValidatePortString(attribute, ports)
 }
 
 // ValidateAudience validates an audience string.
