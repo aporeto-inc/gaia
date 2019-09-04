@@ -124,7 +124,7 @@ type ExternalNetwork struct {
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// List of single ports or range (xx:yy).
-	Ports []string `json:"ports" msgpack:"ports" bson:"-" mapstructure:"ports,omitempty"`
+	Ports []string `json:"ports" msgpack:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 
 	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
@@ -133,7 +133,7 @@ type ExternalNetwork struct {
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// List of protocols (`tcp`, `udp`, or protocol number).
-	Protocols []string `json:"protocols" msgpack:"protocols" bson:"-" mapstructure:"protocols,omitempty"`
+	Protocols []string `json:"protocols" msgpack:"protocols" bson:"protocols" mapstructure:"protocols,omitempty"`
 
 	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
 	ServicePorts []string `json:"servicePorts" msgpack:"servicePorts" bson:"serviceports" mapstructure:"servicePorts,omitempty"`
@@ -645,6 +645,14 @@ func (o *ExternalNetwork) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidatePortStringList("ports", o.Ports); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateProtocolList("protocols", o.Protocols); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateServicePorts("servicePorts", o.ServicePorts); err != nil {
 		errors = errors.Append(err)
 	}
@@ -911,6 +919,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `List of single ports or range (xx:yy).`,
 		Exposed:        true,
 		Name:           "ports",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -945,6 +954,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
 		Exposed:        true,
 		Name:           "protocols",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -1192,6 +1202,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `List of single ports or range (xx:yy).`,
 		Exposed:        true,
 		Name:           "ports",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -1226,6 +1237,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
 		Exposed:        true,
 		Name:           "protocols",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -1401,7 +1413,7 @@ type SparseExternalNetwork struct {
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// List of single ports or range (xx:yy).
-	Ports *[]string `json:"ports,omitempty" msgpack:"ports,omitempty" bson:"-" mapstructure:"ports,omitempty"`
+	Ports *[]string `json:"ports,omitempty" msgpack:"ports,omitempty" bson:"ports,omitempty" mapstructure:"ports,omitempty"`
 
 	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
@@ -1410,7 +1422,7 @@ type SparseExternalNetwork struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// List of protocols (`tcp`, `udp`, or protocol number).
-	Protocols *[]string `json:"protocols,omitempty" msgpack:"protocols,omitempty" bson:"-" mapstructure:"protocols,omitempty"`
+	Protocols *[]string `json:"protocols,omitempty" msgpack:"protocols,omitempty" bson:"protocols,omitempty" mapstructure:"protocols,omitempty"`
 
 	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
 	ServicePorts *[]string `json:"servicePorts,omitempty" msgpack:"servicePorts,omitempty" bson:"serviceports,omitempty" mapstructure:"servicePorts,omitempty"`

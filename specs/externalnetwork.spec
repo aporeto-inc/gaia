@@ -57,14 +57,20 @@ attributes:
     type: list
     exposed: true
     subtype: string
+    stored: true
     deprecated: true
+    validations:
+    - $ports
 
   - name: protocols
     description: List of protocols (`tcp`, `udp`, or protocol number).
     type: list
     exposed: true
     subtype: string
+    stored: true
     deprecated: true
+    validations:
+    - $protocols
 
   - name: servicePorts
     description: List of protocol/ports `(tcp/80)` or `(udp/80:100)`.

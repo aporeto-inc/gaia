@@ -133,10 +133,6 @@ func ValidateProtocol(attribute string, proto string) error {
 // ValidateProtocolList validates a list of protocols.
 func ValidateProtocolList(attribute string, protocols []string) error {
 
-	if len(protocols) == 0 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must not be empty", attribute))
-	}
-
 	for _, proto := range protocols {
 		if err := ValidateProtocol(attribute, proto); err != nil {
 			return err
