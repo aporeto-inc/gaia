@@ -62,6 +62,7 @@ attributes:
     - EnforcerTraces
     - Counters
     - Accesses
+    - DNSLookups
     default_value: Flows
 
   - name: offset

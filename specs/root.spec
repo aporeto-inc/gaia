@@ -205,6 +205,10 @@ relations:
         description: Also return the view suggestions.
         type: boolean
 
+- rest_name: dnslookupreport
+  create:
+    description: Create a DNS Lookup report.
+
 - rest_name: email
   create:
     description: Sends an email.
