@@ -183,6 +183,18 @@ relations:
   create:
     description: Create a counter report.
 
+- rest_name: customer
+  get:
+    description: |-
+      Retrieves all customers. This is a private API that can only be done by
+      the system.
+    parameters:
+      entries:
+      - name: providerCustomerID
+        description: internal parameters.
+        type: string
+        example_value: customerID
+
 - rest_name: datapathcertificate
   create:
     description: Creates a new certificate for datapath.

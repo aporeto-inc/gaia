@@ -716,6 +716,26 @@ func init() {
 		Retrieve: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
 		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "providerCustomerID",
+						Type: "string",
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "providerCustomerID",
+						Type: "string",
+					},
+				},
+			},
+		},
 	}
 
 	relationshipsRegistry[DNSLookupReportIdentity] = &elemental.Relationship{
