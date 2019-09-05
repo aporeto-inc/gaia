@@ -2500,6 +2500,34 @@ Last update date of the object.
 
 Geographical zone. Used for sharding and georedundancy.
 
+### EnforcerInfo
+
+Post a new enforcer information.
+
+#### Example
+
+```json
+{
+  "enforcerID": "xxx-xxx-xxx-xxx",
+  "enforcerInfoID": "xxx-xxx-xxx-xxx"
+}
+```
+
+#### Attributes
+
+##### `collectedInfo` `map[string]string`
+
+Represents the latest information collected by the enforcer.
+
+##### `enforcerID` `string` [`required`]
+
+ID of the enforcer.
+
+##### `enforcerInfoID` `string` [`required`]
+
+EnforcerInfoID is the ID of the enforcer information. EnforcerInfoID is used to
+aggergate the multipart requests.
+
 ### EnforcerReport
 
 Post a new enforcer statistics report.

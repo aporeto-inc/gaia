@@ -919,6 +919,8 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[EnforcerInfoIdentity] = &elemental.Relationship{}
+
 	relationshipsRegistry[EnforcerProfileIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
