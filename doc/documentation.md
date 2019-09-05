@@ -2370,9 +2370,13 @@ providing a renewed certificate.
 
 ##### `collectInfo` `boolean`
 
+_This attribute is deprecated_.
+
 Indicates to the enforcer whether or not it needs to collect information.
 
 ##### `collectedInfo` `map[string]string`
+
+_This attribute is deprecated_.
 
 Represents the latest information collected by the enforcer.
 

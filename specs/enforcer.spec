@@ -107,6 +107,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
+    deprecated: true
 
   - name: collectedInfo
     description: Represents the latest information collected by the enforcer.
@@ -114,6 +115,7 @@ attributes:
     exposed: true
     subtype: map[string]string
     stored: true
+    deprecated: true
 
   - name: currentVersion
     description: The version number of the installed enforcer binary.
