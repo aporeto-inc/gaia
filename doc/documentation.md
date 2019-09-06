@@ -2404,6 +2404,8 @@ Default value:
 
 ##### `lastCollectionTime` `time`
 
+_This attribute is deprecated_.
+
 Identifies when the information was collected.
 
 ##### `lastSyncTime` `time`

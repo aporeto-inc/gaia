@@ -142,6 +142,7 @@ attributes:
     type: time
     exposed: true
     stored: true
+    deprecated: true
 
   - name: lastPokeTime
     description: The time and date of the last poke.
