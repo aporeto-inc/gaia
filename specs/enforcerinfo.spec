@@ -12,9 +12,14 @@ attributes:
   v1:
   - name: collectedInfo
     description: Represents the latest information collected by the enforcer.
-    type: external
+    type: string
     exposed: true
-    subtype: map[string]string
+    stored: true
+
+  - name: collectionTime
+    description: Identifies when the information was collected.
+    type: time
+    exposed: true
     stored: true
 
   - name: enforcerID

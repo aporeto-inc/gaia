@@ -2519,9 +2519,13 @@ Post a new enforcer information.
 
 #### Attributes
 
-##### `collectedInfo` `map[string]string`
+##### `collectedInfo` `string`
 
 Represents the latest information collected by the enforcer.
+
+##### `collectionTime` `time`
+
+Identifies when the information was collected.
 
 ##### `enforcerID` `string` [`required`]
 

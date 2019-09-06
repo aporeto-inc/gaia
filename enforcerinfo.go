@@ -2,6 +2,7 @@ package gaia
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -80,7 +81,10 @@ func (o EnforcerInfosList) Version() int {
 // EnforcerInfo represents the model of a enforcerinfo
 type EnforcerInfo struct {
 	// Represents the latest information collected by the enforcer.
-	CollectedInfo map[string]string `json:"collectedInfo" msgpack:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
+	CollectedInfo string `json:"collectedInfo" msgpack:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
+
+	// Identifies when the information was collected.
+	CollectionTime time.Time `json:"collectionTime" msgpack:"collectionTime" bson:"collectiontime" mapstructure:"collectionTime,omitempty"`
 
 	// ID of the enforcer.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
@@ -96,8 +100,7 @@ type EnforcerInfo struct {
 func NewEnforcerInfo() *EnforcerInfo {
 
 	return &EnforcerInfo{
-		ModelVersion:  1,
-		CollectedInfo: map[string]string{},
+		ModelVersion: 1,
 	}
 }
 
@@ -155,6 +158,7 @@ func (o *EnforcerInfo) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseEnforcerInfo{
 			CollectedInfo:  &o.CollectedInfo,
+			CollectionTime: &o.CollectionTime,
 			EnforcerID:     &o.EnforcerID,
 			EnforcerInfoID: &o.EnforcerInfoID,
 		}
@@ -165,6 +169,8 @@ func (o *EnforcerInfo) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "collectedInfo":
 			sp.CollectedInfo = &(o.CollectedInfo)
+		case "collectionTime":
+			sp.CollectionTime = &(o.CollectionTime)
 		case "enforcerID":
 			sp.EnforcerID = &(o.EnforcerID)
 		case "enforcerInfoID":
@@ -184,6 +190,9 @@ func (o *EnforcerInfo) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseEnforcerInfo)
 	if so.CollectedInfo != nil {
 		o.CollectedInfo = *so.CollectedInfo
+	}
+	if so.CollectionTime != nil {
+		o.CollectionTime = *so.CollectionTime
 	}
 	if so.EnforcerID != nil {
 		o.EnforcerID = *so.EnforcerID
@@ -267,6 +276,8 @@ func (o *EnforcerInfo) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "collectedInfo":
 		return o.CollectedInfo
+	case "collectionTime":
+		return o.CollectionTime
 	case "enforcerID":
 		return o.EnforcerID
 	case "enforcerInfoID":
@@ -285,8 +296,16 @@ var EnforcerInfoAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "collectedInfo",
 		Stored:         true,
-		SubType:        "map[string]string",
-		Type:           "external",
+		Type:           "string",
+	},
+	"CollectionTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CollectionTime",
+		Description:    `Identifies when the information was collected.`,
+		Exposed:        true,
+		Name:           "collectionTime",
+		Stored:         true,
+		Type:           "time",
 	},
 	"EnforcerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -318,8 +337,16 @@ var EnforcerInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Exposed:        true,
 		Name:           "collectedInfo",
 		Stored:         true,
-		SubType:        "map[string]string",
-		Type:           "external",
+		Type:           "string",
+	},
+	"collectiontime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CollectionTime",
+		Description:    `Identifies when the information was collected.`,
+		Exposed:        true,
+		Name:           "collectionTime",
+		Stored:         true,
+		Type:           "time",
 	},
 	"enforcerid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -406,7 +433,10 @@ func (o SparseEnforcerInfosList) Version() int {
 // SparseEnforcerInfo represents the sparse version of a enforcerinfo.
 type SparseEnforcerInfo struct {
 	// Represents the latest information collected by the enforcer.
-	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" msgpack:"collectedInfo,omitempty" bson:"collectedinfo,omitempty" mapstructure:"collectedInfo,omitempty"`
+	CollectedInfo *string `json:"collectedInfo,omitempty" msgpack:"collectedInfo,omitempty" bson:"collectedinfo,omitempty" mapstructure:"collectedInfo,omitempty"`
+
+	// Identifies when the information was collected.
+	CollectionTime *time.Time `json:"collectionTime,omitempty" msgpack:"collectionTime,omitempty" bson:"collectiontime,omitempty" mapstructure:"collectionTime,omitempty"`
 
 	// ID of the enforcer.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
@@ -452,6 +482,9 @@ func (o *SparseEnforcerInfo) ToPlain() elemental.PlainIdentifiable {
 	out := NewEnforcerInfo()
 	if o.CollectedInfo != nil {
 		out.CollectedInfo = *o.CollectedInfo
+	}
+	if o.CollectionTime != nil {
+		out.CollectionTime = *o.CollectionTime
 	}
 	if o.EnforcerID != nil {
 		out.EnforcerID = *o.EnforcerID
