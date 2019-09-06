@@ -10147,7 +10147,8 @@ Represents recipe options.
 
 ```json
 {
-  "appCrendentialFormat": "JSON"
+  "appCrendentialFormat": "JSON",
+  "deploymentMode": "Unrestricted"
 }
 ```
 
@@ -10161,6 +10162,16 @@ Default value:
 
 ```json
 "JSON"
+```
+
+##### `deploymentMode` `emum(Unrestricted | Unique | NamespaceUnique)`
+
+Indicates if the recipe can be run multiple time.
+
+Default value:
+
+```json
+"Unrestricted"
 ```
 
 ## visualization/depmaps

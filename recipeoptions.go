@@ -18,10 +18,27 @@ const (
 	RecipeOptionsAppCrendentialFormatYAML RecipeOptionsAppCrendentialFormatValue = "YAML"
 )
 
+// RecipeOptionsDeploymentModeValue represents the possible values for attribute "deploymentMode".
+type RecipeOptionsDeploymentModeValue string
+
+const (
+	// RecipeOptionsDeploymentModeNamespaceUnique represents the value NamespaceUnique.
+	RecipeOptionsDeploymentModeNamespaceUnique RecipeOptionsDeploymentModeValue = "NamespaceUnique"
+
+	// RecipeOptionsDeploymentModeUnique represents the value Unique.
+	RecipeOptionsDeploymentModeUnique RecipeOptionsDeploymentModeValue = "Unique"
+
+	// RecipeOptionsDeploymentModeUnrestricted represents the value Unrestricted.
+	RecipeOptionsDeploymentModeUnrestricted RecipeOptionsDeploymentModeValue = "Unrestricted"
+)
+
 // RecipeOptions represents the model of a recipeoptions
 type RecipeOptions struct {
 	// Indicates the format of the app credential.
 	AppCrendentialFormat RecipeOptionsAppCrendentialFormatValue `json:"appCrendentialFormat" msgpack:"appCrendentialFormat" bson:"appcrendentialformat" mapstructure:"appCrendentialFormat,omitempty"`
+
+	// Indicates if the recipe can be run multiple time.
+	DeploymentMode RecipeOptionsDeploymentModeValue `json:"deploymentMode" msgpack:"deploymentMode" bson:"deploymentmode" mapstructure:"deploymentMode,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -32,6 +49,7 @@ func NewRecipeOptions() *RecipeOptions {
 	return &RecipeOptions{
 		ModelVersion:         1,
 		AppCrendentialFormat: RecipeOptionsAppCrendentialFormatJSON,
+		DeploymentMode:       RecipeOptionsDeploymentModeUnrestricted,
 	}
 }
 
@@ -72,6 +90,10 @@ func (o *RecipeOptions) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("appCrendentialFormat", string(o.AppCrendentialFormat), []string{"JSON", "YAML"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("deploymentMode", string(o.DeploymentMode), []string{"Unrestricted", "Unique", "NamespaceUnique"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
