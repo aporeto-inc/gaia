@@ -10409,7 +10409,7 @@ Status of object represented by the node.
 
 Tags of object represented by the node.
 
-##### `type` `emum(Docker | ExternalNetwork | Volume | Claim | Node)`
+##### `type` `emum(Docker | ExternalNetwork | Volume | Claim | Node | Namespace)`
 
 Type of object represented by the node.
 
