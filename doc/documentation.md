@@ -6569,6 +6569,15 @@ Creation date of the object.
 
 Description of the object.
 
+##### `disableDatapathExpression` `[][]string`
+
+A tag expression that identifies processing units that will disable datapath
+protection. This can be used in cases where Aporeto only acts as an authorizer.
+This will essentially not install any network protection for processing units,
+and will only offer authorization through an HTTP and an envoyproxy-compatible
+gRPC API. The user is responsible for using these APIs to protect the selected
+processing units themselves.
+
 ##### `excludedInterfaces` `[]string`
 
 Ignore traffic with a source or destination matching the specified

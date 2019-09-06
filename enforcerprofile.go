@@ -129,6 +129,14 @@ type EnforcerProfile struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
+	// A tag expression that identifies processing units that will disable datapath
+	// protection. This can be used in cases where Aporeto only acts as an authorizer.
+	// This will essentially not install any network protection for processing units,
+	// and will only offer authorization through an HTTP and an envoyproxy-compatible
+	// gRPC API. The user is responsible for using these APIs to protect the selected
+	// processing units themselves.
+	DisableDatapathExpression [][]string `json:"disableDatapathExpression" msgpack:"disableDatapathExpression" bson:"disabledatapathexpression" mapstructure:"disableDatapathExpression,omitempty"`
+
 	// Ignore traffic with a source or destination matching the specified
 	// interfaces.
 	ExcludedInterfaces []string `json:"excludedInterfaces" msgpack:"excludedInterfaces" bson:"excludedinterfaces" mapstructure:"excludedInterfaces,omitempty"`
@@ -211,16 +219,17 @@ func NewEnforcerProfile() *EnforcerProfile {
 	return &EnforcerProfile{
 		ModelVersion:                1,
 		Annotations:                 map[string][]string{},
-		ExcludedInterfaces:          []string{},
+		DisableDatapathExpression:   [][]string{},
 		AssociatedTags:              []string{},
 		ExcludedNetworks:            []string{},
-		MigrationsLog:               map[string]string{},
+		ExcludedInterfaces:          []string{},
+		MetadataExtractor:           EnforcerProfileMetadataExtractorDocker,
 		IgnoreExpression:            [][]string{},
 		TargetNetworks:              []string{},
-		MetadataExtractor:           EnforcerProfileMetadataExtractorDocker,
 		NormalizedTags:              []string{},
 		KubernetesMetadataExtractor: EnforcerProfileKubernetesMetadataExtractorPodAtomic,
 		Metadata:                    []string{},
+		MigrationsLog:               map[string]string{},
 		TargetUDPNetworks:           []string{},
 		TrustedCAs:                  []string{},
 	}
@@ -485,6 +494,7 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			CreateIdempotencyKey:        &o.CreateIdempotencyKey,
 			CreateTime:                  &o.CreateTime,
 			Description:                 &o.Description,
+			DisableDatapathExpression:   &o.DisableDatapathExpression,
 			ExcludedInterfaces:          &o.ExcludedInterfaces,
 			ExcludedNetworks:            &o.ExcludedNetworks,
 			IgnoreExpression:            &o.IgnoreExpression,
@@ -523,6 +533,8 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
+		case "disableDatapathExpression":
+			sp.DisableDatapathExpression = &(o.DisableDatapathExpression)
 		case "excludedInterfaces":
 			sp.ExcludedInterfaces = &(o.ExcludedInterfaces)
 		case "excludedNetworks":
@@ -593,6 +605,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
+	}
+	if so.DisableDatapathExpression != nil {
+		o.DisableDatapathExpression = *so.DisableDatapathExpression
 	}
 	if so.ExcludedInterfaces != nil {
 		o.ExcludedInterfaces = *so.ExcludedInterfaces
@@ -694,6 +709,10 @@ func (o *EnforcerProfile) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateTagsExpression("disableDatapathExpression", o.DisableDatapathExpression); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateTagsExpression("ignoreExpression", o.IgnoreExpression); err != nil {
 		errors = errors.Append(err)
 	}
@@ -769,6 +788,8 @@ func (o *EnforcerProfile) ValueForAttribute(name string) interface{} {
 		return o.CreateTime
 	case "description":
 		return o.Description
+	case "disableDatapathExpression":
+		return o.DisableDatapathExpression
 	case "excludedInterfaces":
 		return o.ExcludedInterfaces
 	case "excludedNetworks":
@@ -892,6 +913,21 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"DisableDatapathExpression": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DisableDatapathExpression",
+		Description: `A tag expression that identifies processing units that will disable datapath
+protection. This can be used in cases where Aporeto only acts as an authorizer.
+This will essentially not install any network protection for processing units,
+and will only offer authorization through an HTTP and an envoyproxy-compatible
+gRPC API. The user is responsible for using these APIs to protect the selected
+processing units themselves.`,
+		Exposed: true,
+		Name:    "disableDatapathExpression",
+		Stored:  true,
+		SubType: "[][]string",
+		Type:    "external",
 	},
 	"ExcludedInterfaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1230,6 +1266,21 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"disabledatapathexpression": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DisableDatapathExpression",
+		Description: `A tag expression that identifies processing units that will disable datapath
+protection. This can be used in cases where Aporeto only acts as an authorizer.
+This will essentially not install any network protection for processing units,
+and will only offer authorization through an HTTP and an envoyproxy-compatible
+gRPC API. The user is responsible for using these APIs to protect the selected
+processing units themselves.`,
+		Exposed: true,
+		Name:    "disableDatapathExpression",
+		Stored:  true,
+		SubType: "[][]string",
+		Type:    "external",
 	},
 	"excludedinterfaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1574,6 +1625,14 @@ type SparseEnforcerProfile struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
+	// A tag expression that identifies processing units that will disable datapath
+	// protection. This can be used in cases where Aporeto only acts as an authorizer.
+	// This will essentially not install any network protection for processing units,
+	// and will only offer authorization through an HTTP and an envoyproxy-compatible
+	// gRPC API. The user is responsible for using these APIs to protect the selected
+	// processing units themselves.
+	DisableDatapathExpression *[][]string `json:"disableDatapathExpression,omitempty" msgpack:"disableDatapathExpression,omitempty" bson:"disabledatapathexpression,omitempty" mapstructure:"disableDatapathExpression,omitempty"`
+
 	// Ignore traffic with a source or destination matching the specified
 	// interfaces.
 	ExcludedInterfaces *[]string `json:"excludedInterfaces,omitempty" msgpack:"excludedInterfaces,omitempty" bson:"excludedinterfaces,omitempty" mapstructure:"excludedInterfaces,omitempty"`
@@ -1703,6 +1762,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
+	}
+	if o.DisableDatapathExpression != nil {
+		out.DisableDatapathExpression = *o.DisableDatapathExpression
 	}
 	if o.ExcludedInterfaces != nil {
 		out.ExcludedInterfaces = *o.ExcludedInterfaces
