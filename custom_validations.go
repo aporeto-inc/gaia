@@ -519,6 +519,14 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 func ValidateServicePorts(attribute string, servicePorts []string) error {
 
 	for _, servicePort := range servicePorts {
+
+		if strings.EqualFold(servicePort, protocols.ANY) {
+			if len(servicePorts) != 1 {
+				return makeValidationError(attribute, fmt.Sprintf("Protocol '%s' cannot be used with other protocols", servicePort))
+			}
+			continue
+		}
+
 		if err := ValidateServicePort(attribute, servicePort); err != nil {
 			return err
 		}
@@ -529,6 +537,10 @@ func ValidateServicePorts(attribute string, servicePorts []string) error {
 
 // ValidateServicePort validates a single serviceport.
 func ValidateServicePort(attribute string, servicePort string) error {
+
+	if strings.EqualFold(servicePort, protocols.ANY) {
+		return nil
+	}
 
 	parts := strings.SplitN(servicePort, "/", 2)
 	upperProto := strings.ToUpper(parts[0])

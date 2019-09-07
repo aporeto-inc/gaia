@@ -4,8 +4,8 @@ import (
 	"strconv"
 )
 
-// ALL defines all protocols
-const ALL = "ALL"
+// ANY defines all protocols
+const ANY = "ANY"
 
 // All L4 Protocols
 // (Ref https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)
