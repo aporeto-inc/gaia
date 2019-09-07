@@ -83,6 +83,9 @@ type Authn struct {
 	// The claims in the token.
 	Claims *types.MidgardClaims `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
+	// The token to verify. This is only used is a POST request is used.
+	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -150,6 +153,7 @@ func (o *Authn) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseAuthn{
 			Claims: o.Claims,
+			Token:  &o.Token,
 		}
 	}
 
@@ -158,6 +162,8 @@ func (o *Authn) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "claims":
 			sp.Claims = o.Claims
+		case "token":
+			sp.Token = &(o.Token)
 		}
 	}
 
@@ -173,6 +179,9 @@ func (o *Authn) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseAuthn)
 	if so.Claims != nil {
 		o.Claims = so.Claims
+	}
+	if so.Token != nil {
+		o.Token = *so.Token
 	}
 }
 
@@ -242,6 +251,8 @@ func (o *Authn) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "claims":
 		return o.Claims
+	case "token":
+		return o.Token
 	}
 
 	return nil
@@ -260,6 +271,14 @@ var AuthnAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "_claims",
 		Type:           "external",
 	},
+	"Token": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Token",
+		Description:    `The token to verify. This is only used is a POST request is used.`,
+		Exposed:        true,
+		Name:           "token",
+		Type:           "string",
+	},
 }
 
 // AuthnLowerCaseAttributesMap represents the map of attribute for Authn.
@@ -274,6 +293,14 @@ var AuthnLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		SubType:        "_claims",
 		Type:           "external",
+	},
+	"token": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Token",
+		Description:    `The token to verify. This is only used is a POST request is used.`,
+		Exposed:        true,
+		Name:           "token",
+		Type:           "string",
 	},
 }
 
@@ -343,6 +370,9 @@ type SparseAuthn struct {
 	// The claims in the token.
 	Claims *types.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
+	// The token to verify. This is only used is a POST request is used.
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -380,6 +410,9 @@ func (o *SparseAuthn) ToPlain() elemental.PlainIdentifiable {
 	out := NewAuthn()
 	if o.Claims != nil {
 		out.Claims = o.Claims
+	}
+	if o.Token != nil {
+		out.Token = *o.Token
 	}
 
 	return out
