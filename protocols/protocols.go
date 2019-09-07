@@ -5,6 +5,7 @@ import (
 )
 
 // ANY defines all protocols
+// NOTE: Keeping it uppercase for consistency
 const ANY = "ANY"
 
 // All L4 Protocols
