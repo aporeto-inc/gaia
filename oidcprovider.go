@@ -92,6 +92,11 @@ type OIDCProvider struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// Set the CA to use to contact the OIDC server. This is useful when you are using
+	// a custom OIDC provider that doesn't use a trusted CA. Most of the
+	// time, you can leave this property empty.
+	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
+
 	// Unique client ID.
 	ClientID string `json:"clientID" msgpack:"clientID" bson:"clientid" mapstructure:"clientID,omitempty"`
 
@@ -388,6 +393,7 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
+			CertificateAuthority: &o.CertificateAuthority,
 			ClientID:             &o.ClientID,
 			ClientSecret:         &o.ClientSecret,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
@@ -419,6 +425,8 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "certificateAuthority":
+			sp.CertificateAuthority = &(o.CertificateAuthority)
 		case "clientID":
 			sp.ClientID = &(o.ClientID)
 		case "clientSecret":
@@ -498,6 +506,9 @@ func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CertificateAuthority != nil {
+		o.CertificateAuthority = *so.CertificateAuthority
 	}
 	if so.ClientID != nil {
 		o.ClientID = *so.ClientID
@@ -592,6 +603,10 @@ func (o *OIDCProvider) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidatePEM("certificateAuthority", o.CertificateAuthority); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("clientID", o.ClientID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -652,6 +667,8 @@ func (o *OIDCProvider) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
+	case "certificateAuthority":
+		return o.CertificateAuthority
 	case "clientID":
 		return o.ClientID
 	case "clientSecret":
@@ -734,6 +751,17 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"CertificateAuthority": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CertificateAuthority",
+		Description: `Set the CA to use to contact the OIDC server. This is useful when you are using
+a custom OIDC provider that doesn't use a trusted CA. Most of the
+time, you can leave this property empty.`,
+		Exposed: true,
+		Name:    "certificateAuthority",
+		Stored:  true,
+		Type:    "string",
 	},
 	"ClientID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1012,6 +1040,17 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"certificateauthority": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CertificateAuthority",
+		Description: `Set the CA to use to contact the OIDC server. This is useful when you are using
+a custom OIDC provider that doesn't use a trusted CA. Most of the
+time, you can leave this property empty.`,
+		Exposed: true,
+		Name:    "certificateAuthority",
+		Stored:  true,
+		Type:    "string",
 	},
 	"clientid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1326,6 +1365,11 @@ type SparseOIDCProvider struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
+	// Set the CA to use to contact the OIDC server. This is useful when you are using
+	// a custom OIDC provider that doesn't use a trusted CA. Most of the
+	// time, you can leave this property empty.
+	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
+
 	// Unique client ID.
 	ClientID *string `json:"clientID,omitempty" msgpack:"clientID,omitempty" bson:"clientid,omitempty" mapstructure:"clientID,omitempty"`
 
@@ -1434,6 +1478,9 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CertificateAuthority != nil {
+		out.CertificateAuthority = *o.CertificateAuthority
 	}
 	if o.ClientID != nil {
 		out.ClientID = *o.ClientID

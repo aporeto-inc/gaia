@@ -535,6 +535,9 @@ func init() {
 	}
 
 	relationshipsRegistry[AuthnIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
