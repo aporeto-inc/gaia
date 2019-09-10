@@ -28,6 +28,15 @@ indexes:
 # Attributes
 attributes:
   v1:
+  - name: lastReportTime
+    description: |-
+      lastReportTime holds the last time the customer was reported to their
+      provider.
+    type: time
+    exposed: true
+    stored: true
+    orderable: true
+
   - name: provider
     description: Provider holds the name of the provider to be billed for this service.
     type: enum
