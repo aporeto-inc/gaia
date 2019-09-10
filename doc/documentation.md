@@ -652,6 +652,7 @@ Parameters:
 
 - `name` (`string`): internal parameters.
 - `status` (`string`): internal parameters.
+- `associatedBillingID` (`string`): internal parameters.
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
 ##### `POST /accounts`

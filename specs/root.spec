@@ -36,6 +36,11 @@ relations:
         description: internal parameters.
         type: string
         example_value: status
+
+      - name: associatedBillingID
+        description: internal parameters.
+        type: string
+        example_value: billingID
   create:
     description: Creates a new account.
 
