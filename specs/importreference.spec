@@ -76,3 +76,18 @@ attributes:
         - - $identity=processingunit
     extensions:
       refMode: pointer
+
+  - name: importConstraint
+    description: |-
+      Define the import constraint. If Unrestricted, import
+      can be deployed multiple times. If Unique, only one import is allowed
+      in the current namespace and its child namespaces. If NamespaceUnique, only
+      one import is allowed in the current namespace.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Unrestricted
+    - Unique
+    - NamespaceUnique
+    default_value: Unrestricted

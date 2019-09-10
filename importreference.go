@@ -8,6 +8,20 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// ImportReferenceImportConstraintValue represents the possible values for attribute "importConstraint".
+type ImportReferenceImportConstraintValue string
+
+const (
+	// ImportReferenceImportConstraintNamespaceUnique represents the value NamespaceUnique.
+	ImportReferenceImportConstraintNamespaceUnique ImportReferenceImportConstraintValue = "NamespaceUnique"
+
+	// ImportReferenceImportConstraintUnique represents the value Unique.
+	ImportReferenceImportConstraintUnique ImportReferenceImportConstraintValue = "Unique"
+
+	// ImportReferenceImportConstraintUnrestricted represents the value Unrestricted.
+	ImportReferenceImportConstraintUnrestricted ImportReferenceImportConstraintValue = "Unrestricted"
+)
+
 // ImportReferenceIdentity represents the Identity of the object.
 var ImportReferenceIdentity = elemental.Identity{
 	Name:     "importreference",
@@ -107,6 +121,12 @@ type ImportReference struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
+	// Define the import constraint. If Unrestricted, import
+	// can be deployed multiple times. If Unique, only one import is allowed
+	// in the current namespace and its child namespaces. If NamespaceUnique, only
+	// one import is allowed in the current namespace.
+	ImportConstraint ImportReferenceImportConstraintValue `json:"importConstraint" msgpack:"importConstraint" bson:"importconstraint" mapstructure:"importConstraint,omitempty"`
+
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -146,14 +166,15 @@ type ImportReference struct {
 func NewImportReference() *ImportReference {
 
 	return &ImportReference{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		Data:           NewExport(),
-		AssociatedTags: []string{},
-		Claims:         []string{},
-		MigrationsLog:  map[string]string{},
-		Metadata:       []string{},
-		NormalizedTags: []string{},
+		ModelVersion:     1,
+		Annotations:      map[string][]string{},
+		Data:             NewExport(),
+		AssociatedTags:   []string{},
+		Claims:           []string{},
+		Metadata:         []string{},
+		ImportConstraint: ImportReferenceImportConstraintUnrestricted,
+		MigrationsLog:    map[string]string{},
+		NormalizedTags:   []string{},
 	}
 }
 
@@ -402,6 +423,7 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			CreateTime:           &o.CreateTime,
 			Data:                 o.Data,
 			Description:          &o.Description,
+			ImportConstraint:     &o.ImportConstraint,
 			Metadata:             &o.Metadata,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
@@ -434,6 +456,8 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Data = o.Data
 		case "description":
 			sp.Description = &(o.Description)
+		case "importConstraint":
+			sp.ImportConstraint = &(o.ImportConstraint)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "migrationsLog":
@@ -490,6 +514,9 @@ func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
+	}
+	if so.ImportConstraint != nil {
+		o.ImportConstraint = *so.ImportConstraint
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -567,6 +594,10 @@ func (o *ImportReference) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("importConstraint", string(o.ImportConstraint), []string{"Unrestricted", "Unique", "NamespaceUnique"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
@@ -629,6 +660,8 @@ func (o *ImportReference) ValueForAttribute(name string) interface{} {
 		return o.Data
 	case "description":
 		return o.Description
+	case "importConstraint":
+		return o.ImportConstraint
 	case "metadata":
 		return o.Metadata
 	case "migrationsLog":
@@ -755,6 +788,19 @@ var ImportReferenceAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"ImportConstraint": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
+		ConvertedName:  "ImportConstraint",
+		DefaultValue:   ImportReferenceImportConstraintUnrestricted,
+		Description: `Define the import constraint. If Unrestricted, import
+can be deployed multiple times. If Unique, only one import is allowed
+in the current namespace and its child namespaces. If NamespaceUnique, only
+one import is allowed in the current namespace.`,
+		Exposed: true,
+		Name:    "importConstraint",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -998,6 +1044,19 @@ var ImportReferenceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
+	"importconstraint": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
+		ConvertedName:  "ImportConstraint",
+		DefaultValue:   ImportReferenceImportConstraintUnrestricted,
+		Description: `Define the import constraint. If Unrestricted, import
+can be deployed multiple times. If Unique, only one import is allowed
+in the current namespace and its child namespaces. If NamespaceUnique, only
+one import is allowed in the current namespace.`,
+		Exposed: true,
+		Name:    "importConstraint",
+		Stored:  true,
+		Type:    "enum",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -1228,6 +1287,12 @@ type SparseImportReference struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
+	// Define the import constraint. If Unrestricted, import
+	// can be deployed multiple times. If Unique, only one import is allowed
+	// in the current namespace and its child namespaces. If NamespaceUnique, only
+	// one import is allowed in the current namespace.
+	ImportConstraint *ImportReferenceImportConstraintValue `json:"importConstraint,omitempty" msgpack:"importConstraint,omitempty" bson:"importconstraint,omitempty" mapstructure:"importConstraint,omitempty"`
+
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
@@ -1322,6 +1387,9 @@ func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
+	}
+	if o.ImportConstraint != nil {
+		out.ImportConstraint = *o.ImportConstraint
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata

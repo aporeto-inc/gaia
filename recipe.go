@@ -8,6 +8,20 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// RecipeDeploymentModeValue represents the possible values for attribute "deploymentMode".
+type RecipeDeploymentModeValue string
+
+const (
+	// RecipeDeploymentModeNamespaceUnique represents the value NamespaceUnique.
+	RecipeDeploymentModeNamespaceUnique RecipeDeploymentModeValue = "NamespaceUnique"
+
+	// RecipeDeploymentModeUnique represents the value Unique.
+	RecipeDeploymentModeUnique RecipeDeploymentModeValue = "Unique"
+
+	// RecipeDeploymentModeUnrestricted represents the value Unrestricted.
+	RecipeDeploymentModeUnrestricted RecipeDeploymentModeValue = "Unrestricted"
+)
+
 // RecipeIdentity represents the Identity of the object.
 var RecipeIdentity = elemental.Identity{
 	Name:     "recipe",
@@ -98,6 +112,12 @@ type Recipe struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Indicates if the deployment mode of the recipe. If Unrestricted, recipe
+	// can be deployed multiple times. If Unique, only one deployment is allowed
+	// in the current namespace and its child namespaces. If NamespaceUnique, only
+	// one deployment is allowed in the current namespace.
+	DeploymentMode RecipeDeploymentModeValue `json:"deploymentMode" msgpack:"deploymentMode" bson:"deploymentmode" mapstructure:"deploymentMode,omitempty"`
+
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
@@ -176,6 +196,7 @@ func NewRecipe() *Recipe {
 		ModelVersion:     1,
 		Annotations:      map[string][]string{},
 		AssociatedTags:   []string{},
+		DeploymentMode:   RecipeDeploymentModeUnrestricted,
 		Steps:            []*UIStep{},
 		MigrationsLog:    map[string]string{},
 		TargetIdentities: []string{},
@@ -440,6 +461,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AssociatedTags:       &o.AssociatedTags,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
+			DeploymentMode:       &o.DeploymentMode,
 			Description:          &o.Description,
 			Icon:                 &o.Icon,
 			Key:                  &o.Key,
@@ -478,6 +500,8 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "deploymentMode":
+			sp.DeploymentMode = &(o.DeploymentMode)
 		case "description":
 			sp.Description = &(o.Description)
 		case "icon":
@@ -549,6 +573,9 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.DeploymentMode != nil {
+		o.DeploymentMode = *so.DeploymentMode
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -652,6 +679,10 @@ func (o *Recipe) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("deploymentMode", string(o.DeploymentMode), []string{"Unrestricted", "Unique", "NamespaceUnique"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -735,6 +766,8 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "deploymentMode":
+		return o.DeploymentMode
 	case "description":
 		return o.Description
 	case "icon":
@@ -849,6 +882,19 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"DeploymentMode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
+		ConvertedName:  "DeploymentMode",
+		DefaultValue:   RecipeDeploymentModeUnrestricted,
+		Description: `Indicates if the deployment mode of the recipe. If Unrestricted, recipe
+can be deployed multiple times. If Unique, only one deployment is allowed
+in the current namespace and its child namespaces. If NamespaceUnique, only
+one deployment is allowed in the current namespace.`,
+		Exposed: true,
+		Name:    "deploymentMode",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1179,6 +1225,19 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"deploymentmode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
+		ConvertedName:  "DeploymentMode",
+		DefaultValue:   RecipeDeploymentModeUnrestricted,
+		Description: `Indicates if the deployment mode of the recipe. If Unrestricted, recipe
+can be deployed multiple times. If Unique, only one deployment is allowed
+in the current namespace and its child namespaces. If NamespaceUnique, only
+one deployment is allowed in the current namespace.`,
+		Exposed: true,
+		Name:    "deploymentMode",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1525,6 +1584,12 @@ type SparseRecipe struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
+	// Indicates if the deployment mode of the recipe. If Unrestricted, recipe
+	// can be deployed multiple times. If Unique, only one deployment is allowed
+	// in the current namespace and its child namespaces. If NamespaceUnique, only
+	// one deployment is allowed in the current namespace.
+	DeploymentMode *RecipeDeploymentModeValue `json:"deploymentMode,omitempty" msgpack:"deploymentMode,omitempty" bson:"deploymentmode,omitempty" mapstructure:"deploymentMode,omitempty"`
+
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
@@ -1646,6 +1711,9 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
+	}
+	if o.DeploymentMode != nil {
+		out.DeploymentMode = *o.DeploymentMode
 	}
 	if o.Description != nil {
 		out.Description = *o.Description

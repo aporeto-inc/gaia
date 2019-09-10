@@ -20,14 +20,3 @@ attributes:
     - JSON
     - YAML
     default_value: JSON
-
-  - name: deploymentMode
-    description: Indicates if the recipe can be run multiple time.
-    type: enum
-    exposed: true
-    stored: true
-    allowed_choices:
-    - Unrestricted
-    - Unique
-    - NamespaceUnique
-    default_value: Unrestricted
