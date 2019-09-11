@@ -421,6 +421,9 @@ const (
 	// ActionHookModeyKey represents the action key that holds the hook mode.
 	ActionHookModeyKey = "mode"
 
+	// ActionHookOperationsKey represents the action key that holds the hook operations.
+	ActionHookOperationsKey = "operations"
+
 	// ActionHookContinueOnErrorKey represents if the hook should continue in case of error.
 	ActionHookContinueOnErrorKey = "continueOnError"
 )
