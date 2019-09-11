@@ -740,3 +740,29 @@ func ValidateAPIAuthorizationPolicySubject(attribute string, subject [][]string)
 
 	return nil
 }
+
+// ValidateWriteOperations verifies the given []string only contains
+// any unique combination Create, Update or Delete.
+func ValidateWriteOperations(attribute string, operations []string) error {
+
+	var ncreate, nupdate, ndelete int
+
+	for _, op := range operations {
+		switch elemental.Operation(op) {
+		case elemental.OperationCreate:
+			ncreate++
+		case elemental.OperationUpdate:
+			nupdate++
+		case elemental.OperationDelete:
+			ndelete++
+		default:
+			return makeValidationError(attribute, fmt.Sprintf("Invalid operation '%s': must be 'create', 'update' or 'delete'.", op))
+		}
+	}
+
+	if ncreate > 1 || nupdate > 1 || ndelete > 1 {
+		return makeValidationError(attribute, fmt.Sprintf("Must not contain the same operation multiple times."))
+	}
+
+	return nil
+}

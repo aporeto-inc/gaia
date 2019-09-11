@@ -156,3 +156,14 @@ attributes:
     - - $identity=processingunit
     validations:
     - $tagsExpression
+
+  - name: triggerOperations
+    description: |-
+      Select on which operation(s) you want to the hook to trigger. An empty list.
+      Only
+      means all operations. You can only set any combination of `create`, `update` or
+      `delete`. Any other value will trigger a validation error.
+    type: list
+    subtype: string
+    validations:
+    - $writeoperations

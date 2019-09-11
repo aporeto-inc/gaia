@@ -1863,3 +1863,115 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateWriteOperations(t *testing.T) {
+	type args struct {
+		attribute  string
+		operations []string
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantErr       bool
+		wantErrString string
+	}{
+		{
+			"nil",
+			args{
+				"thing",
+				nil,
+			},
+			false,
+			"",
+		},
+		{
+			"empty",
+			args{
+				"thing",
+				[]string{},
+			},
+			false,
+			"",
+		},
+		{
+			"valid list",
+			args{
+				"thing",
+				[]string{
+					"create",
+					"update",
+					"delete",
+				},
+			},
+			false,
+			"",
+		},
+		{
+			"invalid list",
+			args{
+				"thing",
+				[]string{
+					"Create",
+					"Update",
+					"NotDelete",
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Invalid operation 'Create': must be 'create', 'update' or 'delete'.",
+		},
+		{
+			"duplicate create",
+			args{
+				"thing",
+				[]string{
+					"create",
+					"create",
+					"update",
+					"delete",
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times.",
+		},
+		{
+			"duplicate update",
+			args{
+				"thing",
+				[]string{
+					"create",
+					"update",
+					"update",
+					"delete",
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times.",
+		},
+		{
+			"duplicate delete",
+			args{
+				"thing",
+				[]string{
+					"create",
+					"update",
+					"delete",
+					"delete",
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times.",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := ValidateWriteOperations(tt.args.attribute, tt.args.operations)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ValidateWriteOperations() error = %v, wantErr %v", err, tt.wantErr)
+			}
+
+			if err != nil && err.Error() != tt.wantErrString {
+				t.Errorf("ValidateWriteOperations() error = '%v', wantErrString = '%v'", err, tt.wantErrString)
+			}
+		})
+	}
+}
