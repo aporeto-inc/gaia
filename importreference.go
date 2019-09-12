@@ -127,6 +127,10 @@ type ImportReference struct {
 	// one import is allowed in the current namespace.
 	ImportConstraint ImportReferenceImportConstraintValue `json:"importConstraint" msgpack:"importConstraint" bson:"importconstraint" mapstructure:"importConstraint,omitempty"`
 
+	// Label used to identify the import reference and apply the
+	// import constraint.
+	Label string `json:"label" msgpack:"label" bson:"label" mapstructure:"label,omitempty"`
+
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -424,6 +428,7 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			Data:                 o.Data,
 			Description:          &o.Description,
 			ImportConstraint:     &o.ImportConstraint,
+			Label:                &o.Label,
 			Metadata:             &o.Metadata,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
@@ -458,6 +463,8 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Description = &(o.Description)
 		case "importConstraint":
 			sp.ImportConstraint = &(o.ImportConstraint)
+		case "label":
+			sp.Label = &(o.Label)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "migrationsLog":
@@ -517,6 +524,9 @@ func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ImportConstraint != nil {
 		o.ImportConstraint = *so.ImportConstraint
+	}
+	if so.Label != nil {
+		o.Label = *so.Label
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -598,6 +608,10 @@ func (o *ImportReference) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("label", o.Label); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
@@ -662,6 +676,8 @@ func (o *ImportReference) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "importConstraint":
 		return o.ImportConstraint
+	case "label":
+		return o.Label
 	case "metadata":
 		return o.Metadata
 	case "migrationsLog":
@@ -801,6 +817,18 @@ one import is allowed in the current namespace.`,
 		Name:    "importConstraint",
 		Stored:  true,
 		Type:    "enum",
+	},
+	"Label": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Label",
+		CreationOnly:   true,
+		Description: `Label used to identify the import reference and apply the
+import constraint.`,
+		Exposed:  true,
+		Name:     "label",
+		Required: true,
+		Stored:   true,
+		Type:     "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1057,6 +1085,18 @@ one import is allowed in the current namespace.`,
 		Stored:  true,
 		Type:    "enum",
 	},
+	"label": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Label",
+		CreationOnly:   true,
+		Description: `Label used to identify the import reference and apply the
+import constraint.`,
+		Exposed:  true,
+		Name:     "label",
+		Required: true,
+		Stored:   true,
+		Type:     "string",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -1293,6 +1333,10 @@ type SparseImportReference struct {
 	// one import is allowed in the current namespace.
 	ImportConstraint *ImportReferenceImportConstraintValue `json:"importConstraint,omitempty" msgpack:"importConstraint,omitempty" bson:"importconstraint,omitempty" mapstructure:"importConstraint,omitempty"`
 
+	// Label used to identify the import reference and apply the
+	// import constraint.
+	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"label,omitempty" mapstructure:"label,omitempty"`
+
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
@@ -1390,6 +1434,9 @@ func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ImportConstraint != nil {
 		out.ImportConstraint = *o.ImportConstraint
+	}
+	if o.Label != nil {
+		out.Label = *o.Label
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata

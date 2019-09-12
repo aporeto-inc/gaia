@@ -227,6 +227,7 @@ Allows you to import and keep a reference.
     ]
   },
   "importConstraint": "Unrestricted",
+  "label": "smart_beetles",
   "name": "the name",
   "protected": false
 }
@@ -300,6 +301,11 @@ Default value:
 ```json
 "Unrestricted"
 ```
+
+##### `label` `string` [`required`,`creation_only`]
+
+Label used to identify the import reference and apply the
+import constraint.
 
 ##### `metadata` `[]string` [`creation_only`]
 

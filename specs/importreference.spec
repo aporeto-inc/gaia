@@ -91,3 +91,14 @@ attributes:
     - Unique
     - NamespaceUnique
     default_value: Unrestricted
+
+  - name: label
+    description: |-
+      Label used to identify the import reference and apply the
+      import constraint.
+    type: string
+    exposed: true
+    stored: true
+    required: true
+    creation_only: true
+    example_value: smart_beetles
