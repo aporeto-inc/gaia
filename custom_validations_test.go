@@ -169,6 +169,20 @@ func TestValidateServicePorts(t *testing.T) {
 			false,
 		},
 		{
+			"valid serviceports with only any",
+			args{
+				[]string{"aNy"},
+			},
+			false,
+		},
+		{
+			"Any with other protoocls",
+			args{
+				[]string{"tcp/80", "udp/80", "any", "icmp", "ISIS"},
+			},
+			true,
+		},
+		{
 			"invalid tcp serviceports",
 			args{
 				[]string{"tcp", "udp/80", "icmp", "ISIS"},
@@ -263,6 +277,115 @@ func TestValidateServicePorts(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateServicePorts("serviceports", tt.args.servicePorts); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateServicePorts() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateServicePort(t *testing.T) {
+	type args struct {
+		servicePort string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid serviceport",
+			args{
+				"tcp/80",
+			},
+			false,
+		},
+		{
+			"valid serviceport any",
+			args{
+				"aNy",
+			},
+			false,
+		},
+		{
+			"invalid tcp serviceport",
+			args{
+				"tcp",
+			},
+			true,
+		},
+		{
+			"invalid udp serviceport",
+			args{
+				"udp/",
+			},
+			true,
+		},
+		{
+			"invalid protocol",
+			args{
+				"nope",
+			},
+			true,
+		},
+		{
+			"invalid serviceport",
+			args{
+				"tcp/80/90",
+			},
+			true,
+		},
+		{
+			"serviceport with protocol with ports not supported",
+			args{
+				"icmp/9090",
+			},
+			true,
+		},
+		{
+			"one serviceport with protocol with ports not supported",
+			args{
+				"isis/9090",
+			},
+			true,
+		},
+		{
+			"serviceport with valid port range",
+			args{
+				"udp/90:8000",
+			},
+			false,
+		}, {
+			"serviceport with protocol numbers",
+			args{
+				"6/90:8000",
+			},
+			true,
+		},
+		{
+			"serviceport with invalid port range",
+			args{
+				"udp/90:800000",
+			},
+			true,
+		},
+		{
+			"serviceport with just port range",
+			args{
+				"90:8000",
+			},
+			true,
+		},
+		{
+			"empty serviceport",
+			args{
+				"",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateServicePort("serviceport", tt.args.servicePort); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateServicePort() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
@@ -1736,6 +1859,118 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 
 			if err != nil && err.Error() != tt.wantErrString {
 				t.Errorf("ValidateAPIAuthorizationPolicySubject() error = '%v', wantErrString = '%v'", err, tt.wantErrString)
+			}
+		})
+	}
+}
+
+func TestValidateWriteOperations(t *testing.T) {
+	type args struct {
+		attribute  string
+		operations []string
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantErr       bool
+		wantErrString string
+	}{
+		{
+			"nil",
+			args{
+				"thing",
+				nil,
+			},
+			false,
+			"",
+		},
+		{
+			"empty",
+			args{
+				"thing",
+				[]string{},
+			},
+			false,
+			"",
+		},
+		{
+			"valid list",
+			args{
+				"thing",
+				[]string{
+					"create",
+					"update",
+					"delete",
+				},
+			},
+			false,
+			"",
+		},
+		{
+			"invalid list",
+			args{
+				"thing",
+				[]string{
+					"Create",
+					"Update",
+					"NotDelete",
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Invalid operation 'Create': must be 'create', 'update' or 'delete'.",
+		},
+		{
+			"duplicate create",
+			args{
+				"thing",
+				[]string{
+					"create",
+					"create",
+					"update",
+					"delete",
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times.",
+		},
+		{
+			"duplicate update",
+			args{
+				"thing",
+				[]string{
+					"create",
+					"update",
+					"update",
+					"delete",
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times.",
+		},
+		{
+			"duplicate delete",
+			args{
+				"thing",
+				[]string{
+					"create",
+					"update",
+					"delete",
+					"delete",
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times.",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := ValidateWriteOperations(tt.args.attribute, tt.args.operations)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ValidateWriteOperations() error = %v, wantErr %v", err, tt.wantErr)
+			}
+
+			if err != nil && err.Error() != tt.wantErrString {
+				t.Errorf("ValidateWriteOperations() error = '%v', wantErrString = '%v'", err, tt.wantErrString)
 			}
 		})
 	}

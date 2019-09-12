@@ -36,6 +36,11 @@ relations:
         description: internal parameters.
         type: string
         example_value: status
+
+      - name: associatedBillingID
+        description: internal parameters.
+        type: string
+        example_value: billingID
   create:
     description: Creates a new account.
 
@@ -124,13 +129,16 @@ relations:
 
 - rest_name: authn
   get:
-    description: Verify the validity of a token.
+    description: Verify the validity of a token. This is deprecated. You should use
+      Create.
     parameters:
       entries:
       - name: token
         description: token to validate.
         type: string
         example_value: abc.def.ghi
+  create:
+    description: Verify the validity of a token.
 
 - rest_name: authority
   create:

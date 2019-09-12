@@ -29,6 +29,28 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: certificateAuthority
+    description: |-
+      Set the CA to use to contact the OIDC server. This is useful when you are using
+      a custom OIDC provider that doesn't use a trusted CA. Most of the
+      time, you can leave this property empty.
+    type: string
+    exposed: true
+    stored: true
+    example_value: |-
+      -----BEGIN CERTIFICATE-----
+      MIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN
+      MAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNzA2
+      NTM1MloXDTI3MTEyNjA2NTM1MlowGDEWMBQGA1UEAxMNY2xhaXJlLWNsaWVudDBZ
+      MBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmzPJj+t25T148eQH5gVrZ7nHwckF5O
+      evJQ3CjSEMesjZ/u7cW8IBfXlxZKHxl91IEbbB3svci4c8pycUNZ2kujNTAzMA4G
+      A1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA
+      MAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6
+      peGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8
+      -----END CERTIFICATE-----
+    validations:
+    - $pem
+
   - name: clientID
     description: Unique client ID.
     type: string

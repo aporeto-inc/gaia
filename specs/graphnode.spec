@@ -87,6 +87,7 @@ attributes:
     - Volume
     - Claim
     - Node
+    - Namespace
 
   - name: unreachable
     description: If `true` the node is marked as unreachable.
