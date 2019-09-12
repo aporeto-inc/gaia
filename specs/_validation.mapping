@@ -98,6 +98,10 @@ $timeDuration:
   elemental:
     name: ValidateTimeDuration
 
+$writeoperations:
+  elemental:
+    name: ValidateWriteOperations
+
 $yaml:
   elemental:
     name: ValidateYAMLString

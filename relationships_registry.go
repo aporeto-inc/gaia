@@ -166,6 +166,10 @@ func init() {
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
+						Name: "associatedBillingID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
@@ -182,6 +186,10 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "status",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "associatedBillingID",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
@@ -535,6 +543,9 @@ func init() {
 	}
 
 	relationshipsRegistry[AuthnIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
