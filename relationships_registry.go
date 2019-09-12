@@ -158,15 +158,15 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
+						Name: "associatedBillingID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
 						Name: "name",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
 						Name: "status",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name: "associatedBillingID",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
@@ -181,15 +181,15 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
+						Name: "associatedBillingID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
 						Name: "name",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
 						Name: "status",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name: "associatedBillingID",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
@@ -930,7 +930,47 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[EnforcerInfoIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[EnforcerLogIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+	}
 
 	relationshipsRegistry[EnforcerProfileIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{

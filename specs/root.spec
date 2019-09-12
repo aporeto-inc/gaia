@@ -27,6 +27,11 @@ relations:
     - $filtering
     parameters:
       entries:
+      - name: associatedBillingID
+        description: internal parameters.
+        type: string
+        example_value: billingID
+
       - name: name
         description: internal parameters.
         type: string
@@ -36,11 +41,6 @@ relations:
         description: internal parameters.
         type: string
         example_value: status
-
-      - name: associatedBillingID
-        description: internal parameters.
-        type: string
-        example_value: billingID
   create:
     description: Creates a new account.
 
@@ -228,6 +228,14 @@ relations:
     - $filtering
   create:
     description: Creates a new enforcer.
+
+- rest_name: enforcerlog
+  get:
+    description: Retrieves the list of enforcerlogs.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new enforcerlog.
 
 - rest_name: enforcerprofile
   get:
