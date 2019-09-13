@@ -226,8 +226,8 @@ Allows you to import and keep a reference.
       }
     ]
   },
+  "failOnDuplicate": false,
   "importConstraint": "Unrestricted",
-  "label": "smart_beetles",
   "name": "the name",
   "protected": false
 }
@@ -289,6 +289,11 @@ Data to import.
 
 Description of the object.
 
+##### `failOnDuplicate` `boolean`
+
+Indicate if the import reference should return an error in case the unique
+constraint is met.
+
 ##### `importConstraint` `emum(Unrestricted | Unique | NamespaceUnique)`
 
 Define the import constraint. If Unrestricted, import
@@ -301,11 +306,6 @@ Default value:
 ```json
 "Unrestricted"
 ```
-
-##### `label` `string` [`required`,`creation_only`]
-
-Label used to identify the import reference and apply the
-import constraint.
 
 ##### `metadata` `[]string` [`creation_only`]
 

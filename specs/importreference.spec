@@ -77,6 +77,14 @@ attributes:
     extensions:
       refMode: pointer
 
+  - name: failOnDuplicate
+    description: |-
+      Indicate if the import reference should return an error in case the unique
+      constraint is met.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: importConstraint
     description: |-
       Define the import constraint. If Unrestricted, import
@@ -91,14 +99,3 @@ attributes:
     - Unique
     - NamespaceUnique
     default_value: Unrestricted
-
-  - name: label
-    description: |-
-      Label used to identify the import reference and apply the
-      import constraint.
-    type: string
-    exposed: true
-    stored: true
-    required: true
-    creation_only: true
-    example_value: smart_beetles
