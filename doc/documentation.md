@@ -5954,6 +5954,10 @@ Fourth argument of the executed system call.
 
 Architecture of the system of the monitored process.
 
+##### `arguments` `[]string`
+
+Arguments passed to the command.
+
 ##### `auditProfileID` `string` [`required`]
 
 ID of the audit profile that triggered the report.
@@ -5985,10 +5989,6 @@ ID of the processing unit originating the report.
 ##### `processingUnitNamespace` `string` [`required`]
 
 Namespace of the processing unit originating the report.
-
-##### `rawCommand` `string`
-
-Raw command represents the complete command.
 
 ##### `recordType` `string` [`required`]
 

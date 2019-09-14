@@ -118,6 +118,12 @@ attributes:
     exposed: true
     example_value: x86_64
 
+  - name: arguments
+    description: Arguments passed to the command.
+    type: list
+    exposed: true
+    subtype: string
+
   - name: auditProfileID
     description: ID of the audit profile that triggered the report.
     type: string
@@ -170,11 +176,6 @@ attributes:
     exposed: true
     required: true
     example_value: /my/ns
-
-  - name: rawCommand
-    description: Raw command represents the complete command.
-    type: string
-    exposed: true
 
   - name: recordType
     description: Type of audit record.
