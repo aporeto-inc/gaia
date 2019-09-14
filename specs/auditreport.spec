@@ -171,6 +171,11 @@ attributes:
     required: true
     example_value: /my/ns
 
+  - name: rawCommand
+    description: Raw command represents the complete command.
+    type: string
+    exposed: true
+
   - name: recordType
     description: Type of audit record.
     type: string

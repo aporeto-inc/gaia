@@ -164,6 +164,9 @@ type AuditReport struct {
 	// Namespace of the processing unit originating the report.
 	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
+	// Raw command represents the complete command.
+	RawCommand string `json:"rawCommand" msgpack:"rawCommand" bson:"-" mapstructure:"rawCommand,omitempty"`
+
 	// Type of audit record.
 	RecordType string `json:"recordType" msgpack:"recordType" bson:"-" mapstructure:"recordType,omitempty"`
 
@@ -271,6 +274,7 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Exit:                    &o.Exit,
 			ProcessingUnitID:        &o.ProcessingUnitID,
 			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
+			RawCommand:              &o.RawCommand,
 			RecordType:              &o.RecordType,
 			Sequence:                &o.Sequence,
 			Success:                 &o.Success,
@@ -338,6 +342,8 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
 		case "processingUnitNamespace":
 			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
+		case "rawCommand":
+			sp.RawCommand = &(o.RawCommand)
 		case "recordType":
 			sp.RecordType = &(o.RecordType)
 		case "sequence":
@@ -444,6 +450,9 @@ func (o *AuditReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ProcessingUnitNamespace != nil {
 		o.ProcessingUnitNamespace = *so.ProcessingUnitNamespace
+	}
+	if so.RawCommand != nil {
+		o.RawCommand = *so.RawCommand
 	}
 	if so.RecordType != nil {
 		o.RecordType = *so.RecordType
@@ -614,6 +623,8 @@ func (o *AuditReport) ValueForAttribute(name string) interface{} {
 		return o.ProcessingUnitID
 	case "processingUnitNamespace":
 		return o.ProcessingUnitNamespace
+	case "rawCommand":
+		return o.RawCommand
 	case "recordType":
 		return o.RecordType
 	case "sequence":
@@ -859,6 +870,14 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "processingUnitNamespace",
 		Required:       true,
+		Type:           "string",
+	},
+	"RawCommand": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RawCommand",
+		Description:    `Raw command represents the complete command.`,
+		Exposed:        true,
+		Name:           "rawCommand",
 		Type:           "string",
 	},
 	"RecordType": elemental.AttributeSpecification{
@@ -1137,6 +1156,14 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Required:       true,
 		Type:           "string",
 	},
+	"rawcommand": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RawCommand",
+		Description:    `Raw command represents the complete command.`,
+		Exposed:        true,
+		Name:           "rawCommand",
+		Type:           "string",
+	},
 	"recordtype": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RecordType",
@@ -1328,6 +1355,9 @@ type SparseAuditReport struct {
 	// Namespace of the processing unit originating the report.
 	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
+	// Raw command represents the complete command.
+	RawCommand *string `json:"rawCommand,omitempty" msgpack:"rawCommand,omitempty" bson:"-" mapstructure:"rawCommand,omitempty"`
+
 	// Type of audit record.
 	RecordType *string `json:"recordType,omitempty" msgpack:"recordType,omitempty" bson:"-" mapstructure:"recordType,omitempty"`
 
@@ -1461,6 +1491,9 @@ func (o *SparseAuditReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ProcessingUnitNamespace != nil {
 		out.ProcessingUnitNamespace = *o.ProcessingUnitNamespace
+	}
+	if o.RawCommand != nil {
+		out.RawCommand = *o.RawCommand
 	}
 	if o.RecordType != nil {
 		out.RecordType = *o.RecordType

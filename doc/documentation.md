@@ -5986,6 +5986,10 @@ ID of the processing unit originating the report.
 
 Namespace of the processing unit originating the report.
 
+##### `rawCommand` `string`
+
+Raw command represents the complete command.
+
 ##### `recordType` `string` [`required`]
 
 Type of audit record.
