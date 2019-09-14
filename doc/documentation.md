@@ -226,7 +226,6 @@ Allows you to import and keep a reference.
       }
     ]
   },
-  "failOnDuplicate": false,
   "importConstraint": "Unrestricted",
   "name": "the name",
   "protected": false
@@ -288,11 +287,6 @@ Data to import.
 ##### `description` `string` [`max_length=1024`]
 
 Description of the object.
-
-##### `failOnDuplicate` `boolean`
-
-Indicate if the import reference should return an error in case the unique
-constraint is met.
 
 ##### `importConstraint` `emum(Unrestricted | Unique | NamespaceUnique)`
 

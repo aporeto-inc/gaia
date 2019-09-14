@@ -121,10 +121,6 @@ type ImportReference struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Indicate if the import reference should return an error in case the unique
-	// constraint is met.
-	FailOnDuplicate bool `json:"failOnDuplicate" msgpack:"failOnDuplicate" bson:"failonduplicate" mapstructure:"failOnDuplicate,omitempty"`
-
 	// Define the import constraint. If Unrestricted, import
 	// can be deployed multiple times. If Unique, only one import is allowed
 	// in the current namespace and its child namespaces. If NamespaceUnique, only
@@ -178,8 +174,8 @@ func NewImportReference() *ImportReference {
 		Data:             NewExport(),
 		AssociatedTags:   []string{},
 		Claims:           []string{},
-		ImportConstraint: ImportReferenceImportConstraintUnrestricted,
 		Metadata:         []string{},
+		ImportConstraint: ImportReferenceImportConstraintUnrestricted,
 		MigrationsLog:    map[string]string{},
 		NormalizedTags:   []string{},
 	}
@@ -430,7 +426,6 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			CreateTime:           &o.CreateTime,
 			Data:                 o.Data,
 			Description:          &o.Description,
-			FailOnDuplicate:      &o.FailOnDuplicate,
 			ImportConstraint:     &o.ImportConstraint,
 			Label:                &o.Label,
 			Metadata:             &o.Metadata,
@@ -465,8 +460,6 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Data = o.Data
 		case "description":
 			sp.Description = &(o.Description)
-		case "failOnDuplicate":
-			sp.FailOnDuplicate = &(o.FailOnDuplicate)
 		case "importConstraint":
 			sp.ImportConstraint = &(o.ImportConstraint)
 		case "label":
@@ -527,9 +520,6 @@ func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
-	}
-	if so.FailOnDuplicate != nil {
-		o.FailOnDuplicate = *so.FailOnDuplicate
 	}
 	if so.ImportConstraint != nil {
 		o.ImportConstraint = *so.ImportConstraint
@@ -679,8 +669,6 @@ func (o *ImportReference) ValueForAttribute(name string) interface{} {
 		return o.Data
 	case "description":
 		return o.Description
-	case "failOnDuplicate":
-		return o.FailOnDuplicate
 	case "importConstraint":
 		return o.ImportConstraint
 	case "label":
@@ -811,16 +799,6 @@ var ImportReferenceAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"FailOnDuplicate": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "FailOnDuplicate",
-		Description: `Indicate if the import reference should return an error in case the unique
-constraint is met.`,
-		Exposed: true,
-		Name:    "failOnDuplicate",
-		Stored:  true,
-		Type:    "boolean",
 	},
 	"ImportConstraint": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
@@ -1087,16 +1065,6 @@ var ImportReferenceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
-	"failonduplicate": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "FailOnDuplicate",
-		Description: `Indicate if the import reference should return an error in case the unique
-constraint is met.`,
-		Exposed: true,
-		Name:    "failOnDuplicate",
-		Stored:  true,
-		Type:    "boolean",
-	},
 	"importconstraint": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
 		ConvertedName:  "ImportConstraint",
@@ -1350,10 +1318,6 @@ type SparseImportReference struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Indicate if the import reference should return an error in case the unique
-	// constraint is met.
-	FailOnDuplicate *bool `json:"failOnDuplicate,omitempty" msgpack:"failOnDuplicate,omitempty" bson:"failonduplicate,omitempty" mapstructure:"failOnDuplicate,omitempty"`
-
 	// Define the import constraint. If Unrestricted, import
 	// can be deployed multiple times. If Unique, only one import is allowed
 	// in the current namespace and its child namespaces. If NamespaceUnique, only
@@ -1457,9 +1421,6 @@ func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
-	}
-	if o.FailOnDuplicate != nil {
-		out.FailOnDuplicate = *o.FailOnDuplicate
 	}
 	if o.ImportConstraint != nil {
 		out.ImportConstraint = *o.ImportConstraint

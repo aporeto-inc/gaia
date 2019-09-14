@@ -26,6 +26,10 @@ model:
   - '@named'
   - '@timeable'
 
+# Indexes
+indexes:
+- - label
+
 # Attributes
 attributes:
   v1:
@@ -76,14 +80,6 @@ attributes:
         - - $identity=processingunit
     extensions:
       refMode: pointer
-
-  - name: failOnDuplicate
-    description: |-
-      Indicate if the import reference should return an error in case the unique
-      constraint is met.
-    type: boolean
-    exposed: true
-    stored: true
 
   - name: importConstraint
     description: |-

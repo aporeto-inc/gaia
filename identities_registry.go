@@ -552,6 +552,7 @@ var (
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
 			[]string{"name"},
+			[]string{"label"},
 			[]string{"createIdempotencyKey"},
 		},
 		"importrequest": [][]string{
