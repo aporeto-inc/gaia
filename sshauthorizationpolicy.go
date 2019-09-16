@@ -175,7 +175,7 @@ type SSHAuthorizationPolicy struct {
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// If selected, the system account will be used to log into the resource.
-	RequireSystemAccountMatching bool `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	RequireSystemAccountMatching bool `json:"requireSystemAccountMatching" msgpack:"requireSystemAccountMatching" bson:"requiresystemaccountmatching" mapstructure:"requireSystemAccountMatching,omitempty"`
 
 	// Contains the tag expression that identifies the user or group of users that
 	// should be
@@ -1132,7 +1132,9 @@ associated with the SSH processing unit, which could be useful.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RequireSystemAccountMatching",
 		Description:    `If selected, the system account will be used to log into the resource.`,
+		Exposed:        true,
 		Name:           "requireSystemAccountMatching",
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"Subject": elemental.AttributeSpecification{
@@ -1481,7 +1483,9 @@ associated with the SSH processing unit, which could be useful.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RequireSystemAccountMatching",
 		Description:    `If selected, the system account will be used to log into the resource.`,
+		Exposed:        true,
 		Name:           "requireSystemAccountMatching",
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"subject": elemental.AttributeSpecification{
@@ -1693,7 +1697,7 @@ type SparseSSHAuthorizationPolicy struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// If selected, the system account will be used to log into the resource.
-	RequireSystemAccountMatching *bool `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	RequireSystemAccountMatching *bool `json:"requireSystemAccountMatching,omitempty" msgpack:"requireSystemAccountMatching,omitempty" bson:"requiresystemaccountmatching,omitempty" mapstructure:"requireSystemAccountMatching,omitempty"`
 
 	// Contains the tag expression that identifies the user or group of users that
 	// should be

@@ -9913,6 +9913,7 @@ for how long delivered certificates are valid.
   "name": "the name",
   "propagate": false,
   "protected": false,
+  "requireSystemAccountMatching": false,
   "validity": "1h"
 }
 ```
@@ -10062,6 +10063,10 @@ Propagates the policy to all of its children.
 ##### `protected` `boolean`
 
 Defines if the object is protected.
+
+##### `requireSystemAccountMatching` `boolean`
+
+If selected, the system account will be used to log into the resource.
 
 ##### `subject` `[][]string`
 

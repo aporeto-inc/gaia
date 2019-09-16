@@ -115,6 +115,8 @@ attributes:
   - name: requireSystemAccountMatching
     description: If selected, the system account will be used to log into the resource.
     type: boolean
+    exposed: true
+    stored: true
 
   - name: subject
     description: |-
