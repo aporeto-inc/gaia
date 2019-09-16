@@ -26,8 +26,13 @@ model:
 
 # Indexes
 indexes:
+- - kind
+- - status
 - - namespace
   - kind
+- - namespace
+  - kind
+  - status
 
 # Attributes
 attributes:
