@@ -104,6 +104,9 @@ type EnforcerLog struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
+	// Number assigned to each log in the increasing order.
+	Page int `json:"page" msgpack:"page" bson:"-" mapstructure:"page,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -263,6 +266,7 @@ func (o *EnforcerLog) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			EnforcerID:    &o.EnforcerID,
 			MigrationsLog: &o.MigrationsLog,
 			Namespace:     &o.Namespace,
+			Page:          &o.Page,
 			UpdateTime:    &o.UpdateTime,
 			ZHash:         &o.ZHash,
 			Zone:          &o.Zone,
@@ -286,6 +290,8 @@ func (o *EnforcerLog) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
+		case "page":
+			sp.Page = &(o.Page)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -325,6 +331,9 @@ func (o *EnforcerLog) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
+	}
+	if so.Page != nil {
+		o.Page = *so.Page
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -423,6 +432,8 @@ func (o *EnforcerLog) ValueForAttribute(name string) interface{} {
 		return o.MigrationsLog
 	case "namespace":
 		return o.Namespace
+	case "page":
+		return o.Page
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -518,6 +529,14 @@ aggergate the multipart data.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"Page": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Page",
+		Description:    `Number assigned to each log in the increasing order.`,
+		Exposed:        true,
+		Name:           "page",
+		Type:           "integer",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -646,6 +665,14 @@ aggergate the multipart data.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"page": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Page",
+		Description:    `Number assigned to each log in the increasing order.`,
+		Exposed:        true,
+		Name:           "page",
+		Type:           "integer",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -777,6 +804,9 @@ type SparseEnforcerLog struct {
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
+	// Number assigned to each log in the increasing order.
+	Page *int `json:"page,omitempty" msgpack:"page,omitempty" bson:"-" mapstructure:"page,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
@@ -846,6 +876,9 @@ func (o *SparseEnforcerLog) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
+	}
+	if o.Page != nil {
+		out.Page = *o.Page
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime

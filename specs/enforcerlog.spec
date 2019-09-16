@@ -55,3 +55,8 @@ attributes:
     exposed: true
     required: true
     example_value: xxx-xxx-xxx-xxx
+
+  - name: page
+    description: Number assigned to each log in the increasing order.
+    type: integer
+    exposed: true
