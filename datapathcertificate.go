@@ -641,3 +641,9 @@ func (o *SparseDataPathCertificate) DeepCopyInto(out *SparseDataPathCertificate)
 
 	*out = *target.(*SparseDataPathCertificate)
 }
+
+type mongoAttributesDataPathCertificate struct {
+}
+
+type mongoAttributesSparseDataPathCertificate struct {
+}

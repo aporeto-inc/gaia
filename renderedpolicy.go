@@ -790,3 +790,11 @@ func (o *SparseRenderedPolicy) DeepCopyInto(out *SparseRenderedPolicy) {
 
 	*out = *target.(*SparseRenderedPolicy)
 }
+
+type mongoAttributesRenderedPolicy struct {
+	Scopes []string `bson:"scopes"`
+}
+
+type mongoAttributesSparseRenderedPolicy struct {
+	Scopes *[]string `bson:"scopes,omitempty"`
+}

@@ -359,3 +359,9 @@ func (o *SparsePoke) DeepCopyInto(out *SparsePoke) {
 
 	*out = *target.(*SparsePoke)
 }
+
+type mongoAttributesPoke struct {
+}
+
+type mongoAttributesSparsePoke struct {
+}

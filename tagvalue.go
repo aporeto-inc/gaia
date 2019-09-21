@@ -443,3 +443,9 @@ func (o *SparseTagValue) DeepCopyInto(out *SparseTagValue) {
 
 	*out = *target.(*SparseTagValue)
 }
+
+type mongoAttributesTagValue struct {
+}
+
+type mongoAttributesSparseTagValue struct {
+}

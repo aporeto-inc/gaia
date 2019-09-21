@@ -468,3 +468,9 @@ func (o *SparseRenderTemplate) DeepCopyInto(out *SparseRenderTemplate) {
 
 	*out = *target.(*SparseRenderTemplate)
 }
+
+type mongoAttributesRenderTemplate struct {
+}
+
+type mongoAttributesSparseRenderTemplate struct {
+}

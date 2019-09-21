@@ -552,3 +552,9 @@ func (o *SparseDependencyMap) DeepCopyInto(out *SparseDependencyMap) {
 
 	*out = *target.(*SparseDependencyMap)
 }
+
+type mongoAttributesDependencyMap struct {
+}
+
+type mongoAttributesSparseDependencyMap struct {
+}

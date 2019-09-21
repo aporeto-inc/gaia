@@ -2494,3 +2494,13 @@ func (o *SparseCounterReport) DeepCopyInto(out *SparseCounterReport) {
 
 	*out = *target.(*SparseCounterReport)
 }
+
+type mongoAttributesCounterReport struct {
+	EnforcerID        string `bson:"enforcerid"`
+	EnforcerNamespace string `bson:"enforcernamespace"`
+}
+
+type mongoAttributesSparseCounterReport struct {
+	EnforcerID        *string `bson:"enforcerid,omitempty"`
+	EnforcerNamespace *string `bson:"enforcernamespace,omitempty"`
+}

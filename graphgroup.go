@@ -82,3 +82,9 @@ func (o *GraphGroup) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesGraphGroup struct {
+}
+
+type mongoAttributesSparseGraphGroup struct {
+}

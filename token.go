@@ -552,3 +552,11 @@ func (o *SparseToken) DeepCopyInto(out *SparseToken) {
 
 	*out = *target.(*SparseToken)
 }
+
+type mongoAttributesToken struct {
+	SigningKeyID string `bson:"signingkeyid"`
+}
+
+type mongoAttributesSparseToken struct {
+	SigningKeyID *string `bson:"signingkeyid,omitempty"`
+}

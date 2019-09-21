@@ -485,3 +485,11 @@ func (o *SparseValidateUIParameter) DeepCopyInto(out *SparseValidateUIParameter)
 
 	*out = *target.(*SparseValidateUIParameter)
 }
+
+type mongoAttributesValidateUIParameter struct {
+	Parameters []*UIParameter `bson:"parameters"`
+}
+
+type mongoAttributesSparseValidateUIParameter struct {
+	Parameters *[]*UIParameter `bson:"parameters,omitempty"`
+}

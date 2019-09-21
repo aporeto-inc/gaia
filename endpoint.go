@@ -88,3 +88,17 @@ func (o *Endpoint) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesEndpoint struct {
+	URI           string     `bson:"uri"`
+	AllowedScopes [][]string `bson:"allowedscopes"`
+	Methods       []string   `bson:"methods"`
+	Public        bool       `bson:"public"`
+}
+
+type mongoAttributesSparseEndpoint struct {
+	URI           *string     `bson:"uri,omitempty"`
+	AllowedScopes *[][]string `bson:"allowedscopes,omitempty"`
+	Methods       *[]string   `bson:"methods,omitempty"`
+	Public        *bool       `bson:"public,omitempty"`
+}

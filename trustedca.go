@@ -499,3 +499,9 @@ func (o *SparseTrustedCA) DeepCopyInto(out *SparseTrustedCA) {
 
 	*out = *target.(*SparseTrustedCA)
 }
+
+type mongoAttributesTrustedCA struct {
+}
+
+type mongoAttributesSparseTrustedCA struct {
+}

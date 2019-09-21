@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -47,6 +48,27 @@ func (o *Root) Identifier() string {
 func (o *Root) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Root) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesRoot{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Root) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesRoot{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -181,4 +203,10 @@ var RootLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
+}
+
+type mongoAttributesRoot struct {
+}
+
+type mongoAttributesSparseRoot struct {
 }

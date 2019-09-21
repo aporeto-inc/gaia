@@ -446,3 +446,13 @@ func (o *SparseProcessingUnitRefresh) DeepCopyInto(out *SparseProcessingUnitRefr
 
 	*out = *target.(*SparseProcessingUnitRefresh)
 }
+
+type mongoAttributesProcessingUnitRefresh struct {
+	ID        string `bson:"id"`
+	Namespace string `bson:"namespace"`
+}
+
+type mongoAttributesSparseProcessingUnitRefresh struct {
+	ID        *string `bson:"id,omitempty"`
+	Namespace *string `bson:"namespace,omitempty"`
+}

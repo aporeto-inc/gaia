@@ -622,3 +622,9 @@ func (o *SparseEnforcerReport) DeepCopyInto(out *SparseEnforcerReport) {
 
 	*out = *target.(*SparseEnforcerReport)
 }
+
+type mongoAttributesEnforcerReport struct {
+}
+
+type mongoAttributesSparseEnforcerReport struct {
+}

@@ -611,3 +611,9 @@ func (o *SparsePolicyRenderer) DeepCopyInto(out *SparsePolicyRenderer) {
 
 	*out = *target.(*SparsePolicyRenderer)
 }
+
+type mongoAttributesPolicyRenderer struct {
+}
+
+type mongoAttributesSparsePolicyRenderer struct {
+}

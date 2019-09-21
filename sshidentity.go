@@ -447,3 +447,9 @@ func (o *SparseSSHIdentity) DeepCopyInto(out *SparseSSHIdentity) {
 
 	*out = *target.(*SparseSSHIdentity)
 }
+
+type mongoAttributesSSHIdentity struct {
+}
+
+type mongoAttributesSparseSSHIdentity struct {
+}

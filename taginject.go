@@ -477,3 +477,9 @@ func (o *SparseTagInject) DeepCopyInto(out *SparseTagInject) {
 
 	*out = *target.(*SparseTagInject)
 }
+
+type mongoAttributesTagInject struct {
+}
+
+type mongoAttributesSparseTagInject struct {
+}

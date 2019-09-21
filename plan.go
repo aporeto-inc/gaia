@@ -596,3 +596,17 @@ func (o *SparsePlan) DeepCopyInto(out *SparsePlan) {
 
 	*out = *target.(*SparsePlan)
 }
+
+type mongoAttributesPlan struct {
+	Description            string `bson:"description"`
+	Key                    string `bson:"key"`
+	Name                   string `bson:"name"`
+	RequireAdminValidation bool   `bson:"requireadminvalidation"`
+}
+
+type mongoAttributesSparsePlan struct {
+	Description            *string `bson:"description,omitempty"`
+	Key                    *string `bson:"key,omitempty"`
+	Name                   *string `bson:"name,omitempty"`
+	RequireAdminValidation *bool   `bson:"requireadminvalidation,omitempty"`
+}

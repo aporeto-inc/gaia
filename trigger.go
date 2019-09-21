@@ -399,3 +399,9 @@ func (o *SparseTrigger) DeepCopyInto(out *SparseTrigger) {
 
 	*out = *target.(*SparseTrigger)
 }
+
+type mongoAttributesTrigger struct {
+}
+
+type mongoAttributesSparseTrigger struct {
+}

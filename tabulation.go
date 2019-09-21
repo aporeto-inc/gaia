@@ -484,3 +484,9 @@ func (o *SparseTabulation) DeepCopyInto(out *SparseTabulation) {
 
 	*out = *target.(*SparseTabulation)
 }
+
+type mongoAttributesTabulation struct {
+}
+
+type mongoAttributesSparseTabulation struct {
+}

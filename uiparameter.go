@@ -166,3 +166,35 @@ func (o *UIParameter) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesUIParameter struct {
+	Advanced            bool                       `bson:"advanced"`
+	AllowedChoices      map[string]string          `bson:"allowedchoices"`
+	AllowedValues       []interface{}              `bson:"allowedvalues"`
+	DefaultValue        interface{}                `bson:"defaultvalue"`
+	Description         string                     `bson:"description"`
+	Key                 string                     `bson:"key"`
+	LongDescription     string                     `bson:"longdescription"`
+	Name                string                     `bson:"name"`
+	Optional            bool                       `bson:"optional"`
+	Type                UIParameterTypeValue       `bson:"type"`
+	ValidationFunction  string                     `bson:"validationfunction"`
+	Value               interface{}                `bson:"value"`
+	VisibilityCondition [][]*UIParameterVisibility `bson:"visibilitycondition"`
+}
+
+type mongoAttributesSparseUIParameter struct {
+	Advanced            *bool                       `bson:"advanced,omitempty"`
+	AllowedChoices      *map[string]string          `bson:"allowedchoices,omitempty"`
+	AllowedValues       *[]interface{}              `bson:"allowedvalues,omitempty"`
+	DefaultValue        *interface{}                `bson:"defaultvalue,omitempty"`
+	Description         *string                     `bson:"description,omitempty"`
+	Key                 *string                     `bson:"key,omitempty"`
+	LongDescription     *string                     `bson:"longdescription,omitempty"`
+	Name                *string                     `bson:"name,omitempty"`
+	Optional            *bool                       `bson:"optional,omitempty"`
+	Type                *UIParameterTypeValue       `bson:"type,omitempty"`
+	ValidationFunction  *string                     `bson:"validationfunction,omitempty"`
+	Value               *interface{}                `bson:"value,omitempty"`
+	VisibilityCondition *[][]*UIParameterVisibility `bson:"visibilitycondition,omitempty"`
+}

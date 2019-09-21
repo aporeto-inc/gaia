@@ -88,3 +88,13 @@ func (o *ClaimMapping) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesClaimMapping struct {
+	ClaimName        string `bson:"claimname"`
+	TargetHTTPHeader string `bson:"targethttpheader"`
+}
+
+type mongoAttributesSparseClaimMapping struct {
+	ClaimName        *string `bson:"claimname,omitempty"`
+	TargetHTTPHeader *string `bson:"targethttpheader,omitempty"`
+}

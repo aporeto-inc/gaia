@@ -627,3 +627,9 @@ func (o *SparseEmail) DeepCopyInto(out *SparseEmail) {
 
 	*out = *target.(*SparseEmail)
 }
+
+type mongoAttributesEmail struct {
+}
+
+type mongoAttributesSparseEmail struct {
+}

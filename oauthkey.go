@@ -408,3 +408,9 @@ func (o *SparseOAUTHKey) DeepCopyInto(out *SparseOAUTHKey) {
 
 	*out = *target.(*SparseOAUTHKey)
 }
+
+type mongoAttributesOAUTHKey struct {
+}
+
+type mongoAttributesSparseOAUTHKey struct {
+}

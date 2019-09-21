@@ -85,3 +85,11 @@ func (o *RecipeOptions) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesRecipeOptions struct {
+	AppCrendentialFormat RecipeOptionsAppCrendentialFormatValue `bson:"appcrendentialformat"`
+}
+
+type mongoAttributesSparseRecipeOptions struct {
+	AppCrendentialFormat *RecipeOptionsAppCrendentialFormatValue `bson:"appcrendentialformat,omitempty"`
+}

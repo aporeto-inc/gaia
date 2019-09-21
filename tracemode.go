@@ -82,3 +82,17 @@ func (o *TraceMode) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesTraceMode struct {
+	IPTables               bool   `bson:"iptables"`
+	ApplicationConnections bool   `bson:"applicationconnections"`
+	Interval               string `bson:"interval"`
+	NetworkConnections     bool   `bson:"networkconnections"`
+}
+
+type mongoAttributesSparseTraceMode struct {
+	IPTables               *bool   `bson:"iptables,omitempty"`
+	ApplicationConnections *bool   `bson:"applicationconnections,omitempty"`
+	Interval               *string `bson:"interval,omitempty"`
+	NetworkConnections     *bool   `bson:"networkconnections,omitempty"`
+}

@@ -1490,3 +1490,9 @@ func (o *SparseFlowReport) DeepCopyInto(out *SparseFlowReport) {
 
 	*out = *target.(*SparseFlowReport)
 }
+
+type mongoAttributesFlowReport struct {
+}
+
+type mongoAttributesSparseFlowReport struct {
+}

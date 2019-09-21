@@ -551,3 +551,9 @@ func (o *SparseSearch) DeepCopyInto(out *SparseSearch) {
 
 	*out = *target.(*SparseSearch)
 }
+
+type mongoAttributesSearch struct {
+}
+
+type mongoAttributesSparseSearch struct {
+}

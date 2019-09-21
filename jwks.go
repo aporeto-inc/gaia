@@ -141,3 +141,9 @@ func (o *JWKS) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesJWKS struct {
+}
+
+type mongoAttributesSparseJWKS struct {
+}

@@ -801,3 +801,27 @@ func (o *SparseEventLog) DeepCopyInto(out *SparseEventLog) {
 
 	*out = *target.(*SparseEventLog)
 }
+
+type mongoAttributesEventLog struct {
+	Category       string             `bson:"category"`
+	Content        string             `bson:"content"`
+	Date           time.Time          `bson:"date"`
+	Level          EventLogLevelValue `bson:"level"`
+	Namespace      string             `bson:"namespace"`
+	Opaque         string             `bson:"opaque"`
+	TargetID       string             `bson:"targetid"`
+	TargetIdentity string             `bson:"targetidentity"`
+	Title          string             `bson:"title"`
+}
+
+type mongoAttributesSparseEventLog struct {
+	Category       *string             `bson:"category,omitempty"`
+	Content        *string             `bson:"content,omitempty"`
+	Date           *time.Time          `bson:"date,omitempty"`
+	Level          *EventLogLevelValue `bson:"level,omitempty"`
+	Namespace      *string             `bson:"namespace,omitempty"`
+	Opaque         *string             `bson:"opaque,omitempty"`
+	TargetID       *string             `bson:"targetid,omitempty"`
+	TargetIdentity *string             `bson:"targetidentity,omitempty"`
+	Title          *string             `bson:"title,omitempty"`
+}

@@ -693,3 +693,11 @@ func (o *SparseRemoteProcessor) DeepCopyInto(out *SparseRemoteProcessor) {
 
 	*out = *target.(*SparseRemoteProcessor)
 }
+
+type mongoAttributesRemoteProcessor struct {
+	RequestID string `bson:"requestid"`
+}
+
+type mongoAttributesSparseRemoteProcessor struct {
+	RequestID *string `bson:"requestid,omitempty"`
+}

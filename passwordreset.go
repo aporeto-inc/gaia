@@ -444,3 +444,9 @@ func (o *SparsePasswordReset) DeepCopyInto(out *SparsePasswordReset) {
 
 	*out = *target.(*SparsePasswordReset)
 }
+
+type mongoAttributesPasswordReset struct {
+}
+
+type mongoAttributesSparsePasswordReset struct {
+}

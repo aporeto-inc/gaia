@@ -710,3 +710,9 @@ func (o *SparseStatsQuery) DeepCopyInto(out *SparseStatsQuery) {
 
 	*out = *target.(*SparseStatsQuery)
 }
+
+type mongoAttributesStatsQuery struct {
+}
+
+type mongoAttributesSparseStatsQuery struct {
+}

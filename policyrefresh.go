@@ -483,3 +483,15 @@ func (o *SparsePolicyRefresh) DeepCopyInto(out *SparsePolicyRefresh) {
 
 	*out = *target.(*SparsePolicyRefresh)
 }
+
+type mongoAttributesPolicyRefresh struct {
+	SourceID        string `bson:"sourceid"`
+	SourceNamespace string `bson:"sourcenamespace"`
+	Type            string `bson:"type"`
+}
+
+type mongoAttributesSparsePolicyRefresh struct {
+	SourceID        *string `bson:"sourceid,omitempty"`
+	SourceNamespace *string `bson:"sourcenamespace,omitempty"`
+	Type            *string `bson:"type,omitempty"`
+}

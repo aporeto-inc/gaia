@@ -1122,3 +1122,17 @@ func (o *SparsePacketReport) DeepCopyInto(out *SparsePacketReport) {
 
 	*out = *target.(*SparsePacketReport)
 }
+
+type mongoAttributesPacketReport struct {
+	EnforcerID        string `bson:"enforcerid"`
+	EnforcerNamespace string `bson:"enforcernamespace"`
+	RawPacket         string `bson:"rawpacket"`
+	TriremePacket     bool   `bson:"triremepacket"`
+}
+
+type mongoAttributesSparsePacketReport struct {
+	EnforcerID        *string `bson:"enforcerid,omitempty"`
+	EnforcerNamespace *string `bson:"enforcernamespace,omitempty"`
+	RawPacket         *string `bson:"rawpacket,omitempty"`
+	TriremePacket     *bool   `bson:"triremepacket,omitempty"`
+}

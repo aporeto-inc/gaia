@@ -406,3 +406,9 @@ func (o *SparseLog) DeepCopyInto(out *SparseLog) {
 
 	*out = *target.(*SparseLog)
 }
+
+type mongoAttributesLog struct {
+}
+
+type mongoAttributesSparseLog struct {
+}

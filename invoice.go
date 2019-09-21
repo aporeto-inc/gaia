@@ -706,3 +706,23 @@ func (o *SparseInvoice) DeepCopyInto(out *SparseInvoice) {
 
 	*out = *target.(*SparseInvoice)
 }
+
+type mongoAttributesInvoice struct {
+	ID               string                       `bson:"id"`
+	AccountID        string                       `bson:"accountid"`
+	BilledToProvider InvoiceBilledToProviderValue `bson:"billedtoprovider"`
+	CreateTime       time.Time                    `bson:"createtime"`
+	EndDate          time.Time                    `bson:"enddate"`
+	StartDate        time.Time                    `bson:"startdate"`
+	UpdateTime       time.Time                    `bson:"updatetime"`
+}
+
+type mongoAttributesSparseInvoice struct {
+	ID               *string                       `bson:"id,omitempty"`
+	AccountID        *string                       `bson:"accountid,omitempty"`
+	BilledToProvider *InvoiceBilledToProviderValue `bson:"billedtoprovider,omitempty"`
+	CreateTime       *time.Time                    `bson:"createtime,omitempty"`
+	EndDate          *time.Time                    `bson:"enddate,omitempty"`
+	StartDate        *time.Time                    `bson:"startdate,omitempty"`
+	UpdateTime       *time.Time                    `bson:"updatetime,omitempty"`
+}

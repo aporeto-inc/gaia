@@ -92,3 +92,17 @@ func (o *UIStep) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesUIStep struct {
+	Advanced    bool           `bson:"advanced"`
+	Description string         `bson:"description"`
+	Name        string         `bson:"name"`
+	Parameters  []*UIParameter `bson:"parameters"`
+}
+
+type mongoAttributesSparseUIStep struct {
+	Advanced    *bool           `bson:"advanced,omitempty"`
+	Description *string         `bson:"description,omitempty"`
+	Name        *string         `bson:"name,omitempty"`
+	Parameters  *[]*UIParameter `bson:"parameters,omitempty"`
+}

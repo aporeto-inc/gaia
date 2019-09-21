@@ -81,3 +81,9 @@ func (o *TimeSeriesRow) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesTimeSeriesRow struct {
+}
+
+type mongoAttributesSparseTimeSeriesRow struct {
+}

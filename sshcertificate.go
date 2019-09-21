@@ -680,3 +680,9 @@ func (o *SparseSSHCertificate) DeepCopyInto(out *SparseSSHCertificate) {
 
 	*out = *target.(*SparseSSHCertificate)
 }
+
+type mongoAttributesSSHCertificate struct {
+}
+
+type mongoAttributesSparseSSHCertificate struct {
+}

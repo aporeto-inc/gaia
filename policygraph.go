@@ -558,3 +558,9 @@ func (o *SparsePolicyGraph) DeepCopyInto(out *SparsePolicyGraph) {
 
 	*out = *target.(*SparsePolicyGraph)
 }
+
+type mongoAttributesPolicyGraph struct {
+}
+
+type mongoAttributesSparsePolicyGraph struct {
+}

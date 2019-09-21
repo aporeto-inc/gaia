@@ -758,3 +758,13 @@ func (o *SparseAutomationTemplate) DeepCopyInto(out *SparseAutomationTemplate) {
 
 	*out = *target.(*SparseAutomationTemplate)
 }
+
+type mongoAttributesAutomationTemplate struct {
+	Description string `bson:"description"`
+	Name        string `bson:"name"`
+}
+
+type mongoAttributesSparseAutomationTemplate struct {
+	Description *string `bson:"description,omitempty"`
+	Name        *string `bson:"name,omitempty"`
+}

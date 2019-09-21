@@ -415,3 +415,11 @@ func (o *SparseSuggestedPolicy) DeepCopyInto(out *SparseSuggestedPolicy) {
 
 	*out = *target.(*SparseSuggestedPolicy)
 }
+
+type mongoAttributesSuggestedPolicy struct {
+	NetworkAccessPolicies NetworkAccessPoliciesList `bson:"networkaccesspolicies"`
+}
+
+type mongoAttributesSparseSuggestedPolicy struct {
+	NetworkAccessPolicies *NetworkAccessPoliciesList `bson:"networkaccesspolicies,omitempty"`
+}

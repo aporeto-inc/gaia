@@ -1504,3 +1504,9 @@ func (o *SparseAuditReport) DeepCopyInto(out *SparseAuditReport) {
 
 	*out = *target.(*SparseAuditReport)
 }
+
+type mongoAttributesAuditReport struct {
+}
+
+type mongoAttributesSparseAuditReport struct {
+}

@@ -77,3 +77,15 @@ func (o *Comment) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesComment struct {
+	Claims  []string  `bson:"claims"`
+	Content string    `bson:"content"`
+	Date    time.Time `bson:"date"`
+}
+
+type mongoAttributesSparseComment struct {
+	Claims  *[]string  `bson:"claims,omitempty"`
+	Content *string    `bson:"content,omitempty"`
+	Date    *time.Time `bson:"date,omitempty"`
+}

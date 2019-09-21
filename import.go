@@ -472,3 +472,9 @@ func (o *SparseImport) DeepCopyInto(out *SparseImport) {
 
 	*out = *target.(*SparseImport)
 }
+
+type mongoAttributesImport struct {
+}
+
+type mongoAttributesSparseImport struct {
+}

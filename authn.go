@@ -441,3 +441,9 @@ func (o *SparseAuthn) DeepCopyInto(out *SparseAuthn) {
 
 	*out = *target.(*SparseAuthn)
 }
+
+type mongoAttributesAuthn struct {
+}
+
+type mongoAttributesSparseAuthn struct {
+}

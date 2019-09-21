@@ -80,3 +80,15 @@ func (o *ProcessingUnitService) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesProcessingUnitService struct {
+	Ports       string   `bson:"ports"`
+	Protocol    int      `bson:"protocol"`
+	TargetPorts []string `bson:"targetports"`
+}
+
+type mongoAttributesSparseProcessingUnitService struct {
+	Ports       *string   `bson:"ports,omitempty"`
+	Protocol    *int      `bson:"protocol,omitempty"`
+	TargetPorts *[]string `bson:"targetports,omitempty"`
+}

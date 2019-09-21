@@ -79,3 +79,9 @@ func (o *TimeSeriesQueryResults) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesTimeSeriesQueryResults struct {
+}
+
+type mongoAttributesSparseTimeSeriesQueryResults struct {
+}

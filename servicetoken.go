@@ -612,3 +612,9 @@ func (o *SparseServiceToken) DeepCopyInto(out *SparseServiceToken) {
 
 	*out = *target.(*SparseServiceToken)
 }
+
+type mongoAttributesServiceToken struct {
+}
+
+type mongoAttributesSparseServiceToken struct {
+}

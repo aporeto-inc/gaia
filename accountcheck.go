@@ -588,3 +588,9 @@ func (o *SparseAccountCheck) DeepCopyInto(out *SparseAccountCheck) {
 
 	*out = *target.(*SparseAccountCheck)
 }
+
+type mongoAttributesAccountCheck struct {
+}
+
+type mongoAttributesSparseAccountCheck struct {
+}

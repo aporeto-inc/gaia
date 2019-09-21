@@ -87,3 +87,9 @@ func (o *Credential) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesCredential struct {
+}
+
+type mongoAttributesSparseCredential struct {
+}

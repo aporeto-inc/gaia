@@ -472,3 +472,15 @@ func (o *SparseSquallTag) DeepCopyInto(out *SparseSquallTag) {
 
 	*out = *target.(*SparseSquallTag)
 }
+
+type mongoAttributesSquallTag struct {
+	Count     int    `bson:"count"`
+	Namespace string `bson:"namespace"`
+	Value     string `bson:"value"`
+}
+
+type mongoAttributesSparseSquallTag struct {
+	Count     *int    `bson:"count,omitempty"`
+	Namespace *string `bson:"namespace,omitempty"`
+	Value     *string `bson:"value,omitempty"`
+}

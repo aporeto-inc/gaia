@@ -566,3 +566,19 @@ func (o *SparseEnforcerTraceReport) DeepCopyInto(out *SparseEnforcerTraceReport)
 
 	*out = *target.(*SparseEnforcerTraceReport)
 }
+
+type mongoAttributesEnforcerTraceReport struct {
+	EnforcerID        string         `bson:"enforcerid"`
+	EnforcerNamespace string         `bson:"enforcernamespace"`
+	Namespace         string         `bson:"namespace"`
+	PuID              string         `bson:"puid"`
+	Records           []*TraceRecord `bson:"records"`
+}
+
+type mongoAttributesSparseEnforcerTraceReport struct {
+	EnforcerID        *string         `bson:"enforcerid,omitempty"`
+	EnforcerNamespace *string         `bson:"enforcernamespace,omitempty"`
+	Namespace         *string         `bson:"namespace,omitempty"`
+	PuID              *string         `bson:"puid,omitempty"`
+	Records           *[]*TraceRecord `bson:"records,omitempty"`
+}

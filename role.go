@@ -517,3 +517,9 @@ func (o *SparseRole) DeepCopyInto(out *SparseRole) {
 
 	*out = *target.(*SparseRole)
 }
+
+type mongoAttributesRole struct {
+}
+
+type mongoAttributesSparseRole struct {
+}

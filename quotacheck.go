@@ -520,3 +520,9 @@ func (o *SparseQuotaCheck) DeepCopyInto(out *SparseQuotaCheck) {
 
 	*out = *target.(*SparseQuotaCheck)
 }
+
+type mongoAttributesQuotaCheck struct {
+}
+
+type mongoAttributesSparseQuotaCheck struct {
+}

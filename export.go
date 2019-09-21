@@ -528,3 +528,17 @@ func (o *SparseExport) DeepCopyInto(out *SparseExport) {
 
 	*out = *target.(*SparseExport)
 }
+
+type mongoAttributesExport struct {
+	APIVersion int                                 `bson:"apiversion"`
+	Data       map[string][]map[string]interface{} `bson:"data"`
+	Identities []string                            `bson:"identities"`
+	Label      string                              `bson:"label"`
+}
+
+type mongoAttributesSparseExport struct {
+	APIVersion *int                                 `bson:"apiversion,omitempty"`
+	Data       *map[string][]map[string]interface{} `bson:"data,omitempty"`
+	Identities *[]string                            `bson:"identities,omitempty"`
+	Label      *string                              `bson:"label,omitempty"`
+}

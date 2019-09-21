@@ -401,3 +401,9 @@ func (o *SparseActivate) DeepCopyInto(out *SparseActivate) {
 
 	*out = *target.(*SparseActivate)
 }
+
+type mongoAttributesActivate struct {
+}
+
+type mongoAttributesSparseActivate struct {
+}

@@ -761,3 +761,9 @@ func (o *SparseDNSLookupReport) DeepCopyInto(out *SparseDNSLookupReport) {
 
 	*out = *target.(*SparseDNSLookupReport)
 }
+
+type mongoAttributesDNSLookupReport struct {
+}
+
+type mongoAttributesSparseDNSLookupReport struct {
+}

@@ -106,3 +106,15 @@ func (o *UIParameterVisibility) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesUIParameterVisibility struct {
+	Key      string                             `bson:"key"`
+	Operator UIParameterVisibilityOperatorValue `bson:"operator"`
+	Value    interface{}                        `bson:"value"`
+}
+
+type mongoAttributesSparseUIParameterVisibility struct {
+	Key      *string                             `bson:"key,omitempty"`
+	Operator *UIParameterVisibilityOperatorValue `bson:"operator,omitempty"`
+	Value    *interface{}                        `bson:"value,omitempty"`
+}

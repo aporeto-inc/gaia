@@ -855,3 +855,35 @@ func (o *SparseGraphNode) DeepCopyInto(out *SparseGraphNode) {
 
 	*out = *target.(*SparseGraphNode)
 }
+
+type mongoAttributesGraphNode struct {
+	ID                 string             `bson:"id"`
+	EnforcementStatus  string             `bson:"enforcementstatus"`
+	FirstSeen          time.Time          `bson:"firstseen"`
+	GroupID            string             `bson:"groupid"`
+	Images             []string           `bson:"images"`
+	LastSeen           time.Time          `bson:"lastseen"`
+	Name               string             `bson:"name"`
+	Namespace          string             `bson:"namespace"`
+	Status             string             `bson:"status"`
+	Tags               []string           `bson:"tags"`
+	Type               GraphNodeTypeValue `bson:"type"`
+	Unreachable        bool               `bson:"unreachable"`
+	VulnerabilityLevel string             `bson:"vulnerabilitylevel"`
+}
+
+type mongoAttributesSparseGraphNode struct {
+	ID                 *string             `bson:"id,omitempty"`
+	EnforcementStatus  *string             `bson:"enforcementstatus,omitempty"`
+	FirstSeen          *time.Time          `bson:"firstseen,omitempty"`
+	GroupID            *string             `bson:"groupid,omitempty"`
+	Images             *[]string           `bson:"images,omitempty"`
+	LastSeen           *time.Time          `bson:"lastseen,omitempty"`
+	Name               *string             `bson:"name,omitempty"`
+	Namespace          *string             `bson:"namespace,omitempty"`
+	Status             *string             `bson:"status,omitempty"`
+	Tags               *[]string           `bson:"tags,omitempty"`
+	Type               *GraphNodeTypeValue `bson:"type,omitempty"`
+	Unreachable        *bool               `bson:"unreachable,omitempty"`
+	VulnerabilityLevel *string             `bson:"vulnerabilitylevel,omitempty"`
+}

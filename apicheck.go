@@ -567,3 +567,11 @@ func (o *SparseAPICheck) DeepCopyInto(out *SparseAPICheck) {
 
 	*out = *target.(*SparseAPICheck)
 }
+
+type mongoAttributesAPICheck struct {
+	Operation APICheckOperationValue `bson:"operation"`
+}
+
+type mongoAttributesSparseAPICheck struct {
+	Operation *APICheckOperationValue `bson:"operation,omitempty"`
+}

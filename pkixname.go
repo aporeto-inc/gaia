@@ -97,3 +97,9 @@ func (o *PKIXName) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesPKIXName struct {
+}
+
+type mongoAttributesSparsePKIXName struct {
+}

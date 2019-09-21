@@ -480,3 +480,9 @@ func (o *SparseIPInfo) DeepCopyInto(out *SparseIPInfo) {
 
 	*out = *target.(*SparseIPInfo)
 }
+
+type mongoAttributesIPInfo struct {
+}
+
+type mongoAttributesSparseIPInfo struct {
+}

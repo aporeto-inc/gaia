@@ -185,3 +185,35 @@ func (o *TraceRecord) Validate() error {
 
 	return nil
 }
+
+type mongoAttributesTraceRecord struct {
+	TTL                  int    `bson:"ttl"`
+	Chain                string `bson:"chain"`
+	DestinationIP        string `bson:"destinationip"`
+	DestinationInterface string `bson:"destinationinterface"`
+	DestinationPort      int    `bson:"destinationport"`
+	Length               int    `bson:"length"`
+	PacketID             int    `bson:"packetid"`
+	Protocol             int    `bson:"protocol"`
+	RuleID               int    `bson:"ruleid"`
+	SourceIP             string `bson:"sourceip"`
+	SourceInterface      string `bson:"sourceinterface"`
+	SourcePort           int    `bson:"sourceport"`
+	TableName            string `bson:"tablename"`
+}
+
+type mongoAttributesSparseTraceRecord struct {
+	TTL                  *int    `bson:"ttl,omitempty"`
+	Chain                *string `bson:"chain,omitempty"`
+	DestinationIP        *string `bson:"destinationip,omitempty"`
+	DestinationInterface *string `bson:"destinationinterface,omitempty"`
+	DestinationPort      *int    `bson:"destinationport,omitempty"`
+	Length               *int    `bson:"length,omitempty"`
+	PacketID             *int    `bson:"packetid,omitempty"`
+	Protocol             *int    `bson:"protocol,omitempty"`
+	RuleID               *int    `bson:"ruleid,omitempty"`
+	SourceIP             *string `bson:"sourceip,omitempty"`
+	SourceInterface      *string `bson:"sourceinterface,omitempty"`
+	SourcePort           *int    `bson:"sourceport,omitempty"`
+	TableName            *string `bson:"tablename,omitempty"`
+}

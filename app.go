@@ -775,3 +775,15 @@ func (o *SparseApp) DeepCopyInto(out *SparseApp) {
 
 	*out = *target.(*SparseApp)
 }
+
+type mongoAttributesApp struct {
+	Description string    `bson:"description"`
+	Name        string    `bson:"name"`
+	Steps       []*UIStep `bson:"steps"`
+}
+
+type mongoAttributesSparseApp struct {
+	Description *string    `bson:"description,omitempty"`
+	Name        *string    `bson:"name,omitempty"`
+	Steps       *[]*UIStep `bson:"steps,omitempty"`
+}
