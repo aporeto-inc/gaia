@@ -212,6 +212,10 @@ func (o *AuditReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AuditReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesAuditReport{}
 
 	return s, nil
@@ -220,6 +224,10 @@ func (o *AuditReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AuditReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesAuditReport{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1394,6 +1402,10 @@ func (o *SparseAuditReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAuditReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseAuditReport{}
 
 	return s, nil
@@ -1402,6 +1414,10 @@ func (o *SparseAuditReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAuditReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseAuditReport{}
 	if err := raw.Unmarshal(s); err != nil {

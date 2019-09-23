@@ -357,6 +357,10 @@ func (o *CounterReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *CounterReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesCounterReport{}
 
 	s.EnforcerID = o.EnforcerID
@@ -368,6 +372,10 @@ func (o *CounterReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *CounterReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesCounterReport{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -2303,6 +2311,10 @@ func (o *SparseCounterReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseCounterReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseCounterReport{}
 
 	if o.EnforcerID != nil {
@@ -2318,6 +2330,10 @@ func (o *SparseCounterReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseCounterReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseCounterReport{}
 	if err := raw.Unmarshal(s); err != nil {

@@ -249,6 +249,10 @@ func (o *EnforcerProfile) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *EnforcerProfile) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesEnforcerProfile{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -284,6 +288,10 @@ func (o *EnforcerProfile) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *EnforcerProfile) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesEnforcerProfile{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1756,6 +1764,10 @@ func (o *SparseEnforcerProfile) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseEnforcerProfile) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseEnforcerProfile{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1841,6 +1853,10 @@ func (o *SparseEnforcerProfile) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseEnforcerProfile) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseEnforcerProfile{}
 	if err := raw.Unmarshal(s); err != nil {

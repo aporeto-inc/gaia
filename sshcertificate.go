@@ -152,6 +152,10 @@ func (o *SSHCertificate) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SSHCertificate) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSSHCertificate{}
 
 	return s, nil
@@ -160,6 +164,10 @@ func (o *SSHCertificate) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SSHCertificate) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSSHCertificate{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -645,6 +653,10 @@ func (o *SparseSSHCertificate) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseSSHCertificate) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseSSHCertificate{}
 
 	return s, nil
@@ -653,6 +665,10 @@ func (o *SparseSSHCertificate) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseSSHCertificate) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseSSHCertificate{}
 	if err := raw.Unmarshal(s); err != nil {

@@ -216,6 +216,10 @@ func (o *ProcessingUnitPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *ProcessingUnitPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesProcessingUnitPolicy{}
 
 	s.Action = o.Action
@@ -245,6 +249,10 @@ func (o *ProcessingUnitPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *ProcessingUnitPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesProcessingUnitPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1531,6 +1539,10 @@ func (o *SparseProcessingUnitPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseProcessingUnitPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseProcessingUnitPolicy{}
 
 	if o.Action != nil {
@@ -1600,6 +1612,10 @@ func (o *SparseProcessingUnitPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseProcessingUnitPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseProcessingUnitPolicy{}
 	if err := raw.Unmarshal(s); err != nil {

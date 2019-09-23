@@ -41,6 +41,10 @@ func NewTraceMode() *TraceMode {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *TraceMode) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesTraceMode{}
 
 	s.IPTables = o.IPTables
@@ -54,6 +58,10 @@ func (o *TraceMode) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *TraceMode) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesTraceMode{}
 	if err := raw.Unmarshal(s); err != nil {

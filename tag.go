@@ -127,6 +127,10 @@ func (o *Tag) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Tag) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesTag{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -140,6 +144,10 @@ func (o *Tag) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Tag) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesTag{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -561,6 +569,10 @@ func (o *SparseTag) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseTag) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseTag{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -580,6 +592,10 @@ func (o *SparseTag) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseTag) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseTag{}
 	if err := raw.Unmarshal(s); err != nil {

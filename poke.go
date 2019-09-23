@@ -112,6 +112,10 @@ func (o *Poke) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Poke) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesPoke{}
 
 	return s, nil
@@ -120,6 +124,10 @@ func (o *Poke) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Poke) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesPoke{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -348,6 +356,10 @@ func (o *SparsePoke) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePoke) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparsePoke{}
 
 	return s, nil
@@ -356,6 +368,10 @@ func (o *SparsePoke) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePoke) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparsePoke{}
 	if err := raw.Unmarshal(s); err != nil {

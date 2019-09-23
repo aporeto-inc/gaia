@@ -149,6 +149,10 @@ func (o *RemoteProcessor) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *RemoteProcessor) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesRemoteProcessor{}
 
 	s.RequestID = o.RequestID
@@ -159,6 +163,10 @@ func (o *RemoteProcessor) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *RemoteProcessor) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesRemoteProcessor{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -662,6 +670,10 @@ func (o *SparseRemoteProcessor) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseRemoteProcessor) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseRemoteProcessor{}
 
 	if o.RequestID != nil {
@@ -674,6 +686,10 @@ func (o *SparseRemoteProcessor) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseRemoteProcessor) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseRemoteProcessor{}
 	if err := raw.Unmarshal(s); err != nil {

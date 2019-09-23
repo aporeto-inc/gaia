@@ -31,6 +31,10 @@ func NewClaimMapping() *ClaimMapping {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *ClaimMapping) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesClaimMapping{}
 
 	s.ClaimName = o.ClaimName
@@ -42,6 +46,10 @@ func (o *ClaimMapping) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *ClaimMapping) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesClaimMapping{}
 	if err := raw.Unmarshal(s); err != nil {

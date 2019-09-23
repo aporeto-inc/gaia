@@ -205,6 +205,10 @@ func (o *Alarm) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Alarm) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesAlarm{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -235,6 +239,10 @@ func (o *Alarm) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Alarm) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesAlarm{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1468,6 +1476,10 @@ func (o *SparseAlarm) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAlarm) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseAlarm{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1538,6 +1550,10 @@ func (o *SparseAlarm) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAlarm) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseAlarm{}
 	if err := raw.Unmarshal(s); err != nil {

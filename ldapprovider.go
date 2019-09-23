@@ -231,6 +231,10 @@ func (o *LDAPProvider) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *LDAPProvider) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesLDAPProvider{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -265,6 +269,10 @@ func (o *LDAPProvider) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *LDAPProvider) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesLDAPProvider{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1696,6 +1704,10 @@ func (o *SparseLDAPProvider) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseLDAPProvider) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseLDAPProvider{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1778,6 +1790,10 @@ func (o *SparseLDAPProvider) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseLDAPProvider) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseLDAPProvider{}
 	if err := raw.Unmarshal(s); err != nil {

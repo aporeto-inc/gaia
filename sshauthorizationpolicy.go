@@ -223,6 +223,10 @@ func (o *SSHAuthorizationPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SSHAuthorizationPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSSHAuthorizationPolicy{}
 
 	s.ActiveDuration = o.ActiveDuration
@@ -250,6 +254,10 @@ func (o *SSHAuthorizationPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SSHAuthorizationPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSSHAuthorizationPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1732,6 +1740,10 @@ func (o *SparseSSHAuthorizationPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseSSHAuthorizationPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseSSHAuthorizationPolicy{}
 
 	if o.ActiveDuration != nil {
@@ -1795,6 +1807,10 @@ func (o *SparseSSHAuthorizationPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseSSHAuthorizationPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseSSHAuthorizationPolicy{}
 	if err := raw.Unmarshal(s); err != nil {

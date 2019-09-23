@@ -182,6 +182,10 @@ func (o *EnforcerProfileMappingPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *EnforcerProfileMappingPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesEnforcerProfileMappingPolicy{}
 
 	s.Annotations = o.Annotations
@@ -208,6 +212,10 @@ func (o *EnforcerProfileMappingPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *EnforcerProfileMappingPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesEnforcerProfileMappingPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1355,6 +1363,10 @@ func (o *SparseEnforcerProfileMappingPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseEnforcerProfileMappingPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseEnforcerProfileMappingPolicy{}
 
 	if o.Annotations != nil {
@@ -1415,6 +1427,10 @@ func (o *SparseEnforcerProfileMappingPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseEnforcerProfileMappingPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseEnforcerProfileMappingPolicy{}
 	if err := raw.Unmarshal(s); err != nil {

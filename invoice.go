@@ -146,6 +146,10 @@ func (o *Invoice) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Invoice) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesInvoice{}
 
 	s.ID = o.ID
@@ -162,6 +166,10 @@ func (o *Invoice) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Invoice) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesInvoice{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -666,6 +674,10 @@ func (o *SparseInvoice) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseInvoice) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseInvoice{}
 
 	if o.ID != nil {
@@ -696,6 +708,10 @@ func (o *SparseInvoice) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseInvoice) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseInvoice{}
 	if err := raw.Unmarshal(s); err != nil {

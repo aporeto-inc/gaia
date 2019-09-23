@@ -126,6 +126,10 @@ func (o *AWSRegister) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AWSRegister) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesAWSRegister{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -138,6 +142,10 @@ func (o *AWSRegister) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AWSRegister) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesAWSRegister{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -549,6 +557,10 @@ func (o *SparseAWSRegister) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAWSRegister) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseAWSRegister{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -565,6 +577,10 @@ func (o *SparseAWSRegister) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAWSRegister) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseAWSRegister{}
 	if err := raw.Unmarshal(s); err != nil {

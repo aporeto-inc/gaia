@@ -189,6 +189,10 @@ func (o *QuotaPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *QuotaPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesQuotaPolicy{}
 
 	s.Annotations = o.Annotations
@@ -217,6 +221,10 @@ func (o *QuotaPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *QuotaPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesQuotaPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1484,6 +1492,10 @@ func (o *SparseQuotaPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseQuotaPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseQuotaPolicy{}
 
 	if o.Annotations != nil {
@@ -1550,6 +1562,10 @@ func (o *SparseQuotaPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseQuotaPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseQuotaPolicy{}
 	if err := raw.Unmarshal(s); err != nil {

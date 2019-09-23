@@ -115,6 +115,10 @@ func (o *Trigger) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Trigger) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesTrigger{}
 
 	return s, nil
@@ -123,6 +127,10 @@ func (o *Trigger) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Trigger) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesTrigger{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -385,6 +393,10 @@ func (o *SparseTrigger) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseTrigger) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseTrigger{}
 
 	return s, nil
@@ -393,6 +405,10 @@ func (o *SparseTrigger) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseTrigger) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseTrigger{}
 	if err := raw.Unmarshal(s); err != nil {

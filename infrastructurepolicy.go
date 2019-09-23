@@ -215,6 +215,10 @@ func (o *InfrastructurePolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *InfrastructurePolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesInfrastructurePolicy{}
 
 	s.ActiveDuration = o.ActiveDuration
@@ -240,6 +244,10 @@ func (o *InfrastructurePolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *InfrastructurePolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesInfrastructurePolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1507,6 +1515,10 @@ func (o *SparseInfrastructurePolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseInfrastructurePolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseInfrastructurePolicy{}
 
 	if o.ActiveDuration != nil {
@@ -1564,6 +1576,10 @@ func (o *SparseInfrastructurePolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseInfrastructurePolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseInfrastructurePolicy{}
 	if err := raw.Unmarshal(s); err != nil {

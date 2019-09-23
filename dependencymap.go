@@ -128,6 +128,10 @@ func (o *DependencyMap) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *DependencyMap) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesDependencyMap{}
 
 	return s, nil
@@ -136,6 +140,10 @@ func (o *DependencyMap) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *DependencyMap) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesDependencyMap{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -529,6 +537,10 @@ func (o *SparseDependencyMap) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseDependencyMap) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseDependencyMap{}
 
 	return s, nil
@@ -537,6 +549,10 @@ func (o *SparseDependencyMap) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseDependencyMap) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseDependencyMap{}
 	if err := raw.Unmarshal(s); err != nil {

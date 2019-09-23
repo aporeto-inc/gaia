@@ -141,6 +141,10 @@ func (o *Revocation) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Revocation) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesRevocation{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -158,6 +162,10 @@ func (o *Revocation) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Revocation) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesRevocation{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -710,6 +718,10 @@ func (o *SparseRevocation) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseRevocation) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseRevocation{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -741,6 +753,10 @@ func (o *SparseRevocation) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseRevocation) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseRevocation{}
 	if err := raw.Unmarshal(s); err != nil {

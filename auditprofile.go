@@ -180,6 +180,10 @@ func (o *AuditProfile) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AuditProfile) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesAuditProfile{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -207,6 +211,10 @@ func (o *AuditProfile) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AuditProfile) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesAuditProfile{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1358,6 +1366,10 @@ func (o *SparseAuditProfile) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAuditProfile) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseAuditProfile{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1419,6 +1431,10 @@ func (o *SparseAuditProfile) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAuditProfile) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseAuditProfile{}
 	if err := raw.Unmarshal(s); err != nil {

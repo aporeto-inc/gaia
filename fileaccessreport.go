@@ -151,6 +151,10 @@ func (o *FileAccessReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *FileAccessReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesFileAccessReport{}
 
 	return s, nil
@@ -159,6 +163,10 @@ func (o *FileAccessReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *FileAccessReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesFileAccessReport{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -635,6 +643,10 @@ func (o *SparseFileAccessReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseFileAccessReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseFileAccessReport{}
 
 	return s, nil
@@ -643,6 +655,10 @@ func (o *SparseFileAccessReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseFileAccessReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseFileAccessReport{}
 	if err := raw.Unmarshal(s); err != nil {

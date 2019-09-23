@@ -229,6 +229,10 @@ func (o *HookPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *HookPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesHookPolicy{}
 
 	s.Annotations = o.Annotations
@@ -263,6 +267,10 @@ func (o *HookPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *HookPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesHookPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1765,6 +1773,10 @@ func (o *SparseHookPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseHookPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseHookPolicy{}
 
 	if o.Annotations != nil {
@@ -1849,6 +1861,10 @@ func (o *SparseHookPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseHookPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseHookPolicy{}
 	if err := raw.Unmarshal(s); err != nil {

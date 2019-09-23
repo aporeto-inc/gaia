@@ -182,6 +182,10 @@ func (o *HTTPResourceSpec) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *HTTPResourceSpec) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesHTTPResourceSpec{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -210,6 +214,10 @@ func (o *HTTPResourceSpec) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *HTTPResourceSpec) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesHTTPResourceSpec{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1413,6 +1421,10 @@ func (o *SparseHTTPResourceSpec) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseHTTPResourceSpec) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseHTTPResourceSpec{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1477,6 +1489,10 @@ func (o *SparseHTTPResourceSpec) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseHTTPResourceSpec) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseHTTPResourceSpec{}
 	if err := raw.Unmarshal(s); err != nil {

@@ -191,6 +191,10 @@ func (o *PacketReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *PacketReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesPacketReport{}
 
 	s.EnforcerID = o.EnforcerID
@@ -204,6 +208,10 @@ func (o *PacketReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *PacketReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesPacketReport{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1061,6 +1069,10 @@ func (o *SparsePacketReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePacketReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparsePacketReport{}
 
 	if o.EnforcerID != nil {
@@ -1082,6 +1094,10 @@ func (o *SparsePacketReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePacketReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparsePacketReport{}
 	if err := raw.Unmarshal(s); err != nil {

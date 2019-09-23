@@ -123,6 +123,10 @@ func (o *Tabulation) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Tabulation) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesTabulation{}
 
 	return s, nil
@@ -131,6 +135,10 @@ func (o *Tabulation) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Tabulation) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesTabulation{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -464,6 +472,10 @@ func (o *SparseTabulation) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseTabulation) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseTabulation{}
 
 	return s, nil
@@ -472,6 +484,10 @@ func (o *SparseTabulation) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseTabulation) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseTabulation{}
 	if err := raw.Unmarshal(s); err != nil {

@@ -57,6 +57,10 @@ func NewUIParameterVisibility() *UIParameterVisibility {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *UIParameterVisibility) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesUIParameterVisibility{}
 
 	s.Key = o.Key
@@ -69,6 +73,10 @@ func (o *UIParameterVisibility) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *UIParameterVisibility) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesUIParameterVisibility{}
 	if err := raw.Unmarshal(s); err != nil {

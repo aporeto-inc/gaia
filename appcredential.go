@@ -210,6 +210,10 @@ func (o *AppCredential) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AppCredential) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesAppCredential{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -242,6 +246,10 @@ func (o *AppCredential) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AppCredential) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesAppCredential{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1650,6 +1658,10 @@ func (o *SparseAppCredential) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAppCredential) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseAppCredential{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1726,6 +1738,10 @@ func (o *SparseAppCredential) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAppCredential) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseAppCredential{}
 	if err := raw.Unmarshal(s); err != nil {

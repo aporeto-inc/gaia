@@ -46,6 +46,10 @@ func NewCredential() *Credential {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Credential) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesCredential{}
 
 	return s, nil
@@ -54,6 +58,10 @@ func (o *Credential) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Credential) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesCredential{}
 	if err := raw.Unmarshal(s); err != nil {

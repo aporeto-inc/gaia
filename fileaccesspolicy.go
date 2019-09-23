@@ -206,6 +206,10 @@ func (o *FileAccessPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *FileAccessPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesFileAccessPolicy{}
 
 	s.ActiveDuration = o.ActiveDuration
@@ -233,6 +237,10 @@ func (o *FileAccessPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *FileAccessPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesFileAccessPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1674,6 +1682,10 @@ func (o *SparseFileAccessPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseFileAccessPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseFileAccessPolicy{}
 
 	if o.ActiveDuration != nil {
@@ -1737,6 +1749,10 @@ func (o *SparseFileAccessPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseFileAccessPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseFileAccessPolicy{}
 	if err := raw.Unmarshal(s); err != nil {

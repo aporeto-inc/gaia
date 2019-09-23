@@ -274,6 +274,10 @@ func (o *FlowReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *FlowReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesFlowReport{}
 
 	return s, nil
@@ -282,6 +286,10 @@ func (o *FlowReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *FlowReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesFlowReport{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1392,6 +1400,10 @@ func (o *SparseFlowReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseFlowReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseFlowReport{}
 
 	return s, nil
@@ -1400,6 +1412,10 @@ func (o *SparseFlowReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseFlowReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseFlowReport{}
 	if err := raw.Unmarshal(s); err != nil {

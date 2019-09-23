@@ -188,6 +188,10 @@ func (o *AuditProfileMappingPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AuditProfileMappingPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesAuditProfileMappingPolicy{}
 
 	s.ActiveDuration = o.ActiveDuration
@@ -214,6 +218,10 @@ func (o *AuditProfileMappingPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AuditProfileMappingPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesAuditProfileMappingPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1453,6 +1461,10 @@ func (o *SparseAuditProfileMappingPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAuditProfileMappingPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseAuditProfileMappingPolicy{}
 
 	if o.ActiveDuration != nil {
@@ -1513,6 +1525,10 @@ func (o *SparseAuditProfileMappingPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAuditProfileMappingPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseAuditProfileMappingPolicy{}
 	if err := raw.Unmarshal(s); err != nil {

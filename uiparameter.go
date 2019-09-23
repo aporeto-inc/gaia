@@ -113,6 +113,10 @@ func NewUIParameter() *UIParameter {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *UIParameter) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesUIParameter{}
 
 	s.Advanced = o.Advanced
@@ -135,6 +139,10 @@ func (o *UIParameter) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *UIParameter) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesUIParameter{}
 	if err := raw.Unmarshal(s); err != nil {

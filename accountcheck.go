@@ -130,6 +130,10 @@ func (o *AccountCheck) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AccountCheck) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesAccountCheck{}
 
 	return s, nil
@@ -138,6 +142,10 @@ func (o *AccountCheck) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AccountCheck) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesAccountCheck{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -559,6 +567,10 @@ func (o *SparseAccountCheck) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAccountCheck) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseAccountCheck{}
 
 	return s, nil
@@ -567,6 +579,10 @@ func (o *SparseAccountCheck) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAccountCheck) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseAccountCheck{}
 	if err := raw.Unmarshal(s); err != nil {

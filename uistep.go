@@ -38,6 +38,10 @@ func NewUIStep() *UIStep {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *UIStep) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesUIStep{}
 
 	s.Advanced = o.Advanced
@@ -51,6 +55,10 @@ func (o *UIStep) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *UIStep) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesUIStep{}
 	if err := raw.Unmarshal(s); err != nil {

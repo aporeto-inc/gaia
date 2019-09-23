@@ -132,6 +132,10 @@ func (o *Plan) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Plan) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesPlan{}
 
 	s.Description = o.Description
@@ -145,6 +149,10 @@ func (o *Plan) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Plan) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesPlan{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -577,6 +585,10 @@ func (o *SparsePlan) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePlan) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparsePlan{}
 
 	if o.Description != nil {
@@ -598,6 +610,10 @@ func (o *SparsePlan) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePlan) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparsePlan{}
 	if err := raw.Unmarshal(s); err != nil {

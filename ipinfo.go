@@ -122,6 +122,10 @@ func (o *IPInfo) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *IPInfo) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesIPInfo{}
 
 	return s, nil
@@ -130,6 +134,10 @@ func (o *IPInfo) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *IPInfo) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesIPInfo{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -460,6 +468,10 @@ func (o *SparseIPInfo) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseIPInfo) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseIPInfo{}
 
 	return s, nil
@@ -468,6 +480,10 @@ func (o *SparseIPInfo) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseIPInfo) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseIPInfo{}
 	if err := raw.Unmarshal(s); err != nil {

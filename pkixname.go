@@ -56,6 +56,10 @@ func NewPKIXName() *PKIXName {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *PKIXName) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesPKIXName{}
 
 	return s, nil
@@ -64,6 +68,10 @@ func (o *PKIXName) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *PKIXName) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesPKIXName{}
 	if err := raw.Unmarshal(s); err != nil {

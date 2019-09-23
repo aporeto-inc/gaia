@@ -68,6 +68,10 @@ func NewTraceRecord() *TraceRecord {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *TraceRecord) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesTraceRecord{}
 
 	s.TTL = o.TTL
@@ -90,6 +94,10 @@ func (o *TraceRecord) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *TraceRecord) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesTraceRecord{}
 	if err := raw.Unmarshal(s); err != nil {

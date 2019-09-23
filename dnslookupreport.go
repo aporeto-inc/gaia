@@ -155,6 +155,10 @@ func (o *DNSLookupReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *DNSLookupReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesDNSLookupReport{}
 
 	return s, nil
@@ -163,6 +167,10 @@ func (o *DNSLookupReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *DNSLookupReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesDNSLookupReport{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -720,6 +728,10 @@ func (o *SparseDNSLookupReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseDNSLookupReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseDNSLookupReport{}
 
 	return s, nil
@@ -728,6 +740,10 @@ func (o *SparseDNSLookupReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseDNSLookupReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseDNSLookupReport{}
 	if err := raw.Unmarshal(s); err != nil {

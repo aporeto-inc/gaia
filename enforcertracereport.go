@@ -128,6 +128,10 @@ func (o *EnforcerTraceReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *EnforcerTraceReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesEnforcerTraceReport{}
 
 	s.EnforcerID = o.EnforcerID
@@ -142,6 +146,10 @@ func (o *EnforcerTraceReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *EnforcerTraceReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesEnforcerTraceReport{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -552,6 +560,10 @@ func (o *SparseEnforcerTraceReport) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseEnforcerTraceReport) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseEnforcerTraceReport{}
 
 	if o.EnforcerID != nil {
@@ -576,6 +588,10 @@ func (o *SparseEnforcerTraceReport) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseEnforcerTraceReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseEnforcerTraceReport{}
 	if err := raw.Unmarshal(s); err != nil {

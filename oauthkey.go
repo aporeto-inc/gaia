@@ -116,6 +116,10 @@ func (o *OAUTHKey) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *OAUTHKey) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesOAUTHKey{}
 
 	return s, nil
@@ -124,6 +128,10 @@ func (o *OAUTHKey) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *OAUTHKey) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesOAUTHKey{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -394,6 +402,10 @@ func (o *SparseOAUTHKey) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseOAUTHKey) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseOAUTHKey{}
 
 	return s, nil
@@ -402,6 +414,10 @@ func (o *SparseOAUTHKey) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseOAUTHKey) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseOAUTHKey{}
 	if err := raw.Unmarshal(s); err != nil {

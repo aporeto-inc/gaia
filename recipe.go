@@ -209,6 +209,10 @@ func (o *Recipe) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Recipe) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesRecipe{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -245,6 +249,10 @@ func (o *Recipe) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Recipe) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesRecipe{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1704,6 +1712,10 @@ func (o *SparseRecipe) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseRecipe) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseRecipe{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1792,6 +1804,10 @@ func (o *SparseRecipe) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseRecipe) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseRecipe{}
 	if err := raw.Unmarshal(s); err != nil {

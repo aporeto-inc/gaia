@@ -120,6 +120,10 @@ func (o *PolicyTTL) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *PolicyTTL) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesPolicyTTL{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -131,6 +135,10 @@ func (o *PolicyTTL) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *PolicyTTL) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesPolicyTTL{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -440,6 +448,10 @@ func (o *SparsePolicyTTL) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePolicyTTL) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparsePolicyTTL{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -453,6 +465,10 @@ func (o *SparsePolicyTTL) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePolicyTTL) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparsePolicyTTL{}
 	if err := raw.Unmarshal(s); err != nil {

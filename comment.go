@@ -36,6 +36,10 @@ func NewComment() *Comment {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Comment) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesComment{}
 
 	s.Claims = o.Claims
@@ -48,6 +52,10 @@ func (o *Comment) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Comment) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesComment{}
 	if err := raw.Unmarshal(s); err != nil {

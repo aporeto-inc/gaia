@@ -41,6 +41,10 @@ func NewGraphGroup() *GraphGroup {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *GraphGroup) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesGraphGroup{}
 
 	return s, nil
@@ -49,6 +53,10 @@ func (o *GraphGroup) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *GraphGroup) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesGraphGroup{}
 	if err := raw.Unmarshal(s); err != nil {

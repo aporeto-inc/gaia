@@ -171,6 +171,10 @@ func (o *Claims) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Claims) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesClaims{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -195,6 +199,10 @@ func (o *Claims) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Claims) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesClaims{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1128,6 +1136,10 @@ func (o *SparseClaims) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseClaims) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseClaims{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1180,6 +1192,10 @@ func (o *SparseClaims) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseClaims) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseClaims{}
 	if err := raw.Unmarshal(s); err != nil {

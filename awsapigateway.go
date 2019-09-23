@@ -195,6 +195,10 @@ func (o *AWSAPIGateway) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AWSAPIGateway) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesAWSAPIGateway{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -219,6 +223,10 @@ func (o *AWSAPIGateway) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AWSAPIGateway) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesAWSAPIGateway{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1478,6 +1486,10 @@ func (o *SparseAWSAPIGateway) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAWSAPIGateway) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseAWSAPIGateway{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1530,6 +1542,10 @@ func (o *SparseAWSAPIGateway) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAWSAPIGateway) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseAWSAPIGateway{}
 	if err := raw.Unmarshal(s); err != nil {

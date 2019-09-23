@@ -188,6 +188,10 @@ func (o *ServiceDependency) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *ServiceDependency) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesServiceDependency{}
 
 	s.ActiveDuration = o.ActiveDuration
@@ -214,6 +218,10 @@ func (o *ServiceDependency) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *ServiceDependency) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesServiceDependency{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1457,6 +1465,10 @@ func (o *SparseServiceDependency) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseServiceDependency) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseServiceDependency{}
 
 	if o.ActiveDuration != nil {
@@ -1517,6 +1529,10 @@ func (o *SparseServiceDependency) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseServiceDependency) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseServiceDependency{}
 	if err := raw.Unmarshal(s); err != nil {

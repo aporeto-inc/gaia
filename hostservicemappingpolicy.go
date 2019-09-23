@@ -189,6 +189,10 @@ func (o *HostServiceMappingPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *HostServiceMappingPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesHostServiceMappingPolicy{}
 
 	s.ActiveDuration = o.ActiveDuration
@@ -215,6 +219,10 @@ func (o *HostServiceMappingPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *HostServiceMappingPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesHostServiceMappingPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1462,6 +1470,10 @@ func (o *SparseHostServiceMappingPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseHostServiceMappingPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseHostServiceMappingPolicy{}
 
 	if o.ActiveDuration != nil {
@@ -1522,6 +1534,10 @@ func (o *SparseHostServiceMappingPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseHostServiceMappingPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseHostServiceMappingPolicy{}
 	if err := raw.Unmarshal(s); err != nil {

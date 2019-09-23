@@ -88,6 +88,10 @@ func NewJWKS() *JWKS {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *JWKS) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesJWKS{}
 
 	return s, nil
@@ -96,6 +100,10 @@ func (o *JWKS) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *JWKS) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesJWKS{}
 	if err := raw.Unmarshal(s); err != nil {

@@ -128,6 +128,10 @@ func (o *Token) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Token) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesToken{}
 
 	s.SigningKeyID = o.SigningKeyID
@@ -138,6 +142,10 @@ func (o *Token) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Token) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesToken{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -530,6 +538,10 @@ func (o *SparseToken) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseToken) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseToken{}
 
 	if o.SigningKeyID != nil {
@@ -542,6 +554,10 @@ func (o *SparseToken) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseToken) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseToken{}
 	if err := raw.Unmarshal(s); err != nil {

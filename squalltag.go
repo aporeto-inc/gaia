@@ -121,6 +121,10 @@ func (o *SquallTag) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SquallTag) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSquallTag{}
 
 	s.Count = o.Count
@@ -133,6 +137,10 @@ func (o *SquallTag) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SquallTag) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSquallTag{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -460,6 +468,10 @@ func (o *SparseSquallTag) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseSquallTag) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseSquallTag{}
 
 	if o.Count != nil {
@@ -478,6 +490,10 @@ func (o *SparseSquallTag) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseSquallTag) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseSquallTag{}
 	if err := raw.Unmarshal(s); err != nil {

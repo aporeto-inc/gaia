@@ -171,6 +171,10 @@ func (o *NamespaceMappingPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *NamespaceMappingPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesNamespaceMappingPolicy{}
 
 	s.Annotations = o.Annotations
@@ -194,6 +198,10 @@ func (o *NamespaceMappingPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *NamespaceMappingPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesNamespaceMappingPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1249,6 +1257,10 @@ func (o *SparseNamespaceMappingPolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseNamespaceMappingPolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseNamespaceMappingPolicy{}
 
 	if o.Annotations != nil {
@@ -1300,6 +1312,10 @@ func (o *SparseNamespaceMappingPolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseNamespaceMappingPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseNamespaceMappingPolicy{}
 	if err := raw.Unmarshal(s); err != nil {

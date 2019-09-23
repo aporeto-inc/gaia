@@ -193,6 +193,10 @@ func (o *IsolationProfile) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *IsolationProfile) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesIsolationProfile{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -223,6 +227,10 @@ func (o *IsolationProfile) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *IsolationProfile) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesIsolationProfile{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1482,6 +1490,10 @@ func (o *SparseIsolationProfile) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseIsolationProfile) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseIsolationProfile{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1552,6 +1564,10 @@ func (o *SparseIsolationProfile) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseIsolationProfile) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseIsolationProfile{}
 	if err := raw.Unmarshal(s); err != nil {

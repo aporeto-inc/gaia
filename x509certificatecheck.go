@@ -116,6 +116,10 @@ func (o *X509CertificateCheck) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *X509CertificateCheck) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesX509CertificateCheck{}
 
 	return s, nil
@@ -124,6 +128,10 @@ func (o *X509CertificateCheck) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *X509CertificateCheck) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesX509CertificateCheck{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -398,6 +406,10 @@ func (o *SparseX509CertificateCheck) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseX509CertificateCheck) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseX509CertificateCheck{}
 
 	return s, nil
@@ -406,6 +418,10 @@ func (o *SparseX509CertificateCheck) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseX509CertificateCheck) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseX509CertificateCheck{}
 	if err := raw.Unmarshal(s); err != nil {

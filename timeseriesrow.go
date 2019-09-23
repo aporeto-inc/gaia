@@ -40,6 +40,10 @@ func NewTimeSeriesRow() *TimeSeriesRow {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *TimeSeriesRow) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesTimeSeriesRow{}
 
 	return s, nil
@@ -48,6 +52,10 @@ func (o *TimeSeriesRow) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *TimeSeriesRow) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesTimeSeriesRow{}
 	if err := raw.Unmarshal(s); err != nil {

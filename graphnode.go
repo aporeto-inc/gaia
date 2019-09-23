@@ -177,6 +177,10 @@ func (o *GraphNode) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *GraphNode) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesGraphNode{}
 
 	s.ID = o.ID
@@ -199,6 +203,10 @@ func (o *GraphNode) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *GraphNode) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesGraphNode{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -833,6 +841,10 @@ func (o *SparseGraphNode) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseGraphNode) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseGraphNode{}
 
 	if o.ID != nil {
@@ -881,6 +893,10 @@ func (o *SparseGraphNode) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseGraphNode) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseGraphNode{}
 	if err := raw.Unmarshal(s); err != nil {

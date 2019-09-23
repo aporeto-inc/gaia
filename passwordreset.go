@@ -118,6 +118,10 @@ func (o *PasswordReset) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *PasswordReset) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesPasswordReset{}
 
 	return s, nil
@@ -126,6 +130,10 @@ func (o *PasswordReset) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *PasswordReset) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesPasswordReset{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -427,6 +435,10 @@ func (o *SparsePasswordReset) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePasswordReset) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparsePasswordReset{}
 
 	return s, nil
@@ -435,6 +447,10 @@ func (o *SparsePasswordReset) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePasswordReset) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparsePasswordReset{}
 	if err := raw.Unmarshal(s); err != nil {

@@ -136,6 +136,10 @@ func (o *TrustedCA) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *TrustedCA) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesTrustedCA{}
 
 	return s, nil
@@ -144,6 +148,10 @@ func (o *TrustedCA) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *TrustedCA) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesTrustedCA{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -479,6 +487,10 @@ func (o *SparseTrustedCA) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseTrustedCA) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseTrustedCA{}
 
 	return s, nil
@@ -487,6 +499,10 @@ func (o *SparseTrustedCA) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseTrustedCA) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseTrustedCA{}
 	if err := raw.Unmarshal(s); err != nil {

@@ -184,6 +184,10 @@ func (o *FilePath) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *FilePath) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesFilePath{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
@@ -213,6 +217,10 @@ func (o *FilePath) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *FilePath) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesFilePath{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1447,6 +1455,10 @@ func (o *SparseFilePath) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseFilePath) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseFilePath{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
@@ -1514,6 +1526,10 @@ func (o *SparseFilePath) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseFilePath) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseFilePath{}
 	if err := raw.Unmarshal(s); err != nil {

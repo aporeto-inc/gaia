@@ -153,6 +153,10 @@ func (o *AutomationTemplate) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AutomationTemplate) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesAutomationTemplate{}
 
 	s.Description = o.Description
@@ -164,6 +168,10 @@ func (o *AutomationTemplate) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *AutomationTemplate) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesAutomationTemplate{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -705,6 +713,10 @@ func (o *SparseAutomationTemplate) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAutomationTemplate) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseAutomationTemplate{}
 
 	if o.Description != nil {
@@ -720,6 +732,10 @@ func (o *SparseAutomationTemplate) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseAutomationTemplate) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseAutomationTemplate{}
 	if err := raw.Unmarshal(s); err != nil {

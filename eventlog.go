@@ -162,6 +162,10 @@ func (o *EventLog) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *EventLog) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesEventLog{}
 
 	s.Category = o.Category
@@ -180,6 +184,10 @@ func (o *EventLog) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *EventLog) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesEventLog{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -771,6 +779,10 @@ func (o *SparseEventLog) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseEventLog) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseEventLog{}
 
 	if o.Category != nil {
@@ -807,6 +819,10 @@ func (o *SparseEventLog) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseEventLog) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseEventLog{}
 	if err := raw.Unmarshal(s); err != nil {

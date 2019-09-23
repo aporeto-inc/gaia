@@ -122,6 +122,10 @@ func (o *RenderTemplate) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *RenderTemplate) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesRenderTemplate{}
 
 	return s, nil
@@ -130,6 +134,10 @@ func (o *RenderTemplate) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *RenderTemplate) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesRenderTemplate{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -448,6 +456,10 @@ func (o *SparseRenderTemplate) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseRenderTemplate) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseRenderTemplate{}
 
 	return s, nil
@@ -456,6 +468,10 @@ func (o *SparseRenderTemplate) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseRenderTemplate) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseRenderTemplate{}
 	if err := raw.Unmarshal(s); err != nil {

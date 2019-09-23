@@ -119,6 +119,10 @@ func (o *SSHIdentity) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SSHIdentity) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSSHIdentity{}
 
 	return s, nil
@@ -127,6 +131,10 @@ func (o *SSHIdentity) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SSHIdentity) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSSHIdentity{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -430,6 +438,10 @@ func (o *SparseSSHIdentity) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseSSHIdentity) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseSSHIdentity{}
 
 	return s, nil
@@ -438,6 +450,10 @@ func (o *SparseSSHIdentity) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseSSHIdentity) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseSSHIdentity{}
 	if err := raw.Unmarshal(s); err != nil {

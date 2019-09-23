@@ -43,6 +43,10 @@ func NewEndpoint() *Endpoint {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Endpoint) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesEndpoint{}
 
 	s.URI = o.URI
@@ -56,6 +60,10 @@ func (o *Endpoint) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *Endpoint) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesEndpoint{}
 	if err := raw.Unmarshal(s); err != nil {

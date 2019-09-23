@@ -145,6 +145,10 @@ func (o *DataPathCertificate) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *DataPathCertificate) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesDataPathCertificate{}
 
 	return s, nil
@@ -153,6 +157,10 @@ func (o *DataPathCertificate) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *DataPathCertificate) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesDataPathCertificate{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -609,6 +617,10 @@ func (o *SparseDataPathCertificate) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseDataPathCertificate) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseDataPathCertificate{}
 
 	return s, nil
@@ -617,6 +629,10 @@ func (o *SparseDataPathCertificate) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseDataPathCertificate) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseDataPathCertificate{}
 	if err := raw.Unmarshal(s); err != nil {

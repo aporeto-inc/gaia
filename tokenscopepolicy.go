@@ -207,6 +207,10 @@ func (o *TokenScopePolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *TokenScopePolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesTokenScopePolicy{}
 
 	s.ActiveDuration = o.ActiveDuration
@@ -239,6 +243,10 @@ func (o *TokenScopePolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *TokenScopePolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesTokenScopePolicy{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -1646,6 +1654,10 @@ func (o *SparseTokenScopePolicy) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseTokenScopePolicy) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparseTokenScopePolicy{}
 
 	if o.ActiveDuration != nil {
@@ -1724,6 +1736,10 @@ func (o *SparseTokenScopePolicy) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparseTokenScopePolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparseTokenScopePolicy{}
 	if err := raw.Unmarshal(s); err != nil {

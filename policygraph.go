@@ -146,6 +146,10 @@ func (o *PolicyGraph) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *PolicyGraph) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesPolicyGraph{}
 
 	return s, nil
@@ -154,6 +158,10 @@ func (o *PolicyGraph) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *PolicyGraph) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesPolicyGraph{}
 	if err := raw.Unmarshal(s); err != nil {
@@ -535,6 +543,10 @@ func (o *SparsePolicyGraph) SetIdentifier(id string) {
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePolicyGraph) GetBSON() (interface{}, error) {
 
+	if o == nil {
+		return nil, nil
+	}
+
 	s := &mongoAttributesSparsePolicyGraph{}
 
 	return s, nil
@@ -543,6 +555,10 @@ func (o *SparsePolicyGraph) GetBSON() (interface{}, error) {
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
 func (o *SparsePolicyGraph) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
 
 	s := &mongoAttributesSparsePolicyGraph{}
 	if err := raw.Unmarshal(s); err != nil {
