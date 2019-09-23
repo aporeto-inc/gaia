@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -121,6 +122,31 @@ func (o *Token) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Token) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Token) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesToken{}
+
+	s.SigningKeyID = o.SigningKeyID
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Token) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesToken{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.SigningKeyID = s.SigningKeyID
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -500,6 +526,35 @@ func (o *SparseToken) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseToken) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseToken{}
+
+	if o.SigningKeyID != nil {
+		s.SigningKeyID = o.SigningKeyID
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseToken) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseToken{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.SigningKeyID != nil {
+		o.SigningKeyID = s.SigningKeyID
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseToken) Version() int {
 
@@ -556,7 +611,6 @@ func (o *SparseToken) DeepCopyInto(out *SparseToken) {
 type mongoAttributesToken struct {
 	SigningKeyID string `bson:"signingkeyid"`
 }
-
 type mongoAttributesSparseToken struct {
 	SigningKeyID *string `bson:"signingkeyid,omitempty"`
 }

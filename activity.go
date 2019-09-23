@@ -1296,7 +1296,6 @@ type mongoAttributesActivity struct {
 	ZHash          int               `bson:"zhash"`
 	Zone           int               `bson:"zone"`
 }
-
 type mongoAttributesSparseActivity struct {
 	ID             bson.ObjectId      `bson:"_id"`
 	Claims         *interface{}       `bson:"claims,omitempty"`

@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/constants"
@@ -152,6 +153,31 @@ func (o *RenderedPolicy) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *RenderedPolicy) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *RenderedPolicy) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesRenderedPolicy{}
+
+	s.Scopes = o.Scopes
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *RenderedPolicy) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesRenderedPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Scopes = s.Scopes
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -723,6 +749,35 @@ func (o *SparseRenderedPolicy) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseRenderedPolicy) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseRenderedPolicy{}
+
+	if o.Scopes != nil {
+		s.Scopes = o.Scopes
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseRenderedPolicy) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseRenderedPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Scopes != nil {
+		o.Scopes = s.Scopes
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseRenderedPolicy) Version() int {
 
@@ -794,7 +849,6 @@ func (o *SparseRenderedPolicy) DeepCopyInto(out *SparseRenderedPolicy) {
 type mongoAttributesRenderedPolicy struct {
 	Scopes []string `bson:"scopes"`
 }
-
 type mongoAttributesSparseRenderedPolicy struct {
 	Scopes *[]string `bson:"scopes,omitempty"`
 }

@@ -2222,7 +2222,6 @@ type mongoAttributesRecipe struct {
 	ZHash                int                 `bson:"zhash"`
 	Zone                 int                 `bson:"zone"`
 }
-
 type mongoAttributesSparseRecipe struct {
 	ID                   bson.ObjectId        `bson:"_id"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`

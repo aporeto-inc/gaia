@@ -1313,7 +1313,6 @@ type mongoAttributesGraphEdge struct {
 	ZHash                 int                           `bson:"zhash"`
 	Zone                  int                           `bson:"zone"`
 }
-
 type mongoAttributesSparseGraphEdge struct {
 	ID                    bson.ObjectId                  `bson:"_id"`
 	AcceptedFlows         *int                           `bson:"acceptedflows,omitempty"`

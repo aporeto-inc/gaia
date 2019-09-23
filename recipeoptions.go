@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -33,6 +34,31 @@ func NewRecipeOptions() *RecipeOptions {
 		ModelVersion:         1,
 		AppCrendentialFormat: RecipeOptionsAppCrendentialFormatJSON,
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *RecipeOptions) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesRecipeOptions{}
+
+	s.AppCrendentialFormat = o.AppCrendentialFormat
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *RecipeOptions) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesRecipeOptions{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.AppCrendentialFormat = s.AppCrendentialFormat
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -88,8 +114,4 @@ func (o *RecipeOptions) Validate() error {
 
 type mongoAttributesRecipeOptions struct {
 	AppCrendentialFormat RecipeOptionsAppCrendentialFormatValue `bson:"appcrendentialformat"`
-}
-
-type mongoAttributesSparseRecipeOptions struct {
-	AppCrendentialFormat *RecipeOptionsAppCrendentialFormatValue `bson:"appcrendentialformat,omitempty"`
 }

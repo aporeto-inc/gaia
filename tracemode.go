@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -34,6 +35,37 @@ func NewTraceMode() *TraceMode {
 		ModelVersion: 1,
 		Interval:     "10s",
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *TraceMode) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesTraceMode{}
+
+	s.IPTables = o.IPTables
+	s.ApplicationConnections = o.ApplicationConnections
+	s.Interval = o.Interval
+	s.NetworkConnections = o.NetworkConnections
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *TraceMode) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesTraceMode{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.IPTables = s.IPTables
+	o.ApplicationConnections = s.ApplicationConnections
+	o.Interval = s.Interval
+	o.NetworkConnections = s.NetworkConnections
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -88,11 +120,4 @@ type mongoAttributesTraceMode struct {
 	ApplicationConnections bool   `bson:"applicationconnections"`
 	Interval               string `bson:"interval"`
 	NetworkConnections     bool   `bson:"networkconnections"`
-}
-
-type mongoAttributesSparseTraceMode struct {
-	IPTables               *bool   `bson:"iptables,omitempty"`
-	ApplicationConnections *bool   `bson:"applicationconnections,omitempty"`
-	Interval               *string `bson:"interval,omitempty"`
-	NetworkConnections     *bool   `bson:"networkconnections,omitempty"`
 }

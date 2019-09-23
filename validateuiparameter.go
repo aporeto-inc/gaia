@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -117,6 +118,31 @@ func (o *ValidateUIParameter) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *ValidateUIParameter) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ValidateUIParameter) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesValidateUIParameter{}
+
+	s.Parameters = o.Parameters
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ValidateUIParameter) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesValidateUIParameter{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Parameters = s.Parameters
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -439,6 +465,35 @@ func (o *SparseValidateUIParameter) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseValidateUIParameter) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseValidateUIParameter{}
+
+	if o.Parameters != nil {
+		s.Parameters = o.Parameters
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseValidateUIParameter) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseValidateUIParameter{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Parameters != nil {
+		o.Parameters = s.Parameters
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseValidateUIParameter) Version() int {
 
@@ -489,7 +544,6 @@ func (o *SparseValidateUIParameter) DeepCopyInto(out *SparseValidateUIParameter)
 type mongoAttributesValidateUIParameter struct {
 	Parameters []*UIParameter `bson:"parameters"`
 }
-
 type mongoAttributesSparseValidateUIParameter struct {
 	Parameters *[]*UIParameter `bson:"parameters,omitempty"`
 }

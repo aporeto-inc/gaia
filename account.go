@@ -2009,7 +2009,6 @@ type mongoAttributesAccount struct {
 	ZHash                     int                `bson:"zhash"`
 	Zone                      int                `bson:"zone"`
 }
-
 type mongoAttributesSparseAccount struct {
 	ID                        bson.ObjectId       `bson:"_id"`
 	OTPEnabled                *bool               `bson:"otpenabled,omitempty"`

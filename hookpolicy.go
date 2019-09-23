@@ -2301,7 +2301,6 @@ type mongoAttributesHookPolicy struct {
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 }
-
 type mongoAttributesSparseHookPolicy struct {
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`

@@ -3491,7 +3491,6 @@ type mongoAttributesService struct {
 	ZHash                             int                           `bson:"zhash"`
 	Zone                              int                           `bson:"zone"`
 }
-
 type mongoAttributesSparseService struct {
 	ID                                bson.ObjectId                  `bson:"_id"`
 	IPs                               *[]string                      `bson:"ips,omitempty"`

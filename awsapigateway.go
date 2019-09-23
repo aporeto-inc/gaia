@@ -1879,7 +1879,6 @@ type mongoAttributesAWSAPIGateway struct {
 	ZHash                int                 `bson:"zhash"`
 	Zone                 int                 `bson:"zone"`
 }
-
 type mongoAttributesSparseAWSAPIGateway struct {
 	ID                   bson.ObjectId        `bson:"_id"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`

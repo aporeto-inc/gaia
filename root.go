@@ -207,6 +207,3 @@ var RootLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 
 type mongoAttributesRoot struct {
 }
-
-type mongoAttributesSparseRoot struct {
-}

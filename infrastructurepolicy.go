@@ -1933,7 +1933,6 @@ type mongoAttributesInfrastructurePolicy struct {
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 }
-
 type mongoAttributesSparseInfrastructurePolicy struct {
 	ActiveDuration       *string              `bson:"activeduration,omitempty"`
 	ActiveSchedule       *string              `bson:"activeschedule,omitempty"`

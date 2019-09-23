@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -118,6 +119,27 @@ func (o *Role) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Role) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Role) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesRole{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Role) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesRole{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -468,6 +490,27 @@ func (o *SparseRole) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseRole) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseRole{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseRole) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseRole{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseRole) Version() int {
 
@@ -520,6 +563,5 @@ func (o *SparseRole) DeepCopyInto(out *SparseRole) {
 
 type mongoAttributesRole struct {
 }
-
 type mongoAttributesSparseRole struct {
 }

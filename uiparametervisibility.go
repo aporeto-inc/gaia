@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -50,6 +51,35 @@ func NewUIParameterVisibility() *UIParameterVisibility {
 	return &UIParameterVisibility{
 		ModelVersion: 1,
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *UIParameterVisibility) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesUIParameterVisibility{}
+
+	s.Key = o.Key
+	s.Operator = o.Operator
+	s.Value = o.Value
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *UIParameterVisibility) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesUIParameterVisibility{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Key = s.Key
+	o.Operator = s.Operator
+	o.Value = s.Value
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -111,10 +141,4 @@ type mongoAttributesUIParameterVisibility struct {
 	Key      string                             `bson:"key"`
 	Operator UIParameterVisibilityOperatorValue `bson:"operator"`
 	Value    interface{}                        `bson:"value"`
-}
-
-type mongoAttributesSparseUIParameterVisibility struct {
-	Key      *string                             `bson:"key,omitempty"`
-	Operator *UIParameterVisibilityOperatorValue `bson:"operator,omitempty"`
-	Value    *interface{}                        `bson:"value,omitempty"`
 }

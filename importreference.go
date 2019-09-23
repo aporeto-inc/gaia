@@ -1769,7 +1769,6 @@ type mongoAttributesImportReference struct {
 	ZHash                int                 `bson:"zhash"`
 	Zone                 int                 `bson:"zone"`
 }
-
 type mongoAttributesSparseImportReference struct {
 	ID                   bson.ObjectId        `bson:"_id"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`

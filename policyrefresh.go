@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -114,6 +115,35 @@ func (o *PolicyRefresh) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *PolicyRefresh) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PolicyRefresh) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesPolicyRefresh{}
+
+	s.SourceID = o.SourceID
+	s.SourceNamespace = o.SourceNamespace
+	s.Type = o.Type
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PolicyRefresh) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesPolicyRefresh{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.SourceID = s.SourceID
+	o.SourceNamespace = s.SourceNamespace
+	o.Type = s.Type
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -437,6 +467,47 @@ func (o *SparsePolicyRefresh) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePolicyRefresh) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparsePolicyRefresh{}
+
+	if o.SourceID != nil {
+		s.SourceID = o.SourceID
+	}
+	if o.SourceNamespace != nil {
+		s.SourceNamespace = o.SourceNamespace
+	}
+	if o.Type != nil {
+		s.Type = o.Type
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePolicyRefresh) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparsePolicyRefresh{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.SourceID != nil {
+		o.SourceID = s.SourceID
+	}
+	if s.SourceNamespace != nil {
+		o.SourceNamespace = s.SourceNamespace
+	}
+	if s.Type != nil {
+		o.Type = s.Type
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparsePolicyRefresh) Version() int {
 
@@ -489,7 +560,6 @@ type mongoAttributesPolicyRefresh struct {
 	SourceNamespace string `bson:"sourcenamespace"`
 	Type            string `bson:"type"`
 }
-
 type mongoAttributesSparsePolicyRefresh struct {
 	SourceID        *string `bson:"sourceid,omitempty"`
 	SourceNamespace *string `bson:"sourcenamespace,omitempty"`

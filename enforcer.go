@@ -2831,7 +2831,6 @@ type mongoAttributesEnforcer struct {
 	ZHash                 int                            `bson:"zhash"`
 	Zone                  int                            `bson:"zone"`
 }
-
 type mongoAttributesSparseEnforcer struct {
 	FQDN                  *string                         `bson:"fqdn,omitempty"`
 	ID                    bson.ObjectId                   `bson:"_id"`

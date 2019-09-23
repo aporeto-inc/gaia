@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/types"
@@ -113,6 +114,27 @@ func (o *Authn) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Authn) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Authn) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesAuthn{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Authn) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesAuthn{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -398,6 +420,27 @@ func (o *SparseAuthn) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAuthn) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseAuthn{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAuthn) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseAuthn{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseAuthn) Version() int {
 
@@ -444,6 +487,5 @@ func (o *SparseAuthn) DeepCopyInto(out *SparseAuthn) {
 
 type mongoAttributesAuthn struct {
 }
-
 type mongoAttributesSparseAuthn struct {
 }

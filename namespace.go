@@ -2334,7 +2334,6 @@ type mongoAttributesNamespace struct {
 	Zone                       int                              `bson:"zone"`
 	Zoning                     int                              `bson:"zoning"`
 }
-
 type mongoAttributesSparseNamespace struct {
 	ID                         bson.ObjectId                     `bson:"_id"`
 	JWTCertificateType         *NamespaceJWTCertificateTypeValue `bson:"jwtcertificatetype,omitempty"`

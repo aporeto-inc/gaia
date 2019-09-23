@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -34,6 +35,27 @@ func NewGraphGroup() *GraphGroup {
 		ModelVersion: 1,
 		Match:        [][]string{},
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *GraphGroup) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesGraphGroup{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *GraphGroup) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesGraphGroup{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -84,7 +106,4 @@ func (o *GraphGroup) Validate() error {
 }
 
 type mongoAttributesGraphGroup struct {
-}
-
-type mongoAttributesSparseGraphGroup struct {
 }

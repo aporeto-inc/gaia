@@ -1110,7 +1110,6 @@ type mongoAttributesAuthority struct {
 	ZHash          int                     `bson:"zhash"`
 	Zone           int                     `bson:"zone"`
 }
-
 type mongoAttributesSparseAuthority struct {
 	ID             bson.ObjectId            `bson:"_id"`
 	Algorithm      *AuthorityAlgorithmValue `bson:"algorithm,omitempty"`

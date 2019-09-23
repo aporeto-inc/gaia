@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -28,6 +29,35 @@ func NewProcessingUnitService() *ProcessingUnitService {
 		ModelVersion: 1,
 		TargetPorts:  []string{},
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ProcessingUnitService) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesProcessingUnitService{}
+
+	s.Ports = o.Ports
+	s.Protocol = o.Protocol
+	s.TargetPorts = o.TargetPorts
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ProcessingUnitService) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesProcessingUnitService{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Ports = s.Ports
+	o.Protocol = s.Protocol
+	o.TargetPorts = s.TargetPorts
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -85,10 +115,4 @@ type mongoAttributesProcessingUnitService struct {
 	Ports       string   `bson:"ports"`
 	Protocol    int      `bson:"protocol"`
 	TargetPorts []string `bson:"targetports"`
-}
-
-type mongoAttributesSparseProcessingUnitService struct {
-	Ports       *string   `bson:"ports,omitempty"`
-	Protocol    *int      `bson:"protocol,omitempty"`
-	TargetPorts *[]string `bson:"targetports,omitempty"`
 }

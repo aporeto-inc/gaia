@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -142,6 +143,27 @@ func (o *Email) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Email) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Email) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesEmail{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Email) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesEmail{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -569,6 +591,27 @@ func (o *SparseEmail) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEmail) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseEmail{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEmail) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseEmail{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseEmail) Version() int {
 
@@ -630,6 +673,5 @@ func (o *SparseEmail) DeepCopyInto(out *SparseEmail) {
 
 type mongoAttributesEmail struct {
 }
-
 type mongoAttributesSparseEmail struct {
 }

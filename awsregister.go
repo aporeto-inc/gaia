@@ -662,7 +662,6 @@ type mongoAttributesAWSRegister struct {
 	CreateTime time.Time     `bson:"createtime"`
 	UpdateTime time.Time     `bson:"updatetime"`
 }
-
 type mongoAttributesSparseAWSRegister struct {
 	ID         bson.ObjectId `bson:"_id"`
 	CreateTime *time.Time    `bson:"createtime,omitempty"`

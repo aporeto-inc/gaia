@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -114,6 +115,35 @@ func (o *SquallTag) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *SquallTag) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SquallTag) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSquallTag{}
+
+	s.Count = o.Count
+	s.Namespace = o.Namespace
+	s.Value = o.Value
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SquallTag) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSquallTag{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Count = s.Count
+	o.Namespace = s.Namespace
+	o.Value = s.Value
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -426,6 +456,47 @@ func (o *SparseSquallTag) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSquallTag) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseSquallTag{}
+
+	if o.Count != nil {
+		s.Count = o.Count
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.Value != nil {
+		s.Value = o.Value
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSquallTag) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseSquallTag{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Count != nil {
+		o.Count = s.Count
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.Value != nil {
+		o.Value = s.Value
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseSquallTag) Version() int {
 
@@ -478,7 +549,6 @@ type mongoAttributesSquallTag struct {
 	Namespace string `bson:"namespace"`
 	Value     string `bson:"value"`
 }
-
 type mongoAttributesSparseSquallTag struct {
 	Count     *int    `bson:"count,omitempty"`
 	Namespace *string `bson:"namespace,omitempty"`

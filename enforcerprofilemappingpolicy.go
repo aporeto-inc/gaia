@@ -1767,7 +1767,6 @@ type mongoAttributesEnforcerProfileMappingPolicy struct {
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 }
-
 type mongoAttributesSparseEnforcerProfileMappingPolicy struct {
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`

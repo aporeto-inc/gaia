@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -108,6 +109,27 @@ func (o *Trigger) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Trigger) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Trigger) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesTrigger{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Trigger) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesTrigger{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -359,6 +381,27 @@ func (o *SparseTrigger) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseTrigger) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseTrigger{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseTrigger) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseTrigger{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseTrigger) Version() int {
 
@@ -402,6 +445,5 @@ func (o *SparseTrigger) DeepCopyInto(out *SparseTrigger) {
 
 type mongoAttributesTrigger struct {
 }
-
 type mongoAttributesSparseTrigger struct {
 }

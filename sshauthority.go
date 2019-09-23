@@ -1152,7 +1152,6 @@ type mongoAttributesSSHAuthority struct {
 	ZHash         int                  `bson:"zhash"`
 	Zone          int                  `bson:"zone"`
 }
-
 type mongoAttributesSparseSSHAuthority struct {
 	ID            bson.ObjectId         `bson:"_id"`
 	Alg           *SSHAuthorityAlgValue `bson:"alg,omitempty"`

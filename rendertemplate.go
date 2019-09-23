@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -115,6 +116,27 @@ func (o *RenderTemplate) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *RenderTemplate) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *RenderTemplate) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesRenderTemplate{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *RenderTemplate) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesRenderTemplate{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -422,6 +444,27 @@ func (o *SparseRenderTemplate) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseRenderTemplate) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseRenderTemplate{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseRenderTemplate) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseRenderTemplate{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseRenderTemplate) Version() int {
 
@@ -471,6 +514,5 @@ func (o *SparseRenderTemplate) DeepCopyInto(out *SparseRenderTemplate) {
 
 type mongoAttributesRenderTemplate struct {
 }
-
 type mongoAttributesSparseRenderTemplate struct {
 }

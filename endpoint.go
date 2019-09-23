@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -36,6 +37,37 @@ func NewEndpoint() *Endpoint {
 		Methods:       []string{},
 		Scopes:        []string{},
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Endpoint) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesEndpoint{}
+
+	s.URI = o.URI
+	s.AllowedScopes = o.AllowedScopes
+	s.Methods = o.Methods
+	s.Public = o.Public
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Endpoint) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesEndpoint{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.URI = s.URI
+	o.AllowedScopes = s.AllowedScopes
+	o.Methods = s.Methods
+	o.Public = s.Public
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -94,11 +126,4 @@ type mongoAttributesEndpoint struct {
 	AllowedScopes [][]string `bson:"allowedscopes"`
 	Methods       []string   `bson:"methods"`
 	Public        bool       `bson:"public"`
-}
-
-type mongoAttributesSparseEndpoint struct {
-	URI           *string     `bson:"uri,omitempty"`
-	AllowedScopes *[][]string `bson:"allowedscopes,omitempty"`
-	Methods       *[]string   `bson:"methods,omitempty"`
-	Public        *bool       `bson:"public,omitempty"`
 }

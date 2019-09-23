@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -139,6 +140,27 @@ func (o *PolicyGraph) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *PolicyGraph) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PolicyGraph) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesPolicyGraph{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PolicyGraph) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesPolicyGraph{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -509,6 +531,27 @@ func (o *SparsePolicyGraph) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePolicyGraph) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparsePolicyGraph{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePolicyGraph) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparsePolicyGraph{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparsePolicyGraph) Version() int {
 
@@ -561,6 +604,5 @@ func (o *SparsePolicyGraph) DeepCopyInto(out *SparsePolicyGraph) {
 
 type mongoAttributesPolicyGraph struct {
 }
-
 type mongoAttributesSparsePolicyGraph struct {
 }

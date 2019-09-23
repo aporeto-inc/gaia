@@ -2021,7 +2021,6 @@ type mongoAttributesExternalNetwork struct {
 	ZHash                int                 `bson:"zhash"`
 	Zone                 int                 `bson:"zone"`
 }
-
 type mongoAttributesSparseExternalNetwork struct {
 	ID                   bson.ObjectId        `bson:"_id"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`

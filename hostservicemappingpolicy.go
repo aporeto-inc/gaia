@@ -1904,7 +1904,6 @@ type mongoAttributesHostServiceMappingPolicy struct {
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 }
-
 type mongoAttributesSparseHostServiceMappingPolicy struct {
 	ActiveDuration       *string              `bson:"activeduration,omitempty"`
 	ActiveSchedule       *string              `bson:"activeschedule,omitempty"`

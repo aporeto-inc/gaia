@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -148,6 +149,27 @@ func (o *DNSLookupReport) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *DNSLookupReport) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *DNSLookupReport) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesDNSLookupReport{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *DNSLookupReport) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesDNSLookupReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -694,6 +716,27 @@ func (o *SparseDNSLookupReport) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseDNSLookupReport) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseDNSLookupReport{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseDNSLookupReport) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseDNSLookupReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseDNSLookupReport) Version() int {
 
@@ -764,6 +807,5 @@ func (o *SparseDNSLookupReport) DeepCopyInto(out *SparseDNSLookupReport) {
 
 type mongoAttributesDNSLookupReport struct {
 }
-
 type mongoAttributesSparseDNSLookupReport struct {
 }

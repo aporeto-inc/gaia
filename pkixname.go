@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -49,6 +50,27 @@ func NewPKIXName() *PKIXName {
 		Province:           []string{},
 		StreetAddress:      []string{},
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PKIXName) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesPKIXName{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PKIXName) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesPKIXName{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -99,7 +121,4 @@ func (o *PKIXName) Validate() error {
 }
 
 type mongoAttributesPKIXName struct {
-}
-
-type mongoAttributesSparsePKIXName struct {
 }

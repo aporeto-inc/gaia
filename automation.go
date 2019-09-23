@@ -2306,7 +2306,6 @@ type mongoAttributesAutomation struct {
 	ZHash                int                              `bson:"zhash"`
 	Zone                 int                              `bson:"zone"`
 }
-
 type mongoAttributesSparseAutomation struct {
 	ID                   bson.ObjectId                     `bson:"_id"`
 	Actions              *[]string                         `bson:"actions,omitempty"`

@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -125,6 +126,37 @@ func (o *Plan) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Plan) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Plan) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesPlan{}
+
+	s.Description = o.Description
+	s.Key = o.Key
+	s.Name = o.Name
+	s.RequireAdminValidation = o.RequireAdminValidation
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Plan) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesPlan{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Description = s.Description
+	o.Key = s.Key
+	o.Name = s.Name
+	o.RequireAdminValidation = s.RequireAdminValidation
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -541,6 +573,53 @@ func (o *SparsePlan) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePlan) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparsePlan{}
+
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Key != nil {
+		s.Key = o.Key
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.RequireAdminValidation != nil {
+		s.RequireAdminValidation = o.RequireAdminValidation
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePlan) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparsePlan{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Key != nil {
+		o.Key = s.Key
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.RequireAdminValidation != nil {
+		o.RequireAdminValidation = s.RequireAdminValidation
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparsePlan) Version() int {
 
@@ -603,7 +682,6 @@ type mongoAttributesPlan struct {
 	Name                   string `bson:"name"`
 	RequireAdminValidation bool   `bson:"requireadminvalidation"`
 }
-
 type mongoAttributesSparsePlan struct {
 	Description            *string `bson:"description,omitempty"`
 	Key                    *string `bson:"key,omitempty"`

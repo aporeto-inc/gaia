@@ -2264,7 +2264,6 @@ type mongoAttributesEnforcerProfile struct {
 	ZHash                       int                                             `bson:"zhash"`
 	Zone                        int                                             `bson:"zone"`
 }
-
 type mongoAttributesSparseEnforcerProfile struct {
 	ID                          bson.ObjectId                                    `bson:"_id"`
 	Annotations                 *map[string][]string                             `bson:"annotations,omitempty"`

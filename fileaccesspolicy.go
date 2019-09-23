@@ -2153,7 +2153,6 @@ type mongoAttributesFileAccessPolicy struct {
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 }
-
 type mongoAttributesSparseFileAccessPolicy struct {
 	ActiveDuration       *string              `bson:"activeduration,omitempty"`
 	ActiveSchedule       *string              `bson:"activeschedule,omitempty"`

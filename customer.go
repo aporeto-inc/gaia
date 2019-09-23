@@ -917,7 +917,6 @@ type mongoAttributesCustomer struct {
 	State              CustomerStateValue    `bson:"state"`
 	UpdateTime         time.Time             `bson:"updatetime"`
 }
-
 type mongoAttributesSparseCustomer struct {
 	ID                 bson.ObjectId          `bson:"_id"`
 	CreateTime         *time.Time             `bson:"createtime,omitempty"`

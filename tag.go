@@ -669,7 +669,6 @@ type mongoAttributesTag struct {
 	Namespace string        `bson:"namespace"`
 	Value     string        `bson:"value"`
 }
-
 type mongoAttributesSparseTag struct {
 	ID        bson.ObjectId `bson:"_id"`
 	Count     *int          `bson:"count,omitempty"`

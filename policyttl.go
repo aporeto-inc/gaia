@@ -516,7 +516,6 @@ type mongoAttributesPolicyTTL struct {
 	ID             bson.ObjectId `bson:"_id"`
 	ExpirationTime time.Time     `bson:"expirationtime"`
 }
-
 type mongoAttributesSparsePolicyTTL struct {
 	ID             bson.ObjectId `bson:"_id"`
 	ExpirationTime *time.Time    `bson:"expirationtime,omitempty"`

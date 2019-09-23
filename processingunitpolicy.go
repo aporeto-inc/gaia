@@ -1997,7 +1997,6 @@ type mongoAttributesProcessingUnitPolicy struct {
 	UpdateIdempotencyKey     string                          `bson:"updateidempotencykey"`
 	UpdateTime               time.Time                       `bson:"updatetime"`
 }
-
 type mongoAttributesSparseProcessingUnitPolicy struct {
 	Action                   *ProcessingUnitPolicyActionValue `bson:"action,omitempty"`
 	ActiveDuration           *string                          `bson:"activeduration,omitempty"`

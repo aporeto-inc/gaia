@@ -2170,7 +2170,6 @@ type mongoAttributesLDAPProvider struct {
 	ZHash                int                                   `bson:"zhash"`
 	Zone                 int                                   `bson:"zone"`
 }
-
 type mongoAttributesSparseLDAPProvider struct {
 	ID                   bson.ObjectId                          `bson:"_id"`
 	Address              *string                                `bson:"address,omitempty"`

@@ -648,7 +648,6 @@ type mongoAttributesCategory struct {
 	Description string        `bson:"description"`
 	Name        string        `bson:"name"`
 }
-
 type mongoAttributesSparseCategory struct {
 	ID          bson.ObjectId `bson:"_id"`
 	Description *string       `bson:"description,omitempty"`

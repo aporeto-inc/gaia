@@ -1125,7 +1125,6 @@ func (o *SparsePolicyRule) DeepCopyInto(out *SparsePolicyRule) {
 type mongoAttributesPolicyRule struct {
 	Name string `bson:"name"`
 }
-
 type mongoAttributesSparsePolicyRule struct {
 	Name *string `bson:"name,omitempty"`
 }

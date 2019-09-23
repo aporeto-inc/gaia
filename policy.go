@@ -2666,7 +2666,6 @@ type mongoAttributesPolicy struct {
 	ZHash                int                               `bson:"zhash"`
 	Zone                 int                               `bson:"zone"`
 }
-
 type mongoAttributesSparsePolicy struct {
 	ID                   bson.ObjectId                      `bson:"_id"`
 	Action               *map[string]map[string]interface{} `bson:"action,omitempty"`

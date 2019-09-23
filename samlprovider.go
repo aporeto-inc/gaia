@@ -1774,7 +1774,6 @@ type mongoAttributesSAMLProvider struct {
 	ZHash                int                 `bson:"zhash"`
 	Zone                 int                 `bson:"zone"`
 }
-
 type mongoAttributesSparseSAMLProvider struct {
 	ID                   bson.ObjectId        `bson:"_id"`
 	IDPCertificate       *string              `bson:"idpcertificate,omitempty"`

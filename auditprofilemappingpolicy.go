@@ -1895,7 +1895,6 @@ type mongoAttributesAuditProfileMappingPolicy struct {
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 }
-
 type mongoAttributesSparseAuditProfileMappingPolicy struct {
 	ActiveDuration       *string              `bson:"activeduration,omitempty"`
 	ActiveSchedule       *string              `bson:"activeschedule,omitempty"`

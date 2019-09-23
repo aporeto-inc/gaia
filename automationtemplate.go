@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -146,6 +147,33 @@ func (o *AutomationTemplate) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *AutomationTemplate) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *AutomationTemplate) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesAutomationTemplate{}
+
+	s.Description = o.Description
+	s.Name = o.Name
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *AutomationTemplate) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesAutomationTemplate{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Description = s.Description
+	o.Name = s.Name
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -673,6 +701,41 @@ func (o *SparseAutomationTemplate) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAutomationTemplate) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseAutomationTemplate{}
+
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAutomationTemplate) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseAutomationTemplate{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseAutomationTemplate) Version() int {
 
@@ -763,7 +826,6 @@ type mongoAttributesAutomationTemplate struct {
 	Description string `bson:"description"`
 	Name        string `bson:"name"`
 }
-
 type mongoAttributesSparseAutomationTemplate struct {
 	Description *string `bson:"description,omitempty"`
 	Name        *string `bson:"name,omitempty"`

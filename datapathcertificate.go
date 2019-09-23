@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -138,6 +139,27 @@ func (o *DataPathCertificate) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *DataPathCertificate) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *DataPathCertificate) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesDataPathCertificate{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *DataPathCertificate) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesDataPathCertificate{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -583,6 +605,27 @@ func (o *SparseDataPathCertificate) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseDataPathCertificate) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseDataPathCertificate{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseDataPathCertificate) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseDataPathCertificate{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseDataPathCertificate) Version() int {
 
@@ -644,6 +687,5 @@ func (o *SparseDataPathCertificate) DeepCopyInto(out *SparseDataPathCertificate)
 
 type mongoAttributesDataPathCertificate struct {
 }
-
 type mongoAttributesSparseDataPathCertificate struct {
 }

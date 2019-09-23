@@ -458,6 +458,5 @@ func (o *SparseX509CertificateCheck) DeepCopyInto(out *SparseX509CertificateChec
 
 type mongoAttributesX509CertificateCheck struct {
 }
-
 type mongoAttributesSparseX509CertificateCheck struct {
 }

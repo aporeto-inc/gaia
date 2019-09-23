@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -146,6 +147,31 @@ func (o *APICheck) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *APICheck) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *APICheck) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesAPICheck{}
+
+	s.Operation = o.Operation
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *APICheck) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesAPICheck{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Operation = s.Operation
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -518,6 +544,35 @@ func (o *SparseAPICheck) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAPICheck) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseAPICheck{}
+
+	if o.Operation != nil {
+		s.Operation = o.Operation
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAPICheck) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseAPICheck{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Operation != nil {
+		o.Operation = s.Operation
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseAPICheck) Version() int {
 
@@ -571,7 +626,6 @@ func (o *SparseAPICheck) DeepCopyInto(out *SparseAPICheck) {
 type mongoAttributesAPICheck struct {
 	Operation APICheckOperationValue `bson:"operation"`
 }
-
 type mongoAttributesSparseAPICheck struct {
 	Operation *APICheckOperationValue `bson:"operation,omitempty"`
 }

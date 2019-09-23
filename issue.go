@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -172,6 +173,27 @@ func (o *Issue) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Issue) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Issue) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesIssue{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Issue) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesIssue{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -672,6 +694,27 @@ func (o *SparseIssue) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseIssue) GetBSON() (interface{}, error) {
+
+	s := &mongoAttributesSparseIssue{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseIssue) SetBSON(raw bson.Raw) error {
+
+	s := &mongoAttributesSparseIssue{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseIssue) Version() int {
 
@@ -736,6 +779,5 @@ func (o *SparseIssue) DeepCopyInto(out *SparseIssue) {
 
 type mongoAttributesIssue struct {
 }
-
 type mongoAttributesSparseIssue struct {
 }
