@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -184,6 +185,45 @@ func (o *PacketReport) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *PacketReport) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PacketReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesPacketReport{}
+
+	s.EnforcerID = o.EnforcerID
+	s.EnforcerNamespace = o.EnforcerNamespace
+	s.RawPacket = o.RawPacket
+	s.TriremePacket = o.TriremePacket
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PacketReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesPacketReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.EnforcerID = s.EnforcerID
+	o.EnforcerNamespace = s.EnforcerNamespace
+	o.RawPacket = s.RawPacket
+	o.TriremePacket = s.TriremePacket
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1025,6 +1065,61 @@ func (o *SparsePacketReport) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePacketReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparsePacketReport{}
+
+	if o.EnforcerID != nil {
+		s.EnforcerID = o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		s.EnforcerNamespace = o.EnforcerNamespace
+	}
+	if o.RawPacket != nil {
+		s.RawPacket = o.RawPacket
+	}
+	if o.TriremePacket != nil {
+		s.TriremePacket = o.TriremePacket
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePacketReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparsePacketReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.EnforcerID != nil {
+		o.EnforcerID = s.EnforcerID
+	}
+	if s.EnforcerNamespace != nil {
+		o.EnforcerNamespace = s.EnforcerNamespace
+	}
+	if s.RawPacket != nil {
+		o.RawPacket = s.RawPacket
+	}
+	if s.TriremePacket != nil {
+		o.TriremePacket = s.TriremePacket
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparsePacketReport) Version() int {
 
@@ -1121,4 +1216,17 @@ func (o *SparsePacketReport) DeepCopyInto(out *SparsePacketReport) {
 	}
 
 	*out = *target.(*SparsePacketReport)
+}
+
+type mongoAttributesPacketReport struct {
+	EnforcerID        string `bson:"enforcerid"`
+	EnforcerNamespace string `bson:"enforcernamespace"`
+	RawPacket         string `bson:"rawpacket"`
+	TriremePacket     bool   `bson:"triremepacket"`
+}
+type mongoAttributesSparsePacketReport struct {
+	EnforcerID        *string `bson:"enforcerid,omitempty"`
+	EnforcerNamespace *string `bson:"enforcernamespace,omitempty"`
+	RawPacket         *string `bson:"rawpacket,omitempty"`
+	TriremePacket     *bool   `bson:"triremepacket,omitempty"`
 }

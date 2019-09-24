@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -98,7 +99,7 @@ func (o NamespacesList) Version() int {
 // Namespace represents the model of a namespace
 type Namespace struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// JWTCertificateType defines the JWT signing certificate that must be created
 	// for this namespace. If the type is none no certificate will be created.
@@ -231,6 +232,93 @@ func (o *Namespace) Identifier() string {
 func (o *Namespace) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Namespace) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesNamespace{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.JWTCertificateType = o.JWTCertificateType
+	s.JWTCertificates = o.JWTCertificates
+	s.SSHCA = o.SSHCA
+	s.SSHCAEnabled = o.SSHCAEnabled
+	s.Annotations = o.Annotations
+	s.AssociatedLocalCAID = o.AssociatedLocalCAID
+	s.AssociatedSSHCAID = o.AssociatedSSHCAID
+	s.AssociatedTags = o.AssociatedTags
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.CustomZoning = o.CustomZoning
+	s.Description = o.Description
+	s.LocalCA = o.LocalCA
+	s.LocalCAEnabled = o.LocalCAEnabled
+	s.Metadata = o.Metadata
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NetworkAccessPolicyTags = o.NetworkAccessPolicyTags
+	s.NormalizedTags = o.NormalizedTags
+	s.Protected = o.Protected
+	s.ServiceCertificateValidity = o.ServiceCertificateValidity
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+	s.Zoning = o.Zoning
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Namespace) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesNamespace{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.JWTCertificateType = s.JWTCertificateType
+	o.JWTCertificates = s.JWTCertificates
+	o.SSHCA = s.SSHCA
+	o.SSHCAEnabled = s.SSHCAEnabled
+	o.Annotations = s.Annotations
+	o.AssociatedLocalCAID = s.AssociatedLocalCAID
+	o.AssociatedSSHCAID = s.AssociatedSSHCAID
+	o.AssociatedTags = s.AssociatedTags
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.CustomZoning = s.CustomZoning
+	o.Description = s.Description
+	o.LocalCA = s.LocalCA
+	o.LocalCAEnabled = s.LocalCAEnabled
+	o.Metadata = s.Metadata
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NetworkAccessPolicyTags = s.NetworkAccessPolicyTags
+	o.NormalizedTags = s.NormalizedTags
+	o.Protected = s.Protected
+	o.ServiceCertificateValidity = s.ServiceCertificateValidity
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+	o.Zoning = s.Zoning
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1596,7 +1684,7 @@ func (o SparseNamespacesList) Version() int {
 // SparseNamespace represents the sparse version of a namespace.
 type SparseNamespace struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// JWTCertificateType defines the JWT signing certificate that must be created
 	// for this namespace. If the type is none no certificate will be created.
@@ -1720,6 +1808,202 @@ func (o *SparseNamespace) Identifier() string {
 func (o *SparseNamespace) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseNamespace) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseNamespace{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.JWTCertificateType != nil {
+		s.JWTCertificateType = o.JWTCertificateType
+	}
+	if o.JWTCertificates != nil {
+		s.JWTCertificates = o.JWTCertificates
+	}
+	if o.SSHCA != nil {
+		s.SSHCA = o.SSHCA
+	}
+	if o.SSHCAEnabled != nil {
+		s.SSHCAEnabled = o.SSHCAEnabled
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedLocalCAID != nil {
+		s.AssociatedLocalCAID = o.AssociatedLocalCAID
+	}
+	if o.AssociatedSSHCAID != nil {
+		s.AssociatedSSHCAID = o.AssociatedSSHCAID
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.CustomZoning != nil {
+		s.CustomZoning = o.CustomZoning
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.LocalCA != nil {
+		s.LocalCA = o.LocalCA
+	}
+	if o.LocalCAEnabled != nil {
+		s.LocalCAEnabled = o.LocalCAEnabled
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NetworkAccessPolicyTags != nil {
+		s.NetworkAccessPolicyTags = o.NetworkAccessPolicyTags
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.ServiceCertificateValidity != nil {
+		s.ServiceCertificateValidity = o.ServiceCertificateValidity
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+	if o.Zoning != nil {
+		s.Zoning = o.Zoning
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseNamespace) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseNamespace{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.JWTCertificateType != nil {
+		o.JWTCertificateType = s.JWTCertificateType
+	}
+	if s.JWTCertificates != nil {
+		o.JWTCertificates = s.JWTCertificates
+	}
+	if s.SSHCA != nil {
+		o.SSHCA = s.SSHCA
+	}
+	if s.SSHCAEnabled != nil {
+		o.SSHCAEnabled = s.SSHCAEnabled
+	}
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedLocalCAID != nil {
+		o.AssociatedLocalCAID = s.AssociatedLocalCAID
+	}
+	if s.AssociatedSSHCAID != nil {
+		o.AssociatedSSHCAID = s.AssociatedSSHCAID
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.CustomZoning != nil {
+		o.CustomZoning = s.CustomZoning
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.LocalCA != nil {
+		o.LocalCA = s.LocalCA
+	}
+	if s.LocalCAEnabled != nil {
+		o.LocalCAEnabled = s.LocalCAEnabled
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NetworkAccessPolicyTags != nil {
+		o.NetworkAccessPolicyTags = s.NetworkAccessPolicyTags
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.ServiceCertificateValidity != nil {
+		o.ServiceCertificateValidity = s.ServiceCertificateValidity
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+	if s.Zoning != nil {
+		o.Zoning = s.Zoning
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -2034,4 +2318,65 @@ func (o *SparseNamespace) DeepCopyInto(out *SparseNamespace) {
 	}
 
 	*out = *target.(*SparseNamespace)
+}
+
+type mongoAttributesNamespace struct {
+	ID                         bson.ObjectId                    `bson:"_id"`
+	JWTCertificateType         NamespaceJWTCertificateTypeValue `bson:"jwtcertificatetype"`
+	JWTCertificates            map[string]string                `bson:"jwtcertificates"`
+	SSHCA                      string                           `bson:"sshca"`
+	SSHCAEnabled               bool                             `bson:"sshcaenabled"`
+	Annotations                map[string][]string              `bson:"annotations"`
+	AssociatedLocalCAID        string                           `bson:"associatedlocalcaid"`
+	AssociatedSSHCAID          string                           `bson:"associatedsshcaid"`
+	AssociatedTags             []string                         `bson:"associatedtags"`
+	CreateIdempotencyKey       string                           `bson:"createidempotencykey"`
+	CreateTime                 time.Time                        `bson:"createtime"`
+	CustomZoning               bool                             `bson:"customzoning"`
+	Description                string                           `bson:"description"`
+	LocalCA                    string                           `bson:"localca"`
+	LocalCAEnabled             bool                             `bson:"localcaenabled"`
+	Metadata                   []string                         `bson:"metadata"`
+	MigrationsLog              map[string]string                `bson:"migrationslog"`
+	Name                       string                           `bson:"name"`
+	Namespace                  string                           `bson:"namespace"`
+	NetworkAccessPolicyTags    []string                         `bson:"networkaccesspolicytags"`
+	NormalizedTags             []string                         `bson:"normalizedtags"`
+	Protected                  bool                             `bson:"protected"`
+	ServiceCertificateValidity string                           `bson:"servicecertificatevalidity"`
+	UpdateIdempotencyKey       string                           `bson:"updateidempotencykey"`
+	UpdateTime                 time.Time                        `bson:"updatetime"`
+	ZHash                      int                              `bson:"zhash"`
+	Zone                       int                              `bson:"zone"`
+	Zoning                     int                              `bson:"zoning"`
+}
+type mongoAttributesSparseNamespace struct {
+	ID                         bson.ObjectId                     `bson:"_id"`
+	JWTCertificateType         *NamespaceJWTCertificateTypeValue `bson:"jwtcertificatetype,omitempty"`
+	JWTCertificates            *map[string]string                `bson:"jwtcertificates,omitempty"`
+	SSHCA                      *string                           `bson:"sshca,omitempty"`
+	SSHCAEnabled               *bool                             `bson:"sshcaenabled,omitempty"`
+	Annotations                *map[string][]string              `bson:"annotations,omitempty"`
+	AssociatedLocalCAID        *string                           `bson:"associatedlocalcaid,omitempty"`
+	AssociatedSSHCAID          *string                           `bson:"associatedsshcaid,omitempty"`
+	AssociatedTags             *[]string                         `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey       *string                           `bson:"createidempotencykey,omitempty"`
+	CreateTime                 *time.Time                        `bson:"createtime,omitempty"`
+	CustomZoning               *bool                             `bson:"customzoning,omitempty"`
+	Description                *string                           `bson:"description,omitempty"`
+	LocalCA                    *string                           `bson:"localca,omitempty"`
+	LocalCAEnabled             *bool                             `bson:"localcaenabled,omitempty"`
+	Metadata                   *[]string                         `bson:"metadata,omitempty"`
+	MigrationsLog              *map[string]string                `bson:"migrationslog,omitempty"`
+	Name                       *string                           `bson:"name,omitempty"`
+	Namespace                  *string                           `bson:"namespace,omitempty"`
+	NetworkAccessPolicyTags    *[]string                         `bson:"networkaccesspolicytags,omitempty"`
+	NormalizedTags             *[]string                         `bson:"normalizedtags,omitempty"`
+	Protected                  *bool                             `bson:"protected,omitempty"`
+	ServiceCertificateValidity *string                           `bson:"servicecertificatevalidity,omitempty"`
+	UpdateIdempotencyKey       *string                           `bson:"updateidempotencykey,omitempty"`
+	UpdateTime                 *time.Time                        `bson:"updatetime,omitempty"`
+	ZHash                      *int                              `bson:"zhash,omitempty"`
+	Zone                       *int                              `bson:"zone,omitempty"`
+	Zoning                     *int                              `bson:"zoning,omitempty"`
 }

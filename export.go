@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -121,6 +122,45 @@ func (o *Export) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Export) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Export) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesExport{}
+
+	s.APIVersion = o.APIVersion
+	s.Data = o.Data
+	s.Identities = o.Identities
+	s.Label = o.Label
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Export) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesExport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.APIVersion = s.APIVersion
+	o.Data = s.Data
+	o.Identities = s.Identities
+	o.Label = s.Label
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -479,6 +519,61 @@ func (o *SparseExport) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseExport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseExport{}
+
+	if o.APIVersion != nil {
+		s.APIVersion = o.APIVersion
+	}
+	if o.Data != nil {
+		s.Data = o.Data
+	}
+	if o.Identities != nil {
+		s.Identities = o.Identities
+	}
+	if o.Label != nil {
+		s.Label = o.Label
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseExport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseExport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.APIVersion != nil {
+		o.APIVersion = s.APIVersion
+	}
+	if s.Data != nil {
+		o.Data = s.Data
+	}
+	if s.Identities != nil {
+		o.Identities = s.Identities
+	}
+	if s.Label != nil {
+		o.Label = s.Label
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseExport) Version() int {
 
@@ -527,4 +622,17 @@ func (o *SparseExport) DeepCopyInto(out *SparseExport) {
 	}
 
 	*out = *target.(*SparseExport)
+}
+
+type mongoAttributesExport struct {
+	APIVersion int                                 `bson:"apiversion"`
+	Data       map[string][]map[string]interface{} `bson:"data"`
+	Identities []string                            `bson:"identities"`
+	Label      string                              `bson:"label"`
+}
+type mongoAttributesSparseExport struct {
+	APIVersion *int                                 `bson:"apiversion,omitempty"`
+	Data       *map[string][]map[string]interface{} `bson:"data,omitempty"`
+	Identities *[]string                            `bson:"identities,omitempty"`
+	Label      *string                              `bson:"label,omitempty"`
 }

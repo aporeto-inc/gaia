@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -136,6 +137,39 @@ func (o *IssueServiceToken) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *IssueServiceToken) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *IssueServiceToken) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesIssueServiceToken{}
+
+	s.SigningKeyID = o.SigningKeyID
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *IssueServiceToken) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesIssueServiceToken{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.SigningKeyID = s.SigningKeyID
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -641,6 +675,43 @@ func (o *SparseIssueServiceToken) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseIssueServiceToken) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseIssueServiceToken{}
+
+	if o.SigningKeyID != nil {
+		s.SigningKeyID = o.SigningKeyID
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseIssueServiceToken) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseIssueServiceToken{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.SigningKeyID != nil {
+		o.SigningKeyID = s.SigningKeyID
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseIssueServiceToken) Version() int {
 
@@ -701,4 +772,11 @@ func (o *SparseIssueServiceToken) DeepCopyInto(out *SparseIssueServiceToken) {
 	}
 
 	*out = *target.(*SparseIssueServiceToken)
+}
+
+type mongoAttributesIssueServiceToken struct {
+	SigningKeyID string `bson:"signingkeyid"`
+}
+type mongoAttributesSparseIssueServiceToken struct {
+	SigningKeyID *string `bson:"signingkeyid,omitempty"`
 }

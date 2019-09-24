@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -122,6 +123,47 @@ func (o *InvoiceRecord) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *InvoiceRecord) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *InvoiceRecord) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesInvoiceRecord{}
+
+	s.ID = o.ID
+	s.CreateTime = o.CreateTime
+	s.InvoiceID = o.InvoiceID
+	s.InvoiceRecords = o.InvoiceRecords
+	s.UpdateTime = o.UpdateTime
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *InvoiceRecord) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesInvoiceRecord{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID
+	o.CreateTime = s.CreateTime
+	o.InvoiceID = s.InvoiceID
+	o.InvoiceRecords = s.InvoiceRecords
+	o.UpdateTime = s.UpdateTime
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -543,6 +585,67 @@ func (o *SparseInvoiceRecord) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseInvoiceRecord) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseInvoiceRecord{}
+
+	if o.ID != nil {
+		s.ID = o.ID
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.InvoiceID != nil {
+		s.InvoiceID = o.InvoiceID
+	}
+	if o.InvoiceRecords != nil {
+		s.InvoiceRecords = o.InvoiceRecords
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseInvoiceRecord) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseInvoiceRecord{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.ID != nil {
+		o.ID = s.ID
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.InvoiceID != nil {
+		o.InvoiceID = s.InvoiceID
+	}
+	if s.InvoiceRecords != nil {
+		o.InvoiceRecords = s.InvoiceRecords
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseInvoiceRecord) Version() int {
 
@@ -618,4 +721,19 @@ func (o *SparseInvoiceRecord) DeepCopyInto(out *SparseInvoiceRecord) {
 	}
 
 	*out = *target.(*SparseInvoiceRecord)
+}
+
+type mongoAttributesInvoiceRecord struct {
+	ID             string    `bson:"id"`
+	CreateTime     time.Time `bson:"createtime"`
+	InvoiceID      string    `bson:"invoiceid"`
+	InvoiceRecords []string  `bson:"invoicerecords"`
+	UpdateTime     time.Time `bson:"updatetime"`
+}
+type mongoAttributesSparseInvoiceRecord struct {
+	ID             *string    `bson:"id,omitempty"`
+	CreateTime     *time.Time `bson:"createtime,omitempty"`
+	InvoiceID      *string    `bson:"invoiceid,omitempty"`
+	InvoiceRecords *[]string  `bson:"invoicerecords,omitempty"`
+	UpdateTime     *time.Time `bson:"updatetime,omitempty"`
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -135,7 +136,7 @@ func (o ServicesList) Version() int {
 // Service represents the model of a service
 type Service struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// The list of IP addresses where the service can be accessed. This is an optional
 	// attribute and
@@ -389,6 +390,125 @@ func (o *Service) Identifier() string {
 func (o *Service) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Service) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesService{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.IPs = o.IPs
+	s.JWTSigningCertificate = o.JWTSigningCertificate
+	s.MTLSCertificateAuthority = o.MTLSCertificateAuthority
+	s.OIDCCallbackURL = o.OIDCCallbackURL
+	s.OIDCClientID = o.OIDCClientID
+	s.OIDCClientSecret = o.OIDCClientSecret
+	s.OIDCProviderURL = o.OIDCProviderURL
+	s.OIDCScopes = o.OIDCScopes
+	s.TLSCertificate = o.TLSCertificate
+	s.TLSCertificateKey = o.TLSCertificateKey
+	s.TLSType = o.TLSType
+	s.AllAPITags = o.AllAPITags
+	s.AllServiceTags = o.AllServiceTags
+	s.Annotations = o.Annotations
+	s.Archived = o.Archived
+	s.AssociatedTags = o.AssociatedTags
+	s.AuthorizationType = o.AuthorizationType
+	s.ClaimsToHTTPHeaderMappings = o.ClaimsToHTTPHeaderMappings
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.Disabled = o.Disabled
+	s.ExposedAPIs = o.ExposedAPIs
+	s.ExposedPort = o.ExposedPort
+	s.ExposedServiceIsTLS = o.ExposedServiceIsTLS
+	s.External = o.External
+	s.Hosts = o.Hosts
+	s.Metadata = o.Metadata
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Port = o.Port
+	s.Protected = o.Protected
+	s.PublicApplicationPort = o.PublicApplicationPort
+	s.RedirectURLOnAuthorizationFailure = o.RedirectURLOnAuthorizationFailure
+	s.Selectors = o.Selectors
+	s.TrustedCertificateAuthorities = o.TrustedCertificateAuthorities
+	s.Type = o.Type
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Service) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesService{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.IPs = s.IPs
+	o.JWTSigningCertificate = s.JWTSigningCertificate
+	o.MTLSCertificateAuthority = s.MTLSCertificateAuthority
+	o.OIDCCallbackURL = s.OIDCCallbackURL
+	o.OIDCClientID = s.OIDCClientID
+	o.OIDCClientSecret = s.OIDCClientSecret
+	o.OIDCProviderURL = s.OIDCProviderURL
+	o.OIDCScopes = s.OIDCScopes
+	o.TLSCertificate = s.TLSCertificate
+	o.TLSCertificateKey = s.TLSCertificateKey
+	o.TLSType = s.TLSType
+	o.AllAPITags = s.AllAPITags
+	o.AllServiceTags = s.AllServiceTags
+	o.Annotations = s.Annotations
+	o.Archived = s.Archived
+	o.AssociatedTags = s.AssociatedTags
+	o.AuthorizationType = s.AuthorizationType
+	o.ClaimsToHTTPHeaderMappings = s.ClaimsToHTTPHeaderMappings
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.Disabled = s.Disabled
+	o.ExposedAPIs = s.ExposedAPIs
+	o.ExposedPort = s.ExposedPort
+	o.ExposedServiceIsTLS = s.ExposedServiceIsTLS
+	o.External = s.External
+	o.Hosts = s.Hosts
+	o.Metadata = s.Metadata
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Port = s.Port
+	o.Protected = s.Protected
+	o.PublicApplicationPort = s.PublicApplicationPort
+	o.RedirectURLOnAuthorizationFailure = s.RedirectURLOnAuthorizationFailure
+	o.Selectors = s.Selectors
+	o.TrustedCertificateAuthorities = s.TrustedCertificateAuthorities
+	o.Type = s.Type
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -2415,7 +2535,7 @@ func (o SparseServicesList) Version() int {
 // SparseService represents the sparse version of a service.
 type SparseService struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// The list of IP addresses where the service can be accessed. This is an optional
 	// attribute and
@@ -2650,6 +2770,298 @@ func (o *SparseService) Identifier() string {
 func (o *SparseService) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseService) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseService{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.IPs != nil {
+		s.IPs = o.IPs
+	}
+	if o.JWTSigningCertificate != nil {
+		s.JWTSigningCertificate = o.JWTSigningCertificate
+	}
+	if o.MTLSCertificateAuthority != nil {
+		s.MTLSCertificateAuthority = o.MTLSCertificateAuthority
+	}
+	if o.OIDCCallbackURL != nil {
+		s.OIDCCallbackURL = o.OIDCCallbackURL
+	}
+	if o.OIDCClientID != nil {
+		s.OIDCClientID = o.OIDCClientID
+	}
+	if o.OIDCClientSecret != nil {
+		s.OIDCClientSecret = o.OIDCClientSecret
+	}
+	if o.OIDCProviderURL != nil {
+		s.OIDCProviderURL = o.OIDCProviderURL
+	}
+	if o.OIDCScopes != nil {
+		s.OIDCScopes = o.OIDCScopes
+	}
+	if o.TLSCertificate != nil {
+		s.TLSCertificate = o.TLSCertificate
+	}
+	if o.TLSCertificateKey != nil {
+		s.TLSCertificateKey = o.TLSCertificateKey
+	}
+	if o.TLSType != nil {
+		s.TLSType = o.TLSType
+	}
+	if o.AllAPITags != nil {
+		s.AllAPITags = o.AllAPITags
+	}
+	if o.AllServiceTags != nil {
+		s.AllServiceTags = o.AllServiceTags
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.Archived != nil {
+		s.Archived = o.Archived
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.AuthorizationType != nil {
+		s.AuthorizationType = o.AuthorizationType
+	}
+	if o.ClaimsToHTTPHeaderMappings != nil {
+		s.ClaimsToHTTPHeaderMappings = o.ClaimsToHTTPHeaderMappings
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Disabled != nil {
+		s.Disabled = o.Disabled
+	}
+	if o.ExposedAPIs != nil {
+		s.ExposedAPIs = o.ExposedAPIs
+	}
+	if o.ExposedPort != nil {
+		s.ExposedPort = o.ExposedPort
+	}
+	if o.ExposedServiceIsTLS != nil {
+		s.ExposedServiceIsTLS = o.ExposedServiceIsTLS
+	}
+	if o.External != nil {
+		s.External = o.External
+	}
+	if o.Hosts != nil {
+		s.Hosts = o.Hosts
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Port != nil {
+		s.Port = o.Port
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.PublicApplicationPort != nil {
+		s.PublicApplicationPort = o.PublicApplicationPort
+	}
+	if o.RedirectURLOnAuthorizationFailure != nil {
+		s.RedirectURLOnAuthorizationFailure = o.RedirectURLOnAuthorizationFailure
+	}
+	if o.Selectors != nil {
+		s.Selectors = o.Selectors
+	}
+	if o.TrustedCertificateAuthorities != nil {
+		s.TrustedCertificateAuthorities = o.TrustedCertificateAuthorities
+	}
+	if o.Type != nil {
+		s.Type = o.Type
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseService) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseService{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.IPs != nil {
+		o.IPs = s.IPs
+	}
+	if s.JWTSigningCertificate != nil {
+		o.JWTSigningCertificate = s.JWTSigningCertificate
+	}
+	if s.MTLSCertificateAuthority != nil {
+		o.MTLSCertificateAuthority = s.MTLSCertificateAuthority
+	}
+	if s.OIDCCallbackURL != nil {
+		o.OIDCCallbackURL = s.OIDCCallbackURL
+	}
+	if s.OIDCClientID != nil {
+		o.OIDCClientID = s.OIDCClientID
+	}
+	if s.OIDCClientSecret != nil {
+		o.OIDCClientSecret = s.OIDCClientSecret
+	}
+	if s.OIDCProviderURL != nil {
+		o.OIDCProviderURL = s.OIDCProviderURL
+	}
+	if s.OIDCScopes != nil {
+		o.OIDCScopes = s.OIDCScopes
+	}
+	if s.TLSCertificate != nil {
+		o.TLSCertificate = s.TLSCertificate
+	}
+	if s.TLSCertificateKey != nil {
+		o.TLSCertificateKey = s.TLSCertificateKey
+	}
+	if s.TLSType != nil {
+		o.TLSType = s.TLSType
+	}
+	if s.AllAPITags != nil {
+		o.AllAPITags = s.AllAPITags
+	}
+	if s.AllServiceTags != nil {
+		o.AllServiceTags = s.AllServiceTags
+	}
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.Archived != nil {
+		o.Archived = s.Archived
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.AuthorizationType != nil {
+		o.AuthorizationType = s.AuthorizationType
+	}
+	if s.ClaimsToHTTPHeaderMappings != nil {
+		o.ClaimsToHTTPHeaderMappings = s.ClaimsToHTTPHeaderMappings
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Disabled != nil {
+		o.Disabled = s.Disabled
+	}
+	if s.ExposedAPIs != nil {
+		o.ExposedAPIs = s.ExposedAPIs
+	}
+	if s.ExposedPort != nil {
+		o.ExposedPort = s.ExposedPort
+	}
+	if s.ExposedServiceIsTLS != nil {
+		o.ExposedServiceIsTLS = s.ExposedServiceIsTLS
+	}
+	if s.External != nil {
+		o.External = s.External
+	}
+	if s.Hosts != nil {
+		o.Hosts = s.Hosts
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Port != nil {
+		o.Port = s.Port
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.PublicApplicationPort != nil {
+		o.PublicApplicationPort = s.PublicApplicationPort
+	}
+	if s.RedirectURLOnAuthorizationFailure != nil {
+		o.RedirectURLOnAuthorizationFailure = s.RedirectURLOnAuthorizationFailure
+	}
+	if s.Selectors != nil {
+		o.Selectors = s.Selectors
+	}
+	if s.TrustedCertificateAuthorities != nil {
+		o.TrustedCertificateAuthorities = s.TrustedCertificateAuthorities
+	}
+	if s.Type != nil {
+		o.Type = s.Type
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -3047,4 +3459,97 @@ func (o *SparseService) DeepCopyInto(out *SparseService) {
 	}
 
 	*out = *target.(*SparseService)
+}
+
+type mongoAttributesService struct {
+	ID                                bson.ObjectId                 `bson:"_id"`
+	IPs                               []string                      `bson:"ips"`
+	JWTSigningCertificate             string                        `bson:"jwtsigningcertificate"`
+	MTLSCertificateAuthority          string                        `bson:"mtlscertificateauthority"`
+	OIDCCallbackURL                   string                        `bson:"oidccallbackurl"`
+	OIDCClientID                      string                        `bson:"oidcclientid"`
+	OIDCClientSecret                  string                        `bson:"oidcclientsecret"`
+	OIDCProviderURL                   string                        `bson:"oidcproviderurl"`
+	OIDCScopes                        []string                      `bson:"oidcscopes"`
+	TLSCertificate                    string                        `bson:"tlscertificate"`
+	TLSCertificateKey                 string                        `bson:"tlscertificatekey"`
+	TLSType                           ServiceTLSTypeValue           `bson:"tlstype"`
+	AllAPITags                        []string                      `bson:"allapitags"`
+	AllServiceTags                    []string                      `bson:"allservicetags"`
+	Annotations                       map[string][]string           `bson:"annotations"`
+	Archived                          bool                          `bson:"archived"`
+	AssociatedTags                    []string                      `bson:"associatedtags"`
+	AuthorizationType                 ServiceAuthorizationTypeValue `bson:"authorizationtype"`
+	ClaimsToHTTPHeaderMappings        []*ClaimMapping               `bson:"claimstohttpheadermappings"`
+	CreateIdempotencyKey              string                        `bson:"createidempotencykey"`
+	CreateTime                        time.Time                     `bson:"createtime"`
+	Description                       string                        `bson:"description"`
+	Disabled                          bool                          `bson:"disabled"`
+	ExposedAPIs                       [][]string                    `bson:"exposedapis"`
+	ExposedPort                       int                           `bson:"exposedport"`
+	ExposedServiceIsTLS               bool                          `bson:"exposedserviceistls"`
+	External                          bool                          `bson:"external"`
+	Hosts                             []string                      `bson:"hosts"`
+	Metadata                          []string                      `bson:"metadata"`
+	MigrationsLog                     map[string]string             `bson:"migrationslog"`
+	Name                              string                        `bson:"name"`
+	Namespace                         string                        `bson:"namespace"`
+	NormalizedTags                    []string                      `bson:"normalizedtags"`
+	Port                              int                           `bson:"port"`
+	Protected                         bool                          `bson:"protected"`
+	PublicApplicationPort             int                           `bson:"publicapplicationport"`
+	RedirectURLOnAuthorizationFailure string                        `bson:"redirecturlonauthorizationfailure"`
+	Selectors                         [][]string                    `bson:"selectors"`
+	TrustedCertificateAuthorities     string                        `bson:"trustedcertificateauthorities"`
+	Type                              ServiceTypeValue              `bson:"type"`
+	UpdateIdempotencyKey              string                        `bson:"updateidempotencykey"`
+	UpdateTime                        time.Time                     `bson:"updatetime"`
+	ZHash                             int                           `bson:"zhash"`
+	Zone                              int                           `bson:"zone"`
+}
+type mongoAttributesSparseService struct {
+	ID                                bson.ObjectId                  `bson:"_id"`
+	IPs                               *[]string                      `bson:"ips,omitempty"`
+	JWTSigningCertificate             *string                        `bson:"jwtsigningcertificate,omitempty"`
+	MTLSCertificateAuthority          *string                        `bson:"mtlscertificateauthority,omitempty"`
+	OIDCCallbackURL                   *string                        `bson:"oidccallbackurl,omitempty"`
+	OIDCClientID                      *string                        `bson:"oidcclientid,omitempty"`
+	OIDCClientSecret                  *string                        `bson:"oidcclientsecret,omitempty"`
+	OIDCProviderURL                   *string                        `bson:"oidcproviderurl,omitempty"`
+	OIDCScopes                        *[]string                      `bson:"oidcscopes,omitempty"`
+	TLSCertificate                    *string                        `bson:"tlscertificate,omitempty"`
+	TLSCertificateKey                 *string                        `bson:"tlscertificatekey,omitempty"`
+	TLSType                           *ServiceTLSTypeValue           `bson:"tlstype,omitempty"`
+	AllAPITags                        *[]string                      `bson:"allapitags,omitempty"`
+	AllServiceTags                    *[]string                      `bson:"allservicetags,omitempty"`
+	Annotations                       *map[string][]string           `bson:"annotations,omitempty"`
+	Archived                          *bool                          `bson:"archived,omitempty"`
+	AssociatedTags                    *[]string                      `bson:"associatedtags,omitempty"`
+	AuthorizationType                 *ServiceAuthorizationTypeValue `bson:"authorizationtype,omitempty"`
+	ClaimsToHTTPHeaderMappings        *[]*ClaimMapping               `bson:"claimstohttpheadermappings,omitempty"`
+	CreateIdempotencyKey              *string                        `bson:"createidempotencykey,omitempty"`
+	CreateTime                        *time.Time                     `bson:"createtime,omitempty"`
+	Description                       *string                        `bson:"description,omitempty"`
+	Disabled                          *bool                          `bson:"disabled,omitempty"`
+	ExposedAPIs                       *[][]string                    `bson:"exposedapis,omitempty"`
+	ExposedPort                       *int                           `bson:"exposedport,omitempty"`
+	ExposedServiceIsTLS               *bool                          `bson:"exposedserviceistls,omitempty"`
+	External                          *bool                          `bson:"external,omitempty"`
+	Hosts                             *[]string                      `bson:"hosts,omitempty"`
+	Metadata                          *[]string                      `bson:"metadata,omitempty"`
+	MigrationsLog                     *map[string]string             `bson:"migrationslog,omitempty"`
+	Name                              *string                        `bson:"name,omitempty"`
+	Namespace                         *string                        `bson:"namespace,omitempty"`
+	NormalizedTags                    *[]string                      `bson:"normalizedtags,omitempty"`
+	Port                              *int                           `bson:"port,omitempty"`
+	Protected                         *bool                          `bson:"protected,omitempty"`
+	PublicApplicationPort             *int                           `bson:"publicapplicationport,omitempty"`
+	RedirectURLOnAuthorizationFailure *string                        `bson:"redirecturlonauthorizationfailure,omitempty"`
+	Selectors                         *[][]string                    `bson:"selectors,omitempty"`
+	TrustedCertificateAuthorities     *string                        `bson:"trustedcertificateauthorities,omitempty"`
+	Type                              *ServiceTypeValue              `bson:"type,omitempty"`
+	UpdateIdempotencyKey              *string                        `bson:"updateidempotencykey,omitempty"`
+	UpdateTime                        *time.Time                     `bson:"updatetime,omitempty"`
+	ZHash                             *int                           `bson:"zhash,omitempty"`
+	Zone                              *int                           `bson:"zone,omitempty"`
 }

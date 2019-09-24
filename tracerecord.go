@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -61,6 +62,63 @@ func NewTraceRecord() *TraceRecord {
 	return &TraceRecord{
 		ModelVersion: 1,
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *TraceRecord) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesTraceRecord{}
+
+	s.TTL = o.TTL
+	s.Chain = o.Chain
+	s.DestinationIP = o.DestinationIP
+	s.DestinationInterface = o.DestinationInterface
+	s.DestinationPort = o.DestinationPort
+	s.Length = o.Length
+	s.PacketID = o.PacketID
+	s.Protocol = o.Protocol
+	s.RuleID = o.RuleID
+	s.SourceIP = o.SourceIP
+	s.SourceInterface = o.SourceInterface
+	s.SourcePort = o.SourcePort
+	s.TableName = o.TableName
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *TraceRecord) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesTraceRecord{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.TTL = s.TTL
+	o.Chain = s.Chain
+	o.DestinationIP = s.DestinationIP
+	o.DestinationInterface = s.DestinationInterface
+	o.DestinationPort = s.DestinationPort
+	o.Length = s.Length
+	o.PacketID = s.PacketID
+	o.Protocol = s.Protocol
+	o.RuleID = s.RuleID
+	o.SourceIP = s.SourceIP
+	o.SourceInterface = s.SourceInterface
+	o.SourcePort = s.SourcePort
+	o.TableName = s.TableName
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -184,4 +242,20 @@ func (o *TraceRecord) Validate() error {
 	}
 
 	return nil
+}
+
+type mongoAttributesTraceRecord struct {
+	TTL                  int    `bson:"ttl"`
+	Chain                string `bson:"chain"`
+	DestinationIP        string `bson:"destinationip"`
+	DestinationInterface string `bson:"destinationinterface"`
+	DestinationPort      int    `bson:"destinationport"`
+	Length               int    `bson:"length"`
+	PacketID             int    `bson:"packetid"`
+	Protocol             int    `bson:"protocol"`
+	RuleID               int    `bson:"ruleid"`
+	SourceIP             string `bson:"sourceip"`
+	SourceInterface      string `bson:"sourceinterface"`
+	SourcePort           int    `bson:"sourceport"`
+	TableName            string `bson:"tablename"`
 }

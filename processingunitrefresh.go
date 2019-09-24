@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -111,6 +112,41 @@ func (o *ProcessingUnitRefresh) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *ProcessingUnitRefresh) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ProcessingUnitRefresh) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesProcessingUnitRefresh{}
+
+	s.ID = o.ID
+	s.Namespace = o.Namespace
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ProcessingUnitRefresh) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesProcessingUnitRefresh{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID
+	o.Namespace = s.Namespace
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -403,6 +439,49 @@ func (o *SparseProcessingUnitRefresh) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseProcessingUnitRefresh) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseProcessingUnitRefresh{}
+
+	if o.ID != nil {
+		s.ID = o.ID
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseProcessingUnitRefresh) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseProcessingUnitRefresh{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.ID != nil {
+		o.ID = s.ID
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseProcessingUnitRefresh) Version() int {
 
@@ -445,4 +524,13 @@ func (o *SparseProcessingUnitRefresh) DeepCopyInto(out *SparseProcessingUnitRefr
 	}
 
 	*out = *target.(*SparseProcessingUnitRefresh)
+}
+
+type mongoAttributesProcessingUnitRefresh struct {
+	ID        string `bson:"id"`
+	Namespace string `bson:"namespace"`
+}
+type mongoAttributesSparseProcessingUnitRefresh struct {
+	ID        *string `bson:"id,omitempty"`
+	Namespace *string `bson:"namespace,omitempty"`
 }

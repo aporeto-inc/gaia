@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -147,7 +148,7 @@ func (o ProcessingUnitsList) Version() int {
 // ProcessingUnit represents the model of a processingunit
 type ProcessingUnit struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -302,6 +303,101 @@ func (o *ProcessingUnit) Identifier() string {
 func (o *ProcessingUnit) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ProcessingUnit) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesProcessingUnit{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.Annotations = o.Annotations
+	s.Archived = o.Archived
+	s.AssociatedTags = o.AssociatedTags
+	s.CollectInfo = o.CollectInfo
+	s.CollectedInfo = o.CollectedInfo
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.EnforcementStatus = o.EnforcementStatus
+	s.EnforcerID = o.EnforcerID
+	s.EnforcerNamespace = o.EnforcerNamespace
+	s.Images = o.Images
+	s.LastCollectionTime = o.LastCollectionTime
+	s.LastPokeTime = o.LastPokeTime
+	s.LastSyncTime = o.LastSyncTime
+	s.Metadata = o.Metadata
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NativeContextID = o.NativeContextID
+	s.NetworkServices = o.NetworkServices
+	s.NormalizedTags = o.NormalizedTags
+	s.OperationalStatus = o.OperationalStatus
+	s.Protected = o.Protected
+	s.Tracing = o.Tracing
+	s.Type = o.Type
+	s.Unreachable = o.Unreachable
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesProcessingUnit{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Annotations = s.Annotations
+	o.Archived = s.Archived
+	o.AssociatedTags = s.AssociatedTags
+	o.CollectInfo = s.CollectInfo
+	o.CollectedInfo = s.CollectedInfo
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.EnforcementStatus = s.EnforcementStatus
+	o.EnforcerID = s.EnforcerID
+	o.EnforcerNamespace = s.EnforcerNamespace
+	o.Images = s.Images
+	o.LastCollectionTime = s.LastCollectionTime
+	o.LastPokeTime = s.LastPokeTime
+	o.LastSyncTime = s.LastSyncTime
+	o.Metadata = s.Metadata
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NativeContextID = s.NativeContextID
+	o.NetworkServices = s.NetworkServices
+	o.NormalizedTags = s.NormalizedTags
+	o.OperationalStatus = s.OperationalStatus
+	o.Protected = s.Protected
+	o.Tracing = s.Tracing
+	o.Type = s.Type
+	o.Unreachable = s.Unreachable
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1829,7 +1925,7 @@ func (o SparseProcessingUnitsList) Version() int {
 // SparseProcessingUnit represents the sparse version of a processingunit.
 type SparseProcessingUnit struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
@@ -1973,6 +2069,226 @@ func (o *SparseProcessingUnit) Identifier() string {
 func (o *SparseProcessingUnit) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseProcessingUnit{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.Archived != nil {
+		s.Archived = o.Archived
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CollectInfo != nil {
+		s.CollectInfo = o.CollectInfo
+	}
+	if o.CollectedInfo != nil {
+		s.CollectedInfo = o.CollectedInfo
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.EnforcementStatus != nil {
+		s.EnforcementStatus = o.EnforcementStatus
+	}
+	if o.EnforcerID != nil {
+		s.EnforcerID = o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		s.EnforcerNamespace = o.EnforcerNamespace
+	}
+	if o.Images != nil {
+		s.Images = o.Images
+	}
+	if o.LastCollectionTime != nil {
+		s.LastCollectionTime = o.LastCollectionTime
+	}
+	if o.LastPokeTime != nil {
+		s.LastPokeTime = o.LastPokeTime
+	}
+	if o.LastSyncTime != nil {
+		s.LastSyncTime = o.LastSyncTime
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NativeContextID != nil {
+		s.NativeContextID = o.NativeContextID
+	}
+	if o.NetworkServices != nil {
+		s.NetworkServices = o.NetworkServices
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.OperationalStatus != nil {
+		s.OperationalStatus = o.OperationalStatus
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.Tracing != nil {
+		s.Tracing = o.Tracing
+	}
+	if o.Type != nil {
+		s.Type = o.Type
+	}
+	if o.Unreachable != nil {
+		s.Unreachable = o.Unreachable
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseProcessingUnit{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.Archived != nil {
+		o.Archived = s.Archived
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CollectInfo != nil {
+		o.CollectInfo = s.CollectInfo
+	}
+	if s.CollectedInfo != nil {
+		o.CollectedInfo = s.CollectedInfo
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.EnforcementStatus != nil {
+		o.EnforcementStatus = s.EnforcementStatus
+	}
+	if s.EnforcerID != nil {
+		o.EnforcerID = s.EnforcerID
+	}
+	if s.EnforcerNamespace != nil {
+		o.EnforcerNamespace = s.EnforcerNamespace
+	}
+	if s.Images != nil {
+		o.Images = s.Images
+	}
+	if s.LastCollectionTime != nil {
+		o.LastCollectionTime = s.LastCollectionTime
+	}
+	if s.LastPokeTime != nil {
+		o.LastPokeTime = s.LastPokeTime
+	}
+	if s.LastSyncTime != nil {
+		o.LastSyncTime = s.LastSyncTime
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NativeContextID != nil {
+		o.NativeContextID = s.NativeContextID
+	}
+	if s.NetworkServices != nil {
+		o.NetworkServices = s.NetworkServices
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.OperationalStatus != nil {
+		o.OperationalStatus = s.OperationalStatus
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.Tracing != nil {
+		o.Tracing = s.Tracing
+	}
+	if s.Type != nil {
+		o.Type = s.Type
+	}
+	if s.Unreachable != nil {
+		o.Unreachable = s.Unreachable
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -2302,4 +2618,73 @@ func (o *SparseProcessingUnit) DeepCopyInto(out *SparseProcessingUnit) {
 	}
 
 	*out = *target.(*SparseProcessingUnit)
+}
+
+type mongoAttributesProcessingUnit struct {
+	ID                   bson.ObjectId                        `bson:"_id"`
+	Annotations          map[string][]string                  `bson:"annotations"`
+	Archived             bool                                 `bson:"archived"`
+	AssociatedTags       []string                             `bson:"associatedtags"`
+	CollectInfo          bool                                 `bson:"collectinfo"`
+	CollectedInfo        map[string]string                    `bson:"collectedinfo"`
+	CreateIdempotencyKey string                               `bson:"createidempotencykey"`
+	CreateTime           time.Time                            `bson:"createtime"`
+	Description          string                               `bson:"description"`
+	EnforcementStatus    ProcessingUnitEnforcementStatusValue `bson:"enforcementstatus"`
+	EnforcerID           string                               `bson:"enforcerid"`
+	EnforcerNamespace    string                               `bson:"enforcernamespace"`
+	Images               []string                             `bson:"images"`
+	LastCollectionTime   time.Time                            `bson:"lastcollectiontime"`
+	LastPokeTime         time.Time                            `bson:"lastpoketime"`
+	LastSyncTime         time.Time                            `bson:"lastsynctime"`
+	Metadata             []string                             `bson:"metadata"`
+	MigrationsLog        map[string]string                    `bson:"migrationslog"`
+	Name                 string                               `bson:"name"`
+	Namespace            string                               `bson:"namespace"`
+	NativeContextID      string                               `bson:"nativecontextid"`
+	NetworkServices      []*ProcessingUnitService             `bson:"networkservices"`
+	NormalizedTags       []string                             `bson:"normalizedtags"`
+	OperationalStatus    ProcessingUnitOperationalStatusValue `bson:"operationalstatus"`
+	Protected            bool                                 `bson:"protected"`
+	Tracing              *TraceMode                           `bson:"tracing"`
+	Type                 ProcessingUnitTypeValue              `bson:"type"`
+	Unreachable          bool                                 `bson:"unreachable"`
+	UpdateIdempotencyKey string                               `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                            `bson:"updatetime"`
+	ZHash                int                                  `bson:"zhash"`
+	Zone                 int                                  `bson:"zone"`
+}
+type mongoAttributesSparseProcessingUnit struct {
+	ID                   bson.ObjectId                         `bson:"_id"`
+	Annotations          *map[string][]string                  `bson:"annotations,omitempty"`
+	Archived             *bool                                 `bson:"archived,omitempty"`
+	AssociatedTags       *[]string                             `bson:"associatedtags,omitempty"`
+	CollectInfo          *bool                                 `bson:"collectinfo,omitempty"`
+	CollectedInfo        *map[string]string                    `bson:"collectedinfo,omitempty"`
+	CreateIdempotencyKey *string                               `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                            `bson:"createtime,omitempty"`
+	Description          *string                               `bson:"description,omitempty"`
+	EnforcementStatus    *ProcessingUnitEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
+	EnforcerID           *string                               `bson:"enforcerid,omitempty"`
+	EnforcerNamespace    *string                               `bson:"enforcernamespace,omitempty"`
+	Images               *[]string                             `bson:"images,omitempty"`
+	LastCollectionTime   *time.Time                            `bson:"lastcollectiontime,omitempty"`
+	LastPokeTime         *time.Time                            `bson:"lastpoketime,omitempty"`
+	LastSyncTime         *time.Time                            `bson:"lastsynctime,omitempty"`
+	Metadata             *[]string                             `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string                    `bson:"migrationslog,omitempty"`
+	Name                 *string                               `bson:"name,omitempty"`
+	Namespace            *string                               `bson:"namespace,omitempty"`
+	NativeContextID      *string                               `bson:"nativecontextid,omitempty"`
+	NetworkServices      *[]*ProcessingUnitService             `bson:"networkservices,omitempty"`
+	NormalizedTags       *[]string                             `bson:"normalizedtags,omitempty"`
+	OperationalStatus    *ProcessingUnitOperationalStatusValue `bson:"operationalstatus,omitempty"`
+	Protected            *bool                                 `bson:"protected,omitempty"`
+	Tracing              *TraceMode                            `bson:"tracing,omitempty"`
+	Type                 *ProcessingUnitTypeValue              `bson:"type,omitempty"`
+	Unreachable          *bool                                 `bson:"unreachable,omitempty"`
+	UpdateIdempotencyKey *string                               `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                            `bson:"updatetime,omitempty"`
+	ZHash                *int                                  `bson:"zhash,omitempty"`
+	Zone                 *int                                  `bson:"zone,omitempty"`
 }

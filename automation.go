@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -101,7 +102,7 @@ func (o AutomationsList) Version() int {
 // Automation represents the model of a automation
 type Automation struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Contains the code that will be executed if the condition is met.
 	Actions []string `json:"actions" msgpack:"actions" bson:"actions" mapstructure:"actions,omitempty"`
@@ -233,6 +234,93 @@ func (o *Automation) Identifier() string {
 func (o *Automation) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Automation) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesAutomation{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.Actions = o.Actions
+	s.Annotations = o.Annotations
+	s.AssociatedTags = o.AssociatedTags
+	s.Condition = o.Condition
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.Disabled = o.Disabled
+	s.Entitlements = o.Entitlements
+	s.Errors = o.Errors
+	s.Events = o.Events
+	s.ImmediateExecution = o.ImmediateExecution
+	s.LastExecTime = o.LastExecTime
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Parameters = o.Parameters
+	s.Protected = o.Protected
+	s.Schedule = o.Schedule
+	s.Stdout = o.Stdout
+	s.Token = o.Token
+	s.Trigger = o.Trigger
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Automation) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesAutomation{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Actions = s.Actions
+	o.Annotations = s.Annotations
+	o.AssociatedTags = s.AssociatedTags
+	o.Condition = s.Condition
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.Disabled = s.Disabled
+	o.Entitlements = s.Entitlements
+	o.Errors = s.Errors
+	o.Events = s.Events
+	o.ImmediateExecution = s.ImmediateExecution
+	o.LastExecTime = s.LastExecTime
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Parameters = s.Parameters
+	o.Protected = s.Protected
+	o.Schedule = s.Schedule
+	o.Stdout = s.Stdout
+	o.Token = s.Token
+	o.Trigger = s.Trigger
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1579,7 +1667,7 @@ func (o SparseAutomationsList) Version() int {
 // SparseAutomation represents the sparse version of a automation.
 type SparseAutomation struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Contains the code that will be executed if the condition is met.
 	Actions *[]string `json:"actions,omitempty" msgpack:"actions,omitempty" bson:"actions,omitempty" mapstructure:"actions,omitempty"`
@@ -1701,6 +1789,202 @@ func (o *SparseAutomation) Identifier() string {
 func (o *SparseAutomation) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAutomation) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseAutomation{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.Actions != nil {
+		s.Actions = o.Actions
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.Condition != nil {
+		s.Condition = o.Condition
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Disabled != nil {
+		s.Disabled = o.Disabled
+	}
+	if o.Entitlements != nil {
+		s.Entitlements = o.Entitlements
+	}
+	if o.Errors != nil {
+		s.Errors = o.Errors
+	}
+	if o.Events != nil {
+		s.Events = o.Events
+	}
+	if o.ImmediateExecution != nil {
+		s.ImmediateExecution = o.ImmediateExecution
+	}
+	if o.LastExecTime != nil {
+		s.LastExecTime = o.LastExecTime
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Parameters != nil {
+		s.Parameters = o.Parameters
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.Schedule != nil {
+		s.Schedule = o.Schedule
+	}
+	if o.Stdout != nil {
+		s.Stdout = o.Stdout
+	}
+	if o.Token != nil {
+		s.Token = o.Token
+	}
+	if o.Trigger != nil {
+		s.Trigger = o.Trigger
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAutomation) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseAutomation{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.Actions != nil {
+		o.Actions = s.Actions
+	}
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.Condition != nil {
+		o.Condition = s.Condition
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Disabled != nil {
+		o.Disabled = s.Disabled
+	}
+	if s.Entitlements != nil {
+		o.Entitlements = s.Entitlements
+	}
+	if s.Errors != nil {
+		o.Errors = s.Errors
+	}
+	if s.Events != nil {
+		o.Events = s.Events
+	}
+	if s.ImmediateExecution != nil {
+		o.ImmediateExecution = s.ImmediateExecution
+	}
+	if s.LastExecTime != nil {
+		o.LastExecTime = s.LastExecTime
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Parameters != nil {
+		o.Parameters = s.Parameters
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.Schedule != nil {
+		o.Schedule = s.Schedule
+	}
+	if s.Stdout != nil {
+		o.Stdout = s.Stdout
+	}
+	if s.Token != nil {
+		o.Token = s.Token
+	}
+	if s.Trigger != nil {
+		o.Trigger = s.Trigger
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -2006,4 +2290,65 @@ func (o *SparseAutomation) DeepCopyInto(out *SparseAutomation) {
 	}
 
 	*out = *target.(*SparseAutomation)
+}
+
+type mongoAttributesAutomation struct {
+	ID                   bson.ObjectId                    `bson:"_id"`
+	Actions              []string                         `bson:"actions"`
+	Annotations          map[string][]string              `bson:"annotations"`
+	AssociatedTags       []string                         `bson:"associatedtags"`
+	Condition            string                           `bson:"condition"`
+	CreateIdempotencyKey string                           `bson:"createidempotencykey"`
+	CreateTime           time.Time                        `bson:"createtime"`
+	Description          string                           `bson:"description"`
+	Disabled             bool                             `bson:"disabled"`
+	Entitlements         map[string][]elemental.Operation `bson:"entitlements"`
+	Errors               []string                         `bson:"errors"`
+	Events               map[string][]elemental.EventType `bson:"events"`
+	ImmediateExecution   bool                             `bson:"immediateexecution"`
+	LastExecTime         time.Time                        `bson:"lastexectime"`
+	MigrationsLog        map[string]string                `bson:"migrationslog"`
+	Name                 string                           `bson:"name"`
+	Namespace            string                           `bson:"namespace"`
+	NormalizedTags       []string                         `bson:"normalizedtags"`
+	Parameters           map[string]interface{}           `bson:"parameters"`
+	Protected            bool                             `bson:"protected"`
+	Schedule             string                           `bson:"schedule"`
+	Stdout               string                           `bson:"stdout"`
+	Token                string                           `bson:"token"`
+	Trigger              AutomationTriggerValue           `bson:"trigger"`
+	UpdateIdempotencyKey string                           `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                        `bson:"updatetime"`
+	ZHash                int                              `bson:"zhash"`
+	Zone                 int                              `bson:"zone"`
+}
+type mongoAttributesSparseAutomation struct {
+	ID                   bson.ObjectId                     `bson:"_id"`
+	Actions              *[]string                         `bson:"actions,omitempty"`
+	Annotations          *map[string][]string              `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                         `bson:"associatedtags,omitempty"`
+	Condition            *string                           `bson:"condition,omitempty"`
+	CreateIdempotencyKey *string                           `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                        `bson:"createtime,omitempty"`
+	Description          *string                           `bson:"description,omitempty"`
+	Disabled             *bool                             `bson:"disabled,omitempty"`
+	Entitlements         *map[string][]elemental.Operation `bson:"entitlements,omitempty"`
+	Errors               *[]string                         `bson:"errors,omitempty"`
+	Events               *map[string][]elemental.EventType `bson:"events,omitempty"`
+	ImmediateExecution   *bool                             `bson:"immediateexecution,omitempty"`
+	LastExecTime         *time.Time                        `bson:"lastexectime,omitempty"`
+	MigrationsLog        *map[string]string                `bson:"migrationslog,omitempty"`
+	Name                 *string                           `bson:"name,omitempty"`
+	Namespace            *string                           `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                         `bson:"normalizedtags,omitempty"`
+	Parameters           *map[string]interface{}           `bson:"parameters,omitempty"`
+	Protected            *bool                             `bson:"protected,omitempty"`
+	Schedule             *string                           `bson:"schedule,omitempty"`
+	Stdout               *string                           `bson:"stdout,omitempty"`
+	Token                *string                           `bson:"token,omitempty"`
+	Trigger              *AutomationTriggerValue           `bson:"trigger,omitempty"`
+	UpdateIdempotencyKey *string                           `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                        `bson:"updatetime,omitempty"`
+	ZHash                *int                              `bson:"zhash,omitempty"`
+	Zone                 *int                              `bson:"zone,omitempty"`
 }

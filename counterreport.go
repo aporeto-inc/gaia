@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -350,6 +351,41 @@ func (o *CounterReport) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *CounterReport) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *CounterReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesCounterReport{}
+
+	s.EnforcerID = o.EnforcerID
+	s.EnforcerNamespace = o.EnforcerNamespace
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *CounterReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesCounterReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.EnforcerID = s.EnforcerID
+	o.EnforcerNamespace = s.EnforcerNamespace
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -2271,6 +2307,49 @@ func (o *SparseCounterReport) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseCounterReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseCounterReport{}
+
+	if o.EnforcerID != nil {
+		s.EnforcerID = o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		s.EnforcerNamespace = o.EnforcerNamespace
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseCounterReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseCounterReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.EnforcerID != nil {
+		o.EnforcerID = s.EnforcerID
+	}
+	if s.EnforcerNamespace != nil {
+		o.EnforcerNamespace = s.EnforcerNamespace
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseCounterReport) Version() int {
 
@@ -2493,4 +2572,13 @@ func (o *SparseCounterReport) DeepCopyInto(out *SparseCounterReport) {
 	}
 
 	*out = *target.(*SparseCounterReport)
+}
+
+type mongoAttributesCounterReport struct {
+	EnforcerID        string `bson:"enforcerid"`
+	EnforcerNamespace string `bson:"enforcernamespace"`
+}
+type mongoAttributesSparseCounterReport struct {
+	EnforcerID        *string `bson:"enforcerid,omitempty"`
+	EnforcerNamespace *string `bson:"enforcernamespace,omitempty"`
 }

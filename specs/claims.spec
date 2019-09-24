@@ -47,6 +47,7 @@ attributes:
       then apply the XXH64 function.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: "1134423925458173049"
 
