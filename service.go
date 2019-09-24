@@ -160,7 +160,7 @@ type Service struct {
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
 	// Aporeto will autodiscover it. It will be
-	// `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`.
+	// `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
 	OIDCCallbackURL string `json:"OIDCCallbackURL" msgpack:"OIDCCallbackURL" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
 
 	// OIDC Client ID. Only has effect if the `authorizationType` is set to `OIDC`.
@@ -1251,7 +1251,7 @@ certificate authority will be used.`,
 		ConvertedName:  "OIDCCallbackURL",
 		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
 Aporeto will autodiscover it. It will be
-` + "`" + `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback` + "`" + `.`,
+` + "`" + `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback` + "`" + `.`,
 		Exposed: true,
 		Name:    "OIDCCallbackURL",
 		Stored:  true,
@@ -1830,7 +1830,7 @@ certificate authority will be used.`,
 		ConvertedName:  "OIDCCallbackURL",
 		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
 Aporeto will autodiscover it. It will be
-` + "`" + `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback` + "`" + `.`,
+` + "`" + `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback` + "`" + `.`,
 		Exposed: true,
 		Name:    "OIDCCallbackURL",
 		Stored:  true,
@@ -2440,7 +2440,7 @@ type SparseService struct {
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
 	// Aporeto will autodiscover it. It will be
-	// `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`.
+	// `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
 	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" msgpack:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl,omitempty" mapstructure:"OIDCCallbackURL,omitempty"`
 
 	// OIDC Client ID. Only has effect if the `authorizationType` is set to `OIDC`.

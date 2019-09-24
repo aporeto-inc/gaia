@@ -462,6 +462,14 @@ func TestValidateNetwork(t *testing.T) {
 			},
 			false,
 		},
+		{
+			"valid DNS name",
+			args{
+				"cidr",
+				"*.google.com",
+			},
+			false,
+		},
 
 		// invalid CIDR
 		{

@@ -5954,6 +5954,10 @@ Fourth argument of the executed system call.
 
 Architecture of the system of the monitored process.
 
+##### `arguments` `[]string`
+
+Arguments passed to the command.
+
 ##### `auditProfileID` `string` [`required`]
 
 ID of the audit profile that triggered the report.
@@ -9387,7 +9391,7 @@ certificate authority will be used.
 
 This is an advanced setting. Optional OIDC callback URL. If you don't set it,
 Aporeto will autodiscover it. It will be
-`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`.
+`https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
 
 ##### `OIDCClientID` `string`
 

@@ -83,8 +83,8 @@ func (a *AuditProfileRule) Validate() error {
 // FileWatchRule is used to audit access to particular files or directories
 // that you may be interested in.
 type FileWatchRule struct {
-	Path        string                 `msgpack:"path" bson:"path" json:"path" bson:"path"`
-	Permissions []AuditFilePermissions `msgpack:"permissions" bson:"permissions" json:"permissions" bson:"permissions"`
+	Path        string                 `msgpack:"path" bson:"path" json:"path"`
+	Permissions []AuditFilePermissions `msgpack:"permissions" bson:"permissions" json:"permissions"`
 }
 
 // Validate validates the filewathc rule.

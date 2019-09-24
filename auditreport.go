@@ -140,6 +140,9 @@ type AuditReport struct {
 	// Architecture of the system of the monitored process.
 	Arch string `json:"arch" msgpack:"arch" bson:"-" mapstructure:"arch,omitempty"`
 
+	// Arguments passed to the command.
+	Arguments []string `json:"arguments" msgpack:"arguments" bson:"-" mapstructure:"arguments,omitempty"`
+
 	// ID of the audit profile that triggered the report.
 	AuditProfileID string `json:"auditProfileID" msgpack:"auditProfileID" bson:"-" mapstructure:"auditProfileID,omitempty"`
 
@@ -187,6 +190,7 @@ func NewAuditReport() *AuditReport {
 
 	return &AuditReport{
 		ModelVersion: 1,
+		Arguments:    []string{},
 	}
 }
 
@@ -263,6 +267,7 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			A2:                      &o.A2,
 			A3:                      &o.A3,
 			Arch:                    &o.Arch,
+			Arguments:               &o.Arguments,
 			AuditProfileID:          &o.AuditProfileID,
 			AuditProfileNamespace:   &o.AuditProfileNamespace,
 			Command:                 &o.Command,
@@ -322,6 +327,8 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.A3 = &(o.A3)
 		case "arch":
 			sp.Arch = &(o.Arch)
+		case "arguments":
+			sp.Arguments = &(o.Arguments)
 		case "auditProfileID":
 			sp.AuditProfileID = &(o.AuditProfileID)
 		case "auditProfileNamespace":
@@ -420,6 +427,9 @@ func (o *AuditReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Arch != nil {
 		o.Arch = *so.Arch
+	}
+	if so.Arguments != nil {
+		o.Arguments = *so.Arguments
 	}
 	if so.AuditProfileID != nil {
 		o.AuditProfileID = *so.AuditProfileID
@@ -598,6 +608,8 @@ func (o *AuditReport) ValueForAttribute(name string) interface{} {
 		return o.A3
 	case "arch":
 		return o.Arch
+	case "arguments":
+		return o.Arguments
 	case "auditProfileID":
 		return o.AuditProfileID
 	case "auditProfileNamespace":
@@ -790,6 +802,15 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "arch",
 		Type:           "string",
+	},
+	"Arguments": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Arguments",
+		Description:    `Arguments passed to the command.`,
+		Exposed:        true,
+		Name:           "arguments",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"AuditProfileID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1067,6 +1088,15 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Name:           "arch",
 		Type:           "string",
 	},
+	"arguments": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Arguments",
+		Description:    `Arguments passed to the command.`,
+		Exposed:        true,
+		Name:           "arguments",
+		SubType:        "string",
+		Type:           "list",
+	},
 	"auditprofileid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AuditProfileID",
@@ -1304,6 +1334,9 @@ type SparseAuditReport struct {
 	// Architecture of the system of the monitored process.
 	Arch *string `json:"arch,omitempty" msgpack:"arch,omitempty" bson:"-" mapstructure:"arch,omitempty"`
 
+	// Arguments passed to the command.
+	Arguments *[]string `json:"arguments,omitempty" msgpack:"arguments,omitempty" bson:"-" mapstructure:"arguments,omitempty"`
+
 	// ID of the audit profile that triggered the report.
 	AuditProfileID *string `json:"auditProfileID,omitempty" msgpack:"auditProfileID,omitempty" bson:"-" mapstructure:"auditProfileID,omitempty"`
 
@@ -1437,6 +1470,9 @@ func (o *SparseAuditReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Arch != nil {
 		out.Arch = *o.Arch
+	}
+	if o.Arguments != nil {
+		out.Arguments = *o.Arguments
 	}
 	if o.AuditProfileID != nil {
 		out.AuditProfileID = *o.AuditProfileID
