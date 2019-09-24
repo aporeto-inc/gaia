@@ -271,7 +271,7 @@ const (
 	ActionProtoPortsTagString = "action=restrictports"
 
 	// ActionDatapathTypeTagString is the system created action=datapathtype tag.
-	ActionDatapathTypeTagString = "action=datapathtype"
+	ActionDatapathType = "action=datapathtype"
 )
 
 const (
