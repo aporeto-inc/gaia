@@ -8,6 +8,17 @@ import (
 	"go.aporeto.io/gaia/constants"
 )
 
+// RenderedPolicyDatapathTypeValue represents the possible values for attribute "datapathType".
+type RenderedPolicyDatapathTypeValue string
+
+const (
+	// RenderedPolicyDatapathTypeAporeto represents the value Aporeto.
+	RenderedPolicyDatapathTypeAporeto RenderedPolicyDatapathTypeValue = "Aporeto"
+
+	// RenderedPolicyDatapathTypeEnvoyAuthorizer represents the value EnvoyAuthorizer.
+	RenderedPolicyDatapathTypeEnvoyAuthorizer RenderedPolicyDatapathTypeValue = "EnvoyAuthorizer"
+)
+
 // RenderedPolicyIdentity represents the Identity of the object.
 var RenderedPolicyIdentity = elemental.Identity{
 	Name:     "renderedpolicy",
@@ -80,9 +91,18 @@ func (o RenderedPoliciesList) Version() int {
 
 // RenderedPolicy represents the model of a renderedpolicy
 type RenderedPolicy struct {
-	// The certificate associated with this processing unit. It will identify the processing
-	// unit to any internal or external services.
+	// The certificate associated with this processing unit. It will identify the
+	// processing unit to any internal or external services.
 	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+
+	// The datapath type that this processing unit must implement according to
+	// the rendered policy:
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+	// that for example can be used by an envoy proxy to use the Aporeto PKI
+	// and implement Aporeto network access policies. NOTE: The enforcer is not
+	// owning the datapath in this case. It is merely providing an authorizer API.
+	DatapathType RenderedPolicyDatapathTypeValue `json:"datapathType" msgpack:"datapathType" bson:"-" mapstructure:"datapathType,omitempty"`
 
 	// The list of services that this processing unit depends on.
 	DependendServices ServicesList `json:"dependendServices" msgpack:"dependendServices" bson:"-" mapstructure:"dependendServices,omitempty"`
@@ -102,7 +122,8 @@ type RenderedPolicy struct {
 	// Contains the list of tags that matched the policies.
 	MatchingTags []string `json:"matchingTags" msgpack:"matchingTags" bson:"-" mapstructure:"matchingTags,omitempty"`
 
-	// Can be set during a `POST` operation to render a policy on a processing unit that
+	// Can be set during a `POST` operation to render a policy on a processing unit
+	// that
 	// has not been created yet.
 	ProcessingUnit *ProcessingUnit `json:"processingUnit" msgpack:"processingUnit" bson:"-" mapstructure:"processingUnit,omitempty"`
 
@@ -191,6 +212,7 @@ func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable
 		// nolint: goimports
 		return &SparseRenderedPolicy{
 			Certificate:       &o.Certificate,
+			DatapathType:      &o.DatapathType,
 			DependendServices: &o.DependendServices,
 			EgressPolicies:    &o.EgressPolicies,
 			ExposedServices:   &o.ExposedServices,
@@ -208,6 +230,8 @@ func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable
 		switch f {
 		case "certificate":
 			sp.Certificate = &(o.Certificate)
+		case "datapathType":
+			sp.DatapathType = &(o.DatapathType)
 		case "dependendServices":
 			sp.DependendServices = &(o.DependendServices)
 		case "egressPolicies":
@@ -241,6 +265,9 @@ func (o *RenderedPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseRenderedPolicy)
 	if so.Certificate != nil {
 		o.Certificate = *so.Certificate
+	}
+	if so.DatapathType != nil {
+		o.DatapathType = *so.DatapathType
 	}
 	if so.DependendServices != nil {
 		o.DependendServices = *so.DependendServices
@@ -300,6 +327,10 @@ func (o *RenderedPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateStringInList("datapathType", string(o.DatapathType), []string{"Aporeto", "EnvoyAuthorizer"}, true); err != nil {
+		errors = errors.Append(err)
+	}
 
 	for _, sub := range o.DependendServices {
 		if sub == nil {
@@ -361,6 +392,8 @@ func (o *RenderedPolicy) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "certificate":
 		return o.Certificate
+	case "datapathType":
+		return o.DatapathType
 	case "dependendServices":
 		return o.DependendServices
 	case "egressPolicies":
@@ -389,12 +422,28 @@ var RenderedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
-		Description: `The certificate associated with this processing unit. It will identify the processing
-unit to any internal or external services.`,
+		Description: `The certificate associated with this processing unit. It will identify the
+processing unit to any internal or external services.`,
 		Exposed:  true,
 		Name:     "certificate",
 		ReadOnly: true,
 		Type:     "string",
+	},
+	"DatapathType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "EnvoyAuthorizer"},
+		Autogenerated:  true,
+		ConvertedName:  "DatapathType",
+		Description: `The datapath type that this processing unit must implement according to
+the rendered policy:
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
+that for example can be used by an envoy proxy to use the Aporeto PKI
+and implement Aporeto network access policies. NOTE: The enforcer is not
+owning the datapath in this case. It is merely providing an authorizer API.`,
+		Exposed:  true,
+		Name:     "datapathType",
+		ReadOnly: true,
+		Type:     "enum",
 	},
 	"DependendServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -462,7 +511,8 @@ unit to any internal or external services.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnit",
 		CreationOnly:   true,
-		Description: `Can be set during a ` + "`" + `POST` + "`" + ` operation to render a policy on a processing unit that
+		Description: `Can be set during a ` + "`" + `POST` + "`" + ` operation to render a policy on a processing unit
+that
 has not been created yet.`,
 		Exposed:  true,
 		Name:     "processingUnit",
@@ -498,12 +548,28 @@ var RenderedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
-		Description: `The certificate associated with this processing unit. It will identify the processing
-unit to any internal or external services.`,
+		Description: `The certificate associated with this processing unit. It will identify the
+processing unit to any internal or external services.`,
 		Exposed:  true,
 		Name:     "certificate",
 		ReadOnly: true,
 		Type:     "string",
+	},
+	"datapathtype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "EnvoyAuthorizer"},
+		Autogenerated:  true,
+		ConvertedName:  "DatapathType",
+		Description: `The datapath type that this processing unit must implement according to
+the rendered policy:
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
+that for example can be used by an envoy proxy to use the Aporeto PKI
+and implement Aporeto network access policies. NOTE: The enforcer is not
+owning the datapath in this case. It is merely providing an authorizer API.`,
+		Exposed:  true,
+		Name:     "datapathType",
+		ReadOnly: true,
+		Type:     "enum",
 	},
 	"dependendservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -571,7 +637,8 @@ unit to any internal or external services.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnit",
 		CreationOnly:   true,
-		Description: `Can be set during a ` + "`" + `POST` + "`" + ` operation to render a policy on a processing unit that
+		Description: `Can be set during a ` + "`" + `POST` + "`" + ` operation to render a policy on a processing unit
+that
 has not been created yet.`,
 		Exposed:  true,
 		Name:     "processingUnit",
@@ -665,9 +732,18 @@ func (o SparseRenderedPoliciesList) Version() int {
 
 // SparseRenderedPolicy represents the sparse version of a renderedpolicy.
 type SparseRenderedPolicy struct {
-	// The certificate associated with this processing unit. It will identify the processing
-	// unit to any internal or external services.
+	// The certificate associated with this processing unit. It will identify the
+	// processing unit to any internal or external services.
 	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
+
+	// The datapath type that this processing unit must implement according to
+	// the rendered policy:
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+	// that for example can be used by an envoy proxy to use the Aporeto PKI
+	// and implement Aporeto network access policies. NOTE: The enforcer is not
+	// owning the datapath in this case. It is merely providing an authorizer API.
+	DatapathType *RenderedPolicyDatapathTypeValue `json:"datapathType,omitempty" msgpack:"datapathType,omitempty" bson:"-" mapstructure:"datapathType,omitempty"`
 
 	// The list of services that this processing unit depends on.
 	DependendServices *ServicesList `json:"dependendServices,omitempty" msgpack:"dependendServices,omitempty" bson:"-" mapstructure:"dependendServices,omitempty"`
@@ -687,7 +763,8 @@ type SparseRenderedPolicy struct {
 	// Contains the list of tags that matched the policies.
 	MatchingTags *[]string `json:"matchingTags,omitempty" msgpack:"matchingTags,omitempty" bson:"-" mapstructure:"matchingTags,omitempty"`
 
-	// Can be set during a `POST` operation to render a policy on a processing unit that
+	// Can be set during a `POST` operation to render a policy on a processing unit
+	// that
 	// has not been created yet.
 	ProcessingUnit *ProcessingUnit `json:"processingUnit,omitempty" msgpack:"processingUnit,omitempty" bson:"-" mapstructure:"processingUnit,omitempty"`
 
@@ -735,6 +812,9 @@ func (o *SparseRenderedPolicy) ToPlain() elemental.PlainIdentifiable {
 	out := NewRenderedPolicy()
 	if o.Certificate != nil {
 		out.Certificate = *o.Certificate
+	}
+	if o.DatapathType != nil {
+		out.DatapathType = *o.DatapathType
 	}
 	if o.DependendServices != nil {
 		out.DependendServices = *o.DependendServices
