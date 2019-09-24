@@ -343,6 +343,7 @@ func (o *ProcessingUnit) GetBSON() (interface{}, error) {
 	s.CollectedInfo = o.CollectedInfo
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
+	s.DatapathType = o.DatapathType
 	s.Description = o.Description
 	s.EnforcementStatus = o.EnforcementStatus
 	s.EnforcerID = o.EnforcerID
@@ -392,6 +393,7 @@ func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
 	o.CollectedInfo = s.CollectedInfo
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
+	o.DatapathType = s.DatapathType
 	o.Description = s.Description
 	o.EnforcementStatus = s.EnforcementStatus
 	o.EnforcerID = s.EnforcerID
@@ -2177,6 +2179,9 @@ func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
 	}
+	if o.DatapathType != nil {
+		s.DatapathType = o.DatapathType
+	}
 	if o.Description != nil {
 		s.Description = o.Description
 	}
@@ -2288,6 +2293,9 @@ func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
 	}
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
+	}
+	if s.DatapathType != nil {
+		o.DatapathType = s.DatapathType
 	}
 	if s.Description != nil {
 		o.Description = s.Description
@@ -2706,6 +2714,7 @@ type mongoAttributesProcessingUnit struct {
 	CollectedInfo        map[string]string                    `bson:"collectedinfo"`
 	CreateIdempotencyKey string                               `bson:"createidempotencykey"`
 	CreateTime           time.Time                            `bson:"createtime"`
+	DatapathType         ProcessingUnitDatapathTypeValue      `bson:"datapathtype"`
 	Description          string                               `bson:"description"`
 	EnforcementStatus    ProcessingUnitEnforcementStatusValue `bson:"enforcementstatus"`
 	EnforcerID           string                               `bson:"enforcerid"`
@@ -2740,6 +2749,7 @@ type mongoAttributesSparseProcessingUnit struct {
 	CollectedInfo        *map[string]string                    `bson:"collectedinfo,omitempty"`
 	CreateIdempotencyKey *string                               `bson:"createidempotencykey,omitempty"`
 	CreateTime           *time.Time                            `bson:"createtime,omitempty"`
+	DatapathType         *ProcessingUnitDatapathTypeValue      `bson:"datapathtype,omitempty"`
 	Description          *string                               `bson:"description,omitempty"`
 	EnforcementStatus    *ProcessingUnitEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
 	EnforcerID           *string                               `bson:"enforcerid,omitempty"`

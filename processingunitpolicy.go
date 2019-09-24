@@ -256,6 +256,7 @@ func (o *ProcessingUnitPolicy) GetBSON() (interface{}, error) {
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
+	s.DatapathType = o.DatapathType
 	s.Description = o.Description
 	s.Disabled = o.Disabled
 	s.Fallback = o.Fallback
@@ -293,6 +294,7 @@ func (o *ProcessingUnitPolicy) SetBSON(raw bson.Raw) error {
 	o.AssociatedTags = s.AssociatedTags
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
+	o.DatapathType = s.DatapathType
 	o.Description = s.Description
 	o.Disabled = s.Disabled
 	o.Fallback = s.Fallback
@@ -1657,6 +1659,9 @@ func (o *SparseProcessingUnitPolicy) GetBSON() (interface{}, error) {
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
 	}
+	if o.DatapathType != nil {
+		s.DatapathType = o.DatapathType
+	}
 	if o.Description != nil {
 		s.Description = o.Description
 	}
@@ -1733,6 +1738,9 @@ func (o *SparseProcessingUnitPolicy) SetBSON(raw bson.Raw) error {
 	}
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
+	}
+	if s.DatapathType != nil {
+		o.DatapathType = s.DatapathType
 	}
 	if s.Description != nil {
 		o.Description = s.Description
@@ -2086,46 +2094,48 @@ func (o *SparseProcessingUnitPolicy) DeepCopyInto(out *SparseProcessingUnitPolic
 }
 
 type mongoAttributesProcessingUnitPolicy struct {
-	Action                   ProcessingUnitPolicyActionValue `bson:"action"`
-	ActiveDuration           string                          `bson:"activeduration"`
-	ActiveSchedule           string                          `bson:"activeschedule"`
-	Annotations              map[string][]string             `bson:"annotations"`
-	AssociatedTags           []string                        `bson:"associatedtags"`
-	CreateIdempotencyKey     string                          `bson:"createidempotencykey"`
-	CreateTime               time.Time                       `bson:"createtime"`
-	Description              string                          `bson:"description"`
-	Disabled                 bool                            `bson:"disabled"`
-	Fallback                 bool                            `bson:"fallback"`
-	IsolationProfileSelector [][]string                      `bson:"isolationprofileselector"`
-	Metadata                 []string                        `bson:"metadata"`
-	Name                     string                          `bson:"name"`
-	Namespace                string                          `bson:"namespace"`
-	NormalizedTags           []string                        `bson:"normalizedtags"`
-	Propagate                bool                            `bson:"propagate"`
-	Protected                bool                            `bson:"protected"`
-	Subject                  [][]string                      `bson:"subject"`
-	UpdateIdempotencyKey     string                          `bson:"updateidempotencykey"`
-	UpdateTime               time.Time                       `bson:"updatetime"`
+	Action                   ProcessingUnitPolicyActionValue       `bson:"action"`
+	ActiveDuration           string                                `bson:"activeduration"`
+	ActiveSchedule           string                                `bson:"activeschedule"`
+	Annotations              map[string][]string                   `bson:"annotations"`
+	AssociatedTags           []string                              `bson:"associatedtags"`
+	CreateIdempotencyKey     string                                `bson:"createidempotencykey"`
+	CreateTime               time.Time                             `bson:"createtime"`
+	DatapathType             ProcessingUnitPolicyDatapathTypeValue `bson:"datapathtype"`
+	Description              string                                `bson:"description"`
+	Disabled                 bool                                  `bson:"disabled"`
+	Fallback                 bool                                  `bson:"fallback"`
+	IsolationProfileSelector [][]string                            `bson:"isolationprofileselector"`
+	Metadata                 []string                              `bson:"metadata"`
+	Name                     string                                `bson:"name"`
+	Namespace                string                                `bson:"namespace"`
+	NormalizedTags           []string                              `bson:"normalizedtags"`
+	Propagate                bool                                  `bson:"propagate"`
+	Protected                bool                                  `bson:"protected"`
+	Subject                  [][]string                            `bson:"subject"`
+	UpdateIdempotencyKey     string                                `bson:"updateidempotencykey"`
+	UpdateTime               time.Time                             `bson:"updatetime"`
 }
 type mongoAttributesSparseProcessingUnitPolicy struct {
-	Action                   *ProcessingUnitPolicyActionValue `bson:"action,omitempty"`
-	ActiveDuration           *string                          `bson:"activeduration,omitempty"`
-	ActiveSchedule           *string                          `bson:"activeschedule,omitempty"`
-	Annotations              *map[string][]string             `bson:"annotations,omitempty"`
-	AssociatedTags           *[]string                        `bson:"associatedtags,omitempty"`
-	CreateIdempotencyKey     *string                          `bson:"createidempotencykey,omitempty"`
-	CreateTime               *time.Time                       `bson:"createtime,omitempty"`
-	Description              *string                          `bson:"description,omitempty"`
-	Disabled                 *bool                            `bson:"disabled,omitempty"`
-	Fallback                 *bool                            `bson:"fallback,omitempty"`
-	IsolationProfileSelector *[][]string                      `bson:"isolationprofileselector,omitempty"`
-	Metadata                 *[]string                        `bson:"metadata,omitempty"`
-	Name                     *string                          `bson:"name,omitempty"`
-	Namespace                *string                          `bson:"namespace,omitempty"`
-	NormalizedTags           *[]string                        `bson:"normalizedtags,omitempty"`
-	Propagate                *bool                            `bson:"propagate,omitempty"`
-	Protected                *bool                            `bson:"protected,omitempty"`
-	Subject                  *[][]string                      `bson:"subject,omitempty"`
-	UpdateIdempotencyKey     *string                          `bson:"updateidempotencykey,omitempty"`
-	UpdateTime               *time.Time                       `bson:"updatetime,omitempty"`
+	Action                   *ProcessingUnitPolicyActionValue       `bson:"action,omitempty"`
+	ActiveDuration           *string                                `bson:"activeduration,omitempty"`
+	ActiveSchedule           *string                                `bson:"activeschedule,omitempty"`
+	Annotations              *map[string][]string                   `bson:"annotations,omitempty"`
+	AssociatedTags           *[]string                              `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey     *string                                `bson:"createidempotencykey,omitempty"`
+	CreateTime               *time.Time                             `bson:"createtime,omitempty"`
+	DatapathType             *ProcessingUnitPolicyDatapathTypeValue `bson:"datapathtype,omitempty"`
+	Description              *string                                `bson:"description,omitempty"`
+	Disabled                 *bool                                  `bson:"disabled,omitempty"`
+	Fallback                 *bool                                  `bson:"fallback,omitempty"`
+	IsolationProfileSelector *[][]string                            `bson:"isolationprofileselector,omitempty"`
+	Metadata                 *[]string                              `bson:"metadata,omitempty"`
+	Name                     *string                                `bson:"name,omitempty"`
+	Namespace                *string                                `bson:"namespace,omitempty"`
+	NormalizedTags           *[]string                              `bson:"normalizedtags,omitempty"`
+	Propagate                *bool                                  `bson:"propagate,omitempty"`
+	Protected                *bool                                  `bson:"protected,omitempty"`
+	Subject                  *[][]string                            `bson:"subject,omitempty"`
+	UpdateIdempotencyKey     *string                                `bson:"updateidempotencykey,omitempty"`
+	UpdateTime               *time.Time                             `bson:"updatetime,omitempty"`
 }
