@@ -31,6 +31,20 @@ const (
 	ProcessingUnitPolicyActionStop ProcessingUnitPolicyActionValue = "Stop"
 )
 
+// ProcessingUnitPolicyDatapathTypeValue represents the possible values for attribute "datapathType".
+type ProcessingUnitPolicyDatapathTypeValue string
+
+const (
+	// ProcessingUnitPolicyDatapathTypeAporeto represents the value Aporeto.
+	ProcessingUnitPolicyDatapathTypeAporeto ProcessingUnitPolicyDatapathTypeValue = "Aporeto"
+
+	// ProcessingUnitPolicyDatapathTypeDefault represents the value Default.
+	ProcessingUnitPolicyDatapathTypeDefault ProcessingUnitPolicyDatapathTypeValue = "Default"
+
+	// ProcessingUnitPolicyDatapathTypeEnvoyAuthorizer represents the value EnvoyAuthorizer.
+	ProcessingUnitPolicyDatapathTypeEnvoyAuthorizer ProcessingUnitPolicyDatapathTypeValue = "EnvoyAuthorizer"
+)
+
 // ProcessingUnitPolicyIdentity represents the Identity of the object.
 var ProcessingUnitPolicyIdentity = elemental.Identity{
 	Name:     "processingunitpolicy",
@@ -109,7 +123,7 @@ type ProcessingUnitPolicy struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Action determines the action to take while enforcing the isolation profile.
+	// Action determines the action to take while enforcing the isolation. profile.
 	Action ProcessingUnitPolicyActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
@@ -131,6 +145,19 @@ type ProcessingUnitPolicy struct {
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// The datapath type that processing units selected by `subject` should
+	// implement.
+	//
+	// - `Default`: This policy is not making a decision for the
+	// datapath.
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+	// for every processing unit that for example can be used by an envoy
+	// proxy to use the Aporeto PKI and implement Aporeto network access
+	// policies. NOTE: The enforcer is not going to own the datapath in this
+	// example. It is merely providing an authorizer API.
+	DatapathType ProcessingUnitPolicyDatapathTypeValue `json:"datapathType" msgpack:"datapathType" bson:"datapathtype" mapstructure:"datapathType,omitempty"`
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
@@ -166,8 +193,8 @@ type ProcessingUnitPolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// A tag or tag expression identifying the processing unit(s) to which the
-	// isolation profile should be mapped.
+	// Contains the tag expression the tags need to match for the policy to
+	// apply.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -186,6 +213,7 @@ func NewProcessingUnitPolicy() *ProcessingUnitPolicy {
 		ModelVersion:             1,
 		Annotations:              map[string][]string{},
 		AssociatedTags:           []string{},
+		DatapathType:             ProcessingUnitPolicyDatapathTypeDefault,
 		IsolationProfileSelector: [][]string{},
 		Metadata:                 []string{},
 		NormalizedTags:           []string{},
@@ -235,7 +263,9 @@ func (o *ProcessingUnitPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ProcessingUnitPolicy) Doc() string {
 
-	return `Allows you to map isolation profiles to processing units.`
+	return `Processsing unit policies allow you to define special behavior for
+processing units. For example you can associate an isolation profile
+with a set of processing units or select a specific datapath.`
 }
 
 func (o *ProcessingUnitPolicy) String() string {
@@ -462,6 +492,7 @@ func (o *ProcessingUnitPolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			AssociatedTags:           &o.AssociatedTags,
 			CreateIdempotencyKey:     &o.CreateIdempotencyKey,
 			CreateTime:               &o.CreateTime,
+			DatapathType:             &o.DatapathType,
 			Description:              &o.Description,
 			Disabled:                 &o.Disabled,
 			Fallback:                 &o.Fallback,
@@ -497,6 +528,8 @@ func (o *ProcessingUnitPolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "datapathType":
+			sp.DatapathType = &(o.DatapathType)
 		case "description":
 			sp.Description = &(o.Description)
 		case "disabled":
@@ -559,6 +592,9 @@ func (o *ProcessingUnitPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.DatapathType != nil {
+		o.DatapathType = *so.DatapathType
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -643,6 +679,10 @@ func (o *ProcessingUnitPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("datapathType", string(o.DatapathType), []string{"Default", "Aporeto", "EnvoyAuthorizer"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -717,6 +757,8 @@ func (o *ProcessingUnitPolicy) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "datapathType":
+		return o.DatapathType
 	case "description":
 		return o.Description
 	case "disabled":
@@ -766,7 +808,7 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
 		ConvertedName:  "Action",
-		Description:    `Action determines the action to take while enforcing the isolation profile.`,
+		Description:    `Action determines the action to take while enforcing the isolation. profile.`,
 		Exposed:        true,
 		Name:           "action",
 		Orderable:      true,
@@ -847,6 +889,26 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"DatapathType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Default", "Aporeto", "EnvoyAuthorizer"},
+		ConvertedName:  "DatapathType",
+		DefaultValue:   ProcessingUnitPolicyDatapathTypeDefault,
+		Description: `The datapath type that processing units selected by ` + "`" + `subject` + "`" + ` should
+implement.
+
+- ` + "`" + `Default` + "`" + `: This policy is not making a decision for the
+datapath.
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
+for every processing unit that for example can be used by an envoy
+proxy to use the Aporeto PKI and implement Aporeto network access
+policies. NOTE: The enforcer is not going to own the datapath in this
+example. It is merely providing an authorizer API.`,
+		Exposed: true,
+		Name:    "datapathType",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -987,8 +1049,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `A tag or tag expression identifying the processing unit(s) to which the
-isolation profile should be mapped.`,
+		Description: `Contains the tag expression the tags need to match for the policy to
+apply.`,
 		Exposed: true,
 		Name:    "subject",
 		Stored:  true,
@@ -1041,7 +1103,7 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 	"action": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
 		ConvertedName:  "Action",
-		Description:    `Action determines the action to take while enforcing the isolation profile.`,
+		Description:    `Action determines the action to take while enforcing the isolation. profile.`,
 		Exposed:        true,
 		Name:           "action",
 		Orderable:      true,
@@ -1122,6 +1184,26 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"datapathtype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Default", "Aporeto", "EnvoyAuthorizer"},
+		ConvertedName:  "DatapathType",
+		DefaultValue:   ProcessingUnitPolicyDatapathTypeDefault,
+		Description: `The datapath type that processing units selected by ` + "`" + `subject` + "`" + ` should
+implement.
+
+- ` + "`" + `Default` + "`" + `: This policy is not making a decision for the
+datapath.
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
+for every processing unit that for example can be used by an envoy
+proxy to use the Aporeto PKI and implement Aporeto network access
+policies. NOTE: The enforcer is not going to own the datapath in this
+example. It is merely providing an authorizer API.`,
+		Exposed: true,
+		Name:    "datapathType",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1262,8 +1344,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `A tag or tag expression identifying the processing unit(s) to which the
-isolation profile should be mapped.`,
+		Description: `Contains the tag expression the tags need to match for the policy to
+apply.`,
 		Exposed: true,
 		Name:    "subject",
 		Stored:  true,
@@ -1367,7 +1449,7 @@ type SparseProcessingUnitPolicy struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Action determines the action to take while enforcing the isolation profile.
+	// Action determines the action to take while enforcing the isolation. profile.
 	Action *ProcessingUnitPolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
@@ -1389,6 +1471,19 @@ type SparseProcessingUnitPolicy struct {
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+
+	// The datapath type that processing units selected by `subject` should
+	// implement.
+	//
+	// - `Default`: This policy is not making a decision for the
+	// datapath.
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+	// for every processing unit that for example can be used by an envoy
+	// proxy to use the Aporeto PKI and implement Aporeto network access
+	// policies. NOTE: The enforcer is not going to own the datapath in this
+	// example. It is merely providing an authorizer API.
+	DatapathType *ProcessingUnitPolicyDatapathTypeValue `json:"datapathType,omitempty" msgpack:"datapathType,omitempty" bson:"datapathtype,omitempty" mapstructure:"datapathType,omitempty"`
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -1424,8 +1519,8 @@ type SparseProcessingUnitPolicy struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// A tag or tag expression identifying the processing unit(s) to which the
-	// isolation profile should be mapped.
+	// Contains the tag expression the tags need to match for the policy to
+	// apply.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1496,6 +1591,9 @@ func (o *SparseProcessingUnitPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
+	}
+	if o.DatapathType != nil {
+		out.DatapathType = *o.DatapathType
 	}
 	if o.Description != nil {
 		out.Description = *o.Description

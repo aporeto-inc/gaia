@@ -32,7 +32,6 @@ var (
 
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
-		"datapathpolicy":      DatapathPolicyIdentity,
 		"dependencymap":       DependencyMapIdentity,
 		"dnslookupreport":     DNSLookupReportIdentity,
 		"email":               EmailIdentity,
@@ -163,7 +162,6 @@ var (
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
-		"datapathpolicies":     DatapathPolicyIdentity,
 		"dependencymaps":       DependencyMapIdentity,
 		"dnslookupreports":     DNSLookupReportIdentity,
 		"emails":               EmailIdentity,
@@ -277,8 +275,6 @@ var (
 		"autos":          AutomationIdentity,
 		"auto":           AutomationIdentity,
 		"autotmpl":       AutomationTemplateIdentity,
-		"dppol":          DatapathPolicyIdentity,
-		"dppols":         DatapathPolicyIdentity,
 		"depmaps":        DependencyMapIdentity,
 		"depmap":         DependencyMapIdentity,
 		"profile":        EnforcerProfileIdentity,
@@ -324,6 +320,7 @@ var (
 		"pu":             ProcessingUnitIdentity,
 		"pus":            ProcessingUnitIdentity,
 		"pup":            ProcessingUnitPolicyIdentity,
+		"pups":           ProcessingUnitPolicyIdentity,
 		"quota":          QuotaPolicyIdentity,
 		"quotas":         QuotaPolicyIdentity,
 		"quotapol":       QuotaPolicyIdentity,
@@ -460,7 +457,6 @@ var (
 			[]string{"providerCustomerID"},
 		},
 		"datapathcertificate": nil,
-		"datapathpolicy":      nil,
 		"dependencymap":       nil,
 		"dnslookupreport":     nil,
 		"email":               nil,
@@ -861,8 +857,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCustomer()
 	case DataPathCertificateIdentity:
 		return NewDataPathCertificate()
-	case DatapathPolicyIdentity:
-		return NewDatapathPolicy()
 	case DependencyMapIdentity:
 		return NewDependencyMap()
 	case DNSLookupReportIdentity:
@@ -1102,8 +1096,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCustomer()
 	case DataPathCertificateIdentity:
 		return NewSparseDataPathCertificate()
-	case DatapathPolicyIdentity:
-		return NewSparseDatapathPolicy()
 	case DependencyMapIdentity:
 		return NewSparseDependencyMap()
 	case DNSLookupReportIdentity:
@@ -1351,8 +1343,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CustomersList{}
 	case DataPathCertificateIdentity:
 		return &DataPathCertificatesList{}
-	case DatapathPolicyIdentity:
-		return &DatapathPoliciesList{}
 	case DependencyMapIdentity:
 		return &DependencyMapsList{}
 	case DNSLookupReportIdentity:
@@ -1590,8 +1580,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCustomersList{}
 	case DataPathCertificateIdentity:
 		return &SparseDataPathCertificatesList{}
-	case DatapathPolicyIdentity:
-		return &SparseDatapathPoliciesList{}
 	case DependencyMapIdentity:
 		return &SparseDependencyMapsList{}
 	case DNSLookupReportIdentity:
@@ -1819,7 +1807,6 @@ func AllIdentities() []elemental.Identity {
 		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
-		DatapathPolicyIdentity,
 		DependencyMapIdentity,
 		DNSLookupReportIdentity,
 		EmailIdentity,
@@ -1985,11 +1972,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case DataPathCertificateIdentity:
 		return []string{}
-	case DatapathPolicyIdentity:
-		return []string{
-			"dppol",
-			"dppols",
-		}
 	case DependencyMapIdentity:
 		return []string{
 			"depmaps",
@@ -2161,6 +2143,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ProcessingUnitPolicyIdentity:
 		return []string{
 			"pup",
+			"pups",
 		}
 	case ProcessingUnitRefreshIdentity:
 		return []string{}

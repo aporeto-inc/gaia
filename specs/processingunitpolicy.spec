@@ -5,9 +5,13 @@ model:
   entity_name: ProcessingUnitPolicy
   package: squall
   group: policy/processingunits
-  description: Allows you to map isolation profiles to processing units.
+  description: |-
+    Processsing unit policies allow you to define special behavior for
+    processing units. For example you can associate an isolation profile
+    with a set of processing units or select a specific datapath.
   aliases:
   - pup
+  - pups
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -37,7 +41,7 @@ indexes:
 attributes:
   v1:
   - name: action
-    description: Action determines the action to take while enforcing the isolation
+    description: Action determines the action to take while enforcing the isolation.
       profile.
     type: enum
     exposed: true
@@ -50,6 +54,28 @@ attributes:
     - Snapshot
     - Stop
     orderable: true
+
+  - name: datapathType
+    description: |-
+      The datapath type that processing units selected by `subject` should
+      implement.
+
+      - `Default`: This policy is not making a decision for the
+      datapath.
+      - `Aporeto`: The enforcer is managing and handling the datapath.
+      - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+      for every processing unit that for example can be used by an envoy
+      proxy to use the Aporeto PKI and implement Aporeto network access
+      policies. NOTE: The enforcer is not going to own the datapath in this
+      example. It is merely providing an authorizer API.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Default
+    - Aporeto
+    - EnvoyAuthorizer
+    default_value: Default
 
   - name: isolationProfileSelector
     description: |-
@@ -64,8 +90,8 @@ attributes:
 
   - name: subject
     description: |-
-      A tag or tag expression identifying the processing unit(s) to which the
-      isolation profile should be mapped.
+      Contains the tag expression the tags need to match for the policy to
+      apply.
     type: external
     exposed: true
     subtype: '[][]string'
