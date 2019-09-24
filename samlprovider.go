@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -84,7 +85,7 @@ func (o SAMLProvidersList) Version() int {
 // SAMLProvider represents the model of a samlprovider
 type SAMLProvider struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Identity Provider Certificate in PEM format.
 	IDPCertificate string `json:"IDPCertificate" msgpack:"IDPCertificate" bson:"idpcertificate" mapstructure:"IDPCertificate,omitempty"`
@@ -180,6 +181,75 @@ func (o *SAMLProvider) Identifier() string {
 func (o *SAMLProvider) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SAMLProvider) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSAMLProvider{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.IDPCertificate = o.IDPCertificate
+	s.IDPIssuer = o.IDPIssuer
+	s.IDPURL = o.IDPURL
+	s.Annotations = o.Annotations
+	s.AssociatedTags = o.AssociatedTags
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Default = o.Default
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Protected = o.Protected
+	s.Subjects = o.Subjects
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SAMLProvider) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSAMLProvider{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.IDPCertificate = s.IDPCertificate
+	o.IDPIssuer = s.IDPIssuer
+	o.IDPURL = s.IDPURL
+	o.Annotations = s.Annotations
+	o.AssociatedTags = s.AssociatedTags
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Default = s.Default
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Protected = s.Protected
+	o.Subjects = s.Subjects
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1210,7 +1280,7 @@ func (o SparseSAMLProvidersList) Version() int {
 // SparseSAMLProvider represents the sparse version of a samlprovider.
 type SparseSAMLProvider struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Identity Provider Certificate in PEM format.
 	IDPCertificate *string `json:"IDPCertificate,omitempty" msgpack:"IDPCertificate,omitempty" bson:"idpcertificate,omitempty" mapstructure:"IDPCertificate,omitempty"`
@@ -1301,6 +1371,148 @@ func (o *SparseSAMLProvider) Identifier() string {
 func (o *SparseSAMLProvider) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSAMLProvider) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseSAMLProvider{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.IDPCertificate != nil {
+		s.IDPCertificate = o.IDPCertificate
+	}
+	if o.IDPIssuer != nil {
+		s.IDPIssuer = o.IDPIssuer
+	}
+	if o.IDPURL != nil {
+		s.IDPURL = o.IDPURL
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Default != nil {
+		s.Default = o.Default
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.Subjects != nil {
+		s.Subjects = o.Subjects
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSAMLProvider) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseSAMLProvider{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.IDPCertificate != nil {
+		o.IDPCertificate = s.IDPCertificate
+	}
+	if s.IDPIssuer != nil {
+		o.IDPIssuer = s.IDPIssuer
+	}
+	if s.IDPURL != nil {
+		o.IDPURL = s.IDPURL
+	}
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Default != nil {
+		o.Default = s.Default
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.Subjects != nil {
+		o.Subjects = s.Subjects
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1555,4 +1767,47 @@ func (o *SparseSAMLProvider) DeepCopyInto(out *SparseSAMLProvider) {
 	}
 
 	*out = *target.(*SparseSAMLProvider)
+}
+
+type mongoAttributesSAMLProvider struct {
+	ID                   bson.ObjectId       `bson:"_id"`
+	IDPCertificate       string              `bson:"idpcertificate"`
+	IDPIssuer            string              `bson:"idpissuer"`
+	IDPURL               string              `bson:"idpurl"`
+	Annotations          map[string][]string `bson:"annotations"`
+	AssociatedTags       []string            `bson:"associatedtags"`
+	CreateIdempotencyKey string              `bson:"createidempotencykey"`
+	CreateTime           time.Time           `bson:"createtime"`
+	Default              bool                `bson:"default"`
+	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	Name                 string              `bson:"name"`
+	Namespace            string              `bson:"namespace"`
+	NormalizedTags       []string            `bson:"normalizedtags"`
+	Protected            bool                `bson:"protected"`
+	Subjects             []string            `bson:"subjects"`
+	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
+	UpdateTime           time.Time           `bson:"updatetime"`
+	ZHash                int                 `bson:"zhash"`
+	Zone                 int                 `bson:"zone"`
+}
+type mongoAttributesSparseSAMLProvider struct {
+	ID                   bson.ObjectId        `bson:"_id"`
+	IDPCertificate       *string              `bson:"idpcertificate,omitempty"`
+	IDPIssuer            *string              `bson:"idpissuer,omitempty"`
+	IDPURL               *string              `bson:"idpurl,omitempty"`
+	Annotations          *map[string][]string `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time           `bson:"createtime,omitempty"`
+	Default              *bool                `bson:"default,omitempty"`
+	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
+	Name                 *string              `bson:"name,omitempty"`
+	Namespace            *string              `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Protected            *bool                `bson:"protected,omitempty"`
+	Subjects             *[]string            `bson:"subjects,omitempty"`
+	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
+	ZHash                *int                 `bson:"zhash,omitempty"`
+	Zone                 *int                 `bson:"zone,omitempty"`
 }

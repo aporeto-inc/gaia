@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -84,7 +85,7 @@ func (o HTTPResourceSpecsList) Version() int {
 // HTTPResourceSpec represents the model of a httpresourcespec
 type HTTPResourceSpec struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -175,6 +176,75 @@ func (o *HTTPResourceSpec) Identifier() string {
 func (o *HTTPResourceSpec) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *HTTPResourceSpec) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesHTTPResourceSpec{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.Annotations = o.Annotations
+	s.Archived = o.Archived
+	s.AssociatedTags = o.AssociatedTags
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.Endpoints = o.Endpoints
+	s.Metadata = o.Metadata
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Propagate = o.Propagate
+	s.Protected = o.Protected
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *HTTPResourceSpec) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesHTTPResourceSpec{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Annotations = s.Annotations
+	o.Archived = s.Archived
+	o.AssociatedTags = s.AssociatedTags
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.Endpoints = s.Endpoints
+	o.Metadata = s.Metadata
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Propagate = s.Propagate
+	o.Protected = s.Protected
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1260,7 +1330,7 @@ func (o SparseHTTPResourceSpecsList) Version() int {
 // SparseHTTPResourceSpec represents the sparse version of a httpresourcespec.
 type SparseHTTPResourceSpec struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
@@ -1345,6 +1415,148 @@ func (o *SparseHTTPResourceSpec) Identifier() string {
 func (o *SparseHTTPResourceSpec) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseHTTPResourceSpec) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseHTTPResourceSpec{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.Archived != nil {
+		s.Archived = o.Archived
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Endpoints != nil {
+		s.Endpoints = o.Endpoints
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseHTTPResourceSpec) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseHTTPResourceSpec{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.Archived != nil {
+		o.Archived = s.Archived
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Endpoints != nil {
+		o.Endpoints = s.Endpoints
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1644,4 +1856,47 @@ func (o *SparseHTTPResourceSpec) DeepCopyInto(out *SparseHTTPResourceSpec) {
 	}
 
 	*out = *target.(*SparseHTTPResourceSpec)
+}
+
+type mongoAttributesHTTPResourceSpec struct {
+	ID                   bson.ObjectId       `bson:"_id"`
+	Annotations          map[string][]string `bson:"annotations"`
+	Archived             bool                `bson:"archived"`
+	AssociatedTags       []string            `bson:"associatedtags"`
+	CreateIdempotencyKey string              `bson:"createidempotencykey"`
+	CreateTime           time.Time           `bson:"createtime"`
+	Description          string              `bson:"description"`
+	Endpoints            []*Endpoint         `bson:"endpoints"`
+	Metadata             []string            `bson:"metadata"`
+	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	Name                 string              `bson:"name"`
+	Namespace            string              `bson:"namespace"`
+	NormalizedTags       []string            `bson:"normalizedtags"`
+	Propagate            bool                `bson:"propagate"`
+	Protected            bool                `bson:"protected"`
+	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
+	UpdateTime           time.Time           `bson:"updatetime"`
+	ZHash                int                 `bson:"zhash"`
+	Zone                 int                 `bson:"zone"`
+}
+type mongoAttributesSparseHTTPResourceSpec struct {
+	ID                   bson.ObjectId        `bson:"_id"`
+	Annotations          *map[string][]string `bson:"annotations,omitempty"`
+	Archived             *bool                `bson:"archived,omitempty"`
+	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time           `bson:"createtime,omitempty"`
+	Description          *string              `bson:"description,omitempty"`
+	Endpoints            *[]*Endpoint         `bson:"endpoints,omitempty"`
+	Metadata             *[]string            `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
+	Name                 *string              `bson:"name,omitempty"`
+	Namespace            *string              `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Propagate            *bool                `bson:"propagate,omitempty"`
+	Protected            *bool                `bson:"protected,omitempty"`
+	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
+	ZHash                *int                 `bson:"zhash,omitempty"`
+	Zone                 *int                 `bson:"zone,omitempty"`
 }

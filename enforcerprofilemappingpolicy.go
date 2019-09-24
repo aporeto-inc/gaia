@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -175,6 +176,71 @@ func (o *EnforcerProfileMappingPolicy) Identifier() string {
 func (o *EnforcerProfileMappingPolicy) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *EnforcerProfileMappingPolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesEnforcerProfileMappingPolicy{}
+
+	s.Annotations = o.Annotations
+	s.AssociatedTags = o.AssociatedTags
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.Disabled = o.Disabled
+	s.Fallback = o.Fallback
+	s.Metadata = o.Metadata
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Object = o.Object
+	s.Propagate = o.Propagate
+	s.Protected = o.Protected
+	s.Subject = o.Subject
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *EnforcerProfileMappingPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesEnforcerProfileMappingPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Annotations = s.Annotations
+	o.AssociatedTags = s.AssociatedTags
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.Disabled = s.Disabled
+	o.Fallback = s.Fallback
+	o.Metadata = s.Metadata
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Object = s.Object
+	o.Propagate = s.Propagate
+	o.Protected = s.Protected
+	o.Subject = s.Subject
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1293,6 +1359,139 @@ func (o *SparseEnforcerProfileMappingPolicy) SetIdentifier(id string) {
 	o.ID = &id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEnforcerProfileMappingPolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseEnforcerProfileMappingPolicy{}
+
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Disabled != nil {
+		s.Disabled = o.Disabled
+	}
+	if o.Fallback != nil {
+		s.Fallback = o.Fallback
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Object != nil {
+		s.Object = o.Object
+	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.Subject != nil {
+		s.Subject = o.Subject
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEnforcerProfileMappingPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseEnforcerProfileMappingPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Disabled != nil {
+		o.Disabled = s.Disabled
+	}
+	if s.Fallback != nil {
+		o.Fallback = s.Fallback
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Object != nil {
+		o.Object = s.Object
+	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.Subject != nil {
+		o.Subject = s.Subject
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseEnforcerProfileMappingPolicy) Version() int {
 
@@ -1563,4 +1762,43 @@ func (o *SparseEnforcerProfileMappingPolicy) DeepCopyInto(out *SparseEnforcerPro
 	}
 
 	*out = *target.(*SparseEnforcerProfileMappingPolicy)
+}
+
+type mongoAttributesEnforcerProfileMappingPolicy struct {
+	Annotations          map[string][]string `bson:"annotations"`
+	AssociatedTags       []string            `bson:"associatedtags"`
+	CreateIdempotencyKey string              `bson:"createidempotencykey"`
+	CreateTime           time.Time           `bson:"createtime"`
+	Description          string              `bson:"description"`
+	Disabled             bool                `bson:"disabled"`
+	Fallback             bool                `bson:"fallback"`
+	Metadata             []string            `bson:"metadata"`
+	Name                 string              `bson:"name"`
+	Namespace            string              `bson:"namespace"`
+	NormalizedTags       []string            `bson:"normalizedtags"`
+	Object               [][]string          `bson:"object"`
+	Propagate            bool                `bson:"propagate"`
+	Protected            bool                `bson:"protected"`
+	Subject              [][]string          `bson:"subject"`
+	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
+	UpdateTime           time.Time           `bson:"updatetime"`
+}
+type mongoAttributesSparseEnforcerProfileMappingPolicy struct {
+	Annotations          *map[string][]string `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time           `bson:"createtime,omitempty"`
+	Description          *string              `bson:"description,omitempty"`
+	Disabled             *bool                `bson:"disabled,omitempty"`
+	Fallback             *bool                `bson:"fallback,omitempty"`
+	Metadata             *[]string            `bson:"metadata,omitempty"`
+	Name                 *string              `bson:"name,omitempty"`
+	Namespace            *string              `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Object               *[][]string          `bson:"object,omitempty"`
+	Propagate            *bool                `bson:"propagate,omitempty"`
+	Protected            *bool                `bson:"protected,omitempty"`
+	Subject              *[][]string          `bson:"subject,omitempty"`
+	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
 }

@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -109,6 +110,39 @@ func (o *SuggestedPolicy) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *SuggestedPolicy) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SuggestedPolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSuggestedPolicy{}
+
+	s.NetworkAccessPolicies = o.NetworkAccessPolicies
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SuggestedPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSuggestedPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.NetworkAccessPolicies = s.NetworkAccessPolicies
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -375,6 +409,43 @@ func (o *SparseSuggestedPolicy) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSuggestedPolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseSuggestedPolicy{}
+
+	if o.NetworkAccessPolicies != nil {
+		s.NetworkAccessPolicies = o.NetworkAccessPolicies
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSuggestedPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseSuggestedPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.NetworkAccessPolicies != nil {
+		o.NetworkAccessPolicies = s.NetworkAccessPolicies
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseSuggestedPolicy) Version() int {
 
@@ -414,4 +485,11 @@ func (o *SparseSuggestedPolicy) DeepCopyInto(out *SparseSuggestedPolicy) {
 	}
 
 	*out = *target.(*SparseSuggestedPolicy)
+}
+
+type mongoAttributesSuggestedPolicy struct {
+	NetworkAccessPolicies NetworkAccessPoliciesList `bson:"networkaccesspolicies"`
+}
+type mongoAttributesSparseSuggestedPolicy struct {
+	NetworkAccessPolicies *NetworkAccessPoliciesList `bson:"networkaccesspolicies,omitempty"`
 }

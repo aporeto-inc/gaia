@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -83,7 +84,7 @@ func (o ClaimsList) Version() int {
 // Claims represents the model of a claims
 type Claims struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -105,7 +106,7 @@ type Claims struct {
 	// you must first clob `content` as an string array in the form `key=value`, sort
 	// it
 	// then apply the XXH64 function.
-	Hash string `json:"hash" msgpack:"hash" bson:"-" mapstructure:"hash,omitempty"`
+	Hash string `json:"hash" msgpack:"hash" bson:"hash" mapstructure:"hash,omitempty"`
 
 	// Contains the date of the last appearance of the claims.
 	LastSeen time.Time `json:"-" msgpack:"-" bson:"lastseen" mapstructure:"-,omitempty"`
@@ -164,6 +165,67 @@ func (o *Claims) Identifier() string {
 func (o *Claims) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Claims) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesClaims{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.Annotations = o.Annotations
+	s.AssociatedTags = o.AssociatedTags
+	s.Content = o.Content
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.FirstSeen = o.FirstSeen
+	s.Hash = o.Hash
+	s.LastSeen = o.LastSeen
+	s.MigrationsLog = o.MigrationsLog
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Protected = o.Protected
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Claims) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesClaims{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Annotations = s.Annotations
+	o.AssociatedTags = s.AssociatedTags
+	o.Content = s.Content
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.FirstSeen = s.FirstSeen
+	o.Hash = s.Hash
+	o.LastSeen = s.LastSeen
+	o.MigrationsLog = s.MigrationsLog
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Protected = s.Protected
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -626,6 +688,7 @@ then apply the XXH64 function.`,
 		Exposed:  true,
 		Name:     "hash",
 		Required: true,
+		Stored:   true,
 		Type:     "string",
 	},
 	"LastSeen": elemental.AttributeSpecification{
@@ -817,6 +880,7 @@ then apply the XXH64 function.`,
 		Exposed:  true,
 		Name:     "hash",
 		Required: true,
+		Stored:   true,
 		Type:     "string",
 	},
 	"lastseen": elemental.AttributeSpecification{
@@ -990,7 +1054,7 @@ func (o SparseClaimsList) Version() int {
 // SparseClaims represents the sparse version of a claims.
 type SparseClaims struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
@@ -1012,7 +1076,7 @@ type SparseClaims struct {
 	// you must first clob `content` as an string array in the form `key=value`, sort
 	// it
 	// then apply the XXH64 function.
-	Hash *string `json:"hash,omitempty" msgpack:"hash,omitempty" bson:"-" mapstructure:"hash,omitempty"`
+	Hash *string `json:"hash,omitempty" msgpack:"hash,omitempty" bson:"hash,omitempty" mapstructure:"hash,omitempty"`
 
 	// Contains the date of the last appearance of the claims.
 	LastSeen *time.Time `json:"-" msgpack:"-" bson:"lastseen,omitempty" mapstructure:"-,omitempty"`
@@ -1066,6 +1130,124 @@ func (o *SparseClaims) Identifier() string {
 func (o *SparseClaims) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseClaims) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseClaims{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.Content != nil {
+		s.Content = o.Content
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.FirstSeen != nil {
+		s.FirstSeen = o.FirstSeen
+	}
+	if o.Hash != nil {
+		s.Hash = o.Hash
+	}
+	if o.LastSeen != nil {
+		s.LastSeen = o.LastSeen
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseClaims) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseClaims{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.Content != nil {
+		o.Content = s.Content
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.FirstSeen != nil {
+		o.FirstSeen = s.FirstSeen
+	}
+	if s.Hash != nil {
+		o.Hash = s.Hash
+	}
+	if s.LastSeen != nil {
+		o.LastSeen = s.LastSeen
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1269,4 +1451,39 @@ func (o *SparseClaims) DeepCopyInto(out *SparseClaims) {
 	}
 
 	*out = *target.(*SparseClaims)
+}
+
+type mongoAttributesClaims struct {
+	ID                   bson.ObjectId       `bson:"_id"`
+	Annotations          map[string][]string `bson:"annotations"`
+	AssociatedTags       []string            `bson:"associatedtags"`
+	Content              map[string]string   `bson:"content"`
+	CreateIdempotencyKey string              `bson:"createidempotencykey"`
+	FirstSeen            time.Time           `bson:"firstseen"`
+	Hash                 string              `bson:"hash"`
+	LastSeen             time.Time           `bson:"lastseen"`
+	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	Namespace            string              `bson:"namespace"`
+	NormalizedTags       []string            `bson:"normalizedtags"`
+	Protected            bool                `bson:"protected"`
+	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
+	ZHash                int                 `bson:"zhash"`
+	Zone                 int                 `bson:"zone"`
+}
+type mongoAttributesSparseClaims struct {
+	ID                   bson.ObjectId        `bson:"_id"`
+	Annotations          *map[string][]string `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
+	Content              *map[string]string   `bson:"content,omitempty"`
+	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
+	FirstSeen            *time.Time           `bson:"firstseen,omitempty"`
+	Hash                 *string              `bson:"hash,omitempty"`
+	LastSeen             *time.Time           `bson:"lastseen,omitempty"`
+	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
+	Namespace            *string              `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Protected            *bool                `bson:"protected,omitempty"`
+	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
+	ZHash                *int                 `bson:"zhash,omitempty"`
+	Zone                 *int                 `bson:"zone,omitempty"`
 }

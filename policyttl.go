@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -81,7 +82,7 @@ func (o PolicyTTLsList) Version() int {
 // PolicyTTL represents the model of a policyttl
 type PolicyTTL struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
 	ExpirationTime time.Time `json:"-" msgpack:"-" bson:"expirationtime" mapstructure:"-,omitempty"`
@@ -113,6 +114,41 @@ func (o *PolicyTTL) Identifier() string {
 func (o *PolicyTTL) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PolicyTTL) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesPolicyTTL{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.ExpirationTime = o.ExpirationTime
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PolicyTTL) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesPolicyTTL{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.ExpirationTime = s.ExpirationTime
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -374,7 +410,7 @@ func (o SparsePolicyTTLsList) Version() int {
 // SparsePolicyTTL represents the sparse version of a policyttl.
 type SparsePolicyTTL struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
 	ExpirationTime *time.Time `json:"-" msgpack:"-" bson:"expirationtime,omitempty" mapstructure:"-,omitempty"`
@@ -406,6 +442,46 @@ func (o *SparsePolicyTTL) Identifier() string {
 func (o *SparsePolicyTTL) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePolicyTTL) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparsePolicyTTL{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ExpirationTime != nil {
+		s.ExpirationTime = o.ExpirationTime
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePolicyTTL) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparsePolicyTTL{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.ExpirationTime != nil {
+		o.ExpirationTime = s.ExpirationTime
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -450,4 +526,13 @@ func (o *SparsePolicyTTL) DeepCopyInto(out *SparsePolicyTTL) {
 	}
 
 	*out = *target.(*SparsePolicyTTL)
+}
+
+type mongoAttributesPolicyTTL struct {
+	ID             bson.ObjectId `bson:"_id"`
+	ExpirationTime time.Time     `bson:"expirationtime"`
+}
+type mongoAttributesSparsePolicyTTL struct {
+	ID             bson.ObjectId `bson:"_id"`
+	ExpirationTime *time.Time    `bson:"expirationtime,omitempty"`
 }

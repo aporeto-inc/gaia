@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -170,6 +171,63 @@ func (o *GraphNode) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *GraphNode) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *GraphNode) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesGraphNode{}
+
+	s.ID = o.ID
+	s.EnforcementStatus = o.EnforcementStatus
+	s.FirstSeen = o.FirstSeen
+	s.GroupID = o.GroupID
+	s.Images = o.Images
+	s.LastSeen = o.LastSeen
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.Status = o.Status
+	s.Tags = o.Tags
+	s.Type = o.Type
+	s.Unreachable = o.Unreachable
+	s.VulnerabilityLevel = o.VulnerabilityLevel
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *GraphNode) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesGraphNode{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID
+	o.EnforcementStatus = s.EnforcementStatus
+	o.FirstSeen = s.FirstSeen
+	o.GroupID = s.GroupID
+	o.Images = s.Images
+	o.LastSeen = s.LastSeen
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.Status = s.Status
+	o.Tags = s.Tags
+	o.Type = s.Type
+	o.Unreachable = s.Unreachable
+	o.VulnerabilityLevel = s.VulnerabilityLevel
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -779,6 +837,115 @@ func (o *SparseGraphNode) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseGraphNode) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseGraphNode{}
+
+	if o.ID != nil {
+		s.ID = o.ID
+	}
+	if o.EnforcementStatus != nil {
+		s.EnforcementStatus = o.EnforcementStatus
+	}
+	if o.FirstSeen != nil {
+		s.FirstSeen = o.FirstSeen
+	}
+	if o.GroupID != nil {
+		s.GroupID = o.GroupID
+	}
+	if o.Images != nil {
+		s.Images = o.Images
+	}
+	if o.LastSeen != nil {
+		s.LastSeen = o.LastSeen
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.Status != nil {
+		s.Status = o.Status
+	}
+	if o.Tags != nil {
+		s.Tags = o.Tags
+	}
+	if o.Type != nil {
+		s.Type = o.Type
+	}
+	if o.Unreachable != nil {
+		s.Unreachable = o.Unreachable
+	}
+	if o.VulnerabilityLevel != nil {
+		s.VulnerabilityLevel = o.VulnerabilityLevel
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseGraphNode) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseGraphNode{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.ID != nil {
+		o.ID = s.ID
+	}
+	if s.EnforcementStatus != nil {
+		o.EnforcementStatus = s.EnforcementStatus
+	}
+	if s.FirstSeen != nil {
+		o.FirstSeen = s.FirstSeen
+	}
+	if s.GroupID != nil {
+		o.GroupID = s.GroupID
+	}
+	if s.Images != nil {
+		o.Images = s.Images
+	}
+	if s.LastSeen != nil {
+		o.LastSeen = s.LastSeen
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.Status != nil {
+		o.Status = s.Status
+	}
+	if s.Tags != nil {
+		o.Tags = s.Tags
+	}
+	if s.Type != nil {
+		o.Type = s.Type
+	}
+	if s.Unreachable != nil {
+		o.Unreachable = s.Unreachable
+	}
+	if s.VulnerabilityLevel != nil {
+		o.VulnerabilityLevel = s.VulnerabilityLevel
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseGraphNode) Version() int {
 
@@ -854,4 +1021,35 @@ func (o *SparseGraphNode) DeepCopyInto(out *SparseGraphNode) {
 	}
 
 	*out = *target.(*SparseGraphNode)
+}
+
+type mongoAttributesGraphNode struct {
+	ID                 string             `bson:"id"`
+	EnforcementStatus  string             `bson:"enforcementstatus"`
+	FirstSeen          time.Time          `bson:"firstseen"`
+	GroupID            string             `bson:"groupid"`
+	Images             []string           `bson:"images"`
+	LastSeen           time.Time          `bson:"lastseen"`
+	Name               string             `bson:"name"`
+	Namespace          string             `bson:"namespace"`
+	Status             string             `bson:"status"`
+	Tags               []string           `bson:"tags"`
+	Type               GraphNodeTypeValue `bson:"type"`
+	Unreachable        bool               `bson:"unreachable"`
+	VulnerabilityLevel string             `bson:"vulnerabilitylevel"`
+}
+type mongoAttributesSparseGraphNode struct {
+	ID                 *string             `bson:"id,omitempty"`
+	EnforcementStatus  *string             `bson:"enforcementstatus,omitempty"`
+	FirstSeen          *time.Time          `bson:"firstseen,omitempty"`
+	GroupID            *string             `bson:"groupid,omitempty"`
+	Images             *[]string           `bson:"images,omitempty"`
+	LastSeen           *time.Time          `bson:"lastseen,omitempty"`
+	Name               *string             `bson:"name,omitempty"`
+	Namespace          *string             `bson:"namespace,omitempty"`
+	Status             *string             `bson:"status,omitempty"`
+	Tags               *[]string           `bson:"tags,omitempty"`
+	Type               *GraphNodeTypeValue `bson:"type,omitempty"`
+	Unreachable        *bool               `bson:"unreachable,omitempty"`
+	VulnerabilityLevel *string             `bson:"vulnerabilitylevel,omitempty"`
 }

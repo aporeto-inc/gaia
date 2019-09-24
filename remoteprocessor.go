@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -142,6 +143,39 @@ func (o *RemoteProcessor) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *RemoteProcessor) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *RemoteProcessor) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesRemoteProcessor{}
+
+	s.RequestID = o.RequestID
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *RemoteProcessor) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesRemoteProcessor{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.RequestID = s.RequestID
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -632,6 +666,43 @@ func (o *SparseRemoteProcessor) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseRemoteProcessor) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseRemoteProcessor{}
+
+	if o.RequestID != nil {
+		s.RequestID = o.RequestID
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseRemoteProcessor) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseRemoteProcessor{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.RequestID != nil {
+		o.RequestID = s.RequestID
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseRemoteProcessor) Version() int {
 
@@ -692,4 +763,11 @@ func (o *SparseRemoteProcessor) DeepCopyInto(out *SparseRemoteProcessor) {
 	}
 
 	*out = *target.(*SparseRemoteProcessor)
+}
+
+type mongoAttributesRemoteProcessor struct {
+	RequestID string `bson:"requestid"`
+}
+type mongoAttributesSparseRemoteProcessor struct {
+	RequestID *string `bson:"requestid,omitempty"`
 }

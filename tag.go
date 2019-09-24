@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -82,7 +83,7 @@ func (o TagsList) Version() int {
 // Tag represents the model of a tag
 type Tag struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Represents the number of times the tag is used.
 	Count int `json:"count" msgpack:"count" bson:"count" mapstructure:"count,omitempty"`
@@ -120,6 +121,45 @@ func (o *Tag) Identifier() string {
 func (o *Tag) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Tag) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesTag{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.Count = o.Count
+	s.Namespace = o.Namespace
+	s.Value = o.Value
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Tag) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesTag{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Count = s.Count
+	o.Namespace = s.Namespace
+	o.Value = s.Value
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -485,7 +525,7 @@ func (o SparseTagsList) Version() int {
 // SparseTag represents the sparse version of a tag.
 type SparseTag struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Represents the number of times the tag is used.
 	Count *int `json:"count,omitempty" msgpack:"count,omitempty" bson:"count,omitempty" mapstructure:"count,omitempty"`
@@ -523,6 +563,58 @@ func (o *SparseTag) Identifier() string {
 func (o *SparseTag) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseTag) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseTag{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.Count != nil {
+		s.Count = o.Count
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.Value != nil {
+		s.Value = o.Value
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseTag) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseTag{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.Count != nil {
+		o.Count = s.Count
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.Value != nil {
+		o.Value = s.Value
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -585,4 +677,17 @@ func (o *SparseTag) DeepCopyInto(out *SparseTag) {
 	}
 
 	*out = *target.(*SparseTag)
+}
+
+type mongoAttributesTag struct {
+	ID        bson.ObjectId `bson:"_id"`
+	Count     int           `bson:"count"`
+	Namespace string        `bson:"namespace"`
+	Value     string        `bson:"value"`
+}
+type mongoAttributesSparseTag struct {
+	ID        bson.ObjectId `bson:"_id"`
+	Count     *int          `bson:"count,omitempty"`
+	Namespace *string       `bson:"namespace,omitempty"`
+	Value     *string       `bson:"value,omitempty"`
 }

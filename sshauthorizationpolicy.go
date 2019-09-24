@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -216,6 +217,73 @@ func (o *SSHAuthorizationPolicy) Identifier() string {
 func (o *SSHAuthorizationPolicy) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SSHAuthorizationPolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSSHAuthorizationPolicy{}
+
+	s.ActiveDuration = o.ActiveDuration
+	s.ActiveSchedule = o.ActiveSchedule
+	s.Annotations = o.Annotations
+	s.AssociatedTags = o.AssociatedTags
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.Disabled = o.Disabled
+	s.ExpirationTime = o.ExpirationTime
+	s.Fallback = o.Fallback
+	s.Metadata = o.Metadata
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Propagate = o.Propagate
+	s.Protected = o.Protected
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SSHAuthorizationPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSSHAuthorizationPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ActiveDuration = s.ActiveDuration
+	o.ActiveSchedule = s.ActiveSchedule
+	o.Annotations = s.Annotations
+	o.AssociatedTags = s.AssociatedTags
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.Disabled = s.Disabled
+	o.ExpirationTime = s.ExpirationTime
+	o.Fallback = s.Fallback
+	o.Metadata = s.Metadata
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Propagate = s.Propagate
+	o.Protected = s.Protected
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1668,6 +1736,145 @@ func (o *SparseSSHAuthorizationPolicy) SetIdentifier(id string) {
 	o.ID = &id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSSHAuthorizationPolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseSSHAuthorizationPolicy{}
+
+	if o.ActiveDuration != nil {
+		s.ActiveDuration = o.ActiveDuration
+	}
+	if o.ActiveSchedule != nil {
+		s.ActiveSchedule = o.ActiveSchedule
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Disabled != nil {
+		s.Disabled = o.Disabled
+	}
+	if o.ExpirationTime != nil {
+		s.ExpirationTime = o.ExpirationTime
+	}
+	if o.Fallback != nil {
+		s.Fallback = o.Fallback
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSSHAuthorizationPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseSSHAuthorizationPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.ActiveDuration != nil {
+		o.ActiveDuration = s.ActiveDuration
+	}
+	if s.ActiveSchedule != nil {
+		o.ActiveSchedule = s.ActiveSchedule
+	}
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Disabled != nil {
+		o.Disabled = s.Disabled
+	}
+	if s.ExpirationTime != nil {
+		o.ExpirationTime = s.ExpirationTime
+	}
+	if s.Fallback != nil {
+		o.Fallback = s.Fallback
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseSSHAuthorizationPolicy) Version() int {
 
@@ -1998,4 +2205,45 @@ func (o *SparseSSHAuthorizationPolicy) DeepCopyInto(out *SparseSSHAuthorizationP
 	}
 
 	*out = *target.(*SparseSSHAuthorizationPolicy)
+}
+
+type mongoAttributesSSHAuthorizationPolicy struct {
+	ActiveDuration       string              `bson:"activeduration"`
+	ActiveSchedule       string              `bson:"activeschedule"`
+	Annotations          map[string][]string `bson:"annotations"`
+	AssociatedTags       []string            `bson:"associatedtags"`
+	CreateIdempotencyKey string              `bson:"createidempotencykey"`
+	CreateTime           time.Time           `bson:"createtime"`
+	Description          string              `bson:"description"`
+	Disabled             bool                `bson:"disabled"`
+	ExpirationTime       time.Time           `bson:"expirationtime"`
+	Fallback             bool                `bson:"fallback"`
+	Metadata             []string            `bson:"metadata"`
+	Name                 string              `bson:"name"`
+	Namespace            string              `bson:"namespace"`
+	NormalizedTags       []string            `bson:"normalizedtags"`
+	Propagate            bool                `bson:"propagate"`
+	Protected            bool                `bson:"protected"`
+	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
+	UpdateTime           time.Time           `bson:"updatetime"`
+}
+type mongoAttributesSparseSSHAuthorizationPolicy struct {
+	ActiveDuration       *string              `bson:"activeduration,omitempty"`
+	ActiveSchedule       *string              `bson:"activeschedule,omitempty"`
+	Annotations          *map[string][]string `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time           `bson:"createtime,omitempty"`
+	Description          *string              `bson:"description,omitempty"`
+	Disabled             *bool                `bson:"disabled,omitempty"`
+	ExpirationTime       *time.Time           `bson:"expirationtime,omitempty"`
+	Fallback             *bool                `bson:"fallback,omitempty"`
+	Metadata             *[]string            `bson:"metadata,omitempty"`
+	Name                 *string              `bson:"name,omitempty"`
+	Namespace            *string              `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Propagate            *bool                `bson:"propagate,omitempty"`
+	Protected            *bool                `bson:"protected,omitempty"`
+	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
 }

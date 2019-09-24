@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -112,7 +113,7 @@ func (o EnforcerProfilesList) Version() int {
 // EnforcerProfile represents the model of a enforcerprofile
 type EnforcerProfile struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -242,6 +243,89 @@ func (o *EnforcerProfile) Identifier() string {
 func (o *EnforcerProfile) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *EnforcerProfile) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesEnforcerProfile{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.Annotations = o.Annotations
+	s.AssociatedTags = o.AssociatedTags
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.ExcludedInterfaces = o.ExcludedInterfaces
+	s.ExcludedNetworks = o.ExcludedNetworks
+	s.IgnoreExpression = o.IgnoreExpression
+	s.KubernetesMetadataExtractor = o.KubernetesMetadataExtractor
+	s.KubernetesSupportEnabled = o.KubernetesSupportEnabled
+	s.Metadata = o.Metadata
+	s.MetadataExtractor = o.MetadataExtractor
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Propagate = o.Propagate
+	s.Protected = o.Protected
+	s.TargetNetworks = o.TargetNetworks
+	s.TargetUDPNetworks = o.TargetUDPNetworks
+	s.TrustedCAs = o.TrustedCAs
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *EnforcerProfile) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesEnforcerProfile{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Annotations = s.Annotations
+	o.AssociatedTags = s.AssociatedTags
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.ExcludedInterfaces = s.ExcludedInterfaces
+	o.ExcludedNetworks = s.ExcludedNetworks
+	o.IgnoreExpression = s.IgnoreExpression
+	o.KubernetesMetadataExtractor = s.KubernetesMetadataExtractor
+	o.KubernetesSupportEnabled = s.KubernetesSupportEnabled
+	o.Metadata = s.Metadata
+	o.MetadataExtractor = s.MetadataExtractor
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Propagate = s.Propagate
+	o.Protected = s.Protected
+	o.TargetNetworks = s.TargetNetworks
+	o.TargetUDPNetworks = s.TargetUDPNetworks
+	o.TrustedCAs = s.TrustedCAs
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1557,7 +1641,7 @@ func (o SparseEnforcerProfilesList) Version() int {
 // SparseEnforcerProfile represents the sparse version of a enforcerprofile.
 type SparseEnforcerProfile struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
@@ -1674,6 +1758,190 @@ func (o *SparseEnforcerProfile) Identifier() string {
 func (o *SparseEnforcerProfile) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEnforcerProfile) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseEnforcerProfile{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.ExcludedInterfaces != nil {
+		s.ExcludedInterfaces = o.ExcludedInterfaces
+	}
+	if o.ExcludedNetworks != nil {
+		s.ExcludedNetworks = o.ExcludedNetworks
+	}
+	if o.IgnoreExpression != nil {
+		s.IgnoreExpression = o.IgnoreExpression
+	}
+	if o.KubernetesMetadataExtractor != nil {
+		s.KubernetesMetadataExtractor = o.KubernetesMetadataExtractor
+	}
+	if o.KubernetesSupportEnabled != nil {
+		s.KubernetesSupportEnabled = o.KubernetesSupportEnabled
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.MetadataExtractor != nil {
+		s.MetadataExtractor = o.MetadataExtractor
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.TargetNetworks != nil {
+		s.TargetNetworks = o.TargetNetworks
+	}
+	if o.TargetUDPNetworks != nil {
+		s.TargetUDPNetworks = o.TargetUDPNetworks
+	}
+	if o.TrustedCAs != nil {
+		s.TrustedCAs = o.TrustedCAs
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEnforcerProfile) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseEnforcerProfile{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.ExcludedInterfaces != nil {
+		o.ExcludedInterfaces = s.ExcludedInterfaces
+	}
+	if s.ExcludedNetworks != nil {
+		o.ExcludedNetworks = s.ExcludedNetworks
+	}
+	if s.IgnoreExpression != nil {
+		o.IgnoreExpression = s.IgnoreExpression
+	}
+	if s.KubernetesMetadataExtractor != nil {
+		o.KubernetesMetadataExtractor = s.KubernetesMetadataExtractor
+	}
+	if s.KubernetesSupportEnabled != nil {
+		o.KubernetesSupportEnabled = s.KubernetesSupportEnabled
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.MetadataExtractor != nil {
+		o.MetadataExtractor = s.MetadataExtractor
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.TargetNetworks != nil {
+		o.TargetNetworks = s.TargetNetworks
+	}
+	if s.TargetUDPNetworks != nil {
+		o.TargetUDPNetworks = s.TargetUDPNetworks
+	}
+	if s.TrustedCAs != nil {
+		o.TrustedCAs = s.TrustedCAs
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1982,4 +2250,61 @@ func (o *SparseEnforcerProfile) DeepCopyInto(out *SparseEnforcerProfile) {
 	}
 
 	*out = *target.(*SparseEnforcerProfile)
+}
+
+type mongoAttributesEnforcerProfile struct {
+	ID                          bson.ObjectId                                   `bson:"_id"`
+	Annotations                 map[string][]string                             `bson:"annotations"`
+	AssociatedTags              []string                                        `bson:"associatedtags"`
+	CreateIdempotencyKey        string                                          `bson:"createidempotencykey"`
+	CreateTime                  time.Time                                       `bson:"createtime"`
+	Description                 string                                          `bson:"description"`
+	ExcludedInterfaces          []string                                        `bson:"excludedinterfaces"`
+	ExcludedNetworks            []string                                        `bson:"excludednetworks"`
+	IgnoreExpression            [][]string                                      `bson:"ignoreexpression"`
+	KubernetesMetadataExtractor EnforcerProfileKubernetesMetadataExtractorValue `bson:"kubernetesmetadataextractor"`
+	KubernetesSupportEnabled    bool                                            `bson:"kubernetessupportenabled"`
+	Metadata                    []string                                        `bson:"metadata"`
+	MetadataExtractor           EnforcerProfileMetadataExtractorValue           `bson:"metadataextractor"`
+	MigrationsLog               map[string]string                               `bson:"migrationslog"`
+	Name                        string                                          `bson:"name"`
+	Namespace                   string                                          `bson:"namespace"`
+	NormalizedTags              []string                                        `bson:"normalizedtags"`
+	Propagate                   bool                                            `bson:"propagate"`
+	Protected                   bool                                            `bson:"protected"`
+	TargetNetworks              []string                                        `bson:"targetnetworks"`
+	TargetUDPNetworks           []string                                        `bson:"targetudpnetworks"`
+	TrustedCAs                  []string                                        `bson:"trustedcas"`
+	UpdateIdempotencyKey        string                                          `bson:"updateidempotencykey"`
+	UpdateTime                  time.Time                                       `bson:"updatetime"`
+	ZHash                       int                                             `bson:"zhash"`
+	Zone                        int                                             `bson:"zone"`
+}
+type mongoAttributesSparseEnforcerProfile struct {
+	ID                          bson.ObjectId                                    `bson:"_id"`
+	Annotations                 *map[string][]string                             `bson:"annotations,omitempty"`
+	AssociatedTags              *[]string                                        `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey        *string                                          `bson:"createidempotencykey,omitempty"`
+	CreateTime                  *time.Time                                       `bson:"createtime,omitempty"`
+	Description                 *string                                          `bson:"description,omitempty"`
+	ExcludedInterfaces          *[]string                                        `bson:"excludedinterfaces,omitempty"`
+	ExcludedNetworks            *[]string                                        `bson:"excludednetworks,omitempty"`
+	IgnoreExpression            *[][]string                                      `bson:"ignoreexpression,omitempty"`
+	KubernetesMetadataExtractor *EnforcerProfileKubernetesMetadataExtractorValue `bson:"kubernetesmetadataextractor,omitempty"`
+	KubernetesSupportEnabled    *bool                                            `bson:"kubernetessupportenabled,omitempty"`
+	Metadata                    *[]string                                        `bson:"metadata,omitempty"`
+	MetadataExtractor           *EnforcerProfileMetadataExtractorValue           `bson:"metadataextractor,omitempty"`
+	MigrationsLog               *map[string]string                               `bson:"migrationslog,omitempty"`
+	Name                        *string                                          `bson:"name,omitempty"`
+	Namespace                   *string                                          `bson:"namespace,omitempty"`
+	NormalizedTags              *[]string                                        `bson:"normalizedtags,omitempty"`
+	Propagate                   *bool                                            `bson:"propagate,omitempty"`
+	Protected                   *bool                                            `bson:"protected,omitempty"`
+	TargetNetworks              *[]string                                        `bson:"targetnetworks,omitempty"`
+	TargetUDPNetworks           *[]string                                        `bson:"targetudpnetworks,omitempty"`
+	TrustedCAs                  *[]string                                        `bson:"trustedcas,omitempty"`
+	UpdateIdempotencyKey        *string                                          `bson:"updateidempotencykey,omitempty"`
+	UpdateTime                  *time.Time                                       `bson:"updatetime,omitempty"`
+	ZHash                       *int                                             `bson:"zhash,omitempty"`
+	Zone                        *int                                             `bson:"zone,omitempty"`
 }

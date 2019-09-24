@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -161,6 +162,39 @@ func (o *PolicyRule) Identifier() string {
 func (o *PolicyRule) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PolicyRule) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesPolicyRule{}
+
+	s.Name = o.Name
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PolicyRule) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesPolicyRule{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Name = s.Name
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -969,6 +1003,43 @@ func (o *SparsePolicyRule) SetIdentifier(id string) {
 	o.ID = &id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePolicyRule) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparsePolicyRule{}
+
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePolicyRule) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparsePolicyRule{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparsePolicyRule) Version() int {
 
@@ -1065,4 +1136,11 @@ func (o *SparsePolicyRule) DeepCopyInto(out *SparsePolicyRule) {
 	}
 
 	*out = *target.(*SparsePolicyRule)
+}
+
+type mongoAttributesPolicyRule struct {
+	Name string `bson:"name"`
+}
+type mongoAttributesSparsePolicyRule struct {
+	Name *string `bson:"name,omitempty"`
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -109,7 +110,7 @@ func (o GraphEdgesList) Version() int {
 // GraphEdge represents the model of a graphedge
 type GraphEdge struct {
 	// DB Identifier of the edge.
-	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Number of accepted flows in the edge.
 	AcceptedFlows int `json:"acceptedFlows" msgpack:"acceptedFlows" bson:"acceptedflows" mapstructure:"acceptedFlows,omitempty"`
@@ -190,6 +191,73 @@ func (o *GraphEdge) Identifier() string {
 func (o *GraphEdge) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *GraphEdge) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesGraphEdge{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.AcceptedFlows = o.AcceptedFlows
+	s.CreateTime = o.CreateTime
+	s.DestinationID = o.DestinationID
+	s.DestinationType = o.DestinationType
+	s.Encrypted = o.Encrypted
+	s.FirstSeen = o.FirstSeen
+	s.FlowID = o.FlowID
+	s.LastSeen = o.LastSeen
+	s.Namespace = o.Namespace
+	s.ObservedAcceptedFlows = o.ObservedAcceptedFlows
+	s.ObservedEncrypted = o.ObservedEncrypted
+	s.ObservedRejectedFlows = o.ObservedRejectedFlows
+	s.RejectedFlows = o.RejectedFlows
+	s.SourceID = o.SourceID
+	s.SourceType = o.SourceType
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *GraphEdge) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesGraphEdge{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.AcceptedFlows = s.AcceptedFlows
+	o.CreateTime = s.CreateTime
+	o.DestinationID = s.DestinationID
+	o.DestinationType = s.DestinationType
+	o.Encrypted = s.Encrypted
+	o.FirstSeen = s.FirstSeen
+	o.FlowID = s.FlowID
+	o.LastSeen = s.LastSeen
+	o.Namespace = s.Namespace
+	o.ObservedAcceptedFlows = s.ObservedAcceptedFlows
+	o.ObservedEncrypted = s.ObservedEncrypted
+	o.ObservedRejectedFlows = s.ObservedRejectedFlows
+	o.RejectedFlows = s.RejectedFlows
+	o.SourceID = s.SourceID
+	o.SourceType = s.SourceType
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -906,7 +974,7 @@ func (o SparseGraphEdgesList) Version() int {
 // SparseGraphEdge represents the sparse version of a graphedge.
 type SparseGraphEdge struct {
 	// DB Identifier of the edge.
-	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID *string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Number of accepted flows in the edge.
 	AcceptedFlows *int `json:"acceptedFlows,omitempty" msgpack:"acceptedFlows,omitempty" bson:"acceptedflows,omitempty" mapstructure:"acceptedFlows,omitempty"`
@@ -987,6 +1055,142 @@ func (o *SparseGraphEdge) Identifier() string {
 func (o *SparseGraphEdge) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseGraphEdge) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseGraphEdge{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.AcceptedFlows != nil {
+		s.AcceptedFlows = o.AcceptedFlows
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.DestinationID != nil {
+		s.DestinationID = o.DestinationID
+	}
+	if o.DestinationType != nil {
+		s.DestinationType = o.DestinationType
+	}
+	if o.Encrypted != nil {
+		s.Encrypted = o.Encrypted
+	}
+	if o.FirstSeen != nil {
+		s.FirstSeen = o.FirstSeen
+	}
+	if o.FlowID != nil {
+		s.FlowID = o.FlowID
+	}
+	if o.LastSeen != nil {
+		s.LastSeen = o.LastSeen
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.ObservedAcceptedFlows != nil {
+		s.ObservedAcceptedFlows = o.ObservedAcceptedFlows
+	}
+	if o.ObservedEncrypted != nil {
+		s.ObservedEncrypted = o.ObservedEncrypted
+	}
+	if o.ObservedRejectedFlows != nil {
+		s.ObservedRejectedFlows = o.ObservedRejectedFlows
+	}
+	if o.RejectedFlows != nil {
+		s.RejectedFlows = o.RejectedFlows
+	}
+	if o.SourceID != nil {
+		s.SourceID = o.SourceID
+	}
+	if o.SourceType != nil {
+		s.SourceType = o.SourceType
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseGraphEdge) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseGraphEdge{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.AcceptedFlows != nil {
+		o.AcceptedFlows = s.AcceptedFlows
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.DestinationID != nil {
+		o.DestinationID = s.DestinationID
+	}
+	if s.DestinationType != nil {
+		o.DestinationType = s.DestinationType
+	}
+	if s.Encrypted != nil {
+		o.Encrypted = s.Encrypted
+	}
+	if s.FirstSeen != nil {
+		o.FirstSeen = s.FirstSeen
+	}
+	if s.FlowID != nil {
+		o.FlowID = s.FlowID
+	}
+	if s.LastSeen != nil {
+		o.LastSeen = s.LastSeen
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.ObservedAcceptedFlows != nil {
+		o.ObservedAcceptedFlows = s.ObservedAcceptedFlows
+	}
+	if s.ObservedEncrypted != nil {
+		o.ObservedEncrypted = s.ObservedEncrypted
+	}
+	if s.ObservedRejectedFlows != nil {
+		o.ObservedRejectedFlows = s.ObservedRejectedFlows
+	}
+	if s.RejectedFlows != nil {
+		o.RejectedFlows = s.RejectedFlows
+	}
+	if s.SourceID != nil {
+		o.SourceID = s.SourceID
+	}
+	if s.SourceType != nil {
+		o.SourceType = s.SourceType
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1103,4 +1307,45 @@ func (o *SparseGraphEdge) DeepCopyInto(out *SparseGraphEdge) {
 	}
 
 	*out = *target.(*SparseGraphEdge)
+}
+
+type mongoAttributesGraphEdge struct {
+	ID                    bson.ObjectId                 `bson:"_id"`
+	AcceptedFlows         int                           `bson:"acceptedflows"`
+	CreateTime            time.Time                     `bson:"createtime"`
+	DestinationID         string                        `bson:"destinationid"`
+	DestinationType       GraphEdgeDestinationTypeValue `bson:"destinationtype"`
+	Encrypted             int                           `bson:"encrypted"`
+	FirstSeen             time.Time                     `bson:"firstseen"`
+	FlowID                string                        `bson:"flowid"`
+	LastSeen              time.Time                     `bson:"lastseen"`
+	Namespace             string                        `bson:"namespace"`
+	ObservedAcceptedFlows int                           `bson:"observedacceptedflows"`
+	ObservedEncrypted     int                           `bson:"observedencrypted"`
+	ObservedRejectedFlows int                           `bson:"observedrejectedflows"`
+	RejectedFlows         int                           `bson:"rejectedflows"`
+	SourceID              string                        `bson:"sourceid"`
+	SourceType            GraphEdgeSourceTypeValue      `bson:"sourcetype"`
+	ZHash                 int                           `bson:"zhash"`
+	Zone                  int                           `bson:"zone"`
+}
+type mongoAttributesSparseGraphEdge struct {
+	ID                    bson.ObjectId                  `bson:"_id"`
+	AcceptedFlows         *int                           `bson:"acceptedflows,omitempty"`
+	CreateTime            *time.Time                     `bson:"createtime,omitempty"`
+	DestinationID         *string                        `bson:"destinationid,omitempty"`
+	DestinationType       *GraphEdgeDestinationTypeValue `bson:"destinationtype,omitempty"`
+	Encrypted             *int                           `bson:"encrypted,omitempty"`
+	FirstSeen             *time.Time                     `bson:"firstseen,omitempty"`
+	FlowID                *string                        `bson:"flowid,omitempty"`
+	LastSeen              *time.Time                     `bson:"lastseen,omitempty"`
+	Namespace             *string                        `bson:"namespace,omitempty"`
+	ObservedAcceptedFlows *int                           `bson:"observedacceptedflows,omitempty"`
+	ObservedEncrypted     *int                           `bson:"observedencrypted,omitempty"`
+	ObservedRejectedFlows *int                           `bson:"observedrejectedflows,omitempty"`
+	RejectedFlows         *int                           `bson:"rejectedflows,omitempty"`
+	SourceID              *string                        `bson:"sourceid,omitempty"`
+	SourceType            *GraphEdgeSourceTypeValue      `bson:"sourcetype,omitempty"`
+	ZHash                 *int                           `bson:"zhash,omitempty"`
+	Zone                  *int                           `bson:"zone,omitempty"`
 }

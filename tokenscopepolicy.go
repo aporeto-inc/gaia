@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -200,6 +201,83 @@ func (o *TokenScopePolicy) Identifier() string {
 func (o *TokenScopePolicy) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *TokenScopePolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesTokenScopePolicy{}
+
+	s.ActiveDuration = o.ActiveDuration
+	s.ActiveSchedule = o.ActiveSchedule
+	s.AllowedAudiences = o.AllowedAudiences
+	s.Annotations = o.Annotations
+	s.AssignedAudience = o.AssignedAudience
+	s.AssignedScopes = o.AssignedScopes
+	s.AssociatedTags = o.AssociatedTags
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.Disabled = o.Disabled
+	s.ExpirationTime = o.ExpirationTime
+	s.Fallback = o.Fallback
+	s.InheritedClaimKeys = o.InheritedClaimKeys
+	s.Metadata = o.Metadata
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Propagate = o.Propagate
+	s.Protected = o.Protected
+	s.Subject = o.Subject
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *TokenScopePolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesTokenScopePolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ActiveDuration = s.ActiveDuration
+	o.ActiveSchedule = s.ActiveSchedule
+	o.AllowedAudiences = s.AllowedAudiences
+	o.Annotations = s.Annotations
+	o.AssignedAudience = s.AssignedAudience
+	o.AssignedScopes = s.AssignedScopes
+	o.AssociatedTags = s.AssociatedTags
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.Disabled = s.Disabled
+	o.ExpirationTime = s.ExpirationTime
+	o.Fallback = s.Fallback
+	o.InheritedClaimKeys = s.InheritedClaimKeys
+	o.Metadata = s.Metadata
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Propagate = s.Propagate
+	o.Protected = s.Protected
+	o.Subject = s.Subject
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1572,6 +1650,175 @@ func (o *SparseTokenScopePolicy) SetIdentifier(id string) {
 	o.ID = &id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseTokenScopePolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseTokenScopePolicy{}
+
+	if o.ActiveDuration != nil {
+		s.ActiveDuration = o.ActiveDuration
+	}
+	if o.ActiveSchedule != nil {
+		s.ActiveSchedule = o.ActiveSchedule
+	}
+	if o.AllowedAudiences != nil {
+		s.AllowedAudiences = o.AllowedAudiences
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssignedAudience != nil {
+		s.AssignedAudience = o.AssignedAudience
+	}
+	if o.AssignedScopes != nil {
+		s.AssignedScopes = o.AssignedScopes
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Disabled != nil {
+		s.Disabled = o.Disabled
+	}
+	if o.ExpirationTime != nil {
+		s.ExpirationTime = o.ExpirationTime
+	}
+	if o.Fallback != nil {
+		s.Fallback = o.Fallback
+	}
+	if o.InheritedClaimKeys != nil {
+		s.InheritedClaimKeys = o.InheritedClaimKeys
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.Subject != nil {
+		s.Subject = o.Subject
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseTokenScopePolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseTokenScopePolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.ActiveDuration != nil {
+		o.ActiveDuration = s.ActiveDuration
+	}
+	if s.ActiveSchedule != nil {
+		o.ActiveSchedule = s.ActiveSchedule
+	}
+	if s.AllowedAudiences != nil {
+		o.AllowedAudiences = s.AllowedAudiences
+	}
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssignedAudience != nil {
+		o.AssignedAudience = s.AssignedAudience
+	}
+	if s.AssignedScopes != nil {
+		o.AssignedScopes = s.AssignedScopes
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Disabled != nil {
+		o.Disabled = s.Disabled
+	}
+	if s.ExpirationTime != nil {
+		o.ExpirationTime = s.ExpirationTime
+	}
+	if s.Fallback != nil {
+		o.Fallback = s.Fallback
+	}
+	if s.InheritedClaimKeys != nil {
+		o.InheritedClaimKeys = s.InheritedClaimKeys
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.Subject != nil {
+		o.Subject = s.Subject
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseTokenScopePolicy) Version() int {
 
@@ -1896,4 +2143,55 @@ func (o *SparseTokenScopePolicy) DeepCopyInto(out *SparseTokenScopePolicy) {
 	}
 
 	*out = *target.(*SparseTokenScopePolicy)
+}
+
+type mongoAttributesTokenScopePolicy struct {
+	ActiveDuration       string              `bson:"activeduration"`
+	ActiveSchedule       string              `bson:"activeschedule"`
+	AllowedAudiences     []string            `bson:"allowedaudiences"`
+	Annotations          map[string][]string `bson:"annotations"`
+	AssignedAudience     string              `bson:"assignedaudience"`
+	AssignedScopes       []string            `bson:"assignedscopes"`
+	AssociatedTags       []string            `bson:"associatedtags"`
+	CreateIdempotencyKey string              `bson:"createidempotencykey"`
+	CreateTime           time.Time           `bson:"createtime"`
+	Description          string              `bson:"description"`
+	Disabled             bool                `bson:"disabled"`
+	ExpirationTime       time.Time           `bson:"expirationtime"`
+	Fallback             bool                `bson:"fallback"`
+	InheritedClaimKeys   []string            `bson:"inheritedclaimkeys"`
+	Metadata             []string            `bson:"metadata"`
+	Name                 string              `bson:"name"`
+	Namespace            string              `bson:"namespace"`
+	NormalizedTags       []string            `bson:"normalizedtags"`
+	Propagate            bool                `bson:"propagate"`
+	Protected            bool                `bson:"protected"`
+	Subject              [][]string          `bson:"subject"`
+	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
+	UpdateTime           time.Time           `bson:"updatetime"`
+}
+type mongoAttributesSparseTokenScopePolicy struct {
+	ActiveDuration       *string              `bson:"activeduration,omitempty"`
+	ActiveSchedule       *string              `bson:"activeschedule,omitempty"`
+	AllowedAudiences     *[]string            `bson:"allowedaudiences,omitempty"`
+	Annotations          *map[string][]string `bson:"annotations,omitempty"`
+	AssignedAudience     *string              `bson:"assignedaudience,omitempty"`
+	AssignedScopes       *[]string            `bson:"assignedscopes,omitempty"`
+	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time           `bson:"createtime,omitempty"`
+	Description          *string              `bson:"description,omitempty"`
+	Disabled             *bool                `bson:"disabled,omitempty"`
+	ExpirationTime       *time.Time           `bson:"expirationtime,omitempty"`
+	Fallback             *bool                `bson:"fallback,omitempty"`
+	InheritedClaimKeys   *[]string            `bson:"inheritedclaimkeys,omitempty"`
+	Metadata             *[]string            `bson:"metadata,omitempty"`
+	Name                 *string              `bson:"name,omitempty"`
+	Namespace            *string              `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Propagate            *bool                `bson:"propagate,omitempty"`
+	Protected            *bool                `bson:"protected,omitempty"`
+	Subject              *[][]string          `bson:"subject,omitempty"`
+	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
 }

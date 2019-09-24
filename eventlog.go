@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -155,6 +156,55 @@ func (o *EventLog) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *EventLog) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *EventLog) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesEventLog{}
+
+	s.Category = o.Category
+	s.Content = o.Content
+	s.Date = o.Date
+	s.Level = o.Level
+	s.Namespace = o.Namespace
+	s.Opaque = o.Opaque
+	s.TargetID = o.TargetID
+	s.TargetIdentity = o.TargetIdentity
+	s.Title = o.Title
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *EventLog) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesEventLog{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Category = s.Category
+	o.Content = s.Content
+	o.Date = s.Date
+	o.Level = s.Level
+	o.Namespace = s.Namespace
+	o.Opaque = s.Opaque
+	o.TargetID = s.TargetID
+	o.TargetIdentity = s.TargetIdentity
+	o.Title = s.Title
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -725,6 +775,91 @@ func (o *SparseEventLog) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEventLog) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseEventLog{}
+
+	if o.Category != nil {
+		s.Category = o.Category
+	}
+	if o.Content != nil {
+		s.Content = o.Content
+	}
+	if o.Date != nil {
+		s.Date = o.Date
+	}
+	if o.Level != nil {
+		s.Level = o.Level
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.Opaque != nil {
+		s.Opaque = o.Opaque
+	}
+	if o.TargetID != nil {
+		s.TargetID = o.TargetID
+	}
+	if o.TargetIdentity != nil {
+		s.TargetIdentity = o.TargetIdentity
+	}
+	if o.Title != nil {
+		s.Title = o.Title
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEventLog) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseEventLog{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Category != nil {
+		o.Category = s.Category
+	}
+	if s.Content != nil {
+		o.Content = s.Content
+	}
+	if s.Date != nil {
+		o.Date = s.Date
+	}
+	if s.Level != nil {
+		o.Level = s.Level
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.Opaque != nil {
+		o.Opaque = s.Opaque
+	}
+	if s.TargetID != nil {
+		o.TargetID = s.TargetID
+	}
+	if s.TargetIdentity != nil {
+		o.TargetIdentity = s.TargetIdentity
+	}
+	if s.Title != nil {
+		o.Title = s.Title
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseEventLog) Version() int {
 
@@ -800,4 +935,27 @@ func (o *SparseEventLog) DeepCopyInto(out *SparseEventLog) {
 	}
 
 	*out = *target.(*SparseEventLog)
+}
+
+type mongoAttributesEventLog struct {
+	Category       string             `bson:"category"`
+	Content        string             `bson:"content"`
+	Date           time.Time          `bson:"date"`
+	Level          EventLogLevelValue `bson:"level"`
+	Namespace      string             `bson:"namespace"`
+	Opaque         string             `bson:"opaque"`
+	TargetID       string             `bson:"targetid"`
+	TargetIdentity string             `bson:"targetidentity"`
+	Title          string             `bson:"title"`
+}
+type mongoAttributesSparseEventLog struct {
+	Category       *string             `bson:"category,omitempty"`
+	Content        *string             `bson:"content,omitempty"`
+	Date           *time.Time          `bson:"date,omitempty"`
+	Level          *EventLogLevelValue `bson:"level,omitempty"`
+	Namespace      *string             `bson:"namespace,omitempty"`
+	Opaque         *string             `bson:"opaque,omitempty"`
+	TargetID       *string             `bson:"targetid,omitempty"`
+	TargetIdentity *string             `bson:"targetidentity,omitempty"`
+	Title          *string             `bson:"title,omitempty"`
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -112,7 +113,7 @@ func (o CustomersList) Version() int {
 // Customer represents the model of a customer
 type Customer struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -167,6 +168,53 @@ func (o *Customer) Identifier() string {
 func (o *Customer) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Customer) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesCustomer{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.CreateTime = o.CreateTime
+	s.LastReportTime = o.LastReportTime
+	s.Provider = o.Provider
+	s.ProviderCustomerID = o.ProviderCustomerID
+	s.ProviderProductID = o.ProviderProductID
+	s.State = o.State
+	s.UpdateTime = o.UpdateTime
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Customer) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesCustomer{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.CreateTime = s.CreateTime
+	o.LastReportTime = s.LastReportTime
+	o.Provider = s.Provider
+	o.ProviderCustomerID = s.ProviderCustomerID
+	o.ProviderProductID = s.ProviderProductID
+	o.State = s.State
+	o.UpdateTime = s.UpdateTime
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -658,7 +706,7 @@ func (o SparseCustomersList) Version() int {
 // SparseCustomer represents the sparse version of a customer.
 type SparseCustomer struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
@@ -711,6 +759,82 @@ func (o *SparseCustomer) Identifier() string {
 func (o *SparseCustomer) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseCustomer) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseCustomer{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.LastReportTime != nil {
+		s.LastReportTime = o.LastReportTime
+	}
+	if o.Provider != nil {
+		s.Provider = o.Provider
+	}
+	if o.ProviderCustomerID != nil {
+		s.ProviderCustomerID = o.ProviderCustomerID
+	}
+	if o.ProviderProductID != nil {
+		s.ProviderProductID = o.ProviderProductID
+	}
+	if o.State != nil {
+		s.State = o.State
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseCustomer) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseCustomer{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.LastReportTime != nil {
+		o.LastReportTime = s.LastReportTime
+	}
+	if s.Provider != nil {
+		o.Provider = s.Provider
+	}
+	if s.ProviderCustomerID != nil {
+		o.ProviderCustomerID = s.ProviderCustomerID
+	}
+	if s.ProviderProductID != nil {
+		o.ProviderProductID = s.ProviderProductID
+	}
+	if s.State != nil {
+		o.State = s.State
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -797,4 +921,25 @@ func (o *SparseCustomer) DeepCopyInto(out *SparseCustomer) {
 	}
 
 	*out = *target.(*SparseCustomer)
+}
+
+type mongoAttributesCustomer struct {
+	ID                 bson.ObjectId         `bson:"_id"`
+	CreateTime         time.Time             `bson:"createtime"`
+	LastReportTime     time.Time             `bson:"lastreporttime"`
+	Provider           CustomerProviderValue `bson:"provider"`
+	ProviderCustomerID string                `bson:"providercustomerid"`
+	ProviderProductID  string                `bson:"providerproductid"`
+	State              CustomerStateValue    `bson:"state"`
+	UpdateTime         time.Time             `bson:"updatetime"`
+}
+type mongoAttributesSparseCustomer struct {
+	ID                 bson.ObjectId          `bson:"_id"`
+	CreateTime         *time.Time             `bson:"createtime,omitempty"`
+	LastReportTime     *time.Time             `bson:"lastreporttime,omitempty"`
+	Provider           *CustomerProviderValue `bson:"provider,omitempty"`
+	ProviderCustomerID *string                `bson:"providercustomerid,omitempty"`
+	ProviderProductID  *string                `bson:"providerproductid,omitempty"`
+	State              *CustomerStateValue    `bson:"state,omitempty"`
+	UpdateTime         *time.Time             `bson:"updatetime,omitempty"`
 }

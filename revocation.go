@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -81,7 +82,7 @@ func (o RevocationsList) Version() int {
 // Revocation represents the model of a revocation
 type Revocation struct {
 	// ID contains the ID of the revocation.
-	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Contains the certificate expiration date. This will be used to clean up revoked
 	// certificates that have expired.
@@ -134,6 +135,53 @@ func (o *Revocation) Identifier() string {
 func (o *Revocation) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Revocation) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesRevocation{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.ExpirationDate = o.ExpirationDate
+	s.MigrationsLog = o.MigrationsLog
+	s.RevokeDate = o.RevokeDate
+	s.SerialNumber = o.SerialNumber
+	s.Subject = o.Subject
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Revocation) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesRevocation{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.ExpirationDate = s.ExpirationDate
+	o.MigrationsLog = s.MigrationsLog
+	o.RevokeDate = s.RevokeDate
+	o.SerialNumber = s.SerialNumber
+	o.Subject = s.Subject
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -612,7 +660,7 @@ func (o SparseRevocationsList) Version() int {
 // SparseRevocation represents the sparse version of a revocation.
 type SparseRevocation struct {
 	// ID contains the ID of the revocation.
-	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID *string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Contains the certificate expiration date. This will be used to clean up revoked
 	// certificates that have expired.
@@ -664,6 +712,82 @@ func (o *SparseRevocation) Identifier() string {
 func (o *SparseRevocation) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseRevocation) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseRevocation{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ExpirationDate != nil {
+		s.ExpirationDate = o.ExpirationDate
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.RevokeDate != nil {
+		s.RevokeDate = o.RevokeDate
+	}
+	if o.SerialNumber != nil {
+		s.SerialNumber = o.SerialNumber
+	}
+	if o.Subject != nil {
+		s.Subject = o.Subject
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseRevocation) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseRevocation{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.ExpirationDate != nil {
+		o.ExpirationDate = s.ExpirationDate
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.RevokeDate != nil {
+		o.RevokeDate = s.RevokeDate
+	}
+	if s.SerialNumber != nil {
+		o.SerialNumber = s.SerialNumber
+	}
+	if s.Subject != nil {
+		o.Subject = s.Subject
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -762,4 +886,25 @@ func (o *SparseRevocation) DeepCopyInto(out *SparseRevocation) {
 	}
 
 	*out = *target.(*SparseRevocation)
+}
+
+type mongoAttributesRevocation struct {
+	ID             bson.ObjectId     `bson:"_id"`
+	ExpirationDate time.Time         `bson:"expirationdate"`
+	MigrationsLog  map[string]string `bson:"migrationslog"`
+	RevokeDate     time.Time         `bson:"revokedate"`
+	SerialNumber   string            `bson:"serialnumber"`
+	Subject        string            `bson:"subject"`
+	ZHash          int               `bson:"zhash"`
+	Zone           int               `bson:"zone"`
+}
+type mongoAttributesSparseRevocation struct {
+	ID             bson.ObjectId      `bson:"_id"`
+	ExpirationDate *time.Time         `bson:"expirationdate,omitempty"`
+	MigrationsLog  *map[string]string `bson:"migrationslog,omitempty"`
+	RevokeDate     *time.Time         `bson:"revokedate,omitempty"`
+	SerialNumber   *string            `bson:"serialnumber,omitempty"`
+	Subject        *string            `bson:"subject,omitempty"`
+	ZHash          *int               `bson:"zhash,omitempty"`
+	Zone           *int               `bson:"zone,omitempty"`
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -98,7 +99,7 @@ func (o AccountsList) Version() int {
 // Account represents the model of a account
 type Account struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Enable or disable two-factor authentication.
 	OTPEnabled bool `json:"OTPEnabled" msgpack:"OTPEnabled" bson:"otpenabled" mapstructure:"OTPEnabled,omitempty"`
@@ -224,6 +225,91 @@ func (o *Account) Identifier() string {
 func (o *Account) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Account) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesAccount{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.OTPEnabled = o.OTPEnabled
+	s.OTPSecret = o.OTPSecret
+	s.SSHCA = o.SSHCA
+	s.AccessEnabled = o.AccessEnabled
+	s.ActivationExpiration = o.ActivationExpiration
+	s.ActivationToken = o.ActivationToken
+	s.AssociatedAPIAuthPolicyID = o.AssociatedAPIAuthPolicyID
+	s.AssociatedAWSPolicies = o.AssociatedAWSPolicies
+	s.AssociatedBillingID = o.AssociatedBillingID
+	s.AssociatedNamespaceID = o.AssociatedNamespaceID
+	s.AssociatedPlanKey = o.AssociatedPlanKey
+	s.AssociatedQuotaPolicies = o.AssociatedQuotaPolicies
+	s.Company = o.Company
+	s.CreateTime = o.CreateTime
+	s.Email = o.Email
+	s.FirstName = o.FirstName
+	s.LastName = o.LastName
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Password = o.Password
+	s.ResetPasswordExpiration = o.ResetPasswordExpiration
+	s.ResetPasswordToken = o.ResetPasswordToken
+	s.Status = o.Status
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Account) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesAccount{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.OTPEnabled = s.OTPEnabled
+	o.OTPSecret = s.OTPSecret
+	o.SSHCA = s.SSHCA
+	o.AccessEnabled = s.AccessEnabled
+	o.ActivationExpiration = s.ActivationExpiration
+	o.ActivationToken = s.ActivationToken
+	o.AssociatedAPIAuthPolicyID = s.AssociatedAPIAuthPolicyID
+	o.AssociatedAWSPolicies = s.AssociatedAWSPolicies
+	o.AssociatedBillingID = s.AssociatedBillingID
+	o.AssociatedNamespaceID = s.AssociatedNamespaceID
+	o.AssociatedPlanKey = s.AssociatedPlanKey
+	o.AssociatedQuotaPolicies = s.AssociatedQuotaPolicies
+	o.Company = s.Company
+	o.CreateTime = s.CreateTime
+	o.Email = s.Email
+	o.FirstName = s.FirstName
+	o.LastName = s.LastName
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Password = s.Password
+	o.ResetPasswordExpiration = s.ResetPasswordExpiration
+	o.ResetPasswordToken = s.ResetPasswordToken
+	o.Status = s.Status
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1405,7 +1491,7 @@ func (o SparseAccountsList) Version() int {
 // SparseAccount represents the sparse version of a account.
 type SparseAccount struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Enable or disable two-factor authentication.
 	OTPEnabled *bool `json:"OTPEnabled,omitempty" msgpack:"OTPEnabled,omitempty" bson:"otpenabled,omitempty" mapstructure:"OTPEnabled,omitempty"`
@@ -1527,6 +1613,196 @@ func (o *SparseAccount) Identifier() string {
 func (o *SparseAccount) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAccount) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseAccount{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.OTPEnabled != nil {
+		s.OTPEnabled = o.OTPEnabled
+	}
+	if o.OTPSecret != nil {
+		s.OTPSecret = o.OTPSecret
+	}
+	if o.SSHCA != nil {
+		s.SSHCA = o.SSHCA
+	}
+	if o.AccessEnabled != nil {
+		s.AccessEnabled = o.AccessEnabled
+	}
+	if o.ActivationExpiration != nil {
+		s.ActivationExpiration = o.ActivationExpiration
+	}
+	if o.ActivationToken != nil {
+		s.ActivationToken = o.ActivationToken
+	}
+	if o.AssociatedAPIAuthPolicyID != nil {
+		s.AssociatedAPIAuthPolicyID = o.AssociatedAPIAuthPolicyID
+	}
+	if o.AssociatedAWSPolicies != nil {
+		s.AssociatedAWSPolicies = o.AssociatedAWSPolicies
+	}
+	if o.AssociatedBillingID != nil {
+		s.AssociatedBillingID = o.AssociatedBillingID
+	}
+	if o.AssociatedNamespaceID != nil {
+		s.AssociatedNamespaceID = o.AssociatedNamespaceID
+	}
+	if o.AssociatedPlanKey != nil {
+		s.AssociatedPlanKey = o.AssociatedPlanKey
+	}
+	if o.AssociatedQuotaPolicies != nil {
+		s.AssociatedQuotaPolicies = o.AssociatedQuotaPolicies
+	}
+	if o.Company != nil {
+		s.Company = o.Company
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Email != nil {
+		s.Email = o.Email
+	}
+	if o.FirstName != nil {
+		s.FirstName = o.FirstName
+	}
+	if o.LastName != nil {
+		s.LastName = o.LastName
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Password != nil {
+		s.Password = o.Password
+	}
+	if o.ResetPasswordExpiration != nil {
+		s.ResetPasswordExpiration = o.ResetPasswordExpiration
+	}
+	if o.ResetPasswordToken != nil {
+		s.ResetPasswordToken = o.ResetPasswordToken
+	}
+	if o.Status != nil {
+		s.Status = o.Status
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAccount) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseAccount{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.OTPEnabled != nil {
+		o.OTPEnabled = s.OTPEnabled
+	}
+	if s.OTPSecret != nil {
+		o.OTPSecret = s.OTPSecret
+	}
+	if s.SSHCA != nil {
+		o.SSHCA = s.SSHCA
+	}
+	if s.AccessEnabled != nil {
+		o.AccessEnabled = s.AccessEnabled
+	}
+	if s.ActivationExpiration != nil {
+		o.ActivationExpiration = s.ActivationExpiration
+	}
+	if s.ActivationToken != nil {
+		o.ActivationToken = s.ActivationToken
+	}
+	if s.AssociatedAPIAuthPolicyID != nil {
+		o.AssociatedAPIAuthPolicyID = s.AssociatedAPIAuthPolicyID
+	}
+	if s.AssociatedAWSPolicies != nil {
+		o.AssociatedAWSPolicies = s.AssociatedAWSPolicies
+	}
+	if s.AssociatedBillingID != nil {
+		o.AssociatedBillingID = s.AssociatedBillingID
+	}
+	if s.AssociatedNamespaceID != nil {
+		o.AssociatedNamespaceID = s.AssociatedNamespaceID
+	}
+	if s.AssociatedPlanKey != nil {
+		o.AssociatedPlanKey = s.AssociatedPlanKey
+	}
+	if s.AssociatedQuotaPolicies != nil {
+		o.AssociatedQuotaPolicies = s.AssociatedQuotaPolicies
+	}
+	if s.Company != nil {
+		o.Company = s.Company
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Email != nil {
+		o.Email = s.Email
+	}
+	if s.FirstName != nil {
+		o.FirstName = s.FirstName
+	}
+	if s.LastName != nil {
+		o.LastName = s.LastName
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Password != nil {
+		o.Password = s.Password
+	}
+	if s.ResetPasswordExpiration != nil {
+		o.ResetPasswordExpiration = s.ResetPasswordExpiration
+	}
+	if s.ResetPasswordToken != nil {
+		o.ResetPasswordToken = s.ResetPasswordToken
+	}
+	if s.Status != nil {
+		o.Status = s.Status
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1718,4 +1994,63 @@ func (o *SparseAccount) DeepCopyInto(out *SparseAccount) {
 	}
 
 	*out = *target.(*SparseAccount)
+}
+
+type mongoAttributesAccount struct {
+	ID                        bson.ObjectId      `bson:"_id"`
+	OTPEnabled                bool               `bson:"otpenabled"`
+	OTPSecret                 string             `bson:"otpsecret"`
+	SSHCA                     string             `bson:"sshca"`
+	AccessEnabled             bool               `bson:"accessenabled"`
+	ActivationExpiration      time.Time          `bson:"activationexpiration"`
+	ActivationToken           string             `bson:"activationtoken"`
+	AssociatedAPIAuthPolicyID string             `bson:"associatedapiauthpolicyid"`
+	AssociatedAWSPolicies     map[string]string  `bson:"associatedawspolicies"`
+	AssociatedBillingID       string             `bson:"associatedbillingid"`
+	AssociatedNamespaceID     string             `bson:"associatednamespaceid"`
+	AssociatedPlanKey         string             `bson:"associatedplankey"`
+	AssociatedQuotaPolicies   map[string]string  `bson:"associatedquotapolicies"`
+	Company                   string             `bson:"company"`
+	CreateTime                time.Time          `bson:"createtime"`
+	Email                     string             `bson:"email"`
+	FirstName                 string             `bson:"firstname"`
+	LastName                  string             `bson:"lastname"`
+	MigrationsLog             map[string]string  `bson:"migrationslog"`
+	Name                      string             `bson:"name"`
+	Password                  string             `bson:"password"`
+	ResetPasswordExpiration   time.Time          `bson:"resetpasswordexpiration"`
+	ResetPasswordToken        string             `bson:"resetpasswordtoken"`
+	Status                    AccountStatusValue `bson:"status"`
+	UpdateTime                time.Time          `bson:"updatetime"`
+	ZHash                     int                `bson:"zhash"`
+	Zone                      int                `bson:"zone"`
+}
+type mongoAttributesSparseAccount struct {
+	ID                        bson.ObjectId       `bson:"_id"`
+	OTPEnabled                *bool               `bson:"otpenabled,omitempty"`
+	OTPSecret                 *string             `bson:"otpsecret,omitempty"`
+	SSHCA                     *string             `bson:"sshca,omitempty"`
+	AccessEnabled             *bool               `bson:"accessenabled,omitempty"`
+	ActivationExpiration      *time.Time          `bson:"activationexpiration,omitempty"`
+	ActivationToken           *string             `bson:"activationtoken,omitempty"`
+	AssociatedAPIAuthPolicyID *string             `bson:"associatedapiauthpolicyid,omitempty"`
+	AssociatedAWSPolicies     *map[string]string  `bson:"associatedawspolicies,omitempty"`
+	AssociatedBillingID       *string             `bson:"associatedbillingid,omitempty"`
+	AssociatedNamespaceID     *string             `bson:"associatednamespaceid,omitempty"`
+	AssociatedPlanKey         *string             `bson:"associatedplankey,omitempty"`
+	AssociatedQuotaPolicies   *map[string]string  `bson:"associatedquotapolicies,omitempty"`
+	Company                   *string             `bson:"company,omitempty"`
+	CreateTime                *time.Time          `bson:"createtime,omitempty"`
+	Email                     *string             `bson:"email,omitempty"`
+	FirstName                 *string             `bson:"firstname,omitempty"`
+	LastName                  *string             `bson:"lastname,omitempty"`
+	MigrationsLog             *map[string]string  `bson:"migrationslog,omitempty"`
+	Name                      *string             `bson:"name,omitempty"`
+	Password                  *string             `bson:"password,omitempty"`
+	ResetPasswordExpiration   *time.Time          `bson:"resetpasswordexpiration,omitempty"`
+	ResetPasswordToken        *string             `bson:"resetpasswordtoken,omitempty"`
+	Status                    *AccountStatusValue `bson:"status,omitempty"`
+	UpdateTime                *time.Time          `bson:"updatetime,omitempty"`
+	ZHash                     *int                `bson:"zhash,omitempty"`
+	Zone                      *int                `bson:"zone,omitempty"`
 }
