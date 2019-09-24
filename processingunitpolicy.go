@@ -147,8 +147,7 @@ type ProcessingUnitPolicy struct {
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// The datapath type that processing units selected by `subject` should
-	// implement.
-	//
+	// implement:
 	// - `Default`: This policy is not making a decision for the
 	// datapath.
 	// - `Aporeto`: The enforcer is managing and handling the datapath.
@@ -895,8 +894,7 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		ConvertedName:  "DatapathType",
 		DefaultValue:   ProcessingUnitPolicyDatapathTypeDefault,
 		Description: `The datapath type that processing units selected by ` + "`" + `subject` + "`" + ` should
-implement.
-
+implement:
 - ` + "`" + `Default` + "`" + `: This policy is not making a decision for the
 datapath.
 - ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
@@ -1190,8 +1188,7 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		ConvertedName:  "DatapathType",
 		DefaultValue:   ProcessingUnitPolicyDatapathTypeDefault,
 		Description: `The datapath type that processing units selected by ` + "`" + `subject` + "`" + ` should
-implement.
-
+implement:
 - ` + "`" + `Default` + "`" + `: This policy is not making a decision for the
 datapath.
 - ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
@@ -1473,8 +1470,7 @@ type SparseProcessingUnitPolicy struct {
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// The datapath type that processing units selected by `subject` should
-	// implement.
-	//
+	// implement:
 	// - `Default`: This policy is not making a decision for the
 	// datapath.
 	// - `Aporeto`: The enforcer is managing and handling the datapath.

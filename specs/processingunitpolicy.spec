@@ -58,8 +58,7 @@ attributes:
   - name: datapathType
     description: |-
       The datapath type that processing units selected by `subject` should
-      implement.
-
+      implement:
       - `Default`: This policy is not making a decision for the
       datapath.
       - `Aporeto`: The enforcer is managing and handling the datapath.
