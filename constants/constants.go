@@ -228,6 +228,9 @@ const (
 	// ActionLogTagString is the system created action=log tag.
 	ActionLogTagString = "action=log"
 
+	// ActionPUDefaultTagString is the system created action-stop tag
+	ActionPUDefaultTagString = "action=default"
+
 	// ActionStopPUTagString is the system created action-stop tag
 	ActionPUDeleteTagString = "action=delete"
 
