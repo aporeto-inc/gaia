@@ -8764,7 +8764,7 @@ with a set of processing units or select a specific datapath.
 
 ```json
 {
-  "action": "Delete",
+  "action": "Default",
   "datapathType": "Default",
   "disabled": false,
   "fallback": false,
@@ -8819,9 +8819,17 @@ Returns the list of processing units referenced by the mapping.
 
 Identifier of the object.
 
-##### `action` `emum(Delete | Enforce | LogCompliance | Reject | Snapshot | Stop)`
+##### `action` `emum(Default | Delete | Enforce | LogCompliance | Reject | Snapshot | Stop)`
 
-Action determines the action to take while enforcing the isolation. profile.
+Action determines the action to take while enforcing the isolation profile.
+NOTE: Choose `Default` if your processing unit is not supposed to make a
+decision on isolation profiles at all.
+
+Default value:
+
+```json
+"Default"
+```
 
 ##### `activeDuration` `string` [`format=^[0-9]+[smh]$`]
 

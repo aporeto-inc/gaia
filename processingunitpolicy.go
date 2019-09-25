@@ -13,6 +13,9 @@ import (
 type ProcessingUnitPolicyActionValue string
 
 const (
+	// ProcessingUnitPolicyActionDefault represents the value Default.
+	ProcessingUnitPolicyActionDefault ProcessingUnitPolicyActionValue = "Default"
+
 	// ProcessingUnitPolicyActionDelete represents the value Delete.
 	ProcessingUnitPolicyActionDelete ProcessingUnitPolicyActionValue = "Delete"
 
@@ -124,7 +127,9 @@ type ProcessingUnitPolicy struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Action determines the action to take while enforcing the isolation. profile.
+	// Action determines the action to take while enforcing the isolation profile.
+	// NOTE: Choose `Default` if your processing unit is not supposed to make a
+	// decision on isolation profiles at all.
 	Action ProcessingUnitPolicyActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
@@ -211,6 +216,7 @@ func NewProcessingUnitPolicy() *ProcessingUnitPolicy {
 
 	return &ProcessingUnitPolicy{
 		ModelVersion:             1,
+		Action:                   ProcessingUnitPolicyActionDefault,
 		Annotations:              map[string][]string{},
 		AssociatedTags:           []string{},
 		DatapathType:             ProcessingUnitPolicyDatapathTypeDefault,
@@ -740,7 +746,7 @@ func (o *ProcessingUnitPolicy) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"}, false); err != nil {
+	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Default", "Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -879,14 +885,17 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Type:           "string",
 	},
 	"Action": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
+		AllowedChoices: []string{"Default", "Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
 		ConvertedName:  "Action",
-		Description:    `Action determines the action to take while enforcing the isolation. profile.`,
-		Exposed:        true,
-		Name:           "action",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
+		DefaultValue:   ProcessingUnitPolicyActionDefault,
+		Description: `Action determines the action to take while enforcing the isolation profile.
+NOTE: Choose ` + "`" + `Default` + "`" + ` if your processing unit is not supposed to make a
+decision on isolation profiles at all.`,
+		Exposed:   true,
+		Name:      "action",
+		Orderable: true,
+		Stored:    true,
+		Type:      "enum",
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -977,10 +986,11 @@ for every processing unit that for example can be used by an envoy
 proxy to use the Aporeto PKI and implement Aporeto network access
 policies. NOTE: The enforcer is not going to own the datapath in this
 example. It is merely providing an authorizer API.`,
-		Exposed: true,
-		Name:    "datapathType",
-		Stored:  true,
-		Type:    "enum",
+		Exposed:    true,
+		Filterable: true,
+		Name:       "datapathType",
+		Stored:     true,
+		Type:       "enum",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1171,14 +1181,17 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Type:           "string",
 	},
 	"action": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
+		AllowedChoices: []string{"Default", "Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
 		ConvertedName:  "Action",
-		Description:    `Action determines the action to take while enforcing the isolation. profile.`,
-		Exposed:        true,
-		Name:           "action",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
+		DefaultValue:   ProcessingUnitPolicyActionDefault,
+		Description: `Action determines the action to take while enforcing the isolation profile.
+NOTE: Choose ` + "`" + `Default` + "`" + ` if your processing unit is not supposed to make a
+decision on isolation profiles at all.`,
+		Exposed:   true,
+		Name:      "action",
+		Orderable: true,
+		Stored:    true,
+		Type:      "enum",
 	},
 	"activeduration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -1269,10 +1282,11 @@ for every processing unit that for example can be used by an envoy
 proxy to use the Aporeto PKI and implement Aporeto network access
 policies. NOTE: The enforcer is not going to own the datapath in this
 example. It is merely providing an authorizer API.`,
-		Exposed: true,
-		Name:    "datapathType",
-		Stored:  true,
-		Type:    "enum",
+		Exposed:    true,
+		Filterable: true,
+		Name:       "datapathType",
+		Stored:     true,
+		Type:       "enum",
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1516,7 +1530,9 @@ type SparseProcessingUnitPolicy struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Action determines the action to take while enforcing the isolation. profile.
+	// Action determines the action to take while enforcing the isolation profile.
+	// NOTE: Choose `Default` if your processing unit is not supposed to make a
+	// decision on isolation profiles at all.
 	Action *ProcessingUnitPolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the

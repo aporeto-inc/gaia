@@ -41,18 +41,22 @@ indexes:
 attributes:
   v1:
   - name: action
-    description: Action determines the action to take while enforcing the isolation.
-      profile.
+    description: |-
+      Action determines the action to take while enforcing the isolation profile.
+      NOTE: Choose `Default` if your processing unit is not supposed to make a
+      decision on isolation profiles at all.
     type: enum
     exposed: true
     stored: true
     allowed_choices:
+    - Default
     - Delete
     - Enforce
     - LogCompliance
     - Reject
     - Snapshot
     - Stop
+    default_value: Default
     orderable: true
 
   - name: datapathType
@@ -75,6 +79,7 @@ attributes:
     - Aporeto
     - EnvoyAuthorizer
     default_value: Default
+    filterable: true
 
   - name: isolationProfileSelector
     description: |-
