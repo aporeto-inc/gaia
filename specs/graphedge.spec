@@ -22,6 +22,9 @@ indexes:
   - firstSeen
 - - lastSeen
 - - firstSeen
+- - flowID
+- - flowID
+  - createTime
 
 # Attributes
 attributes:
