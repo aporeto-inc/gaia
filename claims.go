@@ -58,9 +58,7 @@ func (o ClaimsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o ClaimsList) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // ToSparse returns the ClaimsList converted to SparseClaimsList.
@@ -243,9 +241,7 @@ func (o *Claims) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *Claims) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // Doc returns the documentation for the object
@@ -1027,9 +1023,7 @@ func (o SparseClaimsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseClaimsList) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // ToPlain returns the SparseClaimsList converted to ClaimsList.

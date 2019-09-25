@@ -60,7 +60,6 @@ func (o AuditProfilesList) List() elemental.IdentifiablesList {
 func (o AuditProfilesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -259,7 +258,6 @@ func (o *AuditProfile) BleveType() string {
 func (o *AuditProfile) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1249,7 +1247,6 @@ func (o SparseAuditProfilesList) List() elemental.IdentifiablesList {
 func (o SparseAuditProfilesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

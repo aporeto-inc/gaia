@@ -59,7 +59,6 @@ func (o TokenScopePoliciesList) List() elemental.IdentifiablesList {
 func (o TokenScopePoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -296,7 +295,6 @@ func (o *TokenScopePolicy) BleveType() string {
 func (o *TokenScopePolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1511,7 +1509,6 @@ func (o SparseTokenScopePoliciesList) List() elemental.IdentifiablesList {
 func (o SparseTokenScopePoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

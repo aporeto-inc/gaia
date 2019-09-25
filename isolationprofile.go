@@ -60,7 +60,6 @@ func (o IsolationProfilesList) List() elemental.IdentifiablesList {
 func (o IsolationProfilesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -278,7 +277,6 @@ func (o *IsolationProfile) BleveType() string {
 func (o *IsolationProfile) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1362,7 +1360,6 @@ func (o SparseIsolationProfilesList) List() elemental.IdentifiablesList {
 func (o SparseIsolationProfilesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

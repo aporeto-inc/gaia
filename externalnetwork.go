@@ -59,7 +59,6 @@ func (o ExternalNetworksList) List() elemental.IdentifiablesList {
 func (o ExternalNetworksList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -281,7 +280,6 @@ func (o *ExternalNetwork) BleveType() string {
 func (o *ExternalNetwork) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1420,7 +1418,6 @@ func (o SparseExternalNetworksList) List() elemental.IdentifiablesList {
 func (o SparseExternalNetworksList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

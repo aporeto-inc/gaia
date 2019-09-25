@@ -59,7 +59,6 @@ func (o AppCredentialsList) List() elemental.IdentifiablesList {
 func (o AppCredentialsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -299,7 +298,6 @@ func (o *AppCredential) BleveType() string {
 func (o *AppCredential) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1512,7 +1510,6 @@ func (o SparseAppCredentialsList) List() elemental.IdentifiablesList {
 func (o SparseAppCredentialsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

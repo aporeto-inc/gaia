@@ -1,7 +1,3 @@
-# Ordering
-default_order:
-- namespace
-
 # Indexes
 indexes:
 - - namespace
