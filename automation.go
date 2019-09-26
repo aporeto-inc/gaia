@@ -256,6 +256,8 @@ func (o *Automation) GetBSON() (interface{}, error) {
 	s.ID = bson.ObjectIdHex(o.ID)
 	s.Actions = o.Actions
 	s.Annotations = o.Annotations
+	s.AporetoToken = o.AporetoToken
+	s.AppCredential = o.AppCredential
 	s.AssociatedTags = o.AssociatedTags
 	s.Condition = o.Condition
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -301,6 +303,8 @@ func (o *Automation) SetBSON(raw bson.Raw) error {
 	o.ID = s.ID.Hex()
 	o.Actions = s.Actions
 	o.Annotations = s.Annotations
+	o.AporetoToken = s.AporetoToken
+	o.AppCredential = s.AppCredential
 	o.AssociatedTags = s.AssociatedTags
 	o.Condition = s.Condition
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
@@ -1903,6 +1907,12 @@ func (o *SparseAutomation) GetBSON() (interface{}, error) {
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
+	if o.AporetoToken != nil {
+		s.AporetoToken = o.AporetoToken
+	}
+	if o.AppCredential != nil {
+		s.AppCredential = o.AppCredential
+	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
 	}
@@ -2002,6 +2012,12 @@ func (o *SparseAutomation) SetBSON(raw bson.Raw) error {
 	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
+	}
+	if s.AporetoToken != nil {
+		o.AporetoToken = s.AporetoToken
+	}
+	if s.AppCredential != nil {
+		o.AppCredential = s.AppCredential
 	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
@@ -2423,6 +2439,8 @@ type mongoAttributesAutomation struct {
 	ID                   bson.ObjectId                    `bson:"_id"`
 	Actions              []string                         `bson:"actions"`
 	Annotations          map[string][]string              `bson:"annotations"`
+	AporetoToken         string                           `bson:"aporetotoken"`
+	AppCredential        string                           `bson:"appcredential"`
 	AssociatedTags       []string                         `bson:"associatedtags"`
 	Condition            string                           `bson:"condition"`
 	CreateIdempotencyKey string                           `bson:"createidempotencykey"`
@@ -2453,6 +2471,8 @@ type mongoAttributesSparseAutomation struct {
 	ID                   bson.ObjectId                     `bson:"_id"`
 	Actions              *[]string                         `bson:"actions,omitempty"`
 	Annotations          *map[string][]string              `bson:"annotations,omitempty"`
+	AporetoToken         *string                           `bson:"aporetotoken,omitempty"`
+	AppCredential        *string                           `bson:"appcredential,omitempty"`
 	AssociatedTags       *[]string                         `bson:"associatedtags,omitempty"`
 	Condition            *string                           `bson:"condition,omitempty"`
 	CreateIdempotencyKey *string                           `bson:"createidempotencykey,omitempty"`
