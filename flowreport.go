@@ -160,7 +160,8 @@ type FlowReport struct {
 	// Destination IP address.
 	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
 
-	// Namespace of the destination. This is deprecated. Use remoteNamespace.
+	// Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
+	// property does nothing.
 	DestinationNamespace string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
 
 	// Port of the destination.
@@ -207,7 +208,7 @@ type FlowReport struct {
 	// Protocol number.
 	Protocol int `json:"protocol" msgpack:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
 
-	// Service URL accessed. This is deprecated. Use remoteNamespace.
+	// Namespace of the object at the other end of the flow.
 	RemoteNamespace string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"-" mapstructure:"remoteNamespace,omitempty"`
 
 	// Hash of the claims used to communicate.
@@ -231,7 +232,8 @@ type FlowReport struct {
 	// Type of the source.
 	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
 
-	// Namespace of the source. This is deprecated. Use remoteNamespace.
+	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
+	// property does nothing.
 	SourceNamespace string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
 
 	// Type of the source.
@@ -760,10 +762,11 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationNamespace",
 		Deprecated:     true,
-		Description:    `Namespace of the destination. This is deprecated. Use remoteNamespace.`,
-		Exposed:        true,
-		Name:           "destinationNamespace",
-		Type:           "string",
+		Description: `Namespace of the destination. This is deprecated. Use ` + "`" + `remoteNamespace` + "`" + `. This
+property does nothing.`,
+		Exposed: true,
+		Name:    "destinationNamespace",
+		Type:    "string",
 	},
 	"DestinationPort": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -889,7 +892,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	"RemoteNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RemoteNamespace",
-		Description:    `Service URL accessed. This is deprecated. Use remoteNamespace.`,
+		Description:    `Namespace of the object at the other end of the flow.`,
 		Exposed:        true,
 		Name:           "remoteNamespace",
 		Type:           "string",
@@ -956,10 +959,11 @@ to ` + "`" + `Reject` + "`" + `.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
 		Deprecated:     true,
-		Description:    `Namespace of the source. This is deprecated. Use remoteNamespace.`,
-		Exposed:        true,
-		Name:           "sourceNamespace",
-		Type:           "string",
+		Description: `Namespace of the source. This is deprecated. Use ` + "`" + `remoteNamespace` + "`" + `. This
+property does nothing.`,
+		Exposed: true,
+		Name:    "sourceNamespace",
+		Type:    "string",
 	},
 	"SourceType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
@@ -1021,10 +1025,11 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationNamespace",
 		Deprecated:     true,
-		Description:    `Namespace of the destination. This is deprecated. Use remoteNamespace.`,
-		Exposed:        true,
-		Name:           "destinationNamespace",
-		Type:           "string",
+		Description: `Namespace of the destination. This is deprecated. Use ` + "`" + `remoteNamespace` + "`" + `. This
+property does nothing.`,
+		Exposed: true,
+		Name:    "destinationNamespace",
+		Type:    "string",
 	},
 	"destinationport": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1150,7 +1155,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	"remotenamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RemoteNamespace",
-		Description:    `Service URL accessed. This is deprecated. Use remoteNamespace.`,
+		Description:    `Namespace of the object at the other end of the flow.`,
 		Exposed:        true,
 		Name:           "remoteNamespace",
 		Type:           "string",
@@ -1217,10 +1222,11 @@ to ` + "`" + `Reject` + "`" + `.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
 		Deprecated:     true,
-		Description:    `Namespace of the source. This is deprecated. Use remoteNamespace.`,
-		Exposed:        true,
-		Name:           "sourceNamespace",
-		Type:           "string",
+		Description: `Namespace of the source. This is deprecated. Use ` + "`" + `remoteNamespace` + "`" + `. This
+property does nothing.`,
+		Exposed: true,
+		Name:    "sourceNamespace",
+		Type:    "string",
 	},
 	"sourcetype": elemental.AttributeSpecification{
 		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
@@ -1322,7 +1328,8 @@ type SparseFlowReport struct {
 	// Destination IP address.
 	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
 
-	// Namespace of the destination. This is deprecated. Use remoteNamespace.
+	// Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
+	// property does nothing.
 	DestinationNamespace *string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
 
 	// Port of the destination.
@@ -1369,7 +1376,7 @@ type SparseFlowReport struct {
 	// Protocol number.
 	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`
 
-	// Service URL accessed. This is deprecated. Use remoteNamespace.
+	// Namespace of the object at the other end of the flow.
 	RemoteNamespace *string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"-" mapstructure:"remoteNamespace,omitempty"`
 
 	// Hash of the claims used to communicate.
@@ -1393,7 +1400,8 @@ type SparseFlowReport struct {
 	// Type of the source.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
 
-	// Namespace of the source. This is deprecated. Use remoteNamespace.
+	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
+	// property does nothing.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
 
 	// Type of the source.

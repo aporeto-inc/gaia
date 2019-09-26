@@ -33,7 +33,9 @@ attributes:
     exposed: true
 
   - name: destinationNamespace
-    description: Namespace of the destination. This is deprecated. Use remoteNamespace.
+    description: |-
+      Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
+      property does nothing.
     type: string
     exposed: true
     deprecated: true
@@ -137,7 +139,7 @@ attributes:
     example_value: 6
 
   - name: remoteNamespace
-    description: Service URL accessed. This is deprecated. Use remoteNamespace.
+    description: Namespace of the object at the other end of the flow.
     type: string
     exposed: true
     omit_empty: true
@@ -186,7 +188,9 @@ attributes:
     exposed: true
 
   - name: sourceNamespace
-    description: Namespace of the source. This is deprecated. Use remoteNamespace.
+    description: |-
+      Namespace of the source. This is deprecated. Use `remoteNamespace`. This
+      property does nothing.
     type: string
     exposed: true
     deprecated: true

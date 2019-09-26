@@ -8111,7 +8111,8 @@ Destination IP address.
 
 _This attribute is deprecated_.
 
-Namespace of the destination. This is deprecated. Use remoteNamespace.
+Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
+property does nothing.
 
 ##### `destinationPort` `integer`
 
@@ -8181,7 +8182,7 @@ Protocol number.
 
 ##### `remoteNamespace` `string`
 
-Service URL accessed. This is deprecated. Use remoteNamespace.
+Namespace of the object at the other end of the flow.
 
 ##### `serviceClaimHash` `string`
 
@@ -8221,7 +8222,8 @@ Type of the source.
 
 _This attribute is deprecated_.
 
-Namespace of the source. This is deprecated. Use remoteNamespace.
+Namespace of the source. This is deprecated. Use `remoteNamespace`. This
+property does nothing.
 
 ##### `sourceType` `emum(ProcessingUnit | ExternalNetwork | Claims)` [`required`]
 
