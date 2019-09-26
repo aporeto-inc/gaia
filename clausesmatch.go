@@ -173,7 +173,8 @@ func (o *ClauseMatch) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ClauseMatch) Doc() string {
 
-	return `description.`
+	return `This API allows to pass a set of tags and find the objects that would match the
+clause in a policy resolution.`
 }
 
 func (o *ClauseMatch) String() string {

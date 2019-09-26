@@ -3602,7 +3602,8 @@ Last update date of the object.
 
 ### ClauseMatch
 
-description.
+This API allows to pass a set of tags and find the objects that would match the
+clause in a policy resolution.
 
 #### Example
 
