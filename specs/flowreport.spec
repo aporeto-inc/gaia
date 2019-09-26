@@ -33,10 +33,12 @@ attributes:
     exposed: true
 
   - name: destinationNamespace
-    description: Namespace of the destination.
+    description: Namespace of the destination. This is deprecated. Use remoteNamespace.
     type: string
     exposed: true
+    deprecated: true
     example_value: /my/namespace
+    omit_empty: true
 
   - name: destinationPort
     description: Port of the destination.
@@ -134,6 +136,12 @@ attributes:
     required: true
     example_value: 6
 
+  - name: remoteNamespace
+    description: Service URL accessed. This is deprecated. Use remoteNamespace.
+    type: string
+    exposed: true
+    omit_empty: true
+
   - name: serviceClaimHash
     description: Hash of the claims used to communicate.
     type: string
@@ -145,7 +153,7 @@ attributes:
     exposed: true
 
   - name: serviceNamespace
-    description: Service URL accessed.
+    description: Namespace of Service accessed.
     type: string
     exposed: true
 
@@ -178,10 +186,12 @@ attributes:
     exposed: true
 
   - name: sourceNamespace
-    description: Namespace of the source.
+    description: Namespace of the source. This is deprecated. Use remoteNamespace.
     type: string
     exposed: true
+    deprecated: true
     example_value: /my/namespace
+    omit_empty: true
 
   - name: sourceType
     description: Type of the source.
