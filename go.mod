@@ -3,10 +3,11 @@ module go.aporeto.io/gaia
 go 1.12
 
 // Aporeto
-require go.aporeto.io/elemental v1.92.0
+require go.aporeto.io/elemental v1.98.0
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
 	github.com/mitchellh/copystructure v1.0.0
 	github.com/smartystreets/assertions v1.0.0 // indirect

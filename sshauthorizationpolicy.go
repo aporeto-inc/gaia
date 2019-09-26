@@ -59,7 +59,6 @@ func (o SSHAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 func (o SSHAuthorizationPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -302,7 +301,6 @@ func (o *SSHAuthorizationPolicy) BleveType() string {
 func (o *SSHAuthorizationPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1583,7 +1581,6 @@ func (o SparseSSHAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseSSHAuthorizationPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

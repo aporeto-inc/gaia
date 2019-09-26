@@ -82,7 +82,6 @@ func (o InstalledAppsList) List() elemental.IdentifiablesList {
 func (o InstalledAppsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -295,7 +294,6 @@ func (o *InstalledApp) BleveType() string {
 func (o *InstalledApp) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1306,7 +1304,6 @@ func (o SparseInstalledAppsList) List() elemental.IdentifiablesList {
 func (o SparseInstalledAppsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

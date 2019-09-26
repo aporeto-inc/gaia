@@ -59,7 +59,6 @@ func (o ServiceDependenciesList) List() elemental.IdentifiablesList {
 func (o ServiceDependenciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -265,7 +264,6 @@ func (o *ServiceDependency) BleveType() string {
 func (o *ServiceDependency) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1339,7 +1337,6 @@ func (o SparseServiceDependenciesList) List() elemental.IdentifiablesList {
 func (o SparseServiceDependenciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

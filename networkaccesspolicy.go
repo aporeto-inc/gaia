@@ -98,7 +98,6 @@ func (o NetworkAccessPoliciesList) List() elemental.IdentifiablesList {
 func (o NetworkAccessPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -368,7 +367,6 @@ func (o *NetworkAccessPolicy) BleveType() string {
 func (o *NetworkAccessPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1823,7 +1821,6 @@ func (o SparseNetworkAccessPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseNetworkAccessPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

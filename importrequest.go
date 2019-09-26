@@ -75,9 +75,7 @@ func (o ImportRequestsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o ImportRequestsList) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // ToSparse returns the ImportRequestsList converted to SparseImportRequestsList.
@@ -299,9 +297,7 @@ func (o *ImportRequest) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *ImportRequest) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // Doc returns the documentation for the object
@@ -1388,9 +1384,7 @@ func (o SparseImportRequestsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseImportRequestsList) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // ToPlain returns the SparseImportRequestsList converted to ImportRequestsList.

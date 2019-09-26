@@ -73,7 +73,6 @@ func (o HookPoliciesList) List() elemental.IdentifiablesList {
 func (o HookPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -322,7 +321,6 @@ func (o *HookPolicy) BleveType() string {
 func (o *HookPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1621,7 +1619,6 @@ func (o SparseHookPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseHookPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

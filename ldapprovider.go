@@ -70,7 +70,6 @@ func (o LDAPProvidersList) List() elemental.IdentifiablesList {
 func (o LDAPProvidersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -324,7 +323,6 @@ func (o *LDAPProvider) BleveType() string {
 func (o *LDAPProvider) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1548,7 +1546,6 @@ func (o SparseLDAPProvidersList) List() elemental.IdentifiablesList {
 func (o SparseLDAPProvidersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

@@ -110,7 +110,6 @@ func (o EnforcersList) List() elemental.IdentifiablesList {
 func (o EnforcersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -427,7 +426,6 @@ func (o *Enforcer) BleveType() string {
 func (o *Enforcer) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -2046,7 +2044,6 @@ func (o SparseEnforcersList) List() elemental.IdentifiablesList {
 func (o SparseEnforcersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

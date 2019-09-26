@@ -110,7 +110,6 @@ func (o ServicesList) List() elemental.IdentifiablesList {
 func (o ServicesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -527,7 +526,6 @@ func (o *Service) BleveType() string {
 func (o *Service) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -2506,7 +2504,6 @@ func (o SparseServicesList) List() elemental.IdentifiablesList {
 func (o SparseServicesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

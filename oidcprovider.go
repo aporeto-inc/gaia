@@ -59,7 +59,6 @@ func (o OIDCProvidersList) List() elemental.IdentifiablesList {
 func (o OIDCProvidersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -287,7 +286,6 @@ func (o *OIDCProvider) BleveType() string {
 func (o *OIDCProvider) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1406,7 +1404,6 @@ func (o SparseOIDCProvidersList) List() elemental.IdentifiablesList {
 func (o SparseOIDCProvidersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

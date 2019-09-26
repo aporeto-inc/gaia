@@ -73,7 +73,6 @@ func (o MessagesList) List() elemental.IdentifiablesList {
 func (o MessagesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -276,7 +275,6 @@ func (o *Message) BleveType() string {
 func (o *Message) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1280,7 +1278,6 @@ func (o SparseMessagesList) List() elemental.IdentifiablesList {
 func (o SparseMessagesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

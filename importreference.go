@@ -59,7 +59,6 @@ func (o ImportReferencesList) List() elemental.IdentifiablesList {
 func (o ImportReferencesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -259,7 +258,6 @@ func (o *ImportReference) BleveType() string {
 func (o *ImportReference) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1244,7 +1242,6 @@ func (o SparseImportReferencesList) List() elemental.IdentifiablesList {
 func (o SparseImportReferencesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

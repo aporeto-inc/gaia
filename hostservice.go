@@ -59,7 +59,6 @@ func (o HostServicesList) List() elemental.IdentifiablesList {
 func (o HostServicesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -278,7 +277,6 @@ func (o *HostService) BleveType() string {
 func (o *HostService) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1360,7 +1358,6 @@ func (o SparseHostServicesList) List() elemental.IdentifiablesList {
 func (o SparseHostServicesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

@@ -99,7 +99,6 @@ func (o ProcessingUnitPoliciesList) List() elemental.IdentifiablesList {
 func (o ProcessingUnitPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -334,7 +333,6 @@ func (o *ProcessingUnitPolicy) BleveType() string {
 func (o *ProcessingUnitPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1503,7 +1501,6 @@ func (o SparseProcessingUnitPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseProcessingUnitPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

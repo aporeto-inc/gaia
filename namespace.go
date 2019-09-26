@@ -73,7 +73,6 @@ func (o NamespacesList) List() elemental.IdentifiablesList {
 func (o NamespacesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -337,7 +336,6 @@ func (o *Namespace) BleveType() string {
 func (o *Namespace) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1655,7 +1653,6 @@ func (o SparseNamespacesList) List() elemental.IdentifiablesList {
 func (o SparseNamespacesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

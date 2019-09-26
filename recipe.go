@@ -59,7 +59,6 @@ func (o RecipesList) List() elemental.IdentifiablesList {
 func (o RecipesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -306,7 +305,6 @@ func (o *Recipe) BleveType() string {
 func (o *Recipe) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1568,7 +1566,6 @@ func (o SparseRecipesList) List() elemental.IdentifiablesList {
 func (o SparseRecipesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

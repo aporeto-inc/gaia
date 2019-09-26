@@ -59,7 +59,6 @@ func (o FileAccessPoliciesList) List() elemental.IdentifiablesList {
 func (o FileAccessPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -285,7 +284,6 @@ func (o *FileAccessPolicy) BleveType() string {
 func (o *FileAccessPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1538,7 +1536,6 @@ func (o SparseFileAccessPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseFileAccessPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

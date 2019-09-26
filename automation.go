@@ -76,7 +76,6 @@ func (o AutomationsList) List() elemental.IdentifiablesList {
 func (o AutomationsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -339,7 +338,6 @@ func (o *Automation) BleveType() string {
 func (o *Automation) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1638,7 +1636,6 @@ func (o SparseAutomationsList) List() elemental.IdentifiablesList {
 func (o SparseAutomationsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
