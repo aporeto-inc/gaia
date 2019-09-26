@@ -1175,7 +1175,6 @@ unit.`,
 	"DatapathType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Aporeto", "EnvoyAuthorizer"},
 		ConvertedName:  "DatapathType",
-		CreationOnly:   true,
 		DefaultValue:   ProcessingUnitDatapathTypeAporeto,
 		Description: `The datapath type that processing units are implementing:
 - ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
@@ -1598,7 +1597,6 @@ unit.`,
 	"datapathtype": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Aporeto", "EnvoyAuthorizer"},
 		ConvertedName:  "DatapathType",
-		CreationOnly:   true,
 		DefaultValue:   ProcessingUnitDatapathTypeAporeto,
 		Description: `The datapath type that processing units are implementing:
 - ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.

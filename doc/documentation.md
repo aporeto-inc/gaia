@@ -4186,7 +4186,7 @@ unit.
 
 Creation date of the object.
 
-##### `datapathType` `emum(Aporeto | EnvoyAuthorizer)` [`creation_only`]
+##### `datapathType` `emum(Aporeto | EnvoyAuthorizer)`
 
 The datapath type that processing units are implementing:
 - `Aporeto`: The enforcer is managing and handling the datapath.
