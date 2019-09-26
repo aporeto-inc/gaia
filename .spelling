@@ -40,6 +40,7 @@ CIDRs
 ClaimMapping
 claims_supported
 ClaimsSupported
+ClauseMatch
 clob
 CNs
 containerd
@@ -50,8 +51,8 @@ CRD
 CRDs
 CRI-O
 cron
-daemonset
 DaemonSet
+daemonset
 datapath
 DataPathCertificate
 DependencyMap
@@ -177,8 +178,8 @@ postprocessing
 pre-created
 preinstall
 preprocessing
-processingunit
 ProcessingUnit
+processingunit
 ProcessingUnitPolicy
 ProcessingUnitRefresh
 processingunits
