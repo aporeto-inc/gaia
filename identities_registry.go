@@ -26,7 +26,8 @@ var (
 		"awsregister":               AWSRegisterIdentity,
 		"category":                  CategoryIdentity,
 
-		"claims": ClaimsIdentity,
+		"claims":       ClaimsIdentity,
+		"clausesmatch": ClauseMatchIdentity,
 
 		"counterreport": CounterReportIdentity,
 
@@ -156,7 +157,8 @@ var (
 		"awsregister":                 AWSRegisterIdentity,
 		"categories":                  CategoryIdentity,
 
-		"claims": ClaimsIdentity,
+		"claims":         ClaimsIdentity,
+		"clausesmatches": ClauseMatchIdentity,
 
 		"counterreports": CounterReportIdentity,
 
@@ -451,6 +453,7 @@ var (
 			[]string{"namespace", "normalizedTags"},
 			[]string{"createIdempotencyKey"},
 		},
+		"clausesmatch":  nil,
 		"counterreport": nil,
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
@@ -852,6 +855,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCategory()
 	case ClaimsIdentity:
 		return NewClaims()
+	case ClauseMatchIdentity:
+		return NewClauseMatch()
 	case CounterReportIdentity:
 		return NewCounterReport()
 	case CustomerIdentity:
@@ -1091,6 +1096,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCategory()
 	case ClaimsIdentity:
 		return NewSparseClaims()
+	case ClauseMatchIdentity:
+		return NewSparseClauseMatch()
 	case CounterReportIdentity:
 		return NewSparseCounterReport()
 	case CustomerIdentity:
@@ -1338,6 +1345,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CategoriesList{}
 	case ClaimsIdentity:
 		return &ClaimsList{}
+	case ClauseMatchIdentity:
+		return &ClauseMatchesList{}
 	case CounterReportIdentity:
 		return &CounterReportsList{}
 	case CustomerIdentity:
@@ -1575,6 +1584,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCategoriesList{}
 	case ClaimsIdentity:
 		return &SparseClaimsList{}
+	case ClauseMatchIdentity:
+		return &SparseClauseMatchesList{}
 	case CounterReportIdentity:
 		return &SparseCounterReportsList{}
 	case CustomerIdentity:
@@ -1805,6 +1816,7 @@ func AllIdentities() []elemental.Identity {
 		AWSRegisterIdentity,
 		CategoryIdentity,
 		ClaimsIdentity,
+		ClauseMatchIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
@@ -1966,6 +1978,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CategoryIdentity:
 		return []string{}
 	case ClaimsIdentity:
+		return []string{}
+	case ClauseMatchIdentity:
 		return []string{}
 	case CounterReportIdentity:
 		return []string{}

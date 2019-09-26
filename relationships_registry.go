@@ -158,15 +158,15 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
+						Name: "associatedBillingID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
 						Name: "name",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
 						Name: "status",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name: "associatedBillingID",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
@@ -181,15 +181,15 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
+						Name: "associatedBillingID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
 						Name: "name",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
 						Name: "status",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name: "associatedBillingID",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
@@ -689,6 +689,12 @@ func init() {
 					},
 				},
 			},
+		},
+	}
+
+	relationshipsRegistry[ClauseMatchIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
 		},
 	}
 

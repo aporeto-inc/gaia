@@ -766,3 +766,14 @@ func ValidateWriteOperations(attribute string, operations []string) error {
 
 	return nil
 }
+
+// ValidateIdentity verifies the given string is a valid gaia identity.
+func ValidateIdentity(attribute string, identity string) error {
+
+	i := Manager().IdentityFromAny(identity)
+	if i.IsEmpty() {
+		return makeValidationError(attribute, fmt.Sprintf("Invalid identity '%s': unknown.", identity))
+	}
+
+	return nil
+}
