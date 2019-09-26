@@ -8756,7 +8756,7 @@ Geographical zone. Used for sharding and georedundancy.
 
 ### ProcessingUnitPolicy
 
-Processsing unit policies allow you to define special behavior for
+Processing unit policies allow you to define special behavior for
 processing units. For example you can associate an isolation profile
 with a set of processing units or select a specific datapath.
 

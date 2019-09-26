@@ -340,7 +340,7 @@ func (o *ProcessingUnitPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ProcessingUnitPolicy) Doc() string {
 
-	return `Processsing unit policies allow you to define special behavior for
+	return `Processing unit policies allow you to define special behavior for
 processing units. For example you can associate an isolation profile
 with a set of processing units or select a specific datapath.`
 }
