@@ -626,6 +626,10 @@ relations:
   create:
     description: Creates a new LDAP provider.
 
+- rest_name: sandbox
+  create:
+    description: Creates a temporary api sandbox.
+
 - rest_name: search
   get:
     description: Perform a full text search on the database.

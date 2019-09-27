@@ -104,6 +104,7 @@ var (
 		"role":                   RoleIdentity,
 		"root":                   RootIdentity,
 		"samlprovider":           SAMLProviderIdentity,
+		"sandbox":                SandboxIdentity,
 		"search":                 SearchIdentity,
 		"service":                ServiceIdentity,
 		"servicedependency":      ServiceDependencyIdentity,
@@ -235,6 +236,7 @@ var (
 		"roles":                    RoleIdentity,
 		"root":                     RootIdentity,
 		"samlproviders":            SAMLProviderIdentity,
+		"sandboxes":                SandboxIdentity,
 		"search":                   SearchIdentity,
 		"services":                 ServiceIdentity,
 		"servicedependencies":      ServiceDependencyIdentity,
@@ -711,7 +713,8 @@ var (
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 		},
-		"search": nil,
+		"sandbox": nil,
+		"search":  nil,
 		"service": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -993,6 +996,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRoot()
 	case SAMLProviderIdentity:
 		return NewSAMLProvider()
+	case SandboxIdentity:
+		return NewSandbox()
 	case SearchIdentity:
 		return NewSearch()
 	case ServiceIdentity:
@@ -1232,6 +1237,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRole()
 	case SAMLProviderIdentity:
 		return NewSparseSAMLProvider()
+	case SandboxIdentity:
+		return NewSparseSandbox()
 	case SearchIdentity:
 		return NewSparseSearch()
 	case ServiceIdentity:
@@ -1481,6 +1488,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RolesList{}
 	case SAMLProviderIdentity:
 		return &SAMLProvidersList{}
+	case SandboxIdentity:
+		return &SandboxsList{}
 	case SearchIdentity:
 		return &SearchesList{}
 	case ServiceIdentity:
@@ -1720,6 +1729,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRolesList{}
 	case SAMLProviderIdentity:
 		return &SparseSAMLProvidersList{}
+	case SandboxIdentity:
+		return &SparseSandboxsList{}
 	case SearchIdentity:
 		return &SparseSearchesList{}
 	case ServiceIdentity:
@@ -1885,6 +1896,7 @@ func AllIdentities() []elemental.Identity {
 		RoleIdentity,
 		RootIdentity,
 		SAMLProviderIdentity,
+		SandboxIdentity,
 		SearchIdentity,
 		ServiceIdentity,
 		ServiceDependencyIdentity,
@@ -2198,6 +2210,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case RootIdentity:
 		return []string{}
 	case SAMLProviderIdentity:
+		return []string{}
+	case SandboxIdentity:
 		return []string{}
 	case SearchIdentity:
 		return []string{}
