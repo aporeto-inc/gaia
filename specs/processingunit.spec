@@ -74,6 +74,23 @@ attributes:
     subtype: map[string]string
     stored: true
 
+  - name: datapathType
+    description: |-
+      The datapath type that processing units are implementing:
+      - `Aporeto`: The enforcer is managing and handling the datapath.
+      - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+      that for example can be used by an envoy proxy to use the Aporeto PKI
+      and implement Aporeto network access policies. NOTE: The enforcer is not
+      owning the datapath in this case. It is merely providing an authorizer API.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Aporeto
+    - EnvoyAuthorizer
+    default_value: Aporeto
+    filterable: true
+
   - name: enforcementStatus
     description: |-
       Contains the state of the enforcer for the processing unit. `Inactive`

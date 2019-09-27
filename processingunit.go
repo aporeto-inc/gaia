@@ -9,6 +9,17 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// ProcessingUnitDatapathTypeValue represents the possible values for attribute "datapathType".
+type ProcessingUnitDatapathTypeValue string
+
+const (
+	// ProcessingUnitDatapathTypeAporeto represents the value Aporeto.
+	ProcessingUnitDatapathTypeAporeto ProcessingUnitDatapathTypeValue = "Aporeto"
+
+	// ProcessingUnitDatapathTypeEnvoyAuthorizer represents the value EnvoyAuthorizer.
+	ProcessingUnitDatapathTypeEnvoyAuthorizer ProcessingUnitDatapathTypeValue = "EnvoyAuthorizer"
+)
+
 // ProcessingUnitEnforcementStatusValue represents the possible values for attribute "enforcementStatus".
 type ProcessingUnitEnforcementStatusValue string
 
@@ -173,6 +184,14 @@ type ProcessingUnit struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// The datapath type that processing units are implementing:
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+	// that for example can be used by an envoy proxy to use the Aporeto PKI
+	// and implement Aporeto network access policies. NOTE: The enforcer is not
+	// owning the datapath in this case. It is merely providing an authorizer API.
+	DatapathType ProcessingUnitDatapathTypeValue `json:"datapathType" msgpack:"datapathType" bson:"datapathtype" mapstructure:"datapathType,omitempty"`
+
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
@@ -275,6 +294,7 @@ func NewProcessingUnit() *ProcessingUnit {
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
 		CollectedInfo:     map[string]string{},
+		DatapathType:      ProcessingUnitDatapathTypeAporeto,
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
 		NetworkServices:   []*ProcessingUnitService{},
 		NormalizedTags:    []string{},
@@ -322,6 +342,7 @@ func (o *ProcessingUnit) GetBSON() (interface{}, error) {
 	s.CollectedInfo = o.CollectedInfo
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
+	s.DatapathType = o.DatapathType
 	s.Description = o.Description
 	s.EnforcementStatus = o.EnforcementStatus
 	s.EnforcerID = o.EnforcerID
@@ -371,6 +392,7 @@ func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
 	o.CollectedInfo = s.CollectedInfo
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
+	o.DatapathType = s.DatapathType
 	o.Description = s.Description
 	o.EnforcementStatus = s.EnforcementStatus
 	o.EnforcerID = s.EnforcerID
@@ -643,6 +665,7 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			CollectedInfo:        &o.CollectedInfo,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
+			DatapathType:         &o.DatapathType,
 			Description:          &o.Description,
 			EnforcementStatus:    &o.EnforcementStatus,
 			EnforcerID:           &o.EnforcerID,
@@ -690,6 +713,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "datapathType":
+			sp.DatapathType = &(o.DatapathType)
 		case "description":
 			sp.Description = &(o.Description)
 		case "enforcementStatus":
@@ -776,6 +801,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.DatapathType != nil {
+		o.DatapathType = *so.DatapathType
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -888,6 +916,10 @@ func (o *ProcessingUnit) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("datapathType", string(o.DatapathType), []string{"Aporeto", "EnvoyAuthorizer"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -985,6 +1017,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "datapathType":
+		return o.DatapathType
 	case "description":
 		return o.Description
 	case "enforcementStatus":
@@ -1137,6 +1171,22 @@ unit.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"DatapathType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "EnvoyAuthorizer"},
+		ConvertedName:  "DatapathType",
+		DefaultValue:   ProcessingUnitDatapathTypeAporeto,
+		Description: `The datapath type that processing units are implementing:
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
+that for example can be used by an envoy proxy to use the Aporeto PKI
+and implement Aporeto network access policies. NOTE: The enforcer is not
+owning the datapath in this case. It is merely providing an authorizer API.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "datapathType",
+		Stored:     true,
+		Type:       "enum",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1544,6 +1594,22 @@ unit.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"datapathtype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "EnvoyAuthorizer"},
+		ConvertedName:  "DatapathType",
+		DefaultValue:   ProcessingUnitDatapathTypeAporeto,
+		Description: `The datapath type that processing units are implementing:
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
+that for example can be used by an envoy proxy to use the Aporeto PKI
+and implement Aporeto network access policies. NOTE: The enforcer is not
+owning the datapath in this case. It is merely providing an authorizer API.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "datapathType",
+		Stored:     true,
+		Type:       "enum",
+	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -1944,6 +2010,14 @@ type SparseProcessingUnit struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
+	// The datapath type that processing units are implementing:
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+	// that for example can be used by an envoy proxy to use the Aporeto PKI
+	// and implement Aporeto network access policies. NOTE: The enforcer is not
+	// owning the datapath in this case. It is merely providing an authorizer API.
+	DatapathType *ProcessingUnitDatapathTypeValue `json:"datapathType,omitempty" msgpack:"datapathType,omitempty" bson:"datapathtype,omitempty" mapstructure:"datapathType,omitempty"`
+
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
@@ -2096,6 +2170,9 @@ func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
 	}
+	if o.DatapathType != nil {
+		s.DatapathType = o.DatapathType
+	}
 	if o.Description != nil {
 		s.Description = o.Description
 	}
@@ -2208,6 +2285,9 @@ func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
 	}
+	if s.DatapathType != nil {
+		o.DatapathType = s.DatapathType
+	}
 	if s.Description != nil {
 		o.Description = s.Description
 	}
@@ -2317,6 +2397,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
+	}
+	if o.DatapathType != nil {
+		out.DatapathType = *o.DatapathType
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
@@ -2622,6 +2705,7 @@ type mongoAttributesProcessingUnit struct {
 	CollectedInfo        map[string]string                    `bson:"collectedinfo"`
 	CreateIdempotencyKey string                               `bson:"createidempotencykey"`
 	CreateTime           time.Time                            `bson:"createtime"`
+	DatapathType         ProcessingUnitDatapathTypeValue      `bson:"datapathtype"`
 	Description          string                               `bson:"description"`
 	EnforcementStatus    ProcessingUnitEnforcementStatusValue `bson:"enforcementstatus"`
 	EnforcerID           string                               `bson:"enforcerid"`
@@ -2656,6 +2740,7 @@ type mongoAttributesSparseProcessingUnit struct {
 	CollectedInfo        *map[string]string                    `bson:"collectedinfo,omitempty"`
 	CreateIdempotencyKey *string                               `bson:"createidempotencykey,omitempty"`
 	CreateTime           *time.Time                            `bson:"createtime,omitempty"`
+	DatapathType         *ProcessingUnitDatapathTypeValue      `bson:"datapathtype,omitempty"`
 	Description          *string                               `bson:"description,omitempty"`
 	EnforcementStatus    *ProcessingUnitEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
 	EnforcerID           *string                               `bson:"enforcerid,omitempty"`

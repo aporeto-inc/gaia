@@ -24,6 +24,7 @@ AuhorizationEndpoint
 Auth0
 Authn
 Authorization_Endpoint
+authorizer
 autocomplete
 autocompletion
 autodiscover
@@ -90,6 +91,7 @@ GraphEdge
 GraphGroup
 GraphNode
 GraphPolicyInfo
+gRPC
 HookPolicy
 HostService
 HostServiceMappingPolicy

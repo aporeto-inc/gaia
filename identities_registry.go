@@ -324,6 +324,7 @@ var (
 		"pu":             ProcessingUnitIdentity,
 		"pus":            ProcessingUnitIdentity,
 		"pup":            ProcessingUnitPolicyIdentity,
+		"pups":           ProcessingUnitPolicyIdentity,
 		"quota":          QuotaPolicyIdentity,
 		"quotas":         QuotaPolicyIdentity,
 		"quotapol":       QuotaPolicyIdentity,
@@ -2170,6 +2171,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ProcessingUnitPolicyIdentity:
 		return []string{
 			"pup",
+			"pups",
 		}
 	case ProcessingUnitRefreshIdentity:
 		return []string{}
