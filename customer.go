@@ -115,6 +115,9 @@ type Customer struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
+	// CommittedUseLimit holds the customer's use limit provided by a contract.
+	CommittedUseLimit int `json:"committedUseLimit" msgpack:"committedUseLimit" bson:"committeduselimit" mapstructure:"committedUseLimit,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -181,6 +184,7 @@ func (o *Customer) GetBSON() (interface{}, error) {
 	s := &mongoAttributesCustomer{}
 
 	s.ID = bson.ObjectIdHex(o.ID)
+	s.CommittedUseLimit = o.CommittedUseLimit
 	s.CreateTime = o.CreateTime
 	s.LastReportTime = o.LastReportTime
 	s.Provider = o.Provider
@@ -206,6 +210,7 @@ func (o *Customer) SetBSON(raw bson.Raw) error {
 	}
 
 	o.ID = s.ID.Hex()
+	o.CommittedUseLimit = s.CommittedUseLimit
 	o.CreateTime = s.CreateTime
 	o.LastReportTime = s.LastReportTime
 	o.Provider = s.Provider
@@ -279,6 +284,7 @@ func (o *Customer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseCustomer{
 			ID:                 &o.ID,
+			CommittedUseLimit:  &o.CommittedUseLimit,
 			CreateTime:         &o.CreateTime,
 			LastReportTime:     &o.LastReportTime,
 			Provider:           &o.Provider,
@@ -294,6 +300,8 @@ func (o *Customer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "committedUseLimit":
+			sp.CommittedUseLimit = &(o.CommittedUseLimit)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "lastReportTime":
@@ -323,6 +331,9 @@ func (o *Customer) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseCustomer)
 	if so.ID != nil {
 		o.ID = *so.ID
+	}
+	if so.CommittedUseLimit != nil {
+		o.CommittedUseLimit = *so.CommittedUseLimit
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -421,6 +432,8 @@ func (o *Customer) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
+	case "committedUseLimit":
+		return o.CommittedUseLimit
 	case "createTime":
 		return o.CreateTime
 	case "lastReportTime":
@@ -455,6 +468,16 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"CommittedUseLimit": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CommittedUseLimit",
+		Description:    `CommittedUseLimit holds the customer's use limit provided by a contract.`,
+		Exposed:        true,
+		Name:           "committedUseLimit",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -556,6 +579,16 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"committeduselimit": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CommittedUseLimit",
+		Description:    `CommittedUseLimit holds the customer's use limit provided by a contract.`,
+		Exposed:        true,
+		Name:           "committedUseLimit",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -708,6 +741,9 @@ type SparseCustomer struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
+	// CommittedUseLimit holds the customer's use limit provided by a contract.
+	CommittedUseLimit *int `json:"committedUseLimit,omitempty" msgpack:"committedUseLimit,omitempty" bson:"committeduselimit,omitempty" mapstructure:"committedUseLimit,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
@@ -772,6 +808,9 @@ func (o *SparseCustomer) GetBSON() (interface{}, error) {
 	s := &mongoAttributesSparseCustomer{}
 
 	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.CommittedUseLimit != nil {
+		s.CommittedUseLimit = o.CommittedUseLimit
+	}
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
 	}
@@ -812,6 +851,9 @@ func (o *SparseCustomer) SetBSON(raw bson.Raw) error {
 
 	id := s.ID.Hex()
 	o.ID = &id
+	if s.CommittedUseLimit != nil {
+		o.CommittedUseLimit = s.CommittedUseLimit
+	}
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
 	}
@@ -849,6 +891,9 @@ func (o *SparseCustomer) ToPlain() elemental.PlainIdentifiable {
 	out := NewCustomer()
 	if o.ID != nil {
 		out.ID = *o.ID
+	}
+	if o.CommittedUseLimit != nil {
+		out.CommittedUseLimit = *o.CommittedUseLimit
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
@@ -925,6 +970,7 @@ func (o *SparseCustomer) DeepCopyInto(out *SparseCustomer) {
 
 type mongoAttributesCustomer struct {
 	ID                 bson.ObjectId         `bson:"_id"`
+	CommittedUseLimit  int                   `bson:"committeduselimit"`
 	CreateTime         time.Time             `bson:"createtime"`
 	LastReportTime     time.Time             `bson:"lastreporttime"`
 	Provider           CustomerProviderValue `bson:"provider"`
@@ -935,6 +981,7 @@ type mongoAttributesCustomer struct {
 }
 type mongoAttributesSparseCustomer struct {
 	ID                 bson.ObjectId          `bson:"_id"`
+	CommittedUseLimit  *int                   `bson:"committeduselimit,omitempty"`
 	CreateTime         *time.Time             `bson:"createtime,omitempty"`
 	LastReportTime     *time.Time             `bson:"lastreporttime,omitempty"`
 	Provider           *CustomerProviderValue `bson:"provider,omitempty"`
