@@ -347,6 +347,7 @@ func (o *X509Certificate) Validate() error {
 	}
 
 	if o.SubjectOverride != nil {
+		elemental.ResetDefaultForZeroValues(o.SubjectOverride)
 		if err := o.SubjectOverride.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

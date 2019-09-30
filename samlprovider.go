@@ -59,7 +59,6 @@ func (o SAMLProvidersList) List() elemental.IdentifiablesList {
 func (o SAMLProvidersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -268,7 +267,6 @@ func (o *SAMLProvider) BleveType() string {
 func (o *SAMLProvider) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1251,7 +1249,6 @@ func (o SparseSAMLProvidersList) List() elemental.IdentifiablesList {
 func (o SparseSAMLProvidersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

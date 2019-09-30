@@ -115,7 +115,6 @@ func (o PoliciesList) List() elemental.IdentifiablesList {
 func (o PoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -387,7 +386,6 @@ func (o *Policy) BleveType() string {
 func (o *Policy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1868,7 +1866,6 @@ func (o SparsePoliciesList) List() elemental.IdentifiablesList {
 func (o SparsePoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

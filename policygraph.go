@@ -287,6 +287,7 @@ func (o *PolicyGraph) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if o.DependencyMap != nil {
+		elemental.ResetDefaultForZeroValues(o.DependencyMap)
 		if err := o.DependencyMap.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

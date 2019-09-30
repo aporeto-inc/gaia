@@ -59,7 +59,6 @@ func (o FilePathsList) List() elemental.IdentifiablesList {
 func (o FilePathsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -267,7 +266,6 @@ func (o *FilePath) BleveType() string {
 func (o *FilePath) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1332,7 +1330,6 @@ func (o SparseFilePathsList) List() elemental.IdentifiablesList {
 func (o SparseFilePathsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

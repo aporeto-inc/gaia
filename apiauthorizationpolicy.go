@@ -59,7 +59,6 @@ func (o APIAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 func (o APIAuthorizationPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -279,7 +278,6 @@ func (o *APIAuthorizationPolicy) BleveType() string {
 func (o *APIAuthorizationPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1465,7 +1463,6 @@ func (o SparseAPIAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseAPIAuthorizationPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

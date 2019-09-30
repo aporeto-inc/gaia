@@ -87,7 +87,6 @@ func (o EnforcerProfilesList) List() elemental.IdentifiablesList {
 func (o EnforcerProfilesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -344,7 +343,6 @@ func (o *EnforcerProfile) BleveType() string {
 func (o *EnforcerProfile) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1612,7 +1610,6 @@ func (o SparseEnforcerProfilesList) List() elemental.IdentifiablesList {
 func (o SparseEnforcerProfilesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

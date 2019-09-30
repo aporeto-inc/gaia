@@ -59,7 +59,6 @@ func (o RecipesList) List() elemental.IdentifiablesList {
 func (o RecipesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -306,7 +305,6 @@ func (o *Recipe) BleveType() string {
 func (o *Recipe) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -759,6 +757,7 @@ func (o *Recipe) Validate() error {
 	}
 
 	if o.Options != nil {
+		elemental.ResetDefaultForZeroValues(o.Options)
 		if err := o.Options.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -768,6 +767,7 @@ func (o *Recipe) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -1568,7 +1568,6 @@ func (o SparseRecipesList) List() elemental.IdentifiablesList {
 func (o SparseRecipesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

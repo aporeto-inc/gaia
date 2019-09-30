@@ -59,7 +59,6 @@ func (o UserAccessPoliciesList) List() elemental.IdentifiablesList {
 func (o UserAccessPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -269,7 +268,6 @@ func (o *UserAccessPolicy) BleveType() string {
 func (o *UserAccessPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1366,7 +1364,6 @@ func (o SparseUserAccessPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseUserAccessPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

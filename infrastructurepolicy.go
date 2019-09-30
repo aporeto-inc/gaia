@@ -81,7 +81,6 @@ func (o InfrastructurePoliciesList) List() elemental.IdentifiablesList {
 func (o InfrastructurePoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -290,7 +289,6 @@ func (o *InfrastructurePolicy) BleveType() string {
 func (o *InfrastructurePolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1386,7 +1384,6 @@ func (o SparseInfrastructurePoliciesList) List() elemental.IdentifiablesList {
 func (o SparseInfrastructurePoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

@@ -59,7 +59,6 @@ func (o NamespaceMappingPoliciesList) List() elemental.IdentifiablesList {
 func (o NamespaceMappingPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -242,7 +241,6 @@ func (o *NamespaceMappingPolicy) BleveType() string {
 func (o *NamespaceMappingPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1147,7 +1145,6 @@ func (o SparseNamespaceMappingPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseNamespaceMappingPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

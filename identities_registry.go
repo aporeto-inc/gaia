@@ -26,7 +26,8 @@ var (
 		"awsregister":               AWSRegisterIdentity,
 		"category":                  CategoryIdentity,
 
-		"claims": ClaimsIdentity,
+		"claims":       ClaimsIdentity,
+		"clausesmatch": ClauseMatchIdentity,
 
 		"counterreport": CounterReportIdentity,
 
@@ -103,6 +104,7 @@ var (
 		"role":                   RoleIdentity,
 		"root":                   RootIdentity,
 		"samlprovider":           SAMLProviderIdentity,
+		"sandbox":                SandboxIdentity,
 		"search":                 SearchIdentity,
 		"service":                ServiceIdentity,
 		"servicedependency":      ServiceDependencyIdentity,
@@ -156,7 +158,8 @@ var (
 		"awsregister":                 AWSRegisterIdentity,
 		"categories":                  CategoryIdentity,
 
-		"claims": ClaimsIdentity,
+		"claims":         ClaimsIdentity,
+		"clausesmatches": ClauseMatchIdentity,
 
 		"counterreports": CounterReportIdentity,
 
@@ -233,6 +236,7 @@ var (
 		"roles":                    RoleIdentity,
 		"root":                     RootIdentity,
 		"samlproviders":            SAMLProviderIdentity,
+		"sandboxes":                SandboxIdentity,
 		"search":                   SearchIdentity,
 		"services":                 ServiceIdentity,
 		"servicedependencies":      ServiceDependencyIdentity,
@@ -320,6 +324,7 @@ var (
 		"pu":             ProcessingUnitIdentity,
 		"pus":            ProcessingUnitIdentity,
 		"pup":            ProcessingUnitPolicyIdentity,
+		"pups":           ProcessingUnitPolicyIdentity,
 		"quota":          QuotaPolicyIdentity,
 		"quotas":         QuotaPolicyIdentity,
 		"quotapol":       QuotaPolicyIdentity,
@@ -451,6 +456,7 @@ var (
 			[]string{"namespace", "normalizedTags"},
 			[]string{"createIdempotencyKey"},
 		},
+		"clausesmatch":  nil,
 		"counterreport": nil,
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
@@ -513,12 +519,14 @@ var (
 		},
 		"flowreport": nil,
 		"graphedge": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "lastSeen", "firstSeen"},
 			[]string{"lastSeen", "firstSeen"},
 			[]string{"lastSeen"},
+			[]string{"flowID"},
+			[]string{"flowID", "createTime"},
 			[]string{"firstSeen"},
-			[]string{":shard", ":unique", "zone", "zHash"},
 		},
 		"graphnode":  nil,
 		"hookpolicy": nil,
@@ -706,7 +714,8 @@ var (
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 		},
-		"search": nil,
+		"sandbox": nil,
+		"search":  nil,
 		"service": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -850,6 +859,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCategory()
 	case ClaimsIdentity:
 		return NewClaims()
+	case ClauseMatchIdentity:
+		return NewClauseMatch()
 	case CounterReportIdentity:
 		return NewCounterReport()
 	case CustomerIdentity:
@@ -986,6 +997,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRoot()
 	case SAMLProviderIdentity:
 		return NewSAMLProvider()
+	case SandboxIdentity:
+		return NewSandbox()
 	case SearchIdentity:
 		return NewSearch()
 	case ServiceIdentity:
@@ -1089,6 +1102,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCategory()
 	case ClaimsIdentity:
 		return NewSparseClaims()
+	case ClauseMatchIdentity:
+		return NewSparseClauseMatch()
 	case CounterReportIdentity:
 		return NewSparseCounterReport()
 	case CustomerIdentity:
@@ -1223,6 +1238,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRole()
 	case SAMLProviderIdentity:
 		return NewSparseSAMLProvider()
+	case SandboxIdentity:
+		return NewSparseSandbox()
 	case SearchIdentity:
 		return NewSparseSearch()
 	case ServiceIdentity:
@@ -1336,6 +1353,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CategoriesList{}
 	case ClaimsIdentity:
 		return &ClaimsList{}
+	case ClauseMatchIdentity:
+		return &ClauseMatchesList{}
 	case CounterReportIdentity:
 		return &CounterReportsList{}
 	case CustomerIdentity:
@@ -1470,6 +1489,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RolesList{}
 	case SAMLProviderIdentity:
 		return &SAMLProvidersList{}
+	case SandboxIdentity:
+		return &SandboxsList{}
 	case SearchIdentity:
 		return &SearchesList{}
 	case ServiceIdentity:
@@ -1573,6 +1594,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCategoriesList{}
 	case ClaimsIdentity:
 		return &SparseClaimsList{}
+	case ClauseMatchIdentity:
+		return &SparseClauseMatchesList{}
 	case CounterReportIdentity:
 		return &SparseCounterReportsList{}
 	case CustomerIdentity:
@@ -1707,6 +1730,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRolesList{}
 	case SAMLProviderIdentity:
 		return &SparseSAMLProvidersList{}
+	case SandboxIdentity:
+		return &SparseSandboxsList{}
 	case SearchIdentity:
 		return &SparseSearchesList{}
 	case ServiceIdentity:
@@ -1803,6 +1828,7 @@ func AllIdentities() []elemental.Identity {
 		AWSRegisterIdentity,
 		CategoryIdentity,
 		ClaimsIdentity,
+		ClauseMatchIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
@@ -1871,6 +1897,7 @@ func AllIdentities() []elemental.Identity {
 		RoleIdentity,
 		RootIdentity,
 		SAMLProviderIdentity,
+		SandboxIdentity,
 		SearchIdentity,
 		ServiceIdentity,
 		ServiceDependencyIdentity,
@@ -1964,6 +1991,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CategoryIdentity:
 		return []string{}
 	case ClaimsIdentity:
+		return []string{}
+	case ClauseMatchIdentity:
 		return []string{}
 	case CounterReportIdentity:
 		return []string{}
@@ -2142,6 +2171,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ProcessingUnitPolicyIdentity:
 		return []string{
 			"pup",
+			"pups",
 		}
 	case ProcessingUnitRefreshIdentity:
 		return []string{}
@@ -2182,6 +2212,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case RootIdentity:
 		return []string{}
 	case SAMLProviderIdentity:
+		return []string{}
+	case SandboxIdentity:
 		return []string{}
 	case SearchIdentity:
 		return []string{}

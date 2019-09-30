@@ -58,9 +58,7 @@ func (o ActivitiesList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o ActivitiesList) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // ToSparse returns the ActivitiesList converted to SparseActivitiesList.
@@ -235,9 +233,7 @@ func (o *Activity) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *Activity) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // Doc returns the documentation for the object
@@ -945,9 +941,7 @@ func (o SparseActivitiesList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseActivitiesList) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // ToPlain returns the SparseActivitiesList converted to ActivitiesList.

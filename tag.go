@@ -57,9 +57,7 @@ func (o TagsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o TagsList) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // ToSparse returns the TagsList converted to SparseTagsList.
@@ -177,9 +175,7 @@ func (o *Tag) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *Tag) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // Doc returns the documentation for the object
@@ -498,9 +494,7 @@ func (o SparseTagsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseTagsList) DefaultOrder() []string {
 
-	return []string{
-		"namespace",
-	}
+	return []string{}
 }
 
 // ToPlain returns the SparseTagsList converted to TagsList.

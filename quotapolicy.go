@@ -59,7 +59,6 @@ func (o QuotaPoliciesList) List() elemental.IdentifiablesList {
 func (o QuotaPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -270,7 +269,6 @@ func (o *QuotaPolicy) BleveType() string {
 func (o *QuotaPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1364,7 +1362,6 @@ func (o SparseQuotaPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseQuotaPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

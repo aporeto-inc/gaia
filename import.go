@@ -261,6 +261,7 @@ func (o *Import) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if o.Data != nil {
+		elemental.ResetDefaultForZeroValues(o.Data)
 		if err := o.Data.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

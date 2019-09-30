@@ -59,7 +59,6 @@ func (o HTTPResourceSpecsList) List() elemental.IdentifiablesList {
 func (o HTTPResourceSpecsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -263,7 +262,6 @@ func (o *HTTPResourceSpec) BleveType() string {
 func (o *HTTPResourceSpec) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -667,6 +665,7 @@ func (o *HTTPResourceSpec) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -1301,7 +1300,6 @@ func (o SparseHTTPResourceSpecsList) List() elemental.IdentifiablesList {
 func (o SparseHTTPResourceSpecsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }

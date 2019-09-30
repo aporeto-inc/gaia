@@ -4,7 +4,7 @@ model:
   resource_name: recipeoptions
   entity_name: RecipeOptions
   package: ignis
-  group: recipes
+  group: core/workflow
   description: Represents recipe options.
   detached: true
 
