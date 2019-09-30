@@ -258,6 +258,7 @@ func (o *SSHAuthorizationPolicy) GetBSON() (interface{}, error) {
 	s.NormalizedTags = o.NormalizedTags
 	s.Propagate = o.Propagate
 	s.Protected = o.Protected
+	s.RequireSystemAccountMatching = o.RequireSystemAccountMatching
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
 
@@ -293,6 +294,7 @@ func (o *SSHAuthorizationPolicy) SetBSON(raw bson.Raw) error {
 	o.NormalizedTags = s.NormalizedTags
 	o.Propagate = s.Propagate
 	o.Protected = s.Protected
+	o.RequireSystemAccountMatching = s.RequireSystemAccountMatching
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
 
@@ -1863,6 +1865,9 @@ func (o *SparseSSHAuthorizationPolicy) GetBSON() (interface{}, error) {
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
+	if o.RequireSystemAccountMatching != nil {
+		s.RequireSystemAccountMatching = o.RequireSystemAccountMatching
+	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	}
@@ -1933,6 +1938,9 @@ func (o *SparseSSHAuthorizationPolicy) SetBSON(raw bson.Raw) error {
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
+	}
+	if s.RequireSystemAccountMatching != nil {
+		o.RequireSystemAccountMatching = s.RequireSystemAccountMatching
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -2280,42 +2288,44 @@ func (o *SparseSSHAuthorizationPolicy) DeepCopyInto(out *SparseSSHAuthorizationP
 }
 
 type mongoAttributesSSHAuthorizationPolicy struct {
-	ActiveDuration       string              `bson:"activeduration"`
-	ActiveSchedule       string              `bson:"activeschedule"`
-	Annotations          map[string][]string `bson:"annotations"`
-	AssociatedTags       []string            `bson:"associatedtags"`
-	CreateIdempotencyKey string              `bson:"createidempotencykey"`
-	CreateTime           time.Time           `bson:"createtime"`
-	Description          string              `bson:"description"`
-	Disabled             bool                `bson:"disabled"`
-	ExpirationTime       time.Time           `bson:"expirationtime"`
-	Fallback             bool                `bson:"fallback"`
-	Metadata             []string            `bson:"metadata"`
-	Name                 string              `bson:"name"`
-	Namespace            string              `bson:"namespace"`
-	NormalizedTags       []string            `bson:"normalizedtags"`
-	Propagate            bool                `bson:"propagate"`
-	Protected            bool                `bson:"protected"`
-	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
-	UpdateTime           time.Time           `bson:"updatetime"`
+	ActiveDuration               string              `bson:"activeduration"`
+	ActiveSchedule               string              `bson:"activeschedule"`
+	Annotations                  map[string][]string `bson:"annotations"`
+	AssociatedTags               []string            `bson:"associatedtags"`
+	CreateIdempotencyKey         string              `bson:"createidempotencykey"`
+	CreateTime                   time.Time           `bson:"createtime"`
+	Description                  string              `bson:"description"`
+	Disabled                     bool                `bson:"disabled"`
+	ExpirationTime               time.Time           `bson:"expirationtime"`
+	Fallback                     bool                `bson:"fallback"`
+	Metadata                     []string            `bson:"metadata"`
+	Name                         string              `bson:"name"`
+	Namespace                    string              `bson:"namespace"`
+	NormalizedTags               []string            `bson:"normalizedtags"`
+	Propagate                    bool                `bson:"propagate"`
+	Protected                    bool                `bson:"protected"`
+	RequireSystemAccountMatching bool                `bson:"requiresystemaccountmatching"`
+	UpdateIdempotencyKey         string              `bson:"updateidempotencykey"`
+	UpdateTime                   time.Time           `bson:"updatetime"`
 }
 type mongoAttributesSparseSSHAuthorizationPolicy struct {
-	ActiveDuration       *string              `bson:"activeduration,omitempty"`
-	ActiveSchedule       *string              `bson:"activeschedule,omitempty"`
-	Annotations          *map[string][]string `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time           `bson:"createtime,omitempty"`
-	Description          *string              `bson:"description,omitempty"`
-	Disabled             *bool                `bson:"disabled,omitempty"`
-	ExpirationTime       *time.Time           `bson:"expirationtime,omitempty"`
-	Fallback             *bool                `bson:"fallback,omitempty"`
-	Metadata             *[]string            `bson:"metadata,omitempty"`
-	Name                 *string              `bson:"name,omitempty"`
-	Namespace            *string              `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	Propagate            *bool                `bson:"propagate,omitempty"`
-	Protected            *bool                `bson:"protected,omitempty"`
-	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
+	ActiveDuration               *string              `bson:"activeduration,omitempty"`
+	ActiveSchedule               *string              `bson:"activeschedule,omitempty"`
+	Annotations                  *map[string][]string `bson:"annotations,omitempty"`
+	AssociatedTags               *[]string            `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey         *string              `bson:"createidempotencykey,omitempty"`
+	CreateTime                   *time.Time           `bson:"createtime,omitempty"`
+	Description                  *string              `bson:"description,omitempty"`
+	Disabled                     *bool                `bson:"disabled,omitempty"`
+	ExpirationTime               *time.Time           `bson:"expirationtime,omitempty"`
+	Fallback                     *bool                `bson:"fallback,omitempty"`
+	Metadata                     *[]string            `bson:"metadata,omitempty"`
+	Name                         *string              `bson:"name,omitempty"`
+	Namespace                    *string              `bson:"namespace,omitempty"`
+	NormalizedTags               *[]string            `bson:"normalizedtags,omitempty"`
+	Propagate                    *bool                `bson:"propagate,omitempty"`
+	Protected                    *bool                `bson:"protected,omitempty"`
+	RequireSystemAccountMatching *bool                `bson:"requiresystemaccountmatching,omitempty"`
+	UpdateIdempotencyKey         *string              `bson:"updateidempotencykey,omitempty"`
+	UpdateTime                   *time.Time           `bson:"updatetime,omitempty"`
 }
