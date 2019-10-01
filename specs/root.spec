@@ -321,6 +321,14 @@ relations:
     - $archivable
     - $filtering
 
+- rest_name: hit
+  get:
+    description: Verifies if a X.509 certificate is valid.
+    global_parameters:
+    - $filtering
+  create:
+    description: Create a new hit.
+
 - rest_name: hookpolicy
   get:
     description: Retrieves the list of hooks.
