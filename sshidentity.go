@@ -87,6 +87,9 @@ type SSHIdentity struct {
 	// public key with the standard `ssh-keygen` tool.
 	PublicKey string `json:"publicKey" msgpack:"publicKey" bson:"-" mapstructure:"publicKey,omitempty"`
 
+	// Define the targeted system account name.
+	SystemAccount string `json:"systemAccount" msgpack:"systemAccount" bson:"-" mapstructure:"systemAccount,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -165,7 +168,8 @@ func (o *SSHIdentity) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *SSHIdentity) Doc() string {
 
-	return `Returns an SSH certificate containing the bearer claims. This SSH certificate can
+	return `Returns an SSH certificate containing the bearer claims. This SSH certificate
+can
 be used to connect to a node where enforcer is protecting SSH sessions.`
 }
 
@@ -181,8 +185,9 @@ func (o *SSHIdentity) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseSSHIdentity{
-			Certificate: &o.Certificate,
-			PublicKey:   &o.PublicKey,
+			Certificate:   &o.Certificate,
+			PublicKey:     &o.PublicKey,
+			SystemAccount: &o.SystemAccount,
 		}
 	}
 
@@ -193,6 +198,8 @@ func (o *SSHIdentity) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Certificate = &(o.Certificate)
 		case "publicKey":
 			sp.PublicKey = &(o.PublicKey)
+		case "systemAccount":
+			sp.SystemAccount = &(o.SystemAccount)
 		}
 	}
 
@@ -211,6 +218,9 @@ func (o *SSHIdentity) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.PublicKey != nil {
 		o.PublicKey = *so.PublicKey
+	}
+	if so.SystemAccount != nil {
+		o.SystemAccount = *so.SystemAccount
 	}
 }
 
@@ -286,6 +296,8 @@ func (o *SSHIdentity) ValueForAttribute(name string) interface{} {
 		return o.Certificate
 	case "publicKey":
 		return o.PublicKey
+	case "systemAccount":
+		return o.SystemAccount
 	}
 
 	return nil
@@ -306,12 +318,20 @@ var SSHIdentityAttributesMap = map[string]elemental.AttributeSpecification{
 	"PublicKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PublicKey",
-		Description: `Contains the public key to sign in OpenSSH format. You can generate an SSH 
+		Description: `Contains the public key to sign in OpenSSH format. You can generate an SSH
 public key with the standard ` + "`" + `ssh-keygen` + "`" + ` tool.`,
 		Exposed:  true,
 		Name:     "publicKey",
 		Required: true,
 		Type:     "string",
+	},
+	"SystemAccount": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SystemAccount",
+		Description:    `Define the targeted system account name.`,
+		Exposed:        true,
+		Name:           "systemAccount",
+		Type:           "string",
 	},
 }
 
@@ -330,12 +350,20 @@ var SSHIdentityLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"publickey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PublicKey",
-		Description: `Contains the public key to sign in OpenSSH format. You can generate an SSH 
+		Description: `Contains the public key to sign in OpenSSH format. You can generate an SSH
 public key with the standard ` + "`" + `ssh-keygen` + "`" + ` tool.`,
 		Exposed:  true,
 		Name:     "publicKey",
 		Required: true,
 		Type:     "string",
+	},
+	"systemaccount": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SystemAccount",
+		Description:    `Define the targeted system account name.`,
+		Exposed:        true,
+		Name:           "systemAccount",
+		Type:           "string",
 	},
 }
 
@@ -409,6 +437,9 @@ type SparseSSHIdentity struct {
 	// public key with the standard `ssh-keygen` tool.
 	PublicKey *string `json:"publicKey,omitempty" msgpack:"publicKey,omitempty" bson:"-" mapstructure:"publicKey,omitempty"`
 
+	// Define the targeted system account name.
+	SystemAccount *string `json:"systemAccount,omitempty" msgpack:"systemAccount,omitempty" bson:"-" mapstructure:"systemAccount,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -478,6 +509,9 @@ func (o *SparseSSHIdentity) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.PublicKey != nil {
 		out.PublicKey = *o.PublicKey
+	}
+	if o.SystemAccount != nil {
+		out.SystemAccount = *o.SystemAccount
 	}
 
 	return out
