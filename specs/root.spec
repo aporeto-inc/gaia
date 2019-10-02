@@ -333,7 +333,7 @@ relations:
           - targetIdentity
       entries:
       - name: name
-        description: The name of the conter.
+        description: The name of the counter.
         type: string
         default_value: counter
 

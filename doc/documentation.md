@@ -93,7 +93,7 @@ Retrieve a matching hit.
 
 Parameters:
 
-- `name` (`string`): The name of the conter.
+- `name` (`string`): The name of the counter.
 - `targetID` (`string`): The ID of the object associated to the counter.
 - `targetIdentity` (`string`): The identity of the object associated to the counter.
 
