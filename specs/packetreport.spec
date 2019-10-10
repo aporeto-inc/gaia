@@ -13,16 +13,21 @@ attributes:
   - name: TCPFlags
     description: Flags are the TCP flags of the packet.
     type: integer
+    exposed: true
+    stored: true
 
   - name: claims
     description: Claims is the list of claims detected for the packet.
     type: list
+    exposed: true
     subtype: string
+    stored: true
 
   - name: destinationIP
     description: The destination IP address of the packet.
     type: string
     exposed: true
+    stored: true
 
   - name: destinationPort
     description: The destination port of a TCP or UDP packet.
@@ -42,6 +47,7 @@ attributes:
     description: Set to `true` if the packet was encrypted.
     type: boolean
     exposed: true
+    stored: true
 
   - name: enforcerID
     description: Identifier of the enforcer sending the report.
@@ -86,7 +92,6 @@ attributes:
     description: Namespace of the processing unit reporting the packet.
     type: string
     exposed: true
-    required: true
     example_value: /my/namespace
     filterable: true
 
@@ -107,7 +112,6 @@ attributes:
     description: The ID of the processing unit reporting the packet.
     type: string
     exposed: true
-    required: true
     example_value: xxx-xxx-xxx
     filterable: true
 

@@ -96,13 +96,13 @@ func (o PacketReportsList) Version() int {
 // PacketReport represents the model of a packetreport
 type PacketReport struct {
 	// Flags are the TCP flags of the packet.
-	TCPFlags int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	TCPFlags int `json:"TCPFlags" msgpack:"TCPFlags" bson:"tcpflags" mapstructure:"TCPFlags,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims []string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	Claims []string `json:"claims" msgpack:"claims" bson:"claims" mapstructure:"claims,omitempty"`
 
 	// The destination IP address of the packet.
-	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
+	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"destinationip" mapstructure:"destinationIP,omitempty"`
 
 	// The destination port of a TCP or UDP packet.
 	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
@@ -112,7 +112,7 @@ type PacketReport struct {
 	DropReason string `json:"dropReason" msgpack:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
 
 	// Set to `true` if the packet was encrypted.
-	Encrypt bool `json:"encrypt" msgpack:"encrypt" bson:"-" mapstructure:"encrypt,omitempty"`
+	Encrypt bool `json:"encrypt" msgpack:"encrypt" bson:"encrypt" mapstructure:"encrypt,omitempty"`
 
 	// Identifier of the enforcer sending the report.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
@@ -197,6 +197,10 @@ func (o *PacketReport) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesPacketReport{}
 
+	s.TCPFlags = o.TCPFlags
+	s.Claims = o.Claims
+	s.DestinationIP = o.DestinationIP
+	s.Encrypt = o.Encrypt
 	s.EnforcerID = o.EnforcerID
 	s.EnforcerNamespace = o.EnforcerNamespace
 	s.RawPacket = o.RawPacket
@@ -218,6 +222,10 @@ func (o *PacketReport) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.TCPFlags = s.TCPFlags
+	o.Claims = s.Claims
+	o.DestinationIP = s.DestinationIP
+	o.Encrypt = s.Encrypt
 	o.EnforcerID = s.EnforcerID
 	o.EnforcerNamespace = s.EnforcerNamespace
 	o.RawPacket = s.RawPacket
@@ -453,16 +461,8 @@ func (o *PacketReport) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateMaximumInt("protocol", o.Protocol, int(255), false); err != nil {
 		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("puID", o.PuID); err != nil {
-		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumInt("sourcePort", o.SourcePort, int(65536), false); err != nil {
@@ -558,14 +558,18 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TCPFlags",
 		Description:    `Flags are the TCP flags of the packet.`,
+		Exposed:        true,
 		Name:           "TCPFlags",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"Claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
 		Description:    `Claims is the list of claims detected for the packet.`,
+		Exposed:        true,
 		Name:           "claims",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -575,6 +579,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The destination IP address of the packet.`,
 		Exposed:        true,
 		Name:           "destinationIP",
+		Stored:         true,
 		Type:           "string",
 	},
 	"DestinationPort": elemental.AttributeSpecification{
@@ -601,6 +606,7 @@ Otherwise empty.`,
 		Description:    `Set to ` + "`" + `true` + "`" + ` if the packet was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypt",
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"EnforcerID": elemental.AttributeSpecification{
@@ -655,7 +661,6 @@ Otherwise empty.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "namespace",
-		Required:       true,
 		Type:           "string",
 	},
 	"PacketID": elemental.AttributeSpecification{
@@ -682,7 +687,6 @@ Otherwise empty.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "puID",
-		Required:       true,
 		Type:           "string",
 	},
 	"RawPacket": elemental.AttributeSpecification{
@@ -740,14 +744,18 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		AllowedChoices: []string{},
 		ConvertedName:  "TCPFlags",
 		Description:    `Flags are the TCP flags of the packet.`,
+		Exposed:        true,
 		Name:           "TCPFlags",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
 		Description:    `Claims is the list of claims detected for the packet.`,
+		Exposed:        true,
 		Name:           "claims",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -757,6 +765,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `The destination IP address of the packet.`,
 		Exposed:        true,
 		Name:           "destinationIP",
+		Stored:         true,
 		Type:           "string",
 	},
 	"destinationport": elemental.AttributeSpecification{
@@ -783,6 +792,7 @@ Otherwise empty.`,
 		Description:    `Set to ` + "`" + `true` + "`" + ` if the packet was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypt",
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"enforcerid": elemental.AttributeSpecification{
@@ -837,7 +847,6 @@ Otherwise empty.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "namespace",
-		Required:       true,
 		Type:           "string",
 	},
 	"packetid": elemental.AttributeSpecification{
@@ -864,7 +873,6 @@ Otherwise empty.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "puID",
-		Required:       true,
 		Type:           "string",
 	},
 	"rawpacket": elemental.AttributeSpecification{
@@ -980,13 +988,13 @@ func (o SparsePacketReportsList) Version() int {
 // SparsePacketReport represents the sparse version of a packetreport.
 type SparsePacketReport struct {
 	// Flags are the TCP flags of the packet.
-	TCPFlags *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	TCPFlags *int `json:"TCPFlags,omitempty" msgpack:"TCPFlags,omitempty" bson:"tcpflags,omitempty" mapstructure:"TCPFlags,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims *[]string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"claims,omitempty" mapstructure:"claims,omitempty"`
 
 	// The destination IP address of the packet.
-	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
+	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"destinationip,omitempty" mapstructure:"destinationIP,omitempty"`
 
 	// The destination port of a TCP or UDP packet.
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
@@ -996,7 +1004,7 @@ type SparsePacketReport struct {
 	DropReason *string `json:"dropReason,omitempty" msgpack:"dropReason,omitempty" bson:"-" mapstructure:"dropReason,omitempty"`
 
 	// Set to `true` if the packet was encrypted.
-	Encrypt *bool `json:"encrypt,omitempty" msgpack:"encrypt,omitempty" bson:"-" mapstructure:"encrypt,omitempty"`
+	Encrypt *bool `json:"encrypt,omitempty" msgpack:"encrypt,omitempty" bson:"encrypt,omitempty" mapstructure:"encrypt,omitempty"`
 
 	// Identifier of the enforcer sending the report.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
@@ -1075,6 +1083,18 @@ func (o *SparsePacketReport) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparsePacketReport{}
 
+	if o.TCPFlags != nil {
+		s.TCPFlags = o.TCPFlags
+	}
+	if o.Claims != nil {
+		s.Claims = o.Claims
+	}
+	if o.DestinationIP != nil {
+		s.DestinationIP = o.DestinationIP
+	}
+	if o.Encrypt != nil {
+		s.Encrypt = o.Encrypt
+	}
 	if o.EnforcerID != nil {
 		s.EnforcerID = o.EnforcerID
 	}
@@ -1104,6 +1124,18 @@ func (o *SparsePacketReport) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	if s.TCPFlags != nil {
+		o.TCPFlags = s.TCPFlags
+	}
+	if s.Claims != nil {
+		o.Claims = s.Claims
+	}
+	if s.DestinationIP != nil {
+		o.DestinationIP = s.DestinationIP
+	}
+	if s.Encrypt != nil {
+		o.Encrypt = s.Encrypt
+	}
 	if s.EnforcerID != nil {
 		o.EnforcerID = s.EnforcerID
 	}
@@ -1219,14 +1251,22 @@ func (o *SparsePacketReport) DeepCopyInto(out *SparsePacketReport) {
 }
 
 type mongoAttributesPacketReport struct {
-	EnforcerID        string `bson:"enforcerid"`
-	EnforcerNamespace string `bson:"enforcernamespace"`
-	RawPacket         string `bson:"rawpacket"`
-	TriremePacket     bool   `bson:"triremepacket"`
+	TCPFlags          int      `bson:"tcpflags"`
+	Claims            []string `bson:"claims"`
+	DestinationIP     string   `bson:"destinationip"`
+	Encrypt           bool     `bson:"encrypt"`
+	EnforcerID        string   `bson:"enforcerid"`
+	EnforcerNamespace string   `bson:"enforcernamespace"`
+	RawPacket         string   `bson:"rawpacket"`
+	TriremePacket     bool     `bson:"triremepacket"`
 }
 type mongoAttributesSparsePacketReport struct {
-	EnforcerID        *string `bson:"enforcerid,omitempty"`
-	EnforcerNamespace *string `bson:"enforcernamespace,omitempty"`
-	RawPacket         *string `bson:"rawpacket,omitempty"`
-	TriremePacket     *bool   `bson:"triremepacket,omitempty"`
+	TCPFlags          *int      `bson:"tcpflags,omitempty"`
+	Claims            *[]string `bson:"claims,omitempty"`
+	DestinationIP     *string   `bson:"destinationip,omitempty"`
+	Encrypt           *bool     `bson:"encrypt,omitempty"`
+	EnforcerID        *string   `bson:"enforcerid,omitempty"`
+	EnforcerNamespace *string   `bson:"enforcernamespace,omitempty"`
+	RawPacket         *string   `bson:"rawpacket,omitempty"`
+	TriremePacket     *bool     `bson:"triremepacket,omitempty"`
 }

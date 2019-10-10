@@ -2710,6 +2710,14 @@ Create a packet trace report.
 
 #### Attributes
 
+##### `TCPFlags` `integer`
+
+Flags are the TCP flags of the packet.
+
+##### `claims` `[]string`
+
+Claims is the list of claims detected for the packet.
+
 ##### `destinationIP` `string`
 
 The destination IP address of the packet.
@@ -2739,7 +2747,7 @@ Namespace of the enforcer sending the report.
 
 The event that triggered the report.
 
-##### `namespace` `string` [`required`]
+##### `namespace` `string`
 
 Namespace of the processing unit reporting the packet.
 
@@ -2747,7 +2755,7 @@ Namespace of the processing unit reporting the packet.
 
 Protocol number.
 
-##### `puID` `string` [`required`]
+##### `puID` `string`
 
 The ID of the processing unit reporting the packet.
 
