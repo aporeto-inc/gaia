@@ -12,7 +12,7 @@ before_install:
 - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
 script:
-  - docker run --rm -v $$PWD:/workdir tmaier/markdown-spellcheck:latest "doc/*.md" -r -a -n --en-us
+  - docker run --rm -v $PWD:/workdir tmaier/markdown-spellcheck:latest "doc/*.md" -r -a -n --en-us
   - |
     golangci-lint run \
       --disable-all \
