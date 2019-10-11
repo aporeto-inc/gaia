@@ -2759,7 +2759,7 @@ Namespace of the processing unit reporting the packet.
 
 ##### `packetID` `integer`
 
-PacketID is the ID from the IP header of the packet.
+PacketID is the ID of the IP header.
 
 ##### `protocol` `integer` [`max_value=255.000000`]
 

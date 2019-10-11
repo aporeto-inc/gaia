@@ -102,7 +102,7 @@ attributes:
     filterable: true
 
   - name: packetID
-    description: PacketID is the ID from the IP header of the packet.
+    description: PacketID is the ID of the IP header.
     type: integer
     exposed: true
     stored: true
