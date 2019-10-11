@@ -33,6 +33,7 @@ attributes:
     description: The destination port of a TCP or UDP packet.
     type: integer
     exposed: true
+    stored: true
     example_value: 11000
     max_value: 65536
 
@@ -42,6 +43,7 @@ attributes:
       Otherwise empty.
     type: string
     exposed: true
+    stored: true
 
   - name: encrypt
     description: Set to `true` if the packet was encrypted.
@@ -79,6 +81,7 @@ attributes:
   - name: length
     description: Length is the length of the packet.
     type: integer
+    stored: true
     example_value: 94
     max_value: 65536
 
@@ -86,12 +89,14 @@ attributes:
     description: Mark is the mark value of the packet.
     type: integer
     exposed: true
+    stored: true
     example_value: 123123
 
   - name: namespace
     description: Namespace of the processing unit reporting the packet.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: /my/namespace
     filterable: true
@@ -100,12 +105,14 @@ attributes:
     description: PacketID is the ID from the IP header of the packet.
     type: integer
     exposed: true
+    stored: true
     example_value: 12333
 
   - name: protocol
     description: Protocol number.
     type: integer
     exposed: true
+    stored: true
     example_value: 6
     max_value: 255
 
@@ -113,6 +120,7 @@ attributes:
     description: The ID of the processing unit reporting the packet.
     type: string
     exposed: true
+    stored: true
     example_value: xxx-xxx-xxx
     filterable: true
 
@@ -127,11 +135,13 @@ attributes:
     description: The source IP address of the packet.
     type: string
     exposed: true
+    stored: true
 
   - name: sourcePort
     description: The source port of the packet.
     type: integer
     exposed: true
+    stored: true
     example_value: 80
     max_value: 65536
 
@@ -139,6 +149,7 @@ attributes:
     description: The time-date stamp of the report.
     type: time
     exposed: true
+    stored: true
     required: true
     example_value: "2018-06-14T23:10:46.420397985Z"
 
