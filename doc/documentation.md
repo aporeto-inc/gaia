@@ -2631,7 +2631,9 @@ Post a new packet tracing report.
   "enforcerID": "xxxx-xxx-xxxx",
   "enforcerNamespace": "/my/namespace",
   "event": "Rcv",
+  "mark": 123123,
   "namespace": "/my/namespace",
+  "packetID": 12333,
   "protocol": 6,
   "puID": "xxx-xxx-xxx",
   "rawPacket": "abcd",
@@ -2648,6 +2650,14 @@ Post a new packet tracing report.
 Create a packet trace report.
 
 #### Attributes
+
+##### `TCPFlags` `integer`
+
+Flags are the TCP flags of the packet.
+
+##### `claims` `[]string`
+
+Claims is the list of claims detected for the packet.
 
 ##### `destinationIP` `string`
 
@@ -2678,15 +2688,23 @@ Namespace of the enforcer sending the report.
 
 The event that triggered the report.
 
+##### `mark` `integer`
+
+Mark is the mark value of the packet.
+
 ##### `namespace` `string` [`required`]
 
 Namespace of the processing unit reporting the packet.
+
+##### `packetID` `integer`
+
+The ID of the IP header of the reported packet.
 
 ##### `protocol` `integer` [`max_value=255.000000`]
 
 Protocol number.
 
-##### `puID` `string` [`required`]
+##### `puID` `string`
 
 The ID of the processing unit reporting the packet.
 
@@ -2712,7 +2730,7 @@ The source port of the packet.
 
 The time-date stamp of the report.
 
-##### `triremePacket` `boolean` [`required`]
+##### `triremePacket` `boolean`
 
 Set to `true` if the packet arrived with the Trireme options (default).
 
