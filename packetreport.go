@@ -127,13 +127,13 @@ type PacketReport struct {
 	Length int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
-	Mark int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	Mark int `json:"mark" msgpack:"mark" bson:"-" mapstructure:"mark,omitempty"`
 
 	// Namespace of the processing unit reporting the packet.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// PacketID is the ID from the IP header of the packet.
-	PacketID int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	PacketID int `json:"packetID" msgpack:"packetID" bson:"-" mapstructure:"packetID,omitempty"`
 
 	// Protocol number.
 	Protocol int `json:"protocol" msgpack:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
@@ -461,6 +461,10 @@ func (o *PacketReport) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateMaximumInt("protocol", o.Protocol, int(255), false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -650,8 +654,8 @@ Otherwise empty.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Mark",
 		Description:    `Mark is the mark value of the packet.`,
+		Exposed:        true,
 		Name:           "mark",
-		Required:       true,
 		Type:           "integer",
 	},
 	"Namespace": elemental.AttributeSpecification{
@@ -661,14 +665,15 @@ Otherwise empty.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "namespace",
+		Required:       true,
 		Type:           "string",
 	},
 	"PacketID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PacketID",
 		Description:    `PacketID is the ID from the IP header of the packet.`,
+		Exposed:        true,
 		Name:           "packetID",
-		Required:       true,
 		Type:           "integer",
 	},
 	"Protocol": elemental.AttributeSpecification{
@@ -732,7 +737,6 @@ Otherwise empty.`,
 		Description:    `Set to ` + "`" + `true` + "`" + ` if the packet arrived with the Trireme options (default).`,
 		Exposed:        true,
 		Name:           "triremePacket",
-		Required:       true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -836,8 +840,8 @@ Otherwise empty.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Mark",
 		Description:    `Mark is the mark value of the packet.`,
+		Exposed:        true,
 		Name:           "mark",
-		Required:       true,
 		Type:           "integer",
 	},
 	"namespace": elemental.AttributeSpecification{
@@ -847,14 +851,15 @@ Otherwise empty.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "namespace",
+		Required:       true,
 		Type:           "string",
 	},
 	"packetid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PacketID",
 		Description:    `PacketID is the ID from the IP header of the packet.`,
+		Exposed:        true,
 		Name:           "packetID",
-		Required:       true,
 		Type:           "integer",
 	},
 	"protocol": elemental.AttributeSpecification{
@@ -918,7 +923,6 @@ Otherwise empty.`,
 		Description:    `Set to ` + "`" + `true` + "`" + ` if the packet arrived with the Trireme options (default).`,
 		Exposed:        true,
 		Name:           "triremePacket",
-		Required:       true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1019,13 +1023,13 @@ type SparsePacketReport struct {
 	Length *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
-	Mark *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	Mark *int `json:"mark,omitempty" msgpack:"mark,omitempty" bson:"-" mapstructure:"mark,omitempty"`
 
 	// Namespace of the processing unit reporting the packet.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// PacketID is the ID from the IP header of the packet.
-	PacketID *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	PacketID *int `json:"packetID,omitempty" msgpack:"packetID,omitempty" bson:"-" mapstructure:"packetID,omitempty"`
 
 	// Protocol number.
 	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`

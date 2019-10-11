@@ -85,20 +85,21 @@ attributes:
   - name: mark
     description: Mark is the mark value of the packet.
     type: integer
-    required: true
+    exposed: true
     example_value: 123123
 
   - name: namespace
     description: Namespace of the processing unit reporting the packet.
     type: string
     exposed: true
+    required: true
     example_value: /my/namespace
     filterable: true
 
   - name: packetID
     description: PacketID is the ID from the IP header of the packet.
     type: integer
-    required: true
+    exposed: true
     example_value: 12333
 
   - name: protocol
@@ -146,5 +147,4 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    required: true
     default_value: true

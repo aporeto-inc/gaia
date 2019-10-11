@@ -2692,7 +2692,9 @@ Post a new packet tracing report.
   "enforcerID": "xxxx-xxx-xxxx",
   "enforcerNamespace": "/my/namespace",
   "event": "Rcv",
+  "mark": 123123,
   "namespace": "/my/namespace",
+  "packetID": 12333,
   "protocol": 6,
   "puID": "xxx-xxx-xxx",
   "rawPacket": "abcd",
@@ -2747,9 +2749,17 @@ Namespace of the enforcer sending the report.
 
 The event that triggered the report.
 
-##### `namespace` `string`
+##### `mark` `integer`
+
+Mark is the mark value of the packet.
+
+##### `namespace` `string` [`required`]
 
 Namespace of the processing unit reporting the packet.
+
+##### `packetID` `integer`
+
+PacketID is the ID from the IP header of the packet.
 
 ##### `protocol` `integer` [`max_value=255.000000`]
 
@@ -2781,7 +2791,7 @@ The source port of the packet.
 
 The time-date stamp of the report.
 
-##### `triremePacket` `boolean` [`required`]
+##### `triremePacket` `boolean`
 
 Set to `true` if the packet arrived with the Trireme options (default).
 
