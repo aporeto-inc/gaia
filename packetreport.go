@@ -132,7 +132,7 @@ type PacketReport struct {
 	// Namespace of the processing unit reporting the packet.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// PacketID is the ID of the IP header.
+	// The ID of the IP header of the reported packet.
 	PacketID int `json:"packetID" msgpack:"packetID" bson:"packetid" mapstructure:"packetID,omitempty"`
 
 	// Protocol number.
@@ -698,7 +698,7 @@ Otherwise empty.`,
 	"PacketID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PacketID",
-		Description:    `PacketID is the ID of the IP header.`,
+		Description:    `The ID of the IP header of the reported packet.`,
 		Exposed:        true,
 		Name:           "packetID",
 		Stored:         true,
@@ -895,7 +895,7 @@ Otherwise empty.`,
 	"packetid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PacketID",
-		Description:    `PacketID is the ID of the IP header.`,
+		Description:    `The ID of the IP header of the reported packet.`,
 		Exposed:        true,
 		Name:           "packetID",
 		Stored:         true,
@@ -1072,7 +1072,7 @@ type SparsePacketReport struct {
 	// Namespace of the processing unit reporting the packet.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// PacketID is the ID of the IP header.
+	// The ID of the IP header of the reported packet.
 	PacketID *int `json:"packetID,omitempty" msgpack:"packetID,omitempty" bson:"packetid,omitempty" mapstructure:"packetID,omitempty"`
 
 	// Protocol number.
