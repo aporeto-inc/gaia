@@ -21,6 +21,7 @@ codegen:
 lint: spelling
 	# --enable=unparam
 	golangci-lint run \
+		--timeout 2m \
 		--disable-all \
 		--exclude-use-default=false \
 		--enable=errcheck \
