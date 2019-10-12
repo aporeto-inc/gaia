@@ -151,11 +151,11 @@ type LDAPProvider struct {
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// A list of keys that must not be imported into Aporeto authorization. If
-	// includedKeys is also set, and a key is in both lists, the key will be ignored.
+	// `includedKeys` is also set, and a key is in both lists, the key will be ignored.
 	IgnoredKeys []string `json:"ignoredKeys" msgpack:"ignoredKeys" bson:"ignoredkeys" mapstructure:"ignoredKeys,omitempty"`
 
-	// A list of keys that must be imported into Aporeto authorization. If ignoredKeys
-	// is also set, and a key is in both lists, the key will be ignored.
+	// A list of keys that must be imported into Aporeto authorization. If
+	// `ignoredKeys` is also set, and a key is in both lists, the key will be ignored.
 	IncludedKeys []string `json:"includedKeys" msgpack:"includedKeys" bson:"includedkeys" mapstructure:"includedKeys,omitempty"`
 
 	// Internal property maintaining migrations information.
@@ -1042,7 +1042,7 @@ given, the default will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoredKeys",
 		Description: `A list of keys that must not be imported into Aporeto authorization. If
-includedKeys is also set, and a key is in both lists, the key will be ignored.`,
+` + "`" + `includedKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
 		Exposed:   true,
 		Name:      "ignoredKeys",
 		Orderable: true,
@@ -1053,8 +1053,8 @@ includedKeys is also set, and a key is in both lists, the key will be ignored.`,
 	"IncludedKeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IncludedKeys",
-		Description: `A list of keys that must be imported into Aporeto authorization. If ignoredKeys
-is also set, and a key is in both lists, the key will be ignored.`,
+		Description: `A list of keys that must be imported into Aporeto authorization. If
+` + "`" + `ignoredKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
 		Exposed:   true,
 		Name:      "includedKeys",
 		Orderable: true,
@@ -1387,7 +1387,7 @@ given, the default will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoredKeys",
 		Description: `A list of keys that must not be imported into Aporeto authorization. If
-includedKeys is also set, and a key is in both lists, the key will be ignored.`,
+` + "`" + `includedKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
 		Exposed:   true,
 		Name:      "ignoredKeys",
 		Orderable: true,
@@ -1398,8 +1398,8 @@ includedKeys is also set, and a key is in both lists, the key will be ignored.`,
 	"includedkeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IncludedKeys",
-		Description: `A list of keys that must be imported into Aporeto authorization. If ignoredKeys
-is also set, and a key is in both lists, the key will be ignored.`,
+		Description: `A list of keys that must be imported into Aporeto authorization. If
+` + "`" + `ignoredKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
 		Exposed:   true,
 		Name:      "includedKeys",
 		Orderable: true,
@@ -1668,11 +1668,11 @@ type SparseLDAPProvider struct {
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// A list of keys that must not be imported into Aporeto authorization. If
-	// includedKeys is also set, and a key is in both lists, the key will be ignored.
+	// `includedKeys` is also set, and a key is in both lists, the key will be ignored.
 	IgnoredKeys *[]string `json:"ignoredKeys,omitempty" msgpack:"ignoredKeys,omitempty" bson:"ignoredkeys,omitempty" mapstructure:"ignoredKeys,omitempty"`
 
-	// A list of keys that must be imported into Aporeto authorization. If ignoredKeys
-	// is also set, and a key is in both lists, the key will be ignored.
+	// A list of keys that must be imported into Aporeto authorization. If
+	// `ignoredKeys` is also set, and a key is in both lists, the key will be ignored.
 	IncludedKeys *[]string `json:"includedKeys,omitempty" msgpack:"includedKeys,omitempty" bson:"includedkeys,omitempty" mapstructure:"includedKeys,omitempty"`
 
 	// Internal property maintaining migrations information.
