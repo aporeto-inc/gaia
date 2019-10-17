@@ -1157,7 +1157,13 @@ Description of the object.
 
 ##### `ignoredKeys` `[]string`
 
-A list of keys that must not be imported into Aporeto authorization system.
+A list of keys that must not be imported into Aporeto authorization. If
+`includedKeys` is also set, and a key is in both lists, the key will be ignored.
+
+##### `includedKeys` `[]string`
+
+A list of keys that must be imported into Aporeto authorization. If
+`ignoredKeys` is also set, and a key is in both lists, the key will be ignored.
 
 ##### `name` `string` [`required`,`max_length=256`]
 

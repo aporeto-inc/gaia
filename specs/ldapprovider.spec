@@ -134,8 +134,19 @@ attributes:
     stored: true
 
   - name: ignoredKeys
-    description: A list of keys that must not be imported into Aporeto authorization
-      system.
+    description: |-
+      A list of keys that must not be imported into Aporeto authorization. If
+      `includedKeys` is also set, and a key is in both lists, the key will be ignored.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    orderable: true
+
+  - name: includedKeys
+    description: |-
+      A list of keys that must be imported into Aporeto authorization. If
+      `ignoredKeys` is also set, and a key is in both lists, the key will be ignored.
     type: list
     exposed: true
     subtype: string

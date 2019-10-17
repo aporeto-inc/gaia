@@ -150,8 +150,13 @@ type LDAPProvider struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// A list of keys that must not be imported into Aporeto authorization system.
+	// A list of keys that must not be imported into Aporeto authorization. If
+	// `includedKeys` is also set, and a key is in both lists, the key will be ignored.
 	IgnoredKeys []string `json:"ignoredKeys" msgpack:"ignoredKeys" bson:"ignoredkeys" mapstructure:"ignoredKeys,omitempty"`
+
+	// A list of keys that must be imported into Aporeto authorization. If
+	// `ignoredKeys` is also set, and a key is in both lists, the key will be ignored.
+	IncludedKeys []string `json:"includedKeys" msgpack:"includedKeys" bson:"includedkeys" mapstructure:"includedKeys,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
@@ -202,6 +207,7 @@ func NewLDAPProvider() *LDAPProvider {
 		BindSearchFilter:     "uid={USERNAME}",
 		ConnSecurityProtocol: LDAPProviderConnSecurityProtocolInbandTLS,
 		IgnoredKeys:          []string{},
+		IncludedKeys:         []string{},
 		MigrationsLog:        map[string]string{},
 		NormalizedTags:       []string{},
 		SubjectKey:           "uid",
@@ -251,6 +257,7 @@ func (o *LDAPProvider) GetBSON() (interface{}, error) {
 	s.Default = o.Default
 	s.Description = o.Description
 	s.IgnoredKeys = o.IgnoredKeys
+	s.IncludedKeys = o.IncludedKeys
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
@@ -293,6 +300,7 @@ func (o *LDAPProvider) SetBSON(raw bson.Raw) error {
 	o.Default = s.Default
 	o.Description = s.Description
 	o.IgnoredKeys = s.IgnoredKeys
+	o.IncludedKeys = s.IncludedKeys
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
@@ -529,6 +537,7 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Default:              &o.Default,
 			Description:          &o.Description,
 			IgnoredKeys:          &o.IgnoredKeys,
+			IncludedKeys:         &o.IncludedKeys,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -575,6 +584,8 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "ignoredKeys":
 			sp.IgnoredKeys = &(o.IgnoredKeys)
+		case "includedKeys":
+			sp.IncludedKeys = &(o.IncludedKeys)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -652,6 +663,9 @@ func (o *LDAPProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.IgnoredKeys != nil {
 		o.IgnoredKeys = *so.IgnoredKeys
+	}
+	if so.IncludedKeys != nil {
+		o.IncludedKeys = *so.IncludedKeys
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -815,6 +829,8 @@ func (o *LDAPProvider) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "ignoredKeys":
 		return o.IgnoredKeys
+	case "includedKeys":
+		return o.IncludedKeys
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -1025,13 +1041,26 @@ given, the default will be used.`,
 	"IgnoredKeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoredKeys",
-		Description:    `A list of keys that must not be imported into Aporeto authorization system.`,
-		Exposed:        true,
-		Name:           "ignoredKeys",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `A list of keys that must not be imported into Aporeto authorization. If
+` + "`" + `includedKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
+		Exposed:   true,
+		Name:      "ignoredKeys",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
+	},
+	"IncludedKeys": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IncludedKeys",
+		Description: `A list of keys that must be imported into Aporeto authorization. If
+` + "`" + `ignoredKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
+		Exposed:   true,
+		Name:      "includedKeys",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"MigrationsLog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1357,13 +1386,26 @@ given, the default will be used.`,
 	"ignoredkeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoredKeys",
-		Description:    `A list of keys that must not be imported into Aporeto authorization system.`,
-		Exposed:        true,
-		Name:           "ignoredKeys",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `A list of keys that must not be imported into Aporeto authorization. If
+` + "`" + `includedKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
+		Exposed:   true,
+		Name:      "ignoredKeys",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
+	},
+	"includedkeys": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IncludedKeys",
+		Description: `A list of keys that must be imported into Aporeto authorization. If
+` + "`" + `ignoredKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
+		Exposed:   true,
+		Name:      "includedKeys",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"migrationslog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1625,8 +1667,13 @@ type SparseLDAPProvider struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// A list of keys that must not be imported into Aporeto authorization system.
+	// A list of keys that must not be imported into Aporeto authorization. If
+	// `includedKeys` is also set, and a key is in both lists, the key will be ignored.
 	IgnoredKeys *[]string `json:"ignoredKeys,omitempty" msgpack:"ignoredKeys,omitempty" bson:"ignoredkeys,omitempty" mapstructure:"ignoredKeys,omitempty"`
+
+	// A list of keys that must be imported into Aporeto authorization. If
+	// `ignoredKeys` is also set, and a key is in both lists, the key will be ignored.
+	IncludedKeys *[]string `json:"includedKeys,omitempty" msgpack:"includedKeys,omitempty" bson:"includedkeys,omitempty" mapstructure:"includedKeys,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1746,6 +1793,9 @@ func (o *SparseLDAPProvider) GetBSON() (interface{}, error) {
 	if o.IgnoredKeys != nil {
 		s.IgnoredKeys = o.IgnoredKeys
 	}
+	if o.IncludedKeys != nil {
+		s.IncludedKeys = o.IncludedKeys
+	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -1837,6 +1887,9 @@ func (o *SparseLDAPProvider) SetBSON(raw bson.Raw) error {
 	if s.IgnoredKeys != nil {
 		o.IgnoredKeys = s.IgnoredKeys
 	}
+	if s.IncludedKeys != nil {
+		o.IncludedKeys = s.IncludedKeys
+	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
@@ -1925,6 +1978,9 @@ func (o *SparseLDAPProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.IgnoredKeys != nil {
 		out.IgnoredKeys = *o.IgnoredKeys
+	}
+	if o.IncludedKeys != nil {
+		out.IncludedKeys = *o.IncludedKeys
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -2168,6 +2224,7 @@ type mongoAttributesLDAPProvider struct {
 	Default              bool                                  `bson:"default"`
 	Description          string                                `bson:"description"`
 	IgnoredKeys          []string                              `bson:"ignoredkeys"`
+	IncludedKeys         []string                              `bson:"includedkeys"`
 	MigrationsLog        map[string]string                     `bson:"migrationslog"`
 	Name                 string                                `bson:"name"`
 	Namespace            string                                `bson:"namespace"`
@@ -2195,6 +2252,7 @@ type mongoAttributesSparseLDAPProvider struct {
 	Default              *bool                                  `bson:"default,omitempty"`
 	Description          *string                                `bson:"description,omitempty"`
 	IgnoredKeys          *[]string                              `bson:"ignoredkeys,omitempty"`
+	IncludedKeys         *[]string                              `bson:"includedkeys,omitempty"`
 	MigrationsLog        *map[string]string                     `bson:"migrationslog,omitempty"`
 	Name                 *string                                `bson:"name,omitempty"`
 	Namespace            *string                                `bson:"namespace,omitempty"`

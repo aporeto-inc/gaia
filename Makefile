@@ -21,6 +21,7 @@ codegen:
 lint: spelling
 	# --enable=unparam
 	golangci-lint run \
+		--timeout 2m \
 		--disable-all \
 		--exclude-use-default=false \
 		--enable=errcheck \
@@ -42,7 +43,7 @@ spelling:
 	docker run --rm -v $$PWD:/workdir tmaier/markdown-spellcheck:latest "doc/*.md" -r -a -n --en-us
 
 test:
-	go test ./... -race -cover -covermode=atomic -coverprofile=unit_coverage.cov
+	go test ./... -race
 
 codecgen:
 	rm -f values_codecgen.go ; codecgen -o values_codecgen.go *.go;

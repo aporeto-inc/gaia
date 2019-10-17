@@ -109,6 +109,14 @@ type Automation struct {
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
+	// Contains the Aporeto token used by the Automation's HTTP client. This token is
+	// derived from the automation's app credential attribute.
+	AporetoToken string `json:"-" msgpack:"-" bson:"aporetotoken" mapstructure:"-,omitempty"`
+
+	// Contains the app credential associated with the automation which has its roles
+	// deduced from the automation's entitlements.
+	AppCredential string `json:"-" msgpack:"-" bson:"appcredential" mapstructure:"-,omitempty"`
+
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
@@ -207,12 +215,12 @@ func NewAutomation() *Automation {
 		Actions:        []string{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Events:         map[string][]elemental.EventType{},
 		Entitlements:   map[string][]elemental.Operation{},
 		Errors:         []string{},
-		MigrationsLog:  map[string]string{},
+		Events:         map[string][]elemental.EventType{},
 		NormalizedTags: []string{},
 		Parameters:     map[string]interface{}{},
+		MigrationsLog:  map[string]string{},
 		Trigger:        AutomationTriggerTime,
 	}
 }
@@ -248,6 +256,8 @@ func (o *Automation) GetBSON() (interface{}, error) {
 	s.ID = bson.ObjectIdHex(o.ID)
 	s.Actions = o.Actions
 	s.Annotations = o.Annotations
+	s.AporetoToken = o.AporetoToken
+	s.AppCredential = o.AppCredential
 	s.AssociatedTags = o.AssociatedTags
 	s.Condition = o.Condition
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -293,6 +303,8 @@ func (o *Automation) SetBSON(raw bson.Raw) error {
 	o.ID = s.ID.Hex()
 	o.Actions = s.Actions
 	o.Annotations = s.Annotations
+	o.AporetoToken = s.AporetoToken
+	o.AppCredential = s.AppCredential
 	o.AssociatedTags = s.AssociatedTags
 	o.Condition = s.Condition
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
@@ -544,6 +556,8 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ID:                   &o.ID,
 			Actions:              &o.Actions,
 			Annotations:          &o.Annotations,
+			AporetoToken:         &o.AporetoToken,
+			AppCredential:        &o.AppCredential,
 			AssociatedTags:       &o.AssociatedTags,
 			Condition:            &o.Condition,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
@@ -582,6 +596,10 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Actions = &(o.Actions)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
+		case "aporetoToken":
+			sp.AporetoToken = &(o.AporetoToken)
+		case "appCredential":
+			sp.AppCredential = &(o.AppCredential)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "condition":
@@ -640,6 +658,32 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *Automation) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.AporetoToken, err = encrypter.EncryptString(o.AporetoToken); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AporetoToken' for 'Automation' (%s): %s", o.Identifier(), err)
+	}
+	if o.AppCredential, err = encrypter.EncryptString(o.AppCredential); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AppCredential' for 'Automation' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *Automation) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.AporetoToken, err = encrypter.DecryptString(o.AporetoToken); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AporetoToken' for 'Automation' (%s): %s", o.Identifier(), err)
+	}
+	if o.AppCredential, err = encrypter.DecryptString(o.AppCredential); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AppCredential' for 'Automation' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
 // Patch apply the non nil value of a *SparseAutomation to the object.
 func (o *Automation) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
@@ -655,6 +699,12 @@ func (o *Automation) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
+	}
+	if so.AporetoToken != nil {
+		o.AporetoToken = *so.AporetoToken
+	}
+	if so.AppCredential != nil {
+		o.AppCredential = *so.AppCredential
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -831,6 +881,10 @@ func (o *Automation) ValueForAttribute(name string) interface{} {
 		return o.Actions
 	case "annotations":
 		return o.Annotations
+	case "aporetoToken":
+		return o.AporetoToken
+	case "appCredential":
+		return o.AppCredential
 	case "associatedTags":
 		return o.AssociatedTags
 	case "condition":
@@ -925,6 +979,28 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
+	},
+	"AporetoToken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AporetoToken",
+		Description: `Contains the Aporeto token used by the Automation's HTTP client. This token is
+derived from the automation's app credential attribute.`,
+		Encrypted: true,
+		Name:      "aporetoToken",
+		Stored:    true,
+		Type:      "string",
+	},
+	"AppCredential": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AppCredential",
+		Description: `Contains the app credential associated with the automation which has its roles
+deduced from the automation's entitlements.`,
+		Encrypted: true,
+		Name:      "appCredential",
+		Stored:    true,
+		Type:      "string",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1278,6 +1354,28 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
+	},
+	"aporetotoken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AporetoToken",
+		Description: `Contains the Aporeto token used by the Automation's HTTP client. This token is
+derived from the automation's app credential attribute.`,
+		Encrypted: true,
+		Name:      "aporetoToken",
+		Stored:    true,
+		Type:      "string",
+	},
+	"appcredential": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AppCredential",
+		Description: `Contains the app credential associated with the automation which has its roles
+deduced from the automation's entitlements.`,
+		Encrypted: true,
+		Name:      "appCredential",
+		Stored:    true,
+		Type:      "string",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1668,6 +1766,14 @@ type SparseAutomation struct {
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
+	// Contains the Aporeto token used by the Automation's HTTP client. This token is
+	// derived from the automation's app credential attribute.
+	AporetoToken *string `json:"-" msgpack:"-" bson:"aporetotoken,omitempty" mapstructure:"-,omitempty"`
+
+	// Contains the app credential associated with the automation which has its roles
+	// deduced from the automation's entitlements.
+	AppCredential *string `json:"-" msgpack:"-" bson:"appcredential,omitempty" mapstructure:"-,omitempty"`
+
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
@@ -1801,6 +1907,12 @@ func (o *SparseAutomation) GetBSON() (interface{}, error) {
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
+	if o.AporetoToken != nil {
+		s.AporetoToken = o.AporetoToken
+	}
+	if o.AppCredential != nil {
+		s.AppCredential = o.AppCredential
+	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
 	}
@@ -1901,6 +2013,12 @@ func (o *SparseAutomation) SetBSON(raw bson.Raw) error {
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
 	}
+	if s.AporetoToken != nil {
+		o.AporetoToken = s.AporetoToken
+	}
+	if s.AppCredential != nil {
+		o.AppCredential = s.AppCredential
+	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
 	}
@@ -1999,6 +2117,12 @@ func (o *SparseAutomation) ToPlain() elemental.PlainIdentifiable {
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
+	if o.AporetoToken != nil {
+		out.AporetoToken = *o.AporetoToken
+	}
+	if o.AppCredential != nil {
+		out.AppCredential = *o.AppCredential
+	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
@@ -2079,6 +2203,32 @@ func (o *SparseAutomation) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *SparseAutomation) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.AporetoToken, err = encrypter.EncryptString(*o.AporetoToken); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AporetoToken' for 'SparseAutomation' (%s): %s", o.Identifier(), err)
+	}
+	if *o.AppCredential, err = encrypter.EncryptString(*o.AppCredential); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AppCredential' for 'SparseAutomation' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *SparseAutomation) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.AporetoToken, err = encrypter.DecryptString(*o.AporetoToken); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AporetoToken' for 'SparseAutomation' (%s): %s", o.Identifier(), err)
+	}
+	if *o.AppCredential, err = encrypter.DecryptString(*o.AppCredential); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AppCredential' for 'SparseAutomation' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
 }
 
 // GetAnnotations returns the Annotations of the receiver.
@@ -2289,6 +2439,8 @@ type mongoAttributesAutomation struct {
 	ID                   bson.ObjectId                    `bson:"_id"`
 	Actions              []string                         `bson:"actions"`
 	Annotations          map[string][]string              `bson:"annotations"`
+	AporetoToken         string                           `bson:"aporetotoken"`
+	AppCredential        string                           `bson:"appcredential"`
 	AssociatedTags       []string                         `bson:"associatedtags"`
 	Condition            string                           `bson:"condition"`
 	CreateIdempotencyKey string                           `bson:"createidempotencykey"`
@@ -2319,6 +2471,8 @@ type mongoAttributesSparseAutomation struct {
 	ID                   bson.ObjectId                     `bson:"_id"`
 	Actions              *[]string                         `bson:"actions,omitempty"`
 	Annotations          *map[string][]string              `bson:"annotations,omitempty"`
+	AporetoToken         *string                           `bson:"aporetotoken,omitempty"`
+	AppCredential        *string                           `bson:"appcredential,omitempty"`
 	AssociatedTags       *[]string                         `bson:"associatedtags,omitempty"`
 	Condition            *string                           `bson:"condition,omitempty"`
 	CreateIdempotencyKey *string                           `bson:"createidempotencykey,omitempty"`
