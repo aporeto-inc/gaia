@@ -198,7 +198,9 @@ func (o *IsolationProfile) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesIsolationProfile{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CapabilitiesActions = o.CapabilitiesActions
@@ -1476,7 +1478,11 @@ func (o *SparseIsolationProfile) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseIsolationProfile) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1489,7 +1495,9 @@ func (o *SparseIsolationProfile) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseIsolationProfile{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1927,7 +1935,7 @@ func (o *SparseIsolationProfile) DeepCopyInto(out *SparseIsolationProfile) {
 }
 
 type mongoAttributesIsolationProfile struct {
-	ID                   bson.ObjectId                    `bson:"_id"`
+	ID                   bson.ObjectId                    `bson:"_id,omitempty"`
 	Annotations          map[string][]string              `bson:"annotations"`
 	AssociatedTags       []string                         `bson:"associatedtags"`
 	CapabilitiesActions  types.CapabilitiesTypeMap        `bson:"capabilitiesactions"`
@@ -1936,7 +1944,7 @@ type mongoAttributesIsolationProfile struct {
 	DefaultSyscallAction types.SyscallEnforcementAction   `bson:"defaultsyscallaction"`
 	Description          string                           `bson:"description"`
 	Metadata             []string                         `bson:"metadata"`
-	MigrationsLog        map[string]string                `bson:"migrationslog"`
+	MigrationsLog        map[string]string                `bson:"migrationslog,omitempty"`
 	Name                 string                           `bson:"name"`
 	Namespace            string                           `bson:"namespace"`
 	NormalizedTags       []string                         `bson:"normalizedtags"`
@@ -1950,7 +1958,7 @@ type mongoAttributesIsolationProfile struct {
 	Zone                 int                              `bson:"zone"`
 }
 type mongoAttributesSparseIsolationProfile struct {
-	ID                   bson.ObjectId                     `bson:"_id"`
+	ID                   bson.ObjectId                     `bson:"_id,omitempty"`
 	Annotations          *map[string][]string              `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string                         `bson:"associatedtags,omitempty"`
 	CapabilitiesActions  *types.CapabilitiesTypeMap        `bson:"capabilitiesactions,omitempty"`

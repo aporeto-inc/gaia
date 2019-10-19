@@ -215,7 +215,9 @@ func (o *AppCredential) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAppCredential{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.AuthorizedSubnets = o.AuthorizedSubnets
@@ -1644,7 +1646,11 @@ func (o *SparseAppCredential) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAppCredential) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1657,7 +1663,9 @@ func (o *SparseAppCredential) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAppCredential{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -2119,7 +2127,7 @@ func (o *SparseAppCredential) DeepCopyInto(out *SparseAppCredential) {
 }
 
 type mongoAttributesAppCredential struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	AuthorizedSubnets    []string            `bson:"authorizedsubnets"`
@@ -2131,7 +2139,7 @@ type mongoAttributesAppCredential struct {
 	Disabled             bool                `bson:"disabled"`
 	Email                string              `bson:"email"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -2144,7 +2152,7 @@ type mongoAttributesAppCredential struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseAppCredential struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	AuthorizedSubnets    *[]string            `bson:"authorizedsubnets,omitempty"`

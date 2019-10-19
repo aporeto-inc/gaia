@@ -175,7 +175,9 @@ func (o *Claims) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesClaims{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.Content = o.Content
@@ -1121,7 +1123,11 @@ func (o *SparseClaims) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseClaims) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1134,7 +1140,9 @@ func (o *SparseClaims) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseClaims{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1446,7 +1454,7 @@ func (o *SparseClaims) DeepCopyInto(out *SparseClaims) {
 }
 
 type mongoAttributesClaims struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	Content              map[string]string   `bson:"content"`
@@ -1454,7 +1462,7 @@ type mongoAttributesClaims struct {
 	FirstSeen            time.Time           `bson:"firstseen"`
 	Hash                 string              `bson:"hash"`
 	LastSeen             time.Time           `bson:"lastseen"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
 	Protected            bool                `bson:"protected"`
@@ -1463,7 +1471,7 @@ type mongoAttributesClaims struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseClaims struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	Content              *map[string]string   `bson:"content,omitempty"`

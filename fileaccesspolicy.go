@@ -1668,7 +1668,11 @@ func (o *SparseFileAccessPolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseFileAccessPolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.

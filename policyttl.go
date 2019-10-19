@@ -126,7 +126,9 @@ func (o *PolicyTTL) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesPolicyTTL{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.ExpirationTime = o.ExpirationTime
 
 	return s, nil
@@ -441,7 +443,11 @@ func (o *SparsePolicyTTL) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparsePolicyTTL) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -454,7 +460,9 @@ func (o *SparsePolicyTTL) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparsePolicyTTL{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.ExpirationTime != nil {
 		s.ExpirationTime = o.ExpirationTime
 	}
@@ -529,10 +537,10 @@ func (o *SparsePolicyTTL) DeepCopyInto(out *SparsePolicyTTL) {
 }
 
 type mongoAttributesPolicyTTL struct {
-	ID             bson.ObjectId `bson:"_id"`
+	ID             bson.ObjectId `bson:"_id,omitempty"`
 	ExpirationTime time.Time     `bson:"expirationtime"`
 }
 type mongoAttributesSparsePolicyTTL struct {
-	ID             bson.ObjectId `bson:"_id"`
+	ID             bson.ObjectId `bson:"_id,omitempty"`
 	ExpirationTime *time.Time    `bson:"expirationtime,omitempty"`
 }

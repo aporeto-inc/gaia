@@ -289,7 +289,9 @@ func (o *Policy) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesPolicy{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Action = o.Action
 	s.ActiveDuration = o.ActiveDuration
 	s.ActiveSchedule = o.ActiveSchedule
@@ -2016,7 +2018,11 @@ func (o *SparsePolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparsePolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -2029,7 +2035,9 @@ func (o *SparsePolicy) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparsePolicy{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Action != nil {
 		s.Action = o.Action
 	}
@@ -2644,7 +2652,7 @@ func (o *SparsePolicy) DeepCopyInto(out *SparsePolicy) {
 }
 
 type mongoAttributesPolicy struct {
-	ID                   bson.ObjectId                     `bson:"_id"`
+	ID                   bson.ObjectId                     `bson:"_id,omitempty"`
 	Action               map[string]map[string]interface{} `bson:"action"`
 	ActiveDuration       string                            `bson:"activeduration"`
 	ActiveSchedule       string                            `bson:"activeschedule"`
@@ -2659,7 +2667,7 @@ type mongoAttributesPolicy struct {
 	ExpirationTime       time.Time                         `bson:"expirationtime"`
 	Fallback             bool                              `bson:"fallback"`
 	Metadata             []string                          `bson:"metadata"`
-	MigrationsLog        map[string]string                 `bson:"migrationslog"`
+	MigrationsLog        map[string]string                 `bson:"migrationslog,omitempty"`
 	Name                 string                            `bson:"name"`
 	Namespace            string                            `bson:"namespace"`
 	NormalizedTags       []string                          `bson:"normalizedtags"`
@@ -2676,7 +2684,7 @@ type mongoAttributesPolicy struct {
 	Zone                 int                               `bson:"zone"`
 }
 type mongoAttributesSparsePolicy struct {
-	ID                   bson.ObjectId                      `bson:"_id"`
+	ID                   bson.ObjectId                      `bson:"_id,omitempty"`
 	Action               *map[string]map[string]interface{} `bson:"action,omitempty"`
 	ActiveDuration       *string                            `bson:"activeduration,omitempty"`
 	ActiveSchedule       *string                            `bson:"activeschedule,omitempty"`

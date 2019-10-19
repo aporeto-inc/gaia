@@ -320,7 +320,9 @@ func (o *Enforcer) GetBSON() (interface{}, error) {
 	s := &mongoAttributesEnforcer{}
 
 	s.FQDN = o.FQDN
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.Certificate = o.Certificate
@@ -2227,7 +2229,11 @@ func (o *SparseEnforcer) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseEnforcer) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -2243,7 +2249,9 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	if o.FQDN != nil {
 		s.FQDN = o.FQDN
 	}
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -2805,7 +2813,7 @@ func (o *SparseEnforcer) DeepCopyInto(out *SparseEnforcer) {
 
 type mongoAttributesEnforcer struct {
 	FQDN                  string                         `bson:"fqdn"`
-	ID                    bson.ObjectId                  `bson:"_id"`
+	ID                    bson.ObjectId                  `bson:"_id,omitempty"`
 	Annotations           map[string][]string            `bson:"annotations"`
 	AssociatedTags        []string                       `bson:"associatedtags"`
 	Certificate           string                         `bson:"certificate"`
@@ -2824,7 +2832,7 @@ type mongoAttributesEnforcer struct {
 	LogLevelDuration      string                         `bson:"loglevelduration"`
 	MachineID             string                         `bson:"machineid"`
 	Metadata              []string                       `bson:"metadata"`
-	MigrationsLog         map[string]string              `bson:"migrationslog"`
+	MigrationsLog         map[string]string              `bson:"migrationslog,omitempty"`
 	Name                  string                         `bson:"name"`
 	Namespace             string                         `bson:"namespace"`
 	NormalizedTags        []string                       `bson:"normalizedtags"`
@@ -2842,7 +2850,7 @@ type mongoAttributesEnforcer struct {
 }
 type mongoAttributesSparseEnforcer struct {
 	FQDN                  *string                         `bson:"fqdn,omitempty"`
-	ID                    bson.ObjectId                   `bson:"_id"`
+	ID                    bson.ObjectId                   `bson:"_id,omitempty"`
 	Annotations           *map[string][]string            `bson:"annotations,omitempty"`
 	AssociatedTags        *[]string                       `bson:"associatedtags,omitempty"`
 	Certificate           *string                         `bson:"certificate,omitempty"`

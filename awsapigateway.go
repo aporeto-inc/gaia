@@ -201,7 +201,9 @@ func (o *AWSAPIGateway) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAWSAPIGateway{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -1477,7 +1479,11 @@ func (o *SparseAWSAPIGateway) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAWSAPIGateway) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1490,7 +1496,9 @@ func (o *SparseAWSAPIGateway) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAWSAPIGateway{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1877,14 +1885,14 @@ func (o *SparseAWSAPIGateway) DeepCopyInto(out *SparseAWSAPIGateway) {
 }
 
 type mongoAttributesAWSAPIGateway struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
 	CreateTime           time.Time           `bson:"createtime"`
 	Description          string              `bson:"description"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
 	Protected            bool                `bson:"protected"`
@@ -1894,7 +1902,7 @@ type mongoAttributesAWSAPIGateway struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseAWSAPIGateway struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`

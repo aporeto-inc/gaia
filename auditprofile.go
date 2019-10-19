@@ -185,7 +185,9 @@ func (o *AuditProfile) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAuditProfile{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -1352,7 +1354,11 @@ func (o *SparseAuditProfile) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAuditProfile) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1365,7 +1371,9 @@ func (o *SparseAuditProfile) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAuditProfile{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1776,14 +1784,14 @@ func (o *SparseAuditProfile) DeepCopyInto(out *SparseAuditProfile) {
 }
 
 type mongoAttributesAuditProfile struct {
-	ID                   bson.ObjectId              `bson:"_id"`
+	ID                   bson.ObjectId              `bson:"_id,omitempty"`
 	Annotations          map[string][]string        `bson:"annotations"`
 	AssociatedTags       []string                   `bson:"associatedtags"`
 	CreateIdempotencyKey string                     `bson:"createidempotencykey"`
 	CreateTime           time.Time                  `bson:"createtime"`
 	Description          string                     `bson:"description"`
 	Metadata             []string                   `bson:"metadata"`
-	MigrationsLog        map[string]string          `bson:"migrationslog"`
+	MigrationsLog        map[string]string          `bson:"migrationslog,omitempty"`
 	Name                 string                     `bson:"name"`
 	Namespace            string                     `bson:"namespace"`
 	NormalizedTags       []string                   `bson:"normalizedtags"`
@@ -1796,7 +1804,7 @@ type mongoAttributesAuditProfile struct {
 	Zone                 int                        `bson:"zone"`
 }
 type mongoAttributesSparseAuditProfile struct {
-	ID                   bson.ObjectId               `bson:"_id"`
+	ID                   bson.ObjectId               `bson:"_id,omitempty"`
 	Annotations          *map[string][]string        `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string                   `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey *string                     `bson:"createidempotencykey,omitempty"`

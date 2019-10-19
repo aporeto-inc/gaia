@@ -183,7 +183,9 @@ func (o *Customer) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCustomer{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.CommittedUseLimit = o.CommittedUseLimit
 	s.CreateTime = o.CreateTime
 	s.LastReportTime = o.LastReportTime
@@ -794,7 +796,11 @@ func (o *SparseCustomer) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseCustomer) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -807,7 +813,9 @@ func (o *SparseCustomer) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseCustomer{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.CommittedUseLimit != nil {
 		s.CommittedUseLimit = o.CommittedUseLimit
 	}
@@ -969,7 +977,7 @@ func (o *SparseCustomer) DeepCopyInto(out *SparseCustomer) {
 }
 
 type mongoAttributesCustomer struct {
-	ID                 bson.ObjectId         `bson:"_id"`
+	ID                 bson.ObjectId         `bson:"_id,omitempty"`
 	CommittedUseLimit  int                   `bson:"committeduselimit"`
 	CreateTime         time.Time             `bson:"createtime"`
 	LastReportTime     time.Time             `bson:"lastreporttime"`
@@ -980,7 +988,7 @@ type mongoAttributesCustomer struct {
 	UpdateTime         time.Time             `bson:"updatetime"`
 }
 type mongoAttributesSparseCustomer struct {
-	ID                 bson.ObjectId          `bson:"_id"`
+	ID                 bson.ObjectId          `bson:"_id,omitempty"`
 	CommittedUseLimit  *int                   `bson:"committeduselimit,omitempty"`
 	CreateTime         *time.Time             `bson:"createtime,omitempty"`
 	LastReportTime     *time.Time             `bson:"lastreporttime,omitempty"`

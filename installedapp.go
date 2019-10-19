@@ -215,7 +215,9 @@ func (o *InstalledApp) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesInstalledApp{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AppIdentifier = o.AppIdentifier
 	s.AssociatedTags = o.AssociatedTags
@@ -1417,7 +1419,11 @@ func (o *SparseInstalledApp) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseInstalledApp) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1430,7 +1436,9 @@ func (o *SparseInstalledApp) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseInstalledApp{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1832,7 +1840,7 @@ func (o *SparseInstalledApp) DeepCopyInto(out *SparseInstalledApp) {
 }
 
 type mongoAttributesInstalledApp struct {
-	ID                   bson.ObjectId           `bson:"_id"`
+	ID                   bson.ObjectId           `bson:"_id,omitempty"`
 	Annotations          map[string][]string     `bson:"annotations"`
 	AppIdentifier        string                  `bson:"appidentifier"`
 	AssociatedTags       []string                `bson:"associatedtags"`
@@ -1841,7 +1849,7 @@ type mongoAttributesInstalledApp struct {
 	CreateTime           time.Time               `bson:"createtime"`
 	CurrentVersion       string                  `bson:"currentversion"`
 	DeploymentCount      int                     `bson:"deploymentcount"`
-	MigrationsLog        map[string]string       `bson:"migrationslog"`
+	MigrationsLog        map[string]string       `bson:"migrationslog,omitempty"`
 	Name                 string                  `bson:"name"`
 	Namespace            string                  `bson:"namespace"`
 	NormalizedTags       []string                `bson:"normalizedtags"`
@@ -1855,7 +1863,7 @@ type mongoAttributesInstalledApp struct {
 	Zone                 int                     `bson:"zone"`
 }
 type mongoAttributesSparseInstalledApp struct {
-	ID                   bson.ObjectId            `bson:"_id"`
+	ID                   bson.ObjectId            `bson:"_id,omitempty"`
 	Annotations          *map[string][]string     `bson:"annotations,omitempty"`
 	AppIdentifier        *string                  `bson:"appidentifier,omitempty"`
 	AssociatedTags       *[]string                `bson:"associatedtags,omitempty"`

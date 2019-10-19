@@ -25,6 +25,14 @@ indexes:
 - - flowID
 - - flowID
   - createTime
+- - flowID
+  - bucketMinute
+- - flowID
+  - bucketHour
+- - flowID
+  - bucketDay
+- - flowID
+  - bucketMonth
 
 # Attributes
 attributes:
@@ -37,8 +45,28 @@ attributes:
 
   - name: acceptedFlows
     description: Number of accepted flows in the edge.
-    type: integer
+    type: boolean
     exposed: true
+    stored: true
+
+  - name: bucketDay
+    description: The date for the day bucket.
+    type: time
+    stored: true
+
+  - name: bucketHour
+    description: The date for the hour bucket.
+    type: time
+    stored: true
+
+  - name: bucketMinute
+    description: The date for the minute bucket.
+    type: time
+    stored: true
+
+  - name: bucketMonth
+    description: The date for the month bucket.
+    type: time
     stored: true
 
   - name: createTime
@@ -65,7 +93,7 @@ attributes:
 
   - name: encrypted
     description: The number of encrypted flows in the edge.
-    type: integer
+    type: boolean
     exposed: true
     stored: true
 
@@ -74,6 +102,7 @@ attributes:
     type: time
     exposed: true
     stored: true
+    omit_empty: true
 
   - name: flowID
     exposed_name: ID
@@ -87,6 +116,7 @@ attributes:
     type: time
     exposed: true
     stored: true
+    omit_empty: true
 
   - name: namespace
     description: Namespace of the object that reported the flow.
@@ -96,25 +126,25 @@ attributes:
 
   - name: observedAcceptedFlows
     description: Number of accepted observed flows.
-    type: integer
+    type: boolean
     exposed: true
     stored: true
 
   - name: observedEncrypted
     description: Number of encrypted observed flows.
-    type: integer
+    type: boolean
     exposed: true
     stored: true
 
   - name: observedRejectedFlows
     description: Number of rejected observed flows.
-    type: integer
+    type: boolean
     exposed: true
     stored: true
 
   - name: rejectedFlows
     description: Number of rejected flows in the edge.
-    type: integer
+    type: boolean
     exposed: true
     stored: true
 

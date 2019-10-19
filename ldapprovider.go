@@ -242,7 +242,9 @@ func (o *LDAPProvider) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesLDAPProvider{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Address = o.Address
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
@@ -1737,7 +1739,11 @@ func (o *SparseLDAPProvider) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseLDAPProvider) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1750,7 +1756,9 @@ func (o *SparseLDAPProvider) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseLDAPProvider{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Address != nil {
 		s.Address = o.Address
 	}
@@ -2209,7 +2217,7 @@ func (o *SparseLDAPProvider) DeepCopyInto(out *SparseLDAPProvider) {
 }
 
 type mongoAttributesLDAPProvider struct {
-	ID                   bson.ObjectId                         `bson:"_id"`
+	ID                   bson.ObjectId                         `bson:"_id,omitempty"`
 	Address              string                                `bson:"address"`
 	Annotations          map[string][]string                   `bson:"annotations"`
 	AssociatedTags       []string                              `bson:"associatedtags"`
@@ -2225,7 +2233,7 @@ type mongoAttributesLDAPProvider struct {
 	Description          string                                `bson:"description"`
 	IgnoredKeys          []string                              `bson:"ignoredkeys"`
 	IncludedKeys         []string                              `bson:"includedkeys"`
-	MigrationsLog        map[string]string                     `bson:"migrationslog"`
+	MigrationsLog        map[string]string                     `bson:"migrationslog,omitempty"`
 	Name                 string                                `bson:"name"`
 	Namespace            string                                `bson:"namespace"`
 	NormalizedTags       []string                              `bson:"normalizedtags"`
@@ -2237,7 +2245,7 @@ type mongoAttributesLDAPProvider struct {
 	Zone                 int                                   `bson:"zone"`
 }
 type mongoAttributesSparseLDAPProvider struct {
-	ID                   bson.ObjectId                          `bson:"_id"`
+	ID                   bson.ObjectId                          `bson:"_id,omitempty"`
 	Address              *string                                `bson:"address,omitempty"`
 	Annotations          *map[string][]string                   `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string                              `bson:"associatedtags,omitempty"`

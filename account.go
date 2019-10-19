@@ -237,7 +237,9 @@ func (o *Account) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAccount{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.OTPEnabled = o.OTPEnabled
 	s.OTPSecret = o.OTPSecret
 	s.SSHCA = o.SSHCA
@@ -1612,7 +1614,11 @@ func (o *SparseAccount) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAccount) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1625,7 +1631,9 @@ func (o *SparseAccount) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAccount{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.OTPEnabled != nil {
 		s.OTPEnabled = o.OTPEnabled
 	}
@@ -1997,13 +2005,13 @@ func (o *SparseAccount) DeepCopyInto(out *SparseAccount) {
 }
 
 type mongoAttributesAccount struct {
-	ID                        bson.ObjectId      `bson:"_id"`
+	ID                        bson.ObjectId      `bson:"_id,omitempty"`
 	OTPEnabled                bool               `bson:"otpenabled"`
 	OTPSecret                 string             `bson:"otpsecret"`
 	SSHCA                     string             `bson:"sshca"`
 	AccessEnabled             bool               `bson:"accessenabled"`
 	ActivationExpiration      time.Time          `bson:"activationexpiration"`
-	ActivationToken           string             `bson:"activationtoken"`
+	ActivationToken           string             `bson:"activationtoken,omitempty"`
 	AssociatedAPIAuthPolicyID string             `bson:"associatedapiauthpolicyid"`
 	AssociatedAWSPolicies     map[string]string  `bson:"associatedawspolicies"`
 	AssociatedBillingID       string             `bson:"associatedbillingid"`
@@ -2015,7 +2023,7 @@ type mongoAttributesAccount struct {
 	Email                     string             `bson:"email"`
 	FirstName                 string             `bson:"firstname"`
 	LastName                  string             `bson:"lastname"`
-	MigrationsLog             map[string]string  `bson:"migrationslog"`
+	MigrationsLog             map[string]string  `bson:"migrationslog,omitempty"`
 	Name                      string             `bson:"name"`
 	Password                  string             `bson:"password"`
 	ResetPasswordExpiration   time.Time          `bson:"resetpasswordexpiration"`
@@ -2026,7 +2034,7 @@ type mongoAttributesAccount struct {
 	Zone                      int                `bson:"zone"`
 }
 type mongoAttributesSparseAccount struct {
-	ID                        bson.ObjectId       `bson:"_id"`
+	ID                        bson.ObjectId       `bson:"_id,omitempty"`
 	OTPEnabled                *bool               `bson:"otpenabled,omitempty"`
 	OTPSecret                 *string             `bson:"otpsecret,omitempty"`
 	SSHCA                     *string             `bson:"sshca,omitempty"`

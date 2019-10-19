@@ -214,7 +214,9 @@ func (o *Recipe) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesRecipe{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -1700,7 +1702,11 @@ func (o *SparseRecipe) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseRecipe) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1713,7 +1719,9 @@ func (o *SparseRecipe) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseRecipe{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -2205,7 +2213,7 @@ func (o *SparseRecipe) DeepCopyInto(out *SparseRecipe) {
 }
 
 type mongoAttributesRecipe struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
@@ -2216,7 +2224,7 @@ type mongoAttributesRecipe struct {
 	Label                string              `bson:"label"`
 	LongDescription      string              `bson:"longdescription"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -2234,7 +2242,7 @@ type mongoAttributesRecipe struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseRecipe struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`

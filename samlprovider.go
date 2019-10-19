@@ -192,7 +192,9 @@ func (o *SAMLProvider) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSAMLProvider{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.IDPCertificate = o.IDPCertificate
 	s.IDPIssuer = o.IDPIssuer
 	s.IDPURL = o.IDPURL
@@ -1363,7 +1365,11 @@ func (o *SparseSAMLProvider) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseSAMLProvider) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1376,7 +1382,9 @@ func (o *SparseSAMLProvider) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseSAMLProvider{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.IDPCertificate != nil {
 		s.IDPCertificate = o.IDPCertificate
 	}
@@ -1763,7 +1771,7 @@ func (o *SparseSAMLProvider) DeepCopyInto(out *SparseSAMLProvider) {
 }
 
 type mongoAttributesSAMLProvider struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	IDPCertificate       string              `bson:"idpcertificate"`
 	IDPIssuer            string              `bson:"idpissuer"`
 	IDPURL               string              `bson:"idpurl"`
@@ -1772,7 +1780,7 @@ type mongoAttributesSAMLProvider struct {
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
 	CreateTime           time.Time           `bson:"createtime"`
 	Default              bool                `bson:"default"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -1784,7 +1792,7 @@ type mongoAttributesSAMLProvider struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseSAMLProvider struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	IDPCertificate       *string              `bson:"idpcertificate,omitempty"`
 	IDPIssuer            *string              `bson:"idpissuer,omitempty"`
 	IDPURL               *string              `bson:"idpurl,omitempty"`

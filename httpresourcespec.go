@@ -187,7 +187,9 @@ func (o *HTTPResourceSpec) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesHTTPResourceSpec{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.Archived = o.Archived
 	s.AssociatedTags = o.AssociatedTags
@@ -1408,7 +1410,11 @@ func (o *SparseHTTPResourceSpec) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseHTTPResourceSpec) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1421,7 +1427,9 @@ func (o *SparseHTTPResourceSpec) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseHTTPResourceSpec{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1853,7 +1861,7 @@ func (o *SparseHTTPResourceSpec) DeepCopyInto(out *SparseHTTPResourceSpec) {
 }
 
 type mongoAttributesHTTPResourceSpec struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	Archived             bool                `bson:"archived"`
 	AssociatedTags       []string            `bson:"associatedtags"`
@@ -1862,7 +1870,7 @@ type mongoAttributesHTTPResourceSpec struct {
 	Description          string              `bson:"description"`
 	Endpoints            []*Endpoint         `bson:"endpoints"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -1874,7 +1882,7 @@ type mongoAttributesHTTPResourceSpec struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseHTTPResourceSpec struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	Archived             *bool                `bson:"archived,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`

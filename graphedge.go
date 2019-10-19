@@ -119,7 +119,19 @@ type GraphEdge struct {
 	ID string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Number of accepted flows in the edge.
-	AcceptedFlows int `json:"acceptedFlows" msgpack:"acceptedFlows" bson:"acceptedflows" mapstructure:"acceptedFlows,omitempty"`
+	AcceptedFlows bool `json:"acceptedFlows" msgpack:"acceptedFlows" bson:"acceptedflows" mapstructure:"acceptedFlows,omitempty"`
+
+	// The date for the day bucket.
+	BucketDay time.Time `json:"-" msgpack:"-" bson:"bucketday" mapstructure:"-,omitempty"`
+
+	// The date for the hour bucket.
+	BucketHour time.Time `json:"-" msgpack:"-" bson:"buckethour" mapstructure:"-,omitempty"`
+
+	// The date for the minute bucket.
+	BucketMinute time.Time `json:"-" msgpack:"-" bson:"bucketminute" mapstructure:"-,omitempty"`
+
+	// The date for the month bucket.
+	BucketMonth time.Time `json:"-" msgpack:"-" bson:"bucketmonth" mapstructure:"-,omitempty"`
 
 	// Date on which the edge has been inserted.
 	CreateTime time.Time `json:"-" msgpack:"-" bson:"createtime" mapstructure:"-,omitempty"`
@@ -131,31 +143,31 @@ type GraphEdge struct {
 	DestinationType GraphEdgeDestinationTypeValue `json:"destinationType" msgpack:"destinationType" bson:"destinationtype" mapstructure:"destinationType,omitempty"`
 
 	// The number of encrypted flows in the edge.
-	Encrypted int `json:"encrypted" msgpack:"encrypted" bson:"encrypted" mapstructure:"encrypted,omitempty"`
+	Encrypted bool `json:"encrypted" msgpack:"encrypted" bson:"encrypted" mapstructure:"encrypted,omitempty"`
 
 	// Contains the date when the edge was first seen.
-	FirstSeen time.Time `json:"firstSeen" msgpack:"firstSeen" bson:"firstseen" mapstructure:"firstSeen,omitempty"`
+	FirstSeen time.Time `json:"firstSeen,omitempty" msgpack:"firstSeen,omitempty" bson:"firstseen" mapstructure:"firstSeen,omitempty"`
 
 	// Identifier of the edge.
 	FlowID string `json:"ID" msgpack:"ID" bson:"flowid" mapstructure:"ID,omitempty"`
 
 	// Contains the date when the edge was last seen.
-	LastSeen time.Time `json:"lastSeen" msgpack:"lastSeen" bson:"lastseen" mapstructure:"lastSeen,omitempty"`
+	LastSeen time.Time `json:"lastSeen,omitempty" msgpack:"lastSeen,omitempty" bson:"lastseen" mapstructure:"lastSeen,omitempty"`
 
 	// Namespace of the object that reported the flow.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Number of accepted observed flows.
-	ObservedAcceptedFlows int `json:"observedAcceptedFlows" msgpack:"observedAcceptedFlows" bson:"observedacceptedflows" mapstructure:"observedAcceptedFlows,omitempty"`
+	ObservedAcceptedFlows bool `json:"observedAcceptedFlows" msgpack:"observedAcceptedFlows" bson:"observedacceptedflows" mapstructure:"observedAcceptedFlows,omitempty"`
 
 	// Number of encrypted observed flows.
-	ObservedEncrypted int `json:"observedEncrypted" msgpack:"observedEncrypted" bson:"observedencrypted" mapstructure:"observedEncrypted,omitempty"`
+	ObservedEncrypted bool `json:"observedEncrypted" msgpack:"observedEncrypted" bson:"observedencrypted" mapstructure:"observedEncrypted,omitempty"`
 
 	// Number of rejected observed flows.
-	ObservedRejectedFlows int `json:"observedRejectedFlows" msgpack:"observedRejectedFlows" bson:"observedrejectedflows" mapstructure:"observedRejectedFlows,omitempty"`
+	ObservedRejectedFlows bool `json:"observedRejectedFlows" msgpack:"observedRejectedFlows" bson:"observedrejectedflows" mapstructure:"observedRejectedFlows,omitempty"`
 
 	// Number of rejected flows in the edge.
-	RejectedFlows int `json:"rejectedFlows" msgpack:"rejectedFlows" bson:"rejectedflows" mapstructure:"rejectedFlows,omitempty"`
+	RejectedFlows bool `json:"rejectedFlows" msgpack:"rejectedFlows" bson:"rejectedflows" mapstructure:"rejectedFlows,omitempty"`
 
 	// Namespace of the object that was targeted by the flow.
 	RemoteNamespace string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"remotenamespace" mapstructure:"remoteNamespace,omitempty"`
@@ -212,8 +224,14 @@ func (o *GraphEdge) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesGraphEdge{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.AcceptedFlows = o.AcceptedFlows
+	s.BucketDay = o.BucketDay
+	s.BucketHour = o.BucketHour
+	s.BucketMinute = o.BucketMinute
+	s.BucketMonth = o.BucketMonth
 	s.CreateTime = o.CreateTime
 	s.DestinationID = o.DestinationID
 	s.DestinationType = o.DestinationType
@@ -250,6 +268,10 @@ func (o *GraphEdge) SetBSON(raw bson.Raw) error {
 
 	o.ID = s.ID.Hex()
 	o.AcceptedFlows = s.AcceptedFlows
+	o.BucketDay = s.BucketDay
+	o.BucketHour = s.BucketHour
+	o.BucketMinute = s.BucketMinute
+	o.BucketMonth = s.BucketMonth
 	o.CreateTime = s.CreateTime
 	o.DestinationID = s.DestinationID
 	o.DestinationType = s.DestinationType
@@ -333,6 +355,10 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparseGraphEdge{
 			ID:                    &o.ID,
 			AcceptedFlows:         &o.AcceptedFlows,
+			BucketDay:             &o.BucketDay,
+			BucketHour:            &o.BucketHour,
+			BucketMinute:          &o.BucketMinute,
+			BucketMonth:           &o.BucketMonth,
 			CreateTime:            &o.CreateTime,
 			DestinationID:         &o.DestinationID,
 			DestinationType:       &o.DestinationType,
@@ -360,6 +386,14 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ID = &(o.ID)
 		case "acceptedFlows":
 			sp.AcceptedFlows = &(o.AcceptedFlows)
+		case "bucketDay":
+			sp.BucketDay = &(o.BucketDay)
+		case "bucketHour":
+			sp.BucketHour = &(o.BucketHour)
+		case "bucketMinute":
+			sp.BucketMinute = &(o.BucketMinute)
+		case "bucketMonth":
+			sp.BucketMonth = &(o.BucketMonth)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "destinationID":
@@ -412,6 +446,18 @@ func (o *GraphEdge) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AcceptedFlows != nil {
 		o.AcceptedFlows = *so.AcceptedFlows
+	}
+	if so.BucketDay != nil {
+		o.BucketDay = *so.BucketDay
+	}
+	if so.BucketHour != nil {
+		o.BucketHour = *so.BucketHour
+	}
+	if so.BucketMinute != nil {
+		o.BucketMinute = *so.BucketMinute
+	}
+	if so.BucketMonth != nil {
+		o.BucketMonth = *so.BucketMonth
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -542,6 +588,14 @@ func (o *GraphEdge) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "acceptedFlows":
 		return o.AcceptedFlows
+	case "bucketDay":
+		return o.BucketDay
+	case "bucketHour":
+		return o.BucketHour
+	case "bucketMinute":
+		return o.BucketMinute
+	case "bucketMonth":
+		return o.BucketMonth
 	case "createTime":
 		return o.CreateTime
 	case "destinationID":
@@ -599,7 +653,39 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "acceptedFlows",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
+	},
+	"BucketDay": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "BucketDay",
+		Description:    `The date for the day bucket.`,
+		Name:           "bucketDay",
+		Stored:         true,
+		Type:           "time",
+	},
+	"BucketHour": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "BucketHour",
+		Description:    `The date for the hour bucket.`,
+		Name:           "bucketHour",
+		Stored:         true,
+		Type:           "time",
+	},
+	"BucketMinute": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "BucketMinute",
+		Description:    `The date for the minute bucket.`,
+		Name:           "bucketMinute",
+		Stored:         true,
+		Type:           "time",
+	},
+	"BucketMonth": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "BucketMonth",
+		Description:    `The date for the month bucket.`,
+		Name:           "bucketMonth",
+		Stored:         true,
+		Type:           "time",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -634,7 +720,7 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "encrypted",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
 	},
 	"FirstSeen": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -679,7 +765,7 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "observedAcceptedFlows",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
 	},
 	"ObservedEncrypted": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -688,7 +774,7 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "observedEncrypted",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
 	},
 	"ObservedRejectedFlows": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -697,7 +783,7 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "observedRejectedFlows",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
 	},
 	"RejectedFlows": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -706,7 +792,7 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "rejectedFlows",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
 	},
 	"RemoteNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -782,7 +868,39 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "acceptedFlows",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
+	},
+	"bucketday": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "BucketDay",
+		Description:    `The date for the day bucket.`,
+		Name:           "bucketDay",
+		Stored:         true,
+		Type:           "time",
+	},
+	"buckethour": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "BucketHour",
+		Description:    `The date for the hour bucket.`,
+		Name:           "bucketHour",
+		Stored:         true,
+		Type:           "time",
+	},
+	"bucketminute": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "BucketMinute",
+		Description:    `The date for the minute bucket.`,
+		Name:           "bucketMinute",
+		Stored:         true,
+		Type:           "time",
+	},
+	"bucketmonth": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "BucketMonth",
+		Description:    `The date for the month bucket.`,
+		Name:           "bucketMonth",
+		Stored:         true,
+		Type:           "time",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -817,7 +935,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "encrypted",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
 	},
 	"firstseen": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -862,7 +980,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "observedAcceptedFlows",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
 	},
 	"observedencrypted": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -871,7 +989,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "observedEncrypted",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
 	},
 	"observedrejectedflows": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -880,7 +998,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "observedRejectedFlows",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
 	},
 	"rejectedflows": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -889,7 +1007,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "rejectedFlows",
 		Stored:         true,
-		Type:           "integer",
+		Type:           "boolean",
 	},
 	"remotenamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1014,7 +1132,19 @@ type SparseGraphEdge struct {
 	ID *string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Number of accepted flows in the edge.
-	AcceptedFlows *int `json:"acceptedFlows,omitempty" msgpack:"acceptedFlows,omitempty" bson:"acceptedflows,omitempty" mapstructure:"acceptedFlows,omitempty"`
+	AcceptedFlows *bool `json:"acceptedFlows,omitempty" msgpack:"acceptedFlows,omitempty" bson:"acceptedflows,omitempty" mapstructure:"acceptedFlows,omitempty"`
+
+	// The date for the day bucket.
+	BucketDay *time.Time `json:"-" msgpack:"-" bson:"bucketday,omitempty" mapstructure:"-,omitempty"`
+
+	// The date for the hour bucket.
+	BucketHour *time.Time `json:"-" msgpack:"-" bson:"buckethour,omitempty" mapstructure:"-,omitempty"`
+
+	// The date for the minute bucket.
+	BucketMinute *time.Time `json:"-" msgpack:"-" bson:"bucketminute,omitempty" mapstructure:"-,omitempty"`
+
+	// The date for the month bucket.
+	BucketMonth *time.Time `json:"-" msgpack:"-" bson:"bucketmonth,omitempty" mapstructure:"-,omitempty"`
 
 	// Date on which the edge has been inserted.
 	CreateTime *time.Time `json:"-" msgpack:"-" bson:"createtime,omitempty" mapstructure:"-,omitempty"`
@@ -1026,7 +1156,7 @@ type SparseGraphEdge struct {
 	DestinationType *GraphEdgeDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"destinationtype,omitempty" mapstructure:"destinationType,omitempty"`
 
 	// The number of encrypted flows in the edge.
-	Encrypted *int `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"encrypted,omitempty" mapstructure:"encrypted,omitempty"`
+	Encrypted *bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"encrypted,omitempty" mapstructure:"encrypted,omitempty"`
 
 	// Contains the date when the edge was first seen.
 	FirstSeen *time.Time `json:"firstSeen,omitempty" msgpack:"firstSeen,omitempty" bson:"firstseen,omitempty" mapstructure:"firstSeen,omitempty"`
@@ -1041,16 +1171,16 @@ type SparseGraphEdge struct {
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Number of accepted observed flows.
-	ObservedAcceptedFlows *int `json:"observedAcceptedFlows,omitempty" msgpack:"observedAcceptedFlows,omitempty" bson:"observedacceptedflows,omitempty" mapstructure:"observedAcceptedFlows,omitempty"`
+	ObservedAcceptedFlows *bool `json:"observedAcceptedFlows,omitempty" msgpack:"observedAcceptedFlows,omitempty" bson:"observedacceptedflows,omitempty" mapstructure:"observedAcceptedFlows,omitempty"`
 
 	// Number of encrypted observed flows.
-	ObservedEncrypted *int `json:"observedEncrypted,omitempty" msgpack:"observedEncrypted,omitempty" bson:"observedencrypted,omitempty" mapstructure:"observedEncrypted,omitempty"`
+	ObservedEncrypted *bool `json:"observedEncrypted,omitempty" msgpack:"observedEncrypted,omitempty" bson:"observedencrypted,omitempty" mapstructure:"observedEncrypted,omitempty"`
 
 	// Number of rejected observed flows.
-	ObservedRejectedFlows *int `json:"observedRejectedFlows,omitempty" msgpack:"observedRejectedFlows,omitempty" bson:"observedrejectedflows,omitempty" mapstructure:"observedRejectedFlows,omitempty"`
+	ObservedRejectedFlows *bool `json:"observedRejectedFlows,omitempty" msgpack:"observedRejectedFlows,omitempty" bson:"observedrejectedflows,omitempty" mapstructure:"observedRejectedFlows,omitempty"`
 
 	// Number of rejected flows in the edge.
-	RejectedFlows *int `json:"rejectedFlows,omitempty" msgpack:"rejectedFlows,omitempty" bson:"rejectedflows,omitempty" mapstructure:"rejectedFlows,omitempty"`
+	RejectedFlows *bool `json:"rejectedFlows,omitempty" msgpack:"rejectedFlows,omitempty" bson:"rejectedflows,omitempty" mapstructure:"rejectedFlows,omitempty"`
 
 	// Namespace of the object that was targeted by the flow.
 	RemoteNamespace *string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"remotenamespace,omitempty" mapstructure:"remoteNamespace,omitempty"`
@@ -1094,7 +1224,11 @@ func (o *SparseGraphEdge) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseGraphEdge) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1107,9 +1241,23 @@ func (o *SparseGraphEdge) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseGraphEdge{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.AcceptedFlows != nil {
 		s.AcceptedFlows = o.AcceptedFlows
+	}
+	if o.BucketDay != nil {
+		s.BucketDay = o.BucketDay
+	}
+	if o.BucketHour != nil {
+		s.BucketHour = o.BucketHour
+	}
+	if o.BucketMinute != nil {
+		s.BucketMinute = o.BucketMinute
+	}
+	if o.BucketMonth != nil {
+		s.BucketMonth = o.BucketMonth
 	}
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
@@ -1184,6 +1332,18 @@ func (o *SparseGraphEdge) SetBSON(raw bson.Raw) error {
 	if s.AcceptedFlows != nil {
 		o.AcceptedFlows = s.AcceptedFlows
 	}
+	if s.BucketDay != nil {
+		o.BucketDay = s.BucketDay
+	}
+	if s.BucketHour != nil {
+		o.BucketHour = s.BucketHour
+	}
+	if s.BucketMinute != nil {
+		o.BucketMinute = s.BucketMinute
+	}
+	if s.BucketMonth != nil {
+		o.BucketMonth = s.BucketMonth
+	}
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
 	}
@@ -1254,6 +1414,18 @@ func (o *SparseGraphEdge) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.AcceptedFlows != nil {
 		out.AcceptedFlows = *o.AcceptedFlows
+	}
+	if o.BucketDay != nil {
+		out.BucketDay = *o.BucketDay
+	}
+	if o.BucketHour != nil {
+		out.BucketHour = *o.BucketHour
+	}
+	if o.BucketMinute != nil {
+		out.BucketMinute = *o.BucketMinute
+	}
+	if o.BucketMonth != nil {
+		out.BucketMonth = *o.BucketMonth
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
@@ -1359,41 +1531,49 @@ func (o *SparseGraphEdge) DeepCopyInto(out *SparseGraphEdge) {
 }
 
 type mongoAttributesGraphEdge struct {
-	ID                    bson.ObjectId                 `bson:"_id"`
-	AcceptedFlows         int                           `bson:"acceptedflows"`
+	ID                    bson.ObjectId                 `bson:"_id,omitempty"`
+	AcceptedFlows         bool                          `bson:"acceptedflows"`
+	BucketDay             time.Time                     `bson:"bucketday"`
+	BucketHour            time.Time                     `bson:"buckethour"`
+	BucketMinute          time.Time                     `bson:"bucketminute"`
+	BucketMonth           time.Time                     `bson:"bucketmonth"`
 	CreateTime            time.Time                     `bson:"createtime"`
 	DestinationID         string                        `bson:"destinationid"`
 	DestinationType       GraphEdgeDestinationTypeValue `bson:"destinationtype"`
-	Encrypted             int                           `bson:"encrypted"`
-	FirstSeen             time.Time                     `bson:"firstseen"`
+	Encrypted             bool                          `bson:"encrypted"`
+	FirstSeen             time.Time                     `bson:"firstseen,omitempty"`
 	FlowID                string                        `bson:"flowid"`
-	LastSeen              time.Time                     `bson:"lastseen"`
+	LastSeen              time.Time                     `bson:"lastseen,omitempty"`
 	Namespace             string                        `bson:"namespace"`
-	ObservedAcceptedFlows int                           `bson:"observedacceptedflows"`
-	ObservedEncrypted     int                           `bson:"observedencrypted"`
-	ObservedRejectedFlows int                           `bson:"observedrejectedflows"`
-	RejectedFlows         int                           `bson:"rejectedflows"`
-	RemoteNamespace       string                        `bson:"remotenamespace"`
+	ObservedAcceptedFlows bool                          `bson:"observedacceptedflows"`
+	ObservedEncrypted     bool                          `bson:"observedencrypted"`
+	ObservedRejectedFlows bool                          `bson:"observedrejectedflows"`
+	RejectedFlows         bool                          `bson:"rejectedflows"`
+	RemoteNamespace       string                        `bson:"remotenamespace,omitempty"`
 	SourceID              string                        `bson:"sourceid"`
 	SourceType            GraphEdgeSourceTypeValue      `bson:"sourcetype"`
 	ZHash                 int                           `bson:"zhash"`
 	Zone                  int                           `bson:"zone"`
 }
 type mongoAttributesSparseGraphEdge struct {
-	ID                    bson.ObjectId                  `bson:"_id"`
-	AcceptedFlows         *int                           `bson:"acceptedflows,omitempty"`
+	ID                    bson.ObjectId                  `bson:"_id,omitempty"`
+	AcceptedFlows         *bool                          `bson:"acceptedflows,omitempty"`
+	BucketDay             *time.Time                     `bson:"bucketday,omitempty"`
+	BucketHour            *time.Time                     `bson:"buckethour,omitempty"`
+	BucketMinute          *time.Time                     `bson:"bucketminute,omitempty"`
+	BucketMonth           *time.Time                     `bson:"bucketmonth,omitempty"`
 	CreateTime            *time.Time                     `bson:"createtime,omitempty"`
 	DestinationID         *string                        `bson:"destinationid,omitempty"`
 	DestinationType       *GraphEdgeDestinationTypeValue `bson:"destinationtype,omitempty"`
-	Encrypted             *int                           `bson:"encrypted,omitempty"`
+	Encrypted             *bool                          `bson:"encrypted,omitempty"`
 	FirstSeen             *time.Time                     `bson:"firstseen,omitempty"`
 	FlowID                *string                        `bson:"flowid,omitempty"`
 	LastSeen              *time.Time                     `bson:"lastseen,omitempty"`
 	Namespace             *string                        `bson:"namespace,omitempty"`
-	ObservedAcceptedFlows *int                           `bson:"observedacceptedflows,omitempty"`
-	ObservedEncrypted     *int                           `bson:"observedencrypted,omitempty"`
-	ObservedRejectedFlows *int                           `bson:"observedrejectedflows,omitempty"`
-	RejectedFlows         *int                           `bson:"rejectedflows,omitempty"`
+	ObservedAcceptedFlows *bool                          `bson:"observedacceptedflows,omitempty"`
+	ObservedEncrypted     *bool                          `bson:"observedencrypted,omitempty"`
+	ObservedRejectedFlows *bool                          `bson:"observedrejectedflows,omitempty"`
+	RejectedFlows         *bool                          `bson:"rejectedflows,omitempty"`
 	RemoteNamespace       *string                        `bson:"remotenamespace,omitempty"`
 	SourceID              *string                        `bson:"sourceid,omitempty"`
 	SourceType            *GraphEdgeSourceTypeValue      `bson:"sourcetype,omitempty"`

@@ -166,7 +166,9 @@ func (o *SSHAuthority) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSSHAuthority{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Alg = o.Alg
 	s.CreateTime = o.CreateTime
 	s.MigrationsLog = o.MigrationsLog
@@ -903,7 +905,11 @@ func (o *SparseSSHAuthority) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseSSHAuthority) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -916,7 +922,9 @@ func (o *SparseSSHAuthority) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseSSHAuthority{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Alg != nil {
 		s.Alg = o.Alg
 	}
@@ -1155,10 +1163,10 @@ func (o *SparseSSHAuthority) DeepCopyInto(out *SparseSSHAuthority) {
 }
 
 type mongoAttributesSSHAuthority struct {
-	ID            bson.ObjectId        `bson:"_id"`
+	ID            bson.ObjectId        `bson:"_id,omitempty"`
 	Alg           SSHAuthorityAlgValue `bson:"alg"`
 	CreateTime    time.Time            `bson:"createtime"`
-	MigrationsLog map[string]string    `bson:"migrationslog"`
+	MigrationsLog map[string]string    `bson:"migrationslog,omitempty"`
 	Name          string               `bson:"name"`
 	PrivateKey    string               `bson:"privatekey"`
 	PublicKey     string               `bson:"publickey"`
@@ -1167,7 +1175,7 @@ type mongoAttributesSSHAuthority struct {
 	Zone          int                  `bson:"zone"`
 }
 type mongoAttributesSparseSSHAuthority struct {
-	ID            bson.ObjectId         `bson:"_id"`
+	ID            bson.ObjectId         `bson:"_id,omitempty"`
 	Alg           *SSHAuthorityAlgValue `bson:"alg,omitempty"`
 	CreateTime    *time.Time            `bson:"createtime,omitempty"`
 	MigrationsLog *map[string]string    `bson:"migrationslog,omitempty"`

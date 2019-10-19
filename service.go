@@ -401,7 +401,9 @@ func (o *Service) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesService{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.IPs = o.IPs
 	s.JWTSigningCertificate = o.JWTSigningCertificate
 	s.MTLSCertificateAuthority = o.MTLSCertificateAuthority
@@ -2764,7 +2766,11 @@ func (o *SparseService) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseService) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -2777,7 +2783,9 @@ func (o *SparseService) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseService{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.IPs != nil {
 		s.IPs = o.IPs
 	}
@@ -3457,7 +3465,7 @@ func (o *SparseService) DeepCopyInto(out *SparseService) {
 }
 
 type mongoAttributesService struct {
-	ID                                bson.ObjectId                 `bson:"_id"`
+	ID                                bson.ObjectId                 `bson:"_id,omitempty"`
 	IPs                               []string                      `bson:"ips"`
 	JWTSigningCertificate             string                        `bson:"jwtsigningcertificate"`
 	MTLSCertificateAuthority          string                        `bson:"mtlscertificateauthority"`
@@ -3486,7 +3494,7 @@ type mongoAttributesService struct {
 	External                          bool                          `bson:"external"`
 	Hosts                             []string                      `bson:"hosts"`
 	Metadata                          []string                      `bson:"metadata"`
-	MigrationsLog                     map[string]string             `bson:"migrationslog"`
+	MigrationsLog                     map[string]string             `bson:"migrationslog,omitempty"`
 	Name                              string                        `bson:"name"`
 	Namespace                         string                        `bson:"namespace"`
 	NormalizedTags                    []string                      `bson:"normalizedtags"`
@@ -3503,7 +3511,7 @@ type mongoAttributesService struct {
 	Zone                              int                           `bson:"zone"`
 }
 type mongoAttributesSparseService struct {
-	ID                                bson.ObjectId                  `bson:"_id"`
+	ID                                bson.ObjectId                  `bson:"_id,omitempty"`
 	IPs                               *[]string                      `bson:"ips,omitempty"`
 	JWTSigningCertificate             *string                        `bson:"jwtsigningcertificate,omitempty"`
 	MTLSCertificateAuthority          *string                        `bson:"mtlscertificateauthority,omitempty"`

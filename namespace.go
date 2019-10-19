@@ -243,7 +243,9 @@ func (o *Namespace) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesNamespace{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.JWTCertificateType = o.JWTCertificateType
 	s.JWTCertificates = o.JWTCertificates
 	s.SSHCA = o.SSHCA
@@ -1800,7 +1802,11 @@ func (o *SparseNamespace) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseNamespace) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1813,7 +1819,9 @@ func (o *SparseNamespace) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseNamespace{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.JWTCertificateType != nil {
 		s.JWTCertificateType = o.JWTCertificateType
 	}
@@ -2314,7 +2322,7 @@ func (o *SparseNamespace) DeepCopyInto(out *SparseNamespace) {
 }
 
 type mongoAttributesNamespace struct {
-	ID                         bson.ObjectId                    `bson:"_id"`
+	ID                         bson.ObjectId                    `bson:"_id,omitempty"`
 	JWTCertificateType         NamespaceJWTCertificateTypeValue `bson:"jwtcertificatetype"`
 	JWTCertificates            map[string]string                `bson:"jwtcertificates"`
 	SSHCA                      string                           `bson:"sshca"`
@@ -2330,7 +2338,7 @@ type mongoAttributesNamespace struct {
 	LocalCA                    string                           `bson:"localca"`
 	LocalCAEnabled             bool                             `bson:"localcaenabled"`
 	Metadata                   []string                         `bson:"metadata"`
-	MigrationsLog              map[string]string                `bson:"migrationslog"`
+	MigrationsLog              map[string]string                `bson:"migrationslog,omitempty"`
 	Name                       string                           `bson:"name"`
 	Namespace                  string                           `bson:"namespace"`
 	NetworkAccessPolicyTags    []string                         `bson:"networkaccesspolicytags"`
@@ -2344,7 +2352,7 @@ type mongoAttributesNamespace struct {
 	Zoning                     int                              `bson:"zoning"`
 }
 type mongoAttributesSparseNamespace struct {
-	ID                         bson.ObjectId                     `bson:"_id"`
+	ID                         bson.ObjectId                     `bson:"_id,omitempty"`
 	JWTCertificateType         *NamespaceJWTCertificateTypeValue `bson:"jwtcertificatetype,omitempty"`
 	JWTCertificates            *map[string]string                `bson:"jwtcertificates,omitempty"`
 	SSHCA                      *string                           `bson:"sshca,omitempty"`

@@ -254,7 +254,9 @@ func (o *EnforcerProfile) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesEnforcerProfile{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -1750,7 +1752,11 @@ func (o *SparseEnforcerProfile) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseEnforcerProfile) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1763,7 +1769,9 @@ func (o *SparseEnforcerProfile) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseEnforcerProfile{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -2246,7 +2254,7 @@ func (o *SparseEnforcerProfile) DeepCopyInto(out *SparseEnforcerProfile) {
 }
 
 type mongoAttributesEnforcerProfile struct {
-	ID                          bson.ObjectId                                   `bson:"_id"`
+	ID                          bson.ObjectId                                   `bson:"_id,omitempty"`
 	Annotations                 map[string][]string                             `bson:"annotations"`
 	AssociatedTags              []string                                        `bson:"associatedtags"`
 	CreateIdempotencyKey        string                                          `bson:"createidempotencykey"`
@@ -2259,7 +2267,7 @@ type mongoAttributesEnforcerProfile struct {
 	KubernetesSupportEnabled    bool                                            `bson:"kubernetessupportenabled"`
 	Metadata                    []string                                        `bson:"metadata"`
 	MetadataExtractor           EnforcerProfileMetadataExtractorValue           `bson:"metadataextractor"`
-	MigrationsLog               map[string]string                               `bson:"migrationslog"`
+	MigrationsLog               map[string]string                               `bson:"migrationslog,omitempty"`
 	Name                        string                                          `bson:"name"`
 	Namespace                   string                                          `bson:"namespace"`
 	NormalizedTags              []string                                        `bson:"normalizedtags"`
@@ -2274,7 +2282,7 @@ type mongoAttributesEnforcerProfile struct {
 	Zone                        int                                             `bson:"zone"`
 }
 type mongoAttributesSparseEnforcerProfile struct {
-	ID                          bson.ObjectId                                    `bson:"_id"`
+	ID                          bson.ObjectId                                    `bson:"_id,omitempty"`
 	Annotations                 *map[string][]string                             `bson:"annotations,omitempty"`
 	AssociatedTags              *[]string                                        `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey        *string                                          `bson:"createidempotencykey,omitempty"`

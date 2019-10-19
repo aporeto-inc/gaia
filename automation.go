@@ -253,7 +253,9 @@ func (o *Automation) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAutomation{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Actions = o.Actions
 	s.Annotations = o.Annotations
 	s.AporetoToken = o.AporetoToken
@@ -1887,7 +1889,11 @@ func (o *SparseAutomation) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAutomation) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1900,7 +1906,9 @@ func (o *SparseAutomation) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAutomation{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Actions != nil {
 		s.Actions = o.Actions
 	}
@@ -2436,7 +2444,7 @@ func (o *SparseAutomation) DeepCopyInto(out *SparseAutomation) {
 }
 
 type mongoAttributesAutomation struct {
-	ID                   bson.ObjectId                    `bson:"_id"`
+	ID                   bson.ObjectId                    `bson:"_id,omitempty"`
 	Actions              []string                         `bson:"actions"`
 	Annotations          map[string][]string              `bson:"annotations"`
 	AporetoToken         string                           `bson:"aporetotoken"`
@@ -2452,7 +2460,7 @@ type mongoAttributesAutomation struct {
 	Events               map[string][]elemental.EventType `bson:"events"`
 	ImmediateExecution   bool                             `bson:"immediateexecution"`
 	LastExecTime         time.Time                        `bson:"lastexectime"`
-	MigrationsLog        map[string]string                `bson:"migrationslog"`
+	MigrationsLog        map[string]string                `bson:"migrationslog,omitempty"`
 	Name                 string                           `bson:"name"`
 	Namespace            string                           `bson:"namespace"`
 	NormalizedTags       []string                         `bson:"normalizedtags"`
@@ -2468,7 +2476,7 @@ type mongoAttributesAutomation struct {
 	Zone                 int                              `bson:"zone"`
 }
 type mongoAttributesSparseAutomation struct {
-	ID                   bson.ObjectId                     `bson:"_id"`
+	ID                   bson.ObjectId                     `bson:"_id,omitempty"`
 	Actions              *[]string                         `bson:"actions,omitempty"`
 	Annotations          *map[string][]string              `bson:"annotations,omitempty"`
 	AporetoToken         *string                           `bson:"aporetotoken,omitempty"`

@@ -185,7 +185,9 @@ func (o *ImportReference) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesImportReference{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.Claims = o.Claims
@@ -1348,7 +1350,11 @@ func (o *SparseImportReference) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseImportReference) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1361,7 +1367,9 @@ func (o *SparseImportReference) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseImportReference{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1760,7 +1768,7 @@ func (o *SparseImportReference) DeepCopyInto(out *SparseImportReference) {
 }
 
 type mongoAttributesImportReference struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	Claims               []string            `bson:"claims"`
@@ -1769,7 +1777,7 @@ type mongoAttributesImportReference struct {
 	Data                 *Export             `bson:"data"`
 	Description          string              `bson:"description"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -1780,7 +1788,7 @@ type mongoAttributesImportReference struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseImportReference struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	Claims               *[]string            `bson:"claims,omitempty"`
