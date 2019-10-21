@@ -1,10 +1,9 @@
 package gaia
 
 import (
-	"net/http"
+	"fmt"
+	"reflect"
 	"testing"
-
-	"go.aporeto.io/elemental"
 )
 
 func TestValidatePortString(t *testing.T) {
@@ -1161,8 +1160,8 @@ func TestValidateOptionalNetworkList(t *testing.T) {
 
 func TestValidateAutomation(t *testing.T) {
 	testCases := map[string]struct {
-		automation  *Automation
-		shouldError bool
+		automation    *Automation
+		expectedError error
 	}{
 		"should not return an error if trigger type is not webhook and multiple actions have been defined": {
 			automation: &Automation{
@@ -1179,7 +1178,7 @@ func TestValidateAutomation(t *testing.T) {
 					"Action 2",
 				},
 			},
-			shouldError: false,
+			expectedError: nil,
 		},
 		"should not return an error if trigger type is webhook and one action has been defined": {
 			automation: &Automation{
@@ -1188,7 +1187,7 @@ func TestValidateAutomation(t *testing.T) {
 					"Action 1",
 				},
 			},
-			shouldError: false,
+			expectedError: nil,
 		},
 		"should return an error if trigger type is set to webhook and more than one action has been defined": {
 			automation: &Automation{
@@ -1198,14 +1197,14 @@ func TestValidateAutomation(t *testing.T) {
 					"Action 2",
 				},
 			},
-			shouldError: true,
+			expectedError: makeValidationError("actions", fmt.Sprintf("Only one action can be defined if trigger type is set to %q", AutomationTriggerWebhook)),
 		},
 		"should return an error if trigger type is set to webhook and no actions have been defined": {
 			automation: &Automation{
 				Trigger: AutomationTriggerWebhook,
 				Actions: nil,
 			},
-			shouldError: true,
+			expectedError: makeValidationError("actions", fmt.Sprintf("Exactly one action must be defined if trigger type is set to %q", AutomationTriggerWebhook)),
 		},
 	}
 
@@ -1213,24 +1212,16 @@ func TestValidateAutomation(t *testing.T) {
 		t.Run(scenario, func(t *testing.T) {
 			err := ValidateAutomation(tc.automation)
 			switch {
-			case err != nil && tc.shouldError:
-
-				ee, ok := err.(elemental.Error)
-				if !ok {
-					t.Fatalf("error could not be asserted to type \"elemental.Error\"")
+			case err != nil && tc.expectedError != nil:
+				if !reflect.DeepEqual(err, tc.expectedError) {
+					t.Fatalf("\n"+
+						"actual error: %+v\n"+
+						"did not equal\n"+
+						"expected error: %+v", err, tc.expectedError)
 				}
-
-				if ee.Code != http.StatusUnprocessableEntity {
-					t.Errorf("expected elemental error code to be 422, but got %d", ee.Code)
-				}
-
-				if ee.Title != "Validation Error" {
-					t.Errorf("expected elemental error code to be 'Validation Error', but got %s", ee.Title)
-				}
-
-			case err != nil && !tc.shouldError:
+			case err != nil && tc.expectedError == nil:
 				t.Fatalf("did not expect to get an error, but received: %+v", err)
-			case err == nil && tc.shouldError:
+			case err == nil && tc.expectedError != nil:
 				t.Fatalf("expected to get an error, but got nothing")
 			}
 		})

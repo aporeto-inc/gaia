@@ -413,16 +413,16 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 }
 
 // ValidateAutomation validates an automation by checking for the following:
-//   - Exactly one action MUST be defined if the automation trigger type is set to "Webhook"
+//   - Exactly ONE action MUST be defined if the automation trigger type is set to "Webhook"
 func ValidateAutomation(auto *Automation) error {
 	switch auto.Trigger {
 	case AutomationTriggerWebhook:
 		switch len(auto.Actions) {
 		case 1:
 		case 0:
-			return makeValidationError("trigger", fmt.Sprintf("Exactly one action must be defined if trigger type is set to \"%s\".", AutomationTriggerWebhook))
+			return makeValidationError("actions", fmt.Sprintf("Exactly one action must be defined if trigger type is set to %q", AutomationTriggerWebhook))
 		default:
-			return makeValidationError("trigger", fmt.Sprintf("Only one action can be defined if trigger type is set to \"%s\".", AutomationTriggerWebhook))
+			return makeValidationError("actions", fmt.Sprintf("Only one action can be defined if trigger type is set to %q", AutomationTriggerWebhook))
 		}
 	}
 
