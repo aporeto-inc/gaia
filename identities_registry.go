@@ -527,7 +527,7 @@ var (
 			[]string{"lastSeen", "firstSeen"},
 			[]string{"lastSeen"},
 			[]string{"flowID", "bucketMonth"},
-			[]string{"flowID", "createTime"},
+			[]string{"flowID", "lastSeen"},
 			[]string{"flowID", "bucketMinute"},
 			[]string{"flowID", "bucketHour"},
 			[]string{"flowID"},

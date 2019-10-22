@@ -24,7 +24,7 @@ indexes:
 - - firstSeen
 - - flowID
 - - flowID
-  - createTime
+  - lastSeen
 - - flowID
   - bucketMinute
 - - flowID
@@ -66,11 +66,6 @@ attributes:
 
   - name: bucketMonth
     description: The date for the month bucket.
-    type: time
-    stored: true
-
-  - name: createTime
-    description: Date on which the edge has been inserted.
     type: time
     stored: true
 

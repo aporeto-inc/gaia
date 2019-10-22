@@ -133,9 +133,6 @@ type GraphEdge struct {
 	// The date for the month bucket.
 	BucketMonth time.Time `json:"-" msgpack:"-" bson:"bucketmonth" mapstructure:"-,omitempty"`
 
-	// Date on which the edge has been inserted.
-	CreateTime time.Time `json:"-" msgpack:"-" bson:"createtime" mapstructure:"-,omitempty"`
-
 	// ID of the destination `GraphNode` of the edge.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"destinationid" mapstructure:"destinationID,omitempty"`
 
@@ -232,7 +229,6 @@ func (o *GraphEdge) GetBSON() (interface{}, error) {
 	s.BucketHour = o.BucketHour
 	s.BucketMinute = o.BucketMinute
 	s.BucketMonth = o.BucketMonth
-	s.CreateTime = o.CreateTime
 	s.DestinationID = o.DestinationID
 	s.DestinationType = o.DestinationType
 	s.Encrypted = o.Encrypted
@@ -272,7 +268,6 @@ func (o *GraphEdge) SetBSON(raw bson.Raw) error {
 	o.BucketHour = s.BucketHour
 	o.BucketMinute = s.BucketMinute
 	o.BucketMonth = s.BucketMonth
-	o.CreateTime = s.CreateTime
 	o.DestinationID = s.DestinationID
 	o.DestinationType = s.DestinationType
 	o.Encrypted = s.Encrypted
@@ -359,7 +354,6 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			BucketHour:            &o.BucketHour,
 			BucketMinute:          &o.BucketMinute,
 			BucketMonth:           &o.BucketMonth,
-			CreateTime:            &o.CreateTime,
 			DestinationID:         &o.DestinationID,
 			DestinationType:       &o.DestinationType,
 			Encrypted:             &o.Encrypted,
@@ -394,8 +388,6 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.BucketMinute = &(o.BucketMinute)
 		case "bucketMonth":
 			sp.BucketMonth = &(o.BucketMonth)
-		case "createTime":
-			sp.CreateTime = &(o.CreateTime)
 		case "destinationID":
 			sp.DestinationID = &(o.DestinationID)
 		case "destinationType":
@@ -458,9 +450,6 @@ func (o *GraphEdge) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.BucketMonth != nil {
 		o.BucketMonth = *so.BucketMonth
-	}
-	if so.CreateTime != nil {
-		o.CreateTime = *so.CreateTime
 	}
 	if so.DestinationID != nil {
 		o.DestinationID = *so.DestinationID
@@ -596,8 +585,6 @@ func (o *GraphEdge) ValueForAttribute(name string) interface{} {
 		return o.BucketMinute
 	case "bucketMonth":
 		return o.BucketMonth
-	case "createTime":
-		return o.CreateTime
 	case "destinationID":
 		return o.DestinationID
 	case "destinationType":
@@ -684,14 +671,6 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "BucketMonth",
 		Description:    `The date for the month bucket.`,
 		Name:           "bucketMonth",
-		Stored:         true,
-		Type:           "time",
-	},
-	"CreateTime": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CreateTime",
-		Description:    `Date on which the edge has been inserted.`,
-		Name:           "createTime",
 		Stored:         true,
 		Type:           "time",
 	},
@@ -899,14 +878,6 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		ConvertedName:  "BucketMonth",
 		Description:    `The date for the month bucket.`,
 		Name:           "bucketMonth",
-		Stored:         true,
-		Type:           "time",
-	},
-	"createtime": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CreateTime",
-		Description:    `Date on which the edge has been inserted.`,
-		Name:           "createTime",
 		Stored:         true,
 		Type:           "time",
 	},
@@ -1146,9 +1117,6 @@ type SparseGraphEdge struct {
 	// The date for the month bucket.
 	BucketMonth *time.Time `json:"-" msgpack:"-" bson:"bucketmonth,omitempty" mapstructure:"-,omitempty"`
 
-	// Date on which the edge has been inserted.
-	CreateTime *time.Time `json:"-" msgpack:"-" bson:"createtime,omitempty" mapstructure:"-,omitempty"`
-
 	// ID of the destination `GraphNode` of the edge.
 	DestinationID *string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"destinationid,omitempty" mapstructure:"destinationID,omitempty"`
 
@@ -1259,9 +1227,6 @@ func (o *SparseGraphEdge) GetBSON() (interface{}, error) {
 	if o.BucketMonth != nil {
 		s.BucketMonth = o.BucketMonth
 	}
-	if o.CreateTime != nil {
-		s.CreateTime = o.CreateTime
-	}
 	if o.DestinationID != nil {
 		s.DestinationID = o.DestinationID
 	}
@@ -1344,9 +1309,6 @@ func (o *SparseGraphEdge) SetBSON(raw bson.Raw) error {
 	if s.BucketMonth != nil {
 		o.BucketMonth = s.BucketMonth
 	}
-	if s.CreateTime != nil {
-		o.CreateTime = s.CreateTime
-	}
 	if s.DestinationID != nil {
 		o.DestinationID = s.DestinationID
 	}
@@ -1426,9 +1388,6 @@ func (o *SparseGraphEdge) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.BucketMonth != nil {
 		out.BucketMonth = *o.BucketMonth
-	}
-	if o.CreateTime != nil {
-		out.CreateTime = *o.CreateTime
 	}
 	if o.DestinationID != nil {
 		out.DestinationID = *o.DestinationID
@@ -1537,7 +1496,6 @@ type mongoAttributesGraphEdge struct {
 	BucketHour            time.Time                     `bson:"buckethour"`
 	BucketMinute          time.Time                     `bson:"bucketminute"`
 	BucketMonth           time.Time                     `bson:"bucketmonth"`
-	CreateTime            time.Time                     `bson:"createtime"`
 	DestinationID         string                        `bson:"destinationid"`
 	DestinationType       GraphEdgeDestinationTypeValue `bson:"destinationtype"`
 	Encrypted             bool                          `bson:"encrypted"`
@@ -1562,7 +1520,6 @@ type mongoAttributesSparseGraphEdge struct {
 	BucketHour            *time.Time                     `bson:"buckethour,omitempty"`
 	BucketMinute          *time.Time                     `bson:"bucketminute,omitempty"`
 	BucketMonth           *time.Time                     `bson:"bucketmonth,omitempty"`
-	CreateTime            *time.Time                     `bson:"createtime,omitempty"`
 	DestinationID         *string                        `bson:"destinationid,omitempty"`
 	DestinationType       *GraphEdgeDestinationTypeValue `bson:"destinationtype,omitempty"`
 	Encrypted             *bool                          `bson:"encrypted,omitempty"`
