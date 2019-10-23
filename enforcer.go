@@ -184,6 +184,9 @@ type Enforcer struct {
 	// Status of the enforcement for host services.
 	EnforcementStatus EnforcerEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
 
+	// Identifies the last collection.
+	LastCollectionID string `json:"lastCollectionID" msgpack:"lastCollectionID" bson:"lastcollectionid" mapstructure:"lastCollectionID,omitempty"`
+
 	// Identifies when the information was collected.
 	LastCollectionTime time.Time `json:"lastCollectionTime" msgpack:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
 
@@ -283,10 +286,10 @@ func NewEnforcer() *Enforcer {
 		NormalizedTags:        []string{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
 		LogLevelDuration:      "10s",
-		Metadata:              []string{},
-		LogLevel:              EnforcerLogLevelInfo,
 		Subnets:               []string{},
 		LastValidHostServices: HostServicesList{},
+		Metadata:              []string{},
+		LogLevel:              EnforcerLogLevelInfo,
 		MigrationsLog:         map[string]string{},
 	}
 }
@@ -331,6 +334,7 @@ func (o *Enforcer) GetBSON() (interface{}, error) {
 	s.CurrentVersion = o.CurrentVersion
 	s.Description = o.Description
 	s.EnforcementStatus = o.EnforcementStatus
+	s.LastCollectionID = o.LastCollectionID
 	s.LastCollectionTime = o.LastCollectionTime
 	s.LastPokeTime = o.LastPokeTime
 	s.LastSyncTime = o.LastSyncTime
@@ -383,6 +387,7 @@ func (o *Enforcer) SetBSON(raw bson.Raw) error {
 	o.CurrentVersion = s.CurrentVersion
 	o.Description = s.Description
 	o.EnforcementStatus = s.EnforcementStatus
+	o.LastCollectionID = s.LastCollectionID
 	o.LastCollectionTime = s.LastCollectionTime
 	o.LastPokeTime = s.LastPokeTime
 	o.LastSyncTime = s.LastSyncTime
@@ -645,6 +650,7 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CurrentVersion:            &o.CurrentVersion,
 			Description:               &o.Description,
 			EnforcementStatus:         &o.EnforcementStatus,
+			LastCollectionID:          &o.LastCollectionID,
 			LastCollectionTime:        &o.LastCollectionTime,
 			LastPokeTime:              &o.LastPokeTime,
 			LastSyncTime:              &o.LastSyncTime,
@@ -705,6 +711,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "enforcementStatus":
 			sp.EnforcementStatus = &(o.EnforcementStatus)
+		case "lastCollectionID":
+			sp.LastCollectionID = &(o.LastCollectionID)
 		case "lastCollectionTime":
 			sp.LastCollectionTime = &(o.LastCollectionTime)
 		case "lastPokeTime":
@@ -810,6 +818,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EnforcementStatus != nil {
 		o.EnforcementStatus = *so.EnforcementStatus
+	}
+	if so.LastCollectionID != nil {
+		o.LastCollectionID = *so.LastCollectionID
 	}
 	if so.LastCollectionTime != nil {
 		o.LastCollectionTime = *so.LastCollectionTime
@@ -1019,6 +1030,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "enforcementStatus":
 		return o.EnforcementStatus
+	case "lastCollectionID":
+		return o.LastCollectionID
 	case "lastCollectionTime":
 		return o.LastCollectionTime
 	case "lastPokeTime":
@@ -1249,10 +1262,18 @@ providing a renewed certificate.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"LastCollectionID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LastCollectionID",
+		Description:    `Identifies the last collection.`,
+		Exposed:        true,
+		Name:           "lastCollectionID",
+		Stored:         true,
+		Type:           "string",
+	},
 	"LastCollectionTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastCollectionTime",
-		Deprecated:     true,
 		Description:    `Identifies when the information was collected.`,
 		Exposed:        true,
 		Name:           "lastCollectionTime",
@@ -1716,10 +1737,18 @@ providing a renewed certificate.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"lastcollectionid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LastCollectionID",
+		Description:    `Identifies the last collection.`,
+		Exposed:        true,
+		Name:           "lastCollectionID",
+		Stored:         true,
+		Type:           "string",
+	},
 	"lastcollectiontime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastCollectionTime",
-		Deprecated:     true,
 		Description:    `Identifies when the information was collected.`,
 		Exposed:        true,
 		Name:           "lastCollectionTime",
@@ -2121,6 +2150,9 @@ type SparseEnforcer struct {
 	// Status of the enforcement for host services.
 	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
+	// Identifies the last collection.
+	LastCollectionID *string `json:"lastCollectionID,omitempty" msgpack:"lastCollectionID,omitempty" bson:"lastcollectionid,omitempty" mapstructure:"lastCollectionID,omitempty"`
+
 	// Identifies when the information was collected.
 	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" msgpack:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
 
@@ -2278,6 +2310,9 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	if o.EnforcementStatus != nil {
 		s.EnforcementStatus = o.EnforcementStatus
 	}
+	if o.LastCollectionID != nil {
+		s.LastCollectionID = o.LastCollectionID
+	}
 	if o.LastCollectionTime != nil {
 		s.LastCollectionTime = o.LastCollectionTime
 	}
@@ -2398,6 +2433,9 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	}
 	if s.EnforcementStatus != nil {
 		o.EnforcementStatus = s.EnforcementStatus
+	}
+	if s.LastCollectionID != nil {
+		o.LastCollectionID = s.LastCollectionID
 	}
 	if s.LastCollectionTime != nil {
 		o.LastCollectionTime = s.LastCollectionTime
@@ -2526,6 +2564,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EnforcementStatus != nil {
 		out.EnforcementStatus = *o.EnforcementStatus
+	}
+	if o.LastCollectionID != nil {
+		out.LastCollectionID = *o.LastCollectionID
 	}
 	if o.LastCollectionTime != nil {
 		out.LastCollectionTime = *o.LastCollectionTime
@@ -2820,6 +2861,7 @@ type mongoAttributesEnforcer struct {
 	CurrentVersion        string                         `bson:"currentversion"`
 	Description           string                         `bson:"description"`
 	EnforcementStatus     EnforcerEnforcementStatusValue `bson:"enforcementstatus"`
+	LastCollectionID      string                         `bson:"lastcollectionid"`
 	LastCollectionTime    time.Time                      `bson:"lastcollectiontime"`
 	LastPokeTime          time.Time                      `bson:"lastpoketime"`
 	LastSyncTime          time.Time                      `bson:"lastsynctime"`
@@ -2857,6 +2899,7 @@ type mongoAttributesSparseEnforcer struct {
 	CurrentVersion        *string                         `bson:"currentversion,omitempty"`
 	Description           *string                         `bson:"description,omitempty"`
 	EnforcementStatus     *EnforcerEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
+	LastCollectionID      *string                         `bson:"lastcollectionid,omitempty"`
 	LastCollectionTime    *time.Time                      `bson:"lastcollectiontime,omitempty"`
 	LastPokeTime          *time.Time                      `bson:"lastpoketime,omitempty"`
 	LastSyncTime          *time.Time                      `bson:"lastsynctime,omitempty"`

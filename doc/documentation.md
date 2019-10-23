@@ -2336,6 +2336,7 @@ ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
 -----END CERTIFICATE REQUEST-----",
   "collectInfo": false,
   "enforcementStatus": "Inactive",
+  "lastCollectionID": "xxx-xxx-xxx-xxx -",
   "logLevel": "Info",
   "logLevelDuration": "10s",
   "machineID": "3F23E8DF-C56D-45CF-89B8-A867F3956409",
@@ -2492,9 +2493,11 @@ Default value:
 "Inactive"
 ```
 
-##### `lastCollectionTime` `time`
+##### `lastCollectionID` `string`
 
-_This attribute is deprecated_.
+Identifies the last collection.
+
+##### `lastCollectionTime` `time`
 
 Identifies when the information was collected.
 

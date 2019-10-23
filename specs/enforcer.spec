@@ -136,12 +136,18 @@ attributes:
     default_value: Inactive
     filterable: true
 
+  - name: lastCollectionID
+    description: Identifies the last collection.
+    type: string
+    exposed: true
+    stored: true
+    example_value: xxx-xxx-xxx-xxx -
+
   - name: lastCollectionTime
     description: Identifies when the information was collected.
     type: time
     exposed: true
     stored: true
-    deprecated: true
 
   - name: lastPokeTime
     description: The time and date of the last poke.
