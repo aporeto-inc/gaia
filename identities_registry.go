@@ -481,12 +481,14 @@ var (
 			[]string{"createIdempotencyKey"},
 		},
 		"enforcerlog": [][]string{
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "enforcerID"},
-			[]string{"namespace", "collectionID"},
 			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "collectionID"},
+			[]string{"namespace", "enforcerID"},
 			[]string{"enforcerID"},
+			[]string{"createIdempotencyKey"},
 			[]string{"collectionID"},
 		},
 		"enforcerprofile": [][]string{

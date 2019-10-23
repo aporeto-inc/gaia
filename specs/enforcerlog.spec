@@ -17,6 +17,7 @@ model:
     - $filtering
   extends:
   - '@zoned'
+  - '@base'
   - '@migratable'
   - '@namespaced'
   - '@identifiable-stored'
@@ -40,6 +41,7 @@ attributes:
       aggergate the multipart data.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: xxx-xxx-xxx-xxx
 
@@ -53,6 +55,7 @@ attributes:
     description: ID of the enforcer.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: xxx-xxx-xxx-xxx
 
@@ -60,3 +63,4 @@ attributes:
     description: Number assigned to each log in the increasing order.
     type: integer
     exposed: true
+    stored: true
