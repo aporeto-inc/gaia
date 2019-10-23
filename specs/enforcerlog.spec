@@ -38,7 +38,7 @@ attributes:
   - name: collectionID
     description: |-
       CollectionID is the ID of the enforcer log. CollectionID is used to
-      aggergate the multipart data.
+      aggregate the multipart data.
     type: string
     exposed: true
     stored: true

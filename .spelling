@@ -44,6 +44,8 @@ ClaimsSupported
 ClauseMatch
 clob
 CNs
+collectionID
+CollectionID
 containerd
 ContextID
 CoreOS
@@ -67,6 +69,9 @@ Elasticsearch
 enforcerconfig
 enforcerd
 enforcerd.conf
+enforcerlog
+enforcerlogs
+EnforcerLog
 EnforcerProfile
 EnforcerProfileMappingPolicy
 EnforcerReport
@@ -142,6 +147,7 @@ MessagePack
 metadata
 Midgard
 misconfigured
+multipart
 MongoDB
 namespace
 NamespaceMappingPolicy

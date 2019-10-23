@@ -91,7 +91,7 @@ type EnforcerLog struct {
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// CollectionID is the ID of the enforcer log. CollectionID is used to
-	// aggergate the multipart data.
+	// aggregate the multipart data.
 	CollectionID string `json:"collectionID" msgpack:"collectionID" bson:"collectionid" mapstructure:"collectionID,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -696,7 +696,7 @@ var EnforcerLogAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectionID",
 		Description: `CollectionID is the ID of the enforcer log. CollectionID is used to
-aggergate the multipart data.`,
+aggregate the multipart data.`,
 		Exposed:  true,
 		Name:     "collectionID",
 		Required: true,
@@ -909,7 +909,7 @@ var EnforcerLogLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectionID",
 		Description: `CollectionID is the ID of the enforcer log. CollectionID is used to
-aggergate the multipart data.`,
+aggregate the multipart data.`,
 		Exposed:  true,
 		Name:     "collectionID",
 		Required: true,
@@ -1151,7 +1151,7 @@ type SparseEnforcerLog struct {
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// CollectionID is the ID of the enforcer log. CollectionID is used to
-	// aggergate the multipart data.
+	// aggregate the multipart data.
 	CollectionID *string `json:"collectionID,omitempty" msgpack:"collectionID,omitempty" bson:"collectionid,omitempty" mapstructure:"collectionID,omitempty"`
 
 	// internal idempotency key for a create operation.
