@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -181,6 +182,35 @@ func (o *PolicyRenderer) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PolicyRenderer) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesPolicyRenderer{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PolicyRenderer) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesPolicyRenderer{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *PolicyRenderer) Version() int {
 
@@ -296,6 +326,7 @@ func (o *PolicyRenderer) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -562,6 +593,35 @@ func (o *SparsePolicyRenderer) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePolicyRenderer) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparsePolicyRenderer{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePolicyRenderer) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparsePolicyRenderer{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparsePolicyRenderer) Version() int {
 
@@ -610,4 +670,9 @@ func (o *SparsePolicyRenderer) DeepCopyInto(out *SparsePolicyRenderer) {
 	}
 
 	*out = *target.(*SparsePolicyRenderer)
+}
+
+type mongoAttributesPolicyRenderer struct {
+}
+type mongoAttributesSparsePolicyRenderer struct {
 }

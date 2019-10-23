@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -69,7 +70,6 @@ func (o LDAPProvidersList) List() elemental.IdentifiablesList {
 func (o LDAPProvidersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -95,7 +95,7 @@ func (o LDAPProvidersList) Version() int {
 // LDAPProvider represents the model of a ldapprovider
 type LDAPProvider struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Contains the fully qualified domain name (FQDN) or IP address of the private
 	// LDAP server.
@@ -150,8 +150,13 @@ type LDAPProvider struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// A list of keys that must not be imported into Aporeto authorization system.
+	// A list of keys that must not be imported into Aporeto authorization. If
+	// `includedKeys` is also set, and a key is in both lists, the key will be ignored.
 	IgnoredKeys []string `json:"ignoredKeys" msgpack:"ignoredKeys" bson:"ignoredkeys" mapstructure:"ignoredKeys,omitempty"`
+
+	// A list of keys that must be imported into Aporeto authorization. If
+	// `ignoredKeys` is also set, and a key is in both lists, the key will be ignored.
+	IncludedKeys []string `json:"includedKeys" msgpack:"includedKeys" bson:"includedkeys" mapstructure:"includedKeys,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
@@ -202,6 +207,7 @@ func NewLDAPProvider() *LDAPProvider {
 		BindSearchFilter:     "uid={USERNAME}",
 		ConnSecurityProtocol: LDAPProviderConnSecurityProtocolInbandTLS,
 		IgnoredKeys:          []string{},
+		IncludedKeys:         []string{},
 		MigrationsLog:        map[string]string{},
 		NormalizedTags:       []string{},
 		SubjectKey:           "uid",
@@ -226,6 +232,89 @@ func (o *LDAPProvider) SetIdentifier(id string) {
 	o.ID = id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *LDAPProvider) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesLDAPProvider{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.Address = o.Address
+	s.Annotations = o.Annotations
+	s.AssociatedTags = o.AssociatedTags
+	s.BaseDN = o.BaseDN
+	s.BindDN = o.BindDN
+	s.BindPassword = o.BindPassword
+	s.BindSearchFilter = o.BindSearchFilter
+	s.CertificateAuthority = o.CertificateAuthority
+	s.ConnSecurityProtocol = o.ConnSecurityProtocol
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Default = o.Default
+	s.Description = o.Description
+	s.IgnoredKeys = o.IgnoredKeys
+	s.IncludedKeys = o.IncludedKeys
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Protected = o.Protected
+	s.SubjectKey = o.SubjectKey
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *LDAPProvider) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesLDAPProvider{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Address = s.Address
+	o.Annotations = s.Annotations
+	o.AssociatedTags = s.AssociatedTags
+	o.BaseDN = s.BaseDN
+	o.BindDN = s.BindDN
+	o.BindPassword = s.BindPassword
+	o.BindSearchFilter = s.BindSearchFilter
+	o.CertificateAuthority = s.CertificateAuthority
+	o.ConnSecurityProtocol = s.ConnSecurityProtocol
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Default = s.Default
+	o.Description = s.Description
+	o.IgnoredKeys = s.IgnoredKeys
+	o.IncludedKeys = s.IncludedKeys
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Protected = s.Protected
+	o.SubjectKey = s.SubjectKey
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *LDAPProvider) Version() int {
 
@@ -242,7 +331,6 @@ func (o *LDAPProvider) BleveType() string {
 func (o *LDAPProvider) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -449,6 +537,7 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Default:              &o.Default,
 			Description:          &o.Description,
 			IgnoredKeys:          &o.IgnoredKeys,
+			IncludedKeys:         &o.IncludedKeys,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -495,6 +584,8 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "ignoredKeys":
 			sp.IgnoredKeys = &(o.IgnoredKeys)
+		case "includedKeys":
+			sp.IncludedKeys = &(o.IncludedKeys)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -572,6 +663,9 @@ func (o *LDAPProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.IgnoredKeys != nil {
 		o.IgnoredKeys = *so.IgnoredKeys
+	}
+	if so.IncludedKeys != nil {
+		o.IncludedKeys = *so.IncludedKeys
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -735,6 +829,8 @@ func (o *LDAPProvider) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "ignoredKeys":
 		return o.IgnoredKeys
+	case "includedKeys":
+		return o.IncludedKeys
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -945,13 +1041,26 @@ given, the default will be used.`,
 	"IgnoredKeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoredKeys",
-		Description:    `A list of keys that must not be imported into Aporeto authorization system.`,
-		Exposed:        true,
-		Name:           "ignoredKeys",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `A list of keys that must not be imported into Aporeto authorization. If
+` + "`" + `includedKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
+		Exposed:   true,
+		Name:      "ignoredKeys",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
+	},
+	"IncludedKeys": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IncludedKeys",
+		Description: `A list of keys that must be imported into Aporeto authorization. If
+` + "`" + `ignoredKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
+		Exposed:   true,
+		Name:      "includedKeys",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"MigrationsLog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -967,7 +1076,6 @@ given, the default will be used.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -984,7 +1092,6 @@ given, the default will be used.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1279,13 +1386,26 @@ given, the default will be used.`,
 	"ignoredkeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoredKeys",
-		Description:    `A list of keys that must not be imported into Aporeto authorization system.`,
-		Exposed:        true,
-		Name:           "ignoredKeys",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `A list of keys that must not be imported into Aporeto authorization. If
+` + "`" + `includedKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
+		Exposed:   true,
+		Name:      "ignoredKeys",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
+	},
+	"includedkeys": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IncludedKeys",
+		Description: `A list of keys that must be imported into Aporeto authorization. If
+` + "`" + `ignoredKeys` + "`" + ` is also set, and a key is in both lists, the key will be ignored.`,
+		Exposed:   true,
+		Name:      "includedKeys",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "string",
+		Type:      "list",
 	},
 	"migrationslog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1301,7 +1421,6 @@ given, the default will be used.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1318,7 +1437,6 @@ given, the default will be used.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1470,7 +1588,6 @@ func (o SparseLDAPProvidersList) List() elemental.IdentifiablesList {
 func (o SparseLDAPProvidersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1495,7 +1612,7 @@ func (o SparseLDAPProvidersList) Version() int {
 // SparseLDAPProvider represents the sparse version of a ldapprovider.
 type SparseLDAPProvider struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Contains the fully qualified domain name (FQDN) or IP address of the private
 	// LDAP server.
@@ -1550,8 +1667,13 @@ type SparseLDAPProvider struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// A list of keys that must not be imported into Aporeto authorization system.
+	// A list of keys that must not be imported into Aporeto authorization. If
+	// `includedKeys` is also set, and a key is in both lists, the key will be ignored.
 	IgnoredKeys *[]string `json:"ignoredKeys,omitempty" msgpack:"ignoredKeys,omitempty" bson:"ignoredkeys,omitempty" mapstructure:"ignoredKeys,omitempty"`
+
+	// A list of keys that must be imported into Aporeto authorization. If
+	// `ignoredKeys` is also set, and a key is in both lists, the key will be ignored.
+	IncludedKeys *[]string `json:"includedKeys,omitempty" msgpack:"includedKeys,omitempty" bson:"includedkeys,omitempty" mapstructure:"includedKeys,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1618,6 +1740,190 @@ func (o *SparseLDAPProvider) SetIdentifier(id string) {
 	o.ID = &id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseLDAPProvider) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseLDAPProvider{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.Address != nil {
+		s.Address = o.Address
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.BaseDN != nil {
+		s.BaseDN = o.BaseDN
+	}
+	if o.BindDN != nil {
+		s.BindDN = o.BindDN
+	}
+	if o.BindPassword != nil {
+		s.BindPassword = o.BindPassword
+	}
+	if o.BindSearchFilter != nil {
+		s.BindSearchFilter = o.BindSearchFilter
+	}
+	if o.CertificateAuthority != nil {
+		s.CertificateAuthority = o.CertificateAuthority
+	}
+	if o.ConnSecurityProtocol != nil {
+		s.ConnSecurityProtocol = o.ConnSecurityProtocol
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Default != nil {
+		s.Default = o.Default
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.IgnoredKeys != nil {
+		s.IgnoredKeys = o.IgnoredKeys
+	}
+	if o.IncludedKeys != nil {
+		s.IncludedKeys = o.IncludedKeys
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.SubjectKey != nil {
+		s.SubjectKey = o.SubjectKey
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseLDAPProvider) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseLDAPProvider{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.Address != nil {
+		o.Address = s.Address
+	}
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.BaseDN != nil {
+		o.BaseDN = s.BaseDN
+	}
+	if s.BindDN != nil {
+		o.BindDN = s.BindDN
+	}
+	if s.BindPassword != nil {
+		o.BindPassword = s.BindPassword
+	}
+	if s.BindSearchFilter != nil {
+		o.BindSearchFilter = s.BindSearchFilter
+	}
+	if s.CertificateAuthority != nil {
+		o.CertificateAuthority = s.CertificateAuthority
+	}
+	if s.ConnSecurityProtocol != nil {
+		o.ConnSecurityProtocol = s.ConnSecurityProtocol
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Default != nil {
+		o.Default = s.Default
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.IgnoredKeys != nil {
+		o.IgnoredKeys = s.IgnoredKeys
+	}
+	if s.IncludedKeys != nil {
+		o.IncludedKeys = s.IncludedKeys
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.SubjectKey != nil {
+		o.SubjectKey = s.SubjectKey
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseLDAPProvider) Version() int {
 
@@ -1672,6 +1978,9 @@ func (o *SparseLDAPProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.IgnoredKeys != nil {
 		out.IgnoredKeys = *o.IgnoredKeys
+	}
+	if o.IncludedKeys != nil {
+		out.IncludedKeys = *o.IncludedKeys
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1897,4 +2206,61 @@ func (o *SparseLDAPProvider) DeepCopyInto(out *SparseLDAPProvider) {
 	}
 
 	*out = *target.(*SparseLDAPProvider)
+}
+
+type mongoAttributesLDAPProvider struct {
+	ID                   bson.ObjectId                         `bson:"_id"`
+	Address              string                                `bson:"address"`
+	Annotations          map[string][]string                   `bson:"annotations"`
+	AssociatedTags       []string                              `bson:"associatedtags"`
+	BaseDN               string                                `bson:"basedn"`
+	BindDN               string                                `bson:"binddn"`
+	BindPassword         string                                `bson:"bindpassword"`
+	BindSearchFilter     string                                `bson:"bindsearchfilter"`
+	CertificateAuthority string                                `bson:"certificateauthority"`
+	ConnSecurityProtocol LDAPProviderConnSecurityProtocolValue `bson:"connsecurityprotocol"`
+	CreateIdempotencyKey string                                `bson:"createidempotencykey"`
+	CreateTime           time.Time                             `bson:"createtime"`
+	Default              bool                                  `bson:"default"`
+	Description          string                                `bson:"description"`
+	IgnoredKeys          []string                              `bson:"ignoredkeys"`
+	IncludedKeys         []string                              `bson:"includedkeys"`
+	MigrationsLog        map[string]string                     `bson:"migrationslog"`
+	Name                 string                                `bson:"name"`
+	Namespace            string                                `bson:"namespace"`
+	NormalizedTags       []string                              `bson:"normalizedtags"`
+	Protected            bool                                  `bson:"protected"`
+	SubjectKey           string                                `bson:"subjectkey"`
+	UpdateIdempotencyKey string                                `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                             `bson:"updatetime"`
+	ZHash                int                                   `bson:"zhash"`
+	Zone                 int                                   `bson:"zone"`
+}
+type mongoAttributesSparseLDAPProvider struct {
+	ID                   bson.ObjectId                          `bson:"_id"`
+	Address              *string                                `bson:"address,omitempty"`
+	Annotations          *map[string][]string                   `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                              `bson:"associatedtags,omitempty"`
+	BaseDN               *string                                `bson:"basedn,omitempty"`
+	BindDN               *string                                `bson:"binddn,omitempty"`
+	BindPassword         *string                                `bson:"bindpassword,omitempty"`
+	BindSearchFilter     *string                                `bson:"bindsearchfilter,omitempty"`
+	CertificateAuthority *string                                `bson:"certificateauthority,omitempty"`
+	ConnSecurityProtocol *LDAPProviderConnSecurityProtocolValue `bson:"connsecurityprotocol,omitempty"`
+	CreateIdempotencyKey *string                                `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                             `bson:"createtime,omitempty"`
+	Default              *bool                                  `bson:"default,omitempty"`
+	Description          *string                                `bson:"description,omitempty"`
+	IgnoredKeys          *[]string                              `bson:"ignoredkeys,omitempty"`
+	IncludedKeys         *[]string                              `bson:"includedkeys,omitempty"`
+	MigrationsLog        *map[string]string                     `bson:"migrationslog,omitempty"`
+	Name                 *string                                `bson:"name,omitempty"`
+	Namespace            *string                                `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                              `bson:"normalizedtags,omitempty"`
+	Protected            *bool                                  `bson:"protected,omitempty"`
+	SubjectKey           *string                                `bson:"subjectkey,omitempty"`
+	UpdateIdempotencyKey *string                                `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                             `bson:"updatetime,omitempty"`
+	ZHash                *int                                   `bson:"zhash,omitempty"`
+	Zone                 *int                                   `bson:"zone,omitempty"`
 }

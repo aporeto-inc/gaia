@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -81,7 +82,7 @@ func (o AWSRegistersList) Version() int {
 // AWSRegister represents the model of a awsregister
 type AWSRegister struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -119,6 +120,43 @@ func (o *AWSRegister) Identifier() string {
 func (o *AWSRegister) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *AWSRegister) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesAWSRegister{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.CreateTime = o.CreateTime
+	s.UpdateTime = o.UpdateTime
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *AWSRegister) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesAWSRegister{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.CreateTime = s.CreateTime
+	o.UpdateTime = s.UpdateTime
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -475,7 +513,7 @@ func (o SparseAWSRegistersList) Version() int {
 // SparseAWSRegister represents the sparse version of a awsregister.
 type SparseAWSRegister struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
@@ -513,6 +551,52 @@ func (o *SparseAWSRegister) Identifier() string {
 func (o *SparseAWSRegister) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAWSRegister) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseAWSRegister{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAWSRegister) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseAWSRegister{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -587,4 +671,15 @@ func (o *SparseAWSRegister) DeepCopyInto(out *SparseAWSRegister) {
 	}
 
 	*out = *target.(*SparseAWSRegister)
+}
+
+type mongoAttributesAWSRegister struct {
+	ID         bson.ObjectId `bson:"_id"`
+	CreateTime time.Time     `bson:"createtime"`
+	UpdateTime time.Time     `bson:"updatetime"`
+}
+type mongoAttributesSparseAWSRegister struct {
+	ID         bson.ObjectId `bson:"_id"`
+	CreateTime *time.Time    `bson:"createtime,omitempty"`
+	UpdateTime *time.Time    `bson:"updatetime,omitempty"`
 }

@@ -28,6 +28,23 @@
         }
       }
 
+'[]map[string]interface{}':
+  elemental:
+    type: '[]map[string]interface{}'
+    init: '[]map[string]interface{}{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+
 '[]map[string]string':
   elemental:
     type: '[]map[string]string'

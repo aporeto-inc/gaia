@@ -70,7 +70,7 @@ func ValidatePortStringList(attribute string, ports []string) error {
 	return nil
 }
 
-var rxDNSName = regexp.MustCompile(`^([a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62}){1}(\.[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62})*[\._]?$`)
+var rxDNSName = regexp.MustCompile(`^(\*\.){0,1}([a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62}){1}(\.[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62})*[\._]?$`)
 
 // ValidateNetwork validates a CIDR.
 func ValidateNetwork(attribute string, network string) error {
@@ -413,16 +413,16 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 }
 
 // ValidateAutomation validates an automation by checking for the following:
-//   - Exactly one action MUST be defined if the automation trigger type is set to "Webhook"
+//   - Exactly ONE action MUST be defined if the automation trigger type is set to "Webhook"
 func ValidateAutomation(auto *Automation) error {
 	switch auto.Trigger {
 	case AutomationTriggerWebhook:
 		switch len(auto.Actions) {
 		case 1:
 		case 0:
-			return makeValidationError("trigger", fmt.Sprintf("Exactly one action must be defined if trigger type is set to \"%s\".", AutomationTriggerWebhook))
+			return makeValidationError("actions", fmt.Sprintf("Exactly one action must be defined if trigger type is set to %q", AutomationTriggerWebhook))
 		default:
-			return makeValidationError("trigger", fmt.Sprintf("Only one action can be defined if trigger type is set to \"%s\".", AutomationTriggerWebhook))
+			return makeValidationError("actions", fmt.Sprintf("Only one action can be defined if trigger type is set to %q", AutomationTriggerWebhook))
 		}
 	}
 
@@ -762,6 +762,17 @@ func ValidateWriteOperations(attribute string, operations []string) error {
 
 	if ncreate > 1 || nupdate > 1 || ndelete > 1 {
 		return makeValidationError(attribute, fmt.Sprintf("Must not contain the same operation multiple times."))
+	}
+
+	return nil
+}
+
+// ValidateIdentity verifies the given string is a valid gaia identity.
+func ValidateIdentity(attribute string, identity string) error {
+
+	i := Manager().IdentityFromAny(identity)
+	if i.IsEmpty() {
+		return makeValidationError(attribute, fmt.Sprintf("Invalid identity '%s': unknown.", identity))
 	}
 
 	return nil

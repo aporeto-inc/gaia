@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -58,7 +59,6 @@ func (o SSHAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 func (o SSHAuthorizationPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -119,8 +119,10 @@ type SSHAuthorizationPolicy struct {
 	// If set the SSH authorization will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
-	// The list of permissions to apply to the OpenSSH certificate. You can check the list of
-	// standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
+	// The list of permissions to apply to the OpenSSH certificate. You can check the
+	// list of
+	// standard extensions at
+	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
 	Extensions []string `json:"extensions" msgpack:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// Indicates that this is fallback policy. It will only be
@@ -128,11 +130,16 @@ type SSHAuthorizationPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// Specify a single command that the user can issue on the remote host. This can be useful
-	// for issuing single-purpose certificates; ensuring that users stay in their home directories
-	// (`internal-sftp`); and restricting users to a bash shell (`/bin/bash`), preventing them
-	// from running arbitrary and unlogged commands such as `scp`, `rsync`, `-essh`, and `sftp`.
-	// Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
+	// Specify a single command that the user can issue on the remote host. This can be
+	// useful
+	// for issuing single-purpose certificates; ensuring that users stay in their home
+	// directories
+	// (`internal-sftp`); and restricting users to a bash shell (`/bin/bash`),
+	// preventing them
+	// from running arbitrary and unlogged commands such as `scp`, `rsync`, `-essh`,
+	// and `sftp`.
+	// Refer to the [FreeBSD
+	// documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
 	// for more information.
 	ForceCommand string `json:"forceCommand" msgpack:"forceCommand" bson:"-" mapstructure:"forceCommand,omitempty"`
 
@@ -149,12 +156,14 @@ type SSHAuthorizationPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the tag expression identifying the enforcers on the hosts the `subject` is
-	// allowed to access.
+	// Contains the tag expression identifying the enforcers on the hosts the `subject`
+	// is allowed to access.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
-	// On systems without the Aporeto enforcer, you must provide the name of the Linux user.
-	// Otherwise, Aporeto will automatically populate this field and adding a value here is
+	// On systems without the Aporeto enforcer, you must provide the name of the Linux
+	// user.
+	// Otherwise, Aporeto will automatically populate this field and adding a value
+	// here is
 	// optional and not used during the authorization. However, the value becomes a tag
 	// associated with the SSH processing unit, which could be useful.
 	Principals []string `json:"principals" msgpack:"principals" bson:"-" mapstructure:"principals,omitempty"`
@@ -165,8 +174,13 @@ type SSHAuthorizationPolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Contains the tag expression that identifies the user or group of users that should be
-	// allowed to access the remote hosts. If the user authenticates against an OIDC provider,
+	// If selected, the system account will be used to log into the resource.
+	RequireSystemAccountMatching bool `json:"requireSystemAccountMatching" msgpack:"requireSystemAccountMatching" bson:"requiresystemaccountmatching" mapstructure:"requireSystemAccountMatching,omitempty"`
+
+	// Contains the tag expression that identifies the user or group of users that
+	// should be
+	// allowed to access the remote hosts. If the user authenticates against an OIDC
+	// provider,
 	// these tags correspond to claims in the ID token.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -191,10 +205,10 @@ func NewSSHAuthorizationPolicy() *SSHAuthorizationPolicy {
 		AssociatedTags:    []string{},
 		AuthorizedSubnets: []string{},
 		Extensions:        []string{},
-		Metadata:          []string{},
 		NormalizedTags:    []string{},
 		Object:            [][]string{},
 		Principals:        []string{},
+		Metadata:          []string{},
 		Subject:           [][]string{},
 		Validity:          "1h",
 	}
@@ -218,6 +232,75 @@ func (o *SSHAuthorizationPolicy) SetIdentifier(id string) {
 	o.ID = id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SSHAuthorizationPolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSSHAuthorizationPolicy{}
+
+	s.ActiveDuration = o.ActiveDuration
+	s.ActiveSchedule = o.ActiveSchedule
+	s.Annotations = o.Annotations
+	s.AssociatedTags = o.AssociatedTags
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.Disabled = o.Disabled
+	s.ExpirationTime = o.ExpirationTime
+	s.Fallback = o.Fallback
+	s.Metadata = o.Metadata
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Propagate = o.Propagate
+	s.Protected = o.Protected
+	s.RequireSystemAccountMatching = o.RequireSystemAccountMatching
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SSHAuthorizationPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSSHAuthorizationPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ActiveDuration = s.ActiveDuration
+	o.ActiveSchedule = s.ActiveSchedule
+	o.Annotations = s.Annotations
+	o.AssociatedTags = s.AssociatedTags
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.Disabled = s.Disabled
+	o.ExpirationTime = s.ExpirationTime
+	o.Fallback = s.Fallback
+	o.Metadata = s.Metadata
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Propagate = s.Propagate
+	o.Protected = s.Protected
+	o.RequireSystemAccountMatching = s.RequireSystemAccountMatching
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SSHAuthorizationPolicy) Version() int {
 
@@ -234,7 +317,6 @@ func (o *SSHAuthorizationPolicy) BleveType() string {
 func (o *SSHAuthorizationPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -243,9 +325,9 @@ func (o *SSHAuthorizationPolicy) DefaultOrder() []string {
 func (o *SSHAuthorizationPolicy) Doc() string {
 
 	return `An SSH authorization allows you to define the permissions for the owner
-of a OpenSSH certificate issued by an Aporeto certificate authority. You can 
-define if a user with some claims can connect to an ` + "`" + `sshd` + "`" + ` server managed by 
-an instance of ` + "`" + `enforcerd` + "`" + ` according to its tags, what permissions he has and 
+of a OpenSSH certificate issued by an Aporeto certificate authority. You can
+define if a user with some claims can connect to an ` + "`" + `sshd` + "`" + ` server managed by
+an instance of ` + "`" + `enforcerd` + "`" + ` according to its tags, what permissions he has and
 for how long delivered certificates are valid.`
 }
 
@@ -477,32 +559,33 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseSSHAuthorizationPolicy{
-			ID:                   &o.ID,
-			ActiveDuration:       &o.ActiveDuration,
-			ActiveSchedule:       &o.ActiveSchedule,
-			Annotations:          &o.Annotations,
-			AssociatedTags:       &o.AssociatedTags,
-			AuthorizedSubnets:    &o.AuthorizedSubnets,
-			CreateIdempotencyKey: &o.CreateIdempotencyKey,
-			CreateTime:           &o.CreateTime,
-			Description:          &o.Description,
-			Disabled:             &o.Disabled,
-			ExpirationTime:       &o.ExpirationTime,
-			Extensions:           &o.Extensions,
-			Fallback:             &o.Fallback,
-			ForceCommand:         &o.ForceCommand,
-			Metadata:             &o.Metadata,
-			Name:                 &o.Name,
-			Namespace:            &o.Namespace,
-			NormalizedTags:       &o.NormalizedTags,
-			Object:               &o.Object,
-			Principals:           &o.Principals,
-			Propagate:            &o.Propagate,
-			Protected:            &o.Protected,
-			Subject:              &o.Subject,
-			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
-			UpdateTime:           &o.UpdateTime,
-			Validity:             &o.Validity,
+			ID:                           &o.ID,
+			ActiveDuration:               &o.ActiveDuration,
+			ActiveSchedule:               &o.ActiveSchedule,
+			Annotations:                  &o.Annotations,
+			AssociatedTags:               &o.AssociatedTags,
+			AuthorizedSubnets:            &o.AuthorizedSubnets,
+			CreateIdempotencyKey:         &o.CreateIdempotencyKey,
+			CreateTime:                   &o.CreateTime,
+			Description:                  &o.Description,
+			Disabled:                     &o.Disabled,
+			ExpirationTime:               &o.ExpirationTime,
+			Extensions:                   &o.Extensions,
+			Fallback:                     &o.Fallback,
+			ForceCommand:                 &o.ForceCommand,
+			Metadata:                     &o.Metadata,
+			Name:                         &o.Name,
+			Namespace:                    &o.Namespace,
+			NormalizedTags:               &o.NormalizedTags,
+			Object:                       &o.Object,
+			Principals:                   &o.Principals,
+			Propagate:                    &o.Propagate,
+			Protected:                    &o.Protected,
+			RequireSystemAccountMatching: &o.RequireSystemAccountMatching,
+			Subject:                      &o.Subject,
+			UpdateIdempotencyKey:         &o.UpdateIdempotencyKey,
+			UpdateTime:                   &o.UpdateTime,
+			Validity:                     &o.Validity,
 		}
 	}
 
@@ -553,6 +636,8 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "requireSystemAccountMatching":
+			sp.RequireSystemAccountMatching = &(o.RequireSystemAccountMatching)
 		case "subject":
 			sp.Subject = &(o.Subject)
 		case "updateIdempotencyKey":
@@ -639,6 +724,9 @@ func (o *SSHAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
+	}
+	if so.RequireSystemAccountMatching != nil {
+		o.RequireSystemAccountMatching = *so.RequireSystemAccountMatching
 	}
 	if so.Subject != nil {
 		o.Subject = *so.Subject
@@ -802,6 +890,8 @@ func (o *SSHAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.Propagate
 	case "protected":
 		return o.Protected
+	case "requireSystemAccountMatching":
+		return o.RequireSystemAccountMatching
 	case "subject":
 		return o.Subject
 	case "updateIdempotencyKey":
@@ -954,8 +1044,10 @@ the declared subnets.`,
 	"Extensions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
-		Description: `The list of permissions to apply to the OpenSSH certificate. You can check the list of 
-standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
+		Description: `The list of permissions to apply to the OpenSSH certificate. You can check the
+list of
+standard extensions at
+<https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
 		Exposed: true,
 		Name:    "extensions",
 		SubType: "string",
@@ -978,11 +1070,16 @@ propagated it will become a fallback for children namespaces.`,
 	"ForceCommand": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ForceCommand",
-		Description: `Specify a single command that the user can issue on the remote host. This can be useful 
-for issuing single-purpose certificates; ensuring that users stay in their home directories 
-(` + "`" + `internal-sftp` + "`" + `); and restricting users to a bash shell (` + "`" + `/bin/bash` + "`" + `), preventing them 
-from running arbitrary and unlogged commands such as ` + "`" + `scp` + "`" + `, ` + "`" + `rsync` + "`" + `, ` + "`" + `-essh` + "`" + `, and ` + "`" + `sftp` + "`" + `. 
-Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5)) 
+		Description: `Specify a single command that the user can issue on the remote host. This can be
+useful
+for issuing single-purpose certificates; ensuring that users stay in their home
+directories
+(` + "`" + `internal-sftp` + "`" + `); and restricting users to a bash shell (` + "`" + `/bin/bash` + "`" + `),
+preventing them
+from running arbitrary and unlogged commands such as ` + "`" + `scp` + "`" + `, ` + "`" + `rsync` + "`" + `, ` + "`" + `-essh` + "`" + `,
+and ` + "`" + `sftp` + "`" + `.
+Refer to the [FreeBSD
+documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
 for more information.`,
 		Exposed: true,
 		Name:    "forceCommand",
@@ -1006,7 +1103,6 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1023,7 +1119,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1053,8 +1148,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Contains the tag expression identifying the enforcers on the hosts the ` + "`" + `subject` + "`" + ` is 
-allowed to access.`,
+		Description: `Contains the tag expression identifying the enforcers on the hosts the ` + "`" + `subject` + "`" + `
+is allowed to access.`,
 		Exposed:   true,
 		Name:      "object",
 		Orderable: true,
@@ -1064,9 +1159,11 @@ allowed to access.`,
 	"Principals": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Principals",
-		Description: `On systems without the Aporeto enforcer, you must provide the name of the Linux user. 
-Otherwise, Aporeto will automatically populate this field and adding a value here is 
-optional and not used during the authorization. However, the value becomes a tag 
+		Description: `On systems without the Aporeto enforcer, you must provide the name of the Linux
+user.
+Otherwise, Aporeto will automatically populate this field and adding a value
+here is
+optional and not used during the authorization. However, the value becomes a tag
 associated with the SSH processing unit, which could be useful.`,
 		Exposed: true,
 		Name:    "principals",
@@ -1097,11 +1194,22 @@ associated with the SSH processing unit, which could be useful.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"RequireSystemAccountMatching": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RequireSystemAccountMatching",
+		Description:    `If selected, the system account will be used to log into the resource.`,
+		Exposed:        true,
+		Name:           "requireSystemAccountMatching",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Contains the tag expression that identifies the user or group of users that should be 
-allowed to access the remote hosts. If the user authenticates against an OIDC provider, 
+		Description: `Contains the tag expression that identifies the user or group of users that
+should be
+allowed to access the remote hosts. If the user authenticates against an OIDC
+provider,
 these tags correspond to claims in the ID token.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1285,8 +1393,10 @@ the declared subnets.`,
 	"extensions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
-		Description: `The list of permissions to apply to the OpenSSH certificate. You can check the list of 
-standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
+		Description: `The list of permissions to apply to the OpenSSH certificate. You can check the
+list of
+standard extensions at
+<https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
 		Exposed: true,
 		Name:    "extensions",
 		SubType: "string",
@@ -1309,11 +1419,16 @@ propagated it will become a fallback for children namespaces.`,
 	"forcecommand": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ForceCommand",
-		Description: `Specify a single command that the user can issue on the remote host. This can be useful 
-for issuing single-purpose certificates; ensuring that users stay in their home directories 
-(` + "`" + `internal-sftp` + "`" + `); and restricting users to a bash shell (` + "`" + `/bin/bash` + "`" + `), preventing them 
-from running arbitrary and unlogged commands such as ` + "`" + `scp` + "`" + `, ` + "`" + `rsync` + "`" + `, ` + "`" + `-essh` + "`" + `, and ` + "`" + `sftp` + "`" + `. 
-Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5)) 
+		Description: `Specify a single command that the user can issue on the remote host. This can be
+useful
+for issuing single-purpose certificates; ensuring that users stay in their home
+directories
+(` + "`" + `internal-sftp` + "`" + `); and restricting users to a bash shell (` + "`" + `/bin/bash` + "`" + `),
+preventing them
+from running arbitrary and unlogged commands such as ` + "`" + `scp` + "`" + `, ` + "`" + `rsync` + "`" + `, ` + "`" + `-essh` + "`" + `,
+and ` + "`" + `sftp` + "`" + `.
+Refer to the [FreeBSD
+documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
 for more information.`,
 		Exposed: true,
 		Name:    "forceCommand",
@@ -1337,7 +1452,6 @@ with the '@' prefix, and should only be used by external systems.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1354,7 +1468,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1384,8 +1497,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Contains the tag expression identifying the enforcers on the hosts the ` + "`" + `subject` + "`" + ` is 
-allowed to access.`,
+		Description: `Contains the tag expression identifying the enforcers on the hosts the ` + "`" + `subject` + "`" + `
+is allowed to access.`,
 		Exposed:   true,
 		Name:      "object",
 		Orderable: true,
@@ -1395,9 +1508,11 @@ allowed to access.`,
 	"principals": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Principals",
-		Description: `On systems without the Aporeto enforcer, you must provide the name of the Linux user. 
-Otherwise, Aporeto will automatically populate this field and adding a value here is 
-optional and not used during the authorization. However, the value becomes a tag 
+		Description: `On systems without the Aporeto enforcer, you must provide the name of the Linux
+user.
+Otherwise, Aporeto will automatically populate this field and adding a value
+here is
+optional and not used during the authorization. However, the value becomes a tag
 associated with the SSH processing unit, which could be useful.`,
 		Exposed: true,
 		Name:    "principals",
@@ -1428,11 +1543,22 @@ associated with the SSH processing unit, which could be useful.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"requiresystemaccountmatching": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RequireSystemAccountMatching",
+		Description:    `If selected, the system account will be used to log into the resource.`,
+		Exposed:        true,
+		Name:           "requireSystemAccountMatching",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Contains the tag expression that identifies the user or group of users that should be 
-allowed to access the remote hosts. If the user authenticates against an OIDC provider, 
+		Description: `Contains the tag expression that identifies the user or group of users that
+should be
+allowed to access the remote hosts. If the user authenticates against an OIDC
+provider,
 these tags correspond to claims in the ID token.`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1519,7 +1645,6 @@ func (o SparseSSHAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseSSHAuthorizationPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1579,8 +1704,10 @@ type SparseSSHAuthorizationPolicy struct {
 	// If set the SSH authorization will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
-	// The list of permissions to apply to the OpenSSH certificate. You can check the list of
-	// standard extensions at <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
+	// The list of permissions to apply to the OpenSSH certificate. You can check the
+	// list of
+	// standard extensions at
+	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
 	Extensions *[]string `json:"extensions,omitempty" msgpack:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// Indicates that this is fallback policy. It will only be
@@ -1588,11 +1715,16 @@ type SparseSSHAuthorizationPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// Specify a single command that the user can issue on the remote host. This can be useful
-	// for issuing single-purpose certificates; ensuring that users stay in their home directories
-	// (`internal-sftp`); and restricting users to a bash shell (`/bin/bash`), preventing them
-	// from running arbitrary and unlogged commands such as `scp`, `rsync`, `-essh`, and `sftp`.
-	// Refer to the [FreeBSD documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
+	// Specify a single command that the user can issue on the remote host. This can be
+	// useful
+	// for issuing single-purpose certificates; ensuring that users stay in their home
+	// directories
+	// (`internal-sftp`); and restricting users to a bash shell (`/bin/bash`),
+	// preventing them
+	// from running arbitrary and unlogged commands such as `scp`, `rsync`, `-essh`,
+	// and `sftp`.
+	// Refer to the [FreeBSD
+	// documentation](https://www.freebsd.org/cgi/man.cgi?sshd_config(5))
 	// for more information.
 	ForceCommand *string `json:"forceCommand,omitempty" msgpack:"forceCommand,omitempty" bson:"-" mapstructure:"forceCommand,omitempty"`
 
@@ -1609,12 +1741,14 @@ type SparseSSHAuthorizationPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the tag expression identifying the enforcers on the hosts the `subject` is
-	// allowed to access.
+	// Contains the tag expression identifying the enforcers on the hosts the `subject`
+	// is allowed to access.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
-	// On systems without the Aporeto enforcer, you must provide the name of the Linux user.
-	// Otherwise, Aporeto will automatically populate this field and adding a value here is
+	// On systems without the Aporeto enforcer, you must provide the name of the Linux
+	// user.
+	// Otherwise, Aporeto will automatically populate this field and adding a value
+	// here is
 	// optional and not used during the authorization. However, the value becomes a tag
 	// associated with the SSH processing unit, which could be useful.
 	Principals *[]string `json:"principals,omitempty" msgpack:"principals,omitempty" bson:"-" mapstructure:"principals,omitempty"`
@@ -1625,8 +1759,13 @@ type SparseSSHAuthorizationPolicy struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Contains the tag expression that identifies the user or group of users that should be
-	// allowed to access the remote hosts. If the user authenticates against an OIDC provider,
+	// If selected, the system account will be used to log into the resource.
+	RequireSystemAccountMatching *bool `json:"requireSystemAccountMatching,omitempty" msgpack:"requireSystemAccountMatching,omitempty" bson:"requiresystemaccountmatching,omitempty" mapstructure:"requireSystemAccountMatching,omitempty"`
+
+	// Contains the tag expression that identifies the user or group of users that
+	// should be
+	// allowed to access the remote hosts. If the user authenticates against an OIDC
+	// provider,
 	// these tags correspond to claims in the ID token.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -1666,6 +1805,151 @@ func (o *SparseSSHAuthorizationPolicy) Identifier() string {
 func (o *SparseSSHAuthorizationPolicy) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSSHAuthorizationPolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseSSHAuthorizationPolicy{}
+
+	if o.ActiveDuration != nil {
+		s.ActiveDuration = o.ActiveDuration
+	}
+	if o.ActiveSchedule != nil {
+		s.ActiveSchedule = o.ActiveSchedule
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Disabled != nil {
+		s.Disabled = o.Disabled
+	}
+	if o.ExpirationTime != nil {
+		s.ExpirationTime = o.ExpirationTime
+	}
+	if o.Fallback != nil {
+		s.Fallback = o.Fallback
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.RequireSystemAccountMatching != nil {
+		s.RequireSystemAccountMatching = o.RequireSystemAccountMatching
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSSHAuthorizationPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseSSHAuthorizationPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.ActiveDuration != nil {
+		o.ActiveDuration = s.ActiveDuration
+	}
+	if s.ActiveSchedule != nil {
+		o.ActiveSchedule = s.ActiveSchedule
+	}
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Disabled != nil {
+		o.Disabled = s.Disabled
+	}
+	if s.ExpirationTime != nil {
+		o.ExpirationTime = s.ExpirationTime
+	}
+	if s.Fallback != nil {
+		o.Fallback = s.Fallback
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.RequireSystemAccountMatching != nil {
+		o.RequireSystemAccountMatching = s.RequireSystemAccountMatching
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1743,6 +2027,9 @@ func (o *SparseSSHAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.RequireSystemAccountMatching != nil {
+		out.RequireSystemAccountMatching = *o.RequireSystemAccountMatching
 	}
 	if o.Subject != nil {
 		out.Subject = *o.Subject
@@ -1998,4 +2285,47 @@ func (o *SparseSSHAuthorizationPolicy) DeepCopyInto(out *SparseSSHAuthorizationP
 	}
 
 	*out = *target.(*SparseSSHAuthorizationPolicy)
+}
+
+type mongoAttributesSSHAuthorizationPolicy struct {
+	ActiveDuration               string              `bson:"activeduration"`
+	ActiveSchedule               string              `bson:"activeschedule"`
+	Annotations                  map[string][]string `bson:"annotations"`
+	AssociatedTags               []string            `bson:"associatedtags"`
+	CreateIdempotencyKey         string              `bson:"createidempotencykey"`
+	CreateTime                   time.Time           `bson:"createtime"`
+	Description                  string              `bson:"description"`
+	Disabled                     bool                `bson:"disabled"`
+	ExpirationTime               time.Time           `bson:"expirationtime"`
+	Fallback                     bool                `bson:"fallback"`
+	Metadata                     []string            `bson:"metadata"`
+	Name                         string              `bson:"name"`
+	Namespace                    string              `bson:"namespace"`
+	NormalizedTags               []string            `bson:"normalizedtags"`
+	Propagate                    bool                `bson:"propagate"`
+	Protected                    bool                `bson:"protected"`
+	RequireSystemAccountMatching bool                `bson:"requiresystemaccountmatching"`
+	UpdateIdempotencyKey         string              `bson:"updateidempotencykey"`
+	UpdateTime                   time.Time           `bson:"updatetime"`
+}
+type mongoAttributesSparseSSHAuthorizationPolicy struct {
+	ActiveDuration               *string              `bson:"activeduration,omitempty"`
+	ActiveSchedule               *string              `bson:"activeschedule,omitempty"`
+	Annotations                  *map[string][]string `bson:"annotations,omitempty"`
+	AssociatedTags               *[]string            `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey         *string              `bson:"createidempotencykey,omitempty"`
+	CreateTime                   *time.Time           `bson:"createtime,omitempty"`
+	Description                  *string              `bson:"description,omitempty"`
+	Disabled                     *bool                `bson:"disabled,omitempty"`
+	ExpirationTime               *time.Time           `bson:"expirationtime,omitempty"`
+	Fallback                     *bool                `bson:"fallback,omitempty"`
+	Metadata                     *[]string            `bson:"metadata,omitempty"`
+	Name                         *string              `bson:"name,omitempty"`
+	Namespace                    *string              `bson:"namespace,omitempty"`
+	NormalizedTags               *[]string            `bson:"normalizedtags,omitempty"`
+	Propagate                    *bool                `bson:"propagate,omitempty"`
+	Protected                    *bool                `bson:"protected,omitempty"`
+	RequireSystemAccountMatching *bool                `bson:"requiresystemaccountmatching,omitempty"`
+	UpdateIdempotencyKey         *string              `bson:"updateidempotencykey,omitempty"`
+	UpdateTime                   *time.Time           `bson:"updatetime,omitempty"`
 }

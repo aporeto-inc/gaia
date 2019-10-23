@@ -30,6 +30,16 @@ model:
   - '@metadatable'
   - '@timeable'
 
+# Ordering
+default_order:
+- name
+
+# Indexes
+indexes:
+- - name
+- - namespace
+  - name
+
 # Attributes
 attributes:
   v1:
@@ -123,7 +133,6 @@ attributes:
     creation_only: true
     allowed_chars: ^[a-zA-Z0-9-_/]+$
     allowed_chars_message: must only contain alpha numerical characters, '-' or '_'
-    default_order: true
     example_value: mynamespace
     filterable: true
     getter: true

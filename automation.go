@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -75,7 +76,6 @@ func (o AutomationsList) List() elemental.IdentifiablesList {
 func (o AutomationsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -101,13 +101,21 @@ func (o AutomationsList) Version() int {
 // Automation represents the model of a automation
 type Automation struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Contains the code that will be executed if the condition is met.
 	Actions []string `json:"actions" msgpack:"actions" bson:"actions" mapstructure:"actions,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Contains the Aporeto token used by the Automation's HTTP client. This token is
+	// derived from the automation's app credential attribute.
+	AporetoToken string `json:"-" msgpack:"-" bson:"aporetotoken" mapstructure:"-,omitempty"`
+
+	// Contains the app credential associated with the automation which has its roles
+	// deduced from the automation's entitlements.
+	AppCredential string `json:"-" msgpack:"-" bson:"appcredential" mapstructure:"-,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -207,12 +215,12 @@ func NewAutomation() *Automation {
 		Actions:        []string{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Events:         map[string][]elemental.EventType{},
 		Entitlements:   map[string][]elemental.Operation{},
 		Errors:         []string{},
-		MigrationsLog:  map[string]string{},
+		Events:         map[string][]elemental.EventType{},
 		NormalizedTags: []string{},
 		Parameters:     map[string]interface{}{},
+		MigrationsLog:  map[string]string{},
 		Trigger:        AutomationTriggerTime,
 	}
 }
@@ -235,6 +243,97 @@ func (o *Automation) SetIdentifier(id string) {
 	o.ID = id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Automation) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesAutomation{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.Actions = o.Actions
+	s.Annotations = o.Annotations
+	s.AporetoToken = o.AporetoToken
+	s.AppCredential = o.AppCredential
+	s.AssociatedTags = o.AssociatedTags
+	s.Condition = o.Condition
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.Disabled = o.Disabled
+	s.Entitlements = o.Entitlements
+	s.Errors = o.Errors
+	s.Events = o.Events
+	s.ImmediateExecution = o.ImmediateExecution
+	s.LastExecTime = o.LastExecTime
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Parameters = o.Parameters
+	s.Protected = o.Protected
+	s.Schedule = o.Schedule
+	s.Stdout = o.Stdout
+	s.Token = o.Token
+	s.Trigger = o.Trigger
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Automation) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesAutomation{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Actions = s.Actions
+	o.Annotations = s.Annotations
+	o.AporetoToken = s.AporetoToken
+	o.AppCredential = s.AppCredential
+	o.AssociatedTags = s.AssociatedTags
+	o.Condition = s.Condition
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.Disabled = s.Disabled
+	o.Entitlements = s.Entitlements
+	o.Errors = s.Errors
+	o.Events = s.Events
+	o.ImmediateExecution = s.ImmediateExecution
+	o.LastExecTime = s.LastExecTime
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Parameters = s.Parameters
+	o.Protected = s.Protected
+	o.Schedule = s.Schedule
+	o.Stdout = s.Stdout
+	o.Token = s.Token
+	o.Trigger = s.Trigger
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *Automation) Version() int {
 
@@ -251,7 +350,6 @@ func (o *Automation) BleveType() string {
 func (o *Automation) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -458,6 +556,8 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ID:                   &o.ID,
 			Actions:              &o.Actions,
 			Annotations:          &o.Annotations,
+			AporetoToken:         &o.AporetoToken,
+			AppCredential:        &o.AppCredential,
 			AssociatedTags:       &o.AssociatedTags,
 			Condition:            &o.Condition,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
@@ -496,6 +596,10 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Actions = &(o.Actions)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
+		case "aporetoToken":
+			sp.AporetoToken = &(o.AporetoToken)
+		case "appCredential":
+			sp.AppCredential = &(o.AppCredential)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "condition":
@@ -554,6 +658,32 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *Automation) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.AporetoToken, err = encrypter.EncryptString(o.AporetoToken); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AporetoToken' for 'Automation' (%s): %s", o.Identifier(), err)
+	}
+	if o.AppCredential, err = encrypter.EncryptString(o.AppCredential); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AppCredential' for 'Automation' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *Automation) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.AporetoToken, err = encrypter.DecryptString(o.AporetoToken); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AporetoToken' for 'Automation' (%s): %s", o.Identifier(), err)
+	}
+	if o.AppCredential, err = encrypter.DecryptString(o.AppCredential); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AppCredential' for 'Automation' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
 // Patch apply the non nil value of a *SparseAutomation to the object.
 func (o *Automation) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
@@ -569,6 +699,12 @@ func (o *Automation) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
+	}
+	if so.AporetoToken != nil {
+		o.AporetoToken = *so.AporetoToken
+	}
+	if so.AppCredential != nil {
+		o.AppCredential = *so.AppCredential
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -745,6 +881,10 @@ func (o *Automation) ValueForAttribute(name string) interface{} {
 		return o.Actions
 	case "annotations":
 		return o.Annotations
+	case "aporetoToken":
+		return o.AporetoToken
+	case "appCredential":
+		return o.AppCredential
 	case "associatedTags":
 		return o.AssociatedTags
 	case "condition":
@@ -839,6 +979,28 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
+	},
+	"AporetoToken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AporetoToken",
+		Description: `Contains the Aporeto token used by the Automation's HTTP client. This token is
+derived from the automation's app credential attribute.`,
+		Encrypted: true,
+		Name:      "aporetoToken",
+		Stored:    true,
+		Type:      "string",
+	},
+	"AppCredential": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AppCredential",
+		Description: `Contains the app credential associated with the automation which has its roles
+deduced from the automation's entitlements.`,
+		Encrypted: true,
+		Name:      "appCredential",
+		Stored:    true,
+		Type:      "string",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -984,7 +1146,6 @@ update before being scheduled.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1001,7 +1162,6 @@ update before being scheduled.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1195,6 +1355,28 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
+	"aporetotoken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AporetoToken",
+		Description: `Contains the Aporeto token used by the Automation's HTTP client. This token is
+derived from the automation's app credential attribute.`,
+		Encrypted: true,
+		Name:      "aporetoToken",
+		Stored:    true,
+		Type:      "string",
+	},
+	"appcredential": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AppCredential",
+		Description: `Contains the app credential associated with the automation which has its roles
+deduced from the automation's entitlements.`,
+		Encrypted: true,
+		Name:      "appCredential",
+		Stored:    true,
+		Type:      "string",
+	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -1339,7 +1521,6 @@ update before being scheduled.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1356,7 +1537,6 @@ update before being scheduled.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1554,7 +1734,6 @@ func (o SparseAutomationsList) List() elemental.IdentifiablesList {
 func (o SparseAutomationsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1579,13 +1758,21 @@ func (o SparseAutomationsList) Version() int {
 // SparseAutomation represents the sparse version of a automation.
 type SparseAutomation struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Contains the code that will be executed if the condition is met.
 	Actions *[]string `json:"actions,omitempty" msgpack:"actions,omitempty" bson:"actions,omitempty" mapstructure:"actions,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+
+	// Contains the Aporeto token used by the Automation's HTTP client. This token is
+	// derived from the automation's app credential attribute.
+	AporetoToken *string `json:"-" msgpack:"-" bson:"aporetotoken,omitempty" mapstructure:"-,omitempty"`
+
+	// Contains the app credential associated with the automation which has its roles
+	// deduced from the automation's entitlements.
+	AppCredential *string `json:"-" msgpack:"-" bson:"appcredential,omitempty" mapstructure:"-,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
@@ -1703,6 +1890,214 @@ func (o *SparseAutomation) SetIdentifier(id string) {
 	o.ID = &id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAutomation) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseAutomation{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.Actions != nil {
+		s.Actions = o.Actions
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AporetoToken != nil {
+		s.AporetoToken = o.AporetoToken
+	}
+	if o.AppCredential != nil {
+		s.AppCredential = o.AppCredential
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.Condition != nil {
+		s.Condition = o.Condition
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Disabled != nil {
+		s.Disabled = o.Disabled
+	}
+	if o.Entitlements != nil {
+		s.Entitlements = o.Entitlements
+	}
+	if o.Errors != nil {
+		s.Errors = o.Errors
+	}
+	if o.Events != nil {
+		s.Events = o.Events
+	}
+	if o.ImmediateExecution != nil {
+		s.ImmediateExecution = o.ImmediateExecution
+	}
+	if o.LastExecTime != nil {
+		s.LastExecTime = o.LastExecTime
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Parameters != nil {
+		s.Parameters = o.Parameters
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.Schedule != nil {
+		s.Schedule = o.Schedule
+	}
+	if o.Stdout != nil {
+		s.Stdout = o.Stdout
+	}
+	if o.Token != nil {
+		s.Token = o.Token
+	}
+	if o.Trigger != nil {
+		s.Trigger = o.Trigger
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAutomation) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseAutomation{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.Actions != nil {
+		o.Actions = s.Actions
+	}
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AporetoToken != nil {
+		o.AporetoToken = s.AporetoToken
+	}
+	if s.AppCredential != nil {
+		o.AppCredential = s.AppCredential
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.Condition != nil {
+		o.Condition = s.Condition
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Disabled != nil {
+		o.Disabled = s.Disabled
+	}
+	if s.Entitlements != nil {
+		o.Entitlements = s.Entitlements
+	}
+	if s.Errors != nil {
+		o.Errors = s.Errors
+	}
+	if s.Events != nil {
+		o.Events = s.Events
+	}
+	if s.ImmediateExecution != nil {
+		o.ImmediateExecution = s.ImmediateExecution
+	}
+	if s.LastExecTime != nil {
+		o.LastExecTime = s.LastExecTime
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Parameters != nil {
+		o.Parameters = s.Parameters
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.Schedule != nil {
+		o.Schedule = s.Schedule
+	}
+	if s.Stdout != nil {
+		o.Stdout = s.Stdout
+	}
+	if s.Token != nil {
+		o.Token = s.Token
+	}
+	if s.Trigger != nil {
+		o.Trigger = s.Trigger
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseAutomation) Version() int {
 
@@ -1721,6 +2116,12 @@ func (o *SparseAutomation) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
+	}
+	if o.AporetoToken != nil {
+		out.AporetoToken = *o.AporetoToken
+	}
+	if o.AppCredential != nil {
+		out.AppCredential = *o.AppCredential
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
@@ -1802,6 +2203,32 @@ func (o *SparseAutomation) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *SparseAutomation) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.AporetoToken, err = encrypter.EncryptString(*o.AporetoToken); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AporetoToken' for 'SparseAutomation' (%s): %s", o.Identifier(), err)
+	}
+	if *o.AppCredential, err = encrypter.EncryptString(*o.AppCredential); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'AppCredential' for 'SparseAutomation' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *SparseAutomation) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.AporetoToken, err = encrypter.DecryptString(*o.AporetoToken); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AporetoToken' for 'SparseAutomation' (%s): %s", o.Identifier(), err)
+	}
+	if *o.AppCredential, err = encrypter.DecryptString(*o.AppCredential); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'AppCredential' for 'SparseAutomation' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
 }
 
 // GetAnnotations returns the Annotations of the receiver.
@@ -2006,4 +2433,69 @@ func (o *SparseAutomation) DeepCopyInto(out *SparseAutomation) {
 	}
 
 	*out = *target.(*SparseAutomation)
+}
+
+type mongoAttributesAutomation struct {
+	ID                   bson.ObjectId                    `bson:"_id"`
+	Actions              []string                         `bson:"actions"`
+	Annotations          map[string][]string              `bson:"annotations"`
+	AporetoToken         string                           `bson:"aporetotoken"`
+	AppCredential        string                           `bson:"appcredential"`
+	AssociatedTags       []string                         `bson:"associatedtags"`
+	Condition            string                           `bson:"condition"`
+	CreateIdempotencyKey string                           `bson:"createidempotencykey"`
+	CreateTime           time.Time                        `bson:"createtime"`
+	Description          string                           `bson:"description"`
+	Disabled             bool                             `bson:"disabled"`
+	Entitlements         map[string][]elemental.Operation `bson:"entitlements"`
+	Errors               []string                         `bson:"errors"`
+	Events               map[string][]elemental.EventType `bson:"events"`
+	ImmediateExecution   bool                             `bson:"immediateexecution"`
+	LastExecTime         time.Time                        `bson:"lastexectime"`
+	MigrationsLog        map[string]string                `bson:"migrationslog"`
+	Name                 string                           `bson:"name"`
+	Namespace            string                           `bson:"namespace"`
+	NormalizedTags       []string                         `bson:"normalizedtags"`
+	Parameters           map[string]interface{}           `bson:"parameters"`
+	Protected            bool                             `bson:"protected"`
+	Schedule             string                           `bson:"schedule"`
+	Stdout               string                           `bson:"stdout"`
+	Token                string                           `bson:"token"`
+	Trigger              AutomationTriggerValue           `bson:"trigger"`
+	UpdateIdempotencyKey string                           `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                        `bson:"updatetime"`
+	ZHash                int                              `bson:"zhash"`
+	Zone                 int                              `bson:"zone"`
+}
+type mongoAttributesSparseAutomation struct {
+	ID                   bson.ObjectId                     `bson:"_id"`
+	Actions              *[]string                         `bson:"actions,omitempty"`
+	Annotations          *map[string][]string              `bson:"annotations,omitempty"`
+	AporetoToken         *string                           `bson:"aporetotoken,omitempty"`
+	AppCredential        *string                           `bson:"appcredential,omitempty"`
+	AssociatedTags       *[]string                         `bson:"associatedtags,omitempty"`
+	Condition            *string                           `bson:"condition,omitempty"`
+	CreateIdempotencyKey *string                           `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                        `bson:"createtime,omitempty"`
+	Description          *string                           `bson:"description,omitempty"`
+	Disabled             *bool                             `bson:"disabled,omitempty"`
+	Entitlements         *map[string][]elemental.Operation `bson:"entitlements,omitempty"`
+	Errors               *[]string                         `bson:"errors,omitempty"`
+	Events               *map[string][]elemental.EventType `bson:"events,omitempty"`
+	ImmediateExecution   *bool                             `bson:"immediateexecution,omitempty"`
+	LastExecTime         *time.Time                        `bson:"lastexectime,omitempty"`
+	MigrationsLog        *map[string]string                `bson:"migrationslog,omitempty"`
+	Name                 *string                           `bson:"name,omitempty"`
+	Namespace            *string                           `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                         `bson:"normalizedtags,omitempty"`
+	Parameters           *map[string]interface{}           `bson:"parameters,omitempty"`
+	Protected            *bool                             `bson:"protected,omitempty"`
+	Schedule             *string                           `bson:"schedule,omitempty"`
+	Stdout               *string                           `bson:"stdout,omitempty"`
+	Token                *string                           `bson:"token,omitempty"`
+	Trigger              *AutomationTriggerValue           `bson:"trigger,omitempty"`
+	UpdateIdempotencyKey *string                           `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                        `bson:"updatetime,omitempty"`
+	ZHash                *int                              `bson:"zhash,omitempty"`
+	Zone                 *int                              `bson:"zone,omitempty"`
 }

@@ -692,6 +692,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[ClauseMatchIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[CounterReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -1703,6 +1709,87 @@ func init() {
 				},
 			},
 			"service": &elemental.RelationshipInfo{},
+		},
+	}
+
+	relationshipsRegistry[HitIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "reset",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"name",
+								"targetID",
+								"targetIdentity",
+							},
+							[]string{
+								"targetID",
+								"targetIdentity",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "name",
+						Type:         "string",
+						DefaultValue: "counter",
+					},
+					elemental.ParameterDefinition{
+						Name: "targetID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "targetIdentity",
+						Type: "string",
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"name",
+								"targetID",
+								"targetIdentity",
+							},
+							[]string{
+								"targetID",
+								"targetIdentity",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "name",
+						Type:         "string",
+						DefaultValue: "counter",
+					},
+					elemental.ParameterDefinition{
+						Name: "targetID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "targetIdentity",
+						Type: "string",
+					},
+				},
+			},
 		},
 	}
 
@@ -3542,6 +3629,12 @@ func init() {
 	}
 
 	relationshipsRegistry[SSHIdentityIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
+	relationshipsRegistry[SandboxIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
 		},

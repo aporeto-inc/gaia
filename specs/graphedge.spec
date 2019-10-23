@@ -22,6 +22,9 @@ indexes:
   - firstSeen
 - - lastSeen
 - - firstSeen
+- - flowID
+- - flowID
+  - createTime
 
 # Attributes
 attributes:
@@ -57,6 +60,7 @@ attributes:
     allowed_choices:
     - ProcessingUnit
     - ExternalNetwork
+    - Namespace
     - Node
 
   - name: encrypted
@@ -85,7 +89,7 @@ attributes:
     stored: true
 
   - name: namespace
-    description: Namespace of object represented by the node.
+    description: Namespace of the object that reported the flow.
     type: string
     exposed: true
     stored: true
@@ -114,6 +118,13 @@ attributes:
     exposed: true
     stored: true
 
+  - name: remoteNamespace
+    description: Namespace of the object that was targeted by the flow.
+    type: string
+    exposed: true
+    stored: true
+    omit_empty: true
+
   - name: sourceID
     description: ID of the source `GraphNode` of the edge.
     type: string
@@ -128,4 +139,5 @@ attributes:
     allowed_choices:
     - ProcessingUnit
     - ExternalNetwork
+    - Namespace
     - Node

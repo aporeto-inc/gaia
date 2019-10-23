@@ -4,7 +4,7 @@ model:
   resource_name: rendertemplates
   entity_name: RenderTemplate
   package: ignis
-  group: workflow
+  group: core/workflow
   description: Cooks a template based some parameters.
   aliases:
   - cook

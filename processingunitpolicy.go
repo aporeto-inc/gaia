@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -12,6 +13,9 @@ import (
 type ProcessingUnitPolicyActionValue string
 
 const (
+	// ProcessingUnitPolicyActionDefault represents the value Default.
+	ProcessingUnitPolicyActionDefault ProcessingUnitPolicyActionValue = "Default"
+
 	// ProcessingUnitPolicyActionDelete represents the value Delete.
 	ProcessingUnitPolicyActionDelete ProcessingUnitPolicyActionValue = "Delete"
 
@@ -29,6 +33,20 @@ const (
 
 	// ProcessingUnitPolicyActionStop represents the value Stop.
 	ProcessingUnitPolicyActionStop ProcessingUnitPolicyActionValue = "Stop"
+)
+
+// ProcessingUnitPolicyDatapathTypeValue represents the possible values for attribute "datapathType".
+type ProcessingUnitPolicyDatapathTypeValue string
+
+const (
+	// ProcessingUnitPolicyDatapathTypeAporeto represents the value Aporeto.
+	ProcessingUnitPolicyDatapathTypeAporeto ProcessingUnitPolicyDatapathTypeValue = "Aporeto"
+
+	// ProcessingUnitPolicyDatapathTypeDefault represents the value Default.
+	ProcessingUnitPolicyDatapathTypeDefault ProcessingUnitPolicyDatapathTypeValue = "Default"
+
+	// ProcessingUnitPolicyDatapathTypeEnvoyAuthorizer represents the value EnvoyAuthorizer.
+	ProcessingUnitPolicyDatapathTypeEnvoyAuthorizer ProcessingUnitPolicyDatapathTypeValue = "EnvoyAuthorizer"
 )
 
 // ProcessingUnitPolicyIdentity represents the Identity of the object.
@@ -81,7 +99,6 @@ func (o ProcessingUnitPoliciesList) List() elemental.IdentifiablesList {
 func (o ProcessingUnitPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -110,6 +127,8 @@ type ProcessingUnitPolicy struct {
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action determines the action to take while enforcing the isolation profile.
+	// NOTE: Choose `Default` if your processing unit is not supposed to make a
+	// decision on isolation profiles at all.
 	Action ProcessingUnitPolicyActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
@@ -131,6 +150,18 @@ type ProcessingUnitPolicy struct {
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// The datapath type that processing units selected by `subject` should
+	// implement:
+	// - `Default`: This policy is not making a decision for the
+	// datapath.
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+	// for every processing unit that for example can be used by an envoy
+	// proxy to use the Aporeto PKI and implement Aporeto network access
+	// policies. NOTE: The enforcer is not going to own the datapath in this
+	// example. It is merely providing an authorizer API.
+	DatapathType ProcessingUnitPolicyDatapathTypeValue `json:"datapathType" msgpack:"datapathType" bson:"datapathtype" mapstructure:"datapathType,omitempty"`
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
@@ -166,8 +197,8 @@ type ProcessingUnitPolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// A tag or tag expression identifying the processing unit(s) to which the
-	// isolation profile should be mapped.
+	// Contains the tag expression the tags need to match for the policy to
+	// apply.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -184,8 +215,10 @@ func NewProcessingUnitPolicy() *ProcessingUnitPolicy {
 
 	return &ProcessingUnitPolicy{
 		ModelVersion:             1,
+		Action:                   ProcessingUnitPolicyActionDefault,
 		Annotations:              map[string][]string{},
 		AssociatedTags:           []string{},
+		DatapathType:             ProcessingUnitPolicyDatapathTypeDefault,
 		IsolationProfileSelector: [][]string{},
 		Metadata:                 []string{},
 		NormalizedTags:           []string{},
@@ -211,6 +244,79 @@ func (o *ProcessingUnitPolicy) SetIdentifier(id string) {
 	o.ID = id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ProcessingUnitPolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesProcessingUnitPolicy{}
+
+	s.Action = o.Action
+	s.ActiveDuration = o.ActiveDuration
+	s.ActiveSchedule = o.ActiveSchedule
+	s.Annotations = o.Annotations
+	s.AssociatedTags = o.AssociatedTags
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.DatapathType = o.DatapathType
+	s.Description = o.Description
+	s.Disabled = o.Disabled
+	s.Fallback = o.Fallback
+	s.IsolationProfileSelector = o.IsolationProfileSelector
+	s.Metadata = o.Metadata
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Propagate = o.Propagate
+	s.Protected = o.Protected
+	s.Subject = o.Subject
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ProcessingUnitPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesProcessingUnitPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Action = s.Action
+	o.ActiveDuration = s.ActiveDuration
+	o.ActiveSchedule = s.ActiveSchedule
+	o.Annotations = s.Annotations
+	o.AssociatedTags = s.AssociatedTags
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.DatapathType = s.DatapathType
+	o.Description = s.Description
+	o.Disabled = s.Disabled
+	o.Fallback = s.Fallback
+	o.IsolationProfileSelector = s.IsolationProfileSelector
+	o.Metadata = s.Metadata
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Propagate = s.Propagate
+	o.Protected = s.Protected
+	o.Subject = s.Subject
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *ProcessingUnitPolicy) Version() int {
 
@@ -227,7 +333,6 @@ func (o *ProcessingUnitPolicy) BleveType() string {
 func (o *ProcessingUnitPolicy) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -235,7 +340,9 @@ func (o *ProcessingUnitPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ProcessingUnitPolicy) Doc() string {
 
-	return `Allows you to map isolation profiles to processing units.`
+	return `Processing unit policies allow you to define special behavior for
+processing units. For example you can associate an isolation profile
+with a set of processing units or select a specific datapath.`
 }
 
 func (o *ProcessingUnitPolicy) String() string {
@@ -462,6 +569,7 @@ func (o *ProcessingUnitPolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			AssociatedTags:           &o.AssociatedTags,
 			CreateIdempotencyKey:     &o.CreateIdempotencyKey,
 			CreateTime:               &o.CreateTime,
+			DatapathType:             &o.DatapathType,
 			Description:              &o.Description,
 			Disabled:                 &o.Disabled,
 			Fallback:                 &o.Fallback,
@@ -497,6 +605,8 @@ func (o *ProcessingUnitPolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "datapathType":
+			sp.DatapathType = &(o.DatapathType)
 		case "description":
 			sp.Description = &(o.Description)
 		case "disabled":
@@ -559,6 +669,9 @@ func (o *ProcessingUnitPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.DatapathType != nil {
+		o.DatapathType = *so.DatapathType
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -631,7 +744,7 @@ func (o *ProcessingUnitPolicy) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"}, false); err != nil {
+	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Default", "Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -640,6 +753,10 @@ func (o *ProcessingUnitPolicy) Validate() error {
 	}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("datapathType", string(o.DatapathType), []string{"Default", "Aporeto", "EnvoyAuthorizer"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -717,6 +834,8 @@ func (o *ProcessingUnitPolicy) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "datapathType":
+		return o.DatapathType
 	case "description":
 		return o.Description
 	case "disabled":
@@ -764,14 +883,17 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Type:           "string",
 	},
 	"Action": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
+		AllowedChoices: []string{"Default", "Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
 		ConvertedName:  "Action",
-		Description:    `Action determines the action to take while enforcing the isolation profile.`,
-		Exposed:        true,
-		Name:           "action",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
+		DefaultValue:   ProcessingUnitPolicyActionDefault,
+		Description: `Action determines the action to take while enforcing the isolation profile.
+NOTE: Choose ` + "`" + `Default` + "`" + ` if your processing unit is not supposed to make a
+decision on isolation profiles at all.`,
+		Exposed:   true,
+		Name:      "action",
+		Orderable: true,
+		Stored:    true,
+		Type:      "enum",
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -848,6 +970,26 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"DatapathType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Default", "Aporeto", "EnvoyAuthorizer"},
+		ConvertedName:  "DatapathType",
+		DefaultValue:   ProcessingUnitPolicyDatapathTypeDefault,
+		Description: `The datapath type that processing units selected by ` + "`" + `subject` + "`" + ` should
+implement:
+- ` + "`" + `Default` + "`" + `: This policy is not making a decision for the
+datapath.
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
+for every processing unit that for example can be used by an envoy
+proxy to use the Aporeto PKI and implement Aporeto network access
+policies. NOTE: The enforcer is not going to own the datapath in this
+example. It is merely providing an authorizer API.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "datapathType",
+		Stored:     true,
+		Type:       "enum",
+	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -916,7 +1058,6 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -933,7 +1074,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -987,8 +1127,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `A tag or tag expression identifying the processing unit(s) to which the
-isolation profile should be mapped.`,
+		Description: `Contains the tag expression the tags need to match for the policy to
+apply.`,
 		Exposed: true,
 		Name:    "subject",
 		Stored:  true,
@@ -1039,14 +1179,17 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Type:           "string",
 	},
 	"action": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
+		AllowedChoices: []string{"Default", "Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
 		ConvertedName:  "Action",
-		Description:    `Action determines the action to take while enforcing the isolation profile.`,
-		Exposed:        true,
-		Name:           "action",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
+		DefaultValue:   ProcessingUnitPolicyActionDefault,
+		Description: `Action determines the action to take while enforcing the isolation profile.
+NOTE: Choose ` + "`" + `Default` + "`" + ` if your processing unit is not supposed to make a
+decision on isolation profiles at all.`,
+		Exposed:   true,
+		Name:      "action",
+		Orderable: true,
+		Stored:    true,
+		Type:      "enum",
 	},
 	"activeduration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -1123,6 +1266,26 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"datapathtype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Default", "Aporeto", "EnvoyAuthorizer"},
+		ConvertedName:  "DatapathType",
+		DefaultValue:   ProcessingUnitPolicyDatapathTypeDefault,
+		Description: `The datapath type that processing units selected by ` + "`" + `subject` + "`" + ` should
+implement:
+- ` + "`" + `Default` + "`" + `: This policy is not making a decision for the
+datapath.
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
+for every processing unit that for example can be used by an envoy
+proxy to use the Aporeto PKI and implement Aporeto network access
+policies. NOTE: The enforcer is not going to own the datapath in this
+example. It is merely providing an authorizer API.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "datapathType",
+		Stored:     true,
+		Type:       "enum",
+	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -1191,7 +1354,6 @@ with the '@' prefix, and should only be used by external systems.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1208,7 +1370,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1262,8 +1423,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `A tag or tag expression identifying the processing unit(s) to which the
-isolation profile should be mapped.`,
+		Description: `Contains the tag expression the tags need to match for the policy to
+apply.`,
 		Exposed: true,
 		Name:    "subject",
 		Stored:  true,
@@ -1340,7 +1501,6 @@ func (o SparseProcessingUnitPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseProcessingUnitPoliciesList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1368,6 +1528,8 @@ type SparseProcessingUnitPolicy struct {
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action determines the action to take while enforcing the isolation profile.
+	// NOTE: Choose `Default` if your processing unit is not supposed to make a
+	// decision on isolation profiles at all.
 	Action *ProcessingUnitPolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
@@ -1389,6 +1551,18 @@ type SparseProcessingUnitPolicy struct {
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+
+	// The datapath type that processing units selected by `subject` should
+	// implement:
+	// - `Default`: This policy is not making a decision for the
+	// datapath.
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+	// for every processing unit that for example can be used by an envoy
+	// proxy to use the Aporeto PKI and implement Aporeto network access
+	// policies. NOTE: The enforcer is not going to own the datapath in this
+	// example. It is merely providing an authorizer API.
+	DatapathType *ProcessingUnitPolicyDatapathTypeValue `json:"datapathType,omitempty" msgpack:"datapathType,omitempty" bson:"datapathtype,omitempty" mapstructure:"datapathType,omitempty"`
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -1424,8 +1598,8 @@ type SparseProcessingUnitPolicy struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// A tag or tag expression identifying the processing unit(s) to which the
-	// isolation profile should be mapped.
+	// Contains the tag expression the tags need to match for the policy to
+	// apply.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1463,6 +1637,163 @@ func (o *SparseProcessingUnitPolicy) SetIdentifier(id string) {
 	o.ID = &id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseProcessingUnitPolicy) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseProcessingUnitPolicy{}
+
+	if o.Action != nil {
+		s.Action = o.Action
+	}
+	if o.ActiveDuration != nil {
+		s.ActiveDuration = o.ActiveDuration
+	}
+	if o.ActiveSchedule != nil {
+		s.ActiveSchedule = o.ActiveSchedule
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.DatapathType != nil {
+		s.DatapathType = o.DatapathType
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Disabled != nil {
+		s.Disabled = o.Disabled
+	}
+	if o.Fallback != nil {
+		s.Fallback = o.Fallback
+	}
+	if o.IsolationProfileSelector != nil {
+		s.IsolationProfileSelector = o.IsolationProfileSelector
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.Subject != nil {
+		s.Subject = o.Subject
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseProcessingUnitPolicy) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseProcessingUnitPolicy{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Action != nil {
+		o.Action = s.Action
+	}
+	if s.ActiveDuration != nil {
+		o.ActiveDuration = s.ActiveDuration
+	}
+	if s.ActiveSchedule != nil {
+		o.ActiveSchedule = s.ActiveSchedule
+	}
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.DatapathType != nil {
+		o.DatapathType = s.DatapathType
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Disabled != nil {
+		o.Disabled = s.Disabled
+	}
+	if s.Fallback != nil {
+		o.Fallback = s.Fallback
+	}
+	if s.IsolationProfileSelector != nil {
+		o.IsolationProfileSelector = s.IsolationProfileSelector
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.Subject != nil {
+		o.Subject = s.Subject
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseProcessingUnitPolicy) Version() int {
 
@@ -1496,6 +1827,9 @@ func (o *SparseProcessingUnitPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
+	}
+	if o.DatapathType != nil {
+		out.DatapathType = *o.DatapathType
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
@@ -1766,4 +2100,51 @@ func (o *SparseProcessingUnitPolicy) DeepCopyInto(out *SparseProcessingUnitPolic
 	}
 
 	*out = *target.(*SparseProcessingUnitPolicy)
+}
+
+type mongoAttributesProcessingUnitPolicy struct {
+	Action                   ProcessingUnitPolicyActionValue       `bson:"action"`
+	ActiveDuration           string                                `bson:"activeduration"`
+	ActiveSchedule           string                                `bson:"activeschedule"`
+	Annotations              map[string][]string                   `bson:"annotations"`
+	AssociatedTags           []string                              `bson:"associatedtags"`
+	CreateIdempotencyKey     string                                `bson:"createidempotencykey"`
+	CreateTime               time.Time                             `bson:"createtime"`
+	DatapathType             ProcessingUnitPolicyDatapathTypeValue `bson:"datapathtype"`
+	Description              string                                `bson:"description"`
+	Disabled                 bool                                  `bson:"disabled"`
+	Fallback                 bool                                  `bson:"fallback"`
+	IsolationProfileSelector [][]string                            `bson:"isolationprofileselector"`
+	Metadata                 []string                              `bson:"metadata"`
+	Name                     string                                `bson:"name"`
+	Namespace                string                                `bson:"namespace"`
+	NormalizedTags           []string                              `bson:"normalizedtags"`
+	Propagate                bool                                  `bson:"propagate"`
+	Protected                bool                                  `bson:"protected"`
+	Subject                  [][]string                            `bson:"subject"`
+	UpdateIdempotencyKey     string                                `bson:"updateidempotencykey"`
+	UpdateTime               time.Time                             `bson:"updatetime"`
+}
+type mongoAttributesSparseProcessingUnitPolicy struct {
+	Action                   *ProcessingUnitPolicyActionValue       `bson:"action,omitempty"`
+	ActiveDuration           *string                                `bson:"activeduration,omitempty"`
+	ActiveSchedule           *string                                `bson:"activeschedule,omitempty"`
+	Annotations              *map[string][]string                   `bson:"annotations,omitempty"`
+	AssociatedTags           *[]string                              `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey     *string                                `bson:"createidempotencykey,omitempty"`
+	CreateTime               *time.Time                             `bson:"createtime,omitempty"`
+	DatapathType             *ProcessingUnitPolicyDatapathTypeValue `bson:"datapathtype,omitempty"`
+	Description              *string                                `bson:"description,omitempty"`
+	Disabled                 *bool                                  `bson:"disabled,omitempty"`
+	Fallback                 *bool                                  `bson:"fallback,omitempty"`
+	IsolationProfileSelector *[][]string                            `bson:"isolationprofileselector,omitempty"`
+	Metadata                 *[]string                              `bson:"metadata,omitempty"`
+	Name                     *string                                `bson:"name,omitempty"`
+	Namespace                *string                                `bson:"namespace,omitempty"`
+	NormalizedTags           *[]string                              `bson:"normalizedtags,omitempty"`
+	Propagate                *bool                                  `bson:"propagate,omitempty"`
+	Protected                *bool                                  `bson:"protected,omitempty"`
+	Subject                  *[][]string                            `bson:"subject,omitempty"`
+	UpdateIdempotencyKey     *string                                `bson:"updateidempotencykey,omitempty"`
+	UpdateTime               *time.Time                             `bson:"updatetime,omitempty"`
 }

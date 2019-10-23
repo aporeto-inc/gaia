@@ -228,6 +228,9 @@ const (
 	// ActionLogTagString is the system created action=log tag.
 	ActionLogTagString = "action=log"
 
+	// ActionPUDefaultTagString is the system created action-stop tag
+	ActionPUDefaultTagString = "action=default"
+
 	// ActionStopPUTagString is the system created action-stop tag
 	ActionPUDeleteTagString = "action=delete"
 
@@ -269,6 +272,9 @@ const (
 
 	// ActionProtoPortsString is the system created action=restrictports tag.
 	ActionProtoPortsTagString = "action=restrictports"
+
+	// ActionDatapathTypeTagString is the system created action=datapathtype tag.
+	ActionDatapathType = "action=datapathtype"
 )
 
 const (

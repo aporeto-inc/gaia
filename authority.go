@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -103,7 +104,7 @@ func (o AuthoritiesList) Version() int {
 // Authority represents the model of a authority
 type Authority struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Algorithm defines the signing algorithm to be used.
 	Algorithm AuthorityAlgorithmValue `json:"algorithm" msgpack:"algorithm" bson:"algorithm" mapstructure:"algorithm,omitempty"`
@@ -166,6 +167,59 @@ func (o *Authority) Identifier() string {
 func (o *Authority) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Authority) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesAuthority{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.Algorithm = o.Algorithm
+	s.Certificate = o.Certificate
+	s.CommonName = o.CommonName
+	s.ExpirationDate = o.ExpirationDate
+	s.Key = o.Key
+	s.MigrationsLog = o.MigrationsLog
+	s.SerialNumber = o.SerialNumber
+	s.Type = o.Type
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Authority) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesAuthority{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Algorithm = s.Algorithm
+	o.Certificate = s.Certificate
+	o.CommonName = s.CommonName
+	o.ExpirationDate = s.ExpirationDate
+	o.Key = s.Key
+	o.MigrationsLog = s.MigrationsLog
+	o.SerialNumber = s.SerialNumber
+	o.Type = s.Type
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -776,7 +830,7 @@ func (o SparseAuthoritiesList) Version() int {
 // SparseAuthority represents the sparse version of a authority.
 type SparseAuthority struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Algorithm defines the signing algorithm to be used.
 	Algorithm *AuthorityAlgorithmValue `json:"algorithm,omitempty" msgpack:"algorithm,omitempty" bson:"algorithm,omitempty" mapstructure:"algorithm,omitempty"`
@@ -836,6 +890,100 @@ func (o *SparseAuthority) Identifier() string {
 func (o *SparseAuthority) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAuthority) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseAuthority{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.Algorithm != nil {
+		s.Algorithm = o.Algorithm
+	}
+	if o.Certificate != nil {
+		s.Certificate = o.Certificate
+	}
+	if o.CommonName != nil {
+		s.CommonName = o.CommonName
+	}
+	if o.ExpirationDate != nil {
+		s.ExpirationDate = o.ExpirationDate
+	}
+	if o.Key != nil {
+		s.Key = o.Key
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.SerialNumber != nil {
+		s.SerialNumber = o.SerialNumber
+	}
+	if o.Type != nil {
+		s.Type = o.Type
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseAuthority) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseAuthority{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.Algorithm != nil {
+		o.Algorithm = s.Algorithm
+	}
+	if s.Certificate != nil {
+		o.Certificate = s.Certificate
+	}
+	if s.CommonName != nil {
+		o.CommonName = s.CommonName
+	}
+	if s.ExpirationDate != nil {
+		o.ExpirationDate = s.ExpirationDate
+	}
+	if s.Key != nil {
+		o.Key = s.Key
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.SerialNumber != nil {
+		o.SerialNumber = s.SerialNumber
+	}
+	if s.Type != nil {
+		o.Type = s.Type
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -963,4 +1111,31 @@ func (o *SparseAuthority) DeepCopyInto(out *SparseAuthority) {
 	}
 
 	*out = *target.(*SparseAuthority)
+}
+
+type mongoAttributesAuthority struct {
+	ID             bson.ObjectId           `bson:"_id"`
+	Algorithm      AuthorityAlgorithmValue `bson:"algorithm"`
+	Certificate    string                  `bson:"certificate"`
+	CommonName     string                  `bson:"commonname"`
+	ExpirationDate time.Time               `bson:"expirationdate"`
+	Key            string                  `bson:"key"`
+	MigrationsLog  map[string]string       `bson:"migrationslog"`
+	SerialNumber   string                  `bson:"serialnumber"`
+	Type           AuthorityTypeValue      `bson:"type"`
+	ZHash          int                     `bson:"zhash"`
+	Zone           int                     `bson:"zone"`
+}
+type mongoAttributesSparseAuthority struct {
+	ID             bson.ObjectId            `bson:"_id"`
+	Algorithm      *AuthorityAlgorithmValue `bson:"algorithm,omitempty"`
+	Certificate    *string                  `bson:"certificate,omitempty"`
+	CommonName     *string                  `bson:"commonname,omitempty"`
+	ExpirationDate *time.Time               `bson:"expirationdate,omitempty"`
+	Key            *string                  `bson:"key,omitempty"`
+	MigrationsLog  *map[string]string       `bson:"migrationslog,omitempty"`
+	SerialNumber   *string                  `bson:"serialnumber,omitempty"`
+	Type           *AuthorityTypeValue      `bson:"type,omitempty"`
+	ZHash          *int                     `bson:"zhash,omitempty"`
+	Zone           *int                     `bson:"zone,omitempty"`
 }

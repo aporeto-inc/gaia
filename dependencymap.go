@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -121,6 +122,35 @@ func (o *DependencyMap) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *DependencyMap) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *DependencyMap) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesDependencyMap{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *DependencyMap) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesDependencyMap{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -245,6 +275,7 @@ func (o *DependencyMap) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -254,6 +285,7 @@ func (o *DependencyMap) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -263,6 +295,7 @@ func (o *DependencyMap) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -503,6 +536,35 @@ func (o *SparseDependencyMap) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseDependencyMap) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseDependencyMap{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseDependencyMap) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseDependencyMap{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseDependencyMap) Version() int {
 
@@ -551,4 +613,9 @@ func (o *SparseDependencyMap) DeepCopyInto(out *SparseDependencyMap) {
 	}
 
 	*out = *target.(*SparseDependencyMap)
+}
+
+type mongoAttributesDependencyMap struct {
+}
+type mongoAttributesSparseDependencyMap struct {
 }

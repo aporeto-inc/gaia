@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -135,6 +136,43 @@ func (o *App) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *App) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *App) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesApp{}
+
+	s.Description = o.Description
+	s.Name = o.Name
+	s.Steps = o.Steps
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *App) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesApp{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Description = s.Description
+	o.Name = s.Name
+	o.Steps = s.Steps
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -320,6 +358,7 @@ func (o *App) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -443,7 +482,6 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -537,7 +575,6 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -687,6 +724,55 @@ func (o *SparseApp) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseApp) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseApp{}
+
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Steps != nil {
+		s.Steps = o.Steps
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseApp) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseApp{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Steps != nil {
+		o.Steps = s.Steps
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseApp) Version() int {
 
@@ -774,4 +860,15 @@ func (o *SparseApp) DeepCopyInto(out *SparseApp) {
 	}
 
 	*out = *target.(*SparseApp)
+}
+
+type mongoAttributesApp struct {
+	Description string    `bson:"description"`
+	Name        string    `bson:"name"`
+	Steps       []*UIStep `bson:"steps"`
+}
+type mongoAttributesSparseApp struct {
+	Description *string    `bson:"description,omitempty"`
+	Name        *string    `bson:"name,omitempty"`
+	Steps       *[]*UIStep `bson:"steps,omitempty"`
 }

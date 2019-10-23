@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -14,6 +15,9 @@ type GraphEdgeDestinationTypeValue string
 const (
 	// GraphEdgeDestinationTypeExternalNetwork represents the value ExternalNetwork.
 	GraphEdgeDestinationTypeExternalNetwork GraphEdgeDestinationTypeValue = "ExternalNetwork"
+
+	// GraphEdgeDestinationTypeNamespace represents the value Namespace.
+	GraphEdgeDestinationTypeNamespace GraphEdgeDestinationTypeValue = "Namespace"
 
 	// GraphEdgeDestinationTypeNode represents the value Node.
 	GraphEdgeDestinationTypeNode GraphEdgeDestinationTypeValue = "Node"
@@ -28,6 +32,9 @@ type GraphEdgeSourceTypeValue string
 const (
 	// GraphEdgeSourceTypeExternalNetwork represents the value ExternalNetwork.
 	GraphEdgeSourceTypeExternalNetwork GraphEdgeSourceTypeValue = "ExternalNetwork"
+
+	// GraphEdgeSourceTypeNamespace represents the value Namespace.
+	GraphEdgeSourceTypeNamespace GraphEdgeSourceTypeValue = "Namespace"
 
 	// GraphEdgeSourceTypeNode represents the value Node.
 	GraphEdgeSourceTypeNode GraphEdgeSourceTypeValue = "Node"
@@ -109,7 +116,7 @@ func (o GraphEdgesList) Version() int {
 // GraphEdge represents the model of a graphedge
 type GraphEdge struct {
 	// DB Identifier of the edge.
-	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Number of accepted flows in the edge.
 	AcceptedFlows int `json:"acceptedFlows" msgpack:"acceptedFlows" bson:"acceptedflows" mapstructure:"acceptedFlows,omitempty"`
@@ -135,7 +142,7 @@ type GraphEdge struct {
 	// Contains the date when the edge was last seen.
 	LastSeen time.Time `json:"lastSeen" msgpack:"lastSeen" bson:"lastseen" mapstructure:"lastSeen,omitempty"`
 
-	// Namespace of object represented by the node.
+	// Namespace of the object that reported the flow.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Number of accepted observed flows.
@@ -149,6 +156,9 @@ type GraphEdge struct {
 
 	// Number of rejected flows in the edge.
 	RejectedFlows int `json:"rejectedFlows" msgpack:"rejectedFlows" bson:"rejectedflows" mapstructure:"rejectedFlows,omitempty"`
+
+	// Namespace of the object that was targeted by the flow.
+	RemoteNamespace string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"remotenamespace" mapstructure:"remoteNamespace,omitempty"`
 
 	// ID of the source `GraphNode` of the edge.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
@@ -190,6 +200,75 @@ func (o *GraphEdge) Identifier() string {
 func (o *GraphEdge) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *GraphEdge) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesGraphEdge{}
+
+	s.ID = bson.ObjectIdHex(o.ID)
+	s.AcceptedFlows = o.AcceptedFlows
+	s.CreateTime = o.CreateTime
+	s.DestinationID = o.DestinationID
+	s.DestinationType = o.DestinationType
+	s.Encrypted = o.Encrypted
+	s.FirstSeen = o.FirstSeen
+	s.FlowID = o.FlowID
+	s.LastSeen = o.LastSeen
+	s.Namespace = o.Namespace
+	s.ObservedAcceptedFlows = o.ObservedAcceptedFlows
+	s.ObservedEncrypted = o.ObservedEncrypted
+	s.ObservedRejectedFlows = o.ObservedRejectedFlows
+	s.RejectedFlows = o.RejectedFlows
+	s.RemoteNamespace = o.RemoteNamespace
+	s.SourceID = o.SourceID
+	s.SourceType = o.SourceType
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *GraphEdge) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesGraphEdge{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.AcceptedFlows = s.AcceptedFlows
+	o.CreateTime = s.CreateTime
+	o.DestinationID = s.DestinationID
+	o.DestinationType = s.DestinationType
+	o.Encrypted = s.Encrypted
+	o.FirstSeen = s.FirstSeen
+	o.FlowID = s.FlowID
+	o.LastSeen = s.LastSeen
+	o.Namespace = s.Namespace
+	o.ObservedAcceptedFlows = s.ObservedAcceptedFlows
+	o.ObservedEncrypted = s.ObservedEncrypted
+	o.ObservedRejectedFlows = s.ObservedRejectedFlows
+	o.RejectedFlows = s.RejectedFlows
+	o.RemoteNamespace = s.RemoteNamespace
+	o.SourceID = s.SourceID
+	o.SourceType = s.SourceType
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -266,6 +345,7 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ObservedEncrypted:     &o.ObservedEncrypted,
 			ObservedRejectedFlows: &o.ObservedRejectedFlows,
 			RejectedFlows:         &o.RejectedFlows,
+			RemoteNamespace:       &o.RemoteNamespace,
 			SourceID:              &o.SourceID,
 			SourceType:            &o.SourceType,
 			ZHash:                 &o.ZHash,
@@ -304,6 +384,8 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ObservedRejectedFlows = &(o.ObservedRejectedFlows)
 		case "rejectedFlows":
 			sp.RejectedFlows = &(o.RejectedFlows)
+		case "remoteNamespace":
+			sp.RemoteNamespace = &(o.RemoteNamespace)
 		case "sourceID":
 			sp.SourceID = &(o.SourceID)
 		case "sourceType":
@@ -367,6 +449,9 @@ func (o *GraphEdge) Patch(sparse elemental.SparseIdentifiable) {
 	if so.RejectedFlows != nil {
 		o.RejectedFlows = *so.RejectedFlows
 	}
+	if so.RemoteNamespace != nil {
+		o.RemoteNamespace = *so.RemoteNamespace
+	}
 	if so.SourceID != nil {
 		o.SourceID = *so.SourceID
 	}
@@ -411,11 +496,11 @@ func (o *GraphEdge) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Node"}, false); err != nil {
+	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Node"}, false); err != nil {
+	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -481,6 +566,8 @@ func (o *GraphEdge) ValueForAttribute(name string) interface{} {
 		return o.ObservedRejectedFlows
 	case "rejectedFlows":
 		return o.RejectedFlows
+	case "remoteNamespace":
+		return o.RemoteNamespace
 	case "sourceID":
 		return o.SourceID
 	case "sourceType":
@@ -532,7 +619,7 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"DestinationType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Node"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"},
 		ConvertedName:  "DestinationType",
 		Description:    `Type of the destination ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -579,7 +666,7 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace of object represented by the node.`,
+		Description:    `Namespace of the object that reported the flow.`,
 		Exposed:        true,
 		Name:           "namespace",
 		Stored:         true,
@@ -621,6 +708,15 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "integer",
 	},
+	"RemoteNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RemoteNamespace",
+		Description:    `Namespace of the object that was targeted by the flow.`,
+		Exposed:        true,
+		Name:           "remoteNamespace",
+		Stored:         true,
+		Type:           "string",
+	},
 	"SourceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
@@ -631,7 +727,7 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"SourceType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Node"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"},
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -706,7 +802,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Type:           "string",
 	},
 	"destinationtype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Node"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"},
 		ConvertedName:  "DestinationType",
 		Description:    `Type of the destination ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -753,7 +849,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace of object represented by the node.`,
+		Description:    `Namespace of the object that reported the flow.`,
 		Exposed:        true,
 		Name:           "namespace",
 		Stored:         true,
@@ -795,6 +891,15 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "integer",
 	},
+	"remotenamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RemoteNamespace",
+		Description:    `Namespace of the object that was targeted by the flow.`,
+		Exposed:        true,
+		Name:           "remoteNamespace",
+		Stored:         true,
+		Type:           "string",
+	},
 	"sourceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
@@ -805,7 +910,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Type:           "string",
 	},
 	"sourcetype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Node"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"},
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -906,7 +1011,7 @@ func (o SparseGraphEdgesList) Version() int {
 // SparseGraphEdge represents the sparse version of a graphedge.
 type SparseGraphEdge struct {
 	// DB Identifier of the edge.
-	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID *string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Number of accepted flows in the edge.
 	AcceptedFlows *int `json:"acceptedFlows,omitempty" msgpack:"acceptedFlows,omitempty" bson:"acceptedflows,omitempty" mapstructure:"acceptedFlows,omitempty"`
@@ -932,7 +1037,7 @@ type SparseGraphEdge struct {
 	// Contains the date when the edge was last seen.
 	LastSeen *time.Time `json:"lastSeen,omitempty" msgpack:"lastSeen,omitempty" bson:"lastseen,omitempty" mapstructure:"lastSeen,omitempty"`
 
-	// Namespace of object represented by the node.
+	// Namespace of the object that reported the flow.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Number of accepted observed flows.
@@ -946,6 +1051,9 @@ type SparseGraphEdge struct {
 
 	// Number of rejected flows in the edge.
 	RejectedFlows *int `json:"rejectedFlows,omitempty" msgpack:"rejectedFlows,omitempty" bson:"rejectedflows,omitempty" mapstructure:"rejectedFlows,omitempty"`
+
+	// Namespace of the object that was targeted by the flow.
+	RemoteNamespace *string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"remotenamespace,omitempty" mapstructure:"remoteNamespace,omitempty"`
 
 	// ID of the source `GraphNode` of the edge.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"sourceid,omitempty" mapstructure:"sourceID,omitempty"`
@@ -987,6 +1095,148 @@ func (o *SparseGraphEdge) Identifier() string {
 func (o *SparseGraphEdge) SetIdentifier(id string) {
 
 	o.ID = &id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseGraphEdge) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseGraphEdge{}
+
+	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.AcceptedFlows != nil {
+		s.AcceptedFlows = o.AcceptedFlows
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.DestinationID != nil {
+		s.DestinationID = o.DestinationID
+	}
+	if o.DestinationType != nil {
+		s.DestinationType = o.DestinationType
+	}
+	if o.Encrypted != nil {
+		s.Encrypted = o.Encrypted
+	}
+	if o.FirstSeen != nil {
+		s.FirstSeen = o.FirstSeen
+	}
+	if o.FlowID != nil {
+		s.FlowID = o.FlowID
+	}
+	if o.LastSeen != nil {
+		s.LastSeen = o.LastSeen
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.ObservedAcceptedFlows != nil {
+		s.ObservedAcceptedFlows = o.ObservedAcceptedFlows
+	}
+	if o.ObservedEncrypted != nil {
+		s.ObservedEncrypted = o.ObservedEncrypted
+	}
+	if o.ObservedRejectedFlows != nil {
+		s.ObservedRejectedFlows = o.ObservedRejectedFlows
+	}
+	if o.RejectedFlows != nil {
+		s.RejectedFlows = o.RejectedFlows
+	}
+	if o.RemoteNamespace != nil {
+		s.RemoteNamespace = o.RemoteNamespace
+	}
+	if o.SourceID != nil {
+		s.SourceID = o.SourceID
+	}
+	if o.SourceType != nil {
+		s.SourceType = o.SourceType
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseGraphEdge) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseGraphEdge{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.AcceptedFlows != nil {
+		o.AcceptedFlows = s.AcceptedFlows
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.DestinationID != nil {
+		o.DestinationID = s.DestinationID
+	}
+	if s.DestinationType != nil {
+		o.DestinationType = s.DestinationType
+	}
+	if s.Encrypted != nil {
+		o.Encrypted = s.Encrypted
+	}
+	if s.FirstSeen != nil {
+		o.FirstSeen = s.FirstSeen
+	}
+	if s.FlowID != nil {
+		o.FlowID = s.FlowID
+	}
+	if s.LastSeen != nil {
+		o.LastSeen = s.LastSeen
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.ObservedAcceptedFlows != nil {
+		o.ObservedAcceptedFlows = s.ObservedAcceptedFlows
+	}
+	if s.ObservedEncrypted != nil {
+		o.ObservedEncrypted = s.ObservedEncrypted
+	}
+	if s.ObservedRejectedFlows != nil {
+		o.ObservedRejectedFlows = s.ObservedRejectedFlows
+	}
+	if s.RejectedFlows != nil {
+		o.RejectedFlows = s.RejectedFlows
+	}
+	if s.RemoteNamespace != nil {
+		o.RemoteNamespace = s.RemoteNamespace
+	}
+	if s.SourceID != nil {
+		o.SourceID = s.SourceID
+	}
+	if s.SourceType != nil {
+		o.SourceType = s.SourceType
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1040,6 +1290,9 @@ func (o *SparseGraphEdge) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.RejectedFlows != nil {
 		out.RejectedFlows = *o.RejectedFlows
+	}
+	if o.RemoteNamespace != nil {
+		out.RemoteNamespace = *o.RemoteNamespace
 	}
 	if o.SourceID != nil {
 		out.SourceID = *o.SourceID
@@ -1103,4 +1356,47 @@ func (o *SparseGraphEdge) DeepCopyInto(out *SparseGraphEdge) {
 	}
 
 	*out = *target.(*SparseGraphEdge)
+}
+
+type mongoAttributesGraphEdge struct {
+	ID                    bson.ObjectId                 `bson:"_id"`
+	AcceptedFlows         int                           `bson:"acceptedflows"`
+	CreateTime            time.Time                     `bson:"createtime"`
+	DestinationID         string                        `bson:"destinationid"`
+	DestinationType       GraphEdgeDestinationTypeValue `bson:"destinationtype"`
+	Encrypted             int                           `bson:"encrypted"`
+	FirstSeen             time.Time                     `bson:"firstseen"`
+	FlowID                string                        `bson:"flowid"`
+	LastSeen              time.Time                     `bson:"lastseen"`
+	Namespace             string                        `bson:"namespace"`
+	ObservedAcceptedFlows int                           `bson:"observedacceptedflows"`
+	ObservedEncrypted     int                           `bson:"observedencrypted"`
+	ObservedRejectedFlows int                           `bson:"observedrejectedflows"`
+	RejectedFlows         int                           `bson:"rejectedflows"`
+	RemoteNamespace       string                        `bson:"remotenamespace"`
+	SourceID              string                        `bson:"sourceid"`
+	SourceType            GraphEdgeSourceTypeValue      `bson:"sourcetype"`
+	ZHash                 int                           `bson:"zhash"`
+	Zone                  int                           `bson:"zone"`
+}
+type mongoAttributesSparseGraphEdge struct {
+	ID                    bson.ObjectId                  `bson:"_id"`
+	AcceptedFlows         *int                           `bson:"acceptedflows,omitempty"`
+	CreateTime            *time.Time                     `bson:"createtime,omitempty"`
+	DestinationID         *string                        `bson:"destinationid,omitempty"`
+	DestinationType       *GraphEdgeDestinationTypeValue `bson:"destinationtype,omitempty"`
+	Encrypted             *int                           `bson:"encrypted,omitempty"`
+	FirstSeen             *time.Time                     `bson:"firstseen,omitempty"`
+	FlowID                *string                        `bson:"flowid,omitempty"`
+	LastSeen              *time.Time                     `bson:"lastseen,omitempty"`
+	Namespace             *string                        `bson:"namespace,omitempty"`
+	ObservedAcceptedFlows *int                           `bson:"observedacceptedflows,omitempty"`
+	ObservedEncrypted     *int                           `bson:"observedencrypted,omitempty"`
+	ObservedRejectedFlows *int                           `bson:"observedrejectedflows,omitempty"`
+	RejectedFlows         *int                           `bson:"rejectedflows,omitempty"`
+	RemoteNamespace       *string                        `bson:"remotenamespace,omitempty"`
+	SourceID              *string                        `bson:"sourceid,omitempty"`
+	SourceType            *GraphEdgeSourceTypeValue      `bson:"sourcetype,omitempty"`
+	ZHash                 *int                           `bson:"zhash,omitempty"`
+	Zone                  *int                           `bson:"zone,omitempty"`
 }

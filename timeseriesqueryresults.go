@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -22,6 +23,35 @@ func NewTimeSeriesQueryResults() *TimeSeriesQueryResults {
 		ModelVersion: 1,
 		Rows:         []*TimeSeriesRow{},
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *TimeSeriesQueryResults) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesTimeSeriesQueryResults{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *TimeSeriesQueryResults) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesTimeSeriesQueryResults{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -64,6 +94,7 @@ func (o *TimeSeriesQueryResults) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -78,4 +109,7 @@ func (o *TimeSeriesQueryResults) Validate() error {
 	}
 
 	return nil
+}
+
+type mongoAttributesTimeSeriesQueryResults struct {
 }

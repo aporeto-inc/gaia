@@ -1,20 +1,9 @@
 MAKEFLAGS += --warn-undefined-variables
 SHELL := /bin/bash -o pipefail
 
-PROJECT_SHA ?= $(shell git rev-parse HEAD)
-PROJECT_VERSION ?= $(lastword $(shell git tag --sort version:refname --merged $(shell git rev-parse --abbrev-ref HEAD)))
-PROJECT_RELEASE ?= dev
+export GO111MODULE = on
 
-# Until we support go.mod properly
-export GO111MODULE = off
-
-ci: init lint test
-
-init:
-	go get -u github.com/aporeto-inc/go-bindata/...
-	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-	dep ensure
-	dep status
+default: lint test
 
 .PHONY:codegen
 codegen:
@@ -32,6 +21,7 @@ codegen:
 lint: spelling
 	# --enable=unparam
 	golangci-lint run \
+		--timeout 2m \
 		--disable-all \
 		--exclude-use-default=false \
 		--enable=errcheck \
@@ -52,13 +42,8 @@ lint: spelling
 spelling:
 	docker run --rm -v $$PWD:/workdir tmaier/markdown-spellcheck:latest "doc/*.md" -r -a -n --en-us
 
-.PHONY: test
 test:
-	@ echo 'mode: atomic' > unit_coverage.cov
-	@ for d in $(shell go list ./... | grep -v vendor); do \
-		go test -race -coverprofile=profile.out -covermode=atomic "$$d"; \
-		if [ -f profile.out ]; then tail -q -n +2 profile.out >> unit_coverage.cov; rm -f profile.out; fi; \
-	done;
+	go test ./... -race
 
 codecgen:
 	rm -f values_codecgen.go ; codecgen -o values_codecgen.go *.go;

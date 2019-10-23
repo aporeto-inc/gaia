@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -139,6 +140,51 @@ func (o *Invoice) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Invoice) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Invoice) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesInvoice{}
+
+	s.ID = o.ID
+	s.AccountID = o.AccountID
+	s.BilledToProvider = o.BilledToProvider
+	s.CreateTime = o.CreateTime
+	s.EndDate = o.EndDate
+	s.StartDate = o.StartDate
+	s.UpdateTime = o.UpdateTime
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Invoice) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesInvoice{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID
+	o.AccountID = s.AccountID
+	o.BilledToProvider = s.BilledToProvider
+	o.CreateTime = s.CreateTime
+	o.EndDate = s.EndDate
+	o.StartDate = s.StartDate
+	o.UpdateTime = s.UpdateTime
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -624,6 +670,79 @@ func (o *SparseInvoice) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseInvoice) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseInvoice{}
+
+	if o.ID != nil {
+		s.ID = o.ID
+	}
+	if o.AccountID != nil {
+		s.AccountID = o.AccountID
+	}
+	if o.BilledToProvider != nil {
+		s.BilledToProvider = o.BilledToProvider
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.EndDate != nil {
+		s.EndDate = o.EndDate
+	}
+	if o.StartDate != nil {
+		s.StartDate = o.StartDate
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseInvoice) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseInvoice{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.ID != nil {
+		o.ID = s.ID
+	}
+	if s.AccountID != nil {
+		o.AccountID = s.AccountID
+	}
+	if s.BilledToProvider != nil {
+		o.BilledToProvider = s.BilledToProvider
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.EndDate != nil {
+		o.EndDate = s.EndDate
+	}
+	if s.StartDate != nil {
+		o.StartDate = s.StartDate
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseInvoice) Version() int {
 
@@ -705,4 +824,23 @@ func (o *SparseInvoice) DeepCopyInto(out *SparseInvoice) {
 	}
 
 	*out = *target.(*SparseInvoice)
+}
+
+type mongoAttributesInvoice struct {
+	ID               string                       `bson:"id"`
+	AccountID        string                       `bson:"accountid"`
+	BilledToProvider InvoiceBilledToProviderValue `bson:"billedtoprovider"`
+	CreateTime       time.Time                    `bson:"createtime"`
+	EndDate          time.Time                    `bson:"enddate"`
+	StartDate        time.Time                    `bson:"startdate"`
+	UpdateTime       time.Time                    `bson:"updatetime"`
+}
+type mongoAttributesSparseInvoice struct {
+	ID               *string                       `bson:"id,omitempty"`
+	AccountID        *string                       `bson:"accountid,omitempty"`
+	BilledToProvider *InvoiceBilledToProviderValue `bson:"billedtoprovider,omitempty"`
+	CreateTime       *time.Time                    `bson:"createtime,omitempty"`
+	EndDate          *time.Time                    `bson:"enddate,omitempty"`
+	StartDate        *time.Time                    `bson:"startdate,omitempty"`
+	UpdateTime       *time.Time                    `bson:"updatetime,omitempty"`
 }
