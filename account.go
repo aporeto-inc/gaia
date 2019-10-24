@@ -1921,7 +1921,11 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAccount) GetCreateTime() time.Time {
+func (o *SparseAccount) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1933,7 +1937,11 @@ func (o *SparseAccount) SetCreateTime(createTime time.Time) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseAccount) GetMigrationsLog() map[string]string {
+func (o *SparseAccount) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1945,7 +1953,11 @@ func (o *SparseAccount) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAccount) GetUpdateTime() time.Time {
+func (o *SparseAccount) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1957,7 +1969,11 @@ func (o *SparseAccount) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseAccount) GetZHash() int {
+func (o *SparseAccount) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1969,7 +1985,11 @@ func (o *SparseAccount) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseAccount) GetZone() int {
+func (o *SparseAccount) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }

@@ -1611,7 +1611,11 @@ func (o *SparseMessage) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseMessage) GetAnnotations() map[string][]string {
+func (o *SparseMessage) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1623,7 +1627,11 @@ func (o *SparseMessage) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseMessage) GetAssociatedTags() []string {
+func (o *SparseMessage) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1635,7 +1643,11 @@ func (o *SparseMessage) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseMessage) GetCreateIdempotencyKey() string {
+func (o *SparseMessage) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1647,7 +1659,11 @@ func (o *SparseMessage) SetCreateIdempotencyKey(createIdempotencyKey string) {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseMessage) GetCreateTime() time.Time {
+func (o *SparseMessage) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1659,7 +1675,11 @@ func (o *SparseMessage) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseMessage) GetDescription() string {
+func (o *SparseMessage) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1671,7 +1691,11 @@ func (o *SparseMessage) SetDescription(description string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseMessage) GetMigrationsLog() map[string]string {
+func (o *SparseMessage) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1683,7 +1707,11 @@ func (o *SparseMessage) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseMessage) GetName() string {
+func (o *SparseMessage) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1695,7 +1723,11 @@ func (o *SparseMessage) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseMessage) GetNamespace() string {
+func (o *SparseMessage) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1707,7 +1739,11 @@ func (o *SparseMessage) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseMessage) GetNormalizedTags() []string {
+func (o *SparseMessage) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1719,7 +1755,11 @@ func (o *SparseMessage) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseMessage) GetPropagate() bool {
+func (o *SparseMessage) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1731,7 +1771,11 @@ func (o *SparseMessage) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseMessage) GetProtected() bool {
+func (o *SparseMessage) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1743,7 +1787,11 @@ func (o *SparseMessage) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseMessage) GetUpdateIdempotencyKey() string {
+func (o *SparseMessage) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1755,7 +1803,11 @@ func (o *SparseMessage) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseMessage) GetUpdateTime() time.Time {
+func (o *SparseMessage) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1767,7 +1819,11 @@ func (o *SparseMessage) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseMessage) GetZHash() int {
+func (o *SparseMessage) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1779,7 +1835,11 @@ func (o *SparseMessage) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseMessage) GetZone() int {
+func (o *SparseMessage) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }

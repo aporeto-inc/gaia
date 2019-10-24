@@ -1067,7 +1067,11 @@ func (o *SparseSSHAuthority) DecryptAttributes(encrypter elemental.AttributeEncr
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseSSHAuthority) GetCreateTime() time.Time {
+func (o *SparseSSHAuthority) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1079,7 +1083,11 @@ func (o *SparseSSHAuthority) SetCreateTime(createTime time.Time) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseSSHAuthority) GetMigrationsLog() map[string]string {
+func (o *SparseSSHAuthority) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1091,7 +1099,11 @@ func (o *SparseSSHAuthority) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseSSHAuthority) GetName() string {
+func (o *SparseSSHAuthority) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1103,7 +1115,11 @@ func (o *SparseSSHAuthority) SetName(name string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseSSHAuthority) GetUpdateTime() time.Time {
+func (o *SparseSSHAuthority) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1115,7 +1131,11 @@ func (o *SparseSSHAuthority) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseSSHAuthority) GetZHash() int {
+func (o *SparseSSHAuthority) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1127,7 +1147,11 @@ func (o *SparseSSHAuthority) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseSSHAuthority) GetZone() int {
+func (o *SparseSSHAuthority) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }

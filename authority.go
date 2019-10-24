@@ -1062,7 +1062,11 @@ func (o *SparseAuthority) DecryptAttributes(encrypter elemental.AttributeEncrypt
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseAuthority) GetMigrationsLog() map[string]string {
+func (o *SparseAuthority) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1074,7 +1078,11 @@ func (o *SparseAuthority) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseAuthority) GetZHash() int {
+func (o *SparseAuthority) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1086,7 +1094,11 @@ func (o *SparseAuthority) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseAuthority) GetZone() int {
+func (o *SparseAuthority) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }

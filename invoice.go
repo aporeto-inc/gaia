@@ -779,7 +779,11 @@ func (o *SparseInvoice) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseInvoice) GetCreateTime() time.Time {
+func (o *SparseInvoice) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -791,7 +795,11 @@ func (o *SparseInvoice) SetCreateTime(createTime time.Time) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseInvoice) GetUpdateTime() time.Time {
+func (o *SparseInvoice) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

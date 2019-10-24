@@ -815,7 +815,11 @@ func (o *SparseApp) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseApp) GetDescription() string {
+func (o *SparseApp) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -827,7 +831,11 @@ func (o *SparseApp) SetDescription(description string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseApp) GetName() string {
+func (o *SparseApp) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }

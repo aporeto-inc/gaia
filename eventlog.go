@@ -902,7 +902,11 @@ func (o *SparseEventLog) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseEventLog) GetNamespace() string {
+func (o *SparseEventLog) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }

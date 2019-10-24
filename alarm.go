@@ -1705,7 +1705,11 @@ func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseAlarm) GetAnnotations() map[string][]string {
+func (o *SparseAlarm) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1717,7 +1721,11 @@ func (o *SparseAlarm) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseAlarm) GetAssociatedTags() []string {
+func (o *SparseAlarm) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1729,7 +1737,11 @@ func (o *SparseAlarm) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseAlarm) GetCreateIdempotencyKey() string {
+func (o *SparseAlarm) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1741,7 +1753,11 @@ func (o *SparseAlarm) SetCreateIdempotencyKey(createIdempotencyKey string) {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAlarm) GetCreateTime() time.Time {
+func (o *SparseAlarm) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1753,7 +1769,11 @@ func (o *SparseAlarm) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseAlarm) GetDescription() string {
+func (o *SparseAlarm) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1765,7 +1785,11 @@ func (o *SparseAlarm) SetDescription(description string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseAlarm) GetMigrationsLog() map[string]string {
+func (o *SparseAlarm) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1777,7 +1801,11 @@ func (o *SparseAlarm) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseAlarm) GetName() string {
+func (o *SparseAlarm) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1789,7 +1817,11 @@ func (o *SparseAlarm) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseAlarm) GetNamespace() string {
+func (o *SparseAlarm) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1801,7 +1833,11 @@ func (o *SparseAlarm) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseAlarm) GetNormalizedTags() []string {
+func (o *SparseAlarm) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1813,7 +1849,11 @@ func (o *SparseAlarm) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseAlarm) GetProtected() bool {
+func (o *SparseAlarm) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1825,7 +1865,11 @@ func (o *SparseAlarm) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseAlarm) GetUpdateIdempotencyKey() string {
+func (o *SparseAlarm) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1837,7 +1881,11 @@ func (o *SparseAlarm) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAlarm) GetUpdateTime() time.Time {
+func (o *SparseAlarm) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1849,7 +1897,11 @@ func (o *SparseAlarm) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseAlarm) GetZHash() int {
+func (o *SparseAlarm) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1861,7 +1913,11 @@ func (o *SparseAlarm) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseAlarm) GetZone() int {
+func (o *SparseAlarm) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }

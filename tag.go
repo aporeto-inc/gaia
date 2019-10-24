@@ -644,7 +644,11 @@ func (o *SparseTag) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseTag) GetNamespace() string {
+func (o *SparseTag) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }

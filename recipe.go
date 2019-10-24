@@ -1997,7 +1997,11 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseRecipe) GetAnnotations() map[string][]string {
+func (o *SparseRecipe) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -2009,7 +2013,11 @@ func (o *SparseRecipe) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseRecipe) GetAssociatedTags() []string {
+func (o *SparseRecipe) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -2021,7 +2029,11 @@ func (o *SparseRecipe) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseRecipe) GetCreateIdempotencyKey() string {
+func (o *SparseRecipe) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -2033,7 +2045,11 @@ func (o *SparseRecipe) SetCreateIdempotencyKey(createIdempotencyKey string) {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseRecipe) GetCreateTime() time.Time {
+func (o *SparseRecipe) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -2045,7 +2061,11 @@ func (o *SparseRecipe) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseRecipe) GetDescription() string {
+func (o *SparseRecipe) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -2057,7 +2077,11 @@ func (o *SparseRecipe) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseRecipe) GetMetadata() []string {
+func (o *SparseRecipe) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -2069,7 +2093,11 @@ func (o *SparseRecipe) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseRecipe) GetMigrationsLog() map[string]string {
+func (o *SparseRecipe) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -2081,7 +2109,11 @@ func (o *SparseRecipe) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseRecipe) GetName() string {
+func (o *SparseRecipe) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2093,7 +2125,11 @@ func (o *SparseRecipe) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseRecipe) GetNamespace() string {
+func (o *SparseRecipe) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2105,7 +2141,11 @@ func (o *SparseRecipe) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseRecipe) GetNormalizedTags() []string {
+func (o *SparseRecipe) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2117,7 +2157,11 @@ func (o *SparseRecipe) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseRecipe) GetPropagate() bool {
+func (o *SparseRecipe) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -2129,7 +2173,11 @@ func (o *SparseRecipe) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseRecipe) GetProtected() bool {
+func (o *SparseRecipe) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2141,7 +2189,11 @@ func (o *SparseRecipe) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseRecipe) GetUpdateIdempotencyKey() string {
+func (o *SparseRecipe) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2153,7 +2205,11 @@ func (o *SparseRecipe) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseRecipe) GetUpdateTime() time.Time {
+func (o *SparseRecipe) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -2165,7 +2221,11 @@ func (o *SparseRecipe) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseRecipe) GetZHash() int {
+func (o *SparseRecipe) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -2177,7 +2237,11 @@ func (o *SparseRecipe) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseRecipe) GetZone() int {
+func (o *SparseRecipe) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }

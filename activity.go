@@ -1224,7 +1224,11 @@ func (o *SparseActivity) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseActivity) GetMigrationsLog() map[string]string {
+func (o *SparseActivity) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1236,7 +1240,11 @@ func (o *SparseActivity) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseActivity) GetNamespace() string {
+func (o *SparseActivity) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1248,7 +1256,11 @@ func (o *SparseActivity) SetNamespace(namespace string) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseActivity) GetZHash() int {
+func (o *SparseActivity) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1260,7 +1272,11 @@ func (o *SparseActivity) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseActivity) GetZone() int {
+func (o *SparseActivity) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }

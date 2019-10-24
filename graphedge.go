@@ -1442,7 +1442,11 @@ func (o *SparseGraphEdge) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseGraphEdge) GetZHash() int {
+func (o *SparseGraphEdge) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1454,7 +1458,11 @@ func (o *SparseGraphEdge) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseGraphEdge) GetZone() int {
+func (o *SparseGraphEdge) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }

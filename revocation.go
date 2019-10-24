@@ -837,7 +837,11 @@ func (o *SparseRevocation) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseRevocation) GetMigrationsLog() map[string]string {
+func (o *SparseRevocation) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -849,7 +853,11 @@ func (o *SparseRevocation) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseRevocation) GetZHash() int {
+func (o *SparseRevocation) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -861,7 +869,11 @@ func (o *SparseRevocation) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseRevocation) GetZone() int {
+func (o *SparseRevocation) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }

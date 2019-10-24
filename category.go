@@ -618,7 +618,11 @@ func (o *SparseCategory) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseCategory) GetDescription() string {
+func (o *SparseCategory) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -630,7 +634,11 @@ func (o *SparseCategory) SetDescription(description string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseCategory) GetName() string {
+func (o *SparseCategory) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }

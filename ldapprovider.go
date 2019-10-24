@@ -2025,7 +2025,11 @@ func (o *SparseLDAPProvider) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseLDAPProvider) GetAnnotations() map[string][]string {
+func (o *SparseLDAPProvider) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -2037,7 +2041,11 @@ func (o *SparseLDAPProvider) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseLDAPProvider) GetAssociatedTags() []string {
+func (o *SparseLDAPProvider) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -2049,7 +2057,11 @@ func (o *SparseLDAPProvider) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseLDAPProvider) GetCreateIdempotencyKey() string {
+func (o *SparseLDAPProvider) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -2061,7 +2073,11 @@ func (o *SparseLDAPProvider) SetCreateIdempotencyKey(createIdempotencyKey string
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseLDAPProvider) GetCreateTime() time.Time {
+func (o *SparseLDAPProvider) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -2073,7 +2089,11 @@ func (o *SparseLDAPProvider) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseLDAPProvider) GetDescription() string {
+func (o *SparseLDAPProvider) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -2085,7 +2105,11 @@ func (o *SparseLDAPProvider) SetDescription(description string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseLDAPProvider) GetMigrationsLog() map[string]string {
+func (o *SparseLDAPProvider) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -2097,7 +2121,11 @@ func (o *SparseLDAPProvider) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseLDAPProvider) GetName() string {
+func (o *SparseLDAPProvider) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2109,7 +2137,11 @@ func (o *SparseLDAPProvider) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseLDAPProvider) GetNamespace() string {
+func (o *SparseLDAPProvider) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2121,7 +2153,11 @@ func (o *SparseLDAPProvider) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseLDAPProvider) GetNormalizedTags() []string {
+func (o *SparseLDAPProvider) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2133,7 +2169,11 @@ func (o *SparseLDAPProvider) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseLDAPProvider) GetProtected() bool {
+func (o *SparseLDAPProvider) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2145,7 +2185,11 @@ func (o *SparseLDAPProvider) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseLDAPProvider) GetUpdateIdempotencyKey() string {
+func (o *SparseLDAPProvider) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2157,7 +2201,11 @@ func (o *SparseLDAPProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseLDAPProvider) GetUpdateTime() time.Time {
+func (o *SparseLDAPProvider) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -2169,7 +2217,11 @@ func (o *SparseLDAPProvider) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseLDAPProvider) GetZHash() int {
+func (o *SparseLDAPProvider) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -2181,7 +2233,11 @@ func (o *SparseLDAPProvider) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseLDAPProvider) GetZone() int {
+func (o *SparseLDAPProvider) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }

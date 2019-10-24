@@ -1113,7 +1113,11 @@ func (o *SparsePolicyRule) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparsePolicyRule) GetName() string {
+func (o *SparsePolicyRule) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }

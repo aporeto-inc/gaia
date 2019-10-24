@@ -634,7 +634,11 @@ func (o *SparseAWSRegister) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAWSRegister) GetCreateTime() time.Time {
+func (o *SparseAWSRegister) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -646,7 +650,11 @@ func (o *SparseAWSRegister) SetCreateTime(createTime time.Time) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAWSRegister) GetUpdateTime() time.Time {
+func (o *SparseAWSRegister) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

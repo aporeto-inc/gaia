@@ -1666,7 +1666,11 @@ func (o *SparseServiceDependency) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseServiceDependency) GetActiveDuration() string {
+func (o *SparseServiceDependency) GetActiveDuration() (out string) {
+
+	if o.ActiveDuration == nil {
+		return
+	}
 
 	return *o.ActiveDuration
 }
@@ -1678,7 +1682,11 @@ func (o *SparseServiceDependency) SetActiveDuration(activeDuration string) {
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseServiceDependency) GetActiveSchedule() string {
+func (o *SparseServiceDependency) GetActiveSchedule() (out string) {
+
+	if o.ActiveSchedule == nil {
+		return
+	}
 
 	return *o.ActiveSchedule
 }
@@ -1690,7 +1698,11 @@ func (o *SparseServiceDependency) SetActiveSchedule(activeSchedule string) {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseServiceDependency) GetAnnotations() map[string][]string {
+func (o *SparseServiceDependency) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1702,7 +1714,11 @@ func (o *SparseServiceDependency) SetAnnotations(annotations map[string][]string
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseServiceDependency) GetAssociatedTags() []string {
+func (o *SparseServiceDependency) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1714,7 +1730,11 @@ func (o *SparseServiceDependency) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseServiceDependency) GetCreateIdempotencyKey() string {
+func (o *SparseServiceDependency) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1726,7 +1746,11 @@ func (o *SparseServiceDependency) SetCreateIdempotencyKey(createIdempotencyKey s
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseServiceDependency) GetCreateTime() time.Time {
+func (o *SparseServiceDependency) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1738,7 +1762,11 @@ func (o *SparseServiceDependency) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseServiceDependency) GetDescription() string {
+func (o *SparseServiceDependency) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1750,7 +1778,11 @@ func (o *SparseServiceDependency) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseServiceDependency) GetDisabled() bool {
+func (o *SparseServiceDependency) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1762,7 +1794,11 @@ func (o *SparseServiceDependency) SetDisabled(disabled bool) {
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseServiceDependency) GetFallback() bool {
+func (o *SparseServiceDependency) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -1774,7 +1810,11 @@ func (o *SparseServiceDependency) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseServiceDependency) GetMetadata() []string {
+func (o *SparseServiceDependency) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1786,7 +1826,11 @@ func (o *SparseServiceDependency) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseServiceDependency) GetName() string {
+func (o *SparseServiceDependency) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1798,7 +1842,11 @@ func (o *SparseServiceDependency) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseServiceDependency) GetNamespace() string {
+func (o *SparseServiceDependency) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1810,7 +1858,11 @@ func (o *SparseServiceDependency) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseServiceDependency) GetNormalizedTags() []string {
+func (o *SparseServiceDependency) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1822,7 +1874,11 @@ func (o *SparseServiceDependency) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseServiceDependency) GetPropagate() bool {
+func (o *SparseServiceDependency) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1834,7 +1890,11 @@ func (o *SparseServiceDependency) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseServiceDependency) GetProtected() bool {
+func (o *SparseServiceDependency) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1846,7 +1906,11 @@ func (o *SparseServiceDependency) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseServiceDependency) GetUpdateIdempotencyKey() string {
+func (o *SparseServiceDependency) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1858,7 +1922,11 @@ func (o *SparseServiceDependency) SetUpdateIdempotencyKey(updateIdempotencyKey s
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseServiceDependency) GetUpdateTime() time.Time {
+func (o *SparseServiceDependency) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

@@ -790,7 +790,11 @@ func (o *SparseAutomationTemplate) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseAutomationTemplate) GetDescription() string {
+func (o *SparseAutomationTemplate) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -802,7 +806,11 @@ func (o *SparseAutomationTemplate) SetDescription(description string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseAutomationTemplate) GetName() string {
+func (o *SparseAutomationTemplate) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }

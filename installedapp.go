@@ -1660,7 +1660,11 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseInstalledApp) GetAnnotations() map[string][]string {
+func (o *SparseInstalledApp) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1672,7 +1676,11 @@ func (o *SparseInstalledApp) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseInstalledApp) GetAssociatedTags() []string {
+func (o *SparseInstalledApp) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1684,7 +1692,11 @@ func (o *SparseInstalledApp) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseInstalledApp) GetCreateIdempotencyKey() string {
+func (o *SparseInstalledApp) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1696,7 +1708,11 @@ func (o *SparseInstalledApp) SetCreateIdempotencyKey(createIdempotencyKey string
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseInstalledApp) GetCreateTime() time.Time {
+func (o *SparseInstalledApp) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1708,7 +1724,11 @@ func (o *SparseInstalledApp) SetCreateTime(createTime time.Time) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseInstalledApp) GetMigrationsLog() map[string]string {
+func (o *SparseInstalledApp) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1720,7 +1740,11 @@ func (o *SparseInstalledApp) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseInstalledApp) GetName() string {
+func (o *SparseInstalledApp) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1732,7 +1756,11 @@ func (o *SparseInstalledApp) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseInstalledApp) GetNamespace() string {
+func (o *SparseInstalledApp) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1744,7 +1772,11 @@ func (o *SparseInstalledApp) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseInstalledApp) GetNormalizedTags() []string {
+func (o *SparseInstalledApp) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1756,7 +1788,11 @@ func (o *SparseInstalledApp) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseInstalledApp) GetProtected() bool {
+func (o *SparseInstalledApp) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1768,7 +1804,11 @@ func (o *SparseInstalledApp) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseInstalledApp) GetUpdateIdempotencyKey() string {
+func (o *SparseInstalledApp) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1780,7 +1820,11 @@ func (o *SparseInstalledApp) SetUpdateIdempotencyKey(updateIdempotencyKey string
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseInstalledApp) GetUpdateTime() time.Time {
+func (o *SparseInstalledApp) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1792,7 +1836,11 @@ func (o *SparseInstalledApp) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseInstalledApp) GetZHash() int {
+func (o *SparseInstalledApp) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1804,7 +1852,11 @@ func (o *SparseInstalledApp) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseInstalledApp) GetZone() int {
+func (o *SparseInstalledApp) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
