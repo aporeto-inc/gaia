@@ -4197,6 +4197,8 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[TextIndexIdentity] = &elemental.Relationship{}
+
 	relationshipsRegistry[TokenIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
