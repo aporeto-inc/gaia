@@ -242,7 +242,9 @@ func (o *LDAPProvider) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesLDAPProvider{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Address = o.Address
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
@@ -1737,7 +1739,11 @@ func (o *SparseLDAPProvider) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseLDAPProvider) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1750,7 +1756,9 @@ func (o *SparseLDAPProvider) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseLDAPProvider{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Address != nil {
 		s.Address = o.Address
 	}
@@ -2017,7 +2025,11 @@ func (o *SparseLDAPProvider) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseLDAPProvider) GetAnnotations() map[string][]string {
+func (o *SparseLDAPProvider) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -2029,7 +2041,11 @@ func (o *SparseLDAPProvider) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseLDAPProvider) GetAssociatedTags() []string {
+func (o *SparseLDAPProvider) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -2041,7 +2057,11 @@ func (o *SparseLDAPProvider) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseLDAPProvider) GetCreateIdempotencyKey() string {
+func (o *SparseLDAPProvider) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -2053,7 +2073,11 @@ func (o *SparseLDAPProvider) SetCreateIdempotencyKey(createIdempotencyKey string
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseLDAPProvider) GetCreateTime() time.Time {
+func (o *SparseLDAPProvider) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -2065,7 +2089,11 @@ func (o *SparseLDAPProvider) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseLDAPProvider) GetDescription() string {
+func (o *SparseLDAPProvider) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -2077,7 +2105,11 @@ func (o *SparseLDAPProvider) SetDescription(description string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseLDAPProvider) GetMigrationsLog() map[string]string {
+func (o *SparseLDAPProvider) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -2089,7 +2121,11 @@ func (o *SparseLDAPProvider) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseLDAPProvider) GetName() string {
+func (o *SparseLDAPProvider) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2101,7 +2137,11 @@ func (o *SparseLDAPProvider) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseLDAPProvider) GetNamespace() string {
+func (o *SparseLDAPProvider) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2113,7 +2153,11 @@ func (o *SparseLDAPProvider) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseLDAPProvider) GetNormalizedTags() []string {
+func (o *SparseLDAPProvider) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2125,7 +2169,11 @@ func (o *SparseLDAPProvider) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseLDAPProvider) GetProtected() bool {
+func (o *SparseLDAPProvider) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2137,7 +2185,11 @@ func (o *SparseLDAPProvider) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseLDAPProvider) GetUpdateIdempotencyKey() string {
+func (o *SparseLDAPProvider) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2149,7 +2201,11 @@ func (o *SparseLDAPProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseLDAPProvider) GetUpdateTime() time.Time {
+func (o *SparseLDAPProvider) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -2161,7 +2217,11 @@ func (o *SparseLDAPProvider) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseLDAPProvider) GetZHash() int {
+func (o *SparseLDAPProvider) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -2173,7 +2233,11 @@ func (o *SparseLDAPProvider) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseLDAPProvider) GetZone() int {
+func (o *SparseLDAPProvider) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -2209,7 +2273,7 @@ func (o *SparseLDAPProvider) DeepCopyInto(out *SparseLDAPProvider) {
 }
 
 type mongoAttributesLDAPProvider struct {
-	ID                   bson.ObjectId                         `bson:"_id"`
+	ID                   bson.ObjectId                         `bson:"_id,omitempty"`
 	Address              string                                `bson:"address"`
 	Annotations          map[string][]string                   `bson:"annotations"`
 	AssociatedTags       []string                              `bson:"associatedtags"`
@@ -2225,7 +2289,7 @@ type mongoAttributesLDAPProvider struct {
 	Description          string                                `bson:"description"`
 	IgnoredKeys          []string                              `bson:"ignoredkeys"`
 	IncludedKeys         []string                              `bson:"includedkeys"`
-	MigrationsLog        map[string]string                     `bson:"migrationslog"`
+	MigrationsLog        map[string]string                     `bson:"migrationslog,omitempty"`
 	Name                 string                                `bson:"name"`
 	Namespace            string                                `bson:"namespace"`
 	NormalizedTags       []string                              `bson:"normalizedtags"`
@@ -2237,7 +2301,7 @@ type mongoAttributesLDAPProvider struct {
 	Zone                 int                                   `bson:"zone"`
 }
 type mongoAttributesSparseLDAPProvider struct {
-	ID                   bson.ObjectId                          `bson:"_id"`
+	ID                   bson.ObjectId                          `bson:"_id,omitempty"`
 	Address              *string                                `bson:"address,omitempty"`
 	Annotations          *map[string][]string                   `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string                              `bson:"associatedtags,omitempty"`

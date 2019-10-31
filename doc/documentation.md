@@ -575,6 +575,7 @@ Parameters:
 - `status` (`enum(Registered | Connected | Disconnected)`): If set, changes the status of the enforcer alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
 - `version` (`string`): If set, version of the current running enforcer.
+- `zhash` (`integer`): Can be set to help backend target the correct shard where the enforcer is stored.
 
 ##### `GET /processingunits/:id/poke`
 
@@ -588,6 +589,7 @@ Parameters:
 - `notify` (`boolean`): Can be sent to trigger a `ProcessingUnitRefresh` event that will be handled by the enforcer. If this is set, all other additional parameters will be ignored.
 - `status` (`enum(Initialized | Paused | Running | Stopped)`): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
+- `zhash` (`integer`): Can be set to help backend target the correct shard where the processing unit is stored.
 
 ### PolicyRenderer
 
@@ -2422,6 +2424,7 @@ Parameters:
 - `status` (`enum(Registered | Connected | Disconnected)`): If set, changes the status of the enforcer alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
 - `version` (`string`): If set, version of the current running enforcer.
+- `zhash` (`integer`): Can be set to help backend target the correct shard where the enforcer is stored.
 
 ##### `GET /enforcers/:id/trustedcas`
 
@@ -4371,6 +4374,7 @@ Parameters:
 - `notify` (`boolean`): Can be sent to trigger a `ProcessingUnitRefresh` event that will be handled by the enforcer. If this is set, all other additional parameters will be ignored.
 - `status` (`enum(Initialized | Paused | Running | Stopped)`): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
+- `zhash` (`integer`): Can be set to help backend target the correct shard where the processing unit is stored.
 
 ##### `GET /processingunits/:id/renderedpolicies`
 
@@ -10637,7 +10641,13 @@ Represents an edge from the dependency map.
 
 ```json
 {
+  "acceptedFlows": false,
   "destinationType": "ProcessingUnit",
+  "encrypted": false,
+  "observedAcceptedFlows": false,
+  "observedEncrypted": false,
+  "observedRejectedFlows": false,
+  "rejectedFlows": false,
   "sourceType": "ProcessingUnit"
 }
 ```
@@ -10662,7 +10672,7 @@ Mandatory Parameters
 
 #### Attributes
 
-##### `acceptedFlows` `integer`
+##### `acceptedFlows` `boolean`
 
 Number of accepted flows in the edge.
 
@@ -10674,7 +10684,7 @@ ID of the destination `GraphNode` of the edge.
 
 Type of the destination `GraphNode` of the edge.
 
-##### `encrypted` `integer`
+##### `encrypted` `boolean`
 
 The number of encrypted flows in the edge.
 
@@ -10694,19 +10704,19 @@ Contains the date when the edge was last seen.
 
 Namespace of the object that reported the flow.
 
-##### `observedAcceptedFlows` `integer`
+##### `observedAcceptedFlows` `boolean`
 
 Number of accepted observed flows.
 
-##### `observedEncrypted` `integer`
+##### `observedEncrypted` `boolean`
 
 Number of encrypted observed flows.
 
-##### `observedRejectedFlows` `integer`
+##### `observedRejectedFlows` `boolean`
 
 Number of rejected observed flows.
 
-##### `rejectedFlows` `integer`
+##### `rejectedFlows` `boolean`
 
 Number of rejected flows in the edge.
 

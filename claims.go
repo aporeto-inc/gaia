@@ -175,7 +175,9 @@ func (o *Claims) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesClaims{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.Content = o.Content
@@ -1121,7 +1123,11 @@ func (o *SparseClaims) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseClaims) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1134,7 +1140,9 @@ func (o *SparseClaims) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseClaims{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1302,7 +1310,11 @@ func (o *SparseClaims) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseClaims) GetAnnotations() map[string][]string {
+func (o *SparseClaims) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1314,7 +1326,11 @@ func (o *SparseClaims) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseClaims) GetAssociatedTags() []string {
+func (o *SparseClaims) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1326,7 +1342,11 @@ func (o *SparseClaims) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseClaims) GetCreateIdempotencyKey() string {
+func (o *SparseClaims) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1338,7 +1358,11 @@ func (o *SparseClaims) SetCreateIdempotencyKey(createIdempotencyKey string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseClaims) GetMigrationsLog() map[string]string {
+func (o *SparseClaims) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1350,7 +1374,11 @@ func (o *SparseClaims) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseClaims) GetNamespace() string {
+func (o *SparseClaims) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1362,7 +1390,11 @@ func (o *SparseClaims) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseClaims) GetNormalizedTags() []string {
+func (o *SparseClaims) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1374,7 +1406,11 @@ func (o *SparseClaims) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseClaims) GetProtected() bool {
+func (o *SparseClaims) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1386,7 +1422,11 @@ func (o *SparseClaims) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseClaims) GetUpdateIdempotencyKey() string {
+func (o *SparseClaims) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1398,7 +1438,11 @@ func (o *SparseClaims) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseClaims) GetZHash() int {
+func (o *SparseClaims) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1410,7 +1454,11 @@ func (o *SparseClaims) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseClaims) GetZone() int {
+func (o *SparseClaims) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1446,7 +1494,7 @@ func (o *SparseClaims) DeepCopyInto(out *SparseClaims) {
 }
 
 type mongoAttributesClaims struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	Content              map[string]string   `bson:"content"`
@@ -1454,7 +1502,7 @@ type mongoAttributesClaims struct {
 	FirstSeen            time.Time           `bson:"firstseen"`
 	Hash                 string              `bson:"hash"`
 	LastSeen             time.Time           `bson:"lastseen"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
 	Protected            bool                `bson:"protected"`
@@ -1463,7 +1511,7 @@ type mongoAttributesClaims struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseClaims struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	Content              *map[string]string   `bson:"content,omitempty"`

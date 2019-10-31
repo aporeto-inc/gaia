@@ -215,7 +215,9 @@ func (o *AppCredential) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAppCredential{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.AuthorizedSubnets = o.AuthorizedSubnets
@@ -1644,7 +1646,11 @@ func (o *SparseAppCredential) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAppCredential) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1657,7 +1663,9 @@ func (o *SparseAppCredential) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAppCredential{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1903,7 +1911,11 @@ func (o *SparseAppCredential) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseAppCredential) GetAnnotations() map[string][]string {
+func (o *SparseAppCredential) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1915,7 +1927,11 @@ func (o *SparseAppCredential) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseAppCredential) GetAssociatedTags() []string {
+func (o *SparseAppCredential) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1927,7 +1943,11 @@ func (o *SparseAppCredential) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseAppCredential) GetCreateIdempotencyKey() string {
+func (o *SparseAppCredential) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1939,7 +1959,11 @@ func (o *SparseAppCredential) SetCreateIdempotencyKey(createIdempotencyKey strin
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAppCredential) GetCreateTime() time.Time {
+func (o *SparseAppCredential) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1951,7 +1975,11 @@ func (o *SparseAppCredential) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseAppCredential) GetDescription() string {
+func (o *SparseAppCredential) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1963,7 +1991,11 @@ func (o *SparseAppCredential) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseAppCredential) GetDisabled() bool {
+func (o *SparseAppCredential) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1975,7 +2007,11 @@ func (o *SparseAppCredential) SetDisabled(disabled bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseAppCredential) GetMetadata() []string {
+func (o *SparseAppCredential) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1987,7 +2023,11 @@ func (o *SparseAppCredential) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseAppCredential) GetMigrationsLog() map[string]string {
+func (o *SparseAppCredential) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1999,7 +2039,11 @@ func (o *SparseAppCredential) SetMigrationsLog(migrationsLog map[string]string) 
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseAppCredential) GetName() string {
+func (o *SparseAppCredential) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2011,7 +2055,11 @@ func (o *SparseAppCredential) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseAppCredential) GetNamespace() string {
+func (o *SparseAppCredential) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2023,7 +2071,11 @@ func (o *SparseAppCredential) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseAppCredential) GetNormalizedTags() []string {
+func (o *SparseAppCredential) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2035,7 +2087,11 @@ func (o *SparseAppCredential) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseAppCredential) GetProtected() bool {
+func (o *SparseAppCredential) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2047,7 +2103,11 @@ func (o *SparseAppCredential) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseAppCredential) GetUpdateIdempotencyKey() string {
+func (o *SparseAppCredential) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2059,7 +2119,11 @@ func (o *SparseAppCredential) SetUpdateIdempotencyKey(updateIdempotencyKey strin
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAppCredential) GetUpdateTime() time.Time {
+func (o *SparseAppCredential) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -2071,7 +2135,11 @@ func (o *SparseAppCredential) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseAppCredential) GetZHash() int {
+func (o *SparseAppCredential) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -2083,7 +2151,11 @@ func (o *SparseAppCredential) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseAppCredential) GetZone() int {
+func (o *SparseAppCredential) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -2119,7 +2191,7 @@ func (o *SparseAppCredential) DeepCopyInto(out *SparseAppCredential) {
 }
 
 type mongoAttributesAppCredential struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	AuthorizedSubnets    []string            `bson:"authorizedsubnets"`
@@ -2131,7 +2203,7 @@ type mongoAttributesAppCredential struct {
 	Disabled             bool                `bson:"disabled"`
 	Email                string              `bson:"email"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -2144,7 +2216,7 @@ type mongoAttributesAppCredential struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseAppCredential struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	AuthorizedSubnets    *[]string            `bson:"authorizedsubnets,omitempty"`

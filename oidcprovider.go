@@ -203,7 +203,9 @@ func (o *OIDCProvider) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesOIDCProvider{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CertificateAuthority = o.CertificateAuthority
@@ -1528,7 +1530,11 @@ func (o *SparseOIDCProvider) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseOIDCProvider) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1541,7 +1547,9 @@ func (o *SparseOIDCProvider) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseOIDCProvider{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1801,7 +1809,11 @@ func (o *SparseOIDCProvider) DecryptAttributes(encrypter elemental.AttributeEncr
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseOIDCProvider) GetAnnotations() map[string][]string {
+func (o *SparseOIDCProvider) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1813,7 +1825,11 @@ func (o *SparseOIDCProvider) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseOIDCProvider) GetAssociatedTags() []string {
+func (o *SparseOIDCProvider) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1825,7 +1841,11 @@ func (o *SparseOIDCProvider) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseOIDCProvider) GetCreateIdempotencyKey() string {
+func (o *SparseOIDCProvider) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1837,7 +1857,11 @@ func (o *SparseOIDCProvider) SetCreateIdempotencyKey(createIdempotencyKey string
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseOIDCProvider) GetCreateTime() time.Time {
+func (o *SparseOIDCProvider) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1849,7 +1873,11 @@ func (o *SparseOIDCProvider) SetCreateTime(createTime time.Time) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseOIDCProvider) GetMigrationsLog() map[string]string {
+func (o *SparseOIDCProvider) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1861,7 +1889,11 @@ func (o *SparseOIDCProvider) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseOIDCProvider) GetName() string {
+func (o *SparseOIDCProvider) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1873,7 +1905,11 @@ func (o *SparseOIDCProvider) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseOIDCProvider) GetNamespace() string {
+func (o *SparseOIDCProvider) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1885,7 +1921,11 @@ func (o *SparseOIDCProvider) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseOIDCProvider) GetNormalizedTags() []string {
+func (o *SparseOIDCProvider) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1897,7 +1937,11 @@ func (o *SparseOIDCProvider) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseOIDCProvider) GetProtected() bool {
+func (o *SparseOIDCProvider) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1909,7 +1953,11 @@ func (o *SparseOIDCProvider) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseOIDCProvider) GetUpdateIdempotencyKey() string {
+func (o *SparseOIDCProvider) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1921,7 +1969,11 @@ func (o *SparseOIDCProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseOIDCProvider) GetUpdateTime() time.Time {
+func (o *SparseOIDCProvider) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1933,7 +1985,11 @@ func (o *SparseOIDCProvider) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseOIDCProvider) GetZHash() int {
+func (o *SparseOIDCProvider) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1945,7 +2001,11 @@ func (o *SparseOIDCProvider) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseOIDCProvider) GetZone() int {
+func (o *SparseOIDCProvider) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1981,7 +2041,7 @@ func (o *SparseOIDCProvider) DeepCopyInto(out *SparseOIDCProvider) {
 }
 
 type mongoAttributesOIDCProvider struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	CertificateAuthority string              `bson:"certificateauthority"`
@@ -1991,7 +2051,7 @@ type mongoAttributesOIDCProvider struct {
 	CreateTime           time.Time           `bson:"createtime"`
 	Default              bool                `bson:"default"`
 	Endpoint             string              `bson:"endpoint"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -2006,7 +2066,7 @@ type mongoAttributesOIDCProvider struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseOIDCProvider struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	CertificateAuthority *string              `bson:"certificateauthority,omitempty"`

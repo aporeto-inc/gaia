@@ -198,7 +198,9 @@ func (o *IsolationProfile) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesIsolationProfile{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CapabilitiesActions = o.CapabilitiesActions
@@ -1476,7 +1478,11 @@ func (o *SparseIsolationProfile) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseIsolationProfile) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1489,7 +1495,9 @@ func (o *SparseIsolationProfile) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseIsolationProfile{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1711,7 +1719,11 @@ func (o *SparseIsolationProfile) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseIsolationProfile) GetAnnotations() map[string][]string {
+func (o *SparseIsolationProfile) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1723,7 +1735,11 @@ func (o *SparseIsolationProfile) SetAnnotations(annotations map[string][]string)
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseIsolationProfile) GetAssociatedTags() []string {
+func (o *SparseIsolationProfile) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1735,7 +1751,11 @@ func (o *SparseIsolationProfile) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseIsolationProfile) GetCreateIdempotencyKey() string {
+func (o *SparseIsolationProfile) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1747,7 +1767,11 @@ func (o *SparseIsolationProfile) SetCreateIdempotencyKey(createIdempotencyKey st
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseIsolationProfile) GetCreateTime() time.Time {
+func (o *SparseIsolationProfile) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1759,7 +1783,11 @@ func (o *SparseIsolationProfile) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseIsolationProfile) GetDescription() string {
+func (o *SparseIsolationProfile) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1771,7 +1799,11 @@ func (o *SparseIsolationProfile) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseIsolationProfile) GetMetadata() []string {
+func (o *SparseIsolationProfile) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1783,7 +1815,11 @@ func (o *SparseIsolationProfile) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseIsolationProfile) GetMigrationsLog() map[string]string {
+func (o *SparseIsolationProfile) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1795,7 +1831,11 @@ func (o *SparseIsolationProfile) SetMigrationsLog(migrationsLog map[string]strin
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseIsolationProfile) GetName() string {
+func (o *SparseIsolationProfile) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1807,7 +1847,11 @@ func (o *SparseIsolationProfile) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseIsolationProfile) GetNamespace() string {
+func (o *SparseIsolationProfile) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1819,7 +1863,11 @@ func (o *SparseIsolationProfile) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseIsolationProfile) GetNormalizedTags() []string {
+func (o *SparseIsolationProfile) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1831,7 +1879,11 @@ func (o *SparseIsolationProfile) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseIsolationProfile) GetPropagate() bool {
+func (o *SparseIsolationProfile) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1843,7 +1895,11 @@ func (o *SparseIsolationProfile) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseIsolationProfile) GetProtected() bool {
+func (o *SparseIsolationProfile) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1855,7 +1911,11 @@ func (o *SparseIsolationProfile) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseIsolationProfile) GetUpdateIdempotencyKey() string {
+func (o *SparseIsolationProfile) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1867,7 +1927,11 @@ func (o *SparseIsolationProfile) SetUpdateIdempotencyKey(updateIdempotencyKey st
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseIsolationProfile) GetUpdateTime() time.Time {
+func (o *SparseIsolationProfile) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1879,7 +1943,11 @@ func (o *SparseIsolationProfile) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseIsolationProfile) GetZHash() int {
+func (o *SparseIsolationProfile) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1891,7 +1959,11 @@ func (o *SparseIsolationProfile) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseIsolationProfile) GetZone() int {
+func (o *SparseIsolationProfile) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1927,7 +1999,7 @@ func (o *SparseIsolationProfile) DeepCopyInto(out *SparseIsolationProfile) {
 }
 
 type mongoAttributesIsolationProfile struct {
-	ID                   bson.ObjectId                    `bson:"_id"`
+	ID                   bson.ObjectId                    `bson:"_id,omitempty"`
 	Annotations          map[string][]string              `bson:"annotations"`
 	AssociatedTags       []string                         `bson:"associatedtags"`
 	CapabilitiesActions  types.CapabilitiesTypeMap        `bson:"capabilitiesactions"`
@@ -1936,7 +2008,7 @@ type mongoAttributesIsolationProfile struct {
 	DefaultSyscallAction types.SyscallEnforcementAction   `bson:"defaultsyscallaction"`
 	Description          string                           `bson:"description"`
 	Metadata             []string                         `bson:"metadata"`
-	MigrationsLog        map[string]string                `bson:"migrationslog"`
+	MigrationsLog        map[string]string                `bson:"migrationslog,omitempty"`
 	Name                 string                           `bson:"name"`
 	Namespace            string                           `bson:"namespace"`
 	NormalizedTags       []string                         `bson:"normalizedtags"`
@@ -1950,7 +2022,7 @@ type mongoAttributesIsolationProfile struct {
 	Zone                 int                              `bson:"zone"`
 }
 type mongoAttributesSparseIsolationProfile struct {
-	ID                   bson.ObjectId                     `bson:"_id"`
+	ID                   bson.ObjectId                     `bson:"_id,omitempty"`
 	Annotations          *map[string][]string              `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string                         `bson:"associatedtags,omitempty"`
 	CapabilitiesActions  *types.CapabilitiesTypeMap        `bson:"capabilitiesactions,omitempty"`

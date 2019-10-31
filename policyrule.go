@@ -1006,7 +1006,11 @@ func (o *SparsePolicyRule) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparsePolicyRule) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1109,7 +1113,11 @@ func (o *SparsePolicyRule) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparsePolicyRule) GetName() string {
+func (o *SparsePolicyRule) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }

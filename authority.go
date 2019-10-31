@@ -179,7 +179,9 @@ func (o *Authority) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAuthority{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Algorithm = o.Algorithm
 	s.Certificate = o.Certificate
 	s.CommonName = o.CommonName
@@ -889,7 +891,11 @@ func (o *SparseAuthority) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAuthority) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -902,7 +908,9 @@ func (o *SparseAuthority) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAuthority{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Algorithm != nil {
 		s.Algorithm = o.Algorithm
 	}
@@ -1054,7 +1062,11 @@ func (o *SparseAuthority) DecryptAttributes(encrypter elemental.AttributeEncrypt
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseAuthority) GetMigrationsLog() map[string]string {
+func (o *SparseAuthority) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1066,7 +1078,11 @@ func (o *SparseAuthority) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseAuthority) GetZHash() int {
+func (o *SparseAuthority) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1078,7 +1094,11 @@ func (o *SparseAuthority) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseAuthority) GetZone() int {
+func (o *SparseAuthority) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1114,20 +1134,20 @@ func (o *SparseAuthority) DeepCopyInto(out *SparseAuthority) {
 }
 
 type mongoAttributesAuthority struct {
-	ID             bson.ObjectId           `bson:"_id"`
+	ID             bson.ObjectId           `bson:"_id,omitempty"`
 	Algorithm      AuthorityAlgorithmValue `bson:"algorithm"`
 	Certificate    string                  `bson:"certificate"`
 	CommonName     string                  `bson:"commonname"`
 	ExpirationDate time.Time               `bson:"expirationdate"`
 	Key            string                  `bson:"key"`
-	MigrationsLog  map[string]string       `bson:"migrationslog"`
+	MigrationsLog  map[string]string       `bson:"migrationslog,omitempty"`
 	SerialNumber   string                  `bson:"serialnumber"`
 	Type           AuthorityTypeValue      `bson:"type"`
 	ZHash          int                     `bson:"zhash"`
 	Zone           int                     `bson:"zone"`
 }
 type mongoAttributesSparseAuthority struct {
-	ID             bson.ObjectId            `bson:"_id"`
+	ID             bson.ObjectId            `bson:"_id,omitempty"`
 	Algorithm      *AuthorityAlgorithmValue `bson:"algorithm,omitempty"`
 	Certificate    *string                  `bson:"certificate,omitempty"`
 	CommonName     *string                  `bson:"commonname,omitempty"`

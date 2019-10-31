@@ -289,7 +289,9 @@ func (o *Policy) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesPolicy{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Action = o.Action
 	s.ActiveDuration = o.ActiveDuration
 	s.ActiveSchedule = o.ActiveSchedule
@@ -2016,7 +2018,11 @@ func (o *SparsePolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparsePolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -2029,7 +2035,9 @@ func (o *SparsePolicy) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparsePolicy{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Action != nil {
 		s.Action = o.Action
 	}
@@ -2332,7 +2340,11 @@ func (o *SparsePolicy) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparsePolicy) GetActiveDuration() string {
+func (o *SparsePolicy) GetActiveDuration() (out string) {
+
+	if o.ActiveDuration == nil {
+		return
+	}
 
 	return *o.ActiveDuration
 }
@@ -2344,7 +2356,11 @@ func (o *SparsePolicy) SetActiveDuration(activeDuration string) {
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparsePolicy) GetActiveSchedule() string {
+func (o *SparsePolicy) GetActiveSchedule() (out string) {
+
+	if o.ActiveSchedule == nil {
+		return
+	}
 
 	return *o.ActiveSchedule
 }
@@ -2356,7 +2372,11 @@ func (o *SparsePolicy) SetActiveSchedule(activeSchedule string) {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparsePolicy) GetAnnotations() map[string][]string {
+func (o *SparsePolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -2368,7 +2388,11 @@ func (o *SparsePolicy) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparsePolicy) GetAssociatedTags() []string {
+func (o *SparsePolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -2380,7 +2404,11 @@ func (o *SparsePolicy) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparsePolicy) GetCreateIdempotencyKey() string {
+func (o *SparsePolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -2392,7 +2420,11 @@ func (o *SparsePolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparsePolicy) GetCreateTime() time.Time {
+func (o *SparsePolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -2404,7 +2436,11 @@ func (o *SparsePolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparsePolicy) GetDescription() string {
+func (o *SparsePolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -2416,7 +2452,11 @@ func (o *SparsePolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparsePolicy) GetDisabled() bool {
+func (o *SparsePolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -2428,7 +2468,11 @@ func (o *SparsePolicy) SetDisabled(disabled bool) {
 }
 
 // GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SparsePolicy) GetExpirationTime() time.Time {
+func (o *SparsePolicy) GetExpirationTime() (out time.Time) {
+
+	if o.ExpirationTime == nil {
+		return
+	}
 
 	return *o.ExpirationTime
 }
@@ -2440,7 +2484,11 @@ func (o *SparsePolicy) SetExpirationTime(expirationTime time.Time) {
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparsePolicy) GetFallback() bool {
+func (o *SparsePolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -2452,7 +2500,11 @@ func (o *SparsePolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparsePolicy) GetMetadata() []string {
+func (o *SparsePolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -2464,7 +2516,11 @@ func (o *SparsePolicy) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparsePolicy) GetMigrationsLog() map[string]string {
+func (o *SparsePolicy) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -2476,7 +2532,11 @@ func (o *SparsePolicy) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparsePolicy) GetName() string {
+func (o *SparsePolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2488,7 +2548,11 @@ func (o *SparsePolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparsePolicy) GetNamespace() string {
+func (o *SparsePolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2500,7 +2564,11 @@ func (o *SparsePolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparsePolicy) GetNormalizedTags() []string {
+func (o *SparsePolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2512,7 +2580,11 @@ func (o *SparsePolicy) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetObject returns the Object of the receiver.
-func (o *SparsePolicy) GetObject() [][]string {
+func (o *SparsePolicy) GetObject() (out [][]string) {
+
+	if o.Object == nil {
+		return
+	}
 
 	return *o.Object
 }
@@ -2524,7 +2596,11 @@ func (o *SparsePolicy) SetObject(object [][]string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparsePolicy) GetPropagate() bool {
+func (o *SparsePolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -2536,7 +2612,11 @@ func (o *SparsePolicy) SetPropagate(propagate bool) {
 }
 
 // GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *SparsePolicy) GetPropagationHidden() bool {
+func (o *SparsePolicy) GetPropagationHidden() (out bool) {
+
+	if o.PropagationHidden == nil {
+		return
+	}
 
 	return *o.PropagationHidden
 }
@@ -2548,7 +2628,11 @@ func (o *SparsePolicy) SetPropagationHidden(propagationHidden bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparsePolicy) GetProtected() bool {
+func (o *SparsePolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2560,7 +2644,11 @@ func (o *SparsePolicy) SetProtected(protected bool) {
 }
 
 // GetSubject returns the Subject of the receiver.
-func (o *SparsePolicy) GetSubject() [][]string {
+func (o *SparsePolicy) GetSubject() (out [][]string) {
+
+	if o.Subject == nil {
+		return
+	}
 
 	return *o.Subject
 }
@@ -2572,7 +2660,11 @@ func (o *SparsePolicy) SetSubject(subject [][]string) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparsePolicy) GetUpdateIdempotencyKey() string {
+func (o *SparsePolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2584,7 +2676,11 @@ func (o *SparsePolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparsePolicy) GetUpdateTime() time.Time {
+func (o *SparsePolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -2596,7 +2692,11 @@ func (o *SparsePolicy) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparsePolicy) GetZHash() int {
+func (o *SparsePolicy) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -2608,7 +2708,11 @@ func (o *SparsePolicy) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparsePolicy) GetZone() int {
+func (o *SparsePolicy) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -2644,7 +2748,7 @@ func (o *SparsePolicy) DeepCopyInto(out *SparsePolicy) {
 }
 
 type mongoAttributesPolicy struct {
-	ID                   bson.ObjectId                     `bson:"_id"`
+	ID                   bson.ObjectId                     `bson:"_id,omitempty"`
 	Action               map[string]map[string]interface{} `bson:"action"`
 	ActiveDuration       string                            `bson:"activeduration"`
 	ActiveSchedule       string                            `bson:"activeschedule"`
@@ -2659,7 +2763,7 @@ type mongoAttributesPolicy struct {
 	ExpirationTime       time.Time                         `bson:"expirationtime"`
 	Fallback             bool                              `bson:"fallback"`
 	Metadata             []string                          `bson:"metadata"`
-	MigrationsLog        map[string]string                 `bson:"migrationslog"`
+	MigrationsLog        map[string]string                 `bson:"migrationslog,omitempty"`
 	Name                 string                            `bson:"name"`
 	Namespace            string                            `bson:"namespace"`
 	NormalizedTags       []string                          `bson:"normalizedtags"`
@@ -2676,7 +2780,7 @@ type mongoAttributesPolicy struct {
 	Zone                 int                               `bson:"zone"`
 }
 type mongoAttributesSparsePolicy struct {
-	ID                   bson.ObjectId                      `bson:"_id"`
+	ID                   bson.ObjectId                      `bson:"_id,omitempty"`
 	Action               *map[string]map[string]interface{} `bson:"action,omitempty"`
 	ActiveDuration       *string                            `bson:"activeduration,omitempty"`
 	ActiveSchedule       *string                            `bson:"activeschedule,omitempty"`

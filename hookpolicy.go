@@ -1759,7 +1759,11 @@ func (o *SparseHookPolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseHookPolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -2056,7 +2060,11 @@ func (o *SparseHookPolicy) DecryptAttributes(encrypter elemental.AttributeEncryp
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseHookPolicy) GetAnnotations() map[string][]string {
+func (o *SparseHookPolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -2068,7 +2076,11 @@ func (o *SparseHookPolicy) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseHookPolicy) GetAssociatedTags() []string {
+func (o *SparseHookPolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -2080,7 +2092,11 @@ func (o *SparseHookPolicy) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseHookPolicy) GetCreateIdempotencyKey() string {
+func (o *SparseHookPolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -2092,7 +2108,11 @@ func (o *SparseHookPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) 
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseHookPolicy) GetCreateTime() time.Time {
+func (o *SparseHookPolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -2104,7 +2124,11 @@ func (o *SparseHookPolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseHookPolicy) GetDescription() string {
+func (o *SparseHookPolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -2116,7 +2140,11 @@ func (o *SparseHookPolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseHookPolicy) GetDisabled() bool {
+func (o *SparseHookPolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -2128,7 +2156,11 @@ func (o *SparseHookPolicy) SetDisabled(disabled bool) {
 }
 
 // GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SparseHookPolicy) GetExpirationTime() time.Time {
+func (o *SparseHookPolicy) GetExpirationTime() (out time.Time) {
+
+	if o.ExpirationTime == nil {
+		return
+	}
 
 	return *o.ExpirationTime
 }
@@ -2140,7 +2172,11 @@ func (o *SparseHookPolicy) SetExpirationTime(expirationTime time.Time) {
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseHookPolicy) GetFallback() bool {
+func (o *SparseHookPolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -2152,7 +2188,11 @@ func (o *SparseHookPolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseHookPolicy) GetMetadata() []string {
+func (o *SparseHookPolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -2164,7 +2204,11 @@ func (o *SparseHookPolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseHookPolicy) GetName() string {
+func (o *SparseHookPolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2176,7 +2220,11 @@ func (o *SparseHookPolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseHookPolicy) GetNamespace() string {
+func (o *SparseHookPolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2188,7 +2236,11 @@ func (o *SparseHookPolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseHookPolicy) GetNormalizedTags() []string {
+func (o *SparseHookPolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2200,7 +2252,11 @@ func (o *SparseHookPolicy) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseHookPolicy) GetPropagate() bool {
+func (o *SparseHookPolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -2212,7 +2268,11 @@ func (o *SparseHookPolicy) SetPropagate(propagate bool) {
 }
 
 // GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *SparseHookPolicy) GetPropagationHidden() bool {
+func (o *SparseHookPolicy) GetPropagationHidden() (out bool) {
+
+	if o.PropagationHidden == nil {
+		return
+	}
 
 	return *o.PropagationHidden
 }
@@ -2224,7 +2284,11 @@ func (o *SparseHookPolicy) SetPropagationHidden(propagationHidden bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseHookPolicy) GetProtected() bool {
+func (o *SparseHookPolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2236,7 +2300,11 @@ func (o *SparseHookPolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseHookPolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseHookPolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2248,7 +2316,11 @@ func (o *SparseHookPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) 
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseHookPolicy) GetUpdateTime() time.Time {
+func (o *SparseHookPolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

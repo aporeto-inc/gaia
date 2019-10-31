@@ -1456,7 +1456,11 @@ func (o *SparseHostServiceMappingPolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseHostServiceMappingPolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1667,7 +1671,11 @@ func (o *SparseHostServiceMappingPolicy) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetActiveDuration() string {
+func (o *SparseHostServiceMappingPolicy) GetActiveDuration() (out string) {
+
+	if o.ActiveDuration == nil {
+		return
+	}
 
 	return *o.ActiveDuration
 }
@@ -1679,7 +1687,11 @@ func (o *SparseHostServiceMappingPolicy) SetActiveDuration(activeDuration string
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetActiveSchedule() string {
+func (o *SparseHostServiceMappingPolicy) GetActiveSchedule() (out string) {
+
+	if o.ActiveSchedule == nil {
+		return
+	}
 
 	return *o.ActiveSchedule
 }
@@ -1691,7 +1703,11 @@ func (o *SparseHostServiceMappingPolicy) SetActiveSchedule(activeSchedule string
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetAnnotations() map[string][]string {
+func (o *SparseHostServiceMappingPolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1703,7 +1719,11 @@ func (o *SparseHostServiceMappingPolicy) SetAnnotations(annotations map[string][
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetAssociatedTags() []string {
+func (o *SparseHostServiceMappingPolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1715,7 +1735,11 @@ func (o *SparseHostServiceMappingPolicy) SetAssociatedTags(associatedTags []stri
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetCreateIdempotencyKey() string {
+func (o *SparseHostServiceMappingPolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1727,7 +1751,11 @@ func (o *SparseHostServiceMappingPolicy) SetCreateIdempotencyKey(createIdempoten
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetCreateTime() time.Time {
+func (o *SparseHostServiceMappingPolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1739,7 +1767,11 @@ func (o *SparseHostServiceMappingPolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetDescription() string {
+func (o *SparseHostServiceMappingPolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1751,7 +1783,11 @@ func (o *SparseHostServiceMappingPolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetDisabled() bool {
+func (o *SparseHostServiceMappingPolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1763,7 +1799,11 @@ func (o *SparseHostServiceMappingPolicy) SetDisabled(disabled bool) {
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetFallback() bool {
+func (o *SparseHostServiceMappingPolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -1775,7 +1815,11 @@ func (o *SparseHostServiceMappingPolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetMetadata() []string {
+func (o *SparseHostServiceMappingPolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1787,7 +1831,11 @@ func (o *SparseHostServiceMappingPolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetName() string {
+func (o *SparseHostServiceMappingPolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1799,7 +1847,11 @@ func (o *SparseHostServiceMappingPolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetNamespace() string {
+func (o *SparseHostServiceMappingPolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1811,7 +1863,11 @@ func (o *SparseHostServiceMappingPolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetNormalizedTags() []string {
+func (o *SparseHostServiceMappingPolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1823,7 +1879,11 @@ func (o *SparseHostServiceMappingPolicy) SetNormalizedTags(normalizedTags []stri
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetPropagate() bool {
+func (o *SparseHostServiceMappingPolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1835,7 +1895,11 @@ func (o *SparseHostServiceMappingPolicy) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetProtected() bool {
+func (o *SparseHostServiceMappingPolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1847,7 +1911,11 @@ func (o *SparseHostServiceMappingPolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseHostServiceMappingPolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1859,7 +1927,11 @@ func (o *SparseHostServiceMappingPolicy) SetUpdateIdempotencyKey(updateIdempoten
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseHostServiceMappingPolicy) GetUpdateTime() time.Time {
+func (o *SparseHostServiceMappingPolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

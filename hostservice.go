@@ -200,7 +200,9 @@ func (o *HostService) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesHostService{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.Archived = o.Archived
 	s.AssociatedTags = o.AssociatedTags
@@ -1479,7 +1481,11 @@ func (o *SparseHostService) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseHostService) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1492,7 +1498,9 @@ func (o *SparseHostService) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseHostService{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1705,7 +1713,11 @@ func (o *SparseHostService) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseHostService) GetAnnotations() map[string][]string {
+func (o *SparseHostService) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1717,7 +1729,11 @@ func (o *SparseHostService) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *SparseHostService) GetArchived() bool {
+func (o *SparseHostService) GetArchived() (out bool) {
+
+	if o.Archived == nil {
+		return
+	}
 
 	return *o.Archived
 }
@@ -1729,7 +1745,11 @@ func (o *SparseHostService) SetArchived(archived bool) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseHostService) GetAssociatedTags() []string {
+func (o *SparseHostService) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1741,7 +1761,11 @@ func (o *SparseHostService) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseHostService) GetCreateIdempotencyKey() string {
+func (o *SparseHostService) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1753,7 +1777,11 @@ func (o *SparseHostService) SetCreateIdempotencyKey(createIdempotencyKey string)
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseHostService) GetCreateTime() time.Time {
+func (o *SparseHostService) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1765,7 +1793,11 @@ func (o *SparseHostService) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseHostService) GetDescription() string {
+func (o *SparseHostService) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1777,7 +1809,11 @@ func (o *SparseHostService) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseHostService) GetMetadata() []string {
+func (o *SparseHostService) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1789,7 +1825,11 @@ func (o *SparseHostService) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseHostService) GetMigrationsLog() map[string]string {
+func (o *SparseHostService) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1801,7 +1841,11 @@ func (o *SparseHostService) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseHostService) GetName() string {
+func (o *SparseHostService) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1813,7 +1857,11 @@ func (o *SparseHostService) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseHostService) GetNamespace() string {
+func (o *SparseHostService) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1825,7 +1873,11 @@ func (o *SparseHostService) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseHostService) GetNormalizedTags() []string {
+func (o *SparseHostService) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1837,7 +1889,11 @@ func (o *SparseHostService) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseHostService) GetPropagate() bool {
+func (o *SparseHostService) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1849,7 +1905,11 @@ func (o *SparseHostService) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseHostService) GetProtected() bool {
+func (o *SparseHostService) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1861,7 +1921,11 @@ func (o *SparseHostService) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseHostService) GetUpdateIdempotencyKey() string {
+func (o *SparseHostService) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1873,7 +1937,11 @@ func (o *SparseHostService) SetUpdateIdempotencyKey(updateIdempotencyKey string)
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseHostService) GetUpdateTime() time.Time {
+func (o *SparseHostService) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1885,7 +1953,11 @@ func (o *SparseHostService) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseHostService) GetZHash() int {
+func (o *SparseHostService) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1897,7 +1969,11 @@ func (o *SparseHostService) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseHostService) GetZone() int {
+func (o *SparseHostService) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1933,7 +2009,7 @@ func (o *SparseHostService) DeepCopyInto(out *SparseHostService) {
 }
 
 type mongoAttributesHostService struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	Archived             bool                `bson:"archived"`
 	AssociatedTags       []string            `bson:"associatedtags"`
@@ -1942,7 +2018,7 @@ type mongoAttributesHostService struct {
 	Description          string              `bson:"description"`
 	HostModeEnabled      bool                `bson:"hostmodeenabled"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -1955,7 +2031,7 @@ type mongoAttributesHostService struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseHostService struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	Archived             *bool                `bson:"archived,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`

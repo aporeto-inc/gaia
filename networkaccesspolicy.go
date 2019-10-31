@@ -1989,7 +1989,11 @@ func (o *SparseNetworkAccessPolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseNetworkAccessPolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -2248,7 +2252,11 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseNetworkAccessPolicy) GetActiveDuration() string {
+func (o *SparseNetworkAccessPolicy) GetActiveDuration() (out string) {
+
+	if o.ActiveDuration == nil {
+		return
+	}
 
 	return *o.ActiveDuration
 }
@@ -2260,7 +2268,11 @@ func (o *SparseNetworkAccessPolicy) SetActiveDuration(activeDuration string) {
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseNetworkAccessPolicy) GetActiveSchedule() string {
+func (o *SparseNetworkAccessPolicy) GetActiveSchedule() (out string) {
+
+	if o.ActiveSchedule == nil {
+		return
+	}
 
 	return *o.ActiveSchedule
 }
@@ -2272,7 +2284,11 @@ func (o *SparseNetworkAccessPolicy) SetActiveSchedule(activeSchedule string) {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseNetworkAccessPolicy) GetAnnotations() map[string][]string {
+func (o *SparseNetworkAccessPolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -2284,7 +2300,11 @@ func (o *SparseNetworkAccessPolicy) SetAnnotations(annotations map[string][]stri
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseNetworkAccessPolicy) GetAssociatedTags() []string {
+func (o *SparseNetworkAccessPolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -2296,7 +2316,11 @@ func (o *SparseNetworkAccessPolicy) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseNetworkAccessPolicy) GetCreateIdempotencyKey() string {
+func (o *SparseNetworkAccessPolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -2308,7 +2332,11 @@ func (o *SparseNetworkAccessPolicy) SetCreateIdempotencyKey(createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseNetworkAccessPolicy) GetCreateTime() time.Time {
+func (o *SparseNetworkAccessPolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -2320,7 +2348,11 @@ func (o *SparseNetworkAccessPolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseNetworkAccessPolicy) GetDescription() string {
+func (o *SparseNetworkAccessPolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -2332,7 +2364,11 @@ func (o *SparseNetworkAccessPolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseNetworkAccessPolicy) GetDisabled() bool {
+func (o *SparseNetworkAccessPolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -2344,7 +2380,11 @@ func (o *SparseNetworkAccessPolicy) SetDisabled(disabled bool) {
 }
 
 // GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SparseNetworkAccessPolicy) GetExpirationTime() time.Time {
+func (o *SparseNetworkAccessPolicy) GetExpirationTime() (out time.Time) {
+
+	if o.ExpirationTime == nil {
+		return
+	}
 
 	return *o.ExpirationTime
 }
@@ -2356,7 +2396,11 @@ func (o *SparseNetworkAccessPolicy) SetExpirationTime(expirationTime time.Time) 
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseNetworkAccessPolicy) GetFallback() bool {
+func (o *SparseNetworkAccessPolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -2368,7 +2412,11 @@ func (o *SparseNetworkAccessPolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseNetworkAccessPolicy) GetMetadata() []string {
+func (o *SparseNetworkAccessPolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -2380,7 +2428,11 @@ func (o *SparseNetworkAccessPolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseNetworkAccessPolicy) GetName() string {
+func (o *SparseNetworkAccessPolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2392,7 +2444,11 @@ func (o *SparseNetworkAccessPolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseNetworkAccessPolicy) GetNamespace() string {
+func (o *SparseNetworkAccessPolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2404,7 +2460,11 @@ func (o *SparseNetworkAccessPolicy) SetNamespace(namespace string) {
 }
 
 // GetNegateObject returns the NegateObject of the receiver.
-func (o *SparseNetworkAccessPolicy) GetNegateObject() bool {
+func (o *SparseNetworkAccessPolicy) GetNegateObject() (out bool) {
+
+	if o.NegateObject == nil {
+		return
+	}
 
 	return *o.NegateObject
 }
@@ -2416,7 +2476,11 @@ func (o *SparseNetworkAccessPolicy) SetNegateObject(negateObject bool) {
 }
 
 // GetNegateSubject returns the NegateSubject of the receiver.
-func (o *SparseNetworkAccessPolicy) GetNegateSubject() bool {
+func (o *SparseNetworkAccessPolicy) GetNegateSubject() (out bool) {
+
+	if o.NegateSubject == nil {
+		return
+	}
 
 	return *o.NegateSubject
 }
@@ -2428,7 +2492,11 @@ func (o *SparseNetworkAccessPolicy) SetNegateSubject(negateSubject bool) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseNetworkAccessPolicy) GetNormalizedTags() []string {
+func (o *SparseNetworkAccessPolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2440,7 +2508,11 @@ func (o *SparseNetworkAccessPolicy) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseNetworkAccessPolicy) GetPropagate() bool {
+func (o *SparseNetworkAccessPolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -2452,7 +2524,11 @@ func (o *SparseNetworkAccessPolicy) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseNetworkAccessPolicy) GetProtected() bool {
+func (o *SparseNetworkAccessPolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2464,7 +2540,11 @@ func (o *SparseNetworkAccessPolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseNetworkAccessPolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseNetworkAccessPolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2476,7 +2556,11 @@ func (o *SparseNetworkAccessPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseNetworkAccessPolicy) GetUpdateTime() time.Time {
+func (o *SparseNetworkAccessPolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

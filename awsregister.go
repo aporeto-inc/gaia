@@ -132,7 +132,9 @@ func (o *AWSRegister) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAWSRegister{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.CreateTime = o.CreateTime
 	s.UpdateTime = o.UpdateTime
 
@@ -550,7 +552,11 @@ func (o *SparseAWSRegister) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAWSRegister) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -563,7 +569,9 @@ func (o *SparseAWSRegister) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAWSRegister{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
 	}
@@ -626,7 +634,11 @@ func (o *SparseAWSRegister) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAWSRegister) GetCreateTime() time.Time {
+func (o *SparseAWSRegister) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -638,7 +650,11 @@ func (o *SparseAWSRegister) SetCreateTime(createTime time.Time) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAWSRegister) GetUpdateTime() time.Time {
+func (o *SparseAWSRegister) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -674,12 +690,12 @@ func (o *SparseAWSRegister) DeepCopyInto(out *SparseAWSRegister) {
 }
 
 type mongoAttributesAWSRegister struct {
-	ID         bson.ObjectId `bson:"_id"`
+	ID         bson.ObjectId `bson:"_id,omitempty"`
 	CreateTime time.Time     `bson:"createtime"`
 	UpdateTime time.Time     `bson:"updatetime"`
 }
 type mongoAttributesSparseAWSRegister struct {
-	ID         bson.ObjectId `bson:"_id"`
+	ID         bson.ObjectId `bson:"_id,omitempty"`
 	CreateTime *time.Time    `bson:"createtime,omitempty"`
 	UpdateTime *time.Time    `bson:"updatetime,omitempty"`
 }

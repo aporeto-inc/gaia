@@ -237,7 +237,9 @@ func (o *Account) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAccount{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.OTPEnabled = o.OTPEnabled
 	s.OTPSecret = o.OTPSecret
 	s.SSHCA = o.SSHCA
@@ -1612,7 +1614,11 @@ func (o *SparseAccount) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAccount) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1625,7 +1631,9 @@ func (o *SparseAccount) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAccount{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.OTPEnabled != nil {
 		s.OTPEnabled = o.OTPEnabled
 	}
@@ -1913,7 +1921,11 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAccount) GetCreateTime() time.Time {
+func (o *SparseAccount) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1925,7 +1937,11 @@ func (o *SparseAccount) SetCreateTime(createTime time.Time) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseAccount) GetMigrationsLog() map[string]string {
+func (o *SparseAccount) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1937,7 +1953,11 @@ func (o *SparseAccount) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAccount) GetUpdateTime() time.Time {
+func (o *SparseAccount) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1949,7 +1969,11 @@ func (o *SparseAccount) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseAccount) GetZHash() int {
+func (o *SparseAccount) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1961,7 +1985,11 @@ func (o *SparseAccount) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseAccount) GetZone() int {
+func (o *SparseAccount) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1997,13 +2025,13 @@ func (o *SparseAccount) DeepCopyInto(out *SparseAccount) {
 }
 
 type mongoAttributesAccount struct {
-	ID                        bson.ObjectId      `bson:"_id"`
+	ID                        bson.ObjectId      `bson:"_id,omitempty"`
 	OTPEnabled                bool               `bson:"otpenabled"`
 	OTPSecret                 string             `bson:"otpsecret"`
 	SSHCA                     string             `bson:"sshca"`
 	AccessEnabled             bool               `bson:"accessenabled"`
 	ActivationExpiration      time.Time          `bson:"activationexpiration"`
-	ActivationToken           string             `bson:"activationtoken"`
+	ActivationToken           string             `bson:"activationtoken,omitempty"`
 	AssociatedAPIAuthPolicyID string             `bson:"associatedapiauthpolicyid"`
 	AssociatedAWSPolicies     map[string]string  `bson:"associatedawspolicies"`
 	AssociatedBillingID       string             `bson:"associatedbillingid"`
@@ -2015,7 +2043,7 @@ type mongoAttributesAccount struct {
 	Email                     string             `bson:"email"`
 	FirstName                 string             `bson:"firstname"`
 	LastName                  string             `bson:"lastname"`
-	MigrationsLog             map[string]string  `bson:"migrationslog"`
+	MigrationsLog             map[string]string  `bson:"migrationslog,omitempty"`
 	Name                      string             `bson:"name"`
 	Password                  string             `bson:"password"`
 	ResetPasswordExpiration   time.Time          `bson:"resetpasswordexpiration"`
@@ -2026,7 +2054,7 @@ type mongoAttributesAccount struct {
 	Zone                      int                `bson:"zone"`
 }
 type mongoAttributesSparseAccount struct {
-	ID                        bson.ObjectId       `bson:"_id"`
+	ID                        bson.ObjectId       `bson:"_id,omitempty"`
 	OTPEnabled                *bool               `bson:"otpenabled,omitempty"`
 	OTPSecret                 *string             `bson:"otpsecret,omitempty"`
 	SSHCA                     *string             `bson:"sshca,omitempty"`

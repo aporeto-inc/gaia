@@ -1640,7 +1640,11 @@ func (o *SparseTokenScopePolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseTokenScopePolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1899,7 +1903,11 @@ func (o *SparseTokenScopePolicy) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseTokenScopePolicy) GetActiveDuration() string {
+func (o *SparseTokenScopePolicy) GetActiveDuration() (out string) {
+
+	if o.ActiveDuration == nil {
+		return
+	}
 
 	return *o.ActiveDuration
 }
@@ -1911,7 +1919,11 @@ func (o *SparseTokenScopePolicy) SetActiveDuration(activeDuration string) {
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseTokenScopePolicy) GetActiveSchedule() string {
+func (o *SparseTokenScopePolicy) GetActiveSchedule() (out string) {
+
+	if o.ActiveSchedule == nil {
+		return
+	}
 
 	return *o.ActiveSchedule
 }
@@ -1923,7 +1935,11 @@ func (o *SparseTokenScopePolicy) SetActiveSchedule(activeSchedule string) {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseTokenScopePolicy) GetAnnotations() map[string][]string {
+func (o *SparseTokenScopePolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1935,7 +1951,11 @@ func (o *SparseTokenScopePolicy) SetAnnotations(annotations map[string][]string)
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseTokenScopePolicy) GetAssociatedTags() []string {
+func (o *SparseTokenScopePolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1947,7 +1967,11 @@ func (o *SparseTokenScopePolicy) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseTokenScopePolicy) GetCreateIdempotencyKey() string {
+func (o *SparseTokenScopePolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1959,7 +1983,11 @@ func (o *SparseTokenScopePolicy) SetCreateIdempotencyKey(createIdempotencyKey st
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseTokenScopePolicy) GetCreateTime() time.Time {
+func (o *SparseTokenScopePolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1971,7 +1999,11 @@ func (o *SparseTokenScopePolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseTokenScopePolicy) GetDescription() string {
+func (o *SparseTokenScopePolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1983,7 +2015,11 @@ func (o *SparseTokenScopePolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseTokenScopePolicy) GetDisabled() bool {
+func (o *SparseTokenScopePolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1995,7 +2031,11 @@ func (o *SparseTokenScopePolicy) SetDisabled(disabled bool) {
 }
 
 // GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SparseTokenScopePolicy) GetExpirationTime() time.Time {
+func (o *SparseTokenScopePolicy) GetExpirationTime() (out time.Time) {
+
+	if o.ExpirationTime == nil {
+		return
+	}
 
 	return *o.ExpirationTime
 }
@@ -2007,7 +2047,11 @@ func (o *SparseTokenScopePolicy) SetExpirationTime(expirationTime time.Time) {
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseTokenScopePolicy) GetFallback() bool {
+func (o *SparseTokenScopePolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -2019,7 +2063,11 @@ func (o *SparseTokenScopePolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseTokenScopePolicy) GetMetadata() []string {
+func (o *SparseTokenScopePolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -2031,7 +2079,11 @@ func (o *SparseTokenScopePolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseTokenScopePolicy) GetName() string {
+func (o *SparseTokenScopePolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2043,7 +2095,11 @@ func (o *SparseTokenScopePolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseTokenScopePolicy) GetNamespace() string {
+func (o *SparseTokenScopePolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2055,7 +2111,11 @@ func (o *SparseTokenScopePolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseTokenScopePolicy) GetNormalizedTags() []string {
+func (o *SparseTokenScopePolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2067,7 +2127,11 @@ func (o *SparseTokenScopePolicy) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseTokenScopePolicy) GetPropagate() bool {
+func (o *SparseTokenScopePolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -2079,7 +2143,11 @@ func (o *SparseTokenScopePolicy) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseTokenScopePolicy) GetProtected() bool {
+func (o *SparseTokenScopePolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2091,7 +2159,11 @@ func (o *SparseTokenScopePolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseTokenScopePolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseTokenScopePolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2103,7 +2175,11 @@ func (o *SparseTokenScopePolicy) SetUpdateIdempotencyKey(updateIdempotencyKey st
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseTokenScopePolicy) GetUpdateTime() time.Time {
+func (o *SparseTokenScopePolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

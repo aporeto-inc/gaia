@@ -1501,7 +1501,11 @@ func (o *SparseInfrastructurePolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseInfrastructurePolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1709,7 +1713,11 @@ func (o *SparseInfrastructurePolicy) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseInfrastructurePolicy) GetActiveDuration() string {
+func (o *SparseInfrastructurePolicy) GetActiveDuration() (out string) {
+
+	if o.ActiveDuration == nil {
+		return
+	}
 
 	return *o.ActiveDuration
 }
@@ -1721,7 +1729,11 @@ func (o *SparseInfrastructurePolicy) SetActiveDuration(activeDuration string) {
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseInfrastructurePolicy) GetActiveSchedule() string {
+func (o *SparseInfrastructurePolicy) GetActiveSchedule() (out string) {
+
+	if o.ActiveSchedule == nil {
+		return
+	}
 
 	return *o.ActiveSchedule
 }
@@ -1733,7 +1745,11 @@ func (o *SparseInfrastructurePolicy) SetActiveSchedule(activeSchedule string) {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseInfrastructurePolicy) GetAnnotations() map[string][]string {
+func (o *SparseInfrastructurePolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1745,7 +1761,11 @@ func (o *SparseInfrastructurePolicy) SetAnnotations(annotations map[string][]str
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseInfrastructurePolicy) GetAssociatedTags() []string {
+func (o *SparseInfrastructurePolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1757,7 +1777,11 @@ func (o *SparseInfrastructurePolicy) SetAssociatedTags(associatedTags []string) 
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseInfrastructurePolicy) GetCreateIdempotencyKey() string {
+func (o *SparseInfrastructurePolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1769,7 +1793,11 @@ func (o *SparseInfrastructurePolicy) SetCreateIdempotencyKey(createIdempotencyKe
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseInfrastructurePolicy) GetCreateTime() time.Time {
+func (o *SparseInfrastructurePolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1781,7 +1809,11 @@ func (o *SparseInfrastructurePolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseInfrastructurePolicy) GetDescription() string {
+func (o *SparseInfrastructurePolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1793,7 +1825,11 @@ func (o *SparseInfrastructurePolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseInfrastructurePolicy) GetDisabled() bool {
+func (o *SparseInfrastructurePolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1805,7 +1841,11 @@ func (o *SparseInfrastructurePolicy) SetDisabled(disabled bool) {
 }
 
 // GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SparseInfrastructurePolicy) GetExpirationTime() time.Time {
+func (o *SparseInfrastructurePolicy) GetExpirationTime() (out time.Time) {
+
+	if o.ExpirationTime == nil {
+		return
+	}
 
 	return *o.ExpirationTime
 }
@@ -1817,7 +1857,11 @@ func (o *SparseInfrastructurePolicy) SetExpirationTime(expirationTime time.Time)
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseInfrastructurePolicy) GetMetadata() []string {
+func (o *SparseInfrastructurePolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1829,7 +1873,11 @@ func (o *SparseInfrastructurePolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseInfrastructurePolicy) GetName() string {
+func (o *SparseInfrastructurePolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1841,7 +1889,11 @@ func (o *SparseInfrastructurePolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseInfrastructurePolicy) GetNamespace() string {
+func (o *SparseInfrastructurePolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1853,7 +1905,11 @@ func (o *SparseInfrastructurePolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseInfrastructurePolicy) GetNormalizedTags() []string {
+func (o *SparseInfrastructurePolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1865,7 +1921,11 @@ func (o *SparseInfrastructurePolicy) SetNormalizedTags(normalizedTags []string) 
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseInfrastructurePolicy) GetProtected() bool {
+func (o *SparseInfrastructurePolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1877,7 +1937,11 @@ func (o *SparseInfrastructurePolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseInfrastructurePolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseInfrastructurePolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1889,7 +1953,11 @@ func (o *SparseInfrastructurePolicy) SetUpdateIdempotencyKey(updateIdempotencyKe
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseInfrastructurePolicy) GetUpdateTime() time.Time {
+func (o *SparseInfrastructurePolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

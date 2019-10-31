@@ -167,7 +167,9 @@ func (o *Activity) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesActivity{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Claims = o.Claims
 	s.Data = o.Data
 	s.Date = o.Date
@@ -1035,7 +1037,11 @@ func (o *SparseActivity) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseActivity) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1048,7 +1054,9 @@ func (o *SparseActivity) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseActivity{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Claims != nil {
 		s.Claims = o.Claims
 	}
@@ -1216,7 +1224,11 @@ func (o *SparseActivity) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseActivity) GetMigrationsLog() map[string]string {
+func (o *SparseActivity) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1228,7 +1240,11 @@ func (o *SparseActivity) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseActivity) GetNamespace() string {
+func (o *SparseActivity) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1240,7 +1256,11 @@ func (o *SparseActivity) SetNamespace(namespace string) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseActivity) GetZHash() int {
+func (o *SparseActivity) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1252,7 +1272,11 @@ func (o *SparseActivity) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseActivity) GetZone() int {
+func (o *SparseActivity) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1288,14 +1312,14 @@ func (o *SparseActivity) DeepCopyInto(out *SparseActivity) {
 }
 
 type mongoAttributesActivity struct {
-	ID             bson.ObjectId     `bson:"_id"`
+	ID             bson.ObjectId     `bson:"_id,omitempty"`
 	Claims         interface{}       `bson:"claims"`
 	Data           interface{}       `bson:"data"`
 	Date           time.Time         `bson:"date"`
 	Diff           string            `bson:"diff"`
 	Error          interface{}       `bson:"error"`
 	Message        string            `bson:"message"`
-	MigrationsLog  map[string]string `bson:"migrationslog"`
+	MigrationsLog  map[string]string `bson:"migrationslog,omitempty"`
 	Namespace      string            `bson:"namespace"`
 	Operation      string            `bson:"operation"`
 	OriginalData   interface{}       `bson:"originaldata"`
@@ -1305,7 +1329,7 @@ type mongoAttributesActivity struct {
 	Zone           int               `bson:"zone"`
 }
 type mongoAttributesSparseActivity struct {
-	ID             bson.ObjectId      `bson:"_id"`
+	ID             bson.ObjectId      `bson:"_id,omitempty"`
 	Claims         *interface{}       `bson:"claims,omitempty"`
 	Data           *interface{}       `bson:"data,omitempty"`
 	Date           *time.Time         `bson:"date,omitempty"`

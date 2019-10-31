@@ -189,7 +189,9 @@ func (o *FilePath) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesFilePath{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.Archived = o.Archived
 	s.AssociatedTags = o.AssociatedTags
@@ -1441,7 +1443,11 @@ func (o *SparseFilePath) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseFilePath) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1454,7 +1460,9 @@ func (o *SparseFilePath) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseFilePath{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1667,7 +1675,11 @@ func (o *SparseFilePath) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseFilePath) GetAnnotations() map[string][]string {
+func (o *SparseFilePath) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1679,7 +1691,11 @@ func (o *SparseFilePath) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *SparseFilePath) GetArchived() bool {
+func (o *SparseFilePath) GetArchived() (out bool) {
+
+	if o.Archived == nil {
+		return
+	}
 
 	return *o.Archived
 }
@@ -1691,7 +1707,11 @@ func (o *SparseFilePath) SetArchived(archived bool) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseFilePath) GetAssociatedTags() []string {
+func (o *SparseFilePath) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1703,7 +1723,11 @@ func (o *SparseFilePath) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseFilePath) GetCreateIdempotencyKey() string {
+func (o *SparseFilePath) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1715,7 +1739,11 @@ func (o *SparseFilePath) SetCreateIdempotencyKey(createIdempotencyKey string) {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseFilePath) GetCreateTime() time.Time {
+func (o *SparseFilePath) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1727,7 +1755,11 @@ func (o *SparseFilePath) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseFilePath) GetDescription() string {
+func (o *SparseFilePath) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1739,7 +1771,11 @@ func (o *SparseFilePath) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseFilePath) GetMetadata() []string {
+func (o *SparseFilePath) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1751,7 +1787,11 @@ func (o *SparseFilePath) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseFilePath) GetMigrationsLog() map[string]string {
+func (o *SparseFilePath) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1763,7 +1803,11 @@ func (o *SparseFilePath) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseFilePath) GetName() string {
+func (o *SparseFilePath) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1775,7 +1819,11 @@ func (o *SparseFilePath) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseFilePath) GetNamespace() string {
+func (o *SparseFilePath) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1787,7 +1835,11 @@ func (o *SparseFilePath) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseFilePath) GetNormalizedTags() []string {
+func (o *SparseFilePath) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1799,7 +1851,11 @@ func (o *SparseFilePath) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseFilePath) GetPropagate() bool {
+func (o *SparseFilePath) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1811,7 +1867,11 @@ func (o *SparseFilePath) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseFilePath) GetProtected() bool {
+func (o *SparseFilePath) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1823,7 +1883,11 @@ func (o *SparseFilePath) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseFilePath) GetUpdateIdempotencyKey() string {
+func (o *SparseFilePath) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1835,7 +1899,11 @@ func (o *SparseFilePath) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseFilePath) GetUpdateTime() time.Time {
+func (o *SparseFilePath) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1847,7 +1915,11 @@ func (o *SparseFilePath) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseFilePath) GetZHash() int {
+func (o *SparseFilePath) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1859,7 +1931,11 @@ func (o *SparseFilePath) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseFilePath) GetZone() int {
+func (o *SparseFilePath) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1895,7 +1971,7 @@ func (o *SparseFilePath) DeepCopyInto(out *SparseFilePath) {
 }
 
 type mongoAttributesFilePath struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	Archived             bool                `bson:"archived"`
 	AssociatedTags       []string            `bson:"associatedtags"`
@@ -1904,7 +1980,7 @@ type mongoAttributesFilePath struct {
 	Description          string              `bson:"description"`
 	Filepath             string              `bson:"filepath"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -1917,7 +1993,7 @@ type mongoAttributesFilePath struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseFilePath struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	Archived             *bool                `bson:"archived,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`

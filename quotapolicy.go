@@ -1478,7 +1478,11 @@ func (o *SparseQuotaPolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseQuotaPolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1704,7 +1708,11 @@ func (o *SparseQuotaPolicy) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseQuotaPolicy) GetAnnotations() map[string][]string {
+func (o *SparseQuotaPolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1716,7 +1724,11 @@ func (o *SparseQuotaPolicy) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseQuotaPolicy) GetAssociatedTags() []string {
+func (o *SparseQuotaPolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1728,7 +1740,11 @@ func (o *SparseQuotaPolicy) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseQuotaPolicy) GetCreateIdempotencyKey() string {
+func (o *SparseQuotaPolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1740,7 +1756,11 @@ func (o *SparseQuotaPolicy) SetCreateIdempotencyKey(createIdempotencyKey string)
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseQuotaPolicy) GetCreateTime() time.Time {
+func (o *SparseQuotaPolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1752,7 +1772,11 @@ func (o *SparseQuotaPolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseQuotaPolicy) GetDescription() string {
+func (o *SparseQuotaPolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1764,7 +1788,11 @@ func (o *SparseQuotaPolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseQuotaPolicy) GetDisabled() bool {
+func (o *SparseQuotaPolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1776,7 +1804,11 @@ func (o *SparseQuotaPolicy) SetDisabled(disabled bool) {
 }
 
 // GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SparseQuotaPolicy) GetExpirationTime() time.Time {
+func (o *SparseQuotaPolicy) GetExpirationTime() (out time.Time) {
+
+	if o.ExpirationTime == nil {
+		return
+	}
 
 	return *o.ExpirationTime
 }
@@ -1788,7 +1820,11 @@ func (o *SparseQuotaPolicy) SetExpirationTime(expirationTime time.Time) {
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseQuotaPolicy) GetFallback() bool {
+func (o *SparseQuotaPolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -1800,7 +1836,11 @@ func (o *SparseQuotaPolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseQuotaPolicy) GetMetadata() []string {
+func (o *SparseQuotaPolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1812,7 +1852,11 @@ func (o *SparseQuotaPolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseQuotaPolicy) GetName() string {
+func (o *SparseQuotaPolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1824,7 +1868,11 @@ func (o *SparseQuotaPolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseQuotaPolicy) GetNamespace() string {
+func (o *SparseQuotaPolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1836,7 +1884,11 @@ func (o *SparseQuotaPolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseQuotaPolicy) GetNormalizedTags() []string {
+func (o *SparseQuotaPolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1848,7 +1900,11 @@ func (o *SparseQuotaPolicy) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseQuotaPolicy) GetPropagate() bool {
+func (o *SparseQuotaPolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1860,7 +1916,11 @@ func (o *SparseQuotaPolicy) SetPropagate(propagate bool) {
 }
 
 // GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *SparseQuotaPolicy) GetPropagationHidden() bool {
+func (o *SparseQuotaPolicy) GetPropagationHidden() (out bool) {
+
+	if o.PropagationHidden == nil {
+		return
+	}
 
 	return *o.PropagationHidden
 }
@@ -1872,7 +1932,11 @@ func (o *SparseQuotaPolicy) SetPropagationHidden(propagationHidden bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseQuotaPolicy) GetProtected() bool {
+func (o *SparseQuotaPolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1884,7 +1948,11 @@ func (o *SparseQuotaPolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseQuotaPolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseQuotaPolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1896,7 +1964,11 @@ func (o *SparseQuotaPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string)
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseQuotaPolicy) GetUpdateTime() time.Time {
+func (o *SparseQuotaPolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

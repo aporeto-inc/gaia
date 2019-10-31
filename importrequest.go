@@ -219,7 +219,9 @@ func (o *ImportRequest) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesImportRequest{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CommentFeed = o.CommentFeed
@@ -1506,7 +1508,11 @@ func (o *SparseImportRequest) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseImportRequest) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1519,7 +1525,9 @@ func (o *SparseImportRequest) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseImportRequest{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1744,7 +1752,11 @@ func (o *SparseImportRequest) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseImportRequest) GetAnnotations() map[string][]string {
+func (o *SparseImportRequest) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1756,7 +1768,11 @@ func (o *SparseImportRequest) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseImportRequest) GetAssociatedTags() []string {
+func (o *SparseImportRequest) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1768,7 +1784,11 @@ func (o *SparseImportRequest) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseImportRequest) GetCreateIdempotencyKey() string {
+func (o *SparseImportRequest) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1780,7 +1800,11 @@ func (o *SparseImportRequest) SetCreateIdempotencyKey(createIdempotencyKey strin
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseImportRequest) GetCreateTime() time.Time {
+func (o *SparseImportRequest) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1792,7 +1816,11 @@ func (o *SparseImportRequest) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseImportRequest) GetDescription() string {
+func (o *SparseImportRequest) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1804,7 +1832,11 @@ func (o *SparseImportRequest) SetDescription(description string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseImportRequest) GetMigrationsLog() map[string]string {
+func (o *SparseImportRequest) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1816,7 +1848,11 @@ func (o *SparseImportRequest) SetMigrationsLog(migrationsLog map[string]string) 
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseImportRequest) GetNamespace() string {
+func (o *SparseImportRequest) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1828,7 +1864,11 @@ func (o *SparseImportRequest) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseImportRequest) GetNormalizedTags() []string {
+func (o *SparseImportRequest) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1840,7 +1880,11 @@ func (o *SparseImportRequest) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseImportRequest) GetProtected() bool {
+func (o *SparseImportRequest) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1852,7 +1896,11 @@ func (o *SparseImportRequest) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseImportRequest) GetUpdateIdempotencyKey() string {
+func (o *SparseImportRequest) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1864,7 +1912,11 @@ func (o *SparseImportRequest) SetUpdateIdempotencyKey(updateIdempotencyKey strin
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseImportRequest) GetUpdateTime() time.Time {
+func (o *SparseImportRequest) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1876,7 +1928,11 @@ func (o *SparseImportRequest) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseImportRequest) GetZHash() int {
+func (o *SparseImportRequest) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1888,7 +1944,11 @@ func (o *SparseImportRequest) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseImportRequest) GetZone() int {
+func (o *SparseImportRequest) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1924,7 +1984,7 @@ func (o *SparseImportRequest) DeepCopyInto(out *SparseImportRequest) {
 }
 
 type mongoAttributesImportRequest struct {
-	ID                   bson.ObjectId                       `bson:"_id"`
+	ID                   bson.ObjectId                       `bson:"_id,omitempty"`
 	Annotations          map[string][]string                 `bson:"annotations"`
 	AssociatedTags       []string                            `bson:"associatedtags"`
 	CommentFeed          []*Comment                          `bson:"commentfeed"`
@@ -1932,7 +1992,7 @@ type mongoAttributesImportRequest struct {
 	CreateTime           time.Time                           `bson:"createtime"`
 	Data                 map[string][]map[string]interface{} `bson:"data"`
 	Description          string                              `bson:"description"`
-	MigrationsLog        map[string]string                   `bson:"migrationslog"`
+	MigrationsLog        map[string]string                   `bson:"migrationslog,omitempty"`
 	Namespace            string                              `bson:"namespace"`
 	NormalizedTags       []string                            `bson:"normalizedtags"`
 	Protected            bool                                `bson:"protected"`
@@ -1947,7 +2007,7 @@ type mongoAttributesImportRequest struct {
 	Zone                 int                                 `bson:"zone"`
 }
 type mongoAttributesSparseImportRequest struct {
-	ID                   bson.ObjectId                        `bson:"_id"`
+	ID                   bson.ObjectId                        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string                 `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string                            `bson:"associatedtags,omitempty"`
 	CommentFeed          *[]*Comment                          `bson:"commentfeed,omitempty"`

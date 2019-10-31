@@ -147,7 +147,9 @@ func (o *Revocation) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesRevocation{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.ExpirationDate = o.ExpirationDate
 	s.MigrationsLog = o.MigrationsLog
 	s.RevokeDate = o.RevokeDate
@@ -711,7 +713,11 @@ func (o *SparseRevocation) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseRevocation) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -724,7 +730,9 @@ func (o *SparseRevocation) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseRevocation{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.ExpirationDate != nil {
 		s.ExpirationDate = o.ExpirationDate
 	}
@@ -829,7 +837,11 @@ func (o *SparseRevocation) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseRevocation) GetMigrationsLog() map[string]string {
+func (o *SparseRevocation) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -841,7 +853,11 @@ func (o *SparseRevocation) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseRevocation) GetZHash() int {
+func (o *SparseRevocation) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -853,7 +869,11 @@ func (o *SparseRevocation) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseRevocation) GetZone() int {
+func (o *SparseRevocation) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -889,9 +909,9 @@ func (o *SparseRevocation) DeepCopyInto(out *SparseRevocation) {
 }
 
 type mongoAttributesRevocation struct {
-	ID             bson.ObjectId     `bson:"_id"`
+	ID             bson.ObjectId     `bson:"_id,omitempty"`
 	ExpirationDate time.Time         `bson:"expirationdate"`
-	MigrationsLog  map[string]string `bson:"migrationslog"`
+	MigrationsLog  map[string]string `bson:"migrationslog,omitempty"`
 	RevokeDate     time.Time         `bson:"revokedate"`
 	SerialNumber   string            `bson:"serialnumber"`
 	Subject        string            `bson:"subject"`
@@ -899,7 +919,7 @@ type mongoAttributesRevocation struct {
 	Zone           int               `bson:"zone"`
 }
 type mongoAttributesSparseRevocation struct {
-	ID             bson.ObjectId      `bson:"_id"`
+	ID             bson.ObjectId      `bson:"_id,omitempty"`
 	ExpirationDate *time.Time         `bson:"expirationdate,omitempty"`
 	MigrationsLog  *map[string]string `bson:"migrationslog,omitempty"`
 	RevokeDate     *time.Time         `bson:"revokedate,omitempty"`

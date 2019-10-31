@@ -187,7 +187,9 @@ func (o *HTTPResourceSpec) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesHTTPResourceSpec{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.Archived = o.Archived
 	s.AssociatedTags = o.AssociatedTags
@@ -1408,7 +1410,11 @@ func (o *SparseHTTPResourceSpec) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseHTTPResourceSpec) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1421,7 +1427,9 @@ func (o *SparseHTTPResourceSpec) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseHTTPResourceSpec{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1625,7 +1633,11 @@ func (o *SparseHTTPResourceSpec) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseHTTPResourceSpec) GetAnnotations() map[string][]string {
+func (o *SparseHTTPResourceSpec) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1637,7 +1649,11 @@ func (o *SparseHTTPResourceSpec) SetAnnotations(annotations map[string][]string)
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *SparseHTTPResourceSpec) GetArchived() bool {
+func (o *SparseHTTPResourceSpec) GetArchived() (out bool) {
+
+	if o.Archived == nil {
+		return
+	}
 
 	return *o.Archived
 }
@@ -1649,7 +1665,11 @@ func (o *SparseHTTPResourceSpec) SetArchived(archived bool) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseHTTPResourceSpec) GetAssociatedTags() []string {
+func (o *SparseHTTPResourceSpec) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1661,7 +1681,11 @@ func (o *SparseHTTPResourceSpec) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseHTTPResourceSpec) GetCreateIdempotencyKey() string {
+func (o *SparseHTTPResourceSpec) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1673,7 +1697,11 @@ func (o *SparseHTTPResourceSpec) SetCreateIdempotencyKey(createIdempotencyKey st
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseHTTPResourceSpec) GetCreateTime() time.Time {
+func (o *SparseHTTPResourceSpec) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1685,7 +1713,11 @@ func (o *SparseHTTPResourceSpec) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseHTTPResourceSpec) GetDescription() string {
+func (o *SparseHTTPResourceSpec) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1697,7 +1729,11 @@ func (o *SparseHTTPResourceSpec) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseHTTPResourceSpec) GetMetadata() []string {
+func (o *SparseHTTPResourceSpec) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1709,7 +1745,11 @@ func (o *SparseHTTPResourceSpec) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseHTTPResourceSpec) GetMigrationsLog() map[string]string {
+func (o *SparseHTTPResourceSpec) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1721,7 +1761,11 @@ func (o *SparseHTTPResourceSpec) SetMigrationsLog(migrationsLog map[string]strin
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseHTTPResourceSpec) GetName() string {
+func (o *SparseHTTPResourceSpec) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1733,7 +1777,11 @@ func (o *SparseHTTPResourceSpec) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseHTTPResourceSpec) GetNamespace() string {
+func (o *SparseHTTPResourceSpec) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1745,7 +1793,11 @@ func (o *SparseHTTPResourceSpec) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseHTTPResourceSpec) GetNormalizedTags() []string {
+func (o *SparseHTTPResourceSpec) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1757,7 +1809,11 @@ func (o *SparseHTTPResourceSpec) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseHTTPResourceSpec) GetPropagate() bool {
+func (o *SparseHTTPResourceSpec) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1769,7 +1825,11 @@ func (o *SparseHTTPResourceSpec) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseHTTPResourceSpec) GetProtected() bool {
+func (o *SparseHTTPResourceSpec) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1781,7 +1841,11 @@ func (o *SparseHTTPResourceSpec) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseHTTPResourceSpec) GetUpdateIdempotencyKey() string {
+func (o *SparseHTTPResourceSpec) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1793,7 +1857,11 @@ func (o *SparseHTTPResourceSpec) SetUpdateIdempotencyKey(updateIdempotencyKey st
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseHTTPResourceSpec) GetUpdateTime() time.Time {
+func (o *SparseHTTPResourceSpec) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1805,7 +1873,11 @@ func (o *SparseHTTPResourceSpec) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseHTTPResourceSpec) GetZHash() int {
+func (o *SparseHTTPResourceSpec) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1817,7 +1889,11 @@ func (o *SparseHTTPResourceSpec) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseHTTPResourceSpec) GetZone() int {
+func (o *SparseHTTPResourceSpec) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1853,7 +1929,7 @@ func (o *SparseHTTPResourceSpec) DeepCopyInto(out *SparseHTTPResourceSpec) {
 }
 
 type mongoAttributesHTTPResourceSpec struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	Archived             bool                `bson:"archived"`
 	AssociatedTags       []string            `bson:"associatedtags"`
@@ -1862,7 +1938,7 @@ type mongoAttributesHTTPResourceSpec struct {
 	Description          string              `bson:"description"`
 	Endpoints            []*Endpoint         `bson:"endpoints"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -1874,7 +1950,7 @@ type mongoAttributesHTTPResourceSpec struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseHTTPResourceSpec struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	Archived             *bool                `bson:"archived,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`

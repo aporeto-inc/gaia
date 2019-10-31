@@ -1588,7 +1588,11 @@ func (o *SparseAPIAuthorizationPolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAPIAuthorizationPolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1814,7 +1818,11 @@ func (o *SparseAPIAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetActiveDuration() string {
+func (o *SparseAPIAuthorizationPolicy) GetActiveDuration() (out string) {
+
+	if o.ActiveDuration == nil {
+		return
+	}
 
 	return *o.ActiveDuration
 }
@@ -1826,7 +1834,11 @@ func (o *SparseAPIAuthorizationPolicy) SetActiveDuration(activeDuration string) 
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetActiveSchedule() string {
+func (o *SparseAPIAuthorizationPolicy) GetActiveSchedule() (out string) {
+
+	if o.ActiveSchedule == nil {
+		return
+	}
 
 	return *o.ActiveSchedule
 }
@@ -1838,7 +1850,11 @@ func (o *SparseAPIAuthorizationPolicy) SetActiveSchedule(activeSchedule string) 
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetAnnotations() map[string][]string {
+func (o *SparseAPIAuthorizationPolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1850,7 +1866,11 @@ func (o *SparseAPIAuthorizationPolicy) SetAnnotations(annotations map[string][]s
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetAssociatedTags() []string {
+func (o *SparseAPIAuthorizationPolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1862,7 +1882,11 @@ func (o *SparseAPIAuthorizationPolicy) SetAssociatedTags(associatedTags []string
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetCreateIdempotencyKey() string {
+func (o *SparseAPIAuthorizationPolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1874,7 +1898,11 @@ func (o *SparseAPIAuthorizationPolicy) SetCreateIdempotencyKey(createIdempotency
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetCreateTime() time.Time {
+func (o *SparseAPIAuthorizationPolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1886,7 +1914,11 @@ func (o *SparseAPIAuthorizationPolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetDescription() string {
+func (o *SparseAPIAuthorizationPolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1898,7 +1930,11 @@ func (o *SparseAPIAuthorizationPolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetDisabled() bool {
+func (o *SparseAPIAuthorizationPolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1910,7 +1946,11 @@ func (o *SparseAPIAuthorizationPolicy) SetDisabled(disabled bool) {
 }
 
 // GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetExpirationTime() time.Time {
+func (o *SparseAPIAuthorizationPolicy) GetExpirationTime() (out time.Time) {
+
+	if o.ExpirationTime == nil {
+		return
+	}
 
 	return *o.ExpirationTime
 }
@@ -1922,7 +1962,11 @@ func (o *SparseAPIAuthorizationPolicy) SetExpirationTime(expirationTime time.Tim
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetFallback() bool {
+func (o *SparseAPIAuthorizationPolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -1934,7 +1978,11 @@ func (o *SparseAPIAuthorizationPolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetMetadata() []string {
+func (o *SparseAPIAuthorizationPolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1946,7 +1994,11 @@ func (o *SparseAPIAuthorizationPolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetName() string {
+func (o *SparseAPIAuthorizationPolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1958,7 +2010,11 @@ func (o *SparseAPIAuthorizationPolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetNamespace() string {
+func (o *SparseAPIAuthorizationPolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1970,7 +2026,11 @@ func (o *SparseAPIAuthorizationPolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetNormalizedTags() []string {
+func (o *SparseAPIAuthorizationPolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1982,7 +2042,11 @@ func (o *SparseAPIAuthorizationPolicy) SetNormalizedTags(normalizedTags []string
 }
 
 // GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetPropagationHidden() bool {
+func (o *SparseAPIAuthorizationPolicy) GetPropagationHidden() (out bool) {
+
+	if o.PropagationHidden == nil {
+		return
+	}
 
 	return *o.PropagationHidden
 }
@@ -1994,7 +2058,11 @@ func (o *SparseAPIAuthorizationPolicy) SetPropagationHidden(propagationHidden bo
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetProtected() bool {
+func (o *SparseAPIAuthorizationPolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2006,7 +2074,11 @@ func (o *SparseAPIAuthorizationPolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseAPIAuthorizationPolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2018,7 +2090,11 @@ func (o *SparseAPIAuthorizationPolicy) SetUpdateIdempotencyKey(updateIdempotency
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAPIAuthorizationPolicy) GetUpdateTime() time.Time {
+func (o *SparseAPIAuthorizationPolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

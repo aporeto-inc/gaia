@@ -1447,7 +1447,11 @@ func (o *SparseAuditProfileMappingPolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAuditProfileMappingPolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1658,7 +1662,11 @@ func (o *SparseAuditProfileMappingPolicy) ToPlain() elemental.PlainIdentifiable 
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetActiveDuration() string {
+func (o *SparseAuditProfileMappingPolicy) GetActiveDuration() (out string) {
+
+	if o.ActiveDuration == nil {
+		return
+	}
 
 	return *o.ActiveDuration
 }
@@ -1670,7 +1678,11 @@ func (o *SparseAuditProfileMappingPolicy) SetActiveDuration(activeDuration strin
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetActiveSchedule() string {
+func (o *SparseAuditProfileMappingPolicy) GetActiveSchedule() (out string) {
+
+	if o.ActiveSchedule == nil {
+		return
+	}
 
 	return *o.ActiveSchedule
 }
@@ -1682,7 +1694,11 @@ func (o *SparseAuditProfileMappingPolicy) SetActiveSchedule(activeSchedule strin
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetAnnotations() map[string][]string {
+func (o *SparseAuditProfileMappingPolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1694,7 +1710,11 @@ func (o *SparseAuditProfileMappingPolicy) SetAnnotations(annotations map[string]
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetAssociatedTags() []string {
+func (o *SparseAuditProfileMappingPolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1706,7 +1726,11 @@ func (o *SparseAuditProfileMappingPolicy) SetAssociatedTags(associatedTags []str
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetCreateIdempotencyKey() string {
+func (o *SparseAuditProfileMappingPolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1718,7 +1742,11 @@ func (o *SparseAuditProfileMappingPolicy) SetCreateIdempotencyKey(createIdempote
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetCreateTime() time.Time {
+func (o *SparseAuditProfileMappingPolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1730,7 +1758,11 @@ func (o *SparseAuditProfileMappingPolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetDescription() string {
+func (o *SparseAuditProfileMappingPolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1742,7 +1774,11 @@ func (o *SparseAuditProfileMappingPolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetDisabled() bool {
+func (o *SparseAuditProfileMappingPolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1754,7 +1790,11 @@ func (o *SparseAuditProfileMappingPolicy) SetDisabled(disabled bool) {
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetFallback() bool {
+func (o *SparseAuditProfileMappingPolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -1766,7 +1806,11 @@ func (o *SparseAuditProfileMappingPolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetMetadata() []string {
+func (o *SparseAuditProfileMappingPolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1778,7 +1822,11 @@ func (o *SparseAuditProfileMappingPolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetName() string {
+func (o *SparseAuditProfileMappingPolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1790,7 +1838,11 @@ func (o *SparseAuditProfileMappingPolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetNamespace() string {
+func (o *SparseAuditProfileMappingPolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1802,7 +1854,11 @@ func (o *SparseAuditProfileMappingPolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetNormalizedTags() []string {
+func (o *SparseAuditProfileMappingPolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1814,7 +1870,11 @@ func (o *SparseAuditProfileMappingPolicy) SetNormalizedTags(normalizedTags []str
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetPropagate() bool {
+func (o *SparseAuditProfileMappingPolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1826,7 +1886,11 @@ func (o *SparseAuditProfileMappingPolicy) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetProtected() bool {
+func (o *SparseAuditProfileMappingPolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1838,7 +1902,11 @@ func (o *SparseAuditProfileMappingPolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseAuditProfileMappingPolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1850,7 +1918,11 @@ func (o *SparseAuditProfileMappingPolicy) SetUpdateIdempotencyKey(updateIdempote
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAuditProfileMappingPolicy) GetUpdateTime() time.Time {
+func (o *SparseAuditProfileMappingPolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

@@ -401,7 +401,9 @@ func (o *Service) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesService{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.IPs = o.IPs
 	s.JWTSigningCertificate = o.JWTSigningCertificate
 	s.MTLSCertificateAuthority = o.MTLSCertificateAuthority
@@ -2764,7 +2766,11 @@ func (o *SparseService) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseService) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -2777,7 +2783,9 @@ func (o *SparseService) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseService{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.IPs != nil {
 		s.IPs = o.IPs
 	}
@@ -3229,7 +3237,11 @@ func (o *SparseService) DecryptAttributes(encrypter elemental.AttributeEncrypter
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseService) GetAnnotations() map[string][]string {
+func (o *SparseService) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -3241,7 +3253,11 @@ func (o *SparseService) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *SparseService) GetArchived() bool {
+func (o *SparseService) GetArchived() (out bool) {
+
+	if o.Archived == nil {
+		return
+	}
 
 	return *o.Archived
 }
@@ -3253,7 +3269,11 @@ func (o *SparseService) SetArchived(archived bool) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseService) GetAssociatedTags() []string {
+func (o *SparseService) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -3265,7 +3285,11 @@ func (o *SparseService) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseService) GetCreateIdempotencyKey() string {
+func (o *SparseService) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -3277,7 +3301,11 @@ func (o *SparseService) SetCreateIdempotencyKey(createIdempotencyKey string) {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseService) GetCreateTime() time.Time {
+func (o *SparseService) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -3289,7 +3317,11 @@ func (o *SparseService) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseService) GetDescription() string {
+func (o *SparseService) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -3301,7 +3333,11 @@ func (o *SparseService) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseService) GetDisabled() bool {
+func (o *SparseService) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -3313,7 +3349,11 @@ func (o *SparseService) SetDisabled(disabled bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseService) GetMetadata() []string {
+func (o *SparseService) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -3325,7 +3365,11 @@ func (o *SparseService) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseService) GetMigrationsLog() map[string]string {
+func (o *SparseService) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -3337,7 +3381,11 @@ func (o *SparseService) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseService) GetName() string {
+func (o *SparseService) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -3349,7 +3397,11 @@ func (o *SparseService) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseService) GetNamespace() string {
+func (o *SparseService) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -3361,7 +3413,11 @@ func (o *SparseService) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseService) GetNormalizedTags() []string {
+func (o *SparseService) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -3373,7 +3429,11 @@ func (o *SparseService) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseService) GetProtected() bool {
+func (o *SparseService) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -3385,7 +3445,11 @@ func (o *SparseService) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseService) GetUpdateIdempotencyKey() string {
+func (o *SparseService) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -3397,7 +3461,11 @@ func (o *SparseService) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseService) GetUpdateTime() time.Time {
+func (o *SparseService) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -3409,7 +3477,11 @@ func (o *SparseService) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseService) GetZHash() int {
+func (o *SparseService) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -3421,7 +3493,11 @@ func (o *SparseService) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseService) GetZone() int {
+func (o *SparseService) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -3457,7 +3533,7 @@ func (o *SparseService) DeepCopyInto(out *SparseService) {
 }
 
 type mongoAttributesService struct {
-	ID                                bson.ObjectId                 `bson:"_id"`
+	ID                                bson.ObjectId                 `bson:"_id,omitempty"`
 	IPs                               []string                      `bson:"ips"`
 	JWTSigningCertificate             string                        `bson:"jwtsigningcertificate"`
 	MTLSCertificateAuthority          string                        `bson:"mtlscertificateauthority"`
@@ -3486,7 +3562,7 @@ type mongoAttributesService struct {
 	External                          bool                          `bson:"external"`
 	Hosts                             []string                      `bson:"hosts"`
 	Metadata                          []string                      `bson:"metadata"`
-	MigrationsLog                     map[string]string             `bson:"migrationslog"`
+	MigrationsLog                     map[string]string             `bson:"migrationslog,omitempty"`
 	Name                              string                        `bson:"name"`
 	Namespace                         string                        `bson:"namespace"`
 	NormalizedTags                    []string                      `bson:"normalizedtags"`
@@ -3503,7 +3579,7 @@ type mongoAttributesService struct {
 	Zone                              int                           `bson:"zone"`
 }
 type mongoAttributesSparseService struct {
-	ID                                bson.ObjectId                  `bson:"_id"`
+	ID                                bson.ObjectId                  `bson:"_id,omitempty"`
 	IPs                               *[]string                      `bson:"ips,omitempty"`
 	JWTSigningCertificate             *string                        `bson:"jwtsigningcertificate,omitempty"`
 	MTLSCertificateAuthority          *string                        `bson:"mtlscertificateauthority,omitempty"`

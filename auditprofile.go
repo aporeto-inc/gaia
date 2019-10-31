@@ -185,7 +185,9 @@ func (o *AuditProfile) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAuditProfile{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -1352,7 +1354,11 @@ func (o *SparseAuditProfile) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAuditProfile) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1365,7 +1371,9 @@ func (o *SparseAuditProfile) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAuditProfile{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1560,7 +1568,11 @@ func (o *SparseAuditProfile) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseAuditProfile) GetAnnotations() map[string][]string {
+func (o *SparseAuditProfile) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1572,7 +1584,11 @@ func (o *SparseAuditProfile) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseAuditProfile) GetAssociatedTags() []string {
+func (o *SparseAuditProfile) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1584,7 +1600,11 @@ func (o *SparseAuditProfile) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseAuditProfile) GetCreateIdempotencyKey() string {
+func (o *SparseAuditProfile) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1596,7 +1616,11 @@ func (o *SparseAuditProfile) SetCreateIdempotencyKey(createIdempotencyKey string
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAuditProfile) GetCreateTime() time.Time {
+func (o *SparseAuditProfile) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1608,7 +1632,11 @@ func (o *SparseAuditProfile) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseAuditProfile) GetDescription() string {
+func (o *SparseAuditProfile) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1620,7 +1648,11 @@ func (o *SparseAuditProfile) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseAuditProfile) GetMetadata() []string {
+func (o *SparseAuditProfile) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1632,7 +1664,11 @@ func (o *SparseAuditProfile) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseAuditProfile) GetMigrationsLog() map[string]string {
+func (o *SparseAuditProfile) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1644,7 +1680,11 @@ func (o *SparseAuditProfile) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseAuditProfile) GetName() string {
+func (o *SparseAuditProfile) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1656,7 +1696,11 @@ func (o *SparseAuditProfile) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseAuditProfile) GetNamespace() string {
+func (o *SparseAuditProfile) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1668,7 +1712,11 @@ func (o *SparseAuditProfile) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseAuditProfile) GetNormalizedTags() []string {
+func (o *SparseAuditProfile) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1680,7 +1728,11 @@ func (o *SparseAuditProfile) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseAuditProfile) GetPropagate() bool {
+func (o *SparseAuditProfile) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1692,7 +1744,11 @@ func (o *SparseAuditProfile) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseAuditProfile) GetProtected() bool {
+func (o *SparseAuditProfile) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1704,7 +1760,11 @@ func (o *SparseAuditProfile) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseAuditProfile) GetUpdateIdempotencyKey() string {
+func (o *SparseAuditProfile) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1716,7 +1776,11 @@ func (o *SparseAuditProfile) SetUpdateIdempotencyKey(updateIdempotencyKey string
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAuditProfile) GetUpdateTime() time.Time {
+func (o *SparseAuditProfile) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1728,7 +1792,11 @@ func (o *SparseAuditProfile) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseAuditProfile) GetZHash() int {
+func (o *SparseAuditProfile) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1740,7 +1808,11 @@ func (o *SparseAuditProfile) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseAuditProfile) GetZone() int {
+func (o *SparseAuditProfile) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1776,14 +1848,14 @@ func (o *SparseAuditProfile) DeepCopyInto(out *SparseAuditProfile) {
 }
 
 type mongoAttributesAuditProfile struct {
-	ID                   bson.ObjectId              `bson:"_id"`
+	ID                   bson.ObjectId              `bson:"_id,omitempty"`
 	Annotations          map[string][]string        `bson:"annotations"`
 	AssociatedTags       []string                   `bson:"associatedtags"`
 	CreateIdempotencyKey string                     `bson:"createidempotencykey"`
 	CreateTime           time.Time                  `bson:"createtime"`
 	Description          string                     `bson:"description"`
 	Metadata             []string                   `bson:"metadata"`
-	MigrationsLog        map[string]string          `bson:"migrationslog"`
+	MigrationsLog        map[string]string          `bson:"migrationslog,omitempty"`
 	Name                 string                     `bson:"name"`
 	Namespace            string                     `bson:"namespace"`
 	NormalizedTags       []string                   `bson:"normalizedtags"`
@@ -1796,7 +1868,7 @@ type mongoAttributesAuditProfile struct {
 	Zone                 int                        `bson:"zone"`
 }
 type mongoAttributesSparseAuditProfile struct {
-	ID                   bson.ObjectId               `bson:"_id"`
+	ID                   bson.ObjectId               `bson:"_id,omitempty"`
 	Annotations          *map[string][]string        `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string                   `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey *string                     `bson:"createidempotencykey,omitempty"`

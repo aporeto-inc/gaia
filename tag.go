@@ -131,7 +131,9 @@ func (o *Tag) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesTag{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Count = o.Count
 	s.Namespace = o.Namespace
 	s.Value = o.Value
@@ -554,7 +556,11 @@ func (o *SparseTag) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseTag) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -567,7 +573,9 @@ func (o *SparseTag) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseTag{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Count != nil {
 		s.Count = o.Count
 	}
@@ -636,7 +644,11 @@ func (o *SparseTag) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseTag) GetNamespace() string {
+func (o *SparseTag) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -672,13 +684,13 @@ func (o *SparseTag) DeepCopyInto(out *SparseTag) {
 }
 
 type mongoAttributesTag struct {
-	ID        bson.ObjectId `bson:"_id"`
+	ID        bson.ObjectId `bson:"_id,omitempty"`
 	Count     int           `bson:"count"`
 	Namespace string        `bson:"namespace"`
 	Value     string        `bson:"value"`
 }
 type mongoAttributesSparseTag struct {
-	ID        bson.ObjectId `bson:"_id"`
+	ID        bson.ObjectId `bson:"_id,omitempty"`
 	Count     *int          `bson:"count,omitempty"`
 	Namespace *string       `bson:"namespace,omitempty"`
 	Value     *string       `bson:"value,omitempty"`

@@ -1668,7 +1668,11 @@ func (o *SparseFileAccessPolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseFileAccessPolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1903,7 +1907,11 @@ func (o *SparseFileAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseFileAccessPolicy) GetActiveDuration() string {
+func (o *SparseFileAccessPolicy) GetActiveDuration() (out string) {
+
+	if o.ActiveDuration == nil {
+		return
+	}
 
 	return *o.ActiveDuration
 }
@@ -1915,7 +1923,11 @@ func (o *SparseFileAccessPolicy) SetActiveDuration(activeDuration string) {
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseFileAccessPolicy) GetActiveSchedule() string {
+func (o *SparseFileAccessPolicy) GetActiveSchedule() (out string) {
+
+	if o.ActiveSchedule == nil {
+		return
+	}
 
 	return *o.ActiveSchedule
 }
@@ -1927,7 +1939,11 @@ func (o *SparseFileAccessPolicy) SetActiveSchedule(activeSchedule string) {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseFileAccessPolicy) GetAnnotations() map[string][]string {
+func (o *SparseFileAccessPolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1939,7 +1955,11 @@ func (o *SparseFileAccessPolicy) SetAnnotations(annotations map[string][]string)
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseFileAccessPolicy) GetAssociatedTags() []string {
+func (o *SparseFileAccessPolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1951,7 +1971,11 @@ func (o *SparseFileAccessPolicy) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseFileAccessPolicy) GetCreateIdempotencyKey() string {
+func (o *SparseFileAccessPolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1963,7 +1987,11 @@ func (o *SparseFileAccessPolicy) SetCreateIdempotencyKey(createIdempotencyKey st
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseFileAccessPolicy) GetCreateTime() time.Time {
+func (o *SparseFileAccessPolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1975,7 +2003,11 @@ func (o *SparseFileAccessPolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseFileAccessPolicy) GetDescription() string {
+func (o *SparseFileAccessPolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1987,7 +2019,11 @@ func (o *SparseFileAccessPolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseFileAccessPolicy) GetDisabled() bool {
+func (o *SparseFileAccessPolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1999,7 +2035,11 @@ func (o *SparseFileAccessPolicy) SetDisabled(disabled bool) {
 }
 
 // GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SparseFileAccessPolicy) GetExpirationTime() time.Time {
+func (o *SparseFileAccessPolicy) GetExpirationTime() (out time.Time) {
+
+	if o.ExpirationTime == nil {
+		return
+	}
 
 	return *o.ExpirationTime
 }
@@ -2011,7 +2051,11 @@ func (o *SparseFileAccessPolicy) SetExpirationTime(expirationTime time.Time) {
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseFileAccessPolicy) GetFallback() bool {
+func (o *SparseFileAccessPolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -2023,7 +2067,11 @@ func (o *SparseFileAccessPolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseFileAccessPolicy) GetMetadata() []string {
+func (o *SparseFileAccessPolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -2035,7 +2083,11 @@ func (o *SparseFileAccessPolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseFileAccessPolicy) GetName() string {
+func (o *SparseFileAccessPolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2047,7 +2099,11 @@ func (o *SparseFileAccessPolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseFileAccessPolicy) GetNamespace() string {
+func (o *SparseFileAccessPolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2059,7 +2115,11 @@ func (o *SparseFileAccessPolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseFileAccessPolicy) GetNormalizedTags() []string {
+func (o *SparseFileAccessPolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2071,7 +2131,11 @@ func (o *SparseFileAccessPolicy) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseFileAccessPolicy) GetPropagate() bool {
+func (o *SparseFileAccessPolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -2083,7 +2147,11 @@ func (o *SparseFileAccessPolicy) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseFileAccessPolicy) GetProtected() bool {
+func (o *SparseFileAccessPolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2095,7 +2163,11 @@ func (o *SparseFileAccessPolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseFileAccessPolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseFileAccessPolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2107,7 +2179,11 @@ func (o *SparseFileAccessPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey st
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseFileAccessPolicy) GetUpdateTime() time.Time {
+func (o *SparseFileAccessPolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

@@ -334,7 +334,9 @@ func (o *ProcessingUnit) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesProcessingUnit{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.Archived = o.Archived
 	s.AssociatedTags = o.AssociatedTags
@@ -1437,11 +1439,12 @@ manifest.`,
 		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from the
 processing
 unit for more than five minutes.`,
-		Exposed:  true,
-		Name:     "unreachable",
-		ReadOnly: true,
-		Stored:   true,
-		Type:     "boolean",
+		Exposed:   true,
+		Name:      "unreachable",
+		ReadOnly:  true,
+		Stored:    true,
+		Transient: true,
+		Type:      "boolean",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1859,11 +1862,12 @@ manifest.`,
 		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from the
 processing
 unit for more than five minutes.`,
-		Exposed:  true,
-		Name:     "unreachable",
-		ReadOnly: true,
-		Stored:   true,
-		Type:     "boolean",
+		Exposed:   true,
+		Name:      "unreachable",
+		ReadOnly:  true,
+		Stored:    true,
+		Transient: true,
+		Type:      "boolean",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -2137,7 +2141,11 @@ func (o *SparseProcessingUnit) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseProcessingUnit) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -2150,7 +2158,9 @@ func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseProcessingUnit{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -2483,7 +2493,11 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseProcessingUnit) GetAnnotations() map[string][]string {
+func (o *SparseProcessingUnit) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -2495,7 +2509,11 @@ func (o *SparseProcessingUnit) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *SparseProcessingUnit) GetArchived() bool {
+func (o *SparseProcessingUnit) GetArchived() (out bool) {
+
+	if o.Archived == nil {
+		return
+	}
 
 	return *o.Archived
 }
@@ -2507,7 +2525,11 @@ func (o *SparseProcessingUnit) SetArchived(archived bool) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseProcessingUnit) GetAssociatedTags() []string {
+func (o *SparseProcessingUnit) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -2519,7 +2541,11 @@ func (o *SparseProcessingUnit) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseProcessingUnit) GetCreateIdempotencyKey() string {
+func (o *SparseProcessingUnit) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -2531,7 +2557,11 @@ func (o *SparseProcessingUnit) SetCreateIdempotencyKey(createIdempotencyKey stri
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseProcessingUnit) GetCreateTime() time.Time {
+func (o *SparseProcessingUnit) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -2543,7 +2573,11 @@ func (o *SparseProcessingUnit) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseProcessingUnit) GetDescription() string {
+func (o *SparseProcessingUnit) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -2555,7 +2589,11 @@ func (o *SparseProcessingUnit) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseProcessingUnit) GetMetadata() []string {
+func (o *SparseProcessingUnit) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -2567,7 +2605,11 @@ func (o *SparseProcessingUnit) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseProcessingUnit) GetMigrationsLog() map[string]string {
+func (o *SparseProcessingUnit) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -2579,7 +2621,11 @@ func (o *SparseProcessingUnit) SetMigrationsLog(migrationsLog map[string]string)
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseProcessingUnit) GetName() string {
+func (o *SparseProcessingUnit) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2591,7 +2637,11 @@ func (o *SparseProcessingUnit) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseProcessingUnit) GetNamespace() string {
+func (o *SparseProcessingUnit) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2603,7 +2653,11 @@ func (o *SparseProcessingUnit) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseProcessingUnit) GetNormalizedTags() []string {
+func (o *SparseProcessingUnit) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2615,7 +2669,11 @@ func (o *SparseProcessingUnit) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseProcessingUnit) GetProtected() bool {
+func (o *SparseProcessingUnit) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2627,7 +2685,11 @@ func (o *SparseProcessingUnit) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseProcessingUnit) GetUpdateIdempotencyKey() string {
+func (o *SparseProcessingUnit) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2639,7 +2701,11 @@ func (o *SparseProcessingUnit) SetUpdateIdempotencyKey(updateIdempotencyKey stri
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseProcessingUnit) GetUpdateTime() time.Time {
+func (o *SparseProcessingUnit) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -2651,7 +2717,11 @@ func (o *SparseProcessingUnit) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseProcessingUnit) GetZHash() int {
+func (o *SparseProcessingUnit) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -2663,7 +2733,11 @@ func (o *SparseProcessingUnit) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseProcessingUnit) GetZone() int {
+func (o *SparseProcessingUnit) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -2699,7 +2773,7 @@ func (o *SparseProcessingUnit) DeepCopyInto(out *SparseProcessingUnit) {
 }
 
 type mongoAttributesProcessingUnit struct {
-	ID                   bson.ObjectId                        `bson:"_id"`
+	ID                   bson.ObjectId                        `bson:"_id,omitempty"`
 	Annotations          map[string][]string                  `bson:"annotations"`
 	Archived             bool                                 `bson:"archived"`
 	AssociatedTags       []string                             `bson:"associatedtags"`
@@ -2717,7 +2791,7 @@ type mongoAttributesProcessingUnit struct {
 	LastPokeTime         time.Time                            `bson:"lastpoketime"`
 	LastSyncTime         time.Time                            `bson:"lastsynctime"`
 	Metadata             []string                             `bson:"metadata"`
-	MigrationsLog        map[string]string                    `bson:"migrationslog"`
+	MigrationsLog        map[string]string                    `bson:"migrationslog,omitempty"`
 	Name                 string                               `bson:"name"`
 	Namespace            string                               `bson:"namespace"`
 	NativeContextID      string                               `bson:"nativecontextid"`
@@ -2734,7 +2808,7 @@ type mongoAttributesProcessingUnit struct {
 	Zone                 int                                  `bson:"zone"`
 }
 type mongoAttributesSparseProcessingUnit struct {
-	ID                   bson.ObjectId                         `bson:"_id"`
+	ID                   bson.ObjectId                         `bson:"_id,omitempty"`
 	Annotations          *map[string][]string                  `bson:"annotations,omitempty"`
 	Archived             *bool                                 `bson:"archived,omitempty"`
 	AssociatedTags       *[]string                             `bson:"associatedtags,omitempty"`

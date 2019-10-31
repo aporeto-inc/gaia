@@ -253,7 +253,9 @@ func (o *Automation) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAutomation{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Actions = o.Actions
 	s.Annotations = o.Annotations
 	s.AporetoToken = o.AporetoToken
@@ -1887,7 +1889,11 @@ func (o *SparseAutomation) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAutomation) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1900,7 +1906,9 @@ func (o *SparseAutomation) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAutomation{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Actions != nil {
 		s.Actions = o.Actions
 	}
@@ -2232,7 +2240,11 @@ func (o *SparseAutomation) DecryptAttributes(encrypter elemental.AttributeEncryp
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseAutomation) GetAnnotations() map[string][]string {
+func (o *SparseAutomation) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -2244,7 +2256,11 @@ func (o *SparseAutomation) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseAutomation) GetAssociatedTags() []string {
+func (o *SparseAutomation) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -2256,7 +2272,11 @@ func (o *SparseAutomation) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseAutomation) GetCreateIdempotencyKey() string {
+func (o *SparseAutomation) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -2268,7 +2288,11 @@ func (o *SparseAutomation) SetCreateIdempotencyKey(createIdempotencyKey string) 
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAutomation) GetCreateTime() time.Time {
+func (o *SparseAutomation) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -2280,7 +2304,11 @@ func (o *SparseAutomation) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseAutomation) GetDescription() string {
+func (o *SparseAutomation) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -2292,7 +2320,11 @@ func (o *SparseAutomation) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseAutomation) GetDisabled() bool {
+func (o *SparseAutomation) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -2304,7 +2336,11 @@ func (o *SparseAutomation) SetDisabled(disabled bool) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseAutomation) GetMigrationsLog() map[string]string {
+func (o *SparseAutomation) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -2316,7 +2352,11 @@ func (o *SparseAutomation) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseAutomation) GetName() string {
+func (o *SparseAutomation) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2328,7 +2368,11 @@ func (o *SparseAutomation) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseAutomation) GetNamespace() string {
+func (o *SparseAutomation) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2340,7 +2384,11 @@ func (o *SparseAutomation) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseAutomation) GetNormalizedTags() []string {
+func (o *SparseAutomation) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2352,7 +2400,11 @@ func (o *SparseAutomation) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseAutomation) GetProtected() bool {
+func (o *SparseAutomation) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2364,7 +2416,11 @@ func (o *SparseAutomation) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseAutomation) GetUpdateIdempotencyKey() string {
+func (o *SparseAutomation) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2376,7 +2432,11 @@ func (o *SparseAutomation) SetUpdateIdempotencyKey(updateIdempotencyKey string) 
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAutomation) GetUpdateTime() time.Time {
+func (o *SparseAutomation) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -2388,7 +2448,11 @@ func (o *SparseAutomation) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseAutomation) GetZHash() int {
+func (o *SparseAutomation) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -2400,7 +2464,11 @@ func (o *SparseAutomation) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseAutomation) GetZone() int {
+func (o *SparseAutomation) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -2436,7 +2504,7 @@ func (o *SparseAutomation) DeepCopyInto(out *SparseAutomation) {
 }
 
 type mongoAttributesAutomation struct {
-	ID                   bson.ObjectId                    `bson:"_id"`
+	ID                   bson.ObjectId                    `bson:"_id,omitempty"`
 	Actions              []string                         `bson:"actions"`
 	Annotations          map[string][]string              `bson:"annotations"`
 	AporetoToken         string                           `bson:"aporetotoken"`
@@ -2452,7 +2520,7 @@ type mongoAttributesAutomation struct {
 	Events               map[string][]elemental.EventType `bson:"events"`
 	ImmediateExecution   bool                             `bson:"immediateexecution"`
 	LastExecTime         time.Time                        `bson:"lastexectime"`
-	MigrationsLog        map[string]string                `bson:"migrationslog"`
+	MigrationsLog        map[string]string                `bson:"migrationslog,omitempty"`
 	Name                 string                           `bson:"name"`
 	Namespace            string                           `bson:"namespace"`
 	NormalizedTags       []string                         `bson:"normalizedtags"`
@@ -2468,7 +2536,7 @@ type mongoAttributesAutomation struct {
 	Zone                 int                              `bson:"zone"`
 }
 type mongoAttributesSparseAutomation struct {
-	ID                   bson.ObjectId                     `bson:"_id"`
+	ID                   bson.ObjectId                     `bson:"_id,omitempty"`
 	Actions              *[]string                         `bson:"actions,omitempty"`
 	Annotations          *map[string][]string              `bson:"annotations,omitempty"`
 	AporetoToken         *string                           `bson:"aporetotoken,omitempty"`

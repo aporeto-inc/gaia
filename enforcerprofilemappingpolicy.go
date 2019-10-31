@@ -1349,7 +1349,11 @@ func (o *SparseEnforcerProfileMappingPolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseEnforcerProfileMappingPolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1554,7 +1558,11 @@ func (o *SparseEnforcerProfileMappingPolicy) ToPlain() elemental.PlainIdentifiab
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetAnnotations() map[string][]string {
+func (o *SparseEnforcerProfileMappingPolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1566,7 +1574,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetAnnotations(annotations map[stri
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetAssociatedTags() []string {
+func (o *SparseEnforcerProfileMappingPolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1578,7 +1590,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetAssociatedTags(associatedTags []
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetCreateIdempotencyKey() string {
+func (o *SparseEnforcerProfileMappingPolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1590,7 +1606,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetCreateIdempotencyKey(createIdemp
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetCreateTime() time.Time {
+func (o *SparseEnforcerProfileMappingPolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1602,7 +1622,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetCreateTime(createTime time.Time)
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetDescription() string {
+func (o *SparseEnforcerProfileMappingPolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1614,7 +1638,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetDescription(description string) 
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetDisabled() bool {
+func (o *SparseEnforcerProfileMappingPolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1626,7 +1654,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetDisabled(disabled bool) {
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetFallback() bool {
+func (o *SparseEnforcerProfileMappingPolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -1638,7 +1670,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetMetadata() []string {
+func (o *SparseEnforcerProfileMappingPolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1650,7 +1686,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetName() string {
+func (o *SparseEnforcerProfileMappingPolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1662,7 +1702,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetNamespace() string {
+func (o *SparseEnforcerProfileMappingPolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1674,7 +1718,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetNormalizedTags() []string {
+func (o *SparseEnforcerProfileMappingPolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1686,7 +1734,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetNormalizedTags(normalizedTags []
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetPropagate() bool {
+func (o *SparseEnforcerProfileMappingPolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1698,7 +1750,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetProtected() bool {
+func (o *SparseEnforcerProfileMappingPolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1710,7 +1766,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseEnforcerProfileMappingPolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1722,7 +1782,11 @@ func (o *SparseEnforcerProfileMappingPolicy) SetUpdateIdempotencyKey(updateIdemp
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetUpdateTime() time.Time {
+func (o *SparseEnforcerProfileMappingPolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

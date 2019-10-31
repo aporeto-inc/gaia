@@ -201,7 +201,9 @@ func (o *AWSAPIGateway) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAWSAPIGateway{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -1477,7 +1479,11 @@ func (o *SparseAWSAPIGateway) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAWSAPIGateway) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1490,7 +1496,9 @@ func (o *SparseAWSAPIGateway) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAWSAPIGateway{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1685,7 +1693,11 @@ func (o *SparseAWSAPIGateway) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseAWSAPIGateway) GetAnnotations() map[string][]string {
+func (o *SparseAWSAPIGateway) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1697,7 +1709,11 @@ func (o *SparseAWSAPIGateway) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseAWSAPIGateway) GetAssociatedTags() []string {
+func (o *SparseAWSAPIGateway) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1709,7 +1725,11 @@ func (o *SparseAWSAPIGateway) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseAWSAPIGateway) GetCreateIdempotencyKey() string {
+func (o *SparseAWSAPIGateway) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1721,7 +1741,11 @@ func (o *SparseAWSAPIGateway) SetCreateIdempotencyKey(createIdempotencyKey strin
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAWSAPIGateway) GetCreateTime() time.Time {
+func (o *SparseAWSAPIGateway) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1733,7 +1757,11 @@ func (o *SparseAWSAPIGateway) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseAWSAPIGateway) GetDescription() string {
+func (o *SparseAWSAPIGateway) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1745,7 +1773,11 @@ func (o *SparseAWSAPIGateway) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseAWSAPIGateway) GetMetadata() []string {
+func (o *SparseAWSAPIGateway) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1757,7 +1789,11 @@ func (o *SparseAWSAPIGateway) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseAWSAPIGateway) GetMigrationsLog() map[string]string {
+func (o *SparseAWSAPIGateway) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1769,7 +1805,11 @@ func (o *SparseAWSAPIGateway) SetMigrationsLog(migrationsLog map[string]string) 
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseAWSAPIGateway) GetName() string {
+func (o *SparseAWSAPIGateway) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1781,7 +1821,11 @@ func (o *SparseAWSAPIGateway) SetName(name string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseAWSAPIGateway) GetNormalizedTags() []string {
+func (o *SparseAWSAPIGateway) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1793,7 +1837,11 @@ func (o *SparseAWSAPIGateway) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseAWSAPIGateway) GetProtected() bool {
+func (o *SparseAWSAPIGateway) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1805,7 +1853,11 @@ func (o *SparseAWSAPIGateway) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseAWSAPIGateway) GetUpdateIdempotencyKey() string {
+func (o *SparseAWSAPIGateway) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1817,7 +1869,11 @@ func (o *SparseAWSAPIGateway) SetUpdateIdempotencyKey(updateIdempotencyKey strin
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAWSAPIGateway) GetUpdateTime() time.Time {
+func (o *SparseAWSAPIGateway) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1829,7 +1885,11 @@ func (o *SparseAWSAPIGateway) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseAWSAPIGateway) GetZHash() int {
+func (o *SparseAWSAPIGateway) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1841,7 +1901,11 @@ func (o *SparseAWSAPIGateway) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseAWSAPIGateway) GetZone() int {
+func (o *SparseAWSAPIGateway) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1877,14 +1941,14 @@ func (o *SparseAWSAPIGateway) DeepCopyInto(out *SparseAWSAPIGateway) {
 }
 
 type mongoAttributesAWSAPIGateway struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
 	CreateTime           time.Time           `bson:"createtime"`
 	Description          string              `bson:"description"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
 	Protected            bool                `bson:"protected"`
@@ -1894,7 +1958,7 @@ type mongoAttributesAWSAPIGateway struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseAWSAPIGateway struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`

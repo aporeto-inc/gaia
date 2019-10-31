@@ -199,7 +199,9 @@ func (o *ExternalNetwork) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesExternalNetwork{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Annotations = o.Annotations
 	s.Archived = o.Archived
 	s.AssociatedTags = o.AssociatedTags
@@ -1535,7 +1537,11 @@ func (o *SparseExternalNetwork) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseExternalNetwork) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1548,7 +1554,9 @@ func (o *SparseExternalNetwork) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseExternalNetwork{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1779,7 +1787,11 @@ func (o *SparseExternalNetwork) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseExternalNetwork) GetAnnotations() map[string][]string {
+func (o *SparseExternalNetwork) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1791,7 +1803,11 @@ func (o *SparseExternalNetwork) SetAnnotations(annotations map[string][]string) 
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *SparseExternalNetwork) GetArchived() bool {
+func (o *SparseExternalNetwork) GetArchived() (out bool) {
+
+	if o.Archived == nil {
+		return
+	}
 
 	return *o.Archived
 }
@@ -1803,7 +1819,11 @@ func (o *SparseExternalNetwork) SetArchived(archived bool) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseExternalNetwork) GetAssociatedTags() []string {
+func (o *SparseExternalNetwork) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1815,7 +1835,11 @@ func (o *SparseExternalNetwork) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseExternalNetwork) GetCreateIdempotencyKey() string {
+func (o *SparseExternalNetwork) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1827,7 +1851,11 @@ func (o *SparseExternalNetwork) SetCreateIdempotencyKey(createIdempotencyKey str
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseExternalNetwork) GetCreateTime() time.Time {
+func (o *SparseExternalNetwork) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1839,7 +1867,11 @@ func (o *SparseExternalNetwork) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseExternalNetwork) GetDescription() string {
+func (o *SparseExternalNetwork) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1851,7 +1883,11 @@ func (o *SparseExternalNetwork) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseExternalNetwork) GetMetadata() []string {
+func (o *SparseExternalNetwork) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1863,7 +1899,11 @@ func (o *SparseExternalNetwork) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseExternalNetwork) GetMigrationsLog() map[string]string {
+func (o *SparseExternalNetwork) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1875,7 +1915,11 @@ func (o *SparseExternalNetwork) SetMigrationsLog(migrationsLog map[string]string
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseExternalNetwork) GetName() string {
+func (o *SparseExternalNetwork) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1887,7 +1931,11 @@ func (o *SparseExternalNetwork) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseExternalNetwork) GetNamespace() string {
+func (o *SparseExternalNetwork) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1899,7 +1947,11 @@ func (o *SparseExternalNetwork) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseExternalNetwork) GetNormalizedTags() []string {
+func (o *SparseExternalNetwork) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1911,7 +1963,11 @@ func (o *SparseExternalNetwork) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseExternalNetwork) GetPropagate() bool {
+func (o *SparseExternalNetwork) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1923,7 +1979,11 @@ func (o *SparseExternalNetwork) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseExternalNetwork) GetProtected() bool {
+func (o *SparseExternalNetwork) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1935,7 +1995,11 @@ func (o *SparseExternalNetwork) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseExternalNetwork) GetUpdateIdempotencyKey() string {
+func (o *SparseExternalNetwork) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1947,7 +2011,11 @@ func (o *SparseExternalNetwork) SetUpdateIdempotencyKey(updateIdempotencyKey str
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseExternalNetwork) GetUpdateTime() time.Time {
+func (o *SparseExternalNetwork) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1959,7 +2027,11 @@ func (o *SparseExternalNetwork) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseExternalNetwork) GetZHash() int {
+func (o *SparseExternalNetwork) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1971,7 +2043,11 @@ func (o *SparseExternalNetwork) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseExternalNetwork) GetZone() int {
+func (o *SparseExternalNetwork) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -2007,7 +2083,7 @@ func (o *SparseExternalNetwork) DeepCopyInto(out *SparseExternalNetwork) {
 }
 
 type mongoAttributesExternalNetwork struct {
-	ID                   bson.ObjectId       `bson:"_id"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	Archived             bool                `bson:"archived"`
 	AssociatedTags       []string            `bson:"associatedtags"`
@@ -2016,7 +2092,7 @@ type mongoAttributesExternalNetwork struct {
 	Description          string              `bson:"description"`
 	Entries              []string            `bson:"entries"`
 	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
@@ -2031,7 +2107,7 @@ type mongoAttributesExternalNetwork struct {
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseExternalNetwork struct {
-	ID                   bson.ObjectId        `bson:"_id"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	Archived             *bool                `bson:"archived,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`

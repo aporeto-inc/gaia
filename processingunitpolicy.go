@@ -1634,7 +1634,11 @@ func (o *SparseProcessingUnitPolicy) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseProcessingUnitPolicy) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1875,7 +1879,11 @@ func (o *SparseProcessingUnitPolicy) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseProcessingUnitPolicy) GetActiveDuration() string {
+func (o *SparseProcessingUnitPolicy) GetActiveDuration() (out string) {
+
+	if o.ActiveDuration == nil {
+		return
+	}
 
 	return *o.ActiveDuration
 }
@@ -1887,7 +1895,11 @@ func (o *SparseProcessingUnitPolicy) SetActiveDuration(activeDuration string) {
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseProcessingUnitPolicy) GetActiveSchedule() string {
+func (o *SparseProcessingUnitPolicy) GetActiveSchedule() (out string) {
+
+	if o.ActiveSchedule == nil {
+		return
+	}
 
 	return *o.ActiveSchedule
 }
@@ -1899,7 +1911,11 @@ func (o *SparseProcessingUnitPolicy) SetActiveSchedule(activeSchedule string) {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseProcessingUnitPolicy) GetAnnotations() map[string][]string {
+func (o *SparseProcessingUnitPolicy) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1911,7 +1927,11 @@ func (o *SparseProcessingUnitPolicy) SetAnnotations(annotations map[string][]str
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseProcessingUnitPolicy) GetAssociatedTags() []string {
+func (o *SparseProcessingUnitPolicy) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1923,7 +1943,11 @@ func (o *SparseProcessingUnitPolicy) SetAssociatedTags(associatedTags []string) 
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseProcessingUnitPolicy) GetCreateIdempotencyKey() string {
+func (o *SparseProcessingUnitPolicy) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1935,7 +1959,11 @@ func (o *SparseProcessingUnitPolicy) SetCreateIdempotencyKey(createIdempotencyKe
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseProcessingUnitPolicy) GetCreateTime() time.Time {
+func (o *SparseProcessingUnitPolicy) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1947,7 +1975,11 @@ func (o *SparseProcessingUnitPolicy) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseProcessingUnitPolicy) GetDescription() string {
+func (o *SparseProcessingUnitPolicy) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1959,7 +1991,11 @@ func (o *SparseProcessingUnitPolicy) SetDescription(description string) {
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseProcessingUnitPolicy) GetDisabled() bool {
+func (o *SparseProcessingUnitPolicy) GetDisabled() (out bool) {
+
+	if o.Disabled == nil {
+		return
+	}
 
 	return *o.Disabled
 }
@@ -1971,7 +2007,11 @@ func (o *SparseProcessingUnitPolicy) SetDisabled(disabled bool) {
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseProcessingUnitPolicy) GetFallback() bool {
+func (o *SparseProcessingUnitPolicy) GetFallback() (out bool) {
+
+	if o.Fallback == nil {
+		return
+	}
 
 	return *o.Fallback
 }
@@ -1983,7 +2023,11 @@ func (o *SparseProcessingUnitPolicy) SetFallback(fallback bool) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseProcessingUnitPolicy) GetMetadata() []string {
+func (o *SparseProcessingUnitPolicy) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1995,7 +2039,11 @@ func (o *SparseProcessingUnitPolicy) SetMetadata(metadata []string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseProcessingUnitPolicy) GetName() string {
+func (o *SparseProcessingUnitPolicy) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2007,7 +2055,11 @@ func (o *SparseProcessingUnitPolicy) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseProcessingUnitPolicy) GetNamespace() string {
+func (o *SparseProcessingUnitPolicy) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2019,7 +2071,11 @@ func (o *SparseProcessingUnitPolicy) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseProcessingUnitPolicy) GetNormalizedTags() []string {
+func (o *SparseProcessingUnitPolicy) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2031,7 +2087,11 @@ func (o *SparseProcessingUnitPolicy) SetNormalizedTags(normalizedTags []string) 
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseProcessingUnitPolicy) GetPropagate() bool {
+func (o *SparseProcessingUnitPolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -2043,7 +2103,11 @@ func (o *SparseProcessingUnitPolicy) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseProcessingUnitPolicy) GetProtected() bool {
+func (o *SparseProcessingUnitPolicy) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2055,7 +2119,11 @@ func (o *SparseProcessingUnitPolicy) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseProcessingUnitPolicy) GetUpdateIdempotencyKey() string {
+func (o *SparseProcessingUnitPolicy) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2067,7 +2135,11 @@ func (o *SparseProcessingUnitPolicy) SetUpdateIdempotencyKey(updateIdempotencyKe
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseProcessingUnitPolicy) GetUpdateTime() time.Time {
+func (o *SparseProcessingUnitPolicy) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }

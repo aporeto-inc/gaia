@@ -1033,7 +1033,7 @@ type mongoAttributesGraphNode struct {
 	Name               string             `bson:"name"`
 	Namespace          string             `bson:"namespace"`
 	Status             string             `bson:"status"`
-	Tags               []string           `bson:"tags"`
+	Tags               []string           `bson:"tags,omitempty"`
 	Type               GraphNodeTypeValue `bson:"type"`
 	Unreachable        bool               `bson:"unreachable"`
 	VulnerabilityLevel string             `bson:"vulnerabilitylevel"`

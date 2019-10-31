@@ -130,7 +130,9 @@ func (o *Category) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCategory{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Description = o.Description
 	s.Name = o.Name
 
@@ -537,7 +539,11 @@ func (o *SparseCategory) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseCategory) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -550,7 +556,9 @@ func (o *SparseCategory) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseCategory{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Description != nil {
 		s.Description = o.Description
 	}
@@ -610,7 +618,11 @@ func (o *SparseCategory) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseCategory) GetDescription() string {
+func (o *SparseCategory) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -622,7 +634,11 @@ func (o *SparseCategory) SetDescription(description string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseCategory) GetName() string {
+func (o *SparseCategory) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -658,12 +674,12 @@ func (o *SparseCategory) DeepCopyInto(out *SparseCategory) {
 }
 
 type mongoAttributesCategory struct {
-	ID          bson.ObjectId `bson:"_id"`
+	ID          bson.ObjectId `bson:"_id,omitempty"`
 	Description string        `bson:"description"`
 	Name        string        `bson:"name"`
 }
 type mongoAttributesSparseCategory struct {
-	ID          bson.ObjectId `bson:"_id"`
+	ID          bson.ObjectId `bson:"_id,omitempty"`
 	Description *string       `bson:"description,omitempty"`
 	Name        *string       `bson:"name,omitempty"`
 }

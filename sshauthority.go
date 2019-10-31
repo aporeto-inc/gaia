@@ -166,7 +166,9 @@ func (o *SSHAuthority) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSSHAuthority{}
 
-	s.ID = bson.ObjectIdHex(o.ID)
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Alg = o.Alg
 	s.CreateTime = o.CreateTime
 	s.MigrationsLog = o.MigrationsLog
@@ -903,7 +905,11 @@ func (o *SparseSSHAuthority) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseSSHAuthority) SetIdentifier(id string) {
 
-	o.ID = &id
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -916,7 +922,9 @@ func (o *SparseSSHAuthority) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseSSHAuthority{}
 
-	s.ID = bson.ObjectIdHex(*o.ID)
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Alg != nil {
 		s.Alg = o.Alg
 	}
@@ -1059,7 +1067,11 @@ func (o *SparseSSHAuthority) DecryptAttributes(encrypter elemental.AttributeEncr
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseSSHAuthority) GetCreateTime() time.Time {
+func (o *SparseSSHAuthority) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1071,7 +1083,11 @@ func (o *SparseSSHAuthority) SetCreateTime(createTime time.Time) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseSSHAuthority) GetMigrationsLog() map[string]string {
+func (o *SparseSSHAuthority) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1083,7 +1099,11 @@ func (o *SparseSSHAuthority) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseSSHAuthority) GetName() string {
+func (o *SparseSSHAuthority) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1095,7 +1115,11 @@ func (o *SparseSSHAuthority) SetName(name string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseSSHAuthority) GetUpdateTime() time.Time {
+func (o *SparseSSHAuthority) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1107,7 +1131,11 @@ func (o *SparseSSHAuthority) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseSSHAuthority) GetZHash() int {
+func (o *SparseSSHAuthority) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1119,7 +1147,11 @@ func (o *SparseSSHAuthority) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseSSHAuthority) GetZone() int {
+func (o *SparseSSHAuthority) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1155,10 +1187,10 @@ func (o *SparseSSHAuthority) DeepCopyInto(out *SparseSSHAuthority) {
 }
 
 type mongoAttributesSSHAuthority struct {
-	ID            bson.ObjectId        `bson:"_id"`
+	ID            bson.ObjectId        `bson:"_id,omitempty"`
 	Alg           SSHAuthorityAlgValue `bson:"alg"`
 	CreateTime    time.Time            `bson:"createtime"`
-	MigrationsLog map[string]string    `bson:"migrationslog"`
+	MigrationsLog map[string]string    `bson:"migrationslog,omitempty"`
 	Name          string               `bson:"name"`
 	PrivateKey    string               `bson:"privatekey"`
 	PublicKey     string               `bson:"publickey"`
@@ -1167,7 +1199,7 @@ type mongoAttributesSSHAuthority struct {
 	Zone          int                  `bson:"zone"`
 }
 type mongoAttributesSparseSSHAuthority struct {
-	ID            bson.ObjectId         `bson:"_id"`
+	ID            bson.ObjectId         `bson:"_id,omitempty"`
 	Alg           *SSHAuthorityAlgValue `bson:"alg,omitempty"`
 	CreateTime    *time.Time            `bson:"createtime,omitempty"`
 	MigrationsLog *map[string]string    `bson:"migrationslog,omitempty"`

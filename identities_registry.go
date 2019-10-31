@@ -123,6 +123,7 @@ var (
 		"tag":                    TagIdentity,
 		"taginject":              TagInjectIdentity,
 		"tagvalue":               TagValueIdentity,
+		"textindex":              TextIndexIdentity,
 
 		"token":            TokenIdentity,
 		"tokenscopepolicy": TokenScopePolicyIdentity,
@@ -257,6 +258,7 @@ var (
 		"tags":                     TagIdentity,
 		"taginjects":               TagInjectIdentity,
 		"tagvalues":                TagValueIdentity,
+		"textindexes":              TextIndexIdentity,
 
 		"tokens":             TokenIdentity,
 		"tokenscopepolicies": TokenScopePolicyIdentity,
@@ -539,8 +541,12 @@ var (
 			[]string{"namespace", "lastSeen", "firstSeen"},
 			[]string{"lastSeen", "firstSeen"},
 			[]string{"lastSeen"},
+			[]string{"flowID", "bucketMonth"},
+			[]string{"flowID", "lastSeen"},
+			[]string{"flowID", "bucketMinute"},
+			[]string{"flowID", "bucketHour"},
 			[]string{"flowID"},
-			[]string{"flowID", "createTime"},
+			[]string{"flowID", "bucketDay"},
 			[]string{"firstSeen"},
 		},
 		"graphnode":  nil,
@@ -770,8 +776,16 @@ var (
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
 		},
-		"taginject":           nil,
-		"tagvalue":            nil,
+		"taginject": nil,
+		"tagvalue":  nil,
+		"textindex": [][]string{
+			[]string{"objectNamespace"},
+			[]string{"objectNamespace", "objectIdentity", "objectID"},
+			[]string{"objectIdentity"},
+			[]string{"objectID"},
+			[]string{"date"},
+			[]string{":shard", ":unique", "zone", "zHash"},
+		},
 		"token":               nil,
 		"tokenscopepolicy":    nil,
 		"trigger":             nil,
@@ -1053,6 +1067,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewTagInject()
 	case TagValueIdentity:
 		return NewTagValue()
+	case TextIndexIdentity:
+		return NewTextIndex()
 	case TokenIdentity:
 		return NewToken()
 	case TokenScopePolicyIdentity:
@@ -1298,6 +1314,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseTagInject()
 	case TagValueIdentity:
 		return NewSparseTagValue()
+	case TextIndexIdentity:
+		return NewSparseTextIndex()
 	case TokenIdentity:
 		return NewSparseToken()
 	case TokenScopePolicyIdentity:
@@ -1553,6 +1571,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &TagInjectsList{}
 	case TagValueIdentity:
 		return &TagValuesList{}
+	case TextIndexIdentity:
+		return &TextIndexsList{}
 	case TokenIdentity:
 		return &TokensList{}
 	case TokenScopePolicyIdentity:
@@ -1798,6 +1818,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseTagInjectsList{}
 	case TagValueIdentity:
 		return &SparseTagValuesList{}
+	case TextIndexIdentity:
+		return &SparseTextIndexsList{}
 	case TokenIdentity:
 		return &SparseTokensList{}
 	case TokenScopePolicyIdentity:
@@ -1950,6 +1972,7 @@ func AllIdentities() []elemental.Identity {
 		TagIdentity,
 		TagInjectIdentity,
 		TagValueIdentity,
+		TextIndexIdentity,
 		TokenIdentity,
 		TokenScopePolicyIdentity,
 		TriggerIdentity,
@@ -2308,6 +2331,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case TagInjectIdentity:
 		return []string{}
 	case TagValueIdentity:
+		return []string{}
+	case TextIndexIdentity:
 		return []string{}
 	case TokenIdentity:
 		return []string{}
