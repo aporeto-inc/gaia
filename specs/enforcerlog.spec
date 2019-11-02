@@ -3,7 +3,7 @@ model:
   rest_name: enforcerlog
   resource_name: enforcerlog
   entity_name: EnforcerLog
-  package: squall
+  package: ifrit
   group: core/enforcer
   description: |-
     An enforcer log represents the log collected by an enforcer. Each enforcer log
@@ -11,10 +11,6 @@ model:
     multipart data into one.
   get:
     description: Retrieves the enforcerlog with the given ID.
-  delete:
-    description: Deletes the enforcerlog with the given ID.
-    global_parameters:
-    - $filtering
   extends:
   - '@zoned'
   - '@base'

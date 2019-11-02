@@ -2632,14 +2632,6 @@ Parameters:
 
 Creates a new enforcerlog.
 
-##### `DELETE /enforcerlog/:id`
-
-Deletes the enforcerlog with the given ID.
-
-Parameters:
-
-- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
-
 ##### `GET /enforcerlog/:id`
 
 Retrieves the enforcerlog with the given ID.
