@@ -42,7 +42,7 @@ model:
 attributes:
   v1:
   - name: ACLNetworks
-    description: List of networks where traffic is controlled only through ACLs.
+    description: List of networks where the traffic is controlled only through ACLs.
     type: list
     exposed: true
     subtype: string

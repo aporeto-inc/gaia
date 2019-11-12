@@ -111,7 +111,7 @@ func (o EnforcerProfilesList) Version() int {
 
 // EnforcerProfile represents the model of a enforcerprofile
 type EnforcerProfile struct {
-	// List of networks where traffic is controlled only through ACLs.
+	// List of networks where the traffic is controlled only through ACLs.
 	ACLNetworks []string `json:"ACLNetworks" msgpack:"ACLNetworks" bson:"aclnetworks" mapstructure:"ACLNetworks,omitempty"`
 
 	// Identifier of the object.
@@ -917,7 +917,7 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"ACLNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ACLNetworks",
-		Description:    `List of networks where traffic is controlled only through ACLs.`,
+		Description:    `List of networks where the traffic is controlled only through ACLs.`,
 		Exposed:        true,
 		Name:           "ACLNetworks",
 		Orderable:      true,
@@ -1264,7 +1264,7 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"aclnetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ACLNetworks",
-		Description:    `List of networks where traffic is controlled only through ACLs.`,
+		Description:    `List of networks where the traffic is controlled only through ACLs.`,
 		Exposed:        true,
 		Name:           "ACLNetworks",
 		Orderable:      true,
@@ -1671,7 +1671,7 @@ func (o SparseEnforcerProfilesList) Version() int {
 
 // SparseEnforcerProfile represents the sparse version of a enforcerprofile.
 type SparseEnforcerProfile struct {
-	// List of networks where traffic is controlled only through ACLs.
+	// List of networks where the traffic is controlled only through ACLs.
 	ACLNetworks *[]string `json:"ACLNetworks,omitempty" msgpack:"ACLNetworks,omitempty" bson:"aclnetworks,omitempty" mapstructure:"ACLNetworks,omitempty"`
 
 	// Identifier of the object.
