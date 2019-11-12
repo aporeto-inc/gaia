@@ -41,6 +41,14 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: ACLNetworks
+    description: List of networks where traffic is controlled only through ACLs.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    orderable: true
+
   - name: excludedInterfaces
     description: |-
       Ignore traffic with a source or destination matching the specified
