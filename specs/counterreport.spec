@@ -40,6 +40,12 @@ attributes:
     exposed: true
     default_value: 0
 
+  - name: ConnectionsExpired
+    description: Counter for connections expired in non-terminal state.
+    type: integer
+    exposed: true
+    default_value: 0
+
   - name: ConnectionsProcessed
     description: Counter for connections processed.
     type: integer

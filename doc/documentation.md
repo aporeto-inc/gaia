@@ -1649,6 +1649,7 @@ Post a new counter tracing report.
   "AckRejected": 0,
   "AckSigValidationFailed": 0,
   "AckTCPNoTCPAuthOption": 0,
+  "ConnectionsExpired": 0,
   "ConnectionsProcessed": 0,
   "ContextIDNotFound": 0,
   "DroppedExternalService": 0,
@@ -1760,6 +1761,16 @@ Default value:
 ##### `AckTCPNoTCPAuthOption` `integer`
 
 Counter for tcp authentication option not found.
+
+Default value:
+
+```json
+0
+```
+
+##### `ConnectionsExpired` `integer`
+
+Counter for connections expired in non-terminal state.
 
 Default value:
 

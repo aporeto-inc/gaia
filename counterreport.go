@@ -96,6 +96,9 @@ type CounterReport struct {
 	// Counter for tcp authentication option not found.
 	AckTCPNoTCPAuthOption int `json:"AckTCPNoTCPAuthOption" msgpack:"AckTCPNoTCPAuthOption" bson:"-" mapstructure:"AckTCPNoTCPAuthOption,omitempty"`
 
+	// Counter for connections expired in non-terminal state.
+	ConnectionsExpired int `json:"ConnectionsExpired" msgpack:"ConnectionsExpired" bson:"-" mapstructure:"ConnectionsExpired,omitempty"`
+
 	// Counter for connections processed.
 	ConnectionsProcessed int `json:"ConnectionsProcessed" msgpack:"ConnectionsProcessed" bson:"-" mapstructure:"ConnectionsProcessed,omitempty"`
 
@@ -276,6 +279,7 @@ func NewCounterReport() *CounterReport {
 
 	return &CounterReport{
 		ModelVersion:                 1,
+		SynDroppedInvalidToken:       0,
 		SynDroppedNoClaims:           0,
 		DroppedExternalService:       0,
 		SynDroppedTCPOption:          0,
@@ -285,54 +289,54 @@ func NewCounterReport() *CounterReport {
 		SynUnexpectedPacket:          0,
 		NetSynNotSeen:                0,
 		TCPAuthNotFound:              0,
+		AckTCPNoTCPAuthOption:        0,
 		AckSigValidationFailed:       0,
-		AckRejected:                  0,
 		UDPAckInvalidSignature:       0,
-		AckInUnknownState:            0,
+		AckInvalidFormat:             0,
 		ConnectionsProcessed:         0,
 		UDPDropContextNotFound:       0,
+		UDPSynMissingClaims:          0,
+		UDPDropFin:                   0,
+		SynAckNoTCPAuthOption:        0,
+		UDPSynAckPolicy:              0,
+		UDPDropQueueFull:             0,
+		NoConnFound:                  0,
+		UDPConnectionsProcessed:      0,
+		SynAckBadClaims:              0,
+		UDPDropNoConnection:          0,
+		SynDroppedInvalidFormat:      0,
+		UDPSynAckDropBadClaims:       0,
+		UDPInvalidNetState:           0,
+		MarkNotFound:                 0,
+		UDPSynDropPolicy:             0,
+		SynAckMissingClaims:          0,
+		UnknownError:                 0,
+		SynAckMissingToken:           0,
+		ServicePreprocessorFailed:    0,
+		RejectPacket:                 0,
+		UDPDropInNfQueue:             0,
+		SynAckRejected:               0,
+		UDPDropPacket:                0,
+		SynAckClaimsMisMatch:         0,
+		UDPDropSynAck:                0,
+		ContextIDNotFound:            0,
+		UDPRejected:                  0,
+		UDPPostProcessingFailed:      0,
+		InvalidProtocol:              0,
+		UDPSynAckMissingClaims:       0,
+		SynAckInvalidFormat:          0,
+		UDPSynDrop:                   0,
+		AckInUnknownState:            0,
+		UDPSynInvalidToken:           0,
+		AckRejected:                  0,
+		PortNotFound:                 0,
 		OutOfOrderSynAck:             0,
 		NonPUTraffic:                 0,
-		UDPDropFin:                   0,
-		ServicePreprocessorFailed:    0,
-		UDPDropPacket:                0,
-		SynDroppedInvalidToken:       0,
-		UDPPostProcessingFailed:      0,
-		SynAckRejected:               0,
-		UDPDropInNfQueue:             0,
-		SynAckInvalidFormat:          0,
-		UDPDropSynAck:                0,
-		InvalidProtocol:              0,
-		UDPSynDrop:                   0,
-		UDPRejected:                  0,
-		PortNotFound:                 0,
-		UDPSynInvalidToken:           0,
-		SynAckDroppedExternalService: 0,
-		SynAckClaimsMisMatch:         0,
-		SynDroppedInvalidFormat:      0,
-		UDPDropNoConnection:          0,
-		SynAckBadClaims:              0,
-		UDPDropQueueFull:             0,
-		InvalidConnState:             0,
-		UDPInvalidNetState:           0,
-		SynAckMissingClaims:          0,
-		UDPPreProcessingFailed:       0,
-		MarkNotFound:                 0,
-		UDPSynAckPolicy:              0,
-		UDPSynAckDropBadClaims:       0,
-		NoConnFound:                  0,
-		UDPSynDropPolicy:             0,
-		SynAckNoTCPAuthOption:        0,
-		UDPSynMissingClaims:          0,
-		UDPConnectionsProcessed:      0,
+		ConnectionsExpired:           0,
 		ServicePostprocessorFailed:   0,
-		RejectPacket:                 0,
-		UnknownError:                 0,
-		AckInvalidFormat:             0,
-		AckTCPNoTCPAuthOption:        0,
-		SynAckMissingToken:           0,
-		ContextIDNotFound:            0,
-		UDPSynAckMissingClaims:       0,
+		SynAckDroppedExternalService: 0,
+		InvalidConnState:             0,
+		UDPPreProcessingFailed:       0,
 	}
 }
 
@@ -429,6 +433,7 @@ func (o *CounterReport) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			AckRejected:                  &o.AckRejected,
 			AckSigValidationFailed:       &o.AckSigValidationFailed,
 			AckTCPNoTCPAuthOption:        &o.AckTCPNoTCPAuthOption,
+			ConnectionsExpired:           &o.ConnectionsExpired,
 			ConnectionsProcessed:         &o.ConnectionsProcessed,
 			ContextIDNotFound:            &o.ContextIDNotFound,
 			DroppedExternalService:       &o.DroppedExternalService,
@@ -502,6 +507,8 @@ func (o *CounterReport) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.AckSigValidationFailed = &(o.AckSigValidationFailed)
 		case "AckTCPNoTCPAuthOption":
 			sp.AckTCPNoTCPAuthOption = &(o.AckTCPNoTCPAuthOption)
+		case "ConnectionsExpired":
+			sp.ConnectionsExpired = &(o.ConnectionsExpired)
 		case "ConnectionsProcessed":
 			sp.ConnectionsProcessed = &(o.ConnectionsProcessed)
 		case "ContextIDNotFound":
@@ -643,6 +650,9 @@ func (o *CounterReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AckTCPNoTCPAuthOption != nil {
 		o.AckTCPNoTCPAuthOption = *so.AckTCPNoTCPAuthOption
+	}
+	if so.ConnectionsExpired != nil {
+		o.ConnectionsExpired = *so.ConnectionsExpired
 	}
 	if so.ConnectionsProcessed != nil {
 		o.ConnectionsProcessed = *so.ConnectionsProcessed
@@ -899,6 +909,8 @@ func (o *CounterReport) ValueForAttribute(name string) interface{} {
 		return o.AckSigValidationFailed
 	case "AckTCPNoTCPAuthOption":
 		return o.AckTCPNoTCPAuthOption
+	case "ConnectionsExpired":
+		return o.ConnectionsExpired
 	case "ConnectionsProcessed":
 		return o.ConnectionsProcessed
 	case "ContextIDNotFound":
@@ -1058,6 +1070,14 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Counter for tcp authentication option not found.`,
 		Exposed:        true,
 		Name:           "AckTCPNoTCPAuthOption",
+		Type:           "integer",
+	},
+	"ConnectionsExpired": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsExpired",
+		Description:    `Counter for connections expired in non-terminal state.`,
+		Exposed:        true,
+		Name:           "ConnectionsExpired",
 		Type:           "integer",
 	},
 	"ConnectionsProcessed": elemental.AttributeSpecification{
@@ -1565,6 +1585,14 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Description:    `Counter for tcp authentication option not found.`,
 		Exposed:        true,
 		Name:           "AckTCPNoTCPAuthOption",
+		Type:           "integer",
+	},
+	"connectionsexpired": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsExpired",
+		Description:    `Counter for connections expired in non-terminal state.`,
+		Exposed:        true,
+		Name:           "ConnectionsExpired",
 		Type:           "integer",
 	},
 	"connectionsprocessed": elemental.AttributeSpecification{
@@ -2110,6 +2138,9 @@ type SparseCounterReport struct {
 	// Counter for tcp authentication option not found.
 	AckTCPNoTCPAuthOption *int `json:"AckTCPNoTCPAuthOption,omitempty" msgpack:"AckTCPNoTCPAuthOption,omitempty" bson:"-" mapstructure:"AckTCPNoTCPAuthOption,omitempty"`
 
+	// Counter for connections expired in non-terminal state.
+	ConnectionsExpired *int `json:"ConnectionsExpired,omitempty" msgpack:"ConnectionsExpired,omitempty" bson:"-" mapstructure:"ConnectionsExpired,omitempty"`
+
 	// Counter for connections processed.
 	ConnectionsProcessed *int `json:"ConnectionsProcessed,omitempty" msgpack:"ConnectionsProcessed,omitempty" bson:"-" mapstructure:"ConnectionsProcessed,omitempty"`
 
@@ -2374,6 +2405,9 @@ func (o *SparseCounterReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.AckTCPNoTCPAuthOption != nil {
 		out.AckTCPNoTCPAuthOption = *o.AckTCPNoTCPAuthOption
+	}
+	if o.ConnectionsExpired != nil {
+		out.ConnectionsExpired = *o.ConnectionsExpired
 	}
 	if o.ConnectionsProcessed != nil {
 		out.ConnectionsProcessed = *o.ConnectionsProcessed
