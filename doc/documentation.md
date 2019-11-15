@@ -2614,8 +2614,7 @@ multipart data into one.
 {
   "collectionID": "xxx-xxx-xxx-xxx",
   "enforcerID": "xxx-xxx-xxx-xxx",
-  "protected": false,
-  "title": "xxx"
+  "protected": false
 }
 ```
 
@@ -2684,7 +2683,7 @@ Number assigned to each log in the increasing order.
 
 Defines if the object is protected.
 
-##### `title` `string` [`required`]
+##### `title` `string`
 
 Title of the log.
 

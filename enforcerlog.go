@@ -592,10 +592,6 @@ func (o *EnforcerLog) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("title", o.Title); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -835,7 +831,6 @@ aggregate the multipart data.`,
 		Description:    `Title of the log.`,
 		Exposed:        true,
 		Name:           "title",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1058,7 +1053,6 @@ aggregate the multipart data.`,
 		Description:    `Title of the log.`,
 		Exposed:        true,
 		Name:           "title",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},

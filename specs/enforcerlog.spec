@@ -66,5 +66,3 @@ attributes:
     type: string
     exposed: true
     stored: true
-    required: true
-    example_value: xxx
