@@ -40,12 +40,6 @@ attributes:
     exposed: true
     default_value: 0
 
-  - name: ConnectionsExpired
-    description: Counter for connections expired in non-terminal state.
-    type: integer
-    exposed: true
-    default_value: 0
-
   - name: ConnectionsProcessed
     description: Counter for connections processed.
     type: integer
@@ -58,10 +52,52 @@ attributes:
     exposed: true
     default_value: 0
 
+  - name: DroppedDHCPPackets
+    description: Counter for dropped DNS packets not part of a flow.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: DroppedDNSPackets
+    description: Counter for dropped DNS packets not part of a flow.
+    type: integer
+    exposed: true
+    default_value: 0
+
   - name: DroppedExternalService
     description: |-
       Counter for no acls found for external services. dropping application syn
       packet.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: DroppedICMPPackets
+    description: Counter for dropped ICMP packets not part of a flow.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: DroppedNTPPackets
+    description: Counter for dropped NTP packets not part of a flow.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: DroppedPacket
+    description: Counter for dropped packets that are not part of flow.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: DroppedTCPPackets
+    description: Counter for dropped TCP packets not part of a flow.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: DroppedUDPPackets
+    description: Counter for dropped UDP packets not part of a flow.
     type: integer
     exposed: true
     default_value: 0
@@ -116,6 +152,12 @@ attributes:
 
   - name: OutOfOrderSynAck
     description: Counter for synack for flow with processed finack.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: PacketsDropped
+    description: Counter for dropped packets out of authenticated flows.
     type: integer
     exposed: true
     default_value: 0
@@ -234,8 +276,20 @@ attributes:
     exposed: true
     default_value: 0
 
+  - name: TCPConnectionsExpired
+    description: Counter for tcp connections expired in non-terminal state.
+    type: integer
+    exposed: true
+    default_value: 0
+
   - name: UDPAckInvalidSignature
     description: Counter for dropped udp ack invalid signature.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: UDPConnectionsExpired
+    description: Counter for udp connections expired in non-terminal state.
     type: integer
     exposed: true
     default_value: 0

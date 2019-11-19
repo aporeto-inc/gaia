@@ -1649,10 +1649,16 @@ Post a new counter tracing report.
   "AckRejected": 0,
   "AckSigValidationFailed": 0,
   "AckTCPNoTCPAuthOption": 0,
-  "ConnectionsExpired": 0,
   "ConnectionsProcessed": 0,
   "ContextIDNotFound": 0,
+  "DroppedDHCPPackets": 0,
+  "DroppedDNSPackets": 0,
   "DroppedExternalService": 0,
+  "DroppedICMPPackets": 0,
+  "DroppedNTPPackets": 0,
+  "DroppedPacket": 0,
+  "DroppedTCPPackets": 0,
+  "DroppedUDPPackets": 0,
   "InvalidConnState": 0,
   "InvalidNetState": 0,
   "InvalidProtocol": 0,
@@ -1662,6 +1668,7 @@ Post a new counter tracing report.
   "NoConnFound": 0,
   "NonPUTraffic": 0,
   "OutOfOrderSynAck": 0,
+  "PacketsDropped": 0,
   "PortNotFound": 0,
   "RejectPacket": 0,
   "ServicePostprocessorFailed": 0,
@@ -1681,7 +1688,9 @@ Post a new counter tracing report.
   "SynRejectPacket": 0,
   "SynUnexpectedPacket": 0,
   "TCPAuthNotFound": 0,
+  "TCPConnectionsExpired": 0,
   "UDPAckInvalidSignature": 0,
+  "UDPConnectionsExpired": 0,
   "UDPConnectionsProcessed": 0,
   "UDPDropContextNotFound": 0,
   "UDPDropFin": 0,
@@ -1768,16 +1777,6 @@ Default value:
 0
 ```
 
-##### `ConnectionsExpired` `integer`
-
-Counter for connections expired in non-terminal state.
-
-Default value:
-
-```json
-0
-```
-
 ##### `ConnectionsProcessed` `integer`
 
 Counter for connections processed.
@@ -1798,10 +1797,80 @@ Default value:
 0
 ```
 
+##### `DroppedDHCPPackets` `integer`
+
+Counter for dropped DNS packets not part of a flow.
+
+Default value:
+
+```json
+0
+```
+
+##### `DroppedDNSPackets` `integer`
+
+Counter for dropped DNS packets not part of a flow.
+
+Default value:
+
+```json
+0
+```
+
 ##### `DroppedExternalService` `integer`
 
 Counter for no acls found for external services. dropping application syn
 packet.
+
+Default value:
+
+```json
+0
+```
+
+##### `DroppedICMPPackets` `integer`
+
+Counter for dropped ICMP packets not part of a flow.
+
+Default value:
+
+```json
+0
+```
+
+##### `DroppedNTPPackets` `integer`
+
+Counter for dropped NTP packets not part of a flow.
+
+Default value:
+
+```json
+0
+```
+
+##### `DroppedPacket` `integer`
+
+Counter for dropped packets that are not part of flow.
+
+Default value:
+
+```json
+0
+```
+
+##### `DroppedTCPPackets` `integer`
+
+Counter for dropped TCP packets not part of a flow.
+
+Default value:
+
+```json
+0
+```
+
+##### `DroppedUDPPackets` `integer`
+
+Counter for dropped UDP packets not part of a flow.
 
 Default value:
 
@@ -1892,6 +1961,16 @@ Default value:
 ##### `OutOfOrderSynAck` `integer`
 
 Counter for synack for flow with processed finack.
+
+Default value:
+
+```json
+0
+```
+
+##### `PacketsDropped` `integer`
+
+Counter for dropped packets out of authenticated flows.
 
 Default value:
 
@@ -2089,9 +2168,29 @@ Default value:
 0
 ```
 
+##### `TCPConnectionsExpired` `integer`
+
+Counter for tcp connections expired in non-terminal state.
+
+Default value:
+
+```json
+0
+```
+
 ##### `UDPAckInvalidSignature` `integer`
 
 Counter for dropped udp ack invalid signature.
+
+Default value:
+
+```json
+0
+```
+
+##### `UDPConnectionsExpired` `integer`
+
+Counter for udp connections expired in non-terminal state.
 
 Default value:
 
