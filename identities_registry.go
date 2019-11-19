@@ -12,6 +12,7 @@ var (
 		"alarm":                     AlarmIdentity,
 		"apiauthorizationpolicy":    APIAuthorizationPolicyIdentity,
 		"apicheck":                  APICheckIdentity,
+		"apiproxy":                  APIProxyIdentity,
 		"app":                       AppIdentity,
 		"appcredential":             AppCredentialIdentity,
 		"auditprofile":              AuditProfileIdentity,
@@ -147,6 +148,7 @@ var (
 		"alarms":                      AlarmIdentity,
 		"apiauthorizationpolicies":    APIAuthorizationPolicyIdentity,
 		"apichecks":                   APICheckIdentity,
+		"apiproxies":                  APIProxyIdentity,
 		"apps":                        AppIdentity,
 		"appcredentials":              AppCredentialIdentity,
 		"auditprofiles":               AuditProfileIdentity,
@@ -276,6 +278,8 @@ var (
 	aliasesMap = map[string]elemental.Identity{
 		"apiauth":        APIAuthorizationPolicyIdentity,
 		"apiauths":       APIAuthorizationPolicyIdentity,
+		"apiprox":        APIProxyIdentity,
+		"apiproxs":       APIProxyIdentity,
 		"appcred":        AppCredentialIdentity,
 		"appcreds":       AppCredentialIdentity,
 		"ap":             AuditProfileIdentity,
@@ -404,6 +408,7 @@ var (
 		},
 		"apiauthorizationpolicy": nil,
 		"apicheck":               nil,
+		"apiproxy":               nil,
 		"app":                    nil,
 		"appcredential": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -864,6 +869,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity:
 		return NewAPICheck()
+	case APIProxyIdentity:
+		return NewAPIProxy()
 	case AppIdentity:
 		return NewApp()
 	case AppCredentialIdentity:
@@ -1113,6 +1120,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAPIAuthorizationPolicy()
 	case APICheckIdentity:
 		return NewSparseAPICheck()
+	case APIProxyIdentity:
+		return NewSparseAPIProxy()
 	case AppIdentity:
 		return NewSparseApp()
 	case AppCredentialIdentity:
@@ -1370,6 +1379,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity:
 		return &APIChecksList{}
+	case APIProxyIdentity:
+		return &APIProxiesList{}
 	case AppIdentity:
 		return &AppsList{}
 	case AppCredentialIdentity:
@@ -1617,6 +1628,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAPIAuthorizationPoliciesList{}
 	case APICheckIdentity:
 		return &SparseAPIChecksList{}
+	case APIProxyIdentity:
+		return &SparseAPIProxiesList{}
 	case AppIdentity:
 		return &SparseAppsList{}
 	case AppCredentialIdentity:
@@ -1871,6 +1884,7 @@ func AllIdentities() []elemental.Identity {
 		AlarmIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
+		APIProxyIdentity,
 		AppIdentity,
 		AppCredentialIdentity,
 		AuditProfileIdentity,
@@ -2009,6 +2023,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case APICheckIdentity:
 		return []string{}
+	case APIProxyIdentity:
+		return []string{
+			"apiprox",
+			"apiproxs",
+		}
 	case AppIdentity:
 		return []string{}
 	case AppCredentialIdentity:
