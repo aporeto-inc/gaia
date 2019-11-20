@@ -24,7 +24,7 @@ model:
   - '@namespaced'
   - '@described'
   - '@disabled'
-  - '@identifiable-not-stored'
+  - '@identifiable-stored'
   - '@metadatable'
   - '@named'
   - '@timeable'

@@ -191,6 +191,9 @@ func (o *APIProxy) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesAPIProxy{}
 
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.URI = o.URI
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
@@ -226,6 +229,7 @@ func (o *APIProxy) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.ID = s.ID.Hex()
 	o.URI = s.URI
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
@@ -762,6 +766,7 @@ var APIProxyAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"URI": elemental.AttributeSpecification{
@@ -1019,6 +1024,7 @@ var APIProxyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"uri": elemental.AttributeSpecification{
@@ -1436,6 +1442,9 @@ func (o *SparseAPIProxy) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseAPIProxy{}
 
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.URI != nil {
 		s.URI = o.URI
 	}
@@ -1507,6 +1516,8 @@ func (o *SparseAPIProxy) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	id := s.ID.Hex()
+	o.ID = &id
 	if s.URI != nil {
 		o.URI = s.URI
 	}
@@ -1892,6 +1903,7 @@ func (o *SparseAPIProxy) DeepCopyInto(out *SparseAPIProxy) {
 }
 
 type mongoAttributesAPIProxy struct {
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	URI                  string              `bson:"uri"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
@@ -1912,6 +1924,7 @@ type mongoAttributesAPIProxy struct {
 	UpdateTime           time.Time           `bson:"updatetime"`
 }
 type mongoAttributesSparseAPIProxy struct {
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	URI                  *string              `bson:"uri,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
