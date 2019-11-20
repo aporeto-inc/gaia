@@ -784,6 +784,11 @@ func (o *ProcessingUnitPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	// Custom object validation.
+	if err := ValidateProcessingUnitPolicy(o); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}

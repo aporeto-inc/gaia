@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"go.aporeto.io/elemental"
+	"go.aporeto.io/gaia"
 	"go.aporeto.io/gaia/constants"
 	"go.aporeto.io/gaia/portutils"
 	"go.aporeto.io/gaia/protocols"
@@ -269,6 +270,19 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 				break
 			}
 		}
+	}
+
+	return nil
+}
+
+// ValidateProcessingUnitPolicy validates a processing unit policy has no action and datapath set to default.
+func ValidateProcessingUnitPolicy(policy *ProcessingUnitPolicy) error {
+
+	if policy.Action == gaia.ProcessingUnitPolicyActionDefault && policy.DatapathType == gaia.ProcessingUnitPolicyDatapathTypeDefault {
+		if len(policy.IsolationProfileSelector) == 0 {
+			return makeValidationError("datapathType", fmt.Sprintf("Both datapath and action cannot be set to default"))
+		}
+		return makeValidationError("action", fmt.Sprintf("Both datapath and action cannot be set to default"))
 	}
 
 	return nil
