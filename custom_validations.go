@@ -278,7 +278,7 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 // ValidateProcessingUnitPolicy validates a processing unit policy has no action and datapath set to default.
 func ValidateProcessingUnitPolicy(policy *ProcessingUnitPolicy) error {
 
-	if policy.Action == gaia.ProcessingUnitPolicyActionDefault && policy.DatapathType == gaia.ProcessingUnitPolicyDatapathTypeDefault {
+	if policy.Action == ProcessingUnitPolicyActionDefault && policy.DatapathType == ProcessingUnitPolicyDatapathTypeDefault {
 		if len(policy.IsolationProfileSelector) == 0 {
 			return makeValidationError("datapathType", fmt.Sprintf("Both datapath and action cannot be set to default"))
 		}
