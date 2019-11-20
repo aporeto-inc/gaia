@@ -5152,6 +5152,18 @@ F9eXFkofGX3UgRtsHe123456789xQ1naSw==
 
 #### Relations
 
+##### `GET /apiproxies`
+
+Retrieves the list of API proxies.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+
+##### `POST /apiproxies`
+
+Creates a new API proxy.
+
 ##### `DELETE /apiproxies/:id`
 
 Deletes the API proxy with the given ID.
