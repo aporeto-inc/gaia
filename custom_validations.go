@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia"
 	"go.aporeto.io/gaia/constants"
 	"go.aporeto.io/gaia/portutils"
 	"go.aporeto.io/gaia/protocols"
