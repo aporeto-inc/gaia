@@ -852,6 +852,11 @@ func init() {
 						Name: "flowOffset",
 						Type: "duration",
 					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
 				},
 			},
 		},
@@ -918,6 +923,11 @@ func init() {
 					elemental.ParameterDefinition{
 						Name: "flowOffset",
 						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
 					},
 				},
 			},

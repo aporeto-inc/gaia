@@ -208,6 +208,7 @@ relations:
     global_parameters:
     - $timewindow
     - $flowoffset
+    - $filtering
     parameters:
       entries:
       - name: tag
