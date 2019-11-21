@@ -60,3 +60,9 @@ attributes:
     type: integer
     exposed: true
     stored: true
+
+  - name: title
+    description: Title of the log.
+    type: string
+    exposed: true
+    stored: true
