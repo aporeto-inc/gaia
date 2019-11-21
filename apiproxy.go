@@ -86,9 +86,6 @@ type APIProxy struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// URI of the exposed API.
-	URI string `json:"URI" msgpack:"URI" bson:"uri" mapstructure:"URI,omitempty"`
-
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
@@ -120,7 +117,7 @@ type APIProxy struct {
 	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// Contains the full address of the remote processor endpoint.
+	// Contains the full address of the remote api endpoint.
 	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
@@ -194,7 +191,6 @@ func (o *APIProxy) GetBSON() (interface{}, error) {
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
-	s.URI = o.URI
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CertificateAuthority = o.CertificateAuthority
@@ -230,7 +226,6 @@ func (o *APIProxy) SetBSON(raw bson.Raw) error {
 	}
 
 	o.ID = s.ID.Hex()
-	o.URI = s.URI
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
 	o.CertificateAuthority = s.CertificateAuthority
@@ -448,7 +443,6 @@ func (o *APIProxy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseAPIProxy{
 			ID:                   &o.ID,
-			URI:                  &o.URI,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
 			CertificateAuthority: &o.CertificateAuthority,
@@ -475,8 +469,6 @@ func (o *APIProxy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
-		case "URI":
-			sp.URI = &(o.URI)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
@@ -548,9 +540,6 @@ func (o *APIProxy) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseAPIProxy)
 	if so.ID != nil {
 		o.ID = *so.ID
-	}
-	if so.URI != nil {
-		o.URI = *so.URI
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
@@ -638,10 +627,6 @@ func (o *APIProxy) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("URI", o.URI); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
 		errors = errors.Append(err)
 	}
@@ -710,8 +695,6 @@ func (o *APIProxy) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
-	case "URI":
-		return o.URI
 	case "annotations":
 		return o.Annotations
 	case "associatedTags":
@@ -766,16 +749,6 @@ var APIProxyAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"URI": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "URI",
-		Description:    `URI of the exposed API.`,
-		Exposed:        true,
-		Name:           "URI",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -894,7 +867,7 @@ provided only when ` + "`" + `clientCertificate` + "`" + ` has been configured.`
 	"Endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `Contains the full address of the remote processor endpoint.`,
+		Description:    `Contains the full address of the remote api endpoint.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
@@ -1027,16 +1000,6 @@ var APIProxyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Stored:         true,
 		Type:           "string",
 	},
-	"uri": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "URI",
-		Description:    `URI of the exposed API.`,
-		Exposed:        true,
-		Name:           "URI",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -1152,7 +1115,7 @@ provided only when ` + "`" + `clientCertificate` + "`" + ` has been configured.`
 	"endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `Contains the full address of the remote processor endpoint.`,
+		Description:    `Contains the full address of the remote api endpoint.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
@@ -1337,9 +1300,6 @@ type SparseAPIProxy struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// URI of the exposed API.
-	URI *string `json:"URI,omitempty" msgpack:"URI,omitempty" bson:"uri,omitempty" mapstructure:"URI,omitempty"`
-
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
@@ -1371,7 +1331,7 @@ type SparseAPIProxy struct {
 	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// Contains the full address of the remote processor endpoint.
+	// Contains the full address of the remote api endpoint.
 	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
@@ -1445,9 +1405,6 @@ func (o *SparseAPIProxy) GetBSON() (interface{}, error) {
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
-	if o.URI != nil {
-		s.URI = o.URI
-	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1518,9 +1475,6 @@ func (o *SparseAPIProxy) SetBSON(raw bson.Raw) error {
 
 	id := s.ID.Hex()
 	o.ID = &id
-	if s.URI != nil {
-		o.URI = s.URI
-	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
 	}
@@ -1588,9 +1542,6 @@ func (o *SparseAPIProxy) ToPlain() elemental.PlainIdentifiable {
 	out := NewAPIProxy()
 	if o.ID != nil {
 		out.ID = *o.ID
-	}
-	if o.URI != nil {
-		out.URI = *o.URI
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
@@ -1904,7 +1855,6 @@ func (o *SparseAPIProxy) DeepCopyInto(out *SparseAPIProxy) {
 
 type mongoAttributesAPIProxy struct {
 	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	URI                  string              `bson:"uri"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	CertificateAuthority string              `bson:"certificateauthority"`
@@ -1925,7 +1875,6 @@ type mongoAttributesAPIProxy struct {
 }
 type mongoAttributesSparseAPIProxy struct {
 	ID                   bson.ObjectId        `bson:"_id,omitempty"`
-	URI                  *string              `bson:"uri,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	CertificateAuthority *string              `bson:"certificateauthority,omitempty"`

@@ -5120,7 +5120,6 @@ remote endpoint.
 
 ```json
 {
-  "URI": "/apiremote",
   "certificateAuthority": "-----BEGIN CERTIFICATE-----
 MIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN
 MAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNTE4
@@ -5147,7 +5146,7 @@ AwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg
 F9eXFkofGX3UgRtsHe123456789xQ1naSw==
 -----END EC PRIVATE KEY-----",
   "disabled": false,
-  "endpoint": "https://api.remoteserver.com/remoteprocessors",
+  "endpoint": "https://api.remoteserver.com/remoteroute",
   "name": "the name",
   "operation": "create",
   "protected": false
@@ -5190,10 +5189,6 @@ Updates the API proxy with the given ID.
 
 Identifier of the object.
 
-##### `URI` `string` [`required`]
-
-URI of the exposed API.
-
 ##### `annotations` `map[string][]string`
 
 Stores additional information about an entity.
@@ -5232,7 +5227,7 @@ Defines if the property is disabled.
 
 ##### `endpoint` `string` [`required`]
 
-Contains the full address of the remote processor endpoint.
+Contains the full address of the remote api endpoint.
 
 ##### `metadata` `[]string` [`creation_only`]
 

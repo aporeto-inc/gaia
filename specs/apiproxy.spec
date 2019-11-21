@@ -102,21 +102,13 @@ attributes:
     - $pem
 
   - name: endpoint
-    description: Contains the full address of the remote processor endpoint.
+    description: Contains the full address of the remote api endpoint.
     type: string
     exposed: true
     stored: true
     required: true
-    example_value: https://api.remoteserver.com/remoteprocessors
+    example_value: https://api.remoteserver.com/remoteroute
     orderable: true
-
-  - name: URI
-    description: URI of the exposed API.
-    type: string
-    exposed: true
-    stored: true
-    required: true
-    example_value: /apiremote
 
   - name: operation
     description: Defines the operation that is currently handled by the service.
