@@ -2018,3 +2018,59 @@ func TestValidateIdentity(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateProcessingUnitPolicy(t *testing.T) {
+	type args struct {
+		policy *ProcessingUnitPolicy
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"Empty processing unit policy",
+			args{
+				NewProcessingUnitPolicy(),
+			},
+			true,
+		},
+		{
+			"processing unit policy with Action and DatapathType set to Default",
+			args{
+				&ProcessingUnitPolicy{
+					Action:       ProcessingUnitPolicyActionDefault,
+					DatapathType: ProcessingUnitPolicyDatapathTypeDefault,
+				},
+			},
+			true,
+		},
+		{
+			"processing unit policy with Action set to Default and DatapathType to something else",
+			args{
+				&ProcessingUnitPolicy{
+					Action:       ProcessingUnitPolicyActionDefault,
+					DatapathType: ProcessingUnitPolicyDatapathTypeAporeto,
+				},
+			},
+			false,
+		},
+		{
+			"processing unit policy with DatapathType set to Default and Action to something else",
+			args{
+				&ProcessingUnitPolicy{
+					Action:       ProcessingUnitPolicyActionEnforce,
+					DatapathType: ProcessingUnitPolicyDatapathTypeDefault,
+				},
+			},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateProcessingUnitPolicy(tt.args.policy); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateProcessingUnitPolicy() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

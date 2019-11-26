@@ -32,6 +32,8 @@ model:
   - '@fallback'
   - '@schedulable'
   - '@timeable'
+  validations:
+  - $processingunitpolicy
 
 # Indexes
 indexes:
