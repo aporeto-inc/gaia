@@ -274,6 +274,19 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 	return nil
 }
 
+// ValidateProcessingUnitPolicy validates a processing unit policy has no action and datapath set to default.
+func ValidateProcessingUnitPolicy(policy *ProcessingUnitPolicy) error {
+
+	if policy.Action == ProcessingUnitPolicyActionDefault && policy.DatapathType == ProcessingUnitPolicyDatapathTypeDefault {
+		if len(policy.IsolationProfileSelector) == 0 {
+			return makeValidationError("datapathType", fmt.Sprintf("Both datapath and action cannot be set to default"))
+		}
+		return makeValidationError("action", fmt.Sprintf("Both datapath and action cannot be set to default"))
+	}
+
+	return nil
+}
+
 // ValidateProcessingUnitServicesList validates a list of processing unit services.
 func ValidateProcessingUnitServicesList(attribute string, svcs []*ProcessingUnitService) error {
 
