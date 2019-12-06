@@ -20,6 +20,8 @@ model:
     global_parameters:
     - $filtering
   extends:
+  - '@zoned'
+  - '@migratable'
   - '@base'
   - '@namespaced'
   - '@described'
@@ -28,10 +30,6 @@ model:
   - '@metadatable'
   - '@named'
   - '@timeable'
-
-# Indexes
-indexes:
-- - :no-inherit
 
 # Attributes
 attributes:

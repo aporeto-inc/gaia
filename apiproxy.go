@@ -124,6 +124,9 @@ type APIProxy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -145,6 +148,13 @@ type APIProxy struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
+
+	// Geographical zone. Used for sharding and georedundancy.
+	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -156,6 +166,7 @@ func NewAPIProxy() *APIProxy {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
+		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
 	}
 }
@@ -202,12 +213,15 @@ func (o *APIProxy) GetBSON() (interface{}, error) {
 	s.Disabled = o.Disabled
 	s.Endpoint = o.Endpoint
 	s.Metadata = o.Metadata
+	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
 	s.Protected = o.Protected
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
 
 	return s, nil
 }
@@ -237,12 +251,15 @@ func (o *APIProxy) SetBSON(raw bson.Raw) error {
 	o.Disabled = s.Disabled
 	o.Endpoint = s.Endpoint
 	o.Metadata = s.Metadata
+	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
 	o.Protected = s.Protected
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
 
 	return nil
 }
@@ -363,6 +380,18 @@ func (o *APIProxy) SetMetadata(metadata []string) {
 	o.Metadata = metadata
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *APIProxy) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *APIProxy) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetName returns the Name of the receiver.
 func (o *APIProxy) GetName() string {
 
@@ -435,6 +464,30 @@ func (o *APIProxy) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// GetZHash returns the ZHash of the receiver.
+func (o *APIProxy) GetZHash() int {
+
+	return o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the given value.
+func (o *APIProxy) SetZHash(zHash int) {
+
+	o.ZHash = zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *APIProxy) GetZone() int {
+
+	return o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the given value.
+func (o *APIProxy) SetZone(zone int) {
+
+	o.Zone = zone
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *APIProxy) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -454,6 +507,7 @@ func (o *APIProxy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Disabled:             &o.Disabled,
 			Endpoint:             &o.Endpoint,
 			Metadata:             &o.Metadata,
+			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
@@ -461,6 +515,8 @@ func (o *APIProxy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Protected:            &o.Protected,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -491,6 +547,8 @@ func (o *APIProxy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Endpoint = &(o.Endpoint)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -505,6 +563,10 @@ func (o *APIProxy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
+		case "zHash":
+			sp.ZHash = &(o.ZHash)
+		case "zone":
+			sp.Zone = &(o.Zone)
 		}
 	}
 
@@ -574,6 +636,9 @@ func (o *APIProxy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
 	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
+	}
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
@@ -594,6 +659,12 @@ func (o *APIProxy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
+	}
+	if so.ZHash != nil {
+		o.ZHash = *so.ZHash
+	}
+	if so.Zone != nil {
+		o.Zone = *so.Zone
 	}
 }
 
@@ -717,6 +788,8 @@ func (o *APIProxy) ValueForAttribute(name string) interface{} {
 		return o.Endpoint
 	case "metadata":
 		return o.Metadata
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -731,6 +804,10 @@ func (o *APIProxy) ValueForAttribute(name string) interface{} {
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
+	case "zHash":
+		return o.ZHash
+	case "zone":
+		return o.Zone
 	}
 
 	return nil
@@ -890,6 +967,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
+	"MigrationsLog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -981,6 +1069,33 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"ZHash": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"Zone": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1138,6 +1253,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
+	"migrationslog": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1229,6 +1355,33 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"zhash": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"zone": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1338,6 +1491,9 @@ type SparseAPIProxy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1358,6 +1514,13 @@ type SparseAPIProxy struct {
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+
+	// Geographical zone. Used for sharding and georedundancy.
+	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -1438,6 +1601,9 @@ func (o *SparseAPIProxy) GetBSON() (interface{}, error) {
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
 	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
 	if o.Name != nil {
 		s.Name = o.Name
 	}
@@ -1455,6 +1621,12 @@ func (o *SparseAPIProxy) GetBSON() (interface{}, error) {
 	}
 	if o.UpdateTime != nil {
 		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
 	}
 
 	return s, nil
@@ -1508,6 +1680,9 @@ func (o *SparseAPIProxy) SetBSON(raw bson.Raw) error {
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
 	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
 	if s.Name != nil {
 		o.Name = s.Name
 	}
@@ -1525,6 +1700,12 @@ func (o *SparseAPIProxy) SetBSON(raw bson.Raw) error {
 	}
 	if s.UpdateTime != nil {
 		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
 	}
 
 	return nil
@@ -1576,6 +1757,9 @@ func (o *SparseAPIProxy) ToPlain() elemental.PlainIdentifiable {
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1596,6 +1780,12 @@ func (o *SparseAPIProxy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
+	}
+	if o.ZHash != nil {
+		out.ZHash = *o.ZHash
+	}
+	if o.Zone != nil {
+		out.Zone = *o.Zone
 	}
 
 	return out
@@ -1733,6 +1923,22 @@ func (o *SparseAPIProxy) SetMetadata(metadata []string) {
 	o.Metadata = &metadata
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseAPIProxy) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseAPIProxy) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
+}
+
 // GetName returns the Name of the receiver.
 func (o *SparseAPIProxy) GetName() (out string) {
 
@@ -1829,6 +2035,38 @@ func (o *SparseAPIProxy) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = &updateTime
 }
 
+// GetZHash returns the ZHash of the receiver.
+func (o *SparseAPIProxy) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
+
+	return *o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the address of the given value.
+func (o *SparseAPIProxy) SetZHash(zHash int) {
+
+	o.ZHash = &zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *SparseAPIProxy) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
+
+	return *o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the address of the given value.
+func (o *SparseAPIProxy) SetZone(zone int) {
+
+	o.Zone = &zone
+}
+
 // DeepCopy returns a deep copy if the SparseAPIProxy.
 func (o *SparseAPIProxy) DeepCopy() *SparseAPIProxy {
 
@@ -1866,12 +2104,15 @@ type mongoAttributesAPIProxy struct {
 	Disabled             bool                `bson:"disabled"`
 	Endpoint             string              `bson:"endpoint"`
 	Metadata             []string            `bson:"metadata"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
 	Protected            bool                `bson:"protected"`
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
+	ZHash                int                 `bson:"zhash"`
+	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseAPIProxy struct {
 	ID                   bson.ObjectId        `bson:"_id,omitempty"`
@@ -1886,10 +2127,13 @@ type mongoAttributesSparseAPIProxy struct {
 	Disabled             *bool                `bson:"disabled,omitempty"`
 	Endpoint             *string              `bson:"endpoint,omitempty"`
 	Metadata             *[]string            `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 *string              `bson:"name,omitempty"`
 	Namespace            *string              `bson:"namespace,omitempty"`
 	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
 	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
 	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
+	ZHash                *int                 `bson:"zhash,omitempty"`
+	Zone                 *int                 `bson:"zone,omitempty"`
 }
