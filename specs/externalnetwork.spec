@@ -40,6 +40,12 @@ model:
   - '@propagated'
   - '@timeable'
 
+# Indexes
+indexes:
+- - namespace
+  - type
+- - type
+
 # Attributes
 attributes:
   v1:
@@ -80,3 +86,10 @@ attributes:
     stored: true
     validations:
     - $serviceports
+
+  - name: type
+    description: The type of external network (`subnet`, `ec2`, `eks`, etc.).
+    type: string
+    exposed: true
+    stored: true
+    filterable: true
