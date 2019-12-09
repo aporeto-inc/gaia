@@ -240,7 +240,6 @@ curl https://api.console.aporeto.com/namespaces \
   -X POST \
   -H 'Content-Type: application/json' \
   -H 'X-Namespace: /company' \
-  -H 'Idempotency-Key: abcdef1234' \
   -H 'Authorization: Bearer <token>' \
   -H 'X-Fields: ID' \
   -d '{"name": "test-namespace-2"}'
