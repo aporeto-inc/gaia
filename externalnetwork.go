@@ -171,6 +171,7 @@ func NewExternalNetwork() *ExternalNetwork {
 		Ports:          []string{},
 		Metadata:       []string{},
 		ServicePorts:   []string{},
+		Type:           "subnet",
 	}
 }
 
@@ -1058,6 +1059,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Type",
+		DefaultValue:   "subnet",
 		Description:    `The type of external network (` + "`" + `subnet` + "`" + `, ` + "`" + `ec2` + "`" + `, ` + "`" + `eks` + "`" + `, etc.).`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1349,6 +1351,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Type",
+		DefaultValue:   "subnet",
 		Description:    `The type of external network (` + "`" + `subnet` + "`" + `, ` + "`" + `ec2` + "`" + `, ` + "`" + `eks` + "`" + `, etc.).`,
 		Exposed:        true,
 		Filterable:     true,

@@ -12,5 +12,6 @@ require (
 	github.com/mitchellh/copystructure v1.0.0
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a
-	gopkg.in/yaml.v2 v2.2.2
+	github.com/stretchr/testify v1.4.0 // indirect
+	gopkg.in/yaml.v2 v2.2.7
 )

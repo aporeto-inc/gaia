@@ -93,3 +93,4 @@ attributes:
     exposed: true
     stored: true
     filterable: true
+    default_value: subnet
