@@ -22,6 +22,10 @@ $httpMethods:
   elemental:
     name: ValidateHTTPMethods
 
+$httpsURL:
+  elemental:
+    name: ValidateHTTPSURL
+
 $identity:
   elemental:
     name: ValidateIdentity

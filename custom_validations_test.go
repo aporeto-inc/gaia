@@ -1114,6 +1114,58 @@ func TestValidateHTTPMethods(t *testing.T) {
 	}
 }
 
+func TestValidateHTTPSURL(t *testing.T) {
+	type args struct {
+		attribute string
+		address   string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"empty url",
+			args{
+				attribute: "endpoint",
+				address:   "",
+			},
+			true,
+		},
+		{
+			"valid url",
+			args{
+				attribute: "endpoint",
+				address:   "https://aporeto.com/",
+			},
+			false,
+		},
+		{
+			"invalid url",
+			args{
+				attribute: "endpoint",
+				address:   "htps:/a",
+			},
+			true,
+		},
+		{
+			"non https url",
+			args{
+				attribute: "endpoint",
+				address:   "http://hello.com/",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateHTTPSURL(tt.args.attribute, tt.args.address); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateHTTPSURL() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func TestValidateOptionalNetworkList(t *testing.T) {
 	type args struct {
 		attribute string

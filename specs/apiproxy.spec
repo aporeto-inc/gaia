@@ -17,8 +17,6 @@ model:
     description: Updates the API proxy with the given ID.
   delete:
     description: Deletes the API proxy with the given ID.
-    global_parameters:
-    - $filtering
   extends:
   - '@zoned'
   - '@migratable'
@@ -107,10 +105,14 @@ attributes:
     required: true
     example_value: https://api.remoteserver.com/remoteroute
     orderable: true
+    validations:
+    - $httpsURL
 
-  - name: operation
-    description: Defines the operation that is currently handled by the service.
-    type: external
+  - name: methods
+    description: Methods exposed to communicate with the remote service.
+    type: list
     exposed: true
-    subtype: elemental.Operation
-    example_value: create
+    subtype: string
+    stored: true
+    validations:
+    - $httpMethods

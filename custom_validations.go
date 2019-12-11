@@ -425,6 +425,21 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 	return nil
 }
 
+// ValidateHTTPSURL validates the URL to make sure it is in a validate format and is https.
+func ValidateHTTPSURL(attribute string, address string) error {
+
+	u, err := url.Parse(address)
+	if err != nil {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a valid HTTPS URL (examaple: https://aporeto.com/)", attribute))
+	}
+
+	if u.Scheme != "https" || u.Host == "" {
+		return makeValidationError(attribute, fmt.Sprintf("Invalid HTTPS URL %s", address))
+	}
+
+	return nil
+}
+
 // ValidateAutomation validates an automation by checking for the following:
 //   - Exactly ONE action MUST be defined if the automation trigger type is set to "Webhook"
 func ValidateAutomation(auto *Automation) error {

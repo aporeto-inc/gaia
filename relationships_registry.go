@@ -81,15 +81,7 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		Delete: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-				},
-			},
+			"root": &elemental.RelationshipInfo{},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
