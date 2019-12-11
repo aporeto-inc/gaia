@@ -88,9 +88,16 @@ attributes:
     - $serviceports
 
   - name: type
-    description: The type of external network (`subnet`, `ec2`, `eks`, etc.).
-    type: string
+    description: |-
+      The type of external network (default `Subnet`).
+    type: enum
     exposed: true
     stored: true
+    allowed_choices:
+    - ENI
+    - RDSCluster
+    - RDSInstance
+    - SecurityGroup
+    - Subnet
+    default_value: Subnet
     filterable: true
-    default_value: subnet

@@ -9,6 +9,26 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// ExternalNetworkTypeValue represents the possible values for attribute "type".
+type ExternalNetworkTypeValue string
+
+const (
+	// ExternalNetworkTypeENI represents the value ENI.
+	ExternalNetworkTypeENI ExternalNetworkTypeValue = "ENI"
+
+	// ExternalNetworkTypeRDSCluster represents the value RDSCluster.
+	ExternalNetworkTypeRDSCluster ExternalNetworkTypeValue = "RDSCluster"
+
+	// ExternalNetworkTypeRDSInstance represents the value RDSInstance.
+	ExternalNetworkTypeRDSInstance ExternalNetworkTypeValue = "RDSInstance"
+
+	// ExternalNetworkTypeSecurityGroup represents the value SecurityGroup.
+	ExternalNetworkTypeSecurityGroup ExternalNetworkTypeValue = "SecurityGroup"
+
+	// ExternalNetworkTypeSubnet represents the value Subnet.
+	ExternalNetworkTypeSubnet ExternalNetworkTypeValue = "Subnet"
+)
+
 // ExternalNetworkIdentity represents the Identity of the object.
 var ExternalNetworkIdentity = elemental.Identity{
 	Name:     "externalnetwork",
@@ -138,8 +158,8 @@ type ExternalNetwork struct {
 	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
 	ServicePorts []string `json:"servicePorts" msgpack:"servicePorts" bson:"serviceports" mapstructure:"servicePorts,omitempty"`
 
-	// The type of external network (`subnet`, `ec2`, `eks`, etc.).
-	Type string `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
+	// The type of external network (default `Subnet`).
+	Type ExternalNetworkTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -171,7 +191,7 @@ func NewExternalNetwork() *ExternalNetwork {
 		Ports:          []string{},
 		Metadata:       []string{},
 		ServicePorts:   []string{},
-		Type:           "subnet",
+		Type:           ExternalNetworkTypeSubnet,
 	}
 }
 
@@ -745,6 +765,10 @@ func (o *ExternalNetwork) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"ENI", "RDSCluster", "RDSInstance", "SecurityGroup", "Subnet"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -1057,15 +1081,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Type:           "list",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
+		AllowedChoices: []string{"ENI", "RDSCluster", "RDSInstance", "SecurityGroup", "Subnet"},
 		ConvertedName:  "Type",
-		DefaultValue:   "subnet",
-		Description:    `The type of external network (` + "`" + `subnet` + "`" + `, ` + "`" + `ec2` + "`" + `, ` + "`" + `eks` + "`" + `, etc.).`,
+		DefaultValue:   ExternalNetworkTypeSubnet,
+		Description:    `The type of external network (default ` + "`" + `Subnet` + "`" + `).`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
 		Stored:         true,
-		Type:           "string",
+		Type:           "enum",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1349,15 +1373,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Type:           "list",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
+		AllowedChoices: []string{"ENI", "RDSCluster", "RDSInstance", "SecurityGroup", "Subnet"},
 		ConvertedName:  "Type",
-		DefaultValue:   "subnet",
-		Description:    `The type of external network (` + "`" + `subnet` + "`" + `, ` + "`" + `ec2` + "`" + `, ` + "`" + `eks` + "`" + `, etc.).`,
+		DefaultValue:   ExternalNetworkTypeSubnet,
+		Description:    `The type of external network (default ` + "`" + `Subnet` + "`" + `).`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
 		Stored:         true,
-		Type:           "string",
+		Type:           "enum",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1534,8 +1558,8 @@ type SparseExternalNetwork struct {
 	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
 	ServicePorts *[]string `json:"servicePorts,omitempty" msgpack:"servicePorts,omitempty" bson:"serviceports,omitempty" mapstructure:"servicePorts,omitempty"`
 
-	// The type of external network (`subnet`, `ec2`, `eks`, etc.).
-	Type *string `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+	// The type of external network (default `Subnet`).
+	Type *ExternalNetworkTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -2131,52 +2155,52 @@ func (o *SparseExternalNetwork) DeepCopyInto(out *SparseExternalNetwork) {
 }
 
 type mongoAttributesExternalNetwork struct {
-	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	Annotations          map[string][]string `bson:"annotations"`
-	Archived             bool                `bson:"archived"`
-	AssociatedTags       []string            `bson:"associatedtags"`
-	CreateIdempotencyKey string              `bson:"createidempotencykey"`
-	CreateTime           time.Time           `bson:"createtime"`
-	Description          string              `bson:"description"`
-	Entries              []string            `bson:"entries"`
-	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 string              `bson:"name"`
-	Namespace            string              `bson:"namespace"`
-	NormalizedTags       []string            `bson:"normalizedtags"`
-	Ports                []string            `bson:"ports"`
-	Propagate            bool                `bson:"propagate"`
-	Protected            bool                `bson:"protected"`
-	Protocols            []string            `bson:"protocols"`
-	ServicePorts         []string            `bson:"serviceports"`
-	Type                 string              `bson:"type"`
-	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
-	UpdateTime           time.Time           `bson:"updatetime"`
-	ZHash                int                 `bson:"zhash"`
-	Zone                 int                 `bson:"zone"`
+	ID                   bson.ObjectId            `bson:"_id,omitempty"`
+	Annotations          map[string][]string      `bson:"annotations"`
+	Archived             bool                     `bson:"archived"`
+	AssociatedTags       []string                 `bson:"associatedtags"`
+	CreateIdempotencyKey string                   `bson:"createidempotencykey"`
+	CreateTime           time.Time                `bson:"createtime"`
+	Description          string                   `bson:"description"`
+	Entries              []string                 `bson:"entries"`
+	Metadata             []string                 `bson:"metadata"`
+	MigrationsLog        map[string]string        `bson:"migrationslog,omitempty"`
+	Name                 string                   `bson:"name"`
+	Namespace            string                   `bson:"namespace"`
+	NormalizedTags       []string                 `bson:"normalizedtags"`
+	Ports                []string                 `bson:"ports"`
+	Propagate            bool                     `bson:"propagate"`
+	Protected            bool                     `bson:"protected"`
+	Protocols            []string                 `bson:"protocols"`
+	ServicePorts         []string                 `bson:"serviceports"`
+	Type                 ExternalNetworkTypeValue `bson:"type"`
+	UpdateIdempotencyKey string                   `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                `bson:"updatetime"`
+	ZHash                int                      `bson:"zhash"`
+	Zone                 int                      `bson:"zone"`
 }
 type mongoAttributesSparseExternalNetwork struct {
-	ID                   bson.ObjectId        `bson:"_id,omitempty"`
-	Annotations          *map[string][]string `bson:"annotations,omitempty"`
-	Archived             *bool                `bson:"archived,omitempty"`
-	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time           `bson:"createtime,omitempty"`
-	Description          *string              `bson:"description,omitempty"`
-	Entries              *[]string            `bson:"entries,omitempty"`
-	Metadata             *[]string            `bson:"metadata,omitempty"`
-	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 *string              `bson:"name,omitempty"`
-	Namespace            *string              `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	Ports                *[]string            `bson:"ports,omitempty"`
-	Propagate            *bool                `bson:"propagate,omitempty"`
-	Protected            *bool                `bson:"protected,omitempty"`
-	Protocols            *[]string            `bson:"protocols,omitempty"`
-	ServicePorts         *[]string            `bson:"serviceports,omitempty"`
-	Type                 *string              `bson:"type,omitempty"`
-	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
-	ZHash                *int                 `bson:"zhash,omitempty"`
-	Zone                 *int                 `bson:"zone,omitempty"`
+	ID                   bson.ObjectId             `bson:"_id,omitempty"`
+	Annotations          *map[string][]string      `bson:"annotations,omitempty"`
+	Archived             *bool                     `bson:"archived,omitempty"`
+	AssociatedTags       *[]string                 `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string                   `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                `bson:"createtime,omitempty"`
+	Description          *string                   `bson:"description,omitempty"`
+	Entries              *[]string                 `bson:"entries,omitempty"`
+	Metadata             *[]string                 `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string        `bson:"migrationslog,omitempty"`
+	Name                 *string                   `bson:"name,omitempty"`
+	Namespace            *string                   `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                 `bson:"normalizedtags,omitempty"`
+	Ports                *[]string                 `bson:"ports,omitempty"`
+	Propagate            *bool                     `bson:"propagate,omitempty"`
+	Protected            *bool                     `bson:"protected,omitempty"`
+	Protocols            *[]string                 `bson:"protocols,omitempty"`
+	ServicePorts         *[]string                 `bson:"serviceports,omitempty"`
+	Type                 *ExternalNetworkTypeValue `bson:"type,omitempty"`
+	UpdateIdempotencyKey *string                   `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                `bson:"updatetime,omitempty"`
+	ZHash                *int                      `bson:"zhash,omitempty"`
+	Zone                 *int                      `bson:"zone,omitempty"`
 }
