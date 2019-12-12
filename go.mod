@@ -3,7 +3,7 @@ module go.aporeto.io/gaia
 go 1.13
 
 // Aporeto
-require go.aporeto.io/elemental v1.100.1-0.20191125222308-40b8b5b37b8a
+require go.aporeto.io/elemental v1.100.1-0.20191207025209-fcdec5ab5950
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -12,5 +12,6 @@ require (
 	github.com/mitchellh/copystructure v1.0.0
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a
-	gopkg.in/yaml.v2 v2.2.2
+	github.com/stretchr/testify v1.4.0 // indirect
+	gopkg.in/yaml.v2 v2.2.7
 )
