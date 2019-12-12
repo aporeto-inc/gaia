@@ -741,6 +741,11 @@ func (o *APIProxy) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	// Custom object validation.
+	if err := ValidateAPIProxyEntity(o); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}

@@ -28,6 +28,8 @@ model:
   - '@metadatable'
   - '@named'
   - '@timeable'
+  validations:
+  - $apiproxyEntity
 
 # Attributes
 attributes:
@@ -116,3 +118,15 @@ attributes:
     stored: true
     validations:
     - $httpMethods
+
+# Relations
+relations:
+- rest_name: call
+  get:
+    description: |-
+      Allows a system to send a remote request to the API proxy if its `methods`
+      property contains the `GET` HTTP method.
+  create:
+    description: |-
+      Allows a system to send a remote request to the API proxy if its `methods`
+      property contains the `POST` HTTP method.

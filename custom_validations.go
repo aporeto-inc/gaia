@@ -19,6 +19,26 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// ValidateAPIProxyEntity validates an APIProxy.
+func ValidateAPIProxyEntity(apiProxy *APIProxy) error {
+
+	var errs elemental.Errors
+
+	if apiProxy.ClientCertificate != "" && apiProxy.ClientCertificateKey == "" {
+		errs = errs.Append(makeValidationError("ClientCertificateKey", "client certificate private key was not provided"))
+	}
+
+	if apiProxy.ClientCertificate == "" && apiProxy.ClientCertificateKey != "" {
+		errs = errs.Append(makeValidationError("ClientCertificate", "client certificate was not provided"))
+	}
+
+	if len(errs) > 0 {
+		return errs
+	}
+
+	return nil
+}
+
 // ValidatePortString validates a string represents a port or a range of port.
 // valid: 443, 443:555
 func ValidatePortString(attribute string, portExp string) error {

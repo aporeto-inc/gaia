@@ -2,6 +2,10 @@ $apiauthsubject:
   elemental:
     name: ValidateAPIAuthorizationPolicySubject
 
+$apiproxyEntity:
+  elemental:
+    name: ValidateAPIProxyEntity
+
 $audience:
   elemental:
     name: ValidateAudience

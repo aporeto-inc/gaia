@@ -699,6 +699,18 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[CallIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"apiproxy": &elemental.RelationshipInfo{},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"apiproxy": &elemental.RelationshipInfo{},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"apiproxy": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[CategoryIdentity] = &elemental.Relationship{}
 
 	relationshipsRegistry[ClaimsIdentity] = &elemental.Relationship{
