@@ -9,6 +9,26 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// APIProxyOperationValue represents the possible values for attribute "operation".
+type APIProxyOperationValue string
+
+const (
+	// APIProxyOperationDELETE represents the value DELETE.
+	APIProxyOperationDELETE APIProxyOperationValue = "DELETE"
+
+	// APIProxyOperationGET represents the value GET.
+	APIProxyOperationGET APIProxyOperationValue = "GET"
+
+	// APIProxyOperationPATCH represents the value PATCH.
+	APIProxyOperationPATCH APIProxyOperationValue = "PATCH"
+
+	// APIProxyOperationPOST represents the value POST.
+	APIProxyOperationPOST APIProxyOperationValue = "POST"
+
+	// APIProxyOperationPUT represents the value PUT.
+	APIProxyOperationPUT APIProxyOperationValue = "PUT"
+)
+
 // APIProxyIdentity represents the Identity of the object.
 var APIProxyIdentity = elemental.Identity{
 	Name:     "apiproxy",
@@ -124,9 +144,6 @@ type APIProxy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Methods exposed to communicate with the remote service.
-	Methods []string `json:"methods" msgpack:"methods" bson:"methods" mapstructure:"methods,omitempty"`
-
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
@@ -138,6 +155,9 @@ type APIProxy struct {
 
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Defines the operation that is currently handled by the service.
+	Operation APIProxyOperationValue `json:"operation" msgpack:"operation" bson:"operation" mapstructure:"operation,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -166,9 +186,9 @@ func NewAPIProxy() *APIProxy {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
-		Methods:        []string{},
 		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
+		Operation:      APIProxyOperationGET,
 	}
 }
 
@@ -214,11 +234,11 @@ func (o *APIProxy) GetBSON() (interface{}, error) {
 	s.Disabled = o.Disabled
 	s.Endpoint = o.Endpoint
 	s.Metadata = o.Metadata
-	s.Methods = o.Methods
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
+	s.Operation = o.Operation
 	s.Protected = o.Protected
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
@@ -253,11 +273,11 @@ func (o *APIProxy) SetBSON(raw bson.Raw) error {
 	o.Disabled = s.Disabled
 	o.Endpoint = s.Endpoint
 	o.Metadata = s.Metadata
-	o.Methods = s.Methods
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
+	o.Operation = s.Operation
 	o.Protected = s.Protected
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
@@ -510,11 +530,11 @@ func (o *APIProxy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Disabled:             &o.Disabled,
 			Endpoint:             &o.Endpoint,
 			Metadata:             &o.Metadata,
-			Methods:              &o.Methods,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
+			Operation:            &o.Operation,
 			Protected:            &o.Protected,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
@@ -550,8 +570,6 @@ func (o *APIProxy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Endpoint = &(o.Endpoint)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
-		case "methods":
-			sp.Methods = &(o.Methods)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -560,6 +578,8 @@ func (o *APIProxy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "operation":
+			sp.Operation = &(o.Operation)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "updateIdempotencyKey":
@@ -639,9 +659,6 @@ func (o *APIProxy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
 	}
-	if so.Methods != nil {
-		o.Methods = *so.Methods
-	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
 	}
@@ -653,6 +670,9 @@ func (o *APIProxy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Operation != nil {
+		o.Operation = *so.Operation
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -729,15 +749,15 @@ func (o *APIProxy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateHTTPMethods("methods", o.Methods); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("operation", string(o.Operation), []string{"GET", "PATCH", "POST", "PUT", "DELETE"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -804,8 +824,6 @@ func (o *APIProxy) ValueForAttribute(name string) interface{} {
 		return o.Endpoint
 	case "metadata":
 		return o.Metadata
-	case "methods":
-		return o.Methods
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -814,6 +832,8 @@ func (o *APIProxy) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "operation":
+		return o.Operation
 	case "protected":
 		return o.Protected
 	case "updateIdempotencyKey":
@@ -983,16 +1003,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
-	"Methods": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Methods",
-		Description:    `Methods exposed to communicate with the remote service.`,
-		Exposed:        true,
-		Name:           "methods",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"MigrationsLog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MigrationsLog",
@@ -1048,6 +1058,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
+	},
+	"Operation": elemental.AttributeSpecification{
+		AllowedChoices: []string{"GET", "PATCH", "POST", "PUT", "DELETE"},
+		ConvertedName:  "Operation",
+		DefaultValue:   APIProxyOperationGET,
+		Description:    `Defines the operation that is currently handled by the service.`,
+		Exposed:        true,
+		Name:           "operation",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1270,16 +1290,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
-	"methods": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Methods",
-		Description:    `Methods exposed to communicate with the remote service.`,
-		Exposed:        true,
-		Name:           "methods",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"migrationslog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MigrationsLog",
@@ -1335,6 +1345,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
+	},
+	"operation": elemental.AttributeSpecification{
+		AllowedChoices: []string{"GET", "PATCH", "POST", "PUT", "DELETE"},
+		ConvertedName:  "Operation",
+		DefaultValue:   APIProxyOperationGET,
+		Description:    `Defines the operation that is currently handled by the service.`,
+		Exposed:        true,
+		Name:           "operation",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1509,9 +1529,6 @@ type SparseAPIProxy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Methods exposed to communicate with the remote service.
-	Methods *[]string `json:"methods,omitempty" msgpack:"methods,omitempty" bson:"methods,omitempty" mapstructure:"methods,omitempty"`
-
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -1523,6 +1540,9 @@ type SparseAPIProxy struct {
 
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+
+	// Defines the operation that is currently handled by the service.
+	Operation *APIProxyOperationValue `json:"operation,omitempty" msgpack:"operation,omitempty" bson:"operation,omitempty" mapstructure:"operation,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
@@ -1619,9 +1639,6 @@ func (o *SparseAPIProxy) GetBSON() (interface{}, error) {
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
 	}
-	if o.Methods != nil {
-		s.Methods = o.Methods
-	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -1633,6 +1650,9 @@ func (o *SparseAPIProxy) GetBSON() (interface{}, error) {
 	}
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Operation != nil {
+		s.Operation = o.Operation
 	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
@@ -1701,9 +1721,6 @@ func (o *SparseAPIProxy) SetBSON(raw bson.Raw) error {
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
 	}
-	if s.Methods != nil {
-		o.Methods = s.Methods
-	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
@@ -1715,6 +1732,9 @@ func (o *SparseAPIProxy) SetBSON(raw bson.Raw) error {
 	}
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Operation != nil {
+		o.Operation = s.Operation
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
@@ -1781,9 +1801,6 @@ func (o *SparseAPIProxy) ToPlain() elemental.PlainIdentifiable {
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
 	}
-	if o.Methods != nil {
-		out.Methods = *o.Methods
-	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
 	}
@@ -1795,6 +1812,9 @@ func (o *SparseAPIProxy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Operation != nil {
+		out.Operation = *o.Operation
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -2116,50 +2136,50 @@ func (o *SparseAPIProxy) DeepCopyInto(out *SparseAPIProxy) {
 }
 
 type mongoAttributesAPIProxy struct {
-	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	Annotations          map[string][]string `bson:"annotations"`
-	AssociatedTags       []string            `bson:"associatedtags"`
-	CertificateAuthority string              `bson:"certificateauthority"`
-	ClientCertificate    string              `bson:"clientcertificate"`
-	ClientCertificateKey string              `bson:"clientcertificatekey"`
-	CreateIdempotencyKey string              `bson:"createidempotencykey"`
-	CreateTime           time.Time           `bson:"createtime"`
-	Description          string              `bson:"description"`
-	Disabled             bool                `bson:"disabled"`
-	Endpoint             string              `bson:"endpoint"`
-	Metadata             []string            `bson:"metadata"`
-	Methods              []string            `bson:"methods"`
-	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 string              `bson:"name"`
-	Namespace            string              `bson:"namespace"`
-	NormalizedTags       []string            `bson:"normalizedtags"`
-	Protected            bool                `bson:"protected"`
-	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
-	UpdateTime           time.Time           `bson:"updatetime"`
-	ZHash                int                 `bson:"zhash"`
-	Zone                 int                 `bson:"zone"`
+	ID                   bson.ObjectId          `bson:"_id,omitempty"`
+	Annotations          map[string][]string    `bson:"annotations"`
+	AssociatedTags       []string               `bson:"associatedtags"`
+	CertificateAuthority string                 `bson:"certificateauthority"`
+	ClientCertificate    string                 `bson:"clientcertificate"`
+	ClientCertificateKey string                 `bson:"clientcertificatekey"`
+	CreateIdempotencyKey string                 `bson:"createidempotencykey"`
+	CreateTime           time.Time              `bson:"createtime"`
+	Description          string                 `bson:"description"`
+	Disabled             bool                   `bson:"disabled"`
+	Endpoint             string                 `bson:"endpoint"`
+	Metadata             []string               `bson:"metadata"`
+	MigrationsLog        map[string]string      `bson:"migrationslog,omitempty"`
+	Name                 string                 `bson:"name"`
+	Namespace            string                 `bson:"namespace"`
+	NormalizedTags       []string               `bson:"normalizedtags"`
+	Operation            APIProxyOperationValue `bson:"operation"`
+	Protected            bool                   `bson:"protected"`
+	UpdateIdempotencyKey string                 `bson:"updateidempotencykey"`
+	UpdateTime           time.Time              `bson:"updatetime"`
+	ZHash                int                    `bson:"zhash"`
+	Zone                 int                    `bson:"zone"`
 }
 type mongoAttributesSparseAPIProxy struct {
-	ID                   bson.ObjectId        `bson:"_id,omitempty"`
-	Annotations          *map[string][]string `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	CertificateAuthority *string              `bson:"certificateauthority,omitempty"`
-	ClientCertificate    *string              `bson:"clientcertificate,omitempty"`
-	ClientCertificateKey *string              `bson:"clientcertificatekey,omitempty"`
-	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time           `bson:"createtime,omitempty"`
-	Description          *string              `bson:"description,omitempty"`
-	Disabled             *bool                `bson:"disabled,omitempty"`
-	Endpoint             *string              `bson:"endpoint,omitempty"`
-	Metadata             *[]string            `bson:"metadata,omitempty"`
-	Methods              *[]string            `bson:"methods,omitempty"`
-	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 *string              `bson:"name,omitempty"`
-	Namespace            *string              `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	Protected            *bool                `bson:"protected,omitempty"`
-	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
-	ZHash                *int                 `bson:"zhash,omitempty"`
-	Zone                 *int                 `bson:"zone,omitempty"`
+	ID                   bson.ObjectId           `bson:"_id,omitempty"`
+	Annotations          *map[string][]string    `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string               `bson:"associatedtags,omitempty"`
+	CertificateAuthority *string                 `bson:"certificateauthority,omitempty"`
+	ClientCertificate    *string                 `bson:"clientcertificate,omitempty"`
+	ClientCertificateKey *string                 `bson:"clientcertificatekey,omitempty"`
+	CreateIdempotencyKey *string                 `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time              `bson:"createtime,omitempty"`
+	Description          *string                 `bson:"description,omitempty"`
+	Disabled             *bool                   `bson:"disabled,omitempty"`
+	Endpoint             *string                 `bson:"endpoint,omitempty"`
+	Metadata             *[]string               `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string      `bson:"migrationslog,omitempty"`
+	Name                 *string                 `bson:"name,omitempty"`
+	Namespace            *string                 `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string               `bson:"normalizedtags,omitempty"`
+	Operation            *APIProxyOperationValue `bson:"operation,omitempty"`
+	Protected            *bool                   `bson:"protected,omitempty"`
+	UpdateIdempotencyKey *string                 `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time              `bson:"updatetime,omitempty"`
+	ZHash                *int                    `bson:"zhash,omitempty"`
+	Zone                 *int                    `bson:"zone,omitempty"`
 }

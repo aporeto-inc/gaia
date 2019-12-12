@@ -110,23 +110,27 @@ attributes:
     validations:
     - $httpsURL
 
-  - name: methods
-    description: Methods exposed to communicate with the remote service.
-    type: list
+  - name: operation
+    description: Defines the operation that is currently handled by the service.
+    type: enum
     exposed: true
-    subtype: string
     stored: true
-    validations:
-    - $httpMethods
+    allowed_choices:
+    - GET
+    - PATCH
+    - POST
+    - PUT
+    - DELETE
+    default_value: GET
 
 # Relations
 relations:
 - rest_name: call
   get:
     description: |-
-      Allows a system to send a remote request to the API proxy if its `methods`
-      property contains the `GET` HTTP method.
+      Allows a system to send a remote request to the API proxy based on the
+      operation attribute.
   create:
     description: |-
-      Allows a system to send a remote request to the API proxy if its `methods`
-      property contains the `POST` HTTP method.
+      Allows a system to send a remote request to the API proxy based on the
+      operation attribute.
