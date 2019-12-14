@@ -254,11 +254,14 @@ type ProcessingUnit struct {
 	// `Stopped`, or `Terminated`.
 	OperationalStatus ProcessingUnitOperationalStatusValue `json:"operationalStatus" msgpack:"operationalStatus" bson:"operationalstatus" mapstructure:"operationalStatus,omitempty"`
 
+	// Configuration to run ping.
+	PingConfig *PingConfig `json:"pingConfig" msgpack:"pingConfig" bson:"-" mapstructure:"pingConfig,omitempty"`
+
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Indicates if this processing unit must be placed in tracing mode.
-	Tracing *TraceMode `json:"tracing" msgpack:"tracing" bson:"tracing" mapstructure:"tracing,omitempty"`
+	Tracing *TraceMode `json:"tracing" msgpack:"tracing" bson:"-" mapstructure:"tracing,omitempty"`
 
 	// Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
 	// `LinuxService`,
@@ -296,13 +299,14 @@ func NewProcessingUnit() *ProcessingUnit {
 		CollectedInfo:     map[string]string{},
 		DatapathType:      ProcessingUnitDatapathTypeAporeto,
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
-		NetworkServices:   []*ProcessingUnitService{},
 		NormalizedTags:    []string{},
-		Images:            []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
-		Metadata:          []string{},
-		Tracing:           NewTraceMode(),
+		PingConfig:        NewPingConfig(),
 		MigrationsLog:     map[string]string{},
+		Tracing:           NewTraceMode(),
+		NetworkServices:   []*ProcessingUnitService{},
+		Images:            []string{},
+		Metadata:          []string{},
 	}
 }
 
@@ -362,7 +366,6 @@ func (o *ProcessingUnit) GetBSON() (interface{}, error) {
 	s.NormalizedTags = o.NormalizedTags
 	s.OperationalStatus = o.OperationalStatus
 	s.Protected = o.Protected
-	s.Tracing = o.Tracing
 	s.Type = o.Type
 	s.Unreachable = o.Unreachable
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -412,7 +415,6 @@ func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
 	o.NormalizedTags = s.NormalizedTags
 	o.OperationalStatus = s.OperationalStatus
 	o.Protected = s.Protected
-	o.Tracing = s.Tracing
 	o.Type = s.Type
 	o.Unreachable = s.Unreachable
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -685,6 +687,7 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			NetworkServices:      &o.NetworkServices,
 			NormalizedTags:       &o.NormalizedTags,
 			OperationalStatus:    &o.OperationalStatus,
+			PingConfig:           o.PingConfig,
 			Protected:            &o.Protected,
 			Tracing:              o.Tracing,
 			Type:                 &o.Type,
@@ -751,6 +754,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "operationalStatus":
 			sp.OperationalStatus = &(o.OperationalStatus)
+		case "pingConfig":
+			sp.PingConfig = o.PingConfig
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "tracing":
@@ -858,6 +863,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	if so.OperationalStatus != nil {
 		o.OperationalStatus = *so.OperationalStatus
 	}
+	if so.PingConfig != nil {
+		o.PingConfig = so.PingConfig
+	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
@@ -960,6 +968,13 @@ func (o *ProcessingUnit) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if o.PingConfig != nil {
+		elemental.ResetDefaultForZeroValues(o.PingConfig)
+		if err := o.PingConfig.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
 	if o.Tracing != nil {
 		elemental.ResetDefaultForZeroValues(o.Tracing)
 		if err := o.Tracing.Validate(); err != nil {
@@ -1057,6 +1072,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "operationalStatus":
 		return o.OperationalStatus
+	case "pingConfig":
+		return o.PingConfig
 	case "protected":
 		return o.Protected
 	case "tracing":
@@ -1397,6 +1414,15 @@ manifest.`,
 		Stored:     true,
 		Type:       "enum",
 	},
+	"PingConfig": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PingConfig",
+		Description:    `Configuration to run ping.`,
+		Exposed:        true,
+		Name:           "pingConfig",
+		SubType:        "pingconfig",
+		Type:           "ref",
+	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1415,7 +1441,6 @@ manifest.`,
 		Description:    `Indicates if this processing unit must be placed in tracing mode.`,
 		Exposed:        true,
 		Name:           "tracing",
-		Stored:         true,
 		SubType:        "tracemode",
 		Type:           "ref",
 	},
@@ -1820,6 +1845,15 @@ manifest.`,
 		Stored:     true,
 		Type:       "enum",
 	},
+	"pingconfig": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PingConfig",
+		Description:    `Configuration to run ping.`,
+		Exposed:        true,
+		Name:           "pingConfig",
+		SubType:        "pingconfig",
+		Type:           "ref",
+	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1838,7 +1872,6 @@ manifest.`,
 		Description:    `Indicates if this processing unit must be placed in tracing mode.`,
 		Exposed:        true,
 		Name:           "tracing",
-		Stored:         true,
 		SubType:        "tracemode",
 		Type:           "ref",
 	},
@@ -2086,11 +2119,14 @@ type SparseProcessingUnit struct {
 	// `Stopped`, or `Terminated`.
 	OperationalStatus *ProcessingUnitOperationalStatusValue `json:"operationalStatus,omitempty" msgpack:"operationalStatus,omitempty" bson:"operationalstatus,omitempty" mapstructure:"operationalStatus,omitempty"`
 
+	// Configuration to run ping.
+	PingConfig *PingConfig `json:"pingConfig,omitempty" msgpack:"pingConfig,omitempty" bson:"-" mapstructure:"pingConfig,omitempty"`
+
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Indicates if this processing unit must be placed in tracing mode.
-	Tracing *TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"tracing,omitempty" mapstructure:"tracing,omitempty"`
+	Tracing *TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"-" mapstructure:"tracing,omitempty"`
 
 	// Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
 	// `LinuxService`,
@@ -2236,9 +2272,6 @@ func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
-	if o.Tracing != nil {
-		s.Tracing = o.Tracing
-	}
 	if o.Type != nil {
 		s.Type = o.Type
 	}
@@ -2351,9 +2384,6 @@ func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
-	if s.Tracing != nil {
-		o.Tracing = s.Tracing
-	}
 	if s.Type != nil {
 		o.Type = s.Type
 	}
@@ -2463,6 +2493,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.OperationalStatus != nil {
 		out.OperationalStatus = *o.OperationalStatus
+	}
+	if o.PingConfig != nil {
+		out.PingConfig = o.PingConfig
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -2799,7 +2832,6 @@ type mongoAttributesProcessingUnit struct {
 	NormalizedTags       []string                             `bson:"normalizedtags"`
 	OperationalStatus    ProcessingUnitOperationalStatusValue `bson:"operationalstatus"`
 	Protected            bool                                 `bson:"protected"`
-	Tracing              *TraceMode                           `bson:"tracing"`
 	Type                 ProcessingUnitTypeValue              `bson:"type"`
 	Unreachable          bool                                 `bson:"unreachable"`
 	UpdateIdempotencyKey string                               `bson:"updateidempotencykey"`
@@ -2834,7 +2866,6 @@ type mongoAttributesSparseProcessingUnit struct {
 	NormalizedTags       *[]string                             `bson:"normalizedtags,omitempty"`
 	OperationalStatus    *ProcessingUnitOperationalStatusValue `bson:"operationalstatus,omitempty"`
 	Protected            *bool                                 `bson:"protected,omitempty"`
-	Tracing              *TraceMode                            `bson:"tracing,omitempty"`
 	Type                 *ProcessingUnitTypeValue              `bson:"type,omitempty"`
 	Unreachable          *bool                                 `bson:"unreachable,omitempty"`
 	UpdateIdempotencyKey *string                               `bson:"updateidempotencykey,omitempty"`

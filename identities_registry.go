@@ -82,6 +82,8 @@ var (
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
 
+		"pingreport": PingReportIdentity,
+
 		"plan":                  PlanIdentity,
 		"poke":                  PokeIdentity,
 		"policy":                PolicyIdentity,
@@ -216,6 +218,8 @@ var (
 		"oidcproviders":            OIDCProviderIdentity,
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
+
+		"pingreport": PingReportIdentity,
 
 		"plans":                  PlanIdentity,
 		"poke":                   PokeIdentity,
@@ -665,6 +669,7 @@ var (
 		},
 		"packetreport":  nil,
 		"passwordreset": nil,
+		"pingreport":    nil,
 		"plan":          nil,
 		"poke":          nil,
 		"policy": [][]string{
@@ -992,6 +997,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPacketReport()
 	case PasswordResetIdentity:
 		return NewPasswordReset()
+	case PingReportIdentity:
+		return NewPingReport()
 	case PlanIdentity:
 		return NewPlan()
 	case PokeIdentity:
@@ -1241,6 +1248,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePacketReport()
 	case PasswordResetIdentity:
 		return NewSparsePasswordReset()
+	case PingReportIdentity:
+		return NewSparsePingReport()
 	case PlanIdentity:
 		return NewSparsePlan()
 	case PokeIdentity:
@@ -1498,6 +1507,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PacketReportsList{}
 	case PasswordResetIdentity:
 		return &PasswordResetsList{}
+	case PingReportIdentity:
+		return &PingReportsList{}
 	case PlanIdentity:
 		return &PlansList{}
 	case PokeIdentity:
@@ -1745,6 +1756,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePacketReportsList{}
 	case PasswordResetIdentity:
 		return &SparsePasswordResetsList{}
+	case PingReportIdentity:
+		return &SparsePingReportsList{}
 	case PlanIdentity:
 		return &SparsePlansList{}
 	case PokeIdentity:
@@ -1936,6 +1949,7 @@ func AllIdentities() []elemental.Identity {
 		OIDCProviderIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
+		PingReportIdentity,
 		PlanIdentity,
 		PokeIdentity,
 		PolicyIdentity,
@@ -2210,6 +2224,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PacketReportIdentity:
 		return []string{}
 	case PasswordResetIdentity:
+		return []string{}
+	case PingReportIdentity:
 		return []string{}
 	case PlanIdentity:
 		return []string{}

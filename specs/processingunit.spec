@@ -198,12 +198,19 @@ attributes:
     default_value: Initialized
     filterable: true
 
+  - name: pingConfig
+    description: Configuration to run ping.
+    type: ref
+    exposed: true
+    subtype: pingconfig
+    extensions:
+      refMode: pointer
+
   - name: tracing
     description: Indicates if this processing unit must be placed in tracing mode.
     type: ref
     exposed: true
     subtype: tracemode
-    stored: true
     extensions:
       refMode: pointer
 

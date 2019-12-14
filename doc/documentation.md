@@ -2910,6 +2910,126 @@ Default value:
 true
 ```
 
+### PingConfig
+
+Represents the ping config to apply to a processing unit.
+
+#### Example
+
+```json
+{
+  "type": "None"
+}
+```
+
+#### Attributes
+
+##### `network` `string`
+
+Destination network to test.
+
+##### `ports` `[]string`
+
+Destination port(s) to test.
+
+##### `requests` `integer`
+
+Number of requests to make on one call.
+
+##### `type` `emum(None | AporetoIdentity | CustomIdentity | AporetoIdentityPassthrough)`
+
+Ping type.
+
+Default value:
+
+```json
+"None"
+```
+
+### PingReport
+
+Post a new pu diagnostics report.
+
+#### Example
+
+```json
+{
+  "ID": "xxx-xxx-xxx-xxx",
+  "enforcerID": "xxx-xxx-xxx-xxx",
+  "namespace": "/my/ns",
+  "sourceID": "xxx-xxx-xxx-xxx",
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
+```
+
+#### Relations
+
+##### `POST /pingreport`
+
+Create a ping report.
+
+#### Attributes
+
+##### `ID` `string` [`required`]
+
+ID unique to a single origin and reply report.
+
+##### `destinationID` `string`
+
+ID of the destination PU.
+
+##### `enforcerID` `string` [`required`]
+
+ID of the enforcer.
+
+##### `enforcerVersion` `string`
+
+Semantic version of the enforcer.
+
+##### `flowTuple` `string`
+
+Flow tuple in the format <sip:dip:spt:dpt>.
+
+##### `latency` `string`
+
+Time taken for a single request to complete.
+
+##### `namespace` `string` [`required`]
+
+Namespace of the source PU.
+
+##### `payloadSize` `integer`
+
+Size of the payload attached to the packet.
+
+##### `pingType` `string`
+
+Represents the ping type used.
+
+##### `protocol` `integer`
+
+Protocol used for the communication.
+
+##### `request` `integer`
+
+Request represents the request number.
+
+##### `serviceType` `string`
+
+Type of the service.
+
+##### `sourceID` `string` [`required`]
+
+ID of the source PU.
+
+##### `stage` `string`
+
+Stage when the packet is received.
+
+##### `timestamp` `time` [`required`]
+
+Date of the report.
+
 ### TraceMode
 
 Represents the tracing mode to apply to a processing unit.
@@ -4516,6 +4636,10 @@ Default value:
 ```json
 "Initialized"
 ```
+
+##### `pingConfig` [`pingconfig`](#pingconfig)
+
+Configuration to run ping.
 
 ##### `protected` `boolean`
 
@@ -11082,7 +11206,7 @@ Default value:
 -1
 ```
 
-##### `measurement` `emum(Flows | Audit | Enforcers | Files | EventLogs | Packets | EnforcerTraces | Counters | Accesses | DNSLookups)`
+##### `measurement` `emum(Flows | Audit | Enforcers | Files | EventLogs | Packets | EnforcerTraces | Counters | Accesses | DNSLookups | PingReports)`
 
 Name of the measurement.
 
