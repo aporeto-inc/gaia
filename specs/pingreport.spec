@@ -22,12 +22,24 @@ attributes:
     type: string
     exposed: true
 
+  - name: destinationNamespace
+    description: Namespace of the destination PU.
+    type: string
+    exposed: true
+
   - name: enforcerID
     description: ID of the enforcer.
     type: string
     exposed: true
     required: true
     example_value: xxx-xxx-xxx-xxx
+
+  - name: enforcerNamespace
+    description: Namespace of the enforcer.
+    type: string
+    exposed: true
+    required: true
+    example_value: /my/ns
 
   - name: enforcerVersion
     description: Semantic version of the enforcer.
@@ -43,13 +55,6 @@ attributes:
     description: Time taken for a single request to complete.
     type: string
     exposed: true
-
-  - name: namespace
-    description: Namespace of the source PU.
-    type: string
-    exposed: true
-    required: true
-    example_value: /my/ns
 
   - name: payloadSize
     description: Size of the payload attached to the packet.
@@ -82,6 +87,13 @@ attributes:
     exposed: true
     required: true
     example_value: xxx-xxx-xxx-xxx
+
+  - name: sourceNamespace
+    description: Namespace of the source PU.
+    type: string
+    exposed: true
+    required: true
+    example_value: /my/ns
 
   - name: stage
     description: Stage when the packet is received.

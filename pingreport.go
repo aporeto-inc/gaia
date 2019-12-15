@@ -87,8 +87,14 @@ type PingReport struct {
 	// ID of the destination PU.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"-" mapstructure:"destinationID,omitempty"`
 
+	// Namespace of the destination PU.
+	DestinationNamespace string `json:"destinationNamespace" msgpack:"destinationNamespace" bson:"-" mapstructure:"destinationNamespace,omitempty"`
+
 	// ID of the enforcer.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
+
+	// Namespace of the enforcer.
+	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Semantic version of the enforcer.
 	EnforcerVersion string `json:"enforcerVersion" msgpack:"enforcerVersion" bson:"-" mapstructure:"enforcerVersion,omitempty"`
@@ -98,9 +104,6 @@ type PingReport struct {
 
 	// Time taken for a single request to complete.
 	Latency string `json:"latency" msgpack:"latency" bson:"-" mapstructure:"latency,omitempty"`
-
-	// Namespace of the source PU.
-	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Size of the payload attached to the packet.
 	PayloadSize int `json:"payloadSize" msgpack:"payloadSize" bson:"-" mapstructure:"payloadSize,omitempty"`
@@ -119,6 +122,9 @@ type PingReport struct {
 
 	// ID of the source PU.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"-" mapstructure:"sourceID,omitempty"`
+
+	// Namespace of the source PU.
+	SourceNamespace string `json:"sourceNamespace" msgpack:"sourceNamespace" bson:"-" mapstructure:"sourceNamespace,omitempty"`
 
 	// Stage when the packet is received.
 	Stage string `json:"stage" msgpack:"stage" bson:"-" mapstructure:"stage,omitempty"`
@@ -219,21 +225,23 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePingReport{
-			ID:              &o.ID,
-			DestinationID:   &o.DestinationID,
-			EnforcerID:      &o.EnforcerID,
-			EnforcerVersion: &o.EnforcerVersion,
-			FlowTuple:       &o.FlowTuple,
-			Latency:         &o.Latency,
-			Namespace:       &o.Namespace,
-			PayloadSize:     &o.PayloadSize,
-			PingType:        &o.PingType,
-			Protocol:        &o.Protocol,
-			Request:         &o.Request,
-			ServiceType:     &o.ServiceType,
-			SourceID:        &o.SourceID,
-			Stage:           &o.Stage,
-			Timestamp:       &o.Timestamp,
+			ID:                   &o.ID,
+			DestinationID:        &o.DestinationID,
+			DestinationNamespace: &o.DestinationNamespace,
+			EnforcerID:           &o.EnforcerID,
+			EnforcerNamespace:    &o.EnforcerNamespace,
+			EnforcerVersion:      &o.EnforcerVersion,
+			FlowTuple:            &o.FlowTuple,
+			Latency:              &o.Latency,
+			PayloadSize:          &o.PayloadSize,
+			PingType:             &o.PingType,
+			Protocol:             &o.Protocol,
+			Request:              &o.Request,
+			ServiceType:          &o.ServiceType,
+			SourceID:             &o.SourceID,
+			SourceNamespace:      &o.SourceNamespace,
+			Stage:                &o.Stage,
+			Timestamp:            &o.Timestamp,
 		}
 	}
 
@@ -244,16 +252,18 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ID = &(o.ID)
 		case "destinationID":
 			sp.DestinationID = &(o.DestinationID)
+		case "destinationNamespace":
+			sp.DestinationNamespace = &(o.DestinationNamespace)
 		case "enforcerID":
 			sp.EnforcerID = &(o.EnforcerID)
+		case "enforcerNamespace":
+			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "enforcerVersion":
 			sp.EnforcerVersion = &(o.EnforcerVersion)
 		case "flowTuple":
 			sp.FlowTuple = &(o.FlowTuple)
 		case "latency":
 			sp.Latency = &(o.Latency)
-		case "namespace":
-			sp.Namespace = &(o.Namespace)
 		case "payloadSize":
 			sp.PayloadSize = &(o.PayloadSize)
 		case "pingType":
@@ -266,6 +276,8 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ServiceType = &(o.ServiceType)
 		case "sourceID":
 			sp.SourceID = &(o.SourceID)
+		case "sourceNamespace":
+			sp.SourceNamespace = &(o.SourceNamespace)
 		case "stage":
 			sp.Stage = &(o.Stage)
 		case "timestamp":
@@ -289,8 +301,14 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.DestinationID != nil {
 		o.DestinationID = *so.DestinationID
 	}
+	if so.DestinationNamespace != nil {
+		o.DestinationNamespace = *so.DestinationNamespace
+	}
 	if so.EnforcerID != nil {
 		o.EnforcerID = *so.EnforcerID
+	}
+	if so.EnforcerNamespace != nil {
+		o.EnforcerNamespace = *so.EnforcerNamespace
 	}
 	if so.EnforcerVersion != nil {
 		o.EnforcerVersion = *so.EnforcerVersion
@@ -300,9 +318,6 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Latency != nil {
 		o.Latency = *so.Latency
-	}
-	if so.Namespace != nil {
-		o.Namespace = *so.Namespace
 	}
 	if so.PayloadSize != nil {
 		o.PayloadSize = *so.PayloadSize
@@ -321,6 +336,9 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SourceID != nil {
 		o.SourceID = *so.SourceID
+	}
+	if so.SourceNamespace != nil {
+		o.SourceNamespace = *so.SourceNamespace
 	}
 	if so.Stage != nil {
 		o.Stage = *so.Stage
@@ -368,11 +386,15 @@ func (o *PingReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
+	if err := elemental.ValidateRequiredString("enforcerNamespace", o.EnforcerNamespace); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("sourceID", o.SourceID); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("sourceNamespace", o.SourceNamespace); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -418,16 +440,18 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "destinationID":
 		return o.DestinationID
+	case "destinationNamespace":
+		return o.DestinationNamespace
 	case "enforcerID":
 		return o.EnforcerID
+	case "enforcerNamespace":
+		return o.EnforcerNamespace
 	case "enforcerVersion":
 		return o.EnforcerVersion
 	case "flowTuple":
 		return o.FlowTuple
 	case "latency":
 		return o.Latency
-	case "namespace":
-		return o.Namespace
 	case "payloadSize":
 		return o.PayloadSize
 	case "pingType":
@@ -440,6 +464,8 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 		return o.ServiceType
 	case "sourceID":
 		return o.SourceID
+	case "sourceNamespace":
+		return o.SourceNamespace
 	case "stage":
 		return o.Stage
 	case "timestamp":
@@ -468,12 +494,29 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "destinationID",
 		Type:           "string",
 	},
+	"DestinationNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationNamespace",
+		Description:    `Namespace of the destination PU.`,
+		Exposed:        true,
+		Name:           "destinationNamespace",
+		Type:           "string",
+	},
 	"EnforcerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerID",
+		Required:       true,
+		Type:           "string",
+	},
+	"EnforcerNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcerNamespace",
+		Description:    `Namespace of the enforcer.`,
+		Exposed:        true,
+		Name:           "enforcerNamespace",
 		Required:       true,
 		Type:           "string",
 	},
@@ -499,15 +542,6 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Time taken for a single request to complete.`,
 		Exposed:        true,
 		Name:           "latency",
-		Type:           "string",
-	},
-	"Namespace": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Namespace",
-		Description:    `Namespace of the source PU.`,
-		Exposed:        true,
-		Name:           "namespace",
-		Required:       true,
 		Type:           "string",
 	},
 	"PayloadSize": elemental.AttributeSpecification{
@@ -559,6 +593,15 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
+	"SourceNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceNamespace",
+		Description:    `Namespace of the source PU.`,
+		Exposed:        true,
+		Name:           "sourceNamespace",
+		Required:       true,
+		Type:           "string",
+	},
 	"Stage": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Stage",
@@ -597,12 +640,29 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "destinationID",
 		Type:           "string",
 	},
+	"destinationnamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationNamespace",
+		Description:    `Namespace of the destination PU.`,
+		Exposed:        true,
+		Name:           "destinationNamespace",
+		Type:           "string",
+	},
 	"enforcerid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerID",
+		Required:       true,
+		Type:           "string",
+	},
+	"enforcernamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcerNamespace",
+		Description:    `Namespace of the enforcer.`,
+		Exposed:        true,
+		Name:           "enforcerNamespace",
 		Required:       true,
 		Type:           "string",
 	},
@@ -628,15 +688,6 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Time taken for a single request to complete.`,
 		Exposed:        true,
 		Name:           "latency",
-		Type:           "string",
-	},
-	"namespace": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Namespace",
-		Description:    `Namespace of the source PU.`,
-		Exposed:        true,
-		Name:           "namespace",
-		Required:       true,
 		Type:           "string",
 	},
 	"payloadsize": elemental.AttributeSpecification{
@@ -685,6 +736,15 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `ID of the source PU.`,
 		Exposed:        true,
 		Name:           "sourceID",
+		Required:       true,
+		Type:           "string",
+	},
+	"sourcenamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceNamespace",
+		Description:    `Namespace of the source PU.`,
+		Exposed:        true,
+		Name:           "sourceNamespace",
 		Required:       true,
 		Type:           "string",
 	},
@@ -776,8 +836,14 @@ type SparsePingReport struct {
 	// ID of the destination PU.
 	DestinationID *string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"-" mapstructure:"destinationID,omitempty"`
 
+	// Namespace of the destination PU.
+	DestinationNamespace *string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
+
 	// ID of the enforcer.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
+
+	// Namespace of the enforcer.
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Semantic version of the enforcer.
 	EnforcerVersion *string `json:"enforcerVersion,omitempty" msgpack:"enforcerVersion,omitempty" bson:"-" mapstructure:"enforcerVersion,omitempty"`
@@ -787,9 +853,6 @@ type SparsePingReport struct {
 
 	// Time taken for a single request to complete.
 	Latency *string `json:"latency,omitempty" msgpack:"latency,omitempty" bson:"-" mapstructure:"latency,omitempty"`
-
-	// Namespace of the source PU.
-	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Size of the payload attached to the packet.
 	PayloadSize *int `json:"payloadSize,omitempty" msgpack:"payloadSize,omitempty" bson:"-" mapstructure:"payloadSize,omitempty"`
@@ -808,6 +871,9 @@ type SparsePingReport struct {
 
 	// ID of the source PU.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"-" mapstructure:"sourceID,omitempty"`
+
+	// Namespace of the source PU.
+	SourceNamespace *string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
 
 	// Stage when the packet is received.
 	Stage *string `json:"stage,omitempty" msgpack:"stage,omitempty" bson:"-" mapstructure:"stage,omitempty"`
@@ -885,8 +951,14 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	if o.DestinationID != nil {
 		out.DestinationID = *o.DestinationID
 	}
+	if o.DestinationNamespace != nil {
+		out.DestinationNamespace = *o.DestinationNamespace
+	}
 	if o.EnforcerID != nil {
 		out.EnforcerID = *o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		out.EnforcerNamespace = *o.EnforcerNamespace
 	}
 	if o.EnforcerVersion != nil {
 		out.EnforcerVersion = *o.EnforcerVersion
@@ -896,9 +968,6 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Latency != nil {
 		out.Latency = *o.Latency
-	}
-	if o.Namespace != nil {
-		out.Namespace = *o.Namespace
 	}
 	if o.PayloadSize != nil {
 		out.PayloadSize = *o.PayloadSize
@@ -917,6 +986,9 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SourceID != nil {
 		out.SourceID = *o.SourceID
+	}
+	if o.SourceNamespace != nil {
+		out.SourceNamespace = *o.SourceNamespace
 	}
 	if o.Stage != nil {
 		out.Stage = *o.Stage

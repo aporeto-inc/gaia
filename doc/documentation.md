@@ -2956,8 +2956,9 @@ Post a new pu diagnostics report.
 {
   "ID": "xxx-xxx-xxx-xxx",
   "enforcerID": "xxx-xxx-xxx-xxx",
-  "namespace": "/my/ns",
+  "enforcerNamespace": "/my/ns",
   "sourceID": "xxx-xxx-xxx-xxx",
+  "sourceNamespace": "/my/ns",
   "timestamp": "2018-06-14T23:10:46.420397985Z"
 }
 ```
@@ -2978,9 +2979,17 @@ ID unique to a single origin and reply report.
 
 ID of the destination PU.
 
+##### `destinationNamespace` `string`
+
+Namespace of the destination PU.
+
 ##### `enforcerID` `string` [`required`]
 
 ID of the enforcer.
+
+##### `enforcerNamespace` `string` [`required`]
+
+Namespace of the enforcer.
 
 ##### `enforcerVersion` `string`
 
@@ -2993,10 +3002,6 @@ Flow tuple in the format <sip:dip:spt:dpt>.
 ##### `latency` `string`
 
 Time taken for a single request to complete.
-
-##### `namespace` `string` [`required`]
-
-Namespace of the source PU.
 
 ##### `payloadSize` `integer`
 
@@ -3021,6 +3026,10 @@ Type of the service.
 ##### `sourceID` `string` [`required`]
 
 ID of the source PU.
+
+##### `sourceNamespace` `string` [`required`]
+
+Namespace of the source PU.
 
 ##### `stage` `string`
 
