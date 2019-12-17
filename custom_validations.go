@@ -24,7 +24,7 @@ func ValidateAPIProxyEntity(apiProxy *APIProxy) error {
 
 	var errs elemental.Errors
 
-	if apiProxy.ClientCertificate != "" && apiProxy.ClientCertificateKey == "" {
+	if apiProxy.ID == "" && apiProxy.ClientCertificate != "" && apiProxy.ClientCertificateKey == "" {
 		errs = errs.Append(makeValidationError("ClientCertificateKey", "client certificate private key was not provided"))
 	}
 
