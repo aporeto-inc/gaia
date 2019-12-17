@@ -40,6 +40,12 @@ model:
   - '@propagated'
   - '@timeable'
 
+# Indexes
+indexes:
+- - namespace
+  - type
+- - type
+
 # Attributes
 attributes:
   v1:
@@ -80,3 +86,18 @@ attributes:
     stored: true
     validations:
     - $serviceports
+
+  - name: type
+    description: |-
+      The type of external network (default `Subnet`).
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - ENI
+    - RDSCluster
+    - RDSInstance
+    - SecurityGroup
+    - Subnet
+    default_value: Subnet
+    filterable: true
