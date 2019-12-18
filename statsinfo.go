@@ -38,6 +38,9 @@ const (
 
 	// StatsInfoMeasurementPackets represents the value Packets.
 	StatsInfoMeasurementPackets StatsInfoMeasurementValue = "Packets"
+
+	// StatsInfoMeasurementPingReports represents the value PingReports.
+	StatsInfoMeasurementPingReports StatsInfoMeasurementValue = "PingReports"
 )
 
 // StatsInfoIdentity represents the Identity of the object.
@@ -286,7 +289,7 @@ func (o *StatsInfo) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups"}, false); err != nil {
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -349,7 +352,7 @@ var StatsInfoAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsInfoMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -384,7 +387,7 @@ var StatsInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Type:           "external",
 	},
 	"measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsInfoMeasurementFlows,
 		Description:    `Name of the measurement.`,
