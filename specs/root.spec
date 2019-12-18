@@ -96,6 +96,12 @@ relations:
     description: Retrieves the list of apps.
     global_parameters:
     - $filtering
+    parameters:
+      entries:
+      - name: name
+        description: internal parameter.
+        type: string
+        example_value: claire
 
 - rest_name: appcredential
   get:

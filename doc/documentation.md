@@ -5132,6 +5132,7 @@ Retrieves the list of apps.
 
 Parameters:
 
+- `name` (`string`): internal parameter.
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
 #### Attributes
