@@ -115,7 +115,6 @@ attributes:
     type: enum
     exposed: true
     stored: true
-    required: true
     allowed_choices:
     - GET
     - PATCH

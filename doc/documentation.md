@@ -5252,7 +5252,7 @@ Namespace tag attached to an entity.
 
 Contains the list of normalized tags of the entities.
 
-##### `operation` `emum(GET | PATCH | POST | PUT | DELETE)` [`required`]
+##### `operation` `emum(GET | PATCH | POST | PUT | DELETE)`
 
 Defines the operation that is currently handled by the service.
 

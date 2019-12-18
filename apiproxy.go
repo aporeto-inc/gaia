@@ -757,10 +757,6 @@ func (o *APIProxy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("operation", string(o.Operation)); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateStringInList("operation", string(o.Operation), []string{"GET", "PATCH", "POST", "PUT", "DELETE"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -1070,7 +1066,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Defines the operation that is currently handled by the service.`,
 		Exposed:        true,
 		Name:           "operation",
-		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -1358,7 +1353,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Defines the operation that is currently handled by the service.`,
 		Exposed:        true,
 		Name:           "operation",
-		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
