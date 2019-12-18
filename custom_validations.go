@@ -24,6 +24,8 @@ func ValidateAPIProxyEntity(apiProxy *APIProxy) error {
 
 	var errs elemental.Errors
 
+	// We only want to check if there is a key on creation as it is a secret which
+	// means it will never be exposed outside of the service
 	if apiProxy.ID == "" && apiProxy.ClientCertificate != "" && apiProxy.ClientCertificateKey == "" {
 		errs = errs.Append(makeValidationError("ClientCertificateKey", "client certificate private key was not provided"))
 	}
@@ -450,10 +452,10 @@ func ValidateHTTPSURL(attribute string, address string) error {
 
 	u, err := url.Parse(address)
 	if err != nil {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a valid HTTPS URL (examaple: https://aporeto.com/)", attribute))
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a valid HTTPS URL (example: https://aporeto.com/)", attribute))
 	}
 
-	if u.Scheme != "https" || u.Host == "" {
+	if !strings.EqualFold(u.Scheme, "https") || u.Host == "" {
 		return makeValidationError(attribute, fmt.Sprintf("Invalid HTTPS URL %s", address))
 	}
 
