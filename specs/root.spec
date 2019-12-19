@@ -91,11 +91,25 @@ relations:
   create:
     description: Verifies the authorizations on various identities for a given token.
 
+- rest_name: apiproxy
+  get:
+    description: Retrieves the list of API proxies.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new API proxy.
+
 - rest_name: app
   get:
     description: Retrieves the list of apps.
     global_parameters:
     - $filtering
+    parameters:
+      entries:
+      - name: name
+        description: internal parameter.
+        type: string
+        example_value: claire
 
 - rest_name: appcredential
   get:

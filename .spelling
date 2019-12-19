@@ -9,6 +9,8 @@ addressers
 api
 APIAuthorizationPolicy
 APICheck
+APIProxy
+apiproxy
 APIs
 Apobar
 apoctl

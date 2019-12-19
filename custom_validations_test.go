@@ -6,6 +6,60 @@ import (
 	"testing"
 )
 
+func TestValidateAPIProxyEntity(t *testing.T) {
+	type args struct {
+		apiProxy *APIProxy
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid cert assignment",
+			args{
+				&APIProxy{
+					ClientCertificate:    "something",
+					ClientCertificateKey: "something",
+				},
+			},
+			false,
+		},
+		{
+			"valid empty assignment",
+			args{
+				&APIProxy{},
+			},
+			false,
+		},
+		{
+			"invalid only client cert assignment",
+			args{
+				&APIProxy{
+					ClientCertificate: "something",
+				},
+			},
+			true,
+		},
+		{
+			"invalid only cert key assignment",
+			args{
+				&APIProxy{
+					ClientCertificateKey: "something",
+				},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateAPIProxyEntity(tt.args.apiProxy); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateAPIProxyEntity() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func TestValidatePortString(t *testing.T) {
 	type args struct {
 		attribute string
@@ -1109,6 +1163,58 @@ func TestValidateHTTPMethods(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateHTTPMethods(tt.args.attribute, tt.args.methods); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateHTTPMethods() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateHTTPSURL(t *testing.T) {
+	type args struct {
+		attribute string
+		address   string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"empty url",
+			args{
+				attribute: "endpoint",
+				address:   "",
+			},
+			true,
+		},
+		{
+			"valid url",
+			args{
+				attribute: "endpoint",
+				address:   "https://aporeto.com/",
+			},
+			false,
+		},
+		{
+			"invalid url",
+			args{
+				attribute: "endpoint",
+				address:   "htps:/a",
+			},
+			true,
+		},
+		{
+			"non https url",
+			args{
+				attribute: "endpoint",
+				address:   "http://hello.com/",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateHTTPSURL(tt.args.attribute, tt.args.address); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateHTTPSURL() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

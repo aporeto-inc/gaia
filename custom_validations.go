@@ -19,6 +19,28 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// ValidateAPIProxyEntity validates an APIProxy.
+func ValidateAPIProxyEntity(apiProxy *APIProxy) error {
+
+	var errs elemental.Errors
+
+	// We only want to check if there is a key on creation as it is a secret which
+	// means it will never be exposed outside of the service
+	if apiProxy.ID == "" && apiProxy.ClientCertificate != "" && apiProxy.ClientCertificateKey == "" {
+		errs = errs.Append(makeValidationError("ClientCertificateKey", "client certificate private key was not provided"))
+	}
+
+	if apiProxy.ClientCertificate == "" && apiProxy.ClientCertificateKey != "" {
+		errs = errs.Append(makeValidationError("ClientCertificate", "client certificate was not provided"))
+	}
+
+	if len(errs) > 0 {
+		return errs
+	}
+
+	return nil
+}
+
 // ValidatePortString validates a string represents a port or a range of port.
 // valid: 443, 443:555
 func ValidatePortString(attribute string, portExp string) error {
@@ -420,6 +442,21 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 
 			return makeValidationError(attribute, fmt.Sprintf("invalid HTTP method %s", m))
 		}
+	}
+
+	return nil
+}
+
+// ValidateHTTPSURL validates the URL to make sure it is in a validate format and is https.
+func ValidateHTTPSURL(attribute string, address string) error {
+
+	u, err := url.Parse(address)
+	if err != nil {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a valid HTTPS URL (example: https://aporeto.com/)", attribute))
+	}
+
+	if !strings.EqualFold(u.Scheme, "https") || u.Host == "" {
+		return makeValidationError(attribute, fmt.Sprintf("Invalid HTTPS URL %s", address))
 	}
 
 	return nil
