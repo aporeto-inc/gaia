@@ -398,10 +398,6 @@ func (o *PingReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredTime("timestamp", o.Timestamp); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -616,7 +612,6 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
-		Required:       true,
 		Type:           "time",
 	},
 }
@@ -762,7 +757,6 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
-		Required:       true,
 		Type:           "time",
 	},
 }

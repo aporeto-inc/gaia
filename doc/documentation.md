@@ -2958,8 +2958,7 @@ Post a new pu diagnostics report.
   "enforcerID": "xxx-xxx-xxx-xxx",
   "enforcerNamespace": "/my/ns",
   "sourceID": "xxx-xxx-xxx-xxx",
-  "sourceNamespace": "/my/ns",
-  "timestamp": "2018-06-14T23:10:46.420397985Z"
+  "sourceNamespace": "/my/ns"
 }
 ```
 
@@ -3035,7 +3034,7 @@ Namespace of the source PU.
 
 Stage when the packet is received.
 
-##### `timestamp` `time` [`required`]
+##### `timestamp` `time`
 
 Date of the report.
 
