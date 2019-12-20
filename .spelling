@@ -178,6 +178,8 @@ OpenSuSE
 PacketReport
 PasswordReset
 PEM-encoded
+PingReport
+PingConfig
 PKI-based
 PKIXName
 PolicyGraph

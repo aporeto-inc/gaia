@@ -5,7 +5,7 @@ model:
   entity_name: PingConfig
   package: squall
   group: core/enforcer
-  description: Represents the ping config to apply to a processing unit.
+  description: Represents the ping configuration to apply to a processing unit.
   detached: true
 
 # Attributes

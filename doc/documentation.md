@@ -2912,7 +2912,7 @@ true
 
 ### PingConfig
 
-Represents the ping config to apply to a processing unit.
+Represents the ping configuration to apply to a processing unit.
 
 #### Example
 
