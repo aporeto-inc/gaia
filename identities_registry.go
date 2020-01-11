@@ -12,6 +12,7 @@ var (
 		"alarm":                     AlarmIdentity,
 		"apiauthorizationpolicy":    APIAuthorizationPolicyIdentity,
 		"apicheck":                  APICheckIdentity,
+		"apiproxy":                  APIProxyIdentity,
 		"app":                       AppIdentity,
 		"appcredential":             AppCredentialIdentity,
 		"auditprofile":              AuditProfileIdentity,
@@ -24,6 +25,7 @@ var (
 		"automationtemplate":        AutomationTemplateIdentity,
 		"awsapigateway":             AWSAPIGatewayIdentity,
 		"awsregister":               AWSRegisterIdentity,
+		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
 
 		"claims":       ClaimsIdentity,
@@ -147,6 +149,7 @@ var (
 		"alarms":                      AlarmIdentity,
 		"apiauthorizationpolicies":    APIAuthorizationPolicyIdentity,
 		"apichecks":                   APICheckIdentity,
+		"apiproxies":                  APIProxyIdentity,
 		"apps":                        AppIdentity,
 		"appcredentials":              AppCredentialIdentity,
 		"auditprofiles":               AuditProfileIdentity,
@@ -159,6 +162,7 @@ var (
 		"automationtemplates":         AutomationTemplateIdentity,
 		"awsapigateways":              AWSAPIGatewayIdentity,
 		"awsregister":                 AWSRegisterIdentity,
+		"calls":                       CallIdentity,
 		"categories":                  CategoryIdentity,
 
 		"claims":         ClaimsIdentity,
@@ -276,6 +280,8 @@ var (
 	aliasesMap = map[string]elemental.Identity{
 		"apiauth":        APIAuthorizationPolicyIdentity,
 		"apiauths":       APIAuthorizationPolicyIdentity,
+		"apiprox":        APIProxyIdentity,
+		"apiproxs":       APIProxyIdentity,
 		"appcred":        AppCredentialIdentity,
 		"appcreds":       AppCredentialIdentity,
 		"ap":             AuditProfileIdentity,
@@ -404,7 +410,18 @@ var (
 		},
 		"apiauthorizationpolicy": nil,
 		"apicheck":               nil,
-		"app":                    nil,
+		"apiproxy": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "disabled"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"name"},
+			[]string{"disabled"},
+			[]string{"createIdempotencyKey"},
+		},
+		"app": nil,
 		"appcredential": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -454,6 +471,7 @@ var (
 			[]string{":shard", ":unique", "zone", "zHash"},
 		},
 		"awsregister": nil,
+		"call":        nil,
 		"category":    nil,
 		"claims": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -866,6 +884,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity:
 		return NewAPICheck()
+	case APIProxyIdentity:
+		return NewAPIProxy()
 	case AppIdentity:
 		return NewApp()
 	case AppCredentialIdentity:
@@ -890,6 +910,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAWSAPIGateway()
 	case AWSRegisterIdentity:
 		return NewAWSRegister()
+	case CallIdentity:
+		return NewCall()
 	case CategoryIdentity:
 		return NewCategory()
 	case ClaimsIdentity:
@@ -1115,6 +1137,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAPIAuthorizationPolicy()
 	case APICheckIdentity:
 		return NewSparseAPICheck()
+	case APIProxyIdentity:
+		return NewSparseAPIProxy()
 	case AppIdentity:
 		return NewSparseApp()
 	case AppCredentialIdentity:
@@ -1139,6 +1163,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAWSAPIGateway()
 	case AWSRegisterIdentity:
 		return NewSparseAWSRegister()
+	case CallIdentity:
+		return NewSparseCall()
 	case CategoryIdentity:
 		return NewSparseCategory()
 	case ClaimsIdentity:
@@ -1372,6 +1398,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity:
 		return &APIChecksList{}
+	case APIProxyIdentity:
+		return &APIProxiesList{}
 	case AppIdentity:
 		return &AppsList{}
 	case AppCredentialIdentity:
@@ -1396,6 +1424,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AWSAPIGatewaysList{}
 	case AWSRegisterIdentity:
 		return &AWSRegistersList{}
+	case CallIdentity:
+		return &CallsList{}
 	case CategoryIdentity:
 		return &CategoriesList{}
 	case ClaimsIdentity:
@@ -1619,6 +1649,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAPIAuthorizationPoliciesList{}
 	case APICheckIdentity:
 		return &SparseAPIChecksList{}
+	case APIProxyIdentity:
+		return &SparseAPIProxiesList{}
 	case AppIdentity:
 		return &SparseAppsList{}
 	case AppCredentialIdentity:
@@ -1643,6 +1675,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAWSAPIGatewaysList{}
 	case AWSRegisterIdentity:
 		return &SparseAWSRegistersList{}
+	case CallIdentity:
+		return &SparseCallsList{}
 	case CategoryIdentity:
 		return &SparseCategoriesList{}
 	case ClaimsIdentity:
@@ -1873,6 +1907,7 @@ func AllIdentities() []elemental.Identity {
 		AlarmIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
+		APIProxyIdentity,
 		AppIdentity,
 		AppCredentialIdentity,
 		AuditProfileIdentity,
@@ -1885,6 +1920,7 @@ func AllIdentities() []elemental.Identity {
 		AutomationTemplateIdentity,
 		AWSAPIGatewayIdentity,
 		AWSRegisterIdentity,
+		CallIdentity,
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
@@ -2011,6 +2047,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case APICheckIdentity:
 		return []string{}
+	case APIProxyIdentity:
+		return []string{
+			"apiprox",
+			"apiproxs",
+		}
 	case AppIdentity:
 		return []string{}
 	case AppCredentialIdentity:
@@ -2049,6 +2090,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case AWSAPIGatewayIdentity:
 		return []string{}
 	case AWSRegisterIdentity:
+		return []string{}
+	case CallIdentity:
 		return []string{}
 	case CategoryIdentity:
 		return []string{}
