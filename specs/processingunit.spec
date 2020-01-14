@@ -288,6 +288,10 @@ relations:
           processing unit is stored.
         type: integer
 
+- rest_name: processingunitrefresh
+  create:
+    description: Sends a Processing Unit Refresh command.
+
 - rest_name: renderedpolicy
   get:
     description: Retrieves the policies for the processing unit.

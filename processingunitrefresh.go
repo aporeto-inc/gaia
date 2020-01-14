@@ -80,11 +80,35 @@ func (o ProcessingUnitRefreshsList) Version() int {
 
 // ProcessingUnitRefresh represents the model of a processingunitrefresh
 type ProcessingUnitRefresh struct {
-	// Contains the original ID of the processing unit.
-	ID string `json:"ID" msgpack:"ID" bson:"id" mapstructure:"ID,omitempty"`
+	// Contains the ID of the target processing unit.
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// If set to true, start reporting debug information for the target processing
+	// unit.
+	Debug bool `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
 	// Contains the original namespace of the processing unit.
-	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// If set to true, the target Processing Unit will refresh its policy immediately.
+	RefreshPolicy bool `json:"refreshPolicy,omitempty" msgpack:"refreshPolicy,omitempty" bson:"-" mapstructure:"refreshPolicy,omitempty"`
+
+	// Instructs the enforcer to send records for all
+	// application-initiated connections for the target processing unit.
+	TraceApplicationConnections bool `json:"traceApplicationConnections,omitempty" msgpack:"traceApplicationConnections,omitempty" bson:"-" mapstructure:"traceApplicationConnections,omitempty"`
+
+	// Determines the length of the time interval that the trace must be
+	// enabled, using [Golang duration
+	// syntax](https://golang.org/pkg/time/#example_Duration).
+	TraceDuration string `json:"traceDuration,omitempty" msgpack:"traceDuration,omitempty" bson:"-" mapstructure:"traceDuration,omitempty"`
+
+	// Instructs the enforcers to provide an iptables trace for the target processing
+	// unit.
+	TraceIPTables bool `json:"traceIPTables,omitempty" msgpack:"traceIPTables,omitempty" bson:"-" mapstructure:"traceIPTables,omitempty"`
+
+	// Instructs the enforcer to send records for all
+	// network-initiated connections for the target processing unit.
+	TraceNetworkConnections bool `json:"traceNetworkConnections,omitempty" msgpack:"traceNetworkConnections,omitempty" bson:"-" mapstructure:"traceNetworkConnections,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -93,7 +117,8 @@ type ProcessingUnitRefresh struct {
 func NewProcessingUnitRefresh() *ProcessingUnitRefresh {
 
 	return &ProcessingUnitRefresh{
-		ModelVersion: 1,
+		ModelVersion:  1,
+		TraceDuration: "10s",
 	}
 }
 
@@ -106,12 +131,13 @@ func (o *ProcessingUnitRefresh) Identity() elemental.Identity {
 // Identifier returns the value of the object's unique identifier.
 func (o *ProcessingUnitRefresh) Identifier() string {
 
-	return ""
+	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *ProcessingUnitRefresh) SetIdentifier(id string) {
 
+	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -123,9 +149,6 @@ func (o *ProcessingUnitRefresh) GetBSON() (interface{}, error) {
 	}
 
 	s := &mongoAttributesProcessingUnitRefresh{}
-
-	s.ID = o.ID
-	s.Namespace = o.Namespace
 
 	return s, nil
 }
@@ -142,9 +165,6 @@ func (o *ProcessingUnitRefresh) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
-
-	o.ID = s.ID
-	o.Namespace = s.Namespace
 
 	return nil
 }
@@ -180,6 +200,18 @@ func (o *ProcessingUnitRefresh) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetID returns the ID of the receiver.
+func (o *ProcessingUnitRefresh) GetID() string {
+
+	return o.ID
+}
+
+// SetID sets the property ID of the receiver using the given value.
+func (o *ProcessingUnitRefresh) SetID(ID string) {
+
+	o.ID = ID
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *ProcessingUnitRefresh) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -187,8 +219,14 @@ func (o *ProcessingUnitRefresh) ToSparse(fields ...string) elemental.SparseIdent
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseProcessingUnitRefresh{
-			ID:        &o.ID,
-			Namespace: &o.Namespace,
+			ID:                          &o.ID,
+			Debug:                       &o.Debug,
+			Namespace:                   &o.Namespace,
+			RefreshPolicy:               &o.RefreshPolicy,
+			TraceApplicationConnections: &o.TraceApplicationConnections,
+			TraceDuration:               &o.TraceDuration,
+			TraceIPTables:               &o.TraceIPTables,
+			TraceNetworkConnections:     &o.TraceNetworkConnections,
 		}
 	}
 
@@ -197,8 +235,20 @@ func (o *ProcessingUnitRefresh) ToSparse(fields ...string) elemental.SparseIdent
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "debug":
+			sp.Debug = &(o.Debug)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
+		case "refreshPolicy":
+			sp.RefreshPolicy = &(o.RefreshPolicy)
+		case "traceApplicationConnections":
+			sp.TraceApplicationConnections = &(o.TraceApplicationConnections)
+		case "traceDuration":
+			sp.TraceDuration = &(o.TraceDuration)
+		case "traceIPTables":
+			sp.TraceIPTables = &(o.TraceIPTables)
+		case "traceNetworkConnections":
+			sp.TraceNetworkConnections = &(o.TraceNetworkConnections)
 		}
 	}
 
@@ -215,8 +265,26 @@ func (o *ProcessingUnitRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
+	if so.Debug != nil {
+		o.Debug = *so.Debug
+	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
+	}
+	if so.RefreshPolicy != nil {
+		o.RefreshPolicy = *so.RefreshPolicy
+	}
+	if so.TraceApplicationConnections != nil {
+		o.TraceApplicationConnections = *so.TraceApplicationConnections
+	}
+	if so.TraceDuration != nil {
+		o.TraceDuration = *so.TraceDuration
+	}
+	if so.TraceIPTables != nil {
+		o.TraceIPTables = *so.TraceIPTables
+	}
+	if so.TraceNetworkConnections != nil {
+		o.TraceNetworkConnections = *so.TraceNetworkConnections
 	}
 }
 
@@ -286,8 +354,20 @@ func (o *ProcessingUnitRefresh) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
+	case "debug":
+		return o.Debug
 	case "namespace":
 		return o.Namespace
+	case "refreshPolicy":
+		return o.RefreshPolicy
+	case "traceApplicationConnections":
+		return o.TraceApplicationConnections
+	case "traceDuration":
+		return o.TraceDuration
+	case "traceIPTables":
+		return o.TraceIPTables
+	case "traceNetworkConnections":
+		return o.TraceNetworkConnections
 	}
 
 	return nil
@@ -298,24 +378,79 @@ var ProcessingUnitRefreshAttributesMap = map[string]elemental.AttributeSpecifica
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `Contains the original ID of the processing unit.`,
+		Description:    `Contains the ID of the target processing unit.`,
 		Exposed:        true,
-		Filterable:     true,
+		Getter:         true,
+		Identifier:     true,
 		Name:           "ID",
-		Orderable:      true,
-		Stored:         true,
+		ReadOnly:       true,
+		Setter:         true,
 		Type:           "string",
+	},
+	"Debug": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Debug",
+		Description: `If set to true, start reporting debug information for the target processing
+unit.`,
+		Exposed: true,
+		Name:    "debug",
+		Type:    "boolean",
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
+		Autogenerated:  true,
 		ConvertedName:  "Namespace",
 		Description:    `Contains the original namespace of the processing unit.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "namespace",
-		Orderable:      true,
-		Stored:         true,
+		ReadOnly:       true,
 		Type:           "string",
+	},
+	"RefreshPolicy": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RefreshPolicy",
+		Description:    `If set to true, the target Processing Unit will refresh its policy immediately.`,
+		Exposed:        true,
+		Name:           "refreshPolicy",
+		Type:           "boolean",
+	},
+	"TraceApplicationConnections": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TraceApplicationConnections",
+		Description: `Instructs the enforcer to send records for all
+application-initiated connections for the target processing unit.`,
+		Exposed: true,
+		Name:    "traceApplicationConnections",
+		Type:    "boolean",
+	},
+	"TraceDuration": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TraceDuration",
+		DefaultValue:   "10s",
+		Description: `Determines the length of the time interval that the trace must be
+enabled, using [Golang duration
+syntax](https://golang.org/pkg/time/#example_Duration).`,
+		Exposed: true,
+		Name:    "traceDuration",
+		Type:    "string",
+	},
+	"TraceIPTables": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TraceIPTables",
+		Description: `Instructs the enforcers to provide an iptables trace for the target processing
+unit.`,
+		Exposed: true,
+		Name:    "traceIPTables",
+		Type:    "boolean",
+	},
+	"TraceNetworkConnections": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TraceNetworkConnections",
+		Description: `Instructs the enforcer to send records for all
+network-initiated connections for the target processing unit.`,
+		Exposed: true,
+		Name:    "traceNetworkConnections",
+		Type:    "boolean",
 	},
 }
 
@@ -324,24 +459,79 @@ var ProcessingUnitRefreshLowerCaseAttributesMap = map[string]elemental.Attribute
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `Contains the original ID of the processing unit.`,
+		Description:    `Contains the ID of the target processing unit.`,
 		Exposed:        true,
-		Filterable:     true,
+		Getter:         true,
+		Identifier:     true,
 		Name:           "ID",
-		Orderable:      true,
-		Stored:         true,
+		ReadOnly:       true,
+		Setter:         true,
 		Type:           "string",
+	},
+	"debug": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Debug",
+		Description: `If set to true, start reporting debug information for the target processing
+unit.`,
+		Exposed: true,
+		Name:    "debug",
+		Type:    "boolean",
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
+		Autogenerated:  true,
 		ConvertedName:  "Namespace",
 		Description:    `Contains the original namespace of the processing unit.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "namespace",
-		Orderable:      true,
-		Stored:         true,
+		ReadOnly:       true,
 		Type:           "string",
+	},
+	"refreshpolicy": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RefreshPolicy",
+		Description:    `If set to true, the target Processing Unit will refresh its policy immediately.`,
+		Exposed:        true,
+		Name:           "refreshPolicy",
+		Type:           "boolean",
+	},
+	"traceapplicationconnections": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TraceApplicationConnections",
+		Description: `Instructs the enforcer to send records for all
+application-initiated connections for the target processing unit.`,
+		Exposed: true,
+		Name:    "traceApplicationConnections",
+		Type:    "boolean",
+	},
+	"traceduration": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TraceDuration",
+		DefaultValue:   "10s",
+		Description: `Determines the length of the time interval that the trace must be
+enabled, using [Golang duration
+syntax](https://golang.org/pkg/time/#example_Duration).`,
+		Exposed: true,
+		Name:    "traceDuration",
+		Type:    "string",
+	},
+	"traceiptables": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TraceIPTables",
+		Description: `Instructs the enforcers to provide an iptables trace for the target processing
+unit.`,
+		Exposed: true,
+		Name:    "traceIPTables",
+		Type:    "boolean",
+	},
+	"tracenetworkconnections": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TraceNetworkConnections",
+		Description: `Instructs the enforcer to send records for all
+network-initiated connections for the target processing unit.`,
+		Exposed: true,
+		Name:    "traceNetworkConnections",
+		Type:    "boolean",
 	},
 }
 
@@ -408,11 +598,35 @@ func (o SparseProcessingUnitRefreshsList) Version() int {
 
 // SparseProcessingUnitRefresh represents the sparse version of a processingunitrefresh.
 type SparseProcessingUnitRefresh struct {
-	// Contains the original ID of the processing unit.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
+	// Contains the ID of the target processing unit.
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// If set to true, start reporting debug information for the target processing
+	// unit.
+	Debug *bool `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
 	// Contains the original namespace of the processing unit.
-	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// If set to true, the target Processing Unit will refresh its policy immediately.
+	RefreshPolicy *bool `json:"refreshPolicy,omitempty" msgpack:"refreshPolicy,omitempty" bson:"-" mapstructure:"refreshPolicy,omitempty"`
+
+	// Instructs the enforcer to send records for all
+	// application-initiated connections for the target processing unit.
+	TraceApplicationConnections *bool `json:"traceApplicationConnections,omitempty" msgpack:"traceApplicationConnections,omitempty" bson:"-" mapstructure:"traceApplicationConnections,omitempty"`
+
+	// Determines the length of the time interval that the trace must be
+	// enabled, using [Golang duration
+	// syntax](https://golang.org/pkg/time/#example_Duration).
+	TraceDuration *string `json:"traceDuration,omitempty" msgpack:"traceDuration,omitempty" bson:"-" mapstructure:"traceDuration,omitempty"`
+
+	// Instructs the enforcers to provide an iptables trace for the target processing
+	// unit.
+	TraceIPTables *bool `json:"traceIPTables,omitempty" msgpack:"traceIPTables,omitempty" bson:"-" mapstructure:"traceIPTables,omitempty"`
+
+	// Instructs the enforcer to send records for all
+	// network-initiated connections for the target processing unit.
+	TraceNetworkConnections *bool `json:"traceNetworkConnections,omitempty" msgpack:"traceNetworkConnections,omitempty" bson:"-" mapstructure:"traceNetworkConnections,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -431,12 +645,20 @@ func (o *SparseProcessingUnitRefresh) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseProcessingUnitRefresh) Identifier() string {
 
-	return ""
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseProcessingUnitRefresh) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -448,13 +670,6 @@ func (o *SparseProcessingUnitRefresh) GetBSON() (interface{}, error) {
 	}
 
 	s := &mongoAttributesSparseProcessingUnitRefresh{}
-
-	if o.ID != nil {
-		s.ID = o.ID
-	}
-	if o.Namespace != nil {
-		s.Namespace = o.Namespace
-	}
 
 	return s, nil
 }
@@ -470,13 +685,6 @@ func (o *SparseProcessingUnitRefresh) SetBSON(raw bson.Raw) error {
 	s := &mongoAttributesSparseProcessingUnitRefresh{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
-	}
-
-	if s.ID != nil {
-		o.ID = s.ID
-	}
-	if s.Namespace != nil {
-		o.Namespace = s.Namespace
 	}
 
 	return nil
@@ -495,11 +703,45 @@ func (o *SparseProcessingUnitRefresh) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
+	if o.Debug != nil {
+		out.Debug = *o.Debug
+	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
+	if o.RefreshPolicy != nil {
+		out.RefreshPolicy = *o.RefreshPolicy
+	}
+	if o.TraceApplicationConnections != nil {
+		out.TraceApplicationConnections = *o.TraceApplicationConnections
+	}
+	if o.TraceDuration != nil {
+		out.TraceDuration = *o.TraceDuration
+	}
+	if o.TraceIPTables != nil {
+		out.TraceIPTables = *o.TraceIPTables
+	}
+	if o.TraceNetworkConnections != nil {
+		out.TraceNetworkConnections = *o.TraceNetworkConnections
+	}
 
 	return out
+}
+
+// GetID returns the ID of the receiver.
+func (o *SparseProcessingUnitRefresh) GetID() (out string) {
+
+	if o.ID == nil {
+		return
+	}
+
+	return *o.ID
+}
+
+// SetID sets the property ID of the receiver using the address of the given value.
+func (o *SparseProcessingUnitRefresh) SetID(ID string) {
+
+	o.ID = &ID
 }
 
 // DeepCopy returns a deep copy if the SparseProcessingUnitRefresh.
@@ -527,10 +769,6 @@ func (o *SparseProcessingUnitRefresh) DeepCopyInto(out *SparseProcessingUnitRefr
 }
 
 type mongoAttributesProcessingUnitRefresh struct {
-	ID        string `bson:"id"`
-	Namespace string `bson:"namespace"`
 }
 type mongoAttributesSparseProcessingUnitRefresh struct {
-	ID        *string `bson:"id,omitempty"`
-	Namespace *string `bson:"namespace,omitempty"`
 }
