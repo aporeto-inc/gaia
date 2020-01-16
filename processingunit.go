@@ -254,9 +254,6 @@ type ProcessingUnit struct {
 	// `Stopped`, or `Terminated`.
 	OperationalStatus ProcessingUnitOperationalStatusValue `json:"operationalStatus" msgpack:"operationalStatus" bson:"operationalstatus" mapstructure:"operationalStatus,omitempty"`
 
-	// Configuration to run ping.
-	PingConfig *PingConfig `json:"pingConfig" msgpack:"pingConfig" bson:"-" mapstructure:"pingConfig,omitempty"`
-
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -299,14 +296,13 @@ func NewProcessingUnit() *ProcessingUnit {
 		CollectedInfo:     map[string]string{},
 		DatapathType:      ProcessingUnitDatapathTypeAporeto,
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
-		NormalizedTags:    []string{},
-		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
-		PingConfig:        NewPingConfig(),
-		MigrationsLog:     map[string]string{},
-		Tracing:           NewTraceMode(),
 		NetworkServices:   []*ProcessingUnitService{},
+		NormalizedTags:    []string{},
 		Images:            []string{},
+		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 		Metadata:          []string{},
+		Tracing:           NewTraceMode(),
+		MigrationsLog:     map[string]string{},
 	}
 }
 
@@ -687,7 +683,6 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			NetworkServices:      &o.NetworkServices,
 			NormalizedTags:       &o.NormalizedTags,
 			OperationalStatus:    &o.OperationalStatus,
-			PingConfig:           o.PingConfig,
 			Protected:            &o.Protected,
 			Tracing:              o.Tracing,
 			Type:                 &o.Type,
@@ -754,8 +749,6 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "operationalStatus":
 			sp.OperationalStatus = &(o.OperationalStatus)
-		case "pingConfig":
-			sp.PingConfig = o.PingConfig
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "tracing":
@@ -863,9 +856,6 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	if so.OperationalStatus != nil {
 		o.OperationalStatus = *so.OperationalStatus
 	}
-	if so.PingConfig != nil {
-		o.PingConfig = so.PingConfig
-	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
@@ -968,13 +958,6 @@ func (o *ProcessingUnit) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if o.PingConfig != nil {
-		elemental.ResetDefaultForZeroValues(o.PingConfig)
-		if err := o.PingConfig.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
-	}
-
 	if o.Tracing != nil {
 		elemental.ResetDefaultForZeroValues(o.Tracing)
 		if err := o.Tracing.Validate(); err != nil {
@@ -1072,8 +1055,6 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "operationalStatus":
 		return o.OperationalStatus
-	case "pingConfig":
-		return o.PingConfig
 	case "protected":
 		return o.Protected
 	case "tracing":
@@ -1413,15 +1394,6 @@ manifest.`,
 		Name:       "operationalStatus",
 		Stored:     true,
 		Type:       "enum",
-	},
-	"PingConfig": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PingConfig",
-		Description:    `Configuration to run ping.`,
-		Exposed:        true,
-		Name:           "pingConfig",
-		SubType:        "pingconfig",
-		Type:           "ref",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1845,15 +1817,6 @@ manifest.`,
 		Stored:     true,
 		Type:       "enum",
 	},
-	"pingconfig": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PingConfig",
-		Description:    `Configuration to run ping.`,
-		Exposed:        true,
-		Name:           "pingConfig",
-		SubType:        "pingconfig",
-		Type:           "ref",
-	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -2118,9 +2081,6 @@ type SparseProcessingUnit struct {
 	// `Running`,
 	// `Stopped`, or `Terminated`.
 	OperationalStatus *ProcessingUnitOperationalStatusValue `json:"operationalStatus,omitempty" msgpack:"operationalStatus,omitempty" bson:"operationalstatus,omitempty" mapstructure:"operationalStatus,omitempty"`
-
-	// Configuration to run ping.
-	PingConfig *PingConfig `json:"pingConfig,omitempty" msgpack:"pingConfig,omitempty" bson:"-" mapstructure:"pingConfig,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
@@ -2493,9 +2453,6 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.OperationalStatus != nil {
 		out.OperationalStatus = *o.OperationalStatus
-	}
-	if o.PingConfig != nil {
-		out.PingConfig = o.PingConfig
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected

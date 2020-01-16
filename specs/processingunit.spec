@@ -198,14 +198,6 @@ attributes:
     default_value: Initialized
     filterable: true
 
-  - name: pingConfig
-    description: Configuration to run ping.
-    type: ref
-    exposed: true
-    subtype: pingconfig
-    extensions:
-      refMode: pointer
-
   - name: tracing
     description: Indicates if this processing unit must be placed in tracing mode.
     type: ref
@@ -294,6 +286,10 @@ relations:
         description: Can be set to help backend target the correct shard where the
           processing unit is stored.
         type: integer
+
+- rest_name: processingunitrefresh
+  create:
+    description: Sends a Processing Unit Refresh command.
 
 - rest_name: renderedpolicy
   get:
