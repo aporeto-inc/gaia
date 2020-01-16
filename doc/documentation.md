@@ -2964,7 +2964,7 @@ Post a new pu diagnostics report.
 
 #### Relations
 
-##### `POST /pingreport`
+##### `POST /pingreports`
 
 Create a ping report.
 

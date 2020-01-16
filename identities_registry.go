@@ -223,7 +223,7 @@ var (
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
 
-		"pingreport": PingReportIdentity,
+		"pingreports": PingReportIdentity,
 
 		"plans":                   PlanIdentity,
 		"poke":                    PokeIdentity,

@@ -12,7 +12,7 @@ import (
 // PingReportIdentity represents the Identity of the object.
 var PingReportIdentity = elemental.Identity{
 	Name:     "pingreport",
-	Category: "pingreport",
+	Category: "pingreports",
 	Package:  "zack",
 	Private:  false,
 }

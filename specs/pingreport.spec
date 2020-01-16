@@ -1,7 +1,7 @@
 # Model
 model:
   rest_name: pingreport
-  resource_name: pingreport
+  resource_name: pingreports
   entity_name: PingReport
   package: zack
   group: core/enforcer
