@@ -108,13 +108,13 @@ type ProcessingUnitRefresh struct {
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Destination network to run ping.
-	PingNetwork string `json:"pingNetwork" msgpack:"pingNetwork" bson:"-" mapstructure:"pingNetwork,omitempty"`
+	PingNetwork string `json:"pingNetwork,omitempty" msgpack:"pingNetwork,omitempty" bson:"-" mapstructure:"pingNetwork,omitempty"`
 
 	// Destination port(s) to run ping.
-	PingPorts []string `json:"pingPorts" msgpack:"pingPorts" bson:"-" mapstructure:"pingPorts,omitempty"`
+	PingPorts []string `json:"pingPorts,omitempty" msgpack:"pingPorts,omitempty" bson:"-" mapstructure:"pingPorts,omitempty"`
 
 	// Number of requests to send to the destination.
-	PingRequests int `json:"pingRequests" msgpack:"pingRequests" bson:"-" mapstructure:"pingRequests,omitempty"`
+	PingRequests int `json:"pingRequests,omitempty" msgpack:"pingRequests,omitempty" bson:"-" mapstructure:"pingRequests,omitempty"`
 
 	// Represents the type of ping to be used.
 	PingType ProcessingUnitRefreshPingTypeValue `json:"pingType" msgpack:"pingType" bson:"-" mapstructure:"pingType,omitempty"`

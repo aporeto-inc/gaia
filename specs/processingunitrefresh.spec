@@ -41,12 +41,14 @@ attributes:
     description: Destination network to run ping.
     type: string
     exposed: true
+    omit_empty: true
 
   - name: pingPorts
     description: Destination port(s) to run ping.
     type: list
     exposed: true
     subtype: string
+    omit_empty: true
     validations:
     - $ports
 
@@ -54,6 +56,7 @@ attributes:
     description: Number of requests to send to the destination.
     type: integer
     exposed: true
+    omit_empty: true
 
   - name: pingType
     description: Represents the type of ping to be used.
