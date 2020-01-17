@@ -2910,42 +2910,6 @@ Default value:
 true
 ```
 
-### PingConfig
-
-Represents the ping configuration to apply to a processing unit.
-
-#### Example
-
-```json
-{
-  "type": "None"
-}
-```
-
-#### Attributes
-
-##### `network` `string`
-
-Destination network to test.
-
-##### `ports` `[]string`
-
-Destination port(s) to test.
-
-##### `requests` `integer`
-
-Number of requests to make on one call.
-
-##### `type` `emum(None | AporetoIdentity | CustomIdentity | AporetoIdentityPassthrough)`
-
-Ping type.
-
-Default value:
-
-```json
-"None"
-```
-
 ### PingReport
 
 Post a new pu diagnostics report.
@@ -4221,6 +4185,7 @@ external change on the processing unit must be processed.
 ```json
 {
   "debug": false,
+  "pingType": "None",
   "refreshPolicy": false,
   "traceApplicationConnections": false,
   "traceDuration": "10s",
@@ -4250,9 +4215,27 @@ unit.
 
 Contains the original namespace of the processing unit.
 
-##### `pingConfig` [`pingconfig`](#pingconfig)
+##### `pingNetwork` `string`
 
-Configuration to run ping.
+Destination network to run ping.
+
+##### `pingPorts` `[]string`
+
+Destination port(s) to run ping.
+
+##### `pingRequests` `integer`
+
+Number of requests to send to the destination.
+
+##### `pingType` `emum(None | AporetoIdentity | CustomIdentity | AporetoIdentityPassthrough)`
+
+Represents the type of ping to be used.
+
+Default value:
+
+```json
+"None"
+```
 
 ##### `refreshPolicy` `boolean`
 

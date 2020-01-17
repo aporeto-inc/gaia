@@ -83,8 +83,7 @@ var (
 		"oidcprovider":           OIDCProviderIdentity,
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
-
-		"pingreport": PingReportIdentity,
+		"pingreport":             PingReportIdentity,
 
 		"plan":                  PlanIdentity,
 		"poke":                  PokeIdentity,
@@ -222,8 +221,7 @@ var (
 		"oidcproviders":            OIDCProviderIdentity,
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
-
-		"pingreports": PingReportIdentity,
+		"pingreports":              PingReportIdentity,
 
 		"plans":                   PlanIdentity,
 		"poke":                    PokeIdentity,
