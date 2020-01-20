@@ -42,6 +42,20 @@ attributes:
     read_only: true
     orderable: true
 
+  - name: checkPublicEndpoint
+    description: |-
+      If true, will look for the public endpoints and store them as annotations in the
+      installed app.
+    type: boolean
+    exposed: true
+    stored: true
+
+  - name: configureRoute
+    description: Additional route to configure the app.
+    type: string
+    exposed: true
+    stored: true
+
   - name: currentVersion
     description: Version of the installed application.
     type: string
@@ -54,6 +68,13 @@ attributes:
     type: integer
     stored: true
     read_only: true
+
+  - name: externalWindowButton
+    description: Adds a button in the UI.
+    type: external
+    exposed: true
+    subtype: map[string]string
+    stored: true
 
   - name: parameters
     description: Contains the computed parameters to start the application.

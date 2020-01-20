@@ -121,6 +121,13 @@ type InstalledApp struct {
 	// The category ID of the application.
 	CategoryID string `json:"categoryID" msgpack:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
+	// If true, will look for the public endpoints and store them as annotations in the
+	// installed app.
+	CheckPublicEndpoint bool `json:"checkPublicEndpoint" msgpack:"checkPublicEndpoint" bson:"checkpublicendpoint" mapstructure:"checkPublicEndpoint,omitempty"`
+
+	// Additional route to configure the app.
+	ConfigureRoute string `json:"configureRoute" msgpack:"configureRoute" bson:"configureroute" mapstructure:"configureRoute,omitempty"`
+
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
@@ -132,6 +139,9 @@ type InstalledApp struct {
 
 	// DeploymentCount represents the number of expected deployment for this app.
 	DeploymentCount int `json:"-" msgpack:"-" bson:"deploymentcount" mapstructure:"-,omitempty"`
+
+	// Adds a button in the UI.
+	ExternalWindowButton map[string]string `json:"externalWindowButton" msgpack:"externalWindowButton" bson:"externalwindowbutton" mapstructure:"externalWindowButton,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
@@ -177,13 +187,14 @@ type InstalledApp struct {
 func NewInstalledApp() *InstalledApp {
 
 	return &InstalledApp{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		MigrationsLog:  map[string]string{},
-		NormalizedTags: []string{},
-		Parameters:     map[string]interface{}{},
-		Status:         InstalledAppStatusUnknown,
+		ModelVersion:         1,
+		Annotations:          map[string][]string{},
+		AssociatedTags:       []string{},
+		ExternalWindowButton: map[string]string{},
+		MigrationsLog:        map[string]string{},
+		NormalizedTags:       []string{},
+		Parameters:           map[string]interface{}{},
+		Status:               InstalledAppStatusUnknown,
 	}
 }
 
@@ -222,10 +233,13 @@ func (o *InstalledApp) GetBSON() (interface{}, error) {
 	s.AppIdentifier = o.AppIdentifier
 	s.AssociatedTags = o.AssociatedTags
 	s.CategoryID = o.CategoryID
+	s.CheckPublicEndpoint = o.CheckPublicEndpoint
+	s.ConfigureRoute = o.ConfigureRoute
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
 	s.CurrentVersion = o.CurrentVersion
 	s.DeploymentCount = o.DeploymentCount
+	s.ExternalWindowButton = o.ExternalWindowButton
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
@@ -260,10 +274,13 @@ func (o *InstalledApp) SetBSON(raw bson.Raw) error {
 	o.AppIdentifier = s.AppIdentifier
 	o.AssociatedTags = s.AssociatedTags
 	o.CategoryID = s.CategoryID
+	o.CheckPublicEndpoint = s.CheckPublicEndpoint
+	o.ConfigureRoute = s.ConfigureRoute
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
 	o.CurrentVersion = s.CurrentVersion
 	o.DeploymentCount = s.DeploymentCount
+	o.ExternalWindowButton = s.ExternalWindowButton
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
@@ -479,10 +496,13 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AppIdentifier:        &o.AppIdentifier,
 			AssociatedTags:       &o.AssociatedTags,
 			CategoryID:           &o.CategoryID,
+			CheckPublicEndpoint:  &o.CheckPublicEndpoint,
+			ConfigureRoute:       &o.ConfigureRoute,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			CurrentVersion:       &o.CurrentVersion,
 			DeploymentCount:      &o.DeploymentCount,
+			ExternalWindowButton: &o.ExternalWindowButton,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -511,6 +531,10 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "categoryID":
 			sp.CategoryID = &(o.CategoryID)
+		case "checkPublicEndpoint":
+			sp.CheckPublicEndpoint = &(o.CheckPublicEndpoint)
+		case "configureRoute":
+			sp.ConfigureRoute = &(o.ConfigureRoute)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
@@ -519,6 +543,8 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CurrentVersion = &(o.CurrentVersion)
 		case "deploymentCount":
 			sp.DeploymentCount = &(o.DeploymentCount)
+		case "externalWindowButton":
+			sp.ExternalWindowButton = &(o.ExternalWindowButton)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -571,6 +597,12 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CategoryID != nil {
 		o.CategoryID = *so.CategoryID
 	}
+	if so.CheckPublicEndpoint != nil {
+		o.CheckPublicEndpoint = *so.CheckPublicEndpoint
+	}
+	if so.ConfigureRoute != nil {
+		o.ConfigureRoute = *so.ConfigureRoute
+	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
@@ -582,6 +614,9 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DeploymentCount != nil {
 		o.DeploymentCount = *so.DeploymentCount
+	}
+	if so.ExternalWindowButton != nil {
+		o.ExternalWindowButton = *so.ExternalWindowButton
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -711,6 +746,10 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.AssociatedTags
 	case "categoryID":
 		return o.CategoryID
+	case "checkPublicEndpoint":
+		return o.CheckPublicEndpoint
+	case "configureRoute":
+		return o.ConfigureRoute
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "createTime":
@@ -719,6 +758,8 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.CurrentVersion
 	case "deploymentCount":
 		return o.DeploymentCount
+	case "externalWindowButton":
+		return o.ExternalWindowButton
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -807,6 +848,25 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"CheckPublicEndpoint": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CheckPublicEndpoint",
+		Description: `If true, will look for the public endpoints and store them as annotations in the
+installed app.`,
+		Exposed: true,
+		Name:    "checkPublicEndpoint",
+		Stored:  true,
+		Type:    "boolean",
+	},
+	"ConfigureRoute": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConfigureRoute",
+		Description:    `Additional route to configure the app.`,
+		Exposed:        true,
+		Name:           "configureRoute",
+		Stored:         true,
+		Type:           "string",
+	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -850,6 +910,16 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "integer",
+	},
+	"ExternalWindowButton": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalWindowButton",
+		Description:    `Adds a button in the UI.`,
+		Exposed:        true,
+		Name:           "externalWindowButton",
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"MigrationsLog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1065,6 +1135,25 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "string",
 	},
+	"checkpublicendpoint": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CheckPublicEndpoint",
+		Description: `If true, will look for the public endpoints and store them as annotations in the
+installed app.`,
+		Exposed: true,
+		Name:    "checkPublicEndpoint",
+		Stored:  true,
+		Type:    "boolean",
+	},
+	"configureroute": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConfigureRoute",
+		Description:    `Additional route to configure the app.`,
+		Exposed:        true,
+		Name:           "configureRoute",
+		Stored:         true,
+		Type:           "string",
+	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1108,6 +1197,16 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "integer",
+	},
+	"externalwindowbutton": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalWindowButton",
+		Description:    `Adds a button in the UI.`,
+		Exposed:        true,
+		Name:           "externalWindowButton",
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"migrationslog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1344,6 +1443,13 @@ type SparseInstalledApp struct {
 	// The category ID of the application.
 	CategoryID *string `json:"categoryID,omitempty" msgpack:"categoryID,omitempty" bson:"categoryid,omitempty" mapstructure:"categoryID,omitempty"`
 
+	// If true, will look for the public endpoints and store them as annotations in the
+	// installed app.
+	CheckPublicEndpoint *bool `json:"checkPublicEndpoint,omitempty" msgpack:"checkPublicEndpoint,omitempty" bson:"checkpublicendpoint,omitempty" mapstructure:"checkPublicEndpoint,omitempty"`
+
+	// Additional route to configure the app.
+	ConfigureRoute *string `json:"configureRoute,omitempty" msgpack:"configureRoute,omitempty" bson:"configureroute,omitempty" mapstructure:"configureRoute,omitempty"`
+
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
@@ -1355,6 +1461,9 @@ type SparseInstalledApp struct {
 
 	// DeploymentCount represents the number of expected deployment for this app.
 	DeploymentCount *int `json:"-" msgpack:"-" bson:"deploymentcount,omitempty" mapstructure:"-,omitempty"`
+
+	// Adds a button in the UI.
+	ExternalWindowButton *map[string]string `json:"externalWindowButton,omitempty" msgpack:"externalWindowButton,omitempty" bson:"externalwindowbutton,omitempty" mapstructure:"externalWindowButton,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1451,6 +1560,12 @@ func (o *SparseInstalledApp) GetBSON() (interface{}, error) {
 	if o.CategoryID != nil {
 		s.CategoryID = o.CategoryID
 	}
+	if o.CheckPublicEndpoint != nil {
+		s.CheckPublicEndpoint = o.CheckPublicEndpoint
+	}
+	if o.ConfigureRoute != nil {
+		s.ConfigureRoute = o.ConfigureRoute
+	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	}
@@ -1462,6 +1577,9 @@ func (o *SparseInstalledApp) GetBSON() (interface{}, error) {
 	}
 	if o.DeploymentCount != nil {
 		s.DeploymentCount = o.DeploymentCount
+	}
+	if o.ExternalWindowButton != nil {
+		s.ExternalWindowButton = o.ExternalWindowButton
 	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
@@ -1530,6 +1648,12 @@ func (o *SparseInstalledApp) SetBSON(raw bson.Raw) error {
 	if s.CategoryID != nil {
 		o.CategoryID = s.CategoryID
 	}
+	if s.CheckPublicEndpoint != nil {
+		o.CheckPublicEndpoint = s.CheckPublicEndpoint
+	}
+	if s.ConfigureRoute != nil {
+		o.ConfigureRoute = s.ConfigureRoute
+	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	}
@@ -1541,6 +1665,9 @@ func (o *SparseInstalledApp) SetBSON(raw bson.Raw) error {
 	}
 	if s.DeploymentCount != nil {
 		o.DeploymentCount = s.DeploymentCount
+	}
+	if s.ExternalWindowButton != nil {
+		o.ExternalWindowButton = s.ExternalWindowButton
 	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
@@ -1607,6 +1734,12 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.CategoryID != nil {
 		out.CategoryID = *o.CategoryID
 	}
+	if o.CheckPublicEndpoint != nil {
+		out.CheckPublicEndpoint = *o.CheckPublicEndpoint
+	}
+	if o.ConfigureRoute != nil {
+		out.ConfigureRoute = *o.ConfigureRoute
+	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
 	}
@@ -1618,6 +1751,9 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.DeploymentCount != nil {
 		out.DeploymentCount = *o.DeploymentCount
+	}
+	if o.ExternalWindowButton != nil {
+		out.ExternalWindowButton = *o.ExternalWindowButton
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1897,10 +2033,13 @@ type mongoAttributesInstalledApp struct {
 	AppIdentifier        string                  `bson:"appidentifier"`
 	AssociatedTags       []string                `bson:"associatedtags"`
 	CategoryID           string                  `bson:"categoryid"`
+	CheckPublicEndpoint  bool                    `bson:"checkpublicendpoint"`
+	ConfigureRoute       string                  `bson:"configureroute"`
 	CreateIdempotencyKey string                  `bson:"createidempotencykey"`
 	CreateTime           time.Time               `bson:"createtime"`
 	CurrentVersion       string                  `bson:"currentversion"`
 	DeploymentCount      int                     `bson:"deploymentcount"`
+	ExternalWindowButton map[string]string       `bson:"externalwindowbutton"`
 	MigrationsLog        map[string]string       `bson:"migrationslog,omitempty"`
 	Name                 string                  `bson:"name"`
 	Namespace            string                  `bson:"namespace"`
@@ -1920,10 +2059,13 @@ type mongoAttributesSparseInstalledApp struct {
 	AppIdentifier        *string                  `bson:"appidentifier,omitempty"`
 	AssociatedTags       *[]string                `bson:"associatedtags,omitempty"`
 	CategoryID           *string                  `bson:"categoryid,omitempty"`
+	CheckPublicEndpoint  *bool                    `bson:"checkpublicendpoint,omitempty"`
+	ConfigureRoute       *string                  `bson:"configureroute,omitempty"`
 	CreateIdempotencyKey *string                  `bson:"createidempotencykey,omitempty"`
 	CreateTime           *time.Time               `bson:"createtime,omitempty"`
 	CurrentVersion       *string                  `bson:"currentversion,omitempty"`
 	DeploymentCount      *int                     `bson:"deploymentcount,omitempty"`
+	ExternalWindowButton *map[string]string       `bson:"externalwindowbutton,omitempty"`
 	MigrationsLog        *map[string]string       `bson:"migrationslog,omitempty"`
 	Name                 *string                  `bson:"name,omitempty"`
 	Namespace            *string                  `bson:"namespace,omitempty"`
