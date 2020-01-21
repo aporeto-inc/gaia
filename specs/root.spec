@@ -568,6 +568,10 @@ relations:
   create:
     description: Resets the password for an account using the provided link.
 
+- rest_name: pingreport
+  create:
+    description: Create a ping report.
+
 - rest_name: plan
   get:
     description: Retrieves the list of plans.

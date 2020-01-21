@@ -258,7 +258,7 @@ type ProcessingUnit struct {
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Indicates if this processing unit must be placed in tracing mode.
-	Tracing *TraceMode `json:"tracing" msgpack:"tracing" bson:"tracing" mapstructure:"tracing,omitempty"`
+	Tracing *TraceMode `json:"tracing" msgpack:"tracing" bson:"-" mapstructure:"tracing,omitempty"`
 
 	// Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
 	// `LinuxService`,
@@ -362,7 +362,6 @@ func (o *ProcessingUnit) GetBSON() (interface{}, error) {
 	s.NormalizedTags = o.NormalizedTags
 	s.OperationalStatus = o.OperationalStatus
 	s.Protected = o.Protected
-	s.Tracing = o.Tracing
 	s.Type = o.Type
 	s.Unreachable = o.Unreachable
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -412,7 +411,6 @@ func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
 	o.NormalizedTags = s.NormalizedTags
 	o.OperationalStatus = s.OperationalStatus
 	o.Protected = s.Protected
-	o.Tracing = s.Tracing
 	o.Type = s.Type
 	o.Unreachable = s.Unreachable
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -1415,7 +1413,6 @@ manifest.`,
 		Description:    `Indicates if this processing unit must be placed in tracing mode.`,
 		Exposed:        true,
 		Name:           "tracing",
-		Stored:         true,
 		SubType:        "tracemode",
 		Type:           "ref",
 	},
@@ -1838,7 +1835,6 @@ manifest.`,
 		Description:    `Indicates if this processing unit must be placed in tracing mode.`,
 		Exposed:        true,
 		Name:           "tracing",
-		Stored:         true,
 		SubType:        "tracemode",
 		Type:           "ref",
 	},
@@ -2090,7 +2086,7 @@ type SparseProcessingUnit struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Indicates if this processing unit must be placed in tracing mode.
-	Tracing *TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"tracing,omitempty" mapstructure:"tracing,omitempty"`
+	Tracing *TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"-" mapstructure:"tracing,omitempty"`
 
 	// Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
 	// `LinuxService`,
@@ -2236,9 +2232,6 @@ func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
-	if o.Tracing != nil {
-		s.Tracing = o.Tracing
-	}
 	if o.Type != nil {
 		s.Type = o.Type
 	}
@@ -2350,9 +2343,6 @@ func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
-	}
-	if s.Tracing != nil {
-		o.Tracing = s.Tracing
 	}
 	if s.Type != nil {
 		o.Type = s.Type
@@ -2799,7 +2789,6 @@ type mongoAttributesProcessingUnit struct {
 	NormalizedTags       []string                             `bson:"normalizedtags"`
 	OperationalStatus    ProcessingUnitOperationalStatusValue `bson:"operationalstatus"`
 	Protected            bool                                 `bson:"protected"`
-	Tracing              *TraceMode                           `bson:"tracing"`
 	Type                 ProcessingUnitTypeValue              `bson:"type"`
 	Unreachable          bool                                 `bson:"unreachable"`
 	UpdateIdempotencyKey string                               `bson:"updateidempotencykey"`
@@ -2834,7 +2823,6 @@ type mongoAttributesSparseProcessingUnit struct {
 	NormalizedTags       *[]string                             `bson:"normalizedtags,omitempty"`
 	OperationalStatus    *ProcessingUnitOperationalStatusValue `bson:"operationalstatus,omitempty"`
 	Protected            *bool                                 `bson:"protected,omitempty"`
-	Tracing              *TraceMode                            `bson:"tracing,omitempty"`
 	Type                 *ProcessingUnitTypeValue              `bson:"type,omitempty"`
 	Unreachable          *bool                                 `bson:"unreachable,omitempty"`
 	UpdateIdempotencyKey *string                               `bson:"updateidempotencykey,omitempty"`

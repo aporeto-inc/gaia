@@ -203,7 +203,6 @@ attributes:
     type: ref
     exposed: true
     subtype: tracemode
-    stored: true
     extensions:
       refMode: pointer
 
@@ -287,6 +286,10 @@ relations:
         description: Can be set to help backend target the correct shard where the
           processing unit is stored.
         type: integer
+
+- rest_name: processingunitrefresh
+  create:
+    description: Sends a Processing Unit Refresh command.
 
 - rest_name: renderedpolicy
   get:

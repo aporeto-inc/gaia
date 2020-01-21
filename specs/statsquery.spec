@@ -63,6 +63,7 @@ attributes:
     - Counters
     - Accesses
     - DNSLookups
+    - PingReports
     default_value: Flows
 
   - name: offset
