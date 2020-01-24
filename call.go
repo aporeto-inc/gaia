@@ -81,7 +81,7 @@ func (o CallsList) Version() int {
 // Call represents the model of a call
 type Call struct {
 	// Contains the remote `POST` payload.
-	Payload string `json:"payload" msgpack:"payload" bson:"payload" mapstructure:"payload,omitempty"`
+	Payload string `json:"payload" msgpack:"payload" bson:"-" mapstructure:"payload,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -121,8 +121,6 @@ func (o *Call) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCall{}
 
-	s.Payload = o.Payload
-
 	return s, nil
 }
 
@@ -138,8 +136,6 @@ func (o *Call) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
-
-	o.Payload = s.Payload
 
 	return nil
 }
@@ -286,7 +282,6 @@ var CallAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Contains the remote ` + "`" + `POST` + "`" + ` payload.`,
 		Exposed:        true,
 		Name:           "payload",
-		Stored:         true,
 		Type:           "string",
 	},
 }
@@ -299,7 +294,6 @@ var CallLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Contains the remote ` + "`" + `POST` + "`" + ` payload.`,
 		Exposed:        true,
 		Name:           "payload",
-		Stored:         true,
 		Type:           "string",
 	},
 }
@@ -368,7 +362,7 @@ func (o SparseCallsList) Version() int {
 // SparseCall represents the sparse version of a call.
 type SparseCall struct {
 	// Contains the remote `POST` payload.
-	Payload *string `json:"payload,omitempty" msgpack:"payload,omitempty" bson:"payload,omitempty" mapstructure:"payload,omitempty"`
+	Payload *string `json:"payload,omitempty" msgpack:"payload,omitempty" bson:"-" mapstructure:"payload,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -405,10 +399,6 @@ func (o *SparseCall) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseCall{}
 
-	if o.Payload != nil {
-		s.Payload = o.Payload
-	}
-
 	return s, nil
 }
 
@@ -423,10 +413,6 @@ func (o *SparseCall) SetBSON(raw bson.Raw) error {
 	s := &mongoAttributesSparseCall{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
-	}
-
-	if s.Payload != nil {
-		o.Payload = s.Payload
 	}
 
 	return nil
@@ -474,8 +460,6 @@ func (o *SparseCall) DeepCopyInto(out *SparseCall) {
 }
 
 type mongoAttributesCall struct {
-	Payload string `bson:"payload"`
 }
 type mongoAttributesSparseCall struct {
-	Payload *string `bson:"payload,omitempty"`
 }

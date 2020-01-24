@@ -14,4 +14,3 @@ attributes:
     description: Contains the remote `POST` payload.
     type: string
     exposed: true
-    stored: true
