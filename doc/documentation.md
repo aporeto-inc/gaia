@@ -5464,6 +5464,12 @@ operation attribute.
 Allows a system to send a remote request to the API proxy based on the
 operation attribute.
 
+#### Attributes
+
+##### `payload` `string`
+
+Contains the remote `POST` payload.
+
 ## integration/app
 
 ### App
