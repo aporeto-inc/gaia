@@ -140,6 +140,16 @@ attributes:
     filterable: true
     orderable: true
 
+  - name: failedAuth
+    description: Internally keeps track of the number of failed attempt.
+    type: integer
+    stored: true
+
+  - name: failedTime
+    description: Internally keeps track of the time of the last failed attempt.
+    type: time
+    stored: true
+
   - name: firstName
     description: First name of the account user.
     type: string

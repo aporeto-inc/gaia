@@ -152,6 +152,12 @@ type Account struct {
 	// Email of the account holder.
 	Email string `json:"email" msgpack:"email" bson:"email" mapstructure:"email,omitempty"`
 
+	// Internally keeps track of the number of failed attempt.
+	FailedAuth int `json:"-" msgpack:"-" bson:"failedauth" mapstructure:"-,omitempty"`
+
+	// Internally keeps track of the time of the last failed attempt.
+	FailedTime time.Time `json:"-" msgpack:"-" bson:"failedtime" mapstructure:"-,omitempty"`
+
 	// First name of the account user.
 	FirstName string `json:"firstName" msgpack:"firstName" bson:"firstname" mapstructure:"firstName,omitempty"`
 
@@ -255,6 +261,8 @@ func (o *Account) GetBSON() (interface{}, error) {
 	s.Company = o.Company
 	s.CreateTime = o.CreateTime
 	s.Email = o.Email
+	s.FailedAuth = o.FailedAuth
+	s.FailedTime = o.FailedTime
 	s.FirstName = o.FirstName
 	s.LastName = o.LastName
 	s.MigrationsLog = o.MigrationsLog
@@ -299,6 +307,8 @@ func (o *Account) SetBSON(raw bson.Raw) error {
 	o.Company = s.Company
 	o.CreateTime = s.CreateTime
 	o.Email = s.Email
+	o.FailedAuth = s.FailedAuth
+	o.FailedTime = s.FailedTime
 	o.FirstName = s.FirstName
 	o.LastName = s.LastName
 	o.MigrationsLog = s.MigrationsLog
@@ -429,6 +439,8 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Company:                   &o.Company,
 			CreateTime:                &o.CreateTime,
 			Email:                     &o.Email,
+			FailedAuth:                &o.FailedAuth,
+			FailedTime:                &o.FailedTime,
 			FirstName:                 &o.FirstName,
 			LastName:                  &o.LastName,
 			MigrationsLog:             &o.MigrationsLog,
@@ -484,6 +496,10 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateTime = &(o.CreateTime)
 		case "email":
 			sp.Email = &(o.Email)
+		case "failedAuth":
+			sp.FailedAuth = &(o.FailedAuth)
+		case "failedTime":
+			sp.FailedTime = &(o.FailedTime)
 		case "firstName":
 			sp.FirstName = &(o.FirstName)
 		case "lastName":
@@ -576,6 +592,12 @@ func (o *Account) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Email != nil {
 		o.Email = *so.Email
+	}
+	if so.FailedAuth != nil {
+		o.FailedAuth = *so.FailedAuth
+	}
+	if so.FailedTime != nil {
+		o.FailedTime = *so.FailedTime
 	}
 	if so.FirstName != nil {
 		o.FirstName = *so.FirstName
@@ -734,6 +756,10 @@ func (o *Account) ValueForAttribute(name string) interface{} {
 		return o.CreateTime
 	case "email":
 		return o.Email
+	case "failedAuth":
+		return o.FailedAuth
+	case "failedTime":
+		return o.FailedTime
 	case "firstName":
 		return o.FirstName
 	case "lastName":
@@ -946,6 +972,22 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"FailedAuth": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FailedAuth",
+		Description:    `Internally keeps track of the number of failed attempt.`,
+		Name:           "failedAuth",
+		Stored:         true,
+		Type:           "integer",
+	},
+	"FailedTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FailedTime",
+		Description:    `Internally keeps track of the time of the last failed attempt.`,
+		Name:           "failedTime",
+		Stored:         true,
+		Type:           "time",
 	},
 	"FirstName": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1279,6 +1321,22 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"failedauth": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FailedAuth",
+		Description:    `Internally keeps track of the number of failed attempt.`,
+		Name:           "failedAuth",
+		Stored:         true,
+		Type:           "integer",
+	},
+	"failedtime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FailedTime",
+		Description:    `Internally keeps track of the time of the last failed attempt.`,
+		Name:           "failedTime",
+		Stored:         true,
+		Type:           "time",
+	},
 	"firstname": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FirstName",
@@ -1546,6 +1604,12 @@ type SparseAccount struct {
 	// Email of the account holder.
 	Email *string `json:"email,omitempty" msgpack:"email,omitempty" bson:"email,omitempty" mapstructure:"email,omitempty"`
 
+	// Internally keeps track of the number of failed attempt.
+	FailedAuth *int `json:"-" msgpack:"-" bson:"failedauth,omitempty" mapstructure:"-,omitempty"`
+
+	// Internally keeps track of the time of the last failed attempt.
+	FailedTime *time.Time `json:"-" msgpack:"-" bson:"failedtime,omitempty" mapstructure:"-,omitempty"`
+
 	// First name of the account user.
 	FirstName *string `json:"firstName,omitempty" msgpack:"firstName,omitempty" bson:"firstname,omitempty" mapstructure:"firstName,omitempty"`
 
@@ -1679,6 +1743,12 @@ func (o *SparseAccount) GetBSON() (interface{}, error) {
 	if o.Email != nil {
 		s.Email = o.Email
 	}
+	if o.FailedAuth != nil {
+		s.FailedAuth = o.FailedAuth
+	}
+	if o.FailedTime != nil {
+		s.FailedTime = o.FailedTime
+	}
 	if o.FirstName != nil {
 		s.FirstName = o.FirstName
 	}
@@ -1775,6 +1845,12 @@ func (o *SparseAccount) SetBSON(raw bson.Raw) error {
 	}
 	if s.Email != nil {
 		o.Email = s.Email
+	}
+	if s.FailedAuth != nil {
+		o.FailedAuth = s.FailedAuth
+	}
+	if s.FailedTime != nil {
+		o.FailedTime = s.FailedTime
 	}
 	if s.FirstName != nil {
 		o.FirstName = s.FirstName
@@ -1876,6 +1952,12 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Email != nil {
 		out.Email = *o.Email
+	}
+	if o.FailedAuth != nil {
+		out.FailedAuth = *o.FailedAuth
+	}
+	if o.FailedTime != nil {
+		out.FailedTime = *o.FailedTime
 	}
 	if o.FirstName != nil {
 		out.FirstName = *o.FirstName
@@ -2041,6 +2123,8 @@ type mongoAttributesAccount struct {
 	Company                   string             `bson:"company"`
 	CreateTime                time.Time          `bson:"createtime"`
 	Email                     string             `bson:"email"`
+	FailedAuth                int                `bson:"failedauth"`
+	FailedTime                time.Time          `bson:"failedtime"`
 	FirstName                 string             `bson:"firstname"`
 	LastName                  string             `bson:"lastname"`
 	MigrationsLog             map[string]string  `bson:"migrationslog,omitempty"`
@@ -2070,6 +2154,8 @@ type mongoAttributesSparseAccount struct {
 	Company                   *string             `bson:"company,omitempty"`
 	CreateTime                *time.Time          `bson:"createtime,omitempty"`
 	Email                     *string             `bson:"email,omitempty"`
+	FailedAuth                *int                `bson:"failedauth,omitempty"`
+	FailedTime                *time.Time          `bson:"failedtime,omitempty"`
 	FirstName                 *string             `bson:"firstname,omitempty"`
 	LastName                  *string             `bson:"lastname,omitempty"`
 	MigrationsLog             *map[string]string  `bson:"migrationslog,omitempty"`
