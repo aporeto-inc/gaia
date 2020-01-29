@@ -122,7 +122,6 @@ var (
 		"statsinfo":              StatsInfoIdentity,
 		"statsquery":             StatsQueryIdentity,
 		"suggestedpolicy":        SuggestedPolicyIdentity,
-		"tabulation":             TabulationIdentity,
 		"tag":                    TagIdentity,
 		"taginject":              TagInjectIdentity,
 		"tagvalue":               TagValueIdentity,
@@ -260,7 +259,6 @@ var (
 		"statsinfo":                StatsInfoIdentity,
 		"statsqueries":             StatsQueryIdentity,
 		"suggestedpolicies":        SuggestedPolicyIdentity,
-		"tabulations":              TabulationIdentity,
 		"tags":                     TagIdentity,
 		"taginjects":               TagInjectIdentity,
 		"tagvalues":                TagValueIdentity,
@@ -361,10 +359,6 @@ var (
 		"sugpols":        SuggestedPolicyIdentity,
 		"sugg":           SuggestedPolicyIdentity,
 		"suggs":          SuggestedPolicyIdentity,
-		"table":          TabulationIdentity,
-		"tables":         TabulationIdentity,
-		"tabs":           TabulationIdentity,
-		"tab":            TabulationIdentity,
 		"tsp":            TokenScopePolicyIdentity,
 		"usrpol":         UserAccessPolicyIdentity,
 		"usrpols":        UserAccessPolicyIdentity,
@@ -795,7 +789,6 @@ var (
 		"statsinfo":              nil,
 		"statsquery":             nil,
 		"suggestedpolicy":        nil,
-		"tabulation":             nil,
 		"tag": [][]string{
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
@@ -1089,8 +1082,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity:
 		return NewSuggestedPolicy()
-	case TabulationIdentity:
-		return NewTabulation()
 	case TagIdentity:
 		return NewTag()
 	case TagInjectIdentity:
@@ -1342,8 +1333,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseStatsQuery()
 	case SuggestedPolicyIdentity:
 		return NewSparseSuggestedPolicy()
-	case TabulationIdentity:
-		return NewSparseTabulation()
 	case TagIdentity:
 		return NewSparseTag()
 	case TagInjectIdentity:
@@ -1605,8 +1594,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity:
 		return &SuggestedPoliciesList{}
-	case TabulationIdentity:
-		return &TabulationsList{}
 	case TagIdentity:
 		return &TagsList{}
 	case TagInjectIdentity:
@@ -1858,8 +1845,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseStatsQueriesList{}
 	case SuggestedPolicyIdentity:
 		return &SparseSuggestedPoliciesList{}
-	case TabulationIdentity:
-		return &SparseTabulationsList{}
 	case TagIdentity:
 		return &SparseTagsList{}
 	case TagInjectIdentity:
@@ -2019,7 +2004,6 @@ func AllIdentities() []elemental.Identity {
 		StatsInfoIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
-		TabulationIdentity,
 		TagIdentity,
 		TagInjectIdentity,
 		TagValueIdentity,
@@ -2378,13 +2362,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"sugpols",
 			"sugg",
 			"suggs",
-		}
-	case TabulationIdentity:
-		return []string{
-			"table",
-			"tables",
-			"tabs",
-			"tab",
 		}
 	case TagIdentity:
 		return []string{}

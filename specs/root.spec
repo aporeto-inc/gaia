@@ -791,26 +791,6 @@ relations:
         multiple: true
         example_value: a=a
 
-- rest_name: tabulation
-  get:
-    description: Retrieves tabulated information based on parameters.
-    global_parameters:
-    - $filtering
-    parameters:
-      required:
-      - - - identity
-      entries:
-      - name: column
-        description: Columns you want to see.
-        type: string
-        multiple: true
-        example_value: name
-
-      - name: identity
-        description: Identity you want to tabulate.
-        type: string
-        example_value: enforcer
-
 - rest_name: tag
   get:
     description: Retrieves the list of existing tags in the system.
