@@ -29,6 +29,12 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: additionalConfiguration
+    description: Additional configuration of the app is needed by the app itself.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: appIdentifier
     description: AppIdentifier retains the identifier for the app.
     type: string
@@ -47,12 +53,6 @@ attributes:
       If true, will look for the public endpoints and store them as annotations in the
       installed app.
     type: boolean
-    exposed: true
-    stored: true
-
-  - name: configureRoute
-    description: Additional route to configure the app.
-    type: string
     exposed: true
     stored: true
 

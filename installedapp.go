@@ -109,6 +109,9 @@ type InstalledApp struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
+	// Additional configuration of the app is needed by the app itself.
+	AdditionalConfiguration bool `json:"additionalConfiguration" msgpack:"additionalConfiguration" bson:"additionalconfiguration" mapstructure:"additionalConfiguration,omitempty"`
+
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
@@ -124,9 +127,6 @@ type InstalledApp struct {
 	// If true, will look for the public endpoints and store them as annotations in the
 	// installed app.
 	CheckPublicEndpoint bool `json:"checkPublicEndpoint" msgpack:"checkPublicEndpoint" bson:"checkpublicendpoint" mapstructure:"checkPublicEndpoint,omitempty"`
-
-	// Additional route to configure the app.
-	ConfigureRoute string `json:"configureRoute" msgpack:"configureRoute" bson:"configureroute" mapstructure:"configureRoute,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
@@ -229,12 +229,12 @@ func (o *InstalledApp) GetBSON() (interface{}, error) {
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
+	s.AdditionalConfiguration = o.AdditionalConfiguration
 	s.Annotations = o.Annotations
 	s.AppIdentifier = o.AppIdentifier
 	s.AssociatedTags = o.AssociatedTags
 	s.CategoryID = o.CategoryID
 	s.CheckPublicEndpoint = o.CheckPublicEndpoint
-	s.ConfigureRoute = o.ConfigureRoute
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
 	s.CurrentVersion = o.CurrentVersion
@@ -270,12 +270,12 @@ func (o *InstalledApp) SetBSON(raw bson.Raw) error {
 	}
 
 	o.ID = s.ID.Hex()
+	o.AdditionalConfiguration = s.AdditionalConfiguration
 	o.Annotations = s.Annotations
 	o.AppIdentifier = s.AppIdentifier
 	o.AssociatedTags = s.AssociatedTags
 	o.CategoryID = s.CategoryID
 	o.CheckPublicEndpoint = s.CheckPublicEndpoint
-	o.ConfigureRoute = s.ConfigureRoute
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
 	o.CurrentVersion = s.CurrentVersion
@@ -491,30 +491,30 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseInstalledApp{
-			ID:                   &o.ID,
-			Annotations:          &o.Annotations,
-			AppIdentifier:        &o.AppIdentifier,
-			AssociatedTags:       &o.AssociatedTags,
-			CategoryID:           &o.CategoryID,
-			CheckPublicEndpoint:  &o.CheckPublicEndpoint,
-			ConfigureRoute:       &o.ConfigureRoute,
-			CreateIdempotencyKey: &o.CreateIdempotencyKey,
-			CreateTime:           &o.CreateTime,
-			CurrentVersion:       &o.CurrentVersion,
-			DeploymentCount:      &o.DeploymentCount,
-			ExternalWindowButton: &o.ExternalWindowButton,
-			MigrationsLog:        &o.MigrationsLog,
-			Name:                 &o.Name,
-			Namespace:            &o.Namespace,
-			NormalizedTags:       &o.NormalizedTags,
-			Parameters:           &o.Parameters,
-			Protected:            &o.Protected,
-			Status:               &o.Status,
-			StatusMessage:        &o.StatusMessage,
-			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
-			UpdateTime:           &o.UpdateTime,
-			ZHash:                &o.ZHash,
-			Zone:                 &o.Zone,
+			ID:                      &o.ID,
+			AdditionalConfiguration: &o.AdditionalConfiguration,
+			Annotations:             &o.Annotations,
+			AppIdentifier:           &o.AppIdentifier,
+			AssociatedTags:          &o.AssociatedTags,
+			CategoryID:              &o.CategoryID,
+			CheckPublicEndpoint:     &o.CheckPublicEndpoint,
+			CreateIdempotencyKey:    &o.CreateIdempotencyKey,
+			CreateTime:              &o.CreateTime,
+			CurrentVersion:          &o.CurrentVersion,
+			DeploymentCount:         &o.DeploymentCount,
+			ExternalWindowButton:    &o.ExternalWindowButton,
+			MigrationsLog:           &o.MigrationsLog,
+			Name:                    &o.Name,
+			Namespace:               &o.Namespace,
+			NormalizedTags:          &o.NormalizedTags,
+			Parameters:              &o.Parameters,
+			Protected:               &o.Protected,
+			Status:                  &o.Status,
+			StatusMessage:           &o.StatusMessage,
+			UpdateIdempotencyKey:    &o.UpdateIdempotencyKey,
+			UpdateTime:              &o.UpdateTime,
+			ZHash:                   &o.ZHash,
+			Zone:                    &o.Zone,
 		}
 	}
 
@@ -523,6 +523,8 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "additionalConfiguration":
+			sp.AdditionalConfiguration = &(o.AdditionalConfiguration)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "appIdentifier":
@@ -533,8 +535,6 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CategoryID = &(o.CategoryID)
 		case "checkPublicEndpoint":
 			sp.CheckPublicEndpoint = &(o.CheckPublicEndpoint)
-		case "configureRoute":
-			sp.ConfigureRoute = &(o.ConfigureRoute)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
@@ -585,6 +585,9 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
+	if so.AdditionalConfiguration != nil {
+		o.AdditionalConfiguration = *so.AdditionalConfiguration
+	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
@@ -599,9 +602,6 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CheckPublicEndpoint != nil {
 		o.CheckPublicEndpoint = *so.CheckPublicEndpoint
-	}
-	if so.ConfigureRoute != nil {
-		o.ConfigureRoute = *so.ConfigureRoute
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
@@ -738,6 +738,8 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
+	case "additionalConfiguration":
+		return o.AdditionalConfiguration
 	case "annotations":
 		return o.Annotations
 	case "appIdentifier":
@@ -748,8 +750,6 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.CategoryID
 	case "checkPublicEndpoint":
 		return o.CheckPublicEndpoint
-	case "configureRoute":
-		return o.ConfigureRoute
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "createTime":
@@ -805,6 +805,15 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"AdditionalConfiguration": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AdditionalConfiguration",
+		Description:    `Additional configuration of the app is needed by the app itself.`,
+		Exposed:        true,
+		Name:           "additionalConfiguration",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -857,15 +866,6 @@ installed app.`,
 		Name:    "checkPublicEndpoint",
 		Stored:  true,
 		Type:    "boolean",
-	},
-	"ConfigureRoute": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ConfigureRoute",
-		Description:    `Additional route to configure the app.`,
-		Exposed:        true,
-		Name:           "configureRoute",
-		Stored:         true,
-		Type:           "string",
 	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1092,6 +1092,15 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "string",
 	},
+	"additionalconfiguration": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AdditionalConfiguration",
+		Description:    `Additional configuration of the app is needed by the app itself.`,
+		Exposed:        true,
+		Name:           "additionalConfiguration",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -1144,15 +1153,6 @@ installed app.`,
 		Name:    "checkPublicEndpoint",
 		Stored:  true,
 		Type:    "boolean",
-	},
-	"configureroute": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ConfigureRoute",
-		Description:    `Additional route to configure the app.`,
-		Exposed:        true,
-		Name:           "configureRoute",
-		Stored:         true,
-		Type:           "string",
 	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1431,6 +1431,9 @@ type SparseInstalledApp struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
+	// Additional configuration of the app is needed by the app itself.
+	AdditionalConfiguration *bool `json:"additionalConfiguration,omitempty" msgpack:"additionalConfiguration,omitempty" bson:"additionalconfiguration,omitempty" mapstructure:"additionalConfiguration,omitempty"`
+
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
@@ -1446,9 +1449,6 @@ type SparseInstalledApp struct {
 	// If true, will look for the public endpoints and store them as annotations in the
 	// installed app.
 	CheckPublicEndpoint *bool `json:"checkPublicEndpoint,omitempty" msgpack:"checkPublicEndpoint,omitempty" bson:"checkpublicendpoint,omitempty" mapstructure:"checkPublicEndpoint,omitempty"`
-
-	// Additional route to configure the app.
-	ConfigureRoute *string `json:"configureRoute,omitempty" msgpack:"configureRoute,omitempty" bson:"configureroute,omitempty" mapstructure:"configureRoute,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1548,6 +1548,9 @@ func (o *SparseInstalledApp) GetBSON() (interface{}, error) {
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
+	if o.AdditionalConfiguration != nil {
+		s.AdditionalConfiguration = o.AdditionalConfiguration
+	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1562,9 +1565,6 @@ func (o *SparseInstalledApp) GetBSON() (interface{}, error) {
 	}
 	if o.CheckPublicEndpoint != nil {
 		s.CheckPublicEndpoint = o.CheckPublicEndpoint
-	}
-	if o.ConfigureRoute != nil {
-		s.ConfigureRoute = o.ConfigureRoute
 	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -1636,6 +1636,9 @@ func (o *SparseInstalledApp) SetBSON(raw bson.Raw) error {
 
 	id := s.ID.Hex()
 	o.ID = &id
+	if s.AdditionalConfiguration != nil {
+		o.AdditionalConfiguration = s.AdditionalConfiguration
+	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
 	}
@@ -1650,9 +1653,6 @@ func (o *SparseInstalledApp) SetBSON(raw bson.Raw) error {
 	}
 	if s.CheckPublicEndpoint != nil {
 		o.CheckPublicEndpoint = s.CheckPublicEndpoint
-	}
-	if s.ConfigureRoute != nil {
-		o.ConfigureRoute = s.ConfigureRoute
 	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
@@ -1722,6 +1722,9 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
+	if o.AdditionalConfiguration != nil {
+		out.AdditionalConfiguration = *o.AdditionalConfiguration
+	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
@@ -1736,9 +1739,6 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CheckPublicEndpoint != nil {
 		out.CheckPublicEndpoint = *o.CheckPublicEndpoint
-	}
-	if o.ConfigureRoute != nil {
-		out.ConfigureRoute = *o.ConfigureRoute
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
@@ -2028,54 +2028,54 @@ func (o *SparseInstalledApp) DeepCopyInto(out *SparseInstalledApp) {
 }
 
 type mongoAttributesInstalledApp struct {
-	ID                   bson.ObjectId           `bson:"_id,omitempty"`
-	Annotations          map[string][]string     `bson:"annotations"`
-	AppIdentifier        string                  `bson:"appidentifier"`
-	AssociatedTags       []string                `bson:"associatedtags"`
-	CategoryID           string                  `bson:"categoryid"`
-	CheckPublicEndpoint  bool                    `bson:"checkpublicendpoint"`
-	ConfigureRoute       string                  `bson:"configureroute"`
-	CreateIdempotencyKey string                  `bson:"createidempotencykey"`
-	CreateTime           time.Time               `bson:"createtime"`
-	CurrentVersion       string                  `bson:"currentversion"`
-	DeploymentCount      int                     `bson:"deploymentcount"`
-	ExternalWindowButton map[string]string       `bson:"externalwindowbutton"`
-	MigrationsLog        map[string]string       `bson:"migrationslog,omitempty"`
-	Name                 string                  `bson:"name"`
-	Namespace            string                  `bson:"namespace"`
-	NormalizedTags       []string                `bson:"normalizedtags"`
-	Parameters           map[string]interface{}  `bson:"parameters"`
-	Protected            bool                    `bson:"protected"`
-	Status               InstalledAppStatusValue `bson:"status"`
-	StatusMessage        string                  `bson:"statusmessage"`
-	UpdateIdempotencyKey string                  `bson:"updateidempotencykey"`
-	UpdateTime           time.Time               `bson:"updatetime"`
-	ZHash                int                     `bson:"zhash"`
-	Zone                 int                     `bson:"zone"`
+	ID                      bson.ObjectId           `bson:"_id,omitempty"`
+	AdditionalConfiguration bool                    `bson:"additionalconfiguration"`
+	Annotations             map[string][]string     `bson:"annotations"`
+	AppIdentifier           string                  `bson:"appidentifier"`
+	AssociatedTags          []string                `bson:"associatedtags"`
+	CategoryID              string                  `bson:"categoryid"`
+	CheckPublicEndpoint     bool                    `bson:"checkpublicendpoint"`
+	CreateIdempotencyKey    string                  `bson:"createidempotencykey"`
+	CreateTime              time.Time               `bson:"createtime"`
+	CurrentVersion          string                  `bson:"currentversion"`
+	DeploymentCount         int                     `bson:"deploymentcount"`
+	ExternalWindowButton    map[string]string       `bson:"externalwindowbutton"`
+	MigrationsLog           map[string]string       `bson:"migrationslog,omitempty"`
+	Name                    string                  `bson:"name"`
+	Namespace               string                  `bson:"namespace"`
+	NormalizedTags          []string                `bson:"normalizedtags"`
+	Parameters              map[string]interface{}  `bson:"parameters"`
+	Protected               bool                    `bson:"protected"`
+	Status                  InstalledAppStatusValue `bson:"status"`
+	StatusMessage           string                  `bson:"statusmessage"`
+	UpdateIdempotencyKey    string                  `bson:"updateidempotencykey"`
+	UpdateTime              time.Time               `bson:"updatetime"`
+	ZHash                   int                     `bson:"zhash"`
+	Zone                    int                     `bson:"zone"`
 }
 type mongoAttributesSparseInstalledApp struct {
-	ID                   bson.ObjectId            `bson:"_id,omitempty"`
-	Annotations          *map[string][]string     `bson:"annotations,omitempty"`
-	AppIdentifier        *string                  `bson:"appidentifier,omitempty"`
-	AssociatedTags       *[]string                `bson:"associatedtags,omitempty"`
-	CategoryID           *string                  `bson:"categoryid,omitempty"`
-	CheckPublicEndpoint  *bool                    `bson:"checkpublicendpoint,omitempty"`
-	ConfigureRoute       *string                  `bson:"configureroute,omitempty"`
-	CreateIdempotencyKey *string                  `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time               `bson:"createtime,omitempty"`
-	CurrentVersion       *string                  `bson:"currentversion,omitempty"`
-	DeploymentCount      *int                     `bson:"deploymentcount,omitempty"`
-	ExternalWindowButton *map[string]string       `bson:"externalwindowbutton,omitempty"`
-	MigrationsLog        *map[string]string       `bson:"migrationslog,omitempty"`
-	Name                 *string                  `bson:"name,omitempty"`
-	Namespace            *string                  `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string                `bson:"normalizedtags,omitempty"`
-	Parameters           *map[string]interface{}  `bson:"parameters,omitempty"`
-	Protected            *bool                    `bson:"protected,omitempty"`
-	Status               *InstalledAppStatusValue `bson:"status,omitempty"`
-	StatusMessage        *string                  `bson:"statusmessage,omitempty"`
-	UpdateIdempotencyKey *string                  `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time               `bson:"updatetime,omitempty"`
-	ZHash                *int                     `bson:"zhash,omitempty"`
-	Zone                 *int                     `bson:"zone,omitempty"`
+	ID                      bson.ObjectId            `bson:"_id,omitempty"`
+	AdditionalConfiguration *bool                    `bson:"additionalconfiguration,omitempty"`
+	Annotations             *map[string][]string     `bson:"annotations,omitempty"`
+	AppIdentifier           *string                  `bson:"appidentifier,omitempty"`
+	AssociatedTags          *[]string                `bson:"associatedtags,omitempty"`
+	CategoryID              *string                  `bson:"categoryid,omitempty"`
+	CheckPublicEndpoint     *bool                    `bson:"checkpublicendpoint,omitempty"`
+	CreateIdempotencyKey    *string                  `bson:"createidempotencykey,omitempty"`
+	CreateTime              *time.Time               `bson:"createtime,omitempty"`
+	CurrentVersion          *string                  `bson:"currentversion,omitempty"`
+	DeploymentCount         *int                     `bson:"deploymentcount,omitempty"`
+	ExternalWindowButton    *map[string]string       `bson:"externalwindowbutton,omitempty"`
+	MigrationsLog           *map[string]string       `bson:"migrationslog,omitempty"`
+	Name                    *string                  `bson:"name,omitempty"`
+	Namespace               *string                  `bson:"namespace,omitempty"`
+	NormalizedTags          *[]string                `bson:"normalizedtags,omitempty"`
+	Parameters              *map[string]interface{}  `bson:"parameters,omitempty"`
+	Protected               *bool                    `bson:"protected,omitempty"`
+	Status                  *InstalledAppStatusValue `bson:"status,omitempty"`
+	StatusMessage           *string                  `bson:"statusmessage,omitempty"`
+	UpdateIdempotencyKey    *string                  `bson:"updateidempotencykey,omitempty"`
+	UpdateTime              *time.Time               `bson:"updatetime,omitempty"`
+	ZHash                   *int                     `bson:"zhash,omitempty"`
+	Zone                    *int                     `bson:"zone,omitempty"`
 }
