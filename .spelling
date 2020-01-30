@@ -48,7 +48,9 @@ clob
 CNs
 collectionID
 CollectionID
+ComplianceIssue
 containerd
+ContainerImage
 ContextID
 CoreOS
 CounterReport
@@ -276,6 +278,7 @@ ValidateUIParameter
 vCPUs
 vince
 VMs
+vulscan
 Webhook
 whitelist
 whitelisted
