@@ -36,7 +36,6 @@ var (
 		"counterreport":   CounterReportIdentity,
 
 		"customer":            CustomerIdentity,
-		"cve":                 CVEIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
 		"dependencymap":       DependencyMapIdentity,
 		"dnslookupreport":     DNSLookupReportIdentity,
@@ -176,7 +175,6 @@ var (
 		"counterreports":   CounterReportIdentity,
 
 		"customers":            CustomerIdentity,
-		"cves":                 CVEIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
 		"dependencymaps":       DependencyMapIdentity,
 		"dnslookupreports":     DNSLookupReportIdentity,
@@ -511,19 +509,6 @@ var (
 		"counterreport": nil,
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
-		},
-		"cve": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"severity", "namespace"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"namespace", "archived"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
-			[]string{"code", "namespace"},
-			[]string{"archived"},
 		},
 		"datapathcertificate": nil,
 		"dependencymap":       nil,
@@ -966,8 +951,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCounterReport()
 	case CustomerIdentity:
 		return NewCustomer()
-	case CVEIdentity:
-		return NewCVE()
 	case DataPathCertificateIdentity:
 		return NewDataPathCertificate()
 	case DependencyMapIdentity:
@@ -1225,8 +1208,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCounterReport()
 	case CustomerIdentity:
 		return NewSparseCustomer()
-	case CVEIdentity:
-		return NewSparseCVE()
 	case DataPathCertificateIdentity:
 		return NewSparseDataPathCertificate()
 	case DependencyMapIdentity:
@@ -1492,8 +1473,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CounterReportsList{}
 	case CustomerIdentity:
 		return &CustomersList{}
-	case CVEIdentity:
-		return &CVEsList{}
 	case DataPathCertificateIdentity:
 		return &DataPathCertificatesList{}
 	case DependencyMapIdentity:
@@ -1749,8 +1728,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCounterReportsList{}
 	case CustomerIdentity:
 		return &SparseCustomersList{}
-	case CVEIdentity:
-		return &SparseCVEsList{}
 	case DataPathCertificateIdentity:
 		return &SparseDataPathCertificatesList{}
 	case DependencyMapIdentity:
@@ -1992,7 +1969,6 @@ func AllIdentities() []elemental.Identity {
 		ContainerImageIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
-		CVEIdentity,
 		DataPathCertificateIdentity,
 		DependencyMapIdentity,
 		DNSLookupReportIdentity,
@@ -2173,8 +2149,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CounterReportIdentity:
 		return []string{}
 	case CustomerIdentity:
-		return []string{}
-	case CVEIdentity:
 		return []string{}
 	case DataPathCertificateIdentity:
 		return []string{}
