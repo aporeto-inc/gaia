@@ -200,6 +200,22 @@ relations:
   create:
     description: Performs a clause matching.
 
+- rest_name: complianceissue
+  get:
+    description: Retrieves the list of compliance issues.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new compliance issue.
+
+- rest_name: containerimage
+  get:
+    description: Retrieves the list of container images.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new container image.
+
 - rest_name: counterreport
   create:
     description: Create a counter report.

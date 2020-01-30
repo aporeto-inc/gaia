@@ -5971,6 +5971,18 @@ A container image can be affected by vulnerabilities and compliance issues.
 
 #### Relations
 
+##### `GET /containerimages`
+
+Retrieves the list of container images.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+
+##### `POST /containerimages`
+
+Creates a new container image.
+
 ##### `DELETE /containerimages/:id`
 
 Deletes the container image with the given ID.
@@ -6141,6 +6153,18 @@ Represents a compliance issue.
 ```
 
 #### Relations
+
+##### `GET /complianceissues`
+
+Retrieves the list of compliance issues.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+
+##### `POST /complianceissues`
+
+Creates a new compliance issue.
 
 ##### `DELETE /complianceissues/:id`
 
