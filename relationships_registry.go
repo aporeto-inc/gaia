@@ -707,6 +707,42 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[CVEIdentity] = &elemental.Relationship{
+		Update: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Patch: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"containerimage": &elemental.RelationshipInfo{},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"containerimage": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[CallIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"apiproxy": &elemental.RelationshipInfo{},
@@ -755,6 +791,72 @@ func init() {
 	relationshipsRegistry[ClauseMatchIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
+	relationshipsRegistry[ComplianceIssueIdentity] = &elemental.Relationship{
+		Update: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Patch: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"containerimage": &elemental.RelationshipInfo{},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"containerimage": &elemental.RelationshipInfo{},
+		},
+	}
+
+	relationshipsRegistry[ContainerImageIdentity] = &elemental.Relationship{
+		Update: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Patch: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 

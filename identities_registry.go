@@ -31,9 +31,12 @@ var (
 		"claims":       ClaimsIdentity,
 		"clausesmatch": ClauseMatchIdentity,
 
-		"counterreport": CounterReportIdentity,
+		"complianceissue": ComplianceIssueIdentity,
+		"containerimage":  ContainerImageIdentity,
+		"counterreport":   CounterReportIdentity,
 
 		"customer":            CustomerIdentity,
+		"cve":                 CVEIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
 		"dependencymap":       DependencyMapIdentity,
 		"dnslookupreport":     DNSLookupReportIdentity,
@@ -168,9 +171,12 @@ var (
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
 
-		"counterreports": CounterReportIdentity,
+		"complianceissues": ComplianceIssueIdentity,
+		"containerimages":  ContainerImageIdentity,
+		"counterreports":   CounterReportIdentity,
 
 		"customers":            CustomerIdentity,
+		"cves":                 CVEIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
 		"dependencymaps":       DependencyMapIdentity,
 		"dnslookupreports":     DNSLookupReportIdentity,
@@ -476,10 +482,48 @@ var (
 			[]string{"namespace", "normalizedTags"},
 			[]string{"createIdempotencyKey"},
 		},
-		"clausesmatch":  nil,
+		"clausesmatch": nil,
+		"complianceissue": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"severity", "namespace"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"namespace", "archived"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+			[]string{"archived"},
+		},
+		"containerimage": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "archived"},
+			[]string{"namespace"},
+			[]string{"namespace", "name"},
+			[]string{"name"},
+			[]string{"externalID"},
+			[]string{"dockerImages"},
+			[]string{"createIdempotencyKey"},
+			[]string{"archived"},
+		},
 		"counterreport": nil,
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
+		},
+		"cve": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"severity", "namespace"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"namespace", "archived"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+			[]string{"code", "namespace"},
+			[]string{"archived"},
 		},
 		"datapathcertificate": nil,
 		"dependencymap":       nil,
@@ -914,10 +958,16 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewClaims()
 	case ClauseMatchIdentity:
 		return NewClauseMatch()
+	case ComplianceIssueIdentity:
+		return NewComplianceIssue()
+	case ContainerImageIdentity:
+		return NewContainerImage()
 	case CounterReportIdentity:
 		return NewCounterReport()
 	case CustomerIdentity:
 		return NewCustomer()
+	case CVEIdentity:
+		return NewCVE()
 	case DataPathCertificateIdentity:
 		return NewDataPathCertificate()
 	case DependencyMapIdentity:
@@ -1167,10 +1217,16 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
 		return NewSparseClauseMatch()
+	case ComplianceIssueIdentity:
+		return NewSparseComplianceIssue()
+	case ContainerImageIdentity:
+		return NewSparseContainerImage()
 	case CounterReportIdentity:
 		return NewSparseCounterReport()
 	case CustomerIdentity:
 		return NewSparseCustomer()
+	case CVEIdentity:
+		return NewSparseCVE()
 	case DataPathCertificateIdentity:
 		return NewSparseDataPathCertificate()
 	case DependencyMapIdentity:
@@ -1428,10 +1484,16 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
 		return &ClauseMatchesList{}
+	case ComplianceIssueIdentity:
+		return &ComplianceIssuesList{}
+	case ContainerImageIdentity:
+		return &ContainerImagesList{}
 	case CounterReportIdentity:
 		return &CounterReportsList{}
 	case CustomerIdentity:
 		return &CustomersList{}
+	case CVEIdentity:
+		return &CVEsList{}
 	case DataPathCertificateIdentity:
 		return &DataPathCertificatesList{}
 	case DependencyMapIdentity:
@@ -1679,10 +1741,16 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
 		return &SparseClauseMatchesList{}
+	case ComplianceIssueIdentity:
+		return &SparseComplianceIssuesList{}
+	case ContainerImageIdentity:
+		return &SparseContainerImagesList{}
 	case CounterReportIdentity:
 		return &SparseCounterReportsList{}
 	case CustomerIdentity:
 		return &SparseCustomersList{}
+	case CVEIdentity:
+		return &SparseCVEsList{}
 	case DataPathCertificateIdentity:
 		return &SparseDataPathCertificatesList{}
 	case DependencyMapIdentity:
@@ -1920,8 +1988,11 @@ func AllIdentities() []elemental.Identity {
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
+		ComplianceIssueIdentity,
+		ContainerImageIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
+		CVEIdentity,
 		DataPathCertificateIdentity,
 		DependencyMapIdentity,
 		DNSLookupReportIdentity,
@@ -2095,9 +2166,15 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case ClauseMatchIdentity:
 		return []string{}
+	case ComplianceIssueIdentity:
+		return []string{}
+	case ContainerImageIdentity:
+		return []string{}
 	case CounterReportIdentity:
 		return []string{}
 	case CustomerIdentity:
+		return []string{}
+	case CVEIdentity:
 		return []string{}
 	case DataPathCertificateIdentity:
 		return []string{}
