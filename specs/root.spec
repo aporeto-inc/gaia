@@ -485,6 +485,11 @@ relations:
     description: Issues a new token.
     parameters:
       entries:
+      - name: asCookie
+        description: If set to true, the token will be delivered in a secure cookie,
+          and not in the response body.
+        type: boolean
+
       - name: token
         description: Token to verify.
         type: string
