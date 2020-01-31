@@ -125,9 +125,6 @@ type ContainerImage struct {
 	// Number of high vulnerabilities.
 	HighVulnerabilityCount int `json:"highVulnerabilityCount" msgpack:"highVulnerabilityCount" bson:"highvulnerabilitycount" mapstructure:"highVulnerabilityCount,omitempty"`
 
-	// List of docker images.
-	Images []string `json:"images" msgpack:"images" bson:"images" mapstructure:"images,omitempty"`
-
 	// Number of low compliance issue.
 	LowComplianceIssueCount int `json:"lowComplianceIssueCount" msgpack:"lowComplianceIssueCount" bson:"lowcomplianceissuecount" mapstructure:"lowComplianceIssueCount,omitempty"`
 
@@ -147,7 +144,7 @@ type ContainerImage struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
-	// Name of the entity.
+	// the docker image.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -202,7 +199,6 @@ func NewContainerImage() *ContainerImage {
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Images:         []string{},
 		MigrationsLog:  map[string]string{},
 	}
 }
@@ -251,7 +247,6 @@ func (o *ContainerImage) GetBSON() (interface{}, error) {
 	s.ExternalID = o.ExternalID
 	s.HighComplianceIssueCount = o.HighComplianceIssueCount
 	s.HighVulnerabilityCount = o.HighVulnerabilityCount
-	s.Images = o.Images
 	s.LowComplianceIssueCount = o.LowComplianceIssueCount
 	s.LowVulnerabilityCount = o.LowVulnerabilityCount
 	s.MediumComplianceIssueCount = o.MediumComplianceIssueCount
@@ -303,7 +298,6 @@ func (o *ContainerImage) SetBSON(raw bson.Raw) error {
 	o.ExternalID = s.ExternalID
 	o.HighComplianceIssueCount = s.HighComplianceIssueCount
 	o.HighVulnerabilityCount = s.HighVulnerabilityCount
-	o.Images = s.Images
 	o.LowComplianceIssueCount = s.LowComplianceIssueCount
 	o.LowVulnerabilityCount = s.LowVulnerabilityCount
 	o.MediumComplianceIssueCount = s.MediumComplianceIssueCount
@@ -455,18 +449,6 @@ func (o *ContainerImage) SetMigrationsLog(migrationsLog map[string]string) {
 	o.MigrationsLog = migrationsLog
 }
 
-// GetName returns the Name of the receiver.
-func (o *ContainerImage) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the property Name of the receiver using the given value.
-func (o *ContainerImage) SetName(name string) {
-
-	o.Name = name
-}
-
 // GetNamespace returns the Namespace of the receiver.
 func (o *ContainerImage) GetNamespace() string {
 
@@ -572,7 +554,6 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 			ExternalID:                   &o.ExternalID,
 			HighComplianceIssueCount:     &o.HighComplianceIssueCount,
 			HighVulnerabilityCount:       &o.HighVulnerabilityCount,
-			Images:                       &o.Images,
 			LowComplianceIssueCount:      &o.LowComplianceIssueCount,
 			LowVulnerabilityCount:        &o.LowVulnerabilityCount,
 			MediumComplianceIssueCount:   &o.MediumComplianceIssueCount,
@@ -627,8 +608,6 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.HighComplianceIssueCount = &(o.HighComplianceIssueCount)
 		case "highVulnerabilityCount":
 			sp.HighVulnerabilityCount = &(o.HighVulnerabilityCount)
-		case "images":
-			sp.Images = &(o.Images)
 		case "lowComplianceIssueCount":
 			sp.LowComplianceIssueCount = &(o.LowComplianceIssueCount)
 		case "lowVulnerabilityCount":
@@ -723,9 +702,6 @@ func (o *ContainerImage) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.HighVulnerabilityCount != nil {
 		o.HighVulnerabilityCount = *so.HighVulnerabilityCount
-	}
-	if so.Images != nil {
-		o.Images = *so.Images
 	}
 	if so.LowComplianceIssueCount != nil {
 		o.LowComplianceIssueCount = *so.LowComplianceIssueCount
@@ -831,14 +807,6 @@ func (o *ContainerImage) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -901,8 +869,6 @@ func (o *ContainerImage) ValueForAttribute(name string) interface{} {
 		return o.HighComplianceIssueCount
 	case "highVulnerabilityCount":
 		return o.HighVulnerabilityCount
-	case "images":
-		return o.Images
 	case "lowComplianceIssueCount":
 		return o.LowComplianceIssueCount
 	case "lowVulnerabilityCount":
@@ -1102,17 +1068,6 @@ var ContainerImageAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "integer",
 	},
-	"Images": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Images",
-		Description:    `List of docker images.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "images",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"LowComplianceIssueCount": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LowComplianceIssueCount",
@@ -1178,15 +1133,10 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `Name of the entity.`,
+		Description:    `the docker image.`,
 		Exposed:        true,
 		Filterable:     true,
-		Getter:         true,
-		MaxLength:      256,
 		Name:           "name",
-		Orderable:      true,
-		Required:       true,
-		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1497,17 +1447,6 @@ var ContainerImageLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Stored:         true,
 		Type:           "integer",
 	},
-	"images": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Images",
-		Description:    `List of docker images.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "images",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"lowcomplianceissuecount": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LowComplianceIssueCount",
@@ -1573,15 +1512,10 @@ with the '@' prefix, and should only be used by external systems.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `Name of the entity.`,
+		Description:    `the docker image.`,
 		Exposed:        true,
 		Filterable:     true,
-		Getter:         true,
-		MaxLength:      256,
 		Name:           "name",
-		Orderable:      true,
-		Required:       true,
-		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1845,9 +1779,6 @@ type SparseContainerImage struct {
 	// Number of high vulnerabilities.
 	HighVulnerabilityCount *int `json:"highVulnerabilityCount,omitempty" msgpack:"highVulnerabilityCount,omitempty" bson:"highvulnerabilitycount,omitempty" mapstructure:"highVulnerabilityCount,omitempty"`
 
-	// List of docker images.
-	Images *[]string `json:"images,omitempty" msgpack:"images,omitempty" bson:"images,omitempty" mapstructure:"images,omitempty"`
-
 	// Number of low compliance issue.
 	LowComplianceIssueCount *int `json:"lowComplianceIssueCount,omitempty" msgpack:"lowComplianceIssueCount,omitempty" bson:"lowcomplianceissuecount,omitempty" mapstructure:"lowComplianceIssueCount,omitempty"`
 
@@ -1867,7 +1798,7 @@ type SparseContainerImage struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
-	// Name of the entity.
+	// the docker image.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -1995,9 +1926,6 @@ func (o *SparseContainerImage) GetBSON() (interface{}, error) {
 	if o.HighVulnerabilityCount != nil {
 		s.HighVulnerabilityCount = o.HighVulnerabilityCount
 	}
-	if o.Images != nil {
-		s.Images = o.Images
-	}
 	if o.LowComplianceIssueCount != nil {
 		s.LowComplianceIssueCount = o.LowComplianceIssueCount
 	}
@@ -2116,9 +2044,6 @@ func (o *SparseContainerImage) SetBSON(raw bson.Raw) error {
 	if s.HighVulnerabilityCount != nil {
 		o.HighVulnerabilityCount = s.HighVulnerabilityCount
 	}
-	if s.Images != nil {
-		o.Images = s.Images
-	}
 	if s.LowComplianceIssueCount != nil {
 		o.LowComplianceIssueCount = s.LowComplianceIssueCount
 	}
@@ -2234,9 +2159,6 @@ func (o *SparseContainerImage) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.HighVulnerabilityCount != nil {
 		out.HighVulnerabilityCount = *o.HighVulnerabilityCount
-	}
-	if o.Images != nil {
-		out.Images = *o.Images
 	}
 	if o.LowComplianceIssueCount != nil {
 		out.LowComplianceIssueCount = *o.LowComplianceIssueCount
@@ -2430,22 +2352,6 @@ func (o *SparseContainerImage) SetMigrationsLog(migrationsLog map[string]string)
 	o.MigrationsLog = &migrationsLog
 }
 
-// GetName returns the Name of the receiver.
-func (o *SparseContainerImage) GetName() (out string) {
-
-	if o.Name == nil {
-		return
-	}
-
-	return *o.Name
-}
-
-// SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetName(name string) {
-
-	o.Name = &name
-}
-
 // GetNamespace returns the Namespace of the receiver.
 func (o *SparseContainerImage) GetNamespace() (out string) {
 
@@ -2597,7 +2503,6 @@ type mongoAttributesContainerImage struct {
 	ExternalID                   string              `bson:"externalid"`
 	HighComplianceIssueCount     int                 `bson:"highcomplianceissuecount"`
 	HighVulnerabilityCount       int                 `bson:"highvulnerabilitycount"`
-	Images                       []string            `bson:"images"`
 	LowComplianceIssueCount      int                 `bson:"lowcomplianceissuecount"`
 	LowVulnerabilityCount        int                 `bson:"lowvulnerabilitycount"`
 	MediumComplianceIssueCount   int                 `bson:"mediumcomplianceissuecount"`
@@ -2634,7 +2539,6 @@ type mongoAttributesSparseContainerImage struct {
 	ExternalID                   *string              `bson:"externalid,omitempty"`
 	HighComplianceIssueCount     *int                 `bson:"highcomplianceissuecount,omitempty"`
 	HighVulnerabilityCount       *int                 `bson:"highvulnerabilitycount,omitempty"`
-	Images                       *[]string            `bson:"images,omitempty"`
 	LowComplianceIssueCount      *int                 `bson:"lowcomplianceissuecount,omitempty"`
 	LowVulnerabilityCount        *int                 `bson:"lowvulnerabilitycount,omitempty"`
 	MediumComplianceIssueCount   *int                 `bson:"mediumcomplianceissuecount,omitempty"`

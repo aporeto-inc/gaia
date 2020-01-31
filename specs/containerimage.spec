@@ -88,17 +88,6 @@ attributes:
     stored: true
     example_value: 16
 
-  - name: images
-    description: List of docker images.
-    type: list
-    exposed: true
-    subtype: string
-    stored: true
-    example_value:
-    - nginx:1.12
-    - myorg/container:latest
-    filterable: true
-
   - name: lowComplianceIssueCount
     description: Number of low compliance issue.
     type: integer
@@ -126,6 +115,14 @@ attributes:
     exposed: true
     stored: true
     example_value: 20
+
+  - name: name
+    description: the docker image.
+    type: string
+    exposed: true
+    stored: true
+    example_value: nginx:1.12
+    filterable: true
 
   - name: osDistro
     description: Name of the os distribution.
