@@ -36,7 +36,7 @@ indexes:
 # Attributes
 attributes:
   v1:
-  - name: cvss
+  - name: CVSS2Score
     description: CVSS score of the compliance issue.
     type: float
     exposed: true
@@ -54,13 +54,11 @@ attributes:
     orderable: true
 
   - name: severity
-    description: Severity of the compliance issue.
-    type: enum
+    description: Refers to the security vulnerability level.
+    type: external
     exposed: true
+    subtype: _vulnerability_level
     stored: true
-    allowed_choices:
-    - Critical
-    - High
-    - Medium
-    - Low
-    filterable: true
+    required: true
+    creation_only: true
+    example_value: 3

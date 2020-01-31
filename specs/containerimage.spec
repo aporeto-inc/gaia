@@ -116,14 +116,6 @@ attributes:
     stored: true
     example_value: 20
 
-  - name: name
-    description: the docker image.
-    type: string
-    exposed: true
-    stored: true
-    example_value: nginx:1.12
-    filterable: true
-
   - name: osDistro
     description: Name of the os distribution.
     type: string

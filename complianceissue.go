@@ -7,23 +7,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-)
-
-// ComplianceIssueSeverityValue represents the possible values for attribute "severity".
-type ComplianceIssueSeverityValue string
-
-const (
-	// ComplianceIssueSeverityCritical represents the value Critical.
-	ComplianceIssueSeverityCritical ComplianceIssueSeverityValue = "Critical"
-
-	// ComplianceIssueSeverityHigh represents the value High.
-	ComplianceIssueSeverityHigh ComplianceIssueSeverityValue = "High"
-
-	// ComplianceIssueSeverityLow represents the value Low.
-	ComplianceIssueSeverityLow ComplianceIssueSeverityValue = "Low"
-
-	// ComplianceIssueSeverityMedium represents the value Medium.
-	ComplianceIssueSeverityMedium ComplianceIssueSeverityValue = "Medium"
+	"go.aporeto.io/gaia/constants"
 )
 
 // ComplianceIssueIdentity represents the Identity of the object.
@@ -100,6 +84,9 @@ func (o ComplianceIssuesList) Version() int {
 
 // ComplianceIssue represents the model of a complianceissue
 type ComplianceIssue struct {
+	// CVSS score of the compliance issue.
+	CVSS2Score float64 `json:"CVSS2Score" msgpack:"CVSS2Score" bson:"cvss2score" mapstructure:"CVSS2Score,omitempty"`
+
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -117,9 +104,6 @@ type ComplianceIssue struct {
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
-
-	// CVSS score of the compliance issue.
-	Cvss float64 `json:"cvss" msgpack:"cvss" bson:"cvss" mapstructure:"cvss,omitempty"`
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
@@ -146,8 +130,8 @@ type ComplianceIssue struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Severity of the compliance issue.
-	Severity ComplianceIssueSeverityValue `json:"severity" msgpack:"severity" bson:"severity" mapstructure:"severity,omitempty"`
+	// Refers to the security vulnerability level.
+	Severity constants.Vulnerability `json:"severity" msgpack:"severity" bson:"severity" mapstructure:"severity,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -173,8 +157,9 @@ func NewComplianceIssue() *ComplianceIssue {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		MigrationsLog:  map[string]string{},
-		Metadata:       []string{},
 		NormalizedTags: []string{},
+		Metadata:       []string{},
+		Severity:       constants.VulnerabilityUnknown,
 	}
 }
 
@@ -206,6 +191,7 @@ func (o *ComplianceIssue) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesComplianceIssue{}
 
+	s.CVSS2Score = o.CVSS2Score
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
@@ -214,7 +200,6 @@ func (o *ComplianceIssue) GetBSON() (interface{}, error) {
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
-	s.Cvss = o.Cvss
 	s.Description = o.Description
 	s.Link = o.Link
 	s.Metadata = o.Metadata
@@ -245,13 +230,13 @@ func (o *ComplianceIssue) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.CVSS2Score = s.CVSS2Score
 	o.ID = s.ID.Hex()
 	o.Annotations = s.Annotations
 	o.Archived = s.Archived
 	o.AssociatedTags = s.AssociatedTags
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
-	o.Cvss = s.Cvss
 	o.Description = s.Description
 	o.Link = s.Link
 	o.Metadata = s.Metadata
@@ -499,13 +484,13 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseComplianceIssue{
+			CVSS2Score:           &o.CVSS2Score,
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
 			Archived:             &o.Archived,
 			AssociatedTags:       &o.AssociatedTags,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
-			Cvss:                 &o.Cvss,
 			Description:          &o.Description,
 			Link:                 &o.Link,
 			Metadata:             &o.Metadata,
@@ -525,6 +510,8 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	sp := &SparseComplianceIssue{}
 	for _, f := range fields {
 		switch f {
+		case "CVSS2Score":
+			sp.CVSS2Score = &(o.CVSS2Score)
 		case "ID":
 			sp.ID = &(o.ID)
 		case "annotations":
@@ -537,8 +524,6 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
-		case "cvss":
-			sp.Cvss = &(o.Cvss)
 		case "description":
 			sp.Description = &(o.Description)
 		case "link":
@@ -578,6 +563,9 @@ func (o *ComplianceIssue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseComplianceIssue)
+	if so.CVSS2Score != nil {
+		o.CVSS2Score = *so.CVSS2Score
+	}
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -595,9 +583,6 @@ func (o *ComplianceIssue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
-	}
-	if so.Cvss != nil {
-		o.Cvss = *so.Cvss
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -694,8 +679,8 @@ func (o *ComplianceIssue) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("severity", string(o.Severity), []string{"Critical", "High", "Medium", "Low"}, false); err != nil {
-		errors = errors.Append(err)
+	if err := elemental.ValidateRequiredExternal("severity", o.Severity); err != nil {
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -732,6 +717,8 @@ func (*ComplianceIssue) AttributeSpecifications() map[string]elemental.Attribute
 func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "CVSS2Score":
+		return o.CVSS2Score
 	case "ID":
 		return o.ID
 	case "annotations":
@@ -744,8 +731,6 @@ func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
-	case "cvss":
-		return o.Cvss
 	case "description":
 		return o.Description
 	case "link":
@@ -779,6 +764,16 @@ func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 
 // ComplianceIssueAttributesMap represents the map of attribute for ComplianceIssue.
 var ComplianceIssueAttributesMap = map[string]elemental.AttributeSpecification{
+	"CVSS2Score": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CVSS2Score",
+		Description:    `CVSS score of the compliance issue.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "CVSS2Score",
+		Stored:         true,
+		Type:           "float",
+	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -852,16 +847,6 @@ var ComplianceIssueAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"Cvss": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Cvss",
-		Description:    `CVSS score of the compliance issue.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "cvss",
-		Stored:         true,
-		Type:           "float",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -971,14 +956,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Type:           "boolean",
 	},
 	"Severity": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Critical", "High", "Medium", "Low"},
+		AllowedChoices: []string{},
 		ConvertedName:  "Severity",
-		Description:    `Severity of the compliance issue.`,
+		CreationOnly:   true,
+		Description:    `Refers to the security vulnerability level.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "severity",
+		Required:       true,
 		Stored:         true,
-		Type:           "enum",
+		SubType:        "_vulnerability_level",
+		Type:           "external",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1037,6 +1024,16 @@ georedundancy.`,
 
 // ComplianceIssueLowerCaseAttributesMap represents the map of attribute for ComplianceIssue.
 var ComplianceIssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"cvss2score": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CVSS2Score",
+		Description:    `CVSS score of the compliance issue.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "CVSS2Score",
+		Stored:         true,
+		Type:           "float",
+	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1110,16 +1107,6 @@ var ComplianceIssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"cvss": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Cvss",
-		Description:    `CVSS score of the compliance issue.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "cvss",
-		Stored:         true,
-		Type:           "float",
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1229,14 +1216,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Type:           "boolean",
 	},
 	"severity": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Critical", "High", "Medium", "Low"},
+		AllowedChoices: []string{},
 		ConvertedName:  "Severity",
-		Description:    `Severity of the compliance issue.`,
+		CreationOnly:   true,
+		Description:    `Refers to the security vulnerability level.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "severity",
+		Required:       true,
 		Stored:         true,
-		Type:           "enum",
+		SubType:        "_vulnerability_level",
+		Type:           "external",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1358,6 +1347,9 @@ func (o SparseComplianceIssuesList) Version() int {
 
 // SparseComplianceIssue represents the sparse version of a complianceissue.
 type SparseComplianceIssue struct {
+	// CVSS score of the compliance issue.
+	CVSS2Score *float64 `json:"CVSS2Score,omitempty" msgpack:"CVSS2Score,omitempty" bson:"cvss2score,omitempty" mapstructure:"CVSS2Score,omitempty"`
+
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1375,9 +1367,6 @@ type SparseComplianceIssue struct {
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
-
-	// CVSS score of the compliance issue.
-	Cvss *float64 `json:"cvss,omitempty" msgpack:"cvss,omitempty" bson:"cvss,omitempty" mapstructure:"cvss,omitempty"`
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -1404,8 +1393,8 @@ type SparseComplianceIssue struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Severity of the compliance issue.
-	Severity *ComplianceIssueSeverityValue `json:"severity,omitempty" msgpack:"severity,omitempty" bson:"severity,omitempty" mapstructure:"severity,omitempty"`
+	// Refers to the security vulnerability level.
+	Severity *constants.Vulnerability `json:"severity,omitempty" msgpack:"severity,omitempty" bson:"severity,omitempty" mapstructure:"severity,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1463,6 +1452,9 @@ func (o *SparseComplianceIssue) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseComplianceIssue{}
 
+	if o.CVSS2Score != nil {
+		s.CVSS2Score = o.CVSS2Score
+	}
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
@@ -1480,9 +1472,6 @@ func (o *SparseComplianceIssue) GetBSON() (interface{}, error) {
 	}
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
-	}
-	if o.Cvss != nil {
-		s.Cvss = o.Cvss
 	}
 	if o.Description != nil {
 		s.Description = o.Description
@@ -1540,6 +1529,9 @@ func (o *SparseComplianceIssue) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	if s.CVSS2Score != nil {
+		o.CVSS2Score = s.CVSS2Score
+	}
 	id := s.ID.Hex()
 	o.ID = &id
 	if s.Annotations != nil {
@@ -1556,9 +1548,6 @@ func (o *SparseComplianceIssue) SetBSON(raw bson.Raw) error {
 	}
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
-	}
-	if s.Cvss != nil {
-		o.Cvss = s.Cvss
 	}
 	if s.Description != nil {
 		o.Description = s.Description
@@ -1613,6 +1602,9 @@ func (o *SparseComplianceIssue) Version() int {
 func (o *SparseComplianceIssue) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewComplianceIssue()
+	if o.CVSS2Score != nil {
+		out.CVSS2Score = *o.CVSS2Score
+	}
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1630,9 +1622,6 @@ func (o *SparseComplianceIssue) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
-	}
-	if o.Cvss != nil {
-		out.Cvss = *o.Cvss
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
@@ -1958,46 +1947,46 @@ func (o *SparseComplianceIssue) DeepCopyInto(out *SparseComplianceIssue) {
 }
 
 type mongoAttributesComplianceIssue struct {
-	ID                   bson.ObjectId                `bson:"_id,omitempty"`
-	Annotations          map[string][]string          `bson:"annotations"`
-	Archived             bool                         `bson:"archived"`
-	AssociatedTags       []string                     `bson:"associatedtags"`
-	CreateIdempotencyKey string                       `bson:"createidempotencykey"`
-	CreateTime           time.Time                    `bson:"createtime"`
-	Cvss                 float64                      `bson:"cvss"`
-	Description          string                       `bson:"description"`
-	Link                 string                       `bson:"link"`
-	Metadata             []string                     `bson:"metadata"`
-	MigrationsLog        map[string]string            `bson:"migrationslog,omitempty"`
-	Name                 string                       `bson:"name"`
-	Namespace            string                       `bson:"namespace"`
-	NormalizedTags       []string                     `bson:"normalizedtags"`
-	Protected            bool                         `bson:"protected"`
-	Severity             ComplianceIssueSeverityValue `bson:"severity"`
-	UpdateIdempotencyKey string                       `bson:"updateidempotencykey"`
-	UpdateTime           time.Time                    `bson:"updatetime"`
-	ZHash                int                          `bson:"zhash"`
-	Zone                 int                          `bson:"zone"`
+	CVSS2Score           float64                 `bson:"cvss2score"`
+	ID                   bson.ObjectId           `bson:"_id,omitempty"`
+	Annotations          map[string][]string     `bson:"annotations"`
+	Archived             bool                    `bson:"archived"`
+	AssociatedTags       []string                `bson:"associatedtags"`
+	CreateIdempotencyKey string                  `bson:"createidempotencykey"`
+	CreateTime           time.Time               `bson:"createtime"`
+	Description          string                  `bson:"description"`
+	Link                 string                  `bson:"link"`
+	Metadata             []string                `bson:"metadata"`
+	MigrationsLog        map[string]string       `bson:"migrationslog,omitempty"`
+	Name                 string                  `bson:"name"`
+	Namespace            string                  `bson:"namespace"`
+	NormalizedTags       []string                `bson:"normalizedtags"`
+	Protected            bool                    `bson:"protected"`
+	Severity             constants.Vulnerability `bson:"severity"`
+	UpdateIdempotencyKey string                  `bson:"updateidempotencykey"`
+	UpdateTime           time.Time               `bson:"updatetime"`
+	ZHash                int                     `bson:"zhash"`
+	Zone                 int                     `bson:"zone"`
 }
 type mongoAttributesSparseComplianceIssue struct {
-	ID                   bson.ObjectId                 `bson:"_id,omitempty"`
-	Annotations          *map[string][]string          `bson:"annotations,omitempty"`
-	Archived             *bool                         `bson:"archived,omitempty"`
-	AssociatedTags       *[]string                     `bson:"associatedtags,omitempty"`
-	CreateIdempotencyKey *string                       `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time                    `bson:"createtime,omitempty"`
-	Cvss                 *float64                      `bson:"cvss,omitempty"`
-	Description          *string                       `bson:"description,omitempty"`
-	Link                 *string                       `bson:"link,omitempty"`
-	Metadata             *[]string                     `bson:"metadata,omitempty"`
-	MigrationsLog        *map[string]string            `bson:"migrationslog,omitempty"`
-	Name                 *string                       `bson:"name,omitempty"`
-	Namespace            *string                       `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string                     `bson:"normalizedtags,omitempty"`
-	Protected            *bool                         `bson:"protected,omitempty"`
-	Severity             *ComplianceIssueSeverityValue `bson:"severity,omitempty"`
-	UpdateIdempotencyKey *string                       `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time                    `bson:"updatetime,omitempty"`
-	ZHash                *int                          `bson:"zhash,omitempty"`
-	Zone                 *int                          `bson:"zone,omitempty"`
+	CVSS2Score           *float64                 `bson:"cvss2score,omitempty"`
+	ID                   bson.ObjectId            `bson:"_id,omitempty"`
+	Annotations          *map[string][]string     `bson:"annotations,omitempty"`
+	Archived             *bool                    `bson:"archived,omitempty"`
+	AssociatedTags       *[]string                `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string                  `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time               `bson:"createtime,omitempty"`
+	Description          *string                  `bson:"description,omitempty"`
+	Link                 *string                  `bson:"link,omitempty"`
+	Metadata             *[]string                `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string       `bson:"migrationslog,omitempty"`
+	Name                 *string                  `bson:"name,omitempty"`
+	Namespace            *string                  `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                `bson:"normalizedtags,omitempty"`
+	Protected            *bool                    `bson:"protected,omitempty"`
+	Severity             *constants.Vulnerability `bson:"severity,omitempty"`
+	UpdateIdempotencyKey *string                  `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time               `bson:"updatetime,omitempty"`
+	ZHash                *int                     `bson:"zhash,omitempty"`
+	Zone                 *int                     `bson:"zone,omitempty"`
 }

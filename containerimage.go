@@ -144,7 +144,7 @@ type ContainerImage struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
-	// the docker image.
+	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -447,6 +447,18 @@ func (o *ContainerImage) GetMigrationsLog() map[string]string {
 func (o *ContainerImage) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
+}
+
+// GetName returns the Name of the receiver.
+func (o *ContainerImage) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the property Name of the receiver using the given value.
+func (o *ContainerImage) SetName(name string) {
+
+	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -807,6 +819,14 @@ func (o *ContainerImage) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -1133,10 +1153,15 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `the docker image.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
+		Orderable:      true,
+		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1512,10 +1537,15 @@ with the '@' prefix, and should only be used by external systems.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `the docker image.`,
+		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
+		Orderable:      true,
+		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1798,7 +1828,7 @@ type SparseContainerImage struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
-	// the docker image.
+	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -2350,6 +2380,22 @@ func (o *SparseContainerImage) GetMigrationsLog() (out map[string]string) {
 func (o *SparseContainerImage) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseContainerImage) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseContainerImage) SetName(name string) {
+
+	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
