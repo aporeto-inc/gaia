@@ -2529,6 +2529,10 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
+						Name: "asCookie",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
 						Name: "token",
 						Type: "string",
 					},
