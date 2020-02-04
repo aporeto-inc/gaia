@@ -84,9 +84,6 @@ func (o ComplianceIssuesList) Version() int {
 
 // ComplianceIssue represents the model of a complianceissue
 type ComplianceIssue struct {
-	// CVSS score of the compliance issue.
-	CVSS2Score float64 `json:"CVSS2Score" msgpack:"CVSS2Score" bson:"cvss2score" mapstructure:"CVSS2Score,omitempty"`
-
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -107,9 +104,6 @@ type ComplianceIssue struct {
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// The URL that refers to the compliance issue.
-	Link string `json:"link" msgpack:"link" bson:"link" mapstructure:"link,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -156,9 +150,9 @@ func NewComplianceIssue() *ComplianceIssue {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
+		Metadata:       []string{},
 		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
-		Metadata:       []string{},
 		Severity:       constants.VulnerabilityUnknown,
 	}
 }
@@ -191,7 +185,6 @@ func (o *ComplianceIssue) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesComplianceIssue{}
 
-	s.CVSS2Score = o.CVSS2Score
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
@@ -201,7 +194,6 @@ func (o *ComplianceIssue) GetBSON() (interface{}, error) {
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
 	s.Description = o.Description
-	s.Link = o.Link
 	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
@@ -230,7 +222,6 @@ func (o *ComplianceIssue) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
-	o.CVSS2Score = s.CVSS2Score
 	o.ID = s.ID.Hex()
 	o.Annotations = s.Annotations
 	o.Archived = s.Archived
@@ -238,7 +229,6 @@ func (o *ComplianceIssue) SetBSON(raw bson.Raw) error {
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
 	o.Description = s.Description
-	o.Link = s.Link
 	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
@@ -484,7 +474,6 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseComplianceIssue{
-			CVSS2Score:           &o.CVSS2Score,
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
 			Archived:             &o.Archived,
@@ -492,7 +481,6 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
-			Link:                 &o.Link,
 			Metadata:             &o.Metadata,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
@@ -510,8 +498,6 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	sp := &SparseComplianceIssue{}
 	for _, f := range fields {
 		switch f {
-		case "CVSS2Score":
-			sp.CVSS2Score = &(o.CVSS2Score)
 		case "ID":
 			sp.ID = &(o.ID)
 		case "annotations":
@@ -526,8 +512,6 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
-		case "link":
-			sp.Link = &(o.Link)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "migrationsLog":
@@ -563,9 +547,6 @@ func (o *ComplianceIssue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseComplianceIssue)
-	if so.CVSS2Score != nil {
-		o.CVSS2Score = *so.CVSS2Score
-	}
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -586,9 +567,6 @@ func (o *ComplianceIssue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
-	}
-	if so.Link != nil {
-		o.Link = *so.Link
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -663,10 +641,6 @@ func (o *ComplianceIssue) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("link", o.Link); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
@@ -717,8 +691,6 @@ func (*ComplianceIssue) AttributeSpecifications() map[string]elemental.Attribute
 func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "CVSS2Score":
-		return o.CVSS2Score
 	case "ID":
 		return o.ID
 	case "annotations":
@@ -733,8 +705,6 @@ func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 		return o.CreateTime
 	case "description":
 		return o.Description
-	case "link":
-		return o.Link
 	case "metadata":
 		return o.Metadata
 	case "migrationsLog":
@@ -764,16 +734,6 @@ func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 
 // ComplianceIssueAttributesMap represents the map of attribute for ComplianceIssue.
 var ComplianceIssueAttributesMap = map[string]elemental.AttributeSpecification{
-	"CVSS2Score": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CVSS2Score",
-		Description:    `CVSS score of the compliance issue.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "CVSS2Score",
-		Stored:         true,
-		Type:           "float",
-	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -858,17 +818,6 @@ var ComplianceIssueAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "description",
 		Orderable:      true,
 		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"Link": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Link",
-		Description:    `The URL that refers to the compliance issue.`,
-		Exposed:        true,
-		Name:           "link",
-		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1024,16 +973,6 @@ georedundancy.`,
 
 // ComplianceIssueLowerCaseAttributesMap represents the map of attribute for ComplianceIssue.
 var ComplianceIssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"cvss2score": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CVSS2Score",
-		Description:    `CVSS score of the compliance issue.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "CVSS2Score",
-		Stored:         true,
-		Type:           "float",
-	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1118,17 +1057,6 @@ var ComplianceIssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "description",
 		Orderable:      true,
 		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"link": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Link",
-		Description:    `The URL that refers to the compliance issue.`,
-		Exposed:        true,
-		Name:           "link",
-		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1347,9 +1275,6 @@ func (o SparseComplianceIssuesList) Version() int {
 
 // SparseComplianceIssue represents the sparse version of a complianceissue.
 type SparseComplianceIssue struct {
-	// CVSS score of the compliance issue.
-	CVSS2Score *float64 `json:"CVSS2Score,omitempty" msgpack:"CVSS2Score,omitempty" bson:"cvss2score,omitempty" mapstructure:"CVSS2Score,omitempty"`
-
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1370,9 +1295,6 @@ type SparseComplianceIssue struct {
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
-
-	// The URL that refers to the compliance issue.
-	Link *string `json:"link,omitempty" msgpack:"link,omitempty" bson:"link,omitempty" mapstructure:"link,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -1452,9 +1374,6 @@ func (o *SparseComplianceIssue) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseComplianceIssue{}
 
-	if o.CVSS2Score != nil {
-		s.CVSS2Score = o.CVSS2Score
-	}
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
@@ -1475,9 +1394,6 @@ func (o *SparseComplianceIssue) GetBSON() (interface{}, error) {
 	}
 	if o.Description != nil {
 		s.Description = o.Description
-	}
-	if o.Link != nil {
-		s.Link = o.Link
 	}
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
@@ -1529,9 +1445,6 @@ func (o *SparseComplianceIssue) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
-	if s.CVSS2Score != nil {
-		o.CVSS2Score = s.CVSS2Score
-	}
 	id := s.ID.Hex()
 	o.ID = &id
 	if s.Annotations != nil {
@@ -1551,9 +1464,6 @@ func (o *SparseComplianceIssue) SetBSON(raw bson.Raw) error {
 	}
 	if s.Description != nil {
 		o.Description = s.Description
-	}
-	if s.Link != nil {
-		o.Link = s.Link
 	}
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
@@ -1602,9 +1512,6 @@ func (o *SparseComplianceIssue) Version() int {
 func (o *SparseComplianceIssue) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewComplianceIssue()
-	if o.CVSS2Score != nil {
-		out.CVSS2Score = *o.CVSS2Score
-	}
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1625,9 +1532,6 @@ func (o *SparseComplianceIssue) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
-	}
-	if o.Link != nil {
-		out.Link = *o.Link
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -1947,7 +1851,6 @@ func (o *SparseComplianceIssue) DeepCopyInto(out *SparseComplianceIssue) {
 }
 
 type mongoAttributesComplianceIssue struct {
-	CVSS2Score           float64                 `bson:"cvss2score"`
 	ID                   bson.ObjectId           `bson:"_id,omitempty"`
 	Annotations          map[string][]string     `bson:"annotations"`
 	Archived             bool                    `bson:"archived"`
@@ -1955,7 +1858,6 @@ type mongoAttributesComplianceIssue struct {
 	CreateIdempotencyKey string                  `bson:"createidempotencykey"`
 	CreateTime           time.Time               `bson:"createtime"`
 	Description          string                  `bson:"description"`
-	Link                 string                  `bson:"link"`
 	Metadata             []string                `bson:"metadata"`
 	MigrationsLog        map[string]string       `bson:"migrationslog,omitempty"`
 	Name                 string                  `bson:"name"`
@@ -1969,7 +1871,6 @@ type mongoAttributesComplianceIssue struct {
 	Zone                 int                     `bson:"zone"`
 }
 type mongoAttributesSparseComplianceIssue struct {
-	CVSS2Score           *float64                 `bson:"cvss2score,omitempty"`
 	ID                   bson.ObjectId            `bson:"_id,omitempty"`
 	Annotations          *map[string][]string     `bson:"annotations,omitempty"`
 	Archived             *bool                    `bson:"archived,omitempty"`
@@ -1977,7 +1878,6 @@ type mongoAttributesSparseComplianceIssue struct {
 	CreateIdempotencyKey *string                  `bson:"createidempotencykey,omitempty"`
 	CreateTime           *time.Time               `bson:"createtime,omitempty"`
 	Description          *string                  `bson:"description,omitempty"`
-	Link                 *string                  `bson:"link,omitempty"`
 	Metadata             *[]string                `bson:"metadata,omitempty"`
 	MigrationsLog        *map[string]string       `bson:"migrationslog,omitempty"`
 	Name                 *string                  `bson:"name,omitempty"`

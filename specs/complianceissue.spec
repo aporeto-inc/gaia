@@ -36,23 +36,6 @@ indexes:
 # Attributes
 attributes:
   v1:
-  - name: CVSS2Score
-    description: CVSS score of the compliance issue.
-    type: float
-    exposed: true
-    stored: true
-    example_value: 4.7
-    filterable: true
-
-  - name: link
-    description: The URL that refers to the compliance issue.
-    type: string
-    exposed: true
-    stored: true
-    required: true
-    example_value: https://complianceIssue.com/CVE-1234
-    orderable: true
-
   - name: severity
     description: Refers to the security vulnerability level.
     type: external
