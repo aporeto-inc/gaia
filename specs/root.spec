@@ -485,6 +485,11 @@ relations:
     description: Issues a new token.
     parameters:
       entries:
+      - name: asCookie
+        description: If set to true, the token will be delivered in a secure cookie,
+          and not in the response body.
+        type: boolean
+
       - name: token
         description: Token to verify.
         type: string
@@ -790,26 +795,6 @@ relations:
         type: string
         multiple: true
         example_value: a=a
-
-- rest_name: tabulation
-  get:
-    description: Retrieves tabulated information based on parameters.
-    global_parameters:
-    - $filtering
-    parameters:
-      required:
-      - - - identity
-      entries:
-      - name: column
-        description: Columns you want to see.
-        type: string
-        multiple: true
-        example_value: name
-
-      - name: identity
-        description: Identity you want to tabulate.
-        type: string
-        example_value: enforcer
 
 - rest_name: tag
   get:
