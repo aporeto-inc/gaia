@@ -768,14 +768,32 @@ func ValidateAPIAuthorizationPolicySubject(attribute string, subject [][]string)
 		}
 
 		var realmClaims int
+		neededAdditionalMandatoryClaims := map[string]string{}
+
+		keys := map[string]struct{}{}
+
 		for _, claim := range ands {
 
 			if !strings.HasPrefix(claim, "@auth:") {
 				return makeValidationError(attribute, fmt.Sprintf("Subject claims '%s' on line %d must be prefixed by '@auth:'", claim, i+1))
 			}
 
+			parts := strings.SplitN(claim, "=", 2)
+			if parts[1] == "" {
+				return makeValidationError(attribute, fmt.Sprintf("Subject claims '%s' on line %d has no value", claim, i+1))
+			}
+			keys[parts[0]] = struct{}{}
+
 			if strings.HasPrefix(claim, "@auth:realm=") {
 				realmClaims++
+
+				switch strings.TrimPrefix(claim, "@auth:realm=") {
+				case "oidc":
+					neededAdditionalMandatoryClaims["@auth:namespace"] = "The realm oidc mandates to add the '@auth:namespace' key to prevent potential security side effects"
+				case "saml":
+					neededAdditionalMandatoryClaims["@auth:namespace"] = "The realm saml mandates to add the '@auth:namespace' key to prevent potential security side effects"
+				default:
+				}
 			}
 		}
 
@@ -785,6 +803,12 @@ func ValidateAPIAuthorizationPolicySubject(attribute string, subject [][]string)
 
 		if realmClaims > 1 {
 			return makeValidationError(attribute, fmt.Sprintf("Subject line %d must contain only one '@auth:realm' key", i+1))
+		}
+
+		for mkey, msg := range neededAdditionalMandatoryClaims {
+			if _, ok := keys[mkey]; !ok {
+				return makeValidationError(attribute, msg)
+			}
 		}
 	}
 

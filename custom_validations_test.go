@@ -1954,6 +1954,54 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			true,
 			"error 422 (gaia): Validation Error: Subject claims 'not:good' on line 2 must be prefixed by '@auth:'",
 		},
+		{
+			"oidc correct",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=oidc", "@auth:claim=a", "@auth:namespace=/a/b"},
+					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			false,
+			"",
+		},
+		{
+			"oidc missing namespace",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=oidc", "@auth:claim=a"},
+					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: The realm oidc mandates to add the '@auth:namespace' key to prevent potential security side effects",
+		},
+		{
+			"saml correct",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=saml", "@auth:claim=a", "@auth:namespace=/a/b"},
+					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			false,
+			"",
+		},
+		{
+			"saml missing namespace",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=saml", "@auth:claim=a"},
+					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: The realm saml mandates to add the '@auth:namespace' key to prevent potential security side effects",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
