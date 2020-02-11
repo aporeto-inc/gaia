@@ -4,7 +4,7 @@ model:
   resource_name: complianceissues
   entity_name: ComplianceIssue
   package: aki
-  group: integration/vulscan
+  group: aki/vulnerabilities
   description: Represents a compliance issue.
   get:
     description: Retrieves a compliance issue with a given ID.
