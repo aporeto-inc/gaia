@@ -12,16 +12,11 @@ model:
     - $archivable
   update:
     description: Updates the compliance issue with the given ID.
-  delete:
-    description: Deletes the compliance issue with the given ID.
-    global_parameters:
-    - $filtering
   extends:
   - '@zoned'
   - '@migratable'
   - '@base'
   - '@namespaced'
-  - '@archivable'
   - '@described'
   - '@identifiable-stored'
   - '@metadatable'

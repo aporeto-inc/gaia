@@ -89,9 +89,6 @@ type ContainerImage struct {
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Defines if the object is archived.
-	Archived bool `json:"-" msgpack:"-" bson:"archived" mapstructure:"-,omitempty"`
-
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
@@ -235,7 +232,6 @@ func (o *ContainerImage) GetBSON() (interface{}, error) {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.Annotations = o.Annotations
-	s.Archived = o.Archived
 	s.AssociatedTags = o.AssociatedTags
 	s.ComplianceRiskScore = o.ComplianceRiskScore
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -286,7 +282,6 @@ func (o *ContainerImage) SetBSON(raw bson.Raw) error {
 
 	o.ID = s.ID.Hex()
 	o.Annotations = s.Annotations
-	o.Archived = s.Archived
 	o.AssociatedTags = s.AssociatedTags
 	o.ComplianceRiskScore = s.ComplianceRiskScore
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
@@ -363,18 +358,6 @@ func (o *ContainerImage) GetAnnotations() map[string][]string {
 func (o *ContainerImage) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
-}
-
-// GetArchived returns the Archived of the receiver.
-func (o *ContainerImage) GetArchived() bool {
-
-	return o.Archived
-}
-
-// SetArchived sets the property Archived of the receiver using the given value.
-func (o *ContainerImage) SetArchived(archived bool) {
-
-	o.Archived = archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -554,7 +537,6 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 		return &SparseContainerImage{
 			ID:                           &o.ID,
 			Annotations:                  &o.Annotations,
-			Archived:                     &o.Archived,
 			AssociatedTags:               &o.AssociatedTags,
 			ComplianceRiskScore:          &o.ComplianceRiskScore,
 			CreateIdempotencyKey:         &o.CreateIdempotencyKey,
@@ -596,8 +578,6 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.ID = &(o.ID)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "archived":
-			sp.Archived = &(o.Archived)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "complianceRiskScore":
@@ -678,9 +658,6 @@ func (o *ContainerImage) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
-	}
-	if so.Archived != nil {
-		o.Archived = *so.Archived
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -865,8 +842,6 @@ func (o *ContainerImage) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "annotations":
 		return o.Annotations
-	case "archived":
-		return o.Archived
 	case "associatedTags":
 		return o.AssociatedTags
 	case "complianceRiskScore":
@@ -961,16 +936,6 @@ var ContainerImageAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
-	},
-	"Archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1345,16 +1310,6 @@ var ContainerImageLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
-	},
-	"archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1773,9 +1728,6 @@ type SparseContainerImage struct {
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// Defines if the object is archived.
-	Archived *bool `json:"-" msgpack:"-" bson:"archived,omitempty" mapstructure:"-,omitempty"`
-
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
@@ -1920,9 +1872,6 @@ func (o *SparseContainerImage) GetBSON() (interface{}, error) {
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
-	if o.Archived != nil {
-		s.Archived = o.Archived
-	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
 	}
@@ -2038,9 +1987,6 @@ func (o *SparseContainerImage) SetBSON(raw bson.Raw) error {
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
 	}
-	if s.Archived != nil {
-		o.Archived = s.Archived
-	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
 	}
@@ -2154,9 +2100,6 @@ func (o *SparseContainerImage) ToPlain() elemental.PlainIdentifiable {
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
-	if o.Archived != nil {
-		out.Archived = *o.Archived
-	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
@@ -2268,22 +2211,6 @@ func (o *SparseContainerImage) GetAnnotations() (out map[string][]string) {
 func (o *SparseContainerImage) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
-}
-
-// GetArchived returns the Archived of the receiver.
-func (o *SparseContainerImage) GetArchived() (out bool) {
-
-	if o.Archived == nil {
-		return
-	}
-
-	return *o.Archived
-}
-
-// SetArchived sets the property Archived of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetArchived(archived bool) {
-
-	o.Archived = &archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -2537,7 +2464,6 @@ func (o *SparseContainerImage) DeepCopyInto(out *SparseContainerImage) {
 type mongoAttributesContainerImage struct {
 	ID                           bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations                  map[string][]string `bson:"annotations"`
-	Archived                     bool                `bson:"archived"`
 	AssociatedTags               []string            `bson:"associatedtags"`
 	ComplianceRiskScore          int                 `bson:"complianceriskscore"`
 	CreateIdempotencyKey         string              `bson:"createidempotencykey"`
@@ -2573,7 +2499,6 @@ type mongoAttributesContainerImage struct {
 type mongoAttributesSparseContainerImage struct {
 	ID                           bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations                  *map[string][]string `bson:"annotations,omitempty"`
-	Archived                     *bool                `bson:"archived,omitempty"`
 	AssociatedTags               *[]string            `bson:"associatedtags,omitempty"`
 	ComplianceRiskScore          *int                 `bson:"complianceriskscore,omitempty"`
 	CreateIdempotencyKey         *string              `bson:"createidempotencykey,omitempty"`

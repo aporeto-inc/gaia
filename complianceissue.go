@@ -90,9 +90,6 @@ type ComplianceIssue struct {
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Defines if the object is archived.
-	Archived bool `json:"-" msgpack:"-" bson:"archived" mapstructure:"-,omitempty"`
-
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
@@ -189,7 +186,6 @@ func (o *ComplianceIssue) GetBSON() (interface{}, error) {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.Annotations = o.Annotations
-	s.Archived = o.Archived
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
@@ -224,7 +220,6 @@ func (o *ComplianceIssue) SetBSON(raw bson.Raw) error {
 
 	o.ID = s.ID.Hex()
 	o.Annotations = s.Annotations
-	o.Archived = s.Archived
 	o.AssociatedTags = s.AssociatedTags
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
@@ -285,18 +280,6 @@ func (o *ComplianceIssue) GetAnnotations() map[string][]string {
 func (o *ComplianceIssue) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
-}
-
-// GetArchived returns the Archived of the receiver.
-func (o *ComplianceIssue) GetArchived() bool {
-
-	return o.Archived
-}
-
-// SetArchived sets the property Archived of the receiver using the given value.
-func (o *ComplianceIssue) SetArchived(archived bool) {
-
-	o.Archived = archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -476,7 +459,6 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 		return &SparseComplianceIssue{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
-			Archived:             &o.Archived,
 			AssociatedTags:       &o.AssociatedTags,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
@@ -502,8 +484,6 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ID = &(o.ID)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "archived":
-			sp.Archived = &(o.Archived)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "createIdempotencyKey":
@@ -552,9 +532,6 @@ func (o *ComplianceIssue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
-	}
-	if so.Archived != nil {
-		o.Archived = *so.Archived
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -695,8 +672,6 @@ func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "annotations":
 		return o.Annotations
-	case "archived":
-		return o.Archived
 	case "associatedTags":
 		return o.AssociatedTags
 	case "createIdempotencyKey":
@@ -759,16 +734,6 @@ var ComplianceIssueAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
-	},
-	"Archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -998,16 +963,6 @@ var ComplianceIssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
-	},
-	"archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1281,9 +1236,6 @@ type SparseComplianceIssue struct {
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// Defines if the object is archived.
-	Archived *bool `json:"-" msgpack:"-" bson:"archived,omitempty" mapstructure:"-,omitempty"`
-
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
@@ -1380,9 +1332,6 @@ func (o *SparseComplianceIssue) GetBSON() (interface{}, error) {
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
-	if o.Archived != nil {
-		s.Archived = o.Archived
-	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
 	}
@@ -1450,9 +1399,6 @@ func (o *SparseComplianceIssue) SetBSON(raw bson.Raw) error {
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
 	}
-	if s.Archived != nil {
-		o.Archived = s.Archived
-	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
 	}
@@ -1518,9 +1464,6 @@ func (o *SparseComplianceIssue) ToPlain() elemental.PlainIdentifiable {
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
-	if o.Archived != nil {
-		out.Archived = *o.Archived
-	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
@@ -1584,22 +1527,6 @@ func (o *SparseComplianceIssue) GetAnnotations() (out map[string][]string) {
 func (o *SparseComplianceIssue) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
-}
-
-// GetArchived returns the Archived of the receiver.
-func (o *SparseComplianceIssue) GetArchived() (out bool) {
-
-	if o.Archived == nil {
-		return
-	}
-
-	return *o.Archived
-}
-
-// SetArchived sets the property Archived of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetArchived(archived bool) {
-
-	o.Archived = &archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -1853,7 +1780,6 @@ func (o *SparseComplianceIssue) DeepCopyInto(out *SparseComplianceIssue) {
 type mongoAttributesComplianceIssue struct {
 	ID                   bson.ObjectId           `bson:"_id,omitempty"`
 	Annotations          map[string][]string     `bson:"annotations"`
-	Archived             bool                    `bson:"archived"`
 	AssociatedTags       []string                `bson:"associatedtags"`
 	CreateIdempotencyKey string                  `bson:"createidempotencykey"`
 	CreateTime           time.Time               `bson:"createtime"`
@@ -1873,7 +1799,6 @@ type mongoAttributesComplianceIssue struct {
 type mongoAttributesSparseComplianceIssue struct {
 	ID                   bson.ObjectId            `bson:"_id,omitempty"`
 	Annotations          *map[string][]string     `bson:"annotations,omitempty"`
-	Archived             *bool                    `bson:"archived,omitempty"`
 	AssociatedTags       *[]string                `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey *string                  `bson:"createidempotencykey,omitempty"`
 	CreateTime           *time.Time               `bson:"createtime,omitempty"`
