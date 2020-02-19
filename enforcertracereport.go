@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -121,6 +122,47 @@ func (o *EnforcerTraceReport) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *EnforcerTraceReport) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *EnforcerTraceReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesEnforcerTraceReport{}
+
+	s.EnforcerID = o.EnforcerID
+	s.EnforcerNamespace = o.EnforcerNamespace
+	s.Namespace = o.Namespace
+	s.PuID = o.PuID
+	s.Records = o.Records
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *EnforcerTraceReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesEnforcerTraceReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.EnforcerID = s.EnforcerID
+	o.EnforcerNamespace = s.EnforcerNamespace
+	o.Namespace = s.Namespace
+	o.PuID = s.PuID
+	o.Records = s.Records
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -514,6 +556,67 @@ func (o *SparseEnforcerTraceReport) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEnforcerTraceReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseEnforcerTraceReport{}
+
+	if o.EnforcerID != nil {
+		s.EnforcerID = o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		s.EnforcerNamespace = o.EnforcerNamespace
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.PuID != nil {
+		s.PuID = o.PuID
+	}
+	if o.Records != nil {
+		s.Records = o.Records
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEnforcerTraceReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseEnforcerTraceReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.EnforcerID != nil {
+		o.EnforcerID = s.EnforcerID
+	}
+	if s.EnforcerNamespace != nil {
+		o.EnforcerNamespace = s.EnforcerNamespace
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.PuID != nil {
+		o.PuID = s.PuID
+	}
+	if s.Records != nil {
+		o.Records = s.Records
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseEnforcerTraceReport) Version() int {
 
@@ -565,4 +668,19 @@ func (o *SparseEnforcerTraceReport) DeepCopyInto(out *SparseEnforcerTraceReport)
 	}
 
 	*out = *target.(*SparseEnforcerTraceReport)
+}
+
+type mongoAttributesEnforcerTraceReport struct {
+	EnforcerID        string         `bson:"enforcerid"`
+	EnforcerNamespace string         `bson:"enforcernamespace"`
+	Namespace         string         `bson:"namespace"`
+	PuID              string         `bson:"puid"`
+	Records           []*TraceRecord `bson:"records"`
+}
+type mongoAttributesSparseEnforcerTraceReport struct {
+	EnforcerID        *string         `bson:"enforcerid,omitempty"`
+	EnforcerNamespace *string         `bson:"enforcernamespace,omitempty"`
+	Namespace         *string         `bson:"namespace,omitempty"`
+	PuID              *string         `bson:"puid,omitempty"`
+	Records           *[]*TraceRecord `bson:"records,omitempty"`
 }

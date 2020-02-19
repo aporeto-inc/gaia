@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -40,6 +41,9 @@ const (
 
 	// StatsQueryMeasurementPackets represents the value Packets.
 	StatsQueryMeasurementPackets StatsQueryMeasurementValue = "Packets"
+
+	// StatsQueryMeasurementPingReports represents the value PingReports.
+	StatsQueryMeasurementPingReports StatsQueryMeasurementValue = "PingReports"
 )
 
 // StatsQueryIdentity represents the Identity of the object.
@@ -172,6 +176,35 @@ func (o *StatsQuery) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *StatsQuery) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *StatsQuery) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesStatsQuery{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *StatsQuery) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesStatsQuery{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -311,7 +344,7 @@ func (o *StatsQuery) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups"}, false); err != nil {
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -319,6 +352,7 @@ func (o *StatsQuery) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -427,7 +461,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"Measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsQueryMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -505,7 +539,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsQueryMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -649,6 +683,35 @@ func (o *SparseStatsQuery) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseStatsQuery) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseStatsQuery{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseStatsQuery) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseStatsQuery{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseStatsQuery) Version() int {
 
@@ -709,4 +772,9 @@ func (o *SparseStatsQuery) DeepCopyInto(out *SparseStatsQuery) {
 	}
 
 	*out = *target.(*SparseStatsQuery)
+}
+
+type mongoAttributesStatsQuery struct {
+}
+type mongoAttributesSparseStatsQuery struct {
 }

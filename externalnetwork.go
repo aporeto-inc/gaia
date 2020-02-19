@@ -4,8 +4,29 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
+)
+
+// ExternalNetworkTypeValue represents the possible values for attribute "type".
+type ExternalNetworkTypeValue string
+
+const (
+	// ExternalNetworkTypeENI represents the value ENI.
+	ExternalNetworkTypeENI ExternalNetworkTypeValue = "ENI"
+
+	// ExternalNetworkTypeRDSCluster represents the value RDSCluster.
+	ExternalNetworkTypeRDSCluster ExternalNetworkTypeValue = "RDSCluster"
+
+	// ExternalNetworkTypeRDSInstance represents the value RDSInstance.
+	ExternalNetworkTypeRDSInstance ExternalNetworkTypeValue = "RDSInstance"
+
+	// ExternalNetworkTypeSecurityGroup represents the value SecurityGroup.
+	ExternalNetworkTypeSecurityGroup ExternalNetworkTypeValue = "SecurityGroup"
+
+	// ExternalNetworkTypeSubnet represents the value Subnet.
+	ExternalNetworkTypeSubnet ExternalNetworkTypeValue = "Subnet"
 )
 
 // ExternalNetworkIdentity represents the Identity of the object.
@@ -58,7 +79,6 @@ func (o ExternalNetworksList) List() elemental.IdentifiablesList {
 func (o ExternalNetworksList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -84,7 +104,7 @@ func (o ExternalNetworksList) Version() int {
 // ExternalNetwork represents the model of a externalnetwork
 type ExternalNetwork struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -138,6 +158,9 @@ type ExternalNetwork struct {
 	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
 	ServicePorts []string `json:"servicePorts" msgpack:"servicePorts" bson:"serviceports" mapstructure:"servicePorts,omitempty"`
 
+	// The type of external network (default `Subnet`).
+	Type ExternalNetworkTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
+
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
@@ -162,12 +185,13 @@ func NewExternalNetwork() *ExternalNetwork {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Entries:        []string{},
-		Metadata:       []string{},
+		Protocols:      []string{},
+		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
 		Ports:          []string{},
-		MigrationsLog:  map[string]string{},
-		Protocols:      []string{},
+		Metadata:       []string{},
 		ServicePorts:   []string{},
+		Type:           ExternalNetworkTypeSubnet,
 	}
 }
 
@@ -189,6 +213,85 @@ func (o *ExternalNetwork) SetIdentifier(id string) {
 	o.ID = id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ExternalNetwork) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesExternalNetwork{}
+
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
+	s.Annotations = o.Annotations
+	s.Archived = o.Archived
+	s.AssociatedTags = o.AssociatedTags
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.Description = o.Description
+	s.Entries = o.Entries
+	s.Metadata = o.Metadata
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.Ports = o.Ports
+	s.Propagate = o.Propagate
+	s.Protected = o.Protected
+	s.Protocols = o.Protocols
+	s.ServicePorts = o.ServicePorts
+	s.Type = o.Type
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ExternalNetwork) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesExternalNetwork{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Annotations = s.Annotations
+	o.Archived = s.Archived
+	o.AssociatedTags = s.AssociatedTags
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.Description = s.Description
+	o.Entries = s.Entries
+	o.Metadata = s.Metadata
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.Ports = s.Ports
+	o.Propagate = s.Propagate
+	o.Protected = s.Protected
+	o.Protocols = s.Protocols
+	o.ServicePorts = s.ServicePorts
+	o.Type = s.Type
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *ExternalNetwork) Version() int {
 
@@ -205,7 +308,6 @@ func (o *ExternalNetwork) BleveType() string {
 func (o *ExternalNetwork) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -456,6 +558,7 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			Protected:            &o.Protected,
 			Protocols:            &o.Protocols,
 			ServicePorts:         &o.ServicePorts,
+			Type:                 &o.Type,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 			ZHash:                &o.ZHash,
@@ -502,6 +605,8 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Protocols = &(o.Protocols)
 		case "servicePorts":
 			sp.ServicePorts = &(o.ServicePorts)
+		case "type":
+			sp.Type = &(o.Type)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -576,6 +681,9 @@ func (o *ExternalNetwork) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ServicePorts != nil {
 		o.ServicePorts = *so.ServicePorts
+	}
+	if so.Type != nil {
+		o.Type = *so.Type
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -657,6 +765,10 @@ func (o *ExternalNetwork) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"ENI", "RDSCluster", "RDSInstance", "SecurityGroup", "Subnet"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -727,6 +839,8 @@ func (o *ExternalNetwork) ValueForAttribute(name string) interface{} {
 		return o.Protocols
 	case "servicePorts":
 		return o.ServicePorts
+	case "type":
+		return o.Type
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -868,7 +982,6 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -885,7 +998,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -967,6 +1079,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"Type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"ENI", "RDSCluster", "RDSInstance", "SecurityGroup", "Subnet"},
+		ConvertedName:  "Type",
+		DefaultValue:   ExternalNetworkTypeSubnet,
+		Description:    `The type of external network (default ` + "`" + `Subnet` + "`" + `).`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "type",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1151,7 +1274,6 @@ with the '@' prefix, and should only be used by external systems.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1168,7 +1290,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1250,6 +1371,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"ENI", "RDSCluster", "RDSInstance", "SecurityGroup", "Subnet"},
+		ConvertedName:  "Type",
+		DefaultValue:   ExternalNetworkTypeSubnet,
+		Description:    `The type of external network (default ` + "`" + `Subnet` + "`" + `).`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "type",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1348,7 +1480,6 @@ func (o SparseExternalNetworksList) List() elemental.IdentifiablesList {
 func (o SparseExternalNetworksList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1373,7 +1504,7 @@ func (o SparseExternalNetworksList) Version() int {
 // SparseExternalNetwork represents the sparse version of a externalnetwork.
 type SparseExternalNetwork struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
@@ -1427,6 +1558,9 @@ type SparseExternalNetwork struct {
 	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
 	ServicePorts *[]string `json:"servicePorts,omitempty" msgpack:"servicePorts,omitempty" bson:"serviceports,omitempty" mapstructure:"servicePorts,omitempty"`
 
+	// The type of external network (default `Subnet`).
+	Type *ExternalNetworkTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
@@ -1466,7 +1600,179 @@ func (o *SparseExternalNetwork) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseExternalNetwork) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseExternalNetwork) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseExternalNetwork{}
+
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.Archived != nil {
+		s.Archived = o.Archived
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Entries != nil {
+		s.Entries = o.Entries
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.Ports != nil {
+		s.Ports = o.Ports
+	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.Protocols != nil {
+		s.Protocols = o.Protocols
+	}
+	if o.ServicePorts != nil {
+		s.ServicePorts = o.ServicePorts
+	}
+	if o.Type != nil {
+		s.Type = o.Type
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseExternalNetwork) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseExternalNetwork{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
 	o.ID = &id
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.Archived != nil {
+		o.Archived = s.Archived
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Entries != nil {
+		o.Entries = s.Entries
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.Ports != nil {
+		o.Ports = s.Ports
+	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.Protocols != nil {
+		o.Protocols = s.Protocols
+	}
+	if s.ServicePorts != nil {
+		o.ServicePorts = s.ServicePorts
+	}
+	if s.Type != nil {
+		o.Type = s.Type
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1533,6 +1839,9 @@ func (o *SparseExternalNetwork) ToPlain() elemental.PlainIdentifiable {
 	if o.ServicePorts != nil {
 		out.ServicePorts = *o.ServicePorts
 	}
+	if o.Type != nil {
+		out.Type = *o.Type
+	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
@@ -1550,7 +1859,11 @@ func (o *SparseExternalNetwork) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseExternalNetwork) GetAnnotations() map[string][]string {
+func (o *SparseExternalNetwork) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -1562,7 +1875,11 @@ func (o *SparseExternalNetwork) SetAnnotations(annotations map[string][]string) 
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *SparseExternalNetwork) GetArchived() bool {
+func (o *SparseExternalNetwork) GetArchived() (out bool) {
+
+	if o.Archived == nil {
+		return
+	}
 
 	return *o.Archived
 }
@@ -1574,7 +1891,11 @@ func (o *SparseExternalNetwork) SetArchived(archived bool) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseExternalNetwork) GetAssociatedTags() []string {
+func (o *SparseExternalNetwork) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -1586,7 +1907,11 @@ func (o *SparseExternalNetwork) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseExternalNetwork) GetCreateIdempotencyKey() string {
+func (o *SparseExternalNetwork) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -1598,7 +1923,11 @@ func (o *SparseExternalNetwork) SetCreateIdempotencyKey(createIdempotencyKey str
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseExternalNetwork) GetCreateTime() time.Time {
+func (o *SparseExternalNetwork) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -1610,7 +1939,11 @@ func (o *SparseExternalNetwork) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseExternalNetwork) GetDescription() string {
+func (o *SparseExternalNetwork) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -1622,7 +1955,11 @@ func (o *SparseExternalNetwork) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseExternalNetwork) GetMetadata() []string {
+func (o *SparseExternalNetwork) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -1634,7 +1971,11 @@ func (o *SparseExternalNetwork) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseExternalNetwork) GetMigrationsLog() map[string]string {
+func (o *SparseExternalNetwork) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -1646,7 +1987,11 @@ func (o *SparseExternalNetwork) SetMigrationsLog(migrationsLog map[string]string
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseExternalNetwork) GetName() string {
+func (o *SparseExternalNetwork) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -1658,7 +2003,11 @@ func (o *SparseExternalNetwork) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseExternalNetwork) GetNamespace() string {
+func (o *SparseExternalNetwork) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -1670,7 +2019,11 @@ func (o *SparseExternalNetwork) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseExternalNetwork) GetNormalizedTags() []string {
+func (o *SparseExternalNetwork) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -1682,7 +2035,11 @@ func (o *SparseExternalNetwork) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseExternalNetwork) GetPropagate() bool {
+func (o *SparseExternalNetwork) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
 
 	return *o.Propagate
 }
@@ -1694,7 +2051,11 @@ func (o *SparseExternalNetwork) SetPropagate(propagate bool) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseExternalNetwork) GetProtected() bool {
+func (o *SparseExternalNetwork) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -1706,7 +2067,11 @@ func (o *SparseExternalNetwork) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseExternalNetwork) GetUpdateIdempotencyKey() string {
+func (o *SparseExternalNetwork) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -1718,7 +2083,11 @@ func (o *SparseExternalNetwork) SetUpdateIdempotencyKey(updateIdempotencyKey str
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseExternalNetwork) GetUpdateTime() time.Time {
+func (o *SparseExternalNetwork) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -1730,7 +2099,11 @@ func (o *SparseExternalNetwork) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseExternalNetwork) GetZHash() int {
+func (o *SparseExternalNetwork) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -1742,7 +2115,11 @@ func (o *SparseExternalNetwork) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseExternalNetwork) GetZone() int {
+func (o *SparseExternalNetwork) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1775,4 +2152,55 @@ func (o *SparseExternalNetwork) DeepCopyInto(out *SparseExternalNetwork) {
 	}
 
 	*out = *target.(*SparseExternalNetwork)
+}
+
+type mongoAttributesExternalNetwork struct {
+	ID                   bson.ObjectId            `bson:"_id,omitempty"`
+	Annotations          map[string][]string      `bson:"annotations"`
+	Archived             bool                     `bson:"archived"`
+	AssociatedTags       []string                 `bson:"associatedtags"`
+	CreateIdempotencyKey string                   `bson:"createidempotencykey"`
+	CreateTime           time.Time                `bson:"createtime"`
+	Description          string                   `bson:"description"`
+	Entries              []string                 `bson:"entries"`
+	Metadata             []string                 `bson:"metadata"`
+	MigrationsLog        map[string]string        `bson:"migrationslog,omitempty"`
+	Name                 string                   `bson:"name"`
+	Namespace            string                   `bson:"namespace"`
+	NormalizedTags       []string                 `bson:"normalizedtags"`
+	Ports                []string                 `bson:"ports"`
+	Propagate            bool                     `bson:"propagate"`
+	Protected            bool                     `bson:"protected"`
+	Protocols            []string                 `bson:"protocols"`
+	ServicePorts         []string                 `bson:"serviceports"`
+	Type                 ExternalNetworkTypeValue `bson:"type"`
+	UpdateIdempotencyKey string                   `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                `bson:"updatetime"`
+	ZHash                int                      `bson:"zhash"`
+	Zone                 int                      `bson:"zone"`
+}
+type mongoAttributesSparseExternalNetwork struct {
+	ID                   bson.ObjectId             `bson:"_id,omitempty"`
+	Annotations          *map[string][]string      `bson:"annotations,omitempty"`
+	Archived             *bool                     `bson:"archived,omitempty"`
+	AssociatedTags       *[]string                 `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string                   `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                `bson:"createtime,omitempty"`
+	Description          *string                   `bson:"description,omitempty"`
+	Entries              *[]string                 `bson:"entries,omitempty"`
+	Metadata             *[]string                 `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string        `bson:"migrationslog,omitempty"`
+	Name                 *string                   `bson:"name,omitempty"`
+	Namespace            *string                   `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                 `bson:"normalizedtags,omitempty"`
+	Ports                *[]string                 `bson:"ports,omitempty"`
+	Propagate            *bool                     `bson:"propagate,omitempty"`
+	Protected            *bool                     `bson:"protected,omitempty"`
+	Protocols            *[]string                 `bson:"protocols,omitempty"`
+	ServicePorts         *[]string                 `bson:"serviceports,omitempty"`
+	Type                 *ExternalNetworkTypeValue `bson:"type,omitempty"`
+	UpdateIdempotencyKey *string                   `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                `bson:"updatetime,omitempty"`
+	ZHash                *int                      `bson:"zhash,omitempty"`
+	Zone                 *int                      `bson:"zone,omitempty"`
 }

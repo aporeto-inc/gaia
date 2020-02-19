@@ -28,6 +28,14 @@ indexes:
 # Attributes
 attributes:
   v1:
+  - name: committedUseLimit
+    description: |-
+      CommittedUseLimit holds the customer's use limit provided by a contract.
+    type: integer
+    exposed: true
+    stored: true
+    orderable: true
+
   - name: lastReportTime
     description: |-
       lastReportTime holds the last time the customer was reported to their

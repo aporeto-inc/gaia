@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -31,6 +32,45 @@ func NewUIStep() *UIStep {
 		ModelVersion: 1,
 		Parameters:   []*UIParameter{},
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *UIStep) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesUIStep{}
+
+	s.Advanced = o.Advanced
+	s.Description = o.Description
+	s.Name = o.Name
+	s.Parameters = o.Parameters
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *UIStep) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesUIStep{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Advanced = s.Advanced
+	o.Description = s.Description
+	o.Name = s.Name
+	o.Parameters = s.Parameters
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -77,6 +117,7 @@ func (o *UIStep) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -91,4 +132,11 @@ func (o *UIStep) Validate() error {
 	}
 
 	return nil
+}
+
+type mongoAttributesUIStep struct {
+	Advanced    bool           `bson:"advanced"`
+	Description string         `bson:"description"`
+	Name        string         `bson:"name"`
+	Parameters  []*UIParameter `bson:"parameters"`
 }

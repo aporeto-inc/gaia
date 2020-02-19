@@ -19,6 +19,28 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// ValidateAPIProxyEntity validates an APIProxy.
+func ValidateAPIProxyEntity(apiProxy *APIProxy) error {
+
+	var errs elemental.Errors
+
+	// We only want to check if there is a key on creation as it is a secret which
+	// means it will never be exposed outside of the service
+	if apiProxy.ID == "" && apiProxy.ClientCertificate != "" && apiProxy.ClientCertificateKey == "" {
+		errs = errs.Append(makeValidationError("ClientCertificateKey", "client certificate private key was not provided"))
+	}
+
+	if apiProxy.ClientCertificate == "" && apiProxy.ClientCertificateKey != "" {
+		errs = errs.Append(makeValidationError("ClientCertificate", "client certificate was not provided"))
+	}
+
+	if len(errs) > 0 {
+		return errs
+	}
+
+	return nil
+}
+
 // ValidatePortString validates a string represents a port or a range of port.
 // valid: 443, 443:555
 func ValidatePortString(attribute string, portExp string) error {
@@ -70,7 +92,7 @@ func ValidatePortStringList(attribute string, ports []string) error {
 	return nil
 }
 
-var rxDNSName = regexp.MustCompile(`^([a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62}){1}(\.[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62})*[\._]?$`)
+var rxDNSName = regexp.MustCompile(`^(\*\.){0,1}([a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62}){1}(\.[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62})*[\._]?$`)
 
 // ValidateNetwork validates a CIDR.
 func ValidateNetwork(attribute string, network string) error {
@@ -274,6 +296,19 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 	return nil
 }
 
+// ValidateProcessingUnitPolicy validates a processing unit policy has no action and datapath set to default.
+func ValidateProcessingUnitPolicy(policy *ProcessingUnitPolicy) error {
+
+	if policy.Action == ProcessingUnitPolicyActionDefault && policy.DatapathType == ProcessingUnitPolicyDatapathTypeDefault {
+		if len(policy.IsolationProfileSelector) == 0 {
+			return makeValidationError("datapathType", fmt.Sprintf("Both datapath and action cannot be set to default"))
+		}
+		return makeValidationError("action", fmt.Sprintf("Both datapath and action cannot be set to default"))
+	}
+
+	return nil
+}
+
 // ValidateProcessingUnitServicesList validates a list of processing unit services.
 func ValidateProcessingUnitServicesList(attribute string, svcs []*ProcessingUnitService) error {
 
@@ -412,17 +447,32 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 	return nil
 }
 
+// ValidateHTTPSURL validates the URL to make sure it is in a validate format and is https.
+func ValidateHTTPSURL(attribute string, address string) error {
+
+	u, err := url.Parse(address)
+	if err != nil {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a valid HTTPS URL (example: https://aporeto.com/)", attribute))
+	}
+
+	if !strings.EqualFold(u.Scheme, "https") || u.Host == "" {
+		return makeValidationError(attribute, fmt.Sprintf("Invalid HTTPS URL %s", address))
+	}
+
+	return nil
+}
+
 // ValidateAutomation validates an automation by checking for the following:
-//   - Exactly one action MUST be defined if the automation trigger type is set to "Webhook"
+//   - Exactly ONE action MUST be defined if the automation trigger type is set to "Webhook"
 func ValidateAutomation(auto *Automation) error {
 	switch auto.Trigger {
 	case AutomationTriggerWebhook:
 		switch len(auto.Actions) {
 		case 1:
 		case 0:
-			return makeValidationError("trigger", fmt.Sprintf("Exactly one action must be defined if trigger type is set to \"%s\".", AutomationTriggerWebhook))
+			return makeValidationError("actions", fmt.Sprintf("Exactly one action must be defined if trigger type is set to %q", AutomationTriggerWebhook))
 		default:
-			return makeValidationError("trigger", fmt.Sprintf("Only one action can be defined if trigger type is set to \"%s\".", AutomationTriggerWebhook))
+			return makeValidationError("actions", fmt.Sprintf("Only one action can be defined if trigger type is set to %q", AutomationTriggerWebhook))
 		}
 	}
 
@@ -718,14 +768,32 @@ func ValidateAPIAuthorizationPolicySubject(attribute string, subject [][]string)
 		}
 
 		var realmClaims int
+		neededAdditionalMandatoryClaims := map[string]string{}
+
+		keys := map[string]struct{}{}
+
 		for _, claim := range ands {
 
 			if !strings.HasPrefix(claim, "@auth:") {
 				return makeValidationError(attribute, fmt.Sprintf("Subject claims '%s' on line %d must be prefixed by '@auth:'", claim, i+1))
 			}
 
+			parts := strings.SplitN(claim, "=", 2)
+			if parts[1] == "" {
+				return makeValidationError(attribute, fmt.Sprintf("Subject claims '%s' on line %d has no value", claim, i+1))
+			}
+			keys[parts[0]] = struct{}{}
+
 			if strings.HasPrefix(claim, "@auth:realm=") {
 				realmClaims++
+
+				switch strings.TrimPrefix(claim, "@auth:realm=") {
+				case "oidc":
+					neededAdditionalMandatoryClaims["@auth:namespace"] = "The realm oidc mandates to add the '@auth:namespace' key to prevent potential security side effects"
+				case "saml":
+					neededAdditionalMandatoryClaims["@auth:namespace"] = "The realm saml mandates to add the '@auth:namespace' key to prevent potential security side effects"
+				default:
+				}
 			}
 		}
 
@@ -735,6 +803,12 @@ func ValidateAPIAuthorizationPolicySubject(attribute string, subject [][]string)
 
 		if realmClaims > 1 {
 			return makeValidationError(attribute, fmt.Sprintf("Subject line %d must contain only one '@auth:realm' key", i+1))
+		}
+
+		for mkey, msg := range neededAdditionalMandatoryClaims {
+			if _, ok := keys[mkey]; !ok {
+				return makeValidationError(attribute, msg)
+			}
 		}
 	}
 
@@ -762,6 +836,17 @@ func ValidateWriteOperations(attribute string, operations []string) error {
 
 	if ncreate > 1 || nupdate > 1 || ndelete > 1 {
 		return makeValidationError(attribute, fmt.Sprintf("Must not contain the same operation multiple times."))
+	}
+
+	return nil
+}
+
+// ValidateIdentity verifies the given string is a valid gaia identity.
+func ValidateIdentity(attribute string, identity string) error {
+
+	i := Manager().IdentityFromAny(identity)
+	if i.IsEmpty() {
+		return makeValidationError(attribute, fmt.Sprintf("Invalid identity '%s': unknown.", identity))
 	}
 
 	return nil

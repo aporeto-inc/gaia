@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -133,6 +134,35 @@ func (o *Import) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Import) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesImport{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Import) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesImport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *Import) Version() int {
 
@@ -233,6 +263,7 @@ func (o *Import) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if o.Data != nil {
+		elemental.ResetDefaultForZeroValues(o.Data)
 		if err := o.Data.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -437,6 +468,35 @@ func (o *SparseImport) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseImport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseImport{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseImport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseImport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseImport) Version() int {
 
@@ -479,4 +539,9 @@ func (o *SparseImport) DeepCopyInto(out *SparseImport) {
 	}
 
 	*out = *target.(*SparseImport)
+}
+
+type mongoAttributesImport struct {
+}
+type mongoAttributesSparseImport struct {
 }

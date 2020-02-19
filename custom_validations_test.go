@@ -1,11 +1,64 @@
 package gaia
 
 import (
-	"net/http"
+	"fmt"
+	"reflect"
 	"testing"
-
-	"go.aporeto.io/elemental"
 )
+
+func TestValidateAPIProxyEntity(t *testing.T) {
+	type args struct {
+		apiProxy *APIProxy
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid cert assignment",
+			args{
+				&APIProxy{
+					ClientCertificate:    "something",
+					ClientCertificateKey: "something",
+				},
+			},
+			false,
+		},
+		{
+			"valid empty assignment",
+			args{
+				&APIProxy{},
+			},
+			false,
+		},
+		{
+			"invalid only client cert assignment",
+			args{
+				&APIProxy{
+					ClientCertificate: "something",
+				},
+			},
+			true,
+		},
+		{
+			"invalid only cert key assignment",
+			args{
+				&APIProxy{
+					ClientCertificateKey: "something",
+				},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateAPIProxyEntity(tt.args.apiProxy); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateAPIProxyEntity() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
 
 func TestValidatePortString(t *testing.T) {
 	type args struct {
@@ -459,6 +512,14 @@ func TestValidateNetwork(t *testing.T) {
 			args{
 				"cidr",
 				"google.com",
+			},
+			false,
+		},
+		{
+			"valid DNS name",
+			args{
+				"cidr",
+				"*.google.com",
 			},
 			false,
 		},
@@ -1107,6 +1168,58 @@ func TestValidateHTTPMethods(t *testing.T) {
 	}
 }
 
+func TestValidateHTTPSURL(t *testing.T) {
+	type args struct {
+		attribute string
+		address   string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"empty url",
+			args{
+				attribute: "endpoint",
+				address:   "",
+			},
+			true,
+		},
+		{
+			"valid url",
+			args{
+				attribute: "endpoint",
+				address:   "https://aporeto.com/",
+			},
+			false,
+		},
+		{
+			"invalid url",
+			args{
+				attribute: "endpoint",
+				address:   "htps:/a",
+			},
+			true,
+		},
+		{
+			"non https url",
+			args{
+				attribute: "endpoint",
+				address:   "http://hello.com/",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateHTTPSURL(tt.args.attribute, tt.args.address); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateHTTPSURL() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func TestValidateOptionalNetworkList(t *testing.T) {
 	type args struct {
 		attribute string
@@ -1153,8 +1266,8 @@ func TestValidateOptionalNetworkList(t *testing.T) {
 
 func TestValidateAutomation(t *testing.T) {
 	testCases := map[string]struct {
-		automation  *Automation
-		shouldError bool
+		automation    *Automation
+		expectedError error
 	}{
 		"should not return an error if trigger type is not webhook and multiple actions have been defined": {
 			automation: &Automation{
@@ -1171,7 +1284,7 @@ func TestValidateAutomation(t *testing.T) {
 					"Action 2",
 				},
 			},
-			shouldError: false,
+			expectedError: nil,
 		},
 		"should not return an error if trigger type is webhook and one action has been defined": {
 			automation: &Automation{
@@ -1180,7 +1293,7 @@ func TestValidateAutomation(t *testing.T) {
 					"Action 1",
 				},
 			},
-			shouldError: false,
+			expectedError: nil,
 		},
 		"should return an error if trigger type is set to webhook and more than one action has been defined": {
 			automation: &Automation{
@@ -1190,14 +1303,14 @@ func TestValidateAutomation(t *testing.T) {
 					"Action 2",
 				},
 			},
-			shouldError: true,
+			expectedError: makeValidationError("actions", fmt.Sprintf("Only one action can be defined if trigger type is set to %q", AutomationTriggerWebhook)),
 		},
 		"should return an error if trigger type is set to webhook and no actions have been defined": {
 			automation: &Automation{
 				Trigger: AutomationTriggerWebhook,
 				Actions: nil,
 			},
-			shouldError: true,
+			expectedError: makeValidationError("actions", fmt.Sprintf("Exactly one action must be defined if trigger type is set to %q", AutomationTriggerWebhook)),
 		},
 	}
 
@@ -1205,24 +1318,16 @@ func TestValidateAutomation(t *testing.T) {
 		t.Run(scenario, func(t *testing.T) {
 			err := ValidateAutomation(tc.automation)
 			switch {
-			case err != nil && tc.shouldError:
-
-				ee, ok := err.(elemental.Error)
-				if !ok {
-					t.Fatalf("error could not be asserted to type \"elemental.Error\"")
+			case err != nil && tc.expectedError != nil:
+				if !reflect.DeepEqual(err, tc.expectedError) {
+					t.Fatalf("\n"+
+						"actual error: %+v\n"+
+						"did not equal\n"+
+						"expected error: %+v", err, tc.expectedError)
 				}
-
-				if ee.Code != http.StatusUnprocessableEntity {
-					t.Errorf("expected elemental error code to be 422, but got %d", ee.Code)
-				}
-
-				if ee.Title != "Validation Error" {
-					t.Errorf("expected elemental error code to be 'Validation Error', but got %s", ee.Title)
-				}
-
-			case err != nil && !tc.shouldError:
+			case err != nil && tc.expectedError == nil:
 				t.Fatalf("did not expect to get an error, but received: %+v", err)
-			case err == nil && tc.shouldError:
+			case err == nil && tc.expectedError != nil:
 				t.Fatalf("expected to get an error, but got nothing")
 			}
 		})
@@ -1849,6 +1954,54 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			true,
 			"error 422 (gaia): Validation Error: Subject claims 'not:good' on line 2 must be prefixed by '@auth:'",
 		},
+		{
+			"oidc correct",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=oidc", "@auth:claim=a", "@auth:namespace=/a/b"},
+					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			false,
+			"",
+		},
+		{
+			"oidc missing namespace",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=oidc", "@auth:claim=a"},
+					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: The realm oidc mandates to add the '@auth:namespace' key to prevent potential security side effects",
+		},
+		{
+			"saml correct",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=saml", "@auth:claim=a", "@auth:namespace=/a/b"},
+					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			false,
+			"",
+		},
+		{
+			"saml missing namespace",
+			args{
+				"subject",
+				[][]string{
+					[]string{"@auth:realm=saml", "@auth:claim=a"},
+					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: The realm saml mandates to add the '@auth:namespace' key to prevent potential security side effects",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -1971,6 +2124,106 @@ func TestValidateWriteOperations(t *testing.T) {
 
 			if err != nil && err.Error() != tt.wantErrString {
 				t.Errorf("ValidateWriteOperations() error = '%v', wantErrString = '%v'", err, tt.wantErrString)
+			}
+		})
+	}
+}
+
+func TestValidateIdentity(t *testing.T) {
+	type args struct {
+		attribute string
+		identity  string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid",
+			args{
+				"attr",
+				"processingunit",
+			},
+			false,
+		},
+		{
+			"invalid",
+			args{
+				"attr",
+				"yo",
+			},
+			true,
+		},
+		{
+			"empty",
+			args{
+				"attr",
+				"",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateIdentity(tt.args.attribute, tt.args.identity); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateIdentity() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateProcessingUnitPolicy(t *testing.T) {
+	type args struct {
+		policy *ProcessingUnitPolicy
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"Empty processing unit policy",
+			args{
+				NewProcessingUnitPolicy(),
+			},
+			true,
+		},
+		{
+			"processing unit policy with Action and DatapathType set to Default",
+			args{
+				&ProcessingUnitPolicy{
+					Action:       ProcessingUnitPolicyActionDefault,
+					DatapathType: ProcessingUnitPolicyDatapathTypeDefault,
+				},
+			},
+			true,
+		},
+		{
+			"processing unit policy with Action set to Default and DatapathType to something else",
+			args{
+				&ProcessingUnitPolicy{
+					Action:       ProcessingUnitPolicyActionDefault,
+					DatapathType: ProcessingUnitPolicyDatapathTypeAporeto,
+				},
+			},
+			false,
+		},
+		{
+			"processing unit policy with DatapathType set to Default and Action to something else",
+			args{
+				&ProcessingUnitPolicy{
+					Action:       ProcessingUnitPolicyActionEnforce,
+					DatapathType: ProcessingUnitPolicyDatapathTypeDefault,
+				},
+			},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateProcessingUnitPolicy(tt.args.policy); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateProcessingUnitPolicy() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

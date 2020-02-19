@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -37,6 +38,9 @@ const (
 
 	// StatsInfoMeasurementPackets represents the value Packets.
 	StatsInfoMeasurementPackets StatsInfoMeasurementValue = "Packets"
+
+	// StatsInfoMeasurementPingReports represents the value PingReports.
+	StatsInfoMeasurementPingReports StatsInfoMeasurementValue = "PingReports"
 )
 
 // StatsInfoIdentity represents the Identity of the object.
@@ -151,6 +155,35 @@ func (o *StatsInfo) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *StatsInfo) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesStatsInfo{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *StatsInfo) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesStatsInfo{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *StatsInfo) Version() int {
 
@@ -256,7 +289,7 @@ func (o *StatsInfo) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups"}, false); err != nil {
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -319,7 +352,7 @@ var StatsInfoAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsInfoMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -354,7 +387,7 @@ var StatsInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Type:           "external",
 	},
 	"measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsInfoMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -472,6 +505,35 @@ func (o *SparseStatsInfo) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseStatsInfo) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseStatsInfo{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseStatsInfo) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseStatsInfo{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseStatsInfo) Version() int {
 
@@ -517,4 +579,9 @@ func (o *SparseStatsInfo) DeepCopyInto(out *SparseStatsInfo) {
 	}
 
 	*out = *target.(*SparseStatsInfo)
+}
+
+type mongoAttributesStatsInfo struct {
+}
+type mongoAttributesSparseStatsInfo struct {
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -144,6 +145,35 @@ func (o *FileAccessReport) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *FileAccessReport) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *FileAccessReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesFileAccessReport{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *FileAccessReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesFileAccessReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -609,6 +639,35 @@ func (o *SparseFileAccessReport) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseFileAccessReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseFileAccessReport{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseFileAccessReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseFileAccessReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseFileAccessReport) Version() int {
 
@@ -666,4 +725,9 @@ func (o *SparseFileAccessReport) DeepCopyInto(out *SparseFileAccessReport) {
 	}
 
 	*out = *target.(*SparseFileAccessReport)
+}
+
+type mongoAttributesFileAccessReport struct {
+}
+type mongoAttributesSparseFileAccessReport struct {
 }

@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -82,7 +83,7 @@ func (o CategoriesList) Version() int {
 // Category represents the model of a category
 type Category struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
@@ -117,6 +118,45 @@ func (o *Category) Identifier() string {
 func (o *Category) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Category) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesCategory{}
+
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
+	s.Description = o.Description
+	s.Name = o.Name
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Category) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesCategory{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Description = s.Description
+	o.Name = s.Name
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -339,7 +379,6 @@ var CategoryAttributesMap = map[string]elemental.AttributeSpecification{
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -386,7 +425,6 @@ var CategoryLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -467,7 +505,7 @@ func (o SparseCategoriesList) Version() int {
 // SparseCategory represents the sparse version of a category.
 type SparseCategory struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -501,7 +539,59 @@ func (o *SparseCategory) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseCategory) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseCategory) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseCategory{}
+
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseCategory) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseCategory{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
 	o.ID = &id
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -528,7 +618,11 @@ func (o *SparseCategory) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseCategory) GetDescription() string {
+func (o *SparseCategory) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -540,7 +634,11 @@ func (o *SparseCategory) SetDescription(description string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseCategory) GetName() string {
+func (o *SparseCategory) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -573,4 +671,15 @@ func (o *SparseCategory) DeepCopyInto(out *SparseCategory) {
 	}
 
 	*out = *target.(*SparseCategory)
+}
+
+type mongoAttributesCategory struct {
+	ID          bson.ObjectId `bson:"_id,omitempty"`
+	Description string        `bson:"description"`
+	Name        string        `bson:"name"`
+}
+type mongoAttributesSparseCategory struct {
+	ID          bson.ObjectId `bson:"_id,omitempty"`
+	Description *string       `bson:"description,omitempty"`
+	Name        *string       `bson:"name,omitempty"`
 }

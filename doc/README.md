@@ -5,7 +5,7 @@
 Aporeto provides a REST API to allow programmatic manipulation of all parts of the system.
 Everything the web client or apoctl do is done through the REST API.
 
-The Aporeto API accepts and returns [JSON](http://www.json.org) or [MessagePack](http://www.json.org)
+The Aporeto API accepts and returns [JSON](https://www.json.org) or [MessagePack](https://msgpack.org)
 encoded objects.
 This is controlled by the the `Accept` and `Content-Type` HTTP headers.
 
@@ -240,7 +240,6 @@ curl https://api.console.aporeto.com/namespaces \
   -X POST \
   -H 'Content-Type: application/json' \
   -H 'X-Namespace: /company' \
-  -H 'Idempotency-Key: abcdef1234' \
   -H 'Authorization: Bearer <token>' \
   -H 'X-Fields: ID' \
   -d '{"name": "test-namespace-2"}'

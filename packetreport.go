@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -95,23 +96,23 @@ func (o PacketReportsList) Version() int {
 // PacketReport represents the model of a packetreport
 type PacketReport struct {
 	// Flags are the TCP flags of the packet.
-	TCPFlags int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	TCPFlags int `json:"TCPFlags" msgpack:"TCPFlags" bson:"tcpflags" mapstructure:"TCPFlags,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims []string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	Claims []string `json:"claims" msgpack:"claims" bson:"claims" mapstructure:"claims,omitempty"`
 
 	// The destination IP address of the packet.
-	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
+	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"destinationip" mapstructure:"destinationIP,omitempty"`
 
 	// The destination port of a TCP or UDP packet.
-	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
+	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"destinationport" mapstructure:"destinationPort,omitempty"`
 
 	// If `event` is set to `Dropped`, contains the reason that the packet was dropped.
 	// Otherwise empty.
-	DropReason string `json:"dropReason" msgpack:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
+	DropReason string `json:"dropReason" msgpack:"dropReason" bson:"dropreason" mapstructure:"dropReason,omitempty"`
 
 	// Set to `true` if the packet was encrypted.
-	Encrypt bool `json:"encrypt" msgpack:"encrypt" bson:"-" mapstructure:"encrypt,omitempty"`
+	Encrypt bool `json:"encrypt" msgpack:"encrypt" bson:"encrypt" mapstructure:"encrypt,omitempty"`
 
 	// Identifier of the enforcer sending the report.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
@@ -123,34 +124,34 @@ type PacketReport struct {
 	Event PacketReportEventValue `json:"event" msgpack:"event" bson:"-" mapstructure:"event,omitempty"`
 
 	// Length is the length of the packet.
-	Length int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	Length int `json:"-" msgpack:"-" bson:"length" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
-	Mark int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	Mark int `json:"mark" msgpack:"mark" bson:"mark" mapstructure:"mark,omitempty"`
 
 	// Namespace of the processing unit reporting the packet.
-	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// PacketID is the ID from the IP header of the packet.
-	PacketID int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	// The ID of the IP header of the reported packet.
+	PacketID int `json:"packetID" msgpack:"packetID" bson:"packetid" mapstructure:"packetID,omitempty"`
 
 	// Protocol number.
-	Protocol int `json:"protocol" msgpack:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
+	Protocol int `json:"protocol" msgpack:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
 
 	// The ID of the processing unit reporting the packet.
-	PuID string `json:"puID" msgpack:"puID" bson:"-" mapstructure:"puID,omitempty"`
+	PuID string `json:"puID" msgpack:"puID" bson:"puid" mapstructure:"puID,omitempty"`
 
 	// The first 64 bytes of the packet.
 	RawPacket string `json:"rawPacket" msgpack:"rawPacket" bson:"rawpacket" mapstructure:"rawPacket,omitempty"`
 
 	// The source IP address of the packet.
-	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
+	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"sourceip" mapstructure:"sourceIP,omitempty"`
 
 	// The source port of the packet.
-	SourcePort int `json:"sourcePort" msgpack:"sourcePort" bson:"-" mapstructure:"sourcePort,omitempty"`
+	SourcePort int `json:"sourcePort" msgpack:"sourcePort" bson:"sourceport" mapstructure:"sourcePort,omitempty"`
 
 	// The time-date stamp of the report.
-	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"timestamp" mapstructure:"timestamp,omitempty"`
 
 	// Set to `true` if the packet arrived with the Trireme options (default).
 	TriremePacket bool `json:"triremePacket" msgpack:"triremePacket" bson:"triremepacket" mapstructure:"triremePacket,omitempty"`
@@ -184,6 +185,75 @@ func (o *PacketReport) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *PacketReport) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PacketReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesPacketReport{}
+
+	s.TCPFlags = o.TCPFlags
+	s.Claims = o.Claims
+	s.DestinationIP = o.DestinationIP
+	s.DestinationPort = o.DestinationPort
+	s.DropReason = o.DropReason
+	s.Encrypt = o.Encrypt
+	s.EnforcerID = o.EnforcerID
+	s.EnforcerNamespace = o.EnforcerNamespace
+	s.Length = o.Length
+	s.Mark = o.Mark
+	s.Namespace = o.Namespace
+	s.PacketID = o.PacketID
+	s.Protocol = o.Protocol
+	s.PuID = o.PuID
+	s.RawPacket = o.RawPacket
+	s.SourceIP = o.SourceIP
+	s.SourcePort = o.SourcePort
+	s.Timestamp = o.Timestamp
+	s.TriremePacket = o.TriremePacket
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *PacketReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesPacketReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.TCPFlags = s.TCPFlags
+	o.Claims = s.Claims
+	o.DestinationIP = s.DestinationIP
+	o.DestinationPort = s.DestinationPort
+	o.DropReason = s.DropReason
+	o.Encrypt = s.Encrypt
+	o.EnforcerID = s.EnforcerID
+	o.EnforcerNamespace = s.EnforcerNamespace
+	o.Length = s.Length
+	o.Mark = s.Mark
+	o.Namespace = s.Namespace
+	o.PacketID = s.PacketID
+	o.Protocol = s.Protocol
+	o.PuID = s.PuID
+	o.RawPacket = s.RawPacket
+	o.SourceIP = s.SourceIP
+	o.SourcePort = s.SourcePort
+	o.Timestamp = s.Timestamp
+	o.TriremePacket = s.TriremePacket
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -421,10 +491,6 @@ func (o *PacketReport) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("puID", o.PuID); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateMaximumInt("sourcePort", o.SourcePort, int(65536), false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -518,14 +584,18 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TCPFlags",
 		Description:    `Flags are the TCP flags of the packet.`,
+		Exposed:        true,
 		Name:           "TCPFlags",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"Claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
 		Description:    `Claims is the list of claims detected for the packet.`,
+		Exposed:        true,
 		Name:           "claims",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -535,6 +605,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The destination IP address of the packet.`,
 		Exposed:        true,
 		Name:           "destinationIP",
+		Stored:         true,
 		Type:           "string",
 	},
 	"DestinationPort": elemental.AttributeSpecification{
@@ -544,6 +615,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		MaxValue:       65536,
 		Name:           "destinationPort",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"DropReason": elemental.AttributeSpecification{
@@ -553,6 +625,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 Otherwise empty.`,
 		Exposed: true,
 		Name:    "dropReason",
+		Stored:  true,
 		Type:    "string",
 	},
 	"Encrypt": elemental.AttributeSpecification{
@@ -561,6 +634,7 @@ Otherwise empty.`,
 		Description:    `Set to ` + "`" + `true` + "`" + ` if the packet was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypt",
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"EnforcerID": elemental.AttributeSpecification{
@@ -598,14 +672,16 @@ Otherwise empty.`,
 		Description:    `Length is the length of the packet.`,
 		MaxValue:       65536,
 		Name:           "length",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"Mark": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Mark",
 		Description:    `Mark is the mark value of the packet.`,
+		Exposed:        true,
 		Name:           "mark",
-		Required:       true,
+		Stored:         true,
 		Type:           "integer",
 	},
 	"Namespace": elemental.AttributeSpecification{
@@ -616,14 +692,16 @@ Otherwise empty.`,
 		Filterable:     true,
 		Name:           "namespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"PacketID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PacketID",
-		Description:    `PacketID is the ID from the IP header of the packet.`,
+		Description:    `The ID of the IP header of the reported packet.`,
+		Exposed:        true,
 		Name:           "packetID",
-		Required:       true,
+		Stored:         true,
 		Type:           "integer",
 	},
 	"Protocol": elemental.AttributeSpecification{
@@ -633,6 +711,7 @@ Otherwise empty.`,
 		Exposed:        true,
 		MaxValue:       255,
 		Name:           "protocol",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"PuID": elemental.AttributeSpecification{
@@ -642,7 +721,7 @@ Otherwise empty.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "puID",
-		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"RawPacket": elemental.AttributeSpecification{
@@ -661,6 +740,7 @@ Otherwise empty.`,
 		Description:    `The source IP address of the packet.`,
 		Exposed:        true,
 		Name:           "sourceIP",
+		Stored:         true,
 		Type:           "string",
 	},
 	"SourcePort": elemental.AttributeSpecification{
@@ -670,6 +750,7 @@ Otherwise empty.`,
 		Exposed:        true,
 		MaxValue:       65536,
 		Name:           "sourcePort",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"Timestamp": elemental.AttributeSpecification{
@@ -679,6 +760,7 @@ Otherwise empty.`,
 		Exposed:        true,
 		Name:           "timestamp",
 		Required:       true,
+		Stored:         true,
 		Type:           "time",
 	},
 	"TriremePacket": elemental.AttributeSpecification{
@@ -688,7 +770,6 @@ Otherwise empty.`,
 		Description:    `Set to ` + "`" + `true` + "`" + ` if the packet arrived with the Trireme options (default).`,
 		Exposed:        true,
 		Name:           "triremePacket",
-		Required:       true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -700,14 +781,18 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		AllowedChoices: []string{},
 		ConvertedName:  "TCPFlags",
 		Description:    `Flags are the TCP flags of the packet.`,
+		Exposed:        true,
 		Name:           "TCPFlags",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
 		Description:    `Claims is the list of claims detected for the packet.`,
+		Exposed:        true,
 		Name:           "claims",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -717,6 +802,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `The destination IP address of the packet.`,
 		Exposed:        true,
 		Name:           "destinationIP",
+		Stored:         true,
 		Type:           "string",
 	},
 	"destinationport": elemental.AttributeSpecification{
@@ -726,6 +812,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Exposed:        true,
 		MaxValue:       65536,
 		Name:           "destinationPort",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"dropreason": elemental.AttributeSpecification{
@@ -735,6 +822,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 Otherwise empty.`,
 		Exposed: true,
 		Name:    "dropReason",
+		Stored:  true,
 		Type:    "string",
 	},
 	"encrypt": elemental.AttributeSpecification{
@@ -743,6 +831,7 @@ Otherwise empty.`,
 		Description:    `Set to ` + "`" + `true` + "`" + ` if the packet was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypt",
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"enforcerid": elemental.AttributeSpecification{
@@ -780,14 +869,16 @@ Otherwise empty.`,
 		Description:    `Length is the length of the packet.`,
 		MaxValue:       65536,
 		Name:           "length",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"mark": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Mark",
 		Description:    `Mark is the mark value of the packet.`,
+		Exposed:        true,
 		Name:           "mark",
-		Required:       true,
+		Stored:         true,
 		Type:           "integer",
 	},
 	"namespace": elemental.AttributeSpecification{
@@ -798,14 +889,16 @@ Otherwise empty.`,
 		Filterable:     true,
 		Name:           "namespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"packetid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PacketID",
-		Description:    `PacketID is the ID from the IP header of the packet.`,
+		Description:    `The ID of the IP header of the reported packet.`,
+		Exposed:        true,
 		Name:           "packetID",
-		Required:       true,
+		Stored:         true,
 		Type:           "integer",
 	},
 	"protocol": elemental.AttributeSpecification{
@@ -815,6 +908,7 @@ Otherwise empty.`,
 		Exposed:        true,
 		MaxValue:       255,
 		Name:           "protocol",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"puid": elemental.AttributeSpecification{
@@ -824,7 +918,7 @@ Otherwise empty.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "puID",
-		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"rawpacket": elemental.AttributeSpecification{
@@ -843,6 +937,7 @@ Otherwise empty.`,
 		Description:    `The source IP address of the packet.`,
 		Exposed:        true,
 		Name:           "sourceIP",
+		Stored:         true,
 		Type:           "string",
 	},
 	"sourceport": elemental.AttributeSpecification{
@@ -852,6 +947,7 @@ Otherwise empty.`,
 		Exposed:        true,
 		MaxValue:       65536,
 		Name:           "sourcePort",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"timestamp": elemental.AttributeSpecification{
@@ -861,6 +957,7 @@ Otherwise empty.`,
 		Exposed:        true,
 		Name:           "timestamp",
 		Required:       true,
+		Stored:         true,
 		Type:           "time",
 	},
 	"triremepacket": elemental.AttributeSpecification{
@@ -870,7 +967,6 @@ Otherwise empty.`,
 		Description:    `Set to ` + "`" + `true` + "`" + ` if the packet arrived with the Trireme options (default).`,
 		Exposed:        true,
 		Name:           "triremePacket",
-		Required:       true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -940,23 +1036,23 @@ func (o SparsePacketReportsList) Version() int {
 // SparsePacketReport represents the sparse version of a packetreport.
 type SparsePacketReport struct {
 	// Flags are the TCP flags of the packet.
-	TCPFlags *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	TCPFlags *int `json:"TCPFlags,omitempty" msgpack:"TCPFlags,omitempty" bson:"tcpflags,omitempty" mapstructure:"TCPFlags,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims *[]string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"claims,omitempty" mapstructure:"claims,omitempty"`
 
 	// The destination IP address of the packet.
-	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
+	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"destinationip,omitempty" mapstructure:"destinationIP,omitempty"`
 
 	// The destination port of a TCP or UDP packet.
-	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
+	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"destinationport,omitempty" mapstructure:"destinationPort,omitempty"`
 
 	// If `event` is set to `Dropped`, contains the reason that the packet was dropped.
 	// Otherwise empty.
-	DropReason *string `json:"dropReason,omitempty" msgpack:"dropReason,omitempty" bson:"-" mapstructure:"dropReason,omitempty"`
+	DropReason *string `json:"dropReason,omitempty" msgpack:"dropReason,omitempty" bson:"dropreason,omitempty" mapstructure:"dropReason,omitempty"`
 
 	// Set to `true` if the packet was encrypted.
-	Encrypt *bool `json:"encrypt,omitempty" msgpack:"encrypt,omitempty" bson:"-" mapstructure:"encrypt,omitempty"`
+	Encrypt *bool `json:"encrypt,omitempty" msgpack:"encrypt,omitempty" bson:"encrypt,omitempty" mapstructure:"encrypt,omitempty"`
 
 	// Identifier of the enforcer sending the report.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
@@ -968,34 +1064,34 @@ type SparsePacketReport struct {
 	Event *PacketReportEventValue `json:"event,omitempty" msgpack:"event,omitempty" bson:"-" mapstructure:"event,omitempty"`
 
 	// Length is the length of the packet.
-	Length *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	Length *int `json:"-" msgpack:"-" bson:"length,omitempty" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
-	Mark *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	Mark *int `json:"mark,omitempty" msgpack:"mark,omitempty" bson:"mark,omitempty" mapstructure:"mark,omitempty"`
 
 	// Namespace of the processing unit reporting the packet.
-	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// PacketID is the ID from the IP header of the packet.
-	PacketID *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
+	// The ID of the IP header of the reported packet.
+	PacketID *int `json:"packetID,omitempty" msgpack:"packetID,omitempty" bson:"packetid,omitempty" mapstructure:"packetID,omitempty"`
 
 	// Protocol number.
-	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`
+	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"protocol,omitempty" mapstructure:"protocol,omitempty"`
 
 	// The ID of the processing unit reporting the packet.
-	PuID *string `json:"puID,omitempty" msgpack:"puID,omitempty" bson:"-" mapstructure:"puID,omitempty"`
+	PuID *string `json:"puID,omitempty" msgpack:"puID,omitempty" bson:"puid,omitempty" mapstructure:"puID,omitempty"`
 
 	// The first 64 bytes of the packet.
 	RawPacket *string `json:"rawPacket,omitempty" msgpack:"rawPacket,omitempty" bson:"rawpacket,omitempty" mapstructure:"rawPacket,omitempty"`
 
 	// The source IP address of the packet.
-	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
+	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"sourceip,omitempty" mapstructure:"sourceIP,omitempty"`
 
 	// The source port of the packet.
-	SourcePort *int `json:"sourcePort,omitempty" msgpack:"sourcePort,omitempty" bson:"-" mapstructure:"sourcePort,omitempty"`
+	SourcePort *int `json:"sourcePort,omitempty" msgpack:"sourcePort,omitempty" bson:"sourceport,omitempty" mapstructure:"sourcePort,omitempty"`
 
 	// The time-date stamp of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"timestamp,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// Set to `true` if the packet arrived with the Trireme options (default).
 	TriremePacket *bool `json:"triremePacket,omitempty" msgpack:"triremePacket,omitempty" bson:"triremepacket,omitempty" mapstructure:"triremePacket,omitempty"`
@@ -1023,6 +1119,151 @@ func (o *SparsePacketReport) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparsePacketReport) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePacketReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparsePacketReport{}
+
+	if o.TCPFlags != nil {
+		s.TCPFlags = o.TCPFlags
+	}
+	if o.Claims != nil {
+		s.Claims = o.Claims
+	}
+	if o.DestinationIP != nil {
+		s.DestinationIP = o.DestinationIP
+	}
+	if o.DestinationPort != nil {
+		s.DestinationPort = o.DestinationPort
+	}
+	if o.DropReason != nil {
+		s.DropReason = o.DropReason
+	}
+	if o.Encrypt != nil {
+		s.Encrypt = o.Encrypt
+	}
+	if o.EnforcerID != nil {
+		s.EnforcerID = o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		s.EnforcerNamespace = o.EnforcerNamespace
+	}
+	if o.Length != nil {
+		s.Length = o.Length
+	}
+	if o.Mark != nil {
+		s.Mark = o.Mark
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.PacketID != nil {
+		s.PacketID = o.PacketID
+	}
+	if o.Protocol != nil {
+		s.Protocol = o.Protocol
+	}
+	if o.PuID != nil {
+		s.PuID = o.PuID
+	}
+	if o.RawPacket != nil {
+		s.RawPacket = o.RawPacket
+	}
+	if o.SourceIP != nil {
+		s.SourceIP = o.SourceIP
+	}
+	if o.SourcePort != nil {
+		s.SourcePort = o.SourcePort
+	}
+	if o.Timestamp != nil {
+		s.Timestamp = o.Timestamp
+	}
+	if o.TriremePacket != nil {
+		s.TriremePacket = o.TriremePacket
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparsePacketReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparsePacketReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.TCPFlags != nil {
+		o.TCPFlags = s.TCPFlags
+	}
+	if s.Claims != nil {
+		o.Claims = s.Claims
+	}
+	if s.DestinationIP != nil {
+		o.DestinationIP = s.DestinationIP
+	}
+	if s.DestinationPort != nil {
+		o.DestinationPort = s.DestinationPort
+	}
+	if s.DropReason != nil {
+		o.DropReason = s.DropReason
+	}
+	if s.Encrypt != nil {
+		o.Encrypt = s.Encrypt
+	}
+	if s.EnforcerID != nil {
+		o.EnforcerID = s.EnforcerID
+	}
+	if s.EnforcerNamespace != nil {
+		o.EnforcerNamespace = s.EnforcerNamespace
+	}
+	if s.Length != nil {
+		o.Length = s.Length
+	}
+	if s.Mark != nil {
+		o.Mark = s.Mark
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.PacketID != nil {
+		o.PacketID = s.PacketID
+	}
+	if s.Protocol != nil {
+		o.Protocol = s.Protocol
+	}
+	if s.PuID != nil {
+		o.PuID = s.PuID
+	}
+	if s.RawPacket != nil {
+		o.RawPacket = s.RawPacket
+	}
+	if s.SourceIP != nil {
+		o.SourceIP = s.SourceIP
+	}
+	if s.SourcePort != nil {
+		o.SourcePort = s.SourcePort
+	}
+	if s.Timestamp != nil {
+		o.Timestamp = s.Timestamp
+	}
+	if s.TriremePacket != nil {
+		o.TriremePacket = s.TriremePacket
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -1121,4 +1362,47 @@ func (o *SparsePacketReport) DeepCopyInto(out *SparsePacketReport) {
 	}
 
 	*out = *target.(*SparsePacketReport)
+}
+
+type mongoAttributesPacketReport struct {
+	TCPFlags          int       `bson:"tcpflags"`
+	Claims            []string  `bson:"claims"`
+	DestinationIP     string    `bson:"destinationip"`
+	DestinationPort   int       `bson:"destinationport"`
+	DropReason        string    `bson:"dropreason"`
+	Encrypt           bool      `bson:"encrypt"`
+	EnforcerID        string    `bson:"enforcerid"`
+	EnforcerNamespace string    `bson:"enforcernamespace"`
+	Length            int       `bson:"length"`
+	Mark              int       `bson:"mark"`
+	Namespace         string    `bson:"namespace"`
+	PacketID          int       `bson:"packetid"`
+	Protocol          int       `bson:"protocol"`
+	PuID              string    `bson:"puid"`
+	RawPacket         string    `bson:"rawpacket"`
+	SourceIP          string    `bson:"sourceip"`
+	SourcePort        int       `bson:"sourceport"`
+	Timestamp         time.Time `bson:"timestamp"`
+	TriremePacket     bool      `bson:"triremepacket"`
+}
+type mongoAttributesSparsePacketReport struct {
+	TCPFlags          *int       `bson:"tcpflags,omitempty"`
+	Claims            *[]string  `bson:"claims,omitempty"`
+	DestinationIP     *string    `bson:"destinationip,omitempty"`
+	DestinationPort   *int       `bson:"destinationport,omitempty"`
+	DropReason        *string    `bson:"dropreason,omitempty"`
+	Encrypt           *bool      `bson:"encrypt,omitempty"`
+	EnforcerID        *string    `bson:"enforcerid,omitempty"`
+	EnforcerNamespace *string    `bson:"enforcernamespace,omitempty"`
+	Length            *int       `bson:"length,omitempty"`
+	Mark              *int       `bson:"mark,omitempty"`
+	Namespace         *string    `bson:"namespace,omitempty"`
+	PacketID          *int       `bson:"packetid,omitempty"`
+	Protocol          *int       `bson:"protocol,omitempty"`
+	PuID              *string    `bson:"puid,omitempty"`
+	RawPacket         *string    `bson:"rawpacket,omitempty"`
+	SourceIP          *string    `bson:"sourceip,omitempty"`
+	SourcePort        *int       `bson:"sourceport,omitempty"`
+	Timestamp         *time.Time `bson:"timestamp,omitempty"`
+	TriremePacket     *bool      `bson:"triremepacket,omitempty"`
 }

@@ -2,6 +2,10 @@ $apiauthsubject:
   elemental:
     name: ValidateAPIAuthorizationPolicySubject
 
+$apiproxyEntity:
+  elemental:
+    name: ValidateAPIProxyEntity
+
 $audience:
   elemental:
     name: ValidateAudience
@@ -21,6 +25,14 @@ $hostservices:
 $httpMethods:
   elemental:
     name: ValidateHTTPMethods
+
+$httpsURL:
+  elemental:
+    name: ValidateHTTPSURL
+
+$identity:
+  elemental:
+    name: ValidateIdentity
 
 $metadata:
   elemental:
@@ -49,6 +61,10 @@ $port:
 $ports:
   elemental:
     name: ValidatePortStringList
+
+$processingunitpolicy:
+  elemental:
+    name: ValidateProcessingUnitPolicy
 
 $processingunitservices:
   elemental:

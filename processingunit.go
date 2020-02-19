@@ -4,8 +4,20 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
+)
+
+// ProcessingUnitDatapathTypeValue represents the possible values for attribute "datapathType".
+type ProcessingUnitDatapathTypeValue string
+
+const (
+	// ProcessingUnitDatapathTypeAporeto represents the value Aporeto.
+	ProcessingUnitDatapathTypeAporeto ProcessingUnitDatapathTypeValue = "Aporeto"
+
+	// ProcessingUnitDatapathTypeEnvoyAuthorizer represents the value EnvoyAuthorizer.
+	ProcessingUnitDatapathTypeEnvoyAuthorizer ProcessingUnitDatapathTypeValue = "EnvoyAuthorizer"
 )
 
 // ProcessingUnitEnforcementStatusValue represents the possible values for attribute "enforcementStatus".
@@ -121,7 +133,6 @@ func (o ProcessingUnitsList) List() elemental.IdentifiablesList {
 func (o ProcessingUnitsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -147,7 +158,7 @@ func (o ProcessingUnitsList) Version() int {
 // ProcessingUnit represents the model of a processingunit
 type ProcessingUnit struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -172,6 +183,14 @@ type ProcessingUnit struct {
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// The datapath type that processing units are implementing:
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+	// that for example can be used by an envoy proxy to use the Aporeto PKI
+	// and implement Aporeto network access policies. NOTE: The enforcer is not
+	// owning the datapath in this case. It is merely providing an authorizer API.
+	DatapathType ProcessingUnitDatapathTypeValue `json:"datapathType" msgpack:"datapathType" bson:"datapathtype" mapstructure:"datapathType,omitempty"`
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
@@ -239,7 +258,7 @@ type ProcessingUnit struct {
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Indicates if this processing unit must be placed in tracing mode.
-	Tracing *TraceMode `json:"tracing" msgpack:"tracing" bson:"tracing" mapstructure:"tracing,omitempty"`
+	Tracing *TraceMode `json:"tracing" msgpack:"tracing" bson:"-" mapstructure:"tracing,omitempty"`
 
 	// Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
 	// `LinuxService`,
@@ -275,6 +294,7 @@ func NewProcessingUnit() *ProcessingUnit {
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
 		CollectedInfo:     map[string]string{},
+		DatapathType:      ProcessingUnitDatapathTypeAporeto,
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
 		NetworkServices:   []*ProcessingUnitService{},
 		NormalizedTags:    []string{},
@@ -304,6 +324,103 @@ func (o *ProcessingUnit) SetIdentifier(id string) {
 	o.ID = id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ProcessingUnit) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesProcessingUnit{}
+
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
+	s.Annotations = o.Annotations
+	s.Archived = o.Archived
+	s.AssociatedTags = o.AssociatedTags
+	s.CollectInfo = o.CollectInfo
+	s.CollectedInfo = o.CollectedInfo
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.DatapathType = o.DatapathType
+	s.Description = o.Description
+	s.EnforcementStatus = o.EnforcementStatus
+	s.EnforcerID = o.EnforcerID
+	s.EnforcerNamespace = o.EnforcerNamespace
+	s.Images = o.Images
+	s.LastCollectionTime = o.LastCollectionTime
+	s.LastPokeTime = o.LastPokeTime
+	s.LastSyncTime = o.LastSyncTime
+	s.Metadata = o.Metadata
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NativeContextID = o.NativeContextID
+	s.NetworkServices = o.NetworkServices
+	s.NormalizedTags = o.NormalizedTags
+	s.OperationalStatus = o.OperationalStatus
+	s.Protected = o.Protected
+	s.Type = o.Type
+	s.Unreachable = o.Unreachable
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesProcessingUnit{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Annotations = s.Annotations
+	o.Archived = s.Archived
+	o.AssociatedTags = s.AssociatedTags
+	o.CollectInfo = s.CollectInfo
+	o.CollectedInfo = s.CollectedInfo
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.DatapathType = s.DatapathType
+	o.Description = s.Description
+	o.EnforcementStatus = s.EnforcementStatus
+	o.EnforcerID = s.EnforcerID
+	o.EnforcerNamespace = s.EnforcerNamespace
+	o.Images = s.Images
+	o.LastCollectionTime = s.LastCollectionTime
+	o.LastPokeTime = s.LastPokeTime
+	o.LastSyncTime = s.LastSyncTime
+	o.Metadata = s.Metadata
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NativeContextID = s.NativeContextID
+	o.NetworkServices = s.NetworkServices
+	o.NormalizedTags = s.NormalizedTags
+	o.OperationalStatus = s.OperationalStatus
+	o.Protected = s.Protected
+	o.Type = s.Type
+	o.Unreachable = s.Unreachable
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *ProcessingUnit) Version() int {
 
@@ -320,7 +437,6 @@ func (o *ProcessingUnit) BleveType() string {
 func (o *ProcessingUnit) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -549,6 +665,7 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			CollectedInfo:        &o.CollectedInfo,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
+			DatapathType:         &o.DatapathType,
 			Description:          &o.Description,
 			EnforcementStatus:    &o.EnforcementStatus,
 			EnforcerID:           &o.EnforcerID,
@@ -596,6 +713,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "datapathType":
+			sp.DatapathType = &(o.DatapathType)
 		case "description":
 			sp.Description = &(o.Description)
 		case "enforcementStatus":
@@ -682,6 +801,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.DatapathType != nil {
+		o.DatapathType = *so.DatapathType
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -794,6 +916,10 @@ func (o *ProcessingUnit) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("datapathType", string(o.DatapathType), []string{"Aporeto", "EnvoyAuthorizer"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -818,6 +944,7 @@ func (o *ProcessingUnit) Validate() error {
 		if sub == nil {
 			continue
 		}
+		elemental.ResetDefaultForZeroValues(sub)
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -832,6 +959,7 @@ func (o *ProcessingUnit) Validate() error {
 	}
 
 	if o.Tracing != nil {
+		elemental.ResetDefaultForZeroValues(o.Tracing)
 		if err := o.Tracing.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -891,6 +1019,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "datapathType":
+		return o.DatapathType
 	case "description":
 		return o.Description
 	case "enforcementStatus":
@@ -1044,6 +1174,22 @@ unit.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"DatapathType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "EnvoyAuthorizer"},
+		ConvertedName:  "DatapathType",
+		DefaultValue:   ProcessingUnitDatapathTypeAporeto,
+		Description: `The datapath type that processing units are implementing:
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
+that for example can be used by an envoy proxy to use the Aporeto PKI
+and implement Aporeto network access policies. NOTE: The enforcer is not
+owning the datapath in this case. It is merely providing an authorizer API.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "datapathType",
+		Stored:     true,
+		Type:       "enum",
+	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -1171,7 +1317,6 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1188,7 +1333,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1269,7 +1413,6 @@ manifest.`,
 		Description:    `Indicates if this processing unit must be placed in tracing mode.`,
 		Exposed:        true,
 		Name:           "tracing",
-		Stored:         true,
 		SubType:        "tracemode",
 		Type:           "ref",
 	},
@@ -1293,11 +1436,12 @@ manifest.`,
 		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from the
 processing
 unit for more than five minutes.`,
-		Exposed:  true,
-		Name:     "unreachable",
-		ReadOnly: true,
-		Stored:   true,
-		Type:     "boolean",
+		Exposed:   true,
+		Name:      "unreachable",
+		ReadOnly:  true,
+		Stored:    true,
+		Transient: true,
+		Type:      "boolean",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1452,6 +1596,22 @@ unit.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"datapathtype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "EnvoyAuthorizer"},
+		ConvertedName:  "DatapathType",
+		DefaultValue:   ProcessingUnitDatapathTypeAporeto,
+		Description: `The datapath type that processing units are implementing:
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
+that for example can be used by an envoy proxy to use the Aporeto PKI
+and implement Aporeto network access policies. NOTE: The enforcer is not
+owning the datapath in this case. It is merely providing an authorizer API.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "datapathType",
+		Stored:     true,
+		Type:       "enum",
+	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -1579,7 +1739,6 @@ with the '@' prefix, and should only be used by external systems.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1596,7 +1755,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1677,7 +1835,6 @@ manifest.`,
 		Description:    `Indicates if this processing unit must be placed in tracing mode.`,
 		Exposed:        true,
 		Name:           "tracing",
-		Stored:         true,
 		SubType:        "tracemode",
 		Type:           "ref",
 	},
@@ -1701,11 +1858,12 @@ manifest.`,
 		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from the
 processing
 unit for more than five minutes.`,
-		Exposed:  true,
-		Name:     "unreachable",
-		ReadOnly: true,
-		Stored:   true,
-		Type:     "boolean",
+		Exposed:   true,
+		Name:      "unreachable",
+		ReadOnly:  true,
+		Stored:    true,
+		Transient: true,
+		Type:      "boolean",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1804,7 +1962,6 @@ func (o SparseProcessingUnitsList) List() elemental.IdentifiablesList {
 func (o SparseProcessingUnitsList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1829,7 +1986,7 @@ func (o SparseProcessingUnitsList) Version() int {
 // SparseProcessingUnit represents the sparse version of a processingunit.
 type SparseProcessingUnit struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
@@ -1854,6 +2011,14 @@ type SparseProcessingUnit struct {
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+
+	// The datapath type that processing units are implementing:
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
+	// that for example can be used by an envoy proxy to use the Aporeto PKI
+	// and implement Aporeto network access policies. NOTE: The enforcer is not
+	// owning the datapath in this case. It is merely providing an authorizer API.
+	DatapathType *ProcessingUnitDatapathTypeValue `json:"datapathType,omitempty" msgpack:"datapathType,omitempty" bson:"datapathtype,omitempty" mapstructure:"datapathType,omitempty"`
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -1921,7 +2086,7 @@ type SparseProcessingUnit struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Indicates if this processing unit must be placed in tracing mode.
-	Tracing *TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"tracing,omitempty" mapstructure:"tracing,omitempty"`
+	Tracing *TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"-" mapstructure:"tracing,omitempty"`
 
 	// Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
 	// `LinuxService`,
@@ -1972,7 +2137,233 @@ func (o *SparseProcessingUnit) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseProcessingUnit) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseProcessingUnit{}
+
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.Archived != nil {
+		s.Archived = o.Archived
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.CollectInfo != nil {
+		s.CollectInfo = o.CollectInfo
+	}
+	if o.CollectedInfo != nil {
+		s.CollectedInfo = o.CollectedInfo
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.DatapathType != nil {
+		s.DatapathType = o.DatapathType
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.EnforcementStatus != nil {
+		s.EnforcementStatus = o.EnforcementStatus
+	}
+	if o.EnforcerID != nil {
+		s.EnforcerID = o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		s.EnforcerNamespace = o.EnforcerNamespace
+	}
+	if o.Images != nil {
+		s.Images = o.Images
+	}
+	if o.LastCollectionTime != nil {
+		s.LastCollectionTime = o.LastCollectionTime
+	}
+	if o.LastPokeTime != nil {
+		s.LastPokeTime = o.LastPokeTime
+	}
+	if o.LastSyncTime != nil {
+		s.LastSyncTime = o.LastSyncTime
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NativeContextID != nil {
+		s.NativeContextID = o.NativeContextID
+	}
+	if o.NetworkServices != nil {
+		s.NetworkServices = o.NetworkServices
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.OperationalStatus != nil {
+		s.OperationalStatus = o.OperationalStatus
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.Type != nil {
+		s.Type = o.Type
+	}
+	if o.Unreachable != nil {
+		s.Unreachable = o.Unreachable
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseProcessingUnit{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
 	o.ID = &id
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.Archived != nil {
+		o.Archived = s.Archived
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.CollectInfo != nil {
+		o.CollectInfo = s.CollectInfo
+	}
+	if s.CollectedInfo != nil {
+		o.CollectedInfo = s.CollectedInfo
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.DatapathType != nil {
+		o.DatapathType = s.DatapathType
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.EnforcementStatus != nil {
+		o.EnforcementStatus = s.EnforcementStatus
+	}
+	if s.EnforcerID != nil {
+		o.EnforcerID = s.EnforcerID
+	}
+	if s.EnforcerNamespace != nil {
+		o.EnforcerNamespace = s.EnforcerNamespace
+	}
+	if s.Images != nil {
+		o.Images = s.Images
+	}
+	if s.LastCollectionTime != nil {
+		o.LastCollectionTime = s.LastCollectionTime
+	}
+	if s.LastPokeTime != nil {
+		o.LastPokeTime = s.LastPokeTime
+	}
+	if s.LastSyncTime != nil {
+		o.LastSyncTime = s.LastSyncTime
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NativeContextID != nil {
+		o.NativeContextID = s.NativeContextID
+	}
+	if s.NetworkServices != nil {
+		o.NetworkServices = s.NetworkServices
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.OperationalStatus != nil {
+		o.OperationalStatus = s.OperationalStatus
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.Type != nil {
+		o.Type = s.Type
+	}
+	if s.Unreachable != nil {
+		o.Unreachable = s.Unreachable
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -2008,6 +2399,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
+	}
+	if o.DatapathType != nil {
+		out.DatapathType = *o.DatapathType
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
@@ -2089,7 +2483,11 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseProcessingUnit) GetAnnotations() map[string][]string {
+func (o *SparseProcessingUnit) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -2101,7 +2499,11 @@ func (o *SparseProcessingUnit) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *SparseProcessingUnit) GetArchived() bool {
+func (o *SparseProcessingUnit) GetArchived() (out bool) {
+
+	if o.Archived == nil {
+		return
+	}
 
 	return *o.Archived
 }
@@ -2113,7 +2515,11 @@ func (o *SparseProcessingUnit) SetArchived(archived bool) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseProcessingUnit) GetAssociatedTags() []string {
+func (o *SparseProcessingUnit) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -2125,7 +2531,11 @@ func (o *SparseProcessingUnit) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseProcessingUnit) GetCreateIdempotencyKey() string {
+func (o *SparseProcessingUnit) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -2137,7 +2547,11 @@ func (o *SparseProcessingUnit) SetCreateIdempotencyKey(createIdempotencyKey stri
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseProcessingUnit) GetCreateTime() time.Time {
+func (o *SparseProcessingUnit) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -2149,7 +2563,11 @@ func (o *SparseProcessingUnit) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseProcessingUnit) GetDescription() string {
+func (o *SparseProcessingUnit) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -2161,7 +2579,11 @@ func (o *SparseProcessingUnit) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseProcessingUnit) GetMetadata() []string {
+func (o *SparseProcessingUnit) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -2173,7 +2595,11 @@ func (o *SparseProcessingUnit) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseProcessingUnit) GetMigrationsLog() map[string]string {
+func (o *SparseProcessingUnit) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -2185,7 +2611,11 @@ func (o *SparseProcessingUnit) SetMigrationsLog(migrationsLog map[string]string)
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseProcessingUnit) GetName() string {
+func (o *SparseProcessingUnit) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2197,7 +2627,11 @@ func (o *SparseProcessingUnit) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseProcessingUnit) GetNamespace() string {
+func (o *SparseProcessingUnit) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2209,7 +2643,11 @@ func (o *SparseProcessingUnit) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseProcessingUnit) GetNormalizedTags() []string {
+func (o *SparseProcessingUnit) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2221,7 +2659,11 @@ func (o *SparseProcessingUnit) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseProcessingUnit) GetProtected() bool {
+func (o *SparseProcessingUnit) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2233,7 +2675,11 @@ func (o *SparseProcessingUnit) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseProcessingUnit) GetUpdateIdempotencyKey() string {
+func (o *SparseProcessingUnit) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2245,7 +2691,11 @@ func (o *SparseProcessingUnit) SetUpdateIdempotencyKey(updateIdempotencyKey stri
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseProcessingUnit) GetUpdateTime() time.Time {
+func (o *SparseProcessingUnit) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -2257,7 +2707,11 @@ func (o *SparseProcessingUnit) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseProcessingUnit) GetZHash() int {
+func (o *SparseProcessingUnit) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -2269,7 +2723,11 @@ func (o *SparseProcessingUnit) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseProcessingUnit) GetZone() int {
+func (o *SparseProcessingUnit) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -2302,4 +2760,73 @@ func (o *SparseProcessingUnit) DeepCopyInto(out *SparseProcessingUnit) {
 	}
 
 	*out = *target.(*SparseProcessingUnit)
+}
+
+type mongoAttributesProcessingUnit struct {
+	ID                   bson.ObjectId                        `bson:"_id,omitempty"`
+	Annotations          map[string][]string                  `bson:"annotations"`
+	Archived             bool                                 `bson:"archived"`
+	AssociatedTags       []string                             `bson:"associatedtags"`
+	CollectInfo          bool                                 `bson:"collectinfo"`
+	CollectedInfo        map[string]string                    `bson:"collectedinfo"`
+	CreateIdempotencyKey string                               `bson:"createidempotencykey"`
+	CreateTime           time.Time                            `bson:"createtime"`
+	DatapathType         ProcessingUnitDatapathTypeValue      `bson:"datapathtype"`
+	Description          string                               `bson:"description"`
+	EnforcementStatus    ProcessingUnitEnforcementStatusValue `bson:"enforcementstatus"`
+	EnforcerID           string                               `bson:"enforcerid"`
+	EnforcerNamespace    string                               `bson:"enforcernamespace"`
+	Images               []string                             `bson:"images"`
+	LastCollectionTime   time.Time                            `bson:"lastcollectiontime"`
+	LastPokeTime         time.Time                            `bson:"lastpoketime"`
+	LastSyncTime         time.Time                            `bson:"lastsynctime"`
+	Metadata             []string                             `bson:"metadata"`
+	MigrationsLog        map[string]string                    `bson:"migrationslog,omitempty"`
+	Name                 string                               `bson:"name"`
+	Namespace            string                               `bson:"namespace"`
+	NativeContextID      string                               `bson:"nativecontextid"`
+	NetworkServices      []*ProcessingUnitService             `bson:"networkservices"`
+	NormalizedTags       []string                             `bson:"normalizedtags"`
+	OperationalStatus    ProcessingUnitOperationalStatusValue `bson:"operationalstatus"`
+	Protected            bool                                 `bson:"protected"`
+	Type                 ProcessingUnitTypeValue              `bson:"type"`
+	Unreachable          bool                                 `bson:"unreachable"`
+	UpdateIdempotencyKey string                               `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                            `bson:"updatetime"`
+	ZHash                int                                  `bson:"zhash"`
+	Zone                 int                                  `bson:"zone"`
+}
+type mongoAttributesSparseProcessingUnit struct {
+	ID                   bson.ObjectId                         `bson:"_id,omitempty"`
+	Annotations          *map[string][]string                  `bson:"annotations,omitempty"`
+	Archived             *bool                                 `bson:"archived,omitempty"`
+	AssociatedTags       *[]string                             `bson:"associatedtags,omitempty"`
+	CollectInfo          *bool                                 `bson:"collectinfo,omitempty"`
+	CollectedInfo        *map[string]string                    `bson:"collectedinfo,omitempty"`
+	CreateIdempotencyKey *string                               `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                            `bson:"createtime,omitempty"`
+	DatapathType         *ProcessingUnitDatapathTypeValue      `bson:"datapathtype,omitempty"`
+	Description          *string                               `bson:"description,omitempty"`
+	EnforcementStatus    *ProcessingUnitEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
+	EnforcerID           *string                               `bson:"enforcerid,omitempty"`
+	EnforcerNamespace    *string                               `bson:"enforcernamespace,omitempty"`
+	Images               *[]string                             `bson:"images,omitempty"`
+	LastCollectionTime   *time.Time                            `bson:"lastcollectiontime,omitempty"`
+	LastPokeTime         *time.Time                            `bson:"lastpoketime,omitempty"`
+	LastSyncTime         *time.Time                            `bson:"lastsynctime,omitempty"`
+	Metadata             *[]string                             `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string                    `bson:"migrationslog,omitempty"`
+	Name                 *string                               `bson:"name,omitempty"`
+	Namespace            *string                               `bson:"namespace,omitempty"`
+	NativeContextID      *string                               `bson:"nativecontextid,omitempty"`
+	NetworkServices      *[]*ProcessingUnitService             `bson:"networkservices,omitempty"`
+	NormalizedTags       *[]string                             `bson:"normalizedtags,omitempty"`
+	OperationalStatus    *ProcessingUnitOperationalStatusValue `bson:"operationalstatus,omitempty"`
+	Protected            *bool                                 `bson:"protected,omitempty"`
+	Type                 *ProcessingUnitTypeValue              `bson:"type,omitempty"`
+	Unreachable          *bool                                 `bson:"unreachable,omitempty"`
+	UpdateIdempotencyKey *string                               `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                            `bson:"updatetime,omitempty"`
+	ZHash                *int                                  `bson:"zhash,omitempty"`
+	Zone                 *int                                  `bson:"zone,omitempty"`
 }

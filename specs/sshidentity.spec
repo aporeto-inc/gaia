@@ -6,7 +6,8 @@ model:
   package: cactuar
   group: policy/ssh
   description: |-
-    Returns an SSH certificate containing the bearer claims. This SSH certificate can
+    Returns an SSH certificate containing the bearer claims. This SSH certificate
+    can
     be used to connect to a node where enforcer is protecting SSH sessions.
 
 # Attributes
@@ -21,9 +22,14 @@ attributes:
 
   - name: publicKey
     description: |-
-      Contains the public key to sign in OpenSSH format. You can generate an SSH 
+      Contains the public key to sign in OpenSSH format. You can generate an SSH
       public key with the standard `ssh-keygen` tool.
     type: string
     exposed: true
     required: true
     example_value: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCytT my key
+
+  - name: systemAccount
+    description: Define the targeted system account name.
+    type: string
+    exposed: true

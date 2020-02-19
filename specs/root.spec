@@ -27,6 +27,11 @@ relations:
     - $filtering
     parameters:
       entries:
+      - name: associatedBillingID
+        description: internal parameters.
+        type: string
+        example_value: billingID
+
       - name: name
         description: internal parameters.
         type: string
@@ -36,11 +41,6 @@ relations:
         description: internal parameters.
         type: string
         example_value: status
-
-      - name: associatedBillingID
-        description: internal parameters.
-        type: string
-        example_value: billingID
   create:
     description: Creates a new account.
 
@@ -91,11 +91,25 @@ relations:
   create:
     description: Verifies the authorizations on various identities for a given token.
 
+- rest_name: apiproxy
+  get:
+    description: Retrieves the list of API proxies.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new API proxy.
+
 - rest_name: app
   get:
     description: Retrieves the list of apps.
     global_parameters:
     - $filtering
+    parameters:
+      entries:
+      - name: name
+        description: internal parameter.
+        type: string
+        example_value: claire
 
 - rest_name: appcredential
   get:
@@ -182,6 +196,26 @@ relations:
   create:
     description: Creates a new claims record.
 
+- rest_name: clausesmatch
+  create:
+    description: Performs a clause matching.
+
+- rest_name: complianceissue
+  get:
+    description: Retrieves the list of compliance issues.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new compliance issue.
+
+- rest_name: containerimage
+  get:
+    description: Retrieves the list of container images.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new container image.
+
 - rest_name: counterreport
   create:
     description: Create a counter report.
@@ -196,6 +230,7 @@ relations:
     global_parameters:
     - $timewindow
     - $flowoffset
+    - $filtering
     parameters:
       entries:
       - name: tag
@@ -228,6 +263,14 @@ relations:
     - $filtering
   create:
     description: Creates a new enforcer.
+
+- rest_name: enforcerlog
+  get:
+    description: Retrieves the list of enforcerlogs.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new enforcerlog.
 
 - rest_name: enforcerprofile
   get:
@@ -316,6 +359,39 @@ relations:
     - $timewindow
     - $archivable
     - $filtering
+
+- rest_name: hit
+  get:
+    description: Retrieve a matching hit.
+    parameters:
+      required:
+      - - - name
+          - targetID
+          - targetIdentity
+        - - targetID
+          - targetIdentity
+      entries:
+      - name: name
+        description: The name of the counter.
+        type: string
+        default_value: counter
+
+      - name: targetID
+        description: The ID of the object associated to the counter.
+        type: string
+        example_value: xyz
+
+      - name: targetIdentity
+        description: The identity of the object associated to the counter.
+        type: string
+        example_value: processingunit
+  create:
+    description: Manage hits.
+    parameters:
+      entries:
+      - name: reset
+        description: If set the hit will reset to 0.
+        type: boolean
 
 - rest_name: hookpolicy
   get:
@@ -425,6 +501,11 @@ relations:
     description: Issues a new token.
     parameters:
       entries:
+      - name: asCookie
+        description: If set to true, the token will be delivered in a secure cookie,
+          and not in the response body.
+        type: boolean
+
       - name: token
         description: Token to verify.
         type: string
@@ -441,6 +522,10 @@ relations:
     - $filtering
   create:
     description: Creates a new LDAP provider.
+
+- rest_name: logout
+  get:
+    description: Performs a logout operation.
 
 - rest_name: message
   get:
@@ -507,6 +592,10 @@ relations:
         example_value: user@domain.com
   create:
     description: Resets the password for an account using the provided link.
+
+- rest_name: pingreport
+  create:
+    description: Create a ping report.
 
 - rest_name: plan
   get:
@@ -622,6 +711,10 @@ relations:
   create:
     description: Creates a new LDAP provider.
 
+- rest_name: sandbox
+  create:
+    description: Creates a temporary api sandbox.
+
 - rest_name: search
   get:
     description: Perform a full text search on the database.
@@ -722,26 +815,6 @@ relations:
         type: string
         multiple: true
         example_value: a=a
-
-- rest_name: tabulation
-  get:
-    description: Retrieves tabulated information based on parameters.
-    global_parameters:
-    - $filtering
-    parameters:
-      required:
-      - - - identity
-      entries:
-      - name: column
-        description: Columns you want to see.
-        type: string
-        multiple: true
-        example_value: name
-
-      - name: identity
-        description: Identity you want to tabulate.
-        type: string
-        example_value: enforcer
 
 - rest_name: tag
   get:

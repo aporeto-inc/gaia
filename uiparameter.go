@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -108,6 +109,63 @@ func NewUIParameter() *UIParameter {
 	}
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *UIParameter) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesUIParameter{}
+
+	s.Advanced = o.Advanced
+	s.AllowedChoices = o.AllowedChoices
+	s.AllowedValues = o.AllowedValues
+	s.DefaultValue = o.DefaultValue
+	s.Description = o.Description
+	s.Key = o.Key
+	s.LongDescription = o.LongDescription
+	s.Name = o.Name
+	s.Optional = o.Optional
+	s.Type = o.Type
+	s.ValidationFunction = o.ValidationFunction
+	s.Value = o.Value
+	s.VisibilityCondition = o.VisibilityCondition
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *UIParameter) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesUIParameter{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.Advanced = s.Advanced
+	o.AllowedChoices = s.AllowedChoices
+	o.AllowedValues = s.AllowedValues
+	o.DefaultValue = s.DefaultValue
+	o.Description = s.Description
+	o.Key = s.Key
+	o.LongDescription = s.LongDescription
+	o.Name = s.Name
+	o.Optional = s.Optional
+	o.Type = s.Type
+	o.ValidationFunction = s.ValidationFunction
+	o.Value = s.Value
+	o.VisibilityCondition = s.VisibilityCondition
+
+	return nil
+}
+
 // BleveType implements the bleve.Classifier Interface.
 func (o *UIParameter) BleveType() string {
 
@@ -165,4 +223,20 @@ func (o *UIParameter) Validate() error {
 	}
 
 	return nil
+}
+
+type mongoAttributesUIParameter struct {
+	Advanced            bool                       `bson:"advanced"`
+	AllowedChoices      map[string]string          `bson:"allowedchoices"`
+	AllowedValues       []interface{}              `bson:"allowedvalues"`
+	DefaultValue        interface{}                `bson:"defaultvalue"`
+	Description         string                     `bson:"description"`
+	Key                 string                     `bson:"key"`
+	LongDescription     string                     `bson:"longdescription"`
+	Name                string                     `bson:"name"`
+	Optional            bool                       `bson:"optional"`
+	Type                UIParameterTypeValue       `bson:"type"`
+	ValidationFunction  string                     `bson:"validationfunction"`
+	Value               interface{}                `bson:"value"`
+	VisibilityCondition [][]*UIParameterVisibility `bson:"visibilitycondition"`
 }

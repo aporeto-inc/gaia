@@ -6,9 +6,12 @@ ack
 ACL-based
 acls
 addressers
+aki
 api
 APIAuthorizationPolicy
 APICheck
+APIProxy
+apiproxy
 APIs
 Apobar
 apoctl
@@ -24,6 +27,7 @@ AuhorizationEndpoint
 Auth0
 Authn
 Authorization_Endpoint
+authorizer
 autocomplete
 autocompletion
 autodiscover
@@ -40,9 +44,14 @@ CIDRs
 ClaimMapping
 claims_supported
 ClaimsSupported
+ClauseMatch
 clob
 CNs
+collectionID
+CollectionID
+ComplianceIssue
 containerd
+ContainerImage
 ContextID
 CoreOS
 CounterReport
@@ -50,8 +59,8 @@ CRD
 CRDs
 CRI-O
 cron
-daemonset
 DaemonSet
+daemonset
 datapath
 DataPathCertificate
 DependencyMap
@@ -65,6 +74,9 @@ Elasticsearch
 enforcerconfig
 enforcerd
 enforcerd.conf
+enforcerlog
+enforcerlogs
+EnforcerLog
 EnforcerProfile
 EnforcerProfileMappingPolicy
 EnforcerReport
@@ -89,6 +101,7 @@ GraphEdge
 GraphGroup
 GraphNode
 GraphPolicyInfo
+gRPC
 HookPolicy
 HostService
 HostServiceMappingPolicy
@@ -139,6 +152,7 @@ MessagePack
 metadata
 Midgard
 misconfigured
+multipart
 MongoDB
 namespace
 NamespaceMappingPolicy
@@ -168,6 +182,8 @@ OpenSuSE
 PacketReport
 PasswordReset
 PEM-encoded
+PingReport
+PingConfig
 PKI-based
 PKIXName
 PolicyGraph
@@ -178,8 +194,8 @@ postprocessing
 pre-created
 preinstall
 preprocessing
-processingunit
 ProcessingUnit
+processingunit
 ProcessingUnitPolicy
 ProcessingUnitRefresh
 processingunits

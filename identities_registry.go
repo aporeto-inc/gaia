@@ -12,6 +12,7 @@ var (
 		"alarm":                     AlarmIdentity,
 		"apiauthorizationpolicy":    APIAuthorizationPolicyIdentity,
 		"apicheck":                  APICheckIdentity,
+		"apiproxy":                  APIProxyIdentity,
 		"app":                       AppIdentity,
 		"appcredential":             AppCredentialIdentity,
 		"auditprofile":              AuditProfileIdentity,
@@ -24,11 +25,15 @@ var (
 		"automationtemplate":        AutomationTemplateIdentity,
 		"awsapigateway":             AWSAPIGatewayIdentity,
 		"awsregister":               AWSRegisterIdentity,
+		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
 
-		"claims": ClaimsIdentity,
+		"claims":       ClaimsIdentity,
+		"clausesmatch": ClauseMatchIdentity,
 
-		"counterreport": CounterReportIdentity,
+		"complianceissue": ComplianceIssueIdentity,
+		"containerimage":  ContainerImageIdentity,
+		"counterreport":   CounterReportIdentity,
 
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
@@ -37,6 +42,7 @@ var (
 		"email":               EmailIdentity,
 
 		"enforcer":                     EnforcerIdentity,
+		"enforcerlog":                  EnforcerLogIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
 		"enforcerreport":               EnforcerReportIdentity,
@@ -51,6 +57,7 @@ var (
 		"graphedge":                    GraphEdgeIdentity,
 
 		"graphnode":                GraphNodeIdentity,
+		"hit":                      HitIdentity,
 		"hookpolicy":               HookPolicyIdentity,
 		"hostservice":              HostServiceIdentity,
 		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
@@ -69,6 +76,7 @@ var (
 
 		"ldapprovider":           LDAPProviderIdentity,
 		"log":                    LogIdentity,
+		"logout":                 LogoutIdentity,
 		"message":                MessageIdentity,
 		"namespace":              NamespaceIdentity,
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
@@ -78,6 +86,7 @@ var (
 		"oidcprovider":           OIDCProviderIdentity,
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
+		"pingreport":             PingReportIdentity,
 
 		"plan":                  PlanIdentity,
 		"poke":                  PokeIdentity,
@@ -103,6 +112,7 @@ var (
 		"role":                   RoleIdentity,
 		"root":                   RootIdentity,
 		"samlprovider":           SAMLProviderIdentity,
+		"sandbox":                SandboxIdentity,
 		"search":                 SearchIdentity,
 		"service":                ServiceIdentity,
 		"servicedependency":      ServiceDependencyIdentity,
@@ -115,10 +125,10 @@ var (
 		"statsinfo":              StatsInfoIdentity,
 		"statsquery":             StatsQueryIdentity,
 		"suggestedpolicy":        SuggestedPolicyIdentity,
-		"tabulation":             TabulationIdentity,
 		"tag":                    TagIdentity,
 		"taginject":              TagInjectIdentity,
 		"tagvalue":               TagValueIdentity,
+		"textindex":              TextIndexIdentity,
 
 		"token":            TokenIdentity,
 		"tokenscopepolicy": TokenScopePolicyIdentity,
@@ -142,6 +152,7 @@ var (
 		"alarms":                      AlarmIdentity,
 		"apiauthorizationpolicies":    APIAuthorizationPolicyIdentity,
 		"apichecks":                   APICheckIdentity,
+		"apiproxies":                  APIProxyIdentity,
 		"apps":                        AppIdentity,
 		"appcredentials":              AppCredentialIdentity,
 		"auditprofiles":               AuditProfileIdentity,
@@ -154,11 +165,15 @@ var (
 		"automationtemplates":         AutomationTemplateIdentity,
 		"awsapigateways":              AWSAPIGatewayIdentity,
 		"awsregister":                 AWSRegisterIdentity,
+		"calls":                       CallIdentity,
 		"categories":                  CategoryIdentity,
 
-		"claims": ClaimsIdentity,
+		"claims":         ClaimsIdentity,
+		"clausesmatches": ClauseMatchIdentity,
 
-		"counterreports": CounterReportIdentity,
+		"complianceissues": ComplianceIssueIdentity,
+		"containerimages":  ContainerImageIdentity,
+		"counterreports":   CounterReportIdentity,
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
@@ -167,6 +182,7 @@ var (
 		"emails":               EmailIdentity,
 
 		"enforcers":                      EnforcerIdentity,
+		"enforcerlog":                    EnforcerLogIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
 		"enforcerreports":                EnforcerReportIdentity,
@@ -181,6 +197,7 @@ var (
 		"graphedges":                     GraphEdgeIdentity,
 
 		"graphnodes":                 GraphNodeIdentity,
+		"hits":                       HitIdentity,
 		"hookpolicies":               HookPolicyIdentity,
 		"hostservices":               HostServiceIdentity,
 		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
@@ -199,6 +216,7 @@ var (
 
 		"ldapproviders":            LDAPProviderIdentity,
 		"logs":                     LogIdentity,
+		"logout":                   LogoutIdentity,
 		"messages":                 MessageIdentity,
 		"namespaces":               NamespaceIdentity,
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
@@ -208,18 +226,19 @@ var (
 		"oidcproviders":            OIDCProviderIdentity,
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
+		"pingreports":              PingReportIdentity,
 
-		"plans":                  PlanIdentity,
-		"poke":                   PokeIdentity,
-		"policies":               PolicyIdentity,
-		"policygraphs":           PolicyGraphIdentity,
-		"policyrefreshs":         PolicyRefreshIdentity,
-		"policyrenderers":        PolicyRendererIdentity,
-		"policyrules":            PolicyRuleIdentity,
-		"policyttls":             PolicyTTLIdentity,
-		"processingunits":        ProcessingUnitIdentity,
-		"processingunitpolicies": ProcessingUnitPolicyIdentity,
-		"processingunitrefreshs": ProcessingUnitRefreshIdentity,
+		"plans":                   PlanIdentity,
+		"poke":                    PokeIdentity,
+		"policies":                PolicyIdentity,
+		"policygraphs":            PolicyGraphIdentity,
+		"policyrefreshs":          PolicyRefreshIdentity,
+		"policyrenderers":         PolicyRendererIdentity,
+		"policyrules":             PolicyRuleIdentity,
+		"policyttls":              PolicyTTLIdentity,
+		"processingunits":         ProcessingUnitIdentity,
+		"processingunitpolicies":  ProcessingUnitPolicyIdentity,
+		"processingunitrefreshes": ProcessingUnitRefreshIdentity,
 
 		"quotacheck":    QuotaCheckIdentity,
 		"quotapolicies": QuotaPolicyIdentity,
@@ -233,6 +252,7 @@ var (
 		"roles":                    RoleIdentity,
 		"root":                     RootIdentity,
 		"samlproviders":            SAMLProviderIdentity,
+		"sandboxes":                SandboxIdentity,
 		"search":                   SearchIdentity,
 		"services":                 ServiceIdentity,
 		"servicedependencies":      ServiceDependencyIdentity,
@@ -245,10 +265,10 @@ var (
 		"statsinfo":                StatsInfoIdentity,
 		"statsqueries":             StatsQueryIdentity,
 		"suggestedpolicies":        SuggestedPolicyIdentity,
-		"tabulations":              TabulationIdentity,
 		"tags":                     TagIdentity,
 		"taginjects":               TagInjectIdentity,
 		"tagvalues":                TagValueIdentity,
+		"textindexes":              TextIndexIdentity,
 
 		"tokens":             TokenIdentity,
 		"tokenscopepolicies": TokenScopePolicyIdentity,
@@ -266,6 +286,8 @@ var (
 	aliasesMap = map[string]elemental.Identity{
 		"apiauth":        APIAuthorizationPolicyIdentity,
 		"apiauths":       APIAuthorizationPolicyIdentity,
+		"apiprox":        APIProxyIdentity,
+		"apiproxs":       APIProxyIdentity,
 		"appcred":        AppCredentialIdentity,
 		"appcreds":       AppCredentialIdentity,
 		"ap":             AuditProfileIdentity,
@@ -320,6 +342,7 @@ var (
 		"pu":             ProcessingUnitIdentity,
 		"pus":            ProcessingUnitIdentity,
 		"pup":            ProcessingUnitPolicyIdentity,
+		"pups":           ProcessingUnitPolicyIdentity,
 		"quota":          QuotaPolicyIdentity,
 		"quotas":         QuotaPolicyIdentity,
 		"quotapol":       QuotaPolicyIdentity,
@@ -342,10 +365,6 @@ var (
 		"sugpols":        SuggestedPolicyIdentity,
 		"sugg":           SuggestedPolicyIdentity,
 		"suggs":          SuggestedPolicyIdentity,
-		"table":          TabulationIdentity,
-		"tables":         TabulationIdentity,
-		"tabs":           TabulationIdentity,
-		"tab":            TabulationIdentity,
 		"tsp":            TokenScopePolicyIdentity,
 		"usrpol":         UserAccessPolicyIdentity,
 		"usrpols":        UserAccessPolicyIdentity,
@@ -381,16 +400,30 @@ var (
 		"alarm": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "kind"},
+			[]string{"status"},
+			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "name"},
 			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "kind"},
+			[]string{"namespace", "kind", "status"},
 			[]string{"name"},
+			[]string{"kind"},
 			[]string{"createIdempotencyKey"},
 		},
 		"apiauthorizationpolicy": nil,
 		"apicheck":               nil,
-		"app":                    nil,
+		"apiproxy": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "disabled"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"name"},
+			[]string{"disabled"},
+			[]string{"createIdempotencyKey"},
+		},
+		"app": nil,
 		"appcredential": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -440,12 +473,35 @@ var (
 			[]string{":shard", ":unique", "zone", "zHash"},
 		},
 		"awsregister": nil,
+		"call":        nil,
 		"category":    nil,
 		"claims": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
+			[]string{"createIdempotencyKey"},
+		},
+		"clausesmatch": nil,
+		"complianceissue": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"severity", "namespace"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+		},
+		"containerimage": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"name"},
+			[]string{"externalID"},
+			[]string{"dockerImages"},
 			[]string{"createIdempotencyKey"},
 		},
 		"counterreport": nil,
@@ -467,6 +523,17 @@ var (
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 		},
+		"enforcerlog": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "collectionID"},
+			[]string{"namespace", "enforcerID"},
+			[]string{"enforcerID"},
+			[]string{"createIdempotencyKey"},
+			[]string{"collectionID"},
+		},
 		"enforcerprofile": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -485,11 +552,13 @@ var (
 		"externalnetwork": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
+			[]string{"type"},
 			[]string{"propagate"},
-			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace"},
 			[]string{"namespace", "archived"},
+			[]string{"namespace", "type"},
+			[]string{"namespace"},
+			[]string{"namespace", "name"},
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 			[]string{"archived"},
@@ -510,14 +579,21 @@ var (
 		},
 		"flowreport": nil,
 		"graphedge": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "lastSeen", "firstSeen"},
 			[]string{"lastSeen", "firstSeen"},
 			[]string{"lastSeen"},
+			[]string{"flowID", "bucketMonth"},
+			[]string{"flowID", "lastSeen"},
+			[]string{"flowID", "bucketMinute"},
+			[]string{"flowID", "bucketHour"},
+			[]string{"flowID"},
+			[]string{"flowID", "bucketDay"},
 			[]string{"firstSeen"},
-			[]string{":shard", ":unique", "zone", "zHash"},
 		},
 		"graphnode":  nil,
+		"hit":        nil,
 		"hookpolicy": nil,
 		"hostservice": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -596,7 +672,8 @@ var (
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 		},
-		"log": nil,
+		"log":    nil,
+		"logout": nil,
 		"message": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -610,8 +687,10 @@ var (
 		"namespace": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
-			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 		},
 		"namespacemappingpolicy": nil,
@@ -629,6 +708,7 @@ var (
 		},
 		"packetreport":  nil,
 		"passwordreset": nil,
+		"pingreport":    nil,
 		"plan":          nil,
 		"poke":          nil,
 		"policy": [][]string{
@@ -658,17 +738,18 @@ var (
 		"policyrule":     nil,
 		"policyttl":      nil,
 		"processingunit": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "archived", "createTime", "lastPokeTime"},
 			[]string{"namespace", "nativeContextID"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "operationalStatus", "archived"},
+			[]string{"namespace", "archived"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags", "archived"},
-			[]string{"namespace", "archived", "createTime", "lastPokeTime"},
+			[]string{"namespace", "operationalStatus", "archived"},
+			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace"},
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"namespace", "archived"},
 			[]string{"name"},
+			[]string{"enforcerID"},
 			[]string{"createIdempotencyKey"},
 			[]string{"archived"},
 		},
@@ -704,7 +785,8 @@ var (
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 		},
-		"search": nil,
+		"sandbox": nil,
+		"search":  nil,
 		"service": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -736,13 +818,20 @@ var (
 		"statsinfo":              nil,
 		"statsquery":             nil,
 		"suggestedpolicy":        nil,
-		"tabulation":             nil,
 		"tag": [][]string{
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
 		},
-		"taginject":           nil,
-		"tagvalue":            nil,
+		"taginject": nil,
+		"tagvalue":  nil,
+		"textindex": [][]string{
+			[]string{"objectNamespace"},
+			[]string{"objectNamespace", "objectIdentity", "objectID"},
+			[]string{"objectIdentity"},
+			[]string{"objectID"},
+			[]string{"date"},
+			[]string{":shard", ":unique", "zone", "zHash"},
+		},
 		"token":               nil,
 		"tokenscopepolicy":    nil,
 		"trigger":             nil,
@@ -820,6 +909,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity:
 		return NewAPICheck()
+	case APIProxyIdentity:
+		return NewAPIProxy()
 	case AppIdentity:
 		return NewApp()
 	case AppCredentialIdentity:
@@ -844,10 +935,18 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAWSAPIGateway()
 	case AWSRegisterIdentity:
 		return NewAWSRegister()
+	case CallIdentity:
+		return NewCall()
 	case CategoryIdentity:
 		return NewCategory()
 	case ClaimsIdentity:
 		return NewClaims()
+	case ClauseMatchIdentity:
+		return NewClauseMatch()
+	case ComplianceIssueIdentity:
+		return NewComplianceIssue()
+	case ContainerImageIdentity:
+		return NewContainerImage()
 	case CounterReportIdentity:
 		return NewCounterReport()
 	case CustomerIdentity:
@@ -862,6 +961,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewEmail()
 	case EnforcerIdentity:
 		return NewEnforcer()
+	case EnforcerLogIdentity:
+		return NewEnforcerLog()
 	case EnforcerProfileIdentity:
 		return NewEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity:
@@ -888,6 +989,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewGraphEdge()
 	case GraphNodeIdentity:
 		return NewGraphNode()
+	case HitIdentity:
+		return NewHit()
 	case HookPolicyIdentity:
 		return NewHookPolicy()
 	case HostServiceIdentity:
@@ -922,6 +1025,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewLDAPProvider()
 	case LogIdentity:
 		return NewLog()
+	case LogoutIdentity:
+		return NewLogout()
 	case MessageIdentity:
 		return NewMessage()
 	case NamespaceIdentity:
@@ -940,6 +1045,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPacketReport()
 	case PasswordResetIdentity:
 		return NewPasswordReset()
+	case PingReportIdentity:
+		return NewPingReport()
 	case PlanIdentity:
 		return NewPlan()
 	case PokeIdentity:
@@ -984,6 +1091,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRoot()
 	case SAMLProviderIdentity:
 		return NewSAMLProvider()
+	case SandboxIdentity:
+		return NewSandbox()
 	case SearchIdentity:
 		return NewSearch()
 	case ServiceIdentity:
@@ -1008,14 +1117,14 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity:
 		return NewSuggestedPolicy()
-	case TabulationIdentity:
-		return NewTabulation()
 	case TagIdentity:
 		return NewTag()
 	case TagInjectIdentity:
 		return NewTagInject()
 	case TagValueIdentity:
 		return NewTagValue()
+	case TextIndexIdentity:
+		return NewTextIndex()
 	case TokenIdentity:
 		return NewToken()
 	case TokenScopePolicyIdentity:
@@ -1059,6 +1168,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAPIAuthorizationPolicy()
 	case APICheckIdentity:
 		return NewSparseAPICheck()
+	case APIProxyIdentity:
+		return NewSparseAPIProxy()
 	case AppIdentity:
 		return NewSparseApp()
 	case AppCredentialIdentity:
@@ -1083,10 +1194,18 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAWSAPIGateway()
 	case AWSRegisterIdentity:
 		return NewSparseAWSRegister()
+	case CallIdentity:
+		return NewSparseCall()
 	case CategoryIdentity:
 		return NewSparseCategory()
 	case ClaimsIdentity:
 		return NewSparseClaims()
+	case ClauseMatchIdentity:
+		return NewSparseClauseMatch()
+	case ComplianceIssueIdentity:
+		return NewSparseComplianceIssue()
+	case ContainerImageIdentity:
+		return NewSparseContainerImage()
 	case CounterReportIdentity:
 		return NewSparseCounterReport()
 	case CustomerIdentity:
@@ -1101,6 +1220,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseEmail()
 	case EnforcerIdentity:
 		return NewSparseEnforcer()
+	case EnforcerLogIdentity:
+		return NewSparseEnforcerLog()
 	case EnforcerProfileIdentity:
 		return NewSparseEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity:
@@ -1127,6 +1248,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseGraphEdge()
 	case GraphNodeIdentity:
 		return NewSparseGraphNode()
+	case HitIdentity:
+		return NewSparseHit()
 	case HookPolicyIdentity:
 		return NewSparseHookPolicy()
 	case HostServiceIdentity:
@@ -1161,6 +1284,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseLDAPProvider()
 	case LogIdentity:
 		return NewSparseLog()
+	case LogoutIdentity:
+		return NewSparseLogout()
 	case MessageIdentity:
 		return NewSparseMessage()
 	case NamespaceIdentity:
@@ -1179,6 +1304,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePacketReport()
 	case PasswordResetIdentity:
 		return NewSparsePasswordReset()
+	case PingReportIdentity:
+		return NewSparsePingReport()
 	case PlanIdentity:
 		return NewSparsePlan()
 	case PokeIdentity:
@@ -1221,6 +1348,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRole()
 	case SAMLProviderIdentity:
 		return NewSparseSAMLProvider()
+	case SandboxIdentity:
+		return NewSparseSandbox()
 	case SearchIdentity:
 		return NewSparseSearch()
 	case ServiceIdentity:
@@ -1245,14 +1374,14 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseStatsQuery()
 	case SuggestedPolicyIdentity:
 		return NewSparseSuggestedPolicy()
-	case TabulationIdentity:
-		return NewSparseTabulation()
 	case TagIdentity:
 		return NewSparseTag()
 	case TagInjectIdentity:
 		return NewSparseTagInject()
 	case TagValueIdentity:
 		return NewSparseTagValue()
+	case TextIndexIdentity:
+		return NewSparseTextIndex()
 	case TokenIdentity:
 		return NewSparseToken()
 	case TokenScopePolicyIdentity:
@@ -1306,6 +1435,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity:
 		return &APIChecksList{}
+	case APIProxyIdentity:
+		return &APIProxiesList{}
 	case AppIdentity:
 		return &AppsList{}
 	case AppCredentialIdentity:
@@ -1330,10 +1461,18 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AWSAPIGatewaysList{}
 	case AWSRegisterIdentity:
 		return &AWSRegistersList{}
+	case CallIdentity:
+		return &CallsList{}
 	case CategoryIdentity:
 		return &CategoriesList{}
 	case ClaimsIdentity:
 		return &ClaimsList{}
+	case ClauseMatchIdentity:
+		return &ClauseMatchesList{}
+	case ComplianceIssueIdentity:
+		return &ComplianceIssuesList{}
+	case ContainerImageIdentity:
+		return &ContainerImagesList{}
 	case CounterReportIdentity:
 		return &CounterReportsList{}
 	case CustomerIdentity:
@@ -1348,6 +1487,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &EmailsList{}
 	case EnforcerIdentity:
 		return &EnforcersList{}
+	case EnforcerLogIdentity:
+		return &EnforcerLogsList{}
 	case EnforcerProfileIdentity:
 		return &EnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity:
@@ -1374,6 +1515,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &GraphEdgesList{}
 	case GraphNodeIdentity:
 		return &GraphNodesList{}
+	case HitIdentity:
+		return &HitsList{}
 	case HookPolicyIdentity:
 		return &HookPoliciesList{}
 	case HostServiceIdentity:
@@ -1408,6 +1551,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &LDAPProvidersList{}
 	case LogIdentity:
 		return &LogsList{}
+	case LogoutIdentity:
+		return &LogoutsList{}
 	case MessageIdentity:
 		return &MessagesList{}
 	case NamespaceIdentity:
@@ -1426,6 +1571,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PacketReportsList{}
 	case PasswordResetIdentity:
 		return &PasswordResetsList{}
+	case PingReportIdentity:
+		return &PingReportsList{}
 	case PlanIdentity:
 		return &PlansList{}
 	case PokeIdentity:
@@ -1468,6 +1615,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RolesList{}
 	case SAMLProviderIdentity:
 		return &SAMLProvidersList{}
+	case SandboxIdentity:
+		return &SandboxsList{}
 	case SearchIdentity:
 		return &SearchesList{}
 	case ServiceIdentity:
@@ -1492,14 +1641,14 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity:
 		return &SuggestedPoliciesList{}
-	case TabulationIdentity:
-		return &TabulationsList{}
 	case TagIdentity:
 		return &TagsList{}
 	case TagInjectIdentity:
 		return &TagInjectsList{}
 	case TagValueIdentity:
 		return &TagValuesList{}
+	case TextIndexIdentity:
+		return &TextIndexsList{}
 	case TokenIdentity:
 		return &TokensList{}
 	case TokenScopePolicyIdentity:
@@ -1543,6 +1692,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAPIAuthorizationPoliciesList{}
 	case APICheckIdentity:
 		return &SparseAPIChecksList{}
+	case APIProxyIdentity:
+		return &SparseAPIProxiesList{}
 	case AppIdentity:
 		return &SparseAppsList{}
 	case AppCredentialIdentity:
@@ -1567,10 +1718,18 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAWSAPIGatewaysList{}
 	case AWSRegisterIdentity:
 		return &SparseAWSRegistersList{}
+	case CallIdentity:
+		return &SparseCallsList{}
 	case CategoryIdentity:
 		return &SparseCategoriesList{}
 	case ClaimsIdentity:
 		return &SparseClaimsList{}
+	case ClauseMatchIdentity:
+		return &SparseClauseMatchesList{}
+	case ComplianceIssueIdentity:
+		return &SparseComplianceIssuesList{}
+	case ContainerImageIdentity:
+		return &SparseContainerImagesList{}
 	case CounterReportIdentity:
 		return &SparseCounterReportsList{}
 	case CustomerIdentity:
@@ -1585,6 +1744,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseEmailsList{}
 	case EnforcerIdentity:
 		return &SparseEnforcersList{}
+	case EnforcerLogIdentity:
+		return &SparseEnforcerLogsList{}
 	case EnforcerProfileIdentity:
 		return &SparseEnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity:
@@ -1611,6 +1772,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseGraphEdgesList{}
 	case GraphNodeIdentity:
 		return &SparseGraphNodesList{}
+	case HitIdentity:
+		return &SparseHitsList{}
 	case HookPolicyIdentity:
 		return &SparseHookPoliciesList{}
 	case HostServiceIdentity:
@@ -1645,6 +1808,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseLDAPProvidersList{}
 	case LogIdentity:
 		return &SparseLogsList{}
+	case LogoutIdentity:
+		return &SparseLogoutsList{}
 	case MessageIdentity:
 		return &SparseMessagesList{}
 	case NamespaceIdentity:
@@ -1663,6 +1828,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePacketReportsList{}
 	case PasswordResetIdentity:
 		return &SparsePasswordResetsList{}
+	case PingReportIdentity:
+		return &SparsePingReportsList{}
 	case PlanIdentity:
 		return &SparsePlansList{}
 	case PokeIdentity:
@@ -1705,6 +1872,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRolesList{}
 	case SAMLProviderIdentity:
 		return &SparseSAMLProvidersList{}
+	case SandboxIdentity:
+		return &SparseSandboxsList{}
 	case SearchIdentity:
 		return &SparseSearchesList{}
 	case ServiceIdentity:
@@ -1729,14 +1898,14 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseStatsQueriesList{}
 	case SuggestedPolicyIdentity:
 		return &SparseSuggestedPoliciesList{}
-	case TabulationIdentity:
-		return &SparseTabulationsList{}
 	case TagIdentity:
 		return &SparseTagsList{}
 	case TagInjectIdentity:
 		return &SparseTagInjectsList{}
 	case TagValueIdentity:
 		return &SparseTagValuesList{}
+	case TextIndexIdentity:
+		return &SparseTextIndexsList{}
 	case TokenIdentity:
 		return &SparseTokensList{}
 	case TokenScopePolicyIdentity:
@@ -1787,6 +1956,7 @@ func AllIdentities() []elemental.Identity {
 		AlarmIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
+		APIProxyIdentity,
 		AppIdentity,
 		AppCredentialIdentity,
 		AuditProfileIdentity,
@@ -1799,8 +1969,12 @@ func AllIdentities() []elemental.Identity {
 		AutomationTemplateIdentity,
 		AWSAPIGatewayIdentity,
 		AWSRegisterIdentity,
+		CallIdentity,
 		CategoryIdentity,
 		ClaimsIdentity,
+		ClauseMatchIdentity,
+		ComplianceIssueIdentity,
+		ContainerImageIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
@@ -1808,6 +1982,7 @@ func AllIdentities() []elemental.Identity {
 		DNSLookupReportIdentity,
 		EmailIdentity,
 		EnforcerIdentity,
+		EnforcerLogIdentity,
 		EnforcerProfileIdentity,
 		EnforcerProfileMappingPolicyIdentity,
 		EnforcerReportIdentity,
@@ -1821,6 +1996,7 @@ func AllIdentities() []elemental.Identity {
 		FlowReportIdentity,
 		GraphEdgeIdentity,
 		GraphNodeIdentity,
+		HitIdentity,
 		HookPolicyIdentity,
 		HostServiceIdentity,
 		HostServiceMappingPolicyIdentity,
@@ -1838,6 +2014,7 @@ func AllIdentities() []elemental.Identity {
 		IssueServiceTokenIdentity,
 		LDAPProviderIdentity,
 		LogIdentity,
+		LogoutIdentity,
 		MessageIdentity,
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
@@ -1847,6 +2024,7 @@ func AllIdentities() []elemental.Identity {
 		OIDCProviderIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
+		PingReportIdentity,
 		PlanIdentity,
 		PokeIdentity,
 		PolicyIdentity,
@@ -1869,6 +2047,7 @@ func AllIdentities() []elemental.Identity {
 		RoleIdentity,
 		RootIdentity,
 		SAMLProviderIdentity,
+		SandboxIdentity,
 		SearchIdentity,
 		ServiceIdentity,
 		ServiceDependencyIdentity,
@@ -1881,10 +2060,10 @@ func AllIdentities() []elemental.Identity {
 		StatsInfoIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
-		TabulationIdentity,
 		TagIdentity,
 		TagInjectIdentity,
 		TagValueIdentity,
+		TextIndexIdentity,
 		TokenIdentity,
 		TokenScopePolicyIdentity,
 		TriggerIdentity,
@@ -1920,6 +2099,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case APICheckIdentity:
 		return []string{}
+	case APIProxyIdentity:
+		return []string{
+			"apiprox",
+			"apiproxs",
+		}
 	case AppIdentity:
 		return []string{}
 	case AppCredentialIdentity:
@@ -1959,9 +2143,17 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case AWSRegisterIdentity:
 		return []string{}
+	case CallIdentity:
+		return []string{}
 	case CategoryIdentity:
 		return []string{}
 	case ClaimsIdentity:
+		return []string{}
+	case ClauseMatchIdentity:
+		return []string{}
+	case ComplianceIssueIdentity:
+		return []string{}
+	case ContainerImageIdentity:
 		return []string{}
 	case CounterReportIdentity:
 		return []string{}
@@ -1979,6 +2171,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case EmailIdentity:
 		return []string{}
 	case EnforcerIdentity:
+		return []string{}
+	case EnforcerLogIdentity:
 		return []string{}
 	case EnforcerProfileIdentity:
 		return []string{
@@ -2018,6 +2212,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case GraphEdgeIdentity:
 		return []string{}
 	case GraphNodeIdentity:
+		return []string{}
+	case HitIdentity:
 		return []string{}
 	case HookPolicyIdentity:
 		return []string{
@@ -2084,6 +2280,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case LogIdentity:
 		return []string{}
+	case LogoutIdentity:
+		return []string{}
 	case MessageIdentity:
 		return []string{
 			"mess",
@@ -2114,6 +2312,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PasswordResetIdentity:
 		return []string{}
+	case PingReportIdentity:
+		return []string{}
 	case PlanIdentity:
 		return []string{}
 	case PokeIdentity:
@@ -2140,6 +2340,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ProcessingUnitPolicyIdentity:
 		return []string{
 			"pup",
+			"pups",
 		}
 	case ProcessingUnitRefreshIdentity:
 		return []string{}
@@ -2180,6 +2381,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case RootIdentity:
 		return []string{}
 	case SAMLProviderIdentity:
+		return []string{}
+	case SandboxIdentity:
 		return []string{}
 	case SearchIdentity:
 		return []string{}
@@ -2222,18 +2425,13 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"sugg",
 			"suggs",
 		}
-	case TabulationIdentity:
-		return []string{
-			"table",
-			"tables",
-			"tabs",
-			"tab",
-		}
 	case TagIdentity:
 		return []string{}
 	case TagInjectIdentity:
 		return []string{}
 	case TagValueIdentity:
+		return []string{}
+	case TextIndexIdentity:
 		return []string{}
 	case TokenIdentity:
 		return []string{}

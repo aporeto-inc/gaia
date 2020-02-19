@@ -34,6 +34,7 @@ attributes:
     - Accesses
     - Packets
     - DNSLookups
+    - PingReports
     default_value: Flows
 
   - name: tags

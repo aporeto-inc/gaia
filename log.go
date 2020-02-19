@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -109,6 +110,35 @@ func (o *Log) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Log) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Log) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesLog{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Log) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesLog{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -366,6 +396,35 @@ func (o *SparseLog) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseLog) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseLog{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseLog) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseLog{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseLog) Version() int {
 
@@ -405,4 +464,9 @@ func (o *SparseLog) DeepCopyInto(out *SparseLog) {
 	}
 
 	*out = *target.(*SparseLog)
+}
+
+type mongoAttributesLog struct {
+}
+type mongoAttributesSparseLog struct {
 }

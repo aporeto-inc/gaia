@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -149,6 +150,35 @@ func (o *Report) Identifier() string {
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Report) SetIdentifier(id string) {
 
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Report) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesReport{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Report) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -516,6 +546,35 @@ func (o *SparseReport) SetIdentifier(id string) {
 
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseReport) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseReport{}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseReport) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseReport{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *SparseReport) Version() int {
 
@@ -567,4 +626,9 @@ func (o *SparseReport) DeepCopyInto(out *SparseReport) {
 	}
 
 	*out = *target.(*SparseReport)
+}
+
+type mongoAttributesReport struct {
+}
+type mongoAttributesSparseReport struct {
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -109,7 +110,6 @@ func (o EnforcersList) List() elemental.IdentifiablesList {
 func (o EnforcersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -139,7 +139,7 @@ type Enforcer struct {
 	FQDN string `json:"FQDN" msgpack:"FQDN" bson:"fqdn" mapstructure:"FQDN,omitempty"`
 
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -183,6 +183,9 @@ type Enforcer struct {
 
 	// Status of the enforcement for host services.
 	EnforcementStatus EnforcerEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
+
+	// Identifies the last collection.
+	LastCollectionID string `json:"lastCollectionID" msgpack:"lastCollectionID" bson:"lastcollectionid" mapstructure:"lastCollectionID,omitempty"`
 
 	// Identifies when the information was collected.
 	LastCollectionTime time.Time `json:"lastCollectionTime" msgpack:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
@@ -283,10 +286,10 @@ func NewEnforcer() *Enforcer {
 		NormalizedTags:        []string{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
 		LogLevelDuration:      "10s",
-		Metadata:              []string{},
-		LogLevel:              EnforcerLogLevelInfo,
 		Subnets:               []string{},
 		LastValidHostServices: HostServicesList{},
+		Metadata:              []string{},
+		LogLevel:              EnforcerLogLevelInfo,
 		MigrationsLog:         map[string]string{},
 	}
 }
@@ -309,6 +312,111 @@ func (o *Enforcer) SetIdentifier(id string) {
 	o.ID = id
 }
 
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Enforcer) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesEnforcer{}
+
+	s.FQDN = o.FQDN
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
+	s.Annotations = o.Annotations
+	s.AssociatedTags = o.AssociatedTags
+	s.Certificate = o.Certificate
+	s.CollectInfo = o.CollectInfo
+	s.CollectedInfo = o.CollectedInfo
+	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
+	s.CurrentVersion = o.CurrentVersion
+	s.Description = o.Description
+	s.EnforcementStatus = o.EnforcementStatus
+	s.LastCollectionID = o.LastCollectionID
+	s.LastCollectionTime = o.LastCollectionTime
+	s.LastPokeTime = o.LastPokeTime
+	s.LastSyncTime = o.LastSyncTime
+	s.LastValidHostServices = o.LastValidHostServices
+	s.LogLevel = o.LogLevel
+	s.LogLevelDuration = o.LogLevelDuration
+	s.MachineID = o.MachineID
+	s.Metadata = o.Metadata
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.Namespace = o.Namespace
+	s.NormalizedTags = o.NormalizedTags
+	s.OperationalStatus = o.OperationalStatus
+	s.Protected = o.Protected
+	s.PublicToken = o.PublicToken
+	s.StartTime = o.StartTime
+	s.Subnets = o.Subnets
+	s.Unreachable = o.Unreachable
+	s.UpdateAvailable = o.UpdateAvailable
+	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *Enforcer) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesEnforcer{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.FQDN = s.FQDN
+	o.ID = s.ID.Hex()
+	o.Annotations = s.Annotations
+	o.AssociatedTags = s.AssociatedTags
+	o.Certificate = s.Certificate
+	o.CollectInfo = s.CollectInfo
+	o.CollectedInfo = s.CollectedInfo
+	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
+	o.CurrentVersion = s.CurrentVersion
+	o.Description = s.Description
+	o.EnforcementStatus = s.EnforcementStatus
+	o.LastCollectionID = s.LastCollectionID
+	o.LastCollectionTime = s.LastCollectionTime
+	o.LastPokeTime = s.LastPokeTime
+	o.LastSyncTime = s.LastSyncTime
+	o.LastValidHostServices = s.LastValidHostServices
+	o.LogLevel = s.LogLevel
+	o.LogLevelDuration = s.LogLevelDuration
+	o.MachineID = s.MachineID
+	o.Metadata = s.Metadata
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.Namespace = s.Namespace
+	o.NormalizedTags = s.NormalizedTags
+	o.OperationalStatus = s.OperationalStatus
+	o.Protected = s.Protected
+	o.PublicToken = s.PublicToken
+	o.StartTime = s.StartTime
+	o.Subnets = s.Subnets
+	o.Unreachable = s.Unreachable
+	o.UpdateAvailable = s.UpdateAvailable
+	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
+}
+
 // Version returns the hardcoded version of the model.
 func (o *Enforcer) Version() int {
 
@@ -325,7 +433,6 @@ func (o *Enforcer) BleveType() string {
 func (o *Enforcer) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -545,6 +652,7 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CurrentVersion:            &o.CurrentVersion,
 			Description:               &o.Description,
 			EnforcementStatus:         &o.EnforcementStatus,
+			LastCollectionID:          &o.LastCollectionID,
 			LastCollectionTime:        &o.LastCollectionTime,
 			LastPokeTime:              &o.LastPokeTime,
 			LastSyncTime:              &o.LastSyncTime,
@@ -605,6 +713,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "enforcementStatus":
 			sp.EnforcementStatus = &(o.EnforcementStatus)
+		case "lastCollectionID":
+			sp.LastCollectionID = &(o.LastCollectionID)
 		case "lastCollectionTime":
 			sp.LastCollectionTime = &(o.LastCollectionTime)
 		case "lastPokeTime":
@@ -710,6 +820,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EnforcementStatus != nil {
 		o.EnforcementStatus = *so.EnforcementStatus
+	}
+	if so.LastCollectionID != nil {
+		o.LastCollectionID = *so.LastCollectionID
 	}
 	if so.LastCollectionTime != nil {
 		o.LastCollectionTime = *so.LastCollectionTime
@@ -919,6 +1032,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "enforcementStatus":
 		return o.EnforcementStatus
+	case "lastCollectionID":
+		return o.LastCollectionID
 	case "lastCollectionTime":
 		return o.LastCollectionTime
 	case "lastPokeTime":
@@ -1080,6 +1195,7 @@ providing a renewed certificate.`,
 	"CollectedInfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectedInfo",
+		Deprecated:     true,
 		Description:    `Represents the latest information collected by the enforcer.`,
 		Exposed:        true,
 		Name:           "collectedInfo",
@@ -1147,6 +1263,15 @@ providing a renewed certificate.`,
 		Name:           "enforcementStatus",
 		Stored:         true,
 		Type:           "enum",
+	},
+	"LastCollectionID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LastCollectionID",
+		Description:    `Identifies the last collection.`,
+		Exposed:        true,
+		Name:           "lastCollectionID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"LastCollectionTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1261,7 +1386,6 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1278,7 +1402,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1368,11 +1491,12 @@ this and the value is preserved across disconnects.`,
 		ConvertedName:  "Unreachable",
 		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from
 the enforcer in the last five minutes.`,
-		Exposed:  true,
-		Name:     "unreachable",
-		ReadOnly: true,
-		Stored:   true,
-		Type:     "boolean",
+		Exposed:   true,
+		Name:      "unreachable",
+		ReadOnly:  true,
+		Stored:    true,
+		Transient: true,
+		Type:      "boolean",
 	},
 	"UpdateAvailable": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1547,6 +1671,7 @@ providing a renewed certificate.`,
 	"collectedinfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectedInfo",
+		Deprecated:     true,
 		Description:    `Represents the latest information collected by the enforcer.`,
 		Exposed:        true,
 		Name:           "collectedInfo",
@@ -1614,6 +1739,15 @@ providing a renewed certificate.`,
 		Name:           "enforcementStatus",
 		Stored:         true,
 		Type:           "enum",
+	},
+	"lastcollectionid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LastCollectionID",
+		Description:    `Identifies the last collection.`,
+		Exposed:        true,
+		Name:           "lastCollectionID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"lastcollectiontime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1728,7 +1862,6 @@ with the '@' prefix, and should only be used by external systems.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1745,7 +1878,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1835,11 +1967,12 @@ this and the value is preserved across disconnects.`,
 		ConvertedName:  "Unreachable",
 		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from
 the enforcer in the last five minutes.`,
-		Exposed:  true,
-		Name:     "unreachable",
-		ReadOnly: true,
-		Stored:   true,
-		Type:     "boolean",
+		Exposed:   true,
+		Name:      "unreachable",
+		ReadOnly:  true,
+		Stored:    true,
+		Transient: true,
+		Type:      "boolean",
 	},
 	"updateavailable": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1948,7 +2081,6 @@ func (o SparseEnforcersList) List() elemental.IdentifiablesList {
 func (o SparseEnforcersList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1977,7 +2109,7 @@ type SparseEnforcer struct {
 	FQDN *string `json:"FQDN,omitempty" msgpack:"FQDN,omitempty" bson:"fqdn,omitempty" mapstructure:"FQDN,omitempty"`
 
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
@@ -2021,6 +2153,9 @@ type SparseEnforcer struct {
 
 	// Status of the enforcement for host services.
 	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
+
+	// Identifies the last collection.
+	LastCollectionID *string `json:"lastCollectionID,omitempty" msgpack:"lastCollectionID,omitempty" bson:"lastcollectionid,omitempty" mapstructure:"lastCollectionID,omitempty"`
 
 	// Identifies when the information was collected.
 	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" msgpack:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
@@ -2132,7 +2267,257 @@ func (o *SparseEnforcer) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseEnforcer) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEnforcer) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseEnforcer{}
+
+	if o.FQDN != nil {
+		s.FQDN = o.FQDN
+	}
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
+	if o.Annotations != nil {
+		s.Annotations = o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		s.AssociatedTags = o.AssociatedTags
+	}
+	if o.Certificate != nil {
+		s.Certificate = o.Certificate
+	}
+	if o.CollectInfo != nil {
+		s.CollectInfo = o.CollectInfo
+	}
+	if o.CollectedInfo != nil {
+		s.CollectedInfo = o.CollectedInfo
+	}
+	if o.CreateIdempotencyKey != nil {
+		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.CurrentVersion != nil {
+		s.CurrentVersion = o.CurrentVersion
+	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
+	if o.EnforcementStatus != nil {
+		s.EnforcementStatus = o.EnforcementStatus
+	}
+	if o.LastCollectionID != nil {
+		s.LastCollectionID = o.LastCollectionID
+	}
+	if o.LastCollectionTime != nil {
+		s.LastCollectionTime = o.LastCollectionTime
+	}
+	if o.LastPokeTime != nil {
+		s.LastPokeTime = o.LastPokeTime
+	}
+	if o.LastSyncTime != nil {
+		s.LastSyncTime = o.LastSyncTime
+	}
+	if o.LastValidHostServices != nil {
+		s.LastValidHostServices = o.LastValidHostServices
+	}
+	if o.LogLevel != nil {
+		s.LogLevel = o.LogLevel
+	}
+	if o.LogLevelDuration != nil {
+		s.LogLevelDuration = o.LogLevelDuration
+	}
+	if o.MachineID != nil {
+		s.MachineID = o.MachineID
+	}
+	if o.Metadata != nil {
+		s.Metadata = o.Metadata
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		s.NormalizedTags = o.NormalizedTags
+	}
+	if o.OperationalStatus != nil {
+		s.OperationalStatus = o.OperationalStatus
+	}
+	if o.Protected != nil {
+		s.Protected = o.Protected
+	}
+	if o.PublicToken != nil {
+		s.PublicToken = o.PublicToken
+	}
+	if o.StartTime != nil {
+		s.StartTime = o.StartTime
+	}
+	if o.Subnets != nil {
+		s.Subnets = o.Subnets
+	}
+	if o.Unreachable != nil {
+		s.Unreachable = o.Unreachable
+	}
+	if o.UpdateAvailable != nil {
+		s.UpdateAvailable = o.UpdateAvailable
+	}
+	if o.UpdateIdempotencyKey != nil {
+		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseEnforcer{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	if s.FQDN != nil {
+		o.FQDN = s.FQDN
+	}
+	id := s.ID.Hex()
 	o.ID = &id
+	if s.Annotations != nil {
+		o.Annotations = s.Annotations
+	}
+	if s.AssociatedTags != nil {
+		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.Certificate != nil {
+		o.Certificate = s.Certificate
+	}
+	if s.CollectInfo != nil {
+		o.CollectInfo = s.CollectInfo
+	}
+	if s.CollectedInfo != nil {
+		o.CollectedInfo = s.CollectedInfo
+	}
+	if s.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.CurrentVersion != nil {
+		o.CurrentVersion = s.CurrentVersion
+	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
+	if s.EnforcementStatus != nil {
+		o.EnforcementStatus = s.EnforcementStatus
+	}
+	if s.LastCollectionID != nil {
+		o.LastCollectionID = s.LastCollectionID
+	}
+	if s.LastCollectionTime != nil {
+		o.LastCollectionTime = s.LastCollectionTime
+	}
+	if s.LastPokeTime != nil {
+		o.LastPokeTime = s.LastPokeTime
+	}
+	if s.LastSyncTime != nil {
+		o.LastSyncTime = s.LastSyncTime
+	}
+	if s.LastValidHostServices != nil {
+		o.LastValidHostServices = s.LastValidHostServices
+	}
+	if s.LogLevel != nil {
+		o.LogLevel = s.LogLevel
+	}
+	if s.LogLevelDuration != nil {
+		o.LogLevelDuration = s.LogLevelDuration
+	}
+	if s.MachineID != nil {
+		o.MachineID = s.MachineID
+	}
+	if s.Metadata != nil {
+		o.Metadata = s.Metadata
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
+	if s.NormalizedTags != nil {
+		o.NormalizedTags = s.NormalizedTags
+	}
+	if s.OperationalStatus != nil {
+		o.OperationalStatus = s.OperationalStatus
+	}
+	if s.Protected != nil {
+		o.Protected = s.Protected
+	}
+	if s.PublicToken != nil {
+		o.PublicToken = s.PublicToken
+	}
+	if s.StartTime != nil {
+		o.StartTime = s.StartTime
+	}
+	if s.Subnets != nil {
+		o.Subnets = s.Subnets
+	}
+	if s.Unreachable != nil {
+		o.Unreachable = s.Unreachable
+	}
+	if s.UpdateAvailable != nil {
+		o.UpdateAvailable = s.UpdateAvailable
+	}
+	if s.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -2189,6 +2574,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EnforcementStatus != nil {
 		out.EnforcementStatus = *o.EnforcementStatus
+	}
+	if o.LastCollectionID != nil {
+		out.LastCollectionID = *o.LastCollectionID
 	}
 	if o.LastCollectionTime != nil {
 		out.LastCollectionTime = *o.LastCollectionTime
@@ -2267,7 +2655,11 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseEnforcer) GetAnnotations() map[string][]string {
+func (o *SparseEnforcer) GetAnnotations() (out map[string][]string) {
+
+	if o.Annotations == nil {
+		return
+	}
 
 	return *o.Annotations
 }
@@ -2279,7 +2671,11 @@ func (o *SparseEnforcer) SetAnnotations(annotations map[string][]string) {
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseEnforcer) GetAssociatedTags() []string {
+func (o *SparseEnforcer) GetAssociatedTags() (out []string) {
+
+	if o.AssociatedTags == nil {
+		return
+	}
 
 	return *o.AssociatedTags
 }
@@ -2291,7 +2687,11 @@ func (o *SparseEnforcer) SetAssociatedTags(associatedTags []string) {
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseEnforcer) GetCreateIdempotencyKey() string {
+func (o *SparseEnforcer) GetCreateIdempotencyKey() (out string) {
+
+	if o.CreateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.CreateIdempotencyKey
 }
@@ -2303,7 +2703,11 @@ func (o *SparseEnforcer) SetCreateIdempotencyKey(createIdempotencyKey string) {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseEnforcer) GetCreateTime() time.Time {
+func (o *SparseEnforcer) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -2315,7 +2719,11 @@ func (o *SparseEnforcer) SetCreateTime(createTime time.Time) {
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseEnforcer) GetDescription() string {
+func (o *SparseEnforcer) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
 
 	return *o.Description
 }
@@ -2327,7 +2735,11 @@ func (o *SparseEnforcer) SetDescription(description string) {
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseEnforcer) GetMetadata() []string {
+func (o *SparseEnforcer) GetMetadata() (out []string) {
+
+	if o.Metadata == nil {
+		return
+	}
 
 	return *o.Metadata
 }
@@ -2339,7 +2751,11 @@ func (o *SparseEnforcer) SetMetadata(metadata []string) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseEnforcer) GetMigrationsLog() map[string]string {
+func (o *SparseEnforcer) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -2351,7 +2767,11 @@ func (o *SparseEnforcer) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseEnforcer) GetName() string {
+func (o *SparseEnforcer) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -2363,7 +2783,11 @@ func (o *SparseEnforcer) SetName(name string) {
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseEnforcer) GetNamespace() string {
+func (o *SparseEnforcer) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
 
 	return *o.Namespace
 }
@@ -2375,7 +2799,11 @@ func (o *SparseEnforcer) SetNamespace(namespace string) {
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseEnforcer) GetNormalizedTags() []string {
+func (o *SparseEnforcer) GetNormalizedTags() (out []string) {
+
+	if o.NormalizedTags == nil {
+		return
+	}
 
 	return *o.NormalizedTags
 }
@@ -2387,7 +2815,11 @@ func (o *SparseEnforcer) SetNormalizedTags(normalizedTags []string) {
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseEnforcer) GetProtected() bool {
+func (o *SparseEnforcer) GetProtected() (out bool) {
+
+	if o.Protected == nil {
+		return
+	}
 
 	return *o.Protected
 }
@@ -2399,7 +2831,11 @@ func (o *SparseEnforcer) SetProtected(protected bool) {
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseEnforcer) GetUpdateIdempotencyKey() string {
+func (o *SparseEnforcer) GetUpdateIdempotencyKey() (out string) {
+
+	if o.UpdateIdempotencyKey == nil {
+		return
+	}
 
 	return *o.UpdateIdempotencyKey
 }
@@ -2411,7 +2847,11 @@ func (o *SparseEnforcer) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseEnforcer) GetUpdateTime() time.Time {
+func (o *SparseEnforcer) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -2423,7 +2863,11 @@ func (o *SparseEnforcer) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseEnforcer) GetZHash() int {
+func (o *SparseEnforcer) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -2435,7 +2879,11 @@ func (o *SparseEnforcer) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseEnforcer) GetZone() int {
+func (o *SparseEnforcer) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -2468,4 +2916,81 @@ func (o *SparseEnforcer) DeepCopyInto(out *SparseEnforcer) {
 	}
 
 	*out = *target.(*SparseEnforcer)
+}
+
+type mongoAttributesEnforcer struct {
+	FQDN                  string                         `bson:"fqdn"`
+	ID                    bson.ObjectId                  `bson:"_id,omitempty"`
+	Annotations           map[string][]string            `bson:"annotations"`
+	AssociatedTags        []string                       `bson:"associatedtags"`
+	Certificate           string                         `bson:"certificate"`
+	CollectInfo           bool                           `bson:"collectinfo"`
+	CollectedInfo         map[string]string              `bson:"collectedinfo"`
+	CreateIdempotencyKey  string                         `bson:"createidempotencykey"`
+	CreateTime            time.Time                      `bson:"createtime"`
+	CurrentVersion        string                         `bson:"currentversion"`
+	Description           string                         `bson:"description"`
+	EnforcementStatus     EnforcerEnforcementStatusValue `bson:"enforcementstatus"`
+	LastCollectionID      string                         `bson:"lastcollectionid"`
+	LastCollectionTime    time.Time                      `bson:"lastcollectiontime"`
+	LastPokeTime          time.Time                      `bson:"lastpoketime"`
+	LastSyncTime          time.Time                      `bson:"lastsynctime"`
+	LastValidHostServices HostServicesList               `bson:"lastvalidhostservices"`
+	LogLevel              EnforcerLogLevelValue          `bson:"loglevel"`
+	LogLevelDuration      string                         `bson:"loglevelduration"`
+	MachineID             string                         `bson:"machineid"`
+	Metadata              []string                       `bson:"metadata"`
+	MigrationsLog         map[string]string              `bson:"migrationslog,omitempty"`
+	Name                  string                         `bson:"name"`
+	Namespace             string                         `bson:"namespace"`
+	NormalizedTags        []string                       `bson:"normalizedtags"`
+	OperationalStatus     EnforcerOperationalStatusValue `bson:"operationalstatus"`
+	Protected             bool                           `bson:"protected"`
+	PublicToken           string                         `bson:"publictoken"`
+	StartTime             time.Time                      `bson:"starttime"`
+	Subnets               []string                       `bson:"subnets"`
+	Unreachable           bool                           `bson:"unreachable"`
+	UpdateAvailable       bool                           `bson:"updateavailable"`
+	UpdateIdempotencyKey  string                         `bson:"updateidempotencykey"`
+	UpdateTime            time.Time                      `bson:"updatetime"`
+	ZHash                 int                            `bson:"zhash"`
+	Zone                  int                            `bson:"zone"`
+}
+type mongoAttributesSparseEnforcer struct {
+	FQDN                  *string                         `bson:"fqdn,omitempty"`
+	ID                    bson.ObjectId                   `bson:"_id,omitempty"`
+	Annotations           *map[string][]string            `bson:"annotations,omitempty"`
+	AssociatedTags        *[]string                       `bson:"associatedtags,omitempty"`
+	Certificate           *string                         `bson:"certificate,omitempty"`
+	CollectInfo           *bool                           `bson:"collectinfo,omitempty"`
+	CollectedInfo         *map[string]string              `bson:"collectedinfo,omitempty"`
+	CreateIdempotencyKey  *string                         `bson:"createidempotencykey,omitempty"`
+	CreateTime            *time.Time                      `bson:"createtime,omitempty"`
+	CurrentVersion        *string                         `bson:"currentversion,omitempty"`
+	Description           *string                         `bson:"description,omitempty"`
+	EnforcementStatus     *EnforcerEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
+	LastCollectionID      *string                         `bson:"lastcollectionid,omitempty"`
+	LastCollectionTime    *time.Time                      `bson:"lastcollectiontime,omitempty"`
+	LastPokeTime          *time.Time                      `bson:"lastpoketime,omitempty"`
+	LastSyncTime          *time.Time                      `bson:"lastsynctime,omitempty"`
+	LastValidHostServices *HostServicesList               `bson:"lastvalidhostservices,omitempty"`
+	LogLevel              *EnforcerLogLevelValue          `bson:"loglevel,omitempty"`
+	LogLevelDuration      *string                         `bson:"loglevelduration,omitempty"`
+	MachineID             *string                         `bson:"machineid,omitempty"`
+	Metadata              *[]string                       `bson:"metadata,omitempty"`
+	MigrationsLog         *map[string]string              `bson:"migrationslog,omitempty"`
+	Name                  *string                         `bson:"name,omitempty"`
+	Namespace             *string                         `bson:"namespace,omitempty"`
+	NormalizedTags        *[]string                       `bson:"normalizedtags,omitempty"`
+	OperationalStatus     *EnforcerOperationalStatusValue `bson:"operationalstatus,omitempty"`
+	Protected             *bool                           `bson:"protected,omitempty"`
+	PublicToken           *string                         `bson:"publictoken,omitempty"`
+	StartTime             *time.Time                      `bson:"starttime,omitempty"`
+	Subnets               *[]string                       `bson:"subnets,omitempty"`
+	Unreachable           *bool                           `bson:"unreachable,omitempty"`
+	UpdateAvailable       *bool                           `bson:"updateavailable,omitempty"`
+	UpdateIdempotencyKey  *string                         `bson:"updateidempotencykey,omitempty"`
+	UpdateTime            *time.Time                      `bson:"updatetime,omitempty"`
+	ZHash                 *int                            `bson:"zhash,omitempty"`
+	Zone                  *int                            `bson:"zone,omitempty"`
 }

@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -24,6 +25,41 @@ func NewClaimMapping() *ClaimMapping {
 	return &ClaimMapping{
 		ModelVersion: 1,
 	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ClaimMapping) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesClaimMapping{}
+
+	s.ClaimName = o.ClaimName
+	s.TargetHTTPHeader = o.TargetHTTPHeader
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *ClaimMapping) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesClaimMapping{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ClaimName = s.ClaimName
+	o.TargetHTTPHeader = s.TargetHTTPHeader
+
+	return nil
 }
 
 // BleveType implements the bleve.Classifier Interface.
@@ -87,4 +123,9 @@ func (o *ClaimMapping) Validate() error {
 	}
 
 	return nil
+}
+
+type mongoAttributesClaimMapping struct {
+	ClaimName        string `bson:"claimname"`
+	TargetHTTPHeader string `bson:"targethttpheader"`
 }

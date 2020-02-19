@@ -29,6 +29,12 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: additionalConfiguration
+    description: Additional configuration of the app is needed by the app itself.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: appIdentifier
     description: AppIdentifier retains the identifier for the app.
     type: string
@@ -42,6 +48,14 @@ attributes:
     read_only: true
     orderable: true
 
+  - name: checkPublicEndpoint
+    description: |-
+      If true, will look for the public endpoints and store them as annotations in the
+      installed app.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: currentVersion
     description: Version of the installed application.
     type: string
@@ -54,6 +68,13 @@ attributes:
     type: integer
     stored: true
     read_only: true
+
+  - name: externalWindowButton
+    description: Adds a button in the UI.
+    type: external
+    exposed: true
+    subtype: map[string]string
+    stored: true
 
   - name: parameters
     description: Contains the computed parameters to start the application.

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
@@ -94,7 +95,7 @@ func (o SSHAuthoritiesList) Version() int {
 // SSHAuthority represents the model of a sshauthority
 type SSHAuthority struct {
 	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Algorithm to use for the CA.
 	Alg SSHAuthorityAlgValue `json:"alg" msgpack:"alg" bson:"alg" mapstructure:"alg,omitempty"`
@@ -153,6 +154,59 @@ func (o *SSHAuthority) Identifier() string {
 func (o *SSHAuthority) SetIdentifier(id string) {
 
 	o.ID = id
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SSHAuthority) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSSHAuthority{}
+
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
+	s.Alg = o.Alg
+	s.CreateTime = o.CreateTime
+	s.MigrationsLog = o.MigrationsLog
+	s.Name = o.Name
+	s.PrivateKey = o.PrivateKey
+	s.PublicKey = o.PublicKey
+	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SSHAuthority) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSSHAuthority{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	o.ID = s.ID.Hex()
+	o.Alg = s.Alg
+	o.CreateTime = s.CreateTime
+	o.MigrationsLog = s.MigrationsLog
+	o.Name = s.Name
+	o.PrivateKey = s.PrivateKey
+	o.PublicKey = s.PublicKey
+	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -521,7 +575,6 @@ var SSHAuthorityAttributesMap = map[string]elemental.AttributeSpecification{
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -653,7 +706,6 @@ var SSHAuthorityLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		DefaultOrder:   true,
 		Description:    `Name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -797,7 +849,7 @@ func (o SparseSSHAuthoritiesList) Version() int {
 // SparseSSHAuthority represents the sparse version of a sshauthority.
 type SparseSSHAuthority struct {
 	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Algorithm to use for the CA.
 	Alg *SSHAuthorityAlgValue `json:"alg,omitempty" msgpack:"alg,omitempty" bson:"alg,omitempty" mapstructure:"alg,omitempty"`
@@ -853,7 +905,101 @@ func (o *SparseSSHAuthority) Identifier() string {
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseSSHAuthority) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
+}
+
+// GetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSSHAuthority) GetBSON() (interface{}, error) {
+
+	if o == nil {
+		return nil, nil
+	}
+
+	s := &mongoAttributesSparseSSHAuthority{}
+
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
+	if o.Alg != nil {
+		s.Alg = o.Alg
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.Name != nil {
+		s.Name = o.Name
+	}
+	if o.PrivateKey != nil {
+		s.PrivateKey = o.PrivateKey
+	}
+	if o.PublicKey != nil {
+		s.PublicKey = o.PublicKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
+
+	return s, nil
+}
+
+// SetBSON implements the bson marshaling interface.
+// This is used to transparently convert ID to MongoDBID as ObectID.
+func (o *SparseSSHAuthority) SetBSON(raw bson.Raw) error {
+
+	if o == nil {
+		return nil
+	}
+
+	s := &mongoAttributesSparseSSHAuthority{}
+	if err := raw.Unmarshal(s); err != nil {
+		return err
+	}
+
+	id := s.ID.Hex()
 	o.ID = &id
+	if s.Alg != nil {
+		o.Alg = s.Alg
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.Name != nil {
+		o.Name = s.Name
+	}
+	if s.PrivateKey != nil {
+		o.PrivateKey = s.PrivateKey
+	}
+	if s.PublicKey != nil {
+		o.PublicKey = s.PublicKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
+	return nil
 }
 
 // Version returns the hardcoded version of the model.
@@ -921,7 +1067,11 @@ func (o *SparseSSHAuthority) DecryptAttributes(encrypter elemental.AttributeEncr
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseSSHAuthority) GetCreateTime() time.Time {
+func (o *SparseSSHAuthority) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
 
 	return *o.CreateTime
 }
@@ -933,7 +1083,11 @@ func (o *SparseSSHAuthority) SetCreateTime(createTime time.Time) {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseSSHAuthority) GetMigrationsLog() map[string]string {
+func (o *SparseSSHAuthority) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
 
 	return *o.MigrationsLog
 }
@@ -945,7 +1099,11 @@ func (o *SparseSSHAuthority) SetMigrationsLog(migrationsLog map[string]string) {
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseSSHAuthority) GetName() string {
+func (o *SparseSSHAuthority) GetName() (out string) {
+
+	if o.Name == nil {
+		return
+	}
 
 	return *o.Name
 }
@@ -957,7 +1115,11 @@ func (o *SparseSSHAuthority) SetName(name string) {
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseSSHAuthority) GetUpdateTime() time.Time {
+func (o *SparseSSHAuthority) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
 
 	return *o.UpdateTime
 }
@@ -969,7 +1131,11 @@ func (o *SparseSSHAuthority) SetUpdateTime(updateTime time.Time) {
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseSSHAuthority) GetZHash() int {
+func (o *SparseSSHAuthority) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
 
 	return *o.ZHash
 }
@@ -981,7 +1147,11 @@ func (o *SparseSSHAuthority) SetZHash(zHash int) {
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseSSHAuthority) GetZone() int {
+func (o *SparseSSHAuthority) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
 
 	return *o.Zone
 }
@@ -1014,4 +1184,29 @@ func (o *SparseSSHAuthority) DeepCopyInto(out *SparseSSHAuthority) {
 	}
 
 	*out = *target.(*SparseSSHAuthority)
+}
+
+type mongoAttributesSSHAuthority struct {
+	ID            bson.ObjectId        `bson:"_id,omitempty"`
+	Alg           SSHAuthorityAlgValue `bson:"alg"`
+	CreateTime    time.Time            `bson:"createtime"`
+	MigrationsLog map[string]string    `bson:"migrationslog,omitempty"`
+	Name          string               `bson:"name"`
+	PrivateKey    string               `bson:"privatekey"`
+	PublicKey     string               `bson:"publickey"`
+	UpdateTime    time.Time            `bson:"updatetime"`
+	ZHash         int                  `bson:"zhash"`
+	Zone          int                  `bson:"zone"`
+}
+type mongoAttributesSparseSSHAuthority struct {
+	ID            bson.ObjectId         `bson:"_id,omitempty"`
+	Alg           *SSHAuthorityAlgValue `bson:"alg,omitempty"`
+	CreateTime    *time.Time            `bson:"createtime,omitempty"`
+	MigrationsLog *map[string]string    `bson:"migrationslog,omitempty"`
+	Name          *string               `bson:"name,omitempty"`
+	PrivateKey    *string               `bson:"privatekey,omitempty"`
+	PublicKey     *string               `bson:"publickey,omitempty"`
+	UpdateTime    *time.Time            `bson:"updatetime,omitempty"`
+	ZHash         *int                  `bson:"zhash,omitempty"`
+	Zone          *int                  `bson:"zone,omitempty"`
 }
