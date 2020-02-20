@@ -219,6 +219,8 @@ func (o *ImportReference) GetBSON() (interface{}, error) {
 	s.CreateTime = o.CreateTime
 	s.Data = o.Data
 	s.Description = o.Description
+	s.ImportConstraint = o.ImportConstraint
+	s.Label = o.Label
 	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
@@ -254,6 +256,8 @@ func (o *ImportReference) SetBSON(raw bson.Raw) error {
 	o.CreateTime = s.CreateTime
 	o.Data = s.Data
 	o.Description = s.Description
+	o.ImportConstraint = s.ImportConstraint
+	o.Label = s.Label
 	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
@@ -1490,6 +1494,12 @@ func (o *SparseImportReference) GetBSON() (interface{}, error) {
 	if o.Description != nil {
 		s.Description = o.Description
 	}
+	if o.ImportConstraint != nil {
+		s.ImportConstraint = o.ImportConstraint
+	}
+	if o.Label != nil {
+		s.Label = o.Label
+	}
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
 	}
@@ -1559,6 +1569,12 @@ func (o *SparseImportReference) SetBSON(raw bson.Raw) error {
 	}
 	if s.Description != nil {
 		o.Description = s.Description
+	}
+	if s.ImportConstraint != nil {
+		o.ImportConstraint = s.ImportConstraint
+	}
+	if s.Label != nil {
+		o.Label = s.Label
 	}
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
@@ -1933,42 +1949,46 @@ func (o *SparseImportReference) DeepCopyInto(out *SparseImportReference) {
 }
 
 type mongoAttributesImportReference struct {
-	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	Annotations          map[string][]string `bson:"annotations"`
-	AssociatedTags       []string            `bson:"associatedtags"`
-	Claims               []string            `bson:"claims"`
-	CreateIdempotencyKey string              `bson:"createidempotencykey"`
-	CreateTime           time.Time           `bson:"createtime"`
-	Data                 *Export             `bson:"data"`
-	Description          string              `bson:"description"`
-	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 string              `bson:"name"`
-	Namespace            string              `bson:"namespace"`
-	NormalizedTags       []string            `bson:"normalizedtags"`
-	Protected            bool                `bson:"protected"`
-	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
-	UpdateTime           time.Time           `bson:"updatetime"`
-	ZHash                int                 `bson:"zhash"`
-	Zone                 int                 `bson:"zone"`
+	ID                   bson.ObjectId                        `bson:"_id,omitempty"`
+	Annotations          map[string][]string                  `bson:"annotations"`
+	AssociatedTags       []string                             `bson:"associatedtags"`
+	Claims               []string                             `bson:"claims"`
+	CreateIdempotencyKey string                               `bson:"createidempotencykey"`
+	CreateTime           time.Time                            `bson:"createtime"`
+	Data                 *Export                              `bson:"data"`
+	Description          string                               `bson:"description"`
+	ImportConstraint     ImportReferenceImportConstraintValue `bson:"importconstraint"`
+	Label                string                               `bson:"label"`
+	Metadata             []string                             `bson:"metadata"`
+	MigrationsLog        map[string]string                    `bson:"migrationslog,omitempty"`
+	Name                 string                               `bson:"name"`
+	Namespace            string                               `bson:"namespace"`
+	NormalizedTags       []string                             `bson:"normalizedtags"`
+	Protected            bool                                 `bson:"protected"`
+	UpdateIdempotencyKey string                               `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                            `bson:"updatetime"`
+	ZHash                int                                  `bson:"zhash"`
+	Zone                 int                                  `bson:"zone"`
 }
 type mongoAttributesSparseImportReference struct {
-	ID                   bson.ObjectId        `bson:"_id,omitempty"`
-	Annotations          *map[string][]string `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	Claims               *[]string            `bson:"claims,omitempty"`
-	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time           `bson:"createtime,omitempty"`
-	Data                 *Export              `bson:"data,omitempty"`
-	Description          *string              `bson:"description,omitempty"`
-	Metadata             *[]string            `bson:"metadata,omitempty"`
-	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 *string              `bson:"name,omitempty"`
-	Namespace            *string              `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	Protected            *bool                `bson:"protected,omitempty"`
-	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
-	ZHash                *int                 `bson:"zhash,omitempty"`
-	Zone                 *int                 `bson:"zone,omitempty"`
+	ID                   bson.ObjectId                         `bson:"_id,omitempty"`
+	Annotations          *map[string][]string                  `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                             `bson:"associatedtags,omitempty"`
+	Claims               *[]string                             `bson:"claims,omitempty"`
+	CreateIdempotencyKey *string                               `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                            `bson:"createtime,omitempty"`
+	Data                 *Export                               `bson:"data,omitempty"`
+	Description          *string                               `bson:"description,omitempty"`
+	ImportConstraint     *ImportReferenceImportConstraintValue `bson:"importconstraint,omitempty"`
+	Label                *string                               `bson:"label,omitempty"`
+	Metadata             *[]string                             `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string                    `bson:"migrationslog,omitempty"`
+	Name                 *string                               `bson:"name,omitempty"`
+	Namespace            *string                               `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                             `bson:"normalizedtags,omitempty"`
+	Protected            *bool                                 `bson:"protected,omitempty"`
+	UpdateIdempotencyKey *string                               `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                            `bson:"updatetime,omitempty"`
+	ZHash                *int                                  `bson:"zhash,omitempty"`
+	Zone                 *int                                  `bson:"zone,omitempty"`
 }

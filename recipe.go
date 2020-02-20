@@ -242,6 +242,7 @@ func (o *Recipe) GetBSON() (interface{}, error) {
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
+	s.DeploymentMode = o.DeploymentMode
 	s.Description = o.Description
 	s.Icon = o.Icon
 	s.Key = o.Key
@@ -286,6 +287,7 @@ func (o *Recipe) SetBSON(raw bson.Raw) error {
 	o.AssociatedTags = s.AssociatedTags
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
+	o.DeploymentMode = s.DeploymentMode
 	o.Description = s.Description
 	o.Icon = s.Icon
 	o.Key = s.Key
@@ -1799,6 +1801,9 @@ func (o *SparseRecipe) GetBSON() (interface{}, error) {
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
 	}
+	if o.DeploymentMode != nil {
+		s.DeploymentMode = o.DeploymentMode
+	}
 	if o.Description != nil {
 		s.Description = o.Description
 	}
@@ -1895,6 +1900,9 @@ func (o *SparseRecipe) SetBSON(raw bson.Raw) error {
 	}
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
+	}
+	if s.DeploymentMode != nil {
+		o.DeploymentMode = s.DeploymentMode
 	}
 	if s.Description != nil {
 		o.Description = s.Description
@@ -2345,60 +2353,62 @@ func (o *SparseRecipe) DeepCopyInto(out *SparseRecipe) {
 }
 
 type mongoAttributesRecipe struct {
-	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	Annotations          map[string][]string `bson:"annotations"`
-	AssociatedTags       []string            `bson:"associatedtags"`
-	CreateIdempotencyKey string              `bson:"createidempotencykey"`
-	CreateTime           time.Time           `bson:"createtime"`
-	Description          string              `bson:"description"`
-	Icon                 string              `bson:"icon"`
-	Key                  string              `bson:"key"`
-	Label                string              `bson:"label"`
-	LongDescription      string              `bson:"longdescription"`
-	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 string              `bson:"name"`
-	Namespace            string              `bson:"namespace"`
-	NormalizedTags       []string            `bson:"normalizedtags"`
-	Options              *RecipeOptions      `bson:"options"`
-	Propagate            bool                `bson:"propagate"`
-	Protected            bool                `bson:"protected"`
-	Steps                []*UIStep           `bson:"steps"`
-	SuccessfullMessage   string              `bson:"successfullmessage"`
-	TargetIdentities     []string            `bson:"targetidentities"`
-	Template             string              `bson:"template"`
-	TemplateHash         string              `bson:"templatehash"`
-	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
-	UpdateTime           time.Time           `bson:"updatetime"`
-	ZHash                int                 `bson:"zhash"`
-	Zone                 int                 `bson:"zone"`
+	ID                   bson.ObjectId             `bson:"_id,omitempty"`
+	Annotations          map[string][]string       `bson:"annotations"`
+	AssociatedTags       []string                  `bson:"associatedtags"`
+	CreateIdempotencyKey string                    `bson:"createidempotencykey"`
+	CreateTime           time.Time                 `bson:"createtime"`
+	DeploymentMode       RecipeDeploymentModeValue `bson:"deploymentmode"`
+	Description          string                    `bson:"description"`
+	Icon                 string                    `bson:"icon"`
+	Key                  string                    `bson:"key"`
+	Label                string                    `bson:"label"`
+	LongDescription      string                    `bson:"longdescription"`
+	Metadata             []string                  `bson:"metadata"`
+	MigrationsLog        map[string]string         `bson:"migrationslog,omitempty"`
+	Name                 string                    `bson:"name"`
+	Namespace            string                    `bson:"namespace"`
+	NormalizedTags       []string                  `bson:"normalizedtags"`
+	Options              *RecipeOptions            `bson:"options"`
+	Propagate            bool                      `bson:"propagate"`
+	Protected            bool                      `bson:"protected"`
+	Steps                []*UIStep                 `bson:"steps"`
+	SuccessfullMessage   string                    `bson:"successfullmessage"`
+	TargetIdentities     []string                  `bson:"targetidentities"`
+	Template             string                    `bson:"template"`
+	TemplateHash         string                    `bson:"templatehash"`
+	UpdateIdempotencyKey string                    `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                 `bson:"updatetime"`
+	ZHash                int                       `bson:"zhash"`
+	Zone                 int                       `bson:"zone"`
 }
 type mongoAttributesSparseRecipe struct {
-	ID                   bson.ObjectId        `bson:"_id,omitempty"`
-	Annotations          *map[string][]string `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time           `bson:"createtime,omitempty"`
-	Description          *string              `bson:"description,omitempty"`
-	Icon                 *string              `bson:"icon,omitempty"`
-	Key                  *string              `bson:"key,omitempty"`
-	Label                *string              `bson:"label,omitempty"`
-	LongDescription      *string              `bson:"longdescription,omitempty"`
-	Metadata             *[]string            `bson:"metadata,omitempty"`
-	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 *string              `bson:"name,omitempty"`
-	Namespace            *string              `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	Options              *RecipeOptions       `bson:"options,omitempty"`
-	Propagate            *bool                `bson:"propagate,omitempty"`
-	Protected            *bool                `bson:"protected,omitempty"`
-	Steps                *[]*UIStep           `bson:"steps,omitempty"`
-	SuccessfullMessage   *string              `bson:"successfullmessage,omitempty"`
-	TargetIdentities     *[]string            `bson:"targetidentities,omitempty"`
-	Template             *string              `bson:"template,omitempty"`
-	TemplateHash         *string              `bson:"templatehash,omitempty"`
-	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
-	ZHash                *int                 `bson:"zhash,omitempty"`
-	Zone                 *int                 `bson:"zone,omitempty"`
+	ID                   bson.ObjectId              `bson:"_id,omitempty"`
+	Annotations          *map[string][]string       `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                  `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string                    `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                 `bson:"createtime,omitempty"`
+	DeploymentMode       *RecipeDeploymentModeValue `bson:"deploymentmode,omitempty"`
+	Description          *string                    `bson:"description,omitempty"`
+	Icon                 *string                    `bson:"icon,omitempty"`
+	Key                  *string                    `bson:"key,omitempty"`
+	Label                *string                    `bson:"label,omitempty"`
+	LongDescription      *string                    `bson:"longdescription,omitempty"`
+	Metadata             *[]string                  `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string         `bson:"migrationslog,omitempty"`
+	Name                 *string                    `bson:"name,omitempty"`
+	Namespace            *string                    `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                  `bson:"normalizedtags,omitempty"`
+	Options              *RecipeOptions             `bson:"options,omitempty"`
+	Propagate            *bool                      `bson:"propagate,omitempty"`
+	Protected            *bool                      `bson:"protected,omitempty"`
+	Steps                *[]*UIStep                 `bson:"steps,omitempty"`
+	SuccessfullMessage   *string                    `bson:"successfullmessage,omitempty"`
+	TargetIdentities     *[]string                  `bson:"targetidentities,omitempty"`
+	Template             *string                    `bson:"template,omitempty"`
+	TemplateHash         *string                    `bson:"templatehash,omitempty"`
+	UpdateIdempotencyKey *string                    `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                 `bson:"updatetime,omitempty"`
+	ZHash                *int                       `bson:"zhash,omitempty"`
+	Zone                 *int                       `bson:"zone,omitempty"`
 }
