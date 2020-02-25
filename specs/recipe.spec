@@ -129,3 +129,5 @@ relations:
 - rest_name: importreference
   get:
     description: Returns the list of import references that depend on a recipe.
+  create:
+    description: Create an import request for the given recipe.

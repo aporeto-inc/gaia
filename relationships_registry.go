@@ -2213,7 +2213,8 @@ func init() {
 
 	relationshipsRegistry[ImportReferenceIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"recipe": &elemental.RelationshipInfo{},
+			"root":   &elemental.RelationshipInfo{},
 		},
 		Delete: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
