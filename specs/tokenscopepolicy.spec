@@ -65,6 +65,8 @@ attributes:
     subtype: string
     stored: true
     orderable: true
+    validations:
+    - $stringlistnotempty
 
   - name: expirationTime
     description: If set the policy will be automatically deleted after the given time.

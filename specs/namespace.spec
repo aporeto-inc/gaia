@@ -152,14 +152,12 @@ attributes:
     - $tags
 
   - name: serviceCertificateValidity
-    description: |-
-      Determines the length of validity of certificates issued in this namespace using
-      [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default
-      value is `1h`.
+    description: This flag is deprecated and has no incidence.
     type: string
     exposed: true
     stored: true
-    default_value: 1h
+    default_value: 168h
+    deprecated: true
     validations:
     - $timeDuration
 

@@ -851,3 +851,13 @@ func ValidateIdentity(attribute string, identity string) error {
 
 	return nil
 }
+
+// ValidateStringListNotEmpty validates the given string slice is not empty (or nil).
+func ValidateStringListNotEmpty(attribute string, slice []string) error {
+
+	if len(slice) == 0 {
+		return makeValidationError(attribute, "String list must not be empty")
+	}
+
+	return nil
+}

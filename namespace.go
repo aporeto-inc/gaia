@@ -174,9 +174,7 @@ type Namespace struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Determines the length of validity of certificates issued in this namespace using
-	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default
-	// value is `1h`.
+	// This flag is deprecated and has no incidence.
 	ServiceCertificateValidity string `json:"serviceCertificateValidity" msgpack:"serviceCertificateValidity" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -211,7 +209,7 @@ func NewNamespace() *Namespace {
 		MigrationsLog:              map[string]string{},
 		JWTCertificates:            map[string]string{},
 		Metadata:                   []string{},
-		ServiceCertificateValidity: "1h",
+		ServiceCertificateValidity: "168h",
 	}
 }
 
@@ -1181,14 +1179,13 @@ policies in the namespace and its children.`,
 	"ServiceCertificateValidity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ServiceCertificateValidity",
-		DefaultValue:   "1h",
-		Description: `Determines the length of validity of certificates issued in this namespace using
-[Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default
-value is ` + "`" + `1h` + "`" + `.`,
-		Exposed: true,
-		Name:    "serviceCertificateValidity",
-		Stored:  true,
-		Type:    "string",
+		DefaultValue:   "168h",
+		Deprecated:     true,
+		Description:    `This flag is deprecated and has no incidence.`,
+		Exposed:        true,
+		Name:           "serviceCertificateValidity",
+		Stored:         true,
+		Type:           "string",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1537,14 +1534,13 @@ policies in the namespace and its children.`,
 	"servicecertificatevalidity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ServiceCertificateValidity",
-		DefaultValue:   "1h",
-		Description: `Determines the length of validity of certificates issued in this namespace using
-[Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default
-value is ` + "`" + `1h` + "`" + `.`,
-		Exposed: true,
-		Name:    "serviceCertificateValidity",
-		Stored:  true,
-		Type:    "string",
+		DefaultValue:   "168h",
+		Deprecated:     true,
+		Description:    `This flag is deprecated and has no incidence.`,
+		Exposed:        true,
+		Name:           "serviceCertificateValidity",
+		Stored:         true,
+		Type:           "string",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1755,9 +1751,7 @@ type SparseNamespace struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Determines the length of validity of certificates issued in this namespace using
-	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration). Default
-	// value is `1h`.
+	// This flag is deprecated and has no incidence.
 	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" msgpack:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity,omitempty" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// internal idempotency key for a update operation.

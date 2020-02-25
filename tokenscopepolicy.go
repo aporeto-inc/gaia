@@ -734,6 +734,10 @@ func (o *TokenScopePolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateStringListNotEmpty("assignedScopes", o.AssignedScopes); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
 		errors = errors.Append(err)
 	}

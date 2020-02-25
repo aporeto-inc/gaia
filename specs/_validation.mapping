@@ -94,6 +94,10 @@ $serviceports:
   elemental:
     name: ValidateServicePorts
 
+$stringlistnotempty:
+  elemental:
+    name: ValidateStringListNotEmpty
+
 $tag:
   elemental:
     name: ValidateTag

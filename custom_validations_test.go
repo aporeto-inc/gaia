@@ -2228,3 +2228,47 @@ func TestValidateProcessingUnitPolicy(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateStringListNotEmpty(t *testing.T) {
+	type args struct {
+		attribute string
+		slice     []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"nil",
+			args{
+				"attr",
+				nil,
+			},
+			true,
+		},
+		{
+			"empty",
+			args{
+				"attr",
+				[]string{},
+			},
+			true,
+		},
+		{
+			"set",
+			args{
+				"attr",
+				[]string{"a=a"},
+			},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateStringListNotEmpty(tt.args.attribute, tt.args.slice); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateStringListNotEmpty() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
