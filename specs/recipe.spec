@@ -123,3 +123,9 @@ attributes:
     exposed: true
     stored: true
     read_only: true
+
+# Relations
+relations:
+- rest_name: importreference
+  get:
+    description: Returns the list of import references that depend on a recipe.

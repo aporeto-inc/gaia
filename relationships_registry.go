@@ -2230,6 +2230,7 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"recipe": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2241,6 +2242,7 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"recipe": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
