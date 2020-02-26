@@ -1099,7 +1099,7 @@ Opaque data that will be included in the issued token.
 
 Restricts the number of times the issued token can be used.
 
-##### `realm` `emum(AWSSecurityToken | Certificate | Google | LDAP | Vince | GCPIdentityToken | AzureIdentityToken | OIDC | SAML)` [`required`]
+##### `realm` `emum(AWSSecurityToken | Certificate | Google | LDAP | Vince | GCPIdentityToken | AzureIdentityToken | OIDC | SAML | Twistlock)` [`required`]
 
 The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
 `Certificate`,
