@@ -84,17 +84,8 @@ type Claims struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// List of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
 	// Contains the raw JSON web token (JWT) claims.
 	Content map[string]string `json:"content" msgpack:"content" bson:"content" mapstructure:"content,omitempty"`
-
-	// internal idempotency key for a create operation.
-	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// Contains the date of the first appearance of the claims.
 	FirstSeen time.Time `json:"-" msgpack:"-" bson:"firstseen" mapstructure:"-,omitempty"`
@@ -115,15 +106,6 @@ type Claims struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// Defines if the object is protected.
-	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
-	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
-
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
@@ -138,12 +120,9 @@ type Claims struct {
 func NewClaims() *Claims {
 
 	return &Claims{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Content:        map[string]string{},
-		MigrationsLog:  map[string]string{},
-		NormalizedTags: []string{},
+		ModelVersion:  1,
+		Content:       map[string]string{},
+		MigrationsLog: map[string]string{},
 	}
 }
 
@@ -178,18 +157,12 @@ func (o *Claims) GetBSON() (interface{}, error) {
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
-	s.Annotations = o.Annotations
-	s.AssociatedTags = o.AssociatedTags
 	s.Content = o.Content
-	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.FirstSeen = o.FirstSeen
 	s.Hash = o.Hash
 	s.LastSeen = o.LastSeen
 	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
-	s.NormalizedTags = o.NormalizedTags
-	s.Protected = o.Protected
-	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
 
@@ -210,18 +183,12 @@ func (o *Claims) SetBSON(raw bson.Raw) error {
 	}
 
 	o.ID = s.ID.Hex()
-	o.Annotations = s.Annotations
-	o.AssociatedTags = s.AssociatedTags
 	o.Content = s.Content
-	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.FirstSeen = s.FirstSeen
 	o.Hash = s.Hash
 	o.LastSeen = s.LastSeen
 	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
-	o.NormalizedTags = s.NormalizedTags
-	o.Protected = s.Protected
-	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
 
@@ -257,42 +224,6 @@ func (o *Claims) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
-// GetAnnotations returns the Annotations of the receiver.
-func (o *Claims) GetAnnotations() map[string][]string {
-
-	return o.Annotations
-}
-
-// SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *Claims) SetAnnotations(annotations map[string][]string) {
-
-	o.Annotations = annotations
-}
-
-// GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *Claims) GetAssociatedTags() []string {
-
-	return o.AssociatedTags
-}
-
-// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *Claims) SetAssociatedTags(associatedTags []string) {
-
-	o.AssociatedTags = associatedTags
-}
-
-// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *Claims) GetCreateIdempotencyKey() string {
-
-	return o.CreateIdempotencyKey
-}
-
-// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *Claims) SetCreateIdempotencyKey(createIdempotencyKey string) {
-
-	o.CreateIdempotencyKey = createIdempotencyKey
-}
-
 // GetMigrationsLog returns the MigrationsLog of the receiver.
 func (o *Claims) GetMigrationsLog() map[string]string {
 
@@ -315,42 +246,6 @@ func (o *Claims) GetNamespace() string {
 func (o *Claims) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
-}
-
-// GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *Claims) GetNormalizedTags() []string {
-
-	return o.NormalizedTags
-}
-
-// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *Claims) SetNormalizedTags(normalizedTags []string) {
-
-	o.NormalizedTags = normalizedTags
-}
-
-// GetProtected returns the Protected of the receiver.
-func (o *Claims) GetProtected() bool {
-
-	return o.Protected
-}
-
-// SetProtected sets the property Protected of the receiver using the given value.
-func (o *Claims) SetProtected(protected bool) {
-
-	o.Protected = protected
-}
-
-// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *Claims) GetUpdateIdempotencyKey() string {
-
-	return o.UpdateIdempotencyKey
-}
-
-// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *Claims) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
-
-	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetZHash returns the ZHash of the receiver.
@@ -384,21 +279,15 @@ func (o *Claims) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseClaims{
-			ID:                   &o.ID,
-			Annotations:          &o.Annotations,
-			AssociatedTags:       &o.AssociatedTags,
-			Content:              &o.Content,
-			CreateIdempotencyKey: &o.CreateIdempotencyKey,
-			FirstSeen:            &o.FirstSeen,
-			Hash:                 &o.Hash,
-			LastSeen:             &o.LastSeen,
-			MigrationsLog:        &o.MigrationsLog,
-			Namespace:            &o.Namespace,
-			NormalizedTags:       &o.NormalizedTags,
-			Protected:            &o.Protected,
-			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
-			ZHash:                &o.ZHash,
-			Zone:                 &o.Zone,
+			ID:            &o.ID,
+			Content:       &o.Content,
+			FirstSeen:     &o.FirstSeen,
+			Hash:          &o.Hash,
+			LastSeen:      &o.LastSeen,
+			MigrationsLog: &o.MigrationsLog,
+			Namespace:     &o.Namespace,
+			ZHash:         &o.ZHash,
+			Zone:          &o.Zone,
 		}
 	}
 
@@ -407,14 +296,8 @@ func (o *Claims) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
-		case "annotations":
-			sp.Annotations = &(o.Annotations)
-		case "associatedTags":
-			sp.AssociatedTags = &(o.AssociatedTags)
 		case "content":
 			sp.Content = &(o.Content)
-		case "createIdempotencyKey":
-			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "firstSeen":
 			sp.FirstSeen = &(o.FirstSeen)
 		case "hash":
@@ -425,12 +308,6 @@ func (o *Claims) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
-		case "normalizedTags":
-			sp.NormalizedTags = &(o.NormalizedTags)
-		case "protected":
-			sp.Protected = &(o.Protected)
-		case "updateIdempotencyKey":
-			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -451,17 +328,8 @@ func (o *Claims) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
-	if so.Annotations != nil {
-		o.Annotations = *so.Annotations
-	}
-	if so.AssociatedTags != nil {
-		o.AssociatedTags = *so.AssociatedTags
-	}
 	if so.Content != nil {
 		o.Content = *so.Content
-	}
-	if so.CreateIdempotencyKey != nil {
-		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.FirstSeen != nil {
 		o.FirstSeen = *so.FirstSeen
@@ -477,15 +345,6 @@ func (o *Claims) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
-	}
-	if so.NormalizedTags != nil {
-		o.NormalizedTags = *so.NormalizedTags
-	}
-	if so.Protected != nil {
-		o.Protected = *so.Protected
-	}
-	if so.UpdateIdempotencyKey != nil {
-		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -524,10 +383,6 @@ func (o *Claims) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
-
-	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = errors.Append(err)
-	}
 
 	if err := elemental.ValidateRequiredString("hash", o.Hash); err != nil {
 		requiredErrors = requiredErrors.Append(err)
@@ -569,14 +424,8 @@ func (o *Claims) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
-	case "annotations":
-		return o.Annotations
-	case "associatedTags":
-		return o.AssociatedTags
 	case "content":
 		return o.Content
-	case "createIdempotencyKey":
-		return o.CreateIdempotencyKey
 	case "firstSeen":
 		return o.FirstSeen
 	case "hash":
@@ -587,12 +436,6 @@ func (o *Claims) ValueForAttribute(name string) interface{} {
 		return o.MigrationsLog
 	case "namespace":
 		return o.Namespace
-	case "normalizedTags":
-		return o.NormalizedTags
-	case "protected":
-		return o.Protected
-	case "updateIdempotencyKey":
-		return o.UpdateIdempotencyKey
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -618,30 +461,6 @@ var ClaimsAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Annotations": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Annotations",
-		Description:    `Stores additional information about an entity.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "annotations",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "map[string][]string",
-		Type:           "external",
-	},
-	"AssociatedTags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AssociatedTags",
-		Description:    `List of tags attached to an entity.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "associatedTags",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"Content": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Content",
@@ -652,18 +471,6 @@ var ClaimsAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
-	},
-	"CreateIdempotencyKey": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "CreateIdempotencyKey",
-		Description:    `internal idempotency key for a create operation.`,
-		Getter:         true,
-		Name:           "createIdempotencyKey",
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"FirstSeen": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -725,45 +532,6 @@ then apply the XXH64 function.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"NormalizedTags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "NormalizedTags",
-		Description:    `Contains the list of normalized tags of the entities.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "normalizedTags",
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		SubType:        "string",
-		Transient:      true,
-		Type:           "list",
-	},
-	"Protected": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Protected",
-		Description:    `Defines if the object is protected.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "protected",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"UpdateIdempotencyKey": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "UpdateIdempotencyKey",
-		Description:    `internal idempotency key for a update operation.`,
-		Getter:         true,
-		Name:           "updateIdempotencyKey",
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"ZHash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -809,30 +577,6 @@ var ClaimsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"annotations": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Annotations",
-		Description:    `Stores additional information about an entity.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "annotations",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "map[string][]string",
-		Type:           "external",
-	},
-	"associatedtags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AssociatedTags",
-		Description:    `List of tags attached to an entity.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "associatedTags",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"content": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Content",
@@ -843,18 +587,6 @@ var ClaimsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
-	},
-	"createidempotencykey": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "CreateIdempotencyKey",
-		Description:    `internal idempotency key for a create operation.`,
-		Getter:         true,
-		Name:           "createIdempotencyKey",
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"firstseen": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -911,45 +643,6 @@ then apply the XXH64 function.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"normalizedtags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "NormalizedTags",
-		Description:    `Contains the list of normalized tags of the entities.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "normalizedTags",
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		SubType:        "string",
-		Transient:      true,
-		Type:           "list",
-	},
-	"protected": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Protected",
-		Description:    `Defines if the object is protected.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "protected",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"updateidempotencykey": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "UpdateIdempotencyKey",
-		Description:    `internal idempotency key for a update operation.`,
-		Getter:         true,
-		Name:           "updateIdempotencyKey",
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1050,17 +743,8 @@ type SparseClaims struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
-
-	// List of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
-
 	// Contains the raw JSON web token (JWT) claims.
 	Content *map[string]string `json:"content,omitempty" msgpack:"content,omitempty" bson:"content,omitempty" mapstructure:"content,omitempty"`
-
-	// internal idempotency key for a create operation.
-	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Contains the date of the first appearance of the claims.
 	FirstSeen *time.Time `json:"-" msgpack:"-" bson:"firstseen,omitempty" mapstructure:"-,omitempty"`
@@ -1080,15 +764,6 @@ type SparseClaims struct {
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
-
-	// Contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
-
-	// Defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
-
-	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -1143,17 +818,8 @@ func (o *SparseClaims) GetBSON() (interface{}, error) {
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
-	if o.Annotations != nil {
-		s.Annotations = o.Annotations
-	}
-	if o.AssociatedTags != nil {
-		s.AssociatedTags = o.AssociatedTags
-	}
 	if o.Content != nil {
 		s.Content = o.Content
-	}
-	if o.CreateIdempotencyKey != nil {
-		s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	}
 	if o.FirstSeen != nil {
 		s.FirstSeen = o.FirstSeen
@@ -1169,15 +835,6 @@ func (o *SparseClaims) GetBSON() (interface{}, error) {
 	}
 	if o.Namespace != nil {
 		s.Namespace = o.Namespace
-	}
-	if o.NormalizedTags != nil {
-		s.NormalizedTags = o.NormalizedTags
-	}
-	if o.Protected != nil {
-		s.Protected = o.Protected
-	}
-	if o.UpdateIdempotencyKey != nil {
-		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	}
 	if o.ZHash != nil {
 		s.ZHash = o.ZHash
@@ -1204,17 +861,8 @@ func (o *SparseClaims) SetBSON(raw bson.Raw) error {
 
 	id := s.ID.Hex()
 	o.ID = &id
-	if s.Annotations != nil {
-		o.Annotations = s.Annotations
-	}
-	if s.AssociatedTags != nil {
-		o.AssociatedTags = s.AssociatedTags
-	}
 	if s.Content != nil {
 		o.Content = s.Content
-	}
-	if s.CreateIdempotencyKey != nil {
-		o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	}
 	if s.FirstSeen != nil {
 		o.FirstSeen = s.FirstSeen
@@ -1230,15 +878,6 @@ func (o *SparseClaims) SetBSON(raw bson.Raw) error {
 	}
 	if s.Namespace != nil {
 		o.Namespace = s.Namespace
-	}
-	if s.NormalizedTags != nil {
-		o.NormalizedTags = s.NormalizedTags
-	}
-	if s.Protected != nil {
-		o.Protected = s.Protected
-	}
-	if s.UpdateIdempotencyKey != nil {
-		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	}
 	if s.ZHash != nil {
 		o.ZHash = s.ZHash
@@ -1263,17 +902,8 @@ func (o *SparseClaims) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
-	if o.Annotations != nil {
-		out.Annotations = *o.Annotations
-	}
-	if o.AssociatedTags != nil {
-		out.AssociatedTags = *o.AssociatedTags
-	}
 	if o.Content != nil {
 		out.Content = *o.Content
-	}
-	if o.CreateIdempotencyKey != nil {
-		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
 	}
 	if o.FirstSeen != nil {
 		out.FirstSeen = *o.FirstSeen
@@ -1290,15 +920,6 @@ func (o *SparseClaims) ToPlain() elemental.PlainIdentifiable {
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
-	if o.NormalizedTags != nil {
-		out.NormalizedTags = *o.NormalizedTags
-	}
-	if o.Protected != nil {
-		out.Protected = *o.Protected
-	}
-	if o.UpdateIdempotencyKey != nil {
-		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
-	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
 	}
@@ -1307,54 +928,6 @@ func (o *SparseClaims) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
-}
-
-// GetAnnotations returns the Annotations of the receiver.
-func (o *SparseClaims) GetAnnotations() (out map[string][]string) {
-
-	if o.Annotations == nil {
-		return
-	}
-
-	return *o.Annotations
-}
-
-// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseClaims) SetAnnotations(annotations map[string][]string) {
-
-	o.Annotations = &annotations
-}
-
-// GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseClaims) GetAssociatedTags() (out []string) {
-
-	if o.AssociatedTags == nil {
-		return
-	}
-
-	return *o.AssociatedTags
-}
-
-// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseClaims) SetAssociatedTags(associatedTags []string) {
-
-	o.AssociatedTags = &associatedTags
-}
-
-// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseClaims) GetCreateIdempotencyKey() (out string) {
-
-	if o.CreateIdempotencyKey == nil {
-		return
-	}
-
-	return *o.CreateIdempotencyKey
-}
-
-// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseClaims) SetCreateIdempotencyKey(createIdempotencyKey string) {
-
-	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -1387,54 +960,6 @@ func (o *SparseClaims) GetNamespace() (out string) {
 func (o *SparseClaims) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
-}
-
-// GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseClaims) GetNormalizedTags() (out []string) {
-
-	if o.NormalizedTags == nil {
-		return
-	}
-
-	return *o.NormalizedTags
-}
-
-// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseClaims) SetNormalizedTags(normalizedTags []string) {
-
-	o.NormalizedTags = &normalizedTags
-}
-
-// GetProtected returns the Protected of the receiver.
-func (o *SparseClaims) GetProtected() (out bool) {
-
-	if o.Protected == nil {
-		return
-	}
-
-	return *o.Protected
-}
-
-// SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseClaims) SetProtected(protected bool) {
-
-	o.Protected = &protected
-}
-
-// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseClaims) GetUpdateIdempotencyKey() (out string) {
-
-	if o.UpdateIdempotencyKey == nil {
-		return
-	}
-
-	return *o.UpdateIdempotencyKey
-}
-
-// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseClaims) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
-
-	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetZHash returns the ZHash of the receiver.
@@ -1494,36 +1019,24 @@ func (o *SparseClaims) DeepCopyInto(out *SparseClaims) {
 }
 
 type mongoAttributesClaims struct {
-	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	Annotations          map[string][]string `bson:"annotations"`
-	AssociatedTags       []string            `bson:"associatedtags"`
-	Content              map[string]string   `bson:"content"`
-	CreateIdempotencyKey string              `bson:"createidempotencykey"`
-	FirstSeen            time.Time           `bson:"firstseen"`
-	Hash                 string              `bson:"hash"`
-	LastSeen             time.Time           `bson:"lastseen"`
-	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
-	Namespace            string              `bson:"namespace"`
-	NormalizedTags       []string            `bson:"normalizedtags"`
-	Protected            bool                `bson:"protected"`
-	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
-	ZHash                int                 `bson:"zhash"`
-	Zone                 int                 `bson:"zone"`
+	ID            bson.ObjectId     `bson:"_id,omitempty"`
+	Content       map[string]string `bson:"content"`
+	FirstSeen     time.Time         `bson:"firstseen,omitempty"`
+	Hash          string            `bson:"hash"`
+	LastSeen      time.Time         `bson:"lastseen"`
+	MigrationsLog map[string]string `bson:"migrationslog,omitempty"`
+	Namespace     string            `bson:"namespace"`
+	ZHash         int               `bson:"zhash"`
+	Zone          int               `bson:"zone"`
 }
 type mongoAttributesSparseClaims struct {
-	ID                   bson.ObjectId        `bson:"_id,omitempty"`
-	Annotations          *map[string][]string `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	Content              *map[string]string   `bson:"content,omitempty"`
-	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
-	FirstSeen            *time.Time           `bson:"firstseen,omitempty"`
-	Hash                 *string              `bson:"hash,omitempty"`
-	LastSeen             *time.Time           `bson:"lastseen,omitempty"`
-	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
-	Namespace            *string              `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	Protected            *bool                `bson:"protected,omitempty"`
-	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
-	ZHash                *int                 `bson:"zhash,omitempty"`
-	Zone                 *int                 `bson:"zone,omitempty"`
+	ID            bson.ObjectId      `bson:"_id,omitempty"`
+	Content       *map[string]string `bson:"content,omitempty"`
+	FirstSeen     *time.Time         `bson:"firstseen,omitempty"`
+	Hash          *string            `bson:"hash,omitempty"`
+	LastSeen      *time.Time         `bson:"lastseen,omitempty"`
+	MigrationsLog *map[string]string `bson:"migrationslog,omitempty"`
+	Namespace     *string            `bson:"namespace,omitempty"`
+	ZHash         *int               `bson:"zhash,omitempty"`
+	Zone          *int               `bson:"zone,omitempty"`
 }
