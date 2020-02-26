@@ -476,11 +476,10 @@ var (
 		"call":        nil,
 		"category":    nil,
 		"claims": [][]string{
+			[]string{"namespace", "hash"},
 			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
-			[]string{"createIdempotencyKey"},
 		},
 		"clausesmatch": nil,
 		"complianceissue": [][]string{
