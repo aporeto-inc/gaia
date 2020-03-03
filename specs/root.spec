@@ -205,6 +205,7 @@ relations:
     description: Retrieves the list of compliance issues.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new compliance issue.
 
@@ -213,6 +214,7 @@ relations:
     description: Retrieves the list of container images.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new container image.
 
@@ -883,6 +885,7 @@ relations:
     description: Retrieves the list of vulnerabilities.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new vulnerability.
 

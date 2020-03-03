@@ -156,6 +156,9 @@ type ContainerImage struct {
 	// Name of the release.
 	OsDistroRelease string `json:"osDistroRelease" msgpack:"osDistroRelease" bson:"osdistrorelease" mapstructure:"osDistroRelease,omitempty"`
 
+	// Propagates the policy to all of its children.
+	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -195,8 +198,8 @@ func NewContainerImage() *ContainerImage {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
-		NormalizedTags: []string{},
 		MigrationsLog:  map[string]string{},
+		NormalizedTags: []string{},
 	}
 }
 
@@ -254,6 +257,7 @@ func (o *ContainerImage) GetBSON() (interface{}, error) {
 	s.NormalizedTags = o.NormalizedTags
 	s.OsDistro = o.OsDistro
 	s.OsDistroRelease = o.OsDistroRelease
+	s.Propagate = o.Propagate
 	s.Protected = o.Protected
 	s.TotalComplianceIssueCount = o.TotalComplianceIssueCount
 	s.TotalVulnerabilityCount = o.TotalVulnerabilityCount
@@ -304,6 +308,7 @@ func (o *ContainerImage) SetBSON(raw bson.Raw) error {
 	o.NormalizedTags = s.NormalizedTags
 	o.OsDistro = s.OsDistro
 	o.OsDistroRelease = s.OsDistroRelease
+	o.Propagate = s.Propagate
 	o.Protected = s.Protected
 	o.TotalComplianceIssueCount = s.TotalComplianceIssueCount
 	o.TotalVulnerabilityCount = s.TotalVulnerabilityCount
@@ -468,6 +473,18 @@ func (o *ContainerImage) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *ContainerImage) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *ContainerImage) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *ContainerImage) GetProtected() bool {
 
@@ -559,6 +576,7 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 			NormalizedTags:               &o.NormalizedTags,
 			OsDistro:                     &o.OsDistro,
 			OsDistroRelease:              &o.OsDistroRelease,
+			Propagate:                    &o.Propagate,
 			Protected:                    &o.Protected,
 			TotalComplianceIssueCount:    &o.TotalComplianceIssueCount,
 			TotalVulnerabilityCount:      &o.TotalVulnerabilityCount,
@@ -622,6 +640,8 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.OsDistro = &(o.OsDistro)
 		case "osDistroRelease":
 			sp.OsDistroRelease = &(o.OsDistroRelease)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "totalComplianceIssueCount":
@@ -724,6 +744,9 @@ func (o *ContainerImage) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.OsDistroRelease != nil {
 		o.OsDistroRelease = *so.OsDistroRelease
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -886,6 +909,8 @@ func (o *ContainerImage) ValueForAttribute(name string) interface{} {
 		return o.OsDistro
 	case "osDistroRelease":
 		return o.OsDistroRelease
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "totalComplianceIssueCount":
@@ -1179,6 +1204,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:           "osDistroRelease",
 		Stored:         true,
 		Type:           "string",
+	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagates the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1554,6 +1591,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagates the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1795,6 +1844,9 @@ type SparseContainerImage struct {
 	// Name of the release.
 	OsDistroRelease *string `json:"osDistroRelease,omitempty" msgpack:"osDistroRelease,omitempty" bson:"osdistrorelease,omitempty" mapstructure:"osDistroRelease,omitempty"`
 
+	// Propagates the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
+
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
@@ -1938,6 +1990,9 @@ func (o *SparseContainerImage) GetBSON() (interface{}, error) {
 	if o.OsDistroRelease != nil {
 		s.OsDistroRelease = o.OsDistroRelease
 	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
@@ -2053,6 +2108,9 @@ func (o *SparseContainerImage) SetBSON(raw bson.Raw) error {
 	if s.OsDistroRelease != nil {
 		o.OsDistroRelease = s.OsDistroRelease
 	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
@@ -2165,6 +2223,9 @@ func (o *SparseContainerImage) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.OsDistroRelease != nil {
 		out.OsDistroRelease = *o.OsDistroRelease
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -2357,6 +2418,22 @@ func (o *SparseContainerImage) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = &normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseContainerImage) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseContainerImage) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *SparseContainerImage) GetProtected() (out bool) {
 
@@ -2486,6 +2563,7 @@ type mongoAttributesContainerImage struct {
 	NormalizedTags               []string            `bson:"normalizedtags"`
 	OsDistro                     string              `bson:"osdistro"`
 	OsDistroRelease              string              `bson:"osdistrorelease"`
+	Propagate                    bool                `bson:"propagate"`
 	Protected                    bool                `bson:"protected"`
 	TotalComplianceIssueCount    int                 `bson:"totalcomplianceissuecount"`
 	TotalVulnerabilityCount      int                 `bson:"totalvulnerabilitycount"`
@@ -2521,6 +2599,7 @@ type mongoAttributesSparseContainerImage struct {
 	NormalizedTags               *[]string            `bson:"normalizedtags,omitempty"`
 	OsDistro                     *string              `bson:"osdistro,omitempty"`
 	OsDistroRelease              *string              `bson:"osdistrorelease,omitempty"`
+	Propagate                    *bool                `bson:"propagate,omitempty"`
 	Protected                    *bool                `bson:"protected,omitempty"`
 	TotalComplianceIssueCount    *int                 `bson:"totalcomplianceissuecount,omitempty"`
 	TotalVulnerabilityCount      *int                 `bson:"totalvulnerabilitycount,omitempty"`

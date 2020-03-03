@@ -23,6 +23,7 @@ model:
   - '@metadatable'
   - '@named'
   - '@timeable'
+  - '@propagated'
 
 # Indexes
 indexes:
