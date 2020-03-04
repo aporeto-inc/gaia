@@ -311,3 +311,5 @@ relations:
 - rest_name: vulnerability
   get:
     description: Retrieves the vulnerabilities affecting the processing unit.
+    global_parameters:
+    - $propagatable

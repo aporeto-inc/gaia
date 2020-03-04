@@ -4615,7 +4615,14 @@ func init() {
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"containerimage": &elemental.RelationshipInfo{},
-			"processingunit": &elemental.RelationshipInfo{},
+			"processingunit": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -4632,7 +4639,14 @@ func init() {
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"containerimage": &elemental.RelationshipInfo{},
-			"processingunit": &elemental.RelationshipInfo{},
+			"processingunit": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
