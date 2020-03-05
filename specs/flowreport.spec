@@ -70,6 +70,12 @@ attributes:
     type: boolean
     exposed: true
 
+  - name: matchingSeqNum
+    description: If `true`, sequence number on the transmitter and receiver side is
+      same.
+    type: boolean
+    exposed: true
+
   - name: namespace
     description: This is here for backward compatibility.
     type: string
@@ -211,6 +217,11 @@ attributes:
   - name: timestamp
     description: Time and date of the log.
     type: time
+    exposed: true
+
+  - name: txFourTuple
+    description: Transmitter four tuple.
+    type: string
     exposed: true
 
   - name: value

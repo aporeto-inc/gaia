@@ -12,5 +12,6 @@ require (
 	github.com/mitchellh/copystructure v1.0.0
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4
+	golang.org/x/tools v0.0.0-20200302191653-49e4010bbf7f // indirect
 	gopkg.in/yaml.v2 v2.2.8
 )

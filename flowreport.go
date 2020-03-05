@@ -177,6 +177,9 @@ type FlowReport struct {
 	// If `true`, the flow was encrypted.
 	Encrypted bool `json:"encrypted" msgpack:"encrypted" bson:"-" mapstructure:"encrypted,omitempty"`
 
+	// If `true`, sequence number on the transmitter and receiver side is same.
+	MatchingSeqNum bool `json:"matchingSeqNum" msgpack:"matchingSeqNum" bson:"-" mapstructure:"matchingSeqNum,omitempty"`
+
 	// This is here for backward compatibility.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
@@ -241,6 +244,9 @@ type FlowReport struct {
 
 	// Time and date of the log.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	// Transmitter four tuple.
+	TxFourTuple string `json:"txFourTuple" msgpack:"txFourTuple" bson:"-" mapstructure:"txFourTuple,omitempty"`
 
 	// Number of flows in the log.
 	Value int `json:"value" msgpack:"value" bson:"-" mapstructure:"value,omitempty"`
@@ -348,6 +354,7 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			DestinationType:         &o.DestinationType,
 			DropReason:              &o.DropReason,
 			Encrypted:               &o.Encrypted,
+			MatchingSeqNum:          &o.MatchingSeqNum,
 			Namespace:               &o.Namespace,
 			Observed:                &o.Observed,
 			ObservedAction:          &o.ObservedAction,
@@ -369,6 +376,7 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			SourceNamespace:         &o.SourceNamespace,
 			SourceType:              &o.SourceType,
 			Timestamp:               &o.Timestamp,
+			TxFourTuple:             &o.TxFourTuple,
 			Value:                   &o.Value,
 		}
 	}
@@ -392,6 +400,8 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.DropReason = &(o.DropReason)
 		case "encrypted":
 			sp.Encrypted = &(o.Encrypted)
+		case "matchingSeqNum":
+			sp.MatchingSeqNum = &(o.MatchingSeqNum)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "observed":
@@ -434,6 +444,8 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.SourceType = &(o.SourceType)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
+		case "txFourTuple":
+			sp.TxFourTuple = &(o.TxFourTuple)
 		case "value":
 			sp.Value = &(o.Value)
 		}
@@ -472,6 +484,9 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Encrypted != nil {
 		o.Encrypted = *so.Encrypted
+	}
+	if so.MatchingSeqNum != nil {
+		o.MatchingSeqNum = *so.MatchingSeqNum
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
@@ -535,6 +550,9 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
+	}
+	if so.TxFourTuple != nil {
+		o.TxFourTuple = *so.TxFourTuple
 	}
 	if so.Value != nil {
 		o.Value = *so.Value
@@ -681,6 +699,8 @@ func (o *FlowReport) ValueForAttribute(name string) interface{} {
 		return o.DropReason
 	case "encrypted":
 		return o.Encrypted
+	case "matchingSeqNum":
+		return o.MatchingSeqNum
 	case "namespace":
 		return o.Namespace
 	case "observed":
@@ -723,6 +743,8 @@ func (o *FlowReport) ValueForAttribute(name string) interface{} {
 		return o.SourceType
 	case "timestamp":
 		return o.Timestamp
+	case "txFourTuple":
+		return o.TxFourTuple
 	case "value":
 		return o.Value
 	}
@@ -800,6 +822,14 @@ for the rejection.`,
 		Description:    `If ` + "`" + `true` + "`" + `, the flow was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypted",
+		Type:           "boolean",
+	},
+	"MatchingSeqNum": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MatchingSeqNum",
+		Description:    `If ` + "`" + `true` + "`" + `, sequence number on the transmitter and receiver side is same.`,
+		Exposed:        true,
+		Name:           "matchingSeqNum",
 		Type:           "boolean",
 	},
 	"Namespace": elemental.AttributeSpecification{
@@ -982,6 +1012,14 @@ property does nothing.`,
 		Name:           "timestamp",
 		Type:           "time",
 	},
+	"TxFourTuple": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TxFourTuple",
+		Description:    `Transmitter four tuple.`,
+		Exposed:        true,
+		Name:           "txFourTuple",
+		Type:           "string",
+	},
 	"Value": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Value",
@@ -1063,6 +1101,14 @@ for the rejection.`,
 		Description:    `If ` + "`" + `true` + "`" + `, the flow was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypted",
+		Type:           "boolean",
+	},
+	"matchingseqnum": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MatchingSeqNum",
+		Description:    `If ` + "`" + `true` + "`" + `, sequence number on the transmitter and receiver side is same.`,
+		Exposed:        true,
+		Name:           "matchingSeqNum",
 		Type:           "boolean",
 	},
 	"namespace": elemental.AttributeSpecification{
@@ -1245,6 +1291,14 @@ property does nothing.`,
 		Name:           "timestamp",
 		Type:           "time",
 	},
+	"txfourtuple": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TxFourTuple",
+		Description:    `Transmitter four tuple.`,
+		Exposed:        true,
+		Name:           "txFourTuple",
+		Type:           "string",
+	},
 	"value": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Value",
@@ -1345,6 +1399,9 @@ type SparseFlowReport struct {
 	// If `true`, the flow was encrypted.
 	Encrypted *bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"-" mapstructure:"encrypted,omitempty"`
 
+	// If `true`, sequence number on the transmitter and receiver side is same.
+	MatchingSeqNum *bool `json:"matchingSeqNum,omitempty" msgpack:"matchingSeqNum,omitempty" bson:"-" mapstructure:"matchingSeqNum,omitempty"`
+
 	// This is here for backward compatibility.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
@@ -1409,6 +1466,9 @@ type SparseFlowReport struct {
 
 	// Time and date of the log.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	// Transmitter four tuple.
+	TxFourTuple *string `json:"txFourTuple,omitempty" msgpack:"txFourTuple,omitempty" bson:"-" mapstructure:"txFourTuple,omitempty"`
 
 	// Number of flows in the log.
 	Value *int `json:"value,omitempty" msgpack:"value,omitempty" bson:"-" mapstructure:"value,omitempty"`
@@ -1501,6 +1561,9 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Encrypted != nil {
 		out.Encrypted = *o.Encrypted
 	}
+	if o.MatchingSeqNum != nil {
+		out.MatchingSeqNum = *o.MatchingSeqNum
+	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
@@ -1563,6 +1626,9 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp
+	}
+	if o.TxFourTuple != nil {
+		out.TxFourTuple = *o.TxFourTuple
 	}
 	if o.Value != nil {
 		out.Value = *o.Value

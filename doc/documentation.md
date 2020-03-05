@@ -9013,6 +9013,7 @@ Post a new flow log.
   "destinationNamespace": "/my/namespace",
   "destinationType": "ProcessingUnit",
   "encrypted": false,
+  "matchingSeqNum": false,
   "namespace": "/my/namespace",
   "observed": false,
   "observedAction": "NotApplicable",
@@ -9073,6 +9074,10 @@ for the rejection.
 ##### `encrypted` `boolean`
 
 If `true`, the flow was encrypted.
+
+##### `matchingSeqNum` `boolean`
+
+If `true`, sequence number on the transmitter and receiver side is same.
 
 ##### `namespace` `string` [`required`]
 
@@ -9175,6 +9180,10 @@ Type of the source.
 ##### `timestamp` `time`
 
 Time and date of the log.
+
+##### `txFourTuple` `string`
+
+Transmitter four tuple.
 
 ##### `value` `integer` [`required`]
 
