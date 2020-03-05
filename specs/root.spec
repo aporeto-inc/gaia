@@ -200,15 +200,6 @@ relations:
   create:
     description: Performs a clause matching.
 
-- rest_name: containerimage
-  get:
-    description: Retrieves the list of container images.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new container image.
-
 - rest_name: counterreport
   create:
     description: Create a counter report.
@@ -423,6 +414,30 @@ relations:
     - $archivable
   create:
     description: Creates a new HTTP resource specification.
+
+- rest_name: image
+  get:
+    description: Retrieves the list of container images.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new container image.
+
+- rest_name: imagevulnerability
+  get:
+    description: Retrieves the list of vulnerabilities for a bunch of container images.
+    parameters:
+      required:
+      - - - image
+      entries:
+      - name: image
+        description: Image to analyze.
+        type: string
+        multiple: true
+        example_value: nginx:1.12
+  create:
+    description: Creates a new vulnerability.
 
 - rest_name: import
   create:
@@ -877,21 +892,6 @@ relations:
     global_parameters:
     - $filtering
     - $propagatable
-  create:
-    description: Creates a new vulnerability.
-
-- rest_name: vulnerabilitytag
-  get:
-    description: Retrieves the list of vulnerabilities.
-    parameters:
-      required:
-      - - - image
-      entries:
-      - name: image
-        description: Image to analyze.
-        type: string
-        multiple: true
-        example_value: nginx:1.12
   create:
     description: Creates a new vulnerability.
 

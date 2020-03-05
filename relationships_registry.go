@@ -758,51 +758,6 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[ContainerImageIdentity] = &elemental.Relationship{
-		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		Update: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		Patch: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "propagated",
-						Type: "boolean",
-					},
-				},
-			},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "propagated",
-						Type: "boolean",
-					},
-				},
-			},
-		},
-	}
-
 	relationshipsRegistry[CounterReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -2152,6 +2107,97 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "ip",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+	}
+
+	relationshipsRegistry[ImageIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Update: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Patch: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+	}
+
+	relationshipsRegistry[ImageVulnerabilityIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"image",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "image",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"image",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "image",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -4594,52 +4640,6 @@ func init() {
 					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
-					},
-				},
-			},
-		},
-	}
-
-	relationshipsRegistry[VulnerabilityTagIdentity] = &elemental.Relationship{
-		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"image",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "image",
-						Type:     "string",
-						Multiple: true,
-					},
-				},
-			},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"image",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "image",
-						Type:     "string",
-						Multiple: true,
 					},
 				},
 			},

@@ -10,43 +10,43 @@ import (
 	"go.aporeto.io/gaia/constants"
 )
 
-// ContainerImageIdentity represents the Identity of the object.
-var ContainerImageIdentity = elemental.Identity{
-	Name:     "containerimage",
-	Category: "containerimages",
+// ImageIdentity represents the Identity of the object.
+var ImageIdentity = elemental.Identity{
+	Name:     "image",
+	Category: "images",
 	Package:  "aki",
 	Private:  false,
 }
 
-// ContainerImagesList represents a list of ContainerImages
-type ContainerImagesList []*ContainerImage
+// ImagesList represents a list of Images
+type ImagesList []*Image
 
 // Identity returns the identity of the objects in the list.
-func (o ContainerImagesList) Identity() elemental.Identity {
+func (o ImagesList) Identity() elemental.Identity {
 
-	return ContainerImageIdentity
+	return ImageIdentity
 }
 
-// Copy returns a pointer to a copy the ContainerImagesList.
-func (o ContainerImagesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the ImagesList.
+func (o ImagesList) Copy() elemental.Identifiables {
 
-	copy := append(ContainerImagesList{}, o...)
+	copy := append(ImagesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ContainerImagesList.
-func (o ContainerImagesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the ImagesList.
+func (o ImagesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(ContainerImagesList{}, o...)
+	out := append(ImagesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*ContainerImage))
+		out = append(out, obj.(*Image))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ContainerImagesList) List() elemental.IdentifiablesList {
+func (o ImagesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -57,33 +57,33 @@ func (o ContainerImagesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ContainerImagesList) DefaultOrder() []string {
+func (o ImagesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the ContainerImagesList converted to SparseContainerImagesList.
+// ToSparse returns the ImagesList converted to SparseImagesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ContainerImagesList) ToSparse(fields ...string) elemental.Identifiables {
+func (o ImagesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseContainerImagesList, len(o))
+	out := make(SparseImagesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseContainerImage)
+		out[i] = o[i].ToSparse(fields...).(*SparseImage)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o ContainerImagesList) Version() int {
+func (o ImagesList) Version() int {
 
 	return 1
 }
 
-// ContainerImage represents the model of a containerimage
-type ContainerImage struct {
+// Image represents the model of a image
+type Image struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -145,10 +145,10 @@ type ContainerImage struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewContainerImage returns a new *ContainerImage
-func NewContainerImage() *ContainerImage {
+// NewImage returns a new *Image
+func NewImage() *Image {
 
-	return &ContainerImage{
+	return &Image{
 		ModelVersion:    1,
 		Annotations:     map[string][]string{},
 		AssociatedTags:  []string{},
@@ -160,32 +160,32 @@ func NewContainerImage() *ContainerImage {
 }
 
 // Identity returns the Identity of the object.
-func (o *ContainerImage) Identity() elemental.Identity {
+func (o *Image) Identity() elemental.Identity {
 
-	return ContainerImageIdentity
+	return ImageIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ContainerImage) Identifier() string {
+func (o *Image) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ContainerImage) SetIdentifier(id string) {
+func (o *Image) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *ContainerImage) GetBSON() (interface{}, error) {
+func (o *Image) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesContainerImage{}
+	s := &mongoAttributesImage{}
 
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
@@ -214,13 +214,13 @@ func (o *ContainerImage) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *ContainerImage) SetBSON(raw bson.Raw) error {
+func (o *Image) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesContainerImage{}
+	s := &mongoAttributesImage{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -249,19 +249,19 @@ func (o *ContainerImage) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *ContainerImage) Version() int {
+func (o *Image) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *ContainerImage) BleveType() string {
+func (o *Image) BleveType() string {
 
-	return "containerimage"
+	return "image"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *ContainerImage) DefaultOrder() []string {
+func (o *Image) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -269,203 +269,203 @@ func (o *ContainerImage) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *ContainerImage) Doc() string {
+func (o *Image) Doc() string {
 
-	return `A container image can be affected by vulnerabilities and compliance issues.`
+	return `A container image can be affected by vulnerabilities.`
 }
 
-func (o *ContainerImage) String() string {
+func (o *Image) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *ContainerImage) GetAnnotations() map[string][]string {
+func (o *Image) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *ContainerImage) SetAnnotations(annotations map[string][]string) {
+func (o *Image) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *ContainerImage) GetAssociatedTags() []string {
+func (o *Image) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *ContainerImage) SetAssociatedTags(associatedTags []string) {
+func (o *Image) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *ContainerImage) GetCreateIdempotencyKey() string {
+func (o *Image) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *ContainerImage) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *Image) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *ContainerImage) GetCreateTime() time.Time {
+func (o *Image) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *ContainerImage) SetCreateTime(createTime time.Time) {
+func (o *Image) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *ContainerImage) GetDescription() string {
+func (o *Image) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *ContainerImage) SetDescription(description string) {
+func (o *Image) SetDescription(description string) {
 
 	o.Description = description
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *ContainerImage) GetMigrationsLog() map[string]string {
+func (o *Image) GetMigrationsLog() map[string]string {
 
 	return o.MigrationsLog
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
-func (o *ContainerImage) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *Image) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *ContainerImage) GetName() string {
+func (o *Image) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *ContainerImage) SetName(name string) {
+func (o *Image) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *ContainerImage) GetNamespace() string {
+func (o *Image) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *ContainerImage) SetNamespace(namespace string) {
+func (o *Image) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ContainerImage) GetNormalizedTags() []string {
+func (o *Image) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *ContainerImage) SetNormalizedTags(normalizedTags []string) {
+func (o *Image) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *ContainerImage) GetPropagate() bool {
+func (o *Image) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *ContainerImage) SetPropagate(propagate bool) {
+func (o *Image) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *ContainerImage) GetProtected() bool {
+func (o *Image) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *ContainerImage) SetProtected(protected bool) {
+func (o *Image) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *ContainerImage) GetUpdateIdempotencyKey() string {
+func (o *Image) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *ContainerImage) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *Image) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *ContainerImage) GetUpdateTime() time.Time {
+func (o *Image) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *ContainerImage) SetUpdateTime(updateTime time.Time) {
+func (o *Image) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *ContainerImage) GetZHash() int {
+func (o *Image) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *ContainerImage) SetZHash(zHash int) {
+func (o *Image) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *ContainerImage) GetZone() int {
+func (o *Image) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *ContainerImage) SetZone(zone int) {
+func (o *Image) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *Image) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseContainerImage{
+		return &SparseImage{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
@@ -488,7 +488,7 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 		}
 	}
 
-	sp := &SparseContainerImage{}
+	sp := &SparseImage{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -535,13 +535,13 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseContainerImage to the object.
-func (o *ContainerImage) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseImage to the object.
+func (o *Image) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseContainerImage)
+	so := sparse.(*SparseImage)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -601,32 +601,32 @@ func (o *ContainerImage) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the ContainerImage.
-func (o *ContainerImage) DeepCopy() *ContainerImage {
+// DeepCopy returns a deep copy if the Image.
+func (o *Image) DeepCopy() *Image {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &ContainerImage{}
+	out := &Image{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *ContainerImage.
-func (o *ContainerImage) DeepCopyInto(out *ContainerImage) {
+// DeepCopyInto copies the receiver into the given *Image.
+func (o *Image) DeepCopyInto(out *Image) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy ContainerImage: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy Image: %s", err))
 	}
 
-	*out = *target.(*ContainerImage)
+	*out = *target.(*Image)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ContainerImage) Validate() error {
+func (o *Image) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -659,26 +659,26 @@ func (o *ContainerImage) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*ContainerImage) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*Image) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ContainerImageAttributesMap[name]; ok {
+	if v, ok := ImageAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ContainerImageLowerCaseAttributesMap[name]
+	return ImageLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*ContainerImage) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*Image) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ContainerImageAttributesMap
+	return ImageAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *ContainerImage) ValueForAttribute(name string) interface{} {
+func (o *Image) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -724,8 +724,8 @@ func (o *ContainerImage) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// ContainerImageAttributesMap represents the map of attribute for ContainerImage.
-var ContainerImageAttributesMap = map[string]elemental.AttributeSpecification{
+// ImageAttributesMap represents the map of attribute for Image.
+var ImageAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -967,8 +967,8 @@ georedundancy.`,
 	},
 }
 
-// ContainerImageLowerCaseAttributesMap represents the map of attribute for ContainerImage.
-var ContainerImageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// ImageLowerCaseAttributesMap represents the map of attribute for Image.
+var ImageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1210,35 +1210,35 @@ georedundancy.`,
 	},
 }
 
-// SparseContainerImagesList represents a list of SparseContainerImages
-type SparseContainerImagesList []*SparseContainerImage
+// SparseImagesList represents a list of SparseImages
+type SparseImagesList []*SparseImage
 
 // Identity returns the identity of the objects in the list.
-func (o SparseContainerImagesList) Identity() elemental.Identity {
+func (o SparseImagesList) Identity() elemental.Identity {
 
-	return ContainerImageIdentity
+	return ImageIdentity
 }
 
-// Copy returns a pointer to a copy the SparseContainerImagesList.
-func (o SparseContainerImagesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseImagesList.
+func (o SparseImagesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseContainerImagesList{}, o...)
+	copy := append(SparseImagesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseContainerImagesList.
-func (o SparseContainerImagesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseImagesList.
+func (o SparseImagesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseContainerImagesList{}, o...)
+	out := append(SparseImagesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseContainerImage))
+		out = append(out, obj.(*SparseImage))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseContainerImagesList) List() elemental.IdentifiablesList {
+func (o SparseImagesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1249,15 +1249,15 @@ func (o SparseContainerImagesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseContainerImagesList) DefaultOrder() []string {
+func (o SparseImagesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparseContainerImagesList converted to ContainerImagesList.
-func (o SparseContainerImagesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseImagesList converted to ImagesList.
+func (o SparseImagesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1268,13 +1268,13 @@ func (o SparseContainerImagesList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseContainerImagesList) Version() int {
+func (o SparseImagesList) Version() int {
 
 	return 1
 }
 
-// SparseContainerImage represents the sparse version of a containerimage.
-type SparseContainerImage struct {
+// SparseImage represents the sparse version of a image.
+type SparseImage struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1336,19 +1336,19 @@ type SparseContainerImage struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseContainerImage returns a new  SparseContainerImage.
-func NewSparseContainerImage() *SparseContainerImage {
-	return &SparseContainerImage{}
+// NewSparseImage returns a new  SparseImage.
+func NewSparseImage() *SparseImage {
+	return &SparseImage{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseContainerImage) Identity() elemental.Identity {
+func (o *SparseImage) Identity() elemental.Identity {
 
-	return ContainerImageIdentity
+	return ImageIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseContainerImage) Identifier() string {
+func (o *SparseImage) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1357,7 +1357,7 @@ func (o *SparseContainerImage) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseContainerImage) SetIdentifier(id string) {
+func (o *SparseImage) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -1368,13 +1368,13 @@ func (o *SparseContainerImage) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseContainerImage) GetBSON() (interface{}, error) {
+func (o *SparseImage) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseContainerImage{}
+	s := &mongoAttributesSparseImage{}
 
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
@@ -1439,13 +1439,13 @@ func (o *SparseContainerImage) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseContainerImage) SetBSON(raw bson.Raw) error {
+func (o *SparseImage) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseContainerImage{}
+	s := &mongoAttributesSparseImage{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -1511,15 +1511,15 @@ func (o *SparseContainerImage) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseContainerImage) Version() int {
+func (o *SparseImage) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseContainerImage) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseImage) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewContainerImage()
+	out := NewImage()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1582,7 +1582,7 @@ func (o *SparseContainerImage) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseContainerImage) GetAnnotations() (out map[string][]string) {
+func (o *SparseImage) GetAnnotations() (out map[string][]string) {
 
 	if o.Annotations == nil {
 		return
@@ -1592,13 +1592,13 @@ func (o *SparseContainerImage) GetAnnotations() (out map[string][]string) {
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetAnnotations(annotations map[string][]string) {
+func (o *SparseImage) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseContainerImage) GetAssociatedTags() (out []string) {
+func (o *SparseImage) GetAssociatedTags() (out []string) {
 
 	if o.AssociatedTags == nil {
 		return
@@ -1608,13 +1608,13 @@ func (o *SparseContainerImage) GetAssociatedTags() (out []string) {
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetAssociatedTags(associatedTags []string) {
+func (o *SparseImage) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseContainerImage) GetCreateIdempotencyKey() (out string) {
+func (o *SparseImage) GetCreateIdempotencyKey() (out string) {
 
 	if o.CreateIdempotencyKey == nil {
 		return
@@ -1624,13 +1624,13 @@ func (o *SparseContainerImage) GetCreateIdempotencyKey() (out string) {
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseImage) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseContainerImage) GetCreateTime() (out time.Time) {
+func (o *SparseImage) GetCreateTime() (out time.Time) {
 
 	if o.CreateTime == nil {
 		return
@@ -1640,13 +1640,13 @@ func (o *SparseContainerImage) GetCreateTime() (out time.Time) {
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetCreateTime(createTime time.Time) {
+func (o *SparseImage) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseContainerImage) GetDescription() (out string) {
+func (o *SparseImage) GetDescription() (out string) {
 
 	if o.Description == nil {
 		return
@@ -1656,13 +1656,13 @@ func (o *SparseContainerImage) GetDescription() (out string) {
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetDescription(description string) {
+func (o *SparseImage) SetDescription(description string) {
 
 	o.Description = &description
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseContainerImage) GetMigrationsLog() (out map[string]string) {
+func (o *SparseImage) GetMigrationsLog() (out map[string]string) {
 
 	if o.MigrationsLog == nil {
 		return
@@ -1672,13 +1672,13 @@ func (o *SparseContainerImage) GetMigrationsLog() (out map[string]string) {
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *SparseImage) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseContainerImage) GetName() (out string) {
+func (o *SparseImage) GetName() (out string) {
 
 	if o.Name == nil {
 		return
@@ -1688,13 +1688,13 @@ func (o *SparseContainerImage) GetName() (out string) {
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetName(name string) {
+func (o *SparseImage) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseContainerImage) GetNamespace() (out string) {
+func (o *SparseImage) GetNamespace() (out string) {
 
 	if o.Namespace == nil {
 		return
@@ -1704,13 +1704,13 @@ func (o *SparseContainerImage) GetNamespace() (out string) {
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetNamespace(namespace string) {
+func (o *SparseImage) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseContainerImage) GetNormalizedTags() (out []string) {
+func (o *SparseImage) GetNormalizedTags() (out []string) {
 
 	if o.NormalizedTags == nil {
 		return
@@ -1720,13 +1720,13 @@ func (o *SparseContainerImage) GetNormalizedTags() (out []string) {
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseImage) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseContainerImage) GetPropagate() (out bool) {
+func (o *SparseImage) GetPropagate() (out bool) {
 
 	if o.Propagate == nil {
 		return
@@ -1736,13 +1736,13 @@ func (o *SparseContainerImage) GetPropagate() (out bool) {
 }
 
 // SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetPropagate(propagate bool) {
+func (o *SparseImage) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseContainerImage) GetProtected() (out bool) {
+func (o *SparseImage) GetProtected() (out bool) {
 
 	if o.Protected == nil {
 		return
@@ -1752,13 +1752,13 @@ func (o *SparseContainerImage) GetProtected() (out bool) {
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetProtected(protected bool) {
+func (o *SparseImage) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseContainerImage) GetUpdateIdempotencyKey() (out string) {
+func (o *SparseImage) GetUpdateIdempotencyKey() (out string) {
 
 	if o.UpdateIdempotencyKey == nil {
 		return
@@ -1768,13 +1768,13 @@ func (o *SparseContainerImage) GetUpdateIdempotencyKey() (out string) {
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseImage) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseContainerImage) GetUpdateTime() (out time.Time) {
+func (o *SparseImage) GetUpdateTime() (out time.Time) {
 
 	if o.UpdateTime == nil {
 		return
@@ -1784,13 +1784,13 @@ func (o *SparseContainerImage) GetUpdateTime() (out time.Time) {
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetUpdateTime(updateTime time.Time) {
+func (o *SparseImage) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseContainerImage) GetZHash() (out int) {
+func (o *SparseImage) GetZHash() (out int) {
 
 	if o.ZHash == nil {
 		return
@@ -1800,13 +1800,13 @@ func (o *SparseContainerImage) GetZHash() (out int) {
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetZHash(zHash int) {
+func (o *SparseImage) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseContainerImage) GetZone() (out int) {
+func (o *SparseImage) GetZone() (out int) {
 
 	if o.Zone == nil {
 		return
@@ -1816,36 +1816,36 @@ func (o *SparseContainerImage) GetZone() (out int) {
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetZone(zone int) {
+func (o *SparseImage) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseContainerImage.
-func (o *SparseContainerImage) DeepCopy() *SparseContainerImage {
+// DeepCopy returns a deep copy if the SparseImage.
+func (o *SparseImage) DeepCopy() *SparseImage {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseContainerImage{}
+	out := &SparseImage{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseContainerImage.
-func (o *SparseContainerImage) DeepCopyInto(out *SparseContainerImage) {
+// DeepCopyInto copies the receiver into the given *SparseImage.
+func (o *SparseImage) DeepCopyInto(out *SparseImage) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseContainerImage: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseImage: %s", err))
 	}
 
-	*out = *target.(*SparseContainerImage)
+	*out = *target.(*SparseImage)
 }
 
-type mongoAttributesContainerImage struct {
+type mongoAttributesImage struct {
 	ID                   bson.ObjectId           `bson:"_id,omitempty"`
 	Annotations          map[string][]string     `bson:"annotations"`
 	AssociatedTags       []string                `bson:"associatedtags"`
@@ -1866,7 +1866,7 @@ type mongoAttributesContainerImage struct {
 	ZHash                int                     `bson:"zhash"`
 	Zone                 int                     `bson:"zone"`
 }
-type mongoAttributesSparseContainerImage struct {
+type mongoAttributesSparseImage struct {
 	ID                   bson.ObjectId            `bson:"_id,omitempty"`
 	Annotations          *map[string][]string     `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string                `bson:"associatedtags,omitempty"`

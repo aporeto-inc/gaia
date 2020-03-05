@@ -1,12 +1,11 @@
 # Model
 model:
-  rest_name: containerimage
-  resource_name: containerimages
-  entity_name: ContainerImage
+  rest_name: image
+  resource_name: images
+  entity_name: Image
   package: aki
-  group: integration/vulnerability
-  description: A container image can be affected by vulnerabilities and compliance
-    issues.
+  group: core/processingunit
+  description: A container image can be affected by vulnerabilities.
   get:
     description: Retrieves a container image with a given ID.
   update:
