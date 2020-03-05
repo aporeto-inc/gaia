@@ -200,15 +200,6 @@ relations:
   create:
     description: Performs a clause matching.
 
-- rest_name: complianceissue
-  get:
-    description: Retrieves the list of compliance issues.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new compliance issue.
-
 - rest_name: containerimage
   get:
     description: Retrieves the list of container images.
@@ -886,6 +877,21 @@ relations:
     global_parameters:
     - $filtering
     - $propagatable
+  create:
+    description: Creates a new vulnerability.
+
+- rest_name: vulnerabilitytag
+  get:
+    description: Retrieves the list of vulnerabilities.
+    parameters:
+      required:
+      - - - image
+      entries:
+      - name: image
+        description: Image to analyze.
+        type: string
+        multiple: true
+        example_value: nginx:1.12
   create:
     description: Creates a new vulnerability.
 

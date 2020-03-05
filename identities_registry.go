@@ -31,9 +31,8 @@ var (
 		"claims":       ClaimsIdentity,
 		"clausesmatch": ClauseMatchIdentity,
 
-		"complianceissue": ComplianceIssueIdentity,
-		"containerimage":  ContainerImageIdentity,
-		"counterreport":   CounterReportIdentity,
+		"containerimage": ContainerImageIdentity,
+		"counterreport":  CounterReportIdentity,
 
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
@@ -139,6 +138,7 @@ var (
 		"useraccesspolicy":     UserAccessPolicyIdentity,
 		"validateuiparameter":  ValidateUIParameterIdentity,
 		"vulnerability":        VulnerabilityIdentity,
+		"vulnerabilitytag":     VulnerabilityTagIdentity,
 		"x509certificate":      X509CertificateIdentity,
 		"x509certificatecheck": X509CertificateCheckIdentity,
 	}
@@ -171,9 +171,8 @@ var (
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
 
-		"complianceissues": ComplianceIssueIdentity,
-		"containerimages":  ContainerImageIdentity,
-		"counterreports":   CounterReportIdentity,
+		"containerimages": ContainerImageIdentity,
+		"counterreports":  CounterReportIdentity,
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
@@ -279,6 +278,7 @@ var (
 		"useraccesspolicies":    UserAccessPolicyIdentity,
 		"validateuiparameters":  ValidateUIParameterIdentity,
 		"vulnerabilities":       VulnerabilityIdentity,
+		"vulnerabilitytags":     VulnerabilityTagIdentity,
 		"x509certificates":      X509CertificateIdentity,
 		"x509certificatechecks": X509CertificateCheckIdentity,
 	}
@@ -482,27 +482,18 @@ var (
 			[]string{"namespace", "normalizedTags"},
 		},
 		"clausesmatch": nil,
-		"complianceissue": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"severity", "namespace"},
-			[]string{"propagate"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
-		},
 		"containerimage": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
+			[]string{"severity"},
 			[]string{"propagate"},
+			[]string{"namespace"},
+			[]string{"namespace", "severity"},
+			[]string{"namespace", "hash"},
 			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "name"},
-			[]string{"namespace"},
 			[]string{"name"},
-			[]string{"externalID"},
-			[]string{"dockerImages"},
+			[]string{"hash"},
 			[]string{"createIdempotencyKey"},
 		},
 		"counterreport": nil,
@@ -852,6 +843,7 @@ var (
 			[]string{"createIdempotencyKey"},
 			[]string{"CVSS2Score"},
 		},
+		"vulnerabilitytag":     nil,
 		"x509certificate":      nil,
 		"x509certificatecheck": nil,
 	}
@@ -944,8 +936,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewClaims()
 	case ClauseMatchIdentity:
 		return NewClauseMatch()
-	case ComplianceIssueIdentity:
-		return NewComplianceIssue()
 	case ContainerImageIdentity:
 		return NewContainerImage()
 	case CounterReportIdentity:
@@ -1140,6 +1130,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewValidateUIParameter()
 	case VulnerabilityIdentity:
 		return NewVulnerability()
+	case VulnerabilityTagIdentity:
+		return NewVulnerabilityTag()
 	case X509CertificateIdentity:
 		return NewX509Certificate()
 	case X509CertificateCheckIdentity:
@@ -1203,8 +1195,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
 		return NewSparseClauseMatch()
-	case ComplianceIssueIdentity:
-		return NewSparseComplianceIssue()
 	case ContainerImageIdentity:
 		return NewSparseContainerImage()
 	case CounterReportIdentity:
@@ -1397,6 +1387,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseValidateUIParameter()
 	case VulnerabilityIdentity:
 		return NewSparseVulnerability()
+	case VulnerabilityTagIdentity:
+		return NewSparseVulnerabilityTag()
 	case X509CertificateIdentity:
 		return NewSparseX509Certificate()
 	case X509CertificateCheckIdentity:
@@ -1470,8 +1462,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
 		return &ClauseMatchesList{}
-	case ComplianceIssueIdentity:
-		return &ComplianceIssuesList{}
 	case ContainerImageIdentity:
 		return &ContainerImagesList{}
 	case CounterReportIdentity:
@@ -1664,6 +1654,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ValidateUIParametersList{}
 	case VulnerabilityIdentity:
 		return &VulnerabilitiesList{}
+	case VulnerabilityTagIdentity:
+		return &VulnerabilityTagsList{}
 	case X509CertificateIdentity:
 		return &X509CertificatesList{}
 	case X509CertificateCheckIdentity:
@@ -1727,8 +1719,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
 		return &SparseClauseMatchesList{}
-	case ComplianceIssueIdentity:
-		return &SparseComplianceIssuesList{}
 	case ContainerImageIdentity:
 		return &SparseContainerImagesList{}
 	case CounterReportIdentity:
@@ -1921,6 +1911,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseValidateUIParametersList{}
 	case VulnerabilityIdentity:
 		return &SparseVulnerabilitiesList{}
+	case VulnerabilityTagIdentity:
+		return &SparseVulnerabilityTagsList{}
 	case X509CertificateIdentity:
 		return &SparseX509CertificatesList{}
 	case X509CertificateCheckIdentity:
@@ -1974,7 +1966,6 @@ func AllIdentities() []elemental.Identity {
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
-		ComplianceIssueIdentity,
 		ContainerImageIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
@@ -2072,6 +2063,7 @@ func AllIdentities() []elemental.Identity {
 		UserAccessPolicyIdentity,
 		ValidateUIParameterIdentity,
 		VulnerabilityIdentity,
+		VulnerabilityTagIdentity,
 		X509CertificateIdentity,
 		X509CertificateCheckIdentity,
 	}
@@ -2151,8 +2143,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ClaimsIdentity:
 		return []string{}
 	case ClauseMatchIdentity:
-		return []string{}
-	case ComplianceIssueIdentity:
 		return []string{}
 	case ContainerImageIdentity:
 		return []string{}
@@ -2460,6 +2450,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"vuln",
 			"vuls",
 		}
+	case VulnerabilityTagIdentity:
+		return []string{}
 	case X509CertificateIdentity:
 		return []string{}
 	case X509CertificateCheckIdentity:

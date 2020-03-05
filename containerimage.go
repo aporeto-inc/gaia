@@ -7,6 +7,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
+	"go.aporeto.io/gaia/constants"
 )
 
 // ContainerImageIdentity represents the Identity of the object.
@@ -92,51 +93,17 @@ type ContainerImage struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Score of the compliance.
-	ComplianceRiskScore int `json:"complianceRiskScore" msgpack:"complianceRiskScore" bson:"complianceriskscore" mapstructure:"complianceRiskScore,omitempty"`
-
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Number of critical compliance issue.
-	CriticalComplianceIssueCount int `json:"criticalComplianceIssueCount" msgpack:"criticalComplianceIssueCount" bson:"criticalcomplianceissuecount" mapstructure:"criticalComplianceIssueCount,omitempty"`
-
-	// Number of critical vulnerabilities.
-	CriticalVulnerabilityCount int `json:"criticalVulnerabilityCount" msgpack:"criticalVulnerabilityCount" bson:"criticalvulnerabilitycount" mapstructure:"criticalVulnerabilityCount,omitempty"`
-
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Full name of the distribution.
-	Distro string `json:"distro" msgpack:"distro" bson:"distro" mapstructure:"distro,omitempty"`
-
-	// External Identifier of the container image scan.
-	ExternalID string `json:"externalID" msgpack:"externalID" bson:"externalid" mapstructure:"externalID,omitempty"`
-
-	// Number of high compliance issue.
-	HighComplianceIssueCount int `json:"highComplianceIssueCount" msgpack:"highComplianceIssueCount" bson:"highcomplianceissuecount" mapstructure:"highComplianceIssueCount,omitempty"`
-
-	// Number of high vulnerabilities.
-	HighVulnerabilityCount int `json:"highVulnerabilityCount" msgpack:"highVulnerabilityCount" bson:"highvulnerabilitycount" mapstructure:"highVulnerabilityCount,omitempty"`
-
-	// Number of low compliance issue.
-	LowComplianceIssueCount int `json:"lowComplianceIssueCount" msgpack:"lowComplianceIssueCount" bson:"lowcomplianceissuecount" mapstructure:"lowComplianceIssueCount,omitempty"`
-
-	// Number of low vulnerabilities.
-	LowVulnerabilityCount int `json:"lowVulnerabilityCount" msgpack:"lowVulnerabilityCount" bson:"lowvulnerabilitycount" mapstructure:"lowVulnerabilityCount,omitempty"`
-
-	// Number of medium compliance issue.
-	MediumComplianceIssueCount int `json:"mediumComplianceIssueCount" msgpack:"mediumComplianceIssueCount" bson:"mediumcomplianceissuecount" mapstructure:"mediumComplianceIssueCount,omitempty"`
-
-	// Number of medium vulnerabilities.
-	MediumVulnerabilityCount int `json:"mediumVulnerabilityCount" msgpack:"mediumVulnerabilityCount" bson:"mediumvulnerabilitycount" mapstructure:"mediumVulnerabilityCount,omitempty"`
-
-	// Contains tags that can only be set during creation, must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+	// Hash of the image.
+	Hash string `json:"hash" msgpack:"hash" bson:"hash" mapstructure:"hash,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
@@ -150,23 +117,14 @@ type ContainerImage struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Name of the os distribution.
-	OsDistro string `json:"osDistro" msgpack:"osDistro" bson:"osdistro" mapstructure:"osDistro,omitempty"`
-
-	// Name of the release.
-	OsDistroRelease string `json:"osDistroRelease" msgpack:"osDistroRelease" bson:"osdistrorelease" mapstructure:"osDistroRelease,omitempty"`
-
 	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Number of total compliance issue.
-	TotalComplianceIssueCount int `json:"totalComplianceIssueCount" msgpack:"totalComplianceIssueCount" bson:"totalcomplianceissuecount" mapstructure:"totalComplianceIssueCount,omitempty"`
-
-	// Number of total vulnerabilities.
-	TotalVulnerabilityCount int `json:"totalVulnerabilityCount" msgpack:"totalVulnerabilityCount" bson:"totalvulnerabilitycount" mapstructure:"totalVulnerabilityCount,omitempty"`
+	// Overall severity of the container image.
+	Severity constants.Vulnerability `json:"severity" msgpack:"severity" bson:"severity" mapstructure:"severity,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -174,11 +132,8 @@ type ContainerImage struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	// Number of vulnerabilities affecting this image.
-	VulnerabilitiesCount int `json:"vulnerabilitiesCount" msgpack:"vulnerabilitiesCount" bson:"vulnerabilitiescount" mapstructure:"vulnerabilitiesCount,omitempty"`
-
-	// Score of the vulnerability.
-	VulnerabilityRiskScore int `json:"vulnerabilityRiskScore" msgpack:"vulnerabilityRiskScore" bson:"vulnerabilityriskscore" mapstructure:"vulnerabilityRiskScore,omitempty"`
+	// List of vulnerabilities affecting this image.
+	Vulnerabilities []string `json:"vulnerabilities" msgpack:"vulnerabilities" bson:"vulnerabilities" mapstructure:"vulnerabilities,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -194,12 +149,13 @@ type ContainerImage struct {
 func NewContainerImage() *ContainerImage {
 
 	return &ContainerImage{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Metadata:       []string{},
-		MigrationsLog:  map[string]string{},
-		NormalizedTags: []string{},
+		ModelVersion:    1,
+		Annotations:     map[string][]string{},
+		AssociatedTags:  []string{},
+		MigrationsLog:   map[string]string{},
+		NormalizedTags:  []string{},
+		Severity:        constants.VulnerabilityUnknown,
+		Vulnerabilities: []string{},
 	}
 }
 
@@ -236,35 +192,20 @@ func (o *ContainerImage) GetBSON() (interface{}, error) {
 	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
-	s.ComplianceRiskScore = o.ComplianceRiskScore
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
-	s.CriticalComplianceIssueCount = o.CriticalComplianceIssueCount
-	s.CriticalVulnerabilityCount = o.CriticalVulnerabilityCount
 	s.Description = o.Description
-	s.Distro = o.Distro
-	s.ExternalID = o.ExternalID
-	s.HighComplianceIssueCount = o.HighComplianceIssueCount
-	s.HighVulnerabilityCount = o.HighVulnerabilityCount
-	s.LowComplianceIssueCount = o.LowComplianceIssueCount
-	s.LowVulnerabilityCount = o.LowVulnerabilityCount
-	s.MediumComplianceIssueCount = o.MediumComplianceIssueCount
-	s.MediumVulnerabilityCount = o.MediumVulnerabilityCount
-	s.Metadata = o.Metadata
+	s.Hash = o.Hash
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
-	s.OsDistro = o.OsDistro
-	s.OsDistroRelease = o.OsDistroRelease
 	s.Propagate = o.Propagate
 	s.Protected = o.Protected
-	s.TotalComplianceIssueCount = o.TotalComplianceIssueCount
-	s.TotalVulnerabilityCount = o.TotalVulnerabilityCount
+	s.Severity = o.Severity
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
-	s.VulnerabilitiesCount = o.VulnerabilitiesCount
-	s.VulnerabilityRiskScore = o.VulnerabilityRiskScore
+	s.Vulnerabilities = o.Vulnerabilities
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
 
@@ -287,35 +228,20 @@ func (o *ContainerImage) SetBSON(raw bson.Raw) error {
 	o.ID = s.ID.Hex()
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
-	o.ComplianceRiskScore = s.ComplianceRiskScore
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
-	o.CriticalComplianceIssueCount = s.CriticalComplianceIssueCount
-	o.CriticalVulnerabilityCount = s.CriticalVulnerabilityCount
 	o.Description = s.Description
-	o.Distro = s.Distro
-	o.ExternalID = s.ExternalID
-	o.HighComplianceIssueCount = s.HighComplianceIssueCount
-	o.HighVulnerabilityCount = s.HighVulnerabilityCount
-	o.LowComplianceIssueCount = s.LowComplianceIssueCount
-	o.LowVulnerabilityCount = s.LowVulnerabilityCount
-	o.MediumComplianceIssueCount = s.MediumComplianceIssueCount
-	o.MediumVulnerabilityCount = s.MediumVulnerabilityCount
-	o.Metadata = s.Metadata
+	o.Hash = s.Hash
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
-	o.OsDistro = s.OsDistro
-	o.OsDistroRelease = s.OsDistroRelease
 	o.Propagate = s.Propagate
 	o.Protected = s.Protected
-	o.TotalComplianceIssueCount = s.TotalComplianceIssueCount
-	o.TotalVulnerabilityCount = s.TotalVulnerabilityCount
+	o.Severity = s.Severity
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
-	o.VulnerabilitiesCount = s.VulnerabilitiesCount
-	o.VulnerabilityRiskScore = s.VulnerabilityRiskScore
+	o.Vulnerabilities = s.Vulnerabilities
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
 
@@ -411,18 +337,6 @@ func (o *ContainerImage) GetDescription() string {
 func (o *ContainerImage) SetDescription(description string) {
 
 	o.Description = description
-}
-
-// GetMetadata returns the Metadata of the receiver.
-func (o *ContainerImage) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *ContainerImage) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -552,40 +466,25 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseContainerImage{
-			ID:                           &o.ID,
-			Annotations:                  &o.Annotations,
-			AssociatedTags:               &o.AssociatedTags,
-			ComplianceRiskScore:          &o.ComplianceRiskScore,
-			CreateIdempotencyKey:         &o.CreateIdempotencyKey,
-			CreateTime:                   &o.CreateTime,
-			CriticalComplianceIssueCount: &o.CriticalComplianceIssueCount,
-			CriticalVulnerabilityCount:   &o.CriticalVulnerabilityCount,
-			Description:                  &o.Description,
-			Distro:                       &o.Distro,
-			ExternalID:                   &o.ExternalID,
-			HighComplianceIssueCount:     &o.HighComplianceIssueCount,
-			HighVulnerabilityCount:       &o.HighVulnerabilityCount,
-			LowComplianceIssueCount:      &o.LowComplianceIssueCount,
-			LowVulnerabilityCount:        &o.LowVulnerabilityCount,
-			MediumComplianceIssueCount:   &o.MediumComplianceIssueCount,
-			MediumVulnerabilityCount:     &o.MediumVulnerabilityCount,
-			Metadata:                     &o.Metadata,
-			MigrationsLog:                &o.MigrationsLog,
-			Name:                         &o.Name,
-			Namespace:                    &o.Namespace,
-			NormalizedTags:               &o.NormalizedTags,
-			OsDistro:                     &o.OsDistro,
-			OsDistroRelease:              &o.OsDistroRelease,
-			Propagate:                    &o.Propagate,
-			Protected:                    &o.Protected,
-			TotalComplianceIssueCount:    &o.TotalComplianceIssueCount,
-			TotalVulnerabilityCount:      &o.TotalVulnerabilityCount,
-			UpdateIdempotencyKey:         &o.UpdateIdempotencyKey,
-			UpdateTime:                   &o.UpdateTime,
-			VulnerabilitiesCount:         &o.VulnerabilitiesCount,
-			VulnerabilityRiskScore:       &o.VulnerabilityRiskScore,
-			ZHash:                        &o.ZHash,
-			Zone:                         &o.Zone,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			Hash:                 &o.Hash,
+			MigrationsLog:        &o.MigrationsLog,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Propagate:            &o.Propagate,
+			Protected:            &o.Protected,
+			Severity:             &o.Severity,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			Vulnerabilities:      &o.Vulnerabilities,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -598,36 +497,14 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "complianceRiskScore":
-			sp.ComplianceRiskScore = &(o.ComplianceRiskScore)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
-		case "criticalComplianceIssueCount":
-			sp.CriticalComplianceIssueCount = &(o.CriticalComplianceIssueCount)
-		case "criticalVulnerabilityCount":
-			sp.CriticalVulnerabilityCount = &(o.CriticalVulnerabilityCount)
 		case "description":
 			sp.Description = &(o.Description)
-		case "distro":
-			sp.Distro = &(o.Distro)
-		case "externalID":
-			sp.ExternalID = &(o.ExternalID)
-		case "highComplianceIssueCount":
-			sp.HighComplianceIssueCount = &(o.HighComplianceIssueCount)
-		case "highVulnerabilityCount":
-			sp.HighVulnerabilityCount = &(o.HighVulnerabilityCount)
-		case "lowComplianceIssueCount":
-			sp.LowComplianceIssueCount = &(o.LowComplianceIssueCount)
-		case "lowVulnerabilityCount":
-			sp.LowVulnerabilityCount = &(o.LowVulnerabilityCount)
-		case "mediumComplianceIssueCount":
-			sp.MediumComplianceIssueCount = &(o.MediumComplianceIssueCount)
-		case "mediumVulnerabilityCount":
-			sp.MediumVulnerabilityCount = &(o.MediumVulnerabilityCount)
-		case "metadata":
-			sp.Metadata = &(o.Metadata)
+		case "hash":
+			sp.Hash = &(o.Hash)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -636,26 +513,18 @@ func (o *ContainerImage) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "osDistro":
-			sp.OsDistro = &(o.OsDistro)
-		case "osDistroRelease":
-			sp.OsDistroRelease = &(o.OsDistroRelease)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "totalComplianceIssueCount":
-			sp.TotalComplianceIssueCount = &(o.TotalComplianceIssueCount)
-		case "totalVulnerabilityCount":
-			sp.TotalVulnerabilityCount = &(o.TotalVulnerabilityCount)
+		case "severity":
+			sp.Severity = &(o.Severity)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
-		case "vulnerabilitiesCount":
-			sp.VulnerabilitiesCount = &(o.VulnerabilitiesCount)
-		case "vulnerabilityRiskScore":
-			sp.VulnerabilityRiskScore = &(o.VulnerabilityRiskScore)
+		case "vulnerabilities":
+			sp.Vulnerabilities = &(o.Vulnerabilities)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -682,50 +551,17 @@ func (o *ContainerImage) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
-	if so.ComplianceRiskScore != nil {
-		o.ComplianceRiskScore = *so.ComplianceRiskScore
-	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
-	if so.CriticalComplianceIssueCount != nil {
-		o.CriticalComplianceIssueCount = *so.CriticalComplianceIssueCount
-	}
-	if so.CriticalVulnerabilityCount != nil {
-		o.CriticalVulnerabilityCount = *so.CriticalVulnerabilityCount
-	}
 	if so.Description != nil {
 		o.Description = *so.Description
 	}
-	if so.Distro != nil {
-		o.Distro = *so.Distro
-	}
-	if so.ExternalID != nil {
-		o.ExternalID = *so.ExternalID
-	}
-	if so.HighComplianceIssueCount != nil {
-		o.HighComplianceIssueCount = *so.HighComplianceIssueCount
-	}
-	if so.HighVulnerabilityCount != nil {
-		o.HighVulnerabilityCount = *so.HighVulnerabilityCount
-	}
-	if so.LowComplianceIssueCount != nil {
-		o.LowComplianceIssueCount = *so.LowComplianceIssueCount
-	}
-	if so.LowVulnerabilityCount != nil {
-		o.LowVulnerabilityCount = *so.LowVulnerabilityCount
-	}
-	if so.MediumComplianceIssueCount != nil {
-		o.MediumComplianceIssueCount = *so.MediumComplianceIssueCount
-	}
-	if so.MediumVulnerabilityCount != nil {
-		o.MediumVulnerabilityCount = *so.MediumVulnerabilityCount
-	}
-	if so.Metadata != nil {
-		o.Metadata = *so.Metadata
+	if so.Hash != nil {
+		o.Hash = *so.Hash
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -739,23 +575,14 @@ func (o *ContainerImage) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
-	if so.OsDistro != nil {
-		o.OsDistro = *so.OsDistro
-	}
-	if so.OsDistroRelease != nil {
-		o.OsDistroRelease = *so.OsDistroRelease
-	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
-	if so.TotalComplianceIssueCount != nil {
-		o.TotalComplianceIssueCount = *so.TotalComplianceIssueCount
-	}
-	if so.TotalVulnerabilityCount != nil {
-		o.TotalVulnerabilityCount = *so.TotalVulnerabilityCount
+	if so.Severity != nil {
+		o.Severity = *so.Severity
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -763,11 +590,8 @@ func (o *ContainerImage) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
-	if so.VulnerabilitiesCount != nil {
-		o.VulnerabilitiesCount = *so.VulnerabilitiesCount
-	}
-	if so.VulnerabilityRiskScore != nil {
-		o.VulnerabilityRiskScore = *so.VulnerabilityRiskScore
+	if so.Vulnerabilities != nil {
+		o.Vulnerabilities = *so.Vulnerabilities
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -812,10 +636,6 @@ func (o *ContainerImage) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -867,36 +687,14 @@ func (o *ContainerImage) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
-	case "complianceRiskScore":
-		return o.ComplianceRiskScore
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
-	case "criticalComplianceIssueCount":
-		return o.CriticalComplianceIssueCount
-	case "criticalVulnerabilityCount":
-		return o.CriticalVulnerabilityCount
 	case "description":
 		return o.Description
-	case "distro":
-		return o.Distro
-	case "externalID":
-		return o.ExternalID
-	case "highComplianceIssueCount":
-		return o.HighComplianceIssueCount
-	case "highVulnerabilityCount":
-		return o.HighVulnerabilityCount
-	case "lowComplianceIssueCount":
-		return o.LowComplianceIssueCount
-	case "lowVulnerabilityCount":
-		return o.LowVulnerabilityCount
-	case "mediumComplianceIssueCount":
-		return o.MediumComplianceIssueCount
-	case "mediumVulnerabilityCount":
-		return o.MediumVulnerabilityCount
-	case "metadata":
-		return o.Metadata
+	case "hash":
+		return o.Hash
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -905,26 +703,18 @@ func (o *ContainerImage) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "osDistro":
-		return o.OsDistro
-	case "osDistroRelease":
-		return o.OsDistroRelease
 	case "propagate":
 		return o.Propagate
 	case "protected":
 		return o.Protected
-	case "totalComplianceIssueCount":
-		return o.TotalComplianceIssueCount
-	case "totalVulnerabilityCount":
-		return o.TotalVulnerabilityCount
+	case "severity":
+		return o.Severity
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
-	case "vulnerabilitiesCount":
-		return o.VulnerabilitiesCount
-	case "vulnerabilityRiskScore":
-		return o.VulnerabilityRiskScore
+	case "vulnerabilities":
+		return o.Vulnerabilities
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -974,15 +764,6 @@ var ContainerImageAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"ComplianceRiskScore": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ComplianceRiskScore",
-		Description:    `Score of the compliance.`,
-		Exposed:        true,
-		Name:           "complianceRiskScore",
-		Stored:         true,
-		Type:           "integer",
-	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1009,24 +790,6 @@ var ContainerImageAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
-	"CriticalComplianceIssueCount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CriticalComplianceIssueCount",
-		Description:    `Number of critical compliance issue.`,
-		Exposed:        true,
-		Name:           "criticalComplianceIssueCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"CriticalVulnerabilityCount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CriticalVulnerabilityCount",
-		Description:    `Number of critical vulnerabilities.`,
-		Exposed:        true,
-		Name:           "criticalVulnerabilityCount",
-		Stored:         true,
-		Type:           "integer",
-	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -1040,94 +803,14 @@ var ContainerImageAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Distro": elemental.AttributeSpecification{
+	"Hash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Distro",
-		Description:    `Full name of the distribution.`,
+		ConvertedName:  "Hash",
+		Description:    `Hash of the image.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "distro",
+		Name:           "hash",
 		Stored:         true,
 		Type:           "string",
-	},
-	"ExternalID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ExternalID",
-		Description:    `External Identifier of the container image scan.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "externalID",
-		Stored:         true,
-		Type:           "string",
-	},
-	"HighComplianceIssueCount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "HighComplianceIssueCount",
-		Description:    `Number of high compliance issue.`,
-		Exposed:        true,
-		Name:           "highComplianceIssueCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"HighVulnerabilityCount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "HighVulnerabilityCount",
-		Description:    `Number of high vulnerabilities.`,
-		Exposed:        true,
-		Name:           "highVulnerabilityCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"LowComplianceIssueCount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LowComplianceIssueCount",
-		Description:    `Number of low compliance issue.`,
-		Exposed:        true,
-		Name:           "lowComplianceIssueCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"LowVulnerabilityCount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LowVulnerabilityCount",
-		Description:    `Number of low vulnerabilities.`,
-		Exposed:        true,
-		Name:           "lowVulnerabilityCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"MediumComplianceIssueCount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "MediumComplianceIssueCount",
-		Description:    `Number of medium compliance issue.`,
-		Exposed:        true,
-		Name:           "mediumComplianceIssueCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"MediumVulnerabilityCount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "MediumVulnerabilityCount",
-		Description:    `Number of medium vulnerabilities.`,
-		Exposed:        true,
-		Name:           "mediumVulnerabilityCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"Metadata": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Metadata",
-		CreationOnly:   true,
-		Description: `Contains tags that can only be set during creation, must all start
-with the '@' prefix, and should only be used by external systems.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "metadata",
-		Setter:     true,
-		Stored:     true,
-		SubType:    "string",
-		Type:       "list",
 	},
 	"MigrationsLog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1185,26 +868,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"OsDistro": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "OsDistro",
-		Description:    `Name of the os distribution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "osDistro",
-		Stored:         true,
-		Type:           "string",
-	},
-	"OsDistroRelease": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "OsDistroRelease",
-		Description:    `Name of the release.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "osDistroRelease",
-		Stored:         true,
-		Type:           "string",
-	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -1229,23 +892,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"TotalComplianceIssueCount": elemental.AttributeSpecification{
+	"Severity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "TotalComplianceIssueCount",
-		Description:    `Number of total compliance issue.`,
+		ConvertedName:  "Severity",
+		Description:    `Overall severity of the container image.`,
 		Exposed:        true,
-		Name:           "totalComplianceIssueCount",
+		Name:           "severity",
 		Stored:         true,
-		Type:           "integer",
-	},
-	"TotalVulnerabilityCount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TotalVulnerabilityCount",
-		Description:    `Number of total vulnerabilities.`,
-		Exposed:        true,
-		Name:           "totalVulnerabilityCount",
-		Stored:         true,
-		Type:           "integer",
+		SubType:        "_vulnerability_level",
+		Type:           "external",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1273,23 +928,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"VulnerabilitiesCount": elemental.AttributeSpecification{
+	"Vulnerabilities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "VulnerabilitiesCount",
-		Description:    `Number of vulnerabilities affecting this image.`,
+		ConvertedName:  "Vulnerabilities",
+		Description:    `List of vulnerabilities affecting this image.`,
 		Exposed:        true,
-		Name:           "vulnerabilitiesCount",
+		Name:           "vulnerabilities",
 		Stored:         true,
-		Type:           "integer",
-	},
-	"VulnerabilityRiskScore": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "VulnerabilityRiskScore",
-		Description:    `Score of the vulnerability.`,
-		Exposed:        true,
-		Name:           "vulnerabilityRiskScore",
-		Stored:         true,
-		Type:           "integer",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"ZHash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1360,15 +1007,6 @@ var ContainerImageLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		SubType:        "string",
 		Type:           "list",
 	},
-	"complianceriskscore": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ComplianceRiskScore",
-		Description:    `Score of the compliance.`,
-		Exposed:        true,
-		Name:           "complianceRiskScore",
-		Stored:         true,
-		Type:           "integer",
-	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1395,24 +1033,6 @@ var ContainerImageLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Stored:         true,
 		Type:           "time",
 	},
-	"criticalcomplianceissuecount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CriticalComplianceIssueCount",
-		Description:    `Number of critical compliance issue.`,
-		Exposed:        true,
-		Name:           "criticalComplianceIssueCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"criticalvulnerabilitycount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CriticalVulnerabilityCount",
-		Description:    `Number of critical vulnerabilities.`,
-		Exposed:        true,
-		Name:           "criticalVulnerabilityCount",
-		Stored:         true,
-		Type:           "integer",
-	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -1426,94 +1046,14 @@ var ContainerImageLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Stored:         true,
 		Type:           "string",
 	},
-	"distro": elemental.AttributeSpecification{
+	"hash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Distro",
-		Description:    `Full name of the distribution.`,
+		ConvertedName:  "Hash",
+		Description:    `Hash of the image.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "distro",
+		Name:           "hash",
 		Stored:         true,
 		Type:           "string",
-	},
-	"externalid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ExternalID",
-		Description:    `External Identifier of the container image scan.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "externalID",
-		Stored:         true,
-		Type:           "string",
-	},
-	"highcomplianceissuecount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "HighComplianceIssueCount",
-		Description:    `Number of high compliance issue.`,
-		Exposed:        true,
-		Name:           "highComplianceIssueCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"highvulnerabilitycount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "HighVulnerabilityCount",
-		Description:    `Number of high vulnerabilities.`,
-		Exposed:        true,
-		Name:           "highVulnerabilityCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"lowcomplianceissuecount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LowComplianceIssueCount",
-		Description:    `Number of low compliance issue.`,
-		Exposed:        true,
-		Name:           "lowComplianceIssueCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"lowvulnerabilitycount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LowVulnerabilityCount",
-		Description:    `Number of low vulnerabilities.`,
-		Exposed:        true,
-		Name:           "lowVulnerabilityCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"mediumcomplianceissuecount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "MediumComplianceIssueCount",
-		Description:    `Number of medium compliance issue.`,
-		Exposed:        true,
-		Name:           "mediumComplianceIssueCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"mediumvulnerabilitycount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "MediumVulnerabilityCount",
-		Description:    `Number of medium vulnerabilities.`,
-		Exposed:        true,
-		Name:           "mediumVulnerabilityCount",
-		Stored:         true,
-		Type:           "integer",
-	},
-	"metadata": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Metadata",
-		CreationOnly:   true,
-		Description: `Contains tags that can only be set during creation, must all start
-with the '@' prefix, and should only be used by external systems.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "metadata",
-		Setter:     true,
-		Stored:     true,
-		SubType:    "string",
-		Type:       "list",
 	},
 	"migrationslog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1571,26 +1111,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"osdistro": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "OsDistro",
-		Description:    `Name of the os distribution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "osDistro",
-		Stored:         true,
-		Type:           "string",
-	},
-	"osdistrorelease": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "OsDistroRelease",
-		Description:    `Name of the release.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "osDistroRelease",
-		Stored:         true,
-		Type:           "string",
-	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -1615,23 +1135,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"totalcomplianceissuecount": elemental.AttributeSpecification{
+	"severity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "TotalComplianceIssueCount",
-		Description:    `Number of total compliance issue.`,
+		ConvertedName:  "Severity",
+		Description:    `Overall severity of the container image.`,
 		Exposed:        true,
-		Name:           "totalComplianceIssueCount",
+		Name:           "severity",
 		Stored:         true,
-		Type:           "integer",
-	},
-	"totalvulnerabilitycount": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TotalVulnerabilityCount",
-		Description:    `Number of total vulnerabilities.`,
-		Exposed:        true,
-		Name:           "totalVulnerabilityCount",
-		Stored:         true,
-		Type:           "integer",
+		SubType:        "_vulnerability_level",
+		Type:           "external",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1659,23 +1171,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"vulnerabilitiescount": elemental.AttributeSpecification{
+	"vulnerabilities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "VulnerabilitiesCount",
-		Description:    `Number of vulnerabilities affecting this image.`,
+		ConvertedName:  "Vulnerabilities",
+		Description:    `List of vulnerabilities affecting this image.`,
 		Exposed:        true,
-		Name:           "vulnerabilitiesCount",
+		Name:           "vulnerabilities",
 		Stored:         true,
-		Type:           "integer",
-	},
-	"vulnerabilityriskscore": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "VulnerabilityRiskScore",
-		Description:    `Score of the vulnerability.`,
-		Exposed:        true,
-		Name:           "vulnerabilityRiskScore",
-		Stored:         true,
-		Type:           "integer",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"zhash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1780,51 +1284,17 @@ type SparseContainerImage struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// Score of the compliance.
-	ComplianceRiskScore *int `json:"complianceRiskScore,omitempty" msgpack:"complianceRiskScore,omitempty" bson:"complianceriskscore,omitempty" mapstructure:"complianceRiskScore,omitempty"`
-
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Number of critical compliance issue.
-	CriticalComplianceIssueCount *int `json:"criticalComplianceIssueCount,omitempty" msgpack:"criticalComplianceIssueCount,omitempty" bson:"criticalcomplianceissuecount,omitempty" mapstructure:"criticalComplianceIssueCount,omitempty"`
-
-	// Number of critical vulnerabilities.
-	CriticalVulnerabilityCount *int `json:"criticalVulnerabilityCount,omitempty" msgpack:"criticalVulnerabilityCount,omitempty" bson:"criticalvulnerabilitycount,omitempty" mapstructure:"criticalVulnerabilityCount,omitempty"`
-
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Full name of the distribution.
-	Distro *string `json:"distro,omitempty" msgpack:"distro,omitempty" bson:"distro,omitempty" mapstructure:"distro,omitempty"`
-
-	// External Identifier of the container image scan.
-	ExternalID *string `json:"externalID,omitempty" msgpack:"externalID,omitempty" bson:"externalid,omitempty" mapstructure:"externalID,omitempty"`
-
-	// Number of high compliance issue.
-	HighComplianceIssueCount *int `json:"highComplianceIssueCount,omitempty" msgpack:"highComplianceIssueCount,omitempty" bson:"highcomplianceissuecount,omitempty" mapstructure:"highComplianceIssueCount,omitempty"`
-
-	// Number of high vulnerabilities.
-	HighVulnerabilityCount *int `json:"highVulnerabilityCount,omitempty" msgpack:"highVulnerabilityCount,omitempty" bson:"highvulnerabilitycount,omitempty" mapstructure:"highVulnerabilityCount,omitempty"`
-
-	// Number of low compliance issue.
-	LowComplianceIssueCount *int `json:"lowComplianceIssueCount,omitempty" msgpack:"lowComplianceIssueCount,omitempty" bson:"lowcomplianceissuecount,omitempty" mapstructure:"lowComplianceIssueCount,omitempty"`
-
-	// Number of low vulnerabilities.
-	LowVulnerabilityCount *int `json:"lowVulnerabilityCount,omitempty" msgpack:"lowVulnerabilityCount,omitempty" bson:"lowvulnerabilitycount,omitempty" mapstructure:"lowVulnerabilityCount,omitempty"`
-
-	// Number of medium compliance issue.
-	MediumComplianceIssueCount *int `json:"mediumComplianceIssueCount,omitempty" msgpack:"mediumComplianceIssueCount,omitempty" bson:"mediumcomplianceissuecount,omitempty" mapstructure:"mediumComplianceIssueCount,omitempty"`
-
-	// Number of medium vulnerabilities.
-	MediumVulnerabilityCount *int `json:"mediumVulnerabilityCount,omitempty" msgpack:"mediumVulnerabilityCount,omitempty" bson:"mediumvulnerabilitycount,omitempty" mapstructure:"mediumVulnerabilityCount,omitempty"`
-
-	// Contains tags that can only be set during creation, must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+	// Hash of the image.
+	Hash *string `json:"hash,omitempty" msgpack:"hash,omitempty" bson:"hash,omitempty" mapstructure:"hash,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1838,23 +1308,14 @@ type SparseContainerImage struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Name of the os distribution.
-	OsDistro *string `json:"osDistro,omitempty" msgpack:"osDistro,omitempty" bson:"osdistro,omitempty" mapstructure:"osDistro,omitempty"`
-
-	// Name of the release.
-	OsDistroRelease *string `json:"osDistroRelease,omitempty" msgpack:"osDistroRelease,omitempty" bson:"osdistrorelease,omitempty" mapstructure:"osDistroRelease,omitempty"`
-
 	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Number of total compliance issue.
-	TotalComplianceIssueCount *int `json:"totalComplianceIssueCount,omitempty" msgpack:"totalComplianceIssueCount,omitempty" bson:"totalcomplianceissuecount,omitempty" mapstructure:"totalComplianceIssueCount,omitempty"`
-
-	// Number of total vulnerabilities.
-	TotalVulnerabilityCount *int `json:"totalVulnerabilityCount,omitempty" msgpack:"totalVulnerabilityCount,omitempty" bson:"totalvulnerabilitycount,omitempty" mapstructure:"totalVulnerabilityCount,omitempty"`
+	// Overall severity of the container image.
+	Severity *constants.Vulnerability `json:"severity,omitempty" msgpack:"severity,omitempty" bson:"severity,omitempty" mapstructure:"severity,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1862,11 +1323,8 @@ type SparseContainerImage struct {
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	// Number of vulnerabilities affecting this image.
-	VulnerabilitiesCount *int `json:"vulnerabilitiesCount,omitempty" msgpack:"vulnerabilitiesCount,omitempty" bson:"vulnerabilitiescount,omitempty" mapstructure:"vulnerabilitiesCount,omitempty"`
-
-	// Score of the vulnerability.
-	VulnerabilityRiskScore *int `json:"vulnerabilityRiskScore,omitempty" msgpack:"vulnerabilityRiskScore,omitempty" bson:"vulnerabilityriskscore,omitempty" mapstructure:"vulnerabilityRiskScore,omitempty"`
+	// List of vulnerabilities affecting this image.
+	Vulnerabilities *[]string `json:"vulnerabilities,omitempty" msgpack:"vulnerabilities,omitempty" bson:"vulnerabilities,omitempty" mapstructure:"vulnerabilities,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -1927,50 +1385,17 @@ func (o *SparseContainerImage) GetBSON() (interface{}, error) {
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
 	}
-	if o.ComplianceRiskScore != nil {
-		s.ComplianceRiskScore = o.ComplianceRiskScore
-	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	}
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
 	}
-	if o.CriticalComplianceIssueCount != nil {
-		s.CriticalComplianceIssueCount = o.CriticalComplianceIssueCount
-	}
-	if o.CriticalVulnerabilityCount != nil {
-		s.CriticalVulnerabilityCount = o.CriticalVulnerabilityCount
-	}
 	if o.Description != nil {
 		s.Description = o.Description
 	}
-	if o.Distro != nil {
-		s.Distro = o.Distro
-	}
-	if o.ExternalID != nil {
-		s.ExternalID = o.ExternalID
-	}
-	if o.HighComplianceIssueCount != nil {
-		s.HighComplianceIssueCount = o.HighComplianceIssueCount
-	}
-	if o.HighVulnerabilityCount != nil {
-		s.HighVulnerabilityCount = o.HighVulnerabilityCount
-	}
-	if o.LowComplianceIssueCount != nil {
-		s.LowComplianceIssueCount = o.LowComplianceIssueCount
-	}
-	if o.LowVulnerabilityCount != nil {
-		s.LowVulnerabilityCount = o.LowVulnerabilityCount
-	}
-	if o.MediumComplianceIssueCount != nil {
-		s.MediumComplianceIssueCount = o.MediumComplianceIssueCount
-	}
-	if o.MediumVulnerabilityCount != nil {
-		s.MediumVulnerabilityCount = o.MediumVulnerabilityCount
-	}
-	if o.Metadata != nil {
-		s.Metadata = o.Metadata
+	if o.Hash != nil {
+		s.Hash = o.Hash
 	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
@@ -1984,23 +1409,14 @@ func (o *SparseContainerImage) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
-	if o.OsDistro != nil {
-		s.OsDistro = o.OsDistro
-	}
-	if o.OsDistroRelease != nil {
-		s.OsDistroRelease = o.OsDistroRelease
-	}
 	if o.Propagate != nil {
 		s.Propagate = o.Propagate
 	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
-	if o.TotalComplianceIssueCount != nil {
-		s.TotalComplianceIssueCount = o.TotalComplianceIssueCount
-	}
-	if o.TotalVulnerabilityCount != nil {
-		s.TotalVulnerabilityCount = o.TotalVulnerabilityCount
+	if o.Severity != nil {
+		s.Severity = o.Severity
 	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -2008,11 +1424,8 @@ func (o *SparseContainerImage) GetBSON() (interface{}, error) {
 	if o.UpdateTime != nil {
 		s.UpdateTime = o.UpdateTime
 	}
-	if o.VulnerabilitiesCount != nil {
-		s.VulnerabilitiesCount = o.VulnerabilitiesCount
-	}
-	if o.VulnerabilityRiskScore != nil {
-		s.VulnerabilityRiskScore = o.VulnerabilityRiskScore
+	if o.Vulnerabilities != nil {
+		s.Vulnerabilities = o.Vulnerabilities
 	}
 	if o.ZHash != nil {
 		s.ZHash = o.ZHash
@@ -2045,50 +1458,17 @@ func (o *SparseContainerImage) SetBSON(raw bson.Raw) error {
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
 	}
-	if s.ComplianceRiskScore != nil {
-		o.ComplianceRiskScore = s.ComplianceRiskScore
-	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	}
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
 	}
-	if s.CriticalComplianceIssueCount != nil {
-		o.CriticalComplianceIssueCount = s.CriticalComplianceIssueCount
-	}
-	if s.CriticalVulnerabilityCount != nil {
-		o.CriticalVulnerabilityCount = s.CriticalVulnerabilityCount
-	}
 	if s.Description != nil {
 		o.Description = s.Description
 	}
-	if s.Distro != nil {
-		o.Distro = s.Distro
-	}
-	if s.ExternalID != nil {
-		o.ExternalID = s.ExternalID
-	}
-	if s.HighComplianceIssueCount != nil {
-		o.HighComplianceIssueCount = s.HighComplianceIssueCount
-	}
-	if s.HighVulnerabilityCount != nil {
-		o.HighVulnerabilityCount = s.HighVulnerabilityCount
-	}
-	if s.LowComplianceIssueCount != nil {
-		o.LowComplianceIssueCount = s.LowComplianceIssueCount
-	}
-	if s.LowVulnerabilityCount != nil {
-		o.LowVulnerabilityCount = s.LowVulnerabilityCount
-	}
-	if s.MediumComplianceIssueCount != nil {
-		o.MediumComplianceIssueCount = s.MediumComplianceIssueCount
-	}
-	if s.MediumVulnerabilityCount != nil {
-		o.MediumVulnerabilityCount = s.MediumVulnerabilityCount
-	}
-	if s.Metadata != nil {
-		o.Metadata = s.Metadata
+	if s.Hash != nil {
+		o.Hash = s.Hash
 	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
@@ -2102,23 +1482,14 @@ func (o *SparseContainerImage) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
-	if s.OsDistro != nil {
-		o.OsDistro = s.OsDistro
-	}
-	if s.OsDistroRelease != nil {
-		o.OsDistroRelease = s.OsDistroRelease
-	}
 	if s.Propagate != nil {
 		o.Propagate = s.Propagate
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
-	if s.TotalComplianceIssueCount != nil {
-		o.TotalComplianceIssueCount = s.TotalComplianceIssueCount
-	}
-	if s.TotalVulnerabilityCount != nil {
-		o.TotalVulnerabilityCount = s.TotalVulnerabilityCount
+	if s.Severity != nil {
+		o.Severity = s.Severity
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -2126,11 +1497,8 @@ func (o *SparseContainerImage) SetBSON(raw bson.Raw) error {
 	if s.UpdateTime != nil {
 		o.UpdateTime = s.UpdateTime
 	}
-	if s.VulnerabilitiesCount != nil {
-		o.VulnerabilitiesCount = s.VulnerabilitiesCount
-	}
-	if s.VulnerabilityRiskScore != nil {
-		o.VulnerabilityRiskScore = s.VulnerabilityRiskScore
+	if s.Vulnerabilities != nil {
+		o.Vulnerabilities = s.Vulnerabilities
 	}
 	if s.ZHash != nil {
 		o.ZHash = s.ZHash
@@ -2161,50 +1529,17 @@ func (o *SparseContainerImage) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
-	if o.ComplianceRiskScore != nil {
-		out.ComplianceRiskScore = *o.ComplianceRiskScore
-	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
-	if o.CriticalComplianceIssueCount != nil {
-		out.CriticalComplianceIssueCount = *o.CriticalComplianceIssueCount
-	}
-	if o.CriticalVulnerabilityCount != nil {
-		out.CriticalVulnerabilityCount = *o.CriticalVulnerabilityCount
-	}
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
-	if o.Distro != nil {
-		out.Distro = *o.Distro
-	}
-	if o.ExternalID != nil {
-		out.ExternalID = *o.ExternalID
-	}
-	if o.HighComplianceIssueCount != nil {
-		out.HighComplianceIssueCount = *o.HighComplianceIssueCount
-	}
-	if o.HighVulnerabilityCount != nil {
-		out.HighVulnerabilityCount = *o.HighVulnerabilityCount
-	}
-	if o.LowComplianceIssueCount != nil {
-		out.LowComplianceIssueCount = *o.LowComplianceIssueCount
-	}
-	if o.LowVulnerabilityCount != nil {
-		out.LowVulnerabilityCount = *o.LowVulnerabilityCount
-	}
-	if o.MediumComplianceIssueCount != nil {
-		out.MediumComplianceIssueCount = *o.MediumComplianceIssueCount
-	}
-	if o.MediumVulnerabilityCount != nil {
-		out.MediumVulnerabilityCount = *o.MediumVulnerabilityCount
-	}
-	if o.Metadata != nil {
-		out.Metadata = *o.Metadata
+	if o.Hash != nil {
+		out.Hash = *o.Hash
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -2218,23 +1553,14 @@ func (o *SparseContainerImage) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
-	if o.OsDistro != nil {
-		out.OsDistro = *o.OsDistro
-	}
-	if o.OsDistroRelease != nil {
-		out.OsDistroRelease = *o.OsDistroRelease
-	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
-	if o.TotalComplianceIssueCount != nil {
-		out.TotalComplianceIssueCount = *o.TotalComplianceIssueCount
-	}
-	if o.TotalVulnerabilityCount != nil {
-		out.TotalVulnerabilityCount = *o.TotalVulnerabilityCount
+	if o.Severity != nil {
+		out.Severity = *o.Severity
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -2242,11 +1568,8 @@ func (o *SparseContainerImage) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
-	if o.VulnerabilitiesCount != nil {
-		out.VulnerabilitiesCount = *o.VulnerabilitiesCount
-	}
-	if o.VulnerabilityRiskScore != nil {
-		out.VulnerabilityRiskScore = *o.VulnerabilityRiskScore
+	if o.Vulnerabilities != nil {
+		out.Vulnerabilities = *o.Vulnerabilities
 	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
@@ -2336,22 +1659,6 @@ func (o *SparseContainerImage) GetDescription() (out string) {
 func (o *SparseContainerImage) SetDescription(description string) {
 
 	o.Description = &description
-}
-
-// GetMetadata returns the Metadata of the receiver.
-func (o *SparseContainerImage) GetMetadata() (out []string) {
-
-	if o.Metadata == nil {
-		return
-	}
-
-	return *o.Metadata
-}
-
-// SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseContainerImage) SetMetadata(metadata []string) {
-
-	o.Metadata = &metadata
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -2539,74 +1846,44 @@ func (o *SparseContainerImage) DeepCopyInto(out *SparseContainerImage) {
 }
 
 type mongoAttributesContainerImage struct {
-	ID                           bson.ObjectId       `bson:"_id,omitempty"`
-	Annotations                  map[string][]string `bson:"annotations"`
-	AssociatedTags               []string            `bson:"associatedtags"`
-	ComplianceRiskScore          int                 `bson:"complianceriskscore"`
-	CreateIdempotencyKey         string              `bson:"createidempotencykey"`
-	CreateTime                   time.Time           `bson:"createtime"`
-	CriticalComplianceIssueCount int                 `bson:"criticalcomplianceissuecount"`
-	CriticalVulnerabilityCount   int                 `bson:"criticalvulnerabilitycount"`
-	Description                  string              `bson:"description"`
-	Distro                       string              `bson:"distro"`
-	ExternalID                   string              `bson:"externalid"`
-	HighComplianceIssueCount     int                 `bson:"highcomplianceissuecount"`
-	HighVulnerabilityCount       int                 `bson:"highvulnerabilitycount"`
-	LowComplianceIssueCount      int                 `bson:"lowcomplianceissuecount"`
-	LowVulnerabilityCount        int                 `bson:"lowvulnerabilitycount"`
-	MediumComplianceIssueCount   int                 `bson:"mediumcomplianceissuecount"`
-	MediumVulnerabilityCount     int                 `bson:"mediumvulnerabilitycount"`
-	Metadata                     []string            `bson:"metadata"`
-	MigrationsLog                map[string]string   `bson:"migrationslog,omitempty"`
-	Name                         string              `bson:"name"`
-	Namespace                    string              `bson:"namespace"`
-	NormalizedTags               []string            `bson:"normalizedtags"`
-	OsDistro                     string              `bson:"osdistro"`
-	OsDistroRelease              string              `bson:"osdistrorelease"`
-	Propagate                    bool                `bson:"propagate"`
-	Protected                    bool                `bson:"protected"`
-	TotalComplianceIssueCount    int                 `bson:"totalcomplianceissuecount"`
-	TotalVulnerabilityCount      int                 `bson:"totalvulnerabilitycount"`
-	UpdateIdempotencyKey         string              `bson:"updateidempotencykey"`
-	UpdateTime                   time.Time           `bson:"updatetime"`
-	VulnerabilitiesCount         int                 `bson:"vulnerabilitiescount"`
-	VulnerabilityRiskScore       int                 `bson:"vulnerabilityriskscore"`
-	ZHash                        int                 `bson:"zhash"`
-	Zone                         int                 `bson:"zone"`
+	ID                   bson.ObjectId           `bson:"_id,omitempty"`
+	Annotations          map[string][]string     `bson:"annotations"`
+	AssociatedTags       []string                `bson:"associatedtags"`
+	CreateIdempotencyKey string                  `bson:"createidempotencykey"`
+	CreateTime           time.Time               `bson:"createtime"`
+	Description          string                  `bson:"description"`
+	Hash                 string                  `bson:"hash"`
+	MigrationsLog        map[string]string       `bson:"migrationslog,omitempty"`
+	Name                 string                  `bson:"name"`
+	Namespace            string                  `bson:"namespace"`
+	NormalizedTags       []string                `bson:"normalizedtags"`
+	Propagate            bool                    `bson:"propagate"`
+	Protected            bool                    `bson:"protected"`
+	Severity             constants.Vulnerability `bson:"severity"`
+	UpdateIdempotencyKey string                  `bson:"updateidempotencykey"`
+	UpdateTime           time.Time               `bson:"updatetime"`
+	Vulnerabilities      []string                `bson:"vulnerabilities"`
+	ZHash                int                     `bson:"zhash"`
+	Zone                 int                     `bson:"zone"`
 }
 type mongoAttributesSparseContainerImage struct {
-	ID                           bson.ObjectId        `bson:"_id,omitempty"`
-	Annotations                  *map[string][]string `bson:"annotations,omitempty"`
-	AssociatedTags               *[]string            `bson:"associatedtags,omitempty"`
-	ComplianceRiskScore          *int                 `bson:"complianceriskscore,omitempty"`
-	CreateIdempotencyKey         *string              `bson:"createidempotencykey,omitempty"`
-	CreateTime                   *time.Time           `bson:"createtime,omitempty"`
-	CriticalComplianceIssueCount *int                 `bson:"criticalcomplianceissuecount,omitempty"`
-	CriticalVulnerabilityCount   *int                 `bson:"criticalvulnerabilitycount,omitempty"`
-	Description                  *string              `bson:"description,omitempty"`
-	Distro                       *string              `bson:"distro,omitempty"`
-	ExternalID                   *string              `bson:"externalid,omitempty"`
-	HighComplianceIssueCount     *int                 `bson:"highcomplianceissuecount,omitempty"`
-	HighVulnerabilityCount       *int                 `bson:"highvulnerabilitycount,omitempty"`
-	LowComplianceIssueCount      *int                 `bson:"lowcomplianceissuecount,omitempty"`
-	LowVulnerabilityCount        *int                 `bson:"lowvulnerabilitycount,omitempty"`
-	MediumComplianceIssueCount   *int                 `bson:"mediumcomplianceissuecount,omitempty"`
-	MediumVulnerabilityCount     *int                 `bson:"mediumvulnerabilitycount,omitempty"`
-	Metadata                     *[]string            `bson:"metadata,omitempty"`
-	MigrationsLog                *map[string]string   `bson:"migrationslog,omitempty"`
-	Name                         *string              `bson:"name,omitempty"`
-	Namespace                    *string              `bson:"namespace,omitempty"`
-	NormalizedTags               *[]string            `bson:"normalizedtags,omitempty"`
-	OsDistro                     *string              `bson:"osdistro,omitempty"`
-	OsDistroRelease              *string              `bson:"osdistrorelease,omitempty"`
-	Propagate                    *bool                `bson:"propagate,omitempty"`
-	Protected                    *bool                `bson:"protected,omitempty"`
-	TotalComplianceIssueCount    *int                 `bson:"totalcomplianceissuecount,omitempty"`
-	TotalVulnerabilityCount      *int                 `bson:"totalvulnerabilitycount,omitempty"`
-	UpdateIdempotencyKey         *string              `bson:"updateidempotencykey,omitempty"`
-	UpdateTime                   *time.Time           `bson:"updatetime,omitempty"`
-	VulnerabilitiesCount         *int                 `bson:"vulnerabilitiescount,omitempty"`
-	VulnerabilityRiskScore       *int                 `bson:"vulnerabilityriskscore,omitempty"`
-	ZHash                        *int                 `bson:"zhash,omitempty"`
-	Zone                         *int                 `bson:"zone,omitempty"`
+	ID                   bson.ObjectId            `bson:"_id,omitempty"`
+	Annotations          *map[string][]string     `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string                  `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time               `bson:"createtime,omitempty"`
+	Description          *string                  `bson:"description,omitempty"`
+	Hash                 *string                  `bson:"hash,omitempty"`
+	MigrationsLog        *map[string]string       `bson:"migrationslog,omitempty"`
+	Name                 *string                  `bson:"name,omitempty"`
+	Namespace            *string                  `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                `bson:"normalizedtags,omitempty"`
+	Propagate            *bool                    `bson:"propagate,omitempty"`
+	Protected            *bool                    `bson:"protected,omitempty"`
+	Severity             *constants.Vulnerability `bson:"severity,omitempty"`
+	UpdateIdempotencyKey *string                  `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time               `bson:"updatetime,omitempty"`
+	Vulnerabilities      *[]string                `bson:"vulnerabilities,omitempty"`
+	ZHash                *int                     `bson:"zhash,omitempty"`
+	Zone                 *int                     `bson:"zone,omitempty"`
 }
