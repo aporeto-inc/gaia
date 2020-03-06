@@ -10,43 +10,43 @@ import (
 	"go.aporeto.io/gaia/constants"
 )
 
-// ComplianceIssueIdentity represents the Identity of the object.
-var ComplianceIssueIdentity = elemental.Identity{
-	Name:     "complianceissue",
-	Category: "complianceissues",
+// ImageIdentity represents the Identity of the object.
+var ImageIdentity = elemental.Identity{
+	Name:     "image",
+	Category: "images",
 	Package:  "aki",
 	Private:  false,
 }
 
-// ComplianceIssuesList represents a list of ComplianceIssues
-type ComplianceIssuesList []*ComplianceIssue
+// ImagesList represents a list of Images
+type ImagesList []*Image
 
 // Identity returns the identity of the objects in the list.
-func (o ComplianceIssuesList) Identity() elemental.Identity {
+func (o ImagesList) Identity() elemental.Identity {
 
-	return ComplianceIssueIdentity
+	return ImageIdentity
 }
 
-// Copy returns a pointer to a copy the ComplianceIssuesList.
-func (o ComplianceIssuesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the ImagesList.
+func (o ImagesList) Copy() elemental.Identifiables {
 
-	copy := append(ComplianceIssuesList{}, o...)
+	copy := append(ImagesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ComplianceIssuesList.
-func (o ComplianceIssuesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the ImagesList.
+func (o ImagesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(ComplianceIssuesList{}, o...)
+	out := append(ImagesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*ComplianceIssue))
+		out = append(out, obj.(*Image))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ComplianceIssuesList) List() elemental.IdentifiablesList {
+func (o ImagesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -57,33 +57,33 @@ func (o ComplianceIssuesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ComplianceIssuesList) DefaultOrder() []string {
+func (o ImagesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the ComplianceIssuesList converted to SparseComplianceIssuesList.
+// ToSparse returns the ImagesList converted to SparseImagesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ComplianceIssuesList) ToSparse(fields ...string) elemental.Identifiables {
+func (o ImagesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseComplianceIssuesList, len(o))
+	out := make(SparseImagesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseComplianceIssue)
+		out[i] = o[i].ToSparse(fields...).(*SparseImage)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o ComplianceIssuesList) Version() int {
+func (o ImagesList) Version() int {
 
 	return 1
 }
 
-// ComplianceIssue represents the model of a complianceissue
-type ComplianceIssue struct {
+// Image represents the model of a image
+type Image struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -102,9 +102,8 @@ type ComplianceIssue struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Contains tags that can only be set during creation, must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+	// Hash of the image.
+	Hash string `json:"hash" msgpack:"hash" bson:"hash" mapstructure:"hash,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
@@ -118,10 +117,13 @@ type ComplianceIssue struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Propagates the policy to all of its children.
+	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Refers to the security vulnerability level.
+	// Overall severity of the container image.
 	Severity constants.Vulnerability `json:"severity" msgpack:"severity" bson:"severity" mapstructure:"severity,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -129,6 +131,9 @@ type ComplianceIssue struct {
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	// List of vulnerabilities affecting this image.
+	Vulnerabilities []string `json:"vulnerabilities" msgpack:"vulnerabilities" bson:"vulnerabilities" mapstructure:"vulnerabilities,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -140,47 +145,47 @@ type ComplianceIssue struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewComplianceIssue returns a new *ComplianceIssue
-func NewComplianceIssue() *ComplianceIssue {
+// NewImage returns a new *Image
+func NewImage() *Image {
 
-	return &ComplianceIssue{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Metadata:       []string{},
-		MigrationsLog:  map[string]string{},
-		NormalizedTags: []string{},
-		Severity:       constants.VulnerabilityUnknown,
+	return &Image{
+		ModelVersion:    1,
+		Annotations:     map[string][]string{},
+		AssociatedTags:  []string{},
+		MigrationsLog:   map[string]string{},
+		NormalizedTags:  []string{},
+		Severity:        constants.VulnerabilityUnknown,
+		Vulnerabilities: []string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *ComplianceIssue) Identity() elemental.Identity {
+func (o *Image) Identity() elemental.Identity {
 
-	return ComplianceIssueIdentity
+	return ImageIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ComplianceIssue) Identifier() string {
+func (o *Image) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ComplianceIssue) SetIdentifier(id string) {
+func (o *Image) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *ComplianceIssue) GetBSON() (interface{}, error) {
+func (o *Image) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesComplianceIssue{}
+	s := &mongoAttributesImage{}
 
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
@@ -190,15 +195,17 @@ func (o *ComplianceIssue) GetBSON() (interface{}, error) {
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
 	s.Description = o.Description
-	s.Metadata = o.Metadata
+	s.Hash = o.Hash
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
+	s.Propagate = o.Propagate
 	s.Protected = o.Protected
 	s.Severity = o.Severity
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
+	s.Vulnerabilities = o.Vulnerabilities
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
 
@@ -207,13 +214,13 @@ func (o *ComplianceIssue) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *ComplianceIssue) SetBSON(raw bson.Raw) error {
+func (o *Image) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesComplianceIssue{}
+	s := &mongoAttributesImage{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -224,15 +231,17 @@ func (o *ComplianceIssue) SetBSON(raw bson.Raw) error {
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
 	o.Description = s.Description
-	o.Metadata = s.Metadata
+	o.Hash = s.Hash
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
+	o.Propagate = s.Propagate
 	o.Protected = s.Protected
 	o.Severity = s.Severity
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
+	o.Vulnerabilities = s.Vulnerabilities
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
 
@@ -240,19 +249,19 @@ func (o *ComplianceIssue) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *ComplianceIssue) Version() int {
+func (o *Image) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *ComplianceIssue) BleveType() string {
+func (o *Image) BleveType() string {
 
-	return "complianceissue"
+	return "image"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *ComplianceIssue) DefaultOrder() []string {
+func (o *Image) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -260,224 +269,226 @@ func (o *ComplianceIssue) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *ComplianceIssue) Doc() string {
+func (o *Image) Doc() string {
 
-	return `Represents a compliance issue.`
+	return `A container image can be affected by vulnerabilities.`
 }
 
-func (o *ComplianceIssue) String() string {
+func (o *Image) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *ComplianceIssue) GetAnnotations() map[string][]string {
+func (o *Image) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *ComplianceIssue) SetAnnotations(annotations map[string][]string) {
+func (o *Image) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *ComplianceIssue) GetAssociatedTags() []string {
+func (o *Image) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *ComplianceIssue) SetAssociatedTags(associatedTags []string) {
+func (o *Image) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *ComplianceIssue) GetCreateIdempotencyKey() string {
+func (o *Image) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *ComplianceIssue) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *Image) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *ComplianceIssue) GetCreateTime() time.Time {
+func (o *Image) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *ComplianceIssue) SetCreateTime(createTime time.Time) {
+func (o *Image) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *ComplianceIssue) GetDescription() string {
+func (o *Image) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *ComplianceIssue) SetDescription(description string) {
+func (o *Image) SetDescription(description string) {
 
 	o.Description = description
 }
 
-// GetMetadata returns the Metadata of the receiver.
-func (o *ComplianceIssue) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *ComplianceIssue) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
-}
-
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *ComplianceIssue) GetMigrationsLog() map[string]string {
+func (o *Image) GetMigrationsLog() map[string]string {
 
 	return o.MigrationsLog
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
-func (o *ComplianceIssue) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *Image) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *ComplianceIssue) GetName() string {
+func (o *Image) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *ComplianceIssue) SetName(name string) {
+func (o *Image) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *ComplianceIssue) GetNamespace() string {
+func (o *Image) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *ComplianceIssue) SetNamespace(namespace string) {
+func (o *Image) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ComplianceIssue) GetNormalizedTags() []string {
+func (o *Image) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *ComplianceIssue) SetNormalizedTags(normalizedTags []string) {
+func (o *Image) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *Image) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *Image) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
-func (o *ComplianceIssue) GetProtected() bool {
+func (o *Image) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *ComplianceIssue) SetProtected(protected bool) {
+func (o *Image) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *ComplianceIssue) GetUpdateIdempotencyKey() string {
+func (o *Image) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *ComplianceIssue) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *Image) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *ComplianceIssue) GetUpdateTime() time.Time {
+func (o *Image) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *ComplianceIssue) SetUpdateTime(updateTime time.Time) {
+func (o *Image) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *ComplianceIssue) GetZHash() int {
+func (o *Image) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *ComplianceIssue) SetZHash(zHash int) {
+func (o *Image) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *ComplianceIssue) GetZone() int {
+func (o *Image) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *ComplianceIssue) SetZone(zone int) {
+func (o *Image) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *Image) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseComplianceIssue{
+		return &SparseImage{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
-			Metadata:             &o.Metadata,
+			Hash:                 &o.Hash,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
+			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
 			Severity:             &o.Severity,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
+			Vulnerabilities:      &o.Vulnerabilities,
 			ZHash:                &o.ZHash,
 			Zone:                 &o.Zone,
 		}
 	}
 
-	sp := &SparseComplianceIssue{}
+	sp := &SparseImage{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -492,8 +503,8 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
-		case "metadata":
-			sp.Metadata = &(o.Metadata)
+		case "hash":
+			sp.Hash = &(o.Hash)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -502,6 +513,8 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "severity":
@@ -510,6 +523,8 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
+		case "vulnerabilities":
+			sp.Vulnerabilities = &(o.Vulnerabilities)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -520,13 +535,13 @@ func (o *ComplianceIssue) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseComplianceIssue to the object.
-func (o *ComplianceIssue) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseImage to the object.
+func (o *Image) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseComplianceIssue)
+	so := sparse.(*SparseImage)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -545,8 +560,8 @@ func (o *ComplianceIssue) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Description != nil {
 		o.Description = *so.Description
 	}
-	if so.Metadata != nil {
-		o.Metadata = *so.Metadata
+	if so.Hash != nil {
+		o.Hash = *so.Hash
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -560,6 +575,9 @@ func (o *ComplianceIssue) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
+	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
@@ -572,6 +590,9 @@ func (o *ComplianceIssue) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+	if so.Vulnerabilities != nil {
+		o.Vulnerabilities = *so.Vulnerabilities
+	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
 	}
@@ -580,32 +601,32 @@ func (o *ComplianceIssue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the ComplianceIssue.
-func (o *ComplianceIssue) DeepCopy() *ComplianceIssue {
+// DeepCopy returns a deep copy if the Image.
+func (o *Image) DeepCopy() *Image {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &ComplianceIssue{}
+	out := &Image{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *ComplianceIssue.
-func (o *ComplianceIssue) DeepCopyInto(out *ComplianceIssue) {
+// DeepCopyInto copies the receiver into the given *Image.
+func (o *Image) DeepCopyInto(out *Image) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy ComplianceIssue: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy Image: %s", err))
 	}
 
-	*out = *target.(*ComplianceIssue)
+	*out = *target.(*Image)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ComplianceIssue) Validate() error {
+func (o *Image) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -618,20 +639,12 @@ func (o *ComplianceIssue) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("severity", o.Severity); err != nil {
-		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -646,26 +659,26 @@ func (o *ComplianceIssue) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*ComplianceIssue) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*Image) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ComplianceIssueAttributesMap[name]; ok {
+	if v, ok := ImageAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ComplianceIssueLowerCaseAttributesMap[name]
+	return ImageLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*ComplianceIssue) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*Image) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ComplianceIssueAttributesMap
+	return ImageAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
+func (o *Image) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -680,8 +693,8 @@ func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 		return o.CreateTime
 	case "description":
 		return o.Description
-	case "metadata":
-		return o.Metadata
+	case "hash":
+		return o.Hash
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -690,6 +703,8 @@ func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "severity":
@@ -698,6 +713,8 @@ func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
+	case "vulnerabilities":
+		return o.Vulnerabilities
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -707,8 +724,8 @@ func (o *ComplianceIssue) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// ComplianceIssueAttributesMap represents the map of attribute for ComplianceIssue.
-var ComplianceIssueAttributesMap = map[string]elemental.AttributeSpecification{
+// ImageAttributesMap represents the map of attribute for Image.
+var ImageAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -786,20 +803,14 @@ var ComplianceIssueAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Metadata": elemental.AttributeSpecification{
+	"Hash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Metadata",
-		CreationOnly:   true,
-		Description: `Contains tags that can only be set during creation, must all start
-with the '@' prefix, and should only be used by external systems.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "metadata",
-		Setter:     true,
-		Stored:     true,
-		SubType:    "string",
-		Type:       "list",
+		ConvertedName:  "Hash",
+		Description:    `Hash of the image.`,
+		Exposed:        true,
+		Name:           "hash",
+		Stored:         true,
+		Type:           "string",
 	},
 	"MigrationsLog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -857,6 +868,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagates the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -872,11 +895,9 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Severity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Severity",
-		CreationOnly:   true,
-		Description:    `Refers to the security vulnerability level.`,
+		Description:    `Overall severity of the container image.`,
 		Exposed:        true,
 		Name:           "severity",
-		Required:       true,
 		Stored:         true,
 		SubType:        "_vulnerability_level",
 		Type:           "external",
@@ -907,6 +928,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"Vulnerabilities": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Vulnerabilities",
+		Description:    `List of vulnerabilities affecting this image.`,
+		Exposed:        true,
+		Name:           "vulnerabilities",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"ZHash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -936,8 +967,8 @@ georedundancy.`,
 	},
 }
 
-// ComplianceIssueLowerCaseAttributesMap represents the map of attribute for ComplianceIssue.
-var ComplianceIssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// ImageLowerCaseAttributesMap represents the map of attribute for Image.
+var ImageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1015,20 +1046,14 @@ var ComplianceIssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
-	"metadata": elemental.AttributeSpecification{
+	"hash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Metadata",
-		CreationOnly:   true,
-		Description: `Contains tags that can only be set during creation, must all start
-with the '@' prefix, and should only be used by external systems.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "metadata",
-		Setter:     true,
-		Stored:     true,
-		SubType:    "string",
-		Type:       "list",
+		ConvertedName:  "Hash",
+		Description:    `Hash of the image.`,
+		Exposed:        true,
+		Name:           "hash",
+		Stored:         true,
+		Type:           "string",
 	},
 	"migrationslog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1086,6 +1111,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagates the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1101,11 +1138,9 @@ with the '@' prefix, and should only be used by external systems.`,
 	"severity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Severity",
-		CreationOnly:   true,
-		Description:    `Refers to the security vulnerability level.`,
+		Description:    `Overall severity of the container image.`,
 		Exposed:        true,
 		Name:           "severity",
-		Required:       true,
 		Stored:         true,
 		SubType:        "_vulnerability_level",
 		Type:           "external",
@@ -1136,6 +1171,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"vulnerabilities": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Vulnerabilities",
+		Description:    `List of vulnerabilities affecting this image.`,
+		Exposed:        true,
+		Name:           "vulnerabilities",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"zhash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1165,35 +1210,35 @@ georedundancy.`,
 	},
 }
 
-// SparseComplianceIssuesList represents a list of SparseComplianceIssues
-type SparseComplianceIssuesList []*SparseComplianceIssue
+// SparseImagesList represents a list of SparseImages
+type SparseImagesList []*SparseImage
 
 // Identity returns the identity of the objects in the list.
-func (o SparseComplianceIssuesList) Identity() elemental.Identity {
+func (o SparseImagesList) Identity() elemental.Identity {
 
-	return ComplianceIssueIdentity
+	return ImageIdentity
 }
 
-// Copy returns a pointer to a copy the SparseComplianceIssuesList.
-func (o SparseComplianceIssuesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseImagesList.
+func (o SparseImagesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseComplianceIssuesList{}, o...)
+	copy := append(SparseImagesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseComplianceIssuesList.
-func (o SparseComplianceIssuesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseImagesList.
+func (o SparseImagesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseComplianceIssuesList{}, o...)
+	out := append(SparseImagesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseComplianceIssue))
+		out = append(out, obj.(*SparseImage))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseComplianceIssuesList) List() elemental.IdentifiablesList {
+func (o SparseImagesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1204,15 +1249,15 @@ func (o SparseComplianceIssuesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseComplianceIssuesList) DefaultOrder() []string {
+func (o SparseImagesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparseComplianceIssuesList converted to ComplianceIssuesList.
-func (o SparseComplianceIssuesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseImagesList converted to ImagesList.
+func (o SparseImagesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1223,13 +1268,13 @@ func (o SparseComplianceIssuesList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseComplianceIssuesList) Version() int {
+func (o SparseImagesList) Version() int {
 
 	return 1
 }
 
-// SparseComplianceIssue represents the sparse version of a complianceissue.
-type SparseComplianceIssue struct {
+// SparseImage represents the sparse version of a image.
+type SparseImage struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1248,9 +1293,8 @@ type SparseComplianceIssue struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Contains tags that can only be set during creation, must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+	// Hash of the image.
+	Hash *string `json:"hash,omitempty" msgpack:"hash,omitempty" bson:"hash,omitempty" mapstructure:"hash,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1264,10 +1308,13 @@ type SparseComplianceIssue struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
+	// Propagates the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
+
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Refers to the security vulnerability level.
+	// Overall severity of the container image.
 	Severity *constants.Vulnerability `json:"severity,omitempty" msgpack:"severity,omitempty" bson:"severity,omitempty" mapstructure:"severity,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1275,6 +1322,9 @@ type SparseComplianceIssue struct {
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+
+	// List of vulnerabilities affecting this image.
+	Vulnerabilities *[]string `json:"vulnerabilities,omitempty" msgpack:"vulnerabilities,omitempty" bson:"vulnerabilities,omitempty" mapstructure:"vulnerabilities,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -1286,19 +1336,19 @@ type SparseComplianceIssue struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseComplianceIssue returns a new  SparseComplianceIssue.
-func NewSparseComplianceIssue() *SparseComplianceIssue {
-	return &SparseComplianceIssue{}
+// NewSparseImage returns a new  SparseImage.
+func NewSparseImage() *SparseImage {
+	return &SparseImage{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseComplianceIssue) Identity() elemental.Identity {
+func (o *SparseImage) Identity() elemental.Identity {
 
-	return ComplianceIssueIdentity
+	return ImageIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseComplianceIssue) Identifier() string {
+func (o *SparseImage) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1307,7 +1357,7 @@ func (o *SparseComplianceIssue) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseComplianceIssue) SetIdentifier(id string) {
+func (o *SparseImage) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -1318,13 +1368,13 @@ func (o *SparseComplianceIssue) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseComplianceIssue) GetBSON() (interface{}, error) {
+func (o *SparseImage) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseComplianceIssue{}
+	s := &mongoAttributesSparseImage{}
 
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
@@ -1344,8 +1394,8 @@ func (o *SparseComplianceIssue) GetBSON() (interface{}, error) {
 	if o.Description != nil {
 		s.Description = o.Description
 	}
-	if o.Metadata != nil {
-		s.Metadata = o.Metadata
+	if o.Hash != nil {
+		s.Hash = o.Hash
 	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
@@ -1359,6 +1409,9 @@ func (o *SparseComplianceIssue) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
@@ -1370,6 +1423,9 @@ func (o *SparseComplianceIssue) GetBSON() (interface{}, error) {
 	}
 	if o.UpdateTime != nil {
 		s.UpdateTime = o.UpdateTime
+	}
+	if o.Vulnerabilities != nil {
+		s.Vulnerabilities = o.Vulnerabilities
 	}
 	if o.ZHash != nil {
 		s.ZHash = o.ZHash
@@ -1383,13 +1439,13 @@ func (o *SparseComplianceIssue) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseComplianceIssue) SetBSON(raw bson.Raw) error {
+func (o *SparseImage) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseComplianceIssue{}
+	s := &mongoAttributesSparseImage{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -1411,8 +1467,8 @@ func (o *SparseComplianceIssue) SetBSON(raw bson.Raw) error {
 	if s.Description != nil {
 		o.Description = s.Description
 	}
-	if s.Metadata != nil {
-		o.Metadata = s.Metadata
+	if s.Hash != nil {
+		o.Hash = s.Hash
 	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
@@ -1426,6 +1482,9 @@ func (o *SparseComplianceIssue) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
@@ -1438,6 +1497,9 @@ func (o *SparseComplianceIssue) SetBSON(raw bson.Raw) error {
 	if s.UpdateTime != nil {
 		o.UpdateTime = s.UpdateTime
 	}
+	if s.Vulnerabilities != nil {
+		o.Vulnerabilities = s.Vulnerabilities
+	}
 	if s.ZHash != nil {
 		o.ZHash = s.ZHash
 	}
@@ -1449,15 +1511,15 @@ func (o *SparseComplianceIssue) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseComplianceIssue) Version() int {
+func (o *SparseImage) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseComplianceIssue) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseImage) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewComplianceIssue()
+	out := NewImage()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1476,8 +1538,8 @@ func (o *SparseComplianceIssue) ToPlain() elemental.PlainIdentifiable {
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
-	if o.Metadata != nil {
-		out.Metadata = *o.Metadata
+	if o.Hash != nil {
+		out.Hash = *o.Hash
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1491,6 +1553,9 @@ func (o *SparseComplianceIssue) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
+	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
@@ -1503,6 +1568,9 @@ func (o *SparseComplianceIssue) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
+	if o.Vulnerabilities != nil {
+		out.Vulnerabilities = *o.Vulnerabilities
+	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
 	}
@@ -1514,7 +1582,7 @@ func (o *SparseComplianceIssue) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseComplianceIssue) GetAnnotations() (out map[string][]string) {
+func (o *SparseImage) GetAnnotations() (out map[string][]string) {
 
 	if o.Annotations == nil {
 		return
@@ -1524,13 +1592,13 @@ func (o *SparseComplianceIssue) GetAnnotations() (out map[string][]string) {
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetAnnotations(annotations map[string][]string) {
+func (o *SparseImage) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseComplianceIssue) GetAssociatedTags() (out []string) {
+func (o *SparseImage) GetAssociatedTags() (out []string) {
 
 	if o.AssociatedTags == nil {
 		return
@@ -1540,13 +1608,13 @@ func (o *SparseComplianceIssue) GetAssociatedTags() (out []string) {
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetAssociatedTags(associatedTags []string) {
+func (o *SparseImage) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseComplianceIssue) GetCreateIdempotencyKey() (out string) {
+func (o *SparseImage) GetCreateIdempotencyKey() (out string) {
 
 	if o.CreateIdempotencyKey == nil {
 		return
@@ -1556,13 +1624,13 @@ func (o *SparseComplianceIssue) GetCreateIdempotencyKey() (out string) {
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseImage) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseComplianceIssue) GetCreateTime() (out time.Time) {
+func (o *SparseImage) GetCreateTime() (out time.Time) {
 
 	if o.CreateTime == nil {
 		return
@@ -1572,13 +1640,13 @@ func (o *SparseComplianceIssue) GetCreateTime() (out time.Time) {
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetCreateTime(createTime time.Time) {
+func (o *SparseImage) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseComplianceIssue) GetDescription() (out string) {
+func (o *SparseImage) GetDescription() (out string) {
 
 	if o.Description == nil {
 		return
@@ -1588,29 +1656,13 @@ func (o *SparseComplianceIssue) GetDescription() (out string) {
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetDescription(description string) {
+func (o *SparseImage) SetDescription(description string) {
 
 	o.Description = &description
 }
 
-// GetMetadata returns the Metadata of the receiver.
-func (o *SparseComplianceIssue) GetMetadata() (out []string) {
-
-	if o.Metadata == nil {
-		return
-	}
-
-	return *o.Metadata
-}
-
-// SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetMetadata(metadata []string) {
-
-	o.Metadata = &metadata
-}
-
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseComplianceIssue) GetMigrationsLog() (out map[string]string) {
+func (o *SparseImage) GetMigrationsLog() (out map[string]string) {
 
 	if o.MigrationsLog == nil {
 		return
@@ -1620,13 +1672,13 @@ func (o *SparseComplianceIssue) GetMigrationsLog() (out map[string]string) {
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *SparseImage) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseComplianceIssue) GetName() (out string) {
+func (o *SparseImage) GetName() (out string) {
 
 	if o.Name == nil {
 		return
@@ -1636,13 +1688,13 @@ func (o *SparseComplianceIssue) GetName() (out string) {
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetName(name string) {
+func (o *SparseImage) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseComplianceIssue) GetNamespace() (out string) {
+func (o *SparseImage) GetNamespace() (out string) {
 
 	if o.Namespace == nil {
 		return
@@ -1652,13 +1704,13 @@ func (o *SparseComplianceIssue) GetNamespace() (out string) {
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetNamespace(namespace string) {
+func (o *SparseImage) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseComplianceIssue) GetNormalizedTags() (out []string) {
+func (o *SparseImage) GetNormalizedTags() (out []string) {
 
 	if o.NormalizedTags == nil {
 		return
@@ -1668,13 +1720,29 @@ func (o *SparseComplianceIssue) GetNormalizedTags() (out []string) {
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseImage) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseImage) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseImage) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
 // GetProtected returns the Protected of the receiver.
-func (o *SparseComplianceIssue) GetProtected() (out bool) {
+func (o *SparseImage) GetProtected() (out bool) {
 
 	if o.Protected == nil {
 		return
@@ -1684,13 +1752,13 @@ func (o *SparseComplianceIssue) GetProtected() (out bool) {
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetProtected(protected bool) {
+func (o *SparseImage) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseComplianceIssue) GetUpdateIdempotencyKey() (out string) {
+func (o *SparseImage) GetUpdateIdempotencyKey() (out string) {
 
 	if o.UpdateIdempotencyKey == nil {
 		return
@@ -1700,13 +1768,13 @@ func (o *SparseComplianceIssue) GetUpdateIdempotencyKey() (out string) {
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseImage) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseComplianceIssue) GetUpdateTime() (out time.Time) {
+func (o *SparseImage) GetUpdateTime() (out time.Time) {
 
 	if o.UpdateTime == nil {
 		return
@@ -1716,13 +1784,13 @@ func (o *SparseComplianceIssue) GetUpdateTime() (out time.Time) {
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetUpdateTime(updateTime time.Time) {
+func (o *SparseImage) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseComplianceIssue) GetZHash() (out int) {
+func (o *SparseImage) GetZHash() (out int) {
 
 	if o.ZHash == nil {
 		return
@@ -1732,13 +1800,13 @@ func (o *SparseComplianceIssue) GetZHash() (out int) {
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetZHash(zHash int) {
+func (o *SparseImage) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseComplianceIssue) GetZone() (out int) {
+func (o *SparseImage) GetZone() (out int) {
 
 	if o.Zone == nil {
 		return
@@ -1748,70 +1816,74 @@ func (o *SparseComplianceIssue) GetZone() (out int) {
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseComplianceIssue) SetZone(zone int) {
+func (o *SparseImage) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseComplianceIssue.
-func (o *SparseComplianceIssue) DeepCopy() *SparseComplianceIssue {
+// DeepCopy returns a deep copy if the SparseImage.
+func (o *SparseImage) DeepCopy() *SparseImage {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseComplianceIssue{}
+	out := &SparseImage{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseComplianceIssue.
-func (o *SparseComplianceIssue) DeepCopyInto(out *SparseComplianceIssue) {
+// DeepCopyInto copies the receiver into the given *SparseImage.
+func (o *SparseImage) DeepCopyInto(out *SparseImage) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseComplianceIssue: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseImage: %s", err))
 	}
 
-	*out = *target.(*SparseComplianceIssue)
+	*out = *target.(*SparseImage)
 }
 
-type mongoAttributesComplianceIssue struct {
+type mongoAttributesImage struct {
 	ID                   bson.ObjectId           `bson:"_id,omitempty"`
 	Annotations          map[string][]string     `bson:"annotations"`
 	AssociatedTags       []string                `bson:"associatedtags"`
 	CreateIdempotencyKey string                  `bson:"createidempotencykey"`
 	CreateTime           time.Time               `bson:"createtime"`
 	Description          string                  `bson:"description"`
-	Metadata             []string                `bson:"metadata"`
+	Hash                 string                  `bson:"hash"`
 	MigrationsLog        map[string]string       `bson:"migrationslog,omitempty"`
 	Name                 string                  `bson:"name"`
 	Namespace            string                  `bson:"namespace"`
 	NormalizedTags       []string                `bson:"normalizedtags"`
+	Propagate            bool                    `bson:"propagate"`
 	Protected            bool                    `bson:"protected"`
 	Severity             constants.Vulnerability `bson:"severity"`
 	UpdateIdempotencyKey string                  `bson:"updateidempotencykey"`
 	UpdateTime           time.Time               `bson:"updatetime"`
+	Vulnerabilities      []string                `bson:"vulnerabilities"`
 	ZHash                int                     `bson:"zhash"`
 	Zone                 int                     `bson:"zone"`
 }
-type mongoAttributesSparseComplianceIssue struct {
+type mongoAttributesSparseImage struct {
 	ID                   bson.ObjectId            `bson:"_id,omitempty"`
 	Annotations          *map[string][]string     `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string                `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey *string                  `bson:"createidempotencykey,omitempty"`
 	CreateTime           *time.Time               `bson:"createtime,omitempty"`
 	Description          *string                  `bson:"description,omitempty"`
-	Metadata             *[]string                `bson:"metadata,omitempty"`
+	Hash                 *string                  `bson:"hash,omitempty"`
 	MigrationsLog        *map[string]string       `bson:"migrationslog,omitempty"`
 	Name                 *string                  `bson:"name,omitempty"`
 	Namespace            *string                  `bson:"namespace,omitempty"`
 	NormalizedTags       *[]string                `bson:"normalizedtags,omitempty"`
+	Propagate            *bool                    `bson:"propagate,omitempty"`
 	Protected            *bool                    `bson:"protected,omitempty"`
 	Severity             *constants.Vulnerability `bson:"severity,omitempty"`
 	UpdateIdempotencyKey *string                  `bson:"updateidempotencykey,omitempty"`
 	UpdateTime           *time.Time               `bson:"updatetime,omitempty"`
+	Vulnerabilities      *[]string                `bson:"vulnerabilities,omitempty"`
 	ZHash                *int                     `bson:"zhash,omitempty"`
 	Zone                 *int                     `bson:"zone,omitempty"`
 }
