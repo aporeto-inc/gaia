@@ -111,6 +111,7 @@ id_token_signing_alg_values_supported
 idempotency
 Idempotency
 IDTokenSigningAlgValuesSupported
+ImageVulnerability
 ImportReference
 ImportRequest
 InfluxDB

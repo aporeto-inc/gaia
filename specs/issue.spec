@@ -79,6 +79,7 @@ attributes:
     - AzureIdentityToken
     - OIDC
     - SAML
+    - Twistlock
     example_value: Vince
 
   - name: token

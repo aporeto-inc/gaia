@@ -31,9 +31,7 @@ var (
 		"claims":       ClaimsIdentity,
 		"clausesmatch": ClauseMatchIdentity,
 
-		"complianceissue": ComplianceIssueIdentity,
-		"containerimage":  ContainerImageIdentity,
-		"counterreport":   CounterReportIdentity,
+		"counterreport": CounterReportIdentity,
 
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
@@ -62,6 +60,8 @@ var (
 		"hostservice":              HostServiceIdentity,
 		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
 		"httpresourcespec":         HTTPResourceSpecIdentity,
+		"image":                    ImageIdentity,
+		"imagevulnerability":       ImageVulnerabilityIdentity,
 		"import":                   ImportIdentity,
 		"importreference":          ImportReferenceIdentity,
 		"importrequest":            ImportRequestIdentity,
@@ -171,9 +171,7 @@ var (
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
 
-		"complianceissues": ComplianceIssueIdentity,
-		"containerimages":  ContainerImageIdentity,
-		"counterreports":   CounterReportIdentity,
+		"counterreports": CounterReportIdentity,
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
@@ -202,6 +200,8 @@ var (
 		"hostservices":               HostServiceIdentity,
 		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
 		"httpresourcespecs":          HTTPResourceSpecIdentity,
+		"images":                     ImageIdentity,
+		"imagevulnerabilities":       ImageVulnerabilityIdentity,
 		"import":                     ImportIdentity,
 		"importreferences":           ImportReferenceIdentity,
 		"importrequests":             ImportRequestIdentity,
@@ -481,28 +481,7 @@ var (
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
 		},
-		"clausesmatch": nil,
-		"complianceissue": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"severity", "namespace"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
-		},
-		"containerimage": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"name"},
-			[]string{"externalID"},
-			[]string{"dockerImages"},
-			[]string{"createIdempotencyKey"},
-		},
+		"clausesmatch":  nil,
 		"counterreport": nil,
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
@@ -619,7 +598,22 @@ var (
 			[]string{"createIdempotencyKey"},
 			[]string{"archived"},
 		},
-		"import": nil,
+		"image": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"severity"},
+			[]string{"propagate"},
+			[]string{"namespace"},
+			[]string{"namespace", "severity"},
+			[]string{"namespace", "hash"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"name"},
+			[]string{"hash"},
+			[]string{"createIdempotencyKey"},
+		},
+		"imagevulnerability": nil,
+		"import":             nil,
 		"importreference": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -840,11 +834,12 @@ var (
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
 			[]string{"severity"},
+			[]string{"propagate"},
 			[]string{"namespace"},
-			[]string{"namespace", "name"},
+			[]string{"namespace", "severity"},
 			[]string{"namespace", "CVSS2Score"},
 			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "severity"},
+			[]string{"namespace", "name"},
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 			[]string{"CVSS2Score"},
@@ -941,10 +936,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewClaims()
 	case ClauseMatchIdentity:
 		return NewClauseMatch()
-	case ComplianceIssueIdentity:
-		return NewComplianceIssue()
-	case ContainerImageIdentity:
-		return NewContainerImage()
 	case CounterReportIdentity:
 		return NewCounterReport()
 	case CustomerIdentity:
@@ -997,6 +988,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewHTTPResourceSpec()
+	case ImageIdentity:
+		return NewImage()
+	case ImageVulnerabilityIdentity:
+		return NewImageVulnerability()
 	case ImportIdentity:
 		return NewImport()
 	case ImportReferenceIdentity:
@@ -1200,10 +1195,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
 		return NewSparseClauseMatch()
-	case ComplianceIssueIdentity:
-		return NewSparseComplianceIssue()
-	case ContainerImageIdentity:
-		return NewSparseContainerImage()
 	case CounterReportIdentity:
 		return NewSparseCounterReport()
 	case CustomerIdentity:
@@ -1256,6 +1247,10 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewSparseHTTPResourceSpec()
+	case ImageIdentity:
+		return NewSparseImage()
+	case ImageVulnerabilityIdentity:
+		return NewSparseImageVulnerability()
 	case ImportIdentity:
 		return NewSparseImport()
 	case ImportReferenceIdentity:
@@ -1467,10 +1462,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
 		return &ClauseMatchesList{}
-	case ComplianceIssueIdentity:
-		return &ComplianceIssuesList{}
-	case ContainerImageIdentity:
-		return &ContainerImagesList{}
 	case CounterReportIdentity:
 		return &CounterReportsList{}
 	case CustomerIdentity:
@@ -1523,6 +1514,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &HostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &HTTPResourceSpecsList{}
+	case ImageIdentity:
+		return &ImagesList{}
+	case ImageVulnerabilityIdentity:
+		return &ImageVulnerabilitiesList{}
 	case ImportIdentity:
 		return &ImportsList{}
 	case ImportReferenceIdentity:
@@ -1724,10 +1719,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
 		return &SparseClauseMatchesList{}
-	case ComplianceIssueIdentity:
-		return &SparseComplianceIssuesList{}
-	case ContainerImageIdentity:
-		return &SparseContainerImagesList{}
 	case CounterReportIdentity:
 		return &SparseCounterReportsList{}
 	case CustomerIdentity:
@@ -1780,6 +1771,10 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseHostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &SparseHTTPResourceSpecsList{}
+	case ImageIdentity:
+		return &SparseImagesList{}
+	case ImageVulnerabilityIdentity:
+		return &SparseImageVulnerabilitiesList{}
 	case ImportIdentity:
 		return &SparseImportsList{}
 	case ImportReferenceIdentity:
@@ -1971,8 +1966,6 @@ func AllIdentities() []elemental.Identity {
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
-		ComplianceIssueIdentity,
-		ContainerImageIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
@@ -1999,6 +1992,8 @@ func AllIdentities() []elemental.Identity {
 		HostServiceIdentity,
 		HostServiceMappingPolicyIdentity,
 		HTTPResourceSpecIdentity,
+		ImageIdentity,
+		ImageVulnerabilityIdentity,
 		ImportIdentity,
 		ImportReferenceIdentity,
 		ImportRequestIdentity,
@@ -2149,10 +2144,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case ClauseMatchIdentity:
 		return []string{}
-	case ComplianceIssueIdentity:
-		return []string{}
-	case ContainerImageIdentity:
-		return []string{}
 	case CounterReportIdentity:
 		return []string{}
 	case CustomerIdentity:
@@ -2236,6 +2227,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"resource",
 			"httpspec",
 		}
+	case ImageIdentity:
+		return []string{}
+	case ImageVulnerabilityIdentity:
+		return []string{}
 	case ImportIdentity:
 		return []string{}
 	case ImportReferenceIdentity:
