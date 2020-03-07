@@ -112,8 +112,9 @@ type Recipe struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Indicates if the deployment mode of the recipe. If Unrestricted, recipe
-	// can be deployed multiple times. If Unique, only one deployment is allowed
+	// Defines the deployment mode of the recipe. If Unrestricted, recipe
+	// can be deployed multiple times in the current namespace and below. If Unique,
+	// only one deployment is allowed
 	// in the current namespace and its child namespaces. If NamespaceUnique, only
 	// one deployment is allowed in the current namespace.
 	DeploymentMode RecipeDeploymentModeValue `json:"deploymentMode" msgpack:"deploymentMode" bson:"deploymentmode" mapstructure:"deploymentMode,omitempty"`
@@ -977,8 +978,9 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
 		ConvertedName:  "DeploymentMode",
 		DefaultValue:   RecipeDeploymentModeUnrestricted,
-		Description: `Indicates if the deployment mode of the recipe. If Unrestricted, recipe
-can be deployed multiple times. If Unique, only one deployment is allowed
+		Description: `Defines the deployment mode of the recipe. If Unrestricted, recipe
+can be deployed multiple times in the current namespace and below. If Unique,
+only one deployment is allowed
 in the current namespace and its child namespaces. If NamespaceUnique, only
 one deployment is allowed in the current namespace.`,
 		Exposed: true,
@@ -1318,8 +1320,9 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
 		ConvertedName:  "DeploymentMode",
 		DefaultValue:   RecipeDeploymentModeUnrestricted,
-		Description: `Indicates if the deployment mode of the recipe. If Unrestricted, recipe
-can be deployed multiple times. If Unique, only one deployment is allowed
+		Description: `Defines the deployment mode of the recipe. If Unrestricted, recipe
+can be deployed multiple times in the current namespace and below. If Unique,
+only one deployment is allowed
 in the current namespace and its child namespaces. If NamespaceUnique, only
 one deployment is allowed in the current namespace.`,
 		Exposed: true,
@@ -1669,8 +1672,9 @@ type SparseRecipe struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Indicates if the deployment mode of the recipe. If Unrestricted, recipe
-	// can be deployed multiple times. If Unique, only one deployment is allowed
+	// Defines the deployment mode of the recipe. If Unrestricted, recipe
+	// can be deployed multiple times in the current namespace and below. If Unique,
+	// only one deployment is allowed
 	// in the current namespace and its child namespaces. If NamespaceUnique, only
 	// one deployment is allowed in the current namespace.
 	DeploymentMode *RecipeDeploymentModeValue `json:"deploymentMode,omitempty" msgpack:"deploymentMode,omitempty" bson:"deploymentmode,omitempty" mapstructure:"deploymentMode,omitempty"`

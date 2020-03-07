@@ -28,7 +28,8 @@ model:
 
 # Indexes
 indexes:
-- - label
+- - namespace
+  - label
 
 # Attributes
 attributes:

@@ -617,11 +617,11 @@ var (
 		"importreference": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "label"},
 			[]string{"namespace", "name"},
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
 			[]string{"name"},
-			[]string{"label"},
 			[]string{"createIdempotencyKey"},
 		},
 		"importrequest": [][]string{

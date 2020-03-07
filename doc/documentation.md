@@ -5132,8 +5132,9 @@ Creation date of the object.
 
 ##### `deploymentMode` `emum(Unrestricted | Unique | NamespaceUnique)`
 
-Indicates if the deployment mode of the recipe. If Unrestricted, recipe
-can be deployed multiple times. If Unique, only one deployment is allowed
+Defines the deployment mode of the recipe. If Unrestricted, recipe
+can be deployed multiple times in the current namespace and below. If Unique,
+only one deployment is allowed
 in the current namespace and its child namespaces. If NamespaceUnique, only
 one deployment is allowed in the current namespace.
 
