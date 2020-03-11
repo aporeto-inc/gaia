@@ -2326,7 +2326,7 @@ Default value:
 
 ##### `connectionsDropped` `integer`
 
-Non-zero counter indicates dropped connections becuase of invalid state or non
+Non-zero counter indicates dropped connections because of invalid state or non
 pu traffic or out of order packets.
 
 Default value:
@@ -2348,7 +2348,7 @@ Default value:
 
 ##### `droppedPackets` `integer`
 
-Non-zero counter indicates dropped packets that did not hit any of our iptable
+Non-zero counter indicates dropped packets that did not hit any of our iptables
 rules.
 
 Default value:

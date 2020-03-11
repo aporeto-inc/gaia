@@ -258,7 +258,7 @@ type CounterReport struct {
 	// option set. These are not dropped counter.
 	ConnectionsAnalyzed int `json:"connectionsAnalyzed" msgpack:"connectionsAnalyzed" bson:"-" mapstructure:"connectionsAnalyzed,omitempty"`
 
-	// Non-zero counter indicates dropped connections becuase of invalid state or non
+	// Non-zero counter indicates dropped connections because of invalid state or non
 	// pu traffic or out of order packets.
 	ConnectionsDropped int `json:"connectionsDropped" msgpack:"connectionsDropped" bson:"-" mapstructure:"connectionsDropped,omitempty"`
 
@@ -266,7 +266,7 @@ type CounterReport struct {
 	// received within a certain amount of time after the request is made.
 	ConnectionsExpired int `json:"connectionsExpired" msgpack:"connectionsExpired" bson:"-" mapstructure:"connectionsExpired,omitempty"`
 
-	// Non-zero counter indicates dropped packets that did not hit any of our iptable
+	// Non-zero counter indicates dropped packets that did not hit any of our iptables
 	// rules.
 	DroppedPackets int `json:"droppedPackets" msgpack:"droppedPackets" bson:"-" mapstructure:"droppedPackets,omitempty"`
 
@@ -1593,7 +1593,7 @@ option set. These are not dropped counter.`,
 	"ConnectionsDropped": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ConnectionsDropped",
-		Description: `Non-zero counter indicates dropped connections becuase of invalid state or non
+		Description: `Non-zero counter indicates dropped connections because of invalid state or non
 pu traffic or out of order packets.`,
 		Exposed: true,
 		Name:    "connectionsDropped",
@@ -1611,7 +1611,7 @@ received within a certain amount of time after the request is made.`,
 	"DroppedPackets": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DroppedPackets",
-		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptable
+		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptables
 rules.`,
 		Exposed: true,
 		Name:    "droppedPackets",
@@ -2171,7 +2171,7 @@ option set. These are not dropped counter.`,
 	"connectionsdropped": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ConnectionsDropped",
-		Description: `Non-zero counter indicates dropped connections becuase of invalid state or non
+		Description: `Non-zero counter indicates dropped connections because of invalid state or non
 pu traffic or out of order packets.`,
 		Exposed: true,
 		Name:    "connectionsDropped",
@@ -2189,7 +2189,7 @@ received within a certain amount of time after the request is made.`,
 	"droppedpackets": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DroppedPackets",
-		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptable
+		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptables
 rules.`,
 		Exposed: true,
 		Name:    "droppedPackets",
@@ -2517,7 +2517,7 @@ type SparseCounterReport struct {
 	// option set. These are not dropped counter.
 	ConnectionsAnalyzed *int `json:"connectionsAnalyzed,omitempty" msgpack:"connectionsAnalyzed,omitempty" bson:"-" mapstructure:"connectionsAnalyzed,omitempty"`
 
-	// Non-zero counter indicates dropped connections becuase of invalid state or non
+	// Non-zero counter indicates dropped connections because of invalid state or non
 	// pu traffic or out of order packets.
 	ConnectionsDropped *int `json:"connectionsDropped,omitempty" msgpack:"connectionsDropped,omitempty" bson:"-" mapstructure:"connectionsDropped,omitempty"`
 
@@ -2525,7 +2525,7 @@ type SparseCounterReport struct {
 	// received within a certain amount of time after the request is made.
 	ConnectionsExpired *int `json:"connectionsExpired,omitempty" msgpack:"connectionsExpired,omitempty" bson:"-" mapstructure:"connectionsExpired,omitempty"`
 
-	// Non-zero counter indicates dropped packets that did not hit any of our iptable
+	// Non-zero counter indicates dropped packets that did not hit any of our iptables
 	// rules.
 	DroppedPackets *int `json:"droppedPackets,omitempty" msgpack:"droppedPackets,omitempty" bson:"-" mapstructure:"droppedPackets,omitempty"`
 

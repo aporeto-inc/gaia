@@ -365,7 +365,7 @@ attributes:
 
   - name: connectionsDropped
     description: |-
-      Non-zero counter indicates dropped connections becuase of invalid state or non
+      Non-zero counter indicates dropped connections because of invalid state or non
       pu traffic or out of order packets.
     type: integer
     exposed: true
@@ -381,7 +381,7 @@ attributes:
 
   - name: droppedPackets
     description: |-
-      Non-zero counter indicates dropped packets that did not hit any of our iptable
+      Non-zero counter indicates dropped packets that did not hit any of our iptables
       rules.
     type: integer
     exposed: true
