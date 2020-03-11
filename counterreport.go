@@ -81,19 +81,196 @@ func (o CounterReportsList) Version() int {
 
 // CounterReport represents the model of a counterreport
 type CounterReport struct {
-	// Counter for connections dropped.
-	ConnectionsDropped int `json:"connectionsDropped" msgpack:"connectionsDropped" bson:"-" mapstructure:"connectionsDropped,omitempty"`
+	// Counter for sending finack ack received in unknown connection state.
+	AckInUnknownState int `json:"AckInUnknownState" msgpack:"AckInUnknownState" bson:"-" mapstructure:"AckInUnknownState,omitempty"`
 
-	// Counter for connections expired.
-	ConnectionsExpired int `json:"connectionsExpired" msgpack:"connectionsExpired" bson:"-" mapstructure:"connectionsExpired,omitempty"`
+	// Counter for ack packet dropped because of invalid format.
+	AckInvalidFormat int `json:"AckInvalidFormat" msgpack:"AckInvalidFormat" bson:"-" mapstructure:"AckInvalidFormat,omitempty"`
+
+	// Counter for reject ack packet as per policy.
+	AckRejected int `json:"AckRejected" msgpack:"AckRejected" bson:"-" mapstructure:"AckRejected,omitempty"`
+
+	// Counter for ack packet dropped because signature validation failed.
+	AckSigValidationFailed int `json:"AckSigValidationFailed" msgpack:"AckSigValidationFailed" bson:"-" mapstructure:"AckSigValidationFailed,omitempty"`
+
+	// Counter for tcp authentication option not found.
+	AckTCPNoTCPAuthOption int `json:"AckTCPNoTCPAuthOption" msgpack:"AckTCPNoTCPAuthOption" bson:"-" mapstructure:"AckTCPNoTCPAuthOption,omitempty"`
 
 	// Counter for connections processed.
-	ConnectionsProcessed int `json:"connectionsProcessed" msgpack:"connectionsProcessed" bson:"-" mapstructure:"connectionsProcessed,omitempty"`
+	ConnectionsProcessed int `json:"ConnectionsProcessed" msgpack:"ConnectionsProcessed" bson:"-" mapstructure:"ConnectionsProcessed,omitempty"`
 
-	// Counter for dropped packets.
+	// Counter for unable to find ContextID.
+	ContextIDNotFound int `json:"ContextIDNotFound" msgpack:"ContextIDNotFound" bson:"-" mapstructure:"ContextIDNotFound,omitempty"`
+
+	// Counter for no acls found for external services. dropping application syn
+	// packet.
+	DroppedExternalService int `json:"DroppedExternalService" msgpack:"DroppedExternalService" bson:"-" mapstructure:"DroppedExternalService,omitempty"`
+
+	// Counter for invalid connection state.
+	InvalidConnState int `json:"InvalidConnState" msgpack:"InvalidConnState" bson:"-" mapstructure:"InvalidConnState,omitempty"`
+
+	// Counter for invalid net state.
+	InvalidNetState int `json:"InvalidNetState" msgpack:"InvalidNetState" bson:"-" mapstructure:"InvalidNetState,omitempty"`
+
+	// Counter for invalid protocol.
+	InvalidProtocol int `json:"InvalidProtocol" msgpack:"InvalidProtocol" bson:"-" mapstructure:"InvalidProtocol,omitempty"`
+
+	// Counter for pu is already dead - drop synack packet.
+	InvalidSynAck int `json:"InvalidSynAck" msgpack:"InvalidSynAck" bson:"-" mapstructure:"InvalidSynAck,omitempty"`
+
+	// Counter for pu mark not found.
+	MarkNotFound int `json:"MarkNotFound" msgpack:"MarkNotFound" bson:"-" mapstructure:"MarkNotFound,omitempty"`
+
+	// Counter for network syn packet was not seen.
+	NetSynNotSeen int `json:"NetSynNotSeen" msgpack:"NetSynNotSeen" bson:"-" mapstructure:"NetSynNotSeen,omitempty"`
+
+	// Counter for no context or connection found.
+	NoConnFound int `json:"NoConnFound" msgpack:"NoConnFound" bson:"-" mapstructure:"NoConnFound,omitempty"`
+
+	// Counter for traffic that belongs to a non PU process.
+	NonPUTraffic int `json:"NonPUTraffic" msgpack:"NonPUTraffic" bson:"-" mapstructure:"NonPUTraffic,omitempty"`
+
+	// Counter for synack for flow with processed finack.
+	OutOfOrderSynAck int `json:"OutOfOrderSynAck" msgpack:"OutOfOrderSynAck" bson:"-" mapstructure:"OutOfOrderSynAck,omitempty"`
+
+	// Counter for port not found.
+	PortNotFound int `json:"PortNotFound" msgpack:"PortNotFound" bson:"-" mapstructure:"PortNotFound,omitempty"`
+
+	// Counter for reject the packet as per policy.
+	RejectPacket int `json:"RejectPacket" msgpack:"RejectPacket" bson:"-" mapstructure:"RejectPacket,omitempty"`
+
+	// Counter for post service processing failed for network packet.
+	ServicePostprocessorFailed int `json:"ServicePostprocessorFailed" msgpack:"ServicePostprocessorFailed" bson:"-" mapstructure:"ServicePostprocessorFailed,omitempty"`
+
+	// Counter for network packets that failed preprocessing.
+	ServicePreprocessorFailed int `json:"ServicePreprocessorFailed" msgpack:"ServicePreprocessorFailed" bson:"-" mapstructure:"ServicePreprocessorFailed,omitempty"`
+
+	// Counter for synack packet dropped because of bad claims.
+	SynAckBadClaims int `json:"SynAckBadClaims" msgpack:"SynAckBadClaims" bson:"-" mapstructure:"SynAckBadClaims,omitempty"`
+
+	// Counter for synack packet dropped because of encryption mismatch.
+	SynAckClaimsMisMatch int `json:"SynAckClaimsMisMatch" msgpack:"SynAckClaimsMisMatch" bson:"-" mapstructure:"SynAckClaimsMisMatch,omitempty"`
+
+	// Counter for synack from external service dropped.
+	SynAckDroppedExternalService int `json:"SynAckDroppedExternalService" msgpack:"SynAckDroppedExternalService" bson:"-" mapstructure:"SynAckDroppedExternalService,omitempty"`
+
+	// Counter for synack packet dropped because of invalid format.
+	SynAckInvalidFormat int `json:"SynAckInvalidFormat" msgpack:"SynAckInvalidFormat" bson:"-" mapstructure:"SynAckInvalidFormat,omitempty"`
+
+	// Counter for synack packet dropped because of no claims.
+	SynAckMissingClaims int `json:"SynAckMissingClaims" msgpack:"SynAckMissingClaims" bson:"-" mapstructure:"SynAckMissingClaims,omitempty"`
+
+	// Counter for synack packet dropped because of missing token.
+	SynAckMissingToken int `json:"SynAckMissingToken" msgpack:"SynAckMissingToken" bson:"-" mapstructure:"SynAckMissingToken,omitempty"`
+
+	// Counter for tcp authentication option not found.
+	SynAckNoTCPAuthOption int `json:"SynAckNoTCPAuthOption" msgpack:"SynAckNoTCPAuthOption" bson:"-" mapstructure:"SynAckNoTCPAuthOption,omitempty"`
+
+	// Counter for dropping because of reject rule on transmitter.
+	SynAckRejected int `json:"SynAckRejected" msgpack:"SynAckRejected" bson:"-" mapstructure:"SynAckRejected,omitempty"`
+
+	// Counter for syn packet dropped because of invalid format.
+	SynDroppedInvalidFormat int `json:"SynDroppedInvalidFormat" msgpack:"SynDroppedInvalidFormat" bson:"-" mapstructure:"SynDroppedInvalidFormat,omitempty"`
+
+	// Counter for syn packet dropped because of invalid token.
+	SynDroppedInvalidToken int `json:"SynDroppedInvalidToken" msgpack:"SynDroppedInvalidToken" bson:"-" mapstructure:"SynDroppedInvalidToken,omitempty"`
+
+	// Counter for syn packet dropped because of no claims.
+	SynDroppedNoClaims int `json:"SynDroppedNoClaims" msgpack:"SynDroppedNoClaims" bson:"-" mapstructure:"SynDroppedNoClaims,omitempty"`
+
+	// Counter for tcp authentication option not found.
+	SynDroppedTCPOption int `json:"SynDroppedTCPOption" msgpack:"SynDroppedTCPOption" bson:"-" mapstructure:"SynDroppedTCPOption,omitempty"`
+
+	// Counter for syn dropped due to policy.
+	SynRejectPacket int `json:"SynRejectPacket" msgpack:"SynRejectPacket" bson:"-" mapstructure:"SynRejectPacket,omitempty"`
+
+	// Counter for received syn packet from unknown pu.
+	SynUnexpectedPacket int `json:"SynUnexpectedPacket" msgpack:"SynUnexpectedPacket" bson:"-" mapstructure:"SynUnexpectedPacket,omitempty"`
+
+	// Counter for tcp authentication option not found.
+	TCPAuthNotFound int `json:"TCPAuthNotFound" msgpack:"TCPAuthNotFound" bson:"-" mapstructure:"TCPAuthNotFound,omitempty"`
+
+	// Counter for dropped udp ack invalid signature.
+	UDPAckInvalidSignature int `json:"UDPAckInvalidSignature" msgpack:"UDPAckInvalidSignature" bson:"-" mapstructure:"UDPAckInvalidSignature,omitempty"`
+
+	// Counter for number of processed UDP connections.
+	UDPConnectionsProcessed int `json:"UDPConnectionsProcessed" msgpack:"UDPConnectionsProcessed" bson:"-" mapstructure:"UDPConnectionsProcessed,omitempty"`
+
+	// Counter for dropped UDP data packets with no context.
+	UDPDropContextNotFound int `json:"UDPDropContextNotFound" msgpack:"UDPDropContextNotFound" bson:"-" mapstructure:"UDPDropContextNotFound,omitempty"`
+
+	// Counter for dropped udp FIN handshake packets.
+	UDPDropFin int `json:"UDPDropFin" msgpack:"UDPDropFin" bson:"-" mapstructure:"UDPDropFin,omitempty"`
+
+	// Counter for dropped UDP in NfQueue.
+	UDPDropInNfQueue int `json:"UDPDropInNfQueue" msgpack:"UDPDropInNfQueue" bson:"-" mapstructure:"UDPDropInNfQueue,omitempty"`
+
+	// Counter for dropped UDP data packets with no connection.
+	UDPDropNoConnection int `json:"UDPDropNoConnection" msgpack:"UDPDropNoConnection" bson:"-" mapstructure:"UDPDropNoConnection,omitempty"`
+
+	// Counter for dropped UDP data packets.
+	UDPDropPacket int `json:"UDPDropPacket" msgpack:"UDPDropPacket" bson:"-" mapstructure:"UDPDropPacket,omitempty"`
+
+	// Counter for dropped UDP Queue Full.
+	UDPDropQueueFull int `json:"UDPDropQueueFull" msgpack:"UDPDropQueueFull" bson:"-" mapstructure:"UDPDropQueueFull,omitempty"`
+
+	// Counter for dropped udp synack handshake packets.
+	UDPDropSynAck int `json:"UDPDropSynAck" msgpack:"UDPDropSynAck" bson:"-" mapstructure:"UDPDropSynAck,omitempty"`
+
+	// Counter for udp packets received in invalid network state.
+	UDPInvalidNetState int `json:"UDPInvalidNetState" msgpack:"UDPInvalidNetState" bson:"-" mapstructure:"UDPInvalidNetState,omitempty"`
+
+	// Counter for UDP packets failing postprocessing.
+	UDPPostProcessingFailed int `json:"UDPPostProcessingFailed" msgpack:"UDPPostProcessingFailed" bson:"-" mapstructure:"UDPPostProcessingFailed,omitempty"`
+
+	// Counter for UDP packets failing preprocessing.
+	UDPPreProcessingFailed int `json:"UDPPreProcessingFailed" msgpack:"UDPPreProcessingFailed" bson:"-" mapstructure:"UDPPreProcessingFailed,omitempty"`
+
+	// Counter for UDP packets dropped due to policy.
+	UDPRejected int `json:"UDPRejected" msgpack:"UDPRejected" bson:"-" mapstructure:"UDPRejected,omitempty"`
+
+	// Counter for dropped udp synack bad claims.
+	UDPSynAckDropBadClaims int `json:"UDPSynAckDropBadClaims" msgpack:"UDPSynAckDropBadClaims" bson:"-" mapstructure:"UDPSynAckDropBadClaims,omitempty"`
+
+	// Counter for dropped udp synack missing claims.
+	UDPSynAckMissingClaims int `json:"UDPSynAckMissingClaims" msgpack:"UDPSynAckMissingClaims" bson:"-" mapstructure:"UDPSynAckMissingClaims,omitempty"`
+
+	// Counter for dropped udp synack bad claims.
+	UDPSynAckPolicy int `json:"UDPSynAckPolicy" msgpack:"UDPSynAckPolicy" bson:"-" mapstructure:"UDPSynAckPolicy,omitempty"`
+
+	// Counter for dropped udp syn transmits.
+	UDPSynDrop int `json:"UDPSynDrop" msgpack:"UDPSynDrop" bson:"-" mapstructure:"UDPSynDrop,omitempty"`
+
+	// Counter for dropped udp syn policy.
+	UDPSynDropPolicy int `json:"UDPSynDropPolicy" msgpack:"UDPSynDropPolicy" bson:"-" mapstructure:"UDPSynDropPolicy,omitempty"`
+
+	// Counter for dropped udp FIN handshake packets.
+	UDPSynInvalidToken int `json:"UDPSynInvalidToken" msgpack:"UDPSynInvalidToken" bson:"-" mapstructure:"UDPSynInvalidToken,omitempty"`
+
+	// Counter for dropped UDP SYN missing claims.
+	UDPSynMissingClaims int `json:"UDPSynMissingClaims" msgpack:"UDPSynMissingClaims" bson:"-" mapstructure:"UDPSynMissingClaims,omitempty"`
+
+	// Counter for unknown error.
+	UnknownError int `json:"UnknownError" msgpack:"UnknownError" bson:"-" mapstructure:"UnknownError,omitempty"`
+
+	// Non-zero counter indicates analyzed connections for unencrypted, encrypted and
+	// as well as when the packet from the endpoint application has tcp fast open
+	// option set. These are not dropped counter.
+	ConnectionsAnalyzed int `json:"connectionsAnalyzed" msgpack:"connectionsAnalyzed" bson:"-" mapstructure:"connectionsAnalyzed,omitempty"`
+
+	// Non-zero counter indicates dropped connections becuase of invalid state or non
+	// pu traffic or out of order packets.
+	ConnectionsDropped int `json:"connectionsDropped" msgpack:"connectionsDropped" bson:"-" mapstructure:"connectionsDropped,omitempty"`
+
+	// Non-zero counter indicates expired connections because of response not being
+	// received within a certain amount of time after the request is made.
+	ConnectionsExpired int `json:"connectionsExpired" msgpack:"connectionsExpired" bson:"-" mapstructure:"connectionsExpired,omitempty"`
+
+	// Non-zero counter indicates dropped packets that did not hit any of our iptable
+	// rules.
 	DroppedPackets int `json:"droppedPackets" msgpack:"droppedPackets" bson:"-" mapstructure:"droppedPackets,omitempty"`
 
-	// Counter for encryption failures.
+	// Non-zero counter indicates encryption processing failures of data packets.
 	EncryptionFailures int `json:"encryptionFailures" msgpack:"encryptionFailures" bson:"-" mapstructure:"encryptionFailures,omitempty"`
 
 	// Identifier of the enforcer sending the report.
@@ -102,10 +279,11 @@ type CounterReport struct {
 	// Namespace of the enforcer sending the report.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Counter for external network connections.
+	// Non-zero counter indicates connections going to and from external networks.
+	// These may be drops or allowed counters.
 	ExternalNetworkConnections int `json:"externalNetworkConnections" msgpack:"externalNetworkConnections" bson:"-" mapstructure:"externalNetworkConnections,omitempty"`
 
-	// Counter for policy drops.
+	// Non-zero counter indicates dropped packets by a reject policy.
 	PolicyDrops int `json:"policyDrops" msgpack:"policyDrops" bson:"-" mapstructure:"policyDrops,omitempty"`
 
 	// PUID is the ID of the PU reporting the counter.
@@ -117,7 +295,8 @@ type CounterReport struct {
 	// Timestamp is the date of the report.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	// Counter for token drops.
+	// Non-zero counter indicates rejected packets due to anything related to token
+	// creation/parsing failures.
 	TokenDrops int `json:"tokenDrops" msgpack:"tokenDrops" bson:"-" mapstructure:"tokenDrops,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -127,15 +306,72 @@ type CounterReport struct {
 func NewCounterReport() *CounterReport {
 
 	return &CounterReport{
-		ModelVersion:               1,
-		ConnectionsExpired:         0,
-		ConnectionsProcessed:       0,
-		DroppedPackets:             0,
-		EncryptionFailures:         0,
-		ConnectionsDropped:         0,
-		ExternalNetworkConnections: 0,
-		PolicyDrops:                0,
-		TokenDrops:                 0,
+		ModelVersion:                 1,
+		TCPAuthNotFound:              0,
+		InvalidConnState:             0,
+		UDPAckInvalidSignature:       0,
+		InvalidProtocol:              0,
+		UDPConnectionsProcessed:      0,
+		ConnectionsAnalyzed:          0,
+		ConnectionsExpired:           0,
+		ConnectionsDropped:           0,
+		MarkNotFound:                 0,
+		AckInUnknownState:            0,
+		ExternalNetworkConnections:   0,
+		EncryptionFailures:           0,
+		DroppedPackets:               0,
+		ContextIDNotFound:            0,
+		DroppedExternalService:       0,
+		UDPDropFin:                   0,
+		TokenDrops:                   0,
+		PolicyDrops:                  0,
+		AckRejected:                  0,
+		AckSigValidationFailed:       0,
+		AckTCPNoTCPAuthOption:        0,
+		ConnectionsProcessed:         0,
+		NoConnFound:                  0,
+		NonPUTraffic:                 0,
+		AckInvalidFormat:             0,
+		UDPDropSynAck:                0,
+		SynDroppedInvalidFormat:      0,
+		ServicePostprocessorFailed:   0,
+		ServicePreprocessorFailed:    0,
+		SynAckBadClaims:              0,
+		SynAckClaimsMisMatch:         0,
+		SynAckDroppedExternalService: 0,
+		RejectPacket:                 0,
+		SynAckMissingClaims:          0,
+		SynAckMissingToken:           0,
+		SynAckNoTCPAuthOption:        0,
+		SynAckRejected:               0,
+		UDPSynAckMissingClaims:       0,
+		UDPDropNoConnection:          0,
+		SynDroppedNoClaims:           0,
+		SynDroppedTCPOption:          0,
+		SynRejectPacket:              0,
+		SynUnexpectedPacket:          0,
+		InvalidNetState:              0,
+		InvalidSynAck:                0,
+		NetSynNotSeen:                0,
+		UDPDropContextNotFound:       0,
+		OutOfOrderSynAck:             0,
+		UDPDropInNfQueue:             0,
+		UDPDropPacket:                0,
+		SynDroppedInvalidToken:       0,
+		UDPSynInvalidToken:           0,
+		UDPSynAckDropBadClaims:       0,
+		UDPSynDropPolicy:             0,
+		UDPSynDrop:                   0,
+		UDPSynAckPolicy:              0,
+		UDPInvalidNetState:           0,
+		SynAckInvalidFormat:          0,
+		UDPRejected:                  0,
+		UDPPreProcessingFailed:       0,
+		UDPPostProcessingFailed:      0,
+		UnknownError:                 0,
+		UDPDropQueueFull:             0,
+		PortNotFound:                 0,
+		UDPSynMissingClaims:          0,
 	}
 }
 
@@ -227,31 +463,202 @@ func (o *CounterReport) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCounterReport{
-			ConnectionsDropped:         &o.ConnectionsDropped,
-			ConnectionsExpired:         &o.ConnectionsExpired,
-			ConnectionsProcessed:       &o.ConnectionsProcessed,
-			DroppedPackets:             &o.DroppedPackets,
-			EncryptionFailures:         &o.EncryptionFailures,
-			EnforcerID:                 &o.EnforcerID,
-			EnforcerNamespace:          &o.EnforcerNamespace,
-			ExternalNetworkConnections: &o.ExternalNetworkConnections,
-			PolicyDrops:                &o.PolicyDrops,
-			ProcessingUnitID:           &o.ProcessingUnitID,
-			ProcessingUnitNamespace:    &o.ProcessingUnitNamespace,
-			Timestamp:                  &o.Timestamp,
-			TokenDrops:                 &o.TokenDrops,
+			AckInUnknownState:            &o.AckInUnknownState,
+			AckInvalidFormat:             &o.AckInvalidFormat,
+			AckRejected:                  &o.AckRejected,
+			AckSigValidationFailed:       &o.AckSigValidationFailed,
+			AckTCPNoTCPAuthOption:        &o.AckTCPNoTCPAuthOption,
+			ConnectionsProcessed:         &o.ConnectionsProcessed,
+			ContextIDNotFound:            &o.ContextIDNotFound,
+			DroppedExternalService:       &o.DroppedExternalService,
+			InvalidConnState:             &o.InvalidConnState,
+			InvalidNetState:              &o.InvalidNetState,
+			InvalidProtocol:              &o.InvalidProtocol,
+			InvalidSynAck:                &o.InvalidSynAck,
+			MarkNotFound:                 &o.MarkNotFound,
+			NetSynNotSeen:                &o.NetSynNotSeen,
+			NoConnFound:                  &o.NoConnFound,
+			NonPUTraffic:                 &o.NonPUTraffic,
+			OutOfOrderSynAck:             &o.OutOfOrderSynAck,
+			PortNotFound:                 &o.PortNotFound,
+			RejectPacket:                 &o.RejectPacket,
+			ServicePostprocessorFailed:   &o.ServicePostprocessorFailed,
+			ServicePreprocessorFailed:    &o.ServicePreprocessorFailed,
+			SynAckBadClaims:              &o.SynAckBadClaims,
+			SynAckClaimsMisMatch:         &o.SynAckClaimsMisMatch,
+			SynAckDroppedExternalService: &o.SynAckDroppedExternalService,
+			SynAckInvalidFormat:          &o.SynAckInvalidFormat,
+			SynAckMissingClaims:          &o.SynAckMissingClaims,
+			SynAckMissingToken:           &o.SynAckMissingToken,
+			SynAckNoTCPAuthOption:        &o.SynAckNoTCPAuthOption,
+			SynAckRejected:               &o.SynAckRejected,
+			SynDroppedInvalidFormat:      &o.SynDroppedInvalidFormat,
+			SynDroppedInvalidToken:       &o.SynDroppedInvalidToken,
+			SynDroppedNoClaims:           &o.SynDroppedNoClaims,
+			SynDroppedTCPOption:          &o.SynDroppedTCPOption,
+			SynRejectPacket:              &o.SynRejectPacket,
+			SynUnexpectedPacket:          &o.SynUnexpectedPacket,
+			TCPAuthNotFound:              &o.TCPAuthNotFound,
+			UDPAckInvalidSignature:       &o.UDPAckInvalidSignature,
+			UDPConnectionsProcessed:      &o.UDPConnectionsProcessed,
+			UDPDropContextNotFound:       &o.UDPDropContextNotFound,
+			UDPDropFin:                   &o.UDPDropFin,
+			UDPDropInNfQueue:             &o.UDPDropInNfQueue,
+			UDPDropNoConnection:          &o.UDPDropNoConnection,
+			UDPDropPacket:                &o.UDPDropPacket,
+			UDPDropQueueFull:             &o.UDPDropQueueFull,
+			UDPDropSynAck:                &o.UDPDropSynAck,
+			UDPInvalidNetState:           &o.UDPInvalidNetState,
+			UDPPostProcessingFailed:      &o.UDPPostProcessingFailed,
+			UDPPreProcessingFailed:       &o.UDPPreProcessingFailed,
+			UDPRejected:                  &o.UDPRejected,
+			UDPSynAckDropBadClaims:       &o.UDPSynAckDropBadClaims,
+			UDPSynAckMissingClaims:       &o.UDPSynAckMissingClaims,
+			UDPSynAckPolicy:              &o.UDPSynAckPolicy,
+			UDPSynDrop:                   &o.UDPSynDrop,
+			UDPSynDropPolicy:             &o.UDPSynDropPolicy,
+			UDPSynInvalidToken:           &o.UDPSynInvalidToken,
+			UDPSynMissingClaims:          &o.UDPSynMissingClaims,
+			UnknownError:                 &o.UnknownError,
+			ConnectionsAnalyzed:          &o.ConnectionsAnalyzed,
+			ConnectionsDropped:           &o.ConnectionsDropped,
+			ConnectionsExpired:           &o.ConnectionsExpired,
+			DroppedPackets:               &o.DroppedPackets,
+			EncryptionFailures:           &o.EncryptionFailures,
+			EnforcerID:                   &o.EnforcerID,
+			EnforcerNamespace:            &o.EnforcerNamespace,
+			ExternalNetworkConnections:   &o.ExternalNetworkConnections,
+			PolicyDrops:                  &o.PolicyDrops,
+			ProcessingUnitID:             &o.ProcessingUnitID,
+			ProcessingUnitNamespace:      &o.ProcessingUnitNamespace,
+			Timestamp:                    &o.Timestamp,
+			TokenDrops:                   &o.TokenDrops,
 		}
 	}
 
 	sp := &SparseCounterReport{}
 	for _, f := range fields {
 		switch f {
+		case "AckInUnknownState":
+			sp.AckInUnknownState = &(o.AckInUnknownState)
+		case "AckInvalidFormat":
+			sp.AckInvalidFormat = &(o.AckInvalidFormat)
+		case "AckRejected":
+			sp.AckRejected = &(o.AckRejected)
+		case "AckSigValidationFailed":
+			sp.AckSigValidationFailed = &(o.AckSigValidationFailed)
+		case "AckTCPNoTCPAuthOption":
+			sp.AckTCPNoTCPAuthOption = &(o.AckTCPNoTCPAuthOption)
+		case "ConnectionsProcessed":
+			sp.ConnectionsProcessed = &(o.ConnectionsProcessed)
+		case "ContextIDNotFound":
+			sp.ContextIDNotFound = &(o.ContextIDNotFound)
+		case "DroppedExternalService":
+			sp.DroppedExternalService = &(o.DroppedExternalService)
+		case "InvalidConnState":
+			sp.InvalidConnState = &(o.InvalidConnState)
+		case "InvalidNetState":
+			sp.InvalidNetState = &(o.InvalidNetState)
+		case "InvalidProtocol":
+			sp.InvalidProtocol = &(o.InvalidProtocol)
+		case "InvalidSynAck":
+			sp.InvalidSynAck = &(o.InvalidSynAck)
+		case "MarkNotFound":
+			sp.MarkNotFound = &(o.MarkNotFound)
+		case "NetSynNotSeen":
+			sp.NetSynNotSeen = &(o.NetSynNotSeen)
+		case "NoConnFound":
+			sp.NoConnFound = &(o.NoConnFound)
+		case "NonPUTraffic":
+			sp.NonPUTraffic = &(o.NonPUTraffic)
+		case "OutOfOrderSynAck":
+			sp.OutOfOrderSynAck = &(o.OutOfOrderSynAck)
+		case "PortNotFound":
+			sp.PortNotFound = &(o.PortNotFound)
+		case "RejectPacket":
+			sp.RejectPacket = &(o.RejectPacket)
+		case "ServicePostprocessorFailed":
+			sp.ServicePostprocessorFailed = &(o.ServicePostprocessorFailed)
+		case "ServicePreprocessorFailed":
+			sp.ServicePreprocessorFailed = &(o.ServicePreprocessorFailed)
+		case "SynAckBadClaims":
+			sp.SynAckBadClaims = &(o.SynAckBadClaims)
+		case "SynAckClaimsMisMatch":
+			sp.SynAckClaimsMisMatch = &(o.SynAckClaimsMisMatch)
+		case "SynAckDroppedExternalService":
+			sp.SynAckDroppedExternalService = &(o.SynAckDroppedExternalService)
+		case "SynAckInvalidFormat":
+			sp.SynAckInvalidFormat = &(o.SynAckInvalidFormat)
+		case "SynAckMissingClaims":
+			sp.SynAckMissingClaims = &(o.SynAckMissingClaims)
+		case "SynAckMissingToken":
+			sp.SynAckMissingToken = &(o.SynAckMissingToken)
+		case "SynAckNoTCPAuthOption":
+			sp.SynAckNoTCPAuthOption = &(o.SynAckNoTCPAuthOption)
+		case "SynAckRejected":
+			sp.SynAckRejected = &(o.SynAckRejected)
+		case "SynDroppedInvalidFormat":
+			sp.SynDroppedInvalidFormat = &(o.SynDroppedInvalidFormat)
+		case "SynDroppedInvalidToken":
+			sp.SynDroppedInvalidToken = &(o.SynDroppedInvalidToken)
+		case "SynDroppedNoClaims":
+			sp.SynDroppedNoClaims = &(o.SynDroppedNoClaims)
+		case "SynDroppedTCPOption":
+			sp.SynDroppedTCPOption = &(o.SynDroppedTCPOption)
+		case "SynRejectPacket":
+			sp.SynRejectPacket = &(o.SynRejectPacket)
+		case "SynUnexpectedPacket":
+			sp.SynUnexpectedPacket = &(o.SynUnexpectedPacket)
+		case "TCPAuthNotFound":
+			sp.TCPAuthNotFound = &(o.TCPAuthNotFound)
+		case "UDPAckInvalidSignature":
+			sp.UDPAckInvalidSignature = &(o.UDPAckInvalidSignature)
+		case "UDPConnectionsProcessed":
+			sp.UDPConnectionsProcessed = &(o.UDPConnectionsProcessed)
+		case "UDPDropContextNotFound":
+			sp.UDPDropContextNotFound = &(o.UDPDropContextNotFound)
+		case "UDPDropFin":
+			sp.UDPDropFin = &(o.UDPDropFin)
+		case "UDPDropInNfQueue":
+			sp.UDPDropInNfQueue = &(o.UDPDropInNfQueue)
+		case "UDPDropNoConnection":
+			sp.UDPDropNoConnection = &(o.UDPDropNoConnection)
+		case "UDPDropPacket":
+			sp.UDPDropPacket = &(o.UDPDropPacket)
+		case "UDPDropQueueFull":
+			sp.UDPDropQueueFull = &(o.UDPDropQueueFull)
+		case "UDPDropSynAck":
+			sp.UDPDropSynAck = &(o.UDPDropSynAck)
+		case "UDPInvalidNetState":
+			sp.UDPInvalidNetState = &(o.UDPInvalidNetState)
+		case "UDPPostProcessingFailed":
+			sp.UDPPostProcessingFailed = &(o.UDPPostProcessingFailed)
+		case "UDPPreProcessingFailed":
+			sp.UDPPreProcessingFailed = &(o.UDPPreProcessingFailed)
+		case "UDPRejected":
+			sp.UDPRejected = &(o.UDPRejected)
+		case "UDPSynAckDropBadClaims":
+			sp.UDPSynAckDropBadClaims = &(o.UDPSynAckDropBadClaims)
+		case "UDPSynAckMissingClaims":
+			sp.UDPSynAckMissingClaims = &(o.UDPSynAckMissingClaims)
+		case "UDPSynAckPolicy":
+			sp.UDPSynAckPolicy = &(o.UDPSynAckPolicy)
+		case "UDPSynDrop":
+			sp.UDPSynDrop = &(o.UDPSynDrop)
+		case "UDPSynDropPolicy":
+			sp.UDPSynDropPolicy = &(o.UDPSynDropPolicy)
+		case "UDPSynInvalidToken":
+			sp.UDPSynInvalidToken = &(o.UDPSynInvalidToken)
+		case "UDPSynMissingClaims":
+			sp.UDPSynMissingClaims = &(o.UDPSynMissingClaims)
+		case "UnknownError":
+			sp.UnknownError = &(o.UnknownError)
+		case "connectionsAnalyzed":
+			sp.ConnectionsAnalyzed = &(o.ConnectionsAnalyzed)
 		case "connectionsDropped":
 			sp.ConnectionsDropped = &(o.ConnectionsDropped)
 		case "connectionsExpired":
 			sp.ConnectionsExpired = &(o.ConnectionsExpired)
-		case "connectionsProcessed":
-			sp.ConnectionsProcessed = &(o.ConnectionsProcessed)
 		case "droppedPackets":
 			sp.DroppedPackets = &(o.DroppedPackets)
 		case "encryptionFailures":
@@ -285,14 +692,185 @@ func (o *CounterReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseCounterReport)
+	if so.AckInUnknownState != nil {
+		o.AckInUnknownState = *so.AckInUnknownState
+	}
+	if so.AckInvalidFormat != nil {
+		o.AckInvalidFormat = *so.AckInvalidFormat
+	}
+	if so.AckRejected != nil {
+		o.AckRejected = *so.AckRejected
+	}
+	if so.AckSigValidationFailed != nil {
+		o.AckSigValidationFailed = *so.AckSigValidationFailed
+	}
+	if so.AckTCPNoTCPAuthOption != nil {
+		o.AckTCPNoTCPAuthOption = *so.AckTCPNoTCPAuthOption
+	}
+	if so.ConnectionsProcessed != nil {
+		o.ConnectionsProcessed = *so.ConnectionsProcessed
+	}
+	if so.ContextIDNotFound != nil {
+		o.ContextIDNotFound = *so.ContextIDNotFound
+	}
+	if so.DroppedExternalService != nil {
+		o.DroppedExternalService = *so.DroppedExternalService
+	}
+	if so.InvalidConnState != nil {
+		o.InvalidConnState = *so.InvalidConnState
+	}
+	if so.InvalidNetState != nil {
+		o.InvalidNetState = *so.InvalidNetState
+	}
+	if so.InvalidProtocol != nil {
+		o.InvalidProtocol = *so.InvalidProtocol
+	}
+	if so.InvalidSynAck != nil {
+		o.InvalidSynAck = *so.InvalidSynAck
+	}
+	if so.MarkNotFound != nil {
+		o.MarkNotFound = *so.MarkNotFound
+	}
+	if so.NetSynNotSeen != nil {
+		o.NetSynNotSeen = *so.NetSynNotSeen
+	}
+	if so.NoConnFound != nil {
+		o.NoConnFound = *so.NoConnFound
+	}
+	if so.NonPUTraffic != nil {
+		o.NonPUTraffic = *so.NonPUTraffic
+	}
+	if so.OutOfOrderSynAck != nil {
+		o.OutOfOrderSynAck = *so.OutOfOrderSynAck
+	}
+	if so.PortNotFound != nil {
+		o.PortNotFound = *so.PortNotFound
+	}
+	if so.RejectPacket != nil {
+		o.RejectPacket = *so.RejectPacket
+	}
+	if so.ServicePostprocessorFailed != nil {
+		o.ServicePostprocessorFailed = *so.ServicePostprocessorFailed
+	}
+	if so.ServicePreprocessorFailed != nil {
+		o.ServicePreprocessorFailed = *so.ServicePreprocessorFailed
+	}
+	if so.SynAckBadClaims != nil {
+		o.SynAckBadClaims = *so.SynAckBadClaims
+	}
+	if so.SynAckClaimsMisMatch != nil {
+		o.SynAckClaimsMisMatch = *so.SynAckClaimsMisMatch
+	}
+	if so.SynAckDroppedExternalService != nil {
+		o.SynAckDroppedExternalService = *so.SynAckDroppedExternalService
+	}
+	if so.SynAckInvalidFormat != nil {
+		o.SynAckInvalidFormat = *so.SynAckInvalidFormat
+	}
+	if so.SynAckMissingClaims != nil {
+		o.SynAckMissingClaims = *so.SynAckMissingClaims
+	}
+	if so.SynAckMissingToken != nil {
+		o.SynAckMissingToken = *so.SynAckMissingToken
+	}
+	if so.SynAckNoTCPAuthOption != nil {
+		o.SynAckNoTCPAuthOption = *so.SynAckNoTCPAuthOption
+	}
+	if so.SynAckRejected != nil {
+		o.SynAckRejected = *so.SynAckRejected
+	}
+	if so.SynDroppedInvalidFormat != nil {
+		o.SynDroppedInvalidFormat = *so.SynDroppedInvalidFormat
+	}
+	if so.SynDroppedInvalidToken != nil {
+		o.SynDroppedInvalidToken = *so.SynDroppedInvalidToken
+	}
+	if so.SynDroppedNoClaims != nil {
+		o.SynDroppedNoClaims = *so.SynDroppedNoClaims
+	}
+	if so.SynDroppedTCPOption != nil {
+		o.SynDroppedTCPOption = *so.SynDroppedTCPOption
+	}
+	if so.SynRejectPacket != nil {
+		o.SynRejectPacket = *so.SynRejectPacket
+	}
+	if so.SynUnexpectedPacket != nil {
+		o.SynUnexpectedPacket = *so.SynUnexpectedPacket
+	}
+	if so.TCPAuthNotFound != nil {
+		o.TCPAuthNotFound = *so.TCPAuthNotFound
+	}
+	if so.UDPAckInvalidSignature != nil {
+		o.UDPAckInvalidSignature = *so.UDPAckInvalidSignature
+	}
+	if so.UDPConnectionsProcessed != nil {
+		o.UDPConnectionsProcessed = *so.UDPConnectionsProcessed
+	}
+	if so.UDPDropContextNotFound != nil {
+		o.UDPDropContextNotFound = *so.UDPDropContextNotFound
+	}
+	if so.UDPDropFin != nil {
+		o.UDPDropFin = *so.UDPDropFin
+	}
+	if so.UDPDropInNfQueue != nil {
+		o.UDPDropInNfQueue = *so.UDPDropInNfQueue
+	}
+	if so.UDPDropNoConnection != nil {
+		o.UDPDropNoConnection = *so.UDPDropNoConnection
+	}
+	if so.UDPDropPacket != nil {
+		o.UDPDropPacket = *so.UDPDropPacket
+	}
+	if so.UDPDropQueueFull != nil {
+		o.UDPDropQueueFull = *so.UDPDropQueueFull
+	}
+	if so.UDPDropSynAck != nil {
+		o.UDPDropSynAck = *so.UDPDropSynAck
+	}
+	if so.UDPInvalidNetState != nil {
+		o.UDPInvalidNetState = *so.UDPInvalidNetState
+	}
+	if so.UDPPostProcessingFailed != nil {
+		o.UDPPostProcessingFailed = *so.UDPPostProcessingFailed
+	}
+	if so.UDPPreProcessingFailed != nil {
+		o.UDPPreProcessingFailed = *so.UDPPreProcessingFailed
+	}
+	if so.UDPRejected != nil {
+		o.UDPRejected = *so.UDPRejected
+	}
+	if so.UDPSynAckDropBadClaims != nil {
+		o.UDPSynAckDropBadClaims = *so.UDPSynAckDropBadClaims
+	}
+	if so.UDPSynAckMissingClaims != nil {
+		o.UDPSynAckMissingClaims = *so.UDPSynAckMissingClaims
+	}
+	if so.UDPSynAckPolicy != nil {
+		o.UDPSynAckPolicy = *so.UDPSynAckPolicy
+	}
+	if so.UDPSynDrop != nil {
+		o.UDPSynDrop = *so.UDPSynDrop
+	}
+	if so.UDPSynDropPolicy != nil {
+		o.UDPSynDropPolicy = *so.UDPSynDropPolicy
+	}
+	if so.UDPSynInvalidToken != nil {
+		o.UDPSynInvalidToken = *so.UDPSynInvalidToken
+	}
+	if so.UDPSynMissingClaims != nil {
+		o.UDPSynMissingClaims = *so.UDPSynMissingClaims
+	}
+	if so.UnknownError != nil {
+		o.UnknownError = *so.UnknownError
+	}
+	if so.ConnectionsAnalyzed != nil {
+		o.ConnectionsAnalyzed = *so.ConnectionsAnalyzed
+	}
 	if so.ConnectionsDropped != nil {
 		o.ConnectionsDropped = *so.ConnectionsDropped
 	}
 	if so.ConnectionsExpired != nil {
 		o.ConnectionsExpired = *so.ConnectionsExpired
-	}
-	if so.ConnectionsProcessed != nil {
-		o.ConnectionsProcessed = *so.ConnectionsProcessed
 	}
 	if so.DroppedPackets != nil {
 		o.DroppedPackets = *so.DroppedPackets
@@ -398,12 +976,126 @@ func (*CounterReport) AttributeSpecifications() map[string]elemental.AttributeSp
 func (o *CounterReport) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "AckInUnknownState":
+		return o.AckInUnknownState
+	case "AckInvalidFormat":
+		return o.AckInvalidFormat
+	case "AckRejected":
+		return o.AckRejected
+	case "AckSigValidationFailed":
+		return o.AckSigValidationFailed
+	case "AckTCPNoTCPAuthOption":
+		return o.AckTCPNoTCPAuthOption
+	case "ConnectionsProcessed":
+		return o.ConnectionsProcessed
+	case "ContextIDNotFound":
+		return o.ContextIDNotFound
+	case "DroppedExternalService":
+		return o.DroppedExternalService
+	case "InvalidConnState":
+		return o.InvalidConnState
+	case "InvalidNetState":
+		return o.InvalidNetState
+	case "InvalidProtocol":
+		return o.InvalidProtocol
+	case "InvalidSynAck":
+		return o.InvalidSynAck
+	case "MarkNotFound":
+		return o.MarkNotFound
+	case "NetSynNotSeen":
+		return o.NetSynNotSeen
+	case "NoConnFound":
+		return o.NoConnFound
+	case "NonPUTraffic":
+		return o.NonPUTraffic
+	case "OutOfOrderSynAck":
+		return o.OutOfOrderSynAck
+	case "PortNotFound":
+		return o.PortNotFound
+	case "RejectPacket":
+		return o.RejectPacket
+	case "ServicePostprocessorFailed":
+		return o.ServicePostprocessorFailed
+	case "ServicePreprocessorFailed":
+		return o.ServicePreprocessorFailed
+	case "SynAckBadClaims":
+		return o.SynAckBadClaims
+	case "SynAckClaimsMisMatch":
+		return o.SynAckClaimsMisMatch
+	case "SynAckDroppedExternalService":
+		return o.SynAckDroppedExternalService
+	case "SynAckInvalidFormat":
+		return o.SynAckInvalidFormat
+	case "SynAckMissingClaims":
+		return o.SynAckMissingClaims
+	case "SynAckMissingToken":
+		return o.SynAckMissingToken
+	case "SynAckNoTCPAuthOption":
+		return o.SynAckNoTCPAuthOption
+	case "SynAckRejected":
+		return o.SynAckRejected
+	case "SynDroppedInvalidFormat":
+		return o.SynDroppedInvalidFormat
+	case "SynDroppedInvalidToken":
+		return o.SynDroppedInvalidToken
+	case "SynDroppedNoClaims":
+		return o.SynDroppedNoClaims
+	case "SynDroppedTCPOption":
+		return o.SynDroppedTCPOption
+	case "SynRejectPacket":
+		return o.SynRejectPacket
+	case "SynUnexpectedPacket":
+		return o.SynUnexpectedPacket
+	case "TCPAuthNotFound":
+		return o.TCPAuthNotFound
+	case "UDPAckInvalidSignature":
+		return o.UDPAckInvalidSignature
+	case "UDPConnectionsProcessed":
+		return o.UDPConnectionsProcessed
+	case "UDPDropContextNotFound":
+		return o.UDPDropContextNotFound
+	case "UDPDropFin":
+		return o.UDPDropFin
+	case "UDPDropInNfQueue":
+		return o.UDPDropInNfQueue
+	case "UDPDropNoConnection":
+		return o.UDPDropNoConnection
+	case "UDPDropPacket":
+		return o.UDPDropPacket
+	case "UDPDropQueueFull":
+		return o.UDPDropQueueFull
+	case "UDPDropSynAck":
+		return o.UDPDropSynAck
+	case "UDPInvalidNetState":
+		return o.UDPInvalidNetState
+	case "UDPPostProcessingFailed":
+		return o.UDPPostProcessingFailed
+	case "UDPPreProcessingFailed":
+		return o.UDPPreProcessingFailed
+	case "UDPRejected":
+		return o.UDPRejected
+	case "UDPSynAckDropBadClaims":
+		return o.UDPSynAckDropBadClaims
+	case "UDPSynAckMissingClaims":
+		return o.UDPSynAckMissingClaims
+	case "UDPSynAckPolicy":
+		return o.UDPSynAckPolicy
+	case "UDPSynDrop":
+		return o.UDPSynDrop
+	case "UDPSynDropPolicy":
+		return o.UDPSynDropPolicy
+	case "UDPSynInvalidToken":
+		return o.UDPSynInvalidToken
+	case "UDPSynMissingClaims":
+		return o.UDPSynMissingClaims
+	case "UnknownError":
+		return o.UnknownError
+	case "connectionsAnalyzed":
+		return o.ConnectionsAnalyzed
 	case "connectionsDropped":
 		return o.ConnectionsDropped
 	case "connectionsExpired":
 		return o.ConnectionsExpired
-	case "connectionsProcessed":
-		return o.ConnectionsProcessed
 	case "droppedPackets":
 		return o.DroppedPackets
 	case "encryptionFailures":
@@ -431,20 +1123,44 @@ func (o *CounterReport) ValueForAttribute(name string) interface{} {
 
 // CounterReportAttributesMap represents the map of attribute for CounterReport.
 var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
-	"ConnectionsDropped": elemental.AttributeSpecification{
+	"AckInUnknownState": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ConnectionsDropped",
-		Description:    `Counter for connections dropped.`,
+		ConvertedName:  "AckInUnknownState",
+		Description:    `Counter for sending finack ack received in unknown connection state.`,
 		Exposed:        true,
-		Name:           "connectionsDropped",
+		Name:           "AckInUnknownState",
 		Type:           "integer",
 	},
-	"ConnectionsExpired": elemental.AttributeSpecification{
+	"AckInvalidFormat": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ConnectionsExpired",
-		Description:    `Counter for connections expired.`,
+		ConvertedName:  "AckInvalidFormat",
+		Description:    `Counter for ack packet dropped because of invalid format.`,
 		Exposed:        true,
-		Name:           "connectionsExpired",
+		Name:           "AckInvalidFormat",
+		Type:           "integer",
+	},
+	"AckRejected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AckRejected",
+		Description:    `Counter for reject ack packet as per policy.`,
+		Exposed:        true,
+		Name:           "AckRejected",
+		Type:           "integer",
+	},
+	"AckSigValidationFailed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AckSigValidationFailed",
+		Description:    `Counter for ack packet dropped because signature validation failed.`,
+		Exposed:        true,
+		Name:           "AckSigValidationFailed",
+		Type:           "integer",
+	},
+	"AckTCPNoTCPAuthOption": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AckTCPNoTCPAuthOption",
+		Description:    `Counter for tcp authentication option not found.`,
+		Exposed:        true,
+		Name:           "AckTCPNoTCPAuthOption",
 		Type:           "integer",
 	},
 	"ConnectionsProcessed": elemental.AttributeSpecification{
@@ -452,21 +1168,459 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "ConnectionsProcessed",
 		Description:    `Counter for connections processed.`,
 		Exposed:        true,
-		Name:           "connectionsProcessed",
+		Name:           "ConnectionsProcessed",
 		Type:           "integer",
+	},
+	"ContextIDNotFound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ContextIDNotFound",
+		Description:    `Counter for unable to find ContextID.`,
+		Exposed:        true,
+		Name:           "ContextIDNotFound",
+		Type:           "integer",
+	},
+	"DroppedExternalService": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DroppedExternalService",
+		Description: `Counter for no acls found for external services. dropping application syn
+packet.`,
+		Exposed: true,
+		Name:    "DroppedExternalService",
+		Type:    "integer",
+	},
+	"InvalidConnState": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "InvalidConnState",
+		Description:    `Counter for invalid connection state.`,
+		Exposed:        true,
+		Name:           "InvalidConnState",
+		Type:           "integer",
+	},
+	"InvalidNetState": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "InvalidNetState",
+		Description:    `Counter for invalid net state.`,
+		Exposed:        true,
+		Name:           "InvalidNetState",
+		Type:           "integer",
+	},
+	"InvalidProtocol": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "InvalidProtocol",
+		Description:    `Counter for invalid protocol.`,
+		Exposed:        true,
+		Name:           "InvalidProtocol",
+		Type:           "integer",
+	},
+	"InvalidSynAck": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "InvalidSynAck",
+		Description:    `Counter for pu is already dead - drop synack packet.`,
+		Exposed:        true,
+		Name:           "InvalidSynAck",
+		Type:           "integer",
+	},
+	"MarkNotFound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MarkNotFound",
+		Description:    `Counter for pu mark not found.`,
+		Exposed:        true,
+		Name:           "MarkNotFound",
+		Type:           "integer",
+	},
+	"NetSynNotSeen": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NetSynNotSeen",
+		Description:    `Counter for network syn packet was not seen.`,
+		Exposed:        true,
+		Name:           "NetSynNotSeen",
+		Type:           "integer",
+	},
+	"NoConnFound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NoConnFound",
+		Description:    `Counter for no context or connection found.`,
+		Exposed:        true,
+		Name:           "NoConnFound",
+		Type:           "integer",
+	},
+	"NonPUTraffic": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NonPUTraffic",
+		Description:    `Counter for traffic that belongs to a non PU process.`,
+		Exposed:        true,
+		Name:           "NonPUTraffic",
+		Type:           "integer",
+	},
+	"OutOfOrderSynAck": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OutOfOrderSynAck",
+		Description:    `Counter for synack for flow with processed finack.`,
+		Exposed:        true,
+		Name:           "OutOfOrderSynAck",
+		Type:           "integer",
+	},
+	"PortNotFound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PortNotFound",
+		Description:    `Counter for port not found.`,
+		Exposed:        true,
+		Name:           "PortNotFound",
+		Type:           "integer",
+	},
+	"RejectPacket": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RejectPacket",
+		Description:    `Counter for reject the packet as per policy.`,
+		Exposed:        true,
+		Name:           "RejectPacket",
+		Type:           "integer",
+	},
+	"ServicePostprocessorFailed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ServicePostprocessorFailed",
+		Description:    `Counter for post service processing failed for network packet.`,
+		Exposed:        true,
+		Name:           "ServicePostprocessorFailed",
+		Type:           "integer",
+	},
+	"ServicePreprocessorFailed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ServicePreprocessorFailed",
+		Description:    `Counter for network packets that failed preprocessing.`,
+		Exposed:        true,
+		Name:           "ServicePreprocessorFailed",
+		Type:           "integer",
+	},
+	"SynAckBadClaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckBadClaims",
+		Description:    `Counter for synack packet dropped because of bad claims.`,
+		Exposed:        true,
+		Name:           "SynAckBadClaims",
+		Type:           "integer",
+	},
+	"SynAckClaimsMisMatch": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckClaimsMisMatch",
+		Description:    `Counter for synack packet dropped because of encryption mismatch.`,
+		Exposed:        true,
+		Name:           "SynAckClaimsMisMatch",
+		Type:           "integer",
+	},
+	"SynAckDroppedExternalService": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckDroppedExternalService",
+		Description:    `Counter for synack from external service dropped.`,
+		Exposed:        true,
+		Name:           "SynAckDroppedExternalService",
+		Type:           "integer",
+	},
+	"SynAckInvalidFormat": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckInvalidFormat",
+		Description:    `Counter for synack packet dropped because of invalid format.`,
+		Exposed:        true,
+		Name:           "SynAckInvalidFormat",
+		Type:           "integer",
+	},
+	"SynAckMissingClaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckMissingClaims",
+		Description:    `Counter for synack packet dropped because of no claims.`,
+		Exposed:        true,
+		Name:           "SynAckMissingClaims",
+		Type:           "integer",
+	},
+	"SynAckMissingToken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckMissingToken",
+		Description:    `Counter for synack packet dropped because of missing token.`,
+		Exposed:        true,
+		Name:           "SynAckMissingToken",
+		Type:           "integer",
+	},
+	"SynAckNoTCPAuthOption": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckNoTCPAuthOption",
+		Description:    `Counter for tcp authentication option not found.`,
+		Exposed:        true,
+		Name:           "SynAckNoTCPAuthOption",
+		Type:           "integer",
+	},
+	"SynAckRejected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckRejected",
+		Description:    `Counter for dropping because of reject rule on transmitter.`,
+		Exposed:        true,
+		Name:           "SynAckRejected",
+		Type:           "integer",
+	},
+	"SynDroppedInvalidFormat": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynDroppedInvalidFormat",
+		Description:    `Counter for syn packet dropped because of invalid format.`,
+		Exposed:        true,
+		Name:           "SynDroppedInvalidFormat",
+		Type:           "integer",
+	},
+	"SynDroppedInvalidToken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynDroppedInvalidToken",
+		Description:    `Counter for syn packet dropped because of invalid token.`,
+		Exposed:        true,
+		Name:           "SynDroppedInvalidToken",
+		Type:           "integer",
+	},
+	"SynDroppedNoClaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynDroppedNoClaims",
+		Description:    `Counter for syn packet dropped because of no claims.`,
+		Exposed:        true,
+		Name:           "SynDroppedNoClaims",
+		Type:           "integer",
+	},
+	"SynDroppedTCPOption": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynDroppedTCPOption",
+		Description:    `Counter for tcp authentication option not found.`,
+		Exposed:        true,
+		Name:           "SynDroppedTCPOption",
+		Type:           "integer",
+	},
+	"SynRejectPacket": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynRejectPacket",
+		Description:    `Counter for syn dropped due to policy.`,
+		Exposed:        true,
+		Name:           "SynRejectPacket",
+		Type:           "integer",
+	},
+	"SynUnexpectedPacket": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynUnexpectedPacket",
+		Description:    `Counter for received syn packet from unknown pu.`,
+		Exposed:        true,
+		Name:           "SynUnexpectedPacket",
+		Type:           "integer",
+	},
+	"TCPAuthNotFound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TCPAuthNotFound",
+		Description:    `Counter for tcp authentication option not found.`,
+		Exposed:        true,
+		Name:           "TCPAuthNotFound",
+		Type:           "integer",
+	},
+	"UDPAckInvalidSignature": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPAckInvalidSignature",
+		Description:    `Counter for dropped udp ack invalid signature.`,
+		Exposed:        true,
+		Name:           "UDPAckInvalidSignature",
+		Type:           "integer",
+	},
+	"UDPConnectionsProcessed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPConnectionsProcessed",
+		Description:    `Counter for number of processed UDP connections.`,
+		Exposed:        true,
+		Name:           "UDPConnectionsProcessed",
+		Type:           "integer",
+	},
+	"UDPDropContextNotFound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropContextNotFound",
+		Description:    `Counter for dropped UDP data packets with no context.`,
+		Exposed:        true,
+		Name:           "UDPDropContextNotFound",
+		Type:           "integer",
+	},
+	"UDPDropFin": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropFin",
+		Description:    `Counter for dropped udp FIN handshake packets.`,
+		Exposed:        true,
+		Name:           "UDPDropFin",
+		Type:           "integer",
+	},
+	"UDPDropInNfQueue": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropInNfQueue",
+		Description:    `Counter for dropped UDP in NfQueue.`,
+		Exposed:        true,
+		Name:           "UDPDropInNfQueue",
+		Type:           "integer",
+	},
+	"UDPDropNoConnection": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropNoConnection",
+		Description:    `Counter for dropped UDP data packets with no connection.`,
+		Exposed:        true,
+		Name:           "UDPDropNoConnection",
+		Type:           "integer",
+	},
+	"UDPDropPacket": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropPacket",
+		Description:    `Counter for dropped UDP data packets.`,
+		Exposed:        true,
+		Name:           "UDPDropPacket",
+		Type:           "integer",
+	},
+	"UDPDropQueueFull": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropQueueFull",
+		Description:    `Counter for dropped UDP Queue Full.`,
+		Exposed:        true,
+		Name:           "UDPDropQueueFull",
+		Type:           "integer",
+	},
+	"UDPDropSynAck": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropSynAck",
+		Description:    `Counter for dropped udp synack handshake packets.`,
+		Exposed:        true,
+		Name:           "UDPDropSynAck",
+		Type:           "integer",
+	},
+	"UDPInvalidNetState": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPInvalidNetState",
+		Description:    `Counter for udp packets received in invalid network state.`,
+		Exposed:        true,
+		Name:           "UDPInvalidNetState",
+		Type:           "integer",
+	},
+	"UDPPostProcessingFailed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPPostProcessingFailed",
+		Description:    `Counter for UDP packets failing postprocessing.`,
+		Exposed:        true,
+		Name:           "UDPPostProcessingFailed",
+		Type:           "integer",
+	},
+	"UDPPreProcessingFailed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPPreProcessingFailed",
+		Description:    `Counter for UDP packets failing preprocessing.`,
+		Exposed:        true,
+		Name:           "UDPPreProcessingFailed",
+		Type:           "integer",
+	},
+	"UDPRejected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPRejected",
+		Description:    `Counter for UDP packets dropped due to policy.`,
+		Exposed:        true,
+		Name:           "UDPRejected",
+		Type:           "integer",
+	},
+	"UDPSynAckDropBadClaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynAckDropBadClaims",
+		Description:    `Counter for dropped udp synack bad claims.`,
+		Exposed:        true,
+		Name:           "UDPSynAckDropBadClaims",
+		Type:           "integer",
+	},
+	"UDPSynAckMissingClaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynAckMissingClaims",
+		Description:    `Counter for dropped udp synack missing claims.`,
+		Exposed:        true,
+		Name:           "UDPSynAckMissingClaims",
+		Type:           "integer",
+	},
+	"UDPSynAckPolicy": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynAckPolicy",
+		Description:    `Counter for dropped udp synack bad claims.`,
+		Exposed:        true,
+		Name:           "UDPSynAckPolicy",
+		Type:           "integer",
+	},
+	"UDPSynDrop": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynDrop",
+		Description:    `Counter for dropped udp syn transmits.`,
+		Exposed:        true,
+		Name:           "UDPSynDrop",
+		Type:           "integer",
+	},
+	"UDPSynDropPolicy": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynDropPolicy",
+		Description:    `Counter for dropped udp syn policy.`,
+		Exposed:        true,
+		Name:           "UDPSynDropPolicy",
+		Type:           "integer",
+	},
+	"UDPSynInvalidToken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynInvalidToken",
+		Description:    `Counter for dropped udp FIN handshake packets.`,
+		Exposed:        true,
+		Name:           "UDPSynInvalidToken",
+		Type:           "integer",
+	},
+	"UDPSynMissingClaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynMissingClaims",
+		Description:    `Counter for dropped UDP SYN missing claims.`,
+		Exposed:        true,
+		Name:           "UDPSynMissingClaims",
+		Type:           "integer",
+	},
+	"UnknownError": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UnknownError",
+		Description:    `Counter for unknown error.`,
+		Exposed:        true,
+		Name:           "UnknownError",
+		Type:           "integer",
+	},
+	"ConnectionsAnalyzed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsAnalyzed",
+		Description: `Non-zero counter indicates analyzed connections for unencrypted, encrypted and
+as well as when the packet from the endpoint application has tcp fast open
+option set. These are not dropped counter.`,
+		Exposed: true,
+		Name:    "connectionsAnalyzed",
+		Type:    "integer",
+	},
+	"ConnectionsDropped": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsDropped",
+		Description: `Non-zero counter indicates dropped connections becuase of invalid state or non
+pu traffic or out of order packets.`,
+		Exposed: true,
+		Name:    "connectionsDropped",
+		Type:    "integer",
+	},
+	"ConnectionsExpired": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsExpired",
+		Description: `Non-zero counter indicates expired connections because of response not being
+received within a certain amount of time after the request is made.`,
+		Exposed: true,
+		Name:    "connectionsExpired",
+		Type:    "integer",
 	},
 	"DroppedPackets": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DroppedPackets",
-		Description:    `Counter for dropped packets.`,
-		Exposed:        true,
-		Name:           "droppedPackets",
-		Type:           "integer",
+		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptable
+rules.`,
+		Exposed: true,
+		Name:    "droppedPackets",
+		Type:    "integer",
 	},
 	"EncryptionFailures": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EncryptionFailures",
-		Description:    `Counter for encryption failures.`,
+		Description:    `Non-zero counter indicates encryption processing failures of data packets.`,
 		Exposed:        true,
 		Name:           "encryptionFailures",
 		Type:           "integer",
@@ -494,15 +1648,16 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExternalNetworkConnections": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExternalNetworkConnections",
-		Description:    `Counter for external network connections.`,
-		Exposed:        true,
-		Name:           "externalNetworkConnections",
-		Type:           "integer",
+		Description: `Non-zero counter indicates connections going to and from external networks.
+These may be drops or allowed counters.`,
+		Exposed: true,
+		Name:    "externalNetworkConnections",
+		Type:    "integer",
 	},
 	"PolicyDrops": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicyDrops",
-		Description:    `Counter for policy drops.`,
+		Description:    `Non-zero counter indicates dropped packets by a reject policy.`,
 		Exposed:        true,
 		Name:           "policyDrops",
 		Type:           "integer",
@@ -536,29 +1691,54 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"TokenDrops": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TokenDrops",
-		Description:    `Counter for token drops.`,
-		Exposed:        true,
-		Name:           "tokenDrops",
-		Type:           "integer",
+		Description: `Non-zero counter indicates rejected packets due to anything related to token
+creation/parsing failures.`,
+		Exposed: true,
+		Name:    "tokenDrops",
+		Type:    "integer",
 	},
 }
 
 // CounterReportLowerCaseAttributesMap represents the map of attribute for CounterReport.
 var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"connectionsdropped": elemental.AttributeSpecification{
+	"ackinunknownstate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ConnectionsDropped",
-		Description:    `Counter for connections dropped.`,
+		ConvertedName:  "AckInUnknownState",
+		Description:    `Counter for sending finack ack received in unknown connection state.`,
 		Exposed:        true,
-		Name:           "connectionsDropped",
+		Name:           "AckInUnknownState",
 		Type:           "integer",
 	},
-	"connectionsexpired": elemental.AttributeSpecification{
+	"ackinvalidformat": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ConnectionsExpired",
-		Description:    `Counter for connections expired.`,
+		ConvertedName:  "AckInvalidFormat",
+		Description:    `Counter for ack packet dropped because of invalid format.`,
 		Exposed:        true,
-		Name:           "connectionsExpired",
+		Name:           "AckInvalidFormat",
+		Type:           "integer",
+	},
+	"ackrejected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AckRejected",
+		Description:    `Counter for reject ack packet as per policy.`,
+		Exposed:        true,
+		Name:           "AckRejected",
+		Type:           "integer",
+	},
+	"acksigvalidationfailed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AckSigValidationFailed",
+		Description:    `Counter for ack packet dropped because signature validation failed.`,
+		Exposed:        true,
+		Name:           "AckSigValidationFailed",
+		Type:           "integer",
+	},
+	"acktcpnotcpauthoption": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AckTCPNoTCPAuthOption",
+		Description:    `Counter for tcp authentication option not found.`,
+		Exposed:        true,
+		Name:           "AckTCPNoTCPAuthOption",
 		Type:           "integer",
 	},
 	"connectionsprocessed": elemental.AttributeSpecification{
@@ -566,21 +1746,459 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "ConnectionsProcessed",
 		Description:    `Counter for connections processed.`,
 		Exposed:        true,
-		Name:           "connectionsProcessed",
+		Name:           "ConnectionsProcessed",
 		Type:           "integer",
+	},
+	"contextidnotfound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ContextIDNotFound",
+		Description:    `Counter for unable to find ContextID.`,
+		Exposed:        true,
+		Name:           "ContextIDNotFound",
+		Type:           "integer",
+	},
+	"droppedexternalservice": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DroppedExternalService",
+		Description: `Counter for no acls found for external services. dropping application syn
+packet.`,
+		Exposed: true,
+		Name:    "DroppedExternalService",
+		Type:    "integer",
+	},
+	"invalidconnstate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "InvalidConnState",
+		Description:    `Counter for invalid connection state.`,
+		Exposed:        true,
+		Name:           "InvalidConnState",
+		Type:           "integer",
+	},
+	"invalidnetstate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "InvalidNetState",
+		Description:    `Counter for invalid net state.`,
+		Exposed:        true,
+		Name:           "InvalidNetState",
+		Type:           "integer",
+	},
+	"invalidprotocol": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "InvalidProtocol",
+		Description:    `Counter for invalid protocol.`,
+		Exposed:        true,
+		Name:           "InvalidProtocol",
+		Type:           "integer",
+	},
+	"invalidsynack": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "InvalidSynAck",
+		Description:    `Counter for pu is already dead - drop synack packet.`,
+		Exposed:        true,
+		Name:           "InvalidSynAck",
+		Type:           "integer",
+	},
+	"marknotfound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MarkNotFound",
+		Description:    `Counter for pu mark not found.`,
+		Exposed:        true,
+		Name:           "MarkNotFound",
+		Type:           "integer",
+	},
+	"netsynnotseen": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NetSynNotSeen",
+		Description:    `Counter for network syn packet was not seen.`,
+		Exposed:        true,
+		Name:           "NetSynNotSeen",
+		Type:           "integer",
+	},
+	"noconnfound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NoConnFound",
+		Description:    `Counter for no context or connection found.`,
+		Exposed:        true,
+		Name:           "NoConnFound",
+		Type:           "integer",
+	},
+	"nonputraffic": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NonPUTraffic",
+		Description:    `Counter for traffic that belongs to a non PU process.`,
+		Exposed:        true,
+		Name:           "NonPUTraffic",
+		Type:           "integer",
+	},
+	"outofordersynack": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OutOfOrderSynAck",
+		Description:    `Counter for synack for flow with processed finack.`,
+		Exposed:        true,
+		Name:           "OutOfOrderSynAck",
+		Type:           "integer",
+	},
+	"portnotfound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PortNotFound",
+		Description:    `Counter for port not found.`,
+		Exposed:        true,
+		Name:           "PortNotFound",
+		Type:           "integer",
+	},
+	"rejectpacket": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RejectPacket",
+		Description:    `Counter for reject the packet as per policy.`,
+		Exposed:        true,
+		Name:           "RejectPacket",
+		Type:           "integer",
+	},
+	"servicepostprocessorfailed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ServicePostprocessorFailed",
+		Description:    `Counter for post service processing failed for network packet.`,
+		Exposed:        true,
+		Name:           "ServicePostprocessorFailed",
+		Type:           "integer",
+	},
+	"servicepreprocessorfailed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ServicePreprocessorFailed",
+		Description:    `Counter for network packets that failed preprocessing.`,
+		Exposed:        true,
+		Name:           "ServicePreprocessorFailed",
+		Type:           "integer",
+	},
+	"synackbadclaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckBadClaims",
+		Description:    `Counter for synack packet dropped because of bad claims.`,
+		Exposed:        true,
+		Name:           "SynAckBadClaims",
+		Type:           "integer",
+	},
+	"synackclaimsmismatch": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckClaimsMisMatch",
+		Description:    `Counter for synack packet dropped because of encryption mismatch.`,
+		Exposed:        true,
+		Name:           "SynAckClaimsMisMatch",
+		Type:           "integer",
+	},
+	"synackdroppedexternalservice": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckDroppedExternalService",
+		Description:    `Counter for synack from external service dropped.`,
+		Exposed:        true,
+		Name:           "SynAckDroppedExternalService",
+		Type:           "integer",
+	},
+	"synackinvalidformat": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckInvalidFormat",
+		Description:    `Counter for synack packet dropped because of invalid format.`,
+		Exposed:        true,
+		Name:           "SynAckInvalidFormat",
+		Type:           "integer",
+	},
+	"synackmissingclaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckMissingClaims",
+		Description:    `Counter for synack packet dropped because of no claims.`,
+		Exposed:        true,
+		Name:           "SynAckMissingClaims",
+		Type:           "integer",
+	},
+	"synackmissingtoken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckMissingToken",
+		Description:    `Counter for synack packet dropped because of missing token.`,
+		Exposed:        true,
+		Name:           "SynAckMissingToken",
+		Type:           "integer",
+	},
+	"synacknotcpauthoption": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckNoTCPAuthOption",
+		Description:    `Counter for tcp authentication option not found.`,
+		Exposed:        true,
+		Name:           "SynAckNoTCPAuthOption",
+		Type:           "integer",
+	},
+	"synackrejected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynAckRejected",
+		Description:    `Counter for dropping because of reject rule on transmitter.`,
+		Exposed:        true,
+		Name:           "SynAckRejected",
+		Type:           "integer",
+	},
+	"syndroppedinvalidformat": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynDroppedInvalidFormat",
+		Description:    `Counter for syn packet dropped because of invalid format.`,
+		Exposed:        true,
+		Name:           "SynDroppedInvalidFormat",
+		Type:           "integer",
+	},
+	"syndroppedinvalidtoken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynDroppedInvalidToken",
+		Description:    `Counter for syn packet dropped because of invalid token.`,
+		Exposed:        true,
+		Name:           "SynDroppedInvalidToken",
+		Type:           "integer",
+	},
+	"syndroppednoclaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynDroppedNoClaims",
+		Description:    `Counter for syn packet dropped because of no claims.`,
+		Exposed:        true,
+		Name:           "SynDroppedNoClaims",
+		Type:           "integer",
+	},
+	"syndroppedtcpoption": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynDroppedTCPOption",
+		Description:    `Counter for tcp authentication option not found.`,
+		Exposed:        true,
+		Name:           "SynDroppedTCPOption",
+		Type:           "integer",
+	},
+	"synrejectpacket": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynRejectPacket",
+		Description:    `Counter for syn dropped due to policy.`,
+		Exposed:        true,
+		Name:           "SynRejectPacket",
+		Type:           "integer",
+	},
+	"synunexpectedpacket": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SynUnexpectedPacket",
+		Description:    `Counter for received syn packet from unknown pu.`,
+		Exposed:        true,
+		Name:           "SynUnexpectedPacket",
+		Type:           "integer",
+	},
+	"tcpauthnotfound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TCPAuthNotFound",
+		Description:    `Counter for tcp authentication option not found.`,
+		Exposed:        true,
+		Name:           "TCPAuthNotFound",
+		Type:           "integer",
+	},
+	"udpackinvalidsignature": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPAckInvalidSignature",
+		Description:    `Counter for dropped udp ack invalid signature.`,
+		Exposed:        true,
+		Name:           "UDPAckInvalidSignature",
+		Type:           "integer",
+	},
+	"udpconnectionsprocessed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPConnectionsProcessed",
+		Description:    `Counter for number of processed UDP connections.`,
+		Exposed:        true,
+		Name:           "UDPConnectionsProcessed",
+		Type:           "integer",
+	},
+	"udpdropcontextnotfound": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropContextNotFound",
+		Description:    `Counter for dropped UDP data packets with no context.`,
+		Exposed:        true,
+		Name:           "UDPDropContextNotFound",
+		Type:           "integer",
+	},
+	"udpdropfin": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropFin",
+		Description:    `Counter for dropped udp FIN handshake packets.`,
+		Exposed:        true,
+		Name:           "UDPDropFin",
+		Type:           "integer",
+	},
+	"udpdropinnfqueue": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropInNfQueue",
+		Description:    `Counter for dropped UDP in NfQueue.`,
+		Exposed:        true,
+		Name:           "UDPDropInNfQueue",
+		Type:           "integer",
+	},
+	"udpdropnoconnection": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropNoConnection",
+		Description:    `Counter for dropped UDP data packets with no connection.`,
+		Exposed:        true,
+		Name:           "UDPDropNoConnection",
+		Type:           "integer",
+	},
+	"udpdroppacket": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropPacket",
+		Description:    `Counter for dropped UDP data packets.`,
+		Exposed:        true,
+		Name:           "UDPDropPacket",
+		Type:           "integer",
+	},
+	"udpdropqueuefull": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropQueueFull",
+		Description:    `Counter for dropped UDP Queue Full.`,
+		Exposed:        true,
+		Name:           "UDPDropQueueFull",
+		Type:           "integer",
+	},
+	"udpdropsynack": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPDropSynAck",
+		Description:    `Counter for dropped udp synack handshake packets.`,
+		Exposed:        true,
+		Name:           "UDPDropSynAck",
+		Type:           "integer",
+	},
+	"udpinvalidnetstate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPInvalidNetState",
+		Description:    `Counter for udp packets received in invalid network state.`,
+		Exposed:        true,
+		Name:           "UDPInvalidNetState",
+		Type:           "integer",
+	},
+	"udppostprocessingfailed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPPostProcessingFailed",
+		Description:    `Counter for UDP packets failing postprocessing.`,
+		Exposed:        true,
+		Name:           "UDPPostProcessingFailed",
+		Type:           "integer",
+	},
+	"udppreprocessingfailed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPPreProcessingFailed",
+		Description:    `Counter for UDP packets failing preprocessing.`,
+		Exposed:        true,
+		Name:           "UDPPreProcessingFailed",
+		Type:           "integer",
+	},
+	"udprejected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPRejected",
+		Description:    `Counter for UDP packets dropped due to policy.`,
+		Exposed:        true,
+		Name:           "UDPRejected",
+		Type:           "integer",
+	},
+	"udpsynackdropbadclaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynAckDropBadClaims",
+		Description:    `Counter for dropped udp synack bad claims.`,
+		Exposed:        true,
+		Name:           "UDPSynAckDropBadClaims",
+		Type:           "integer",
+	},
+	"udpsynackmissingclaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynAckMissingClaims",
+		Description:    `Counter for dropped udp synack missing claims.`,
+		Exposed:        true,
+		Name:           "UDPSynAckMissingClaims",
+		Type:           "integer",
+	},
+	"udpsynackpolicy": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynAckPolicy",
+		Description:    `Counter for dropped udp synack bad claims.`,
+		Exposed:        true,
+		Name:           "UDPSynAckPolicy",
+		Type:           "integer",
+	},
+	"udpsyndrop": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynDrop",
+		Description:    `Counter for dropped udp syn transmits.`,
+		Exposed:        true,
+		Name:           "UDPSynDrop",
+		Type:           "integer",
+	},
+	"udpsyndroppolicy": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynDropPolicy",
+		Description:    `Counter for dropped udp syn policy.`,
+		Exposed:        true,
+		Name:           "UDPSynDropPolicy",
+		Type:           "integer",
+	},
+	"udpsyninvalidtoken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynInvalidToken",
+		Description:    `Counter for dropped udp FIN handshake packets.`,
+		Exposed:        true,
+		Name:           "UDPSynInvalidToken",
+		Type:           "integer",
+	},
+	"udpsynmissingclaims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UDPSynMissingClaims",
+		Description:    `Counter for dropped UDP SYN missing claims.`,
+		Exposed:        true,
+		Name:           "UDPSynMissingClaims",
+		Type:           "integer",
+	},
+	"unknownerror": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UnknownError",
+		Description:    `Counter for unknown error.`,
+		Exposed:        true,
+		Name:           "UnknownError",
+		Type:           "integer",
+	},
+	"connectionsanalyzed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsAnalyzed",
+		Description: `Non-zero counter indicates analyzed connections for unencrypted, encrypted and
+as well as when the packet from the endpoint application has tcp fast open
+option set. These are not dropped counter.`,
+		Exposed: true,
+		Name:    "connectionsAnalyzed",
+		Type:    "integer",
+	},
+	"connectionsdropped": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsDropped",
+		Description: `Non-zero counter indicates dropped connections becuase of invalid state or non
+pu traffic or out of order packets.`,
+		Exposed: true,
+		Name:    "connectionsDropped",
+		Type:    "integer",
+	},
+	"connectionsexpired": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsExpired",
+		Description: `Non-zero counter indicates expired connections because of response not being
+received within a certain amount of time after the request is made.`,
+		Exposed: true,
+		Name:    "connectionsExpired",
+		Type:    "integer",
 	},
 	"droppedpackets": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DroppedPackets",
-		Description:    `Counter for dropped packets.`,
-		Exposed:        true,
-		Name:           "droppedPackets",
-		Type:           "integer",
+		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptable
+rules.`,
+		Exposed: true,
+		Name:    "droppedPackets",
+		Type:    "integer",
 	},
 	"encryptionfailures": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EncryptionFailures",
-		Description:    `Counter for encryption failures.`,
+		Description:    `Non-zero counter indicates encryption processing failures of data packets.`,
 		Exposed:        true,
 		Name:           "encryptionFailures",
 		Type:           "integer",
@@ -608,15 +2226,16 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"externalnetworkconnections": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExternalNetworkConnections",
-		Description:    `Counter for external network connections.`,
-		Exposed:        true,
-		Name:           "externalNetworkConnections",
-		Type:           "integer",
+		Description: `Non-zero counter indicates connections going to and from external networks.
+These may be drops or allowed counters.`,
+		Exposed: true,
+		Name:    "externalNetworkConnections",
+		Type:    "integer",
 	},
 	"policydrops": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicyDrops",
-		Description:    `Counter for policy drops.`,
+		Description:    `Non-zero counter indicates dropped packets by a reject policy.`,
 		Exposed:        true,
 		Name:           "policyDrops",
 		Type:           "integer",
@@ -650,10 +2269,11 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"tokendrops": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TokenDrops",
-		Description:    `Counter for token drops.`,
-		Exposed:        true,
-		Name:           "tokenDrops",
-		Type:           "integer",
+		Description: `Non-zero counter indicates rejected packets due to anything related to token
+creation/parsing failures.`,
+		Exposed: true,
+		Name:    "tokenDrops",
+		Type:    "integer",
 	},
 }
 
@@ -720,19 +2340,196 @@ func (o SparseCounterReportsList) Version() int {
 
 // SparseCounterReport represents the sparse version of a counterreport.
 type SparseCounterReport struct {
-	// Counter for connections dropped.
-	ConnectionsDropped *int `json:"connectionsDropped,omitempty" msgpack:"connectionsDropped,omitempty" bson:"-" mapstructure:"connectionsDropped,omitempty"`
+	// Counter for sending finack ack received in unknown connection state.
+	AckInUnknownState *int `json:"AckInUnknownState,omitempty" msgpack:"AckInUnknownState,omitempty" bson:"-" mapstructure:"AckInUnknownState,omitempty"`
 
-	// Counter for connections expired.
-	ConnectionsExpired *int `json:"connectionsExpired,omitempty" msgpack:"connectionsExpired,omitempty" bson:"-" mapstructure:"connectionsExpired,omitempty"`
+	// Counter for ack packet dropped because of invalid format.
+	AckInvalidFormat *int `json:"AckInvalidFormat,omitempty" msgpack:"AckInvalidFormat,omitempty" bson:"-" mapstructure:"AckInvalidFormat,omitempty"`
+
+	// Counter for reject ack packet as per policy.
+	AckRejected *int `json:"AckRejected,omitempty" msgpack:"AckRejected,omitempty" bson:"-" mapstructure:"AckRejected,omitempty"`
+
+	// Counter for ack packet dropped because signature validation failed.
+	AckSigValidationFailed *int `json:"AckSigValidationFailed,omitempty" msgpack:"AckSigValidationFailed,omitempty" bson:"-" mapstructure:"AckSigValidationFailed,omitempty"`
+
+	// Counter for tcp authentication option not found.
+	AckTCPNoTCPAuthOption *int `json:"AckTCPNoTCPAuthOption,omitempty" msgpack:"AckTCPNoTCPAuthOption,omitempty" bson:"-" mapstructure:"AckTCPNoTCPAuthOption,omitempty"`
 
 	// Counter for connections processed.
-	ConnectionsProcessed *int `json:"connectionsProcessed,omitempty" msgpack:"connectionsProcessed,omitempty" bson:"-" mapstructure:"connectionsProcessed,omitempty"`
+	ConnectionsProcessed *int `json:"ConnectionsProcessed,omitempty" msgpack:"ConnectionsProcessed,omitempty" bson:"-" mapstructure:"ConnectionsProcessed,omitempty"`
 
-	// Counter for dropped packets.
+	// Counter for unable to find ContextID.
+	ContextIDNotFound *int `json:"ContextIDNotFound,omitempty" msgpack:"ContextIDNotFound,omitempty" bson:"-" mapstructure:"ContextIDNotFound,omitempty"`
+
+	// Counter for no acls found for external services. dropping application syn
+	// packet.
+	DroppedExternalService *int `json:"DroppedExternalService,omitempty" msgpack:"DroppedExternalService,omitempty" bson:"-" mapstructure:"DroppedExternalService,omitempty"`
+
+	// Counter for invalid connection state.
+	InvalidConnState *int `json:"InvalidConnState,omitempty" msgpack:"InvalidConnState,omitempty" bson:"-" mapstructure:"InvalidConnState,omitempty"`
+
+	// Counter for invalid net state.
+	InvalidNetState *int `json:"InvalidNetState,omitempty" msgpack:"InvalidNetState,omitempty" bson:"-" mapstructure:"InvalidNetState,omitempty"`
+
+	// Counter for invalid protocol.
+	InvalidProtocol *int `json:"InvalidProtocol,omitempty" msgpack:"InvalidProtocol,omitempty" bson:"-" mapstructure:"InvalidProtocol,omitempty"`
+
+	// Counter for pu is already dead - drop synack packet.
+	InvalidSynAck *int `json:"InvalidSynAck,omitempty" msgpack:"InvalidSynAck,omitempty" bson:"-" mapstructure:"InvalidSynAck,omitempty"`
+
+	// Counter for pu mark not found.
+	MarkNotFound *int `json:"MarkNotFound,omitempty" msgpack:"MarkNotFound,omitempty" bson:"-" mapstructure:"MarkNotFound,omitempty"`
+
+	// Counter for network syn packet was not seen.
+	NetSynNotSeen *int `json:"NetSynNotSeen,omitempty" msgpack:"NetSynNotSeen,omitempty" bson:"-" mapstructure:"NetSynNotSeen,omitempty"`
+
+	// Counter for no context or connection found.
+	NoConnFound *int `json:"NoConnFound,omitempty" msgpack:"NoConnFound,omitempty" bson:"-" mapstructure:"NoConnFound,omitempty"`
+
+	// Counter for traffic that belongs to a non PU process.
+	NonPUTraffic *int `json:"NonPUTraffic,omitempty" msgpack:"NonPUTraffic,omitempty" bson:"-" mapstructure:"NonPUTraffic,omitempty"`
+
+	// Counter for synack for flow with processed finack.
+	OutOfOrderSynAck *int `json:"OutOfOrderSynAck,omitempty" msgpack:"OutOfOrderSynAck,omitempty" bson:"-" mapstructure:"OutOfOrderSynAck,omitempty"`
+
+	// Counter for port not found.
+	PortNotFound *int `json:"PortNotFound,omitempty" msgpack:"PortNotFound,omitempty" bson:"-" mapstructure:"PortNotFound,omitempty"`
+
+	// Counter for reject the packet as per policy.
+	RejectPacket *int `json:"RejectPacket,omitempty" msgpack:"RejectPacket,omitempty" bson:"-" mapstructure:"RejectPacket,omitempty"`
+
+	// Counter for post service processing failed for network packet.
+	ServicePostprocessorFailed *int `json:"ServicePostprocessorFailed,omitempty" msgpack:"ServicePostprocessorFailed,omitempty" bson:"-" mapstructure:"ServicePostprocessorFailed,omitempty"`
+
+	// Counter for network packets that failed preprocessing.
+	ServicePreprocessorFailed *int `json:"ServicePreprocessorFailed,omitempty" msgpack:"ServicePreprocessorFailed,omitempty" bson:"-" mapstructure:"ServicePreprocessorFailed,omitempty"`
+
+	// Counter for synack packet dropped because of bad claims.
+	SynAckBadClaims *int `json:"SynAckBadClaims,omitempty" msgpack:"SynAckBadClaims,omitempty" bson:"-" mapstructure:"SynAckBadClaims,omitempty"`
+
+	// Counter for synack packet dropped because of encryption mismatch.
+	SynAckClaimsMisMatch *int `json:"SynAckClaimsMisMatch,omitempty" msgpack:"SynAckClaimsMisMatch,omitempty" bson:"-" mapstructure:"SynAckClaimsMisMatch,omitempty"`
+
+	// Counter for synack from external service dropped.
+	SynAckDroppedExternalService *int `json:"SynAckDroppedExternalService,omitempty" msgpack:"SynAckDroppedExternalService,omitempty" bson:"-" mapstructure:"SynAckDroppedExternalService,omitempty"`
+
+	// Counter for synack packet dropped because of invalid format.
+	SynAckInvalidFormat *int `json:"SynAckInvalidFormat,omitempty" msgpack:"SynAckInvalidFormat,omitempty" bson:"-" mapstructure:"SynAckInvalidFormat,omitempty"`
+
+	// Counter for synack packet dropped because of no claims.
+	SynAckMissingClaims *int `json:"SynAckMissingClaims,omitempty" msgpack:"SynAckMissingClaims,omitempty" bson:"-" mapstructure:"SynAckMissingClaims,omitempty"`
+
+	// Counter for synack packet dropped because of missing token.
+	SynAckMissingToken *int `json:"SynAckMissingToken,omitempty" msgpack:"SynAckMissingToken,omitempty" bson:"-" mapstructure:"SynAckMissingToken,omitempty"`
+
+	// Counter for tcp authentication option not found.
+	SynAckNoTCPAuthOption *int `json:"SynAckNoTCPAuthOption,omitempty" msgpack:"SynAckNoTCPAuthOption,omitempty" bson:"-" mapstructure:"SynAckNoTCPAuthOption,omitempty"`
+
+	// Counter for dropping because of reject rule on transmitter.
+	SynAckRejected *int `json:"SynAckRejected,omitempty" msgpack:"SynAckRejected,omitempty" bson:"-" mapstructure:"SynAckRejected,omitempty"`
+
+	// Counter for syn packet dropped because of invalid format.
+	SynDroppedInvalidFormat *int `json:"SynDroppedInvalidFormat,omitempty" msgpack:"SynDroppedInvalidFormat,omitempty" bson:"-" mapstructure:"SynDroppedInvalidFormat,omitempty"`
+
+	// Counter for syn packet dropped because of invalid token.
+	SynDroppedInvalidToken *int `json:"SynDroppedInvalidToken,omitempty" msgpack:"SynDroppedInvalidToken,omitempty" bson:"-" mapstructure:"SynDroppedInvalidToken,omitempty"`
+
+	// Counter for syn packet dropped because of no claims.
+	SynDroppedNoClaims *int `json:"SynDroppedNoClaims,omitempty" msgpack:"SynDroppedNoClaims,omitempty" bson:"-" mapstructure:"SynDroppedNoClaims,omitempty"`
+
+	// Counter for tcp authentication option not found.
+	SynDroppedTCPOption *int `json:"SynDroppedTCPOption,omitempty" msgpack:"SynDroppedTCPOption,omitempty" bson:"-" mapstructure:"SynDroppedTCPOption,omitempty"`
+
+	// Counter for syn dropped due to policy.
+	SynRejectPacket *int `json:"SynRejectPacket,omitempty" msgpack:"SynRejectPacket,omitempty" bson:"-" mapstructure:"SynRejectPacket,omitempty"`
+
+	// Counter for received syn packet from unknown pu.
+	SynUnexpectedPacket *int `json:"SynUnexpectedPacket,omitempty" msgpack:"SynUnexpectedPacket,omitempty" bson:"-" mapstructure:"SynUnexpectedPacket,omitempty"`
+
+	// Counter for tcp authentication option not found.
+	TCPAuthNotFound *int `json:"TCPAuthNotFound,omitempty" msgpack:"TCPAuthNotFound,omitempty" bson:"-" mapstructure:"TCPAuthNotFound,omitempty"`
+
+	// Counter for dropped udp ack invalid signature.
+	UDPAckInvalidSignature *int `json:"UDPAckInvalidSignature,omitempty" msgpack:"UDPAckInvalidSignature,omitempty" bson:"-" mapstructure:"UDPAckInvalidSignature,omitempty"`
+
+	// Counter for number of processed UDP connections.
+	UDPConnectionsProcessed *int `json:"UDPConnectionsProcessed,omitempty" msgpack:"UDPConnectionsProcessed,omitempty" bson:"-" mapstructure:"UDPConnectionsProcessed,omitempty"`
+
+	// Counter for dropped UDP data packets with no context.
+	UDPDropContextNotFound *int `json:"UDPDropContextNotFound,omitempty" msgpack:"UDPDropContextNotFound,omitempty" bson:"-" mapstructure:"UDPDropContextNotFound,omitempty"`
+
+	// Counter for dropped udp FIN handshake packets.
+	UDPDropFin *int `json:"UDPDropFin,omitempty" msgpack:"UDPDropFin,omitempty" bson:"-" mapstructure:"UDPDropFin,omitempty"`
+
+	// Counter for dropped UDP in NfQueue.
+	UDPDropInNfQueue *int `json:"UDPDropInNfQueue,omitempty" msgpack:"UDPDropInNfQueue,omitempty" bson:"-" mapstructure:"UDPDropInNfQueue,omitempty"`
+
+	// Counter for dropped UDP data packets with no connection.
+	UDPDropNoConnection *int `json:"UDPDropNoConnection,omitempty" msgpack:"UDPDropNoConnection,omitempty" bson:"-" mapstructure:"UDPDropNoConnection,omitempty"`
+
+	// Counter for dropped UDP data packets.
+	UDPDropPacket *int `json:"UDPDropPacket,omitempty" msgpack:"UDPDropPacket,omitempty" bson:"-" mapstructure:"UDPDropPacket,omitempty"`
+
+	// Counter for dropped UDP Queue Full.
+	UDPDropQueueFull *int `json:"UDPDropQueueFull,omitempty" msgpack:"UDPDropQueueFull,omitempty" bson:"-" mapstructure:"UDPDropQueueFull,omitempty"`
+
+	// Counter for dropped udp synack handshake packets.
+	UDPDropSynAck *int `json:"UDPDropSynAck,omitempty" msgpack:"UDPDropSynAck,omitempty" bson:"-" mapstructure:"UDPDropSynAck,omitempty"`
+
+	// Counter for udp packets received in invalid network state.
+	UDPInvalidNetState *int `json:"UDPInvalidNetState,omitempty" msgpack:"UDPInvalidNetState,omitempty" bson:"-" mapstructure:"UDPInvalidNetState,omitempty"`
+
+	// Counter for UDP packets failing postprocessing.
+	UDPPostProcessingFailed *int `json:"UDPPostProcessingFailed,omitempty" msgpack:"UDPPostProcessingFailed,omitempty" bson:"-" mapstructure:"UDPPostProcessingFailed,omitempty"`
+
+	// Counter for UDP packets failing preprocessing.
+	UDPPreProcessingFailed *int `json:"UDPPreProcessingFailed,omitempty" msgpack:"UDPPreProcessingFailed,omitempty" bson:"-" mapstructure:"UDPPreProcessingFailed,omitempty"`
+
+	// Counter for UDP packets dropped due to policy.
+	UDPRejected *int `json:"UDPRejected,omitempty" msgpack:"UDPRejected,omitempty" bson:"-" mapstructure:"UDPRejected,omitempty"`
+
+	// Counter for dropped udp synack bad claims.
+	UDPSynAckDropBadClaims *int `json:"UDPSynAckDropBadClaims,omitempty" msgpack:"UDPSynAckDropBadClaims,omitempty" bson:"-" mapstructure:"UDPSynAckDropBadClaims,omitempty"`
+
+	// Counter for dropped udp synack missing claims.
+	UDPSynAckMissingClaims *int `json:"UDPSynAckMissingClaims,omitempty" msgpack:"UDPSynAckMissingClaims,omitempty" bson:"-" mapstructure:"UDPSynAckMissingClaims,omitempty"`
+
+	// Counter for dropped udp synack bad claims.
+	UDPSynAckPolicy *int `json:"UDPSynAckPolicy,omitempty" msgpack:"UDPSynAckPolicy,omitempty" bson:"-" mapstructure:"UDPSynAckPolicy,omitempty"`
+
+	// Counter for dropped udp syn transmits.
+	UDPSynDrop *int `json:"UDPSynDrop,omitempty" msgpack:"UDPSynDrop,omitempty" bson:"-" mapstructure:"UDPSynDrop,omitempty"`
+
+	// Counter for dropped udp syn policy.
+	UDPSynDropPolicy *int `json:"UDPSynDropPolicy,omitempty" msgpack:"UDPSynDropPolicy,omitempty" bson:"-" mapstructure:"UDPSynDropPolicy,omitempty"`
+
+	// Counter for dropped udp FIN handshake packets.
+	UDPSynInvalidToken *int `json:"UDPSynInvalidToken,omitempty" msgpack:"UDPSynInvalidToken,omitempty" bson:"-" mapstructure:"UDPSynInvalidToken,omitempty"`
+
+	// Counter for dropped UDP SYN missing claims.
+	UDPSynMissingClaims *int `json:"UDPSynMissingClaims,omitempty" msgpack:"UDPSynMissingClaims,omitempty" bson:"-" mapstructure:"UDPSynMissingClaims,omitempty"`
+
+	// Counter for unknown error.
+	UnknownError *int `json:"UnknownError,omitempty" msgpack:"UnknownError,omitempty" bson:"-" mapstructure:"UnknownError,omitempty"`
+
+	// Non-zero counter indicates analyzed connections for unencrypted, encrypted and
+	// as well as when the packet from the endpoint application has tcp fast open
+	// option set. These are not dropped counter.
+	ConnectionsAnalyzed *int `json:"connectionsAnalyzed,omitempty" msgpack:"connectionsAnalyzed,omitempty" bson:"-" mapstructure:"connectionsAnalyzed,omitempty"`
+
+	// Non-zero counter indicates dropped connections becuase of invalid state or non
+	// pu traffic or out of order packets.
+	ConnectionsDropped *int `json:"connectionsDropped,omitempty" msgpack:"connectionsDropped,omitempty" bson:"-" mapstructure:"connectionsDropped,omitempty"`
+
+	// Non-zero counter indicates expired connections because of response not being
+	// received within a certain amount of time after the request is made.
+	ConnectionsExpired *int `json:"connectionsExpired,omitempty" msgpack:"connectionsExpired,omitempty" bson:"-" mapstructure:"connectionsExpired,omitempty"`
+
+	// Non-zero counter indicates dropped packets that did not hit any of our iptable
+	// rules.
 	DroppedPackets *int `json:"droppedPackets,omitempty" msgpack:"droppedPackets,omitempty" bson:"-" mapstructure:"droppedPackets,omitempty"`
 
-	// Counter for encryption failures.
+	// Non-zero counter indicates encryption processing failures of data packets.
 	EncryptionFailures *int `json:"encryptionFailures,omitempty" msgpack:"encryptionFailures,omitempty" bson:"-" mapstructure:"encryptionFailures,omitempty"`
 
 	// Identifier of the enforcer sending the report.
@@ -741,10 +2538,11 @@ type SparseCounterReport struct {
 	// Namespace of the enforcer sending the report.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Counter for external network connections.
+	// Non-zero counter indicates connections going to and from external networks.
+	// These may be drops or allowed counters.
 	ExternalNetworkConnections *int `json:"externalNetworkConnections,omitempty" msgpack:"externalNetworkConnections,omitempty" bson:"-" mapstructure:"externalNetworkConnections,omitempty"`
 
-	// Counter for policy drops.
+	// Non-zero counter indicates dropped packets by a reject policy.
 	PolicyDrops *int `json:"policyDrops,omitempty" msgpack:"policyDrops,omitempty" bson:"-" mapstructure:"policyDrops,omitempty"`
 
 	// PUID is the ID of the PU reporting the counter.
@@ -756,7 +2554,8 @@ type SparseCounterReport struct {
 	// Timestamp is the date of the report.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	// Counter for token drops.
+	// Non-zero counter indicates rejected packets due to anything related to token
+	// creation/parsing failures.
 	TokenDrops *int `json:"tokenDrops,omitempty" msgpack:"tokenDrops,omitempty" bson:"-" mapstructure:"tokenDrops,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -837,14 +2636,185 @@ func (o *SparseCounterReport) Version() int {
 func (o *SparseCounterReport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCounterReport()
+	if o.AckInUnknownState != nil {
+		out.AckInUnknownState = *o.AckInUnknownState
+	}
+	if o.AckInvalidFormat != nil {
+		out.AckInvalidFormat = *o.AckInvalidFormat
+	}
+	if o.AckRejected != nil {
+		out.AckRejected = *o.AckRejected
+	}
+	if o.AckSigValidationFailed != nil {
+		out.AckSigValidationFailed = *o.AckSigValidationFailed
+	}
+	if o.AckTCPNoTCPAuthOption != nil {
+		out.AckTCPNoTCPAuthOption = *o.AckTCPNoTCPAuthOption
+	}
+	if o.ConnectionsProcessed != nil {
+		out.ConnectionsProcessed = *o.ConnectionsProcessed
+	}
+	if o.ContextIDNotFound != nil {
+		out.ContextIDNotFound = *o.ContextIDNotFound
+	}
+	if o.DroppedExternalService != nil {
+		out.DroppedExternalService = *o.DroppedExternalService
+	}
+	if o.InvalidConnState != nil {
+		out.InvalidConnState = *o.InvalidConnState
+	}
+	if o.InvalidNetState != nil {
+		out.InvalidNetState = *o.InvalidNetState
+	}
+	if o.InvalidProtocol != nil {
+		out.InvalidProtocol = *o.InvalidProtocol
+	}
+	if o.InvalidSynAck != nil {
+		out.InvalidSynAck = *o.InvalidSynAck
+	}
+	if o.MarkNotFound != nil {
+		out.MarkNotFound = *o.MarkNotFound
+	}
+	if o.NetSynNotSeen != nil {
+		out.NetSynNotSeen = *o.NetSynNotSeen
+	}
+	if o.NoConnFound != nil {
+		out.NoConnFound = *o.NoConnFound
+	}
+	if o.NonPUTraffic != nil {
+		out.NonPUTraffic = *o.NonPUTraffic
+	}
+	if o.OutOfOrderSynAck != nil {
+		out.OutOfOrderSynAck = *o.OutOfOrderSynAck
+	}
+	if o.PortNotFound != nil {
+		out.PortNotFound = *o.PortNotFound
+	}
+	if o.RejectPacket != nil {
+		out.RejectPacket = *o.RejectPacket
+	}
+	if o.ServicePostprocessorFailed != nil {
+		out.ServicePostprocessorFailed = *o.ServicePostprocessorFailed
+	}
+	if o.ServicePreprocessorFailed != nil {
+		out.ServicePreprocessorFailed = *o.ServicePreprocessorFailed
+	}
+	if o.SynAckBadClaims != nil {
+		out.SynAckBadClaims = *o.SynAckBadClaims
+	}
+	if o.SynAckClaimsMisMatch != nil {
+		out.SynAckClaimsMisMatch = *o.SynAckClaimsMisMatch
+	}
+	if o.SynAckDroppedExternalService != nil {
+		out.SynAckDroppedExternalService = *o.SynAckDroppedExternalService
+	}
+	if o.SynAckInvalidFormat != nil {
+		out.SynAckInvalidFormat = *o.SynAckInvalidFormat
+	}
+	if o.SynAckMissingClaims != nil {
+		out.SynAckMissingClaims = *o.SynAckMissingClaims
+	}
+	if o.SynAckMissingToken != nil {
+		out.SynAckMissingToken = *o.SynAckMissingToken
+	}
+	if o.SynAckNoTCPAuthOption != nil {
+		out.SynAckNoTCPAuthOption = *o.SynAckNoTCPAuthOption
+	}
+	if o.SynAckRejected != nil {
+		out.SynAckRejected = *o.SynAckRejected
+	}
+	if o.SynDroppedInvalidFormat != nil {
+		out.SynDroppedInvalidFormat = *o.SynDroppedInvalidFormat
+	}
+	if o.SynDroppedInvalidToken != nil {
+		out.SynDroppedInvalidToken = *o.SynDroppedInvalidToken
+	}
+	if o.SynDroppedNoClaims != nil {
+		out.SynDroppedNoClaims = *o.SynDroppedNoClaims
+	}
+	if o.SynDroppedTCPOption != nil {
+		out.SynDroppedTCPOption = *o.SynDroppedTCPOption
+	}
+	if o.SynRejectPacket != nil {
+		out.SynRejectPacket = *o.SynRejectPacket
+	}
+	if o.SynUnexpectedPacket != nil {
+		out.SynUnexpectedPacket = *o.SynUnexpectedPacket
+	}
+	if o.TCPAuthNotFound != nil {
+		out.TCPAuthNotFound = *o.TCPAuthNotFound
+	}
+	if o.UDPAckInvalidSignature != nil {
+		out.UDPAckInvalidSignature = *o.UDPAckInvalidSignature
+	}
+	if o.UDPConnectionsProcessed != nil {
+		out.UDPConnectionsProcessed = *o.UDPConnectionsProcessed
+	}
+	if o.UDPDropContextNotFound != nil {
+		out.UDPDropContextNotFound = *o.UDPDropContextNotFound
+	}
+	if o.UDPDropFin != nil {
+		out.UDPDropFin = *o.UDPDropFin
+	}
+	if o.UDPDropInNfQueue != nil {
+		out.UDPDropInNfQueue = *o.UDPDropInNfQueue
+	}
+	if o.UDPDropNoConnection != nil {
+		out.UDPDropNoConnection = *o.UDPDropNoConnection
+	}
+	if o.UDPDropPacket != nil {
+		out.UDPDropPacket = *o.UDPDropPacket
+	}
+	if o.UDPDropQueueFull != nil {
+		out.UDPDropQueueFull = *o.UDPDropQueueFull
+	}
+	if o.UDPDropSynAck != nil {
+		out.UDPDropSynAck = *o.UDPDropSynAck
+	}
+	if o.UDPInvalidNetState != nil {
+		out.UDPInvalidNetState = *o.UDPInvalidNetState
+	}
+	if o.UDPPostProcessingFailed != nil {
+		out.UDPPostProcessingFailed = *o.UDPPostProcessingFailed
+	}
+	if o.UDPPreProcessingFailed != nil {
+		out.UDPPreProcessingFailed = *o.UDPPreProcessingFailed
+	}
+	if o.UDPRejected != nil {
+		out.UDPRejected = *o.UDPRejected
+	}
+	if o.UDPSynAckDropBadClaims != nil {
+		out.UDPSynAckDropBadClaims = *o.UDPSynAckDropBadClaims
+	}
+	if o.UDPSynAckMissingClaims != nil {
+		out.UDPSynAckMissingClaims = *o.UDPSynAckMissingClaims
+	}
+	if o.UDPSynAckPolicy != nil {
+		out.UDPSynAckPolicy = *o.UDPSynAckPolicy
+	}
+	if o.UDPSynDrop != nil {
+		out.UDPSynDrop = *o.UDPSynDrop
+	}
+	if o.UDPSynDropPolicy != nil {
+		out.UDPSynDropPolicy = *o.UDPSynDropPolicy
+	}
+	if o.UDPSynInvalidToken != nil {
+		out.UDPSynInvalidToken = *o.UDPSynInvalidToken
+	}
+	if o.UDPSynMissingClaims != nil {
+		out.UDPSynMissingClaims = *o.UDPSynMissingClaims
+	}
+	if o.UnknownError != nil {
+		out.UnknownError = *o.UnknownError
+	}
+	if o.ConnectionsAnalyzed != nil {
+		out.ConnectionsAnalyzed = *o.ConnectionsAnalyzed
+	}
 	if o.ConnectionsDropped != nil {
 		out.ConnectionsDropped = *o.ConnectionsDropped
 	}
 	if o.ConnectionsExpired != nil {
 		out.ConnectionsExpired = *o.ConnectionsExpired
-	}
-	if o.ConnectionsProcessed != nil {
-		out.ConnectionsProcessed = *o.ConnectionsProcessed
 	}
 	if o.DroppedPackets != nil {
 		out.DroppedPackets = *o.DroppedPackets
