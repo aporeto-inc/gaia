@@ -1668,6 +1668,7 @@ Post a new counter tracing report.
   "ConnectionsProcessed": 0,
   "ContextIDNotFound": 0,
   "DroppedExternalService": 0,
+  "DuplicateAckDrop": 0,
   "InvalidConnState": 0,
   "InvalidNetState": 0,
   "InvalidProtocol": 0,
@@ -1807,6 +1808,16 @@ Default value:
 
 Counter for no acls found for external services. dropping application syn
 packet.
+
+Default value:
+
+```json
+0
+```
+
+##### `DuplicateAckDrop` `integer`
+
+Counter for duplicate ack drop.
 
 Default value:
 

@@ -389,3 +389,9 @@ attributes:
     type: time
     exposed: true
     example_value: "2018-06-14T23:10:46.420397985Z"
+
+  - name: DuplicateAckDrop
+    description: Counter for duplicate ack drop.
+    type: integer
+    exposed: true
+    default_value: 0

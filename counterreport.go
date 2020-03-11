@@ -106,6 +106,9 @@ type CounterReport struct {
 	// packet.
 	DroppedExternalService int `json:"DroppedExternalService" msgpack:"DroppedExternalService" bson:"-" mapstructure:"DroppedExternalService,omitempty"`
 
+	// Counter for duplicate ack drop.
+	DuplicateAckDrop int `json:"DuplicateAckDrop" msgpack:"DuplicateAckDrop" bson:"-" mapstructure:"DuplicateAckDrop,omitempty"`
+
 	// Counter for invalid connection state.
 	InvalidConnState int `json:"InvalidConnState" msgpack:"InvalidConnState" bson:"-" mapstructure:"InvalidConnState,omitempty"`
 
@@ -276,8 +279,9 @@ func NewCounterReport() *CounterReport {
 
 	return &CounterReport{
 		ModelVersion:                 1,
+		SynDroppedInvalidToken:       0,
 		SynDroppedNoClaims:           0,
-		DroppedExternalService:       0,
+		DuplicateAckDrop:             0,
 		SynDroppedTCPOption:          0,
 		InvalidNetState:              0,
 		SynRejectPacket:              0,
@@ -285,54 +289,54 @@ func NewCounterReport() *CounterReport {
 		SynUnexpectedPacket:          0,
 		NetSynNotSeen:                0,
 		TCPAuthNotFound:              0,
+		AckTCPNoTCPAuthOption:        0,
 		AckSigValidationFailed:       0,
-		AckRejected:                  0,
 		UDPAckInvalidSignature:       0,
-		AckInUnknownState:            0,
-		ConnectionsProcessed:         0,
+		AckInvalidFormat:             0,
+		ContextIDNotFound:            0,
 		UDPDropContextNotFound:       0,
+		UDPSynMissingClaims:          0,
+		UDPDropFin:                   0,
+		SynAckNoTCPAuthOption:        0,
+		UDPSynAckPolicy:              0,
+		UDPDropQueueFull:             0,
+		NoConnFound:                  0,
+		UDPConnectionsProcessed:      0,
+		SynAckBadClaims:              0,
+		UDPDropNoConnection:          0,
+		SynDroppedInvalidFormat:      0,
+		UDPSynAckDropBadClaims:       0,
+		UDPInvalidNetState:           0,
+		MarkNotFound:                 0,
+		UDPSynDropPolicy:             0,
+		SynAckMissingClaims:          0,
+		UnknownError:                 0,
+		SynAckMissingToken:           0,
+		ServicePreprocessorFailed:    0,
+		RejectPacket:                 0,
+		UDPDropInNfQueue:             0,
+		SynAckRejected:               0,
+		UDPDropPacket:                0,
+		SynAckClaimsMisMatch:         0,
+		UDPDropSynAck:                0,
+		DroppedExternalService:       0,
+		UDPRejected:                  0,
+		UDPPostProcessingFailed:      0,
+		InvalidProtocol:              0,
+		UDPSynAckMissingClaims:       0,
+		SynAckInvalidFormat:          0,
+		UDPSynDrop:                   0,
+		AckInUnknownState:            0,
+		UDPSynInvalidToken:           0,
+		AckRejected:                  0,
+		PortNotFound:                 0,
 		OutOfOrderSynAck:             0,
 		NonPUTraffic:                 0,
-		UDPDropFin:                   0,
-		ServicePreprocessorFailed:    0,
-		UDPDropPacket:                0,
-		SynDroppedInvalidToken:       0,
-		UDPPostProcessingFailed:      0,
-		SynAckRejected:               0,
-		UDPDropInNfQueue:             0,
-		SynAckInvalidFormat:          0,
-		UDPDropSynAck:                0,
-		InvalidProtocol:              0,
-		UDPSynDrop:                   0,
-		UDPRejected:                  0,
-		PortNotFound:                 0,
-		UDPSynInvalidToken:           0,
-		SynAckDroppedExternalService: 0,
-		SynAckClaimsMisMatch:         0,
-		SynDroppedInvalidFormat:      0,
-		UDPDropNoConnection:          0,
-		SynAckBadClaims:              0,
-		UDPDropQueueFull:             0,
-		InvalidConnState:             0,
-		UDPInvalidNetState:           0,
-		SynAckMissingClaims:          0,
-		UDPPreProcessingFailed:       0,
-		MarkNotFound:                 0,
-		UDPSynAckPolicy:              0,
-		UDPSynAckDropBadClaims:       0,
-		NoConnFound:                  0,
-		UDPSynDropPolicy:             0,
-		SynAckNoTCPAuthOption:        0,
-		UDPSynMissingClaims:          0,
-		UDPConnectionsProcessed:      0,
+		ConnectionsProcessed:         0,
 		ServicePostprocessorFailed:   0,
-		RejectPacket:                 0,
-		UnknownError:                 0,
-		AckInvalidFormat:             0,
-		AckTCPNoTCPAuthOption:        0,
-		SynAckMissingToken:           0,
-		ContextIDNotFound:            0,
-		UDPSynAckMissingClaims:       0,
+		SynAckDroppedExternalService: 0,
+		InvalidConnState:             0,
+		UDPPreProcessingFailed:       0,
 	}
 }
 
@@ -432,6 +436,7 @@ func (o *CounterReport) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			ConnectionsProcessed:         &o.ConnectionsProcessed,
 			ContextIDNotFound:            &o.ContextIDNotFound,
 			DroppedExternalService:       &o.DroppedExternalService,
+			DuplicateAckDrop:             &o.DuplicateAckDrop,
 			InvalidConnState:             &o.InvalidConnState,
 			InvalidNetState:              &o.InvalidNetState,
 			InvalidProtocol:              &o.InvalidProtocol,
@@ -508,6 +513,8 @@ func (o *CounterReport) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.ContextIDNotFound = &(o.ContextIDNotFound)
 		case "DroppedExternalService":
 			sp.DroppedExternalService = &(o.DroppedExternalService)
+		case "DuplicateAckDrop":
+			sp.DuplicateAckDrop = &(o.DuplicateAckDrop)
 		case "InvalidConnState":
 			sp.InvalidConnState = &(o.InvalidConnState)
 		case "InvalidNetState":
@@ -652,6 +659,9 @@ func (o *CounterReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DroppedExternalService != nil {
 		o.DroppedExternalService = *so.DroppedExternalService
+	}
+	if so.DuplicateAckDrop != nil {
+		o.DuplicateAckDrop = *so.DuplicateAckDrop
 	}
 	if so.InvalidConnState != nil {
 		o.InvalidConnState = *so.InvalidConnState
@@ -905,6 +915,8 @@ func (o *CounterReport) ValueForAttribute(name string) interface{} {
 		return o.ContextIDNotFound
 	case "DroppedExternalService":
 		return o.DroppedExternalService
+	case "DuplicateAckDrop":
+		return o.DuplicateAckDrop
 	case "InvalidConnState":
 		return o.InvalidConnState
 	case "InvalidNetState":
@@ -1084,6 +1096,14 @@ packet.`,
 		Exposed: true,
 		Name:    "DroppedExternalService",
 		Type:    "integer",
+	},
+	"DuplicateAckDrop": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DuplicateAckDrop",
+		Description:    `Counter for duplicate ack drop.`,
+		Exposed:        true,
+		Name:           "DuplicateAckDrop",
+		Type:           "integer",
 	},
 	"InvalidConnState": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1591,6 +1611,14 @@ packet.`,
 		Exposed: true,
 		Name:    "DroppedExternalService",
 		Type:    "integer",
+	},
+	"duplicateackdrop": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DuplicateAckDrop",
+		Description:    `Counter for duplicate ack drop.`,
+		Exposed:        true,
+		Name:           "DuplicateAckDrop",
+		Type:           "integer",
 	},
 	"invalidconnstate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -2120,6 +2148,9 @@ type SparseCounterReport struct {
 	// packet.
 	DroppedExternalService *int `json:"DroppedExternalService,omitempty" msgpack:"DroppedExternalService,omitempty" bson:"-" mapstructure:"DroppedExternalService,omitempty"`
 
+	// Counter for duplicate ack drop.
+	DuplicateAckDrop *int `json:"DuplicateAckDrop,omitempty" msgpack:"DuplicateAckDrop,omitempty" bson:"-" mapstructure:"DuplicateAckDrop,omitempty"`
+
 	// Counter for invalid connection state.
 	InvalidConnState *int `json:"InvalidConnState,omitempty" msgpack:"InvalidConnState,omitempty" bson:"-" mapstructure:"InvalidConnState,omitempty"`
 
@@ -2383,6 +2414,9 @@ func (o *SparseCounterReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.DroppedExternalService != nil {
 		out.DroppedExternalService = *o.DroppedExternalService
+	}
+	if o.DuplicateAckDrop != nil {
+		out.DuplicateAckDrop = *o.DuplicateAckDrop
 	}
 	if o.InvalidConnState != nil {
 		out.InvalidConnState = *o.InvalidConnState
