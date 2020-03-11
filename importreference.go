@@ -9,18 +9,18 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ImportReferenceImportConstraintValue represents the possible values for attribute "importConstraint".
-type ImportReferenceImportConstraintValue string
+// ImportReferenceConstraintValue represents the possible values for attribute "constraint".
+type ImportReferenceConstraintValue string
 
 const (
-	// ImportReferenceImportConstraintNamespaceUnique represents the value NamespaceUnique.
-	ImportReferenceImportConstraintNamespaceUnique ImportReferenceImportConstraintValue = "NamespaceUnique"
+	// ImportReferenceConstraintNamespaceUnique represents the value NamespaceUnique.
+	ImportReferenceConstraintNamespaceUnique ImportReferenceConstraintValue = "NamespaceUnique"
 
-	// ImportReferenceImportConstraintUnique represents the value Unique.
-	ImportReferenceImportConstraintUnique ImportReferenceImportConstraintValue = "Unique"
+	// ImportReferenceConstraintUnique represents the value Unique.
+	ImportReferenceConstraintUnique ImportReferenceConstraintValue = "Unique"
 
-	// ImportReferenceImportConstraintUnrestricted represents the value Unrestricted.
-	ImportReferenceImportConstraintUnrestricted ImportReferenceImportConstraintValue = "Unrestricted"
+	// ImportReferenceConstraintUnrestricted represents the value Unrestricted.
+	ImportReferenceConstraintUnrestricted ImportReferenceConstraintValue = "Unrestricted"
 )
 
 // ImportReferenceIdentity represents the Identity of the object.
@@ -109,6 +109,12 @@ type ImportReference struct {
 	// Contains the claims of the client that performed the import.
 	Claims []string `json:"claims" msgpack:"claims" bson:"claims" mapstructure:"claims,omitempty"`
 
+	// Define the import constraint. If Unrestricted, import
+	// can be deployed multiple times. If Unique, only one import is allowed
+	// in the current namespace and its child namespaces. If NamespaceUnique, only
+	// one import is allowed in the current namespace.
+	Constraint ImportReferenceConstraintValue `json:"constraint" msgpack:"constraint" bson:"constraint" mapstructure:"constraint,omitempty"`
+
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
@@ -120,12 +126,6 @@ type ImportReference struct {
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// Define the import constraint. If Unrestricted, import
-	// can be deployed multiple times. If Unique, only one import is allowed
-	// in the current namespace and its child namespaces. If NamespaceUnique, only
-	// one import is allowed in the current namespace.
-	ImportConstraint ImportReferenceImportConstraintValue `json:"importConstraint" msgpack:"importConstraint" bson:"importconstraint" mapstructure:"importConstraint,omitempty"`
 
 	// Label used for the imported data.
 	Label string `json:"label" msgpack:"label" bson:"label" mapstructure:"label,omitempty"`
@@ -169,15 +169,15 @@ type ImportReference struct {
 func NewImportReference() *ImportReference {
 
 	return &ImportReference{
-		ModelVersion:     1,
-		Annotations:      map[string][]string{},
-		Data:             NewExport(),
-		AssociatedTags:   []string{},
-		Claims:           []string{},
-		Metadata:         []string{},
-		ImportConstraint: ImportReferenceImportConstraintUnrestricted,
-		MigrationsLog:    map[string]string{},
-		NormalizedTags:   []string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Claims:         []string{},
+		Constraint:     ImportReferenceConstraintUnrestricted,
+		Data:           NewExport(),
+		Metadata:       []string{},
+		MigrationsLog:  map[string]string{},
+		NormalizedTags: []string{},
 	}
 }
 
@@ -215,11 +215,11 @@ func (o *ImportReference) GetBSON() (interface{}, error) {
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.Claims = o.Claims
+	s.Constraint = o.Constraint
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
 	s.Data = o.Data
 	s.Description = o.Description
-	s.ImportConstraint = o.ImportConstraint
 	s.Label = o.Label
 	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
@@ -252,11 +252,11 @@ func (o *ImportReference) SetBSON(raw bson.Raw) error {
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
 	o.Claims = s.Claims
+	o.Constraint = s.Constraint
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
 	o.Data = s.Data
 	o.Description = s.Description
-	o.ImportConstraint = s.ImportConstraint
 	o.Label = s.Label
 	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
@@ -494,11 +494,11 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
 			Claims:               &o.Claims,
+			Constraint:           &o.Constraint,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			Data:                 o.Data,
 			Description:          &o.Description,
-			ImportConstraint:     &o.ImportConstraint,
 			Label:                &o.Label,
 			Metadata:             &o.Metadata,
 			MigrationsLog:        &o.MigrationsLog,
@@ -524,6 +524,8 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "claims":
 			sp.Claims = &(o.Claims)
+		case "constraint":
+			sp.Constraint = &(o.Constraint)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
@@ -532,8 +534,6 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Data = o.Data
 		case "description":
 			sp.Description = &(o.Description)
-		case "importConstraint":
-			sp.ImportConstraint = &(o.ImportConstraint)
 		case "label":
 			sp.Label = &(o.Label)
 		case "metadata":
@@ -581,6 +581,9 @@ func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Claims != nil {
 		o.Claims = *so.Claims
 	}
+	if so.Constraint != nil {
+		o.Constraint = *so.Constraint
+	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
@@ -592,9 +595,6 @@ func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
-	}
-	if so.ImportConstraint != nil {
-		o.ImportConstraint = *so.ImportConstraint
 	}
 	if so.Label != nil {
 		o.Label = *so.Label
@@ -665,6 +665,10 @@ func (o *ImportReference) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("constraint", string(o.Constraint), []string{"Unrestricted", "Unique", "NamespaceUnique"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if o.Data != nil {
 		elemental.ResetDefaultForZeroValues(o.Data)
 		if err := o.Data.Validate(); err != nil {
@@ -673,10 +677,6 @@ func (o *ImportReference) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateStringInList("importConstraint", string(o.ImportConstraint), []string{"Unrestricted", "Unique", "NamespaceUnique"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -734,6 +734,8 @@ func (o *ImportReference) ValueForAttribute(name string) interface{} {
 		return o.AssociatedTags
 	case "claims":
 		return o.Claims
+	case "constraint":
+		return o.Constraint
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "createTime":
@@ -742,8 +744,6 @@ func (o *ImportReference) ValueForAttribute(name string) interface{} {
 		return o.Data
 	case "description":
 		return o.Description
-	case "importConstraint":
-		return o.ImportConstraint
 	case "label":
 		return o.Label
 	case "metadata":
@@ -823,6 +823,19 @@ var ImportReferenceAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
+	"Constraint": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
+		ConvertedName:  "Constraint",
+		DefaultValue:   ImportReferenceConstraintUnrestricted,
+		Description: `Define the import constraint. If Unrestricted, import
+can be deployed multiple times. If Unique, only one import is allowed
+in the current namespace and its child namespaces. If NamespaceUnique, only
+one import is allowed in the current namespace.`,
+		Exposed: true,
+		Name:    "constraint",
+		Stored:  true,
+		Type:    "enum",
+	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -872,19 +885,6 @@ var ImportReferenceAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"ImportConstraint": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
-		ConvertedName:  "ImportConstraint",
-		DefaultValue:   ImportReferenceImportConstraintUnrestricted,
-		Description: `Define the import constraint. If Unrestricted, import
-can be deployed multiple times. If Unique, only one import is allowed
-in the current namespace and its child namespaces. If NamespaceUnique, only
-one import is allowed in the current namespace.`,
-		Exposed: true,
-		Name:    "importConstraint",
-		Stored:  true,
-		Type:    "enum",
 	},
 	"Label": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1086,6 +1086,19 @@ var ImportReferenceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		SubType:        "string",
 		Type:           "list",
 	},
+	"constraint": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
+		ConvertedName:  "Constraint",
+		DefaultValue:   ImportReferenceConstraintUnrestricted,
+		Description: `Define the import constraint. If Unrestricted, import
+can be deployed multiple times. If Unique, only one import is allowed
+in the current namespace and its child namespaces. If NamespaceUnique, only
+one import is allowed in the current namespace.`,
+		Exposed: true,
+		Name:    "constraint",
+		Stored:  true,
+		Type:    "enum",
+	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1135,19 +1148,6 @@ var ImportReferenceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"importconstraint": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
-		ConvertedName:  "ImportConstraint",
-		DefaultValue:   ImportReferenceImportConstraintUnrestricted,
-		Description: `Define the import constraint. If Unrestricted, import
-can be deployed multiple times. If Unique, only one import is allowed
-in the current namespace and its child namespaces. If NamespaceUnique, only
-one import is allowed in the current namespace.`,
-		Exposed: true,
-		Name:    "importConstraint",
-		Stored:  true,
-		Type:    "enum",
 	},
 	"label": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1374,6 +1374,12 @@ type SparseImportReference struct {
 	// Contains the claims of the client that performed the import.
 	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"claims,omitempty" mapstructure:"claims,omitempty"`
 
+	// Define the import constraint. If Unrestricted, import
+	// can be deployed multiple times. If Unique, only one import is allowed
+	// in the current namespace and its child namespaces. If NamespaceUnique, only
+	// one import is allowed in the current namespace.
+	Constraint *ImportReferenceConstraintValue `json:"constraint,omitempty" msgpack:"constraint,omitempty" bson:"constraint,omitempty" mapstructure:"constraint,omitempty"`
+
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
@@ -1385,12 +1391,6 @@ type SparseImportReference struct {
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
-
-	// Define the import constraint. If Unrestricted, import
-	// can be deployed multiple times. If Unique, only one import is allowed
-	// in the current namespace and its child namespaces. If NamespaceUnique, only
-	// one import is allowed in the current namespace.
-	ImportConstraint *ImportReferenceImportConstraintValue `json:"importConstraint,omitempty" msgpack:"importConstraint,omitempty" bson:"importconstraint,omitempty" mapstructure:"importConstraint,omitempty"`
 
 	// Label used for the imported data.
 	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"label,omitempty" mapstructure:"label,omitempty"`
@@ -1482,6 +1482,9 @@ func (o *SparseImportReference) GetBSON() (interface{}, error) {
 	if o.Claims != nil {
 		s.Claims = o.Claims
 	}
+	if o.Constraint != nil {
+		s.Constraint = o.Constraint
+	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	}
@@ -1493,9 +1496,6 @@ func (o *SparseImportReference) GetBSON() (interface{}, error) {
 	}
 	if o.Description != nil {
 		s.Description = o.Description
-	}
-	if o.ImportConstraint != nil {
-		s.ImportConstraint = o.ImportConstraint
 	}
 	if o.Label != nil {
 		s.Label = o.Label
@@ -1558,6 +1558,9 @@ func (o *SparseImportReference) SetBSON(raw bson.Raw) error {
 	if s.Claims != nil {
 		o.Claims = s.Claims
 	}
+	if s.Constraint != nil {
+		o.Constraint = s.Constraint
+	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	}
@@ -1569,9 +1572,6 @@ func (o *SparseImportReference) SetBSON(raw bson.Raw) error {
 	}
 	if s.Description != nil {
 		o.Description = s.Description
-	}
-	if s.ImportConstraint != nil {
-		o.ImportConstraint = s.ImportConstraint
 	}
 	if s.Label != nil {
 		o.Label = s.Label
@@ -1632,6 +1632,9 @@ func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 	if o.Claims != nil {
 		out.Claims = *o.Claims
 	}
+	if o.Constraint != nil {
+		out.Constraint = *o.Constraint
+	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
 	}
@@ -1643,9 +1646,6 @@ func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
-	}
-	if o.ImportConstraint != nil {
-		out.ImportConstraint = *o.ImportConstraint
 	}
 	if o.Label != nil {
 		out.Label = *o.Label
@@ -1949,46 +1949,46 @@ func (o *SparseImportReference) DeepCopyInto(out *SparseImportReference) {
 }
 
 type mongoAttributesImportReference struct {
-	ID                   bson.ObjectId                        `bson:"_id,omitempty"`
-	Annotations          map[string][]string                  `bson:"annotations"`
-	AssociatedTags       []string                             `bson:"associatedtags"`
-	Claims               []string                             `bson:"claims"`
-	CreateIdempotencyKey string                               `bson:"createidempotencykey"`
-	CreateTime           time.Time                            `bson:"createtime"`
-	Data                 *Export                              `bson:"data"`
-	Description          string                               `bson:"description"`
-	ImportConstraint     ImportReferenceImportConstraintValue `bson:"importconstraint"`
-	Label                string                               `bson:"label"`
-	Metadata             []string                             `bson:"metadata"`
-	MigrationsLog        map[string]string                    `bson:"migrationslog,omitempty"`
-	Name                 string                               `bson:"name"`
-	Namespace            string                               `bson:"namespace"`
-	NormalizedTags       []string                             `bson:"normalizedtags"`
-	Protected            bool                                 `bson:"protected"`
-	UpdateIdempotencyKey string                               `bson:"updateidempotencykey"`
-	UpdateTime           time.Time                            `bson:"updatetime"`
-	ZHash                int                                  `bson:"zhash"`
-	Zone                 int                                  `bson:"zone"`
+	ID                   bson.ObjectId                  `bson:"_id,omitempty"`
+	Annotations          map[string][]string            `bson:"annotations"`
+	AssociatedTags       []string                       `bson:"associatedtags"`
+	Claims               []string                       `bson:"claims"`
+	Constraint           ImportReferenceConstraintValue `bson:"constraint"`
+	CreateIdempotencyKey string                         `bson:"createidempotencykey"`
+	CreateTime           time.Time                      `bson:"createtime"`
+	Data                 *Export                        `bson:"data"`
+	Description          string                         `bson:"description"`
+	Label                string                         `bson:"label"`
+	Metadata             []string                       `bson:"metadata"`
+	MigrationsLog        map[string]string              `bson:"migrationslog,omitempty"`
+	Name                 string                         `bson:"name"`
+	Namespace            string                         `bson:"namespace"`
+	NormalizedTags       []string                       `bson:"normalizedtags"`
+	Protected            bool                           `bson:"protected"`
+	UpdateIdempotencyKey string                         `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                      `bson:"updatetime"`
+	ZHash                int                            `bson:"zhash"`
+	Zone                 int                            `bson:"zone"`
 }
 type mongoAttributesSparseImportReference struct {
-	ID                   bson.ObjectId                         `bson:"_id,omitempty"`
-	Annotations          *map[string][]string                  `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string                             `bson:"associatedtags,omitempty"`
-	Claims               *[]string                             `bson:"claims,omitempty"`
-	CreateIdempotencyKey *string                               `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time                            `bson:"createtime,omitempty"`
-	Data                 *Export                               `bson:"data,omitempty"`
-	Description          *string                               `bson:"description,omitempty"`
-	ImportConstraint     *ImportReferenceImportConstraintValue `bson:"importconstraint,omitempty"`
-	Label                *string                               `bson:"label,omitempty"`
-	Metadata             *[]string                             `bson:"metadata,omitempty"`
-	MigrationsLog        *map[string]string                    `bson:"migrationslog,omitempty"`
-	Name                 *string                               `bson:"name,omitempty"`
-	Namespace            *string                               `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string                             `bson:"normalizedtags,omitempty"`
-	Protected            *bool                                 `bson:"protected,omitempty"`
-	UpdateIdempotencyKey *string                               `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time                            `bson:"updatetime,omitempty"`
-	ZHash                *int                                  `bson:"zhash,omitempty"`
-	Zone                 *int                                  `bson:"zone,omitempty"`
+	ID                   bson.ObjectId                   `bson:"_id,omitempty"`
+	Annotations          *map[string][]string            `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                       `bson:"associatedtags,omitempty"`
+	Claims               *[]string                       `bson:"claims,omitempty"`
+	Constraint           *ImportReferenceConstraintValue `bson:"constraint,omitempty"`
+	CreateIdempotencyKey *string                         `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                      `bson:"createtime,omitempty"`
+	Data                 *Export                         `bson:"data,omitempty"`
+	Description          *string                         `bson:"description,omitempty"`
+	Label                *string                         `bson:"label,omitempty"`
+	Metadata             *[]string                       `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string              `bson:"migrationslog,omitempty"`
+	Name                 *string                         `bson:"name,omitempty"`
+	Namespace            *string                         `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                       `bson:"normalizedtags,omitempty"`
+	Protected            *bool                           `bson:"protected,omitempty"`
+	UpdateIdempotencyKey *string                         `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                      `bson:"updatetime,omitempty"`
+	ZHash                *int                            `bson:"zhash,omitempty"`
+	Zone                 *int                            `bson:"zone,omitempty"`
 }
