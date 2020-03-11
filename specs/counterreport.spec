@@ -382,7 +382,7 @@ attributes:
   - name: droppedPackets
     description: |-
       Non-zero counter indicates dropped packets that did not hit any of our iptables
-      rules.
+      rules and queue drops.
     type: integer
     exposed: true
     default_value: 0

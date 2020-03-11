@@ -267,7 +267,7 @@ type CounterReport struct {
 	ConnectionsExpired int `json:"connectionsExpired" msgpack:"connectionsExpired" bson:"-" mapstructure:"connectionsExpired,omitempty"`
 
 	// Non-zero counter indicates dropped packets that did not hit any of our iptables
-	// rules.
+	// rules and queue drops.
 	DroppedPackets int `json:"droppedPackets" msgpack:"droppedPackets" bson:"-" mapstructure:"droppedPackets,omitempty"`
 
 	// Non-zero counter indicates encryption processing failures of data packets.
@@ -1612,7 +1612,7 @@ received within a certain amount of time after the request is made.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "DroppedPackets",
 		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptables
-rules.`,
+rules and queue drops.`,
 		Exposed: true,
 		Name:    "droppedPackets",
 		Type:    "integer",
@@ -2190,7 +2190,7 @@ received within a certain amount of time after the request is made.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "DroppedPackets",
 		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptables
-rules.`,
+rules and queue drops.`,
 		Exposed: true,
 		Name:    "droppedPackets",
 		Type:    "integer",
@@ -2526,7 +2526,7 @@ type SparseCounterReport struct {
 	ConnectionsExpired *int `json:"connectionsExpired,omitempty" msgpack:"connectionsExpired,omitempty" bson:"-" mapstructure:"connectionsExpired,omitempty"`
 
 	// Non-zero counter indicates dropped packets that did not hit any of our iptables
-	// rules.
+	// rules and queue drops.
 	DroppedPackets *int `json:"droppedPackets,omitempty" msgpack:"droppedPackets,omitempty" bson:"-" mapstructure:"droppedPackets,omitempty"`
 
 	// Non-zero counter indicates encryption processing failures of data packets.

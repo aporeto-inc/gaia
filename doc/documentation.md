@@ -2349,7 +2349,7 @@ Default value:
 ##### `droppedPackets` `integer`
 
 Non-zero counter indicates dropped packets that did not hit any of our iptables
-rules.
+rules and queue drops.
 
 Default value:
 
