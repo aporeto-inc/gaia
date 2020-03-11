@@ -34,6 +34,7 @@ attributes:
       iat: 1553888221
       iss: https://accounts.acme.com
       sub: alice@acme.com
+    omit_empty: true
 
   - name: firstSeen
     description: Contains the date of the first appearance of the claims.
