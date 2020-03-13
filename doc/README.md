@@ -2,7 +2,7 @@
 
 ## Overview
 
-Aporeko provides a REST API to allow programmatic manipulation of all parts of the system.
+Aporeto provides a REST API to allow programmatic manipulation of all parts of the system.
 Everything the web client or apoctl do is done through the REST API.
 
 The Aporeto API accepts and returns [JSON](https://www.json.org) or [MessagePack](https://msgpack.org)
