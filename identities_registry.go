@@ -48,6 +48,7 @@ var (
 		"eventlog":                     EventLogIdentity,
 		"export":                       ExportIdentity,
 		"externalnetwork":              ExternalNetworkIdentity,
+		"file":                         FileIdentity,
 		"fileaccesspolicy":             FileAccessPolicyIdentity,
 		"fileaccessreport":             FileAccessReportIdentity,
 		"filepath":                     FilePathIdentity,
@@ -188,6 +189,7 @@ var (
 		"eventlogs":                      EventLogIdentity,
 		"export":                         ExportIdentity,
 		"externalnetworks":               ExternalNetworkIdentity,
+		"files":                          FileIdentity,
 		"fileaccesspolicies":             FileAccessPolicyIdentity,
 		"fileaccessreports":              FileAccessReportIdentity,
 		"filepaths":                      FilePathIdentity,
@@ -541,6 +543,7 @@ var (
 			[]string{"createIdempotencyKey"},
 			[]string{"archived"},
 		},
+		"file":             nil,
 		"fileaccesspolicy": nil,
 		"fileaccessreport": nil,
 		"filepath": [][]string{
@@ -966,6 +969,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewExport()
 	case ExternalNetworkIdentity:
 		return NewExternalNetwork()
+	case FileIdentity:
+		return NewFile()
 	case FileAccessPolicyIdentity:
 		return NewFileAccessPolicy()
 	case FileAccessReportIdentity:
@@ -1225,6 +1230,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseExport()
 	case ExternalNetworkIdentity:
 		return NewSparseExternalNetwork()
+	case FileIdentity:
+		return NewSparseFile()
 	case FileAccessPolicyIdentity:
 		return NewSparseFileAccessPolicy()
 	case FileAccessReportIdentity:
@@ -1492,6 +1499,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ExportsList{}
 	case ExternalNetworkIdentity:
 		return &ExternalNetworksList{}
+	case FileIdentity:
+		return &FilesList{}
 	case FileAccessPolicyIdentity:
 		return &FileAccessPoliciesList{}
 	case FileAccessReportIdentity:
@@ -1749,6 +1758,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseExportsList{}
 	case ExternalNetworkIdentity:
 		return &SparseExternalNetworksList{}
+	case FileIdentity:
+		return &SparseFilesList{}
 	case FileAccessPolicyIdentity:
 		return &SparseFileAccessPoliciesList{}
 	case FileAccessReportIdentity:
@@ -1981,6 +1992,7 @@ func AllIdentities() []elemental.Identity {
 		EventLogIdentity,
 		ExportIdentity,
 		ExternalNetworkIdentity,
+		FileIdentity,
 		FileAccessPolicyIdentity,
 		FileAccessReportIdentity,
 		FilePathIdentity,
@@ -2187,6 +2199,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"extnet",
 			"extnets",
 		}
+	case FileIdentity:
+		return []string{}
 	case FileAccessPolicyIdentity:
 		return []string{}
 	case FileAccessReportIdentity:

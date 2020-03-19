@@ -2426,6 +2426,14 @@ Returns a list of the audit profiles that must be applied to this enforcer.
 
 Returns the enforcer profile that must be used by an enforcer.
 
+##### `GET /enforcers/:id/files`
+
+Retrieves an uploaded file.
+
+##### `POST /enforcers/:id/files`
+
+Uploads a file.
+
 ##### `GET /enforcers/:id/hostservices`
 
 Returns a list of the host services policies that apply to this enforcer.
@@ -5390,6 +5398,22 @@ List of parameters to validate.
 ##### `values` `map[string]interface{}`
 
 Contains the computed values.
+
+## debug
+
+### File
+
+Represents a file that can be uploaded.
+
+#### Relations
+
+##### `GET /enforcers/:id/files`
+
+Retrieves an uploaded file.
+
+##### `POST /enforcers/:id/files`
+
+Uploads a file.
 
 ## ext/documentation
 

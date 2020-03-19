@@ -1319,6 +1319,18 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[FileIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"enforcer": &elemental.RelationshipInfo{},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"enforcer": &elemental.RelationshipInfo{},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"enforcer": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[FileAccessPolicyIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},

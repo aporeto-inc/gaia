@@ -285,6 +285,12 @@ relations:
   get:
     description: Returns the enforcer profile that must be used by an enforcer.
 
+- rest_name: file
+  get:
+    description: Retrieves an uploaded file.
+  create:
+    description: Uploads a file.
+
 - rest_name: hostservice
   get:
     description: Returns a list of the host services policies that apply to this enforcer.
