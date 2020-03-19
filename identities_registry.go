@@ -35,6 +35,7 @@ var (
 
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
+		"debugbundle":         DebugBundleIdentity,
 		"dependencymap":       DependencyMapIdentity,
 		"dnslookupreport":     DNSLookupReportIdentity,
 		"email":               EmailIdentity,
@@ -48,7 +49,6 @@ var (
 		"eventlog":                     EventLogIdentity,
 		"export":                       ExportIdentity,
 		"externalnetwork":              ExternalNetworkIdentity,
-		"file":                         FileIdentity,
 		"fileaccesspolicy":             FileAccessPolicyIdentity,
 		"fileaccessreport":             FileAccessReportIdentity,
 		"filepath":                     FilePathIdentity,
@@ -176,6 +176,7 @@ var (
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
+		"debugbundles":         DebugBundleIdentity,
 		"dependencymaps":       DependencyMapIdentity,
 		"dnslookupreports":     DNSLookupReportIdentity,
 		"emails":               EmailIdentity,
@@ -189,7 +190,6 @@ var (
 		"eventlogs":                      EventLogIdentity,
 		"export":                         ExportIdentity,
 		"externalnetworks":               ExternalNetworkIdentity,
-		"files":                          FileIdentity,
 		"fileaccesspolicies":             FileAccessPolicyIdentity,
 		"fileaccessreports":              FileAccessReportIdentity,
 		"filepaths":                      FilePathIdentity,
@@ -489,6 +489,7 @@ var (
 			[]string{"providerCustomerID"},
 		},
 		"datapathcertificate": nil,
+		"debugbundle":         nil,
 		"dependencymap":       nil,
 		"dnslookupreport":     nil,
 		"email":               nil,
@@ -543,7 +544,6 @@ var (
 			[]string{"createIdempotencyKey"},
 			[]string{"archived"},
 		},
-		"file":             nil,
 		"fileaccesspolicy": nil,
 		"fileaccessreport": nil,
 		"filepath": [][]string{
@@ -945,6 +945,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCustomer()
 	case DataPathCertificateIdentity:
 		return NewDataPathCertificate()
+	case DebugBundleIdentity:
+		return NewDebugBundle()
 	case DependencyMapIdentity:
 		return NewDependencyMap()
 	case DNSLookupReportIdentity:
@@ -969,8 +971,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewExport()
 	case ExternalNetworkIdentity:
 		return NewExternalNetwork()
-	case FileIdentity:
-		return NewFile()
 	case FileAccessPolicyIdentity:
 		return NewFileAccessPolicy()
 	case FileAccessReportIdentity:
@@ -1206,6 +1206,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCustomer()
 	case DataPathCertificateIdentity:
 		return NewSparseDataPathCertificate()
+	case DebugBundleIdentity:
+		return NewSparseDebugBundle()
 	case DependencyMapIdentity:
 		return NewSparseDependencyMap()
 	case DNSLookupReportIdentity:
@@ -1230,8 +1232,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseExport()
 	case ExternalNetworkIdentity:
 		return NewSparseExternalNetwork()
-	case FileIdentity:
-		return NewSparseFile()
 	case FileAccessPolicyIdentity:
 		return NewSparseFileAccessPolicy()
 	case FileAccessReportIdentity:
@@ -1475,6 +1475,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CustomersList{}
 	case DataPathCertificateIdentity:
 		return &DataPathCertificatesList{}
+	case DebugBundleIdentity:
+		return &DebugBundlesList{}
 	case DependencyMapIdentity:
 		return &DependencyMapsList{}
 	case DNSLookupReportIdentity:
@@ -1499,8 +1501,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ExportsList{}
 	case ExternalNetworkIdentity:
 		return &ExternalNetworksList{}
-	case FileIdentity:
-		return &FilesList{}
 	case FileAccessPolicyIdentity:
 		return &FileAccessPoliciesList{}
 	case FileAccessReportIdentity:
@@ -1734,6 +1734,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCustomersList{}
 	case DataPathCertificateIdentity:
 		return &SparseDataPathCertificatesList{}
+	case DebugBundleIdentity:
+		return &SparseDebugBundlesList{}
 	case DependencyMapIdentity:
 		return &SparseDependencyMapsList{}
 	case DNSLookupReportIdentity:
@@ -1758,8 +1760,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseExportsList{}
 	case ExternalNetworkIdentity:
 		return &SparseExternalNetworksList{}
-	case FileIdentity:
-		return &SparseFilesList{}
 	case FileAccessPolicyIdentity:
 		return &SparseFileAccessPoliciesList{}
 	case FileAccessReportIdentity:
@@ -1980,6 +1980,7 @@ func AllIdentities() []elemental.Identity {
 		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
+		DebugBundleIdentity,
 		DependencyMapIdentity,
 		DNSLookupReportIdentity,
 		EmailIdentity,
@@ -1992,7 +1993,6 @@ func AllIdentities() []elemental.Identity {
 		EventLogIdentity,
 		ExportIdentity,
 		ExternalNetworkIdentity,
-		FileIdentity,
 		FileAccessPolicyIdentity,
 		FileAccessReportIdentity,
 		FilePathIdentity,
@@ -2162,6 +2162,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case DataPathCertificateIdentity:
 		return []string{}
+	case DebugBundleIdentity:
+		return []string{}
 	case DependencyMapIdentity:
 		return []string{
 			"depmaps",
@@ -2199,8 +2201,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"extnet",
 			"extnets",
 		}
-	case FileIdentity:
-		return []string{}
 	case FileAccessPolicyIdentity:
 		return []string{}
 	case FileAccessReportIdentity:

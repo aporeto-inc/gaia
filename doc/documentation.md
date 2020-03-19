@@ -2422,17 +2422,17 @@ Returns the list of enforcers that are affected by this mapping.
 
 Returns a list of the audit profiles that must be applied to this enforcer.
 
+##### `GET /enforcers/:id/debugbundles`
+
+Retrieves the list of debug bundles.
+
+##### `POST /enforcers/:id/debugbundles`
+
+Uploads a debug bundle.
+
 ##### `GET /enforcers/:id/enforcerprofiles`
 
 Returns the enforcer profile that must be used by an enforcer.
-
-##### `GET /enforcers/:id/files`
-
-Retrieves an uploaded file.
-
-##### `POST /enforcers/:id/files`
-
-Uploads a file.
 
 ##### `GET /enforcers/:id/hostservices`
 
@@ -5401,19 +5401,19 @@ Contains the computed values.
 
 ## debug
 
-### File
+### DebugBundle
 
 Represents a file that can be uploaded.
 
 #### Relations
 
-##### `GET /enforcers/:id/files`
+##### `GET /enforcers/:id/debugbundles`
 
-Retrieves an uploaded file.
+Retrieves the list of debug bundles.
 
-##### `POST /enforcers/:id/files`
+##### `POST /enforcers/:id/debugbundles`
 
-Uploads a file.
+Uploads a debug bundle.
 
 ## ext/documentation
 

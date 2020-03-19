@@ -799,6 +799,18 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[DebugBundleIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"enforcer": &elemental.RelationshipInfo{},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"enforcer": &elemental.RelationshipInfo{},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"enforcer": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[DependencyMapIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
@@ -1316,18 +1328,6 @@ func init() {
 					},
 				},
 			},
-		},
-	}
-
-	relationshipsRegistry[FileIdentity] = &elemental.Relationship{
-		Create: map[string]*elemental.RelationshipInfo{
-			"enforcer": &elemental.RelationshipInfo{},
-		},
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"enforcer": &elemental.RelationshipInfo{},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"enforcer": &elemental.RelationshipInfo{},
 		},
 	}
 

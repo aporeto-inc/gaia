@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: file
-  resource_name: files
-  entity_name: File
+  rest_name: debugbundle
+  resource_name: debugbundles
+  entity_name: DebugBundle
   package: guy
   group: debug
   description: Represents a file that can be uploaded.
