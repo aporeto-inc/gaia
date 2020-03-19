@@ -1172,6 +1172,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[EnforcerRefreshIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"enforcer": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[EnforcerReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},

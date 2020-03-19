@@ -291,6 +291,10 @@ relations:
   get:
     description: Returns the enforcer profile that must be used by an enforcer.
 
+- rest_name: enforcerrefresh
+  create:
+    description: Sends a Enforcer Refresh command.
+
 - rest_name: hostservice
   get:
     description: Returns a list of the host services policies that apply to this enforcer.
