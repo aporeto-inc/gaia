@@ -80,6 +80,7 @@ EnforcerLog
 enforcerlogs
 EnforcerProfile
 EnforcerProfileMappingPolicy
+EnforcerRefresh
 EnforcerReport
 EnforcerTraceReport
 enum
