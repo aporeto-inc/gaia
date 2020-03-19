@@ -6,3 +6,15 @@ model:
   package: guy
   group: debug
   description: Represents a file that can be uploaded.
+  extends:
+  - '@identifiable-not-stored'
+  - '@namespaced'
+
+# Attributes
+attributes:
+  v1:
+  - name: enforcerID
+    description: The ID of the enforcer.
+    type: string
+    exposed: true
+    read_only: true
