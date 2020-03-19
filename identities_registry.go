@@ -491,13 +491,10 @@ var (
 			[]string{"providerCustomerID"},
 		},
 		"datapathcertificate": nil,
-		"debugbundle": [][]string{
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-		},
-		"dependencymap":   nil,
-		"dnslookupreport": nil,
-		"email":           nil,
+		"debugbundle":         nil,
+		"dependencymap":       nil,
+		"dnslookupreport":     nil,
+		"email":               nil,
 		"enforcer": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},

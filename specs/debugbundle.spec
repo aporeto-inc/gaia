@@ -10,6 +10,10 @@ model:
   - '@identifiable-not-stored'
   - '@namespaced'
 
+# Indexes
+indexes:
+- - :no-inherit
+
 # Attributes
 attributes:
   v1:
