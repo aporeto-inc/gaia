@@ -88,6 +88,7 @@ var (
 		"oidcprovider":           OIDCProviderIdentity,
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
+		"pccprovider":            PCCProviderIdentity,
 		"pingreport":             PingReportIdentity,
 
 		"plan":                  PlanIdentity,
@@ -230,6 +231,7 @@ var (
 		"oidcproviders":            OIDCProviderIdentity,
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
+		"pccproviders":             PCCProviderIdentity,
 		"pingreports":              PingReportIdentity,
 
 		"plans":                   PlanIdentity,
@@ -706,9 +708,18 @@ var (
 		},
 		"packetreport":  nil,
 		"passwordreset": nil,
-		"pingreport":    nil,
-		"plan":          nil,
-		"poke":          nil,
+		"pccprovider": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+		},
+		"pingreport": nil,
+		"plan":       nil,
+		"poke":       nil,
 		"policy": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -1048,6 +1059,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPacketReport()
 	case PasswordResetIdentity:
 		return NewPasswordReset()
+	case PCCProviderIdentity:
+		return NewPCCProvider()
 	case PingReportIdentity:
 		return NewPingReport()
 	case PlanIdentity:
@@ -1311,6 +1324,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePacketReport()
 	case PasswordResetIdentity:
 		return NewSparsePasswordReset()
+	case PCCProviderIdentity:
+		return NewSparsePCCProvider()
 	case PingReportIdentity:
 		return NewSparsePingReport()
 	case PlanIdentity:
@@ -1582,6 +1597,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PacketReportsList{}
 	case PasswordResetIdentity:
 		return &PasswordResetsList{}
+	case PCCProviderIdentity:
+		return &PCCProvidersList{}
 	case PingReportIdentity:
 		return &PingReportsList{}
 	case PlanIdentity:
@@ -1843,6 +1860,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePacketReportsList{}
 	case PasswordResetIdentity:
 		return &SparsePasswordResetsList{}
+	case PCCProviderIdentity:
+		return &SparsePCCProvidersList{}
 	case PingReportIdentity:
 		return &SparsePingReportsList{}
 	case PlanIdentity:
@@ -2041,6 +2060,7 @@ func AllIdentities() []elemental.Identity {
 		OIDCProviderIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
+		PCCProviderIdentity,
 		PingReportIdentity,
 		PlanIdentity,
 		PokeIdentity,
@@ -2332,6 +2352,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PacketReportIdentity:
 		return []string{}
 	case PasswordResetIdentity:
+		return []string{}
+	case PCCProviderIdentity:
 		return []string{}
 	case PingReportIdentity:
 		return []string{}
