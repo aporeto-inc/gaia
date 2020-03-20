@@ -80,6 +80,7 @@ attributes:
     - OIDC
     - SAML
     - Twistlock
+    - PCCIdentityToken
     example_value: Vince
 
   - name: token
