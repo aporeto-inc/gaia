@@ -8,6 +8,17 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EnforcerRefreshDebugValue represents the possible values for attribute "debug".
+type EnforcerRefreshDebugValue string
+
+const (
+	// EnforcerRefreshDebugCounters represents the value Counters.
+	EnforcerRefreshDebugCounters EnforcerRefreshDebugValue = "Counters"
+
+	// EnforcerRefreshDebugLogs represents the value Logs.
+	EnforcerRefreshDebugLogs EnforcerRefreshDebugValue = "Logs"
+)
+
 // EnforcerRefreshIdentity represents the Identity of the object.
 var EnforcerRefreshIdentity = elemental.Identity{
 	Name:     "enforcerrefresh",
@@ -83,8 +94,8 @@ type EnforcerRefresh struct {
 	// Contains the ID of the target enforcer.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// If set to true, start reporting debug information for the target enforcer.
-	Debug bool `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
+	// Set the debug information collected by the enforcer.
+	Debug EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
 	// Contains the original namespace of the enforcer.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
@@ -97,6 +108,7 @@ func NewEnforcerRefresh() *EnforcerRefresh {
 
 	return &EnforcerRefresh{
 		ModelVersion: 1,
+		Debug:        EnforcerRefreshDebugCounters,
 	}
 }
 
@@ -266,6 +278,10 @@ func (o *EnforcerRefresh) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateStringInList("debug", string(o.Debug), []string{"Counters", "Logs"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -326,12 +342,13 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Debug": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
+		AllowedChoices: []string{"Counters", "Logs"},
 		ConvertedName:  "Debug",
-		Description:    `If set to true, start reporting debug information for the target enforcer.`,
+		DefaultValue:   EnforcerRefreshDebugCounters,
+		Description:    `Set the debug information collected by the enforcer.`,
 		Exposed:        true,
 		Name:           "debug",
-		Type:           "boolean",
+		Type:           "enum",
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -360,12 +377,13 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "string",
 	},
 	"debug": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
+		AllowedChoices: []string{"Counters", "Logs"},
 		ConvertedName:  "Debug",
-		Description:    `If set to true, start reporting debug information for the target enforcer.`,
+		DefaultValue:   EnforcerRefreshDebugCounters,
+		Description:    `Set the debug information collected by the enforcer.`,
 		Exposed:        true,
 		Name:           "debug",
-		Type:           "boolean",
+		Type:           "enum",
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -445,8 +463,8 @@ type SparseEnforcerRefresh struct {
 	// Contains the ID of the target enforcer.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// If set to true, start reporting debug information for the target enforcer.
-	Debug *bool `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
+	// Set the debug information collected by the enforcer.
+	Debug *EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
 	// Contains the original namespace of the enforcer.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`

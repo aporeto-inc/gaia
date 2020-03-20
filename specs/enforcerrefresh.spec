@@ -23,10 +23,13 @@ attributes:
     identifier: true
 
   - name: debug
-    description: If set to true, start reporting debug information for the target
-      enforcer.
-    type: boolean
+    description: Set the debug information collected by the enforcer.
+    type: enum
     exposed: true
+    allowed_choices:
+    - Counters
+    - Logs
+    default_value: Counters
     omit_empty: true
 
   - name: namespace
