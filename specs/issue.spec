@@ -79,7 +79,7 @@ attributes:
     - AzureIdentityToken
     - OIDC
     - SAML
-    - Twistlock
+    - PCC
     - PCCIdentityToken
     example_value: Vince
 

@@ -34,14 +34,14 @@ const (
 	// IssueRealmOIDC represents the value OIDC.
 	IssueRealmOIDC IssueRealmValue = "OIDC"
 
+	// IssueRealmPCC represents the value PCC.
+	IssueRealmPCC IssueRealmValue = "PCC"
+
 	// IssueRealmPCCIdentityToken represents the value PCCIdentityToken.
 	IssueRealmPCCIdentityToken IssueRealmValue = "PCCIdentityToken"
 
 	// IssueRealmSAML represents the value SAML.
 	IssueRealmSAML IssueRealmValue = "SAML"
-
-	// IssueRealmTwistlock represents the value Twistlock.
-	IssueRealmTwistlock IssueRealmValue = "Twistlock"
 
 	// IssueRealmVince represents the value Vince.
 	IssueRealmVince IssueRealmValue = "Vince"
@@ -364,7 +364,7 @@ func (o *Issue) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "Twistlock", "PCCIdentityToken"}, false); err != nil {
+	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -491,7 +491,7 @@ for further information.`,
 		Type:           "integer",
 	},
 	"Realm": elemental.AttributeSpecification{
-		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "Twistlock", "PCCIdentityToken"},
+		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken"},
 		ConvertedName:  "Realm",
 		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
 ` + "`" + `Certificate` + "`" + `,
@@ -588,7 +588,7 @@ for further information.`,
 		Type:           "integer",
 	},
 	"realm": elemental.AttributeSpecification{
-		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "Twistlock", "PCCIdentityToken"},
+		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken"},
 		ConvertedName:  "Realm",
 		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
 ` + "`" + `Certificate` + "`" + `,
