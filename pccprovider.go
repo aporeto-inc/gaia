@@ -93,7 +93,7 @@ type PCCProvider struct {
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// Set the CA to use to contact the PCC service in case it uses a non widely trust
-	// certifcate authority.
+	// certificate authority.
 	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -107,7 +107,7 @@ type PCCProvider struct {
 	// given, the default will be used.
 	Default bool `json:"default" msgpack:"default" bson:"default" mapstructure:"default,omitempty"`
 
-	// The URL of the PCC service. It must use https.
+	// The URL of the PCC service. It must use HTTPS.
 	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
 	// Internal property maintaining migrations information.
@@ -722,7 +722,7 @@ var PCCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateAuthority",
 		Description: `Set the CA to use to contact the PCC service in case it uses a non widely trust
-certifcate authority.`,
+certificate authority.`,
 		Exposed: true,
 		Name:    "certificateAuthority",
 		Stored:  true,
@@ -768,7 +768,7 @@ given, the default will be used.`,
 	"Endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `The URL of the PCC service. It must use https.`,
+		Description:    `The URL of the PCC service. It must use HTTPS.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Required:       true,
@@ -942,7 +942,7 @@ var PCCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateAuthority",
 		Description: `Set the CA to use to contact the PCC service in case it uses a non widely trust
-certifcate authority.`,
+certificate authority.`,
 		Exposed: true,
 		Name:    "certificateAuthority",
 		Stored:  true,
@@ -988,7 +988,7 @@ given, the default will be used.`,
 	"endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `The URL of the PCC service. It must use https.`,
+		Description:    `The URL of the PCC service. It must use HTTPS.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Required:       true,
@@ -1193,7 +1193,7 @@ type SparsePCCProvider struct {
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// Set the CA to use to contact the PCC service in case it uses a non widely trust
-	// certifcate authority.
+	// certificate authority.
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -1207,7 +1207,7 @@ type SparsePCCProvider struct {
 	// given, the default will be used.
 	Default *bool `json:"default,omitempty" msgpack:"default,omitempty" bson:"default,omitempty" mapstructure:"default,omitempty"`
 
-	// The URL of the PCC service. It must use https.
+	// The URL of the PCC service. It must use HTTPS.
 	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// Internal property maintaining migrations information.

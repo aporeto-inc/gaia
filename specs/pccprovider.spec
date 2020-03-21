@@ -30,7 +30,7 @@ attributes:
   - name: certificateAuthority
     description: |-
       Set the CA to use to contact the PCC service in case it uses a non widely trust
-      certifcate authority.
+      certificate authority.
     type: string
     exposed: true
     stored: true
@@ -58,7 +58,7 @@ attributes:
     stored: true
 
   - name: endpoint
-    description: The URL of the PCC service. It must use https.
+    description: The URL of the PCC service. It must use HTTPS.
     type: string
     exposed: true
     stored: true
