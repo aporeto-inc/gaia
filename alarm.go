@@ -74,6 +74,8 @@ func (o AlarmsList) DefaultOrder() []string {
 
 	return []string{
 		"name",
+		":no-inherit",
+		"updateTime",
 	}
 }
 
@@ -292,6 +294,8 @@ func (o *Alarm) DefaultOrder() []string {
 
 	return []string{
 		"name",
+		":no-inherit",
+		"updateTime",
 	}
 }
 
@@ -1350,6 +1354,8 @@ func (o SparseAlarmsList) DefaultOrder() []string {
 
 	return []string{
 		"name",
+		":no-inherit",
+		"updateTime",
 	}
 }
 

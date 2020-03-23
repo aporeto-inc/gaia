@@ -85,7 +85,7 @@ type Claims struct {
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Contains the raw JSON web token (JWT) claims.
-	Content map[string]string `json:"content" msgpack:"content" bson:"content" mapstructure:"content,omitempty"`
+	Content map[string]string `json:"content,omitempty" msgpack:"content,omitempty" bson:"content" mapstructure:"content,omitempty"`
 
 	// Contains the date of the first appearance of the claims.
 	FirstSeen time.Time `json:"-" msgpack:"-" bson:"firstseen" mapstructure:"-,omitempty"`
@@ -1020,7 +1020,7 @@ func (o *SparseClaims) DeepCopyInto(out *SparseClaims) {
 
 type mongoAttributesClaims struct {
 	ID            bson.ObjectId     `bson:"_id,omitempty"`
-	Content       map[string]string `bson:"content"`
+	Content       map[string]string `bson:"content,omitempty"`
 	FirstSeen     time.Time         `bson:"firstseen,omitempty"`
 	Hash          string            `bson:"hash"`
 	LastSeen      time.Time         `bson:"lastseen"`
