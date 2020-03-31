@@ -24,6 +24,11 @@ model:
   - '@named'
   - '@timeable'
 
+# Ordering
+default_order:
+- :no-inherit
+- updateTime
+
 # Indexes
 indexes:
 - - kind

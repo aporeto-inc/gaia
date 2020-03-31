@@ -253,11 +253,38 @@ type CounterReport struct {
 	// Counter for unknown error.
 	UnknownError int `json:"UnknownError" msgpack:"UnknownError" bson:"-" mapstructure:"UnknownError,omitempty"`
 
+	// Non-zero counter indicates analyzed connections for unencrypted, encrypted and
+	// as well as when the packet from the endpoint application has tcp fast open
+	// option set. These are not dropped counter.
+	ConnectionsAnalyzed int `json:"connectionsAnalyzed" msgpack:"connectionsAnalyzed" bson:"-" mapstructure:"connectionsAnalyzed,omitempty"`
+
+	// Non-zero counter indicates dropped connections because of invalid state or non
+	// pu traffic or out of order packets.
+	ConnectionsDropped int `json:"connectionsDropped" msgpack:"connectionsDropped" bson:"-" mapstructure:"connectionsDropped,omitempty"`
+
+	// Non-zero counter indicates expired connections because of response not being
+	// received within a certain amount of time after the request is made.
+	ConnectionsExpired int `json:"connectionsExpired" msgpack:"connectionsExpired" bson:"-" mapstructure:"connectionsExpired,omitempty"`
+
+	// Non-zero counter indicates dropped packets that did not hit any of our iptables
+	// rules and queue drops.
+	DroppedPackets int `json:"droppedPackets" msgpack:"droppedPackets" bson:"-" mapstructure:"droppedPackets,omitempty"`
+
+	// Non-zero counter indicates encryption processing failures of data packets.
+	EncryptionFailures int `json:"encryptionFailures" msgpack:"encryptionFailures" bson:"-" mapstructure:"encryptionFailures,omitempty"`
+
 	// Identifier of the enforcer sending the report.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer sending the report.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
+
+	// Non-zero counter indicates connections going to and from external networks.
+	// These may be drops or allowed counters.
+	ExternalNetworkConnections int `json:"externalNetworkConnections" msgpack:"externalNetworkConnections" bson:"-" mapstructure:"externalNetworkConnections,omitempty"`
+
+	// Non-zero counter indicates dropped packets by a reject policy.
+	PolicyDrops int `json:"policyDrops" msgpack:"policyDrops" bson:"-" mapstructure:"policyDrops,omitempty"`
 
 	// PUID is the ID of the PU reporting the counter.
 	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
@@ -268,6 +295,10 @@ type CounterReport struct {
 	// Timestamp is the date of the report.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
+	// Non-zero counter indicates rejected packets due to anything related to token
+	// creation/parsing failures.
+	TokenDrops int `json:"tokenDrops" msgpack:"tokenDrops" bson:"-" mapstructure:"tokenDrops,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -276,63 +307,71 @@ func NewCounterReport() *CounterReport {
 
 	return &CounterReport{
 		ModelVersion:                 1,
-		SynDroppedNoClaims:           0,
-		DroppedExternalService:       0,
-		SynDroppedTCPOption:          0,
-		InvalidNetState:              0,
-		SynRejectPacket:              0,
-		InvalidSynAck:                0,
-		SynUnexpectedPacket:          0,
-		NetSynNotSeen:                0,
 		TCPAuthNotFound:              0,
-		AckSigValidationFailed:       0,
-		AckRejected:                  0,
+		InvalidConnState:             0,
 		UDPAckInvalidSignature:       0,
+		InvalidProtocol:              0,
+		UDPConnectionsProcessed:      0,
+		ConnectionsAnalyzed:          0,
+		ConnectionsExpired:           0,
+		ConnectionsDropped:           0,
+		MarkNotFound:                 0,
 		AckInUnknownState:            0,
+		ExternalNetworkConnections:   0,
+		EncryptionFailures:           0,
+		DroppedPackets:               0,
+		ContextIDNotFound:            0,
+		DroppedExternalService:       0,
+		UDPDropFin:                   0,
+		TokenDrops:                   0,
+		PolicyDrops:                  0,
+		AckRejected:                  0,
+		AckSigValidationFailed:       0,
+		AckTCPNoTCPAuthOption:        0,
 		ConnectionsProcessed:         0,
+		NoConnFound:                  0,
+		NonPUTraffic:                 0,
+		AckInvalidFormat:             0,
+		UDPDropSynAck:                0,
+		SynDroppedInvalidFormat:      0,
+		ServicePostprocessorFailed:   0,
+		ServicePreprocessorFailed:    0,
+		SynAckBadClaims:              0,
+		SynAckClaimsMisMatch:         0,
+		SynAckDroppedExternalService: 0,
+		RejectPacket:                 0,
+		SynAckMissingClaims:          0,
+		SynAckMissingToken:           0,
+		SynAckNoTCPAuthOption:        0,
+		SynAckRejected:               0,
+		UDPSynAckMissingClaims:       0,
+		UDPDropNoConnection:          0,
+		SynDroppedNoClaims:           0,
+		SynDroppedTCPOption:          0,
+		SynRejectPacket:              0,
+		SynUnexpectedPacket:          0,
+		InvalidNetState:              0,
+		InvalidSynAck:                0,
+		NetSynNotSeen:                0,
 		UDPDropContextNotFound:       0,
 		OutOfOrderSynAck:             0,
-		NonPUTraffic:                 0,
-		UDPDropFin:                   0,
-		ServicePreprocessorFailed:    0,
+		UDPDropInNfQueue:             0,
 		UDPDropPacket:                0,
 		SynDroppedInvalidToken:       0,
-		UDPPostProcessingFailed:      0,
-		SynAckRejected:               0,
-		UDPDropInNfQueue:             0,
-		SynAckInvalidFormat:          0,
-		UDPDropSynAck:                0,
-		InvalidProtocol:              0,
-		UDPSynDrop:                   0,
-		UDPRejected:                  0,
-		PortNotFound:                 0,
 		UDPSynInvalidToken:           0,
-		SynAckDroppedExternalService: 0,
-		SynAckClaimsMisMatch:         0,
-		SynDroppedInvalidFormat:      0,
-		UDPDropNoConnection:          0,
-		SynAckBadClaims:              0,
-		UDPDropQueueFull:             0,
-		InvalidConnState:             0,
-		UDPInvalidNetState:           0,
-		SynAckMissingClaims:          0,
-		UDPPreProcessingFailed:       0,
-		MarkNotFound:                 0,
-		UDPSynAckPolicy:              0,
 		UDPSynAckDropBadClaims:       0,
-		NoConnFound:                  0,
 		UDPSynDropPolicy:             0,
-		SynAckNoTCPAuthOption:        0,
-		UDPSynMissingClaims:          0,
-		UDPConnectionsProcessed:      0,
-		ServicePostprocessorFailed:   0,
-		RejectPacket:                 0,
+		UDPSynDrop:                   0,
+		UDPSynAckPolicy:              0,
+		UDPInvalidNetState:           0,
+		SynAckInvalidFormat:          0,
+		UDPRejected:                  0,
+		UDPPreProcessingFailed:       0,
+		UDPPostProcessingFailed:      0,
 		UnknownError:                 0,
-		AckInvalidFormat:             0,
-		AckTCPNoTCPAuthOption:        0,
-		SynAckMissingToken:           0,
-		ContextIDNotFound:            0,
-		UDPSynAckMissingClaims:       0,
+		UDPDropQueueFull:             0,
+		PortNotFound:                 0,
+		UDPSynMissingClaims:          0,
 	}
 }
 
@@ -481,11 +520,19 @@ func (o *CounterReport) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			UDPSynInvalidToken:           &o.UDPSynInvalidToken,
 			UDPSynMissingClaims:          &o.UDPSynMissingClaims,
 			UnknownError:                 &o.UnknownError,
+			ConnectionsAnalyzed:          &o.ConnectionsAnalyzed,
+			ConnectionsDropped:           &o.ConnectionsDropped,
+			ConnectionsExpired:           &o.ConnectionsExpired,
+			DroppedPackets:               &o.DroppedPackets,
+			EncryptionFailures:           &o.EncryptionFailures,
 			EnforcerID:                   &o.EnforcerID,
 			EnforcerNamespace:            &o.EnforcerNamespace,
+			ExternalNetworkConnections:   &o.ExternalNetworkConnections,
+			PolicyDrops:                  &o.PolicyDrops,
 			ProcessingUnitID:             &o.ProcessingUnitID,
 			ProcessingUnitNamespace:      &o.ProcessingUnitNamespace,
 			Timestamp:                    &o.Timestamp,
+			TokenDrops:                   &o.TokenDrops,
 		}
 	}
 
@@ -606,16 +653,32 @@ func (o *CounterReport) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.UDPSynMissingClaims = &(o.UDPSynMissingClaims)
 		case "UnknownError":
 			sp.UnknownError = &(o.UnknownError)
+		case "connectionsAnalyzed":
+			sp.ConnectionsAnalyzed = &(o.ConnectionsAnalyzed)
+		case "connectionsDropped":
+			sp.ConnectionsDropped = &(o.ConnectionsDropped)
+		case "connectionsExpired":
+			sp.ConnectionsExpired = &(o.ConnectionsExpired)
+		case "droppedPackets":
+			sp.DroppedPackets = &(o.DroppedPackets)
+		case "encryptionFailures":
+			sp.EncryptionFailures = &(o.EncryptionFailures)
 		case "enforcerID":
 			sp.EnforcerID = &(o.EnforcerID)
 		case "enforcerNamespace":
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
+		case "externalNetworkConnections":
+			sp.ExternalNetworkConnections = &(o.ExternalNetworkConnections)
+		case "policyDrops":
+			sp.PolicyDrops = &(o.PolicyDrops)
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
 		case "processingUnitNamespace":
 			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
+		case "tokenDrops":
+			sp.TokenDrops = &(o.TokenDrops)
 		}
 	}
 
@@ -800,11 +863,32 @@ func (o *CounterReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UnknownError != nil {
 		o.UnknownError = *so.UnknownError
 	}
+	if so.ConnectionsAnalyzed != nil {
+		o.ConnectionsAnalyzed = *so.ConnectionsAnalyzed
+	}
+	if so.ConnectionsDropped != nil {
+		o.ConnectionsDropped = *so.ConnectionsDropped
+	}
+	if so.ConnectionsExpired != nil {
+		o.ConnectionsExpired = *so.ConnectionsExpired
+	}
+	if so.DroppedPackets != nil {
+		o.DroppedPackets = *so.DroppedPackets
+	}
+	if so.EncryptionFailures != nil {
+		o.EncryptionFailures = *so.EncryptionFailures
+	}
 	if so.EnforcerID != nil {
 		o.EnforcerID = *so.EnforcerID
 	}
 	if so.EnforcerNamespace != nil {
 		o.EnforcerNamespace = *so.EnforcerNamespace
+	}
+	if so.ExternalNetworkConnections != nil {
+		o.ExternalNetworkConnections = *so.ExternalNetworkConnections
+	}
+	if so.PolicyDrops != nil {
+		o.PolicyDrops = *so.PolicyDrops
 	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
@@ -814,6 +898,9 @@ func (o *CounterReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
+	}
+	if so.TokenDrops != nil {
+		o.TokenDrops = *so.TokenDrops
 	}
 }
 
@@ -1003,16 +1090,32 @@ func (o *CounterReport) ValueForAttribute(name string) interface{} {
 		return o.UDPSynMissingClaims
 	case "UnknownError":
 		return o.UnknownError
+	case "connectionsAnalyzed":
+		return o.ConnectionsAnalyzed
+	case "connectionsDropped":
+		return o.ConnectionsDropped
+	case "connectionsExpired":
+		return o.ConnectionsExpired
+	case "droppedPackets":
+		return o.DroppedPackets
+	case "encryptionFailures":
+		return o.EncryptionFailures
 	case "enforcerID":
 		return o.EnforcerID
 	case "enforcerNamespace":
 		return o.EnforcerNamespace
+	case "externalNetworkConnections":
+		return o.ExternalNetworkConnections
+	case "policyDrops":
+		return o.PolicyDrops
 	case "processingUnitID":
 		return o.ProcessingUnitID
 	case "processingUnitNamespace":
 		return o.ProcessingUnitNamespace
 	case "timestamp":
 		return o.Timestamp
+	case "tokenDrops":
+		return o.TokenDrops
 	}
 
 	return nil
@@ -1477,6 +1580,51 @@ packet.`,
 		Name:           "UnknownError",
 		Type:           "integer",
 	},
+	"ConnectionsAnalyzed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsAnalyzed",
+		Description: `Non-zero counter indicates analyzed connections for unencrypted, encrypted and
+as well as when the packet from the endpoint application has tcp fast open
+option set. These are not dropped counter.`,
+		Exposed: true,
+		Name:    "connectionsAnalyzed",
+		Type:    "integer",
+	},
+	"ConnectionsDropped": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsDropped",
+		Description: `Non-zero counter indicates dropped connections because of invalid state or non
+pu traffic or out of order packets.`,
+		Exposed: true,
+		Name:    "connectionsDropped",
+		Type:    "integer",
+	},
+	"ConnectionsExpired": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsExpired",
+		Description: `Non-zero counter indicates expired connections because of response not being
+received within a certain amount of time after the request is made.`,
+		Exposed: true,
+		Name:    "connectionsExpired",
+		Type:    "integer",
+	},
+	"DroppedPackets": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DroppedPackets",
+		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptables
+rules and queue drops.`,
+		Exposed: true,
+		Name:    "droppedPackets",
+		Type:    "integer",
+	},
+	"EncryptionFailures": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EncryptionFailures",
+		Description:    `Non-zero counter indicates encryption processing failures of data packets.`,
+		Exposed:        true,
+		Name:           "encryptionFailures",
+		Type:           "integer",
+	},
 	"EnforcerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
@@ -1496,6 +1644,23 @@ packet.`,
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"ExternalNetworkConnections": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalNetworkConnections",
+		Description: `Non-zero counter indicates connections going to and from external networks.
+These may be drops or allowed counters.`,
+		Exposed: true,
+		Name:    "externalNetworkConnections",
+		Type:    "integer",
+	},
+	"PolicyDrops": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyDrops",
+		Description:    `Non-zero counter indicates dropped packets by a reject policy.`,
+		Exposed:        true,
+		Name:           "policyDrops",
+		Type:           "integer",
 	},
 	"ProcessingUnitID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1522,6 +1687,15 @@ packet.`,
 		Exposed:        true,
 		Name:           "timestamp",
 		Type:           "time",
+	},
+	"TokenDrops": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TokenDrops",
+		Description: `Non-zero counter indicates rejected packets due to anything related to token
+creation/parsing failures.`,
+		Exposed: true,
+		Name:    "tokenDrops",
+		Type:    "integer",
 	},
 }
 
@@ -1984,6 +2158,51 @@ packet.`,
 		Name:           "UnknownError",
 		Type:           "integer",
 	},
+	"connectionsanalyzed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsAnalyzed",
+		Description: `Non-zero counter indicates analyzed connections for unencrypted, encrypted and
+as well as when the packet from the endpoint application has tcp fast open
+option set. These are not dropped counter.`,
+		Exposed: true,
+		Name:    "connectionsAnalyzed",
+		Type:    "integer",
+	},
+	"connectionsdropped": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsDropped",
+		Description: `Non-zero counter indicates dropped connections because of invalid state or non
+pu traffic or out of order packets.`,
+		Exposed: true,
+		Name:    "connectionsDropped",
+		Type:    "integer",
+	},
+	"connectionsexpired": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionsExpired",
+		Description: `Non-zero counter indicates expired connections because of response not being
+received within a certain amount of time after the request is made.`,
+		Exposed: true,
+		Name:    "connectionsExpired",
+		Type:    "integer",
+	},
+	"droppedpackets": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DroppedPackets",
+		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptables
+rules and queue drops.`,
+		Exposed: true,
+		Name:    "droppedPackets",
+		Type:    "integer",
+	},
+	"encryptionfailures": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EncryptionFailures",
+		Description:    `Non-zero counter indicates encryption processing failures of data packets.`,
+		Exposed:        true,
+		Name:           "encryptionFailures",
+		Type:           "integer",
+	},
 	"enforcerid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
@@ -2003,6 +2222,23 @@ packet.`,
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"externalnetworkconnections": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalNetworkConnections",
+		Description: `Non-zero counter indicates connections going to and from external networks.
+These may be drops or allowed counters.`,
+		Exposed: true,
+		Name:    "externalNetworkConnections",
+		Type:    "integer",
+	},
+	"policydrops": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyDrops",
+		Description:    `Non-zero counter indicates dropped packets by a reject policy.`,
+		Exposed:        true,
+		Name:           "policyDrops",
+		Type:           "integer",
 	},
 	"processingunitid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -2029,6 +2265,15 @@ packet.`,
 		Exposed:        true,
 		Name:           "timestamp",
 		Type:           "time",
+	},
+	"tokendrops": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TokenDrops",
+		Description: `Non-zero counter indicates rejected packets due to anything related to token
+creation/parsing failures.`,
+		Exposed: true,
+		Name:    "tokenDrops",
+		Type:    "integer",
 	},
 }
 
@@ -2267,11 +2512,38 @@ type SparseCounterReport struct {
 	// Counter for unknown error.
 	UnknownError *int `json:"UnknownError,omitempty" msgpack:"UnknownError,omitempty" bson:"-" mapstructure:"UnknownError,omitempty"`
 
+	// Non-zero counter indicates analyzed connections for unencrypted, encrypted and
+	// as well as when the packet from the endpoint application has tcp fast open
+	// option set. These are not dropped counter.
+	ConnectionsAnalyzed *int `json:"connectionsAnalyzed,omitempty" msgpack:"connectionsAnalyzed,omitempty" bson:"-" mapstructure:"connectionsAnalyzed,omitempty"`
+
+	// Non-zero counter indicates dropped connections because of invalid state or non
+	// pu traffic or out of order packets.
+	ConnectionsDropped *int `json:"connectionsDropped,omitempty" msgpack:"connectionsDropped,omitempty" bson:"-" mapstructure:"connectionsDropped,omitempty"`
+
+	// Non-zero counter indicates expired connections because of response not being
+	// received within a certain amount of time after the request is made.
+	ConnectionsExpired *int `json:"connectionsExpired,omitempty" msgpack:"connectionsExpired,omitempty" bson:"-" mapstructure:"connectionsExpired,omitempty"`
+
+	// Non-zero counter indicates dropped packets that did not hit any of our iptables
+	// rules and queue drops.
+	DroppedPackets *int `json:"droppedPackets,omitempty" msgpack:"droppedPackets,omitempty" bson:"-" mapstructure:"droppedPackets,omitempty"`
+
+	// Non-zero counter indicates encryption processing failures of data packets.
+	EncryptionFailures *int `json:"encryptionFailures,omitempty" msgpack:"encryptionFailures,omitempty" bson:"-" mapstructure:"encryptionFailures,omitempty"`
+
 	// Identifier of the enforcer sending the report.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer sending the report.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
+
+	// Non-zero counter indicates connections going to and from external networks.
+	// These may be drops or allowed counters.
+	ExternalNetworkConnections *int `json:"externalNetworkConnections,omitempty" msgpack:"externalNetworkConnections,omitempty" bson:"-" mapstructure:"externalNetworkConnections,omitempty"`
+
+	// Non-zero counter indicates dropped packets by a reject policy.
+	PolicyDrops *int `json:"policyDrops,omitempty" msgpack:"policyDrops,omitempty" bson:"-" mapstructure:"policyDrops,omitempty"`
 
 	// PUID is the ID of the PU reporting the counter.
 	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
@@ -2281,6 +2553,10 @@ type SparseCounterReport struct {
 
 	// Timestamp is the date of the report.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	// Non-zero counter indicates rejected packets due to anything related to token
+	// creation/parsing failures.
+	TokenDrops *int `json:"tokenDrops,omitempty" msgpack:"tokenDrops,omitempty" bson:"-" mapstructure:"tokenDrops,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -2531,11 +2807,32 @@ func (o *SparseCounterReport) ToPlain() elemental.PlainIdentifiable {
 	if o.UnknownError != nil {
 		out.UnknownError = *o.UnknownError
 	}
+	if o.ConnectionsAnalyzed != nil {
+		out.ConnectionsAnalyzed = *o.ConnectionsAnalyzed
+	}
+	if o.ConnectionsDropped != nil {
+		out.ConnectionsDropped = *o.ConnectionsDropped
+	}
+	if o.ConnectionsExpired != nil {
+		out.ConnectionsExpired = *o.ConnectionsExpired
+	}
+	if o.DroppedPackets != nil {
+		out.DroppedPackets = *o.DroppedPackets
+	}
+	if o.EncryptionFailures != nil {
+		out.EncryptionFailures = *o.EncryptionFailures
+	}
 	if o.EnforcerID != nil {
 		out.EnforcerID = *o.EnforcerID
 	}
 	if o.EnforcerNamespace != nil {
 		out.EnforcerNamespace = *o.EnforcerNamespace
+	}
+	if o.ExternalNetworkConnections != nil {
+		out.ExternalNetworkConnections = *o.ExternalNetworkConnections
+	}
+	if o.PolicyDrops != nil {
+		out.PolicyDrops = *o.PolicyDrops
 	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID
@@ -2545,6 +2842,9 @@ func (o *SparseCounterReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp
+	}
+	if o.TokenDrops != nil {
+		out.TokenDrops = *o.TokenDrops
 	}
 
 	return out

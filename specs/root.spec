@@ -200,22 +200,6 @@ relations:
   create:
     description: Performs a clause matching.
 
-- rest_name: complianceissue
-  get:
-    description: Retrieves the list of compliance issues.
-    global_parameters:
-    - $filtering
-  create:
-    description: Creates a new compliance issue.
-
-- rest_name: containerimage
-  get:
-    description: Retrieves the list of container images.
-    global_parameters:
-    - $filtering
-  create:
-    description: Creates a new container image.
-
 - rest_name: counterreport
   create:
     description: Create a counter report.
@@ -431,6 +415,30 @@ relations:
   create:
     description: Creates a new HTTP resource specification.
 
+- rest_name: image
+  get:
+    description: Retrieves the list of container images.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new container image.
+
+- rest_name: imagevulnerability
+  get:
+    description: Retrieves the list of vulnerabilities for a bunch of container images.
+    parameters:
+      required:
+      - - - image
+      entries:
+      - name: image
+        description: Image to analyze.
+        type: string
+        multiple: true
+        example_value: nginx:1.12
+  create:
+    description: Creates a new vulnerability.
+
 - rest_name: import
   create:
     description: Imports data from a previous export.
@@ -569,7 +577,7 @@ relations:
 
 - rest_name: oidcprovider
   get:
-    description: Retrieves the list of the account OIDC provider.
+    description: Retrieves the list of the OIDC providers.
     global_parameters:
     - $filtering
   create:
@@ -592,6 +600,14 @@ relations:
         example_value: user@domain.com
   create:
     description: Resets the password for an account using the provided link.
+
+- rest_name: pccprovider
+  get:
+    description: Retrieves the list of the PCC providers.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new PCC provider.
 
 - rest_name: pingreport
   create:
@@ -883,6 +899,7 @@ relations:
     description: Retrieves the list of vulnerabilities.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new vulnerability.
 

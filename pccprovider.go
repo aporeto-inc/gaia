@@ -9,57 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AlarmStatusValue represents the possible values for attribute "status".
-type AlarmStatusValue string
-
-const (
-	// AlarmStatusAcknowledged represents the value Acknowledged.
-	AlarmStatusAcknowledged AlarmStatusValue = "Acknowledged"
-
-	// AlarmStatusOpen represents the value Open.
-	AlarmStatusOpen AlarmStatusValue = "Open"
-
-	// AlarmStatusResolved represents the value Resolved.
-	AlarmStatusResolved AlarmStatusValue = "Resolved"
-)
-
-// AlarmIdentity represents the Identity of the object.
-var AlarmIdentity = elemental.Identity{
-	Name:     "alarm",
-	Category: "alarms",
-	Package:  "sephiroth",
+// PCCProviderIdentity represents the Identity of the object.
+var PCCProviderIdentity = elemental.Identity{
+	Name:     "pccprovider",
+	Category: "pccproviders",
+	Package:  "cactuar",
 	Private:  false,
 }
 
-// AlarmsList represents a list of Alarms
-type AlarmsList []*Alarm
+// PCCProvidersList represents a list of PCCProviders
+type PCCProvidersList []*PCCProvider
 
 // Identity returns the identity of the objects in the list.
-func (o AlarmsList) Identity() elemental.Identity {
+func (o PCCProvidersList) Identity() elemental.Identity {
 
-	return AlarmIdentity
+	return PCCProviderIdentity
 }
 
-// Copy returns a pointer to a copy the AlarmsList.
-func (o AlarmsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the PCCProvidersList.
+func (o PCCProvidersList) Copy() elemental.Identifiables {
 
-	copy := append(AlarmsList{}, o...)
+	copy := append(PCCProvidersList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the AlarmsList.
-func (o AlarmsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the PCCProvidersList.
+func (o PCCProvidersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(AlarmsList{}, o...)
+	out := append(PCCProvidersList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*Alarm))
+		out = append(out, obj.(*PCCProvider))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o AlarmsList) List() elemental.IdentifiablesList {
+func (o PCCProvidersList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -70,33 +56,33 @@ func (o AlarmsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o AlarmsList) DefaultOrder() []string {
+func (o PCCProvidersList) DefaultOrder() []string {
 
 	return []string{
-		"updateTime",
+		"name",
 	}
 }
 
-// ToSparse returns the AlarmsList converted to SparseAlarmsList.
+// ToSparse returns the PCCProvidersList converted to SparsePCCProvidersList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AlarmsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o PCCProvidersList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseAlarmsList, len(o))
+	out := make(SparsePCCProvidersList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseAlarm)
+		out[i] = o[i].ToSparse(fields...).(*SparsePCCProvider)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o AlarmsList) Version() int {
+func (o PCCProvidersList) Version() int {
 
 	return 1
 }
 
-// Alarm represents the model of a alarm
-type Alarm struct {
+// PCCProvider represents the model of a pccprovider
+type PCCProvider struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -106,8 +92,9 @@ type Alarm struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Content of the alarm.
-	Content string `json:"content" msgpack:"content" bson:"content" mapstructure:"content,omitempty"`
+	// Set the CA to use to contact the PCC service in case it uses a non widely trust
+	// certificate authority.
+	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
@@ -115,19 +102,13 @@ type Alarm struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Data represent user data related to the alarms.
-	Data []map[string]string `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
+	// If set, this will be the default PCC provider. There can be only one default
+	// provider in your account. When logging in with PCC, if no provider name is
+	// given, the default will be used.
+	Default bool `json:"default" msgpack:"default" bson:"default" mapstructure:"default,omitempty"`
 
-	// Description of the object.
-	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// A list of recipients that should be emailed when this alarm is
-	// created.
-	Emails []string `json:"emails" msgpack:"emails" bson:"emails" mapstructure:"emails,omitempty"`
-
-	// Identifies the kind of alarm. If two alarms are created with the same
-	// identifier, then only the occurrence will be incremented.
-	Kind string `json:"kind" msgpack:"kind" bson:"kind" mapstructure:"kind,omitempty"`
+	// The URL of the PCC service. It must use HTTPS.
+	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
@@ -141,14 +122,8 @@ type Alarm struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Number of times this alarm has been seen.
-	Occurrences []time.Time `json:"occurrences" msgpack:"occurrences" bson:"occurrences" mapstructure:"occurrences,omitempty"`
-
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
-	// Status of the alarm.
-	Status AlarmStatusValue `json:"status" msgpack:"status" bson:"status" mapstructure:"status,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -166,69 +141,61 @@ type Alarm struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewAlarm returns a new *Alarm
-func NewAlarm() *Alarm {
+// NewPCCProvider returns a new *PCCProvider
+func NewPCCProvider() *PCCProvider {
 
-	return &Alarm{
+	return &PCCProvider{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
-		Data:           []map[string]string{},
 		AssociatedTags: []string{},
-		Emails:         []string{},
 		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
-		Occurrences:    []time.Time{},
-		Status:         AlarmStatusOpen,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Alarm) Identity() elemental.Identity {
+func (o *PCCProvider) Identity() elemental.Identity {
 
-	return AlarmIdentity
+	return PCCProviderIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Alarm) Identifier() string {
+func (o *PCCProvider) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Alarm) SetIdentifier(id string) {
+func (o *PCCProvider) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *Alarm) GetBSON() (interface{}, error) {
+func (o *PCCProvider) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesAlarm{}
+	s := &mongoAttributesPCCProvider{}
 
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
-	s.Content = o.Content
+	s.CertificateAuthority = o.CertificateAuthority
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
-	s.Data = o.Data
-	s.Description = o.Description
-	s.Emails = o.Emails
-	s.Kind = o.Kind
+	s.Default = o.Default
+	s.Endpoint = o.Endpoint
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
-	s.Occurrences = o.Occurrences
 	s.Protected = o.Protected
-	s.Status = o.Status
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
 	s.ZHash = o.ZHash
@@ -239,13 +206,13 @@ func (o *Alarm) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *Alarm) SetBSON(raw bson.Raw) error {
+func (o *PCCProvider) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesAlarm{}
+	s := &mongoAttributesPCCProvider{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -253,20 +220,16 @@ func (o *Alarm) SetBSON(raw bson.Raw) error {
 	o.ID = s.ID.Hex()
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
-	o.Content = s.Content
+	o.CertificateAuthority = s.CertificateAuthority
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
-	o.Data = s.Data
-	o.Description = s.Description
-	o.Emails = s.Emails
-	o.Kind = s.Kind
+	o.Default = s.Default
+	o.Endpoint = s.Endpoint
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
-	o.Occurrences = s.Occurrences
 	o.Protected = s.Protected
-	o.Status = s.Status
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
 	o.ZHash = s.ZHash
@@ -276,228 +239,212 @@ func (o *Alarm) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *Alarm) Version() int {
+func (o *PCCProvider) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *Alarm) BleveType() string {
+func (o *PCCProvider) BleveType() string {
 
-	return "alarm"
+	return "pccprovider"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Alarm) DefaultOrder() []string {
+func (o *PCCProvider) DefaultOrder() []string {
 
 	return []string{
-		"updateTime",
+		"name",
 	}
 }
 
 // Doc returns the documentation for the object
-func (o *Alarm) Doc() string {
+func (o *PCCProvider) Doc() string {
 
-	return `Represents an event requiring attention.`
+	return `Allows to declare a PCC auth provider that can be use to trust PCC JWT.`
 }
 
-func (o *Alarm) String() string {
+func (o *PCCProvider) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *Alarm) GetAnnotations() map[string][]string {
+func (o *PCCProvider) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *Alarm) SetAnnotations(annotations map[string][]string) {
+func (o *PCCProvider) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *Alarm) GetAssociatedTags() []string {
+func (o *PCCProvider) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *Alarm) SetAssociatedTags(associatedTags []string) {
+func (o *PCCProvider) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *Alarm) GetCreateIdempotencyKey() string {
+func (o *PCCProvider) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *Alarm) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *PCCProvider) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *Alarm) GetCreateTime() time.Time {
+func (o *PCCProvider) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *Alarm) SetCreateTime(createTime time.Time) {
+func (o *PCCProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
-// GetDescription returns the Description of the receiver.
-func (o *Alarm) GetDescription() string {
-
-	return o.Description
-}
-
-// SetDescription sets the property Description of the receiver using the given value.
-func (o *Alarm) SetDescription(description string) {
-
-	o.Description = description
-}
-
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *Alarm) GetMigrationsLog() map[string]string {
+func (o *PCCProvider) GetMigrationsLog() map[string]string {
 
 	return o.MigrationsLog
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
-func (o *Alarm) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *PCCProvider) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *Alarm) GetName() string {
+func (o *PCCProvider) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *Alarm) SetName(name string) {
+func (o *PCCProvider) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *Alarm) GetNamespace() string {
+func (o *PCCProvider) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *Alarm) SetNamespace(namespace string) {
+func (o *PCCProvider) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *Alarm) GetNormalizedTags() []string {
+func (o *PCCProvider) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *Alarm) SetNormalizedTags(normalizedTags []string) {
+func (o *PCCProvider) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *Alarm) GetProtected() bool {
+func (o *PCCProvider) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *Alarm) SetProtected(protected bool) {
+func (o *PCCProvider) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *Alarm) GetUpdateIdempotencyKey() string {
+func (o *PCCProvider) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *Alarm) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *PCCProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *Alarm) GetUpdateTime() time.Time {
+func (o *PCCProvider) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *Alarm) SetUpdateTime(updateTime time.Time) {
+func (o *PCCProvider) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *Alarm) GetZHash() int {
+func (o *PCCProvider) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *Alarm) SetZHash(zHash int) {
+func (o *PCCProvider) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *Alarm) GetZone() int {
+func (o *PCCProvider) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *Alarm) SetZone(zone int) {
+func (o *PCCProvider) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *PCCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseAlarm{
+		return &SparsePCCProvider{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
-			Content:              &o.Content,
+			CertificateAuthority: &o.CertificateAuthority,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
-			Data:                 &o.Data,
-			Description:          &o.Description,
-			Emails:               &o.Emails,
-			Kind:                 &o.Kind,
+			Default:              &o.Default,
+			Endpoint:             &o.Endpoint,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
-			Occurrences:          &o.Occurrences,
 			Protected:            &o.Protected,
-			Status:               &o.Status,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 			ZHash:                &o.ZHash,
@@ -505,7 +452,7 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparseAlarm{}
+	sp := &SparsePCCProvider{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -514,20 +461,16 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "content":
-			sp.Content = &(o.Content)
+		case "certificateAuthority":
+			sp.CertificateAuthority = &(o.CertificateAuthority)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
-		case "data":
-			sp.Data = &(o.Data)
-		case "description":
-			sp.Description = &(o.Description)
-		case "emails":
-			sp.Emails = &(o.Emails)
-		case "kind":
-			sp.Kind = &(o.Kind)
+		case "default":
+			sp.Default = &(o.Default)
+		case "endpoint":
+			sp.Endpoint = &(o.Endpoint)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -536,12 +479,8 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "occurrences":
-			sp.Occurrences = &(o.Occurrences)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "status":
-			sp.Status = &(o.Status)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -556,13 +495,13 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseAlarm to the object.
-func (o *Alarm) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparsePCCProvider to the object.
+func (o *PCCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseAlarm)
+	so := sparse.(*SparsePCCProvider)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -572,8 +511,8 @@ func (o *Alarm) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
-	if so.Content != nil {
-		o.Content = *so.Content
+	if so.CertificateAuthority != nil {
+		o.CertificateAuthority = *so.CertificateAuthority
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
@@ -581,17 +520,11 @@ func (o *Alarm) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
-	if so.Data != nil {
-		o.Data = *so.Data
+	if so.Default != nil {
+		o.Default = *so.Default
 	}
-	if so.Description != nil {
-		o.Description = *so.Description
-	}
-	if so.Emails != nil {
-		o.Emails = *so.Emails
-	}
-	if so.Kind != nil {
-		o.Kind = *so.Kind
+	if so.Endpoint != nil {
+		o.Endpoint = *so.Endpoint
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -605,14 +538,8 @@ func (o *Alarm) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
-	if so.Occurrences != nil {
-		o.Occurrences = *so.Occurrences
-	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
-	}
-	if so.Status != nil {
-		o.Status = *so.Status
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -628,32 +555,32 @@ func (o *Alarm) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the Alarm.
-func (o *Alarm) DeepCopy() *Alarm {
+// DeepCopy returns a deep copy if the PCCProvider.
+func (o *PCCProvider) DeepCopy() *PCCProvider {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &Alarm{}
+	out := &PCCProvider{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *Alarm.
-func (o *Alarm) DeepCopyInto(out *Alarm) {
+// DeepCopyInto copies the receiver into the given *PCCProvider.
+func (o *PCCProvider) DeepCopyInto(out *PCCProvider) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy Alarm: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy PCCProvider: %s", err))
 	}
 
-	*out = *target.(*Alarm)
+	*out = *target.(*PCCProvider)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Alarm) Validate() error {
+func (o *PCCProvider) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -662,15 +589,11 @@ func (o *Alarm) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("content", o.Content); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+	if err := ValidatePEM("certificateAuthority", o.CertificateAuthority); err != nil {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("kind", o.Kind); err != nil {
+	if err := elemental.ValidateRequiredString("endpoint", o.Endpoint); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -679,10 +602,6 @@ func (o *Alarm) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Acknowledged", "Open", "Resolved"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -698,26 +617,26 @@ func (o *Alarm) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Alarm) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*PCCProvider) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := AlarmAttributesMap[name]; ok {
+	if v, ok := PCCProviderAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return AlarmLowerCaseAttributesMap[name]
+	return PCCProviderLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Alarm) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*PCCProvider) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return AlarmAttributesMap
+	return PCCProviderAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *Alarm) ValueForAttribute(name string) interface{} {
+func (o *PCCProvider) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -726,20 +645,16 @@ func (o *Alarm) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
-	case "content":
-		return o.Content
+	case "certificateAuthority":
+		return o.CertificateAuthority
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
-	case "data":
-		return o.Data
-	case "description":
-		return o.Description
-	case "emails":
-		return o.Emails
-	case "kind":
-		return o.Kind
+	case "default":
+		return o.Default
+	case "endpoint":
+		return o.Endpoint
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -748,12 +663,8 @@ func (o *Alarm) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "occurrences":
-		return o.Occurrences
 	case "protected":
 		return o.Protected
-	case "status":
-		return o.Status
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -767,8 +678,8 @@ func (o *Alarm) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// AlarmAttributesMap represents the map of attribute for Alarm.
-var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
+// PCCProviderAttributesMap represents the map of attribute for PCCProvider.
+var PCCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -807,16 +718,15 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"Content": elemental.AttributeSpecification{
+	"CertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Content",
-		CreationOnly:   true,
-		Description:    `Content of the alarm.`,
-		Exposed:        true,
-		Name:           "content",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		ConvertedName:  "CertificateAuthority",
+		Description: `Set the CA to use to contact the PCC service in case it uses a non widely trust
+certificate authority.`,
+		Exposed: true,
+		Name:    "certificateAuthority",
+		Stored:  true,
+		Type:    "string",
 	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -844,52 +754,26 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
-	"Data": elemental.AttributeSpecification{
+	"Default": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Data",
-		Description:    `Data represent user data related to the alarms.`,
-		Exposed:        true,
-		Name:           "data",
-		Stored:         true,
-		SubType:        "[]map[string]string",
-		Type:           "external",
+		ConvertedName:  "Default",
+		Description: `If set, this will be the default PCC provider. There can be only one default
+provider in your account. When logging in with PCC, if no provider name is
+given, the default will be used.`,
+		Exposed: true,
+		Name:    "default",
+		Stored:  true,
+		Type:    "boolean",
 	},
-	"Description": elemental.AttributeSpecification{
+	"Endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Description",
-		Description:    `Description of the object.`,
+		ConvertedName:  "Endpoint",
+		Description:    `The URL of the PCC service. It must use HTTPS.`,
 		Exposed:        true,
-		Getter:         true,
-		MaxLength:      1024,
-		Name:           "description",
-		Orderable:      true,
-		Setter:         true,
+		Name:           "endpoint",
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"Emails": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Emails",
-		Description: `A list of recipients that should be emailed when this alarm is
-created.`,
-		Exposed: true,
-		Name:    "emails",
-		Stored:  true,
-		SubType: "string",
-		Type:    "list",
-	},
-	"Kind": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Kind",
-		CreationOnly:   true,
-		Description: `Identifies the kind of alarm. If two alarms are created with the same
-identifier, then only the occurrence will be incremented.`,
-		Exposed:   true,
-		Name:      "kind",
-		Orderable: true,
-		Required:  true,
-		Stored:    true,
-		Type:      "string",
 	},
 	"MigrationsLog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -947,18 +831,6 @@ identifier, then only the occurrence will be incremented.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"Occurrences": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Occurrences",
-		CreationOnly:   true,
-		Description:    `Number of times this alarm has been seen.`,
-		Exposed:        true,
-		Name:           "occurrences",
-		Stored:         true,
-		SubType:        "[]time.Time",
-		Type:           "external",
-	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -970,17 +842,6 @@ identifier, then only the occurrence will be incremented.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"Status": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Acknowledged", "Open", "Resolved"},
-		ConvertedName:  "Status",
-		DefaultValue:   AlarmStatusOpen,
-		Description:    `Status of the alarm.`,
-		Exposed:        true,
-		Name:           "status",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1037,8 +898,8 @@ georedundancy.`,
 	},
 }
 
-// AlarmLowerCaseAttributesMap represents the map of attribute for Alarm.
-var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// PCCProviderLowerCaseAttributesMap represents the map of attribute for PCCProvider.
+var PCCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1077,16 +938,15 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"content": elemental.AttributeSpecification{
+	"certificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Content",
-		CreationOnly:   true,
-		Description:    `Content of the alarm.`,
-		Exposed:        true,
-		Name:           "content",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		ConvertedName:  "CertificateAuthority",
+		Description: `Set the CA to use to contact the PCC service in case it uses a non widely trust
+certificate authority.`,
+		Exposed: true,
+		Name:    "certificateAuthority",
+		Stored:  true,
+		Type:    "string",
 	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1114,52 +974,26 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
-	"data": elemental.AttributeSpecification{
+	"default": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Data",
-		Description:    `Data represent user data related to the alarms.`,
-		Exposed:        true,
-		Name:           "data",
-		Stored:         true,
-		SubType:        "[]map[string]string",
-		Type:           "external",
+		ConvertedName:  "Default",
+		Description: `If set, this will be the default PCC provider. There can be only one default
+provider in your account. When logging in with PCC, if no provider name is
+given, the default will be used.`,
+		Exposed: true,
+		Name:    "default",
+		Stored:  true,
+		Type:    "boolean",
 	},
-	"description": elemental.AttributeSpecification{
+	"endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Description",
-		Description:    `Description of the object.`,
+		ConvertedName:  "Endpoint",
+		Description:    `The URL of the PCC service. It must use HTTPS.`,
 		Exposed:        true,
-		Getter:         true,
-		MaxLength:      1024,
-		Name:           "description",
-		Orderable:      true,
-		Setter:         true,
+		Name:           "endpoint",
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"emails": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Emails",
-		Description: `A list of recipients that should be emailed when this alarm is
-created.`,
-		Exposed: true,
-		Name:    "emails",
-		Stored:  true,
-		SubType: "string",
-		Type:    "list",
-	},
-	"kind": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Kind",
-		CreationOnly:   true,
-		Description: `Identifies the kind of alarm. If two alarms are created with the same
-identifier, then only the occurrence will be incremented.`,
-		Exposed:   true,
-		Name:      "kind",
-		Orderable: true,
-		Required:  true,
-		Stored:    true,
-		Type:      "string",
 	},
 	"migrationslog": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1217,18 +1051,6 @@ identifier, then only the occurrence will be incremented.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"occurrences": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Occurrences",
-		CreationOnly:   true,
-		Description:    `Number of times this alarm has been seen.`,
-		Exposed:        true,
-		Name:           "occurrences",
-		Stored:         true,
-		SubType:        "[]time.Time",
-		Type:           "external",
-	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1240,17 +1062,6 @@ identifier, then only the occurrence will be incremented.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"status": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Acknowledged", "Open", "Resolved"},
-		ConvertedName:  "Status",
-		DefaultValue:   AlarmStatusOpen,
-		Description:    `Status of the alarm.`,
-		Exposed:        true,
-		Name:           "status",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1307,35 +1118,35 @@ georedundancy.`,
 	},
 }
 
-// SparseAlarmsList represents a list of SparseAlarms
-type SparseAlarmsList []*SparseAlarm
+// SparsePCCProvidersList represents a list of SparsePCCProviders
+type SparsePCCProvidersList []*SparsePCCProvider
 
 // Identity returns the identity of the objects in the list.
-func (o SparseAlarmsList) Identity() elemental.Identity {
+func (o SparsePCCProvidersList) Identity() elemental.Identity {
 
-	return AlarmIdentity
+	return PCCProviderIdentity
 }
 
-// Copy returns a pointer to a copy the SparseAlarmsList.
-func (o SparseAlarmsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparsePCCProvidersList.
+func (o SparsePCCProvidersList) Copy() elemental.Identifiables {
 
-	copy := append(SparseAlarmsList{}, o...)
+	copy := append(SparsePCCProvidersList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseAlarmsList.
-func (o SparseAlarmsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparsePCCProvidersList.
+func (o SparsePCCProvidersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseAlarmsList{}, o...)
+	out := append(SparsePCCProvidersList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseAlarm))
+		out = append(out, obj.(*SparsePCCProvider))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseAlarmsList) List() elemental.IdentifiablesList {
+func (o SparsePCCProvidersList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1346,15 +1157,15 @@ func (o SparseAlarmsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseAlarmsList) DefaultOrder() []string {
+func (o SparsePCCProvidersList) DefaultOrder() []string {
 
 	return []string{
-		"updateTime",
+		"name",
 	}
 }
 
-// ToPlain returns the SparseAlarmsList converted to AlarmsList.
-func (o SparseAlarmsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparsePCCProvidersList converted to PCCProvidersList.
+func (o SparsePCCProvidersList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1365,13 +1176,13 @@ func (o SparseAlarmsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseAlarmsList) Version() int {
+func (o SparsePCCProvidersList) Version() int {
 
 	return 1
 }
 
-// SparseAlarm represents the sparse version of a alarm.
-type SparseAlarm struct {
+// SparsePCCProvider represents the sparse version of a pccprovider.
+type SparsePCCProvider struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1381,8 +1192,9 @@ type SparseAlarm struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// Content of the alarm.
-	Content *string `json:"content,omitempty" msgpack:"content,omitempty" bson:"content,omitempty" mapstructure:"content,omitempty"`
+	// Set the CA to use to contact the PCC service in case it uses a non widely trust
+	// certificate authority.
+	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1390,19 +1202,13 @@ type SparseAlarm struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Data represent user data related to the alarms.
-	Data *[]map[string]string `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
+	// If set, this will be the default PCC provider. There can be only one default
+	// provider in your account. When logging in with PCC, if no provider name is
+	// given, the default will be used.
+	Default *bool `json:"default,omitempty" msgpack:"default,omitempty" bson:"default,omitempty" mapstructure:"default,omitempty"`
 
-	// Description of the object.
-	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
-
-	// A list of recipients that should be emailed when this alarm is
-	// created.
-	Emails *[]string `json:"emails,omitempty" msgpack:"emails,omitempty" bson:"emails,omitempty" mapstructure:"emails,omitempty"`
-
-	// Identifies the kind of alarm. If two alarms are created with the same
-	// identifier, then only the occurrence will be incremented.
-	Kind *string `json:"kind,omitempty" msgpack:"kind,omitempty" bson:"kind,omitempty" mapstructure:"kind,omitempty"`
+	// The URL of the PCC service. It must use HTTPS.
+	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1416,14 +1222,8 @@ type SparseAlarm struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Number of times this alarm has been seen.
-	Occurrences *[]time.Time `json:"occurrences,omitempty" msgpack:"occurrences,omitempty" bson:"occurrences,omitempty" mapstructure:"occurrences,omitempty"`
-
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
-
-	// Status of the alarm.
-	Status *AlarmStatusValue `json:"status,omitempty" msgpack:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1441,19 +1241,19 @@ type SparseAlarm struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseAlarm returns a new  SparseAlarm.
-func NewSparseAlarm() *SparseAlarm {
-	return &SparseAlarm{}
+// NewSparsePCCProvider returns a new  SparsePCCProvider.
+func NewSparsePCCProvider() *SparsePCCProvider {
+	return &SparsePCCProvider{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseAlarm) Identity() elemental.Identity {
+func (o *SparsePCCProvider) Identity() elemental.Identity {
 
-	return AlarmIdentity
+	return PCCProviderIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseAlarm) Identifier() string {
+func (o *SparsePCCProvider) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1462,7 +1262,7 @@ func (o *SparseAlarm) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseAlarm) SetIdentifier(id string) {
+func (o *SparsePCCProvider) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -1473,13 +1273,13 @@ func (o *SparseAlarm) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseAlarm) GetBSON() (interface{}, error) {
+func (o *SparsePCCProvider) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseAlarm{}
+	s := &mongoAttributesSparsePCCProvider{}
 
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
@@ -1490,8 +1290,8 @@ func (o *SparseAlarm) GetBSON() (interface{}, error) {
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
 	}
-	if o.Content != nil {
-		s.Content = o.Content
+	if o.CertificateAuthority != nil {
+		s.CertificateAuthority = o.CertificateAuthority
 	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -1499,17 +1299,11 @@ func (o *SparseAlarm) GetBSON() (interface{}, error) {
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
 	}
-	if o.Data != nil {
-		s.Data = o.Data
+	if o.Default != nil {
+		s.Default = o.Default
 	}
-	if o.Description != nil {
-		s.Description = o.Description
-	}
-	if o.Emails != nil {
-		s.Emails = o.Emails
-	}
-	if o.Kind != nil {
-		s.Kind = o.Kind
+	if o.Endpoint != nil {
+		s.Endpoint = o.Endpoint
 	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
@@ -1523,14 +1317,8 @@ func (o *SparseAlarm) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
-	if o.Occurrences != nil {
-		s.Occurrences = o.Occurrences
-	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
-	}
-	if o.Status != nil {
-		s.Status = o.Status
 	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -1550,13 +1338,13 @@ func (o *SparseAlarm) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseAlarm) SetBSON(raw bson.Raw) error {
+func (o *SparsePCCProvider) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseAlarm{}
+	s := &mongoAttributesSparsePCCProvider{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -1569,8 +1357,8 @@ func (o *SparseAlarm) SetBSON(raw bson.Raw) error {
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
 	}
-	if s.Content != nil {
-		o.Content = s.Content
+	if s.CertificateAuthority != nil {
+		o.CertificateAuthority = s.CertificateAuthority
 	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
@@ -1578,17 +1366,11 @@ func (o *SparseAlarm) SetBSON(raw bson.Raw) error {
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
 	}
-	if s.Data != nil {
-		o.Data = s.Data
+	if s.Default != nil {
+		o.Default = s.Default
 	}
-	if s.Description != nil {
-		o.Description = s.Description
-	}
-	if s.Emails != nil {
-		o.Emails = s.Emails
-	}
-	if s.Kind != nil {
-		o.Kind = s.Kind
+	if s.Endpoint != nil {
+		o.Endpoint = s.Endpoint
 	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
@@ -1602,14 +1384,8 @@ func (o *SparseAlarm) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
-	if s.Occurrences != nil {
-		o.Occurrences = s.Occurrences
-	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
-	}
-	if s.Status != nil {
-		o.Status = s.Status
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -1628,15 +1404,15 @@ func (o *SparseAlarm) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseAlarm) Version() int {
+func (o *SparsePCCProvider) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
+func (o *SparsePCCProvider) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewAlarm()
+	out := NewPCCProvider()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1646,8 +1422,8 @@ func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
-	if o.Content != nil {
-		out.Content = *o.Content
+	if o.CertificateAuthority != nil {
+		out.CertificateAuthority = *o.CertificateAuthority
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
@@ -1655,17 +1431,11 @@ func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
-	if o.Data != nil {
-		out.Data = *o.Data
+	if o.Default != nil {
+		out.Default = *o.Default
 	}
-	if o.Description != nil {
-		out.Description = *o.Description
-	}
-	if o.Emails != nil {
-		out.Emails = *o.Emails
-	}
-	if o.Kind != nil {
-		out.Kind = *o.Kind
+	if o.Endpoint != nil {
+		out.Endpoint = *o.Endpoint
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1679,14 +1449,8 @@ func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
-	if o.Occurrences != nil {
-		out.Occurrences = *o.Occurrences
-	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
-	}
-	if o.Status != nil {
-		out.Status = *o.Status
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -1705,7 +1469,7 @@ func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseAlarm) GetAnnotations() (out map[string][]string) {
+func (o *SparsePCCProvider) GetAnnotations() (out map[string][]string) {
 
 	if o.Annotations == nil {
 		return
@@ -1715,13 +1479,13 @@ func (o *SparseAlarm) GetAnnotations() (out map[string][]string) {
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseAlarm) SetAnnotations(annotations map[string][]string) {
+func (o *SparsePCCProvider) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseAlarm) GetAssociatedTags() (out []string) {
+func (o *SparsePCCProvider) GetAssociatedTags() (out []string) {
 
 	if o.AssociatedTags == nil {
 		return
@@ -1731,13 +1495,13 @@ func (o *SparseAlarm) GetAssociatedTags() (out []string) {
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseAlarm) SetAssociatedTags(associatedTags []string) {
+func (o *SparsePCCProvider) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseAlarm) GetCreateIdempotencyKey() (out string) {
+func (o *SparsePCCProvider) GetCreateIdempotencyKey() (out string) {
 
 	if o.CreateIdempotencyKey == nil {
 		return
@@ -1747,13 +1511,13 @@ func (o *SparseAlarm) GetCreateIdempotencyKey() (out string) {
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseAlarm) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparsePCCProvider) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseAlarm) GetCreateTime() (out time.Time) {
+func (o *SparsePCCProvider) GetCreateTime() (out time.Time) {
 
 	if o.CreateTime == nil {
 		return
@@ -1763,29 +1527,13 @@ func (o *SparseAlarm) GetCreateTime() (out time.Time) {
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseAlarm) SetCreateTime(createTime time.Time) {
+func (o *SparsePCCProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
-// GetDescription returns the Description of the receiver.
-func (o *SparseAlarm) GetDescription() (out string) {
-
-	if o.Description == nil {
-		return
-	}
-
-	return *o.Description
-}
-
-// SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseAlarm) SetDescription(description string) {
-
-	o.Description = &description
-}
-
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseAlarm) GetMigrationsLog() (out map[string]string) {
+func (o *SparsePCCProvider) GetMigrationsLog() (out map[string]string) {
 
 	if o.MigrationsLog == nil {
 		return
@@ -1795,13 +1543,13 @@ func (o *SparseAlarm) GetMigrationsLog() (out map[string]string) {
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
-func (o *SparseAlarm) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *SparsePCCProvider) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseAlarm) GetName() (out string) {
+func (o *SparsePCCProvider) GetName() (out string) {
 
 	if o.Name == nil {
 		return
@@ -1811,13 +1559,13 @@ func (o *SparseAlarm) GetName() (out string) {
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseAlarm) SetName(name string) {
+func (o *SparsePCCProvider) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseAlarm) GetNamespace() (out string) {
+func (o *SparsePCCProvider) GetNamespace() (out string) {
 
 	if o.Namespace == nil {
 		return
@@ -1827,13 +1575,13 @@ func (o *SparseAlarm) GetNamespace() (out string) {
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseAlarm) SetNamespace(namespace string) {
+func (o *SparsePCCProvider) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseAlarm) GetNormalizedTags() (out []string) {
+func (o *SparsePCCProvider) GetNormalizedTags() (out []string) {
 
 	if o.NormalizedTags == nil {
 		return
@@ -1843,13 +1591,13 @@ func (o *SparseAlarm) GetNormalizedTags() (out []string) {
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseAlarm) SetNormalizedTags(normalizedTags []string) {
+func (o *SparsePCCProvider) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseAlarm) GetProtected() (out bool) {
+func (o *SparsePCCProvider) GetProtected() (out bool) {
 
 	if o.Protected == nil {
 		return
@@ -1859,13 +1607,13 @@ func (o *SparseAlarm) GetProtected() (out bool) {
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseAlarm) SetProtected(protected bool) {
+func (o *SparsePCCProvider) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseAlarm) GetUpdateIdempotencyKey() (out string) {
+func (o *SparsePCCProvider) GetUpdateIdempotencyKey() (out string) {
 
 	if o.UpdateIdempotencyKey == nil {
 		return
@@ -1875,13 +1623,13 @@ func (o *SparseAlarm) GetUpdateIdempotencyKey() (out string) {
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseAlarm) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparsePCCProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseAlarm) GetUpdateTime() (out time.Time) {
+func (o *SparsePCCProvider) GetUpdateTime() (out time.Time) {
 
 	if o.UpdateTime == nil {
 		return
@@ -1891,13 +1639,13 @@ func (o *SparseAlarm) GetUpdateTime() (out time.Time) {
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseAlarm) SetUpdateTime(updateTime time.Time) {
+func (o *SparsePCCProvider) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseAlarm) GetZHash() (out int) {
+func (o *SparsePCCProvider) GetZHash() (out int) {
 
 	if o.ZHash == nil {
 		return
@@ -1907,13 +1655,13 @@ func (o *SparseAlarm) GetZHash() (out int) {
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseAlarm) SetZHash(zHash int) {
+func (o *SparsePCCProvider) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseAlarm) GetZone() (out int) {
+func (o *SparsePCCProvider) GetZone() (out int) {
 
 	if o.Zone == nil {
 		return
@@ -1923,76 +1671,68 @@ func (o *SparseAlarm) GetZone() (out int) {
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseAlarm) SetZone(zone int) {
+func (o *SparsePCCProvider) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseAlarm.
-func (o *SparseAlarm) DeepCopy() *SparseAlarm {
+// DeepCopy returns a deep copy if the SparsePCCProvider.
+func (o *SparsePCCProvider) DeepCopy() *SparsePCCProvider {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseAlarm{}
+	out := &SparsePCCProvider{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseAlarm.
-func (o *SparseAlarm) DeepCopyInto(out *SparseAlarm) {
+// DeepCopyInto copies the receiver into the given *SparsePCCProvider.
+func (o *SparsePCCProvider) DeepCopyInto(out *SparsePCCProvider) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseAlarm: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparsePCCProvider: %s", err))
 	}
 
-	*out = *target.(*SparseAlarm)
+	*out = *target.(*SparsePCCProvider)
 }
 
-type mongoAttributesAlarm struct {
+type mongoAttributesPCCProvider struct {
 	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
-	Content              string              `bson:"content"`
+	CertificateAuthority string              `bson:"certificateauthority"`
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
 	CreateTime           time.Time           `bson:"createtime"`
-	Data                 []map[string]string `bson:"data"`
-	Description          string              `bson:"description"`
-	Emails               []string            `bson:"emails"`
-	Kind                 string              `bson:"kind"`
+	Default              bool                `bson:"default"`
+	Endpoint             string              `bson:"endpoint"`
 	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
-	Occurrences          []time.Time         `bson:"occurrences"`
 	Protected            bool                `bson:"protected"`
-	Status               AlarmStatusValue    `bson:"status"`
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 	ZHash                int                 `bson:"zhash"`
 	Zone                 int                 `bson:"zone"`
 }
-type mongoAttributesSparseAlarm struct {
+type mongoAttributesSparsePCCProvider struct {
 	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	Content              *string              `bson:"content,omitempty"`
+	CertificateAuthority *string              `bson:"certificateauthority,omitempty"`
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
 	CreateTime           *time.Time           `bson:"createtime,omitempty"`
-	Data                 *[]map[string]string `bson:"data,omitempty"`
-	Description          *string              `bson:"description,omitempty"`
-	Emails               *[]string            `bson:"emails,omitempty"`
-	Kind                 *string              `bson:"kind,omitempty"`
+	Default              *bool                `bson:"default,omitempty"`
+	Endpoint             *string              `bson:"endpoint,omitempty"`
 	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 *string              `bson:"name,omitempty"`
 	Namespace            *string              `bson:"namespace,omitempty"`
 	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	Occurrences          *[]time.Time         `bson:"occurrences,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
-	Status               *AlarmStatusValue    `bson:"status,omitempty"`
 	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
 	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
 	ZHash                *int                 `bson:"zhash,omitempty"`

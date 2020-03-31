@@ -79,6 +79,8 @@ attributes:
     - AzureIdentityToken
     - OIDC
     - SAML
+    - PCC
+    - PCCIdentityToken
     example_value: Vince
 
   - name: token

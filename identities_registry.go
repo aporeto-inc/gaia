@@ -31,12 +31,11 @@ var (
 		"claims":       ClaimsIdentity,
 		"clausesmatch": ClauseMatchIdentity,
 
-		"complianceissue": ComplianceIssueIdentity,
-		"containerimage":  ContainerImageIdentity,
-		"counterreport":   CounterReportIdentity,
+		"counterreport": CounterReportIdentity,
 
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
+		"debugbundle":         DebugBundleIdentity,
 		"dependencymap":       DependencyMapIdentity,
 		"dnslookupreport":     DNSLookupReportIdentity,
 		"email":               EmailIdentity,
@@ -45,6 +44,7 @@ var (
 		"enforcerlog":                  EnforcerLogIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
+		"enforcerrefresh":              EnforcerRefreshIdentity,
 		"enforcerreport":               EnforcerReportIdentity,
 		"enforcertracereport":          EnforcerTraceReportIdentity,
 		"eventlog":                     EventLogIdentity,
@@ -62,6 +62,8 @@ var (
 		"hostservice":              HostServiceIdentity,
 		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
 		"httpresourcespec":         HTTPResourceSpecIdentity,
+		"image":                    ImageIdentity,
+		"imagevulnerability":       ImageVulnerabilityIdentity,
 		"import":                   ImportIdentity,
 		"importreference":          ImportReferenceIdentity,
 		"importrequest":            ImportRequestIdentity,
@@ -86,6 +88,7 @@ var (
 		"oidcprovider":           OIDCProviderIdentity,
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
+		"pccprovider":            PCCProviderIdentity,
 		"pingreport":             PingReportIdentity,
 
 		"plan":                  PlanIdentity,
@@ -171,12 +174,11 @@ var (
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
 
-		"complianceissues": ComplianceIssueIdentity,
-		"containerimages":  ContainerImageIdentity,
-		"counterreports":   CounterReportIdentity,
+		"counterreports": CounterReportIdentity,
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
+		"debugbundles":         DebugBundleIdentity,
 		"dependencymaps":       DependencyMapIdentity,
 		"dnslookupreports":     DNSLookupReportIdentity,
 		"emails":               EmailIdentity,
@@ -185,6 +187,7 @@ var (
 		"enforcerlog":                    EnforcerLogIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
+		"enforcerrefreshes":              EnforcerRefreshIdentity,
 		"enforcerreports":                EnforcerReportIdentity,
 		"enforcertracereports":           EnforcerTraceReportIdentity,
 		"eventlogs":                      EventLogIdentity,
@@ -202,6 +205,8 @@ var (
 		"hostservices":               HostServiceIdentity,
 		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
 		"httpresourcespecs":          HTTPResourceSpecIdentity,
+		"images":                     ImageIdentity,
+		"imagevulnerabilities":       ImageVulnerabilityIdentity,
 		"import":                     ImportIdentity,
 		"importreferences":           ImportReferenceIdentity,
 		"importrequests":             ImportRequestIdentity,
@@ -226,6 +231,7 @@ var (
 		"oidcproviders":            OIDCProviderIdentity,
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
+		"pccproviders":             PCCProviderIdentity,
 		"pingreports":              PingReportIdentity,
 
 		"plans":                   PlanIdentity,
@@ -481,33 +487,13 @@ var (
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
 		},
-		"clausesmatch": nil,
-		"complianceissue": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"severity", "namespace"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
-		},
-		"containerimage": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"name"},
-			[]string{"externalID"},
-			[]string{"dockerImages"},
-			[]string{"createIdempotencyKey"},
-		},
+		"clausesmatch":  nil,
 		"counterreport": nil,
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
 		},
 		"datapathcertificate": nil,
+		"debugbundle":         nil,
 		"dependencymap":       nil,
 		"dnslookupreport":     nil,
 		"email":               nil,
@@ -544,6 +530,7 @@ var (
 			[]string{"createIdempotencyKey"},
 		},
 		"enforcerprofilemappingpolicy": nil,
+		"enforcerrefresh":              nil,
 		"enforcerreport":               nil,
 		"enforcertracereport":          nil,
 		"eventlog":                     nil,
@@ -619,7 +606,22 @@ var (
 			[]string{"createIdempotencyKey"},
 			[]string{"archived"},
 		},
-		"import": nil,
+		"image": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"severity"},
+			[]string{"propagate"},
+			[]string{"namespace"},
+			[]string{"namespace", "severity"},
+			[]string{"namespace", "hash"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"name"},
+			[]string{"hash"},
+			[]string{"createIdempotencyKey"},
+		},
+		"imagevulnerability": nil,
+		"import":             nil,
 		"importreference": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -706,9 +708,18 @@ var (
 		},
 		"packetreport":  nil,
 		"passwordreset": nil,
-		"pingreport":    nil,
-		"plan":          nil,
-		"poke":          nil,
+		"pccprovider": [][]string{
+			[]string{":shard", ":unique", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+		},
+		"pingreport": nil,
+		"plan":       nil,
+		"poke":       nil,
 		"policy": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -840,11 +851,12 @@ var (
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
 			[]string{"severity"},
+			[]string{"propagate"},
 			[]string{"namespace"},
-			[]string{"namespace", "name"},
+			[]string{"namespace", "severity"},
 			[]string{"namespace", "CVSS2Score"},
 			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "severity"},
+			[]string{"namespace", "name"},
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 			[]string{"CVSS2Score"},
@@ -941,16 +953,14 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewClaims()
 	case ClauseMatchIdentity:
 		return NewClauseMatch()
-	case ComplianceIssueIdentity:
-		return NewComplianceIssue()
-	case ContainerImageIdentity:
-		return NewContainerImage()
 	case CounterReportIdentity:
 		return NewCounterReport()
 	case CustomerIdentity:
 		return NewCustomer()
 	case DataPathCertificateIdentity:
 		return NewDataPathCertificate()
+	case DebugBundleIdentity:
+		return NewDebugBundle()
 	case DependencyMapIdentity:
 		return NewDependencyMap()
 	case DNSLookupReportIdentity:
@@ -965,6 +975,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity:
 		return NewEnforcerProfileMappingPolicy()
+	case EnforcerRefreshIdentity:
+		return NewEnforcerRefresh()
 	case EnforcerReportIdentity:
 		return NewEnforcerReport()
 	case EnforcerTraceReportIdentity:
@@ -997,6 +1009,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewHTTPResourceSpec()
+	case ImageIdentity:
+		return NewImage()
+	case ImageVulnerabilityIdentity:
+		return NewImageVulnerability()
 	case ImportIdentity:
 		return NewImport()
 	case ImportReferenceIdentity:
@@ -1043,6 +1059,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPacketReport()
 	case PasswordResetIdentity:
 		return NewPasswordReset()
+	case PCCProviderIdentity:
+		return NewPCCProvider()
 	case PingReportIdentity:
 		return NewPingReport()
 	case PlanIdentity:
@@ -1200,16 +1218,14 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
 		return NewSparseClauseMatch()
-	case ComplianceIssueIdentity:
-		return NewSparseComplianceIssue()
-	case ContainerImageIdentity:
-		return NewSparseContainerImage()
 	case CounterReportIdentity:
 		return NewSparseCounterReport()
 	case CustomerIdentity:
 		return NewSparseCustomer()
 	case DataPathCertificateIdentity:
 		return NewSparseDataPathCertificate()
+	case DebugBundleIdentity:
+		return NewSparseDebugBundle()
 	case DependencyMapIdentity:
 		return NewSparseDependencyMap()
 	case DNSLookupReportIdentity:
@@ -1224,6 +1240,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity:
 		return NewSparseEnforcerProfileMappingPolicy()
+	case EnforcerRefreshIdentity:
+		return NewSparseEnforcerRefresh()
 	case EnforcerReportIdentity:
 		return NewSparseEnforcerReport()
 	case EnforcerTraceReportIdentity:
@@ -1256,6 +1274,10 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewSparseHTTPResourceSpec()
+	case ImageIdentity:
+		return NewSparseImage()
+	case ImageVulnerabilityIdentity:
+		return NewSparseImageVulnerability()
 	case ImportIdentity:
 		return NewSparseImport()
 	case ImportReferenceIdentity:
@@ -1302,6 +1324,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePacketReport()
 	case PasswordResetIdentity:
 		return NewSparsePasswordReset()
+	case PCCProviderIdentity:
+		return NewSparsePCCProvider()
 	case PingReportIdentity:
 		return NewSparsePingReport()
 	case PlanIdentity:
@@ -1467,16 +1491,14 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
 		return &ClauseMatchesList{}
-	case ComplianceIssueIdentity:
-		return &ComplianceIssuesList{}
-	case ContainerImageIdentity:
-		return &ContainerImagesList{}
 	case CounterReportIdentity:
 		return &CounterReportsList{}
 	case CustomerIdentity:
 		return &CustomersList{}
 	case DataPathCertificateIdentity:
 		return &DataPathCertificatesList{}
+	case DebugBundleIdentity:
+		return &DebugBundlesList{}
 	case DependencyMapIdentity:
 		return &DependencyMapsList{}
 	case DNSLookupReportIdentity:
@@ -1491,6 +1513,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &EnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity:
 		return &EnforcerProfileMappingPoliciesList{}
+	case EnforcerRefreshIdentity:
+		return &EnforcerRefreshsList{}
 	case EnforcerReportIdentity:
 		return &EnforcerReportsList{}
 	case EnforcerTraceReportIdentity:
@@ -1523,6 +1547,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &HostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &HTTPResourceSpecsList{}
+	case ImageIdentity:
+		return &ImagesList{}
+	case ImageVulnerabilityIdentity:
+		return &ImageVulnerabilitiesList{}
 	case ImportIdentity:
 		return &ImportsList{}
 	case ImportReferenceIdentity:
@@ -1569,6 +1597,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PacketReportsList{}
 	case PasswordResetIdentity:
 		return &PasswordResetsList{}
+	case PCCProviderIdentity:
+		return &PCCProvidersList{}
 	case PingReportIdentity:
 		return &PingReportsList{}
 	case PlanIdentity:
@@ -1724,16 +1754,14 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
 		return &SparseClauseMatchesList{}
-	case ComplianceIssueIdentity:
-		return &SparseComplianceIssuesList{}
-	case ContainerImageIdentity:
-		return &SparseContainerImagesList{}
 	case CounterReportIdentity:
 		return &SparseCounterReportsList{}
 	case CustomerIdentity:
 		return &SparseCustomersList{}
 	case DataPathCertificateIdentity:
 		return &SparseDataPathCertificatesList{}
+	case DebugBundleIdentity:
+		return &SparseDebugBundlesList{}
 	case DependencyMapIdentity:
 		return &SparseDependencyMapsList{}
 	case DNSLookupReportIdentity:
@@ -1748,6 +1776,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseEnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity:
 		return &SparseEnforcerProfileMappingPoliciesList{}
+	case EnforcerRefreshIdentity:
+		return &SparseEnforcerRefreshsList{}
 	case EnforcerReportIdentity:
 		return &SparseEnforcerReportsList{}
 	case EnforcerTraceReportIdentity:
@@ -1780,6 +1810,10 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseHostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &SparseHTTPResourceSpecsList{}
+	case ImageIdentity:
+		return &SparseImagesList{}
+	case ImageVulnerabilityIdentity:
+		return &SparseImageVulnerabilitiesList{}
 	case ImportIdentity:
 		return &SparseImportsList{}
 	case ImportReferenceIdentity:
@@ -1826,6 +1860,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePacketReportsList{}
 	case PasswordResetIdentity:
 		return &SparsePasswordResetsList{}
+	case PCCProviderIdentity:
+		return &SparsePCCProvidersList{}
 	case PingReportIdentity:
 		return &SparsePingReportsList{}
 	case PlanIdentity:
@@ -1971,11 +2007,10 @@ func AllIdentities() []elemental.Identity {
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
-		ComplianceIssueIdentity,
-		ContainerImageIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
+		DebugBundleIdentity,
 		DependencyMapIdentity,
 		DNSLookupReportIdentity,
 		EmailIdentity,
@@ -1983,6 +2018,7 @@ func AllIdentities() []elemental.Identity {
 		EnforcerLogIdentity,
 		EnforcerProfileIdentity,
 		EnforcerProfileMappingPolicyIdentity,
+		EnforcerRefreshIdentity,
 		EnforcerReportIdentity,
 		EnforcerTraceReportIdentity,
 		EventLogIdentity,
@@ -1999,6 +2035,8 @@ func AllIdentities() []elemental.Identity {
 		HostServiceIdentity,
 		HostServiceMappingPolicyIdentity,
 		HTTPResourceSpecIdentity,
+		ImageIdentity,
+		ImageVulnerabilityIdentity,
 		ImportIdentity,
 		ImportReferenceIdentity,
 		ImportRequestIdentity,
@@ -2022,6 +2060,7 @@ func AllIdentities() []elemental.Identity {
 		OIDCProviderIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
+		PCCProviderIdentity,
 		PingReportIdentity,
 		PlanIdentity,
 		PokeIdentity,
@@ -2149,15 +2188,13 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case ClauseMatchIdentity:
 		return []string{}
-	case ComplianceIssueIdentity:
-		return []string{}
-	case ContainerImageIdentity:
-		return []string{}
 	case CounterReportIdentity:
 		return []string{}
 	case CustomerIdentity:
 		return []string{}
 	case DataPathCertificateIdentity:
+		return []string{}
+	case DebugBundleIdentity:
 		return []string{}
 	case DependencyMapIdentity:
 		return []string{
@@ -2183,6 +2220,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"enfpol",
 			"epm",
 		}
+	case EnforcerRefreshIdentity:
+		return []string{}
 	case EnforcerReportIdentity:
 		return []string{}
 	case EnforcerTraceReportIdentity:
@@ -2236,6 +2275,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"resource",
 			"httpspec",
 		}
+	case ImageIdentity:
+		return []string{}
+	case ImageVulnerabilityIdentity:
+		return []string{}
 	case ImportIdentity:
 		return []string{}
 	case ImportReferenceIdentity:
@@ -2309,6 +2352,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PacketReportIdentity:
 		return []string{}
 	case PasswordResetIdentity:
+		return []string{}
+	case PCCProviderIdentity:
 		return []string{}
 	case PingReportIdentity:
 		return []string{}
