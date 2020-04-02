@@ -266,9 +266,11 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 	// Validate Target Networks
 	for _, tn := range enforcerProfile.TargetNetworks {
 
-		cidr := strings.TrimLeft(tn, "!")
+		if strings.HasPrefix(tn, "!") {
+			tn = tn[1:]
+		}
 
-		_, _, err := net.ParseCIDR(cidr)
+		_, _, err := net.ParseCIDR(tn)
 		if err != nil {
 			return makeValidationError("targetNetworks", fmt.Sprintf("%s is not a valid CIDR", tn))
 		}
