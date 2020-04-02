@@ -49,7 +49,7 @@ attributes:
     subtype: string
     required: true
     example_value:
-    - '@auth:role=namespace.editor'
+    - '@auth:role=namespace.administrator'
 
   - name: authorizedNamespace
     description: Defines the namespace the user is authorized to access.

@@ -7160,7 +7160,7 @@ propagates down to all the children of the current namespace.
 ```json
 {
   "authorizedIdentities": [
-    "@auth:role=namespace.editor"
+    "@auth:role=namespace.administrator"
   ],
   "authorizedNamespace": "/namespace",
   "disabled": false,
