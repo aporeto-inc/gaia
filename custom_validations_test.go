@@ -815,7 +815,7 @@ func TestValidateEnforcerProfile(t *testing.T) {
 			true,
 		},
 		{
-			"valid target network with multiple NOT operator",
+			"invalid target network with multiple NOT operator",
 			&EnforcerProfile{
 				Name:           "Valid target network",
 				TargetNetworks: []string{"!!10.0.0.0/8"},
