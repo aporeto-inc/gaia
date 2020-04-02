@@ -354,6 +354,46 @@ attributes:
     exposed: true
     default_value: 0
 
+  - name: connectionsAnalyzed
+    description: |-
+      Non-zero counter indicates analyzed connections for unencrypted, encrypted and
+      as well as when the packet from the endpoint application has tcp fast open
+      option set. These are not dropped counter.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: connectionsDropped
+    description: |-
+      Non-zero counter indicates dropped connections because of invalid state or non
+      pu traffic or out of order packets.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: connectionsExpired
+    description: |-
+      Non-zero counter indicates expired connections because of response not being
+      received within a certain amount of time after the request is made.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: droppedPackets
+    description: |-
+      Non-zero counter indicates dropped packets that did not hit any of our iptables
+      rules and queue drops.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: encryptionFailures
+    description: Non-zero counter indicates encryption processing failures of data
+      packets.
+    type: integer
+    exposed: true
+    default_value: 0
+
   - name: enforcerID
     description: Identifier of the enforcer sending the report.
     type: string
@@ -369,6 +409,20 @@ attributes:
     stored: true
     required: true
     example_value: /my/namespace
+
+  - name: externalNetworkConnections
+    description: |-
+      Non-zero counter indicates connections going to and from external networks.
+      These may be drops or allowed counters.
+    type: integer
+    exposed: true
+    default_value: 0
+
+  - name: policyDrops
+    description: Non-zero counter indicates dropped packets by a reject policy.
+    type: integer
+    exposed: true
+    default_value: 0
 
   - name: processingUnitID
     description: PUID is the ID of the PU reporting the counter.
@@ -390,8 +444,10 @@ attributes:
     exposed: true
     example_value: "2018-06-14T23:10:46.420397985Z"
 
-  - name: DuplicateAckDrop
-    description: Counter for duplicate ack drop.
+  - name: tokenDrops
+    description: |-
+      Non-zero counter indicates rejected packets due to anything related to token
+      creation/parsing failures.
     type: integer
     exposed: true
     default_value: 0

@@ -35,6 +35,7 @@ var (
 
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
+		"debugbundle":         DebugBundleIdentity,
 		"dependencymap":       DependencyMapIdentity,
 		"dnslookupreport":     DNSLookupReportIdentity,
 		"email":               EmailIdentity,
@@ -43,6 +44,7 @@ var (
 		"enforcerlog":                  EnforcerLogIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
+		"enforcerrefresh":              EnforcerRefreshIdentity,
 		"enforcerreport":               EnforcerReportIdentity,
 		"enforcertracereport":          EnforcerTraceReportIdentity,
 		"eventlog":                     EventLogIdentity,
@@ -86,6 +88,7 @@ var (
 		"oidcprovider":           OIDCProviderIdentity,
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
+		"pccprovider":            PCCProviderIdentity,
 		"pingreport":             PingReportIdentity,
 
 		"plan":                  PlanIdentity,
@@ -175,6 +178,7 @@ var (
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
+		"debugbundles":         DebugBundleIdentity,
 		"dependencymaps":       DependencyMapIdentity,
 		"dnslookupreports":     DNSLookupReportIdentity,
 		"emails":               EmailIdentity,
@@ -183,6 +187,7 @@ var (
 		"enforcerlog":                    EnforcerLogIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
+		"enforcerrefreshes":              EnforcerRefreshIdentity,
 		"enforcerreports":                EnforcerReportIdentity,
 		"enforcertracereports":           EnforcerTraceReportIdentity,
 		"eventlogs":                      EventLogIdentity,
@@ -226,6 +231,7 @@ var (
 		"oidcproviders":            OIDCProviderIdentity,
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
+		"pccproviders":             PCCProviderIdentity,
 		"pingreports":              PingReportIdentity,
 
 		"plans":                   PlanIdentity,
@@ -377,432 +383,443 @@ var (
 
 	indexesMap = map[string][][]string{
 		"accessreport": nil,
-		"account": [][]string{
-			[]string{"resetPasswordToken"},
-			[]string{"name"},
-			[]string{"email"},
-			[]string{"activationToken"},
-			[]string{":shard", ":unique", "zone", "zHash"},
+		"account": {
+			{"resetPasswordToken"},
+			{"name"},
+			{"email"},
+			{"activationToken"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"accountcheck": nil,
 		"activate":     nil,
-		"activity": [][]string{
-			[]string{"namespace", "date"},
-			[]string{"namespace", "operation"},
-			[]string{"namespace", "error.code"},
-			[]string{"namespace", "targetIdentity"},
-			[]string{"namespace", "data.ID"},
-			[]string{"namespace", "originalData.ID"},
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
+		"activity": {
+			{"namespace", "date"},
+			{"namespace", "operation"},
+			{"namespace", "error.code"},
+			{"namespace", "targetIdentity"},
+			{"namespace", "data.ID"},
+			{"namespace", "originalData.ID"},
+			{":shard", ":unique", "zone", "zHash"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
 		},
-		"alarm": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"status"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "kind"},
-			[]string{"namespace", "kind", "status"},
-			[]string{"name"},
-			[]string{"kind"},
-			[]string{"createIdempotencyKey"},
+		"alarm": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"status"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "kind"},
+			{"namespace", "kind", "status"},
+			{"name"},
+			{"kind"},
+			{"createIdempotencyKey"},
 		},
 		"apiauthorizationpolicy": nil,
 		"apicheck":               nil,
-		"apiproxy": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "disabled"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"name"},
-			[]string{"disabled"},
-			[]string{"createIdempotencyKey"},
+		"apiproxy": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "disabled"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "name"},
+			{"name"},
+			{"disabled"},
+			{"createIdempotencyKey"},
 		},
 		"app": nil,
-		"appcredential": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "disabled"},
-			[]string{"name"},
-			[]string{"disabled"},
-			[]string{"createIdempotencyKey"},
+		"appcredential": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "disabled"},
+			{"name"},
+			{"disabled"},
+			{"createIdempotencyKey"},
 		},
-		"auditprofile": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"propagate"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"auditprofile": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
 		"auditprofilemappingpolicy": nil,
 		"auditreport":               nil,
 		"authn":                     nil,
-		"authority": [][]string{
-			[]string{"commonName"},
-			[]string{":shard", ":unique", "zone", "zHash"},
+		"authority": {
+			{"commonName"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"authz": nil,
-		"automation": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "disabled"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"disabled"},
-			[]string{"createIdempotencyKey"},
+		"automation": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "disabled"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"disabled"},
+			{"createIdempotencyKey"},
 		},
 		"automationtemplate": nil,
-		"awsapigateway": [][]string{
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "name"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
-			[]string{":shard", ":unique", "zone", "zHash"},
+		"awsapigateway": {
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"name"},
+			{"createIdempotencyKey"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"awsregister": nil,
 		"call":        nil,
 		"category":    nil,
-		"claims": [][]string{
-			[]string{"namespace", "hash"},
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
+		"claims": {
+			{"namespace", "hash"},
+			{":shard", ":unique", "zone", "zHash"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
 		},
 		"clausesmatch":  nil,
 		"counterreport": nil,
-		"customer": [][]string{
-			[]string{"providerCustomerID"},
+		"customer": {
+			{"providerCustomerID"},
 		},
 		"datapathcertificate": nil,
+		"debugbundle":         nil,
 		"dependencymap":       nil,
 		"dnslookupreport":     nil,
 		"email":               nil,
-		"enforcer": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "machineID"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "operationalStatus"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"enforcer": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "machineID"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "operationalStatus"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
-		"enforcerlog": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "collectionID"},
-			[]string{"namespace", "enforcerID"},
-			[]string{"enforcerID"},
-			[]string{"createIdempotencyKey"},
-			[]string{"collectionID"},
+		"enforcerlog": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "collectionID"},
+			{"namespace", "enforcerID"},
+			{"enforcerID"},
+			{"createIdempotencyKey"},
+			{"collectionID"},
 		},
-		"enforcerprofile": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"propagate"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"enforcerprofile": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
 		"enforcerprofilemappingpolicy": nil,
+		"enforcerrefresh":              nil,
 		"enforcerreport":               nil,
 		"enforcertracereport":          nil,
 		"eventlog":                     nil,
 		"export":                       nil,
-		"externalnetwork": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"type"},
-			[]string{"propagate"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "archived"},
-			[]string{"namespace", "type"},
-			[]string{"namespace"},
-			[]string{"namespace", "name"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
-			[]string{"archived"},
+		"externalnetwork": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"type"},
+			{"propagate"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "archived"},
+			{"namespace", "type"},
+			{"namespace"},
+			{"namespace", "name"},
+			{"name"},
+			{"createIdempotencyKey"},
+			{"archived"},
 		},
 		"fileaccesspolicy": nil,
 		"fileaccessreport": nil,
-		"filepath": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"propagate"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "archived"},
-			[]string{"namespace"},
-			[]string{"namespace", "name"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
-			[]string{"archived"},
+		"filepath": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "archived"},
+			{"namespace"},
+			{"namespace", "name"},
+			{"name"},
+			{"createIdempotencyKey"},
+			{"archived"},
 		},
 		"flowreport": nil,
-		"graphedge": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"namespace"},
-			[]string{"namespace", "lastSeen", "firstSeen"},
-			[]string{"lastSeen", "firstSeen"},
-			[]string{"lastSeen"},
-			[]string{"flowID", "bucketMonth"},
-			[]string{"flowID", "lastSeen"},
-			[]string{"flowID", "bucketMinute"},
-			[]string{"flowID", "bucketHour"},
-			[]string{"flowID"},
-			[]string{"flowID", "bucketDay"},
-			[]string{"firstSeen"},
+		"graphedge": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"namespace"},
+			{"namespace", "lastSeen", "firstSeen"},
+			{"lastSeen", "firstSeen"},
+			{"lastSeen"},
+			{"flowID", "bucketMonth"},
+			{"flowID", "lastSeen"},
+			{"flowID", "bucketMinute"},
+			{"flowID", "bucketHour"},
+			{"flowID"},
+			{"flowID", "bucketDay"},
+			{"firstSeen"},
 		},
 		"graphnode":  nil,
 		"hit":        nil,
 		"hookpolicy": nil,
-		"hostservice": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"propagate"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "archived"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
-			[]string{"archived"},
+		"hostservice": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "archived"},
+			{"name"},
+			{"createIdempotencyKey"},
+			{"archived"},
 		},
 		"hostservicemappingpolicy": nil,
-		"httpresourcespec": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"propagate"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "archived"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
-			[]string{"archived"},
+		"httpresourcespec": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "archived"},
+			{"name"},
+			{"createIdempotencyKey"},
+			{"archived"},
 		},
-		"image": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"severity"},
-			[]string{"propagate"},
-			[]string{"namespace"},
-			[]string{"namespace", "severity"},
-			[]string{"namespace", "hash"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"name"},
-			[]string{"hash"},
-			[]string{"createIdempotencyKey"},
+		"image": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"severity"},
+			{"propagate"},
+			{"namespace"},
+			{"namespace", "severity"},
+			{"namespace", "hash"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "name"},
+			{"name"},
+			{"hash"},
+			{"createIdempotencyKey"},
 		},
 		"imagevulnerability": nil,
 		"import":             nil,
-		"importreference": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"importreference": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
-		"importrequest": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"createIdempotencyKey"},
+		"importrequest": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"createIdempotencyKey"},
 		},
 		"infrastructurepolicy": nil,
-		"installedapp": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"installedapp": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
 		"invoice":       nil,
 		"invoicerecord": nil,
 		"ipinfo":        nil,
-		"isolationprofile": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"propagate"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"isolationprofile": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
 		"issue":             nil,
 		"issueservicetoken": nil,
-		"ldapprovider": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"ldapprovider": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
 		"log":    nil,
 		"logout": nil,
-		"message": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"propagate"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"message": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
-		"namespace": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"namespace": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
 		"namespacemappingpolicy": nil,
 		"networkaccesspolicy":    nil,
 		"oauthinfo":              nil,
 		"oauthkey":               nil,
-		"oidcprovider": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"oidcprovider": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
 		"packetreport":  nil,
 		"passwordreset": nil,
-		"pingreport":    nil,
-		"plan":          nil,
-		"poke":          nil,
-		"policy": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"propagate"},
-			[]string{"namespace", "type", "allSubjectTags", "propagate"},
-			[]string{"namespace", "type", "allObjectTags"},
-			[]string{"namespace", "type", "allSubjectTags"},
-			[]string{"namespace", "type", "allObjectTags", "disabled"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "type"},
-			[]string{"namespace", "disabled"},
-			[]string{"namespace", "name"},
-			[]string{"namespace", "type", "allObjectTags", "propagate"},
-			[]string{"namespace"},
-			[]string{"namespace", "type", "allSubjectTags", "disabled"},
-			[]string{"namespace", "fallback"},
-			[]string{"name"},
-			[]string{"fallback"},
-			[]string{"disabled"},
-			[]string{"createIdempotencyKey"},
+		"pccprovider": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
+		},
+		"pingreport": nil,
+		"plan":       nil,
+		"poke":       nil,
+		"policy": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "type", "allSubjectTags", "propagate"},
+			{"namespace", "type", "allObjectTags"},
+			{"namespace", "type", "allSubjectTags"},
+			{"namespace", "type", "allObjectTags", "disabled"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "type"},
+			{"namespace", "disabled"},
+			{"namespace", "name"},
+			{"namespace", "type", "allObjectTags", "propagate"},
+			{"namespace"},
+			{"namespace", "type", "allSubjectTags", "disabled"},
+			{"namespace", "fallback"},
+			{"name"},
+			{"fallback"},
+			{"disabled"},
+			{"createIdempotencyKey"},
 		},
 		"policygraph":    nil,
 		"policyrefresh":  nil,
 		"policyrenderer": nil,
 		"policyrule":     nil,
 		"policyttl":      nil,
-		"processingunit": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "archived", "createTime", "lastPokeTime"},
-			[]string{"namespace", "nativeContextID"},
-			[]string{"namespace", "archived"},
-			[]string{"namespace", "name"},
-			[]string{"namespace", "normalizedTags", "archived"},
-			[]string{"namespace", "operationalStatus", "archived"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace"},
-			[]string{"name"},
-			[]string{"enforcerID"},
-			[]string{"createIdempotencyKey"},
-			[]string{"archived"},
+		"processingunit": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "archived", "createTime", "lastPokeTime"},
+			{"namespace", "nativeContextID"},
+			{"namespace", "archived"},
+			{"namespace", "name"},
+			{"namespace", "normalizedTags", "archived"},
+			{"namespace", "operationalStatus", "archived"},
+			{"namespace", "normalizedTags"},
+			{"namespace"},
+			{"name"},
+			{"enforcerID"},
+			{"createIdempotencyKey"},
+			{"archived"},
 		},
 		"processingunitpolicy":  nil,
 		"processingunitrefresh": nil,
 		"quotacheck":            nil,
 		"quotapolicy":           nil,
-		"recipe": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"propagate"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"recipe": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
 		"remoteprocessor": nil,
 		"renderedpolicy":  nil,
 		"rendertemplate":  nil,
 		"report":          nil,
-		"revocation": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
+		"revocation": {
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"role": nil,
 		"root": nil,
-		"samlprovider": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
+		"samlprovider": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
 		},
 		"sandbox": nil,
 		"search":  nil,
-		"service": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"namespace", "allAPITags"},
-			[]string{"namespace", "allServiceTags"},
-			[]string{"namespace", "disabled"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace"},
-			[]string{"namespace", "name"},
-			[]string{"namespace", "archived"},
-			[]string{"name"},
-			[]string{"disabled"},
-			[]string{"createIdempotencyKey"},
-			[]string{"archived"},
-			[]string{"allServiceTags"},
-			[]string{"allAPITags"},
+		"service": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "allAPITags"},
+			{"namespace", "allServiceTags"},
+			{"namespace", "disabled"},
+			{"namespace", "normalizedTags"},
+			{"namespace"},
+			{"namespace", "name"},
+			{"namespace", "archived"},
+			{"name"},
+			{"disabled"},
+			{"createIdempotencyKey"},
+			{"archived"},
+			{"allServiceTags"},
+			{"allAPITags"},
 		},
 		"servicedependency": nil,
 		"servicetoken":      nil,
 		"squalltag":         nil,
-		"sshauthority": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"namespace", "name"},
-			[]string{"name"},
+		"sshauthority": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"namespace", "name"},
+			{"name"},
 		},
 		"sshauthorizationpolicy": nil,
 		"sshcertificate":         nil,
@@ -810,19 +827,19 @@ var (
 		"statsinfo":              nil,
 		"statsquery":             nil,
 		"suggestedpolicy":        nil,
-		"tag": [][]string{
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
+		"tag": {
+			{"namespace"},
+			{"namespace", "normalizedTags"},
 		},
 		"taginject": nil,
 		"tagvalue":  nil,
-		"textindex": [][]string{
-			[]string{"objectNamespace"},
-			[]string{"objectNamespace", "objectIdentity", "objectID"},
-			[]string{"objectIdentity"},
-			[]string{"objectID"},
-			[]string{"date"},
-			[]string{":shard", ":unique", "zone", "zHash"},
+		"textindex": {
+			{"objectNamespace"},
+			{"objectNamespace", "objectIdentity", "objectID"},
+			{"objectIdentity"},
+			{"objectID"},
+			{"date"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"token":               nil,
 		"tokenscopepolicy":    nil,
@@ -830,19 +847,19 @@ var (
 		"trustedca":           nil,
 		"useraccesspolicy":    nil,
 		"validateuiparameter": nil,
-		"vulnerability": [][]string{
-			[]string{":shard", ":unique", "zone", "zHash"},
-			[]string{"updateIdempotencyKey"},
-			[]string{"severity"},
-			[]string{"propagate"},
-			[]string{"namespace"},
-			[]string{"namespace", "severity"},
-			[]string{"namespace", "CVSS2Score"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "name"},
-			[]string{"name"},
-			[]string{"createIdempotencyKey"},
-			[]string{"CVSS2Score"},
+		"vulnerability": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"severity"},
+			{"propagate"},
+			{"namespace"},
+			{"namespace", "severity"},
+			{"namespace", "CVSS2Score"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "name"},
+			{"name"},
+			{"createIdempotencyKey"},
+			{"CVSS2Score"},
 		},
 		"x509certificate":      nil,
 		"x509certificatecheck": nil,
@@ -942,6 +959,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCustomer()
 	case DataPathCertificateIdentity:
 		return NewDataPathCertificate()
+	case DebugBundleIdentity:
+		return NewDebugBundle()
 	case DependencyMapIdentity:
 		return NewDependencyMap()
 	case DNSLookupReportIdentity:
@@ -956,6 +975,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity:
 		return NewEnforcerProfileMappingPolicy()
+	case EnforcerRefreshIdentity:
+		return NewEnforcerRefresh()
 	case EnforcerReportIdentity:
 		return NewEnforcerReport()
 	case EnforcerTraceReportIdentity:
@@ -1038,6 +1059,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPacketReport()
 	case PasswordResetIdentity:
 		return NewPasswordReset()
+	case PCCProviderIdentity:
+		return NewPCCProvider()
 	case PingReportIdentity:
 		return NewPingReport()
 	case PlanIdentity:
@@ -1201,6 +1224,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCustomer()
 	case DataPathCertificateIdentity:
 		return NewSparseDataPathCertificate()
+	case DebugBundleIdentity:
+		return NewSparseDebugBundle()
 	case DependencyMapIdentity:
 		return NewSparseDependencyMap()
 	case DNSLookupReportIdentity:
@@ -1215,6 +1240,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity:
 		return NewSparseEnforcerProfileMappingPolicy()
+	case EnforcerRefreshIdentity:
+		return NewSparseEnforcerRefresh()
 	case EnforcerReportIdentity:
 		return NewSparseEnforcerReport()
 	case EnforcerTraceReportIdentity:
@@ -1297,6 +1324,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePacketReport()
 	case PasswordResetIdentity:
 		return NewSparsePasswordReset()
+	case PCCProviderIdentity:
+		return NewSparsePCCProvider()
 	case PingReportIdentity:
 		return NewSparsePingReport()
 	case PlanIdentity:
@@ -1468,6 +1497,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CustomersList{}
 	case DataPathCertificateIdentity:
 		return &DataPathCertificatesList{}
+	case DebugBundleIdentity:
+		return &DebugBundlesList{}
 	case DependencyMapIdentity:
 		return &DependencyMapsList{}
 	case DNSLookupReportIdentity:
@@ -1482,6 +1513,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &EnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity:
 		return &EnforcerProfileMappingPoliciesList{}
+	case EnforcerRefreshIdentity:
+		return &EnforcerRefreshsList{}
 	case EnforcerReportIdentity:
 		return &EnforcerReportsList{}
 	case EnforcerTraceReportIdentity:
@@ -1564,6 +1597,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PacketReportsList{}
 	case PasswordResetIdentity:
 		return &PasswordResetsList{}
+	case PCCProviderIdentity:
+		return &PCCProvidersList{}
 	case PingReportIdentity:
 		return &PingReportsList{}
 	case PlanIdentity:
@@ -1725,6 +1760,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCustomersList{}
 	case DataPathCertificateIdentity:
 		return &SparseDataPathCertificatesList{}
+	case DebugBundleIdentity:
+		return &SparseDebugBundlesList{}
 	case DependencyMapIdentity:
 		return &SparseDependencyMapsList{}
 	case DNSLookupReportIdentity:
@@ -1739,6 +1776,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseEnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity:
 		return &SparseEnforcerProfileMappingPoliciesList{}
+	case EnforcerRefreshIdentity:
+		return &SparseEnforcerRefreshsList{}
 	case EnforcerReportIdentity:
 		return &SparseEnforcerReportsList{}
 	case EnforcerTraceReportIdentity:
@@ -1821,6 +1860,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePacketReportsList{}
 	case PasswordResetIdentity:
 		return &SparsePasswordResetsList{}
+	case PCCProviderIdentity:
+		return &SparsePCCProvidersList{}
 	case PingReportIdentity:
 		return &SparsePingReportsList{}
 	case PlanIdentity:
@@ -1969,6 +2010,7 @@ func AllIdentities() []elemental.Identity {
 		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
+		DebugBundleIdentity,
 		DependencyMapIdentity,
 		DNSLookupReportIdentity,
 		EmailIdentity,
@@ -1976,6 +2018,7 @@ func AllIdentities() []elemental.Identity {
 		EnforcerLogIdentity,
 		EnforcerProfileIdentity,
 		EnforcerProfileMappingPolicyIdentity,
+		EnforcerRefreshIdentity,
 		EnforcerReportIdentity,
 		EnforcerTraceReportIdentity,
 		EventLogIdentity,
@@ -2017,6 +2060,7 @@ func AllIdentities() []elemental.Identity {
 		OIDCProviderIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
+		PCCProviderIdentity,
 		PingReportIdentity,
 		PlanIdentity,
 		PokeIdentity,
@@ -2150,6 +2194,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case DataPathCertificateIdentity:
 		return []string{}
+	case DebugBundleIdentity:
+		return []string{}
 	case DependencyMapIdentity:
 		return []string{
 			"depmaps",
@@ -2174,6 +2220,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"enfpol",
 			"epm",
 		}
+	case EnforcerRefreshIdentity:
+		return []string{}
 	case EnforcerReportIdentity:
 		return []string{}
 	case EnforcerTraceReportIdentity:
@@ -2304,6 +2352,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PacketReportIdentity:
 		return []string{}
 	case PasswordResetIdentity:
+		return []string{}
+	case PCCProviderIdentity:
 		return []string{}
 	case PingReportIdentity:
 		return []string{}

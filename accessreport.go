@@ -429,7 +429,7 @@ func (o *AccessReport) ValueForAttribute(name string) interface{} {
 
 // AccessReportAttributesMap represents the map of attribute for AccessReport.
 var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
-	"Action": elemental.AttributeSpecification{
+	"Action": {
 		AllowedChoices: []string{"Accept", "Reject"},
 		ConvertedName:  "Action",
 		Description:    `Action applied to the access.`,
@@ -438,7 +438,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "enum",
 	},
-	"ClaimHash": elemental.AttributeSpecification{
+	"ClaimHash": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ClaimHash",
 		Description:    `Hash of the claims used to communicate.`,
@@ -446,7 +446,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "claimHash",
 		Type:           "string",
 	},
-	"EnforcerID": elemental.AttributeSpecification{
+	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
 		Description:    `Identifier of the enforcer.`,
@@ -455,7 +455,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"EnforcerNamespace": elemental.AttributeSpecification{
+	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer.`,
@@ -464,7 +464,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"ProcessingUnitID": elemental.AttributeSpecification{
+	"ProcessingUnitID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit of the report.`,
@@ -472,7 +472,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "processingUnitID",
 		Type:           "string",
 	},
-	"ProcessingUnitName": elemental.AttributeSpecification{
+	"ProcessingUnitName": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitName",
 		Description:    `Name of the processing unit of the report.`,
@@ -480,7 +480,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "processingUnitName",
 		Type:           "string",
 	},
-	"ProcessingUnitNamespace": elemental.AttributeSpecification{
+	"ProcessingUnitNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit of the report.`,
@@ -488,7 +488,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "processingUnitNamespace",
 		Type:           "string",
 	},
-	"Reason": elemental.AttributeSpecification{
+	"Reason": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Reason",
 		Description: `This field is only set if ` + "`" + `action` + "`" + ` is set to ` + "`" + `Reject` + "`" + `. It specifies the reason
@@ -497,7 +497,7 @@ for the rejection.`,
 		Name:    "reason",
 		Type:    "string",
 	},
-	"Timestamp": elemental.AttributeSpecification{
+	"Timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
@@ -505,7 +505,7 @@ for the rejection.`,
 		Name:           "timestamp",
 		Type:           "time",
 	},
-	"Type": elemental.AttributeSpecification{
+	"Type": {
 		AllowedChoices: []string{"SSHLogin", "SSHLogout", "SudoEnter", "SudoExit"},
 		ConvertedName:  "Type",
 		Description:    `Type of the report.`,
@@ -518,7 +518,7 @@ for the rejection.`,
 
 // AccessReportLowerCaseAttributesMap represents the map of attribute for AccessReport.
 var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"action": elemental.AttributeSpecification{
+	"action": {
 		AllowedChoices: []string{"Accept", "Reject"},
 		ConvertedName:  "Action",
 		Description:    `Action applied to the access.`,
@@ -527,7 +527,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Required:       true,
 		Type:           "enum",
 	},
-	"claimhash": elemental.AttributeSpecification{
+	"claimhash": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ClaimHash",
 		Description:    `Hash of the claims used to communicate.`,
@@ -535,7 +535,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Name:           "claimHash",
 		Type:           "string",
 	},
-	"enforcerid": elemental.AttributeSpecification{
+	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
 		Description:    `Identifier of the enforcer.`,
@@ -544,7 +544,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Required:       true,
 		Type:           "string",
 	},
-	"enforcernamespace": elemental.AttributeSpecification{
+	"enforcernamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer.`,
@@ -553,7 +553,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Required:       true,
 		Type:           "string",
 	},
-	"processingunitid": elemental.AttributeSpecification{
+	"processingunitid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit of the report.`,
@@ -561,7 +561,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Name:           "processingUnitID",
 		Type:           "string",
 	},
-	"processingunitname": elemental.AttributeSpecification{
+	"processingunitname": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitName",
 		Description:    `Name of the processing unit of the report.`,
@@ -569,7 +569,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Name:           "processingUnitName",
 		Type:           "string",
 	},
-	"processingunitnamespace": elemental.AttributeSpecification{
+	"processingunitnamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit of the report.`,
@@ -577,7 +577,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Name:           "processingUnitNamespace",
 		Type:           "string",
 	},
-	"reason": elemental.AttributeSpecification{
+	"reason": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Reason",
 		Description: `This field is only set if ` + "`" + `action` + "`" + ` is set to ` + "`" + `Reject` + "`" + `. It specifies the reason
@@ -586,7 +586,7 @@ for the rejection.`,
 		Name:    "reason",
 		Type:    "string",
 	},
-	"timestamp": elemental.AttributeSpecification{
+	"timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
@@ -594,7 +594,7 @@ for the rejection.`,
 		Name:           "timestamp",
 		Type:           "time",
 	},
-	"type": elemental.AttributeSpecification{
+	"type": {
 		AllowedChoices: []string{"SSHLogin", "SSHLogout", "SudoEnter", "SudoExit"},
 		ConvertedName:  "Type",
 		Description:    `Type of the report.`,

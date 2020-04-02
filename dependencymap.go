@@ -350,7 +350,7 @@ func (o *DependencyMap) ValueForAttribute(name string) interface{} {
 
 // DependencyMapAttributesMap represents the map of attribute for DependencyMap.
 var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
-	"Edges": elemental.AttributeSpecification{
+	"Edges": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Edges",
 		Description:    `The edges of the map.`,
@@ -360,7 +360,7 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "graphedge",
 		Type:           "refMap",
 	},
-	"Groups": elemental.AttributeSpecification{
+	"Groups": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Groups",
 		Description:    `Provides information about the group values.`,
@@ -370,7 +370,7 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "graphgroup",
 		Type:           "refMap",
 	},
-	"Nodes": elemental.AttributeSpecification{
+	"Nodes": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Nodes",
 		Description:    `Refers to the nodes of the map.`,
@@ -380,7 +380,7 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "graphnode",
 		Type:           "refMap",
 	},
-	"ViewSuggestions": elemental.AttributeSpecification{
+	"ViewSuggestions": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ViewSuggestions",
 		Description:    `Provides suggested views based on relevant tags.`,
@@ -394,7 +394,7 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 
 // DependencyMapLowerCaseAttributesMap represents the map of attribute for DependencyMap.
 var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"edges": elemental.AttributeSpecification{
+	"edges": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Edges",
 		Description:    `The edges of the map.`,
@@ -404,7 +404,7 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		SubType:        "graphedge",
 		Type:           "refMap",
 	},
-	"groups": elemental.AttributeSpecification{
+	"groups": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Groups",
 		Description:    `Provides information about the group values.`,
@@ -414,7 +414,7 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		SubType:        "graphgroup",
 		Type:           "refMap",
 	},
-	"nodes": elemental.AttributeSpecification{
+	"nodes": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Nodes",
 		Description:    `Refers to the nodes of the map.`,
@@ -424,7 +424,7 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		SubType:        "graphnode",
 		Type:           "refMap",
 	},
-	"viewsuggestions": elemental.AttributeSpecification{
+	"viewsuggestions": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ViewSuggestions",
 		Description:    `Provides suggested views based on relevant tags.`,

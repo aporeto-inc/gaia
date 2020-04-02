@@ -281,9 +281,19 @@ relations:
     description: Returns a list of the audit profiles that must be applied to this
       enforcer.
 
+- rest_name: debugbundle
+  get:
+    description: Retrieves the list of debug bundles.
+  create:
+    description: Uploads a debug bundle.
+
 - rest_name: enforcerprofile
   get:
     description: Returns the enforcer profile that must be used by an enforcer.
+
+- rest_name: enforcerrefresh
+  create:
+    description: Sends a Enforcer Refresh command.
 
 - rest_name: hostservice
   get:

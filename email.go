@@ -362,7 +362,7 @@ func (o *Email) ValueForAttribute(name string) interface{} {
 
 // EmailAttributesMap represents the map of attribute for Email.
 var EmailAttributesMap = map[string]elemental.AttributeSpecification{
-	"Attachments": elemental.AttributeSpecification{
+	"Attachments": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Attachments",
 		Description:    `Attachments is a list of attachments to send.`,
@@ -371,7 +371,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "map[string]string",
 		Type:           "external",
 	},
-	"Bcc": elemental.AttributeSpecification{
+	"Bcc": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Bcc",
 		Description:    `Bcc represents email that should be in copy but hidden.`,
@@ -380,7 +380,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"Cc": elemental.AttributeSpecification{
+	"Cc": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Cc",
 		Description:    `Cc represents the addresses that should be in copy.`,
@@ -389,7 +389,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"Content": elemental.AttributeSpecification{
+	"Content": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Content",
 		Description:    `Content of the email to send.`,
@@ -397,7 +397,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "content",
 		Type:           "string",
 	},
-	"Subject": elemental.AttributeSpecification{
+	"Subject": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
 		Description:    `Subject represents the subject of the email.`,
@@ -405,7 +405,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "subject",
 		Type:           "string",
 	},
-	"To": elemental.AttributeSpecification{
+	"To": {
 		AllowedChoices: []string{},
 		ConvertedName:  "To",
 		Description:    `To represents receivers of the email.`,
@@ -414,7 +414,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"Type": elemental.AttributeSpecification{
+	"Type": {
 		AllowedChoices: []string{"HTML", "Plain"},
 		ConvertedName:  "Type",
 		DefaultValue:   EmailTypePlain,
@@ -427,7 +427,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 
 // EmailLowerCaseAttributesMap represents the map of attribute for Email.
 var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"attachments": elemental.AttributeSpecification{
+	"attachments": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Attachments",
 		Description:    `Attachments is a list of attachments to send.`,
@@ -436,7 +436,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "map[string]string",
 		Type:           "external",
 	},
-	"bcc": elemental.AttributeSpecification{
+	"bcc": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Bcc",
 		Description:    `Bcc represents email that should be in copy but hidden.`,
@@ -445,7 +445,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"cc": elemental.AttributeSpecification{
+	"cc": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Cc",
 		Description:    `Cc represents the addresses that should be in copy.`,
@@ -454,7 +454,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"content": elemental.AttributeSpecification{
+	"content": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Content",
 		Description:    `Content of the email to send.`,
@@ -462,7 +462,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "content",
 		Type:           "string",
 	},
-	"subject": elemental.AttributeSpecification{
+	"subject": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
 		Description:    `Subject represents the subject of the email.`,
@@ -470,7 +470,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "subject",
 		Type:           "string",
 	},
-	"to": elemental.AttributeSpecification{
+	"to": {
 		AllowedChoices: []string{},
 		ConvertedName:  "To",
 		Description:    `To represents receivers of the email.`,
@@ -479,7 +479,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"type": elemental.AttributeSpecification{
+	"type": {
 		AllowedChoices: []string{"HTML", "Plain"},
 		ConvertedName:  "Type",
 		DefaultValue:   EmailTypePlain,

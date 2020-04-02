@@ -580,7 +580,7 @@ func (o *PacketReport) ValueForAttribute(name string) interface{} {
 
 // PacketReportAttributesMap represents the map of attribute for PacketReport.
 var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
-	"TCPFlags": elemental.AttributeSpecification{
+	"TCPFlags": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TCPFlags",
 		Description:    `Flags are the TCP flags of the packet.`,
@@ -589,7 +589,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "integer",
 	},
-	"Claims": elemental.AttributeSpecification{
+	"Claims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
 		Description:    `Claims is the list of claims detected for the packet.`,
@@ -599,7 +599,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"DestinationIP": elemental.AttributeSpecification{
+	"DestinationIP": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationIP",
 		Description:    `The destination IP address of the packet.`,
@@ -608,7 +608,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"DestinationPort": elemental.AttributeSpecification{
+	"DestinationPort": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationPort",
 		Description:    `The destination port of a TCP or UDP packet.`,
@@ -618,7 +618,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "integer",
 	},
-	"DropReason": elemental.AttributeSpecification{
+	"DropReason": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DropReason",
 		Description: `If ` + "`" + `event` + "`" + ` is set to ` + "`" + `Dropped` + "`" + `, contains the reason that the packet was dropped.
@@ -628,7 +628,7 @@ Otherwise empty.`,
 		Stored:  true,
 		Type:    "string",
 	},
-	"Encrypt": elemental.AttributeSpecification{
+	"Encrypt": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Encrypt",
 		Description:    `Set to ` + "`" + `true` + "`" + ` if the packet was encrypted.`,
@@ -637,7 +637,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"EnforcerID": elemental.AttributeSpecification{
+	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
 		Description:    `Identifier of the enforcer sending the report.`,
@@ -647,7 +647,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"EnforcerNamespace": elemental.AttributeSpecification{
+	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer sending the report.`,
@@ -657,7 +657,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"Event": elemental.AttributeSpecification{
+	"Event": {
 		AllowedChoices: []string{"Received", "Transmitted", "Dropped"},
 		ConvertedName:  "Event",
 		Description:    `The event that triggered the report.`,
@@ -666,7 +666,7 @@ Otherwise empty.`,
 		Required:       true,
 		Type:           "enum",
 	},
-	"Length": elemental.AttributeSpecification{
+	"Length": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Length",
 		Description:    `Length is the length of the packet.`,
@@ -675,7 +675,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"Mark": elemental.AttributeSpecification{
+	"Mark": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Mark",
 		Description:    `Mark is the mark value of the packet.`,
@@ -684,7 +684,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"Namespace": elemental.AttributeSpecification{
+	"Namespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the processing unit reporting the packet.`,
@@ -695,7 +695,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"PacketID": elemental.AttributeSpecification{
+	"PacketID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PacketID",
 		Description:    `The ID of the IP header of the reported packet.`,
@@ -704,7 +704,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"Protocol": elemental.AttributeSpecification{
+	"Protocol": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocol",
 		Description:    `Protocol number.`,
@@ -714,7 +714,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"PuID": elemental.AttributeSpecification{
+	"PuID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PuID",
 		Description:    `The ID of the processing unit reporting the packet.`,
@@ -724,7 +724,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"RawPacket": elemental.AttributeSpecification{
+	"RawPacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RawPacket",
 		DefaultValue:   "abcd",
@@ -734,7 +734,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"SourceIP": elemental.AttributeSpecification{
+	"SourceIP": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
 		Description:    `The source IP address of the packet.`,
@@ -743,7 +743,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"SourcePort": elemental.AttributeSpecification{
+	"SourcePort": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourcePort",
 		Description:    `The source port of the packet.`,
@@ -753,7 +753,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"Timestamp": elemental.AttributeSpecification{
+	"Timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
 		Description:    `The time-date stamp of the report.`,
@@ -763,7 +763,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"TriremePacket": elemental.AttributeSpecification{
+	"TriremePacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TriremePacket",
 		DefaultValue:   true,
@@ -777,7 +777,7 @@ Otherwise empty.`,
 
 // PacketReportLowerCaseAttributesMap represents the map of attribute for PacketReport.
 var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"tcpflags": elemental.AttributeSpecification{
+	"tcpflags": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TCPFlags",
 		Description:    `Flags are the TCP flags of the packet.`,
@@ -786,7 +786,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "integer",
 	},
-	"claims": elemental.AttributeSpecification{
+	"claims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
 		Description:    `Claims is the list of claims detected for the packet.`,
@@ -796,7 +796,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		SubType:        "string",
 		Type:           "list",
 	},
-	"destinationip": elemental.AttributeSpecification{
+	"destinationip": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationIP",
 		Description:    `The destination IP address of the packet.`,
@@ -805,7 +805,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "string",
 	},
-	"destinationport": elemental.AttributeSpecification{
+	"destinationport": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationPort",
 		Description:    `The destination port of a TCP or UDP packet.`,
@@ -815,7 +815,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "integer",
 	},
-	"dropreason": elemental.AttributeSpecification{
+	"dropreason": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DropReason",
 		Description: `If ` + "`" + `event` + "`" + ` is set to ` + "`" + `Dropped` + "`" + `, contains the reason that the packet was dropped.
@@ -825,7 +825,7 @@ Otherwise empty.`,
 		Stored:  true,
 		Type:    "string",
 	},
-	"encrypt": elemental.AttributeSpecification{
+	"encrypt": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Encrypt",
 		Description:    `Set to ` + "`" + `true` + "`" + ` if the packet was encrypted.`,
@@ -834,7 +834,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"enforcerid": elemental.AttributeSpecification{
+	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
 		Description:    `Identifier of the enforcer sending the report.`,
@@ -844,7 +844,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"enforcernamespace": elemental.AttributeSpecification{
+	"enforcernamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer sending the report.`,
@@ -854,7 +854,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"event": elemental.AttributeSpecification{
+	"event": {
 		AllowedChoices: []string{"Received", "Transmitted", "Dropped"},
 		ConvertedName:  "Event",
 		Description:    `The event that triggered the report.`,
@@ -863,7 +863,7 @@ Otherwise empty.`,
 		Required:       true,
 		Type:           "enum",
 	},
-	"length": elemental.AttributeSpecification{
+	"length": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Length",
 		Description:    `Length is the length of the packet.`,
@@ -872,7 +872,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"mark": elemental.AttributeSpecification{
+	"mark": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Mark",
 		Description:    `Mark is the mark value of the packet.`,
@@ -881,7 +881,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"namespace": elemental.AttributeSpecification{
+	"namespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the processing unit reporting the packet.`,
@@ -892,7 +892,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"packetid": elemental.AttributeSpecification{
+	"packetid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PacketID",
 		Description:    `The ID of the IP header of the reported packet.`,
@@ -901,7 +901,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"protocol": elemental.AttributeSpecification{
+	"protocol": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocol",
 		Description:    `Protocol number.`,
@@ -911,7 +911,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"puid": elemental.AttributeSpecification{
+	"puid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PuID",
 		Description:    `The ID of the processing unit reporting the packet.`,
@@ -921,7 +921,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"rawpacket": elemental.AttributeSpecification{
+	"rawpacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RawPacket",
 		DefaultValue:   "abcd",
@@ -931,7 +931,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"sourceip": elemental.AttributeSpecification{
+	"sourceip": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
 		Description:    `The source IP address of the packet.`,
@@ -940,7 +940,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"sourceport": elemental.AttributeSpecification{
+	"sourceport": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourcePort",
 		Description:    `The source port of the packet.`,
@@ -950,7 +950,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"timestamp": elemental.AttributeSpecification{
+	"timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
 		Description:    `The time-date stamp of the report.`,
@@ -960,7 +960,7 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"triremepacket": elemental.AttributeSpecification{
+	"triremepacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TriremePacket",
 		DefaultValue:   true,

@@ -291,7 +291,7 @@ func (o *SuggestedPolicy) ValueForAttribute(name string) interface{} {
 
 // SuggestedPolicyAttributesMap represents the map of attribute for SuggestedPolicy.
 var SuggestedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
-	"NetworkAccessPolicies": elemental.AttributeSpecification{
+	"NetworkAccessPolicies": {
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkAccessPolicies",
 		Description:    `List of suggested network policies.`,
@@ -306,7 +306,7 @@ var SuggestedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 
 // SuggestedPolicyLowerCaseAttributesMap represents the map of attribute for SuggestedPolicy.
 var SuggestedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"networkaccesspolicies": elemental.AttributeSpecification{
+	"networkaccesspolicies": {
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkAccessPolicies",
 		Description:    `List of suggested network policies.`,

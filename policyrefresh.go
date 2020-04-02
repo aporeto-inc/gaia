@@ -306,7 +306,7 @@ func (o *PolicyRefresh) ValueForAttribute(name string) interface{} {
 
 // PolicyRefreshAttributesMap represents the map of attribute for PolicyRefresh.
 var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
-	"SourceID": elemental.AttributeSpecification{
+	"SourceID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
 		Description:    `Contains the original ID of the updated object.`,
@@ -317,7 +317,7 @@ var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"SourceNamespace": elemental.AttributeSpecification{
+	"SourceNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
 		Description:    `Contains the original namespace of the updated object.`,
@@ -328,7 +328,7 @@ var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Type": elemental.AttributeSpecification{
+	"Type": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Type",
 		Description:    `Contains the policy type that is affected.`,
@@ -343,7 +343,7 @@ var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 
 // PolicyRefreshLowerCaseAttributesMap represents the map of attribute for PolicyRefresh.
 var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"sourceid": elemental.AttributeSpecification{
+	"sourceid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
 		Description:    `Contains the original ID of the updated object.`,
@@ -354,7 +354,7 @@ var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		Type:           "string",
 	},
-	"sourcenamespace": elemental.AttributeSpecification{
+	"sourcenamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
 		Description:    `Contains the original namespace of the updated object.`,
@@ -365,7 +365,7 @@ var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		Type:           "string",
 	},
-	"type": elemental.AttributeSpecification{
+	"type": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Type",
 		Description:    `Contains the policy type that is affected.`,
