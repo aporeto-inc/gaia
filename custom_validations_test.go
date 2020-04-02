@@ -791,6 +791,22 @@ func TestValidateEnforcerProfile(t *testing.T) {
 			false,
 		},
 		{
+			"valid target network with NOT operator",
+			&EnforcerProfile{
+				Name:           "Valid target network",
+				TargetNetworks: []string{"!10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"valid target networks with except condition operator",
+			&EnforcerProfile{
+				Name:           "Valid target network",
+				TargetNetworks: []string{"0.0.0.0/0", "!10.0.0.0/8"},
+			},
+			false,
+		},
+		{
 			"invalid target network",
 			&EnforcerProfile{
 				Name:           "Invalid target network",
