@@ -276,7 +276,7 @@ func (o *Activate) ValueForAttribute(name string) interface{} {
 
 // ActivateAttributesMap represents the map of attribute for Activate.
 var ActivateAttributesMap = map[string]elemental.AttributeSpecification{
-	"Token": elemental.AttributeSpecification{
+	"Token": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
 		CreationOnly:   true,
@@ -289,7 +289,7 @@ var ActivateAttributesMap = map[string]elemental.AttributeSpecification{
 
 // ActivateLowerCaseAttributesMap represents the map of attribute for Activate.
 var ActivateLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"token": elemental.AttributeSpecification{
+	"token": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
 		CreationOnly:   true,

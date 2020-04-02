@@ -4281,7 +4281,8 @@ Propagates the policy to all of its children.
 
 ##### `propagationHidden` `boolean`
 
-If set to `true` while the policy is propagating, it won't be visible to children
+If set to `true` while the policy is propagating, it won't be visible to
+children
 namespace, but still used for policy resolution.
 
 ##### `protected` `boolean`
@@ -7279,7 +7280,8 @@ Contains the list of normalized tags of the entities.
 
 ##### `propagationHidden` `boolean`
 
-If set to `true` while the policy is propagating, it won't be visible to children
+If set to `true` while the policy is propagating, it won't be visible to
+children
 namespace, but still used for policy resolution.
 
 ##### `protected` `boolean`
@@ -8557,7 +8559,8 @@ Propagates the policy to all of its children.
 
 ##### `propagationHidden` `boolean`
 
-If set to `true` while the policy is propagating, it won't be visible to children
+If set to `true` while the policy is propagating, it won't be visible to
+children
 namespace, but still used for policy resolution.
 
 ##### `protected` `boolean`
@@ -10227,7 +10230,8 @@ Propagates the policy to all of its children.
 
 ##### `propagationHidden` `boolean`
 
-If set to `true` while the policy is propagating, it won't be visible to children
+If set to `true` while the policy is propagating, it won't be visible to
+children
 namespace, but still used for policy resolution.
 
 ##### `protected` `boolean`

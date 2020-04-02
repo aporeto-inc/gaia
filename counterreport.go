@@ -1123,7 +1123,7 @@ func (o *CounterReport) ValueForAttribute(name string) interface{} {
 
 // CounterReportAttributesMap represents the map of attribute for CounterReport.
 var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
-	"AckInUnknownState": elemental.AttributeSpecification{
+	"AckInUnknownState": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AckInUnknownState",
 		Description:    `Counter for sending finack ack received in unknown connection state.`,
@@ -1131,7 +1131,7 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "AckInUnknownState",
 		Type:           "integer",
 	},
-	"AckInvalidFormat": elemental.AttributeSpecification{
+	"AckInvalidFormat": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AckInvalidFormat",
 		Description:    `Counter for ack packet dropped because of invalid format.`,
@@ -1139,7 +1139,7 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "AckInvalidFormat",
 		Type:           "integer",
 	},
-	"AckRejected": elemental.AttributeSpecification{
+	"AckRejected": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AckRejected",
 		Description:    `Counter for reject ack packet as per policy.`,
@@ -1147,7 +1147,7 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "AckRejected",
 		Type:           "integer",
 	},
-	"AckSigValidationFailed": elemental.AttributeSpecification{
+	"AckSigValidationFailed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AckSigValidationFailed",
 		Description:    `Counter for ack packet dropped because signature validation failed.`,
@@ -1155,7 +1155,7 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "AckSigValidationFailed",
 		Type:           "integer",
 	},
-	"AckTCPNoTCPAuthOption": elemental.AttributeSpecification{
+	"AckTCPNoTCPAuthOption": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AckTCPNoTCPAuthOption",
 		Description:    `Counter for tcp authentication option not found.`,
@@ -1163,7 +1163,7 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "AckTCPNoTCPAuthOption",
 		Type:           "integer",
 	},
-	"ConnectionsProcessed": elemental.AttributeSpecification{
+	"ConnectionsProcessed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ConnectionsProcessed",
 		Description:    `Counter for connections processed.`,
@@ -1171,7 +1171,7 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ConnectionsProcessed",
 		Type:           "integer",
 	},
-	"ContextIDNotFound": elemental.AttributeSpecification{
+	"ContextIDNotFound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ContextIDNotFound",
 		Description:    `Counter for unable to find ContextID.`,
@@ -1179,7 +1179,7 @@ var CounterReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ContextIDNotFound",
 		Type:           "integer",
 	},
-	"DroppedExternalService": elemental.AttributeSpecification{
+	"DroppedExternalService": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DroppedExternalService",
 		Description: `Counter for no acls found for external services. dropping application syn
@@ -1188,7 +1188,7 @@ packet.`,
 		Name:    "DroppedExternalService",
 		Type:    "integer",
 	},
-	"InvalidConnState": elemental.AttributeSpecification{
+	"InvalidConnState": {
 		AllowedChoices: []string{},
 		ConvertedName:  "InvalidConnState",
 		Description:    `Counter for invalid connection state.`,
@@ -1196,7 +1196,7 @@ packet.`,
 		Name:           "InvalidConnState",
 		Type:           "integer",
 	},
-	"InvalidNetState": elemental.AttributeSpecification{
+	"InvalidNetState": {
 		AllowedChoices: []string{},
 		ConvertedName:  "InvalidNetState",
 		Description:    `Counter for invalid net state.`,
@@ -1204,7 +1204,7 @@ packet.`,
 		Name:           "InvalidNetState",
 		Type:           "integer",
 	},
-	"InvalidProtocol": elemental.AttributeSpecification{
+	"InvalidProtocol": {
 		AllowedChoices: []string{},
 		ConvertedName:  "InvalidProtocol",
 		Description:    `Counter for invalid protocol.`,
@@ -1212,7 +1212,7 @@ packet.`,
 		Name:           "InvalidProtocol",
 		Type:           "integer",
 	},
-	"InvalidSynAck": elemental.AttributeSpecification{
+	"InvalidSynAck": {
 		AllowedChoices: []string{},
 		ConvertedName:  "InvalidSynAck",
 		Description:    `Counter for pu is already dead - drop synack packet.`,
@@ -1220,7 +1220,7 @@ packet.`,
 		Name:           "InvalidSynAck",
 		Type:           "integer",
 	},
-	"MarkNotFound": elemental.AttributeSpecification{
+	"MarkNotFound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "MarkNotFound",
 		Description:    `Counter for pu mark not found.`,
@@ -1228,7 +1228,7 @@ packet.`,
 		Name:           "MarkNotFound",
 		Type:           "integer",
 	},
-	"NetSynNotSeen": elemental.AttributeSpecification{
+	"NetSynNotSeen": {
 		AllowedChoices: []string{},
 		ConvertedName:  "NetSynNotSeen",
 		Description:    `Counter for network syn packet was not seen.`,
@@ -1236,7 +1236,7 @@ packet.`,
 		Name:           "NetSynNotSeen",
 		Type:           "integer",
 	},
-	"NoConnFound": elemental.AttributeSpecification{
+	"NoConnFound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "NoConnFound",
 		Description:    `Counter for no context or connection found.`,
@@ -1244,7 +1244,7 @@ packet.`,
 		Name:           "NoConnFound",
 		Type:           "integer",
 	},
-	"NonPUTraffic": elemental.AttributeSpecification{
+	"NonPUTraffic": {
 		AllowedChoices: []string{},
 		ConvertedName:  "NonPUTraffic",
 		Description:    `Counter for traffic that belongs to a non PU process.`,
@@ -1252,7 +1252,7 @@ packet.`,
 		Name:           "NonPUTraffic",
 		Type:           "integer",
 	},
-	"OutOfOrderSynAck": elemental.AttributeSpecification{
+	"OutOfOrderSynAck": {
 		AllowedChoices: []string{},
 		ConvertedName:  "OutOfOrderSynAck",
 		Description:    `Counter for synack for flow with processed finack.`,
@@ -1260,7 +1260,7 @@ packet.`,
 		Name:           "OutOfOrderSynAck",
 		Type:           "integer",
 	},
-	"PortNotFound": elemental.AttributeSpecification{
+	"PortNotFound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PortNotFound",
 		Description:    `Counter for port not found.`,
@@ -1268,7 +1268,7 @@ packet.`,
 		Name:           "PortNotFound",
 		Type:           "integer",
 	},
-	"RejectPacket": elemental.AttributeSpecification{
+	"RejectPacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RejectPacket",
 		Description:    `Counter for reject the packet as per policy.`,
@@ -1276,7 +1276,7 @@ packet.`,
 		Name:           "RejectPacket",
 		Type:           "integer",
 	},
-	"ServicePostprocessorFailed": elemental.AttributeSpecification{
+	"ServicePostprocessorFailed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ServicePostprocessorFailed",
 		Description:    `Counter for post service processing failed for network packet.`,
@@ -1284,7 +1284,7 @@ packet.`,
 		Name:           "ServicePostprocessorFailed",
 		Type:           "integer",
 	},
-	"ServicePreprocessorFailed": elemental.AttributeSpecification{
+	"ServicePreprocessorFailed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ServicePreprocessorFailed",
 		Description:    `Counter for network packets that failed preprocessing.`,
@@ -1292,7 +1292,7 @@ packet.`,
 		Name:           "ServicePreprocessorFailed",
 		Type:           "integer",
 	},
-	"SynAckBadClaims": elemental.AttributeSpecification{
+	"SynAckBadClaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckBadClaims",
 		Description:    `Counter for synack packet dropped because of bad claims.`,
@@ -1300,7 +1300,7 @@ packet.`,
 		Name:           "SynAckBadClaims",
 		Type:           "integer",
 	},
-	"SynAckClaimsMisMatch": elemental.AttributeSpecification{
+	"SynAckClaimsMisMatch": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckClaimsMisMatch",
 		Description:    `Counter for synack packet dropped because of encryption mismatch.`,
@@ -1308,7 +1308,7 @@ packet.`,
 		Name:           "SynAckClaimsMisMatch",
 		Type:           "integer",
 	},
-	"SynAckDroppedExternalService": elemental.AttributeSpecification{
+	"SynAckDroppedExternalService": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckDroppedExternalService",
 		Description:    `Counter for synack from external service dropped.`,
@@ -1316,7 +1316,7 @@ packet.`,
 		Name:           "SynAckDroppedExternalService",
 		Type:           "integer",
 	},
-	"SynAckInvalidFormat": elemental.AttributeSpecification{
+	"SynAckInvalidFormat": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckInvalidFormat",
 		Description:    `Counter for synack packet dropped because of invalid format.`,
@@ -1324,7 +1324,7 @@ packet.`,
 		Name:           "SynAckInvalidFormat",
 		Type:           "integer",
 	},
-	"SynAckMissingClaims": elemental.AttributeSpecification{
+	"SynAckMissingClaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckMissingClaims",
 		Description:    `Counter for synack packet dropped because of no claims.`,
@@ -1332,7 +1332,7 @@ packet.`,
 		Name:           "SynAckMissingClaims",
 		Type:           "integer",
 	},
-	"SynAckMissingToken": elemental.AttributeSpecification{
+	"SynAckMissingToken": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckMissingToken",
 		Description:    `Counter for synack packet dropped because of missing token.`,
@@ -1340,7 +1340,7 @@ packet.`,
 		Name:           "SynAckMissingToken",
 		Type:           "integer",
 	},
-	"SynAckNoTCPAuthOption": elemental.AttributeSpecification{
+	"SynAckNoTCPAuthOption": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckNoTCPAuthOption",
 		Description:    `Counter for tcp authentication option not found.`,
@@ -1348,7 +1348,7 @@ packet.`,
 		Name:           "SynAckNoTCPAuthOption",
 		Type:           "integer",
 	},
-	"SynAckRejected": elemental.AttributeSpecification{
+	"SynAckRejected": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckRejected",
 		Description:    `Counter for dropping because of reject rule on transmitter.`,
@@ -1356,7 +1356,7 @@ packet.`,
 		Name:           "SynAckRejected",
 		Type:           "integer",
 	},
-	"SynDroppedInvalidFormat": elemental.AttributeSpecification{
+	"SynDroppedInvalidFormat": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynDroppedInvalidFormat",
 		Description:    `Counter for syn packet dropped because of invalid format.`,
@@ -1364,7 +1364,7 @@ packet.`,
 		Name:           "SynDroppedInvalidFormat",
 		Type:           "integer",
 	},
-	"SynDroppedInvalidToken": elemental.AttributeSpecification{
+	"SynDroppedInvalidToken": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynDroppedInvalidToken",
 		Description:    `Counter for syn packet dropped because of invalid token.`,
@@ -1372,7 +1372,7 @@ packet.`,
 		Name:           "SynDroppedInvalidToken",
 		Type:           "integer",
 	},
-	"SynDroppedNoClaims": elemental.AttributeSpecification{
+	"SynDroppedNoClaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynDroppedNoClaims",
 		Description:    `Counter for syn packet dropped because of no claims.`,
@@ -1380,7 +1380,7 @@ packet.`,
 		Name:           "SynDroppedNoClaims",
 		Type:           "integer",
 	},
-	"SynDroppedTCPOption": elemental.AttributeSpecification{
+	"SynDroppedTCPOption": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynDroppedTCPOption",
 		Description:    `Counter for tcp authentication option not found.`,
@@ -1388,7 +1388,7 @@ packet.`,
 		Name:           "SynDroppedTCPOption",
 		Type:           "integer",
 	},
-	"SynRejectPacket": elemental.AttributeSpecification{
+	"SynRejectPacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynRejectPacket",
 		Description:    `Counter for syn dropped due to policy.`,
@@ -1396,7 +1396,7 @@ packet.`,
 		Name:           "SynRejectPacket",
 		Type:           "integer",
 	},
-	"SynUnexpectedPacket": elemental.AttributeSpecification{
+	"SynUnexpectedPacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynUnexpectedPacket",
 		Description:    `Counter for received syn packet from unknown pu.`,
@@ -1404,7 +1404,7 @@ packet.`,
 		Name:           "SynUnexpectedPacket",
 		Type:           "integer",
 	},
-	"TCPAuthNotFound": elemental.AttributeSpecification{
+	"TCPAuthNotFound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TCPAuthNotFound",
 		Description:    `Counter for tcp authentication option not found.`,
@@ -1412,7 +1412,7 @@ packet.`,
 		Name:           "TCPAuthNotFound",
 		Type:           "integer",
 	},
-	"UDPAckInvalidSignature": elemental.AttributeSpecification{
+	"UDPAckInvalidSignature": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPAckInvalidSignature",
 		Description:    `Counter for dropped udp ack invalid signature.`,
@@ -1420,7 +1420,7 @@ packet.`,
 		Name:           "UDPAckInvalidSignature",
 		Type:           "integer",
 	},
-	"UDPConnectionsProcessed": elemental.AttributeSpecification{
+	"UDPConnectionsProcessed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPConnectionsProcessed",
 		Description:    `Counter for number of processed UDP connections.`,
@@ -1428,7 +1428,7 @@ packet.`,
 		Name:           "UDPConnectionsProcessed",
 		Type:           "integer",
 	},
-	"UDPDropContextNotFound": elemental.AttributeSpecification{
+	"UDPDropContextNotFound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropContextNotFound",
 		Description:    `Counter for dropped UDP data packets with no context.`,
@@ -1436,7 +1436,7 @@ packet.`,
 		Name:           "UDPDropContextNotFound",
 		Type:           "integer",
 	},
-	"UDPDropFin": elemental.AttributeSpecification{
+	"UDPDropFin": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropFin",
 		Description:    `Counter for dropped udp FIN handshake packets.`,
@@ -1444,7 +1444,7 @@ packet.`,
 		Name:           "UDPDropFin",
 		Type:           "integer",
 	},
-	"UDPDropInNfQueue": elemental.AttributeSpecification{
+	"UDPDropInNfQueue": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropInNfQueue",
 		Description:    `Counter for dropped UDP in NfQueue.`,
@@ -1452,7 +1452,7 @@ packet.`,
 		Name:           "UDPDropInNfQueue",
 		Type:           "integer",
 	},
-	"UDPDropNoConnection": elemental.AttributeSpecification{
+	"UDPDropNoConnection": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropNoConnection",
 		Description:    `Counter for dropped UDP data packets with no connection.`,
@@ -1460,7 +1460,7 @@ packet.`,
 		Name:           "UDPDropNoConnection",
 		Type:           "integer",
 	},
-	"UDPDropPacket": elemental.AttributeSpecification{
+	"UDPDropPacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropPacket",
 		Description:    `Counter for dropped UDP data packets.`,
@@ -1468,7 +1468,7 @@ packet.`,
 		Name:           "UDPDropPacket",
 		Type:           "integer",
 	},
-	"UDPDropQueueFull": elemental.AttributeSpecification{
+	"UDPDropQueueFull": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropQueueFull",
 		Description:    `Counter for dropped UDP Queue Full.`,
@@ -1476,7 +1476,7 @@ packet.`,
 		Name:           "UDPDropQueueFull",
 		Type:           "integer",
 	},
-	"UDPDropSynAck": elemental.AttributeSpecification{
+	"UDPDropSynAck": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropSynAck",
 		Description:    `Counter for dropped udp synack handshake packets.`,
@@ -1484,7 +1484,7 @@ packet.`,
 		Name:           "UDPDropSynAck",
 		Type:           "integer",
 	},
-	"UDPInvalidNetState": elemental.AttributeSpecification{
+	"UDPInvalidNetState": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPInvalidNetState",
 		Description:    `Counter for udp packets received in invalid network state.`,
@@ -1492,7 +1492,7 @@ packet.`,
 		Name:           "UDPInvalidNetState",
 		Type:           "integer",
 	},
-	"UDPPostProcessingFailed": elemental.AttributeSpecification{
+	"UDPPostProcessingFailed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPPostProcessingFailed",
 		Description:    `Counter for UDP packets failing postprocessing.`,
@@ -1500,7 +1500,7 @@ packet.`,
 		Name:           "UDPPostProcessingFailed",
 		Type:           "integer",
 	},
-	"UDPPreProcessingFailed": elemental.AttributeSpecification{
+	"UDPPreProcessingFailed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPPreProcessingFailed",
 		Description:    `Counter for UDP packets failing preprocessing.`,
@@ -1508,7 +1508,7 @@ packet.`,
 		Name:           "UDPPreProcessingFailed",
 		Type:           "integer",
 	},
-	"UDPRejected": elemental.AttributeSpecification{
+	"UDPRejected": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPRejected",
 		Description:    `Counter for UDP packets dropped due to policy.`,
@@ -1516,7 +1516,7 @@ packet.`,
 		Name:           "UDPRejected",
 		Type:           "integer",
 	},
-	"UDPSynAckDropBadClaims": elemental.AttributeSpecification{
+	"UDPSynAckDropBadClaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynAckDropBadClaims",
 		Description:    `Counter for dropped udp synack bad claims.`,
@@ -1524,7 +1524,7 @@ packet.`,
 		Name:           "UDPSynAckDropBadClaims",
 		Type:           "integer",
 	},
-	"UDPSynAckMissingClaims": elemental.AttributeSpecification{
+	"UDPSynAckMissingClaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynAckMissingClaims",
 		Description:    `Counter for dropped udp synack missing claims.`,
@@ -1532,7 +1532,7 @@ packet.`,
 		Name:           "UDPSynAckMissingClaims",
 		Type:           "integer",
 	},
-	"UDPSynAckPolicy": elemental.AttributeSpecification{
+	"UDPSynAckPolicy": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynAckPolicy",
 		Description:    `Counter for dropped udp synack bad claims.`,
@@ -1540,7 +1540,7 @@ packet.`,
 		Name:           "UDPSynAckPolicy",
 		Type:           "integer",
 	},
-	"UDPSynDrop": elemental.AttributeSpecification{
+	"UDPSynDrop": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynDrop",
 		Description:    `Counter for dropped udp syn transmits.`,
@@ -1548,7 +1548,7 @@ packet.`,
 		Name:           "UDPSynDrop",
 		Type:           "integer",
 	},
-	"UDPSynDropPolicy": elemental.AttributeSpecification{
+	"UDPSynDropPolicy": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynDropPolicy",
 		Description:    `Counter for dropped udp syn policy.`,
@@ -1556,7 +1556,7 @@ packet.`,
 		Name:           "UDPSynDropPolicy",
 		Type:           "integer",
 	},
-	"UDPSynInvalidToken": elemental.AttributeSpecification{
+	"UDPSynInvalidToken": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynInvalidToken",
 		Description:    `Counter for dropped udp FIN handshake packets.`,
@@ -1564,7 +1564,7 @@ packet.`,
 		Name:           "UDPSynInvalidToken",
 		Type:           "integer",
 	},
-	"UDPSynMissingClaims": elemental.AttributeSpecification{
+	"UDPSynMissingClaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynMissingClaims",
 		Description:    `Counter for dropped UDP SYN missing claims.`,
@@ -1572,7 +1572,7 @@ packet.`,
 		Name:           "UDPSynMissingClaims",
 		Type:           "integer",
 	},
-	"UnknownError": elemental.AttributeSpecification{
+	"UnknownError": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UnknownError",
 		Description:    `Counter for unknown error.`,
@@ -1580,7 +1580,7 @@ packet.`,
 		Name:           "UnknownError",
 		Type:           "integer",
 	},
-	"ConnectionsAnalyzed": elemental.AttributeSpecification{
+	"ConnectionsAnalyzed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ConnectionsAnalyzed",
 		Description: `Non-zero counter indicates analyzed connections for unencrypted, encrypted and
@@ -1590,7 +1590,7 @@ option set. These are not dropped counter.`,
 		Name:    "connectionsAnalyzed",
 		Type:    "integer",
 	},
-	"ConnectionsDropped": elemental.AttributeSpecification{
+	"ConnectionsDropped": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ConnectionsDropped",
 		Description: `Non-zero counter indicates dropped connections because of invalid state or non
@@ -1599,7 +1599,7 @@ pu traffic or out of order packets.`,
 		Name:    "connectionsDropped",
 		Type:    "integer",
 	},
-	"ConnectionsExpired": elemental.AttributeSpecification{
+	"ConnectionsExpired": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ConnectionsExpired",
 		Description: `Non-zero counter indicates expired connections because of response not being
@@ -1608,7 +1608,7 @@ received within a certain amount of time after the request is made.`,
 		Name:    "connectionsExpired",
 		Type:    "integer",
 	},
-	"DroppedPackets": elemental.AttributeSpecification{
+	"DroppedPackets": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DroppedPackets",
 		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptables
@@ -1617,7 +1617,7 @@ rules and queue drops.`,
 		Name:    "droppedPackets",
 		Type:    "integer",
 	},
-	"EncryptionFailures": elemental.AttributeSpecification{
+	"EncryptionFailures": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EncryptionFailures",
 		Description:    `Non-zero counter indicates encryption processing failures of data packets.`,
@@ -1625,7 +1625,7 @@ rules and queue drops.`,
 		Name:           "encryptionFailures",
 		Type:           "integer",
 	},
-	"EnforcerID": elemental.AttributeSpecification{
+	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
 		Description:    `Identifier of the enforcer sending the report.`,
@@ -1635,7 +1635,7 @@ rules and queue drops.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"EnforcerNamespace": elemental.AttributeSpecification{
+	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer sending the report.`,
@@ -1645,7 +1645,7 @@ rules and queue drops.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"ExternalNetworkConnections": elemental.AttributeSpecification{
+	"ExternalNetworkConnections": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ExternalNetworkConnections",
 		Description: `Non-zero counter indicates connections going to and from external networks.
@@ -1654,7 +1654,7 @@ These may be drops or allowed counters.`,
 		Name:    "externalNetworkConnections",
 		Type:    "integer",
 	},
-	"PolicyDrops": elemental.AttributeSpecification{
+	"PolicyDrops": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicyDrops",
 		Description:    `Non-zero counter indicates dropped packets by a reject policy.`,
@@ -1662,7 +1662,7 @@ These may be drops or allowed counters.`,
 		Name:           "policyDrops",
 		Type:           "integer",
 	},
-	"ProcessingUnitID": elemental.AttributeSpecification{
+	"ProcessingUnitID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `PUID is the ID of the PU reporting the counter.`,
@@ -1671,7 +1671,7 @@ These may be drops or allowed counters.`,
 		Name:           "processingUnitID",
 		Type:           "string",
 	},
-	"ProcessingUnitNamespace": elemental.AttributeSpecification{
+	"ProcessingUnitNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the PU reporting the counter.`,
@@ -1680,7 +1680,7 @@ These may be drops or allowed counters.`,
 		Name:           "processingUnitNamespace",
 		Type:           "string",
 	},
-	"Timestamp": elemental.AttributeSpecification{
+	"Timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
 		Description:    `Timestamp is the date of the report.`,
@@ -1688,7 +1688,7 @@ These may be drops or allowed counters.`,
 		Name:           "timestamp",
 		Type:           "time",
 	},
-	"TokenDrops": elemental.AttributeSpecification{
+	"TokenDrops": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TokenDrops",
 		Description: `Non-zero counter indicates rejected packets due to anything related to token
@@ -1701,7 +1701,7 @@ creation/parsing failures.`,
 
 // CounterReportLowerCaseAttributesMap represents the map of attribute for CounterReport.
 var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"ackinunknownstate": elemental.AttributeSpecification{
+	"ackinunknownstate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AckInUnknownState",
 		Description:    `Counter for sending finack ack received in unknown connection state.`,
@@ -1709,7 +1709,7 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "AckInUnknownState",
 		Type:           "integer",
 	},
-	"ackinvalidformat": elemental.AttributeSpecification{
+	"ackinvalidformat": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AckInvalidFormat",
 		Description:    `Counter for ack packet dropped because of invalid format.`,
@@ -1717,7 +1717,7 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "AckInvalidFormat",
 		Type:           "integer",
 	},
-	"ackrejected": elemental.AttributeSpecification{
+	"ackrejected": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AckRejected",
 		Description:    `Counter for reject ack packet as per policy.`,
@@ -1725,7 +1725,7 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "AckRejected",
 		Type:           "integer",
 	},
-	"acksigvalidationfailed": elemental.AttributeSpecification{
+	"acksigvalidationfailed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AckSigValidationFailed",
 		Description:    `Counter for ack packet dropped because signature validation failed.`,
@@ -1733,7 +1733,7 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "AckSigValidationFailed",
 		Type:           "integer",
 	},
-	"acktcpnotcpauthoption": elemental.AttributeSpecification{
+	"acktcpnotcpauthoption": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AckTCPNoTCPAuthOption",
 		Description:    `Counter for tcp authentication option not found.`,
@@ -1741,7 +1741,7 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "AckTCPNoTCPAuthOption",
 		Type:           "integer",
 	},
-	"connectionsprocessed": elemental.AttributeSpecification{
+	"connectionsprocessed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ConnectionsProcessed",
 		Description:    `Counter for connections processed.`,
@@ -1749,7 +1749,7 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "ConnectionsProcessed",
 		Type:           "integer",
 	},
-	"contextidnotfound": elemental.AttributeSpecification{
+	"contextidnotfound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ContextIDNotFound",
 		Description:    `Counter for unable to find ContextID.`,
@@ -1757,7 +1757,7 @@ var CounterReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "ContextIDNotFound",
 		Type:           "integer",
 	},
-	"droppedexternalservice": elemental.AttributeSpecification{
+	"droppedexternalservice": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DroppedExternalService",
 		Description: `Counter for no acls found for external services. dropping application syn
@@ -1766,7 +1766,7 @@ packet.`,
 		Name:    "DroppedExternalService",
 		Type:    "integer",
 	},
-	"invalidconnstate": elemental.AttributeSpecification{
+	"invalidconnstate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "InvalidConnState",
 		Description:    `Counter for invalid connection state.`,
@@ -1774,7 +1774,7 @@ packet.`,
 		Name:           "InvalidConnState",
 		Type:           "integer",
 	},
-	"invalidnetstate": elemental.AttributeSpecification{
+	"invalidnetstate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "InvalidNetState",
 		Description:    `Counter for invalid net state.`,
@@ -1782,7 +1782,7 @@ packet.`,
 		Name:           "InvalidNetState",
 		Type:           "integer",
 	},
-	"invalidprotocol": elemental.AttributeSpecification{
+	"invalidprotocol": {
 		AllowedChoices: []string{},
 		ConvertedName:  "InvalidProtocol",
 		Description:    `Counter for invalid protocol.`,
@@ -1790,7 +1790,7 @@ packet.`,
 		Name:           "InvalidProtocol",
 		Type:           "integer",
 	},
-	"invalidsynack": elemental.AttributeSpecification{
+	"invalidsynack": {
 		AllowedChoices: []string{},
 		ConvertedName:  "InvalidSynAck",
 		Description:    `Counter for pu is already dead - drop synack packet.`,
@@ -1798,7 +1798,7 @@ packet.`,
 		Name:           "InvalidSynAck",
 		Type:           "integer",
 	},
-	"marknotfound": elemental.AttributeSpecification{
+	"marknotfound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "MarkNotFound",
 		Description:    `Counter for pu mark not found.`,
@@ -1806,7 +1806,7 @@ packet.`,
 		Name:           "MarkNotFound",
 		Type:           "integer",
 	},
-	"netsynnotseen": elemental.AttributeSpecification{
+	"netsynnotseen": {
 		AllowedChoices: []string{},
 		ConvertedName:  "NetSynNotSeen",
 		Description:    `Counter for network syn packet was not seen.`,
@@ -1814,7 +1814,7 @@ packet.`,
 		Name:           "NetSynNotSeen",
 		Type:           "integer",
 	},
-	"noconnfound": elemental.AttributeSpecification{
+	"noconnfound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "NoConnFound",
 		Description:    `Counter for no context or connection found.`,
@@ -1822,7 +1822,7 @@ packet.`,
 		Name:           "NoConnFound",
 		Type:           "integer",
 	},
-	"nonputraffic": elemental.AttributeSpecification{
+	"nonputraffic": {
 		AllowedChoices: []string{},
 		ConvertedName:  "NonPUTraffic",
 		Description:    `Counter for traffic that belongs to a non PU process.`,
@@ -1830,7 +1830,7 @@ packet.`,
 		Name:           "NonPUTraffic",
 		Type:           "integer",
 	},
-	"outofordersynack": elemental.AttributeSpecification{
+	"outofordersynack": {
 		AllowedChoices: []string{},
 		ConvertedName:  "OutOfOrderSynAck",
 		Description:    `Counter for synack for flow with processed finack.`,
@@ -1838,7 +1838,7 @@ packet.`,
 		Name:           "OutOfOrderSynAck",
 		Type:           "integer",
 	},
-	"portnotfound": elemental.AttributeSpecification{
+	"portnotfound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PortNotFound",
 		Description:    `Counter for port not found.`,
@@ -1846,7 +1846,7 @@ packet.`,
 		Name:           "PortNotFound",
 		Type:           "integer",
 	},
-	"rejectpacket": elemental.AttributeSpecification{
+	"rejectpacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RejectPacket",
 		Description:    `Counter for reject the packet as per policy.`,
@@ -1854,7 +1854,7 @@ packet.`,
 		Name:           "RejectPacket",
 		Type:           "integer",
 	},
-	"servicepostprocessorfailed": elemental.AttributeSpecification{
+	"servicepostprocessorfailed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ServicePostprocessorFailed",
 		Description:    `Counter for post service processing failed for network packet.`,
@@ -1862,7 +1862,7 @@ packet.`,
 		Name:           "ServicePostprocessorFailed",
 		Type:           "integer",
 	},
-	"servicepreprocessorfailed": elemental.AttributeSpecification{
+	"servicepreprocessorfailed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ServicePreprocessorFailed",
 		Description:    `Counter for network packets that failed preprocessing.`,
@@ -1870,7 +1870,7 @@ packet.`,
 		Name:           "ServicePreprocessorFailed",
 		Type:           "integer",
 	},
-	"synackbadclaims": elemental.AttributeSpecification{
+	"synackbadclaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckBadClaims",
 		Description:    `Counter for synack packet dropped because of bad claims.`,
@@ -1878,7 +1878,7 @@ packet.`,
 		Name:           "SynAckBadClaims",
 		Type:           "integer",
 	},
-	"synackclaimsmismatch": elemental.AttributeSpecification{
+	"synackclaimsmismatch": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckClaimsMisMatch",
 		Description:    `Counter for synack packet dropped because of encryption mismatch.`,
@@ -1886,7 +1886,7 @@ packet.`,
 		Name:           "SynAckClaimsMisMatch",
 		Type:           "integer",
 	},
-	"synackdroppedexternalservice": elemental.AttributeSpecification{
+	"synackdroppedexternalservice": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckDroppedExternalService",
 		Description:    `Counter for synack from external service dropped.`,
@@ -1894,7 +1894,7 @@ packet.`,
 		Name:           "SynAckDroppedExternalService",
 		Type:           "integer",
 	},
-	"synackinvalidformat": elemental.AttributeSpecification{
+	"synackinvalidformat": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckInvalidFormat",
 		Description:    `Counter for synack packet dropped because of invalid format.`,
@@ -1902,7 +1902,7 @@ packet.`,
 		Name:           "SynAckInvalidFormat",
 		Type:           "integer",
 	},
-	"synackmissingclaims": elemental.AttributeSpecification{
+	"synackmissingclaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckMissingClaims",
 		Description:    `Counter for synack packet dropped because of no claims.`,
@@ -1910,7 +1910,7 @@ packet.`,
 		Name:           "SynAckMissingClaims",
 		Type:           "integer",
 	},
-	"synackmissingtoken": elemental.AttributeSpecification{
+	"synackmissingtoken": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckMissingToken",
 		Description:    `Counter for synack packet dropped because of missing token.`,
@@ -1918,7 +1918,7 @@ packet.`,
 		Name:           "SynAckMissingToken",
 		Type:           "integer",
 	},
-	"synacknotcpauthoption": elemental.AttributeSpecification{
+	"synacknotcpauthoption": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckNoTCPAuthOption",
 		Description:    `Counter for tcp authentication option not found.`,
@@ -1926,7 +1926,7 @@ packet.`,
 		Name:           "SynAckNoTCPAuthOption",
 		Type:           "integer",
 	},
-	"synackrejected": elemental.AttributeSpecification{
+	"synackrejected": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynAckRejected",
 		Description:    `Counter for dropping because of reject rule on transmitter.`,
@@ -1934,7 +1934,7 @@ packet.`,
 		Name:           "SynAckRejected",
 		Type:           "integer",
 	},
-	"syndroppedinvalidformat": elemental.AttributeSpecification{
+	"syndroppedinvalidformat": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynDroppedInvalidFormat",
 		Description:    `Counter for syn packet dropped because of invalid format.`,
@@ -1942,7 +1942,7 @@ packet.`,
 		Name:           "SynDroppedInvalidFormat",
 		Type:           "integer",
 	},
-	"syndroppedinvalidtoken": elemental.AttributeSpecification{
+	"syndroppedinvalidtoken": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynDroppedInvalidToken",
 		Description:    `Counter for syn packet dropped because of invalid token.`,
@@ -1950,7 +1950,7 @@ packet.`,
 		Name:           "SynDroppedInvalidToken",
 		Type:           "integer",
 	},
-	"syndroppednoclaims": elemental.AttributeSpecification{
+	"syndroppednoclaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynDroppedNoClaims",
 		Description:    `Counter for syn packet dropped because of no claims.`,
@@ -1958,7 +1958,7 @@ packet.`,
 		Name:           "SynDroppedNoClaims",
 		Type:           "integer",
 	},
-	"syndroppedtcpoption": elemental.AttributeSpecification{
+	"syndroppedtcpoption": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynDroppedTCPOption",
 		Description:    `Counter for tcp authentication option not found.`,
@@ -1966,7 +1966,7 @@ packet.`,
 		Name:           "SynDroppedTCPOption",
 		Type:           "integer",
 	},
-	"synrejectpacket": elemental.AttributeSpecification{
+	"synrejectpacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynRejectPacket",
 		Description:    `Counter for syn dropped due to policy.`,
@@ -1974,7 +1974,7 @@ packet.`,
 		Name:           "SynRejectPacket",
 		Type:           "integer",
 	},
-	"synunexpectedpacket": elemental.AttributeSpecification{
+	"synunexpectedpacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SynUnexpectedPacket",
 		Description:    `Counter for received syn packet from unknown pu.`,
@@ -1982,7 +1982,7 @@ packet.`,
 		Name:           "SynUnexpectedPacket",
 		Type:           "integer",
 	},
-	"tcpauthnotfound": elemental.AttributeSpecification{
+	"tcpauthnotfound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TCPAuthNotFound",
 		Description:    `Counter for tcp authentication option not found.`,
@@ -1990,7 +1990,7 @@ packet.`,
 		Name:           "TCPAuthNotFound",
 		Type:           "integer",
 	},
-	"udpackinvalidsignature": elemental.AttributeSpecification{
+	"udpackinvalidsignature": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPAckInvalidSignature",
 		Description:    `Counter for dropped udp ack invalid signature.`,
@@ -1998,7 +1998,7 @@ packet.`,
 		Name:           "UDPAckInvalidSignature",
 		Type:           "integer",
 	},
-	"udpconnectionsprocessed": elemental.AttributeSpecification{
+	"udpconnectionsprocessed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPConnectionsProcessed",
 		Description:    `Counter for number of processed UDP connections.`,
@@ -2006,7 +2006,7 @@ packet.`,
 		Name:           "UDPConnectionsProcessed",
 		Type:           "integer",
 	},
-	"udpdropcontextnotfound": elemental.AttributeSpecification{
+	"udpdropcontextnotfound": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropContextNotFound",
 		Description:    `Counter for dropped UDP data packets with no context.`,
@@ -2014,7 +2014,7 @@ packet.`,
 		Name:           "UDPDropContextNotFound",
 		Type:           "integer",
 	},
-	"udpdropfin": elemental.AttributeSpecification{
+	"udpdropfin": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropFin",
 		Description:    `Counter for dropped udp FIN handshake packets.`,
@@ -2022,7 +2022,7 @@ packet.`,
 		Name:           "UDPDropFin",
 		Type:           "integer",
 	},
-	"udpdropinnfqueue": elemental.AttributeSpecification{
+	"udpdropinnfqueue": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropInNfQueue",
 		Description:    `Counter for dropped UDP in NfQueue.`,
@@ -2030,7 +2030,7 @@ packet.`,
 		Name:           "UDPDropInNfQueue",
 		Type:           "integer",
 	},
-	"udpdropnoconnection": elemental.AttributeSpecification{
+	"udpdropnoconnection": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropNoConnection",
 		Description:    `Counter for dropped UDP data packets with no connection.`,
@@ -2038,7 +2038,7 @@ packet.`,
 		Name:           "UDPDropNoConnection",
 		Type:           "integer",
 	},
-	"udpdroppacket": elemental.AttributeSpecification{
+	"udpdroppacket": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropPacket",
 		Description:    `Counter for dropped UDP data packets.`,
@@ -2046,7 +2046,7 @@ packet.`,
 		Name:           "UDPDropPacket",
 		Type:           "integer",
 	},
-	"udpdropqueuefull": elemental.AttributeSpecification{
+	"udpdropqueuefull": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropQueueFull",
 		Description:    `Counter for dropped UDP Queue Full.`,
@@ -2054,7 +2054,7 @@ packet.`,
 		Name:           "UDPDropQueueFull",
 		Type:           "integer",
 	},
-	"udpdropsynack": elemental.AttributeSpecification{
+	"udpdropsynack": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropSynAck",
 		Description:    `Counter for dropped udp synack handshake packets.`,
@@ -2062,7 +2062,7 @@ packet.`,
 		Name:           "UDPDropSynAck",
 		Type:           "integer",
 	},
-	"udpinvalidnetstate": elemental.AttributeSpecification{
+	"udpinvalidnetstate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPInvalidNetState",
 		Description:    `Counter for udp packets received in invalid network state.`,
@@ -2070,7 +2070,7 @@ packet.`,
 		Name:           "UDPInvalidNetState",
 		Type:           "integer",
 	},
-	"udppostprocessingfailed": elemental.AttributeSpecification{
+	"udppostprocessingfailed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPPostProcessingFailed",
 		Description:    `Counter for UDP packets failing postprocessing.`,
@@ -2078,7 +2078,7 @@ packet.`,
 		Name:           "UDPPostProcessingFailed",
 		Type:           "integer",
 	},
-	"udppreprocessingfailed": elemental.AttributeSpecification{
+	"udppreprocessingfailed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPPreProcessingFailed",
 		Description:    `Counter for UDP packets failing preprocessing.`,
@@ -2086,7 +2086,7 @@ packet.`,
 		Name:           "UDPPreProcessingFailed",
 		Type:           "integer",
 	},
-	"udprejected": elemental.AttributeSpecification{
+	"udprejected": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPRejected",
 		Description:    `Counter for UDP packets dropped due to policy.`,
@@ -2094,7 +2094,7 @@ packet.`,
 		Name:           "UDPRejected",
 		Type:           "integer",
 	},
-	"udpsynackdropbadclaims": elemental.AttributeSpecification{
+	"udpsynackdropbadclaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynAckDropBadClaims",
 		Description:    `Counter for dropped udp synack bad claims.`,
@@ -2102,7 +2102,7 @@ packet.`,
 		Name:           "UDPSynAckDropBadClaims",
 		Type:           "integer",
 	},
-	"udpsynackmissingclaims": elemental.AttributeSpecification{
+	"udpsynackmissingclaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynAckMissingClaims",
 		Description:    `Counter for dropped udp synack missing claims.`,
@@ -2110,7 +2110,7 @@ packet.`,
 		Name:           "UDPSynAckMissingClaims",
 		Type:           "integer",
 	},
-	"udpsynackpolicy": elemental.AttributeSpecification{
+	"udpsynackpolicy": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynAckPolicy",
 		Description:    `Counter for dropped udp synack bad claims.`,
@@ -2118,7 +2118,7 @@ packet.`,
 		Name:           "UDPSynAckPolicy",
 		Type:           "integer",
 	},
-	"udpsyndrop": elemental.AttributeSpecification{
+	"udpsyndrop": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynDrop",
 		Description:    `Counter for dropped udp syn transmits.`,
@@ -2126,7 +2126,7 @@ packet.`,
 		Name:           "UDPSynDrop",
 		Type:           "integer",
 	},
-	"udpsyndroppolicy": elemental.AttributeSpecification{
+	"udpsyndroppolicy": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynDropPolicy",
 		Description:    `Counter for dropped udp syn policy.`,
@@ -2134,7 +2134,7 @@ packet.`,
 		Name:           "UDPSynDropPolicy",
 		Type:           "integer",
 	},
-	"udpsyninvalidtoken": elemental.AttributeSpecification{
+	"udpsyninvalidtoken": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynInvalidToken",
 		Description:    `Counter for dropped udp FIN handshake packets.`,
@@ -2142,7 +2142,7 @@ packet.`,
 		Name:           "UDPSynInvalidToken",
 		Type:           "integer",
 	},
-	"udpsynmissingclaims": elemental.AttributeSpecification{
+	"udpsynmissingclaims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPSynMissingClaims",
 		Description:    `Counter for dropped UDP SYN missing claims.`,
@@ -2150,7 +2150,7 @@ packet.`,
 		Name:           "UDPSynMissingClaims",
 		Type:           "integer",
 	},
-	"unknownerror": elemental.AttributeSpecification{
+	"unknownerror": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UnknownError",
 		Description:    `Counter for unknown error.`,
@@ -2158,7 +2158,7 @@ packet.`,
 		Name:           "UnknownError",
 		Type:           "integer",
 	},
-	"connectionsanalyzed": elemental.AttributeSpecification{
+	"connectionsanalyzed": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ConnectionsAnalyzed",
 		Description: `Non-zero counter indicates analyzed connections for unencrypted, encrypted and
@@ -2168,7 +2168,7 @@ option set. These are not dropped counter.`,
 		Name:    "connectionsAnalyzed",
 		Type:    "integer",
 	},
-	"connectionsdropped": elemental.AttributeSpecification{
+	"connectionsdropped": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ConnectionsDropped",
 		Description: `Non-zero counter indicates dropped connections because of invalid state or non
@@ -2177,7 +2177,7 @@ pu traffic or out of order packets.`,
 		Name:    "connectionsDropped",
 		Type:    "integer",
 	},
-	"connectionsexpired": elemental.AttributeSpecification{
+	"connectionsexpired": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ConnectionsExpired",
 		Description: `Non-zero counter indicates expired connections because of response not being
@@ -2186,7 +2186,7 @@ received within a certain amount of time after the request is made.`,
 		Name:    "connectionsExpired",
 		Type:    "integer",
 	},
-	"droppedpackets": elemental.AttributeSpecification{
+	"droppedpackets": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DroppedPackets",
 		Description: `Non-zero counter indicates dropped packets that did not hit any of our iptables
@@ -2195,7 +2195,7 @@ rules and queue drops.`,
 		Name:    "droppedPackets",
 		Type:    "integer",
 	},
-	"encryptionfailures": elemental.AttributeSpecification{
+	"encryptionfailures": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EncryptionFailures",
 		Description:    `Non-zero counter indicates encryption processing failures of data packets.`,
@@ -2203,7 +2203,7 @@ rules and queue drops.`,
 		Name:           "encryptionFailures",
 		Type:           "integer",
 	},
-	"enforcerid": elemental.AttributeSpecification{
+	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
 		Description:    `Identifier of the enforcer sending the report.`,
@@ -2213,7 +2213,7 @@ rules and queue drops.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"enforcernamespace": elemental.AttributeSpecification{
+	"enforcernamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer sending the report.`,
@@ -2223,7 +2223,7 @@ rules and queue drops.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"externalnetworkconnections": elemental.AttributeSpecification{
+	"externalnetworkconnections": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ExternalNetworkConnections",
 		Description: `Non-zero counter indicates connections going to and from external networks.
@@ -2232,7 +2232,7 @@ These may be drops or allowed counters.`,
 		Name:    "externalNetworkConnections",
 		Type:    "integer",
 	},
-	"policydrops": elemental.AttributeSpecification{
+	"policydrops": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicyDrops",
 		Description:    `Non-zero counter indicates dropped packets by a reject policy.`,
@@ -2240,7 +2240,7 @@ These may be drops or allowed counters.`,
 		Name:           "policyDrops",
 		Type:           "integer",
 	},
-	"processingunitid": elemental.AttributeSpecification{
+	"processingunitid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `PUID is the ID of the PU reporting the counter.`,
@@ -2249,7 +2249,7 @@ These may be drops or allowed counters.`,
 		Name:           "processingUnitID",
 		Type:           "string",
 	},
-	"processingunitnamespace": elemental.AttributeSpecification{
+	"processingunitnamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the PU reporting the counter.`,
@@ -2258,7 +2258,7 @@ These may be drops or allowed counters.`,
 		Name:           "processingUnitNamespace",
 		Type:           "string",
 	},
-	"timestamp": elemental.AttributeSpecification{
+	"timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
 		Description:    `Timestamp is the date of the report.`,
@@ -2266,7 +2266,7 @@ These may be drops or allowed counters.`,
 		Name:           "timestamp",
 		Type:           "time",
 	},
-	"tokendrops": elemental.AttributeSpecification{
+	"tokendrops": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TokenDrops",
 		Description: `Non-zero counter indicates rejected packets due to anything related to token

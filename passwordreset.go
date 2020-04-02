@@ -295,7 +295,7 @@ func (o *PasswordReset) ValueForAttribute(name string) interface{} {
 
 // PasswordResetAttributesMap represents the map of attribute for PasswordReset.
 var PasswordResetAttributesMap = map[string]elemental.AttributeSpecification{
-	"Password": elemental.AttributeSpecification{
+	"Password": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Password",
 		Description:    `Contains the new password.`,
@@ -304,7 +304,7 @@ var PasswordResetAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"Token": elemental.AttributeSpecification{
+	"Token": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
 		Description:    `Contains the reset password token.`,
@@ -317,7 +317,7 @@ var PasswordResetAttributesMap = map[string]elemental.AttributeSpecification{
 
 // PasswordResetLowerCaseAttributesMap represents the map of attribute for PasswordReset.
 var PasswordResetLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"password": elemental.AttributeSpecification{
+	"password": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Password",
 		Description:    `Contains the new password.`,
@@ -326,7 +326,7 @@ var PasswordResetLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Required:       true,
 		Type:           "string",
 	},
-	"token": elemental.AttributeSpecification{
+	"token": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
 		Description:    `Contains the reset password token.`,
