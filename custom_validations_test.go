@@ -781,7 +781,7 @@ func TestValidateEnforcerProfile(t *testing.T) {
 		enforcerprofile *EnforcerProfile
 		wantErr         bool
 	}{
-		// Invalid CIDR
+		// Target Networks
 		{
 			"valid target network",
 			&EnforcerProfile{
@@ -819,6 +819,47 @@ func TestValidateEnforcerProfile(t *testing.T) {
 			&EnforcerProfile{
 				Name:           "Valid target network",
 				TargetNetworks: []string{"!!10.0.0.0/8"},
+			},
+			true,
+		},
+		// Target UDP Networks
+		{
+			"valid target UDP network",
+			&EnforcerProfile{
+				Name:              "Valid target UDP network",
+				TargetUDPNetworks: []string{"0.0.0.0/0"},
+			},
+			false,
+		},
+		{
+			"valid target UDP network with NOT operator",
+			&EnforcerProfile{
+				Name:              "Valid target UDP network",
+				TargetUDPNetworks: []string{"!10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"valid target UDP networks with except condition operator",
+			&EnforcerProfile{
+				Name:              "Valid target UDP network",
+				TargetUDPNetworks: []string{"0.0.0.0/0", "!10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"invalid target UDP network",
+			&EnforcerProfile{
+				Name:              "Invalid target UDP network",
+				TargetUDPNetworks: []string{"invalid"},
+			},
+			true,
+		},
+		{
+			"invalid target UDP network with multiple NOT operator",
+			&EnforcerProfile{
+				Name:              "Valid target UDP network",
+				TargetUDPNetworks: []string{"!!10.0.0.0/8"},
 			},
 			true,
 		},
