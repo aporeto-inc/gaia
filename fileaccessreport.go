@@ -392,7 +392,7 @@ func (o *FileAccessReport) ValueForAttribute(name string) interface{} {
 
 // FileAccessReportAttributesMap represents the map of attribute for FileAccessReport.
 var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
-	"Action": elemental.AttributeSpecification{
+	"Action": {
 		AllowedChoices: []string{"Accept", "Reject", "Limit"},
 		ConvertedName:  "Action",
 		Description:    `Action taken.`,
@@ -401,7 +401,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "enum",
 	},
-	"Host": elemental.AttributeSpecification{
+	"Host": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Host",
 		DefaultValue:   "localhost",
@@ -411,7 +411,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"Mode": elemental.AttributeSpecification{
+	"Mode": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Mode",
 		DefaultValue:   "rxw",
@@ -421,7 +421,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"Path": elemental.AttributeSpecification{
+	"Path": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Path",
 		DefaultValue:   "/etc/passwd",
@@ -431,7 +431,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"ProcessingUnitID": elemental.AttributeSpecification{
+	"ProcessingUnitID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit.`,
@@ -440,7 +440,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"ProcessingUnitNamespace": elemental.AttributeSpecification{
+	"ProcessingUnitNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit.`,
@@ -449,7 +449,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"Timestamp": elemental.AttributeSpecification{
+	"Timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
@@ -462,7 +462,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 
 // FileAccessReportLowerCaseAttributesMap represents the map of attribute for FileAccessReport.
 var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"action": elemental.AttributeSpecification{
+	"action": {
 		AllowedChoices: []string{"Accept", "Reject", "Limit"},
 		ConvertedName:  "Action",
 		Description:    `Action taken.`,
@@ -471,7 +471,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Required:       true,
 		Type:           "enum",
 	},
-	"host": elemental.AttributeSpecification{
+	"host": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Host",
 		DefaultValue:   "localhost",
@@ -481,7 +481,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Required:       true,
 		Type:           "string",
 	},
-	"mode": elemental.AttributeSpecification{
+	"mode": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Mode",
 		DefaultValue:   "rxw",
@@ -491,7 +491,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Required:       true,
 		Type:           "string",
 	},
-	"path": elemental.AttributeSpecification{
+	"path": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Path",
 		DefaultValue:   "/etc/passwd",
@@ -501,7 +501,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Required:       true,
 		Type:           "string",
 	},
-	"processingunitid": elemental.AttributeSpecification{
+	"processingunitid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit.`,
@@ -510,7 +510,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Required:       true,
 		Type:           "string",
 	},
-	"processingunitnamespace": elemental.AttributeSpecification{
+	"processingunitnamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit.`,
@@ -519,7 +519,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Required:       true,
 		Type:           "string",
 	},
-	"timestamp": elemental.AttributeSpecification{
+	"timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,

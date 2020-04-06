@@ -3,7 +3,8 @@ attributes:
   v1:
   - name: propagationHidden
     description: |-
-      If set to `true` while the policy is propagating, it won't be visible to children
+      If set to `true` while the policy is propagating, it won't be visible to
+      children
       namespace, but still used for policy resolution.
     type: boolean
     exposed: true

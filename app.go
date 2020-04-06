@@ -423,7 +423,7 @@ func (o *App) ValueForAttribute(name string) interface{} {
 
 // AppAttributesMap represents the map of attribute for App.
 var AppAttributesMap = map[string]elemental.AttributeSpecification{
-	"Beta": elemental.AttributeSpecification{
+	"Beta": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Beta",
 		Description:    `Set to ` + "`" + `true` + "`" + ` to indicate that the app is in a beta version.`,
@@ -432,7 +432,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "boolean",
 	},
-	"CategoryID": elemental.AttributeSpecification{
+	"CategoryID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
 		Description:    `Category ID of the app.`,
@@ -441,7 +441,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"Description": elemental.AttributeSpecification{
+	"Description": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
 		Description:    `Description of the object.`,
@@ -454,7 +454,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Icon": elemental.AttributeSpecification{
+	"Icon": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
 		Description:    `Contains a base64-encoded image for the app.`,
@@ -463,7 +463,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"LatestVersion": elemental.AttributeSpecification{
+	"LatestVersion": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LatestVersion",
 		Description:    `Represents the latest version available of the app.`,
@@ -471,7 +471,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "latestVersion",
 		Type:           "string",
 	},
-	"LongDescription": elemental.AttributeSpecification{
+	"LongDescription": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
 		Description:    `Contains a more detailed description of the app.`,
@@ -479,7 +479,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "longDescription",
 		Type:           "string",
 	},
-	"Name": elemental.AttributeSpecification{
+	"Name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		Description:    `Name of the entity.`,
@@ -494,7 +494,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Steps": elemental.AttributeSpecification{
+	"Steps": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Steps",
 		Description:    `List of steps that contain parameters.`,
@@ -504,7 +504,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "uistep",
 		Type:           "refList",
 	},
-	"Title": elemental.AttributeSpecification{
+	"Title": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Title",
 		Description:    `Represents the title of the app.`,
@@ -516,7 +516,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 
 // AppLowerCaseAttributesMap represents the map of attribute for App.
 var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"beta": elemental.AttributeSpecification{
+	"beta": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Beta",
 		Description:    `Set to ` + "`" + `true` + "`" + ` to indicate that the app is in a beta version.`,
@@ -525,7 +525,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "boolean",
 	},
-	"categoryid": elemental.AttributeSpecification{
+	"categoryid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
 		Description:    `Category ID of the app.`,
@@ -534,7 +534,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"description": elemental.AttributeSpecification{
+	"description": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
 		Description:    `Description of the object.`,
@@ -547,7 +547,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"icon": elemental.AttributeSpecification{
+	"icon": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
 		Description:    `Contains a base64-encoded image for the app.`,
@@ -556,7 +556,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"latestversion": elemental.AttributeSpecification{
+	"latestversion": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LatestVersion",
 		Description:    `Represents the latest version available of the app.`,
@@ -564,7 +564,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "latestVersion",
 		Type:           "string",
 	},
-	"longdescription": elemental.AttributeSpecification{
+	"longdescription": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
 		Description:    `Contains a more detailed description of the app.`,
@@ -572,7 +572,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "longDescription",
 		Type:           "string",
 	},
-	"name": elemental.AttributeSpecification{
+	"name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		Description:    `Name of the entity.`,
@@ -587,7 +587,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"steps": elemental.AttributeSpecification{
+	"steps": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Steps",
 		Description:    `List of steps that contain parameters.`,
@@ -597,7 +597,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "uistep",
 		Type:           "refList",
 	},
-	"title": elemental.AttributeSpecification{
+	"title": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Title",
 		Description:    `Represents the title of the app.`,

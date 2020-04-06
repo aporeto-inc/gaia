@@ -326,7 +326,7 @@ func (o *Hit) ValueForAttribute(name string) interface{} {
 
 // HitAttributesMap represents the map of attribute for Hit.
 var HitAttributesMap = map[string]elemental.AttributeSpecification{
-	"Name": elemental.AttributeSpecification{
+	"Name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultValue:   "counter",
@@ -336,7 +336,7 @@ var HitAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"TargetID": elemental.AttributeSpecification{
+	"TargetID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetID",
 		Description:    `The ID of the referenced object..`,
@@ -344,7 +344,7 @@ var HitAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "targetID",
 		Type:           "string",
 	},
-	"TargetIdentity": elemental.AttributeSpecification{
+	"TargetIdentity": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetIdentity",
 		Description:    `The identity of the referenced object.`,
@@ -354,7 +354,7 @@ var HitAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Value": elemental.AttributeSpecification{
+	"Value": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Value",
 		Description:    `The value of the hit.`,
@@ -367,7 +367,7 @@ var HitAttributesMap = map[string]elemental.AttributeSpecification{
 
 // HitLowerCaseAttributesMap represents the map of attribute for Hit.
 var HitLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"name": elemental.AttributeSpecification{
+	"name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultValue:   "counter",
@@ -377,7 +377,7 @@ var HitLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"targetid": elemental.AttributeSpecification{
+	"targetid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetID",
 		Description:    `The ID of the referenced object..`,
@@ -385,7 +385,7 @@ var HitLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "targetID",
 		Type:           "string",
 	},
-	"targetidentity": elemental.AttributeSpecification{
+	"targetidentity": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetIdentity",
 		Description:    `The identity of the referenced object.`,
@@ -395,7 +395,7 @@ var HitLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"value": elemental.AttributeSpecification{
+	"value": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Value",
 		Description:    `The value of the hit.`,

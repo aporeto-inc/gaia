@@ -349,7 +349,7 @@ func (o *EnforcerTraceReport) ValueForAttribute(name string) interface{} {
 
 // EnforcerTraceReportAttributesMap represents the map of attribute for EnforcerTraceReport.
 var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecification{
-	"EnforcerID": elemental.AttributeSpecification{
+	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the enforcer where the trace was collected.`,
@@ -359,7 +359,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "string",
 	},
-	"EnforcerNamespace": elemental.AttributeSpecification{
+	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer where the trace was collected.`,
@@ -369,7 +369,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "string",
 	},
-	"Namespace": elemental.AttributeSpecification{
+	"Namespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the processing unit where the trace was collected.`,
@@ -379,7 +379,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "string",
 	},
-	"PuID": elemental.AttributeSpecification{
+	"PuID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PuID",
 		Description:    `ID of the processing unit where the trace was collected.`,
@@ -389,7 +389,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "string",
 	},
-	"Records": elemental.AttributeSpecification{
+	"Records": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Records",
 		Description:    `List of iptables trace records collected.`,
@@ -402,7 +402,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 
 // EnforcerTraceReportLowerCaseAttributesMap represents the map of attribute for EnforcerTraceReport.
 var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"enforcerid": elemental.AttributeSpecification{
+	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the enforcer where the trace was collected.`,
@@ -412,7 +412,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Stored:         true,
 		Type:           "string",
 	},
-	"enforcernamespace": elemental.AttributeSpecification{
+	"enforcernamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer where the trace was collected.`,
@@ -422,7 +422,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Stored:         true,
 		Type:           "string",
 	},
-	"namespace": elemental.AttributeSpecification{
+	"namespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the processing unit where the trace was collected.`,
@@ -432,7 +432,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Stored:         true,
 		Type:           "string",
 	},
-	"puid": elemental.AttributeSpecification{
+	"puid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PuID",
 		Description:    `ID of the processing unit where the trace was collected.`,
@@ -442,7 +442,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Stored:         true,
 		Type:           "string",
 	},
-	"records": elemental.AttributeSpecification{
+	"records": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Records",
 		Description:    `List of iptables trace records collected.`,
