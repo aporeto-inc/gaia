@@ -90,8 +90,10 @@ type UIParameter struct {
 	// Value of the parameter.
 	Value interface{} `json:"value" msgpack:"value" bson:"value" mapstructure:"value,omitempty"`
 
-	// A logical expression consisting of one or more [UIParameterVisibility](#uiparametervisibility)
-	// conditions linked together using AND or OR operators. If the expression evaluates to true
+	// A logical expression consisting of one or more
+	// [UIParameterVisibility](#uiparametervisibility)
+	// conditions linked together using AND or OR operators. If the expression
+	// evaluates to true
 	// the parameter is displayed to the user.
 	VisibilityCondition [][]*UIParameterVisibility `json:"visibilityCondition" msgpack:"visibilityCondition" bson:"visibilitycondition" mapstructure:"visibilityCondition,omitempty"`
 

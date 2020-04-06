@@ -350,7 +350,7 @@ func (o *PolicyGraph) ValueForAttribute(name string) interface{} {
 
 // PolicyGraphAttributesMap represents the map of attribute for PolicyGraph.
 var PolicyGraphAttributesMap = map[string]elemental.AttributeSpecification{
-	"PUIdentity": elemental.AttributeSpecification{
+	"PUIdentity": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PUIdentity",
 		Description: `The set of tags that a future-activated processing unit will have for which the user 
@@ -360,7 +360,7 @@ wants to evaluate policies and understand its connectivity options.`,
 		SubType: "string",
 		Type:    "list",
 	},
-	"DependencyMap": elemental.AttributeSpecification{
+	"DependencyMap": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DependencyMap",
 		Description: `Contains the output of the policy evaluation. It is the same type of dependency map 
@@ -370,7 +370,7 @@ as created by other APIs.`,
 		SubType: "dependencymap",
 		Type:    "ref",
 	},
-	"PolicyType": elemental.AttributeSpecification{
+	"PolicyType": {
 		AllowedChoices: []string{"Authorization", "Infrastructure", "Combined"},
 		ConvertedName:  "PolicyType",
 		DefaultValue:   PolicyGraphPolicyTypeAuthorization,
@@ -380,7 +380,7 @@ as created by other APIs.`,
 		Name:    "policyType",
 		Type:    "enum",
 	},
-	"Selectors": elemental.AttributeSpecification{
+	"Selectors": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
 		Description: `Contains the tag expression that a processing unit must match in order to evaluate 
@@ -394,7 +394,7 @@ policy for it.`,
 
 // PolicyGraphLowerCaseAttributesMap represents the map of attribute for PolicyGraph.
 var PolicyGraphLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"puidentity": elemental.AttributeSpecification{
+	"puidentity": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PUIdentity",
 		Description: `The set of tags that a future-activated processing unit will have for which the user 
@@ -404,7 +404,7 @@ wants to evaluate policies and understand its connectivity options.`,
 		SubType: "string",
 		Type:    "list",
 	},
-	"dependencymap": elemental.AttributeSpecification{
+	"dependencymap": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DependencyMap",
 		Description: `Contains the output of the policy evaluation. It is the same type of dependency map 
@@ -414,7 +414,7 @@ as created by other APIs.`,
 		SubType: "dependencymap",
 		Type:    "ref",
 	},
-	"policytype": elemental.AttributeSpecification{
+	"policytype": {
 		AllowedChoices: []string{"Authorization", "Infrastructure", "Combined"},
 		ConvertedName:  "PolicyType",
 		DefaultValue:   PolicyGraphPolicyTypeAuthorization,
@@ -424,7 +424,7 @@ as created by other APIs.`,
 		Name:    "policyType",
 		Type:    "enum",
 	},
-	"selectors": elemental.AttributeSpecification{
+	"selectors": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
 		Description: `Contains the tag expression that a processing unit must match in order to evaluate 

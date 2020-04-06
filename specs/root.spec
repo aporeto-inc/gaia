@@ -577,7 +577,7 @@ relations:
 
 - rest_name: oidcprovider
   get:
-    description: Retrieves the list of the account OIDC provider.
+    description: Retrieves the list of the OIDC providers.
     global_parameters:
     - $filtering
   create:
@@ -600,6 +600,14 @@ relations:
         example_value: user@domain.com
   create:
     description: Resets the password for an account using the provided link.
+
+- rest_name: pccprovider
+  get:
+    description: Retrieves the list of the PCC providers.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new PCC provider.
 
 - rest_name: pingreport
   create:

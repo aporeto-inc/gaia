@@ -281,7 +281,7 @@ func (o *X509CertificateCheck) ValueForAttribute(name string) interface{} {
 
 // X509CertificateCheckAttributesMap represents the map of attribute for X509CertificateCheck.
 var X509CertificateCheckAttributesMap = map[string]elemental.AttributeSpecification{
-	"ID": elemental.AttributeSpecification{
+	"ID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
 		Description:    `ID contains the certificate serialNumber.`,
@@ -295,7 +295,7 @@ var X509CertificateCheckAttributesMap = map[string]elemental.AttributeSpecificat
 
 // X509CertificateCheckLowerCaseAttributesMap represents the map of attribute for X509CertificateCheck.
 var X509CertificateCheckLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"id": elemental.AttributeSpecification{
+	"id": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
 		Description:    `ID contains the certificate serialNumber.`,
