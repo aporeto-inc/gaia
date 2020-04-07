@@ -879,3 +879,17 @@ func ValidateStringListNotEmpty(attribute string, slice []string) error {
 
 	return nil
 }
+
+// ValidateHookPolicy validates a hook policy.
+func ValidateHookPolicy(policy *HookPolicy) error {
+
+	if policy.Endpoint == "" && len(policy.Selectors) == 0 {
+		return makeValidationError("endpoint", "endpoint is required if no automation selectors")
+	}
+
+	if policy.Endpoint != "" && len(policy.Selectors) > 0 {
+		return makeValidationError("endpoint", "endpoint specified with an automation selector")
+	}
+
+	return nil
+}

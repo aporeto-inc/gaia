@@ -2337,3 +2337,94 @@ func TestValidateStringListNotEmpty(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateHookPolicy(t *testing.T) {
+	type args struct {
+		policy *HookPolicy
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// Valid cases
+		{
+			"Only endpoint specified",
+			args{
+				&HookPolicy{
+					Endpoint: "https://www.google.com",
+				},
+			},
+			false,
+		},
+		{
+			"Simple selectors specified",
+			args{
+				&HookPolicy{
+					Selectors: [][]string{
+						{"automation=test"},
+					},
+				},
+			},
+			false,
+		},
+		{
+			"Multi selectors specified",
+			args{
+				&HookPolicy{
+					Selectors: [][]string{
+						{"automation=test"},
+						{"automation=anotherone"},
+					},
+				},
+			},
+			false,
+		},
+		// Error cases
+		{
+			"No endpoint and no selectors",
+			args{
+				&HookPolicy{},
+			},
+			true,
+		},
+		{
+			"Empty endpoint and no selectors",
+			args{
+				&HookPolicy{
+					Endpoint: "",
+				},
+			},
+			true,
+		},
+		{
+			"Empty endpoint and empty selectors",
+			args{
+				&HookPolicy{
+					Endpoint:  "",
+					Selectors: [][]string{},
+				},
+			},
+			true,
+		},
+		{
+			"Endpoint and selectors are specified",
+			args{
+				&HookPolicy{
+					Endpoint: "https://google.com",
+					Selectors: [][]string{
+						{"automation=test"},
+					},
+				},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateHookPolicy(tt.args.policy); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateHookPolicy() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

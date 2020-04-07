@@ -173,6 +173,10 @@ type HookPolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// A tag or tag expression that identifies the automation that must be run in
+	// case no endpoint is provided.
+	Selectors [][]string `json:"selectors" msgpack:"selectors" bson:"selectors" mapstructure:"selectors,omitempty"`
+
 	// Contains the tag expression that an object must match in order to trigger the
 	// hook.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
@@ -199,9 +203,10 @@ func NewHookPolicy() *HookPolicy {
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
-		Metadata:          []string{},
 		Mode:              HookPolicyModePre,
 		NormalizedTags:    []string{},
+		Metadata:          []string{},
+		Selectors:         [][]string{},
 		Subject:           [][]string{},
 		TriggerOperations: []string{},
 	}
@@ -256,6 +261,7 @@ func (o *HookPolicy) GetBSON() (interface{}, error) {
 	s.Propagate = o.Propagate
 	s.PropagationHidden = o.PropagationHidden
 	s.Protected = o.Protected
+	s.Selectors = o.Selectors
 	s.Subject = o.Subject
 	s.TriggerOperations = o.TriggerOperations
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -298,6 +304,7 @@ func (o *HookPolicy) SetBSON(raw bson.Raw) error {
 	o.Propagate = s.Propagate
 	o.PropagationHidden = s.PropagationHidden
 	o.Protected = s.Protected
+	o.Selectors = s.Selectors
 	o.Subject = s.Subject
 	o.TriggerOperations = s.TriggerOperations
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -572,6 +579,7 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Propagate:            &o.Propagate,
 			PropagationHidden:    &o.PropagationHidden,
 			Protected:            &o.Protected,
+			Selectors:            &o.Selectors,
 			Subject:              &o.Subject,
 			TriggerOperations:    &o.TriggerOperations,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
@@ -626,6 +634,8 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.PropagationHidden = &(o.PropagationHidden)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "selectors":
+			sp.Selectors = &(o.Selectors)
 		case "subject":
 			sp.Subject = &(o.Subject)
 		case "triggerOperations":
@@ -733,6 +743,9 @@ func (o *HookPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
+	if so.Selectors != nil {
+		o.Selectors = *so.Selectors
+	}
 	if so.Subject != nil {
 		o.Subject = *so.Subject
 	}
@@ -793,10 +806,6 @@ func (o *HookPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("endpoint", o.Endpoint); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
@@ -813,11 +822,20 @@ func (o *HookPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateTagsExpression("selectors", o.Selectors); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = errors.Append(err)
 	}
 
 	if err := ValidateWriteOperations("triggerOperations", o.TriggerOperations); err != nil {
+		errors = errors.Append(err)
+	}
+
+	// Custom object validation.
+	if err := ValidateHookPolicy(o); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -899,6 +917,8 @@ func (o *HookPolicy) ValueForAttribute(name string) interface{} {
 		return o.PropagationHidden
 	case "protected":
 		return o.Protected
+	case "selectors":
+		return o.Selectors
 	case "subject":
 		return o.Subject
 	case "triggerOperations":
@@ -1056,7 +1076,6 @@ calling the hook fails.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1193,6 +1212,17 @@ namespace, but still used for policy resolution.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"Selectors": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Selectors",
+		Description: `A tag or tag expression that identifies the automation that must be run in
+case no endpoint is provided.`,
+		Exposed: true,
+		Name:    "selectors",
+		Stored:  true,
+		SubType: "[][]string",
+		Type:    "external",
 	},
 	"Subject": {
 		AllowedChoices: []string{},
@@ -1390,7 +1420,6 @@ calling the hook fails.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1527,6 +1556,17 @@ namespace, but still used for policy resolution.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"selectors": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Selectors",
+		Description: `A tag or tag expression that identifies the automation that must be run in
+case no endpoint is provided.`,
+		Exposed: true,
+		Name:    "selectors",
+		Stored:  true,
+		SubType: "[][]string",
+		Type:    "external",
 	},
 	"subject": {
 		AllowedChoices: []string{},
@@ -1721,6 +1761,10 @@ type SparseHookPolicy struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
+	// A tag or tag expression that identifies the automation that must be run in
+	// case no endpoint is provided.
+	Selectors *[][]string `json:"selectors,omitempty" msgpack:"selectors,omitempty" bson:"selectors,omitempty" mapstructure:"selectors,omitempty"`
+
 	// Contains the tag expression that an object must match in order to trigger the
 	// hook.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
@@ -1843,6 +1887,9 @@ func (o *SparseHookPolicy) GetBSON() (interface{}, error) {
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
+	if o.Selectors != nil {
+		s.Selectors = o.Selectors
+	}
 	if o.Subject != nil {
 		s.Subject = o.Subject
 	}
@@ -1935,6 +1982,9 @@ func (o *SparseHookPolicy) SetBSON(raw bson.Raw) error {
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
+	if s.Selectors != nil {
+		o.Selectors = s.Selectors
+	}
 	if s.Subject != nil {
 		o.Subject = s.Subject
 	}
@@ -2026,6 +2076,9 @@ func (o *SparseHookPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.Selectors != nil {
+		out.Selectors = *o.Selectors
 	}
 	if o.Subject != nil {
 		out.Subject = *o.Subject
@@ -2381,6 +2434,7 @@ type mongoAttributesHookPolicy struct {
 	Propagate            bool                `bson:"propagate"`
 	PropagationHidden    bool                `bson:"propagationhidden"`
 	Protected            bool                `bson:"protected"`
+	Selectors            [][]string          `bson:"selectors"`
 	Subject              [][]string          `bson:"subject"`
 	TriggerOperations    []string            `bson:"triggeroperations"`
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
@@ -2408,6 +2462,7 @@ type mongoAttributesSparseHookPolicy struct {
 	Propagate            *bool                `bson:"propagate,omitempty"`
 	PropagationHidden    *bool                `bson:"propagationhidden,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
+	Selectors            *[][]string          `bson:"selectors,omitempty"`
 	Subject              *[][]string          `bson:"subject,omitempty"`
 	TriggerOperations    *[]string            `bson:"triggeroperations,omitempty"`
 	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`

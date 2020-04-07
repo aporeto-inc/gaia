@@ -18,6 +18,10 @@ $enforcerprofile:
   elemental:
     name: ValidateEnforcerProfile
 
+$hookpolicy:
+  elemental:
+    name: ValidateHookPolicy
+
 $hostservices:
   elemental:
     name: ValidateHostServices
