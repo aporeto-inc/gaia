@@ -208,6 +208,12 @@ relations:
         allowed_choices:
         - oidc
 
+- rest_name: organizationalmetadata
+  get:
+    description: |-
+      Retrieves the list of the namespace organization metadata and all its
+      parent namespaces organization metadata.
+
 - rest_name: trustedca
   get:
     description: Returns the list of trusted CAs for this namespace.

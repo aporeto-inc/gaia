@@ -86,6 +86,7 @@ var (
 		"oauthinfo":              OAUTHInfoIdentity,
 		"oauthkey":               OAUTHKeyIdentity,
 		"oidcprovider":           OIDCProviderIdentity,
+		"organizationalmetadata": OrganizationalMetadataIdentity,
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
 		"pccprovider":            PCCProviderIdentity,
@@ -229,6 +230,7 @@ var (
 		"oauthinfo":                OAUTHInfoIdentity,
 		"oauthkeys":                OAUTHKeyIdentity,
 		"oidcproviders":            OIDCProviderIdentity,
+		"organizationalmetadata":   OrganizationalMetadataIdentity,
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
 		"pccproviders":             PCCProviderIdentity,
@@ -706,8 +708,9 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"packetreport":  nil,
-		"passwordreset": nil,
+		"organizationalmetadata": nil,
+		"packetreport":           nil,
+		"passwordreset":          nil,
 		"pccprovider": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1055,6 +1058,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewOAUTHKey()
 	case OIDCProviderIdentity:
 		return NewOIDCProvider()
+	case OrganizationalMetadataIdentity:
+		return NewOrganizationalMetadata()
 	case PacketReportIdentity:
 		return NewPacketReport()
 	case PasswordResetIdentity:
@@ -1320,6 +1325,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseOAUTHKey()
 	case OIDCProviderIdentity:
 		return NewSparseOIDCProvider()
+	case OrganizationalMetadataIdentity:
+		return NewSparseOrganizationalMetadata()
 	case PacketReportIdentity:
 		return NewSparsePacketReport()
 	case PasswordResetIdentity:
@@ -1593,6 +1600,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &OAUTHKeysList{}
 	case OIDCProviderIdentity:
 		return &OIDCProvidersList{}
+	case OrganizationalMetadataIdentity:
+		return &OrganizationalMetadatasList{}
 	case PacketReportIdentity:
 		return &PacketReportsList{}
 	case PasswordResetIdentity:
@@ -1856,6 +1865,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseOAUTHKeysList{}
 	case OIDCProviderIdentity:
 		return &SparseOIDCProvidersList{}
+	case OrganizationalMetadataIdentity:
+		return &SparseOrganizationalMetadatasList{}
 	case PacketReportIdentity:
 		return &SparsePacketReportsList{}
 	case PasswordResetIdentity:
@@ -2058,6 +2069,7 @@ func AllIdentities() []elemental.Identity {
 		OAUTHInfoIdentity,
 		OAUTHKeyIdentity,
 		OIDCProviderIdentity,
+		OrganizationalMetadataIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
 		PCCProviderIdentity,
@@ -2348,6 +2360,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case OAUTHKeyIdentity:
 		return []string{}
 	case OIDCProviderIdentity:
+		return []string{}
+	case OrganizationalMetadataIdentity:
 		return []string{}
 	case PacketReportIdentity:
 		return []string{}

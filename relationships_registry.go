@@ -2952,6 +2952,15 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[OrganizationalMetadataIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"namespace": {},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"namespace": {},
+		},
+	}
+
 	relationshipsRegistry[PCCProviderIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
