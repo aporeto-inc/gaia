@@ -177,9 +177,6 @@ type FlowReport struct {
 	// If `true`, the flow was encrypted.
 	Encrypted bool `json:"encrypted" msgpack:"encrypted" bson:"-" mapstructure:"encrypted,omitempty"`
 
-	// If `true`, sequence number on the transmitter and receiver side is same.
-	MatchingSeqNum bool `json:"matchingSeqNum" msgpack:"matchingSeqNum" bson:"-" mapstructure:"matchingSeqNum,omitempty"`
-
 	// This is here for backward compatibility.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
@@ -213,6 +210,10 @@ type FlowReport struct {
 
 	// Namespace of the object at the other end of the flow.
 	RemoteNamespace string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"-" mapstructure:"remoteNamespace,omitempty"`
+
+	// If `true`, sequence number of the packet sent on the transmitter side and the
+	// sequence number of the packet on the receiver side is same.
+	SeqNumMatching bool `json:"seqNumMatching" msgpack:"seqNumMatching" bson:"-" mapstructure:"seqNumMatching,omitempty"`
 
 	// Hash of the claims used to communicate.
 	ServiceClaimHash string `json:"serviceClaimHash" msgpack:"serviceClaimHash" bson:"-" mapstructure:"serviceClaimHash,omitempty"`
@@ -259,8 +260,8 @@ func NewFlowReport() *FlowReport {
 
 	return &FlowReport{
 		ModelVersion:   1,
-		ServiceType:    FlowReportServiceTypeNotApplicable,
 		ObservedAction: FlowReportObservedActionNotApplicable,
+		ServiceType:    FlowReportServiceTypeNotApplicable,
 	}
 }
 
@@ -354,7 +355,6 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			DestinationType:         &o.DestinationType,
 			DropReason:              &o.DropReason,
 			Encrypted:               &o.Encrypted,
-			MatchingSeqNum:          &o.MatchingSeqNum,
 			Namespace:               &o.Namespace,
 			Observed:                &o.Observed,
 			ObservedAction:          &o.ObservedAction,
@@ -366,6 +366,7 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			PolicyNamespace:         &o.PolicyNamespace,
 			Protocol:                &o.Protocol,
 			RemoteNamespace:         &o.RemoteNamespace,
+			SeqNumMatching:          &o.SeqNumMatching,
 			ServiceClaimHash:        &o.ServiceClaimHash,
 			ServiceID:               &o.ServiceID,
 			ServiceNamespace:        &o.ServiceNamespace,
@@ -400,8 +401,6 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.DropReason = &(o.DropReason)
 		case "encrypted":
 			sp.Encrypted = &(o.Encrypted)
-		case "matchingSeqNum":
-			sp.MatchingSeqNum = &(o.MatchingSeqNum)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "observed":
@@ -424,6 +423,8 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protocol = &(o.Protocol)
 		case "remoteNamespace":
 			sp.RemoteNamespace = &(o.RemoteNamespace)
+		case "seqNumMatching":
+			sp.SeqNumMatching = &(o.SeqNumMatching)
 		case "serviceClaimHash":
 			sp.ServiceClaimHash = &(o.ServiceClaimHash)
 		case "serviceID":
@@ -485,9 +486,6 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Encrypted != nil {
 		o.Encrypted = *so.Encrypted
 	}
-	if so.MatchingSeqNum != nil {
-		o.MatchingSeqNum = *so.MatchingSeqNum
-	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
@@ -520,6 +518,9 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.RemoteNamespace != nil {
 		o.RemoteNamespace = *so.RemoteNamespace
+	}
+	if so.SeqNumMatching != nil {
+		o.SeqNumMatching = *so.SeqNumMatching
 	}
 	if so.ServiceClaimHash != nil {
 		o.ServiceClaimHash = *so.ServiceClaimHash
@@ -699,8 +700,6 @@ func (o *FlowReport) ValueForAttribute(name string) interface{} {
 		return o.DropReason
 	case "encrypted":
 		return o.Encrypted
-	case "matchingSeqNum":
-		return o.MatchingSeqNum
 	case "namespace":
 		return o.Namespace
 	case "observed":
@@ -723,6 +722,8 @@ func (o *FlowReport) ValueForAttribute(name string) interface{} {
 		return o.Protocol
 	case "remoteNamespace":
 		return o.RemoteNamespace
+	case "seqNumMatching":
+		return o.SeqNumMatching
 	case "serviceClaimHash":
 		return o.ServiceClaimHash
 	case "serviceID":
@@ -824,14 +825,6 @@ for the rejection.`,
 		Name:           "encrypted",
 		Type:           "boolean",
 	},
-	"MatchingSeqNum": {
-		AllowedChoices: []string{},
-		ConvertedName:  "MatchingSeqNum",
-		Description:    `If ` + "`" + `true` + "`" + `, sequence number on the transmitter and receiver side is same.`,
-		Exposed:        true,
-		Name:           "matchingSeqNum",
-		Type:           "boolean",
-	},
 	"Namespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
@@ -926,6 +919,15 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Exposed:        true,
 		Name:           "remoteNamespace",
 		Type:           "string",
+	},
+	"SeqNumMatching": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SeqNumMatching",
+		Description: `If ` + "`" + `true` + "`" + `, sequence number of the packet sent on the transmitter side and the
+sequence number of the packet on the receiver side is same.`,
+		Exposed: true,
+		Name:    "seqNumMatching",
+		Type:    "boolean",
 	},
 	"ServiceClaimHash": {
 		AllowedChoices: []string{},
@@ -1103,14 +1105,6 @@ for the rejection.`,
 		Name:           "encrypted",
 		Type:           "boolean",
 	},
-	"matchingseqnum": {
-		AllowedChoices: []string{},
-		ConvertedName:  "MatchingSeqNum",
-		Description:    `If ` + "`" + `true` + "`" + `, sequence number on the transmitter and receiver side is same.`,
-		Exposed:        true,
-		Name:           "matchingSeqNum",
-		Type:           "boolean",
-	},
 	"namespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
@@ -1205,6 +1199,15 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Exposed:        true,
 		Name:           "remoteNamespace",
 		Type:           "string",
+	},
+	"seqnummatching": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SeqNumMatching",
+		Description: `If ` + "`" + `true` + "`" + `, sequence number of the packet sent on the transmitter side and the
+sequence number of the packet on the receiver side is same.`,
+		Exposed: true,
+		Name:    "seqNumMatching",
+		Type:    "boolean",
 	},
 	"serviceclaimhash": {
 		AllowedChoices: []string{},
@@ -1399,9 +1402,6 @@ type SparseFlowReport struct {
 	// If `true`, the flow was encrypted.
 	Encrypted *bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"-" mapstructure:"encrypted,omitempty"`
 
-	// If `true`, sequence number on the transmitter and receiver side is same.
-	MatchingSeqNum *bool `json:"matchingSeqNum,omitempty" msgpack:"matchingSeqNum,omitempty" bson:"-" mapstructure:"matchingSeqNum,omitempty"`
-
 	// This is here for backward compatibility.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
@@ -1435,6 +1435,10 @@ type SparseFlowReport struct {
 
 	// Namespace of the object at the other end of the flow.
 	RemoteNamespace *string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"-" mapstructure:"remoteNamespace,omitempty"`
+
+	// If `true`, sequence number of the packet sent on the transmitter side and the
+	// sequence number of the packet on the receiver side is same.
+	SeqNumMatching *bool `json:"seqNumMatching,omitempty" msgpack:"seqNumMatching,omitempty" bson:"-" mapstructure:"seqNumMatching,omitempty"`
 
 	// Hash of the claims used to communicate.
 	ServiceClaimHash *string `json:"serviceClaimHash,omitempty" msgpack:"serviceClaimHash,omitempty" bson:"-" mapstructure:"serviceClaimHash,omitempty"`
@@ -1561,9 +1565,6 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Encrypted != nil {
 		out.Encrypted = *o.Encrypted
 	}
-	if o.MatchingSeqNum != nil {
-		out.MatchingSeqNum = *o.MatchingSeqNum
-	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
@@ -1596,6 +1597,9 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.RemoteNamespace != nil {
 		out.RemoteNamespace = *o.RemoteNamespace
+	}
+	if o.SeqNumMatching != nil {
+		out.SeqNumMatching = *o.SeqNumMatching
 	}
 	if o.ServiceClaimHash != nil {
 		out.ServiceClaimHash = *o.ServiceClaimHash

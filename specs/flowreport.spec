@@ -70,12 +70,6 @@ attributes:
     type: boolean
     exposed: true
 
-  - name: matchingSeqNum
-    description: If `true`, sequence number on the transmitter and receiver side is
-      same.
-    type: boolean
-    exposed: true
-
   - name: namespace
     description: This is here for backward compatibility.
     type: string
@@ -149,6 +143,13 @@ attributes:
     type: string
     exposed: true
     omit_empty: true
+
+  - name: seqNumMatching
+    description: |-
+      If `true`, sequence number of the packet sent on the transmitter side and the
+      sequence number of the packet on the receiver side is same.
+    type: boolean
+    exposed: true
 
   - name: serviceClaimHash
     description: Hash of the claims used to communicate.

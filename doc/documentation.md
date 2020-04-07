@@ -9163,7 +9163,6 @@ Post a new flow log.
   "destinationNamespace": "/my/namespace",
   "destinationType": "ProcessingUnit",
   "encrypted": false,
-  "matchingSeqNum": false,
   "namespace": "/my/namespace",
   "observed": false,
   "observedAction": "NotApplicable",
@@ -9173,6 +9172,7 @@ Post a new flow log.
   "policyID": "xxx-xxx-xxx",
   "policyNamespace": "/my/namespace",
   "protocol": 6,
+  "seqNumMatching": false,
   "serviceType": "NotApplicable",
   "sourceID": "xxx-xxx-xxx",
   "sourceNamespace": "/my/namespace",
@@ -9224,10 +9224,6 @@ for the rejection.
 ##### `encrypted` `boolean`
 
 If `true`, the flow was encrypted.
-
-##### `matchingSeqNum` `boolean`
-
-If `true`, sequence number on the transmitter and receiver side is same.
 
 ##### `namespace` `string` [`required`]
 
@@ -9281,6 +9277,11 @@ Protocol number.
 ##### `remoteNamespace` `string`
 
 Namespace of the object at the other end of the flow.
+
+##### `seqNumMatching` `boolean`
+
+If `true`, sequence number of the packet sent on the transmitter side and the
+sequence number of the packet on the receiver side is same.
 
 ##### `serviceClaimHash` `string`
 
