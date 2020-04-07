@@ -3931,6 +3931,12 @@ policies in the namespace and its children.
 
 Contains the list of normalized tags of the entities.
 
+##### `organizationMetadata` `[]string`
+
+List of tags that describe this namespace. All organization tags are
+automatically passed to policeable objects (eg. processing units, external
+networks, enforcers) during their creation.
+
 ##### `protected` `boolean`
 
 Defines if the object is protected.

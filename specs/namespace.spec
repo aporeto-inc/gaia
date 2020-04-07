@@ -151,6 +151,18 @@ attributes:
     validations:
     - $tags
 
+  - name: organizationMetadata
+    description: |-
+      List of tags that describe this namespace. All organization tags are
+      automatically passed to policeable objects (eg. processing units, external
+      networks, enforcers) during their creation.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    validations:
+    - $metadata
+
   - name: serviceCertificateValidity
     description: This flag is deprecated and has no incidence.
     type: string
