@@ -3934,7 +3934,7 @@ Contains the list of normalized tags of the entities.
 ##### `organizationMetadata` `[]string`
 
 List of tags that describe this namespace. All organization tags are
-automatically passed to policeable objects (eg. processing units, external
+automatically passed to policeable objects (e.g. processing units, external
 networks, enforcers) during their creation.
 
 ##### `protected` `boolean`

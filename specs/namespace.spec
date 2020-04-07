@@ -154,7 +154,7 @@ attributes:
   - name: organizationMetadata
     description: |-
       List of tags that describe this namespace. All organization tags are
-      automatically passed to policeable objects (eg. processing units, external
+      automatically passed to policeable objects (e.g. processing units, external
       networks, enforcers) during their creation.
     type: list
     exposed: true

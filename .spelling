@@ -194,6 +194,7 @@ PolicyGraph
 PolicyRefresh
 PolicyRenderer
 PolicyRule
+policeable
 postprocessing
 pre-created
 preinstall

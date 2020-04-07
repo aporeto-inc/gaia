@@ -172,7 +172,7 @@ type Namespace struct {
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// List of tags that describe this namespace. All organization tags are
-	// automatically passed to policeable objects (eg. processing units, external
+	// automatically passed to policeable objects (e.g. processing units, external
 	// networks, enforcers) during their creation.
 	OrganizationMetadata []string `json:"organizationMetadata" msgpack:"organizationMetadata" bson:"organizationmetadata" mapstructure:"organizationMetadata,omitempty"`
 
@@ -1188,7 +1188,7 @@ policies in the namespace and its children.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "OrganizationMetadata",
 		Description: `List of tags that describe this namespace. All organization tags are
-automatically passed to policeable objects (eg. processing units, external
+automatically passed to policeable objects (e.g. processing units, external
 networks, enforcers) during their creation.`,
 		Exposed: true,
 		Name:    "organizationMetadata",
@@ -1555,7 +1555,7 @@ policies in the namespace and its children.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "OrganizationMetadata",
 		Description: `List of tags that describe this namespace. All organization tags are
-automatically passed to policeable objects (eg. processing units, external
+automatically passed to policeable objects (e.g. processing units, external
 networks, enforcers) during their creation.`,
 		Exposed: true,
 		Name:    "organizationMetadata",
@@ -1793,7 +1793,7 @@ type SparseNamespace struct {
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// List of tags that describe this namespace. All organization tags are
-	// automatically passed to policeable objects (eg. processing units, external
+	// automatically passed to policeable objects (e.g. processing units, external
 	// networks, enforcers) during their creation.
 	OrganizationMetadata *[]string `json:"organizationMetadata,omitempty" msgpack:"organizationMetadata,omitempty" bson:"organizationmetadata,omitempty" mapstructure:"organizationMetadata,omitempty"`
 
