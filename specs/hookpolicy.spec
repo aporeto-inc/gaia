@@ -183,3 +183,14 @@ attributes:
     stored: true
     validations:
     - $writeoperations
+
+  - name: triggerType
+    description: Defines the type that triggers the hook.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Endpoint
+    - AutomationSelector
+    default_value: Pre
+    orderable: true

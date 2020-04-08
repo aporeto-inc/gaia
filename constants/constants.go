@@ -415,6 +415,12 @@ const (
 	// ActionHookEndpointKey represents the action key that holds the hook endpoint.
 	ActionHookEndpointKey = "endpoint"
 
+	// ActionHookSelectors represents the action key that holds the hook selectors.
+	ActionHookSelectorsKey = "selectors"
+
+	// ActionHookTriggerType represents the action key that holds the hook selectors.
+	ActionHookTriggerTypeKey = "triggerType"
+
 	// ActionHookCAKey represents the action key that holds the hook CA.
 	ActionHookCAKey = "ca"
 
