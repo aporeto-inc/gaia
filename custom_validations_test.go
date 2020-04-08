@@ -2352,7 +2352,8 @@ func TestValidateHookPolicy(t *testing.T) {
 			"Only endpoint specified",
 			args{
 				&HookPolicy{
-					Endpoint: "https://www.google.com",
+					TriggerType: HookPolicyTriggerTypeEndpoint,
+					Endpoint:    "https://www.google.com",
 				},
 			},
 			false,
@@ -2361,20 +2362,9 @@ func TestValidateHookPolicy(t *testing.T) {
 			"Simple selectors specified",
 			args{
 				&HookPolicy{
+					TriggerType: HookPolicyTriggerTypeAutomationSelector,
 					Selectors: [][]string{
 						{"automation=test"},
-					},
-				},
-			},
-			false,
-		},
-		{
-			"Multi selectors specified",
-			args{
-				&HookPolicy{
-					Selectors: [][]string{
-						{"automation=test"},
-						{"automation=anotherone"},
 					},
 				},
 			},
@@ -2382,39 +2372,24 @@ func TestValidateHookPolicy(t *testing.T) {
 		},
 		// Error cases
 		{
-			"No endpoint and no selectors",
-			args{
-				&HookPolicy{},
-			},
-			true,
-		},
-		{
-			"Empty endpoint and no selectors",
+			"Endpoint trigger with automation selectors",
 			args{
 				&HookPolicy{
-					Endpoint: "",
-				},
-			},
-			true,
-		},
-		{
-			"Empty endpoint and empty selectors",
-			args{
-				&HookPolicy{
-					Endpoint:  "",
-					Selectors: [][]string{},
-				},
-			},
-			true,
-		},
-		{
-			"Endpoint and selectors are specified",
-			args{
-				&HookPolicy{
-					Endpoint: "https://google.com",
+					TriggerType: HookPolicyTriggerTypeEndpoint,
 					Selectors: [][]string{
 						{"automation=test"},
+						{"automation=anotherone"},
 					},
+				},
+			},
+			true,
+		},
+		{
+			"Automation Selector trigger with endpoint",
+			args{
+				&HookPolicy{
+					TriggerType: HookPolicyTriggerTypeAutomationSelector,
+					Endpoint:    "http://www.google.com",
 				},
 			},
 			true,
