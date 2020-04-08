@@ -192,5 +192,5 @@ attributes:
     allowed_choices:
     - Endpoint
     - AutomationSelector
-    default_value: Pre
+    default_value: Endpoint
     orderable: true

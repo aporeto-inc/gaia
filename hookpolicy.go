@@ -223,7 +223,7 @@ func NewHookPolicy() *HookPolicy {
 		Selectors:         [][]string{},
 		Subject:           [][]string{},
 		TriggerOperations: []string{},
-		TriggerType:       HookPolicyTriggerTypePre,
+		TriggerType:       HookPolicyTriggerTypeEndpoint,
 	}
 }
 
@@ -1280,7 +1280,7 @@ means all operations. You can only set any combination of ` + "`" + `create` + "
 	"TriggerType": {
 		AllowedChoices: []string{"Endpoint", "AutomationSelector"},
 		ConvertedName:  "TriggerType",
-		DefaultValue:   HookPolicyTriggerTypePre,
+		DefaultValue:   HookPolicyTriggerTypeEndpoint,
 		Description:    `Defines the type that triggers the hook.`,
 		Exposed:        true,
 		Name:           "triggerType",
@@ -1635,7 +1635,7 @@ means all operations. You can only set any combination of ` + "`" + `create` + "
 	"triggertype": {
 		AllowedChoices: []string{"Endpoint", "AutomationSelector"},
 		ConvertedName:  "TriggerType",
-		DefaultValue:   HookPolicyTriggerTypePre,
+		DefaultValue:   HookPolicyTriggerTypeEndpoint,
 		Description:    `Defines the type that triggers the hook.`,
 		Exposed:        true,
 		Name:           "triggerType",
