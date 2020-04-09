@@ -125,6 +125,17 @@ attributes:
     example_value: https://hooks.hookserver.com/remoteprocessors
     orderable: true
 
+  - name: endpointType
+    description: Defines the type of endpoint for the hook.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - URL
+    - Automation
+    default_value: URL
+    orderable: true
+
   - name: expirationTime
     description: If set the hook will be automatically deleted after the given time.
     type: time
@@ -183,14 +194,3 @@ attributes:
     stored: true
     validations:
     - $writeoperations
-
-  - name: triggerType
-    description: Defines the type that triggers the hook.
-    type: enum
-    exposed: true
-    stored: true
-    allowed_choices:
-    - Endpoint
-    - AutomationSelector
-    default_value: Endpoint
-    orderable: true

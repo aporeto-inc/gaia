@@ -2352,8 +2352,8 @@ func TestValidateHookPolicy(t *testing.T) {
 			"Only endpoint specified",
 			args{
 				&HookPolicy{
-					TriggerType: HookPolicyTriggerTypeEndpoint,
-					Endpoint:    "https://www.google.com",
+					EndpointType: HookPolicyEndpointTypeURL,
+					Endpoint:     "https://www.google.com",
 				},
 			},
 			false,
@@ -2362,7 +2362,7 @@ func TestValidateHookPolicy(t *testing.T) {
 			"Simple selectors specified",
 			args{
 				&HookPolicy{
-					TriggerType: HookPolicyTriggerTypeAutomationSelector,
+					EndpointType: HookPolicyEndpointTypeAutomation,
 					Selectors: [][]string{
 						{"automation=test"},
 					},
@@ -2375,7 +2375,7 @@ func TestValidateHookPolicy(t *testing.T) {
 			"Endpoint trigger with automation selectors",
 			args{
 				&HookPolicy{
-					TriggerType: HookPolicyTriggerTypeEndpoint,
+					EndpointType: HookPolicyEndpointTypeURL,
 					Selectors: [][]string{
 						{"automation=test"},
 						{"automation=anotherone"},
@@ -2388,8 +2388,8 @@ func TestValidateHookPolicy(t *testing.T) {
 			"Automation Selector trigger with endpoint",
 			args{
 				&HookPolicy{
-					TriggerType: HookPolicyTriggerTypeAutomationSelector,
-					Endpoint:    "http://www.google.com",
+					EndpointType: HookPolicyEndpointTypeAutomation,
+					Endpoint:     "http://www.google.com",
 				},
 			},
 			true,

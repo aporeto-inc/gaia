@@ -9,6 +9,17 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// HookPolicyEndpointTypeValue represents the possible values for attribute "endpointType".
+type HookPolicyEndpointTypeValue string
+
+const (
+	// HookPolicyEndpointTypeAutomation represents the value Automation.
+	HookPolicyEndpointTypeAutomation HookPolicyEndpointTypeValue = "Automation"
+
+	// HookPolicyEndpointTypeURL represents the value URL.
+	HookPolicyEndpointTypeURL HookPolicyEndpointTypeValue = "URL"
+)
+
 // HookPolicyModeValue represents the possible values for attribute "mode".
 type HookPolicyModeValue string
 
@@ -21,17 +32,6 @@ const (
 
 	// HookPolicyModePre represents the value Pre.
 	HookPolicyModePre HookPolicyModeValue = "Pre"
-)
-
-// HookPolicyTriggerTypeValue represents the possible values for attribute "triggerType".
-type HookPolicyTriggerTypeValue string
-
-const (
-	// HookPolicyTriggerTypeAutomationSelector represents the value AutomationSelector.
-	HookPolicyTriggerTypeAutomationSelector HookPolicyTriggerTypeValue = "AutomationSelector"
-
-	// HookPolicyTriggerTypeEndpoint represents the value Endpoint.
-	HookPolicyTriggerTypeEndpoint HookPolicyTriggerTypeValue = "Endpoint"
 )
 
 // HookPolicyIdentity represents the Identity of the object.
@@ -149,6 +149,9 @@ type HookPolicy struct {
 	// Contains the full address of the remote processor endpoint.
 	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
+	// Defines the type of endpoint for the hook.
+	EndpointType HookPolicyEndpointTypeValue `json:"endpointType" msgpack:"endpointType" bson:"endpointtype" mapstructure:"endpointType,omitempty"`
+
 	// If set the hook will be automatically deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
@@ -198,9 +201,6 @@ type HookPolicy struct {
 	// `delete`. Any other value will trigger a validation error.
 	TriggerOperations []string `json:"triggerOperations" msgpack:"triggerOperations" bson:"triggeroperations" mapstructure:"triggerOperations,omitempty"`
 
-	// Defines the type that triggers the hook.
-	TriggerType HookPolicyTriggerTypeValue `json:"triggerType" msgpack:"triggerType" bson:"triggertype" mapstructure:"triggerType,omitempty"`
-
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
@@ -217,13 +217,13 @@ func NewHookPolicy() *HookPolicy {
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
-		Metadata:          []string{},
-		NormalizedTags:    []string{},
+		EndpointType:      HookPolicyEndpointTypeURL,
 		Mode:              HookPolicyModePre,
+		NormalizedTags:    []string{},
+		Metadata:          []string{},
 		Selectors:         [][]string{},
 		Subject:           [][]string{},
 		TriggerOperations: []string{},
-		TriggerType:       HookPolicyTriggerTypeEndpoint,
 	}
 }
 
@@ -266,6 +266,7 @@ func (o *HookPolicy) GetBSON() (interface{}, error) {
 	s.Description = o.Description
 	s.Disabled = o.Disabled
 	s.Endpoint = o.Endpoint
+	s.EndpointType = o.EndpointType
 	s.ExpirationTime = o.ExpirationTime
 	s.Fallback = o.Fallback
 	s.Metadata = o.Metadata
@@ -279,7 +280,6 @@ func (o *HookPolicy) GetBSON() (interface{}, error) {
 	s.Selectors = o.Selectors
 	s.Subject = o.Subject
 	s.TriggerOperations = o.TriggerOperations
-	s.TriggerType = o.TriggerType
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
 
@@ -310,6 +310,7 @@ func (o *HookPolicy) SetBSON(raw bson.Raw) error {
 	o.Description = s.Description
 	o.Disabled = s.Disabled
 	o.Endpoint = s.Endpoint
+	o.EndpointType = s.EndpointType
 	o.ExpirationTime = s.ExpirationTime
 	o.Fallback = s.Fallback
 	o.Metadata = s.Metadata
@@ -323,7 +324,6 @@ func (o *HookPolicy) SetBSON(raw bson.Raw) error {
 	o.Selectors = s.Selectors
 	o.Subject = s.Subject
 	o.TriggerOperations = s.TriggerOperations
-	o.TriggerType = s.TriggerType
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
 
@@ -586,6 +586,7 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Description:          &o.Description,
 			Disabled:             &o.Disabled,
 			Endpoint:             &o.Endpoint,
+			EndpointType:         &o.EndpointType,
 			ExpirationTime:       &o.ExpirationTime,
 			Fallback:             &o.Fallback,
 			Metadata:             &o.Metadata,
@@ -599,7 +600,6 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Selectors:            &o.Selectors,
 			Subject:              &o.Subject,
 			TriggerOperations:    &o.TriggerOperations,
-			TriggerType:          &o.TriggerType,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 		}
@@ -632,6 +632,8 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Disabled = &(o.Disabled)
 		case "endpoint":
 			sp.Endpoint = &(o.Endpoint)
+		case "endpointType":
+			sp.EndpointType = &(o.EndpointType)
 		case "expirationTime":
 			sp.ExpirationTime = &(o.ExpirationTime)
 		case "fallback":
@@ -658,8 +660,6 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Subject = &(o.Subject)
 		case "triggerOperations":
 			sp.TriggerOperations = &(o.TriggerOperations)
-		case "triggerType":
-			sp.TriggerType = &(o.TriggerType)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -733,6 +733,9 @@ func (o *HookPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Endpoint != nil {
 		o.Endpoint = *so.Endpoint
 	}
+	if so.EndpointType != nil {
+		o.EndpointType = *so.EndpointType
+	}
 	if so.ExpirationTime != nil {
 		o.ExpirationTime = *so.ExpirationTime
 	}
@@ -771,9 +774,6 @@ func (o *HookPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.TriggerOperations != nil {
 		o.TriggerOperations = *so.TriggerOperations
-	}
-	if so.TriggerType != nil {
-		o.TriggerType = *so.TriggerType
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -829,6 +829,10 @@ func (o *HookPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("endpointType", string(o.EndpointType), []string{"URL", "Automation"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
@@ -854,10 +858,6 @@ func (o *HookPolicy) Validate() error {
 	}
 
 	if err := ValidateWriteOperations("triggerOperations", o.TriggerOperations); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateStringInList("triggerType", string(o.TriggerType), []string{"Endpoint", "AutomationSelector"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -924,6 +924,8 @@ func (o *HookPolicy) ValueForAttribute(name string) interface{} {
 		return o.Disabled
 	case "endpoint":
 		return o.Endpoint
+	case "endpointType":
+		return o.EndpointType
 	case "expirationTime":
 		return o.ExpirationTime
 	case "fallback":
@@ -950,8 +952,6 @@ func (o *HookPolicy) ValueForAttribute(name string) interface{} {
 		return o.Subject
 	case "triggerOperations":
 		return o.TriggerOperations
-	case "triggerType":
-		return o.TriggerType
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -1107,6 +1107,17 @@ calling the hook fails.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"EndpointType": {
+		AllowedChoices: []string{"URL", "Automation"},
+		ConvertedName:  "EndpointType",
+		DefaultValue:   HookPolicyEndpointTypeURL,
+		Description:    `Defines the type of endpoint for the hook.`,
+		Exposed:        true,
+		Name:           "endpointType",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
 	},
 	"ExpirationTime": {
 		AllowedChoices: []string{},
@@ -1276,17 +1287,6 @@ means all operations. You can only set any combination of ` + "`" + `create` + "
 		Stored:  true,
 		SubType: "string",
 		Type:    "list",
-	},
-	"TriggerType": {
-		AllowedChoices: []string{"Endpoint", "AutomationSelector"},
-		ConvertedName:  "TriggerType",
-		DefaultValue:   HookPolicyTriggerTypeEndpoint,
-		Description:    `Defines the type that triggers the hook.`,
-		Exposed:        true,
-		Name:           "triggerType",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
 	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -1463,6 +1463,17 @@ calling the hook fails.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"endpointtype": {
+		AllowedChoices: []string{"URL", "Automation"},
+		ConvertedName:  "EndpointType",
+		DefaultValue:   HookPolicyEndpointTypeURL,
+		Description:    `Defines the type of endpoint for the hook.`,
+		Exposed:        true,
+		Name:           "endpointType",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
+	},
 	"expirationtime": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
@@ -1632,17 +1643,6 @@ means all operations. You can only set any combination of ` + "`" + `create` + "
 		SubType: "string",
 		Type:    "list",
 	},
-	"triggertype": {
-		AllowedChoices: []string{"Endpoint", "AutomationSelector"},
-		ConvertedName:  "TriggerType",
-		DefaultValue:   HookPolicyTriggerTypeEndpoint,
-		Description:    `Defines the type that triggers the hook.`,
-		Exposed:        true,
-		Name:           "triggerType",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
-	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1777,6 +1777,9 @@ type SparseHookPolicy struct {
 	// Contains the full address of the remote processor endpoint.
 	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
+	// Defines the type of endpoint for the hook.
+	EndpointType *HookPolicyEndpointTypeValue `json:"endpointType,omitempty" msgpack:"endpointType,omitempty" bson:"endpointtype,omitempty" mapstructure:"endpointType,omitempty"`
+
 	// If set the hook will be automatically deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
@@ -1825,9 +1828,6 @@ type SparseHookPolicy struct {
 	// means all operations. You can only set any combination of `create`, `update` or
 	// `delete`. Any other value will trigger a validation error.
 	TriggerOperations *[]string `json:"triggerOperations,omitempty" msgpack:"triggerOperations,omitempty" bson:"triggeroperations,omitempty" mapstructure:"triggerOperations,omitempty"`
-
-	// Defines the type that triggers the hook.
-	TriggerType *HookPolicyTriggerTypeValue `json:"triggerType,omitempty" msgpack:"triggerType,omitempty" bson:"triggertype,omitempty" mapstructure:"triggerType,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1911,6 +1911,9 @@ func (o *SparseHookPolicy) GetBSON() (interface{}, error) {
 	if o.Endpoint != nil {
 		s.Endpoint = o.Endpoint
 	}
+	if o.EndpointType != nil {
+		s.EndpointType = o.EndpointType
+	}
 	if o.ExpirationTime != nil {
 		s.ExpirationTime = o.ExpirationTime
 	}
@@ -1949,9 +1952,6 @@ func (o *SparseHookPolicy) GetBSON() (interface{}, error) {
 	}
 	if o.TriggerOperations != nil {
 		s.TriggerOperations = o.TriggerOperations
-	}
-	if o.TriggerType != nil {
-		s.TriggerType = o.TriggerType
 	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -2009,6 +2009,9 @@ func (o *SparseHookPolicy) SetBSON(raw bson.Raw) error {
 	if s.Endpoint != nil {
 		o.Endpoint = s.Endpoint
 	}
+	if s.EndpointType != nil {
+		o.EndpointType = s.EndpointType
+	}
 	if s.ExpirationTime != nil {
 		o.ExpirationTime = s.ExpirationTime
 	}
@@ -2047,9 +2050,6 @@ func (o *SparseHookPolicy) SetBSON(raw bson.Raw) error {
 	}
 	if s.TriggerOperations != nil {
 		o.TriggerOperations = s.TriggerOperations
-	}
-	if s.TriggerType != nil {
-		o.TriggerType = s.TriggerType
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -2107,6 +2107,9 @@ func (o *SparseHookPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.Endpoint != nil {
 		out.Endpoint = *o.Endpoint
 	}
+	if o.EndpointType != nil {
+		out.EndpointType = *o.EndpointType
+	}
 	if o.ExpirationTime != nil {
 		out.ExpirationTime = *o.ExpirationTime
 	}
@@ -2145,9 +2148,6 @@ func (o *SparseHookPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.TriggerOperations != nil {
 		out.TriggerOperations = *o.TriggerOperations
-	}
-	if o.TriggerType != nil {
-		out.TriggerType = *o.TriggerType
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -2476,60 +2476,60 @@ func (o *SparseHookPolicy) DeepCopyInto(out *SparseHookPolicy) {
 }
 
 type mongoAttributesHookPolicy struct {
-	Annotations          map[string][]string        `bson:"annotations"`
-	AssociatedTags       []string                   `bson:"associatedtags"`
-	CertificateAuthority string                     `bson:"certificateauthority"`
-	ClientCertificate    string                     `bson:"clientcertificate"`
-	ClientCertificateKey string                     `bson:"clientcertificatekey"`
-	ContinueOnError      bool                       `bson:"continueonerror"`
-	CreateIdempotencyKey string                     `bson:"createidempotencykey"`
-	CreateTime           time.Time                  `bson:"createtime"`
-	Description          string                     `bson:"description"`
-	Disabled             bool                       `bson:"disabled"`
-	Endpoint             string                     `bson:"endpoint"`
-	ExpirationTime       time.Time                  `bson:"expirationtime"`
-	Fallback             bool                       `bson:"fallback"`
-	Metadata             []string                   `bson:"metadata"`
-	Mode                 HookPolicyModeValue        `bson:"mode"`
-	Name                 string                     `bson:"name"`
-	Namespace            string                     `bson:"namespace"`
-	NormalizedTags       []string                   `bson:"normalizedtags"`
-	Propagate            bool                       `bson:"propagate"`
-	PropagationHidden    bool                       `bson:"propagationhidden"`
-	Protected            bool                       `bson:"protected"`
-	Selectors            [][]string                 `bson:"selectors"`
-	Subject              [][]string                 `bson:"subject"`
-	TriggerOperations    []string                   `bson:"triggeroperations"`
-	TriggerType          HookPolicyTriggerTypeValue `bson:"triggertype"`
-	UpdateIdempotencyKey string                     `bson:"updateidempotencykey"`
-	UpdateTime           time.Time                  `bson:"updatetime"`
+	Annotations          map[string][]string         `bson:"annotations"`
+	AssociatedTags       []string                    `bson:"associatedtags"`
+	CertificateAuthority string                      `bson:"certificateauthority"`
+	ClientCertificate    string                      `bson:"clientcertificate"`
+	ClientCertificateKey string                      `bson:"clientcertificatekey"`
+	ContinueOnError      bool                        `bson:"continueonerror"`
+	CreateIdempotencyKey string                      `bson:"createidempotencykey"`
+	CreateTime           time.Time                   `bson:"createtime"`
+	Description          string                      `bson:"description"`
+	Disabled             bool                        `bson:"disabled"`
+	Endpoint             string                      `bson:"endpoint"`
+	EndpointType         HookPolicyEndpointTypeValue `bson:"endpointtype"`
+	ExpirationTime       time.Time                   `bson:"expirationtime"`
+	Fallback             bool                        `bson:"fallback"`
+	Metadata             []string                    `bson:"metadata"`
+	Mode                 HookPolicyModeValue         `bson:"mode"`
+	Name                 string                      `bson:"name"`
+	Namespace            string                      `bson:"namespace"`
+	NormalizedTags       []string                    `bson:"normalizedtags"`
+	Propagate            bool                        `bson:"propagate"`
+	PropagationHidden    bool                        `bson:"propagationhidden"`
+	Protected            bool                        `bson:"protected"`
+	Selectors            [][]string                  `bson:"selectors"`
+	Subject              [][]string                  `bson:"subject"`
+	TriggerOperations    []string                    `bson:"triggeroperations"`
+	UpdateIdempotencyKey string                      `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                   `bson:"updatetime"`
 }
 type mongoAttributesSparseHookPolicy struct {
-	Annotations          *map[string][]string        `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string                   `bson:"associatedtags,omitempty"`
-	CertificateAuthority *string                     `bson:"certificateauthority,omitempty"`
-	ClientCertificate    *string                     `bson:"clientcertificate,omitempty"`
-	ClientCertificateKey *string                     `bson:"clientcertificatekey,omitempty"`
-	ContinueOnError      *bool                       `bson:"continueonerror,omitempty"`
-	CreateIdempotencyKey *string                     `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time                  `bson:"createtime,omitempty"`
-	Description          *string                     `bson:"description,omitempty"`
-	Disabled             *bool                       `bson:"disabled,omitempty"`
-	Endpoint             *string                     `bson:"endpoint,omitempty"`
-	ExpirationTime       *time.Time                  `bson:"expirationtime,omitempty"`
-	Fallback             *bool                       `bson:"fallback,omitempty"`
-	Metadata             *[]string                   `bson:"metadata,omitempty"`
-	Mode                 *HookPolicyModeValue        `bson:"mode,omitempty"`
-	Name                 *string                     `bson:"name,omitempty"`
-	Namespace            *string                     `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string                   `bson:"normalizedtags,omitempty"`
-	Propagate            *bool                       `bson:"propagate,omitempty"`
-	PropagationHidden    *bool                       `bson:"propagationhidden,omitempty"`
-	Protected            *bool                       `bson:"protected,omitempty"`
-	Selectors            *[][]string                 `bson:"selectors,omitempty"`
-	Subject              *[][]string                 `bson:"subject,omitempty"`
-	TriggerOperations    *[]string                   `bson:"triggeroperations,omitempty"`
-	TriggerType          *HookPolicyTriggerTypeValue `bson:"triggertype,omitempty"`
-	UpdateIdempotencyKey *string                     `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time                  `bson:"updatetime,omitempty"`
+	Annotations          *map[string][]string         `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                    `bson:"associatedtags,omitempty"`
+	CertificateAuthority *string                      `bson:"certificateauthority,omitempty"`
+	ClientCertificate    *string                      `bson:"clientcertificate,omitempty"`
+	ClientCertificateKey *string                      `bson:"clientcertificatekey,omitempty"`
+	ContinueOnError      *bool                        `bson:"continueonerror,omitempty"`
+	CreateIdempotencyKey *string                      `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                   `bson:"createtime,omitempty"`
+	Description          *string                      `bson:"description,omitempty"`
+	Disabled             *bool                        `bson:"disabled,omitempty"`
+	Endpoint             *string                      `bson:"endpoint,omitempty"`
+	EndpointType         *HookPolicyEndpointTypeValue `bson:"endpointtype,omitempty"`
+	ExpirationTime       *time.Time                   `bson:"expirationtime,omitempty"`
+	Fallback             *bool                        `bson:"fallback,omitempty"`
+	Metadata             *[]string                    `bson:"metadata,omitempty"`
+	Mode                 *HookPolicyModeValue         `bson:"mode,omitempty"`
+	Name                 *string                      `bson:"name,omitempty"`
+	Namespace            *string                      `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                    `bson:"normalizedtags,omitempty"`
+	Propagate            *bool                        `bson:"propagate,omitempty"`
+	PropagationHidden    *bool                        `bson:"propagationhidden,omitempty"`
+	Protected            *bool                        `bson:"protected,omitempty"`
+	Selectors            *[][]string                  `bson:"selectors,omitempty"`
+	Subject              *[][]string                  `bson:"subject,omitempty"`
+	TriggerOperations    *[]string                    `bson:"triggeroperations,omitempty"`
+	UpdateIdempotencyKey *string                      `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                   `bson:"updatetime,omitempty"`
 }

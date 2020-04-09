@@ -883,21 +883,21 @@ func ValidateStringListNotEmpty(attribute string, slice []string) error {
 // ValidateHookPolicy validates a hook policy.
 func ValidateHookPolicy(policy *HookPolicy) error {
 
-	switch policy.TriggerType {
-	case HookPolicyTriggerTypeEndpoint:
+	switch policy.EndpointType {
+	case HookPolicyEndpointTypeURL:
 		if policy.Endpoint == "" {
 			return makeValidationError("endpoint", "endpoint is required")
 		}
 		if len(policy.Selectors) > 0 {
-			return makeValidationError("selectors", "no selectors should be specified with triggerType Endpoint")
+			return makeValidationError("selectors", "no selectors should be specified with EndpointType Endpoint")
 		}
 
-	case HookPolicyTriggerTypeAutomationSelector:
+	case HookPolicyEndpointTypeAutomation:
 		if len(policy.Selectors) == 0 {
 			return makeValidationError("selectors", "selectors must be specified")
 		}
 		if policy.Endpoint != "" {
-			return makeValidationError("endpoint", "no endpoint should be specified with triggerType AutomationSelector")
+			return makeValidationError("endpoint", "no endpoint should be specified with EndpointType AutomationSelector")
 		}
 	}
 
