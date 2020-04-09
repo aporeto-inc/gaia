@@ -8590,7 +8590,7 @@ Only
 means all operations. You can only set any combination of `create`, `update` or
 `delete`. Any other value will trigger a validation error.
 
-##### `triggerType` `emum(Endpoint | AutomationSelector)` [`required`]
+##### `triggerType` `emum(Endpoint | AutomationSelector)`
 
 Defines the type that triggers the hook.
 

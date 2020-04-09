@@ -857,10 +857,6 @@ func (o *HookPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("triggerType", string(o.TriggerType)); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateStringInList("triggerType", string(o.TriggerType), []string{"Endpoint", "AutomationSelector"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -1289,7 +1285,6 @@ means all operations. You can only set any combination of ` + "`" + `create` + "
 		Exposed:        true,
 		Name:           "triggerType",
 		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -1645,7 +1640,6 @@ means all operations. You can only set any combination of ` + "`" + `create` + "
 		Exposed:        true,
 		Name:           "triggerType",
 		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},

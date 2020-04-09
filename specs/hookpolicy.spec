@@ -189,7 +189,6 @@ attributes:
     type: enum
     exposed: true
     stored: true
-    required: true
     allowed_choices:
     - Endpoint
     - AutomationSelector
