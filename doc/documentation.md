@@ -3832,8 +3832,8 @@ Parameters:
 
 ##### `GET /namespaces/:id/organizationalmetadata`
 
-Retrieves the list of the namespace organization metadata and all its
-parent namespaces organization metadata.
+Retrieves the list of the namespace organizational metadata and the
+organizational metadata of its namespace hierarchy.
 
 ##### `GET /namespaces/:id/trustedcas`
 
@@ -3936,9 +3936,9 @@ policies in the namespace and its children.
 
 Contains the list of normalized tags of the entities.
 
-##### `organizationMetadata` `[]string`
+##### `organizationalMetadata` `[]string`
 
-List of tags that describe this namespace. All organization tags are
+List of tags that describe this namespace. All organizational tags are
 automatically passed to policeable objects (e.g. processing units, external
 networks, enforcers) during their creation.
 
@@ -4091,22 +4091,21 @@ Last update date of the object.
 
 ### OrganizationalMetadata
 
-Can be used to retrieve the organization metadata of the namespace and the
-organization metadata of its direct parent namespaces.
+Can be used to retrieve the organizational metadata of the namespace and the
+organizational metadata of its namespace hierarchy.
 
 #### Relations
 
 ##### `GET /namespaces/:id/organizationalmetadata`
 
-Retrieves the list of the namespace organization metadata and all its
-parent namespaces organization metadata.
+Retrieves the list of the namespace organizational metadata and the
+organizational metadata of its namespace hierarchy.
 
 #### Attributes
 
 ##### `metadata` `[]string`
 
-List of organization metadata for the namespace and its direct parent
-namespaces.
+List of organizational metadata for the namespace and its namespace hierarchy.
 
 ## core/policy
 

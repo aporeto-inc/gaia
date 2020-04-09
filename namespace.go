@@ -171,10 +171,10 @@ type Namespace struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// List of tags that describe this namespace. All organization tags are
+	// List of tags that describe this namespace. All organizational tags are
 	// automatically passed to policeable objects (e.g. processing units, external
 	// networks, enforcers) during their creation.
-	OrganizationMetadata []string `json:"organizationMetadata" msgpack:"organizationMetadata" bson:"organizationmetadata" mapstructure:"organizationMetadata,omitempty"`
+	OrganizationalMetadata []string `json:"organizationalMetadata" msgpack:"organizationalMetadata" bson:"organizationalmetadata" mapstructure:"organizationalMetadata,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -211,7 +211,7 @@ func NewNamespace() *Namespace {
 		NetworkAccessPolicyTags:    []string{},
 		NormalizedTags:             []string{},
 		JWTCertificates:            map[string]string{},
-		OrganizationMetadata:       []string{},
+		OrganizationalMetadata:     []string{},
 		Metadata:                   []string{},
 		JWTCertificateType:         NamespaceJWTCertificateTypeNone,
 		MigrationsLog:              map[string]string{},
@@ -270,7 +270,7 @@ func (o *Namespace) GetBSON() (interface{}, error) {
 	s.Namespace = o.Namespace
 	s.NetworkAccessPolicyTags = o.NetworkAccessPolicyTags
 	s.NormalizedTags = o.NormalizedTags
-	s.OrganizationMetadata = o.OrganizationMetadata
+	s.OrganizationalMetadata = o.OrganizationalMetadata
 	s.Protected = o.Protected
 	s.ServiceCertificateValidity = o.ServiceCertificateValidity
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -316,7 +316,7 @@ func (o *Namespace) SetBSON(raw bson.Raw) error {
 	o.Namespace = s.Namespace
 	o.NetworkAccessPolicyTags = s.NetworkAccessPolicyTags
 	o.NormalizedTags = s.NormalizedTags
-	o.OrganizationMetadata = s.OrganizationMetadata
+	o.OrganizationalMetadata = s.OrganizationalMetadata
 	o.Protected = s.Protected
 	o.ServiceCertificateValidity = s.ServiceCertificateValidity
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -582,7 +582,7 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Namespace:                  &o.Namespace,
 			NetworkAccessPolicyTags:    &o.NetworkAccessPolicyTags,
 			NormalizedTags:             &o.NormalizedTags,
-			OrganizationMetadata:       &o.OrganizationMetadata,
+			OrganizationalMetadata:     &o.OrganizationalMetadata,
 			Protected:                  &o.Protected,
 			ServiceCertificateValidity: &o.ServiceCertificateValidity,
 			UpdateIdempotencyKey:       &o.UpdateIdempotencyKey,
@@ -638,8 +638,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.NetworkAccessPolicyTags = &(o.NetworkAccessPolicyTags)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "organizationMetadata":
-			sp.OrganizationMetadata = &(o.OrganizationMetadata)
+		case "organizationalMetadata":
+			sp.OrganizationalMetadata = &(o.OrganizationalMetadata)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "serviceCertificateValidity":
@@ -730,8 +730,8 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
-	if so.OrganizationMetadata != nil {
-		o.OrganizationMetadata = *so.OrganizationMetadata
+	if so.OrganizationalMetadata != nil {
+		o.OrganizationalMetadata = *so.OrganizationalMetadata
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -814,7 +814,7 @@ func (o *Namespace) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateMetadata("organizationMetadata", o.OrganizationMetadata); err != nil {
+	if err := ValidateMetadata("organizationalMetadata", o.OrganizationalMetadata); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -898,8 +898,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.NetworkAccessPolicyTags
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "organizationMetadata":
-		return o.OrganizationMetadata
+	case "organizationalMetadata":
+		return o.OrganizationalMetadata
 	case "protected":
 		return o.Protected
 	case "serviceCertificateValidity":
@@ -1184,14 +1184,14 @@ policies in the namespace and its children.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"OrganizationMetadata": {
+	"OrganizationalMetadata": {
 		AllowedChoices: []string{},
-		ConvertedName:  "OrganizationMetadata",
-		Description: `List of tags that describe this namespace. All organization tags are
+		ConvertedName:  "OrganizationalMetadata",
+		Description: `List of tags that describe this namespace. All organizational tags are
 automatically passed to policeable objects (e.g. processing units, external
 networks, enforcers) during their creation.`,
 		Exposed: true,
-		Name:    "organizationMetadata",
+		Name:    "organizationalMetadata",
 		Stored:  true,
 		SubType: "string",
 		Type:    "list",
@@ -1551,14 +1551,14 @@ policies in the namespace and its children.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"organizationmetadata": {
+	"organizationalmetadata": {
 		AllowedChoices: []string{},
-		ConvertedName:  "OrganizationMetadata",
-		Description: `List of tags that describe this namespace. All organization tags are
+		ConvertedName:  "OrganizationalMetadata",
+		Description: `List of tags that describe this namespace. All organizational tags are
 automatically passed to policeable objects (e.g. processing units, external
 networks, enforcers) during their creation.`,
 		Exposed: true,
-		Name:    "organizationMetadata",
+		Name:    "organizationalMetadata",
 		Stored:  true,
 		SubType: "string",
 		Type:    "list",
@@ -1792,10 +1792,10 @@ type SparseNamespace struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// List of tags that describe this namespace. All organization tags are
+	// List of tags that describe this namespace. All organizational tags are
 	// automatically passed to policeable objects (e.g. processing units, external
 	// networks, enforcers) during their creation.
-	OrganizationMetadata *[]string `json:"organizationMetadata,omitempty" msgpack:"organizationMetadata,omitempty" bson:"organizationmetadata,omitempty" mapstructure:"organizationMetadata,omitempty"`
+	OrganizationalMetadata *[]string `json:"organizationalMetadata,omitempty" msgpack:"organizationalMetadata,omitempty" bson:"organizationalmetadata,omitempty" mapstructure:"organizationalMetadata,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
@@ -1925,8 +1925,8 @@ func (o *SparseNamespace) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
-	if o.OrganizationMetadata != nil {
-		s.OrganizationMetadata = o.OrganizationMetadata
+	if o.OrganizationalMetadata != nil {
+		s.OrganizationalMetadata = o.OrganizationalMetadata
 	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
@@ -2028,8 +2028,8 @@ func (o *SparseNamespace) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
-	if s.OrganizationMetadata != nil {
-		o.OrganizationMetadata = s.OrganizationMetadata
+	if s.OrganizationalMetadata != nil {
+		o.OrganizationalMetadata = s.OrganizationalMetadata
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
@@ -2129,8 +2129,8 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
-	if o.OrganizationMetadata != nil {
-		out.OrganizationMetadata = *o.OrganizationMetadata
+	if o.OrganizationalMetadata != nil {
+		out.OrganizationalMetadata = *o.OrganizationalMetadata
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -2459,7 +2459,7 @@ type mongoAttributesNamespace struct {
 	Namespace                  string                           `bson:"namespace"`
 	NetworkAccessPolicyTags    []string                         `bson:"networkaccesspolicytags"`
 	NormalizedTags             []string                         `bson:"normalizedtags"`
-	OrganizationMetadata       []string                         `bson:"organizationmetadata"`
+	OrganizationalMetadata     []string                         `bson:"organizationalmetadata"`
 	Protected                  bool                             `bson:"protected"`
 	ServiceCertificateValidity string                           `bson:"servicecertificatevalidity"`
 	UpdateIdempotencyKey       string                           `bson:"updateidempotencykey"`
@@ -2490,7 +2490,7 @@ type mongoAttributesSparseNamespace struct {
 	Namespace                  *string                           `bson:"namespace,omitempty"`
 	NetworkAccessPolicyTags    *[]string                         `bson:"networkaccesspolicytags,omitempty"`
 	NormalizedTags             *[]string                         `bson:"normalizedtags,omitempty"`
-	OrganizationMetadata       *[]string                         `bson:"organizationmetadata,omitempty"`
+	OrganizationalMetadata     *[]string                         `bson:"organizationalmetadata,omitempty"`
 	Protected                  *bool                             `bson:"protected,omitempty"`
 	ServiceCertificateValidity *string                           `bson:"servicecertificatevalidity,omitempty"`
 	UpdateIdempotencyKey       *string                           `bson:"updateidempotencykey,omitempty"`

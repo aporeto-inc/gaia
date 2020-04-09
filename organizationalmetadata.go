@@ -80,8 +80,7 @@ func (o OrganizationalMetadatasList) Version() int {
 
 // OrganizationalMetadata represents the model of a organizationalmetadata
 type OrganizationalMetadata struct {
-	// List of organization metadata for the namespace and its direct parent
-	// namespaces.
+	// List of organizational metadata for the namespace and its namespace hierarchy.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -167,8 +166,8 @@ func (o *OrganizationalMetadata) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *OrganizationalMetadata) Doc() string {
 
-	return `Can be used to retrieve the organization metadata of the namespace and the
-organization metadata of its direct parent namespaces.`
+	return `Can be used to retrieve the organizational metadata of the namespace and the
+organizational metadata of its namespace hierarchy.`
 }
 
 func (o *OrganizationalMetadata) String() string {
@@ -290,13 +289,12 @@ var OrganizationalMetadataAttributesMap = map[string]elemental.AttributeSpecific
 	"Metadata": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
-		Description: `List of organization metadata for the namespace and its direct parent
-namespaces.`,
-		Exposed: true,
-		Name:    "metadata",
-		Stored:  true,
-		SubType: "string",
-		Type:    "list",
+		Description:    `List of organizational metadata for the namespace and its namespace hierarchy.`,
+		Exposed:        true,
+		Name:           "metadata",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 }
 
@@ -305,13 +303,12 @@ var OrganizationalMetadataLowerCaseAttributesMap = map[string]elemental.Attribut
 	"metadata": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
-		Description: `List of organization metadata for the namespace and its direct parent
-namespaces.`,
-		Exposed: true,
-		Name:    "metadata",
-		Stored:  true,
-		SubType: "string",
-		Type:    "list",
+		Description:    `List of organizational metadata for the namespace and its namespace hierarchy.`,
+		Exposed:        true,
+		Name:           "metadata",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 }
 
@@ -378,8 +375,7 @@ func (o SparseOrganizationalMetadatasList) Version() int {
 
 // SparseOrganizationalMetadata represents the sparse version of a organizationalmetadata.
 type SparseOrganizationalMetadata struct {
-	// List of organization metadata for the namespace and its direct parent
-	// namespaces.
+	// List of organizational metadata for the namespace and its namespace hierarchy.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

@@ -151,9 +151,9 @@ attributes:
     validations:
     - $tags
 
-  - name: organizationMetadata
+  - name: organizationalMetadata
     description: |-
-      List of tags that describe this namespace. All organization tags are
+      List of tags that describe this namespace. All organizational tags are
       automatically passed to policeable objects (e.g. processing units, external
       networks, enforcers) during their creation.
     type: list
@@ -211,8 +211,8 @@ relations:
 - rest_name: organizationalmetadata
   get:
     description: |-
-      Retrieves the list of the namespace organization metadata and all its
-      parent namespaces organization metadata.
+      Retrieves the list of the namespace organizational metadata and the
+      organizational metadata of its namespace hierarchy.
 
 - rest_name: trustedca
   get:
