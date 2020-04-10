@@ -48,6 +48,20 @@ const (
 	FlowReportObservedActionReject FlowReportObservedActionValue = "Reject"
 )
 
+// FlowReportSeqNumMatchingValue represents the possible values for attribute "seqNumMatching".
+type FlowReportSeqNumMatchingValue string
+
+const (
+	// FlowReportSeqNumMatchingEqual represents the value Equal.
+	FlowReportSeqNumMatchingEqual FlowReportSeqNumMatchingValue = "Equal"
+
+	// FlowReportSeqNumMatchingUndefined represents the value Undefined.
+	FlowReportSeqNumMatchingUndefined FlowReportSeqNumMatchingValue = "Undefined"
+
+	// FlowReportSeqNumMatchingUnequal represents the value Unequal.
+	FlowReportSeqNumMatchingUnequal FlowReportSeqNumMatchingValue = "Unequal"
+)
+
 // FlowReportServiceTypeValue represents the possible values for attribute "serviceType".
 type FlowReportServiceTypeValue string
 
@@ -211,9 +225,11 @@ type FlowReport struct {
 	// Namespace of the object at the other end of the flow.
 	RemoteNamespace string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"-" mapstructure:"remoteNamespace,omitempty"`
 
-	// If `true`, sequence number of the packet sent on the transmitter side and the
-	// sequence number of the packet on the receiver side is same.
-	SeqNumMatching bool `json:"seqNumMatching" msgpack:"seqNumMatching" bson:"-" mapstructure:"seqNumMatching,omitempty"`
+	// If the sequence number of the packet sent on the transmitter side and the
+	// sequence number of the packet on the receiver side is same, then 'Equal'
+	// otherwise 'Unequal'. 'Undefined' means validation did not happen for some
+	// reason.
+	SeqNumMatching FlowReportSeqNumMatchingValue `json:"seqNumMatching" msgpack:"seqNumMatching" bson:"-" mapstructure:"seqNumMatching,omitempty"`
 
 	// Hash of the claims used to communicate.
 	ServiceClaimHash string `json:"serviceClaimHash" msgpack:"serviceClaimHash" bson:"-" mapstructure:"serviceClaimHash,omitempty"`
@@ -260,6 +276,7 @@ func NewFlowReport() *FlowReport {
 
 	return &FlowReport{
 		ModelVersion:   1,
+		SeqNumMatching: FlowReportSeqNumMatchingUndefined,
 		ObservedAction: FlowReportObservedActionNotApplicable,
 		ServiceType:    FlowReportServiceTypeNotApplicable,
 	}
@@ -630,6 +647,10 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("seqNumMatching", string(o.SeqNumMatching), []string{"Equal", "Unequal", "Undefined"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateStringInList("serviceType", string(o.ServiceType), []string{"L3", "HTTP", "TCP", "NotApplicable"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -921,13 +942,16 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Type:           "string",
 	},
 	"SeqNumMatching": {
-		AllowedChoices: []string{},
+		AllowedChoices: []string{"Equal", "Unequal", "Undefined"},
 		ConvertedName:  "SeqNumMatching",
-		Description: `If ` + "`" + `true` + "`" + `, sequence number of the packet sent on the transmitter side and the
-sequence number of the packet on the receiver side is same.`,
+		DefaultValue:   FlowReportSeqNumMatchingUndefined,
+		Description: `If the sequence number of the packet sent on the transmitter side and the
+sequence number of the packet on the receiver side is same, then 'Equal'
+otherwise 'Unequal'. 'Undefined' means validation did not happen for some
+reason.`,
 		Exposed: true,
 		Name:    "seqNumMatching",
-		Type:    "boolean",
+		Type:    "enum",
 	},
 	"ServiceClaimHash": {
 		AllowedChoices: []string{},
@@ -1201,13 +1225,16 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Type:           "string",
 	},
 	"seqnummatching": {
-		AllowedChoices: []string{},
+		AllowedChoices: []string{"Equal", "Unequal", "Undefined"},
 		ConvertedName:  "SeqNumMatching",
-		Description: `If ` + "`" + `true` + "`" + `, sequence number of the packet sent on the transmitter side and the
-sequence number of the packet on the receiver side is same.`,
+		DefaultValue:   FlowReportSeqNumMatchingUndefined,
+		Description: `If the sequence number of the packet sent on the transmitter side and the
+sequence number of the packet on the receiver side is same, then 'Equal'
+otherwise 'Unequal'. 'Undefined' means validation did not happen for some
+reason.`,
 		Exposed: true,
 		Name:    "seqNumMatching",
-		Type:    "boolean",
+		Type:    "enum",
 	},
 	"serviceclaimhash": {
 		AllowedChoices: []string{},
@@ -1436,9 +1463,11 @@ type SparseFlowReport struct {
 	// Namespace of the object at the other end of the flow.
 	RemoteNamespace *string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"-" mapstructure:"remoteNamespace,omitempty"`
 
-	// If `true`, sequence number of the packet sent on the transmitter side and the
-	// sequence number of the packet on the receiver side is same.
-	SeqNumMatching *bool `json:"seqNumMatching,omitempty" msgpack:"seqNumMatching,omitempty" bson:"-" mapstructure:"seqNumMatching,omitempty"`
+	// If the sequence number of the packet sent on the transmitter side and the
+	// sequence number of the packet on the receiver side is same, then 'Equal'
+	// otherwise 'Unequal'. 'Undefined' means validation did not happen for some
+	// reason.
+	SeqNumMatching *FlowReportSeqNumMatchingValue `json:"seqNumMatching,omitempty" msgpack:"seqNumMatching,omitempty" bson:"-" mapstructure:"seqNumMatching,omitempty"`
 
 	// Hash of the claims used to communicate.
 	ServiceClaimHash *string `json:"serviceClaimHash,omitempty" msgpack:"serviceClaimHash,omitempty" bson:"-" mapstructure:"serviceClaimHash,omitempty"`

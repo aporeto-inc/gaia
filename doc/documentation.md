@@ -9172,7 +9172,7 @@ Post a new flow log.
   "policyID": "xxx-xxx-xxx",
   "policyNamespace": "/my/namespace",
   "protocol": 6,
-  "seqNumMatching": false,
+  "seqNumMatching": "Undefined",
   "serviceType": "NotApplicable",
   "sourceID": "xxx-xxx-xxx",
   "sourceNamespace": "/my/namespace",
@@ -9278,10 +9278,18 @@ Protocol number.
 
 Namespace of the object at the other end of the flow.
 
-##### `seqNumMatching` `boolean`
+##### `seqNumMatching` `emum(Equal | Unequal | Undefined)`
 
-If `true`, sequence number of the packet sent on the transmitter side and the
-sequence number of the packet on the receiver side is same.
+If the sequence number of the packet sent on the transmitter side and the
+sequence number of the packet on the receiver side is same, then 'Equal'
+otherwise 'Unequal'. 'Undefined' means validation did not happen for some
+reason.
+
+Default value:
+
+```json
+"Undefined"
+```
 
 ##### `serviceClaimHash` `string`
 
