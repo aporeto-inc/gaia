@@ -165,7 +165,7 @@ type FlowReport struct {
 	DestinationNamespace string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
 
 	// Identifier of the destination platform.
-	DestinationPlatform int `json:"destinationPlatform" msgpack:"destinationPlatform" bson:"-" mapstructure:"destinationPlatform,omitempty"`
+	DestinationPlatform string `json:"destinationPlatform" msgpack:"destinationPlatform" bson:"-" mapstructure:"destinationPlatform,omitempty"`
 
 	// Port of the destination.
 	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
@@ -796,7 +796,7 @@ property does nothing.`,
 		Description:    `Identifier of the destination platform.`,
 		Exposed:        true,
 		Name:           "destinationPlatform",
-		Type:           "integer",
+		Type:           "string",
 	},
 	"DestinationPort": {
 		AllowedChoices: []string{},
@@ -1075,7 +1075,7 @@ property does nothing.`,
 		Description:    `Identifier of the destination platform.`,
 		Exposed:        true,
 		Name:           "destinationPlatform",
-		Type:           "integer",
+		Type:           "string",
 	},
 	"destinationport": {
 		AllowedChoices: []string{},
@@ -1387,7 +1387,7 @@ type SparseFlowReport struct {
 	DestinationNamespace *string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
 
 	// Identifier of the destination platform.
-	DestinationPlatform *int `json:"destinationPlatform,omitempty" msgpack:"destinationPlatform,omitempty" bson:"-" mapstructure:"destinationPlatform,omitempty"`
+	DestinationPlatform *string `json:"destinationPlatform,omitempty" msgpack:"destinationPlatform,omitempty" bson:"-" mapstructure:"destinationPlatform,omitempty"`
 
 	// Port of the destination.
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`

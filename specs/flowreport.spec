@@ -44,7 +44,7 @@ attributes:
 
   - name: destinationPlatform
     description: Identifier of the destination platform.
-    type: integer
+    type: string
     exposed: true
     example_value: api.east.acme.com
 

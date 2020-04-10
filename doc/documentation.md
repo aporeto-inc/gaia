@@ -9399,7 +9399,7 @@ _This attribute is deprecated_.
 Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
 property does nothing.
 
-##### `destinationPlatform` `integer`
+##### `destinationPlatform` `string`
 
 Identifier of the destination platform.
 
