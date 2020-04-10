@@ -662,6 +662,7 @@ func ValidatePEM(attribute string, pemdata string) error {
 	}
 }
 
+// ValidateCA verifies a string contains a PEM encoding a CA.
 func ValidateCA(attribute string, pemdata string) error {
 
 	if pemdata == "" {
