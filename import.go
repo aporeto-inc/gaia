@@ -97,8 +97,10 @@ type Import struct {
 	// Data to import.
 	Data *Export `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
-	// How to import the data: `ReplacePartial`, `Import` (default), or `Remove`. `ReplacePartial`
-	// is deprecated. Use `Import` instead. While you can use `ReplacePartial` it will be interpreted
+	// How to import the data: `ReplacePartial`, `Import` (default), or `Remove`.
+	// `ReplacePartial`
+	// is deprecated. Use `Import` instead. While you can use `ReplacePartial` it will
+	// be interpreted
 	// as `Import`.
 	Mode ImportModeValue `json:"mode" msgpack:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
@@ -330,8 +332,10 @@ var ImportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"ReplacePartial", "Import", "Remove"},
 		ConvertedName:  "Mode",
 		DefaultValue:   ImportModeImport,
-		Description: `How to import the data: ` + "`" + `ReplacePartial` + "`" + `, ` + "`" + `Import` + "`" + ` (default), or ` + "`" + `Remove` + "`" + `. ` + "`" + `ReplacePartial` + "`" + ` 
-is deprecated. Use ` + "`" + `Import` + "`" + ` instead. While you can use ` + "`" + `ReplacePartial` + "`" + ` it will be interpreted 
+		Description: `How to import the data: ` + "`" + `ReplacePartial` + "`" + `, ` + "`" + `Import` + "`" + ` (default), or ` + "`" + `Remove` + "`" + `.
+` + "`" + `ReplacePartial` + "`" + `
+is deprecated. Use ` + "`" + `Import` + "`" + ` instead. While you can use ` + "`" + `ReplacePartial` + "`" + ` it will
+be interpreted
 as ` + "`" + `Import` + "`" + `.`,
 		Exposed: true,
 		Name:    "mode",
@@ -355,8 +359,10 @@ var ImportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"ReplacePartial", "Import", "Remove"},
 		ConvertedName:  "Mode",
 		DefaultValue:   ImportModeImport,
-		Description: `How to import the data: ` + "`" + `ReplacePartial` + "`" + `, ` + "`" + `Import` + "`" + ` (default), or ` + "`" + `Remove` + "`" + `. ` + "`" + `ReplacePartial` + "`" + ` 
-is deprecated. Use ` + "`" + `Import` + "`" + ` instead. While you can use ` + "`" + `ReplacePartial` + "`" + ` it will be interpreted 
+		Description: `How to import the data: ` + "`" + `ReplacePartial` + "`" + `, ` + "`" + `Import` + "`" + ` (default), or ` + "`" + `Remove` + "`" + `.
+` + "`" + `ReplacePartial` + "`" + `
+is deprecated. Use ` + "`" + `Import` + "`" + ` instead. While you can use ` + "`" + `ReplacePartial` + "`" + ` it will
+be interpreted
 as ` + "`" + `Import` + "`" + `.`,
 		Exposed: true,
 		Name:    "mode",
@@ -430,8 +436,10 @@ type SparseImport struct {
 	// Data to import.
 	Data *Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
-	// How to import the data: `ReplacePartial`, `Import` (default), or `Remove`. `ReplacePartial`
-	// is deprecated. Use `Import` instead. While you can use `ReplacePartial` it will be interpreted
+	// How to import the data: `ReplacePartial`, `Import` (default), or `Remove`.
+	// `ReplacePartial`
+	// is deprecated. Use `Import` instead. While you can use `ReplacePartial` it will
+	// be interpreted
 	// as `Import`.
 	Mode *ImportModeValue `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
 

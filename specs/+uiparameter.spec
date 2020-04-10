@@ -106,8 +106,10 @@ attributes:
 
   - name: visibilityCondition
     description: |-
-      A logical expression consisting of one or more [UIParameterVisibility](#uiparametervisibility)
-      conditions linked together using AND or OR operators. If the expression evaluates to true 
+      A logical expression consisting of one or more
+      [UIParameterVisibility](#uiparametervisibility)
+      conditions linked together using AND or OR operators. If the expression
+      evaluates to true
       the parameter is displayed to the user.
     type: external
     exposed: true
