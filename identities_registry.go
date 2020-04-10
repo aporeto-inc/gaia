@@ -136,8 +136,9 @@ var (
 		"token":            TokenIdentity,
 		"tokenscopepolicy": TokenScopePolicyIdentity,
 
-		"trigger":   TriggerIdentity,
-		"trustedca": TrustedCAIdentity,
+		"trigger":          TriggerIdentity,
+		"trustedca":        TrustedCAIdentity,
+		"trustednamespace": TrustedNamespaceIdentity,
 
 		"useraccesspolicy":     UserAccessPolicyIdentity,
 		"validateuiparameter":  ValidateUIParameterIdentity,
@@ -279,8 +280,9 @@ var (
 		"tokens":             TokenIdentity,
 		"tokenscopepolicies": TokenScopePolicyIdentity,
 
-		"triggers":   TriggerIdentity,
-		"trustedcas": TrustedCAIdentity,
+		"triggers":         TriggerIdentity,
+		"trustedcas":       TrustedCAIdentity,
+		"trustedamespaces": TrustedNamespaceIdentity,
 
 		"useraccesspolicies":    UserAccessPolicyIdentity,
 		"validateuiparameters":  ValidateUIParameterIdentity,
@@ -842,10 +844,19 @@ var (
 			{"date"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
-		"token":               nil,
-		"tokenscopepolicy":    nil,
-		"trigger":             nil,
-		"trustedca":           nil,
+		"token":            nil,
+		"tokenscopepolicy": nil,
+		"trigger":          nil,
+		"trustedca":        nil,
+		"trustednamespace": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
+		},
 		"useraccesspolicy":    nil,
 		"validateuiparameter": nil,
 		"vulnerability": {
@@ -1150,6 +1161,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewTrigger()
 	case TrustedCAIdentity:
 		return NewTrustedCA()
+	case TrustedNamespaceIdentity:
+		return NewTrustedNamespace()
 	case UserAccessPolicyIdentity:
 		return NewUserAccessPolicy()
 	case ValidateUIParameterIdentity:
@@ -1413,6 +1426,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseTrigger()
 	case TrustedCAIdentity:
 		return NewSparseTrustedCA()
+	case TrustedNamespaceIdentity:
+		return NewSparseTrustedNamespace()
 	case UserAccessPolicyIdentity:
 		return NewSparseUserAccessPolicy()
 	case ValidateUIParameterIdentity:
@@ -1686,6 +1701,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &TriggersList{}
 	case TrustedCAIdentity:
 		return &TrustedCAsList{}
+	case TrustedNamespaceIdentity:
+		return &TrustedNamespacesList{}
 	case UserAccessPolicyIdentity:
 		return &UserAccessPoliciesList{}
 	case ValidateUIParameterIdentity:
@@ -1949,6 +1966,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseTriggersList{}
 	case TrustedCAIdentity:
 		return &SparseTrustedCAsList{}
+	case TrustedNamespaceIdentity:
+		return &SparseTrustedNamespacesList{}
 	case UserAccessPolicyIdentity:
 		return &SparseUserAccessPoliciesList{}
 	case ValidateUIParameterIdentity:
@@ -2106,6 +2125,7 @@ func AllIdentities() []elemental.Identity {
 		TokenScopePolicyIdentity,
 		TriggerIdentity,
 		TrustedCAIdentity,
+		TrustedNamespaceIdentity,
 		UserAccessPolicyIdentity,
 		ValidateUIParameterIdentity,
 		VulnerabilityIdentity,
@@ -2486,6 +2506,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case TriggerIdentity:
 		return []string{}
 	case TrustedCAIdentity:
+		return []string{}
+	case TrustedNamespaceIdentity:
 		return []string{}
 	case UserAccessPolicyIdentity:
 		return []string{

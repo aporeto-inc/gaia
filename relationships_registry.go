@@ -4591,6 +4591,8 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[TrustedNamespaceIdentity] = &elemental.Relationship{}
+
 	relationshipsRegistry[UserAccessPolicyIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},

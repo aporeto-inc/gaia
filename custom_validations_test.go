@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"reflect"
 	"testing"
 )
 
@@ -1384,7 +1383,7 @@ func TestValidateAutomation(t *testing.T) {
 			err := ValidateAutomation(tc.automation)
 			switch {
 			case err != nil && tc.expectedError != nil:
-				if !reflect.DeepEqual(err, tc.expectedError) {
+				if err.Error() != tc.expectedError.Error() {
 					t.Fatalf("\n"+
 						"actual error: %+v\n"+
 						"did not equal\n"+
@@ -1964,8 +1963,8 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			args{
 				"subject",
 				[][]string{
-					[]string{"@auth:realm=certificate", "@auth:claim=a"},
-					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+					{"@auth:realm=certificate", "@auth:claim=a"},
+					{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
 				},
 			},
 			false,
@@ -1976,8 +1975,8 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			args{
 				"subject",
 				[][]string{
-					[]string{"@auth:realm=certificate", "@auth:claim=a"},
-					[]string{"@auth:claim=a", "@auth:claim=b"},
+					{"@auth:realm=certificate", "@auth:claim=a"},
+					{"@auth:claim=a", "@auth:claim=b"},
 				},
 			},
 			true,
@@ -1988,8 +1987,8 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			args{
 				"subject",
 				[][]string{
-					[]string{"@auth:realm=certificate", "@auth:claim=a", "@auth:realm=vince"},
-					[]string{"@auth:claim=a", "@auth:claim=b"},
+					{"@auth:realm=certificate", "@auth:claim=a", "@auth:realm=vince"},
+					{"@auth:claim=a", "@auth:claim=b"},
 				},
 			},
 			true,
@@ -2000,8 +1999,8 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			args{
 				"subject",
 				[][]string{
-					[]string{"@auth:realm=certificate", "@auth:claim=a"},
-					[]string{"@auth:realm=certificate"},
+					{"@auth:realm=certificate", "@auth:claim=a"},
+					{"@auth:realm=certificate"},
 				},
 			},
 			true,
@@ -2012,8 +2011,8 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			args{
 				"subject",
 				[][]string{
-					[]string{"@auth:realm=certificate", "@auth:claim=a"},
-					[]string{"@auth:claim=a", "@auth:claim=b", "not:good"},
+					{"@auth:realm=certificate", "@auth:claim=a"},
+					{"@auth:claim=a", "@auth:claim=b", "not:good"},
 				},
 			},
 			true,
@@ -2024,8 +2023,8 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			args{
 				"subject",
 				[][]string{
-					[]string{"@auth:realm=oidc", "@auth:claim=a", "@auth:namespace=/a/b"},
-					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+					{"@auth:realm=oidc", "@auth:claim=a", "@auth:namespace=/a/b"},
+					{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
 				},
 			},
 			false,
@@ -2036,8 +2035,8 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			args{
 				"subject",
 				[][]string{
-					[]string{"@auth:realm=oidc", "@auth:claim=a"},
-					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+					{"@auth:realm=oidc", "@auth:claim=a"},
+					{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
 				},
 			},
 			true,
@@ -2048,8 +2047,8 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			args{
 				"subject",
 				[][]string{
-					[]string{"@auth:realm=saml", "@auth:claim=a", "@auth:namespace=/a/b"},
-					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+					{"@auth:realm=saml", "@auth:claim=a", "@auth:namespace=/a/b"},
+					{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
 				},
 			},
 			false,
@@ -2060,8 +2059,8 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			args{
 				"subject",
 				[][]string{
-					[]string{"@auth:realm=saml", "@auth:claim=a"},
-					[]string{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
+					{"@auth:realm=saml", "@auth:claim=a"},
+					{"@auth:realm=vince", "@auth:claim=a", "@auth:claim=b"},
 				},
 			},
 			true,
@@ -2399,6 +2398,103 @@ func TestValidateHookPolicy(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateHookPolicy(tt.args.policy); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateHookPolicy() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateCA(t *testing.T) {
+
+	var (
+		notCA = `-----BEGIN CERTIFICATE-----
+MIIBKzCB0qADAgECAhBaMjFSVhiDqqG1HMQaPNB3MAoGCCqGSM49BAMCMA8xDTAL
+BgNVBAMTBHRvdG8wHhcNMjAwNDEwMTczMjEyWhcNMzAwMjE3MTczMjEyWjAPMQ0w
+CwYDVQQDEwR0b3RvMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESFKAZYknsQ/P
+u847pk7vkAWkh0hlWCGm8ycTqJtREmfcl3MUYarXjJJLxrg5WmM+xRJuuiTudyLR
+MeJFDIVRkqMQMA4wDAYDVR0TAQH/BAIwADAKBggqhkjOPQQDAgNIADBFAiEAr5Sn
+5NMpnLPc1yy1A3oyX+iHj2jjPRc/FkTK1ozPA04CIAvBYS8+5Hq+HzmryIP0A57k
+dGcCFgI8uzkLKtXLq2n0
+-----END CERTIFICATE-----`
+		CA = `-----BEGIN CERTIFICATE-----
+MIIBPjCB5aADAgECAhAumbVWnomSelU1zBRe9qp4MAoGCCqGSM49BAMCMA8xDTAL
+BgNVBAMTBHRvdG8wHhcNMjAwNDEwMTczMjU0WhcNMzAwMjE3MTczMjU0WjAPMQ0w
+CwYDVQQDEwR0b3RvMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEUWqBTwhWMrtr
+vv2i+nyiLpwZPV+BfJs+W+qpYLxX6A+WqFTNvu/frdm6dfKLc022QIMzcJwsM+Yz
+oBYZoyf02KMjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI
+KoZIzj0EAwIDSAAwRQIhAILlr7jJBS3syxM34zLlwvaoRiCFWnVPHNQeSJtk0h7l
+AiBZg9mafabskWu9ekgZm50rKkPeqF94tY6R7tuZBUdcVQ==
+-----END CERTIFICATE-----`
+		brokenCA = `-----BEGIN CERTIFICATE-----
+MDIBPjCB5aADAgECAhAumbVWnomSelU1zBRe9qp4MAoGCCqGSM49BAMCMA8xDTAL
+BgNVBAMTBHRvdG8wHhcNMjAwNDEwMTczMjU0WhcNMzAwMjE3MTczMjU0WjAPMQ0w
+CwYDVQQDEwR0b3RvMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEUWqBTwhWMrtr
+vv2i+nyiLpwZPV+BfJs+W+qpYLxX6A+WqFTNvu/frdm6dfKLc022QIMzcJwsM+Yz
+oBYZoyf02KMjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI
+KoZIzj0EAwIDSAAwRQIhAILlr7jJBS3syxM34zLlwvaoRiCFWnVPHNQeSFtk0h7l
+AiBZg9mafabskWu9ekgZm50rKkPeqF94tY6R7tuZBUdcVQ==
+-----END CERTIFICATE-----`
+	)
+	type args struct {
+		attribute string
+		pemdata   string
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantErr       bool
+		wantErrString string
+	}{
+		{
+			"empty",
+			args{
+				"attr",
+				``,
+			},
+			false, "",
+		},
+		{
+			"invalid pem",
+			args{
+				"attr",
+				`oh no`,
+			},
+			true, "error 422 (gaia): Validation Error: Unable to decode PEM",
+		},
+		{
+			"valid pem / invalid CA",
+			args{
+				"attr",
+				brokenCA,
+			},
+			true, `error 422 (gaia): Validation Error: Unable to parse x509 certificate: asn1: structure error: tags don't match (16 vs {class:0 tag:1 length:62 isCompound:false}) {optional:false explicit:false application:false private:false defaultValue:<nil> tag:<nil> stringType:0 timeType:0 set:false omitEmpty:false} tbsCertificate @2`,
+		},
+		{
+			"valid pem but not CA",
+			args{
+				"attr",
+				notCA,
+			},
+			true, "error 422 (gaia): Validation Error: Given x509 certificate is not a CA",
+		},
+
+		{
+			"everything is fine",
+			args{
+				"attr",
+				CA,
+			},
+			false, "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := ValidateCA(tt.args.attribute, tt.args.pemdata)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCA() error = %v, wantErr %v", err, tt.wantErr)
+			}
+
+			if err != nil && err.Error() != tt.wantErrString {
+				t.Errorf("ValidateCA() error = '%v', wantErrString = '%v'", err, tt.wantErrString)
 			}
 		})
 	}
