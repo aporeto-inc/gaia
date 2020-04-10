@@ -9235,6 +9235,7 @@ Post a new flow log.
   "action": "Accept",
   "destinationID": "xxx-xxx-xxx",
   "destinationNamespace": "/my/namespace",
+  "destinationPlatform": "api.east.acme.com",
   "destinationType": "ProcessingUnit",
   "encrypted": false,
   "namespace": "/my/namespace",
@@ -9249,6 +9250,7 @@ Post a new flow log.
   "serviceType": "NotApplicable",
   "sourceID": "xxx-xxx-xxx",
   "sourceNamespace": "/my/namespace",
+  "sourcePlatform": "api.west.acme.com",
   "sourceType": "ProcessingUnit",
   "value": 1
 }
@@ -9280,6 +9282,10 @@ _This attribute is deprecated_.
 
 Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
 property does nothing.
+
+##### `destinationPlatform` `integer`
+
+Identifier of the destination platform.
 
 ##### `destinationPort` `integer`
 
@@ -9391,6 +9397,10 @@ _This attribute is deprecated_.
 
 Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 property does nothing.
+
+##### `sourcePlatform` `string`
+
+Identifier of the source platform.
 
 ##### `sourceType` `emum(ProcessingUnit | ExternalNetwork | Claims)` [`required`]
 
