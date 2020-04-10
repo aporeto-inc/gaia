@@ -9,6 +9,12 @@ model:
     This objects allows to declare trust between namespaces that cryptographically
     isolated. The namespaces can be local or served by different Aporeto platforms.
   aliases: []
+  get:
+    description: Retrieve the trusted namespace with the given ID.
+  update:
+    description: Update the trusted namespace with the given ID.
+  delete:
+    description: Delete the trusted namespace with the given ID.
   extends:
   - '@zoned'
   - '@migratable'
