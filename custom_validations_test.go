@@ -2337,3 +2337,69 @@ func TestValidateStringListNotEmpty(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateHookPolicy(t *testing.T) {
+	type args struct {
+		policy *HookPolicy
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// Valid cases
+		{
+			"Only endpoint specified",
+			args{
+				&HookPolicy{
+					EndpointType: HookPolicyEndpointTypeURL,
+					Endpoint:     "https://www.google.com",
+				},
+			},
+			false,
+		},
+		{
+			"Simple selectors specified",
+			args{
+				&HookPolicy{
+					EndpointType: HookPolicyEndpointTypeAutomation,
+					Selectors: [][]string{
+						{"automation=test"},
+					},
+				},
+			},
+			false,
+		},
+		// Error cases
+		{
+			"Endpoint trigger with automation selectors",
+			args{
+				&HookPolicy{
+					EndpointType: HookPolicyEndpointTypeURL,
+					Selectors: [][]string{
+						{"automation=test"},
+						{"automation=anotherone"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"Automation Selector trigger with endpoint",
+			args{
+				&HookPolicy{
+					EndpointType: HookPolicyEndpointTypeAutomation,
+					Endpoint:     "http://www.google.com",
+				},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateHookPolicy(tt.args.policy); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateHookPolicy() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

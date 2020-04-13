@@ -33,6 +33,22 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: deploymentMode
+    description: |-
+      Defines the deployment mode of the recipe. If Unrestricted, recipe
+      can be deployed multiple times in the current namespace and below. If Unique,
+      only one deployment is allowed
+      in the current namespace and its child namespaces. If NamespaceUnique, only
+      one deployment is allowed in the current namespace.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Unrestricted
+    - Unique
+    - NamespaceUnique
+    default_value: Unrestricted
+
   - name: icon
     description: Contains a base64-encoded image for the recipe.
     type: string
@@ -108,3 +124,11 @@ attributes:
     exposed: true
     stored: true
     read_only: true
+
+# Relations
+relations:
+- rest_name: importreference
+  get:
+    description: Returns the list of import references that depend on a recipe.
+  create:
+    description: Create an import request for the given recipe.

@@ -160,6 +160,7 @@ multipart
 namespace
 NamespaceMappingPolicy
 namespaces
+NamespaceUnique
 NetworkAccessPolicy
 NfQueue
 nginx

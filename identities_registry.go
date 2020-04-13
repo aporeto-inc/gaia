@@ -625,6 +625,7 @@ var (
 		"importreference": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
+			{"namespace", "label"},
 			{"namespace", "name"},
 			{"namespace"},
 			{"namespace", "normalizedTags"},
