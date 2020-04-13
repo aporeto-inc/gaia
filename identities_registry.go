@@ -346,6 +346,7 @@ var (
 		"nsmaps":         NamespaceMappingPolicyIdentity,
 		"netpol":         NetworkAccessPolicyIdentity,
 		"netpols":        NetworkAccessPolicyIdentity,
+		"om":             OrganizationalMetadataIdentity,
 		"polgraph":       PolicyGraphIdentity,
 		"pu":             ProcessingUnitIdentity,
 		"pus":            ProcessingUnitIdentity,
@@ -709,9 +710,12 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"organizationalmetadata": nil,
-		"packetreport":           nil,
-		"passwordreset":          nil,
+		"organizationalmetadata": {
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+		},
+		"packetreport":  nil,
+		"passwordreset": nil,
 		"pccprovider": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -2363,7 +2367,9 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case OIDCProviderIdentity:
 		return []string{}
 	case OrganizationalMetadataIdentity:
-		return []string{}
+		return []string{
+			"om",
+		}
 	case PacketReportIdentity:
 		return []string{}
 	case PasswordResetIdentity:

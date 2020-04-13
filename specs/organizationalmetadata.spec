@@ -8,6 +8,10 @@ model:
   description: |-
     Can be used to retrieve the organizational metadata of the namespace and the
     organizational metadata of its namespace hierarchy.
+  aliases:
+  - om
+  extends:
+  - '@namespaced'
 
 # Attributes
 attributes:
