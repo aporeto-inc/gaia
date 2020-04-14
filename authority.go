@@ -124,6 +124,9 @@ type Authority struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
+	// Organization field of the CA.
+	Organization string `json:"organization" msgpack:"organization" bson:"organization" mapstructure:"organization,omitempty"`
+
 	// serialNumber of the certificate.
 	SerialNumber string `json:"serialNumber" msgpack:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
@@ -188,6 +191,7 @@ func (o *Authority) GetBSON() (interface{}, error) {
 	s.ExpirationDate = o.ExpirationDate
 	s.Key = o.Key
 	s.MigrationsLog = o.MigrationsLog
+	s.Organization = o.Organization
 	s.SerialNumber = o.SerialNumber
 	s.Type = o.Type
 	s.ZHash = o.ZHash
@@ -216,6 +220,7 @@ func (o *Authority) SetBSON(raw bson.Raw) error {
 	o.ExpirationDate = s.ExpirationDate
 	o.Key = s.Key
 	o.MigrationsLog = s.MigrationsLog
+	o.Organization = s.Organization
 	o.SerialNumber = s.SerialNumber
 	o.Type = s.Type
 	o.ZHash = s.ZHash
@@ -303,6 +308,7 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ExpirationDate: &o.ExpirationDate,
 			Key:            &o.Key,
 			MigrationsLog:  &o.MigrationsLog,
+			Organization:   &o.Organization,
 			SerialNumber:   &o.SerialNumber,
 			Type:           &o.Type,
 			ZHash:          &o.ZHash,
@@ -327,6 +333,8 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Key = &(o.Key)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
+		case "organization":
+			sp.Organization = &(o.Organization)
 		case "serialNumber":
 			sp.SerialNumber = &(o.SerialNumber)
 		case "type":
@@ -388,6 +396,9 @@ func (o *Authority) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
+	}
+	if so.Organization != nil {
+		o.Organization = *so.Organization
 	}
 	if so.SerialNumber != nil {
 		o.SerialNumber = *so.SerialNumber
@@ -493,6 +504,8 @@ func (o *Authority) ValueForAttribute(name string) interface{} {
 		return o.Key
 	case "migrationsLog":
 		return o.MigrationsLog
+	case "organization":
+		return o.Organization
 	case "serialNumber":
 		return o.SerialNumber
 	case "type":
@@ -584,6 +597,16 @@ var AuthorityAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"Organization": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Organization",
+		CreationOnly:   true,
+		Description:    `Organization field of the CA.`,
+		Exposed:        true,
+		Name:           "organization",
+		Stored:         true,
+		Type:           "string",
 	},
 	"SerialNumber": {
 		AllowedChoices: []string{},
@@ -715,6 +738,16 @@ var AuthorityLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"organization": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Organization",
+		CreationOnly:   true,
+		Description:    `Organization field of the CA.`,
+		Exposed:        true,
+		Name:           "organization",
+		Stored:         true,
+		Type:           "string",
 	},
 	"serialnumber": {
 		AllowedChoices: []string{},
@@ -852,6 +885,9 @@ type SparseAuthority struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
+	// Organization field of the CA.
+	Organization *string `json:"organization,omitempty" msgpack:"organization,omitempty" bson:"organization,omitempty" mapstructure:"organization,omitempty"`
+
 	// serialNumber of the certificate.
 	SerialNumber *string `json:"serialNumber,omitempty" msgpack:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
 
@@ -929,6 +965,9 @@ func (o *SparseAuthority) GetBSON() (interface{}, error) {
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
+	if o.Organization != nil {
+		s.Organization = o.Organization
+	}
 	if o.SerialNumber != nil {
 		s.SerialNumber = o.SerialNumber
 	}
@@ -978,6 +1017,9 @@ func (o *SparseAuthority) SetBSON(raw bson.Raw) error {
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
+	if s.Organization != nil {
+		o.Organization = s.Organization
+	}
 	if s.SerialNumber != nil {
 		o.SerialNumber = s.SerialNumber
 	}
@@ -1024,6 +1066,9 @@ func (o *SparseAuthority) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
+	}
+	if o.Organization != nil {
+		out.Organization = *o.Organization
 	}
 	if o.SerialNumber != nil {
 		out.SerialNumber = *o.SerialNumber
@@ -1141,6 +1186,7 @@ type mongoAttributesAuthority struct {
 	ExpirationDate time.Time               `bson:"expirationdate"`
 	Key            string                  `bson:"key"`
 	MigrationsLog  map[string]string       `bson:"migrationslog,omitempty"`
+	Organization   string                  `bson:"organization"`
 	SerialNumber   string                  `bson:"serialnumber"`
 	Type           AuthorityTypeValue      `bson:"type"`
 	ZHash          int                     `bson:"zhash"`
@@ -1154,6 +1200,7 @@ type mongoAttributesSparseAuthority struct {
 	ExpirationDate *time.Time               `bson:"expirationdate,omitempty"`
 	Key            *string                  `bson:"key,omitempty"`
 	MigrationsLog  *map[string]string       `bson:"migrationslog,omitempty"`
+	Organization   *string                  `bson:"organization,omitempty"`
 	SerialNumber   *string                  `bson:"serialnumber,omitempty"`
 	Type           *AuthorityTypeValue      `bson:"type,omitempty"`
 	ZHash          *int                     `bson:"zhash,omitempty"`

@@ -42,6 +42,12 @@ attributes:
     example_value: /my/namespace
     omit_empty: true
 
+  - name: destinationPlatform
+    description: Identifier of the destination platform.
+    type: string
+    exposed: true
+    example_value: api.east.acme.com
+
   - name: destinationPort
     description: Port of the destination.
     type: integer
@@ -196,6 +202,12 @@ attributes:
     deprecated: true
     example_value: /my/namespace
     omit_empty: true
+
+  - name: sourcePlatform
+    description: Identifier of the source platform.
+    type: string
+    exposed: true
+    example_value: api.west.acme.com
 
   - name: sourceType
     description: Type of the source.

@@ -881,6 +881,14 @@ relations:
         - JWT
         default_value: Any
 
+- rest_name: trustednamespace
+  get:
+    description: Retrieves the list of trusted namespaces.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new trusted namespace.
+
 - rest_name: useraccesspolicy
   get:
     description: Retrieves the list of user access policies.

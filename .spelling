@@ -270,6 +270,7 @@ TokenScopePolicy
 TraceMode
 TraceRecord
 TrustedCA
+TrustedNamespace
 Ubuntu
 udp
 UDP
