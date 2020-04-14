@@ -583,6 +583,10 @@ relations:
   create:
     description: Creates a new OIDC provider.
 
+- rest_name: organizationalmetadata
+  get:
+    description: Retrieves the list of organizational metadata.
+
 - rest_name: packetreport
   create:
     description: Create a packet trace report.

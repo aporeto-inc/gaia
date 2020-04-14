@@ -4117,6 +4117,12 @@ Last update date of the object.
 Can be used to retrieve the organizational metadata of the namespace and the
 organizational metadata of its namespace hierarchy.
 
+#### Relations
+
+##### `GET /organizationalmetadata`
+
+Retrieves the list of organizational metadata.
+
 #### Attributes
 
 ##### `metadata` `[]string`
