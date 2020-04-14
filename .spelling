@@ -160,6 +160,7 @@ multipart
 namespace
 NamespaceMappingPolicy
 namespaces
+NamespaceUnique
 NetworkAccessPolicy
 NfQueue
 nginx
@@ -269,6 +270,7 @@ TokenScopePolicy
 TraceMode
 TraceRecord
 TrustedCA
+TrustedNamespace
 Ubuntu
 udp
 UDP

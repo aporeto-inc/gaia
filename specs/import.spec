@@ -50,8 +50,10 @@ attributes:
 
   - name: mode
     description: |-
-      How to import the data: `ReplacePartial`, `Import` (default), or `Remove`. `ReplacePartial` 
-      is deprecated. Use `Import` instead. While you can use `ReplacePartial` it will be interpreted 
+      How to import the data: `ReplacePartial`, `Import` (default), or `Remove`.
+      `ReplacePartial`
+      is deprecated. Use `Import` instead. While you can use `ReplacePartial` it will
+      be interpreted
       as `Import`.
     type: enum
     exposed: true

@@ -34,6 +34,8 @@ model:
   - '@hidden'
   - '@fallback'
   - '@timeable'
+  validations:
+  - $hookpolicy
 
 # Indexes
 indexes:
@@ -120,8 +122,18 @@ attributes:
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: https://hooks.hookserver.com/remoteprocessors
+    orderable: true
+
+  - name: endpointType
+    description: Defines the type of endpoint for the hook.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - URL
+    - Automation
+    default_value: URL
     orderable: true
 
   - name: expirationTime
@@ -143,6 +155,19 @@ attributes:
     - Pre
     default_value: Pre
     orderable: true
+
+  - name: selectors
+    description: |-
+      A tag or tag expression that identifies the automation that must be run in
+      case no endpoint is provided.
+    type: external
+    exposed: true
+    subtype: '[][]string'
+    stored: true
+    example_value:
+    - - automation:name=myautomation
+    validations:
+    - $tagsExpression
 
   - name: subject
     description: |-

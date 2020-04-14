@@ -14,9 +14,17 @@ $automations:
   elemental:
     name: ValidateAutomation
 
+$capem:
+  elemental:
+    name: ValidateCA
+
 $enforcerprofile:
   elemental:
     name: ValidateEnforcerProfile
+
+$hookpolicy:
+  elemental:
+    name: ValidateHookPolicy
 
 $hostservices:
   elemental:

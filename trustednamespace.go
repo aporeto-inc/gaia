@@ -9,57 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ImportReferenceConstraintValue represents the possible values for attribute "constraint".
-type ImportReferenceConstraintValue string
-
-const (
-	// ImportReferenceConstraintNamespaceUnique represents the value NamespaceUnique.
-	ImportReferenceConstraintNamespaceUnique ImportReferenceConstraintValue = "NamespaceUnique"
-
-	// ImportReferenceConstraintUnique represents the value Unique.
-	ImportReferenceConstraintUnique ImportReferenceConstraintValue = "Unique"
-
-	// ImportReferenceConstraintUnrestricted represents the value Unrestricted.
-	ImportReferenceConstraintUnrestricted ImportReferenceConstraintValue = "Unrestricted"
-)
-
-// ImportReferenceIdentity represents the Identity of the object.
-var ImportReferenceIdentity = elemental.Identity{
-	Name:     "importreference",
-	Category: "importreferences",
-	Package:  "yuna",
+// TrustedNamespaceIdentity represents the Identity of the object.
+var TrustedNamespaceIdentity = elemental.Identity{
+	Name:     "trustednamespace",
+	Category: "trustedamespaces",
+	Package:  "squall",
 	Private:  false,
 }
 
-// ImportReferencesList represents a list of ImportReferences
-type ImportReferencesList []*ImportReference
+// TrustedNamespacesList represents a list of TrustedNamespaces
+type TrustedNamespacesList []*TrustedNamespace
 
 // Identity returns the identity of the objects in the list.
-func (o ImportReferencesList) Identity() elemental.Identity {
+func (o TrustedNamespacesList) Identity() elemental.Identity {
 
-	return ImportReferenceIdentity
+	return TrustedNamespaceIdentity
 }
 
-// Copy returns a pointer to a copy the ImportReferencesList.
-func (o ImportReferencesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the TrustedNamespacesList.
+func (o TrustedNamespacesList) Copy() elemental.Identifiables {
 
-	copy := append(ImportReferencesList{}, o...)
+	copy := append(TrustedNamespacesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ImportReferencesList.
-func (o ImportReferencesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the TrustedNamespacesList.
+func (o TrustedNamespacesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(ImportReferencesList{}, o...)
+	out := append(TrustedNamespacesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*ImportReference))
+		out = append(out, obj.(*TrustedNamespace))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ImportReferencesList) List() elemental.IdentifiablesList {
+func (o TrustedNamespacesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -70,33 +56,33 @@ func (o ImportReferencesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ImportReferencesList) DefaultOrder() []string {
+func (o TrustedNamespacesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the ImportReferencesList converted to SparseImportReferencesList.
+// ToSparse returns the TrustedNamespacesList converted to SparseTrustedNamespacesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ImportReferencesList) ToSparse(fields ...string) elemental.Identifiables {
+func (o TrustedNamespacesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseImportReferencesList, len(o))
+	out := make(SparseTrustedNamespacesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseImportReference)
+		out[i] = o[i].ToSparse(fields...).(*SparseTrustedNamespace)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o ImportReferencesList) Version() int {
+func (o TrustedNamespacesList) Version() int {
 
 	return 1
 }
 
-// ImportReference represents the model of a importreference
-type ImportReference struct {
+// TrustedNamespace represents the model of a trustednamespace
+type TrustedNamespace struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -106,33 +92,14 @@ type ImportReference struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Contains the claims of the client that performed the import.
-	Claims []string `json:"claims" msgpack:"claims" bson:"claims" mapstructure:"claims,omitempty"`
-
-	// Define the import constraint. If Unrestricted, import
-	// can be deployed multiple times. If Unique, only one import is allowed
-	// in the current namespace and its child namespaces. If NamespaceUnique, only
-	// one import is allowed in the current namespace.
-	Constraint ImportReferenceConstraintValue `json:"constraint" msgpack:"constraint" bson:"constraint" mapstructure:"constraint,omitempty"`
+	// Contains the PEM block of the certificate authority trusted namespace.
+	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
-
-	// Data to import.
-	Data *Export `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
-
-	// Description of the object.
-	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// Label used for the imported data.
-	Label string `json:"label" msgpack:"label" bson:"label" mapstructure:"label,omitempty"`
-
-	// Contains tags that can only be set during creation, must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
@@ -148,6 +115,15 @@ type ImportReference struct {
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// The namespace declared in the certificate authority.
+	RemoteNamespace string `json:"remoteNamespace" msgpack:"remoteNamespace" bson:"remotenamespace" mapstructure:"remoteNamespace,omitempty"`
+
+	// The platform declared in the certificate authority.
+	RemotePlatform string `json:"remotePlatform" msgpack:"remotePlatform" bson:"remoteplatform" mapstructure:"remotePlatform,omitempty"`
+
+	// The serial number of the CA.
+	SerialNumber string `json:"serialNumber" msgpack:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -165,68 +141,62 @@ type ImportReference struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewImportReference returns a new *ImportReference
-func NewImportReference() *ImportReference {
+// NewTrustedNamespace returns a new *TrustedNamespace
+func NewTrustedNamespace() *TrustedNamespace {
 
-	return &ImportReference{
+	return &TrustedNamespace{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Claims:         []string{},
-		Constraint:     ImportReferenceConstraintUnrestricted,
-		Data:           NewExport(),
-		Metadata:       []string{},
-		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
+		MigrationsLog:  map[string]string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *ImportReference) Identity() elemental.Identity {
+func (o *TrustedNamespace) Identity() elemental.Identity {
 
-	return ImportReferenceIdentity
+	return TrustedNamespaceIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ImportReference) Identifier() string {
+func (o *TrustedNamespace) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ImportReference) SetIdentifier(id string) {
+func (o *TrustedNamespace) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *ImportReference) GetBSON() (interface{}, error) {
+func (o *TrustedNamespace) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesImportReference{}
+	s := &mongoAttributesTrustedNamespace{}
 
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
-	s.Claims = o.Claims
-	s.Constraint = o.Constraint
+	s.CertificateAuthority = o.CertificateAuthority
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
-	s.Data = o.Data
-	s.Description = o.Description
-	s.Label = o.Label
-	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
 	s.Protected = o.Protected
+	s.RemoteNamespace = o.RemoteNamespace
+	s.RemotePlatform = o.RemotePlatform
+	s.SerialNumber = o.SerialNumber
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
 	s.ZHash = o.ZHash
@@ -237,13 +207,13 @@ func (o *ImportReference) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *ImportReference) SetBSON(raw bson.Raw) error {
+func (o *TrustedNamespace) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesImportReference{}
+	s := &mongoAttributesTrustedNamespace{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -251,19 +221,17 @@ func (o *ImportReference) SetBSON(raw bson.Raw) error {
 	o.ID = s.ID.Hex()
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
-	o.Claims = s.Claims
-	o.Constraint = s.Constraint
+	o.CertificateAuthority = s.CertificateAuthority
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
-	o.Data = s.Data
-	o.Description = s.Description
-	o.Label = s.Label
-	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
 	o.Protected = s.Protected
+	o.RemoteNamespace = s.RemoteNamespace
+	o.RemotePlatform = s.RemotePlatform
+	o.SerialNumber = s.SerialNumber
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
 	o.ZHash = s.ZHash
@@ -273,19 +241,19 @@ func (o *ImportReference) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *ImportReference) Version() int {
+func (o *TrustedNamespace) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *ImportReference) BleveType() string {
+func (o *TrustedNamespace) BleveType() string {
 
-	return "importreference"
+	return "trustednamespace"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *ImportReference) DefaultOrder() []string {
+func (o *TrustedNamespace) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -293,219 +261,194 @@ func (o *ImportReference) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *ImportReference) Doc() string {
+func (o *TrustedNamespace) Doc() string {
 
-	return `Allows you to import and keep a reference.`
+	return `This objects allows to declare trust between namespaces that cryptographically
+isolated. The namespaces can be local or served by different Aporeto platforms.`
 }
 
-func (o *ImportReference) String() string {
+func (o *TrustedNamespace) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *ImportReference) GetAnnotations() map[string][]string {
+func (o *TrustedNamespace) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *ImportReference) SetAnnotations(annotations map[string][]string) {
+func (o *TrustedNamespace) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *ImportReference) GetAssociatedTags() []string {
+func (o *TrustedNamespace) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *ImportReference) SetAssociatedTags(associatedTags []string) {
+func (o *TrustedNamespace) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *ImportReference) GetCreateIdempotencyKey() string {
+func (o *TrustedNamespace) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *ImportReference) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *TrustedNamespace) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *ImportReference) GetCreateTime() time.Time {
+func (o *TrustedNamespace) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *ImportReference) SetCreateTime(createTime time.Time) {
+func (o *TrustedNamespace) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
-// GetDescription returns the Description of the receiver.
-func (o *ImportReference) GetDescription() string {
-
-	return o.Description
-}
-
-// SetDescription sets the property Description of the receiver using the given value.
-func (o *ImportReference) SetDescription(description string) {
-
-	o.Description = description
-}
-
-// GetMetadata returns the Metadata of the receiver.
-func (o *ImportReference) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *ImportReference) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
-}
-
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *ImportReference) GetMigrationsLog() map[string]string {
+func (o *TrustedNamespace) GetMigrationsLog() map[string]string {
 
 	return o.MigrationsLog
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
-func (o *ImportReference) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *TrustedNamespace) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *ImportReference) GetName() string {
+func (o *TrustedNamespace) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *ImportReference) SetName(name string) {
+func (o *TrustedNamespace) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *ImportReference) GetNamespace() string {
+func (o *TrustedNamespace) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *ImportReference) SetNamespace(namespace string) {
+func (o *TrustedNamespace) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ImportReference) GetNormalizedTags() []string {
+func (o *TrustedNamespace) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *ImportReference) SetNormalizedTags(normalizedTags []string) {
+func (o *TrustedNamespace) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *ImportReference) GetProtected() bool {
+func (o *TrustedNamespace) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *ImportReference) SetProtected(protected bool) {
+func (o *TrustedNamespace) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *ImportReference) GetUpdateIdempotencyKey() string {
+func (o *TrustedNamespace) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *ImportReference) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *TrustedNamespace) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *ImportReference) GetUpdateTime() time.Time {
+func (o *TrustedNamespace) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *ImportReference) SetUpdateTime(updateTime time.Time) {
+func (o *TrustedNamespace) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *ImportReference) GetZHash() int {
+func (o *TrustedNamespace) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *ImportReference) SetZHash(zHash int) {
+func (o *TrustedNamespace) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *ImportReference) GetZone() int {
+func (o *TrustedNamespace) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *ImportReference) SetZone(zone int) {
+func (o *TrustedNamespace) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *TrustedNamespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseImportReference{
+		return &SparseTrustedNamespace{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
-			Claims:               &o.Claims,
-			Constraint:           &o.Constraint,
+			CertificateAuthority: &o.CertificateAuthority,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
-			Data:                 o.Data,
-			Description:          &o.Description,
-			Label:                &o.Label,
-			Metadata:             &o.Metadata,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
 			Protected:            &o.Protected,
+			RemoteNamespace:      &o.RemoteNamespace,
+			RemotePlatform:       &o.RemotePlatform,
+			SerialNumber:         &o.SerialNumber,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 			ZHash:                &o.ZHash,
@@ -513,7 +456,7 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 		}
 	}
 
-	sp := &SparseImportReference{}
+	sp := &SparseTrustedNamespace{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -522,22 +465,12 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "claims":
-			sp.Claims = &(o.Claims)
-		case "constraint":
-			sp.Constraint = &(o.Constraint)
+		case "certificateAuthority":
+			sp.CertificateAuthority = &(o.CertificateAuthority)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
-		case "data":
-			sp.Data = o.Data
-		case "description":
-			sp.Description = &(o.Description)
-		case "label":
-			sp.Label = &(o.Label)
-		case "metadata":
-			sp.Metadata = &(o.Metadata)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -548,6 +481,12 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "remoteNamespace":
+			sp.RemoteNamespace = &(o.RemoteNamespace)
+		case "remotePlatform":
+			sp.RemotePlatform = &(o.RemotePlatform)
+		case "serialNumber":
+			sp.SerialNumber = &(o.SerialNumber)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -562,13 +501,13 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseImportReference to the object.
-func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseTrustedNamespace to the object.
+func (o *TrustedNamespace) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseImportReference)
+	so := sparse.(*SparseTrustedNamespace)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -578,29 +517,14 @@ func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
-	if so.Claims != nil {
-		o.Claims = *so.Claims
-	}
-	if so.Constraint != nil {
-		o.Constraint = *so.Constraint
+	if so.CertificateAuthority != nil {
+		o.CertificateAuthority = *so.CertificateAuthority
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
-	}
-	if so.Data != nil {
-		o.Data = so.Data
-	}
-	if so.Description != nil {
-		o.Description = *so.Description
-	}
-	if so.Label != nil {
-		o.Label = *so.Label
-	}
-	if so.Metadata != nil {
-		o.Metadata = *so.Metadata
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -617,6 +541,15 @@ func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
+	if so.RemoteNamespace != nil {
+		o.RemoteNamespace = *so.RemoteNamespace
+	}
+	if so.RemotePlatform != nil {
+		o.RemotePlatform = *so.RemotePlatform
+	}
+	if so.SerialNumber != nil {
+		o.SerialNumber = *so.SerialNumber
+	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
@@ -631,32 +564,32 @@ func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the ImportReference.
-func (o *ImportReference) DeepCopy() *ImportReference {
+// DeepCopy returns a deep copy if the TrustedNamespace.
+func (o *TrustedNamespace) DeepCopy() *TrustedNamespace {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &ImportReference{}
+	out := &TrustedNamespace{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *ImportReference.
-func (o *ImportReference) DeepCopyInto(out *ImportReference) {
+// DeepCopyInto copies the receiver into the given *TrustedNamespace.
+func (o *TrustedNamespace) DeepCopyInto(out *TrustedNamespace) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy ImportReference: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy TrustedNamespace: %s", err))
 	}
 
-	*out = *target.(*ImportReference)
+	*out = *target.(*TrustedNamespace)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ImportReference) Validate() error {
+func (o *TrustedNamespace) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -665,22 +598,7 @@ func (o *ImportReference) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("constraint", string(o.Constraint), []string{"Unrestricted", "Unique", "NamespaceUnique"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if o.Data != nil {
-		elemental.ResetDefaultForZeroValues(o.Data)
-		if err := o.Data.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
-	}
-
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
+	if err := ValidateCA("certificateAuthority", o.CertificateAuthority); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -704,26 +622,26 @@ func (o *ImportReference) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*ImportReference) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*TrustedNamespace) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ImportReferenceAttributesMap[name]; ok {
+	if v, ok := TrustedNamespaceAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ImportReferenceLowerCaseAttributesMap[name]
+	return TrustedNamespaceLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*ImportReference) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*TrustedNamespace) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ImportReferenceAttributesMap
+	return TrustedNamespaceAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *ImportReference) ValueForAttribute(name string) interface{} {
+func (o *TrustedNamespace) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -732,22 +650,12 @@ func (o *ImportReference) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
-	case "claims":
-		return o.Claims
-	case "constraint":
-		return o.Constraint
+	case "certificateAuthority":
+		return o.CertificateAuthority
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
-	case "data":
-		return o.Data
-	case "description":
-		return o.Description
-	case "label":
-		return o.Label
-	case "metadata":
-		return o.Metadata
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -758,6 +666,12 @@ func (o *ImportReference) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "protected":
 		return o.Protected
+	case "remoteNamespace":
+		return o.RemoteNamespace
+	case "remotePlatform":
+		return o.RemotePlatform
+	case "serialNumber":
+		return o.SerialNumber
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -771,8 +685,8 @@ func (o *ImportReference) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// ImportReferenceAttributesMap represents the map of attribute for ImportReference.
-var ImportReferenceAttributesMap = map[string]elemental.AttributeSpecification{
+// TrustedNamespaceAttributesMap represents the map of attribute for TrustedNamespace.
+var TrustedNamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -811,30 +725,14 @@ var ImportReferenceAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"Claims": {
+	"CertificateAuthority": {
 		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Claims",
-		Description:    `Contains the claims of the client that performed the import.`,
+		ConvertedName:  "CertificateAuthority",
+		Description:    `Contains the PEM block of the certificate authority trusted namespace.`,
 		Exposed:        true,
-		Name:           "claims",
-		ReadOnly:       true,
+		Name:           "certificateAuthority",
 		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
-	"Constraint": {
-		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
-		ConvertedName:  "Constraint",
-		DefaultValue:   ImportReferenceConstraintUnrestricted,
-		Description: `Define the import constraint. If Unrestricted, import
-can be deployed multiple times. If Unique, only one import is allowed
-in the current namespace and its child namespaces. If NamespaceUnique, only
-one import is allowed in the current namespace.`,
-		Exposed: true,
-		Name:    "constraint",
-		Stored:  true,
-		Type:    "enum",
+		Type:           "string",
 	},
 	"CreateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -861,55 +759,6 @@ one import is allowed in the current namespace.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"Data": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Data",
-		Description:    `Data to import.`,
-		Exposed:        true,
-		Name:           "data",
-		Required:       true,
-		Stored:         true,
-		SubType:        "export",
-		Type:           "ref",
-	},
-	"Description": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Description",
-		Description:    `Description of the object.`,
-		Exposed:        true,
-		Getter:         true,
-		MaxLength:      1024,
-		Name:           "description",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"Label": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Label",
-		Description:    `Label used for the imported data.`,
-		Exposed:        true,
-		Name:           "label",
-		Stored:         true,
-		Type:           "string",
-	},
-	"Metadata": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Metadata",
-		CreationOnly:   true,
-		Description: `Contains tags that can only be set during creation, must all start
-with the '@' prefix, and should only be used by external systems.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "metadata",
-		Setter:     true,
-		Stored:     true,
-		SubType:    "string",
-		Type:       "list",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -979,6 +828,39 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"RemoteNamespace": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "RemoteNamespace",
+		Description:    `The namespace declared in the certificate authority.`,
+		Exposed:        true,
+		Name:           "remoteNamespace",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"RemotePlatform": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "RemotePlatform",
+		Description:    `The platform declared in the certificate authority.`,
+		Exposed:        true,
+		Name:           "remotePlatform",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"SerialNumber": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "SerialNumber",
+		Description:    `The serial number of the CA.`,
+		Exposed:        true,
+		Name:           "serialNumber",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1034,8 +916,8 @@ georedundancy.`,
 	},
 }
 
-// ImportReferenceLowerCaseAttributesMap represents the map of attribute for ImportReference.
-var ImportReferenceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// TrustedNamespaceLowerCaseAttributesMap represents the map of attribute for TrustedNamespace.
+var TrustedNamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1074,30 +956,14 @@ var ImportReferenceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		SubType:        "string",
 		Type:           "list",
 	},
-	"claims": {
+	"certificateauthority": {
 		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Claims",
-		Description:    `Contains the claims of the client that performed the import.`,
+		ConvertedName:  "CertificateAuthority",
+		Description:    `Contains the PEM block of the certificate authority trusted namespace.`,
 		Exposed:        true,
-		Name:           "claims",
-		ReadOnly:       true,
+		Name:           "certificateAuthority",
 		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
-	"constraint": {
-		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
-		ConvertedName:  "Constraint",
-		DefaultValue:   ImportReferenceConstraintUnrestricted,
-		Description: `Define the import constraint. If Unrestricted, import
-can be deployed multiple times. If Unique, only one import is allowed
-in the current namespace and its child namespaces. If NamespaceUnique, only
-one import is allowed in the current namespace.`,
-		Exposed: true,
-		Name:    "constraint",
-		Stored:  true,
-		Type:    "enum",
+		Type:           "string",
 	},
 	"createidempotencykey": {
 		AllowedChoices: []string{},
@@ -1124,55 +990,6 @@ one import is allowed in the current namespace.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"data": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Data",
-		Description:    `Data to import.`,
-		Exposed:        true,
-		Name:           "data",
-		Required:       true,
-		Stored:         true,
-		SubType:        "export",
-		Type:           "ref",
-	},
-	"description": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Description",
-		Description:    `Description of the object.`,
-		Exposed:        true,
-		Getter:         true,
-		MaxLength:      1024,
-		Name:           "description",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"label": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Label",
-		Description:    `Label used for the imported data.`,
-		Exposed:        true,
-		Name:           "label",
-		Stored:         true,
-		Type:           "string",
-	},
-	"metadata": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Metadata",
-		CreationOnly:   true,
-		Description: `Contains tags that can only be set during creation, must all start
-with the '@' prefix, and should only be used by external systems.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "metadata",
-		Setter:     true,
-		Stored:     true,
-		SubType:    "string",
-		Type:       "list",
 	},
 	"migrationslog": {
 		AllowedChoices: []string{},
@@ -1242,6 +1059,39 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"remotenamespace": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "RemoteNamespace",
+		Description:    `The namespace declared in the certificate authority.`,
+		Exposed:        true,
+		Name:           "remoteNamespace",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"remoteplatform": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "RemotePlatform",
+		Description:    `The platform declared in the certificate authority.`,
+		Exposed:        true,
+		Name:           "remotePlatform",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"serialnumber": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "SerialNumber",
+		Description:    `The serial number of the CA.`,
+		Exposed:        true,
+		Name:           "serialNumber",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1297,35 +1147,35 @@ georedundancy.`,
 	},
 }
 
-// SparseImportReferencesList represents a list of SparseImportReferences
-type SparseImportReferencesList []*SparseImportReference
+// SparseTrustedNamespacesList represents a list of SparseTrustedNamespaces
+type SparseTrustedNamespacesList []*SparseTrustedNamespace
 
 // Identity returns the identity of the objects in the list.
-func (o SparseImportReferencesList) Identity() elemental.Identity {
+func (o SparseTrustedNamespacesList) Identity() elemental.Identity {
 
-	return ImportReferenceIdentity
+	return TrustedNamespaceIdentity
 }
 
-// Copy returns a pointer to a copy the SparseImportReferencesList.
-func (o SparseImportReferencesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseTrustedNamespacesList.
+func (o SparseTrustedNamespacesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseImportReferencesList{}, o...)
+	copy := append(SparseTrustedNamespacesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseImportReferencesList.
-func (o SparseImportReferencesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseTrustedNamespacesList.
+func (o SparseTrustedNamespacesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseImportReferencesList{}, o...)
+	out := append(SparseTrustedNamespacesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseImportReference))
+		out = append(out, obj.(*SparseTrustedNamespace))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseImportReferencesList) List() elemental.IdentifiablesList {
+func (o SparseTrustedNamespacesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1336,15 +1186,15 @@ func (o SparseImportReferencesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseImportReferencesList) DefaultOrder() []string {
+func (o SparseTrustedNamespacesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparseImportReferencesList converted to ImportReferencesList.
-func (o SparseImportReferencesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseTrustedNamespacesList converted to TrustedNamespacesList.
+func (o SparseTrustedNamespacesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1355,13 +1205,13 @@ func (o SparseImportReferencesList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseImportReferencesList) Version() int {
+func (o SparseTrustedNamespacesList) Version() int {
 
 	return 1
 }
 
-// SparseImportReference represents the sparse version of a importreference.
-type SparseImportReference struct {
+// SparseTrustedNamespace represents the sparse version of a trustednamespace.
+type SparseTrustedNamespace struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1371,33 +1221,14 @@ type SparseImportReference struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// Contains the claims of the client that performed the import.
-	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"claims,omitempty" mapstructure:"claims,omitempty"`
-
-	// Define the import constraint. If Unrestricted, import
-	// can be deployed multiple times. If Unique, only one import is allowed
-	// in the current namespace and its child namespaces. If NamespaceUnique, only
-	// one import is allowed in the current namespace.
-	Constraint *ImportReferenceConstraintValue `json:"constraint,omitempty" msgpack:"constraint,omitempty" bson:"constraint,omitempty" mapstructure:"constraint,omitempty"`
+	// Contains the PEM block of the certificate authority trusted namespace.
+	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
-
-	// Data to import.
-	Data *Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
-
-	// Description of the object.
-	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
-
-	// Label used for the imported data.
-	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"label,omitempty" mapstructure:"label,omitempty"`
-
-	// Contains tags that can only be set during creation, must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1413,6 +1244,15 @@ type SparseImportReference struct {
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+
+	// The namespace declared in the certificate authority.
+	RemoteNamespace *string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"remotenamespace,omitempty" mapstructure:"remoteNamespace,omitempty"`
+
+	// The platform declared in the certificate authority.
+	RemotePlatform *string `json:"remotePlatform,omitempty" msgpack:"remotePlatform,omitempty" bson:"remoteplatform,omitempty" mapstructure:"remotePlatform,omitempty"`
+
+	// The serial number of the CA.
+	SerialNumber *string `json:"serialNumber,omitempty" msgpack:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1430,19 +1270,19 @@ type SparseImportReference struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseImportReference returns a new  SparseImportReference.
-func NewSparseImportReference() *SparseImportReference {
-	return &SparseImportReference{}
+// NewSparseTrustedNamespace returns a new  SparseTrustedNamespace.
+func NewSparseTrustedNamespace() *SparseTrustedNamespace {
+	return &SparseTrustedNamespace{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseImportReference) Identity() elemental.Identity {
+func (o *SparseTrustedNamespace) Identity() elemental.Identity {
 
-	return ImportReferenceIdentity
+	return TrustedNamespaceIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseImportReference) Identifier() string {
+func (o *SparseTrustedNamespace) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1451,7 +1291,7 @@ func (o *SparseImportReference) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseImportReference) SetIdentifier(id string) {
+func (o *SparseTrustedNamespace) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -1462,13 +1302,13 @@ func (o *SparseImportReference) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseImportReference) GetBSON() (interface{}, error) {
+func (o *SparseTrustedNamespace) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseImportReference{}
+	s := &mongoAttributesSparseTrustedNamespace{}
 
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
@@ -1479,29 +1319,14 @@ func (o *SparseImportReference) GetBSON() (interface{}, error) {
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
 	}
-	if o.Claims != nil {
-		s.Claims = o.Claims
-	}
-	if o.Constraint != nil {
-		s.Constraint = o.Constraint
+	if o.CertificateAuthority != nil {
+		s.CertificateAuthority = o.CertificateAuthority
 	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	}
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
-	}
-	if o.Data != nil {
-		s.Data = o.Data
-	}
-	if o.Description != nil {
-		s.Description = o.Description
-	}
-	if o.Label != nil {
-		s.Label = o.Label
-	}
-	if o.Metadata != nil {
-		s.Metadata = o.Metadata
 	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
@@ -1517,6 +1342,15 @@ func (o *SparseImportReference) GetBSON() (interface{}, error) {
 	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
+	}
+	if o.RemoteNamespace != nil {
+		s.RemoteNamespace = o.RemoteNamespace
+	}
+	if o.RemotePlatform != nil {
+		s.RemotePlatform = o.RemotePlatform
+	}
+	if o.SerialNumber != nil {
+		s.SerialNumber = o.SerialNumber
 	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -1536,13 +1370,13 @@ func (o *SparseImportReference) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseImportReference) SetBSON(raw bson.Raw) error {
+func (o *SparseTrustedNamespace) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseImportReference{}
+	s := &mongoAttributesSparseTrustedNamespace{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -1555,29 +1389,14 @@ func (o *SparseImportReference) SetBSON(raw bson.Raw) error {
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
 	}
-	if s.Claims != nil {
-		o.Claims = s.Claims
-	}
-	if s.Constraint != nil {
-		o.Constraint = s.Constraint
+	if s.CertificateAuthority != nil {
+		o.CertificateAuthority = s.CertificateAuthority
 	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	}
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
-	}
-	if s.Data != nil {
-		o.Data = s.Data
-	}
-	if s.Description != nil {
-		o.Description = s.Description
-	}
-	if s.Label != nil {
-		o.Label = s.Label
-	}
-	if s.Metadata != nil {
-		o.Metadata = s.Metadata
 	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
@@ -1593,6 +1412,15 @@ func (o *SparseImportReference) SetBSON(raw bson.Raw) error {
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
+	}
+	if s.RemoteNamespace != nil {
+		o.RemoteNamespace = s.RemoteNamespace
+	}
+	if s.RemotePlatform != nil {
+		o.RemotePlatform = s.RemotePlatform
+	}
+	if s.SerialNumber != nil {
+		o.SerialNumber = s.SerialNumber
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -1611,15 +1439,15 @@ func (o *SparseImportReference) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseImportReference) Version() int {
+func (o *SparseTrustedNamespace) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseTrustedNamespace) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewImportReference()
+	out := NewTrustedNamespace()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1629,29 +1457,14 @@ func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
-	if o.Claims != nil {
-		out.Claims = *o.Claims
-	}
-	if o.Constraint != nil {
-		out.Constraint = *o.Constraint
+	if o.CertificateAuthority != nil {
+		out.CertificateAuthority = *o.CertificateAuthority
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
-	}
-	if o.Data != nil {
-		out.Data = o.Data
-	}
-	if o.Description != nil {
-		out.Description = *o.Description
-	}
-	if o.Label != nil {
-		out.Label = *o.Label
-	}
-	if o.Metadata != nil {
-		out.Metadata = *o.Metadata
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1667,6 +1480,15 @@ func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.RemoteNamespace != nil {
+		out.RemoteNamespace = *o.RemoteNamespace
+	}
+	if o.RemotePlatform != nil {
+		out.RemotePlatform = *o.RemotePlatform
+	}
+	if o.SerialNumber != nil {
+		out.SerialNumber = *o.SerialNumber
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -1685,7 +1507,7 @@ func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseImportReference) GetAnnotations() (out map[string][]string) {
+func (o *SparseTrustedNamespace) GetAnnotations() (out map[string][]string) {
 
 	if o.Annotations == nil {
 		return
@@ -1695,13 +1517,13 @@ func (o *SparseImportReference) GetAnnotations() (out map[string][]string) {
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseImportReference) SetAnnotations(annotations map[string][]string) {
+func (o *SparseTrustedNamespace) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseImportReference) GetAssociatedTags() (out []string) {
+func (o *SparseTrustedNamespace) GetAssociatedTags() (out []string) {
 
 	if o.AssociatedTags == nil {
 		return
@@ -1711,13 +1533,13 @@ func (o *SparseImportReference) GetAssociatedTags() (out []string) {
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseImportReference) SetAssociatedTags(associatedTags []string) {
+func (o *SparseTrustedNamespace) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseImportReference) GetCreateIdempotencyKey() (out string) {
+func (o *SparseTrustedNamespace) GetCreateIdempotencyKey() (out string) {
 
 	if o.CreateIdempotencyKey == nil {
 		return
@@ -1727,13 +1549,13 @@ func (o *SparseImportReference) GetCreateIdempotencyKey() (out string) {
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseImportReference) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseTrustedNamespace) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseImportReference) GetCreateTime() (out time.Time) {
+func (o *SparseTrustedNamespace) GetCreateTime() (out time.Time) {
 
 	if o.CreateTime == nil {
 		return
@@ -1743,45 +1565,13 @@ func (o *SparseImportReference) GetCreateTime() (out time.Time) {
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseImportReference) SetCreateTime(createTime time.Time) {
+func (o *SparseTrustedNamespace) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
-// GetDescription returns the Description of the receiver.
-func (o *SparseImportReference) GetDescription() (out string) {
-
-	if o.Description == nil {
-		return
-	}
-
-	return *o.Description
-}
-
-// SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseImportReference) SetDescription(description string) {
-
-	o.Description = &description
-}
-
-// GetMetadata returns the Metadata of the receiver.
-func (o *SparseImportReference) GetMetadata() (out []string) {
-
-	if o.Metadata == nil {
-		return
-	}
-
-	return *o.Metadata
-}
-
-// SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseImportReference) SetMetadata(metadata []string) {
-
-	o.Metadata = &metadata
-}
-
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseImportReference) GetMigrationsLog() (out map[string]string) {
+func (o *SparseTrustedNamespace) GetMigrationsLog() (out map[string]string) {
 
 	if o.MigrationsLog == nil {
 		return
@@ -1791,13 +1581,13 @@ func (o *SparseImportReference) GetMigrationsLog() (out map[string]string) {
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
-func (o *SparseImportReference) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *SparseTrustedNamespace) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseImportReference) GetName() (out string) {
+func (o *SparseTrustedNamespace) GetName() (out string) {
 
 	if o.Name == nil {
 		return
@@ -1807,13 +1597,13 @@ func (o *SparseImportReference) GetName() (out string) {
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseImportReference) SetName(name string) {
+func (o *SparseTrustedNamespace) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseImportReference) GetNamespace() (out string) {
+func (o *SparseTrustedNamespace) GetNamespace() (out string) {
 
 	if o.Namespace == nil {
 		return
@@ -1823,13 +1613,13 @@ func (o *SparseImportReference) GetNamespace() (out string) {
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseImportReference) SetNamespace(namespace string) {
+func (o *SparseTrustedNamespace) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseImportReference) GetNormalizedTags() (out []string) {
+func (o *SparseTrustedNamespace) GetNormalizedTags() (out []string) {
 
 	if o.NormalizedTags == nil {
 		return
@@ -1839,13 +1629,13 @@ func (o *SparseImportReference) GetNormalizedTags() (out []string) {
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseImportReference) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseTrustedNamespace) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseImportReference) GetProtected() (out bool) {
+func (o *SparseTrustedNamespace) GetProtected() (out bool) {
 
 	if o.Protected == nil {
 		return
@@ -1855,13 +1645,13 @@ func (o *SparseImportReference) GetProtected() (out bool) {
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseImportReference) SetProtected(protected bool) {
+func (o *SparseTrustedNamespace) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseImportReference) GetUpdateIdempotencyKey() (out string) {
+func (o *SparseTrustedNamespace) GetUpdateIdempotencyKey() (out string) {
 
 	if o.UpdateIdempotencyKey == nil {
 		return
@@ -1871,13 +1661,13 @@ func (o *SparseImportReference) GetUpdateIdempotencyKey() (out string) {
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseImportReference) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseTrustedNamespace) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseImportReference) GetUpdateTime() (out time.Time) {
+func (o *SparseTrustedNamespace) GetUpdateTime() (out time.Time) {
 
 	if o.UpdateTime == nil {
 		return
@@ -1887,13 +1677,13 @@ func (o *SparseImportReference) GetUpdateTime() (out time.Time) {
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseImportReference) SetUpdateTime(updateTime time.Time) {
+func (o *SparseTrustedNamespace) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseImportReference) GetZHash() (out int) {
+func (o *SparseTrustedNamespace) GetZHash() (out int) {
 
 	if o.ZHash == nil {
 		return
@@ -1903,13 +1693,13 @@ func (o *SparseImportReference) GetZHash() (out int) {
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseImportReference) SetZHash(zHash int) {
+func (o *SparseTrustedNamespace) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseImportReference) GetZone() (out int) {
+func (o *SparseTrustedNamespace) GetZone() (out int) {
 
 	if o.Zone == nil {
 		return
@@ -1919,76 +1709,72 @@ func (o *SparseImportReference) GetZone() (out int) {
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseImportReference) SetZone(zone int) {
+func (o *SparseTrustedNamespace) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseImportReference.
-func (o *SparseImportReference) DeepCopy() *SparseImportReference {
+// DeepCopy returns a deep copy if the SparseTrustedNamespace.
+func (o *SparseTrustedNamespace) DeepCopy() *SparseTrustedNamespace {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseImportReference{}
+	out := &SparseTrustedNamespace{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseImportReference.
-func (o *SparseImportReference) DeepCopyInto(out *SparseImportReference) {
+// DeepCopyInto copies the receiver into the given *SparseTrustedNamespace.
+func (o *SparseTrustedNamespace) DeepCopyInto(out *SparseTrustedNamespace) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseImportReference: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseTrustedNamespace: %s", err))
 	}
 
-	*out = *target.(*SparseImportReference)
+	*out = *target.(*SparseTrustedNamespace)
 }
 
-type mongoAttributesImportReference struct {
-	ID                   bson.ObjectId                  `bson:"_id,omitempty"`
-	Annotations          map[string][]string            `bson:"annotations"`
-	AssociatedTags       []string                       `bson:"associatedtags"`
-	Claims               []string                       `bson:"claims"`
-	Constraint           ImportReferenceConstraintValue `bson:"constraint"`
-	CreateIdempotencyKey string                         `bson:"createidempotencykey"`
-	CreateTime           time.Time                      `bson:"createtime"`
-	Data                 *Export                        `bson:"data"`
-	Description          string                         `bson:"description"`
-	Label                string                         `bson:"label"`
-	Metadata             []string                       `bson:"metadata"`
-	MigrationsLog        map[string]string              `bson:"migrationslog,omitempty"`
-	Name                 string                         `bson:"name"`
-	Namespace            string                         `bson:"namespace"`
-	NormalizedTags       []string                       `bson:"normalizedtags"`
-	Protected            bool                           `bson:"protected"`
-	UpdateIdempotencyKey string                         `bson:"updateidempotencykey"`
-	UpdateTime           time.Time                      `bson:"updatetime"`
-	ZHash                int                            `bson:"zhash"`
-	Zone                 int                            `bson:"zone"`
+type mongoAttributesTrustedNamespace struct {
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
+	Annotations          map[string][]string `bson:"annotations"`
+	AssociatedTags       []string            `bson:"associatedtags"`
+	CertificateAuthority string              `bson:"certificateauthority"`
+	CreateIdempotencyKey string              `bson:"createidempotencykey"`
+	CreateTime           time.Time           `bson:"createtime"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
+	Name                 string              `bson:"name"`
+	Namespace            string              `bson:"namespace"`
+	NormalizedTags       []string            `bson:"normalizedtags"`
+	Protected            bool                `bson:"protected"`
+	RemoteNamespace      string              `bson:"remotenamespace"`
+	RemotePlatform       string              `bson:"remoteplatform"`
+	SerialNumber         string              `bson:"serialnumber"`
+	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
+	UpdateTime           time.Time           `bson:"updatetime"`
+	ZHash                int                 `bson:"zhash"`
+	Zone                 int                 `bson:"zone"`
 }
-type mongoAttributesSparseImportReference struct {
-	ID                   bson.ObjectId                   `bson:"_id,omitempty"`
-	Annotations          *map[string][]string            `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string                       `bson:"associatedtags,omitempty"`
-	Claims               *[]string                       `bson:"claims,omitempty"`
-	Constraint           *ImportReferenceConstraintValue `bson:"constraint,omitempty"`
-	CreateIdempotencyKey *string                         `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time                      `bson:"createtime,omitempty"`
-	Data                 *Export                         `bson:"data,omitempty"`
-	Description          *string                         `bson:"description,omitempty"`
-	Label                *string                         `bson:"label,omitempty"`
-	Metadata             *[]string                       `bson:"metadata,omitempty"`
-	MigrationsLog        *map[string]string              `bson:"migrationslog,omitempty"`
-	Name                 *string                         `bson:"name,omitempty"`
-	Namespace            *string                         `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string                       `bson:"normalizedtags,omitempty"`
-	Protected            *bool                           `bson:"protected,omitempty"`
-	UpdateIdempotencyKey *string                         `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time                      `bson:"updatetime,omitempty"`
-	ZHash                *int                            `bson:"zhash,omitempty"`
-	Zone                 *int                            `bson:"zone,omitempty"`
+type mongoAttributesSparseTrustedNamespace struct {
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
+	Annotations          *map[string][]string `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
+	CertificateAuthority *string              `bson:"certificateauthority,omitempty"`
+	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time           `bson:"createtime,omitempty"`
+	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
+	Name                 *string              `bson:"name,omitempty"`
+	Namespace            *string              `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Protected            *bool                `bson:"protected,omitempty"`
+	RemoteNamespace      *string              `bson:"remotenamespace,omitempty"`
+	RemotePlatform       *string              `bson:"remoteplatform,omitempty"`
+	SerialNumber         *string              `bson:"serialnumber,omitempty"`
+	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
+	ZHash                *int                 `bson:"zhash,omitempty"`
+	Zone                 *int                 `bson:"zone,omitempty"`
 }

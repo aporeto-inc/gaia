@@ -148,15 +148,15 @@ func NewRenderedPolicy() *RenderedPolicy {
 	return &RenderedPolicy{
 		ModelVersion: 1,
 		EgressPolicies: map[string]PolicyRulesList{
-			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
-			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
-			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
+			string(constants.RenderedPolicyTypeNetwork):   {},
+			string(constants.RenderedPolicyTypeFile):      {},
+			string(constants.RenderedPolicyTypeIsolation): {},
 		},
 		HashedTags: map[string]string{},
 		IngressPolicies: map[string]PolicyRulesList{
-			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
-			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
-			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
+			string(constants.RenderedPolicyTypeNetwork):   {},
+			string(constants.RenderedPolicyTypeFile):      {},
+			string(constants.RenderedPolicyTypeIsolation): {},
 		},
 		MatchingTags: []string{},
 		Scopes:       []string{},

@@ -2232,7 +2232,8 @@ func init() {
 
 	relationshipsRegistry[ImportReferenceIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"recipe": {},
+			"root":   {},
 		},
 		Delete: map[string]*elemental.RelationshipInfo{
 			"root": {
@@ -2249,6 +2250,7 @@ func init() {
 			"root": {},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"recipe": {},
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
 					{
@@ -2260,6 +2262,7 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"recipe": {},
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
 					{
@@ -4582,6 +4585,46 @@ func init() {
 							"SSH",
 							"JWT",
 						},
+					},
+				},
+			},
+		},
+	}
+
+	relationshipsRegistry[TrustedNamespaceIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Update: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Patch: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
 					},
 				},
 			},

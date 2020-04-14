@@ -9,6 +9,20 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// RecipeDeploymentModeValue represents the possible values for attribute "deploymentMode".
+type RecipeDeploymentModeValue string
+
+const (
+	// RecipeDeploymentModeNamespaceUnique represents the value NamespaceUnique.
+	RecipeDeploymentModeNamespaceUnique RecipeDeploymentModeValue = "NamespaceUnique"
+
+	// RecipeDeploymentModeUnique represents the value Unique.
+	RecipeDeploymentModeUnique RecipeDeploymentModeValue = "Unique"
+
+	// RecipeDeploymentModeUnrestricted represents the value Unrestricted.
+	RecipeDeploymentModeUnrestricted RecipeDeploymentModeValue = "Unrestricted"
+)
+
 // RecipeIdentity represents the Identity of the object.
 var RecipeIdentity = elemental.Identity{
 	Name:     "recipe",
@@ -98,6 +112,13 @@ type Recipe struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Defines the deployment mode of the recipe. If Unrestricted, recipe
+	// can be deployed multiple times in the current namespace and below. If Unique,
+	// only one deployment is allowed
+	// in the current namespace and its child namespaces. If NamespaceUnique, only
+	// one deployment is allowed in the current namespace.
+	DeploymentMode RecipeDeploymentModeValue `json:"deploymentMode" msgpack:"deploymentMode" bson:"deploymentmode" mapstructure:"deploymentMode,omitempty"`
+
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
@@ -176,6 +197,7 @@ func NewRecipe() *Recipe {
 		ModelVersion:     1,
 		Annotations:      map[string][]string{},
 		AssociatedTags:   []string{},
+		DeploymentMode:   RecipeDeploymentModeUnrestricted,
 		Steps:            []*UIStep{},
 		MigrationsLog:    map[string]string{},
 		TargetIdentities: []string{},
@@ -221,6 +243,7 @@ func (o *Recipe) GetBSON() (interface{}, error) {
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
+	s.DeploymentMode = o.DeploymentMode
 	s.Description = o.Description
 	s.Icon = o.Icon
 	s.Key = o.Key
@@ -265,6 +288,7 @@ func (o *Recipe) SetBSON(raw bson.Raw) error {
 	o.AssociatedTags = s.AssociatedTags
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
+	o.DeploymentMode = s.DeploymentMode
 	o.Description = s.Description
 	o.Icon = s.Icon
 	o.Key = s.Key
@@ -526,6 +550,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AssociatedTags:       &o.AssociatedTags,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
+			DeploymentMode:       &o.DeploymentMode,
 			Description:          &o.Description,
 			Icon:                 &o.Icon,
 			Key:                  &o.Key,
@@ -564,6 +589,8 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "deploymentMode":
+			sp.DeploymentMode = &(o.DeploymentMode)
 		case "description":
 			sp.Description = &(o.Description)
 		case "icon":
@@ -635,6 +662,9 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.DeploymentMode != nil {
+		o.DeploymentMode = *so.DeploymentMode
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -738,6 +768,10 @@ func (o *Recipe) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("deploymentMode", string(o.DeploymentMode), []string{"Unrestricted", "Unique", "NamespaceUnique"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -823,6 +857,8 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "deploymentMode":
+		return o.DeploymentMode
 	case "description":
 		return o.Description
 	case "icon":
@@ -937,6 +973,20 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"DeploymentMode": {
+		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
+		ConvertedName:  "DeploymentMode",
+		DefaultValue:   RecipeDeploymentModeUnrestricted,
+		Description: `Defines the deployment mode of the recipe. If Unrestricted, recipe
+can be deployed multiple times in the current namespace and below. If Unique,
+only one deployment is allowed
+in the current namespace and its child namespaces. If NamespaceUnique, only
+one deployment is allowed in the current namespace.`,
+		Exposed: true,
+		Name:    "deploymentMode",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"Description": {
 		AllowedChoices: []string{},
@@ -1265,6 +1315,20 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"deploymentmode": {
+		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
+		ConvertedName:  "DeploymentMode",
+		DefaultValue:   RecipeDeploymentModeUnrestricted,
+		Description: `Defines the deployment mode of the recipe. If Unrestricted, recipe
+can be deployed multiple times in the current namespace and below. If Unique,
+only one deployment is allowed
+in the current namespace and its child namespaces. If NamespaceUnique, only
+one deployment is allowed in the current namespace.`,
+		Exposed: true,
+		Name:    "deploymentMode",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"description": {
 		AllowedChoices: []string{},
@@ -1608,6 +1672,13 @@ type SparseRecipe struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
+	// Defines the deployment mode of the recipe. If Unrestricted, recipe
+	// can be deployed multiple times in the current namespace and below. If Unique,
+	// only one deployment is allowed
+	// in the current namespace and its child namespaces. If NamespaceUnique, only
+	// one deployment is allowed in the current namespace.
+	DeploymentMode *RecipeDeploymentModeValue `json:"deploymentMode,omitempty" msgpack:"deploymentMode,omitempty" bson:"deploymentmode,omitempty" mapstructure:"deploymentMode,omitempty"`
+
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
@@ -1734,6 +1805,9 @@ func (o *SparseRecipe) GetBSON() (interface{}, error) {
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
 	}
+	if o.DeploymentMode != nil {
+		s.DeploymentMode = o.DeploymentMode
+	}
 	if o.Description != nil {
 		s.Description = o.Description
 	}
@@ -1831,6 +1905,9 @@ func (o *SparseRecipe) SetBSON(raw bson.Raw) error {
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
 	}
+	if s.DeploymentMode != nil {
+		o.DeploymentMode = s.DeploymentMode
+	}
 	if s.Description != nil {
 		o.Description = s.Description
 	}
@@ -1925,6 +2002,9 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
+	}
+	if o.DeploymentMode != nil {
+		out.DeploymentMode = *o.DeploymentMode
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
@@ -2277,60 +2357,62 @@ func (o *SparseRecipe) DeepCopyInto(out *SparseRecipe) {
 }
 
 type mongoAttributesRecipe struct {
-	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	Annotations          map[string][]string `bson:"annotations"`
-	AssociatedTags       []string            `bson:"associatedtags"`
-	CreateIdempotencyKey string              `bson:"createidempotencykey"`
-	CreateTime           time.Time           `bson:"createtime"`
-	Description          string              `bson:"description"`
-	Icon                 string              `bson:"icon"`
-	Key                  string              `bson:"key"`
-	Label                string              `bson:"label"`
-	LongDescription      string              `bson:"longdescription"`
-	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 string              `bson:"name"`
-	Namespace            string              `bson:"namespace"`
-	NormalizedTags       []string            `bson:"normalizedtags"`
-	Options              *RecipeOptions      `bson:"options"`
-	Propagate            bool                `bson:"propagate"`
-	Protected            bool                `bson:"protected"`
-	Steps                []*UIStep           `bson:"steps"`
-	SuccessfullMessage   string              `bson:"successfullmessage"`
-	TargetIdentities     []string            `bson:"targetidentities"`
-	Template             string              `bson:"template"`
-	TemplateHash         string              `bson:"templatehash"`
-	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
-	UpdateTime           time.Time           `bson:"updatetime"`
-	ZHash                int                 `bson:"zhash"`
-	Zone                 int                 `bson:"zone"`
+	ID                   bson.ObjectId             `bson:"_id,omitempty"`
+	Annotations          map[string][]string       `bson:"annotations"`
+	AssociatedTags       []string                  `bson:"associatedtags"`
+	CreateIdempotencyKey string                    `bson:"createidempotencykey"`
+	CreateTime           time.Time                 `bson:"createtime"`
+	DeploymentMode       RecipeDeploymentModeValue `bson:"deploymentmode"`
+	Description          string                    `bson:"description"`
+	Icon                 string                    `bson:"icon"`
+	Key                  string                    `bson:"key"`
+	Label                string                    `bson:"label"`
+	LongDescription      string                    `bson:"longdescription"`
+	Metadata             []string                  `bson:"metadata"`
+	MigrationsLog        map[string]string         `bson:"migrationslog,omitempty"`
+	Name                 string                    `bson:"name"`
+	Namespace            string                    `bson:"namespace"`
+	NormalizedTags       []string                  `bson:"normalizedtags"`
+	Options              *RecipeOptions            `bson:"options"`
+	Propagate            bool                      `bson:"propagate"`
+	Protected            bool                      `bson:"protected"`
+	Steps                []*UIStep                 `bson:"steps"`
+	SuccessfullMessage   string                    `bson:"successfullmessage"`
+	TargetIdentities     []string                  `bson:"targetidentities"`
+	Template             string                    `bson:"template"`
+	TemplateHash         string                    `bson:"templatehash"`
+	UpdateIdempotencyKey string                    `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                 `bson:"updatetime"`
+	ZHash                int                       `bson:"zhash"`
+	Zone                 int                       `bson:"zone"`
 }
 type mongoAttributesSparseRecipe struct {
-	ID                   bson.ObjectId        `bson:"_id,omitempty"`
-	Annotations          *map[string][]string `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time           `bson:"createtime,omitempty"`
-	Description          *string              `bson:"description,omitempty"`
-	Icon                 *string              `bson:"icon,omitempty"`
-	Key                  *string              `bson:"key,omitempty"`
-	Label                *string              `bson:"label,omitempty"`
-	LongDescription      *string              `bson:"longdescription,omitempty"`
-	Metadata             *[]string            `bson:"metadata,omitempty"`
-	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 *string              `bson:"name,omitempty"`
-	Namespace            *string              `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	Options              *RecipeOptions       `bson:"options,omitempty"`
-	Propagate            *bool                `bson:"propagate,omitempty"`
-	Protected            *bool                `bson:"protected,omitempty"`
-	Steps                *[]*UIStep           `bson:"steps,omitempty"`
-	SuccessfullMessage   *string              `bson:"successfullmessage,omitempty"`
-	TargetIdentities     *[]string            `bson:"targetidentities,omitempty"`
-	Template             *string              `bson:"template,omitempty"`
-	TemplateHash         *string              `bson:"templatehash,omitempty"`
-	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
-	ZHash                *int                 `bson:"zhash,omitempty"`
-	Zone                 *int                 `bson:"zone,omitempty"`
+	ID                   bson.ObjectId              `bson:"_id,omitempty"`
+	Annotations          *map[string][]string       `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                  `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string                    `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                 `bson:"createtime,omitempty"`
+	DeploymentMode       *RecipeDeploymentModeValue `bson:"deploymentmode,omitempty"`
+	Description          *string                    `bson:"description,omitempty"`
+	Icon                 *string                    `bson:"icon,omitempty"`
+	Key                  *string                    `bson:"key,omitempty"`
+	Label                *string                    `bson:"label,omitempty"`
+	LongDescription      *string                    `bson:"longdescription,omitempty"`
+	Metadata             *[]string                  `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string         `bson:"migrationslog,omitempty"`
+	Name                 *string                    `bson:"name,omitempty"`
+	Namespace            *string                    `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                  `bson:"normalizedtags,omitempty"`
+	Options              *RecipeOptions             `bson:"options,omitempty"`
+	Propagate            *bool                      `bson:"propagate,omitempty"`
+	Protected            *bool                      `bson:"protected,omitempty"`
+	Steps                *[]*UIStep                 `bson:"steps,omitempty"`
+	SuccessfullMessage   *string                    `bson:"successfullmessage,omitempty"`
+	TargetIdentities     *[]string                  `bson:"targetidentities,omitempty"`
+	Template             *string                    `bson:"template,omitempty"`
+	TemplateHash         *string                    `bson:"templatehash,omitempty"`
+	UpdateIdempotencyKey *string                    `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                 `bson:"updatetime,omitempty"`
+	ZHash                *int                       `bson:"zhash,omitempty"`
+	Zone                 *int                       `bson:"zone,omitempty"`
 }

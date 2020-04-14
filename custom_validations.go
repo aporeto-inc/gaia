@@ -662,6 +662,42 @@ func ValidatePEM(attribute string, pemdata string) error {
 	}
 }
 
+// ValidateCA verifies a string contains a PEM encoding a CA.
+func ValidateCA(attribute string, pemdata string) error {
+
+	if pemdata == "" {
+		return nil
+	}
+
+	var i int
+	var block *pem.Block
+	rest := []byte(pemdata)
+
+	for {
+		block, rest = pem.Decode(rest)
+
+		if block == nil {
+			return makeValidationError(attribute, "Unable to decode PEM")
+		}
+
+		if len(rest) == 0 {
+			break
+		}
+		i++
+	}
+
+	cacert, err := x509.ParseCertificate(block.Bytes)
+	if err != nil {
+		return makeValidationError(attribute, fmt.Sprintf("Unable to parse x509 certificate: %s", err))
+	}
+
+	if !cacert.IsCA {
+		return makeValidationError(attribute, "Given x509 certificate is not a CA")
+	}
+
+	return nil
+}
+
 // Constants to validate tags.
 const (
 	prefixDynamicTag  = "$"
@@ -875,6 +911,30 @@ func ValidateStringListNotEmpty(attribute string, slice []string) error {
 
 	if len(slice) == 0 {
 		return makeValidationError(attribute, "String list must not be empty")
+	}
+
+	return nil
+}
+
+// ValidateHookPolicy validates a hook policy.
+func ValidateHookPolicy(policy *HookPolicy) error {
+
+	switch policy.EndpointType {
+	case HookPolicyEndpointTypeURL:
+		if policy.Endpoint == "" {
+			return makeValidationError("endpoint", "endpoint is required")
+		}
+		if len(policy.Selectors) > 0 {
+			return makeValidationError("selectors", "no selectors should be specified with EndpointType Endpoint")
+		}
+
+	case HookPolicyEndpointTypeAutomation:
+		if len(policy.Selectors) == 0 {
+			return makeValidationError("selectors", "selectors must be specified")
+		}
+		if policy.Endpoint != "" {
+			return makeValidationError("endpoint", "no endpoint should be specified with EndpointType AutomationSelector")
+		}
 	}
 
 	return nil
