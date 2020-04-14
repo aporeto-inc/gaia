@@ -164,6 +164,9 @@ type FlowReport struct {
 	// property does nothing.
 	DestinationNamespace string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
 
+	// Identifier of the destination platform.
+	DestinationPlatform string `json:"destinationPlatform" msgpack:"destinationPlatform" bson:"-" mapstructure:"destinationPlatform,omitempty"`
+
 	// Port of the destination.
 	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
 
@@ -235,6 +238,9 @@ type FlowReport struct {
 	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
 	SourceNamespace string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
+
+	// Identifier of the source platform.
+	SourcePlatform string `json:"sourcePlatform" msgpack:"sourcePlatform" bson:"-" mapstructure:"sourcePlatform,omitempty"`
 
 	// Type of the source.
 	SourceType FlowReportSourceTypeValue `json:"sourceType" msgpack:"sourceType" bson:"-" mapstructure:"sourceType,omitempty"`
@@ -344,6 +350,7 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			DestinationID:           &o.DestinationID,
 			DestinationIP:           &o.DestinationIP,
 			DestinationNamespace:    &o.DestinationNamespace,
+			DestinationPlatform:     &o.DestinationPlatform,
 			DestinationPort:         &o.DestinationPort,
 			DestinationType:         &o.DestinationType,
 			DropReason:              &o.DropReason,
@@ -367,6 +374,7 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			SourceID:                &o.SourceID,
 			SourceIP:                &o.SourceIP,
 			SourceNamespace:         &o.SourceNamespace,
+			SourcePlatform:          &o.SourcePlatform,
 			SourceType:              &o.SourceType,
 			Timestamp:               &o.Timestamp,
 			Value:                   &o.Value,
@@ -384,6 +392,8 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.DestinationIP = &(o.DestinationIP)
 		case "destinationNamespace":
 			sp.DestinationNamespace = &(o.DestinationNamespace)
+		case "destinationPlatform":
+			sp.DestinationPlatform = &(o.DestinationPlatform)
 		case "destinationPort":
 			sp.DestinationPort = &(o.DestinationPort)
 		case "destinationType":
@@ -430,6 +440,8 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.SourceIP = &(o.SourceIP)
 		case "sourceNamespace":
 			sp.SourceNamespace = &(o.SourceNamespace)
+		case "sourcePlatform":
+			sp.SourcePlatform = &(o.SourcePlatform)
 		case "sourceType":
 			sp.SourceType = &(o.SourceType)
 		case "timestamp":
@@ -460,6 +472,9 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DestinationNamespace != nil {
 		o.DestinationNamespace = *so.DestinationNamespace
+	}
+	if so.DestinationPlatform != nil {
+		o.DestinationPlatform = *so.DestinationPlatform
 	}
 	if so.DestinationPort != nil {
 		o.DestinationPort = *so.DestinationPort
@@ -529,6 +544,9 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SourceNamespace != nil {
 		o.SourceNamespace = *so.SourceNamespace
+	}
+	if so.SourcePlatform != nil {
+		o.SourcePlatform = *so.SourcePlatform
 	}
 	if so.SourceType != nil {
 		o.SourceType = *so.SourceType
@@ -673,6 +691,8 @@ func (o *FlowReport) ValueForAttribute(name string) interface{} {
 		return o.DestinationIP
 	case "destinationNamespace":
 		return o.DestinationNamespace
+	case "destinationPlatform":
+		return o.DestinationPlatform
 	case "destinationPort":
 		return o.DestinationPort
 	case "destinationType":
@@ -719,6 +739,8 @@ func (o *FlowReport) ValueForAttribute(name string) interface{} {
 		return o.SourceIP
 	case "sourceNamespace":
 		return o.SourceNamespace
+	case "sourcePlatform":
+		return o.SourcePlatform
 	case "sourceType":
 		return o.SourceType
 	case "timestamp":
@@ -767,6 +789,14 @@ property does nothing.`,
 		Exposed: true,
 		Name:    "destinationNamespace",
 		Type:    "string",
+	},
+	"DestinationPlatform": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationPlatform",
+		Description:    `Identifier of the destination platform.`,
+		Exposed:        true,
+		Name:           "destinationPlatform",
+		Type:           "string",
 	},
 	"DestinationPort": {
 		AllowedChoices: []string{},
@@ -965,6 +995,14 @@ property does nothing.`,
 		Name:    "sourceNamespace",
 		Type:    "string",
 	},
+	"SourcePlatform": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SourcePlatform",
+		Description:    `Identifier of the source platform.`,
+		Exposed:        true,
+		Name:           "sourcePlatform",
+		Type:           "string",
+	},
 	"SourceType": {
 		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
 		ConvertedName:  "SourceType",
@@ -1030,6 +1068,14 @@ property does nothing.`,
 		Exposed: true,
 		Name:    "destinationNamespace",
 		Type:    "string",
+	},
+	"destinationplatform": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationPlatform",
+		Description:    `Identifier of the destination platform.`,
+		Exposed:        true,
+		Name:           "destinationPlatform",
+		Type:           "string",
 	},
 	"destinationport": {
 		AllowedChoices: []string{},
@@ -1228,6 +1274,14 @@ property does nothing.`,
 		Name:    "sourceNamespace",
 		Type:    "string",
 	},
+	"sourceplatform": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SourcePlatform",
+		Description:    `Identifier of the source platform.`,
+		Exposed:        true,
+		Name:           "sourcePlatform",
+		Type:           "string",
+	},
 	"sourcetype": {
 		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
 		ConvertedName:  "SourceType",
@@ -1332,6 +1386,9 @@ type SparseFlowReport struct {
 	// property does nothing.
 	DestinationNamespace *string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
 
+	// Identifier of the destination platform.
+	DestinationPlatform *string `json:"destinationPlatform,omitempty" msgpack:"destinationPlatform,omitempty" bson:"-" mapstructure:"destinationPlatform,omitempty"`
+
 	// Port of the destination.
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
 
@@ -1403,6 +1460,9 @@ type SparseFlowReport struct {
 	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
+
+	// Identifier of the source platform.
+	SourcePlatform *string `json:"sourcePlatform,omitempty" msgpack:"sourcePlatform,omitempty" bson:"-" mapstructure:"sourcePlatform,omitempty"`
 
 	// Type of the source.
 	SourceType *FlowReportSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"-" mapstructure:"sourceType,omitempty"`
@@ -1489,6 +1549,9 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	if o.DestinationNamespace != nil {
 		out.DestinationNamespace = *o.DestinationNamespace
 	}
+	if o.DestinationPlatform != nil {
+		out.DestinationPlatform = *o.DestinationPlatform
+	}
 	if o.DestinationPort != nil {
 		out.DestinationPort = *o.DestinationPort
 	}
@@ -1557,6 +1620,9 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SourceNamespace != nil {
 		out.SourceNamespace = *o.SourceNamespace
+	}
+	if o.SourcePlatform != nil {
+		out.SourcePlatform = *o.SourcePlatform
 	}
 	if o.SourceType != nil {
 		out.SourceType = *o.SourceType
