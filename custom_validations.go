@@ -662,6 +662,42 @@ func ValidatePEM(attribute string, pemdata string) error {
 	}
 }
 
+// ValidateCA verifies a string contains a PEM encoding a CA.
+func ValidateCA(attribute string, pemdata string) error {
+
+	if pemdata == "" {
+		return nil
+	}
+
+	var i int
+	var block *pem.Block
+	rest := []byte(pemdata)
+
+	for {
+		block, rest = pem.Decode(rest)
+
+		if block == nil {
+			return makeValidationError(attribute, "Unable to decode PEM")
+		}
+
+		if len(rest) == 0 {
+			break
+		}
+		i++
+	}
+
+	cacert, err := x509.ParseCertificate(block.Bytes)
+	if err != nil {
+		return makeValidationError(attribute, fmt.Sprintf("Unable to parse x509 certificate: %s", err))
+	}
+
+	if !cacert.IsCA {
+		return makeValidationError(attribute, "Given x509 certificate is not a CA")
+	}
+
+	return nil
+}
+
 // Constants to validate tags.
 const (
 	prefixDynamicTag  = "$"
