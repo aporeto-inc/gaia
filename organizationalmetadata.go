@@ -80,7 +80,7 @@ func (o OrganizationalMetadatasList) Version() int {
 
 // OrganizationalMetadata represents the model of a organizationalmetadata
 type OrganizationalMetadata struct {
-	// List of organizational metadata for the namespace and its namespace hierarchy.
+	// List of organizational metadata for the namespace.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -171,8 +171,7 @@ func (o *OrganizationalMetadata) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *OrganizationalMetadata) Doc() string {
 
-	return `Can be used to retrieve the organizational metadata of the namespace and the
-organizational metadata of its namespace hierarchy.`
+	return `Can be used to retrieve the organizational metadata of the namespace.`
 }
 
 func (o *OrganizationalMetadata) String() string {
@@ -314,7 +313,7 @@ var OrganizationalMetadataAttributesMap = map[string]elemental.AttributeSpecific
 	"Metadata": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
-		Description:    `List of organizational metadata for the namespace and its namespace hierarchy.`,
+		Description:    `List of organizational metadata for the namespace.`,
 		Exposed:        true,
 		Name:           "metadata",
 		Stored:         true,
@@ -343,7 +342,7 @@ var OrganizationalMetadataLowerCaseAttributesMap = map[string]elemental.Attribut
 	"metadata": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
-		Description:    `List of organizational metadata for the namespace and its namespace hierarchy.`,
+		Description:    `List of organizational metadata for the namespace.`,
 		Exposed:        true,
 		Name:           "metadata",
 		Stored:         true,
@@ -430,7 +429,7 @@ func (o SparseOrganizationalMetadatasList) Version() int {
 
 // SparseOrganizationalMetadata represents the sparse version of a organizationalmetadata.
 type SparseOrganizationalMetadata struct {
-	// List of organizational metadata for the namespace and its namespace hierarchy.
+	// List of organizational metadata for the namespace.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Namespace tag attached to an entity.

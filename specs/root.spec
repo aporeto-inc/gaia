@@ -585,7 +585,9 @@ relations:
 
 - rest_name: organizationalmetadata
   get:
-    description: Retrieves the list of organizational metadata.
+    description: |-
+      Retrieves the list of organizational metadata for the namespace and its
+      namespace hierarchy.
 
 - rest_name: packetreport
   create:
