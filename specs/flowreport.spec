@@ -148,15 +148,15 @@ attributes:
     description: |-
       If the sequence number of the packet sent on the transmitter side and the
       sequence number of the packet on the receiver side is same, then 'Equal'
-      otherwise 'Unequal'. 'Undefined' means validation did not happen for some
+      otherwise 'Unequal'. 'Noop' means validation did not happen for some
       reason.
     type: enum
     exposed: true
     allowed_choices:
     - Equal
     - Unequal
-    - Undefined
-    default_value: Undefined
+    - Noop
+    default_value: Noop
 
   - name: serviceClaimHash
     description: Hash of the claims used to communicate.

@@ -55,8 +55,8 @@ const (
 	// FlowReportSeqNumMatchingEqual represents the value Equal.
 	FlowReportSeqNumMatchingEqual FlowReportSeqNumMatchingValue = "Equal"
 
-	// FlowReportSeqNumMatchingUndefined represents the value Undefined.
-	FlowReportSeqNumMatchingUndefined FlowReportSeqNumMatchingValue = "Undefined"
+	// FlowReportSeqNumMatchingNoop represents the value Noop.
+	FlowReportSeqNumMatchingNoop FlowReportSeqNumMatchingValue = "Noop"
 
 	// FlowReportSeqNumMatchingUnequal represents the value Unequal.
 	FlowReportSeqNumMatchingUnequal FlowReportSeqNumMatchingValue = "Unequal"
@@ -227,7 +227,7 @@ type FlowReport struct {
 
 	// If the sequence number of the packet sent on the transmitter side and the
 	// sequence number of the packet on the receiver side is same, then 'Equal'
-	// otherwise 'Unequal'. 'Undefined' means validation did not happen for some
+	// otherwise 'Unequal'. 'Noop' means validation did not happen for some
 	// reason.
 	SeqNumMatching FlowReportSeqNumMatchingValue `json:"seqNumMatching" msgpack:"seqNumMatching" bson:"-" mapstructure:"seqNumMatching,omitempty"`
 
@@ -276,7 +276,7 @@ func NewFlowReport() *FlowReport {
 
 	return &FlowReport{
 		ModelVersion:   1,
-		SeqNumMatching: FlowReportSeqNumMatchingUndefined,
+		SeqNumMatching: FlowReportSeqNumMatchingNoop,
 		ObservedAction: FlowReportObservedActionNotApplicable,
 		ServiceType:    FlowReportServiceTypeNotApplicable,
 	}
@@ -647,7 +647,7 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("seqNumMatching", string(o.SeqNumMatching), []string{"Equal", "Unequal", "Undefined"}, false); err != nil {
+	if err := elemental.ValidateStringInList("seqNumMatching", string(o.SeqNumMatching), []string{"Equal", "Unequal", "Noop"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -942,12 +942,12 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Type:           "string",
 	},
 	"SeqNumMatching": {
-		AllowedChoices: []string{"Equal", "Unequal", "Undefined"},
+		AllowedChoices: []string{"Equal", "Unequal", "Noop"},
 		ConvertedName:  "SeqNumMatching",
-		DefaultValue:   FlowReportSeqNumMatchingUndefined,
+		DefaultValue:   FlowReportSeqNumMatchingNoop,
 		Description: `If the sequence number of the packet sent on the transmitter side and the
 sequence number of the packet on the receiver side is same, then 'Equal'
-otherwise 'Unequal'. 'Undefined' means validation did not happen for some
+otherwise 'Unequal'. 'Noop' means validation did not happen for some
 reason.`,
 		Exposed: true,
 		Name:    "seqNumMatching",
@@ -1225,12 +1225,12 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Type:           "string",
 	},
 	"seqnummatching": {
-		AllowedChoices: []string{"Equal", "Unequal", "Undefined"},
+		AllowedChoices: []string{"Equal", "Unequal", "Noop"},
 		ConvertedName:  "SeqNumMatching",
-		DefaultValue:   FlowReportSeqNumMatchingUndefined,
+		DefaultValue:   FlowReportSeqNumMatchingNoop,
 		Description: `If the sequence number of the packet sent on the transmitter side and the
 sequence number of the packet on the receiver side is same, then 'Equal'
-otherwise 'Unequal'. 'Undefined' means validation did not happen for some
+otherwise 'Unequal'. 'Noop' means validation did not happen for some
 reason.`,
 		Exposed: true,
 		Name:    "seqNumMatching",
@@ -1465,7 +1465,7 @@ type SparseFlowReport struct {
 
 	// If the sequence number of the packet sent on the transmitter side and the
 	// sequence number of the packet on the receiver side is same, then 'Equal'
-	// otherwise 'Unequal'. 'Undefined' means validation did not happen for some
+	// otherwise 'Unequal'. 'Noop' means validation did not happen for some
 	// reason.
 	SeqNumMatching *FlowReportSeqNumMatchingValue `json:"seqNumMatching,omitempty" msgpack:"seqNumMatching,omitempty" bson:"-" mapstructure:"seqNumMatching,omitempty"`
 
