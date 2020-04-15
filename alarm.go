@@ -73,6 +73,8 @@ func (o AlarmsList) List() elemental.IdentifiablesList {
 func (o AlarmsList) DefaultOrder() []string {
 
 	return []string{
+		"name",
+		":no-inherit",
 		"updateTime",
 	}
 }
@@ -291,6 +293,8 @@ func (o *Alarm) BleveType() string {
 func (o *Alarm) DefaultOrder() []string {
 
 	return []string{
+		"name",
+		":no-inherit",
 		"updateTime",
 	}
 }
@@ -1349,6 +1353,8 @@ func (o SparseAlarmsList) List() elemental.IdentifiablesList {
 func (o SparseAlarmsList) DefaultOrder() []string {
 
 	return []string{
+		"name",
+		":no-inherit",
 		"updateTime",
 	}
 }
