@@ -280,9 +280,9 @@ var (
 		"tokens":             TokenIdentity,
 		"tokenscopepolicies": TokenScopePolicyIdentity,
 
-		"triggers":         TriggerIdentity,
-		"trustedcas":       TrustedCAIdentity,
-		"trustedamespaces": TrustedNamespaceIdentity,
+		"triggers":          TriggerIdentity,
+		"trustedcas":        TrustedCAIdentity,
+		"trustednamespaces": TrustedNamespaceIdentity,
 
 		"useraccesspolicies":    UserAccessPolicyIdentity,
 		"validateuiparameters":  ValidateUIParameterIdentity,

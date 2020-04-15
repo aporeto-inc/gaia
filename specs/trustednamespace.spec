@@ -1,7 +1,7 @@
 # Model
 model:
   rest_name: trustednamespace
-  resource_name: trustedamespaces
+  resource_name: trustednamespaces
   entity_name: TrustedNamespace
   package: squall
   group: policy/enforcerconfig

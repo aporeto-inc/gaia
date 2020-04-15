@@ -12,7 +12,7 @@ import (
 // TrustedNamespaceIdentity represents the Identity of the object.
 var TrustedNamespaceIdentity = elemental.Identity{
 	Name:     "trustednamespace",
-	Category: "trustedamespaces",
+	Category: "trustednamespaces",
 	Package:  "squall",
 	Private:  false,
 }

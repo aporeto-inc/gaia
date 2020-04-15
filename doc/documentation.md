@@ -8099,7 +8099,7 @@ AiBl7/st9u/JpERjJgirxJxOgKNlV6pq9ti75EfQtZZcQA==
 
 #### Relations
 
-##### `GET /trustedamespaces`
+##### `GET /trustednamespaces`
 
 Retrieves the list of trusted namespaces.
 
@@ -8107,19 +8107,19 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
-##### `POST /trustedamespaces`
+##### `POST /trustednamespaces`
 
 Creates a new trusted namespace.
 
-##### `DELETE /trustedamespaces/:id`
+##### `DELETE /trustednamespaces/:id`
 
 Delete the trusted namespace with the given ID.
 
-##### `GET /trustedamespaces/:id`
+##### `GET /trustednamespaces/:id`
 
 Retrieve the trusted namespace with the given ID.
 
-##### `PUT /trustedamespaces/:id`
+##### `PUT /trustednamespaces/:id`
 
 Update the trusted namespace with the given ID.
 
