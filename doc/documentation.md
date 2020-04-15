@@ -9369,6 +9369,7 @@ Post a new flow log.
   "sourceNamespace": "/my/namespace",
   "sourcePlatform": "api.west.acme.com",
   "sourceType": "ProcessingUnit",
+  "srcPortMatching": "Noop",
   "value": 1
 }
 ```
@@ -9536,13 +9537,26 @@ Identifier of the source platform.
 
 Type of the source.
 
+##### `srcPortMatching` `emum(Equal | Unequal | Noop)`
+
+If the source port of the packet sent on the transmitter side and the
+source port of the packet on the receiver side is same, then 'Equal'
+otherwise 'Unequal'. 'Noop' means validation did not happen for some
+reason.
+
+Default value:
+
+```json
+"Noop"
+```
+
 ##### `timestamp` `time`
 
 Time and date of the log.
 
-##### `txFourTuple` `string`
+##### `txThreeTuple` `string`
 
-Transmitter four tuple.
+Transmitter three tuple (sip:dip:dpt).
 
 ##### `value` `integer` [`required`]
 

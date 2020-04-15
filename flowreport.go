@@ -93,6 +93,20 @@ const (
 	FlowReportSourceTypeProcessingUnit FlowReportSourceTypeValue = "ProcessingUnit"
 )
 
+// FlowReportSrcPortMatchingValue represents the possible values for attribute "srcPortMatching".
+type FlowReportSrcPortMatchingValue string
+
+const (
+	// FlowReportSrcPortMatchingEqual represents the value Equal.
+	FlowReportSrcPortMatchingEqual FlowReportSrcPortMatchingValue = "Equal"
+
+	// FlowReportSrcPortMatchingNoop represents the value Noop.
+	FlowReportSrcPortMatchingNoop FlowReportSrcPortMatchingValue = "Noop"
+
+	// FlowReportSrcPortMatchingUnequal represents the value Unequal.
+	FlowReportSrcPortMatchingUnequal FlowReportSrcPortMatchingValue = "Unequal"
+)
+
 // FlowReportIdentity represents the Identity of the object.
 var FlowReportIdentity = elemental.Identity{
 	Name:     "flowreport",
@@ -265,11 +279,17 @@ type FlowReport struct {
 	// Type of the source.
 	SourceType FlowReportSourceTypeValue `json:"sourceType" msgpack:"sourceType" bson:"-" mapstructure:"sourceType,omitempty"`
 
+	// If the source port of the packet sent on the transmitter side and the
+	// source port of the packet on the receiver side is same, then 'Equal'
+	// otherwise 'Unequal'. 'Noop' means validation did not happen for some
+	// reason.
+	SrcPortMatching FlowReportSrcPortMatchingValue `json:"srcPortMatching" msgpack:"srcPortMatching" bson:"-" mapstructure:"srcPortMatching,omitempty"`
+
 	// Time and date of the log.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	// Transmitter four tuple.
-	TxFourTuple string `json:"txFourTuple" msgpack:"txFourTuple" bson:"-" mapstructure:"txFourTuple,omitempty"`
+	// Transmitter three tuple (sip:dip:dpt).
+	TxThreeTuple string `json:"txThreeTuple" msgpack:"txThreeTuple" bson:"-" mapstructure:"txThreeTuple,omitempty"`
 
 	// Number of flows in the log.
 	Value int `json:"value" msgpack:"value" bson:"-" mapstructure:"value,omitempty"`
@@ -281,10 +301,11 @@ type FlowReport struct {
 func NewFlowReport() *FlowReport {
 
 	return &FlowReport{
-		ModelVersion:   1,
-		SeqNumMatching: FlowReportSeqNumMatchingNoop,
-		ObservedAction: FlowReportObservedActionNotApplicable,
-		ServiceType:    FlowReportServiceTypeNotApplicable,
+		ModelVersion:    1,
+		SeqNumMatching:  FlowReportSeqNumMatchingNoop,
+		ServiceType:     FlowReportServiceTypeNotApplicable,
+		ObservedAction:  FlowReportObservedActionNotApplicable,
+		SrcPortMatching: FlowReportSrcPortMatchingNoop,
 	}
 }
 
@@ -401,8 +422,9 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			SourceNamespace:         &o.SourceNamespace,
 			SourcePlatform:          &o.SourcePlatform,
 			SourceType:              &o.SourceType,
+			SrcPortMatching:         &o.SrcPortMatching,
 			Timestamp:               &o.Timestamp,
-			TxFourTuple:             &o.TxFourTuple,
+			TxThreeTuple:            &o.TxThreeTuple,
 			Value:                   &o.Value,
 		}
 	}
@@ -472,10 +494,12 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.SourcePlatform = &(o.SourcePlatform)
 		case "sourceType":
 			sp.SourceType = &(o.SourceType)
+		case "srcPortMatching":
+			sp.SrcPortMatching = &(o.SrcPortMatching)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
-		case "txFourTuple":
-			sp.TxFourTuple = &(o.TxFourTuple)
+		case "txThreeTuple":
+			sp.TxThreeTuple = &(o.TxThreeTuple)
 		case "value":
 			sp.Value = &(o.Value)
 		}
@@ -584,11 +608,14 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.SourceType != nil {
 		o.SourceType = *so.SourceType
 	}
+	if so.SrcPortMatching != nil {
+		o.SrcPortMatching = *so.SrcPortMatching
+	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
 	}
-	if so.TxFourTuple != nil {
-		o.TxFourTuple = *so.TxFourTuple
+	if so.TxThreeTuple != nil {
+		o.TxThreeTuple = *so.TxThreeTuple
 	}
 	if so.Value != nil {
 		o.Value = *so.Value
@@ -682,6 +709,10 @@ func (o *FlowReport) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Claims"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("srcPortMatching", string(o.SrcPortMatching), []string{"Equal", "Unequal", "Noop"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -785,10 +816,12 @@ func (o *FlowReport) ValueForAttribute(name string) interface{} {
 		return o.SourcePlatform
 	case "sourceType":
 		return o.SourceType
+	case "srcPortMatching":
+		return o.SrcPortMatching
 	case "timestamp":
 		return o.Timestamp
-	case "txFourTuple":
-		return o.TxFourTuple
+	case "txThreeTuple":
+		return o.TxThreeTuple
 	case "value":
 		return o.Value
 	}
@@ -1068,6 +1101,18 @@ property does nothing.`,
 		Required:       true,
 		Type:           "enum",
 	},
+	"SrcPortMatching": {
+		AllowedChoices: []string{"Equal", "Unequal", "Noop"},
+		ConvertedName:  "SrcPortMatching",
+		DefaultValue:   FlowReportSrcPortMatchingNoop,
+		Description: `If the source port of the packet sent on the transmitter side and the
+source port of the packet on the receiver side is same, then 'Equal'
+otherwise 'Unequal'. 'Noop' means validation did not happen for some
+reason.`,
+		Exposed: true,
+		Name:    "srcPortMatching",
+		Type:    "enum",
+	},
 	"Timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
@@ -1076,12 +1121,12 @@ property does nothing.`,
 		Name:           "timestamp",
 		Type:           "time",
 	},
-	"TxFourTuple": {
+	"TxThreeTuple": {
 		AllowedChoices: []string{},
-		ConvertedName:  "TxFourTuple",
-		Description:    `Transmitter four tuple.`,
+		ConvertedName:  "TxThreeTuple",
+		Description:    `Transmitter three tuple (sip:dip:dpt).`,
 		Exposed:        true,
-		Name:           "txFourTuple",
+		Name:           "txThreeTuple",
 		Type:           "string",
 	},
 	"Value": {
@@ -1367,6 +1412,18 @@ property does nothing.`,
 		Required:       true,
 		Type:           "enum",
 	},
+	"srcportmatching": {
+		AllowedChoices: []string{"Equal", "Unequal", "Noop"},
+		ConvertedName:  "SrcPortMatching",
+		DefaultValue:   FlowReportSrcPortMatchingNoop,
+		Description: `If the source port of the packet sent on the transmitter side and the
+source port of the packet on the receiver side is same, then 'Equal'
+otherwise 'Unequal'. 'Noop' means validation did not happen for some
+reason.`,
+		Exposed: true,
+		Name:    "srcPortMatching",
+		Type:    "enum",
+	},
 	"timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
@@ -1375,12 +1432,12 @@ property does nothing.`,
 		Name:           "timestamp",
 		Type:           "time",
 	},
-	"txfourtuple": {
+	"txthreetuple": {
 		AllowedChoices: []string{},
-		ConvertedName:  "TxFourTuple",
-		Description:    `Transmitter four tuple.`,
+		ConvertedName:  "TxThreeTuple",
+		Description:    `Transmitter three tuple (sip:dip:dpt).`,
 		Exposed:        true,
-		Name:           "txFourTuple",
+		Name:           "txThreeTuple",
 		Type:           "string",
 	},
 	"value": {
@@ -1557,11 +1614,17 @@ type SparseFlowReport struct {
 	// Type of the source.
 	SourceType *FlowReportSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"-" mapstructure:"sourceType,omitempty"`
 
+	// If the source port of the packet sent on the transmitter side and the
+	// source port of the packet on the receiver side is same, then 'Equal'
+	// otherwise 'Unequal'. 'Noop' means validation did not happen for some
+	// reason.
+	SrcPortMatching *FlowReportSrcPortMatchingValue `json:"srcPortMatching,omitempty" msgpack:"srcPortMatching,omitempty" bson:"-" mapstructure:"srcPortMatching,omitempty"`
+
 	// Time and date of the log.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	// Transmitter four tuple.
-	TxFourTuple *string `json:"txFourTuple,omitempty" msgpack:"txFourTuple,omitempty" bson:"-" mapstructure:"txFourTuple,omitempty"`
+	// Transmitter three tuple (sip:dip:dpt).
+	TxThreeTuple *string `json:"txThreeTuple,omitempty" msgpack:"txThreeTuple,omitempty" bson:"-" mapstructure:"txThreeTuple,omitempty"`
 
 	// Number of flows in the log.
 	Value *int `json:"value,omitempty" msgpack:"value,omitempty" bson:"-" mapstructure:"value,omitempty"`
@@ -1723,11 +1786,14 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	if o.SourceType != nil {
 		out.SourceType = *o.SourceType
 	}
+	if o.SrcPortMatching != nil {
+		out.SrcPortMatching = *o.SrcPortMatching
+	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp
 	}
-	if o.TxFourTuple != nil {
-		out.TxFourTuple = *o.TxFourTuple
+	if o.TxThreeTuple != nil {
+		out.TxThreeTuple = *o.TxThreeTuple
 	}
 	if o.Value != nil {
 		out.Value = *o.Value

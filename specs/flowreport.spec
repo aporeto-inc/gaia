@@ -234,13 +234,27 @@ attributes:
     - Claims
     example_value: ProcessingUnit
 
+  - name: srcPortMatching
+    description: |-
+      If the source port of the packet sent on the transmitter side and the
+      source port of the packet on the receiver side is same, then 'Equal'
+      otherwise 'Unequal'. 'Noop' means validation did not happen for some
+      reason.
+    type: enum
+    exposed: true
+    allowed_choices:
+    - Equal
+    - Unequal
+    - Noop
+    default_value: Noop
+
   - name: timestamp
     description: Time and date of the log.
     type: time
     exposed: true
 
-  - name: txFourTuple
-    description: Transmitter four tuple.
+  - name: txThreeTuple
+    description: Transmitter three tuple (sip:dip:dpt).
     type: string
     exposed: true
 
