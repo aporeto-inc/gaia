@@ -11,19 +11,6 @@ model:
   - '@zoned'
   - '@migratable'
 
-# Indexes
-indexes:
-- - namespace
-  - timestamp
-- - timestamp
-- - action
-- - remoteNamespace
-- - observedAction
-- - dropReason
-- - destinationPort
-- - sourcePlatform
-- - destinationPlatform
-
 # Attributes
 attributes:
   v1:
