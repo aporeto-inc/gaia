@@ -18,6 +18,12 @@ const (
 	// UIParameterTypeCVSSThreshold represents the value CVSSThreshold.
 	UIParameterTypeCVSSThreshold UIParameterTypeValue = "CVSSThreshold"
 
+	// UIParameterTypeCheckbox represents the value Checkbox.
+	UIParameterTypeCheckbox UIParameterTypeValue = "Checkbox"
+
+	// UIParameterTypeDangerMessage represents the value DangerMessage.
+	UIParameterTypeDangerMessage UIParameterTypeValue = "DangerMessage"
+
 	// UIParameterTypeDuration represents the value Duration.
 	UIParameterTypeDuration UIParameterTypeValue = "Duration"
 
@@ -30,6 +36,9 @@ const (
 	// UIParameterTypeFloatSlice represents the value FloatSlice.
 	UIParameterTypeFloatSlice UIParameterTypeValue = "FloatSlice"
 
+	// UIParameterTypeInfoMessage represents the value InfoMessage.
+	UIParameterTypeInfoMessage UIParameterTypeValue = "InfoMessage"
+
 	// UIParameterTypeInteger represents the value Integer.
 	UIParameterTypeInteger UIParameterTypeValue = "Integer"
 
@@ -38,6 +47,9 @@ const (
 
 	// UIParameterTypeJSON represents the value JSON.
 	UIParameterTypeJSON UIParameterTypeValue = "JSON"
+
+	// UIParameterTypeMessage represents the value Message.
+	UIParameterTypeMessage UIParameterTypeValue = "Message"
 
 	// UIParameterTypePassword represents the value Password.
 	UIParameterTypePassword UIParameterTypeValue = "Password"
@@ -50,6 +62,9 @@ const (
 
 	// UIParameterTypeTagsExpression represents the value TagsExpression.
 	UIParameterTypeTagsExpression UIParameterTypeValue = "TagsExpression"
+
+	// UIParameterTypeWarningMessage represents the value WarningMessage.
+	UIParameterTypeWarningMessage UIParameterTypeValue = "WarningMessage"
 )
 
 // UIParameter represents the model of a uiparameter
@@ -212,7 +227,7 @@ func (o *UIParameter) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "CVSSThreshold", "JSON", "TagsExpression"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Checkbox", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "JSON", "CVSSThreshold", "TagsExpression", "Message", "InfoMessage", "WarningMessage", "DangerMessage"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 

@@ -77,6 +77,7 @@ attributes:
     required: true
     allowed_choices:
     - Boolean
+    - Checkbox
     - Duration
     - Enum
     - IntegerSlice
@@ -86,9 +87,13 @@ attributes:
     - Password
     - String
     - StringSlice
-    - CVSSThreshold
     - JSON
+    - CVSSThreshold
     - TagsExpression
+    - Message
+    - InfoMessage
+    - WarningMessage
+    - DangerMessage
     example_value: String
 
   - name: validationFunction

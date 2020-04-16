@@ -5615,7 +5615,7 @@ Name of the parameter.
 
 A value of `true` designates the parameter as optional.
 
-##### `type` `emum(Boolean | Duration | Enum | IntegerSlice | Integer | Float | FloatSlice | Password | String | StringSlice | CVSSThreshold | JSON | TagsExpression)` [`required`]
+##### `type` `emum(Boolean | Checkbox | Duration | Enum | IntegerSlice | Integer | Float | FloatSlice | Password | String | StringSlice | JSON | CVSSThreshold | TagsExpression | Message | InfoMessage | WarningMessage | DangerMessage)` [`required`]
 
 The datatype of the parameter.
 
