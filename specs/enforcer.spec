@@ -27,6 +27,7 @@ model:
   - '@metadatable'
   - '@named'
   - '@timeable'
+  - '@controllerable'
 
 # Indexes
 indexes:
