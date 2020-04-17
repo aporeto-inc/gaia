@@ -69,6 +69,13 @@ attributes:
     exposed: true
     stored: true
 
+  - name: size
+    description: Size of the parameter.
+    type: string
+    exposed: true
+    stored: true
+    default_value: 100%
+
   - name: type
     description: The datatype of the parameter.
     type: enum

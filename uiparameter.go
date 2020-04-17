@@ -102,6 +102,9 @@ type UIParameter struct {
 	// A value of `true` designates the parameter as optional.
 	Optional bool `json:"optional" msgpack:"optional" bson:"optional" mapstructure:"optional,omitempty"`
 
+	// Size of the parameter.
+	Size string `json:"size" msgpack:"size" bson:"size" mapstructure:"size,omitempty"`
+
 	// The datatype of the parameter.
 	Type UIParameterTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -126,8 +129,9 @@ func NewUIParameter() *UIParameter {
 
 	return &UIParameter{
 		ModelVersion:        1,
-		AllowedChoices:      map[string]string{},
 		AllowedValues:       []interface{}{},
+		AllowedChoices:      map[string]string{},
+		Size:                "100%",
 		VisibilityCondition: [][]*UIParameterVisibility{},
 	}
 }
@@ -151,6 +155,7 @@ func (o *UIParameter) GetBSON() (interface{}, error) {
 	s.LongDescription = o.LongDescription
 	s.Name = o.Name
 	s.Optional = o.Optional
+	s.Size = o.Size
 	s.Type = o.Type
 	s.ValidationFunction = o.ValidationFunction
 	s.Value = o.Value
@@ -181,6 +186,7 @@ func (o *UIParameter) SetBSON(raw bson.Raw) error {
 	o.LongDescription = s.LongDescription
 	o.Name = s.Name
 	o.Optional = s.Optional
+	o.Size = s.Size
 	o.Type = s.Type
 	o.ValidationFunction = s.ValidationFunction
 	o.Value = s.Value
@@ -258,6 +264,7 @@ type mongoAttributesUIParameter struct {
 	LongDescription     string                     `bson:"longdescription"`
 	Name                string                     `bson:"name"`
 	Optional            bool                       `bson:"optional"`
+	Size                string                     `bson:"size"`
 	Type                UIParameterTypeValue       `bson:"type"`
 	ValidationFunction  string                     `bson:"validationfunction"`
 	Value               interface{}                `bson:"value"`

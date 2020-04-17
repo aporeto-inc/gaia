@@ -5583,6 +5583,7 @@ Represents a parameter that will be shown in the web interface.
   "advanced": false,
   "key": "unique_key",
   "optional": false,
+  "size": "100%",
   "type": "String"
 }
 ```
@@ -5624,6 +5625,16 @@ Name of the parameter.
 ##### `optional` `boolean`
 
 A value of `true` designates the parameter as optional.
+
+##### `size` `string`
+
+Size of the parameter.
+
+Default value:
+
+```json
+"100%"
+```
 
 ##### `type` `emum(Boolean | Checkbox | CVSSThreshold | DangerMessage | Duration | Enum | FileDrop | Float | FloatSlice | InfoMessage | Integer | IntegerSlice | JSON | Message | Password | String | StringSlice | Switch | TagsExpression | WarningMessage)` [`required`]
 
