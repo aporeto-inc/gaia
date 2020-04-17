@@ -30,6 +30,9 @@ const (
 	// UIParameterTypeEnum represents the value Enum.
 	UIParameterTypeEnum UIParameterTypeValue = "Enum"
 
+	// UIParameterTypeFileDrop represents the value FileDrop.
+	UIParameterTypeFileDrop UIParameterTypeValue = "FileDrop"
+
 	// UIParameterTypeFloat represents the value Float.
 	UIParameterTypeFloat UIParameterTypeValue = "Float"
 
@@ -59,6 +62,9 @@ const (
 
 	// UIParameterTypeStringSlice represents the value StringSlice.
 	UIParameterTypeStringSlice UIParameterTypeValue = "StringSlice"
+
+	// UIParameterTypeSwitch represents the value Switch.
+	UIParameterTypeSwitch UIParameterTypeValue = "Switch"
 
 	// UIParameterTypeTagsExpression represents the value TagsExpression.
 	UIParameterTypeTagsExpression UIParameterTypeValue = "TagsExpression"
@@ -227,7 +233,7 @@ func (o *UIParameter) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Checkbox", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "JSON", "CVSSThreshold", "TagsExpression", "Message", "InfoMessage", "WarningMessage", "DangerMessage"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Checkbox", "CVSSThreshold", "DangerMessage", "Duration", "Enum", "FileDrop", "Float", "FloatSlice", "InfoMessage", "Integer", "IntegerSlice", "JSON", "Message", "Password", "String", "StringSlice", "Switch", "TagsExpression", "WarningMessage"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 

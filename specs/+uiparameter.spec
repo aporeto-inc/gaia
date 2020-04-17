@@ -78,22 +78,24 @@ attributes:
     allowed_choices:
     - Boolean
     - Checkbox
+    - CVSSThreshold
+    - DangerMessage
     - Duration
     - Enum
-    - IntegerSlice
-    - Integer
+    - FileDrop
     - Float
     - FloatSlice
+    - InfoMessage
+    - Integer
+    - IntegerSlice
+    - JSON
+    - Message
     - Password
     - String
     - StringSlice
-    - JSON
-    - CVSSThreshold
+    - Switch
     - TagsExpression
-    - Message
-    - InfoMessage
     - WarningMessage
-    - DangerMessage
     example_value: String
 
   - name: validationFunction
