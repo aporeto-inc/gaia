@@ -58,6 +58,10 @@ $optionalnetworks:
   elemental:
     name: ValidateOptionalNetworkList
 
+$organizationalmetadata:
+  elemental:
+    name: ValidateOrganizationalMetadata
+
 $pem:
   elemental:
     name: ValidatePEM
