@@ -102,9 +102,6 @@ type UIParameter struct {
 	// A value of `true` designates the parameter as optional.
 	Optional bool `json:"optional" msgpack:"optional" bson:"optional" mapstructure:"optional,omitempty"`
 
-	// Size of the parameter.
-	Size string `json:"size" msgpack:"size" bson:"size" mapstructure:"size,omitempty"`
-
 	// The datatype of the parameter.
 	Type UIParameterTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -121,6 +118,9 @@ type UIParameter struct {
 	// the parameter is displayed to the user.
 	VisibilityCondition [][]*UIParameterVisibility `json:"visibilityCondition" msgpack:"visibilityCondition" bson:"visibilitycondition" mapstructure:"visibilityCondition,omitempty"`
 
+	// Width of the parameter.
+	Width string `json:"width" msgpack:"width" bson:"width" mapstructure:"width,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -131,8 +131,8 @@ func NewUIParameter() *UIParameter {
 		ModelVersion:        1,
 		AllowedValues:       []interface{}{},
 		AllowedChoices:      map[string]string{},
-		Size:                "100%",
 		VisibilityCondition: [][]*UIParameterVisibility{},
+		Width:               "100%",
 	}
 }
 
@@ -155,11 +155,11 @@ func (o *UIParameter) GetBSON() (interface{}, error) {
 	s.LongDescription = o.LongDescription
 	s.Name = o.Name
 	s.Optional = o.Optional
-	s.Size = o.Size
 	s.Type = o.Type
 	s.ValidationFunction = o.ValidationFunction
 	s.Value = o.Value
 	s.VisibilityCondition = o.VisibilityCondition
+	s.Width = o.Width
 
 	return s, nil
 }
@@ -186,11 +186,11 @@ func (o *UIParameter) SetBSON(raw bson.Raw) error {
 	o.LongDescription = s.LongDescription
 	o.Name = s.Name
 	o.Optional = s.Optional
-	o.Size = s.Size
 	o.Type = s.Type
 	o.ValidationFunction = s.ValidationFunction
 	o.Value = s.Value
 	o.VisibilityCondition = s.VisibilityCondition
+	o.Width = s.Width
 
 	return nil
 }
@@ -264,9 +264,9 @@ type mongoAttributesUIParameter struct {
 	LongDescription     string                     `bson:"longdescription"`
 	Name                string                     `bson:"name"`
 	Optional            bool                       `bson:"optional"`
-	Size                string                     `bson:"size"`
 	Type                UIParameterTypeValue       `bson:"type"`
 	ValidationFunction  string                     `bson:"validationfunction"`
 	Value               interface{}                `bson:"value"`
 	VisibilityCondition [][]*UIParameterVisibility `bson:"visibilitycondition"`
+	Width               string                     `bson:"width"`
 }
