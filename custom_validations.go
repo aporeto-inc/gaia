@@ -766,7 +766,7 @@ func ValidateMetadata(attribute string, metadata []string) error {
 	for _, m := range metadata {
 
 		if !strings.HasPrefix(m, prefixMetadata) {
-			return makeValidationError(attribute, fmt.Sprintf("Metadata %s does not start with an @, a $ or a +", m))
+			return makeValidationError(attribute, fmt.Sprintf("Metadata %s must start with an @, a $ or a +", m))
 		}
 
 		if strings.HasPrefix(m, constants.AuthKey) {

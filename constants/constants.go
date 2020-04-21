@@ -374,7 +374,7 @@ const (
 const (
 
 	// OrganizationalMetadataKey is the key of an organizatonal metadata.
-	OrganizationalMetadataKey = "@om:"
+	OrganizationalMetadataKey = "@org:"
 )
 
 // Auth tags constants.
