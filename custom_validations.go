@@ -289,6 +289,19 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 		}
 	}
 
+	// Validate Excluded Networks
+	for _, tn := range enforcerProfile.ExcludedNetworks {
+
+		if strings.HasPrefix(tn, "!") {
+			tn = tn[1:]
+		}
+
+		_, _, err := net.ParseCIDR(tn)
+		if err != nil {
+			return makeValidationError("excludedNetworks", fmt.Sprintf("%s is not a valid CIDR", tn))
+		}
+	}
+
 	// Validate trusted CAs
 	for i, ca := range enforcerProfile.TrustedCAs {
 		rest := []byte(ca)

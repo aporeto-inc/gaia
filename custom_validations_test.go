@@ -862,7 +862,47 @@ func TestValidateEnforcerProfile(t *testing.T) {
 			},
 			true,
 		},
-
+		// Excluded Networks
+		{
+			"valid excluded network",
+			&EnforcerProfile{
+				Name:             "Valid excluded network",
+				ExcludedNetworks: []string{"0.0.0.0/0"},
+			},
+			false,
+		},
+		{
+			"valid excluded network with NOT operator",
+			&EnforcerProfile{
+				Name:             "Valid excluded network",
+				ExcludedNetworks: []string{"!10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"valid excluded networks with except condition operator",
+			&EnforcerProfile{
+				Name:             "Valid excluded network",
+				ExcludedNetworks: []string{"0.0.0.0/0", "!10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"invalid excluded network",
+			&EnforcerProfile{
+				Name:             "Invalid excluded network",
+				ExcludedNetworks: []string{"invalid"},
+			},
+			true,
+		},
+		{
+			"invalid excluded network with multiple NOT operator",
+			&EnforcerProfile{
+				Name:             "Valid excluded network",
+				ExcludedNetworks: []string{"!!10.0.0.0/8"},
+			},
+			true,
+		},
 		// Trusted CAs
 		{
 			"valid trusted CA",
