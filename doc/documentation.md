@@ -5583,6 +5583,7 @@ Represents a parameter that will be shown in the web interface.
   "advanced": false,
   "key": "unique_key",
   "optional": false,
+  "subtype": "String",
   "type": "String",
   "width": "100%"
 }
@@ -5626,7 +5627,11 @@ Name of the parameter.
 
 A value of `true` designates the parameter as optional.
 
-##### `type` `emum(Boolean | Checkbox | CVSSThreshold | DangerMessage | Duration | Enum | FileDrop | Float | FloatSlice | InfoMessage | Integer | IntegerSlice | JSON | Message | Password | String | StringSlice | Switch | TagsExpression | WarningMessage)` [`required`]
+##### `subtype` `emum(Integer | String)`
+
+The subtype of a list parameter.
+
+##### `type` `emum(Boolean | Checkbox | CVSSThreshold | DangerMessage | Duration | Enum | FileDrop | Float | FloatSlice | InfoMessage | Integer | IntegerSlice | JSON | Message | Password | String | StringSlice | Switch | TagsExpression | WarningMessage | List)` [`required`]
 
 The datatype of the parameter.
 

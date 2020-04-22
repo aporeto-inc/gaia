@@ -2499,3 +2499,44 @@ AiBZg9mafabskWu9ekgZm50rKkPeqF94tY6R7tuZBUdcVQ==
 		})
 	}
 }
+
+func TestValidateUIParameters(t *testing.T) {
+	type args struct {
+		p *UIParameter
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// Valid cases
+		{
+			"Test with List and Subtype defined",
+			args{
+				p: &UIParameter{
+					Type:    UIParameterTypeList,
+					Subtype: UIParameterSubtypeString,
+				},
+			},
+			false,
+		},
+		// Error cases
+		{
+			"Test with List and Subtype defined",
+			args{
+				p: &UIParameter{
+					Type:    UIParameterTypeList,
+					Subtype: UIParameterSubtypeValue(""),
+				},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateUIParameters(tt.args.p); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateUIParameters() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

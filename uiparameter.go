@@ -8,6 +8,17 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// UIParameterSubtypeValue represents the possible values for attribute "subtype".
+type UIParameterSubtypeValue string
+
+const (
+	// UIParameterSubtypeInteger represents the value Integer.
+	UIParameterSubtypeInteger UIParameterSubtypeValue = "Integer"
+
+	// UIParameterSubtypeString represents the value String.
+	UIParameterSubtypeString UIParameterSubtypeValue = "String"
+)
+
 // UIParameterTypeValue represents the possible values for attribute "type".
 type UIParameterTypeValue string
 
@@ -50,6 +61,9 @@ const (
 
 	// UIParameterTypeJSON represents the value JSON.
 	UIParameterTypeJSON UIParameterTypeValue = "JSON"
+
+	// UIParameterTypeList represents the value List.
+	UIParameterTypeList UIParameterTypeValue = "List"
 
 	// UIParameterTypeMessage represents the value Message.
 	UIParameterTypeMessage UIParameterTypeValue = "Message"
@@ -102,6 +116,9 @@ type UIParameter struct {
 	// A value of `true` designates the parameter as optional.
 	Optional bool `json:"optional" msgpack:"optional" bson:"optional" mapstructure:"optional,omitempty"`
 
+	// The subtype of a list parameter.
+	Subtype UIParameterSubtypeValue `json:"subtype" msgpack:"subtype" bson:"subtype" mapstructure:"subtype,omitempty"`
+
 	// The datatype of the parameter.
 	Type UIParameterTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -129,8 +146,8 @@ func NewUIParameter() *UIParameter {
 
 	return &UIParameter{
 		ModelVersion:        1,
-		AllowedValues:       []interface{}{},
 		AllowedChoices:      map[string]string{},
+		AllowedValues:       []interface{}{},
 		VisibilityCondition: [][]*UIParameterVisibility{},
 		Width:               "100%",
 	}
@@ -155,6 +172,7 @@ func (o *UIParameter) GetBSON() (interface{}, error) {
 	s.LongDescription = o.LongDescription
 	s.Name = o.Name
 	s.Optional = o.Optional
+	s.Subtype = o.Subtype
 	s.Type = o.Type
 	s.ValidationFunction = o.ValidationFunction
 	s.Value = o.Value
@@ -186,6 +204,7 @@ func (o *UIParameter) SetBSON(raw bson.Raw) error {
 	o.LongDescription = s.LongDescription
 	o.Name = s.Name
 	o.Optional = s.Optional
+	o.Subtype = s.Subtype
 	o.Type = s.Type
 	o.ValidationFunction = s.ValidationFunction
 	o.Value = s.Value
@@ -235,11 +254,20 @@ func (o *UIParameter) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("subtype", string(o.Subtype), []string{"Integer", "String"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Checkbox", "CVSSThreshold", "DangerMessage", "Duration", "Enum", "FileDrop", "Float", "FloatSlice", "InfoMessage", "Integer", "IntegerSlice", "JSON", "Message", "Password", "String", "StringSlice", "Switch", "TagsExpression", "WarningMessage"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Checkbox", "CVSSThreshold", "DangerMessage", "Duration", "Enum", "FileDrop", "Float", "FloatSlice", "InfoMessage", "Integer", "IntegerSlice", "JSON", "Message", "Password", "String", "StringSlice", "Switch", "TagsExpression", "WarningMessage", "List"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	// Custom object validation.
+	if err := ValidateUIParameters(o); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -264,6 +292,7 @@ type mongoAttributesUIParameter struct {
 	LongDescription     string                     `bson:"longdescription"`
 	Name                string                     `bson:"name"`
 	Optional            bool                       `bson:"optional"`
+	Subtype             UIParameterSubtypeValue    `bson:"subtype"`
 	Type                UIParameterTypeValue       `bson:"type"`
 	ValidationFunction  string                     `bson:"validationfunction"`
 	Value               interface{}                `bson:"value"`

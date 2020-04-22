@@ -939,3 +939,13 @@ func ValidateHookPolicy(policy *HookPolicy) error {
 
 	return nil
 }
+
+// ValidateUIParameters validates a UIParameter.
+func ValidateUIParameters(p *UIParameter) error {
+
+	if p.Type == UIParameterTypeList && p.Subtype == "" {
+		return makeValidationError("type", "type List requires a subtype")
+	}
+
+	return nil
+}

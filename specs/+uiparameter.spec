@@ -7,6 +7,8 @@ model:
   group: core/workflow
   description: Represents a parameter that will be shown in the web interface.
   detached: true
+  validations:
+  - $uiparameters
 
 # Attributes
 attributes:
@@ -69,6 +71,16 @@ attributes:
     exposed: true
     stored: true
 
+  - name: subtype
+    description: The subtype of a list parameter.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Integer
+    - String
+    example_value: String
+
   - name: type
     description: The datatype of the parameter.
     type: enum
@@ -96,6 +108,7 @@ attributes:
     - Switch
     - TagsExpression
     - WarningMessage
+    - List
     example_value: String
 
   - name: validationFunction
