@@ -15301,6 +15301,32 @@ Type: [`[]networkaccesspolicy`](#networkaccesspolicy)
 
 List of suggested network policies.
 
+## visualization/metricsquery
+
+### MetricsQuery
+
+Prometheus compatible endpoint to evaluate an expression query over a range of
+time. This can be used to retrieve back Aporeto specific metrics for a given
+namespace. All queries are protected within the namespace of the caller.
+
+#### Relations
+
+##### `GET /metricsqueries`
+
+Evaluates an expression query over a range of time returning a "matrix" result
+type.
+
+Parameters:
+
+- `end` (`string`): End timestamp <rfc3339 | unix_timestamp>.
+- `query` (`string`): Prometheus expression query string.
+- `start` (`string`): Start timestamp <rfc3339 | unix_timestamp>.
+- `step` (`string`): Query resolution step width in duration format or float number of seconds.
+
+Mandatory Parameters
+
+`query`
+
 ## visualization/statsquery
 
 ### StatsInfo

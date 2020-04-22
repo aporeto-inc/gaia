@@ -2711,6 +2711,71 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[MetricsQueryIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						{
+							{
+								"query",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "end",
+						Type: "string",
+					},
+					{
+						Name: "query",
+						Type: "string",
+					},
+					{
+						Name: "start",
+						Type: "string",
+					},
+					{
+						Name: "step",
+						Type: "string",
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						{
+							{
+								"query",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "end",
+						Type: "string",
+					},
+					{
+						Name: "query",
+						Type: "string",
+					},
+					{
+						Name: "start",
+						Type: "string",
+					},
+					{
+						Name: "step",
+						Type: "string",
+					},
+				},
+			},
+		},
+	}
+
 	relationshipsRegistry[NamespaceIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},

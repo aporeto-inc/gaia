@@ -562,6 +562,36 @@ relations:
   create:
     description: Creates a new message.
 
+- rest_name: metricsquery
+  get:
+    description: |-
+      Evaluates an expression query over a range of time returning a "matrix" result
+      type.
+    parameters:
+      required:
+      - - - query
+      entries:
+      - name: end
+        description: End timestamp <rfc3339 | unix_timestamp>.
+        type: string
+        example_value: "2015-07-01T20:11:00.781Z"
+
+      - name: query
+        description: Prometheus expression query string.
+        type: string
+        example_value: flows{namespace=~"/mycompany.*"}
+
+      - name: start
+        description: Start timestamp <rfc3339 | unix_timestamp>.
+        type: string
+        example_value: "2015-07-01T20:10:30.781Z"
+
+      - name: step
+        description: Query resolution step width in duration format or float number
+          of seconds.
+        type: string
+        example_value: 15s
+
 - rest_name: namespace
   get:
     description: Retrieves the list of namespaces.
