@@ -11711,6 +11711,10 @@ Number of accepted flows in the edge.
 
 ID of the destination `GraphNode` of the edge.
 
+##### `destinationPlatform` `string`
+
+Name of the remote destination platform if different than the current one.
+
 ##### `destinationType` `emum(ProcessingUnit | ExternalNetwork | Namespace | Node)`
 
 Type of the destination `GraphNode` of the edge.
@@ -11758,6 +11762,10 @@ Namespace of the object that was targeted by the flow.
 ##### `sourceID` `string`
 
 ID of the source `GraphNode` of the edge.
+
+##### `sourcePlatform` `string`
+
+Name of the remote source platform if different than the current one.
 
 ##### `sourceType` `emum(ProcessingUnit | ExternalNetwork | Namespace | Node)`
 

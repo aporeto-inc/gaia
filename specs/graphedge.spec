@@ -75,6 +75,14 @@ attributes:
     exposed: true
     stored: true
 
+  - name: destinationPlatform
+    description: Name of the remote destination platform if different than the current
+      one.
+    type: string
+    exposed: true
+    stored: true
+    omit_empty: true
+
   - name: destinationType
     description: Type of the destination `GraphNode` of the edge.
     type: enum
@@ -155,6 +163,14 @@ attributes:
     type: string
     exposed: true
     stored: true
+
+  - name: sourcePlatform
+    description: Name of the remote source platform if different than the current
+      one.
+    type: string
+    exposed: true
+    stored: true
+    omit_empty: true
 
   - name: sourceType
     description: Type of the source `GraphNode` of the edge.
