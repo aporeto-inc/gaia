@@ -29,6 +29,8 @@ attributes:
     allowed_choices:
     - Counters
     - Logs
+    - Packets
+    - PUState
     default_value: Counters
     omit_empty: true
 
