@@ -106,6 +106,10 @@ Microsegmentation
 microservice
 Midgard
 MongoDB
+multipart
+metricsquery
+MetricsQuery
+namespace
 NamespaceMappingPolicy
 NamespaceRenderer
 NamespaceUnique
@@ -188,6 +192,8 @@ TagValue
 TimeSeriesQueryResults
 TimeSeriesRow
 Timestamp
+timestamp
+TLSType
 TokenEndpointAuthMethodsSupported
 TokenScopePolicy
 TraceMode
