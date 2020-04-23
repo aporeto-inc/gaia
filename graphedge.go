@@ -24,6 +24,9 @@ const (
 
 	// GraphEdgeDestinationTypeProcessingUnit represents the value ProcessingUnit.
 	GraphEdgeDestinationTypeProcessingUnit GraphEdgeDestinationTypeValue = "ProcessingUnit"
+
+	// GraphEdgeDestinationTypeRemotePlatform represents the value RemotePlatform.
+	GraphEdgeDestinationTypeRemotePlatform GraphEdgeDestinationTypeValue = "RemotePlatform"
 )
 
 // GraphEdgeSourceTypeValue represents the possible values for attribute "sourceType".
@@ -41,6 +44,9 @@ const (
 
 	// GraphEdgeSourceTypeProcessingUnit represents the value ProcessingUnit.
 	GraphEdgeSourceTypeProcessingUnit GraphEdgeSourceTypeValue = "ProcessingUnit"
+
+	// GraphEdgeSourceTypeRemotePlatform represents the value RemotePlatform.
+	GraphEdgeSourceTypeRemotePlatform GraphEdgeSourceTypeValue = "RemotePlatform"
 )
 
 // GraphEdgeIdentity represents the Identity of the object.
@@ -553,11 +559,11 @@ func (o *GraphEdge) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"}, false); err != nil {
+	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"}, false); err != nil {
+	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -719,7 +725,7 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"DestinationType": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"},
 		ConvertedName:  "DestinationType",
 		Description:    `Type of the destination ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -836,7 +842,7 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"SourceType": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"},
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -944,7 +950,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Type:           "string",
 	},
 	"destinationtype": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"},
 		ConvertedName:  "DestinationType",
 		Description:    `Type of the destination ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -1061,7 +1067,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Type:           "string",
 	},
 	"sourcetype": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"},
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,

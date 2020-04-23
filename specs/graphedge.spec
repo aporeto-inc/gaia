@@ -93,6 +93,7 @@ attributes:
     - ExternalNetwork
     - Namespace
     - Node
+    - RemotePlatform
 
   - name: encrypted
     description: The number of encrypted flows in the edge.
@@ -182,3 +183,4 @@ attributes:
     - ExternalNetwork
     - Namespace
     - Node
+    - RemotePlatform

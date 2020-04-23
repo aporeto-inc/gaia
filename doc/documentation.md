@@ -11715,7 +11715,7 @@ ID of the destination `GraphNode` of the edge.
 
 Name of the remote destination platform if different than the current one.
 
-##### `destinationType` `emum(ProcessingUnit | ExternalNetwork | Namespace | Node)`
+##### `destinationType` `emum(ProcessingUnit | ExternalNetwork | Namespace | Node | RemotePlatform)`
 
 Type of the destination `GraphNode` of the edge.
 
@@ -11767,7 +11767,7 @@ ID of the source `GraphNode` of the edge.
 
 Name of the remote source platform if different than the current one.
 
-##### `sourceType` `emum(ProcessingUnit | ExternalNetwork | Namespace | Node)`
+##### `sourceType` `emum(ProcessingUnit | ExternalNetwork | Namespace | Node | RemotePlatform)`
 
 Type of the source `GraphNode` of the edge.
 
