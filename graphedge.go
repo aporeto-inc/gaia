@@ -25,8 +25,8 @@ const (
 	// GraphEdgeDestinationTypeProcessingUnit represents the value ProcessingUnit.
 	GraphEdgeDestinationTypeProcessingUnit GraphEdgeDestinationTypeValue = "ProcessingUnit"
 
-	// GraphEdgeDestinationTypeRemotePlatform represents the value RemotePlatform.
-	GraphEdgeDestinationTypeRemotePlatform GraphEdgeDestinationTypeValue = "RemotePlatform"
+	// GraphEdgeDestinationTypeRemoteController represents the value RemoteController.
+	GraphEdgeDestinationTypeRemoteController GraphEdgeDestinationTypeValue = "RemoteController"
 )
 
 // GraphEdgeSourceTypeValue represents the possible values for attribute "sourceType".
@@ -45,8 +45,8 @@ const (
 	// GraphEdgeSourceTypeProcessingUnit represents the value ProcessingUnit.
 	GraphEdgeSourceTypeProcessingUnit GraphEdgeSourceTypeValue = "ProcessingUnit"
 
-	// GraphEdgeSourceTypeRemotePlatform represents the value RemotePlatform.
-	GraphEdgeSourceTypeRemotePlatform GraphEdgeSourceTypeValue = "RemotePlatform"
+	// GraphEdgeSourceTypeRemoteController represents the value RemoteController.
+	GraphEdgeSourceTypeRemoteController GraphEdgeSourceTypeValue = "RemoteController"
 )
 
 // GraphEdgeIdentity represents the Identity of the object.
@@ -139,11 +139,11 @@ type GraphEdge struct {
 	// The date for the month bucket.
 	BucketMonth time.Time `json:"-" msgpack:"-" bson:"bucketmonth" mapstructure:"-,omitempty"`
 
+	// Name of the remote destination controller if different than the current one.
+	DestinationController string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"destinationcontroller" mapstructure:"destinationController,omitempty"`
+
 	// ID of the destination `GraphNode` of the edge.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"destinationid" mapstructure:"destinationID,omitempty"`
-
-	// Name of the remote destination platform if different than the current one.
-	DestinationPlatform string `json:"destinationPlatform,omitempty" msgpack:"destinationPlatform,omitempty" bson:"destinationplatform" mapstructure:"destinationPlatform,omitempty"`
 
 	// Type of the destination `GraphNode` of the edge.
 	DestinationType GraphEdgeDestinationTypeValue `json:"destinationType" msgpack:"destinationType" bson:"destinationtype" mapstructure:"destinationType,omitempty"`
@@ -178,11 +178,11 @@ type GraphEdge struct {
 	// Namespace of the object that was targeted by the flow.
 	RemoteNamespace string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"remotenamespace" mapstructure:"remoteNamespace,omitempty"`
 
+	// Name of the remote source controller if different than the current one.
+	SourceController string `json:"sourceController,omitempty" msgpack:"sourceController,omitempty" bson:"sourcecontroller" mapstructure:"sourceController,omitempty"`
+
 	// ID of the source `GraphNode` of the edge.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
-
-	// Name of the remote source platform if different than the current one.
-	SourcePlatform string `json:"sourcePlatform,omitempty" msgpack:"sourcePlatform,omitempty" bson:"sourceplatform" mapstructure:"sourcePlatform,omitempty"`
 
 	// Type of the source `GraphNode` of the edge.
 	SourceType GraphEdgeSourceTypeValue `json:"sourceType" msgpack:"sourceType" bson:"sourcetype" mapstructure:"sourceType,omitempty"`
@@ -241,8 +241,8 @@ func (o *GraphEdge) GetBSON() (interface{}, error) {
 	s.BucketHour = o.BucketHour
 	s.BucketMinute = o.BucketMinute
 	s.BucketMonth = o.BucketMonth
+	s.DestinationController = o.DestinationController
 	s.DestinationID = o.DestinationID
-	s.DestinationPlatform = o.DestinationPlatform
 	s.DestinationType = o.DestinationType
 	s.Encrypted = o.Encrypted
 	s.FirstSeen = o.FirstSeen
@@ -254,8 +254,8 @@ func (o *GraphEdge) GetBSON() (interface{}, error) {
 	s.ObservedRejectedFlows = o.ObservedRejectedFlows
 	s.RejectedFlows = o.RejectedFlows
 	s.RemoteNamespace = o.RemoteNamespace
+	s.SourceController = o.SourceController
 	s.SourceID = o.SourceID
-	s.SourcePlatform = o.SourcePlatform
 	s.SourceType = o.SourceType
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
@@ -282,8 +282,8 @@ func (o *GraphEdge) SetBSON(raw bson.Raw) error {
 	o.BucketHour = s.BucketHour
 	o.BucketMinute = s.BucketMinute
 	o.BucketMonth = s.BucketMonth
+	o.DestinationController = s.DestinationController
 	o.DestinationID = s.DestinationID
-	o.DestinationPlatform = s.DestinationPlatform
 	o.DestinationType = s.DestinationType
 	o.Encrypted = s.Encrypted
 	o.FirstSeen = s.FirstSeen
@@ -295,8 +295,8 @@ func (o *GraphEdge) SetBSON(raw bson.Raw) error {
 	o.ObservedRejectedFlows = s.ObservedRejectedFlows
 	o.RejectedFlows = s.RejectedFlows
 	o.RemoteNamespace = s.RemoteNamespace
+	o.SourceController = s.SourceController
 	o.SourceID = s.SourceID
-	o.SourcePlatform = s.SourcePlatform
 	o.SourceType = s.SourceType
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
@@ -370,8 +370,8 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			BucketHour:            &o.BucketHour,
 			BucketMinute:          &o.BucketMinute,
 			BucketMonth:           &o.BucketMonth,
+			DestinationController: &o.DestinationController,
 			DestinationID:         &o.DestinationID,
-			DestinationPlatform:   &o.DestinationPlatform,
 			DestinationType:       &o.DestinationType,
 			Encrypted:             &o.Encrypted,
 			FirstSeen:             &o.FirstSeen,
@@ -383,8 +383,8 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ObservedRejectedFlows: &o.ObservedRejectedFlows,
 			RejectedFlows:         &o.RejectedFlows,
 			RemoteNamespace:       &o.RemoteNamespace,
+			SourceController:      &o.SourceController,
 			SourceID:              &o.SourceID,
-			SourcePlatform:        &o.SourcePlatform,
 			SourceType:            &o.SourceType,
 			ZHash:                 &o.ZHash,
 			Zone:                  &o.Zone,
@@ -406,10 +406,10 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.BucketMinute = &(o.BucketMinute)
 		case "bucketMonth":
 			sp.BucketMonth = &(o.BucketMonth)
+		case "destinationController":
+			sp.DestinationController = &(o.DestinationController)
 		case "destinationID":
 			sp.DestinationID = &(o.DestinationID)
-		case "destinationPlatform":
-			sp.DestinationPlatform = &(o.DestinationPlatform)
 		case "destinationType":
 			sp.DestinationType = &(o.DestinationType)
 		case "encrypted":
@@ -432,10 +432,10 @@ func (o *GraphEdge) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.RejectedFlows = &(o.RejectedFlows)
 		case "remoteNamespace":
 			sp.RemoteNamespace = &(o.RemoteNamespace)
+		case "sourceController":
+			sp.SourceController = &(o.SourceController)
 		case "sourceID":
 			sp.SourceID = &(o.SourceID)
-		case "sourcePlatform":
-			sp.SourcePlatform = &(o.SourcePlatform)
 		case "sourceType":
 			sp.SourceType = &(o.SourceType)
 		case "zHash":
@@ -473,11 +473,11 @@ func (o *GraphEdge) Patch(sparse elemental.SparseIdentifiable) {
 	if so.BucketMonth != nil {
 		o.BucketMonth = *so.BucketMonth
 	}
+	if so.DestinationController != nil {
+		o.DestinationController = *so.DestinationController
+	}
 	if so.DestinationID != nil {
 		o.DestinationID = *so.DestinationID
-	}
-	if so.DestinationPlatform != nil {
-		o.DestinationPlatform = *so.DestinationPlatform
 	}
 	if so.DestinationType != nil {
 		o.DestinationType = *so.DestinationType
@@ -512,11 +512,11 @@ func (o *GraphEdge) Patch(sparse elemental.SparseIdentifiable) {
 	if so.RemoteNamespace != nil {
 		o.RemoteNamespace = *so.RemoteNamespace
 	}
+	if so.SourceController != nil {
+		o.SourceController = *so.SourceController
+	}
 	if so.SourceID != nil {
 		o.SourceID = *so.SourceID
-	}
-	if so.SourcePlatform != nil {
-		o.SourcePlatform = *so.SourcePlatform
 	}
 	if so.SourceType != nil {
 		o.SourceType = *so.SourceType
@@ -559,11 +559,11 @@ func (o *GraphEdge) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"}, false); err != nil {
+	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemoteController"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"}, false); err != nil {
+	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemoteController"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -613,10 +613,10 @@ func (o *GraphEdge) ValueForAttribute(name string) interface{} {
 		return o.BucketMinute
 	case "bucketMonth":
 		return o.BucketMonth
+	case "destinationController":
+		return o.DestinationController
 	case "destinationID":
 		return o.DestinationID
-	case "destinationPlatform":
-		return o.DestinationPlatform
 	case "destinationType":
 		return o.DestinationType
 	case "encrypted":
@@ -639,10 +639,10 @@ func (o *GraphEdge) ValueForAttribute(name string) interface{} {
 		return o.RejectedFlows
 	case "remoteNamespace":
 		return o.RemoteNamespace
+	case "sourceController":
+		return o.SourceController
 	case "sourceID":
 		return o.SourceID
-	case "sourcePlatform":
-		return o.SourcePlatform
 	case "sourceType":
 		return o.SourceType
 	case "zHash":
@@ -706,6 +706,15 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
+	"DestinationController": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationController",
+		Description:    `Name of the remote destination controller if different than the current one.`,
+		Exposed:        true,
+		Name:           "destinationController",
+		Stored:         true,
+		Type:           "string",
+	},
 	"DestinationID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationID",
@@ -715,17 +724,8 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"DestinationPlatform": {
-		AllowedChoices: []string{},
-		ConvertedName:  "DestinationPlatform",
-		Description:    `Name of the remote destination platform if different than the current one.`,
-		Exposed:        true,
-		Name:           "destinationPlatform",
-		Stored:         true,
-		Type:           "string",
-	},
 	"DestinationType": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemoteController"},
 		ConvertedName:  "DestinationType",
 		Description:    `Type of the destination ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -823,6 +823,15 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"SourceController": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceController",
+		Description:    `Name of the remote source controller if different than the current one.`,
+		Exposed:        true,
+		Name:           "sourceController",
+		Stored:         true,
+		Type:           "string",
+	},
 	"SourceID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
@@ -832,17 +841,8 @@ var GraphEdgeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"SourcePlatform": {
-		AllowedChoices: []string{},
-		ConvertedName:  "SourcePlatform",
-		Description:    `Name of the remote source platform if different than the current one.`,
-		Exposed:        true,
-		Name:           "sourcePlatform",
-		Stored:         true,
-		Type:           "string",
-	},
 	"SourceType": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemoteController"},
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -931,6 +931,15 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "time",
 	},
+	"destinationcontroller": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationController",
+		Description:    `Name of the remote destination controller if different than the current one.`,
+		Exposed:        true,
+		Name:           "destinationController",
+		Stored:         true,
+		Type:           "string",
+	},
 	"destinationid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationID",
@@ -940,17 +949,8 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
-	"destinationplatform": {
-		AllowedChoices: []string{},
-		ConvertedName:  "DestinationPlatform",
-		Description:    `Name of the remote destination platform if different than the current one.`,
-		Exposed:        true,
-		Name:           "destinationPlatform",
-		Stored:         true,
-		Type:           "string",
-	},
 	"destinationtype": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemoteController"},
 		ConvertedName:  "DestinationType",
 		Description:    `Type of the destination ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -1048,6 +1048,15 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
+	"sourcecontroller": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceController",
+		Description:    `Name of the remote source controller if different than the current one.`,
+		Exposed:        true,
+		Name:           "sourceController",
+		Stored:         true,
+		Type:           "string",
+	},
 	"sourceid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
@@ -1057,17 +1066,8 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
-	"sourceplatform": {
-		AllowedChoices: []string{},
-		ConvertedName:  "SourcePlatform",
-		Description:    `Name of the remote source platform if different than the current one.`,
-		Exposed:        true,
-		Name:           "sourcePlatform",
-		Stored:         true,
-		Type:           "string",
-	},
 	"sourcetype": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemotePlatform"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemoteController"},
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -1185,11 +1185,11 @@ type SparseGraphEdge struct {
 	// The date for the month bucket.
 	BucketMonth *time.Time `json:"-" msgpack:"-" bson:"bucketmonth,omitempty" mapstructure:"-,omitempty"`
 
+	// Name of the remote destination controller if different than the current one.
+	DestinationController *string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"destinationcontroller,omitempty" mapstructure:"destinationController,omitempty"`
+
 	// ID of the destination `GraphNode` of the edge.
 	DestinationID *string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"destinationid,omitempty" mapstructure:"destinationID,omitempty"`
-
-	// Name of the remote destination platform if different than the current one.
-	DestinationPlatform *string `json:"destinationPlatform,omitempty" msgpack:"destinationPlatform,omitempty" bson:"destinationplatform,omitempty" mapstructure:"destinationPlatform,omitempty"`
 
 	// Type of the destination `GraphNode` of the edge.
 	DestinationType *GraphEdgeDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"destinationtype,omitempty" mapstructure:"destinationType,omitempty"`
@@ -1224,11 +1224,11 @@ type SparseGraphEdge struct {
 	// Namespace of the object that was targeted by the flow.
 	RemoteNamespace *string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"remotenamespace,omitempty" mapstructure:"remoteNamespace,omitempty"`
 
+	// Name of the remote source controller if different than the current one.
+	SourceController *string `json:"sourceController,omitempty" msgpack:"sourceController,omitempty" bson:"sourcecontroller,omitempty" mapstructure:"sourceController,omitempty"`
+
 	// ID of the source `GraphNode` of the edge.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"sourceid,omitempty" mapstructure:"sourceID,omitempty"`
-
-	// Name of the remote source platform if different than the current one.
-	SourcePlatform *string `json:"sourcePlatform,omitempty" msgpack:"sourcePlatform,omitempty" bson:"sourceplatform,omitempty" mapstructure:"sourcePlatform,omitempty"`
 
 	// Type of the source `GraphNode` of the edge.
 	SourceType *GraphEdgeSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"sourcetype,omitempty" mapstructure:"sourceType,omitempty"`
@@ -1301,11 +1301,11 @@ func (o *SparseGraphEdge) GetBSON() (interface{}, error) {
 	if o.BucketMonth != nil {
 		s.BucketMonth = o.BucketMonth
 	}
+	if o.DestinationController != nil {
+		s.DestinationController = o.DestinationController
+	}
 	if o.DestinationID != nil {
 		s.DestinationID = o.DestinationID
-	}
-	if o.DestinationPlatform != nil {
-		s.DestinationPlatform = o.DestinationPlatform
 	}
 	if o.DestinationType != nil {
 		s.DestinationType = o.DestinationType
@@ -1340,11 +1340,11 @@ func (o *SparseGraphEdge) GetBSON() (interface{}, error) {
 	if o.RemoteNamespace != nil {
 		s.RemoteNamespace = o.RemoteNamespace
 	}
+	if o.SourceController != nil {
+		s.SourceController = o.SourceController
+	}
 	if o.SourceID != nil {
 		s.SourceID = o.SourceID
-	}
-	if o.SourcePlatform != nil {
-		s.SourcePlatform = o.SourcePlatform
 	}
 	if o.SourceType != nil {
 		s.SourceType = o.SourceType
@@ -1389,11 +1389,11 @@ func (o *SparseGraphEdge) SetBSON(raw bson.Raw) error {
 	if s.BucketMonth != nil {
 		o.BucketMonth = s.BucketMonth
 	}
+	if s.DestinationController != nil {
+		o.DestinationController = s.DestinationController
+	}
 	if s.DestinationID != nil {
 		o.DestinationID = s.DestinationID
-	}
-	if s.DestinationPlatform != nil {
-		o.DestinationPlatform = s.DestinationPlatform
 	}
 	if s.DestinationType != nil {
 		o.DestinationType = s.DestinationType
@@ -1428,11 +1428,11 @@ func (o *SparseGraphEdge) SetBSON(raw bson.Raw) error {
 	if s.RemoteNamespace != nil {
 		o.RemoteNamespace = s.RemoteNamespace
 	}
+	if s.SourceController != nil {
+		o.SourceController = s.SourceController
+	}
 	if s.SourceID != nil {
 		o.SourceID = s.SourceID
-	}
-	if s.SourcePlatform != nil {
-		o.SourcePlatform = s.SourcePlatform
 	}
 	if s.SourceType != nil {
 		o.SourceType = s.SourceType
@@ -1475,11 +1475,11 @@ func (o *SparseGraphEdge) ToPlain() elemental.PlainIdentifiable {
 	if o.BucketMonth != nil {
 		out.BucketMonth = *o.BucketMonth
 	}
+	if o.DestinationController != nil {
+		out.DestinationController = *o.DestinationController
+	}
 	if o.DestinationID != nil {
 		out.DestinationID = *o.DestinationID
-	}
-	if o.DestinationPlatform != nil {
-		out.DestinationPlatform = *o.DestinationPlatform
 	}
 	if o.DestinationType != nil {
 		out.DestinationType = *o.DestinationType
@@ -1514,11 +1514,11 @@ func (o *SparseGraphEdge) ToPlain() elemental.PlainIdentifiable {
 	if o.RemoteNamespace != nil {
 		out.RemoteNamespace = *o.RemoteNamespace
 	}
+	if o.SourceController != nil {
+		out.SourceController = *o.SourceController
+	}
 	if o.SourceID != nil {
 		out.SourceID = *o.SourceID
-	}
-	if o.SourcePlatform != nil {
-		out.SourcePlatform = *o.SourcePlatform
 	}
 	if o.SourceType != nil {
 		out.SourceType = *o.SourceType
@@ -1596,8 +1596,8 @@ type mongoAttributesGraphEdge struct {
 	BucketHour            time.Time                     `bson:"buckethour"`
 	BucketMinute          time.Time                     `bson:"bucketminute"`
 	BucketMonth           time.Time                     `bson:"bucketmonth"`
+	DestinationController string                        `bson:"destinationcontroller,omitempty"`
 	DestinationID         string                        `bson:"destinationid"`
-	DestinationPlatform   string                        `bson:"destinationplatform,omitempty"`
 	DestinationType       GraphEdgeDestinationTypeValue `bson:"destinationtype"`
 	Encrypted             bool                          `bson:"encrypted"`
 	FirstSeen             time.Time                     `bson:"firstseen,omitempty"`
@@ -1609,8 +1609,8 @@ type mongoAttributesGraphEdge struct {
 	ObservedRejectedFlows bool                          `bson:"observedrejectedflows"`
 	RejectedFlows         bool                          `bson:"rejectedflows"`
 	RemoteNamespace       string                        `bson:"remotenamespace,omitempty"`
+	SourceController      string                        `bson:"sourcecontroller,omitempty"`
 	SourceID              string                        `bson:"sourceid"`
-	SourcePlatform        string                        `bson:"sourceplatform,omitempty"`
 	SourceType            GraphEdgeSourceTypeValue      `bson:"sourcetype"`
 	ZHash                 int                           `bson:"zhash"`
 	Zone                  int                           `bson:"zone"`
@@ -1622,8 +1622,8 @@ type mongoAttributesSparseGraphEdge struct {
 	BucketHour            *time.Time                     `bson:"buckethour,omitempty"`
 	BucketMinute          *time.Time                     `bson:"bucketminute,omitempty"`
 	BucketMonth           *time.Time                     `bson:"bucketmonth,omitempty"`
+	DestinationController *string                        `bson:"destinationcontroller,omitempty"`
 	DestinationID         *string                        `bson:"destinationid,omitempty"`
-	DestinationPlatform   *string                        `bson:"destinationplatform,omitempty"`
 	DestinationType       *GraphEdgeDestinationTypeValue `bson:"destinationtype,omitempty"`
 	Encrypted             *bool                          `bson:"encrypted,omitempty"`
 	FirstSeen             *time.Time                     `bson:"firstseen,omitempty"`
@@ -1635,8 +1635,8 @@ type mongoAttributesSparseGraphEdge struct {
 	ObservedRejectedFlows *bool                          `bson:"observedrejectedflows,omitempty"`
 	RejectedFlows         *bool                          `bson:"rejectedflows,omitempty"`
 	RemoteNamespace       *string                        `bson:"remotenamespace,omitempty"`
+	SourceController      *string                        `bson:"sourcecontroller,omitempty"`
 	SourceID              *string                        `bson:"sourceid,omitempty"`
-	SourcePlatform        *string                        `bson:"sourceplatform,omitempty"`
 	SourceType            *GraphEdgeSourceTypeValue      `bson:"sourcetype,omitempty"`
 	ZHash                 *int                           `bson:"zhash,omitempty"`
 	Zone                  *int                           `bson:"zone,omitempty"`

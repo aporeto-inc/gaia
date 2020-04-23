@@ -69,19 +69,19 @@ attributes:
     type: time
     stored: true
 
-  - name: destinationID
-    description: ID of the destination `GraphNode` of the edge.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: destinationPlatform
-    description: Name of the remote destination platform if different than the current
+  - name: destinationController
+    description: Name of the remote destination controller if different than the current
       one.
     type: string
     exposed: true
     stored: true
     omit_empty: true
+
+  - name: destinationID
+    description: ID of the destination `GraphNode` of the edge.
+    type: string
+    exposed: true
+    stored: true
 
   - name: destinationType
     description: Type of the destination `GraphNode` of the edge.
@@ -93,7 +93,7 @@ attributes:
     - ExternalNetwork
     - Namespace
     - Node
-    - RemotePlatform
+    - RemoteController
 
   - name: encrypted
     description: The number of encrypted flows in the edge.
@@ -159,19 +159,19 @@ attributes:
     stored: true
     omit_empty: true
 
-  - name: sourceID
-    description: ID of the source `GraphNode` of the edge.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: sourcePlatform
-    description: Name of the remote source platform if different than the current
+  - name: sourceController
+    description: Name of the remote source controller if different than the current
       one.
     type: string
     exposed: true
     stored: true
     omit_empty: true
+
+  - name: sourceID
+    description: ID of the source `GraphNode` of the edge.
+    type: string
+    exposed: true
+    stored: true
 
   - name: sourceType
     description: Type of the source `GraphNode` of the edge.
@@ -183,4 +183,4 @@ attributes:
     - ExternalNetwork
     - Namespace
     - Node
-    - RemotePlatform
+    - RemoteController
