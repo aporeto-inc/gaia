@@ -73,13 +73,9 @@ attributes:
 
   - name: subtype
     description: The subtype of a list parameter.
-    type: enum
+    type: string
     exposed: true
     stored: true
-    allowed_choices:
-    - Integer
-    - String
-    example_value: String
 
   - name: type
     description: The datatype of the parameter.
@@ -101,14 +97,15 @@ attributes:
     - Integer
     - IntegerSlice
     - JSON
+    - List
     - Message
+    - Namespace
     - Password
     - String
     - StringSlice
     - Switch
     - TagsExpression
     - WarningMessage
-    - List
     example_value: String
 
   - name: validationFunction

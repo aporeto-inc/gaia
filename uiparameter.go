@@ -8,17 +8,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// UIParameterSubtypeValue represents the possible values for attribute "subtype".
-type UIParameterSubtypeValue string
-
-const (
-	// UIParameterSubtypeInteger represents the value Integer.
-	UIParameterSubtypeInteger UIParameterSubtypeValue = "Integer"
-
-	// UIParameterSubtypeString represents the value String.
-	UIParameterSubtypeString UIParameterSubtypeValue = "String"
-)
-
 // UIParameterTypeValue represents the possible values for attribute "type".
 type UIParameterTypeValue string
 
@@ -67,6 +56,9 @@ const (
 
 	// UIParameterTypeMessage represents the value Message.
 	UIParameterTypeMessage UIParameterTypeValue = "Message"
+
+	// UIParameterTypeNamespace represents the value Namespace.
+	UIParameterTypeNamespace UIParameterTypeValue = "Namespace"
 
 	// UIParameterTypePassword represents the value Password.
 	UIParameterTypePassword UIParameterTypeValue = "Password"
@@ -117,7 +109,7 @@ type UIParameter struct {
 	Optional bool `json:"optional" msgpack:"optional" bson:"optional" mapstructure:"optional,omitempty"`
 
 	// The subtype of a list parameter.
-	Subtype UIParameterSubtypeValue `json:"subtype" msgpack:"subtype" bson:"subtype" mapstructure:"subtype,omitempty"`
+	Subtype string `json:"subtype" msgpack:"subtype" bson:"subtype" mapstructure:"subtype,omitempty"`
 
 	// The datatype of the parameter.
 	Type UIParameterTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
@@ -254,15 +246,11 @@ func (o *UIParameter) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("subtype", string(o.Subtype), []string{"Integer", "String"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Checkbox", "CVSSThreshold", "DangerMessage", "Duration", "Enum", "FileDrop", "Float", "FloatSlice", "InfoMessage", "Integer", "IntegerSlice", "JSON", "Message", "Password", "String", "StringSlice", "Switch", "TagsExpression", "WarningMessage", "List"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Checkbox", "CVSSThreshold", "DangerMessage", "Duration", "Enum", "FileDrop", "Float", "FloatSlice", "InfoMessage", "Integer", "IntegerSlice", "JSON", "List", "Message", "Namespace", "Password", "String", "StringSlice", "Switch", "TagsExpression", "WarningMessage"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -292,7 +280,7 @@ type mongoAttributesUIParameter struct {
 	LongDescription     string                     `bson:"longdescription"`
 	Name                string                     `bson:"name"`
 	Optional            bool                       `bson:"optional"`
-	Subtype             UIParameterSubtypeValue    `bson:"subtype"`
+	Subtype             string                     `bson:"subtype"`
 	Type                UIParameterTypeValue       `bson:"type"`
 	ValidationFunction  string                     `bson:"validationfunction"`
 	Value               interface{}                `bson:"value"`
