@@ -11,19 +11,19 @@ model:
 attributes:
   v1:
   - name: ID
-    description: ID unique to a single origin and reply report.
+    description: ID unique to a single request and response report.
     type: string
     exposed: true
     required: true
     example_value: xxx-xxx-xxx-xxx
 
-  - name: destinationID
-    description: ID of the destination processing unit.
-    type: string
+  - name: applicationListening
+    description: If true, application responded to the request.
+    type: boolean
     exposed: true
 
-  - name: destinationNamespace
-    description: Namespace of the destination processing unit.
+  - name: destinationID
+    description: ID of the destination processing unit.
     type: string
     exposed: true
 
@@ -46,13 +46,23 @@ attributes:
     type: string
     exposed: true
 
-  - name: flowTuple
-    description: Flow tuple in the format <sip:dip:spt:dpt>.
+  - name: exchange
+    description: Exchange represents request/response this report has been generated.
     type: string
+    exposed: true
+
+  - name: iteration
+    description: Request represents the iteration number.
+    type: integer
     exposed: true
 
   - name: latency
     description: Time taken for a single request to complete.
+    type: string
+    exposed: true
+
+  - name: namespace
+    description: Namespace of the reporting processing unit.
     type: string
     exposed: true
 
@@ -61,8 +71,13 @@ attributes:
     type: integer
     exposed: true
 
-  - name: pingType
-    description: Represents the ping type used.
+  - name: policyAction
+    description: Action of the policy.
+    type: string
+    exposed: true
+
+  - name: policyID
+    description: ID of the policy.
     type: string
     exposed: true
 
@@ -71,9 +86,15 @@ attributes:
     type: integer
     exposed: true
 
-  - name: request
-    description: Request represents the request number.
-    type: integer
+  - name: rxFourTuple
+    description: Receiver four tuple in the format <sip:dip:spt:dpt>.
+    type: string
+    exposed: true
+
+  - name: seqNumMatching
+    description: If true, transmitter sequence number matches the receiver sequence
+      number.
+    type: string
     exposed: true
 
   - name: serviceType
@@ -88,19 +109,12 @@ attributes:
     required: true
     example_value: xxx-xxx-xxx-xxx
 
-  - name: sourceNamespace
-    description: Namespace of the source processing unit.
-    type: string
-    exposed: true
-    required: true
-    example_value: /my/ns
-
-  - name: stage
-    description: Stage when the packet is received.
-    type: string
-    exposed: true
-
   - name: timestamp
     description: Date of the report.
     type: time
+    exposed: true
+
+  - name: txFourTuple
+    description: Transmiter four tuple in the format <sip:dip:spt:dpt>.
+    type: string
     exposed: true

@@ -3187,10 +3187,10 @@ Post a new pu diagnostics report.
 ```json
 {
   "ID": "xxx-xxx-xxx-xxx",
+  "applicationListening": false,
   "enforcerID": "xxx-xxx-xxx-xxx",
   "enforcerNamespace": "/my/ns",
-  "sourceID": "xxx-xxx-xxx-xxx",
-  "sourceNamespace": "/my/ns"
+  "sourceID": "xxx-xxx-xxx-xxx"
 }
 ```
 
@@ -3204,15 +3204,15 @@ Create a ping report.
 
 ##### `ID` `string` [`required`]
 
-ID unique to a single origin and reply report.
+ID unique to a single request and response report.
+
+##### `applicationListening` `boolean`
+
+If true, application responded to the request.
 
 ##### `destinationID` `string`
 
 ID of the destination processing unit.
-
-##### `destinationNamespace` `string`
-
-Namespace of the destination processing unit.
 
 ##### `enforcerID` `string` [`required`]
 
@@ -3226,29 +3226,45 @@ Namespace of the enforcer.
 
 Semantic version of the enforcer.
 
-##### `flowTuple` `string`
+##### `exchange` `string`
 
-Flow tuple in the format <sip:dip:spt:dpt>.
+Exchange represents request/response this report has been generated.
+
+##### `iteration` `integer`
+
+Request represents the iteration number.
 
 ##### `latency` `string`
 
 Time taken for a single request to complete.
 
+##### `namespace` `string`
+
+Namespace of the reporting processing unit.
+
 ##### `payloadSize` `integer`
 
 Size of the payload attached to the packet.
 
-##### `pingType` `string`
+##### `policyAction` `string`
 
-Represents the ping type used.
+Action of the policy.
+
+##### `policyID` `string`
+
+ID of the policy.
 
 ##### `protocol` `integer`
 
 Protocol used for the communication.
 
-##### `request` `integer`
+##### `rxFourTuple` `string`
 
-Request represents the request number.
+Receiver four tuple in the format <sip:dip:spt:dpt>.
+
+##### `seqNumMatching` `string`
+
+If true, transmitter sequence number matches the receiver sequence number.
 
 ##### `serviceType` `string`
 
@@ -3258,17 +3274,13 @@ Type of the service.
 
 ID of the source PU.
 
-##### `sourceNamespace` `string` [`required`]
-
-Namespace of the source processing unit.
-
-##### `stage` `string`
-
-Stage when the packet is received.
-
 ##### `timestamp` `time`
 
 Date of the report.
+
+##### `txFourTuple` `string`
+
+Transmiter four tuple in the format <sip:dip:spt:dpt>.
 
 ### TraceMode
 
@@ -4486,7 +4498,9 @@ external change on the processing unit must be processed.
 ```json
 {
   "debug": false,
-  "pingType": "None",
+  "pingEnabled": false,
+  "pingMode": "Auto",
+  "pingPassthrough": false,
   "refreshPolicy": false,
   "traceApplicationConnections": false,
   "traceDuration": "10s",
@@ -4516,27 +4530,44 @@ unit.
 
 Contains the original namespace of the processing unit.
 
+##### `pingEnabled` `boolean`
+
+If set to true, start ping to the destination.
+
+##### `pingMode` `emum(Auto | L3 | L4 | L7)`
+
+Represents the mode of ping to be used.
+
+Default value:
+
+```json
+"Auto"
+```
+
 ##### `pingNetwork` `string`
 
 Destination network to run ping.
+
+##### `pingPassthrough` `boolean`
+
+If set to true, allows the request pass to the application.
 
 ##### `pingPorts` `[]string`
 
 Destination port(s) to run ping.
 
+##### `pingProcessingUnitID` `string`
+
+Destination Processing ID, If provided will validate this ID with the claims
+from the response.
+
 ##### `pingRequests` `integer`
 
 Number of requests to send to the destination.
 
-##### `pingType` `emum(None | AporetoIdentity | CustomIdentity | AporetoIdentityPassthrough)`
+##### `refreshID` `string` [`read_only`]
 
-Represents the type of ping to be used.
-
-Default value:
-
-```json
-"None"
-```
+ID unique per processingunitrefresh event.
 
 ##### `refreshPolicy` `boolean`
 
