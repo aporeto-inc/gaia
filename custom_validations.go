@@ -773,17 +773,39 @@ func ValidateTagsExpression(attribute string, expression [][]string) error {
 	return nil
 }
 
-// ValidateMetadata validates an []string is a valid list of metadata.
+// ValidateMetadata validates if a []string is a valid list of metadata.
 func ValidateMetadata(attribute string, metadata []string) error {
 
 	for _, m := range metadata {
 
 		if !strings.HasPrefix(m, prefixMetadata) {
-			return makeValidationError(attribute, fmt.Sprintf("Metadata %s does not starts with an @, a $ or a + that is reserved", m))
+			return makeValidationError(attribute, fmt.Sprintf("Metadata %s must start with an %s", m, prefixMetadata))
 		}
 
 		if strings.HasPrefix(m, constants.AuthKey) {
-			return makeValidationError(attribute, fmt.Sprintf("Metadata %s is using @auth: which is reserved", m))
+			return makeValidationError(attribute, fmt.Sprintf("Metadata %s must not start with the reserved prefix %s", m, constants.AuthKey))
+		}
+
+		if strings.HasPrefix(m, constants.OrganizationalMetadataKey) {
+			return makeValidationError(attribute, fmt.Sprintf("Metadata %s must not start with the reserved prefix %s", m, constants.OrganizationalMetadataKey))
+		}
+
+		if err := ValidateTag(attribute, m); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ValidateOrganizationalMetadata validates if a []string is a valid list of organizational metadata.
+func ValidateOrganizationalMetadata(attribute string, metadata []string) error {
+
+	for _, m := range metadata {
+
+		if !strings.HasPrefix(m, constants.OrganizationalMetadataKey) {
+			return makeValidationError(attribute, fmt.Sprintf("Organizational metadata %s must start with the reserved prefix %s",
+				m, constants.OrganizationalMetadataKey))
 		}
 
 		if err := ValidateTag(attribute, m); err != nil {
