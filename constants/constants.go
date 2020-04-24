@@ -370,6 +370,13 @@ const (
 	MetadataUsrPortKey = "@usr:port"
 )
 
+// Organizational metadata tag constants.
+const (
+
+	// OrganizationalMetadataKey is the key of an organizatonal metadata.
+	OrganizationalMetadataKey = "@org:"
+)
+
 // Auth tags constants.
 const (
 

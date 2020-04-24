@@ -814,7 +814,7 @@ func (o *Namespace) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateMetadata("organizationalMetadata", o.OrganizationalMetadata); err != nil {
+	if err := ValidateOrganizationalMetadata("organizationalMetadata", o.OrganizationalMetadata); err != nil {
 		errors = errors.Append(err)
 	}
 

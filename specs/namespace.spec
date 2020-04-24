@@ -161,7 +161,7 @@ attributes:
     subtype: string
     stored: true
     validations:
-    - $metadata
+    - $organizationalmetadata
 
   - name: serviceCertificateValidity
     description: This flag is deprecated and has no incidence.

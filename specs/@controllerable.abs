@@ -14,3 +14,4 @@ attributes:
     getter: true
     setter: true
     orderable: true
+    transient: true
