@@ -75,14 +75,6 @@ attributes:
     validations:
     - $ports
 
-  - name: pingProcessingUnitID
-    description: |-
-      Destination Processing ID, If provided will validate this ID with the claims
-      from the response.
-    type: string
-    exposed: true
-    omit_empty: true
-
   - name: pingRequests
     description: Number of requests to send to the destination.
     type: integer

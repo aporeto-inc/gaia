@@ -122,10 +122,6 @@ type ProcessingUnitRefresh struct {
 	// Destination port(s) to run ping.
 	PingPorts []string `json:"pingPorts,omitempty" msgpack:"pingPorts,omitempty" bson:"-" mapstructure:"pingPorts,omitempty"`
 
-	// Destination Processing ID, If provided will validate this ID with the claims
-	// from the response.
-	PingProcessingUnitID string `json:"pingProcessingUnitID,omitempty" msgpack:"pingProcessingUnitID,omitempty" bson:"-" mapstructure:"pingProcessingUnitID,omitempty"`
-
 	// Number of requests to send to the destination.
 	PingRequests int `json:"pingRequests,omitempty" msgpack:"pingRequests,omitempty" bson:"-" mapstructure:"pingRequests,omitempty"`
 
@@ -160,8 +156,8 @@ func NewProcessingUnitRefresh() *ProcessingUnitRefresh {
 
 	return &ProcessingUnitRefresh{
 		ModelVersion:  1,
-		PingMode:      ProcessingUnitRefreshPingModeAuto,
 		PingPorts:     []string{},
+		PingMode:      ProcessingUnitRefreshPingModeAuto,
 		TraceDuration: "10s",
 	}
 }
@@ -271,7 +267,6 @@ func (o *ProcessingUnitRefresh) ToSparse(fields ...string) elemental.SparseIdent
 			PingNetwork:                 &o.PingNetwork,
 			PingPassthrough:             &o.PingPassthrough,
 			PingPorts:                   &o.PingPorts,
-			PingProcessingUnitID:        &o.PingProcessingUnitID,
 			PingRequests:                &o.PingRequests,
 			RefreshID:                   &o.RefreshID,
 			RefreshPolicy:               &o.RefreshPolicy,
@@ -301,8 +296,6 @@ func (o *ProcessingUnitRefresh) ToSparse(fields ...string) elemental.SparseIdent
 			sp.PingPassthrough = &(o.PingPassthrough)
 		case "pingPorts":
 			sp.PingPorts = &(o.PingPorts)
-		case "pingProcessingUnitID":
-			sp.PingProcessingUnitID = &(o.PingProcessingUnitID)
 		case "pingRequests":
 			sp.PingRequests = &(o.PingRequests)
 		case "refreshID":
@@ -353,9 +346,6 @@ func (o *ProcessingUnitRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.PingPorts != nil {
 		o.PingPorts = *so.PingPorts
-	}
-	if so.PingProcessingUnitID != nil {
-		o.PingProcessingUnitID = *so.PingProcessingUnitID
 	}
 	if so.PingRequests != nil {
 		o.PingRequests = *so.PingRequests
@@ -468,8 +458,6 @@ func (o *ProcessingUnitRefresh) ValueForAttribute(name string) interface{} {
 		return o.PingPassthrough
 	case "pingPorts":
 		return o.PingPorts
-	case "pingProcessingUnitID":
-		return o.PingProcessingUnitID
 	case "pingRequests":
 		return o.PingRequests
 	case "refreshID":
@@ -563,15 +551,6 @@ unit.`,
 		Name:           "pingPorts",
 		SubType:        "string",
 		Type:           "list",
-	},
-	"PingProcessingUnitID": {
-		AllowedChoices: []string{},
-		ConvertedName:  "PingProcessingUnitID",
-		Description: `Destination Processing ID, If provided will validate this ID with the claims
-from the response.`,
-		Exposed: true,
-		Name:    "pingProcessingUnitID",
-		Type:    "string",
 	},
 	"PingRequests": {
 		AllowedChoices: []string{},
@@ -712,15 +691,6 @@ unit.`,
 		Name:           "pingPorts",
 		SubType:        "string",
 		Type:           "list",
-	},
-	"pingprocessingunitid": {
-		AllowedChoices: []string{},
-		ConvertedName:  "PingProcessingUnitID",
-		Description: `Destination Processing ID, If provided will validate this ID with the claims
-from the response.`,
-		Exposed: true,
-		Name:    "pingProcessingUnitID",
-		Type:    "string",
 	},
 	"pingrequests": {
 		AllowedChoices: []string{},
@@ -875,10 +845,6 @@ type SparseProcessingUnitRefresh struct {
 	// Destination port(s) to run ping.
 	PingPorts *[]string `json:"pingPorts,omitempty" msgpack:"pingPorts,omitempty" bson:"-" mapstructure:"pingPorts,omitempty"`
 
-	// Destination Processing ID, If provided will validate this ID with the claims
-	// from the response.
-	PingProcessingUnitID *string `json:"pingProcessingUnitID,omitempty" msgpack:"pingProcessingUnitID,omitempty" bson:"-" mapstructure:"pingProcessingUnitID,omitempty"`
-
 	// Number of requests to send to the destination.
 	PingRequests *int `json:"pingRequests,omitempty" msgpack:"pingRequests,omitempty" bson:"-" mapstructure:"pingRequests,omitempty"`
 
@@ -1000,9 +966,6 @@ func (o *SparseProcessingUnitRefresh) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.PingPorts != nil {
 		out.PingPorts = *o.PingPorts
-	}
-	if o.PingProcessingUnitID != nil {
-		out.PingProcessingUnitID = *o.PingProcessingUnitID
 	}
 	if o.PingRequests != nil {
 		out.PingRequests = *o.PingRequests

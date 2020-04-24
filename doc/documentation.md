@@ -4571,11 +4571,6 @@ If set to true, allows the request pass to the application.
 
 Destination port(s) to run ping.
 
-##### `pingProcessingUnitID` `string`
-
-Destination Processing ID, If provided will validate this ID with the claims
-from the response.
-
 ##### `pingRequests` `integer`
 
 Number of requests to send to the destination.
