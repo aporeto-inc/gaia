@@ -15301,17 +15301,28 @@ Type: [`[]networkaccesspolicy`](#networkaccesspolicy)
 
 List of suggested network policies.
 
-## visualization/metricsquery
+## visualization/metrics
 
-### MetricsQuery
+### Metrics
 
 Prometheus compatible endpoint to evaluate an expression query over a range of
 time. This can be used to retrieve back Aporeto specific metrics for a given
 namespace. All queries are protected within the namespace of the caller.
 
+#### Example
+
+```json
+{
+  "end": "2015-07-01T20:11:00.781Z",
+  "query": "flows{namespace=~\"/mycompany.*\"}",
+  "start": "2015-07-01T20:11:00.781Z",
+  "step": "15s"
+}
+```
+
 #### Relations
 
-##### `GET /metricsqueries`
+##### `GET /metrics`
 
 Evaluates an expression query over a range of time returning a "matrix" result
 type.
@@ -15326,6 +15337,33 @@ Parameters:
 Mandatory Parameters
 
 `query`
+
+##### `POST /metrics`
+
+Evaluates an expression query over a range of time returning a "matrix" result.
+This has the same behaviour as the GET request, however it is useful when
+specifying a large query that may breach server-side URL character limits. In
+such a case, you can URL-encode the parameters that would be used for a GET
+request directly in the request body by using the POST method and Content-Type:
+application/x-www-form-urlencoded header.
+
+#### Attributes
+
+##### `end` `string`
+
+End timestamp <rfc3339 | unix_timestamp>.
+
+##### `query` `string` [`required`]
+
+Contains the remote `POST` payload.
+
+##### `start` `string`
+
+Start timestamp <rfc3339 | unix_timestamp>.
+
+##### `step` `string`
+
+Query resolution step width in duration format or float number of seconds.
 
 ## visualization/statsquery
 

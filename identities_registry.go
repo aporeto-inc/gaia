@@ -82,7 +82,7 @@ var (
 		"log":                    LogIdentity,
 		"logout":                 LogoutIdentity,
 		"message":                MessageIdentity,
-		"metricsquery":           MetricsQueryIdentity,
+		"metrics":                MetricsIdentity,
 		"namespace":              NamespaceIdentity,
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
 		"namespacerenderer":      NamespaceRendererIdentity,
@@ -235,7 +235,7 @@ var (
 		"logs":                     LogIdentity,
 		"logout":                   LogoutIdentity,
 		"messages":                 MessageIdentity,
-		"metricsqueries":           MetricsQueryIdentity,
+		"metrics":                  MetricsIdentity,
 		"namespaces":               NamespaceIdentity,
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
 		"namespacerenderers":       NamespaceRendererIdentity,
@@ -358,7 +358,7 @@ var (
 		"iapp":           InstalledAppIdentity,
 		"ip":             IsolationProfileIdentity,
 		"mess":           MessageIdentity,
-		"mq":             MetricsQueryIdentity,
+		"mq":             MetricsIdentity,
 		"ns":             NamespaceIdentity,
 		"nspolicy":       NamespaceMappingPolicyIdentity,
 		"nspolicies":     NamespaceMappingPolicyIdentity,
@@ -714,7 +714,7 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"metricsquery": nil,
+		"metrics": nil,
 		"namespace": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1110,8 +1110,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewLogout()
 	case MessageIdentity:
 		return NewMessage()
-	case MetricsQueryIdentity:
-		return NewMetricsQuery()
+	case MetricsIdentity:
+		return NewMetrics()
 	case NamespaceIdentity:
 		return NewNamespace()
 	case NamespaceMappingPolicyIdentity:
@@ -1393,8 +1393,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseLogout()
 	case MessageIdentity:
 		return NewSparseMessage()
-	case MetricsQueryIdentity:
-		return NewSparseMetricsQuery()
+	case MetricsIdentity:
+		return NewSparseMetrics()
 	case NamespaceIdentity:
 		return NewSparseNamespace()
 	case NamespaceMappingPolicyIdentity:
@@ -1684,8 +1684,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &LogoutsList{}
 	case MessageIdentity:
 		return &MessagesList{}
-	case MetricsQueryIdentity:
-		return &MetricsQueriesList{}
+	case MetricsIdentity:
+		return &MetricsList{}
 	case NamespaceIdentity:
 		return &NamespacesList{}
 	case NamespaceMappingPolicyIdentity:
@@ -1965,8 +1965,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseLogoutsList{}
 	case MessageIdentity:
 		return &SparseMessagesList{}
-	case MetricsQueryIdentity:
-		return &SparseMetricsQueriesList{}
+	case MetricsIdentity:
+		return &SparseMetricsList{}
 	case NamespaceIdentity:
 		return &SparseNamespacesList{}
 	case NamespaceMappingPolicyIdentity:
@@ -2189,7 +2189,7 @@ func AllIdentities() []elemental.Identity {
 		LogIdentity,
 		LogoutIdentity,
 		MessageIdentity,
-		MetricsQueryIdentity,
+		MetricsIdentity,
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
 		NamespaceRendererIdentity,
@@ -2477,7 +2477,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"mess",
 		}
-	case MetricsQueryIdentity:
+	case MetricsIdentity:
 		return []string{
 			"mq",
 		}

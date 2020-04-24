@@ -562,7 +562,7 @@ relations:
   create:
     description: Creates a new message.
 
-- rest_name: metricsquery
+- rest_name: metrics
   get:
     description: |-
       Evaluates an expression query over a range of time returning a "matrix" result
@@ -591,6 +591,14 @@ relations:
           of seconds.
         type: string
         example_value: 15s
+  create:
+    description: |-
+      Evaluates an expression query over a range of time returning a "matrix" result.
+      This has the same behaviour as the GET request, however it is useful when
+      specifying a large query that may breach server-side URL character limits. In
+      such a case, you can URL-encode the parameters that would be used for a GET
+      request directly in the request body by using the POST method and Content-Type:
+      application/x-www-form-urlencoded header.
 
 - rest_name: namespace
   get:

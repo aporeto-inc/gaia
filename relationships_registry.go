@@ -2711,7 +2711,10 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[MetricsQueryIdentity] = &elemental.Relationship{
+	relationshipsRegistry[MetricsIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": {
 				RequiredParameters: elemental.NewParametersRequirement(
