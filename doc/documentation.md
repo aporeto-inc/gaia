@@ -3186,11 +3186,12 @@ Post a new pu diagnostics report.
 
 ```json
 {
-  "ID": "xxx-xxx-xxx-xxx",
   "applicationListening": false,
   "enforcerID": "xxx-xxx-xxx-xxx",
   "enforcerNamespace": "/my/ns",
-  "sourceID": "xxx-xxx-xxx-xxx"
+  "iterationID": "xxx-xxx-xxx-xxx",
+  "pingID": "xxx-xxx-xxx-xxx",
+  "seqNumMatching": "Noop"
 }
 ```
 
@@ -3202,9 +3203,9 @@ Create a ping report.
 
 #### Attributes
 
-##### `ID` `string` [`required`]
+##### `RTT` `string`
 
-ID unique to a single request and response report.
+Time taken for a single request-response to complete.
 
 ##### `applicationListening` `boolean`
 
@@ -3226,17 +3227,9 @@ Namespace of the enforcer.
 
 Semantic version of the enforcer.
 
-##### `exchange` `string`
+##### `iterationID` `string` [`required`]
 
-Exchange represents request/response this report has been generated.
-
-##### `iteration` `integer`
-
-Request represents the iteration number.
-
-##### `latency` `string`
-
-Time taken for a single request to complete.
+IterationID unique to a single ping request-response.
 
 ##### `namespace` `string`
 
@@ -3245,6 +3238,10 @@ Namespace of the reporting processing unit.
 ##### `payloadSize` `integer`
 
 Size of the payload attached to the packet.
+
+##### `pingID` `string` [`required`]
+
+PingID unique to a single ping control.
 
 ##### `policyAction` `string`
 
@@ -3258,21 +3255,35 @@ ID of the policy.
 
 Protocol used for the communication.
 
+##### `request` `integer`
+
+Request represents the current request.
+
 ##### `rxFourTuple` `string`
 
 Receiver four tuple in the format <sip:dip:spt:dpt>.
 
-##### `seqNumMatching` `string`
+##### `seqNumMatching` `emum(Equal | Unequal | Noop)`
 
 If true, transmitter sequence number matches the receiver sequence number.
+
+Default value:
+
+```json
+"Noop"
+```
 
 ##### `serviceType` `string`
 
 Type of the service.
 
-##### `sourceID` `string` [`required`]
+##### `sourceID` `string`
 
 ID of the source PU.
+
+##### `stage` `string`
+
+Current stage when this report has been generated.
 
 ##### `timestamp` `time`
 
@@ -3281,6 +3292,10 @@ Date of the report.
 ##### `txFourTuple` `string`
 
 Transmiter four tuple in the format <sip:dip:spt:dpt>.
+
+##### `txType` `string`
+
+Type of the transmitter.
 
 ### TraceMode
 

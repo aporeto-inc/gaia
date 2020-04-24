@@ -9,6 +9,20 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PingReportSeqNumMatchingValue represents the possible values for attribute "seqNumMatching".
+type PingReportSeqNumMatchingValue string
+
+const (
+	// PingReportSeqNumMatchingEqual represents the value Equal.
+	PingReportSeqNumMatchingEqual PingReportSeqNumMatchingValue = "Equal"
+
+	// PingReportSeqNumMatchingNoop represents the value Noop.
+	PingReportSeqNumMatchingNoop PingReportSeqNumMatchingValue = "Noop"
+
+	// PingReportSeqNumMatchingUnequal represents the value Unequal.
+	PingReportSeqNumMatchingUnequal PingReportSeqNumMatchingValue = "Unequal"
+)
+
 // PingReportIdentity represents the Identity of the object.
 var PingReportIdentity = elemental.Identity{
 	Name:     "pingreport",
@@ -81,8 +95,8 @@ func (o PingReportsList) Version() int {
 
 // PingReport represents the model of a pingreport
 type PingReport struct {
-	// ID unique to a single request and response report.
-	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	// Time taken for a single request-response to complete.
+	RTT string `json:"RTT" msgpack:"RTT" bson:"-" mapstructure:"RTT,omitempty"`
 
 	// If true, application responded to the request.
 	ApplicationListening bool `json:"applicationListening" msgpack:"applicationListening" bson:"-" mapstructure:"applicationListening,omitempty"`
@@ -99,20 +113,17 @@ type PingReport struct {
 	// Semantic version of the enforcer.
 	EnforcerVersion string `json:"enforcerVersion" msgpack:"enforcerVersion" bson:"-" mapstructure:"enforcerVersion,omitempty"`
 
-	// Exchange represents request/response this report has been generated.
-	Exchange string `json:"exchange" msgpack:"exchange" bson:"-" mapstructure:"exchange,omitempty"`
-
-	// Request represents the iteration number.
-	Iteration int `json:"iteration" msgpack:"iteration" bson:"-" mapstructure:"iteration,omitempty"`
-
-	// Time taken for a single request to complete.
-	Latency string `json:"latency" msgpack:"latency" bson:"-" mapstructure:"latency,omitempty"`
+	// IterationID unique to a single ping request-response.
+	IterationID string `json:"iterationID" msgpack:"iterationID" bson:"-" mapstructure:"iterationID,omitempty"`
 
 	// Namespace of the reporting processing unit.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Size of the payload attached to the packet.
 	PayloadSize int `json:"payloadSize" msgpack:"payloadSize" bson:"-" mapstructure:"payloadSize,omitempty"`
+
+	// PingID unique to a single ping control.
+	PingID string `json:"pingID" msgpack:"pingID" bson:"-" mapstructure:"pingID,omitempty"`
 
 	// Action of the policy.
 	PolicyAction string `json:"policyAction" msgpack:"policyAction" bson:"-" mapstructure:"policyAction,omitempty"`
@@ -123,11 +134,14 @@ type PingReport struct {
 	// Protocol used for the communication.
 	Protocol int `json:"protocol" msgpack:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
 
+	// Request represents the current request.
+	Request int `json:"request" msgpack:"request" bson:"-" mapstructure:"request,omitempty"`
+
 	// Receiver four tuple in the format <sip:dip:spt:dpt>.
 	RxFourTuple string `json:"rxFourTuple" msgpack:"rxFourTuple" bson:"-" mapstructure:"rxFourTuple,omitempty"`
 
 	// If true, transmitter sequence number matches the receiver sequence number.
-	SeqNumMatching string `json:"seqNumMatching" msgpack:"seqNumMatching" bson:"-" mapstructure:"seqNumMatching,omitempty"`
+	SeqNumMatching PingReportSeqNumMatchingValue `json:"seqNumMatching" msgpack:"seqNumMatching" bson:"-" mapstructure:"seqNumMatching,omitempty"`
 
 	// Type of the service.
 	ServiceType string `json:"serviceType" msgpack:"serviceType" bson:"-" mapstructure:"serviceType,omitempty"`
@@ -135,11 +149,17 @@ type PingReport struct {
 	// ID of the source PU.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"-" mapstructure:"sourceID,omitempty"`
 
+	// Current stage when this report has been generated.
+	Stage string `json:"stage" msgpack:"stage" bson:"-" mapstructure:"stage,omitempty"`
+
 	// Date of the report.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// Transmiter four tuple in the format <sip:dip:spt:dpt>.
 	TxFourTuple string `json:"txFourTuple" msgpack:"txFourTuple" bson:"-" mapstructure:"txFourTuple,omitempty"`
+
+	// Type of the transmitter.
+	TxType string `json:"txType" msgpack:"txType" bson:"-" mapstructure:"txType,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -148,7 +168,8 @@ type PingReport struct {
 func NewPingReport() *PingReport {
 
 	return &PingReport{
-		ModelVersion: 1,
+		ModelVersion:   1,
+		SeqNumMatching: PingReportSeqNumMatchingNoop,
 	}
 }
 
@@ -234,34 +255,36 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePingReport{
-			ID:                   &o.ID,
+			RTT:                  &o.RTT,
 			ApplicationListening: &o.ApplicationListening,
 			DestinationID:        &o.DestinationID,
 			EnforcerID:           &o.EnforcerID,
 			EnforcerNamespace:    &o.EnforcerNamespace,
 			EnforcerVersion:      &o.EnforcerVersion,
-			Exchange:             &o.Exchange,
-			Iteration:            &o.Iteration,
-			Latency:              &o.Latency,
+			IterationID:          &o.IterationID,
 			Namespace:            &o.Namespace,
 			PayloadSize:          &o.PayloadSize,
+			PingID:               &o.PingID,
 			PolicyAction:         &o.PolicyAction,
 			PolicyID:             &o.PolicyID,
 			Protocol:             &o.Protocol,
+			Request:              &o.Request,
 			RxFourTuple:          &o.RxFourTuple,
 			SeqNumMatching:       &o.SeqNumMatching,
 			ServiceType:          &o.ServiceType,
 			SourceID:             &o.SourceID,
+			Stage:                &o.Stage,
 			Timestamp:            &o.Timestamp,
 			TxFourTuple:          &o.TxFourTuple,
+			TxType:               &o.TxType,
 		}
 	}
 
 	sp := &SparsePingReport{}
 	for _, f := range fields {
 		switch f {
-		case "ID":
-			sp.ID = &(o.ID)
+		case "RTT":
+			sp.RTT = &(o.RTT)
 		case "applicationListening":
 			sp.ApplicationListening = &(o.ApplicationListening)
 		case "destinationID":
@@ -272,22 +295,22 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "enforcerVersion":
 			sp.EnforcerVersion = &(o.EnforcerVersion)
-		case "exchange":
-			sp.Exchange = &(o.Exchange)
-		case "iteration":
-			sp.Iteration = &(o.Iteration)
-		case "latency":
-			sp.Latency = &(o.Latency)
+		case "iterationID":
+			sp.IterationID = &(o.IterationID)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "payloadSize":
 			sp.PayloadSize = &(o.PayloadSize)
+		case "pingID":
+			sp.PingID = &(o.PingID)
 		case "policyAction":
 			sp.PolicyAction = &(o.PolicyAction)
 		case "policyID":
 			sp.PolicyID = &(o.PolicyID)
 		case "protocol":
 			sp.Protocol = &(o.Protocol)
+		case "request":
+			sp.Request = &(o.Request)
 		case "rxFourTuple":
 			sp.RxFourTuple = &(o.RxFourTuple)
 		case "seqNumMatching":
@@ -296,10 +319,14 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ServiceType = &(o.ServiceType)
 		case "sourceID":
 			sp.SourceID = &(o.SourceID)
+		case "stage":
+			sp.Stage = &(o.Stage)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
 		case "txFourTuple":
 			sp.TxFourTuple = &(o.TxFourTuple)
+		case "txType":
+			sp.TxType = &(o.TxType)
 		}
 	}
 
@@ -313,8 +340,8 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparsePingReport)
-	if so.ID != nil {
-		o.ID = *so.ID
+	if so.RTT != nil {
+		o.RTT = *so.RTT
 	}
 	if so.ApplicationListening != nil {
 		o.ApplicationListening = *so.ApplicationListening
@@ -331,20 +358,17 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.EnforcerVersion != nil {
 		o.EnforcerVersion = *so.EnforcerVersion
 	}
-	if so.Exchange != nil {
-		o.Exchange = *so.Exchange
-	}
-	if so.Iteration != nil {
-		o.Iteration = *so.Iteration
-	}
-	if so.Latency != nil {
-		o.Latency = *so.Latency
+	if so.IterationID != nil {
+		o.IterationID = *so.IterationID
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
 	if so.PayloadSize != nil {
 		o.PayloadSize = *so.PayloadSize
+	}
+	if so.PingID != nil {
+		o.PingID = *so.PingID
 	}
 	if so.PolicyAction != nil {
 		o.PolicyAction = *so.PolicyAction
@@ -354,6 +378,9 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Protocol != nil {
 		o.Protocol = *so.Protocol
+	}
+	if so.Request != nil {
+		o.Request = *so.Request
 	}
 	if so.RxFourTuple != nil {
 		o.RxFourTuple = *so.RxFourTuple
@@ -367,11 +394,17 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.SourceID != nil {
 		o.SourceID = *so.SourceID
 	}
+	if so.Stage != nil {
+		o.Stage = *so.Stage
+	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
 	}
 	if so.TxFourTuple != nil {
 		o.TxFourTuple = *so.TxFourTuple
+	}
+	if so.TxType != nil {
+		o.TxType = *so.TxType
 	}
 }
 
@@ -405,10 +438,6 @@ func (o *PingReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("ID", o.ID); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("enforcerID", o.EnforcerID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -417,8 +446,16 @@ func (o *PingReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("sourceID", o.SourceID); err != nil {
+	if err := elemental.ValidateRequiredString("iterationID", o.IterationID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("pingID", o.PingID); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("seqNumMatching", string(o.SeqNumMatching), []string{"Equal", "Unequal", "Noop"}, false); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -455,8 +492,8 @@ func (*PingReport) AttributeSpecifications() map[string]elemental.AttributeSpeci
 func (o *PingReport) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "ID":
-		return o.ID
+	case "RTT":
+		return o.RTT
 	case "applicationListening":
 		return o.ApplicationListening
 	case "destinationID":
@@ -467,22 +504,22 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 		return o.EnforcerNamespace
 	case "enforcerVersion":
 		return o.EnforcerVersion
-	case "exchange":
-		return o.Exchange
-	case "iteration":
-		return o.Iteration
-	case "latency":
-		return o.Latency
+	case "iterationID":
+		return o.IterationID
 	case "namespace":
 		return o.Namespace
 	case "payloadSize":
 		return o.PayloadSize
+	case "pingID":
+		return o.PingID
 	case "policyAction":
 		return o.PolicyAction
 	case "policyID":
 		return o.PolicyID
 	case "protocol":
 		return o.Protocol
+	case "request":
+		return o.Request
 	case "rxFourTuple":
 		return o.RxFourTuple
 	case "seqNumMatching":
@@ -491,10 +528,14 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 		return o.ServiceType
 	case "sourceID":
 		return o.SourceID
+	case "stage":
+		return o.Stage
 	case "timestamp":
 		return o.Timestamp
 	case "txFourTuple":
 		return o.TxFourTuple
+	case "txType":
+		return o.TxType
 	}
 
 	return nil
@@ -502,13 +543,12 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 
 // PingReportAttributesMap represents the map of attribute for PingReport.
 var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
-	"ID": {
+	"RTT": {
 		AllowedChoices: []string{},
-		ConvertedName:  "ID",
-		Description:    `ID unique to a single request and response report.`,
+		ConvertedName:  "RTT",
+		Description:    `Time taken for a single request-response to complete.`,
 		Exposed:        true,
-		Name:           "ID",
-		Required:       true,
+		Name:           "RTT",
 		Type:           "string",
 	},
 	"ApplicationListening": {
@@ -553,28 +593,13 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "enforcerVersion",
 		Type:           "string",
 	},
-	"Exchange": {
+	"IterationID": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Exchange",
-		Description:    `Exchange represents request/response this report has been generated.`,
+		ConvertedName:  "IterationID",
+		Description:    `IterationID unique to a single ping request-response.`,
 		Exposed:        true,
-		Name:           "exchange",
-		Type:           "string",
-	},
-	"Iteration": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Iteration",
-		Description:    `Request represents the iteration number.`,
-		Exposed:        true,
-		Name:           "iteration",
-		Type:           "integer",
-	},
-	"Latency": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Latency",
-		Description:    `Time taken for a single request to complete.`,
-		Exposed:        true,
-		Name:           "latency",
+		Name:           "iterationID",
+		Required:       true,
 		Type:           "string",
 	},
 	"Namespace": {
@@ -592,6 +617,15 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "payloadSize",
 		Type:           "integer",
+	},
+	"PingID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PingID",
+		Description:    `PingID unique to a single ping control.`,
+		Exposed:        true,
+		Name:           "pingID",
+		Required:       true,
+		Type:           "string",
 	},
 	"PolicyAction": {
 		AllowedChoices: []string{},
@@ -617,6 +651,14 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "protocol",
 		Type:           "integer",
 	},
+	"Request": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Request",
+		Description:    `Request represents the current request.`,
+		Exposed:        true,
+		Name:           "request",
+		Type:           "integer",
+	},
 	"RxFourTuple": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RxFourTuple",
@@ -626,12 +668,13 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"SeqNumMatching": {
-		AllowedChoices: []string{},
+		AllowedChoices: []string{"Equal", "Unequal", "Noop"},
 		ConvertedName:  "SeqNumMatching",
+		DefaultValue:   PingReportSeqNumMatchingNoop,
 		Description:    `If true, transmitter sequence number matches the receiver sequence number.`,
 		Exposed:        true,
 		Name:           "seqNumMatching",
-		Type:           "string",
+		Type:           "enum",
 	},
 	"ServiceType": {
 		AllowedChoices: []string{},
@@ -647,7 +690,14 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID of the source PU.`,
 		Exposed:        true,
 		Name:           "sourceID",
-		Required:       true,
+		Type:           "string",
+	},
+	"Stage": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Stage",
+		Description:    `Current stage when this report has been generated.`,
+		Exposed:        true,
+		Name:           "stage",
 		Type:           "string",
 	},
 	"Timestamp": {
@@ -666,17 +716,24 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "txFourTuple",
 		Type:           "string",
 	},
+	"TxType": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TxType",
+		Description:    `Type of the transmitter.`,
+		Exposed:        true,
+		Name:           "txType",
+		Type:           "string",
+	},
 }
 
 // PingReportLowerCaseAttributesMap represents the map of attribute for PingReport.
 var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"id": {
+	"rtt": {
 		AllowedChoices: []string{},
-		ConvertedName:  "ID",
-		Description:    `ID unique to a single request and response report.`,
+		ConvertedName:  "RTT",
+		Description:    `Time taken for a single request-response to complete.`,
 		Exposed:        true,
-		Name:           "ID",
-		Required:       true,
+		Name:           "RTT",
 		Type:           "string",
 	},
 	"applicationlistening": {
@@ -721,28 +778,13 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "enforcerVersion",
 		Type:           "string",
 	},
-	"exchange": {
+	"iterationid": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Exchange",
-		Description:    `Exchange represents request/response this report has been generated.`,
+		ConvertedName:  "IterationID",
+		Description:    `IterationID unique to a single ping request-response.`,
 		Exposed:        true,
-		Name:           "exchange",
-		Type:           "string",
-	},
-	"iteration": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Iteration",
-		Description:    `Request represents the iteration number.`,
-		Exposed:        true,
-		Name:           "iteration",
-		Type:           "integer",
-	},
-	"latency": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Latency",
-		Description:    `Time taken for a single request to complete.`,
-		Exposed:        true,
-		Name:           "latency",
+		Name:           "iterationID",
+		Required:       true,
 		Type:           "string",
 	},
 	"namespace": {
@@ -760,6 +802,15 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "payloadSize",
 		Type:           "integer",
+	},
+	"pingid": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PingID",
+		Description:    `PingID unique to a single ping control.`,
+		Exposed:        true,
+		Name:           "pingID",
+		Required:       true,
+		Type:           "string",
 	},
 	"policyaction": {
 		AllowedChoices: []string{},
@@ -785,6 +836,14 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "protocol",
 		Type:           "integer",
 	},
+	"request": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Request",
+		Description:    `Request represents the current request.`,
+		Exposed:        true,
+		Name:           "request",
+		Type:           "integer",
+	},
 	"rxfourtuple": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RxFourTuple",
@@ -794,12 +853,13 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Type:           "string",
 	},
 	"seqnummatching": {
-		AllowedChoices: []string{},
+		AllowedChoices: []string{"Equal", "Unequal", "Noop"},
 		ConvertedName:  "SeqNumMatching",
+		DefaultValue:   PingReportSeqNumMatchingNoop,
 		Description:    `If true, transmitter sequence number matches the receiver sequence number.`,
 		Exposed:        true,
 		Name:           "seqNumMatching",
-		Type:           "string",
+		Type:           "enum",
 	},
 	"servicetype": {
 		AllowedChoices: []string{},
@@ -815,7 +875,14 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `ID of the source PU.`,
 		Exposed:        true,
 		Name:           "sourceID",
-		Required:       true,
+		Type:           "string",
+	},
+	"stage": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Stage",
+		Description:    `Current stage when this report has been generated.`,
+		Exposed:        true,
+		Name:           "stage",
 		Type:           "string",
 	},
 	"timestamp": {
@@ -832,6 +899,14 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Transmiter four tuple in the format <sip:dip:spt:dpt>.`,
 		Exposed:        true,
 		Name:           "txFourTuple",
+		Type:           "string",
+	},
+	"txtype": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TxType",
+		Description:    `Type of the transmitter.`,
+		Exposed:        true,
+		Name:           "txType",
 		Type:           "string",
 	},
 }
@@ -899,8 +974,8 @@ func (o SparsePingReportsList) Version() int {
 
 // SparsePingReport represents the sparse version of a pingreport.
 type SparsePingReport struct {
-	// ID unique to a single request and response report.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+	// Time taken for a single request-response to complete.
+	RTT *string `json:"RTT,omitempty" msgpack:"RTT,omitempty" bson:"-" mapstructure:"RTT,omitempty"`
 
 	// If true, application responded to the request.
 	ApplicationListening *bool `json:"applicationListening,omitempty" msgpack:"applicationListening,omitempty" bson:"-" mapstructure:"applicationListening,omitempty"`
@@ -917,20 +992,17 @@ type SparsePingReport struct {
 	// Semantic version of the enforcer.
 	EnforcerVersion *string `json:"enforcerVersion,omitempty" msgpack:"enforcerVersion,omitempty" bson:"-" mapstructure:"enforcerVersion,omitempty"`
 
-	// Exchange represents request/response this report has been generated.
-	Exchange *string `json:"exchange,omitempty" msgpack:"exchange,omitempty" bson:"-" mapstructure:"exchange,omitempty"`
-
-	// Request represents the iteration number.
-	Iteration *int `json:"iteration,omitempty" msgpack:"iteration,omitempty" bson:"-" mapstructure:"iteration,omitempty"`
-
-	// Time taken for a single request to complete.
-	Latency *string `json:"latency,omitempty" msgpack:"latency,omitempty" bson:"-" mapstructure:"latency,omitempty"`
+	// IterationID unique to a single ping request-response.
+	IterationID *string `json:"iterationID,omitempty" msgpack:"iterationID,omitempty" bson:"-" mapstructure:"iterationID,omitempty"`
 
 	// Namespace of the reporting processing unit.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Size of the payload attached to the packet.
 	PayloadSize *int `json:"payloadSize,omitempty" msgpack:"payloadSize,omitempty" bson:"-" mapstructure:"payloadSize,omitempty"`
+
+	// PingID unique to a single ping control.
+	PingID *string `json:"pingID,omitempty" msgpack:"pingID,omitempty" bson:"-" mapstructure:"pingID,omitempty"`
 
 	// Action of the policy.
 	PolicyAction *string `json:"policyAction,omitempty" msgpack:"policyAction,omitempty" bson:"-" mapstructure:"policyAction,omitempty"`
@@ -941,11 +1013,14 @@ type SparsePingReport struct {
 	// Protocol used for the communication.
 	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`
 
+	// Request represents the current request.
+	Request *int `json:"request,omitempty" msgpack:"request,omitempty" bson:"-" mapstructure:"request,omitempty"`
+
 	// Receiver four tuple in the format <sip:dip:spt:dpt>.
 	RxFourTuple *string `json:"rxFourTuple,omitempty" msgpack:"rxFourTuple,omitempty" bson:"-" mapstructure:"rxFourTuple,omitempty"`
 
 	// If true, transmitter sequence number matches the receiver sequence number.
-	SeqNumMatching *string `json:"seqNumMatching,omitempty" msgpack:"seqNumMatching,omitempty" bson:"-" mapstructure:"seqNumMatching,omitempty"`
+	SeqNumMatching *PingReportSeqNumMatchingValue `json:"seqNumMatching,omitempty" msgpack:"seqNumMatching,omitempty" bson:"-" mapstructure:"seqNumMatching,omitempty"`
 
 	// Type of the service.
 	ServiceType *string `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"-" mapstructure:"serviceType,omitempty"`
@@ -953,11 +1028,17 @@ type SparsePingReport struct {
 	// ID of the source PU.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"-" mapstructure:"sourceID,omitempty"`
 
+	// Current stage when this report has been generated.
+	Stage *string `json:"stage,omitempty" msgpack:"stage,omitempty" bson:"-" mapstructure:"stage,omitempty"`
+
 	// Date of the report.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// Transmiter four tuple in the format <sip:dip:spt:dpt>.
 	TxFourTuple *string `json:"txFourTuple,omitempty" msgpack:"txFourTuple,omitempty" bson:"-" mapstructure:"txFourTuple,omitempty"`
+
+	// Type of the transmitter.
+	TxType *string `json:"txType,omitempty" msgpack:"txType,omitempty" bson:"-" mapstructure:"txType,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -1023,8 +1104,8 @@ func (o *SparsePingReport) Version() int {
 func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPingReport()
-	if o.ID != nil {
-		out.ID = *o.ID
+	if o.RTT != nil {
+		out.RTT = *o.RTT
 	}
 	if o.ApplicationListening != nil {
 		out.ApplicationListening = *o.ApplicationListening
@@ -1041,20 +1122,17 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	if o.EnforcerVersion != nil {
 		out.EnforcerVersion = *o.EnforcerVersion
 	}
-	if o.Exchange != nil {
-		out.Exchange = *o.Exchange
-	}
-	if o.Iteration != nil {
-		out.Iteration = *o.Iteration
-	}
-	if o.Latency != nil {
-		out.Latency = *o.Latency
+	if o.IterationID != nil {
+		out.IterationID = *o.IterationID
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
 	if o.PayloadSize != nil {
 		out.PayloadSize = *o.PayloadSize
+	}
+	if o.PingID != nil {
+		out.PingID = *o.PingID
 	}
 	if o.PolicyAction != nil {
 		out.PolicyAction = *o.PolicyAction
@@ -1064,6 +1142,9 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protocol != nil {
 		out.Protocol = *o.Protocol
+	}
+	if o.Request != nil {
+		out.Request = *o.Request
 	}
 	if o.RxFourTuple != nil {
 		out.RxFourTuple = *o.RxFourTuple
@@ -1077,11 +1158,17 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	if o.SourceID != nil {
 		out.SourceID = *o.SourceID
 	}
+	if o.Stage != nil {
+		out.Stage = *o.Stage
+	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp
 	}
 	if o.TxFourTuple != nil {
 		out.TxFourTuple = *o.TxFourTuple
+	}
+	if o.TxType != nil {
+		out.TxType = *o.TxType
 	}
 
 	return out

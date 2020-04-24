@@ -10,12 +10,10 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: ID
-    description: ID unique to a single request and response report.
+  - name: RTT
+    description: Time taken for a single request-response to complete.
     type: string
     exposed: true
-    required: true
-    example_value: xxx-xxx-xxx-xxx
 
   - name: applicationListening
     description: If true, application responded to the request.
@@ -46,20 +44,12 @@ attributes:
     type: string
     exposed: true
 
-  - name: exchange
-    description: Exchange represents request/response this report has been generated.
+  - name: iterationID
+    description: IterationID unique to a single ping request-response.
     type: string
     exposed: true
-
-  - name: iteration
-    description: Request represents the iteration number.
-    type: integer
-    exposed: true
-
-  - name: latency
-    description: Time taken for a single request to complete.
-    type: string
-    exposed: true
+    required: true
+    example_value: xxx-xxx-xxx-xxx
 
   - name: namespace
     description: Namespace of the reporting processing unit.
@@ -70,6 +60,13 @@ attributes:
     description: Size of the payload attached to the packet.
     type: integer
     exposed: true
+
+  - name: pingID
+    description: PingID unique to a single ping control.
+    type: string
+    exposed: true
+    required: true
+    example_value: xxx-xxx-xxx-xxx
 
   - name: policyAction
     description: Action of the policy.
@@ -86,6 +83,11 @@ attributes:
     type: integer
     exposed: true
 
+  - name: request
+    description: Request represents the current request.
+    type: integer
+    exposed: true
+
   - name: rxFourTuple
     description: Receiver four tuple in the format <sip:dip:spt:dpt>.
     type: string
@@ -94,8 +96,13 @@ attributes:
   - name: seqNumMatching
     description: If true, transmitter sequence number matches the receiver sequence
       number.
-    type: string
+    type: enum
     exposed: true
+    allowed_choices:
+    - Equal
+    - Unequal
+    - Noop
+    default_value: Noop
 
   - name: serviceType
     description: Type of the service.
@@ -106,8 +113,11 @@ attributes:
     description: ID of the source PU.
     type: string
     exposed: true
-    required: true
-    example_value: xxx-xxx-xxx-xxx
+
+  - name: stage
+    description: Current stage when this report has been generated.
+    type: string
+    exposed: true
 
   - name: timestamp
     description: Date of the report.
@@ -116,5 +126,10 @@ attributes:
 
   - name: txFourTuple
     description: Transmiter four tuple in the format <sip:dip:spt:dpt>.
+    type: string
+    exposed: true
+
+  - name: txType
+    description: Type of the transmitter.
     type: string
     exposed: true
