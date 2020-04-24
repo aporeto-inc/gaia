@@ -2511,22 +2511,52 @@ func TestValidateUIParameters(t *testing.T) {
 	}{
 		// Valid cases
 		{
-			"Test with List and Subtype defined",
+			"Test with List and Subtype string",
 			args{
 				p: &UIParameter{
 					Type:    UIParameterTypeList,
-					Subtype: UIParameterSubtypeString,
+					Subtype: "String",
+				},
+			},
+			false,
+		},
+		{
+			"Test with List and Subtype integer",
+			args{
+				p: &UIParameter{
+					Type:    UIParameterTypeList,
+					Subtype: "Integer",
+				},
+			},
+			false,
+		},
+		{
+			"Test with List and Subtype endpoint",
+			args{
+				p: &UIParameter{
+					Type:    UIParameterTypeList,
+					Subtype: "Endpoint",
 				},
 			},
 			false,
 		},
 		// Error cases
 		{
-			"Test with List and Subtype defined",
+			"Test with List and empty Subtype",
 			args{
 				p: &UIParameter{
 					Type:    UIParameterTypeList,
-					Subtype: UIParameterSubtypeValue(""),
+					Subtype: "",
+				},
+			},
+			true,
+		},
+		{
+			"Test with List and unknown Subtype",
+			args{
+				p: &UIParameter{
+					Type:    UIParameterTypeList,
+					Subtype: "Unknown",
 				},
 			},
 			true,
