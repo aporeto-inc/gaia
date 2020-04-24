@@ -14,6 +14,7 @@ import (
 
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/constants"
+	"go.aporeto.io/gaia/netutils"
 	"go.aporeto.io/gaia/portutils"
 	"go.aporeto.io/gaia/protocols"
 	"gopkg.in/yaml.v2"
@@ -263,43 +264,16 @@ func makeValidationError(attribute string, message string) elemental.Error {
 // ValidateEnforcerProfile validates a an enforcer profile.
 func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 
-	// Validate Target Networks
-	for _, tn := range enforcerProfile.TargetNetworks {
-
-		if strings.HasPrefix(tn, "!") {
-			tn = tn[1:]
-		}
-
-		_, _, err := net.ParseCIDR(tn)
-		if err != nil {
-			return makeValidationError("targetNetworks", fmt.Sprintf("%s is not a valid CIDR", tn))
-		}
+	if err := netutils.ValidateCIDRs(enforcerProfile.TargetNetworks); err != nil {
+		return makeValidationError("targetNetworks", err.Error())
 	}
 
-	// Validate Target UDP Networks
-	for _, tn := range enforcerProfile.TargetUDPNetworks {
-
-		if strings.HasPrefix(tn, "!") {
-			tn = tn[1:]
-		}
-
-		_, _, err := net.ParseCIDR(tn)
-		if err != nil {
-			return makeValidationError("targetUDPNetworks", fmt.Sprintf("%s is not a valid CIDR", tn))
-		}
+	if err := netutils.ValidateCIDRs(enforcerProfile.TargetUDPNetworks); err != nil {
+		return makeValidationError("targetUDPNetworks", err.Error())
 	}
 
-	// Validate Excluded Networks
-	for _, tn := range enforcerProfile.ExcludedNetworks {
-
-		if strings.HasPrefix(tn, "!") {
-			tn = tn[1:]
-		}
-
-		_, _, err := net.ParseCIDR(tn)
-		if err != nil {
-			return makeValidationError("excludedNetworks", fmt.Sprintf("%s is not a valid CIDR", tn))
-		}
+	if err := netutils.ValidateCIDRs(enforcerProfile.ExcludedNetworks); err != nil {
+		return makeValidationError("excludedNetworks", err.Error())
 	}
 
 	// Validate trusted CAs
