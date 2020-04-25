@@ -154,6 +154,9 @@ type FlowReport struct {
 	// Action applied to the flow.
 	Action FlowReportActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
+	// Identifier of the destination controller.
+	DestinationController string `json:"destinationController" msgpack:"destinationController" bson:"-" mapstructure:"destinationController,omitempty"`
+
 	// ID of the destination.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"-" mapstructure:"destinationID,omitempty"`
 
@@ -163,9 +166,6 @@ type FlowReport struct {
 	// Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
 	DestinationNamespace string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
-
-	// Identifier of the destination platform.
-	DestinationPlatform string `json:"destinationPlatform" msgpack:"destinationPlatform" bson:"-" mapstructure:"destinationPlatform,omitempty"`
 
 	// Port of the destination.
 	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
@@ -229,6 +229,9 @@ type FlowReport struct {
 	// Service URL accessed.
 	ServiceURL string `json:"serviceURL" msgpack:"serviceURL" bson:"-" mapstructure:"serviceURL,omitempty"`
 
+	// Identifier of the source controller.
+	SourceController string `json:"sourceController" msgpack:"sourceController" bson:"-" mapstructure:"sourceController,omitempty"`
+
 	// ID of the source.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"-" mapstructure:"sourceID,omitempty"`
 
@@ -238,9 +241,6 @@ type FlowReport struct {
 	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
 	SourceNamespace string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
-
-	// Identifier of the source platform.
-	SourcePlatform string `json:"sourcePlatform" msgpack:"sourcePlatform" bson:"-" mapstructure:"sourcePlatform,omitempty"`
 
 	// Type of the source.
 	SourceType FlowReportSourceTypeValue `json:"sourceType" msgpack:"sourceType" bson:"-" mapstructure:"sourceType,omitempty"`
@@ -347,10 +347,10 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseFlowReport{
 			Action:                  &o.Action,
+			DestinationController:   &o.DestinationController,
 			DestinationID:           &o.DestinationID,
 			DestinationIP:           &o.DestinationIP,
 			DestinationNamespace:    &o.DestinationNamespace,
-			DestinationPlatform:     &o.DestinationPlatform,
 			DestinationPort:         &o.DestinationPort,
 			DestinationType:         &o.DestinationType,
 			DropReason:              &o.DropReason,
@@ -371,10 +371,10 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ServiceNamespace:        &o.ServiceNamespace,
 			ServiceType:             &o.ServiceType,
 			ServiceURL:              &o.ServiceURL,
+			SourceController:        &o.SourceController,
 			SourceID:                &o.SourceID,
 			SourceIP:                &o.SourceIP,
 			SourceNamespace:         &o.SourceNamespace,
-			SourcePlatform:          &o.SourcePlatform,
 			SourceType:              &o.SourceType,
 			Timestamp:               &o.Timestamp,
 			Value:                   &o.Value,
@@ -386,14 +386,14 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "action":
 			sp.Action = &(o.Action)
+		case "destinationController":
+			sp.DestinationController = &(o.DestinationController)
 		case "destinationID":
 			sp.DestinationID = &(o.DestinationID)
 		case "destinationIP":
 			sp.DestinationIP = &(o.DestinationIP)
 		case "destinationNamespace":
 			sp.DestinationNamespace = &(o.DestinationNamespace)
-		case "destinationPlatform":
-			sp.DestinationPlatform = &(o.DestinationPlatform)
 		case "destinationPort":
 			sp.DestinationPort = &(o.DestinationPort)
 		case "destinationType":
@@ -434,14 +434,14 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ServiceType = &(o.ServiceType)
 		case "serviceURL":
 			sp.ServiceURL = &(o.ServiceURL)
+		case "sourceController":
+			sp.SourceController = &(o.SourceController)
 		case "sourceID":
 			sp.SourceID = &(o.SourceID)
 		case "sourceIP":
 			sp.SourceIP = &(o.SourceIP)
 		case "sourceNamespace":
 			sp.SourceNamespace = &(o.SourceNamespace)
-		case "sourcePlatform":
-			sp.SourcePlatform = &(o.SourcePlatform)
 		case "sourceType":
 			sp.SourceType = &(o.SourceType)
 		case "timestamp":
@@ -464,6 +464,9 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Action != nil {
 		o.Action = *so.Action
 	}
+	if so.DestinationController != nil {
+		o.DestinationController = *so.DestinationController
+	}
 	if so.DestinationID != nil {
 		o.DestinationID = *so.DestinationID
 	}
@@ -472,9 +475,6 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DestinationNamespace != nil {
 		o.DestinationNamespace = *so.DestinationNamespace
-	}
-	if so.DestinationPlatform != nil {
-		o.DestinationPlatform = *so.DestinationPlatform
 	}
 	if so.DestinationPort != nil {
 		o.DestinationPort = *so.DestinationPort
@@ -536,6 +536,9 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ServiceURL != nil {
 		o.ServiceURL = *so.ServiceURL
 	}
+	if so.SourceController != nil {
+		o.SourceController = *so.SourceController
+	}
 	if so.SourceID != nil {
 		o.SourceID = *so.SourceID
 	}
@@ -544,9 +547,6 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SourceNamespace != nil {
 		o.SourceNamespace = *so.SourceNamespace
-	}
-	if so.SourcePlatform != nil {
-		o.SourcePlatform = *so.SourcePlatform
 	}
 	if so.SourceType != nil {
 		o.SourceType = *so.SourceType
@@ -685,14 +685,14 @@ func (o *FlowReport) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "action":
 		return o.Action
+	case "destinationController":
+		return o.DestinationController
 	case "destinationID":
 		return o.DestinationID
 	case "destinationIP":
 		return o.DestinationIP
 	case "destinationNamespace":
 		return o.DestinationNamespace
-	case "destinationPlatform":
-		return o.DestinationPlatform
 	case "destinationPort":
 		return o.DestinationPort
 	case "destinationType":
@@ -733,14 +733,14 @@ func (o *FlowReport) ValueForAttribute(name string) interface{} {
 		return o.ServiceType
 	case "serviceURL":
 		return o.ServiceURL
+	case "sourceController":
+		return o.SourceController
 	case "sourceID":
 		return o.SourceID
 	case "sourceIP":
 		return o.SourceIP
 	case "sourceNamespace":
 		return o.SourceNamespace
-	case "sourcePlatform":
-		return o.SourcePlatform
 	case "sourceType":
 		return o.SourceType
 	case "timestamp":
@@ -762,6 +762,14 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "action",
 		Required:       true,
 		Type:           "enum",
+	},
+	"DestinationController": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationController",
+		Description:    `Identifier of the destination controller.`,
+		Exposed:        true,
+		Name:           "destinationController",
+		Type:           "string",
 	},
 	"DestinationID": {
 		AllowedChoices: []string{},
@@ -789,14 +797,6 @@ property does nothing.`,
 		Exposed: true,
 		Name:    "destinationNamespace",
 		Type:    "string",
-	},
-	"DestinationPlatform": {
-		AllowedChoices: []string{},
-		ConvertedName:  "DestinationPlatform",
-		Description:    `Identifier of the destination platform.`,
-		Exposed:        true,
-		Name:           "destinationPlatform",
-		Type:           "string",
 	},
 	"DestinationPort": {
 		AllowedChoices: []string{},
@@ -968,6 +968,14 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Name:           "serviceURL",
 		Type:           "string",
 	},
+	"SourceController": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceController",
+		Description:    `Identifier of the source controller.`,
+		Exposed:        true,
+		Name:           "sourceController",
+		Type:           "string",
+	},
 	"SourceID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
@@ -994,14 +1002,6 @@ property does nothing.`,
 		Exposed: true,
 		Name:    "sourceNamespace",
 		Type:    "string",
-	},
-	"SourcePlatform": {
-		AllowedChoices: []string{},
-		ConvertedName:  "SourcePlatform",
-		Description:    `Identifier of the source platform.`,
-		Exposed:        true,
-		Name:           "sourcePlatform",
-		Type:           "string",
 	},
 	"SourceType": {
 		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
@@ -1042,6 +1042,14 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Required:       true,
 		Type:           "enum",
 	},
+	"destinationcontroller": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationController",
+		Description:    `Identifier of the destination controller.`,
+		Exposed:        true,
+		Name:           "destinationController",
+		Type:           "string",
+	},
 	"destinationid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationID",
@@ -1068,14 +1076,6 @@ property does nothing.`,
 		Exposed: true,
 		Name:    "destinationNamespace",
 		Type:    "string",
-	},
-	"destinationplatform": {
-		AllowedChoices: []string{},
-		ConvertedName:  "DestinationPlatform",
-		Description:    `Identifier of the destination platform.`,
-		Exposed:        true,
-		Name:           "destinationPlatform",
-		Type:           "string",
 	},
 	"destinationport": {
 		AllowedChoices: []string{},
@@ -1247,6 +1247,14 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Name:           "serviceURL",
 		Type:           "string",
 	},
+	"sourcecontroller": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceController",
+		Description:    `Identifier of the source controller.`,
+		Exposed:        true,
+		Name:           "sourceController",
+		Type:           "string",
+	},
 	"sourceid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
@@ -1273,14 +1281,6 @@ property does nothing.`,
 		Exposed: true,
 		Name:    "sourceNamespace",
 		Type:    "string",
-	},
-	"sourceplatform": {
-		AllowedChoices: []string{},
-		ConvertedName:  "SourcePlatform",
-		Description:    `Identifier of the source platform.`,
-		Exposed:        true,
-		Name:           "sourcePlatform",
-		Type:           "string",
 	},
 	"sourcetype": {
 		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
@@ -1376,6 +1376,9 @@ type SparseFlowReport struct {
 	// Action applied to the flow.
 	Action *FlowReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
+	// Identifier of the destination controller.
+	DestinationController *string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"-" mapstructure:"destinationController,omitempty"`
+
 	// ID of the destination.
 	DestinationID *string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"-" mapstructure:"destinationID,omitempty"`
 
@@ -1385,9 +1388,6 @@ type SparseFlowReport struct {
 	// Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
 	DestinationNamespace *string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
-
-	// Identifier of the destination platform.
-	DestinationPlatform *string `json:"destinationPlatform,omitempty" msgpack:"destinationPlatform,omitempty" bson:"-" mapstructure:"destinationPlatform,omitempty"`
 
 	// Port of the destination.
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
@@ -1451,6 +1451,9 @@ type SparseFlowReport struct {
 	// Service URL accessed.
 	ServiceURL *string `json:"serviceURL,omitempty" msgpack:"serviceURL,omitempty" bson:"-" mapstructure:"serviceURL,omitempty"`
 
+	// Identifier of the source controller.
+	SourceController *string `json:"sourceController,omitempty" msgpack:"sourceController,omitempty" bson:"-" mapstructure:"sourceController,omitempty"`
+
 	// ID of the source.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"-" mapstructure:"sourceID,omitempty"`
 
@@ -1460,9 +1463,6 @@ type SparseFlowReport struct {
 	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
-
-	// Identifier of the source platform.
-	SourcePlatform *string `json:"sourcePlatform,omitempty" msgpack:"sourcePlatform,omitempty" bson:"-" mapstructure:"sourcePlatform,omitempty"`
 
 	// Type of the source.
 	SourceType *FlowReportSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"-" mapstructure:"sourceType,omitempty"`
@@ -1540,6 +1540,9 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Action != nil {
 		out.Action = *o.Action
 	}
+	if o.DestinationController != nil {
+		out.DestinationController = *o.DestinationController
+	}
 	if o.DestinationID != nil {
 		out.DestinationID = *o.DestinationID
 	}
@@ -1548,9 +1551,6 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.DestinationNamespace != nil {
 		out.DestinationNamespace = *o.DestinationNamespace
-	}
-	if o.DestinationPlatform != nil {
-		out.DestinationPlatform = *o.DestinationPlatform
 	}
 	if o.DestinationPort != nil {
 		out.DestinationPort = *o.DestinationPort
@@ -1612,6 +1612,9 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	if o.ServiceURL != nil {
 		out.ServiceURL = *o.ServiceURL
 	}
+	if o.SourceController != nil {
+		out.SourceController = *o.SourceController
+	}
 	if o.SourceID != nil {
 		out.SourceID = *o.SourceID
 	}
@@ -1620,9 +1623,6 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SourceNamespace != nil {
 		out.SourceNamespace = *o.SourceNamespace
-	}
-	if o.SourcePlatform != nil {
-		out.SourcePlatform = *o.SourcePlatform
 	}
 	if o.SourceType != nil {
 		out.SourceType = *o.SourceType

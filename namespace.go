@@ -112,9 +112,8 @@ type Namespace struct {
 	SSHCA string `json:"SSHCA" msgpack:"SSHCA" bson:"sshca" mapstructure:"SSHCA,omitempty"`
 
 	// If `true`, an SSH certificate authority (CA) will be generated for the
-	// namespace. This CA
-	// can be deployed in SSH server to validate SSH certificates issued by the
-	// platform.
+	// namespace. This CA can be deployed in SSH server to validate SSH certificates
+	// issued by the controller.
 	SSHCAEnabled bool `json:"SSHCAEnabled" msgpack:"SSHCAEnabled" bson:"sshcaenabled" mapstructure:"SSHCAEnabled,omitempty"`
 
 	// Stores additional information about an entity.
@@ -136,9 +135,8 @@ type Namespace struct {
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Defines if the namespace should inherit its parent zone. If this property is set
-	// to `false`,
-	// the `zoning` property will be ignored and the namespace will have the same zone
-	// as its parent.
+	// to `false`,  the `zoning` property will be ignored and the namespace will have
+	// the same zone as its parent.
 	CustomZoning bool `json:"customZoning" msgpack:"customZoning" bson:"customzoning" mapstructure:"customZoning,omitempty"`
 
 	// Description of the object.
@@ -954,9 +952,8 @@ This is map indexed by the ID of the certificate.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "SSHCAEnabled",
 		Description: `If ` + "`" + `true` + "`" + `, an SSH certificate authority (CA) will be generated for the
-namespace. This CA 
-can be deployed in SSH server to validate SSH certificates issued by the
-platform.`,
+namespace. This CA can be deployed in SSH server to validate SSH certificates
+issued by the controller.`,
 		Exposed:   true,
 		Name:      "SSHCAEnabled",
 		Orderable: true,
@@ -1037,9 +1034,8 @@ platform.`,
 		ConvertedName:  "CustomZoning",
 		CreationOnly:   true,
 		Description: `Defines if the namespace should inherit its parent zone. If this property is set
-to ` + "`" + `false` + "`" + `, 
-the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have the same zone
-as its parent.`,
+to ` + "`" + `false` + "`" + `,  the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have
+the same zone as its parent.`,
 		Exposed: true,
 		Name:    "customZoning",
 		Stored:  true,
@@ -1309,9 +1305,8 @@ This is map indexed by the ID of the certificate.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "SSHCAEnabled",
 		Description: `If ` + "`" + `true` + "`" + `, an SSH certificate authority (CA) will be generated for the
-namespace. This CA 
-can be deployed in SSH server to validate SSH certificates issued by the
-platform.`,
+namespace. This CA can be deployed in SSH server to validate SSH certificates
+issued by the controller.`,
 		Exposed:   true,
 		Name:      "SSHCAEnabled",
 		Orderable: true,
@@ -1392,9 +1387,8 @@ platform.`,
 		ConvertedName:  "CustomZoning",
 		CreationOnly:   true,
 		Description: `Defines if the namespace should inherit its parent zone. If this property is set
-to ` + "`" + `false` + "`" + `, 
-the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have the same zone
-as its parent.`,
+to ` + "`" + `false` + "`" + `,  the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have
+the same zone as its parent.`,
 		Exposed: true,
 		Name:    "customZoning",
 		Stored:  true,
@@ -1689,9 +1683,8 @@ type SparseNamespace struct {
 	SSHCA *string `json:"SSHCA,omitempty" msgpack:"SSHCA,omitempty" bson:"sshca,omitempty" mapstructure:"SSHCA,omitempty"`
 
 	// If `true`, an SSH certificate authority (CA) will be generated for the
-	// namespace. This CA
-	// can be deployed in SSH server to validate SSH certificates issued by the
-	// platform.
+	// namespace. This CA can be deployed in SSH server to validate SSH certificates
+	// issued by the controller.
 	SSHCAEnabled *bool `json:"SSHCAEnabled,omitempty" msgpack:"SSHCAEnabled,omitempty" bson:"sshcaenabled,omitempty" mapstructure:"SSHCAEnabled,omitempty"`
 
 	// Stores additional information about an entity.
@@ -1713,9 +1706,8 @@ type SparseNamespace struct {
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Defines if the namespace should inherit its parent zone. If this property is set
-	// to `false`,
-	// the `zoning` property will be ignored and the namespace will have the same zone
-	// as its parent.
+	// to `false`,  the `zoning` property will be ignored and the namespace will have
+	// the same zone as its parent.
 	CustomZoning *bool `json:"customZoning,omitempty" msgpack:"customZoning,omitempty" bson:"customzoning,omitempty" mapstructure:"customZoning,omitempty"`
 
 	// Description of the object.
