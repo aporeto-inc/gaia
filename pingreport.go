@@ -155,7 +155,7 @@ type PingReport struct {
 	// Date of the report.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	// Transmiter four tuple in the format <sip:dip:spt:dpt>.
+	// Transmitter four tuple in the format <sip:dip:spt:dpt>.
 	TxFourTuple string `json:"txFourTuple" msgpack:"txFourTuple" bson:"-" mapstructure:"txFourTuple,omitempty"`
 
 	// Type of the transmitter.
@@ -711,7 +711,7 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"TxFourTuple": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TxFourTuple",
-		Description:    `Transmiter four tuple in the format <sip:dip:spt:dpt>.`,
+		Description:    `Transmitter four tuple in the format <sip:dip:spt:dpt>.`,
 		Exposed:        true,
 		Name:           "txFourTuple",
 		Type:           "string",
@@ -896,7 +896,7 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"txfourtuple": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TxFourTuple",
-		Description:    `Transmiter four tuple in the format <sip:dip:spt:dpt>.`,
+		Description:    `Transmitter four tuple in the format <sip:dip:spt:dpt>.`,
 		Exposed:        true,
 		Name:           "txFourTuple",
 		Type:           "string",
@@ -1034,7 +1034,7 @@ type SparsePingReport struct {
 	// Date of the report.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	// Transmiter four tuple in the format <sip:dip:spt:dpt>.
+	// Transmitter four tuple in the format <sip:dip:spt:dpt>.
 	TxFourTuple *string `json:"txFourTuple,omitempty" msgpack:"txFourTuple,omitempty" bson:"-" mapstructure:"txFourTuple,omitempty"`
 
 	// Type of the transmitter.

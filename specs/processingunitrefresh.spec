@@ -82,7 +82,7 @@ attributes:
     omit_empty: true
 
   - name: refreshID
-    description: ID unique per processingunitrefresh event.
+    description: ID unique per purefresh event.
     type: string
     exposed: true
     read_only: true

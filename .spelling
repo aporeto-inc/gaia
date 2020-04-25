@@ -128,6 +128,7 @@ IPs
 iptables
 iSCSI
 IsolationProfile
+IterationID
 JSON-encoded
 JWKS
 JWKS_URI
@@ -189,14 +190,15 @@ PCC
 PCCProvider
 PEM-encoded
 PingConfig
+PingID
 PingReport
 PKI-based
 PKIXName
+policeable
 PolicyGraph
 PolicyRefresh
 PolicyRenderer
 PolicyRule
-policeable
 postprocessing
 pre-created
 preinstall
@@ -213,6 +215,7 @@ proxied
 pseudoterminal
 pu
 publicApplicationPort
+purefresh
 quota
 QuotaCheck
 QuotaCheck

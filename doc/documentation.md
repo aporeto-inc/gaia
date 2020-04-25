@@ -3291,7 +3291,7 @@ Date of the report.
 
 ##### `txFourTuple` `string`
 
-Transmiter four tuple in the format <sip:dip:spt:dpt>.
+Transmitter four tuple in the format <sip:dip:spt:dpt>.
 
 ##### `txType` `string`
 
@@ -4577,7 +4577,7 @@ Number of requests to send to the destination.
 
 ##### `refreshID` `string` [`read_only`]
 
-ID unique per processingunitrefresh event.
+ID unique per purefresh event.
 
 ##### `refreshPolicy` `boolean`
 

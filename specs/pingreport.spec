@@ -125,7 +125,7 @@ attributes:
     exposed: true
 
   - name: txFourTuple
-    description: Transmiter four tuple in the format <sip:dip:spt:dpt>.
+    description: Transmitter four tuple in the format <sip:dip:spt:dpt>.
     type: string
     exposed: true
 

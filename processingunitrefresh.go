@@ -125,7 +125,7 @@ type ProcessingUnitRefresh struct {
 	// Number of requests to send to the destination.
 	PingRequests int `json:"pingRequests,omitempty" msgpack:"pingRequests,omitempty" bson:"-" mapstructure:"pingRequests,omitempty"`
 
-	// ID unique per processingunitrefresh event.
+	// ID unique per purefresh event.
 	RefreshID string `json:"refreshID" msgpack:"refreshID" bson:"-" mapstructure:"refreshID,omitempty"`
 
 	// If set to true, the target Processing Unit will refresh its policy immediately.
@@ -563,7 +563,7 @@ unit.`,
 	"RefreshID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RefreshID",
-		Description:    `ID unique per processingunitrefresh event.`,
+		Description:    `ID unique per purefresh event.`,
 		Exposed:        true,
 		Name:           "refreshID",
 		ReadOnly:       true,
@@ -703,7 +703,7 @@ unit.`,
 	"refreshid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RefreshID",
-		Description:    `ID unique per processingunitrefresh event.`,
+		Description:    `ID unique per purefresh event.`,
 		Exposed:        true,
 		Name:           "refreshID",
 		ReadOnly:       true,
@@ -848,7 +848,7 @@ type SparseProcessingUnitRefresh struct {
 	// Number of requests to send to the destination.
 	PingRequests *int `json:"pingRequests,omitempty" msgpack:"pingRequests,omitempty" bson:"-" mapstructure:"pingRequests,omitempty"`
 
-	// ID unique per processingunitrefresh event.
+	// ID unique per purefresh event.
 	RefreshID *string `json:"refreshID,omitempty" msgpack:"refreshID,omitempty" bson:"-" mapstructure:"refreshID,omitempty"`
 
 	// If set to true, the target Processing Unit will refresh its policy immediately.
