@@ -20,6 +20,12 @@ attributes:
     - Reject
     example_value: Accept
 
+  - name: destinationController
+    description: Identifier of the destination controller.
+    type: string
+    exposed: true
+    example_value: api.east.acme.com
+
   - name: destinationID
     description: ID of the destination.
     type: string
@@ -41,12 +47,6 @@ attributes:
     deprecated: true
     example_value: /my/namespace
     omit_empty: true
-
-  - name: destinationPlatform
-    description: Identifier of the destination platform.
-    type: string
-    exposed: true
-    example_value: api.east.acme.com
 
   - name: destinationPort
     description: Port of the destination.
@@ -181,6 +181,12 @@ attributes:
     type: string
     exposed: true
 
+  - name: sourceController
+    description: Identifier of the source controller.
+    type: string
+    exposed: true
+    example_value: api.west.acme.com
+
   - name: sourceID
     description: ID of the source.
     type: string
@@ -202,12 +208,6 @@ attributes:
     deprecated: true
     example_value: /my/namespace
     omit_empty: true
-
-  - name: sourcePlatform
-    description: Identifier of the source platform.
-    type: string
-    exposed: true
-    example_value: api.west.acme.com
 
   - name: sourceType
     description: Type of the source.

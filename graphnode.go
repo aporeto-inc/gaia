@@ -28,6 +28,9 @@ const (
 	// GraphNodeTypeNode represents the value Node.
 	GraphNodeTypeNode GraphNodeTypeValue = "Node"
 
+	// GraphNodeTypeRemoteController represents the value RemoteController.
+	GraphNodeTypeRemoteController GraphNodeTypeValue = "RemoteController"
+
 	// GraphNodeTypeVolume represents the value Volume.
 	GraphNodeTypeVolume GraphNodeTypeValue = "Volume"
 )
@@ -395,7 +398,7 @@ func (o *GraphNode) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "ExternalNetwork", "Volume", "Claim", "Node", "Namespace"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "ExternalNetwork", "Volume", "Claim", "Node", "Namespace", "RemoteController"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -559,7 +562,7 @@ var GraphNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "list",
 	},
 	"Type": {
-		AllowedChoices: []string{"Docker", "ExternalNetwork", "Volume", "Claim", "Node", "Namespace"},
+		AllowedChoices: []string{"Docker", "ExternalNetwork", "Volume", "Claim", "Node", "Namespace", "RemoteController"},
 		ConvertedName:  "Type",
 		Description:    `Type of object represented by the node.`,
 		Exposed:        true,
@@ -682,7 +685,7 @@ var GraphNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Type:           "list",
 	},
 	"type": {
-		AllowedChoices: []string{"Docker", "ExternalNetwork", "Volume", "Claim", "Node", "Namespace"},
+		AllowedChoices: []string{"Docker", "ExternalNetwork", "Volume", "Claim", "Node", "Namespace", "RemoteController"},
 		ConvertedName:  "Type",
 		Description:    `Type of object represented by the node.`,
 		Exposed:        true,

@@ -88,6 +88,7 @@ attributes:
     - Claim
     - Node
     - Namespace
+    - RemoteController
 
   - name: unreachable
     description: If `true` the node is marked as unreachable.
