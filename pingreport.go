@@ -140,7 +140,7 @@ type PingReport struct {
 	// Receiver four tuple in the format <sip:dip:spt:dpt>.
 	RxFourTuple string `json:"rxFourTuple" msgpack:"rxFourTuple" bson:"-" mapstructure:"rxFourTuple,omitempty"`
 
-	// If true, transmitter sequence number matches the receiver sequence number.
+	// If Equal, transmitter sequence number matches the receiver sequence number.
 	SeqNumMatching PingReportSeqNumMatchingValue `json:"seqNumMatching" msgpack:"seqNumMatching" bson:"-" mapstructure:"seqNumMatching,omitempty"`
 
 	// Type of the service.
@@ -154,6 +154,9 @@ type PingReport struct {
 
 	// Date of the report.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	// Controller of the transmitter.
+	TxController string `json:"txController" msgpack:"txController" bson:"-" mapstructure:"txController,omitempty"`
 
 	// Transmitter four tuple in the format <sip:dip:spt:dpt>.
 	TxFourTuple string `json:"txFourTuple" msgpack:"txFourTuple" bson:"-" mapstructure:"txFourTuple,omitempty"`
@@ -275,6 +278,7 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			SourceID:             &o.SourceID,
 			Stage:                &o.Stage,
 			Timestamp:            &o.Timestamp,
+			TxController:         &o.TxController,
 			TxFourTuple:          &o.TxFourTuple,
 			TxType:               &o.TxType,
 		}
@@ -323,6 +327,8 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Stage = &(o.Stage)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
+		case "txController":
+			sp.TxController = &(o.TxController)
 		case "txFourTuple":
 			sp.TxFourTuple = &(o.TxFourTuple)
 		case "txType":
@@ -399,6 +405,9 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
+	}
+	if so.TxController != nil {
+		o.TxController = *so.TxController
 	}
 	if so.TxFourTuple != nil {
 		o.TxFourTuple = *so.TxFourTuple
@@ -532,6 +541,8 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 		return o.Stage
 	case "timestamp":
 		return o.Timestamp
+	case "txController":
+		return o.TxController
 	case "txFourTuple":
 		return o.TxFourTuple
 	case "txType":
@@ -671,7 +682,7 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Equal", "Unequal", "Noop"},
 		ConvertedName:  "SeqNumMatching",
 		DefaultValue:   PingReportSeqNumMatchingNoop,
-		Description:    `If true, transmitter sequence number matches the receiver sequence number.`,
+		Description:    `If Equal, transmitter sequence number matches the receiver sequence number.`,
 		Exposed:        true,
 		Name:           "seqNumMatching",
 		Type:           "enum",
@@ -707,6 +718,14 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "timestamp",
 		Type:           "time",
+	},
+	"TxController": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TxController",
+		Description:    `Controller of the transmitter.`,
+		Exposed:        true,
+		Name:           "txController",
+		Type:           "string",
 	},
 	"TxFourTuple": {
 		AllowedChoices: []string{},
@@ -856,7 +875,7 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{"Equal", "Unequal", "Noop"},
 		ConvertedName:  "SeqNumMatching",
 		DefaultValue:   PingReportSeqNumMatchingNoop,
-		Description:    `If true, transmitter sequence number matches the receiver sequence number.`,
+		Description:    `If Equal, transmitter sequence number matches the receiver sequence number.`,
 		Exposed:        true,
 		Name:           "seqNumMatching",
 		Type:           "enum",
@@ -892,6 +911,14 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "timestamp",
 		Type:           "time",
+	},
+	"txcontroller": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TxController",
+		Description:    `Controller of the transmitter.`,
+		Exposed:        true,
+		Name:           "txController",
+		Type:           "string",
 	},
 	"txfourtuple": {
 		AllowedChoices: []string{},
@@ -1019,7 +1046,7 @@ type SparsePingReport struct {
 	// Receiver four tuple in the format <sip:dip:spt:dpt>.
 	RxFourTuple *string `json:"rxFourTuple,omitempty" msgpack:"rxFourTuple,omitempty" bson:"-" mapstructure:"rxFourTuple,omitempty"`
 
-	// If true, transmitter sequence number matches the receiver sequence number.
+	// If Equal, transmitter sequence number matches the receiver sequence number.
 	SeqNumMatching *PingReportSeqNumMatchingValue `json:"seqNumMatching,omitempty" msgpack:"seqNumMatching,omitempty" bson:"-" mapstructure:"seqNumMatching,omitempty"`
 
 	// Type of the service.
@@ -1033,6 +1060,9 @@ type SparsePingReport struct {
 
 	// Date of the report.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	// Controller of the transmitter.
+	TxController *string `json:"txController,omitempty" msgpack:"txController,omitempty" bson:"-" mapstructure:"txController,omitempty"`
 
 	// Transmitter four tuple in the format <sip:dip:spt:dpt>.
 	TxFourTuple *string `json:"txFourTuple,omitempty" msgpack:"txFourTuple,omitempty" bson:"-" mapstructure:"txFourTuple,omitempty"`
@@ -1163,6 +1193,9 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp
+	}
+	if o.TxController != nil {
+		out.TxController = *o.TxController
 	}
 	if o.TxFourTuple != nil {
 		out.TxFourTuple = *o.TxFourTuple

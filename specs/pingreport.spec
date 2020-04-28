@@ -94,7 +94,7 @@ attributes:
     exposed: true
 
   - name: seqNumMatching
-    description: If true, transmitter sequence number matches the receiver sequence
+    description: If Equal, transmitter sequence number matches the receiver sequence
       number.
     type: enum
     exposed: true
@@ -122,6 +122,11 @@ attributes:
   - name: timestamp
     description: Date of the report.
     type: time
+    exposed: true
+
+  - name: txController
+    description: Controller of the transmitter.
+    type: string
     exposed: true
 
   - name: txFourTuple

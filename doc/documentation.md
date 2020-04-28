@@ -3265,7 +3265,7 @@ Receiver four tuple in the format <sip:dip:spt:dpt>.
 
 ##### `seqNumMatching` `emum(Equal | Unequal | Noop)`
 
-If true, transmitter sequence number matches the receiver sequence number.
+If Equal, transmitter sequence number matches the receiver sequence number.
 
 Default value:
 
@@ -3288,6 +3288,10 @@ Current stage when this report has been generated.
 ##### `timestamp` `time`
 
 Date of the report.
+
+##### `txController` `string`
+
+Controller of the transmitter.
 
 ##### `txFourTuple` `string`
 
