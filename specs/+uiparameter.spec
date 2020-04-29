@@ -7,6 +7,8 @@ model:
   group: core/workflow
   description: Represents a parameter that will be shown in the web interface.
   detached: true
+  validations:
+  - $uiparameters
 
 # Attributes
 attributes:
@@ -69,6 +71,12 @@ attributes:
     exposed: true
     stored: true
 
+  - name: subtype
+    description: The subtype of a list parameter.
+    type: string
+    exposed: true
+    stored: true
+
   - name: type
     description: The datatype of the parameter.
     type: enum
@@ -77,18 +85,27 @@ attributes:
     required: true
     allowed_choices:
     - Boolean
+    - Checkbox
+    - CVSSThreshold
+    - DangerMessage
     - Duration
     - Enum
-    - IntegerSlice
-    - Integer
+    - FileDrop
     - Float
     - FloatSlice
+    - InfoMessage
+    - Integer
+    - IntegerSlice
+    - JSON
+    - List
+    - Message
+    - Namespace
     - Password
     - String
     - StringSlice
-    - CVSSThreshold
-    - JSON
+    - Switch
     - TagsExpression
+    - WarningMessage
     example_value: String
 
   - name: validationFunction
@@ -115,3 +132,10 @@ attributes:
     exposed: true
     subtype: uiparametersexpression
     stored: true
+
+  - name: width
+    description: Width of the parameter.
+    type: string
+    exposed: true
+    stored: true
+    default_value: 100%

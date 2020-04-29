@@ -18,17 +18,29 @@ const (
 	// UIParameterTypeCVSSThreshold represents the value CVSSThreshold.
 	UIParameterTypeCVSSThreshold UIParameterTypeValue = "CVSSThreshold"
 
+	// UIParameterTypeCheckbox represents the value Checkbox.
+	UIParameterTypeCheckbox UIParameterTypeValue = "Checkbox"
+
+	// UIParameterTypeDangerMessage represents the value DangerMessage.
+	UIParameterTypeDangerMessage UIParameterTypeValue = "DangerMessage"
+
 	// UIParameterTypeDuration represents the value Duration.
 	UIParameterTypeDuration UIParameterTypeValue = "Duration"
 
 	// UIParameterTypeEnum represents the value Enum.
 	UIParameterTypeEnum UIParameterTypeValue = "Enum"
 
+	// UIParameterTypeFileDrop represents the value FileDrop.
+	UIParameterTypeFileDrop UIParameterTypeValue = "FileDrop"
+
 	// UIParameterTypeFloat represents the value Float.
 	UIParameterTypeFloat UIParameterTypeValue = "Float"
 
 	// UIParameterTypeFloatSlice represents the value FloatSlice.
 	UIParameterTypeFloatSlice UIParameterTypeValue = "FloatSlice"
+
+	// UIParameterTypeInfoMessage represents the value InfoMessage.
+	UIParameterTypeInfoMessage UIParameterTypeValue = "InfoMessage"
 
 	// UIParameterTypeInteger represents the value Integer.
 	UIParameterTypeInteger UIParameterTypeValue = "Integer"
@@ -39,6 +51,15 @@ const (
 	// UIParameterTypeJSON represents the value JSON.
 	UIParameterTypeJSON UIParameterTypeValue = "JSON"
 
+	// UIParameterTypeList represents the value List.
+	UIParameterTypeList UIParameterTypeValue = "List"
+
+	// UIParameterTypeMessage represents the value Message.
+	UIParameterTypeMessage UIParameterTypeValue = "Message"
+
+	// UIParameterTypeNamespace represents the value Namespace.
+	UIParameterTypeNamespace UIParameterTypeValue = "Namespace"
+
 	// UIParameterTypePassword represents the value Password.
 	UIParameterTypePassword UIParameterTypeValue = "Password"
 
@@ -48,8 +69,14 @@ const (
 	// UIParameterTypeStringSlice represents the value StringSlice.
 	UIParameterTypeStringSlice UIParameterTypeValue = "StringSlice"
 
+	// UIParameterTypeSwitch represents the value Switch.
+	UIParameterTypeSwitch UIParameterTypeValue = "Switch"
+
 	// UIParameterTypeTagsExpression represents the value TagsExpression.
 	UIParameterTypeTagsExpression UIParameterTypeValue = "TagsExpression"
+
+	// UIParameterTypeWarningMessage represents the value WarningMessage.
+	UIParameterTypeWarningMessage UIParameterTypeValue = "WarningMessage"
 )
 
 // UIParameter represents the model of a uiparameter
@@ -81,6 +108,9 @@ type UIParameter struct {
 	// A value of `true` designates the parameter as optional.
 	Optional bool `json:"optional" msgpack:"optional" bson:"optional" mapstructure:"optional,omitempty"`
 
+	// The subtype of a list parameter.
+	Subtype string `json:"subtype" msgpack:"subtype" bson:"subtype" mapstructure:"subtype,omitempty"`
+
 	// The datatype of the parameter.
 	Type UIParameterTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -97,6 +127,9 @@ type UIParameter struct {
 	// the parameter is displayed to the user.
 	VisibilityCondition [][]*UIParameterVisibility `json:"visibilityCondition" msgpack:"visibilityCondition" bson:"visibilitycondition" mapstructure:"visibilityCondition,omitempty"`
 
+	// Width of the parameter.
+	Width string `json:"width" msgpack:"width" bson:"width" mapstructure:"width,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -108,6 +141,7 @@ func NewUIParameter() *UIParameter {
 		AllowedChoices:      map[string]string{},
 		AllowedValues:       []interface{}{},
 		VisibilityCondition: [][]*UIParameterVisibility{},
+		Width:               "100%",
 	}
 }
 
@@ -130,10 +164,12 @@ func (o *UIParameter) GetBSON() (interface{}, error) {
 	s.LongDescription = o.LongDescription
 	s.Name = o.Name
 	s.Optional = o.Optional
+	s.Subtype = o.Subtype
 	s.Type = o.Type
 	s.ValidationFunction = o.ValidationFunction
 	s.Value = o.Value
 	s.VisibilityCondition = o.VisibilityCondition
+	s.Width = o.Width
 
 	return s, nil
 }
@@ -160,10 +196,12 @@ func (o *UIParameter) SetBSON(raw bson.Raw) error {
 	o.LongDescription = s.LongDescription
 	o.Name = s.Name
 	o.Optional = s.Optional
+	o.Subtype = s.Subtype
 	o.Type = s.Type
 	o.ValidationFunction = s.ValidationFunction
 	o.Value = s.Value
 	o.VisibilityCondition = s.VisibilityCondition
+	o.Width = s.Width
 
 	return nil
 }
@@ -212,7 +250,12 @@ func (o *UIParameter) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "CVSSThreshold", "JSON", "TagsExpression"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Checkbox", "CVSSThreshold", "DangerMessage", "Duration", "Enum", "FileDrop", "Float", "FloatSlice", "InfoMessage", "Integer", "IntegerSlice", "JSON", "List", "Message", "Namespace", "Password", "String", "StringSlice", "Switch", "TagsExpression", "WarningMessage"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	// Custom object validation.
+	if err := ValidateUIParameters(o); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -237,8 +280,10 @@ type mongoAttributesUIParameter struct {
 	LongDescription     string                     `bson:"longdescription"`
 	Name                string                     `bson:"name"`
 	Optional            bool                       `bson:"optional"`
+	Subtype             string                     `bson:"subtype"`
 	Type                UIParameterTypeValue       `bson:"type"`
 	ValidationFunction  string                     `bson:"validationfunction"`
 	Value               interface{}                `bson:"value"`
 	VisibilityCondition [][]*UIParameterVisibility `bson:"visibilitycondition"`
+	Width               string                     `bson:"width"`
 }

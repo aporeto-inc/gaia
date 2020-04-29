@@ -17,6 +17,12 @@ const (
 
 	// EnforcerRefreshDebugLogs represents the value Logs.
 	EnforcerRefreshDebugLogs EnforcerRefreshDebugValue = "Logs"
+
+	// EnforcerRefreshDebugPUState represents the value PUState.
+	EnforcerRefreshDebugPUState EnforcerRefreshDebugValue = "PUState"
+
+	// EnforcerRefreshDebugPackets represents the value Packets.
+	EnforcerRefreshDebugPackets EnforcerRefreshDebugValue = "Packets"
 )
 
 // EnforcerRefreshIdentity represents the Identity of the object.
@@ -278,7 +284,7 @@ func (o *EnforcerRefresh) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("debug", string(o.Debug), []string{"Counters", "Logs"}, false); err != nil {
+	if err := elemental.ValidateStringInList("debug", string(o.Debug), []string{"Counters", "Logs", "Packets", "PUState"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -342,7 +348,7 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Debug": {
-		AllowedChoices: []string{"Counters", "Logs"},
+		AllowedChoices: []string{"Counters", "Logs", "Packets", "PUState"},
 		ConvertedName:  "Debug",
 		DefaultValue:   EnforcerRefreshDebugCounters,
 		Description:    `Set the debug information collected by the enforcer.`,
@@ -377,7 +383,7 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "string",
 	},
 	"debug": {
-		AllowedChoices: []string{"Counters", "Logs"},
+		AllowedChoices: []string{"Counters", "Logs", "Packets", "PUState"},
 		ConvertedName:  "Debug",
 		DefaultValue:   EnforcerRefreshDebugCounters,
 		Description:    `Set the debug information collected by the enforcer.`,

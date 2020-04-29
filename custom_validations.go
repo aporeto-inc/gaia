@@ -948,3 +948,30 @@ func ValidateHookPolicy(policy *HookPolicy) error {
 
 	return nil
 }
+
+// supportedSubtypes lists all supported sub types.
+func supportedSubtypes() map[string]struct{} {
+
+	return map[string]struct{}{
+		"String":   {},
+		"Integer":  {},
+		"Endpoint": {},
+	}
+}
+
+// ValidateUIParameters validates a UIParameter.
+func ValidateUIParameters(p *UIParameter) error {
+
+	if p.Type == UIParameterTypeList {
+		if p.Subtype == "" {
+			return makeValidationError("type", "type List requires a subtype")
+		}
+
+		supported := supportedSubtypes()
+		if _, ok := supported[p.Subtype]; !ok {
+			return makeValidationError("subtype", "unsupported subtype for type list")
+		}
+	}
+
+	return nil
+}

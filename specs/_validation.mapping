@@ -130,6 +130,10 @@ $timeDuration:
   elemental:
     name: ValidateTimeDuration
 
+$uiparameters:
+  elemental:
+    name: ValidateUIParameters
+
 $writeoperations:
   elemental:
     name: ValidateWriteOperations
