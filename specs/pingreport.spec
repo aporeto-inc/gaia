@@ -15,6 +15,26 @@ attributes:
     type: string
     exposed: true
 
+  - name: RXFourTuple
+    description: Receiver four tuple in the format <sip:dip:spt:dpt>.
+    type: string
+    exposed: true
+
+  - name: TXController
+    description: Controller of the transmitter.
+    type: string
+    exposed: true
+
+  - name: TXFourTuple
+    description: Transmitter four tuple in the format <sip:dip:spt:dpt>.
+    type: string
+    exposed: true
+
+  - name: TXType
+    description: Type of the transmitter.
+    type: string
+    exposed: true
+
   - name: applicationListening
     description: If true, application responded to the request.
     type: boolean
@@ -88,11 +108,6 @@ attributes:
     type: integer
     exposed: true
 
-  - name: rxFourTuple
-    description: Receiver four tuple in the format <sip:dip:spt:dpt>.
-    type: string
-    exposed: true
-
   - name: seqNumMatching
     description: If Equal, transmitter sequence number matches the receiver sequence
       number.
@@ -122,19 +137,4 @@ attributes:
   - name: timestamp
     description: Date of the report.
     type: time
-    exposed: true
-
-  - name: txController
-    description: Controller of the transmitter.
-    type: string
-    exposed: true
-
-  - name: txFourTuple
-    description: Transmitter four tuple in the format <sip:dip:spt:dpt>.
-    type: string
-    exposed: true
-
-  - name: txType
-    description: Type of the transmitter.
-    type: string
     exposed: true

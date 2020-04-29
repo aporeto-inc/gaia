@@ -3207,6 +3207,22 @@ Create a ping report.
 
 Time taken for a single request-response to complete.
 
+##### `RXFourTuple` `string`
+
+Receiver four tuple in the format <sip:dip:spt:dpt>.
+
+##### `TXController` `string`
+
+Controller of the transmitter.
+
+##### `TXFourTuple` `string`
+
+Transmitter four tuple in the format <sip:dip:spt:dpt>.
+
+##### `TXType` `string`
+
+Type of the transmitter.
+
 ##### `applicationListening` `boolean`
 
 If true, application responded to the request.
@@ -3259,10 +3275,6 @@ Protocol used for the communication.
 
 Request represents the current request.
 
-##### `rxFourTuple` `string`
-
-Receiver four tuple in the format <sip:dip:spt:dpt>.
-
 ##### `seqNumMatching` `emum(Equal | Unequal | Noop)`
 
 If Equal, transmitter sequence number matches the receiver sequence number.
@@ -3288,18 +3300,6 @@ Current stage when this report has been generated.
 ##### `timestamp` `time`
 
 Date of the report.
-
-##### `txController` `string`
-
-Controller of the transmitter.
-
-##### `txFourTuple` `string`
-
-Transmitter four tuple in the format <sip:dip:spt:dpt>.
-
-##### `txType` `string`
-
-Type of the transmitter.
 
 ### TraceMode
 
