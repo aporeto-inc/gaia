@@ -760,10 +760,6 @@ func ValidateMetadata(attribute string, metadata []string) error {
 			return makeValidationError(attribute, fmt.Sprintf("Metadata %s must not start with the reserved prefix %s", m, constants.AuthKey))
 		}
 
-		if strings.HasPrefix(m, constants.OrganizationalMetadataKey) {
-			return makeValidationError(attribute, fmt.Sprintf("Metadata %s must not start with the reserved prefix %s", m, constants.OrganizationalMetadataKey))
-		}
-
 		if err := ValidateTag(attribute, m); err != nil {
 			return err
 		}
