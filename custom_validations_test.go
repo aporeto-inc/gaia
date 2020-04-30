@@ -2106,6 +2106,28 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 			true,
 			"error 422 (gaia): Validation Error: The realm saml mandates to add the '@auth:namespace' key to prevent potential security side effects",
 		},
+		{
+			"broken tag with no equal",
+			args{
+				"subject",
+				[][]string{
+					{"@auth:realm=saml", "@auth:claim"},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Subject claims '@auth:claim' on line 1 is an invalid tag",
+		},
+		{
+			"broken tag with no value",
+			args{
+				"subject",
+				[][]string{
+					{"@auth:realm=saml", "@auth:claim="},
+				},
+			},
+			true,
+			"error 422 (gaia): Validation Error: Subject claims '@auth:claim=' on line 1 has no value",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

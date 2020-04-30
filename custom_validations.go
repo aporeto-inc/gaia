@@ -838,6 +838,9 @@ func ValidateAPIAuthorizationPolicySubject(attribute string, subject [][]string)
 			}
 
 			parts := strings.SplitN(claim, "=", 2)
+			if len(parts) != 2 {
+				return makeValidationError(attribute, fmt.Sprintf("Subject claims '%s' on line %d is an invalid tag", claim, i+1))
+			}
 			if parts[1] == "" {
 				return makeValidationError(attribute, fmt.Sprintf("Subject claims '%s' on line %d has no value", claim, i+1))
 			}
