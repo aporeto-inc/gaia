@@ -43,6 +43,12 @@ attributes:
     exposed: true
     omit_empty: true
 
+  - name: pingIterations
+    description: Number of iterations to run a ping probe.
+    type: integer
+    exposed: true
+    omit_empty: true
+
   - name: pingMode
     description: Represents the mode of ping to be used.
     type: enum
@@ -60,23 +66,8 @@ attributes:
     exposed: true
     omit_empty: true
 
-  - name: pingPassthrough
-    description: If set to true, allows the request pass to the application.
-    type: boolean
-    exposed: true
-    omit_empty: true
-
-  - name: pingPorts
-    description: Destination port(s) to run ping.
-    type: list
-    exposed: true
-    subtype: string
-    omit_empty: true
-    validations:
-    - $ports
-
-  - name: pingRequests
-    description: Number of requests to send to the destination.
+  - name: pingPort
+    description: Destination port to run ping.
     type: integer
     exposed: true
     omit_empty: true
