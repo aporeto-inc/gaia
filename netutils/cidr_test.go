@@ -18,6 +18,14 @@ func Test_prefixIsContained(t *testing.T) {
 		{
 			name: "basic test",
 			args: args{
+				prefixes: []string{"0.0.0.0/0"},
+				ip:       "0.0.0.0/0",
+			},
+			want: true,
+		},
+		{
+			name: "basic test 2",
+			args: args{
 				prefixes: []string{"10.10.0.0/16", "0.0.0.0/0"},
 				ip:       "10.10.10.10/32",
 			},
@@ -50,13 +58,21 @@ func Test_prefixIsContained(t *testing.T) {
 		{
 			name: "basic test IPv6",
 			args: args{
+				prefixes: []string{"::/0"},
+				ip:       "::/0",
+			},
+			want: true,
+		},
+		{
+			name: "basic test IPv6 2",
+			args: args{
 				prefixes: []string{"2001:db8::/64", "::/0"},
 				ip:       "2001:db8::/128",
 			},
 			want: true,
 		},
 		{
-			name: "basic test failure",
+			name: "basic test failure IPv6",
 			args: args{
 				prefixes: []string{},
 				ip:       "2001:db8::/128",
@@ -64,7 +80,7 @@ func Test_prefixIsContained(t *testing.T) {
 			want: false,
 		},
 		{
-			name: "multiple match test",
+			name: "multiple match test IPv6",
 			args: args{
 				prefixes: []string{"2001:db8::/64", "2001:db8::/32", "::/0"},
 				ip:       "2001:db8::/128",
@@ -72,7 +88,7 @@ func Test_prefixIsContained(t *testing.T) {
 			want: true,
 		},
 		{
-			name: "cidr not contained test failure",
+			name: "cidr not contained test failure IPv6",
 			args: args{
 				prefixes: []string{"2001:db8::/64"},
 				ip:       "2001:db8::/32",
