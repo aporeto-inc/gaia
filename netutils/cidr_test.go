@@ -122,23 +122,17 @@ func Test_prefixIsContained(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			prefixesV4, prefixesV6, err := parseCIDRs(tt.args.prefixes)
+			prefixes, err := parseCIDRs(tt.args.prefixes)
 			if err != nil {
 				t.Errorf("err in test: %v", err)
 			}
-			ip, network, err := net.ParseCIDR(tt.args.ip)
+			_, network, err := net.ParseCIDR(tt.args.ip)
 			if err != nil {
 				t.Errorf("err in test: %v", err)
 			}
 
-			if ipv4 := ip.To4(); ipv4 != nil {
-				if got := prefixIsContained(prefixesV4, network); got != tt.want {
-					t.Errorf("prefixIsContained() = %v, want %v", got, tt.want)
-				}
-			} else if ipv6 := ip.To16(); ipv6 != nil {
-				if got := prefixIsContained(prefixesV6, network); got != tt.want {
-					t.Errorf("prefixIsContained() = %v, want %v", got, tt.want)
-				}
+			if got := prefixIsContained(prefixes, network); got != tt.want {
+				t.Errorf("prefixIsContained() = %v, want %v", got, tt.want)
 			}
 		})
 	}
