@@ -8,13 +8,12 @@ import (
 
 // ipMaskContains is used to check if a mask's range contains another mask's range
 func ipMaskContains(mask1 net.IPMask, mask2 net.IPMask) bool {
-	for i := 0; i < len(mask1); i++ {
-		if mask1[i] > mask2[i] {
-			return false
-		}
+	ones1, size1 := mask1.Size()
+	ones2, size2 := mask2.Size()
+	if size1 != size2 {
+		return false // Dont compare IPv4 and IPv6
 	}
-
-	return true
+	return ones1 <= ones2
 }
 
 // prefixIsContained is used to check if a network is included in a list of CIDRs
