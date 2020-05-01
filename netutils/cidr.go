@@ -8,7 +8,7 @@ import (
 
 // ipMaskContains is used to check if a mask's range contains another mask's range
 func ipMaskContains(mask1 net.IPMask, mask2 net.IPMask) bool {
-	for i := 0; i < 4; i++ {
+	for i := 0; i < len(mask1); i++ {
 		if mask1[i] > mask2[i] {
 			return false
 		}
@@ -29,18 +29,21 @@ func prefixIsContained(cidrs []*net.IPNet, network *net.IPNet) bool {
 	return false
 }
 
-// parseCIDRs converts a list of string to list of net.IPNet. Returns an error if it wasnt able to parse a CIDR
-func parseCIDRs(cidrs []string) ([]*net.IPNet, error) {
+// parseCIDRs converts a list of string to list of net.IPNet in v4 and v6. Returns an error if it wasnt able to parse a CIDR
+func parseCIDRs(cidrs []string) (ipNetsV4 []*net.IPNet, ipNetsV6 []*net.IPNet, _ error) {
 
-	prefixes := []*net.IPNet{}
 	for _, s := range cidrs {
-		_, network, err := net.ParseCIDR(s)
+		ip, network, err := net.ParseCIDR(s)
 		if err != nil {
-			return nil, fmt.Errorf("%s is not a valid CIDR", s)
+			return ipNetsV4, ipNetsV6, fmt.Errorf("%s is not a valid CIDR", s)
 		}
-		prefixes = append(prefixes, network)
+		if ipv4 := ip.To4(); ipv4 != nil {
+			ipNetsV4 = append(ipNetsV4, network)
+		} else if ipv6 := ip.To16(); ipv6 != nil {
+			ipNetsV6 = append(ipNetsV6, network)
+		}
 	}
-	return prefixes, nil
+	return ipNetsV4, ipNetsV6, nil
 }
 
 // ValidateCIDRs validates that the CIDRs provided as a set is valid
@@ -55,7 +58,7 @@ func ValidateCIDRs(cidrs []string) error {
 	}
 
 	// Get regular prefixes
-	prefixes, err := parseCIDRs(regular)
+	prefixesV4, prefixesV6, err := parseCIDRs(regular)
 	if err != nil {
 		return err
 	}
@@ -66,12 +69,18 @@ func ValidateCIDRs(cidrs []string) error {
 			continue
 		}
 		c := strings.TrimPrefix(s, "!")
-		_, network, err := net.ParseCIDR(c)
+		ip, network, err := net.ParseCIDR(c)
 		if err != nil {
 			return fmt.Errorf("%s is not a valid CIDR", c)
 		}
-		if !prefixIsContained(prefixes, network) {
-			return fmt.Errorf("%s is not contained in any CIDR", s)
+		if ipv4 := ip.To4(); ipv4 != nil {
+			if !prefixIsContained(prefixesV4, network) {
+				return fmt.Errorf("%s is not contained in any CIDR", s)
+			}
+		} else if ipv6 := ip.To16(); ipv6 != nil {
+			if !prefixIsContained(prefixesV6, network) {
+				return fmt.Errorf("%s is not contained in any CIDR", s)
+			}
 		}
 	}
 
