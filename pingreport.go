@@ -109,7 +109,7 @@ type PingReport struct {
 	FourTuple string `json:"fourTuple" msgpack:"fourTuple" bson:"-" mapstructure:"fourTuple,omitempty"`
 
 	// IterationID unique to a single ping request-response.
-	IterationID int `json:"iterationID" msgpack:"iterationID" bson:"-" mapstructure:"iterationID,omitempty"`
+	IterationID string `json:"iterationID" msgpack:"iterationID" bson:"-" mapstructure:"iterationID,omitempty"`
 
 	// Namespace of the reporting processing unit.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
@@ -589,7 +589,7 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `IterationID unique to a single ping request-response.`,
 		Exposed:        true,
 		Name:           "iterationID",
-		Type:           "integer",
+		Type:           "string",
 	},
 	"Namespace": {
 		AllowedChoices: []string{},
@@ -764,7 +764,7 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `IterationID unique to a single ping request-response.`,
 		Exposed:        true,
 		Name:           "iterationID",
-		Type:           "integer",
+		Type:           "string",
 	},
 	"namespace": {
 		AllowedChoices: []string{},
@@ -948,7 +948,7 @@ type SparsePingReport struct {
 	FourTuple *string `json:"fourTuple,omitempty" msgpack:"fourTuple,omitempty" bson:"-" mapstructure:"fourTuple,omitempty"`
 
 	// IterationID unique to a single ping request-response.
-	IterationID *int `json:"iterationID,omitempty" msgpack:"iterationID,omitempty" bson:"-" mapstructure:"iterationID,omitempty"`
+	IterationID *string `json:"iterationID,omitempty" msgpack:"iterationID,omitempty" bson:"-" mapstructure:"iterationID,omitempty"`
 
 	// Namespace of the reporting processing unit.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`

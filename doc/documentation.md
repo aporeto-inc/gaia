@@ -3246,7 +3246,7 @@ Semantic version of the enforcer.
 
 Four tuple in the format <sip:dip:spt:dpt>.
 
-##### `iterationID` `integer`
+##### `iterationID` `string`
 
 IterationID unique to a single ping request-response.
 

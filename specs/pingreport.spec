@@ -61,7 +61,7 @@ attributes:
 
   - name: iterationID
     description: IterationID unique to a single ping request-response.
-    type: integer
+    type: string
     exposed: true
 
   - name: namespace
