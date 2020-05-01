@@ -39,6 +39,14 @@ func Test_prefixIsContained(t *testing.T) {
 			},
 			want: true,
 		},
+		{
+			name: "cidr not contained test failure",
+			args: args{
+				prefixes: []string{"10.10.0.0/16"},
+				ip:       "10.10.0.0/8",
+			},
+			want: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -46,11 +54,11 @@ func Test_prefixIsContained(t *testing.T) {
 			if err != nil {
 				t.Errorf("err in test: %v", err)
 			}
-			ip, _, err := net.ParseCIDR(tt.args.ip)
+			_, network, err := net.ParseCIDR(tt.args.ip)
 			if err != nil {
 				t.Errorf("err in test: %v", err)
 			}
-			if got := prefixIsContained(prefixes, ip); got != tt.want {
+			if got := prefixIsContained(prefixes, network); got != tt.want {
 				t.Errorf("prefixIsContained() = %v, want %v", got, tt.want)
 			}
 		})
@@ -84,6 +92,13 @@ func Test_ValidateCIDRs(t *testing.T) {
 			name: "basic failure test",
 			args: args{
 				[]string{"!10.10.10.10/32"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "basic cidr not contained failure test",
+			args: args{
+				[]string{"10.10.10.0/16", "!10.10.10.10/8"},
 			},
 			wantErr: true,
 		},

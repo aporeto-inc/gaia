@@ -6,11 +6,22 @@ import (
 	"strings"
 )
 
-// prefixIsContained is used to check if an IP is included in a list of CIDRs
-func prefixIsContained(cidrs []*net.IPNet, ip net.IP) bool {
+// ipMaskContains is used to check if a mask's range contains another mask's range
+func ipMaskContains(mask1 net.IPMask, mask2 net.IPMask) bool {
+	for i := 0; i < 4; i++ {
+		if mask1[i] > mask2[i] {
+			return false
+		}
+	}
+
+	return true
+}
+
+// prefixIsContained is used to check if a network is included in a list of CIDRs
+func prefixIsContained(cidrs []*net.IPNet, network *net.IPNet) bool {
 
 	for _, c := range cidrs {
-		if c.Contains(ip) {
+		if c.Contains(network.IP) && ipMaskContains(c.Mask, network.Mask) {
 			return true
 		}
 	}
@@ -55,11 +66,11 @@ func ValidateCIDRs(cidrs []string) error {
 			continue
 		}
 		c := strings.TrimPrefix(s, "!")
-		ip, _, err := net.ParseCIDR(c)
+		_, network, err := net.ParseCIDR(c)
 		if err != nil {
 			return fmt.Errorf("%s is not a valid CIDR", c)
 		}
-		if !prefixIsContained(prefixes, ip) {
+		if !prefixIsContained(prefixes, network) {
 			return fmt.Errorf("%s is not contained in any CIDR", s)
 		}
 	}
