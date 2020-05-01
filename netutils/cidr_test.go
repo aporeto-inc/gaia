@@ -155,13 +155,6 @@ func Test_ValidateCIDRs(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "basic inclusion test",
-			args: args{
-				[]string{"10.10.10.0/24", "!10.10.10.10/32"},
-			},
-			wantErr: false,
-		},
-		{
 			name: "basic failure test",
 			args: args{
 				[]string{"!10.10.10.10/32"},
@@ -172,6 +165,13 @@ func Test_ValidateCIDRs(t *testing.T) {
 			name: "basic cidr not contained failure test",
 			args: args{
 				[]string{"10.10.10.0/16", "!10.10.10.10/8"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "basic duplication test",
+			args: args{
+				[]string{"0.0.0.0/0", "10.10.10.0/16", "!10.10.10.0/16"},
 			},
 			wantErr: true,
 		},
@@ -221,6 +221,13 @@ func Test_ValidateCIDRs(t *testing.T) {
 			name: "basic cidr not contained failure test IPv6",
 			args: args{
 				[]string{"2001:db8::/64", "!2001:db8::/32"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "basic duplication test IPv6",
+			args: args{
+				[]string{"::/0", "2001:db8::/64", "!2001:db8::/64"},
 			},
 			wantErr: true,
 		},

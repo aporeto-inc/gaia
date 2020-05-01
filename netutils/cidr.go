@@ -43,16 +43,16 @@ func parseCIDRs(cidrs []string) ([]*net.IPNet, error) {
 // ValidateCIDRs validates that the CIDRs provided as a set is valid
 func ValidateCIDRs(cidrs []string) error {
 
-	regular := []string{}
+	regulars := []string{}
 	for _, s := range cidrs {
 		if strings.HasPrefix(s, "!") {
 			continue
 		}
-		regular = append(regular, s)
+		regulars = append(regulars, s)
 	}
 
 	// Get regular prefixes
-	prefixes, err := parseCIDRs(regular)
+	prefixes, err := parseCIDRs(regulars)
 	if err != nil {
 		return err
 	}
@@ -63,6 +63,11 @@ func ValidateCIDRs(cidrs []string) error {
 			continue
 		}
 		c := strings.TrimPrefix(s, "!")
+		for _, regular := range regulars {
+			if regular == c {
+				return fmt.Errorf("%s can't be both included and excluded", c)
+			}
+		}
 		_, network, err := net.ParseCIDR(c)
 		if err != nil {
 			return fmt.Errorf("%s is not a valid CIDR", c)
