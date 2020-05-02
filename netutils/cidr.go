@@ -1,24 +1,42 @@
 package netutils
 
 import (
+	"bytes"
 	"fmt"
 	"net"
 	"strings"
 )
 
-// prefixIsContained is used to check if an IP is included in a list of CIDRs
-func prefixIsContained(cidrs []*net.IPNet, network *net.IPNet) bool {
+var (
+	opInclude = "include"
+	opExclude = "exclude"
+)
 
-	for _, c := range cidrs {
-		if !c.Contains(network.IP) {
+// cidr represents the cidr network to be included or excluded
+type cidr struct {
+	// op is the opreation to perform with the cidr: include or exclude
+	op string
+
+	// ipNet is the IPNet object that contains ip and mask of the cidr
+	ipNet *net.IPNet
+
+	// str is the original cidr string
+	str string
+}
+
+// prefixIsContained is used to check if an cidr is contained in a list of CIDRs
+func prefixIsContained(cidrs []*cidr, c *cidr) bool {
+
+	for _, pc := range cidrs {
+		if !pc.ipNet.Contains(c.ipNet.IP) {
 			continue
 		}
-		ones1, size1 := c.Mask.Size()
-		ones2, size2 := network.Mask.Size()
+		ones1, size1 := pc.ipNet.Mask.Size()
+		ones2, size2 := c.ipNet.Mask.Size()
 		if size1 != size2 {
 			continue
 		}
-		if ones1 <= ones2 {
+		if ones1 < ones2 {
 			return true
 		}
 	}
@@ -26,54 +44,60 @@ func prefixIsContained(cidrs []*net.IPNet, network *net.IPNet) bool {
 	return false
 }
 
-// parseCIDRs converts a list of string to list of net.IPNet. Returns an error if it wasnt able to parse a CIDR
-func parseCIDRs(cidrs []string) ([]*net.IPNet, error) {
+// hasDuplicates is used to check if a list of cidr already has the same subnet of given cidr
+func hasDuplicates(cidrs []*cidr, c *cidr) bool {
 
-	prefixes := []*net.IPNet{}
-	for _, s := range cidrs {
-		_, network, err := net.ParseCIDR(s)
+	for _, pc := range cidrs {
+		if net.IP.Equal(pc.ipNet.IP, c.ipNet.IP) && bytes.Equal(pc.ipNet.Mask, c.ipNet.Mask) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// parseCIDRs converts a list of string to list of cidr. Returns an error if it wasnt able to parse a CIDR
+func parseCIDRs(addresses []string) ([]*cidr, error) {
+
+	cidrs := []*cidr{}
+	for _, s := range addresses {
+		// parse address string into cidr
+		c := &cidr{op: opInclude, str: s}
+		if strings.HasPrefix(s, "!") {
+			c.op = opExclude
+			c.str = strings.TrimPrefix(s, "!")
+		}
+		_, network, err := net.ParseCIDR(c.str)
 		if err != nil {
 			return nil, fmt.Errorf("%s is not a valid CIDR", s)
 		}
-		prefixes = append(prefixes, network)
+		c.ipNet = network
+
+		// validate subnet uniqness
+		if hasDuplicates(cidrs, c) {
+			return nil, fmt.Errorf("CIDR subnet converted from %s is duplicated", c.str)
+		}
+
+		cidrs = append(cidrs, c)
 	}
-	return prefixes, nil
+	return cidrs, nil
 }
 
-// ValidateCIDRs validates that the CIDRs provided as a set is valid
-func ValidateCIDRs(cidrs []string) error {
+// ValidateCIDRs validates that the list of string provided as a set is valid CIDR set
+func ValidateCIDRs(addresses []string) error {
 
-	regulars := []string{}
-	for _, s := range cidrs {
-		if strings.HasPrefix(s, "!") {
-			continue
-		}
-		regulars = append(regulars, s)
-	}
-
-	// Get regular prefixes
-	prefixes, err := parseCIDRs(regulars)
+	cidrs, err := parseCIDRs(addresses)
 	if err != nil {
 		return err
 	}
 
 	// Parse and validate all not CIDRs are included in regular CIDRs
-	for _, s := range cidrs {
-		if !strings.HasPrefix(s, "!") {
+	for _, c := range cidrs {
+		if c.op == opInclude {
 			continue
 		}
-		c := strings.TrimPrefix(s, "!")
-		for _, regular := range regulars {
-			if regular == c {
-				return fmt.Errorf("%s can't be both included and excluded", c)
-			}
-		}
-		_, network, err := net.ParseCIDR(c)
-		if err != nil {
-			return fmt.Errorf("%s is not a valid CIDR", c)
-		}
-		if !prefixIsContained(prefixes, network) {
-			return fmt.Errorf("prefix %s is not contained in any CIDR", s)
+		if !prefixIsContained(cidrs, c) {
+			return fmt.Errorf("prefix %s is not contained in any CIDR", c.str)
 		}
 	}
 
