@@ -122,9 +122,13 @@ func Test_prefixIsContained(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			cidrs, err := parseCIDRs(tt.args.prefixes)
-			if err != nil {
-				t.Errorf("err in test: %v", err)
+			cidrs := []*cidr{}
+			for _, s := range tt.args.prefixes {
+				cidr, err := parseCIDR(s)
+				if err != nil {
+					t.Errorf("err in test: %v", err)
+				}
+				cidrs = append(cidrs, cidr)
 			}
 			_, network, err := net.ParseCIDR(tt.args.ip)
 			if err != nil {
@@ -147,6 +151,13 @@ func Test_ValidateCIDRs(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
+		{
+			name: "duplication in inclusion test",
+			args: args{
+				[]string{"0.0.0.0/0", "10.10.10.0/16", "10.10.10.0/16"},
+			},
+			wantErr: true,
+		},
 		{
 			name: "basic test",
 			args: args{
@@ -186,13 +197,6 @@ func Test_ValidateCIDRs(t *testing.T) {
 			name: "basic duplication test",
 			args: args{
 				[]string{"0.0.0.0/0", "10.10.10.0/16", "!10.10.10.0/16"},
-			},
-			wantErr: true,
-		},
-		{
-			name: "duplication in inclusion test",
-			args: args{
-				[]string{"0.0.0.0/0", "10.10.10.0/16", "10.10.10.0/16"},
 			},
 			wantErr: true,
 		},
