@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	opInclude = "include"
-	opExclude = "exclude"
+	opInclude = "include" // default operation to include cidr in networks
+	opExclude = "exclude" // not include cidr when cidr string has the ! prefix
 )
 
 // cidr represents the cidr network to be included or excluded
