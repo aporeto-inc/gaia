@@ -28,7 +28,7 @@ type cidr struct {
 func prefixIsContained(cidrs []*cidr, c *cidr) bool {
 
 	for _, pc := range cidrs {
-		if !pc.ipNet.Contains(c.ipNet.IP) {
+		if pc.op == opExclude || !pc.ipNet.Contains(c.ipNet.IP) {
 			continue
 		}
 		ones1, size1 := pc.ipNet.Mask.Size()
@@ -36,7 +36,7 @@ func prefixIsContained(cidrs []*cidr, c *cidr) bool {
 		if size1 != size2 {
 			continue
 		}
-		if ones1 < ones2 {
+		if ones1 <= ones2 {
 			return true
 		}
 	}
@@ -56,7 +56,7 @@ func hasDuplicates(cidrs []*cidr, c *cidr) bool {
 	return false
 }
 
-// parseCIDRs converts a list of string to list of cidr. Returns an error if it wasnt able to parse a CIDR
+// parseCIDRs converts a list of string to list of cidr. Returns an error if it wasnt able to parse a CIDR or there is duplication
 func parseCIDRs(addresses []string) ([]*cidr, error) {
 
 	cidrs := []*cidr{}
@@ -83,7 +83,7 @@ func parseCIDRs(addresses []string) ([]*cidr, error) {
 	return cidrs, nil
 }
 
-// ValidateCIDRs validates that the list of string provided as a set is valid CIDR set
+// ValidateCIDRs validates that the list of string provided as a set is a valid CIDR set
 func ValidateCIDRs(addresses []string) error {
 
 	cidrs, err := parseCIDRs(addresses)

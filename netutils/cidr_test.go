@@ -1,8 +1,142 @@
 package netutils
 
 import (
+	"net"
 	"testing"
 )
+
+func Test_prefixIsContained(t *testing.T) {
+	type args struct {
+		prefixes []string
+		ip       string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "basic test",
+			args: args{
+				prefixes: []string{"0.0.0.0/0"},
+				ip:       "0.0.0.0/0",
+			},
+			want: true,
+		},
+		{
+			name: "basic test 2",
+			args: args{
+				prefixes: []string{"10.10.0.0/16", "0.0.0.0/0"},
+				ip:       "10.10.10.10/32",
+			},
+			want: true,
+		},
+		{
+			name: "basic test failure",
+			args: args{
+				prefixes: []string{},
+				ip:       "20.20.20.20/32",
+			},
+			want: false,
+		},
+		{
+			name: "multiple match test",
+			args: args{
+				prefixes: []string{"10.10.10.0/24", "10.10.0.0/16", "0.0.0.0/0"},
+				ip:       "10.10.10.10/32",
+			},
+			want: true,
+		},
+		{
+			name: "cidr not contained test failure",
+			args: args{
+				prefixes: []string{"10.10.0.0/16"},
+				ip:       "10.10.0.0/8",
+			},
+			want: false,
+		},
+		{
+			name: "basic test IPv6",
+			args: args{
+				prefixes: []string{"::/0"},
+				ip:       "::/0",
+			},
+			want: true,
+		},
+		{
+			name: "basic test IPv6 2",
+			args: args{
+				prefixes: []string{"2001:db8::/64", "::/0"},
+				ip:       "2001:db8::/128",
+			},
+			want: true,
+		},
+		{
+			name: "basic test failure IPv6",
+			args: args{
+				prefixes: []string{},
+				ip:       "2001:db8::/128",
+			},
+			want: false,
+		},
+		{
+			name: "multiple match test IPv6",
+			args: args{
+				prefixes: []string{"2001:db8::/64", "2001:db8::/32", "::/0"},
+				ip:       "2001:db8::/128",
+			},
+			want: true,
+		},
+		{
+			name: "cidr not contained test failure IPv6",
+			args: args{
+				prefixes: []string{"2001:db8::/64"},
+				ip:       "2001:db8::/32",
+			},
+			want: false,
+		},
+		{
+			name: "mix of both IPv4 and IPv6 test",
+			args: args{
+				prefixes: []string{"2001:db8::/64", "2001:db8::/32", "::/0", "10.10.10.0/24", "10.10.0.0/16", "0.0.0.0/0"},
+				ip:       "2001:db8::/128",
+			},
+			want: true,
+		},
+		{
+			name: "IPv6 not contained in IPv4 cidrs failure test",
+			args: args{
+				prefixes: []string{"10.10.10.0/24", "10.10.0.0/16", "0.0.0.0/0"},
+				ip:       "2001:db8::/128",
+			},
+			want: false,
+		},
+		{
+			name: "IPv4 not contained in IPv6 cidrs failure test",
+			args: args{
+				prefixes: []string{"2001:db8::/64", "2001:db8::/32", "::/0"},
+				ip:       "10.10.10.10/32",
+			},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cidrs, err := parseCIDRs(tt.args.prefixes)
+			if err != nil {
+				t.Errorf("err in test: %v", err)
+			}
+			_, network, err := net.ParseCIDR(tt.args.ip)
+			if err != nil {
+				t.Errorf("err in test: %v", err)
+			}
+
+			if got := prefixIsContained(cidrs, &cidr{op: opExclude, ipNet: network, str: tt.args.ip}); got != tt.want {
+				t.Errorf("prefixIsContained() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
 
 func Test_ValidateCIDRs(t *testing.T) {
 	type args struct {
