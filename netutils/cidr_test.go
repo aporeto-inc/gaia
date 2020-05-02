@@ -341,14 +341,14 @@ func Test_ValidateCIDRs(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "both IPv4 and IPv6 IPv4 with IPv4 not contained failure test",
+			name: "both IPv4 and IPv6 with IPv4 not contained failure test",
 			args: args{
 				[]string{"10.10.10.10/32", "!10.10.10.0/24", "10.10.0.0/16", "!10.0.0.0/8", "2001:db8::/128", "!2001:db8::/64", "2001:db8::/32", "!2001:db8::/16", "::/0"},
 			},
 			wantErr: true,
 		},
 		{
-			name: "both IPv4 and IPv6 IPv4 with IPv6 not contained failure test",
+			name: "both IPv4 and IPv6 with IPv6 not contained failure test",
 			args: args{
 				[]string{"10.10.10.10/32", "!10.10.10.0/24", "10.10.0.0/16", "!10.0.0.0/8", "0.0.0.0/0", "2001:db8::/128", "!2001:db8::/64", "2001:db8::/32", "!2001:db8::/16"},
 			},
