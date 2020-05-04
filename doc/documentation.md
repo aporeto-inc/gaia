@@ -15365,6 +15365,82 @@ Start timestamp <rfc3339 | unix_timestamp>.
 
 Query resolution step width in duration format or float number of seconds.
 
+## visualization/reportsquery
+
+### ReportsQuery
+
+Supports querying Aporeto reports. All queries are protected within the
+namespace of the user.
+
+#### Example
+
+```json
+{
+  "descending": false,
+  "limit": -1,
+  "offset": -1,
+  "report": "Flows"
+}
+```
+
+#### Relations
+
+##### `POST /reportsqueries`
+
+Sends a query on report data.
+
+Parameters:
+
+- `endAbsolute` (`time`): Set the absolute end of the time window.
+- `endRelative` (`duration`): Set the relative end of the time window.
+- `startAbsolute` (`time`): Set the absolute start of the time window.
+- `startRelative` (`duration`): Set the relative start of the time window.
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+
+Mandatory Parameters
+
+(`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
+
+#### Attributes
+
+##### `descending` `boolean`
+
+If set, the results will be ordered by time from the most recent to the oldest.
+
+##### `filter` `string`
+
+Apply a filter to the query.
+
+##### `limit` `integer`
+
+Limits the number of results. `-1` means no limit.
+
+Default value:
+
+```json
+-1
+```
+
+##### `offset` `integer`
+
+Offsets the results. -1 means no offset.
+
+Default value:
+
+```json
+-1
+```
+
+##### `report` `emum(Flows | Audit | Enforcers | Files | EventLogs | Packets | EnforcerTraces | Counters | Accesses | DNSLookups | PingReports)`
+
+Name of the report type to query.
+
+Default value:
+
+```json
+"Flows"
+```
+
 ## visualization/statsquery
 
 ### StatsInfo
