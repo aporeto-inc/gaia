@@ -22,6 +22,7 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@named'
+  - '@propagated'
   - '@timeable'
 
 # Attributes

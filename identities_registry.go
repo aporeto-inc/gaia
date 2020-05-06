@@ -858,6 +858,7 @@ var (
 		"trustednamespace": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
+			{"propagate"},
 			{"namespace", "name"},
 			{"namespace"},
 			{"namespace", "normalizedTags"},

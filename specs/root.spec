@@ -892,6 +892,7 @@ relations:
     description: Retrieves the list of trusted namespaces.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new trusted namespace.
 
