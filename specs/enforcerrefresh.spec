@@ -31,6 +31,8 @@ attributes:
     - Logs
     - Packets
     - PUState
+    - Pcap
+    - Coredump
     default_value: Counters
     omit_empty: true
 
