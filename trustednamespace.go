@@ -113,8 +113,8 @@ type TrustedNamespace struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagates the policy to all of its children.
-	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+	// Propagates the object to all of its children.
+	Propagate bool `json:"-" msgpack:"-" bson:"propagate" mapstructure:"-,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -152,6 +152,7 @@ func NewTrustedNamespace() *TrustedNamespace {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		NormalizedTags: []string{},
+		Propagate:      true,
 		MigrationsLog:  map[string]string{},
 	}
 }
@@ -844,11 +845,10 @@ var TrustedNamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Propagate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagates the policy to all of its children.`,
-		Exposed:        true,
+		DefaultValue:   true,
+		Description:    `Propagates the object to all of its children.`,
 		Getter:         true,
 		Name:           "propagate",
-		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
@@ -1087,11 +1087,10 @@ var TrustedNamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"propagate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
-		Description:    `Propagates the policy to all of its children.`,
-		Exposed:        true,
+		DefaultValue:   true,
+		Description:    `Propagates the object to all of its children.`,
 		Getter:         true,
 		Name:           "propagate",
-		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
@@ -1291,8 +1290,8 @@ type SparseTrustedNamespace struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagates the policy to all of its children.
-	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
+	// Propagates the object to all of its children.
+	Propagate *bool `json:"-" msgpack:"-" bson:"propagate,omitempty" mapstructure:"-,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`

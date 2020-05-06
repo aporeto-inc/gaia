@@ -22,7 +22,6 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@named'
-  - '@propagated'
   - '@timeable'
 
 # Attributes
@@ -46,6 +45,14 @@ attributes:
       -----END CERTIFICATE-----
     validations:
     - $capem
+
+  - name: propagate
+    description: Propagates the object to all of its children.
+    type: boolean
+    stored: true
+    default_value: true
+    getter: true
+    setter: true
 
   - name: remoteController
     description: The controller declared in the certificate authority.
