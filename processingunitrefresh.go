@@ -110,20 +110,17 @@ type ProcessingUnitRefresh struct {
 	// If set to true, start ping to the destination.
 	PingEnabled bool `json:"pingEnabled,omitempty" msgpack:"pingEnabled,omitempty" bson:"-" mapstructure:"pingEnabled,omitempty"`
 
+	// Number of iterations to run a ping probe.
+	PingIterations int `json:"pingIterations,omitempty" msgpack:"pingIterations,omitempty" bson:"-" mapstructure:"pingIterations,omitempty"`
+
 	// Represents the mode of ping to be used.
 	PingMode ProcessingUnitRefreshPingModeValue `json:"pingMode" msgpack:"pingMode" bson:"-" mapstructure:"pingMode,omitempty"`
 
 	// Destination network to run ping.
 	PingNetwork string `json:"pingNetwork,omitempty" msgpack:"pingNetwork,omitempty" bson:"-" mapstructure:"pingNetwork,omitempty"`
 
-	// If set to true, allows the request pass to the application.
-	PingPassthrough bool `json:"pingPassthrough,omitempty" msgpack:"pingPassthrough,omitempty" bson:"-" mapstructure:"pingPassthrough,omitempty"`
-
-	// Destination port(s) to run ping.
-	PingPorts []string `json:"pingPorts,omitempty" msgpack:"pingPorts,omitempty" bson:"-" mapstructure:"pingPorts,omitempty"`
-
-	// Number of requests to send to the destination.
-	PingRequests int `json:"pingRequests,omitempty" msgpack:"pingRequests,omitempty" bson:"-" mapstructure:"pingRequests,omitempty"`
+	// Destination port to run ping.
+	PingPort int `json:"pingPort,omitempty" msgpack:"pingPort,omitempty" bson:"-" mapstructure:"pingPort,omitempty"`
 
 	// ID unique per purefresh event.
 	RefreshID string `json:"refreshID" msgpack:"refreshID" bson:"-" mapstructure:"refreshID,omitempty"`
@@ -156,7 +153,6 @@ func NewProcessingUnitRefresh() *ProcessingUnitRefresh {
 
 	return &ProcessingUnitRefresh{
 		ModelVersion:  1,
-		PingPorts:     []string{},
 		PingMode:      ProcessingUnitRefreshPingModeAuto,
 		TraceDuration: "10s",
 	}
@@ -263,11 +259,10 @@ func (o *ProcessingUnitRefresh) ToSparse(fields ...string) elemental.SparseIdent
 			Debug:                       &o.Debug,
 			Namespace:                   &o.Namespace,
 			PingEnabled:                 &o.PingEnabled,
+			PingIterations:              &o.PingIterations,
 			PingMode:                    &o.PingMode,
 			PingNetwork:                 &o.PingNetwork,
-			PingPassthrough:             &o.PingPassthrough,
-			PingPorts:                   &o.PingPorts,
-			PingRequests:                &o.PingRequests,
+			PingPort:                    &o.PingPort,
 			RefreshID:                   &o.RefreshID,
 			RefreshPolicy:               &o.RefreshPolicy,
 			TraceApplicationConnections: &o.TraceApplicationConnections,
@@ -288,16 +283,14 @@ func (o *ProcessingUnitRefresh) ToSparse(fields ...string) elemental.SparseIdent
 			sp.Namespace = &(o.Namespace)
 		case "pingEnabled":
 			sp.PingEnabled = &(o.PingEnabled)
+		case "pingIterations":
+			sp.PingIterations = &(o.PingIterations)
 		case "pingMode":
 			sp.PingMode = &(o.PingMode)
 		case "pingNetwork":
 			sp.PingNetwork = &(o.PingNetwork)
-		case "pingPassthrough":
-			sp.PingPassthrough = &(o.PingPassthrough)
-		case "pingPorts":
-			sp.PingPorts = &(o.PingPorts)
-		case "pingRequests":
-			sp.PingRequests = &(o.PingRequests)
+		case "pingPort":
+			sp.PingPort = &(o.PingPort)
 		case "refreshID":
 			sp.RefreshID = &(o.RefreshID)
 		case "refreshPolicy":
@@ -335,20 +328,17 @@ func (o *ProcessingUnitRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	if so.PingEnabled != nil {
 		o.PingEnabled = *so.PingEnabled
 	}
+	if so.PingIterations != nil {
+		o.PingIterations = *so.PingIterations
+	}
 	if so.PingMode != nil {
 		o.PingMode = *so.PingMode
 	}
 	if so.PingNetwork != nil {
 		o.PingNetwork = *so.PingNetwork
 	}
-	if so.PingPassthrough != nil {
-		o.PingPassthrough = *so.PingPassthrough
-	}
-	if so.PingPorts != nil {
-		o.PingPorts = *so.PingPorts
-	}
-	if so.PingRequests != nil {
-		o.PingRequests = *so.PingRequests
+	if so.PingPort != nil {
+		o.PingPort = *so.PingPort
 	}
 	if so.RefreshID != nil {
 		o.RefreshID = *so.RefreshID
@@ -404,10 +394,6 @@ func (o *ProcessingUnitRefresh) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidatePortStringList("pingPorts", o.PingPorts); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -450,16 +436,14 @@ func (o *ProcessingUnitRefresh) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "pingEnabled":
 		return o.PingEnabled
+	case "pingIterations":
+		return o.PingIterations
 	case "pingMode":
 		return o.PingMode
 	case "pingNetwork":
 		return o.PingNetwork
-	case "pingPassthrough":
-		return o.PingPassthrough
-	case "pingPorts":
-		return o.PingPorts
-	case "pingRequests":
-		return o.PingRequests
+	case "pingPort":
+		return o.PingPort
 	case "refreshID":
 		return o.RefreshID
 	case "refreshPolicy":
@@ -518,6 +502,14 @@ unit.`,
 		Name:           "pingEnabled",
 		Type:           "boolean",
 	},
+	"PingIterations": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PingIterations",
+		Description:    `Number of iterations to run a ping probe.`,
+		Exposed:        true,
+		Name:           "pingIterations",
+		Type:           "integer",
+	},
 	"PingMode": {
 		AllowedChoices: []string{"Auto", "L3", "L4", "L7"},
 		ConvertedName:  "PingMode",
@@ -535,29 +527,12 @@ unit.`,
 		Name:           "pingNetwork",
 		Type:           "string",
 	},
-	"PingPassthrough": {
+	"PingPort": {
 		AllowedChoices: []string{},
-		ConvertedName:  "PingPassthrough",
-		Description:    `If set to true, allows the request pass to the application.`,
+		ConvertedName:  "PingPort",
+		Description:    `Destination port to run ping.`,
 		Exposed:        true,
-		Name:           "pingPassthrough",
-		Type:           "boolean",
-	},
-	"PingPorts": {
-		AllowedChoices: []string{},
-		ConvertedName:  "PingPorts",
-		Description:    `Destination port(s) to run ping.`,
-		Exposed:        true,
-		Name:           "pingPorts",
-		SubType:        "string",
-		Type:           "list",
-	},
-	"PingRequests": {
-		AllowedChoices: []string{},
-		ConvertedName:  "PingRequests",
-		Description:    `Number of requests to send to the destination.`,
-		Exposed:        true,
-		Name:           "pingRequests",
+		Name:           "pingPort",
 		Type:           "integer",
 	},
 	"RefreshID": {
@@ -658,6 +633,14 @@ unit.`,
 		Name:           "pingEnabled",
 		Type:           "boolean",
 	},
+	"pingiterations": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PingIterations",
+		Description:    `Number of iterations to run a ping probe.`,
+		Exposed:        true,
+		Name:           "pingIterations",
+		Type:           "integer",
+	},
 	"pingmode": {
 		AllowedChoices: []string{"Auto", "L3", "L4", "L7"},
 		ConvertedName:  "PingMode",
@@ -675,29 +658,12 @@ unit.`,
 		Name:           "pingNetwork",
 		Type:           "string",
 	},
-	"pingpassthrough": {
+	"pingport": {
 		AllowedChoices: []string{},
-		ConvertedName:  "PingPassthrough",
-		Description:    `If set to true, allows the request pass to the application.`,
+		ConvertedName:  "PingPort",
+		Description:    `Destination port to run ping.`,
 		Exposed:        true,
-		Name:           "pingPassthrough",
-		Type:           "boolean",
-	},
-	"pingports": {
-		AllowedChoices: []string{},
-		ConvertedName:  "PingPorts",
-		Description:    `Destination port(s) to run ping.`,
-		Exposed:        true,
-		Name:           "pingPorts",
-		SubType:        "string",
-		Type:           "list",
-	},
-	"pingrequests": {
-		AllowedChoices: []string{},
-		ConvertedName:  "PingRequests",
-		Description:    `Number of requests to send to the destination.`,
-		Exposed:        true,
-		Name:           "pingRequests",
+		Name:           "pingPort",
 		Type:           "integer",
 	},
 	"refreshid": {
@@ -833,20 +799,17 @@ type SparseProcessingUnitRefresh struct {
 	// If set to true, start ping to the destination.
 	PingEnabled *bool `json:"pingEnabled,omitempty" msgpack:"pingEnabled,omitempty" bson:"-" mapstructure:"pingEnabled,omitempty"`
 
+	// Number of iterations to run a ping probe.
+	PingIterations *int `json:"pingIterations,omitempty" msgpack:"pingIterations,omitempty" bson:"-" mapstructure:"pingIterations,omitempty"`
+
 	// Represents the mode of ping to be used.
 	PingMode *ProcessingUnitRefreshPingModeValue `json:"pingMode,omitempty" msgpack:"pingMode,omitempty" bson:"-" mapstructure:"pingMode,omitempty"`
 
 	// Destination network to run ping.
 	PingNetwork *string `json:"pingNetwork,omitempty" msgpack:"pingNetwork,omitempty" bson:"-" mapstructure:"pingNetwork,omitempty"`
 
-	// If set to true, allows the request pass to the application.
-	PingPassthrough *bool `json:"pingPassthrough,omitempty" msgpack:"pingPassthrough,omitempty" bson:"-" mapstructure:"pingPassthrough,omitempty"`
-
-	// Destination port(s) to run ping.
-	PingPorts *[]string `json:"pingPorts,omitempty" msgpack:"pingPorts,omitempty" bson:"-" mapstructure:"pingPorts,omitempty"`
-
-	// Number of requests to send to the destination.
-	PingRequests *int `json:"pingRequests,omitempty" msgpack:"pingRequests,omitempty" bson:"-" mapstructure:"pingRequests,omitempty"`
+	// Destination port to run ping.
+	PingPort *int `json:"pingPort,omitempty" msgpack:"pingPort,omitempty" bson:"-" mapstructure:"pingPort,omitempty"`
 
 	// ID unique per purefresh event.
 	RefreshID *string `json:"refreshID,omitempty" msgpack:"refreshID,omitempty" bson:"-" mapstructure:"refreshID,omitempty"`
@@ -955,20 +918,17 @@ func (o *SparseProcessingUnitRefresh) ToPlain() elemental.PlainIdentifiable {
 	if o.PingEnabled != nil {
 		out.PingEnabled = *o.PingEnabled
 	}
+	if o.PingIterations != nil {
+		out.PingIterations = *o.PingIterations
+	}
 	if o.PingMode != nil {
 		out.PingMode = *o.PingMode
 	}
 	if o.PingNetwork != nil {
 		out.PingNetwork = *o.PingNetwork
 	}
-	if o.PingPassthrough != nil {
-		out.PingPassthrough = *o.PingPassthrough
-	}
-	if o.PingPorts != nil {
-		out.PingPorts = *o.PingPorts
-	}
-	if o.PingRequests != nil {
-		out.PingRequests = *o.PingRequests
+	if o.PingPort != nil {
+		out.PingPort = *o.PingPort
 	}
 	if o.RefreshID != nil {
 		out.RefreshID = *o.RefreshID

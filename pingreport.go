@@ -9,20 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PingReportSeqNumMatchingValue represents the possible values for attribute "seqNumMatching".
-type PingReportSeqNumMatchingValue string
-
-const (
-	// PingReportSeqNumMatchingEqual represents the value Equal.
-	PingReportSeqNumMatchingEqual PingReportSeqNumMatchingValue = "Equal"
-
-	// PingReportSeqNumMatchingNoop represents the value Noop.
-	PingReportSeqNumMatchingNoop PingReportSeqNumMatchingValue = "Noop"
-
-	// PingReportSeqNumMatchingUnequal represents the value Unequal.
-	PingReportSeqNumMatchingUnequal PingReportSeqNumMatchingValue = "Unequal"
-)
-
 // PingReportIdentity represents the Identity of the object.
 var PingReportIdentity = elemental.Identity{
 	Name:     "pingreport",
@@ -98,14 +84,8 @@ type PingReport struct {
 	// Time taken for a single request-response to complete.
 	RTT string `json:"RTT" msgpack:"RTT" bson:"-" mapstructure:"RTT,omitempty"`
 
-	// Receiver four tuple in the format <sip:dip:spt:dpt>.
-	RXFourTuple string `json:"RXFourTuple" msgpack:"RXFourTuple" bson:"-" mapstructure:"RXFourTuple,omitempty"`
-
 	// Controller of the transmitter.
 	TXController string `json:"TXController" msgpack:"TXController" bson:"-" mapstructure:"TXController,omitempty"`
-
-	// Transmitter four tuple in the format <sip:dip:spt:dpt>.
-	TXFourTuple string `json:"TXFourTuple" msgpack:"TXFourTuple" bson:"-" mapstructure:"TXFourTuple,omitempty"`
 
 	// Type of the transmitter.
 	TXType string `json:"TXType" msgpack:"TXType" bson:"-" mapstructure:"TXType,omitempty"`
@@ -124,6 +104,9 @@ type PingReport struct {
 
 	// Semantic version of the enforcer.
 	EnforcerVersion string `json:"enforcerVersion" msgpack:"enforcerVersion" bson:"-" mapstructure:"enforcerVersion,omitempty"`
+
+	// Four tuple in the format <sip:dip:spt:dpt>.
+	FourTuple string `json:"fourTuple" msgpack:"fourTuple" bson:"-" mapstructure:"fourTuple,omitempty"`
 
 	// IterationID unique to a single ping request-response.
 	IterationID string `json:"iterationID" msgpack:"iterationID" bson:"-" mapstructure:"iterationID,omitempty"`
@@ -146,11 +129,8 @@ type PingReport struct {
 	// Protocol used for the communication.
 	Protocol int `json:"protocol" msgpack:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
 
-	// Request represents the current request.
-	Request int `json:"request" msgpack:"request" bson:"-" mapstructure:"request,omitempty"`
-
-	// If Equal, transmitter sequence number matches the receiver sequence number.
-	SeqNumMatching PingReportSeqNumMatchingValue `json:"seqNumMatching" msgpack:"seqNumMatching" bson:"-" mapstructure:"seqNumMatching,omitempty"`
+	// Sequence number of the TCP packet. number.
+	SeqNum int `json:"seqNum" msgpack:"seqNum" bson:"-" mapstructure:"seqNum,omitempty"`
 
 	// Type of the service.
 	ServiceType string `json:"serviceType" msgpack:"serviceType" bson:"-" mapstructure:"serviceType,omitempty"`
@@ -171,8 +151,7 @@ type PingReport struct {
 func NewPingReport() *PingReport {
 
 	return &PingReport{
-		ModelVersion:   1,
-		SeqNumMatching: PingReportSeqNumMatchingNoop,
+		ModelVersion: 1,
 	}
 }
 
@@ -259,15 +238,14 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparsePingReport{
 			RTT:                  &o.RTT,
-			RXFourTuple:          &o.RXFourTuple,
 			TXController:         &o.TXController,
-			TXFourTuple:          &o.TXFourTuple,
 			TXType:               &o.TXType,
 			ApplicationListening: &o.ApplicationListening,
 			DestinationID:        &o.DestinationID,
 			EnforcerID:           &o.EnforcerID,
 			EnforcerNamespace:    &o.EnforcerNamespace,
 			EnforcerVersion:      &o.EnforcerVersion,
+			FourTuple:            &o.FourTuple,
 			IterationID:          &o.IterationID,
 			Namespace:            &o.Namespace,
 			PayloadSize:          &o.PayloadSize,
@@ -275,8 +253,7 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			PolicyAction:         &o.PolicyAction,
 			PolicyID:             &o.PolicyID,
 			Protocol:             &o.Protocol,
-			Request:              &o.Request,
-			SeqNumMatching:       &o.SeqNumMatching,
+			SeqNum:               &o.SeqNum,
 			ServiceType:          &o.ServiceType,
 			SourceID:             &o.SourceID,
 			Stage:                &o.Stage,
@@ -289,12 +266,8 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "RTT":
 			sp.RTT = &(o.RTT)
-		case "RXFourTuple":
-			sp.RXFourTuple = &(o.RXFourTuple)
 		case "TXController":
 			sp.TXController = &(o.TXController)
-		case "TXFourTuple":
-			sp.TXFourTuple = &(o.TXFourTuple)
 		case "TXType":
 			sp.TXType = &(o.TXType)
 		case "applicationListening":
@@ -307,6 +280,8 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "enforcerVersion":
 			sp.EnforcerVersion = &(o.EnforcerVersion)
+		case "fourTuple":
+			sp.FourTuple = &(o.FourTuple)
 		case "iterationID":
 			sp.IterationID = &(o.IterationID)
 		case "namespace":
@@ -321,10 +296,8 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.PolicyID = &(o.PolicyID)
 		case "protocol":
 			sp.Protocol = &(o.Protocol)
-		case "request":
-			sp.Request = &(o.Request)
-		case "seqNumMatching":
-			sp.SeqNumMatching = &(o.SeqNumMatching)
+		case "seqNum":
+			sp.SeqNum = &(o.SeqNum)
 		case "serviceType":
 			sp.ServiceType = &(o.ServiceType)
 		case "sourceID":
@@ -349,14 +322,8 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.RTT != nil {
 		o.RTT = *so.RTT
 	}
-	if so.RXFourTuple != nil {
-		o.RXFourTuple = *so.RXFourTuple
-	}
 	if so.TXController != nil {
 		o.TXController = *so.TXController
-	}
-	if so.TXFourTuple != nil {
-		o.TXFourTuple = *so.TXFourTuple
 	}
 	if so.TXType != nil {
 		o.TXType = *so.TXType
@@ -375,6 +342,9 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EnforcerVersion != nil {
 		o.EnforcerVersion = *so.EnforcerVersion
+	}
+	if so.FourTuple != nil {
+		o.FourTuple = *so.FourTuple
 	}
 	if so.IterationID != nil {
 		o.IterationID = *so.IterationID
@@ -397,11 +367,8 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protocol != nil {
 		o.Protocol = *so.Protocol
 	}
-	if so.Request != nil {
-		o.Request = *so.Request
-	}
-	if so.SeqNumMatching != nil {
-		o.SeqNumMatching = *so.SeqNumMatching
+	if so.SeqNum != nil {
+		o.SeqNum = *so.SeqNum
 	}
 	if so.ServiceType != nil {
 		o.ServiceType = *so.ServiceType
@@ -455,16 +422,8 @@ func (o *PingReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("iterationID", o.IterationID); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("pingID", o.PingID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateStringInList("seqNumMatching", string(o.SeqNumMatching), []string{"Equal", "Unequal", "Noop"}, false); err != nil {
-		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -503,12 +462,8 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "RTT":
 		return o.RTT
-	case "RXFourTuple":
-		return o.RXFourTuple
 	case "TXController":
 		return o.TXController
-	case "TXFourTuple":
-		return o.TXFourTuple
 	case "TXType":
 		return o.TXType
 	case "applicationListening":
@@ -521,6 +476,8 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 		return o.EnforcerNamespace
 	case "enforcerVersion":
 		return o.EnforcerVersion
+	case "fourTuple":
+		return o.FourTuple
 	case "iterationID":
 		return o.IterationID
 	case "namespace":
@@ -535,10 +492,8 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 		return o.PolicyID
 	case "protocol":
 		return o.Protocol
-	case "request":
-		return o.Request
-	case "seqNumMatching":
-		return o.SeqNumMatching
+	case "seqNum":
+		return o.SeqNum
 	case "serviceType":
 		return o.ServiceType
 	case "sourceID":
@@ -562,28 +517,12 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "RTT",
 		Type:           "string",
 	},
-	"RXFourTuple": {
-		AllowedChoices: []string{},
-		ConvertedName:  "RXFourTuple",
-		Description:    `Receiver four tuple in the format <sip:dip:spt:dpt>.`,
-		Exposed:        true,
-		Name:           "RXFourTuple",
-		Type:           "string",
-	},
 	"TXController": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TXController",
 		Description:    `Controller of the transmitter.`,
 		Exposed:        true,
 		Name:           "TXController",
-		Type:           "string",
-	},
-	"TXFourTuple": {
-		AllowedChoices: []string{},
-		ConvertedName:  "TXFourTuple",
-		Description:    `Transmitter four tuple in the format <sip:dip:spt:dpt>.`,
-		Exposed:        true,
-		Name:           "TXFourTuple",
 		Type:           "string",
 	},
 	"TXType": {
@@ -636,13 +575,20 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "enforcerVersion",
 		Type:           "string",
 	},
+	"FourTuple": {
+		AllowedChoices: []string{},
+		ConvertedName:  "FourTuple",
+		Description:    `Four tuple in the format <sip:dip:spt:dpt>.`,
+		Exposed:        true,
+		Name:           "fourTuple",
+		Type:           "string",
+	},
 	"IterationID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "IterationID",
 		Description:    `IterationID unique to a single ping request-response.`,
 		Exposed:        true,
 		Name:           "iterationID",
-		Required:       true,
 		Type:           "string",
 	},
 	"Namespace": {
@@ -694,22 +640,13 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "protocol",
 		Type:           "integer",
 	},
-	"Request": {
+	"SeqNum": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Request",
-		Description:    `Request represents the current request.`,
+		ConvertedName:  "SeqNum",
+		Description:    `Sequence number of the TCP packet. number.`,
 		Exposed:        true,
-		Name:           "request",
+		Name:           "seqNum",
 		Type:           "integer",
-	},
-	"SeqNumMatching": {
-		AllowedChoices: []string{"Equal", "Unequal", "Noop"},
-		ConvertedName:  "SeqNumMatching",
-		DefaultValue:   PingReportSeqNumMatchingNoop,
-		Description:    `If Equal, transmitter sequence number matches the receiver sequence number.`,
-		Exposed:        true,
-		Name:           "seqNumMatching",
-		Type:           "enum",
 	},
 	"ServiceType": {
 		AllowedChoices: []string{},
@@ -755,28 +692,12 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "RTT",
 		Type:           "string",
 	},
-	"rxfourtuple": {
-		AllowedChoices: []string{},
-		ConvertedName:  "RXFourTuple",
-		Description:    `Receiver four tuple in the format <sip:dip:spt:dpt>.`,
-		Exposed:        true,
-		Name:           "RXFourTuple",
-		Type:           "string",
-	},
 	"txcontroller": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TXController",
 		Description:    `Controller of the transmitter.`,
 		Exposed:        true,
 		Name:           "TXController",
-		Type:           "string",
-	},
-	"txfourtuple": {
-		AllowedChoices: []string{},
-		ConvertedName:  "TXFourTuple",
-		Description:    `Transmitter four tuple in the format <sip:dip:spt:dpt>.`,
-		Exposed:        true,
-		Name:           "TXFourTuple",
 		Type:           "string",
 	},
 	"txtype": {
@@ -829,13 +750,20 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "enforcerVersion",
 		Type:           "string",
 	},
+	"fourtuple": {
+		AllowedChoices: []string{},
+		ConvertedName:  "FourTuple",
+		Description:    `Four tuple in the format <sip:dip:spt:dpt>.`,
+		Exposed:        true,
+		Name:           "fourTuple",
+		Type:           "string",
+	},
 	"iterationid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "IterationID",
 		Description:    `IterationID unique to a single ping request-response.`,
 		Exposed:        true,
 		Name:           "iterationID",
-		Required:       true,
 		Type:           "string",
 	},
 	"namespace": {
@@ -887,22 +815,13 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "protocol",
 		Type:           "integer",
 	},
-	"request": {
+	"seqnum": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Request",
-		Description:    `Request represents the current request.`,
+		ConvertedName:  "SeqNum",
+		Description:    `Sequence number of the TCP packet. number.`,
 		Exposed:        true,
-		Name:           "request",
+		Name:           "seqNum",
 		Type:           "integer",
-	},
-	"seqnummatching": {
-		AllowedChoices: []string{"Equal", "Unequal", "Noop"},
-		ConvertedName:  "SeqNumMatching",
-		DefaultValue:   PingReportSeqNumMatchingNoop,
-		Description:    `If Equal, transmitter sequence number matches the receiver sequence number.`,
-		Exposed:        true,
-		Name:           "seqNumMatching",
-		Type:           "enum",
 	},
 	"servicetype": {
 		AllowedChoices: []string{},
@@ -1004,14 +923,8 @@ type SparsePingReport struct {
 	// Time taken for a single request-response to complete.
 	RTT *string `json:"RTT,omitempty" msgpack:"RTT,omitempty" bson:"-" mapstructure:"RTT,omitempty"`
 
-	// Receiver four tuple in the format <sip:dip:spt:dpt>.
-	RXFourTuple *string `json:"RXFourTuple,omitempty" msgpack:"RXFourTuple,omitempty" bson:"-" mapstructure:"RXFourTuple,omitempty"`
-
 	// Controller of the transmitter.
 	TXController *string `json:"TXController,omitempty" msgpack:"TXController,omitempty" bson:"-" mapstructure:"TXController,omitempty"`
-
-	// Transmitter four tuple in the format <sip:dip:spt:dpt>.
-	TXFourTuple *string `json:"TXFourTuple,omitempty" msgpack:"TXFourTuple,omitempty" bson:"-" mapstructure:"TXFourTuple,omitempty"`
 
 	// Type of the transmitter.
 	TXType *string `json:"TXType,omitempty" msgpack:"TXType,omitempty" bson:"-" mapstructure:"TXType,omitempty"`
@@ -1030,6 +943,9 @@ type SparsePingReport struct {
 
 	// Semantic version of the enforcer.
 	EnforcerVersion *string `json:"enforcerVersion,omitempty" msgpack:"enforcerVersion,omitempty" bson:"-" mapstructure:"enforcerVersion,omitempty"`
+
+	// Four tuple in the format <sip:dip:spt:dpt>.
+	FourTuple *string `json:"fourTuple,omitempty" msgpack:"fourTuple,omitempty" bson:"-" mapstructure:"fourTuple,omitempty"`
 
 	// IterationID unique to a single ping request-response.
 	IterationID *string `json:"iterationID,omitempty" msgpack:"iterationID,omitempty" bson:"-" mapstructure:"iterationID,omitempty"`
@@ -1052,11 +968,8 @@ type SparsePingReport struct {
 	// Protocol used for the communication.
 	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`
 
-	// Request represents the current request.
-	Request *int `json:"request,omitempty" msgpack:"request,omitempty" bson:"-" mapstructure:"request,omitempty"`
-
-	// If Equal, transmitter sequence number matches the receiver sequence number.
-	SeqNumMatching *PingReportSeqNumMatchingValue `json:"seqNumMatching,omitempty" msgpack:"seqNumMatching,omitempty" bson:"-" mapstructure:"seqNumMatching,omitempty"`
+	// Sequence number of the TCP packet. number.
+	SeqNum *int `json:"seqNum,omitempty" msgpack:"seqNum,omitempty" bson:"-" mapstructure:"seqNum,omitempty"`
 
 	// Type of the service.
 	ServiceType *string `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"-" mapstructure:"serviceType,omitempty"`
@@ -1137,14 +1050,8 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	if o.RTT != nil {
 		out.RTT = *o.RTT
 	}
-	if o.RXFourTuple != nil {
-		out.RXFourTuple = *o.RXFourTuple
-	}
 	if o.TXController != nil {
 		out.TXController = *o.TXController
-	}
-	if o.TXFourTuple != nil {
-		out.TXFourTuple = *o.TXFourTuple
 	}
 	if o.TXType != nil {
 		out.TXType = *o.TXType
@@ -1163,6 +1070,9 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EnforcerVersion != nil {
 		out.EnforcerVersion = *o.EnforcerVersion
+	}
+	if o.FourTuple != nil {
+		out.FourTuple = *o.FourTuple
 	}
 	if o.IterationID != nil {
 		out.IterationID = *o.IterationID
@@ -1185,11 +1095,8 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Protocol != nil {
 		out.Protocol = *o.Protocol
 	}
-	if o.Request != nil {
-		out.Request = *o.Request
-	}
-	if o.SeqNumMatching != nil {
-		out.SeqNumMatching = *o.SeqNumMatching
+	if o.SeqNum != nil {
+		out.SeqNum = *o.SeqNum
 	}
 	if o.ServiceType != nil {
 		out.ServiceType = *o.ServiceType

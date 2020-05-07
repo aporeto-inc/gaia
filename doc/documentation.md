@@ -3198,9 +3198,7 @@ Post a new pu diagnostics report.
   "applicationListening": false,
   "enforcerID": "xxx-xxx-xxx-xxx",
   "enforcerNamespace": "/my/ns",
-  "iterationID": "xxx-xxx-xxx-xxx",
-  "pingID": "xxx-xxx-xxx-xxx",
-  "seqNumMatching": "Noop"
+  "pingID": "xxx-xxx-xxx-xxx"
 }
 ```
 
@@ -3216,17 +3214,9 @@ Create a ping report.
 
 Time taken for a single request-response to complete.
 
-##### `RXFourTuple` `string`
-
-Receiver four tuple in the format <sip:dip:spt:dpt>.
-
 ##### `TXController` `string`
 
 Controller of the transmitter.
-
-##### `TXFourTuple` `string`
-
-Transmitter four tuple in the format <sip:dip:spt:dpt>.
 
 ##### `TXType` `string`
 
@@ -3252,7 +3242,11 @@ Namespace of the enforcer.
 
 Semantic version of the enforcer.
 
-##### `iterationID` `string` [`required`]
+##### `fourTuple` `string`
+
+Four tuple in the format <sip:dip:spt:dpt>.
+
+##### `iterationID` `string`
 
 IterationID unique to a single ping request-response.
 
@@ -3280,19 +3274,9 @@ ID of the policy.
 
 Protocol used for the communication.
 
-##### `request` `integer`
+##### `seqNum` `integer`
 
-Request represents the current request.
-
-##### `seqNumMatching` `emum(Equal | Unequal | Noop)`
-
-If Equal, transmitter sequence number matches the receiver sequence number.
-
-Default value:
-
-```json
-"Noop"
-```
+Sequence number of the TCP packet. number.
 
 ##### `serviceType` `string`
 
@@ -4526,7 +4510,6 @@ external change on the processing unit must be processed.
   "debug": false,
   "pingEnabled": false,
   "pingMode": "Auto",
-  "pingPassthrough": false,
   "refreshPolicy": false,
   "traceApplicationConnections": false,
   "traceDuration": "10s",
@@ -4560,6 +4543,10 @@ Contains the original namespace of the processing unit.
 
 If set to true, start ping to the destination.
 
+##### `pingIterations` `integer`
+
+Number of iterations to run a ping probe.
+
 ##### `pingMode` `emum(Auto | L3 | L4 | L7)`
 
 Represents the mode of ping to be used.
@@ -4574,17 +4561,9 @@ Default value:
 
 Destination network to run ping.
 
-##### `pingPassthrough` `boolean`
+##### `pingPort` `integer`
 
-If set to true, allows the request pass to the application.
-
-##### `pingPorts` `[]string`
-
-Destination port(s) to run ping.
-
-##### `pingRequests` `integer`
-
-Number of requests to send to the destination.
+Destination port to run ping.
 
 ##### `refreshID` `string` [`read_only`]
 
@@ -8214,6 +8193,7 @@ Retrieves the list of trusted namespaces.
 Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `POST /trustednamespaces`
 

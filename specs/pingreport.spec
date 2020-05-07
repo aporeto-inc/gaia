@@ -15,18 +15,8 @@ attributes:
     type: string
     exposed: true
 
-  - name: RXFourTuple
-    description: Receiver four tuple in the format <sip:dip:spt:dpt>.
-    type: string
-    exposed: true
-
   - name: TXController
     description: Controller of the transmitter.
-    type: string
-    exposed: true
-
-  - name: TXFourTuple
-    description: Transmitter four tuple in the format <sip:dip:spt:dpt>.
     type: string
     exposed: true
 
@@ -64,12 +54,15 @@ attributes:
     type: string
     exposed: true
 
+  - name: fourTuple
+    description: Four tuple in the format <sip:dip:spt:dpt>.
+    type: string
+    exposed: true
+
   - name: iterationID
     description: IterationID unique to a single ping request-response.
     type: string
     exposed: true
-    required: true
-    example_value: xxx-xxx-xxx-xxx
 
   - name: namespace
     description: Namespace of the reporting processing unit.
@@ -103,21 +96,10 @@ attributes:
     type: integer
     exposed: true
 
-  - name: request
-    description: Request represents the current request.
+  - name: seqNum
+    description: Sequence number of the TCP packet. number.
     type: integer
     exposed: true
-
-  - name: seqNumMatching
-    description: If Equal, transmitter sequence number matches the receiver sequence
-      number.
-    type: enum
-    exposed: true
-    allowed_choices:
-    - Equal
-    - Unequal
-    - Noop
-    default_value: Noop
 
   - name: serviceType
     description: Type of the service.
