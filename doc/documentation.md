@@ -4230,7 +4230,7 @@ Sends a Enforcer Refresh command.
 
 Contains the ID of the target enforcer.
 
-##### `debug` `emum(Counters | Logs | Packets | PUState | Pcap | Coredump)`
+##### `debug` `emum(Counters | Logs | Packets | PUState | Pcap)`
 
 Set the debug information collected by the enforcer.
 

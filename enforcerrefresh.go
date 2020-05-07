@@ -12,9 +12,6 @@ import (
 type EnforcerRefreshDebugValue string
 
 const (
-	// EnforcerRefreshDebugCoredump represents the value Coredump.
-	EnforcerRefreshDebugCoredump EnforcerRefreshDebugValue = "Coredump"
-
 	// EnforcerRefreshDebugCounters represents the value Counters.
 	EnforcerRefreshDebugCounters EnforcerRefreshDebugValue = "Counters"
 
@@ -290,7 +287,7 @@ func (o *EnforcerRefresh) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("debug", string(o.Debug), []string{"Counters", "Logs", "Packets", "PUState", "Pcap", "Coredump"}, false); err != nil {
+	if err := elemental.ValidateStringInList("debug", string(o.Debug), []string{"Counters", "Logs", "Packets", "PUState", "Pcap"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -354,7 +351,7 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Debug": {
-		AllowedChoices: []string{"Counters", "Logs", "Packets", "PUState", "Pcap", "Coredump"},
+		AllowedChoices: []string{"Counters", "Logs", "Packets", "PUState", "Pcap"},
 		ConvertedName:  "Debug",
 		DefaultValue:   EnforcerRefreshDebugCounters,
 		Description:    `Set the debug information collected by the enforcer.`,
@@ -389,7 +386,7 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "string",
 	},
 	"debug": {
-		AllowedChoices: []string{"Counters", "Logs", "Packets", "PUState", "Pcap", "Coredump"},
+		AllowedChoices: []string{"Counters", "Logs", "Packets", "PUState", "Pcap"},
 		ConvertedName:  "Debug",
 		DefaultValue:   EnforcerRefreshDebugCounters,
 		Description:    `Set the debug information collected by the enforcer.`,
