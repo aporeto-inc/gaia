@@ -113,6 +113,9 @@ type TrustedNamespace struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Propagates the object to all of its children.
+	Propagate bool `json:"-" msgpack:"-" bson:"propagate" mapstructure:"-,omitempty"`
+
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -149,6 +152,7 @@ func NewTrustedNamespace() *TrustedNamespace {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		NormalizedTags: []string{},
+		Propagate:      true,
 		MigrationsLog:  map[string]string{},
 	}
 }
@@ -193,6 +197,7 @@ func (o *TrustedNamespace) GetBSON() (interface{}, error) {
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
+	s.Propagate = o.Propagate
 	s.Protected = o.Protected
 	s.RemoteController = o.RemoteController
 	s.RemoteNamespace = o.RemoteNamespace
@@ -228,6 +233,7 @@ func (o *TrustedNamespace) SetBSON(raw bson.Raw) error {
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
+	o.Propagate = s.Propagate
 	o.Protected = s.Protected
 	o.RemoteController = s.RemoteController
 	o.RemoteNamespace = s.RemoteNamespace
@@ -368,6 +374,18 @@ func (o *TrustedNamespace) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *TrustedNamespace) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *TrustedNamespace) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *TrustedNamespace) GetProtected() bool {
 
@@ -445,6 +463,7 @@ func (o *TrustedNamespace) ToSparse(fields ...string) elemental.SparseIdentifiab
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
+			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
 			RemoteController:     &o.RemoteController,
 			RemoteNamespace:      &o.RemoteNamespace,
@@ -479,6 +498,8 @@ func (o *TrustedNamespace) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "remoteController":
@@ -537,6 +558,9 @@ func (o *TrustedNamespace) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -664,6 +688,8 @@ func (o *TrustedNamespace) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "remoteController":
@@ -815,6 +841,17 @@ var TrustedNamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
+	},
+	"Propagate": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		DefaultValue:   true,
+		Description:    `Propagates the object to all of its children.`,
+		Getter:         true,
+		Name:           "propagate",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Protected": {
 		AllowedChoices: []string{},
@@ -1047,6 +1084,17 @@ var TrustedNamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Transient:      true,
 		Type:           "list",
 	},
+	"propagate": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		DefaultValue:   true,
+		Description:    `Propagates the object to all of its children.`,
+		Getter:         true,
+		Name:           "propagate",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"protected": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1242,6 +1290,9 @@ type SparseTrustedNamespace struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
+	// Propagates the object to all of its children.
+	Propagate *bool `json:"-" msgpack:"-" bson:"propagate,omitempty" mapstructure:"-,omitempty"`
+
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
@@ -1340,6 +1391,9 @@ func (o *SparseTrustedNamespace) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
@@ -1410,6 +1464,9 @@ func (o *SparseTrustedNamespace) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
@@ -1477,6 +1534,9 @@ func (o *SparseTrustedNamespace) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1634,6 +1694,22 @@ func (o *SparseTrustedNamespace) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = &normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseTrustedNamespace) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseTrustedNamespace) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *SparseTrustedNamespace) GetProtected() (out bool) {
 
@@ -1749,6 +1825,7 @@ type mongoAttributesTrustedNamespace struct {
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
+	Propagate            bool                `bson:"propagate"`
 	Protected            bool                `bson:"protected"`
 	RemoteController     string              `bson:"remotecontroller"`
 	RemoteNamespace      string              `bson:"remotenamespace"`
@@ -1769,6 +1846,7 @@ type mongoAttributesSparseTrustedNamespace struct {
 	Name                 *string              `bson:"name,omitempty"`
 	Namespace            *string              `bson:"namespace,omitempty"`
 	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Propagate            *bool                `bson:"propagate,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
 	RemoteController     *string              `bson:"remotecontroller,omitempty"`
 	RemoteNamespace      *string              `bson:"remotenamespace,omitempty"`
