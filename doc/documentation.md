@@ -5734,7 +5734,7 @@ Represents a visibility condition for a [UIParameter](#uiparameter).
 
 Key holding the value to compare.
 
-##### `operator` `emum(Equal | NotEqual | GreaterThan | LesserThan | Defined | Undefined)`
+##### `operator` `emum(Equal | NotEqual | GreaterThan | LesserThan | Defined | Undefined | Function)`
 
 Operator to apply.
 

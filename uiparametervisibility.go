@@ -18,6 +18,9 @@ const (
 	// UIParameterVisibilityOperatorEqual represents the value Equal.
 	UIParameterVisibilityOperatorEqual UIParameterVisibilityOperatorValue = "Equal"
 
+	// UIParameterVisibilityOperatorFunction represents the value Function.
+	UIParameterVisibilityOperatorFunction UIParameterVisibilityOperatorValue = "Function"
+
 	// UIParameterVisibilityOperatorGreaterThan represents the value GreaterThan.
 	UIParameterVisibilityOperatorGreaterThan UIParameterVisibilityOperatorValue = "GreaterThan"
 
@@ -130,7 +133,7 @@ func (o *UIParameterVisibility) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("operator", string(o.Operator), []string{"Equal", "NotEqual", "GreaterThan", "LesserThan", "Defined", "Undefined"}, false); err != nil {
+	if err := elemental.ValidateStringInList("operator", string(o.Operator), []string{"Equal", "NotEqual", "GreaterThan", "LesserThan", "Defined", "Undefined", "Function"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
