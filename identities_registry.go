@@ -377,6 +377,7 @@ var (
 		"sugg":           SuggestedPolicyIdentity,
 		"suggs":          SuggestedPolicyIdentity,
 		"tsp":            TokenScopePolicyIdentity,
+		"trustedns":      TrustedNamespaceIdentity,
 		"usrpol":         UserAccessPolicyIdentity,
 		"usrpols":        UserAccessPolicyIdentity,
 		"validparam":     ValidateUIParameterIdentity,
@@ -2528,7 +2529,9 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case TrustedCAIdentity:
 		return []string{}
 	case TrustedNamespaceIdentity:
-		return []string{}
+		return []string{
+			"trustedns",
+		}
 	case UserAccessPolicyIdentity:
 		return []string{
 			"usrpol",

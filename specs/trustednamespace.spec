@@ -8,7 +8,8 @@ model:
   description: |-
     This objects allows to declare trust between namespaces that cryptographically
     isolated. The namespaces can be local or served by different Aporeto controller.
-  aliases: []
+  aliases:
+  - trustedns
   get:
     description: Retrieve the trusted namespace with the given ID.
   update:
