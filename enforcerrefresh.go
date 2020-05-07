@@ -107,7 +107,7 @@ type EnforcerRefresh struct {
 	Debug EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
 	// The duration that certain on-demand debug information is collected.
-	Duration string `json:"duration,omitempty" msgpack:"duration,omitempty" bson:"-" mapstructure:"duration,omitempty"`
+	DebugDuration string `json:"debugDuration,omitempty" msgpack:"debugDuration,omitempty" bson:"-" mapstructure:"debugDuration,omitempty"`
 
 	// Contains the original namespace of the enforcer.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
@@ -221,10 +221,10 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseEnforcerRefresh{
-			ID:        &o.ID,
-			Debug:     &o.Debug,
-			Duration:  &o.Duration,
-			Namespace: &o.Namespace,
+			ID:            &o.ID,
+			Debug:         &o.Debug,
+			DebugDuration: &o.DebugDuration,
+			Namespace:     &o.Namespace,
 		}
 	}
 
@@ -235,8 +235,8 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ID = &(o.ID)
 		case "debug":
 			sp.Debug = &(o.Debug)
-		case "duration":
-			sp.Duration = &(o.Duration)
+		case "debugDuration":
+			sp.DebugDuration = &(o.DebugDuration)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		}
@@ -258,8 +258,8 @@ func (o *EnforcerRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Debug != nil {
 		o.Debug = *so.Debug
 	}
-	if so.Duration != nil {
-		o.Duration = *so.Duration
+	if so.DebugDuration != nil {
+		o.DebugDuration = *so.DebugDuration
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
@@ -338,8 +338,8 @@ func (o *EnforcerRefresh) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "debug":
 		return o.Debug
-	case "duration":
-		return o.Duration
+	case "debugDuration":
+		return o.DebugDuration
 	case "namespace":
 		return o.Namespace
 	}
@@ -370,12 +370,12 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "debug",
 		Type:           "enum",
 	},
-	"Duration": {
+	"DebugDuration": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Duration",
+		ConvertedName:  "DebugDuration",
 		Description:    `The duration that certain on-demand debug information is collected.`,
 		Exposed:        true,
-		Name:           "duration",
+		Name:           "debugDuration",
 		Type:           "string",
 	},
 	"Namespace": {
@@ -413,12 +413,12 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "debug",
 		Type:           "enum",
 	},
-	"duration": {
+	"debugduration": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Duration",
+		ConvertedName:  "DebugDuration",
 		Description:    `The duration that certain on-demand debug information is collected.`,
 		Exposed:        true,
-		Name:           "duration",
+		Name:           "debugDuration",
 		Type:           "string",
 	},
 	"namespace": {
@@ -503,7 +503,7 @@ type SparseEnforcerRefresh struct {
 	Debug *EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
 	// The duration that certain on-demand debug information is collected.
-	Duration *string `json:"duration,omitempty" msgpack:"duration,omitempty" bson:"-" mapstructure:"duration,omitempty"`
+	DebugDuration *string `json:"debugDuration,omitempty" msgpack:"debugDuration,omitempty" bson:"-" mapstructure:"debugDuration,omitempty"`
 
 	// Contains the original namespace of the enforcer.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
@@ -586,8 +586,8 @@ func (o *SparseEnforcerRefresh) ToPlain() elemental.PlainIdentifiable {
 	if o.Debug != nil {
 		out.Debug = *o.Debug
 	}
-	if o.Duration != nil {
-		out.Duration = *o.Duration
+	if o.DebugDuration != nil {
+		out.DebugDuration = *o.DebugDuration
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace

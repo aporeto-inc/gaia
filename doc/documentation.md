@@ -4240,7 +4240,7 @@ Default value:
 "Counters"
 ```
 
-##### `duration` `string`
+##### `debugDuration` `string`
 
 The duration that certain on-demand debug information is collected.
 
