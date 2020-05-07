@@ -300,6 +300,10 @@ func (o *EnforcerRefresh) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateTimeDuration("debugDuration", o.DebugDuration); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
