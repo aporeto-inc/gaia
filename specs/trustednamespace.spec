@@ -56,6 +56,7 @@ attributes:
     default_value: true
     getter: true
     setter: true
+    transient: true
 
   - name: remoteController
     description: The controller declared in the certificate authority.

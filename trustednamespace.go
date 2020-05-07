@@ -854,6 +854,7 @@ var TrustedNamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
+		Transient:      true,
 		Type:           "boolean",
 	},
 	"Protected": {
@@ -1099,6 +1100,7 @@ var TrustedNamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
+		Transient:      true,
 		Type:           "boolean",
 	},
 	"protected": {
