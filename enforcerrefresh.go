@@ -23,6 +23,9 @@ const (
 
 	// EnforcerRefreshDebugPackets represents the value Packets.
 	EnforcerRefreshDebugPackets EnforcerRefreshDebugValue = "Packets"
+
+	// EnforcerRefreshDebugPcap represents the value Pcap.
+	EnforcerRefreshDebugPcap EnforcerRefreshDebugValue = "Pcap"
 )
 
 // EnforcerRefreshIdentity represents the Identity of the object.
@@ -102,6 +105,9 @@ type EnforcerRefresh struct {
 
 	// Set the debug information collected by the enforcer.
 	Debug EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
+
+	// The duration that certain on-demand debug information is collected.
+	DebugDuration string `json:"debugDuration,omitempty" msgpack:"debugDuration,omitempty" bson:"-" mapstructure:"debugDuration,omitempty"`
 
 	// Contains the original namespace of the enforcer.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
@@ -215,9 +221,10 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseEnforcerRefresh{
-			ID:        &o.ID,
-			Debug:     &o.Debug,
-			Namespace: &o.Namespace,
+			ID:            &o.ID,
+			Debug:         &o.Debug,
+			DebugDuration: &o.DebugDuration,
+			Namespace:     &o.Namespace,
 		}
 	}
 
@@ -228,6 +235,8 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ID = &(o.ID)
 		case "debug":
 			sp.Debug = &(o.Debug)
+		case "debugDuration":
+			sp.DebugDuration = &(o.DebugDuration)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		}
@@ -248,6 +257,9 @@ func (o *EnforcerRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Debug != nil {
 		o.Debug = *so.Debug
+	}
+	if so.DebugDuration != nil {
+		o.DebugDuration = *so.DebugDuration
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
@@ -284,7 +296,11 @@ func (o *EnforcerRefresh) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("debug", string(o.Debug), []string{"Counters", "Logs", "Packets", "PUState"}, false); err != nil {
+	if err := elemental.ValidateStringInList("debug", string(o.Debug), []string{"Counters", "Logs", "Packets", "PUState", "Pcap"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateTimeDuration("debugDuration", o.DebugDuration); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -326,6 +342,8 @@ func (o *EnforcerRefresh) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "debug":
 		return o.Debug
+	case "debugDuration":
+		return o.DebugDuration
 	case "namespace":
 		return o.Namespace
 	}
@@ -348,13 +366,21 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Debug": {
-		AllowedChoices: []string{"Counters", "Logs", "Packets", "PUState"},
+		AllowedChoices: []string{"Counters", "Logs", "Packets", "PUState", "Pcap"},
 		ConvertedName:  "Debug",
 		DefaultValue:   EnforcerRefreshDebugCounters,
 		Description:    `Set the debug information collected by the enforcer.`,
 		Exposed:        true,
 		Name:           "debug",
 		Type:           "enum",
+	},
+	"DebugDuration": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DebugDuration",
+		Description:    `The duration that certain on-demand debug information is collected.`,
+		Exposed:        true,
+		Name:           "debugDuration",
+		Type:           "string",
 	},
 	"Namespace": {
 		AllowedChoices: []string{},
@@ -383,13 +409,21 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "string",
 	},
 	"debug": {
-		AllowedChoices: []string{"Counters", "Logs", "Packets", "PUState"},
+		AllowedChoices: []string{"Counters", "Logs", "Packets", "PUState", "Pcap"},
 		ConvertedName:  "Debug",
 		DefaultValue:   EnforcerRefreshDebugCounters,
 		Description:    `Set the debug information collected by the enforcer.`,
 		Exposed:        true,
 		Name:           "debug",
 		Type:           "enum",
+	},
+	"debugduration": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DebugDuration",
+		Description:    `The duration that certain on-demand debug information is collected.`,
+		Exposed:        true,
+		Name:           "debugDuration",
+		Type:           "string",
 	},
 	"namespace": {
 		AllowedChoices: []string{},
@@ -472,6 +506,9 @@ type SparseEnforcerRefresh struct {
 	// Set the debug information collected by the enforcer.
 	Debug *EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
+	// The duration that certain on-demand debug information is collected.
+	DebugDuration *string `json:"debugDuration,omitempty" msgpack:"debugDuration,omitempty" bson:"-" mapstructure:"debugDuration,omitempty"`
+
 	// Contains the original namespace of the enforcer.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
@@ -552,6 +589,9 @@ func (o *SparseEnforcerRefresh) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Debug != nil {
 		out.Debug = *o.Debug
+	}
+	if o.DebugDuration != nil {
+		out.DebugDuration = *o.DebugDuration
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
