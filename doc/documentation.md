@@ -5713,7 +5713,7 @@ Represents a visibility condition for a [UIParameter](#uiparameter).
 
 Key holding the value to compare.
 
-##### `operator` `emum(Equal | NotEqual | GreaterThan | LesserThan | Defined | Undefined | Function)`
+##### `operator` `emum(Equal | NotEqual | GreaterThan | LesserThan | Defined | Undefined | Match)`
 
 Operator to apply.
 
