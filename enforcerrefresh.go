@@ -112,6 +112,9 @@ type EnforcerRefresh struct {
 	// Contains the original namespace of the enforcer.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
+	// Isolates debug information to a given processing unit, where possible.
+	ProcessingUnitID string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -221,10 +224,11 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseEnforcerRefresh{
-			ID:            &o.ID,
-			Debug:         &o.Debug,
-			DebugDuration: &o.DebugDuration,
-			Namespace:     &o.Namespace,
+			ID:               &o.ID,
+			Debug:            &o.Debug,
+			DebugDuration:    &o.DebugDuration,
+			Namespace:        &o.Namespace,
+			ProcessingUnitID: &o.ProcessingUnitID,
 		}
 	}
 
@@ -239,6 +243,8 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.DebugDuration = &(o.DebugDuration)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
+		case "processingUnitID":
+			sp.ProcessingUnitID = &(o.ProcessingUnitID)
 		}
 	}
 
@@ -263,6 +269,9 @@ func (o *EnforcerRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
+	}
+	if so.ProcessingUnitID != nil {
+		o.ProcessingUnitID = *so.ProcessingUnitID
 	}
 }
 
@@ -346,6 +355,8 @@ func (o *EnforcerRefresh) ValueForAttribute(name string) interface{} {
 		return o.DebugDuration
 	case "namespace":
 		return o.Namespace
+	case "processingUnitID":
+		return o.ProcessingUnitID
 	}
 
 	return nil
@@ -392,6 +403,14 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"ProcessingUnitID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ProcessingUnitID",
+		Description:    `Isolates debug information to a given processing unit, where possible.`,
+		Exposed:        true,
+		Name:           "processingUnitID",
+		Type:           "string",
+	},
 }
 
 // EnforcerRefreshLowerCaseAttributesMap represents the map of attribute for EnforcerRefresh.
@@ -433,6 +452,14 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Exposed:        true,
 		Name:           "namespace",
 		ReadOnly:       true,
+		Type:           "string",
+	},
+	"processingunitid": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ProcessingUnitID",
+		Description:    `Isolates debug information to a given processing unit, where possible.`,
+		Exposed:        true,
+		Name:           "processingUnitID",
 		Type:           "string",
 	},
 }
@@ -511,6 +538,9 @@ type SparseEnforcerRefresh struct {
 
 	// Contains the original namespace of the enforcer.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// Isolates debug information to a given processing unit, where possible.
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -595,6 +625,9 @@ func (o *SparseEnforcerRefresh) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
+	}
+	if o.ProcessingUnitID != nil {
+		out.ProcessingUnitID = *o.ProcessingUnitID
 	}
 
 	return out

@@ -49,3 +49,9 @@ attributes:
     omit_empty: true
     validations:
     - $timeDuration
+
+  - name: processingUnitID
+    description: Isolates debug information to a given processing unit, where possible.
+    type: string
+    exposed: true
+    omit_empty: true

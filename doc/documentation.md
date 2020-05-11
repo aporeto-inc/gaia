@@ -4248,6 +4248,10 @@ The duration that certain on-demand debug information is collected.
 
 Contains the original namespace of the enforcer.
 
+##### `processingUnitID` `string`
+
+Isolates debug information to a given processing unit, where possible.
+
 ### Policy
 
 Represents the policy primitive used by all Aporeto policies.
