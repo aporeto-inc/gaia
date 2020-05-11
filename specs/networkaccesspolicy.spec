@@ -49,9 +49,10 @@ attributes:
       Defines the action to apply to a flow.
 
       - `Allow`: allows the defined traffic.
-      - `Reject`: rejects the defined traffic; useful in conjunction with an allow all policy.
-      - `Continue`: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.
-
+      - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
+      policy.
+      - `Continue`: neither allows or rejects the traffic; useful for applying another
+      property to the traffic.
     type: enum
     exposed: true
     allowed_choices:
@@ -89,9 +90,12 @@ attributes:
     orderable: true
 
   - name: encryptionEnabled
-    description: Defines if the flow has to be encrypted.
+    description: |-
+      Defines if the flow has to be encrypted. This property is deprecated and have no
+      incidence.
     type: boolean
     exposed: true
+    deprecated: true
     orderable: true
 
   - name: expirationTime

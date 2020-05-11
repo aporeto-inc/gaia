@@ -128,8 +128,10 @@ type NetworkAccessPolicy struct {
 	// Defines the action to apply to a flow.
 	//
 	// - `Allow`: allows the defined traffic.
-	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all policy.
-	// - `Continue`: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.
+	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
+	// policy.
+	// - `Continue`: neither allows or rejects the traffic; useful for applying another
+	// property to the traffic.
 	Action NetworkAccessPolicyActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
@@ -176,7 +178,8 @@ type NetworkAccessPolicy struct {
 	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// Defines if the flow has to be encrypted.
+	// Defines if the flow has to be encrypted. This property is deprecated and have no
+	// incidence.
 	EncryptionEnabled bool `json:"encryptionEnabled" msgpack:"encryptionEnabled" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
 
 	// If set the policy will be automatically deleted after the given time.
@@ -1031,8 +1034,10 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		Description: `Defines the action to apply to a flow.
 
 - ` + "`" + `Allow` + "`" + `: allows the defined traffic.
-- ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all policy.
-- ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.`,
+- ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all
+policy.
+- ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another
+property to the traffic.`,
 		Exposed:   true,
 		Name:      "action",
 		Orderable: true,
@@ -1166,11 +1171,13 @@ to *initiate* connections with processing units that match the ` + "`" + `object
 	"EncryptionEnabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EncryptionEnabled",
-		Description:    `Defines if the flow has to be encrypted.`,
-		Exposed:        true,
-		Name:           "encryptionEnabled",
-		Orderable:      true,
-		Type:           "boolean",
+		Deprecated:     true,
+		Description: `Defines if the flow has to be encrypted. This property is deprecated and have no
+incidence.`,
+		Exposed:   true,
+		Name:      "encryptionEnabled",
+		Orderable: true,
+		Type:      "boolean",
 	},
 	"ExpirationTime": {
 		AllowedChoices: []string{},
@@ -1416,8 +1423,10 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Description: `Defines the action to apply to a flow.
 
 - ` + "`" + `Allow` + "`" + `: allows the defined traffic.
-- ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all policy.
-- ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.`,
+- ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all
+policy.
+- ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another
+property to the traffic.`,
 		Exposed:   true,
 		Name:      "action",
 		Orderable: true,
@@ -1551,11 +1560,13 @@ to *initiate* connections with processing units that match the ` + "`" + `object
 	"encryptionenabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EncryptionEnabled",
-		Description:    `Defines if the flow has to be encrypted.`,
-		Exposed:        true,
-		Name:           "encryptionEnabled",
-		Orderable:      true,
-		Type:           "boolean",
+		Deprecated:     true,
+		Description: `Defines if the flow has to be encrypted. This property is deprecated and have no
+incidence.`,
+		Exposed:   true,
+		Name:      "encryptionEnabled",
+		Orderable: true,
+		Type:      "boolean",
 	},
 	"expirationtime": {
 		AllowedChoices: []string{},
@@ -1850,8 +1861,10 @@ type SparseNetworkAccessPolicy struct {
 	// Defines the action to apply to a flow.
 	//
 	// - `Allow`: allows the defined traffic.
-	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all policy.
-	// - `Continue`: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.
+	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
+	// policy.
+	// - `Continue`: neither allows or rejects the traffic; useful for applying another
+	// property to the traffic.
 	Action *NetworkAccessPolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
@@ -1898,7 +1911,8 @@ type SparseNetworkAccessPolicy struct {
 	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// Defines if the flow has to be encrypted.
+	// Defines if the flow has to be encrypted. This property is deprecated and have no
+	// incidence.
 	EncryptionEnabled *bool `json:"encryptionEnabled,omitempty" msgpack:"encryptionEnabled,omitempty" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
 
 	// If set the policy will be automatically deleted after the given time.
