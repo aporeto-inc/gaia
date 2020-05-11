@@ -31,6 +31,7 @@ attributes:
     - LesserThan
     - Defined
     - Undefined
+    - Match
 
   - name: value
     description: Values that must match the key.
