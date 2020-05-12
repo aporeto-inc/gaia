@@ -50,7 +50,7 @@ attributes:
     validations:
     - $timeDuration
 
-  - name: processingUnitID
+  - name: debugProcessingUnitID
     description: Isolates debug information to a given processing unit, where possible.
     type: string
     exposed: true
