@@ -162,6 +162,9 @@ QuotaCheck
 QuotaCheck
 QuotaPolicy
 RecipeOptions
+reportsquery
+ReportsQuery
+ReportsQueryResults
 RedHat
 Redis
 RemotePingProbe
@@ -321,6 +324,7 @@ whitelisted
 whitelisting
 x509
 xip.io
+x-www-form-urlencoded
 xxhash
 yaml
 yy

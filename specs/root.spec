@@ -594,7 +594,7 @@ relations:
   create:
     description: |-
       Evaluates an expression query over a range of time returning a "matrix" result.
-      This has the same behaviour as the GET request, however it is useful when
+      This has the same behavior as the GET request, however it is useful when
       specifying a large query that may breach server-side URL character limits. In
       such a case, you can URL-encode the parameters that would be used for a GET
       request directly in the request body by using the POST method and Content-Type:
@@ -786,7 +786,6 @@ relations:
     description: Sends a query on report data.
     global_parameters:
     - $timewindow
-    - $filtering
 
 - rest_name: revocation
   get:

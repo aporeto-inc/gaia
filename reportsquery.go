@@ -121,8 +121,16 @@ type ReportsQuery struct {
 	// If set, the results will be ordered by time from the most recent to the oldest.
 	Descending bool `json:"descending" msgpack:"descending" bson:"-" mapstructure:"descending,omitempty"`
 
+	// List of fields to extract. If you don't pass anything, all available fields will
+	// be selected.
+	Fields []string `json:"fields" msgpack:"fields" bson:"-" mapstructure:"fields,omitempty"`
+
 	// Apply a filter to the query.
 	Filter string `json:"filter" msgpack:"filter" bson:"-" mapstructure:"filter,omitempty"`
+
+	// Group results by the provided values. Note that not all fields can be used to
+	// group the results.
+	Groups []string `json:"groups" msgpack:"groups" bson:"-" mapstructure:"groups,omitempty"`
 
 	// Limits the number of results. `-1` means no limit.
 	Limit int `json:"limit" msgpack:"limit" bson:"-" mapstructure:"limit,omitempty"`
@@ -133,6 +141,9 @@ type ReportsQuery struct {
 	// Name of the report type to query.
 	Report ReportsQueryReportValue `json:"report" msgpack:"report" bson:"-" mapstructure:"report,omitempty"`
 
+	// Contains the result of the query.
+	Results []*ReportsQueryResults `json:"results" msgpack:"results" bson:"-" mapstructure:"results,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -141,9 +152,12 @@ func NewReportsQuery() *ReportsQuery {
 
 	return &ReportsQuery{
 		ModelVersion: 1,
+		Fields:       []string{},
+		Groups:       []string{},
 		Limit:        -1,
 		Offset:       -1,
 		Report:       ReportsQueryReportFlows,
+		Results:      []*ReportsQueryResults{},
 	}
 }
 
@@ -231,10 +245,13 @@ func (o *ReportsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseReportsQuery{
 			Descending: &o.Descending,
+			Fields:     &o.Fields,
 			Filter:     &o.Filter,
+			Groups:     &o.Groups,
 			Limit:      &o.Limit,
 			Offset:     &o.Offset,
 			Report:     &o.Report,
+			Results:    &o.Results,
 		}
 	}
 
@@ -243,14 +260,20 @@ func (o *ReportsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "descending":
 			sp.Descending = &(o.Descending)
+		case "fields":
+			sp.Fields = &(o.Fields)
 		case "filter":
 			sp.Filter = &(o.Filter)
+		case "groups":
+			sp.Groups = &(o.Groups)
 		case "limit":
 			sp.Limit = &(o.Limit)
 		case "offset":
 			sp.Offset = &(o.Offset)
 		case "report":
 			sp.Report = &(o.Report)
+		case "results":
+			sp.Results = &(o.Results)
 		}
 	}
 
@@ -267,8 +290,14 @@ func (o *ReportsQuery) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Descending != nil {
 		o.Descending = *so.Descending
 	}
+	if so.Fields != nil {
+		o.Fields = *so.Fields
+	}
 	if so.Filter != nil {
 		o.Filter = *so.Filter
+	}
+	if so.Groups != nil {
+		o.Groups = *so.Groups
 	}
 	if so.Limit != nil {
 		o.Limit = *so.Limit
@@ -278,6 +307,9 @@ func (o *ReportsQuery) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Report != nil {
 		o.Report = *so.Report
+	}
+	if so.Results != nil {
+		o.Results = *so.Results
 	}
 }
 
@@ -313,6 +345,16 @@ func (o *ReportsQuery) Validate() error {
 
 	if err := elemental.ValidateStringInList("report", string(o.Report), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports"}, false); err != nil {
 		errors = errors.Append(err)
+	}
+
+	for _, sub := range o.Results {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -351,14 +393,20 @@ func (o *ReportsQuery) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "descending":
 		return o.Descending
+	case "fields":
+		return o.Fields
 	case "filter":
 		return o.Filter
+	case "groups":
+		return o.Groups
 	case "limit":
 		return o.Limit
 	case "offset":
 		return o.Offset
 	case "report":
 		return o.Report
+	case "results":
+		return o.Results
 	}
 
 	return nil
@@ -374,6 +422,16 @@ var ReportsQueryAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "descending",
 		Type:           "boolean",
 	},
+	"Fields": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Fields",
+		Description: `List of fields to extract. If you don't pass anything, all available fields will
+be selected.`,
+		Exposed: true,
+		Name:    "fields",
+		SubType: "string",
+		Type:    "list",
+	},
 	"Filter": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Filter",
@@ -381,6 +439,16 @@ var ReportsQueryAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "filter",
 		Type:           "string",
+	},
+	"Groups": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Groups",
+		Description: `Group results by the provided values. Note that not all fields can be used to
+group the results.`,
+		Exposed: true,
+		Name:    "groups",
+		SubType: "string",
+		Type:    "list",
 	},
 	"Limit": {
 		AllowedChoices: []string{},
@@ -409,6 +477,17 @@ var ReportsQueryAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "report",
 		Type:           "enum",
 	},
+	"Results": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Results",
+		Description:    `Contains the result of the query.`,
+		Exposed:        true,
+		Name:           "results",
+		ReadOnly:       true,
+		SubType:        "reportsqueryresults",
+		Type:           "refList",
+	},
 }
 
 // ReportsQueryLowerCaseAttributesMap represents the map of attribute for ReportsQuery.
@@ -421,6 +500,16 @@ var ReportsQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Name:           "descending",
 		Type:           "boolean",
 	},
+	"fields": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Fields",
+		Description: `List of fields to extract. If you don't pass anything, all available fields will
+be selected.`,
+		Exposed: true,
+		Name:    "fields",
+		SubType: "string",
+		Type:    "list",
+	},
 	"filter": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Filter",
@@ -428,6 +517,16 @@ var ReportsQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Exposed:        true,
 		Name:           "filter",
 		Type:           "string",
+	},
+	"groups": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Groups",
+		Description: `Group results by the provided values. Note that not all fields can be used to
+group the results.`,
+		Exposed: true,
+		Name:    "groups",
+		SubType: "string",
+		Type:    "list",
 	},
 	"limit": {
 		AllowedChoices: []string{},
@@ -455,6 +554,17 @@ var ReportsQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Exposed:        true,
 		Name:           "report",
 		Type:           "enum",
+	},
+	"results": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Results",
+		Description:    `Contains the result of the query.`,
+		Exposed:        true,
+		Name:           "results",
+		ReadOnly:       true,
+		SubType:        "reportsqueryresults",
+		Type:           "refList",
 	},
 }
 
@@ -524,8 +634,16 @@ type SparseReportsQuery struct {
 	// If set, the results will be ordered by time from the most recent to the oldest.
 	Descending *bool `json:"descending,omitempty" msgpack:"descending,omitempty" bson:"-" mapstructure:"descending,omitempty"`
 
+	// List of fields to extract. If you don't pass anything, all available fields will
+	// be selected.
+	Fields *[]string `json:"fields,omitempty" msgpack:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
+
 	// Apply a filter to the query.
 	Filter *string `json:"filter,omitempty" msgpack:"filter,omitempty" bson:"-" mapstructure:"filter,omitempty"`
+
+	// Group results by the provided values. Note that not all fields can be used to
+	// group the results.
+	Groups *[]string `json:"groups,omitempty" msgpack:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
 
 	// Limits the number of results. `-1` means no limit.
 	Limit *int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
@@ -535,6 +653,9 @@ type SparseReportsQuery struct {
 
 	// Name of the report type to query.
 	Report *ReportsQueryReportValue `json:"report,omitempty" msgpack:"report,omitempty" bson:"-" mapstructure:"report,omitempty"`
+
+	// Contains the result of the query.
+	Results *[]*ReportsQueryResults `json:"results,omitempty" msgpack:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -603,8 +724,14 @@ func (o *SparseReportsQuery) ToPlain() elemental.PlainIdentifiable {
 	if o.Descending != nil {
 		out.Descending = *o.Descending
 	}
+	if o.Fields != nil {
+		out.Fields = *o.Fields
+	}
 	if o.Filter != nil {
 		out.Filter = *o.Filter
+	}
+	if o.Groups != nil {
+		out.Groups = *o.Groups
 	}
 	if o.Limit != nil {
 		out.Limit = *o.Limit
@@ -614,6 +741,9 @@ func (o *SparseReportsQuery) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Report != nil {
 		out.Report = *o.Report
+	}
+	if o.Results != nil {
+		out.Results = *o.Results
 	}
 
 	return out
