@@ -4214,7 +4214,8 @@ external change on the processing unit must be processed.
 
 ```json
 {
-  "debug": "Counters"
+  "debug": "Counters",
+  "debugDuration": "2m"
 }
 ```
 
@@ -4243,6 +4244,12 @@ Default value:
 ##### `debugDuration` `string`
 
 The duration that certain on-demand debug information is collected.
+
+Default value:
+
+```json
+"2m"
+```
 
 ##### `debugProcessingUnitID` `string`
 

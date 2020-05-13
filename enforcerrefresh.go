@@ -122,8 +122,9 @@ type EnforcerRefresh struct {
 func NewEnforcerRefresh() *EnforcerRefresh {
 
 	return &EnforcerRefresh{
-		ModelVersion: 1,
-		Debug:        EnforcerRefreshDebugCounters,
+		ModelVersion:  1,
+		Debug:         EnforcerRefreshDebugCounters,
+		DebugDuration: "2m",
 	}
 }
 
@@ -388,6 +389,7 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 	"DebugDuration": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DebugDuration",
+		DefaultValue:   "2m",
 		Description:    `The duration that certain on-demand debug information is collected.`,
 		Exposed:        true,
 		Name:           "debugDuration",
@@ -439,6 +441,7 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"debugduration": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DebugDuration",
+		DefaultValue:   "2m",
 		Description:    `The duration that certain on-demand debug information is collected.`,
 		Exposed:        true,
 		Name:           "debugDuration",

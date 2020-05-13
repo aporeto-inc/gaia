@@ -47,6 +47,7 @@ attributes:
     type: string
     exposed: true
     omit_empty: true
+    default_value: 2m
     validations:
     - $timeDuration
 
