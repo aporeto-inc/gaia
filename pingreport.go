@@ -93,6 +93,9 @@ type PingReport struct {
 	// If true, application responded to the request.
 	ApplicationListening bool `json:"applicationListening" msgpack:"applicationListening" bson:"-" mapstructure:"applicationListening,omitempty"`
 
+	// Claims carried on the wire.
+	Claims []string `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
+
 	// ID of the destination processing unit.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"-" mapstructure:"destinationID,omitempty"`
 
@@ -104,6 +107,9 @@ type PingReport struct {
 
 	// Semantic version of the enforcer.
 	EnforcerVersion string `json:"enforcerVersion" msgpack:"enforcerVersion" bson:"-" mapstructure:"enforcerVersion,omitempty"`
+
+	// If true, destination IP is in excludedNetworks.
+	ExcludedNetworks bool `json:"excludedNetworks" msgpack:"excludedNetworks" bson:"-" mapstructure:"excludedNetworks,omitempty"`
 
 	// Four tuple in the format <sip:dip:spt:dpt>.
 	FourTuple string `json:"fourTuple" msgpack:"fourTuple" bson:"-" mapstructure:"fourTuple,omitempty"`
@@ -141,6 +147,9 @@ type PingReport struct {
 	// Current stage when this report has been generated.
 	Stage string `json:"stage" msgpack:"stage" bson:"-" mapstructure:"stage,omitempty"`
 
+	// If true, destination IP is in targetTCPNetworks.
+	TargetTCPNetworks bool `json:"targetTCPNetworks" msgpack:"targetTCPNetworks" bson:"-" mapstructure:"targetTCPNetworks,omitempty"`
+
 	// Date of the report.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
@@ -152,6 +161,7 @@ func NewPingReport() *PingReport {
 
 	return &PingReport{
 		ModelVersion: 1,
+		Claims:       []string{},
 	}
 }
 
@@ -241,10 +251,12 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			TXController:         &o.TXController,
 			TXType:               &o.TXType,
 			ApplicationListening: &o.ApplicationListening,
+			Claims:               &o.Claims,
 			DestinationID:        &o.DestinationID,
 			EnforcerID:           &o.EnforcerID,
 			EnforcerNamespace:    &o.EnforcerNamespace,
 			EnforcerVersion:      &o.EnforcerVersion,
+			ExcludedNetworks:     &o.ExcludedNetworks,
 			FourTuple:            &o.FourTuple,
 			IterationID:          &o.IterationID,
 			Namespace:            &o.Namespace,
@@ -257,6 +269,7 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ServiceType:          &o.ServiceType,
 			SourceID:             &o.SourceID,
 			Stage:                &o.Stage,
+			TargetTCPNetworks:    &o.TargetTCPNetworks,
 			Timestamp:            &o.Timestamp,
 		}
 	}
@@ -272,6 +285,8 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.TXType = &(o.TXType)
 		case "applicationListening":
 			sp.ApplicationListening = &(o.ApplicationListening)
+		case "claims":
+			sp.Claims = &(o.Claims)
 		case "destinationID":
 			sp.DestinationID = &(o.DestinationID)
 		case "enforcerID":
@@ -280,6 +295,8 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "enforcerVersion":
 			sp.EnforcerVersion = &(o.EnforcerVersion)
+		case "excludedNetworks":
+			sp.ExcludedNetworks = &(o.ExcludedNetworks)
 		case "fourTuple":
 			sp.FourTuple = &(o.FourTuple)
 		case "iterationID":
@@ -304,6 +321,8 @@ func (o *PingReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.SourceID = &(o.SourceID)
 		case "stage":
 			sp.Stage = &(o.Stage)
+		case "targetTCPNetworks":
+			sp.TargetTCPNetworks = &(o.TargetTCPNetworks)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
 		}
@@ -331,6 +350,9 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ApplicationListening != nil {
 		o.ApplicationListening = *so.ApplicationListening
 	}
+	if so.Claims != nil {
+		o.Claims = *so.Claims
+	}
 	if so.DestinationID != nil {
 		o.DestinationID = *so.DestinationID
 	}
@@ -342,6 +364,9 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EnforcerVersion != nil {
 		o.EnforcerVersion = *so.EnforcerVersion
+	}
+	if so.ExcludedNetworks != nil {
+		o.ExcludedNetworks = *so.ExcludedNetworks
 	}
 	if so.FourTuple != nil {
 		o.FourTuple = *so.FourTuple
@@ -378,6 +403,9 @@ func (o *PingReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Stage != nil {
 		o.Stage = *so.Stage
+	}
+	if so.TargetTCPNetworks != nil {
+		o.TargetTCPNetworks = *so.TargetTCPNetworks
 	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
@@ -468,6 +496,8 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 		return o.TXType
 	case "applicationListening":
 		return o.ApplicationListening
+	case "claims":
+		return o.Claims
 	case "destinationID":
 		return o.DestinationID
 	case "enforcerID":
@@ -476,6 +506,8 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 		return o.EnforcerNamespace
 	case "enforcerVersion":
 		return o.EnforcerVersion
+	case "excludedNetworks":
+		return o.ExcludedNetworks
 	case "fourTuple":
 		return o.FourTuple
 	case "iterationID":
@@ -500,6 +532,8 @@ func (o *PingReport) ValueForAttribute(name string) interface{} {
 		return o.SourceID
 	case "stage":
 		return o.Stage
+	case "targetTCPNetworks":
+		return o.TargetTCPNetworks
 	case "timestamp":
 		return o.Timestamp
 	}
@@ -541,6 +575,15 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "applicationListening",
 		Type:           "boolean",
 	},
+	"Claims": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Claims",
+		Description:    `Claims carried on the wire.`,
+		Exposed:        true,
+		Name:           "claims",
+		SubType:        "string",
+		Type:           "list",
+	},
 	"DestinationID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationID",
@@ -574,6 +617,14 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "enforcerVersion",
 		Type:           "string",
+	},
+	"ExcludedNetworks": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ExcludedNetworks",
+		Description:    `If true, destination IP is in excludedNetworks.`,
+		Exposed:        true,
+		Name:           "excludedNetworks",
+		Type:           "boolean",
 	},
 	"FourTuple": {
 		AllowedChoices: []string{},
@@ -672,6 +723,14 @@ var PingReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "stage",
 		Type:           "string",
 	},
+	"TargetTCPNetworks": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetTCPNetworks",
+		Description:    `If true, destination IP is in targetTCPNetworks.`,
+		Exposed:        true,
+		Name:           "targetTCPNetworks",
+		Type:           "boolean",
+	},
 	"Timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
@@ -716,6 +775,15 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "applicationListening",
 		Type:           "boolean",
 	},
+	"claims": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Claims",
+		Description:    `Claims carried on the wire.`,
+		Exposed:        true,
+		Name:           "claims",
+		SubType:        "string",
+		Type:           "list",
+	},
 	"destinationid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationID",
@@ -749,6 +817,14 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "enforcerVersion",
 		Type:           "string",
+	},
+	"excludednetworks": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ExcludedNetworks",
+		Description:    `If true, destination IP is in excludedNetworks.`,
+		Exposed:        true,
+		Name:           "excludedNetworks",
+		Type:           "boolean",
 	},
 	"fourtuple": {
 		AllowedChoices: []string{},
@@ -847,6 +923,14 @@ var PingReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "stage",
 		Type:           "string",
 	},
+	"targettcpnetworks": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetTCPNetworks",
+		Description:    `If true, destination IP is in targetTCPNetworks.`,
+		Exposed:        true,
+		Name:           "targetTCPNetworks",
+		Type:           "boolean",
+	},
 	"timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
@@ -932,6 +1016,9 @@ type SparsePingReport struct {
 	// If true, application responded to the request.
 	ApplicationListening *bool `json:"applicationListening,omitempty" msgpack:"applicationListening,omitempty" bson:"-" mapstructure:"applicationListening,omitempty"`
 
+	// Claims carried on the wire.
+	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+
 	// ID of the destination processing unit.
 	DestinationID *string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"-" mapstructure:"destinationID,omitempty"`
 
@@ -943,6 +1030,9 @@ type SparsePingReport struct {
 
 	// Semantic version of the enforcer.
 	EnforcerVersion *string `json:"enforcerVersion,omitempty" msgpack:"enforcerVersion,omitempty" bson:"-" mapstructure:"enforcerVersion,omitempty"`
+
+	// If true, destination IP is in excludedNetworks.
+	ExcludedNetworks *bool `json:"excludedNetworks,omitempty" msgpack:"excludedNetworks,omitempty" bson:"-" mapstructure:"excludedNetworks,omitempty"`
 
 	// Four tuple in the format <sip:dip:spt:dpt>.
 	FourTuple *string `json:"fourTuple,omitempty" msgpack:"fourTuple,omitempty" bson:"-" mapstructure:"fourTuple,omitempty"`
@@ -979,6 +1069,9 @@ type SparsePingReport struct {
 
 	// Current stage when this report has been generated.
 	Stage *string `json:"stage,omitempty" msgpack:"stage,omitempty" bson:"-" mapstructure:"stage,omitempty"`
+
+	// If true, destination IP is in targetTCPNetworks.
+	TargetTCPNetworks *bool `json:"targetTCPNetworks,omitempty" msgpack:"targetTCPNetworks,omitempty" bson:"-" mapstructure:"targetTCPNetworks,omitempty"`
 
 	// Date of the report.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -1059,6 +1152,9 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	if o.ApplicationListening != nil {
 		out.ApplicationListening = *o.ApplicationListening
 	}
+	if o.Claims != nil {
+		out.Claims = *o.Claims
+	}
 	if o.DestinationID != nil {
 		out.DestinationID = *o.DestinationID
 	}
@@ -1070,6 +1166,9 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EnforcerVersion != nil {
 		out.EnforcerVersion = *o.EnforcerVersion
+	}
+	if o.ExcludedNetworks != nil {
+		out.ExcludedNetworks = *o.ExcludedNetworks
 	}
 	if o.FourTuple != nil {
 		out.FourTuple = *o.FourTuple
@@ -1106,6 +1205,9 @@ func (o *SparsePingReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Stage != nil {
 		out.Stage = *o.Stage
+	}
+	if o.TargetTCPNetworks != nil {
+		out.TargetTCPNetworks = *o.TargetTCPNetworks
 	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp

@@ -30,6 +30,12 @@ attributes:
     type: boolean
     exposed: true
 
+  - name: claims
+    description: Claims carried on the wire.
+    type: list
+    exposed: true
+    subtype: string
+
   - name: destinationID
     description: ID of the destination processing unit.
     type: string
@@ -52,6 +58,11 @@ attributes:
   - name: enforcerVersion
     description: Semantic version of the enforcer.
     type: string
+    exposed: true
+
+  - name: excludedNetworks
+    description: If true, destination IP is in excludedNetworks.
+    type: boolean
     exposed: true
 
   - name: fourTuple
@@ -114,6 +125,11 @@ attributes:
   - name: stage
     description: Current stage when this report has been generated.
     type: string
+    exposed: true
+
+  - name: targetTCPNetworks
+    description: If true, destination IP is in targetTCPNetworks.
+    type: boolean
     exposed: true
 
   - name: timestamp

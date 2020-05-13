@@ -3198,7 +3198,9 @@ Post a new pu diagnostics report.
   "applicationListening": false,
   "enforcerID": "xxx-xxx-xxx-xxx",
   "enforcerNamespace": "/my/ns",
-  "pingID": "xxx-xxx-xxx-xxx"
+  "excludedNetworks": false,
+  "pingID": "xxx-xxx-xxx-xxx",
+  "targetTCPNetworks": false
 }
 ```
 
@@ -3226,6 +3228,10 @@ Type of the transmitter.
 
 If true, application responded to the request.
 
+##### `claims` `[]string`
+
+Claims carried on the wire.
+
 ##### `destinationID` `string`
 
 ID of the destination processing unit.
@@ -3241,6 +3247,10 @@ Namespace of the enforcer.
 ##### `enforcerVersion` `string`
 
 Semantic version of the enforcer.
+
+##### `excludedNetworks` `boolean`
+
+If true, destination IP is in excludedNetworks.
 
 ##### `fourTuple` `string`
 
@@ -3289,6 +3299,10 @@ ID of the source PU.
 ##### `stage` `string`
 
 Current stage when this report has been generated.
+
+##### `targetTCPNetworks` `boolean`
+
+If true, destination IP is in targetTCPNetworks.
 
 ##### `timestamp` `time`
 
