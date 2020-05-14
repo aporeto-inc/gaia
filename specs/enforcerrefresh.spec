@@ -49,7 +49,7 @@ attributes:
     omit_empty: true
 
   - name: debugPcapFilter
-    description: Pcap filter, syntax varying by platform.
+    description: Packet capture filter, syntax varying by platform.
     type: string
     exposed: true
     omit_empty: true

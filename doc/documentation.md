@@ -4242,7 +4242,7 @@ Default value:
 
 ##### `debugPcapFilter` `string`
 
-Pcap filter, syntax varying by platform.
+Packet capture filter, syntax varying by platform.
 
 ##### `debugProcessingUnitID` `string`
 

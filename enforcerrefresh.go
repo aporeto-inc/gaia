@@ -106,7 +106,7 @@ type EnforcerRefresh struct {
 	// Set the debug information collected by the enforcer.
 	Debug EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
-	// Pcap filter, syntax varying by platform.
+	// Packet capture filter, syntax varying by platform.
 	DebugPcapFilter string `json:"debugPcapFilter,omitempty" msgpack:"debugPcapFilter,omitempty" bson:"-" mapstructure:"debugPcapFilter,omitempty"`
 
 	// Isolates debug information to a given processing unit, where possible.
@@ -384,7 +384,7 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 	"DebugPcapFilter": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DebugPcapFilter",
-		Description:    `Pcap filter, syntax varying by platform.`,
+		Description:    `Packet capture filter, syntax varying by platform.`,
 		Exposed:        true,
 		Name:           "debugPcapFilter",
 		Type:           "string",
@@ -435,7 +435,7 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"debugpcapfilter": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DebugPcapFilter",
-		Description:    `Pcap filter, syntax varying by platform.`,
+		Description:    `Packet capture filter, syntax varying by platform.`,
 		Exposed:        true,
 		Name:           "debugPcapFilter",
 		Type:           "string",
@@ -529,7 +529,7 @@ type SparseEnforcerRefresh struct {
 	// Set the debug information collected by the enforcer.
 	Debug *EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
-	// Pcap filter, syntax varying by platform.
+	// Packet capture filter, syntax varying by platform.
 	DebugPcapFilter *string `json:"debugPcapFilter,omitempty" msgpack:"debugPcapFilter,omitempty" bson:"-" mapstructure:"debugPcapFilter,omitempty"`
 
 	// Isolates debug information to a given processing unit, where possible.
