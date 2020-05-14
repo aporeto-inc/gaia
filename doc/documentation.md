@@ -4240,9 +4240,9 @@ Default value:
 "Counters"
 ```
 
-##### `debugFilter` `string`
+##### `debugPcapFilter` `string`
 
-Filter debug information, syntax depending on debug choice.
+Pcap filter, syntax varying by platform.
 
 ##### `debugProcessingUnitID` `string`
 

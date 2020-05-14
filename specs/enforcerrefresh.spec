@@ -48,8 +48,8 @@ attributes:
     exposed: true
     omit_empty: true
 
-  - name: debugFilter
-    description: Filter debug information, syntax depending on debug choice.
+  - name: debugPcapFilter
+    description: Pcap filter, syntax varying by platform.
     type: string
     exposed: true
     omit_empty: true

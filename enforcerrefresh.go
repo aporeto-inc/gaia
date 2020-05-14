@@ -106,8 +106,8 @@ type EnforcerRefresh struct {
 	// Set the debug information collected by the enforcer.
 	Debug EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
-	// Filter debug information, syntax depending on debug choice.
-	DebugFilter string `json:"debugFilter,omitempty" msgpack:"debugFilter,omitempty" bson:"-" mapstructure:"debugFilter,omitempty"`
+	// Pcap filter, syntax varying by platform.
+	DebugPcapFilter string `json:"debugPcapFilter,omitempty" msgpack:"debugPcapFilter,omitempty" bson:"-" mapstructure:"debugPcapFilter,omitempty"`
 
 	// Isolates debug information to a given processing unit, where possible.
 	DebugProcessingUnitID string `json:"debugProcessingUnitID,omitempty" msgpack:"debugProcessingUnitID,omitempty" bson:"-" mapstructure:"debugProcessingUnitID,omitempty"`
@@ -226,7 +226,7 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 		return &SparseEnforcerRefresh{
 			ID:                    &o.ID,
 			Debug:                 &o.Debug,
-			DebugFilter:           &o.DebugFilter,
+			DebugPcapFilter:       &o.DebugPcapFilter,
 			DebugProcessingUnitID: &o.DebugProcessingUnitID,
 			Namespace:             &o.Namespace,
 		}
@@ -239,8 +239,8 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ID = &(o.ID)
 		case "debug":
 			sp.Debug = &(o.Debug)
-		case "debugFilter":
-			sp.DebugFilter = &(o.DebugFilter)
+		case "debugPcapFilter":
+			sp.DebugPcapFilter = &(o.DebugPcapFilter)
 		case "debugProcessingUnitID":
 			sp.DebugProcessingUnitID = &(o.DebugProcessingUnitID)
 		case "namespace":
@@ -264,8 +264,8 @@ func (o *EnforcerRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Debug != nil {
 		o.Debug = *so.Debug
 	}
-	if so.DebugFilter != nil {
-		o.DebugFilter = *so.DebugFilter
+	if so.DebugPcapFilter != nil {
+		o.DebugPcapFilter = *so.DebugPcapFilter
 	}
 	if so.DebugProcessingUnitID != nil {
 		o.DebugProcessingUnitID = *so.DebugProcessingUnitID
@@ -347,8 +347,8 @@ func (o *EnforcerRefresh) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "debug":
 		return o.Debug
-	case "debugFilter":
-		return o.DebugFilter
+	case "debugPcapFilter":
+		return o.DebugPcapFilter
 	case "debugProcessingUnitID":
 		return o.DebugProcessingUnitID
 	case "namespace":
@@ -381,12 +381,12 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "debug",
 		Type:           "enum",
 	},
-	"DebugFilter": {
+	"DebugPcapFilter": {
 		AllowedChoices: []string{},
-		ConvertedName:  "DebugFilter",
-		Description:    `Filter debug information, syntax depending on debug choice.`,
+		ConvertedName:  "DebugPcapFilter",
+		Description:    `Pcap filter, syntax varying by platform.`,
 		Exposed:        true,
-		Name:           "debugFilter",
+		Name:           "debugPcapFilter",
 		Type:           "string",
 	},
 	"DebugProcessingUnitID": {
@@ -432,12 +432,12 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "debug",
 		Type:           "enum",
 	},
-	"debugfilter": {
+	"debugpcapfilter": {
 		AllowedChoices: []string{},
-		ConvertedName:  "DebugFilter",
-		Description:    `Filter debug information, syntax depending on debug choice.`,
+		ConvertedName:  "DebugPcapFilter",
+		Description:    `Pcap filter, syntax varying by platform.`,
 		Exposed:        true,
-		Name:           "debugFilter",
+		Name:           "debugPcapFilter",
 		Type:           "string",
 	},
 	"debugprocessingunitid": {
@@ -529,8 +529,8 @@ type SparseEnforcerRefresh struct {
 	// Set the debug information collected by the enforcer.
 	Debug *EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
-	// Filter debug information, syntax depending on debug choice.
-	DebugFilter *string `json:"debugFilter,omitempty" msgpack:"debugFilter,omitempty" bson:"-" mapstructure:"debugFilter,omitempty"`
+	// Pcap filter, syntax varying by platform.
+	DebugPcapFilter *string `json:"debugPcapFilter,omitempty" msgpack:"debugPcapFilter,omitempty" bson:"-" mapstructure:"debugPcapFilter,omitempty"`
 
 	// Isolates debug information to a given processing unit, where possible.
 	DebugProcessingUnitID *string `json:"debugProcessingUnitID,omitempty" msgpack:"debugProcessingUnitID,omitempty" bson:"-" mapstructure:"debugProcessingUnitID,omitempty"`
@@ -616,8 +616,8 @@ func (o *SparseEnforcerRefresh) ToPlain() elemental.PlainIdentifiable {
 	if o.Debug != nil {
 		out.Debug = *o.Debug
 	}
-	if o.DebugFilter != nil {
-		out.DebugFilter = *o.DebugFilter
+	if o.DebugPcapFilter != nil {
+		out.DebugPcapFilter = *o.DebugPcapFilter
 	}
 	if o.DebugProcessingUnitID != nil {
 		out.DebugProcessingUnitID = *o.DebugProcessingUnitID
