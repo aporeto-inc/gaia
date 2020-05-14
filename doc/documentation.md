@@ -9902,8 +9902,10 @@ Identifier of the object.
 Defines the action to apply to a flow.
 
 - `Allow`: allows the defined traffic.
-- `Reject`: rejects the defined traffic; useful in conjunction with an allow all policy.
-- `Continue`: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.
+- `Reject`: rejects the defined traffic; useful in conjunction with an allow all
+policy.
+- `Continue`: neither allows or rejects the traffic; useful for applying another
+property to the traffic.
 
 Default value:
 
@@ -9968,7 +9970,10 @@ Defines if the property is disabled.
 
 ##### `encryptionEnabled` `boolean`
 
-Defines if the flow has to be encrypted.
+_This attribute is deprecated_.
+
+Defines if the flow has to be encrypted. This property is deprecated and have no
+incidence.
 
 ##### `expirationTime` `time`
 
