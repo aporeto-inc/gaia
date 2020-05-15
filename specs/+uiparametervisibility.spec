@@ -32,6 +32,7 @@ attributes:
     - Defined
     - Undefined
     - Match
+    - NotMatch
 
   - name: value
     description: Values that must match the key.
