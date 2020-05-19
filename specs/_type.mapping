@@ -28,6 +28,16 @@
         }
       }
 
+'[]byte':
+  elemental:
+    type: '[]byte'
+    init: '[]byte{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "string"
+      }
+
 '[]map[string]interface{}':
   elemental:
     type: '[]map[string]interface{}'
