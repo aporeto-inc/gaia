@@ -128,14 +128,18 @@ type Issue struct {
 	// Limits roles/permissions the token can be used for. This is only given to reduce
 	// the existing set of policies. For instance if you have administrative role, you
 	// can ask for a token that will tell the policy engine to reduce the permission to
-	// what it given here. Declaring a permission you don't initialy have according to
-	// the policy engine is a no op.
+	// what it given here.
+	//
+	// Declaring a permission you don't initially have according to the policy engine
+	// has no effect.
 	AuthorizedIdentities []string `json:"authorizedIdentities" msgpack:"authorizedIdentities" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
 
-	// Limts the namespace the token can be used in. For instance if you have access to
-	// /ns1 and /ns2, you can ask for a token that will tell the policy engine to
-	// reduce the permission to what simply /ns2. Declaring a namespace you don't
-	// initialy have according to the policy engine is a no op.
+	// Limits the namespace the token can be used in. For instance if you have access
+	// to `ns1` and `/ns2`, you can ask for a token that will tell the policy engine to
+	// reduce the permission to what simply `/ns2`.
+	//
+	// Declaring a namespace you don't initially have according to the policy engine
+	// has no effect.
 	AuthorizedNamespace string `json:"authorizedNamespace" msgpack:"authorizedNamespace" bson:"-" mapstructure:"authorizedNamespace,omitempty"`
 
 	// The claims in the token. It is only set is the parameter `asCookie` is given.
@@ -478,8 +482,10 @@ for further information.`,
 		Description: `Limits roles/permissions the token can be used for. This is only given to reduce
 the existing set of policies. For instance if you have administrative role, you
 can ask for a token that will tell the policy engine to reduce the permission to
-what it given here. Declaring a permission you don't initialy have according to
-the policy engine is a no op.`,
+what it given here.
+
+Declaring a permission you don't initially have according to the policy engine
+has no effect.`,
 		Exposed: true,
 		Name:    "authorizedIdentities",
 		SubType: "string",
@@ -488,10 +494,12 @@ the policy engine is a no op.`,
 	"AuthorizedNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AuthorizedNamespace",
-		Description: `Limts the namespace the token can be used in. For instance if you have access to
-/ns1 and /ns2, you can ask for a token that will tell the policy engine to
-reduce the permission to what simply /ns2. Declaring a namespace you don't
-initialy have according to the policy engine is a no op.`,
+		Description: `Limits the namespace the token can be used in. For instance if you have access
+to ` + "`" + `ns1` + "`" + ` and ` + "`" + `/ns2` + "`" + `, you can ask for a token that will tell the policy engine to
+reduce the permission to what simply ` + "`" + `/ns2` + "`" + `.
+
+Declaring a namespace you don't initially have according to the policy engine
+has no effect.`,
 		Exposed: true,
 		Name:    "authorizedNamespace",
 		Type:    "string",
@@ -599,8 +607,10 @@ for further information.`,
 		Description: `Limits roles/permissions the token can be used for. This is only given to reduce
 the existing set of policies. For instance if you have administrative role, you
 can ask for a token that will tell the policy engine to reduce the permission to
-what it given here. Declaring a permission you don't initialy have according to
-the policy engine is a no op.`,
+what it given here.
+
+Declaring a permission you don't initially have according to the policy engine
+has no effect.`,
 		Exposed: true,
 		Name:    "authorizedIdentities",
 		SubType: "string",
@@ -609,10 +619,12 @@ the policy engine is a no op.`,
 	"authorizednamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AuthorizedNamespace",
-		Description: `Limts the namespace the token can be used in. For instance if you have access to
-/ns1 and /ns2, you can ask for a token that will tell the policy engine to
-reduce the permission to what simply /ns2. Declaring a namespace you don't
-initialy have according to the policy engine is a no op.`,
+		Description: `Limits the namespace the token can be used in. For instance if you have access
+to ` + "`" + `ns1` + "`" + ` and ` + "`" + `/ns2` + "`" + `, you can ask for a token that will tell the policy engine to
+reduce the permission to what simply ` + "`" + `/ns2` + "`" + `.
+
+Declaring a namespace you don't initially have according to the policy engine
+has no effect.`,
 		Exposed: true,
 		Name:    "authorizedNamespace",
 		Type:    "string",
@@ -773,14 +785,18 @@ type SparseIssue struct {
 	// Limits roles/permissions the token can be used for. This is only given to reduce
 	// the existing set of policies. For instance if you have administrative role, you
 	// can ask for a token that will tell the policy engine to reduce the permission to
-	// what it given here. Declaring a permission you don't initialy have according to
-	// the policy engine is a no op.
+	// what it given here.
+	//
+	// Declaring a permission you don't initially have according to the policy engine
+	// has no effect.
 	AuthorizedIdentities *[]string `json:"authorizedIdentities,omitempty" msgpack:"authorizedIdentities,omitempty" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
 
-	// Limts the namespace the token can be used in. For instance if you have access to
-	// /ns1 and /ns2, you can ask for a token that will tell the policy engine to
-	// reduce the permission to what simply /ns2. Declaring a namespace you don't
-	// initialy have according to the policy engine is a no op.
+	// Limits the namespace the token can be used in. For instance if you have access
+	// to `ns1` and `/ns2`, you can ask for a token that will tell the policy engine to
+	// reduce the permission to what simply `/ns2`.
+	//
+	// Declaring a namespace you don't initially have according to the policy engine
+	// has no effect.
 	AuthorizedNamespace *string `json:"authorizedNamespace,omitempty" msgpack:"authorizedNamespace,omitempty" bson:"-" mapstructure:"authorizedNamespace,omitempty"`
 
 	// The claims in the token. It is only set is the parameter `asCookie` is given.

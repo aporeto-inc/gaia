@@ -27,8 +27,10 @@ attributes:
       Limits roles/permissions the token can be used for. This is only given to reduce
       the existing set of policies. For instance if you have administrative role, you
       can ask for a token that will tell the policy engine to reduce the permission to
-      what it given here. Declaring a permission you don't initialy have according to
-      the policy engine is a no op.
+      what it given here.
+
+      Declaring a permission you don't initially have according to the policy engine
+      has no effect.
     type: list
     exposed: true
     subtype: string
@@ -37,10 +39,12 @@ attributes:
 
   - name: authorizedNamespace
     description: |-
-      Limts the namespace the token can be used in. For instance if you have access to
-      /ns1 and /ns2, you can ask for a token that will tell the policy engine to
-      reduce the permission to what simply /ns2. Declaring a namespace you don't
-      initialy have according to the policy engine is a no op.
+      Limits the namespace the token can be used in. For instance if you have access
+      to `ns1` and `/ns2`, you can ask for a token that will tell the policy engine to
+      reduce the permission to what simply `/ns2`.
+
+      Declaring a namespace you don't initially have according to the policy engine
+      has no effect.
     type: string
     exposed: true
     example_value: /namespace
