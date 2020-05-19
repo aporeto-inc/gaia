@@ -98,8 +98,11 @@ type Ping struct {
 	// Time taken for a single request-response to complete.
 	RTT string `json:"RTT" msgpack:"RTT" bson:"rtt" mapstructure:"RTT,omitempty"`
 
-	// Controller of the transmitter.
-	TXController string `json:"TXController" msgpack:"TXController" bson:"txcontroller" mapstructure:"TXController,omitempty"`
+	// Controller of the remote endpoint.
+	RemoteController string `json:"RemoteController" msgpack:"RemoteController" bson:"remotecontroller" mapstructure:"RemoteController,omitempty"`
+
+	// Namespace of the remote endpoint.
+	RemoteNamespace string `json:"RemoteNamespace" msgpack:"RemoteNamespace" bson:"remotenamespace" mapstructure:"RemoteNamespace,omitempty"`
 
 	// Type of the transmitter.
 	TXType string `json:"TXType" msgpack:"TXType" bson:"txtype" mapstructure:"TXType,omitempty"`
@@ -231,7 +234,8 @@ func (o *Ping) GetBSON() (interface{}, error) {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.RTT = o.RTT
-	s.TXController = o.TXController
+	s.RemoteController = o.RemoteController
+	s.RemoteNamespace = o.RemoteNamespace
 	s.TXType = o.TXType
 	s.ApplicationListening = o.ApplicationListening
 	s.Claims = o.Claims
@@ -279,7 +283,8 @@ func (o *Ping) SetBSON(raw bson.Raw) error {
 
 	o.ID = s.ID.Hex()
 	o.RTT = s.RTT
-	o.TXController = s.TXController
+	o.RemoteController = s.RemoteController
+	o.RemoteNamespace = s.RemoteNamespace
 	o.TXType = s.TXType
 	o.ApplicationListening = s.ApplicationListening
 	o.Claims = s.Claims
@@ -422,7 +427,8 @@ func (o *Ping) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparsePing{
 			ID:                      &o.ID,
 			RTT:                     &o.RTT,
-			TXController:            &o.TXController,
+			RemoteController:        &o.RemoteController,
+			RemoteNamespace:         &o.RemoteNamespace,
 			TXType:                  &o.TXType,
 			ApplicationListening:    &o.ApplicationListening,
 			Claims:                  &o.Claims,
@@ -461,8 +467,10 @@ func (o *Ping) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ID = &(o.ID)
 		case "RTT":
 			sp.RTT = &(o.RTT)
-		case "TXController":
-			sp.TXController = &(o.TXController)
+		case "RemoteController":
+			sp.RemoteController = &(o.RemoteController)
+		case "RemoteNamespace":
+			sp.RemoteNamespace = &(o.RemoteNamespace)
 		case "TXType":
 			sp.TXType = &(o.TXType)
 		case "applicationListening":
@@ -538,8 +546,11 @@ func (o *Ping) Patch(sparse elemental.SparseIdentifiable) {
 	if so.RTT != nil {
 		o.RTT = *so.RTT
 	}
-	if so.TXController != nil {
-		o.TXController = *so.TXController
+	if so.RemoteController != nil {
+		o.RemoteController = *so.RemoteController
+	}
+	if so.RemoteNamespace != nil {
+		o.RemoteNamespace = *so.RemoteNamespace
 	}
 	if so.TXType != nil {
 		o.TXType = *so.TXType
@@ -711,8 +722,10 @@ func (o *Ping) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "RTT":
 		return o.RTT
-	case "TXController":
-		return o.TXController
+	case "RemoteController":
+		return o.RemoteController
+	case "RemoteNamespace":
+		return o.RemoteNamespace
 	case "TXType":
 		return o.TXType
 	case "applicationListening":
@@ -799,12 +812,21 @@ var PingAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"TXController": {
+	"RemoteController": {
 		AllowedChoices: []string{},
-		ConvertedName:  "TXController",
-		Description:    `Controller of the transmitter.`,
+		ConvertedName:  "RemoteController",
+		Description:    `Controller of the remote endpoint.`,
 		Exposed:        true,
-		Name:           "TXController",
+		Name:           "RemoteController",
+		Stored:         true,
+		Type:           "string",
+	},
+	"RemoteNamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RemoteNamespace",
+		Description:    `Namespace of the remote endpoint.`,
+		Exposed:        true,
+		Name:           "RemoteNamespace",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1118,12 +1140,21 @@ var PingLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"txcontroller": {
+	"remotecontroller": {
 		AllowedChoices: []string{},
-		ConvertedName:  "TXController",
-		Description:    `Controller of the transmitter.`,
+		ConvertedName:  "RemoteController",
+		Description:    `Controller of the remote endpoint.`,
 		Exposed:        true,
-		Name:           "TXController",
+		Name:           "RemoteController",
+		Stored:         true,
+		Type:           "string",
+	},
+	"remotenamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RemoteNamespace",
+		Description:    `Namespace of the remote endpoint.`,
+		Exposed:        true,
+		Name:           "RemoteNamespace",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1481,8 +1512,11 @@ type SparsePing struct {
 	// Time taken for a single request-response to complete.
 	RTT *string `json:"RTT,omitempty" msgpack:"RTT,omitempty" bson:"rtt,omitempty" mapstructure:"RTT,omitempty"`
 
-	// Controller of the transmitter.
-	TXController *string `json:"TXController,omitempty" msgpack:"TXController,omitempty" bson:"txcontroller,omitempty" mapstructure:"TXController,omitempty"`
+	// Controller of the remote endpoint.
+	RemoteController *string `json:"RemoteController,omitempty" msgpack:"RemoteController,omitempty" bson:"remotecontroller,omitempty" mapstructure:"RemoteController,omitempty"`
+
+	// Namespace of the remote endpoint.
+	RemoteNamespace *string `json:"RemoteNamespace,omitempty" msgpack:"RemoteNamespace,omitempty" bson:"remotenamespace,omitempty" mapstructure:"RemoteNamespace,omitempty"`
 
 	// Type of the transmitter.
 	TXType *string `json:"TXType,omitempty" msgpack:"TXType,omitempty" bson:"txtype,omitempty" mapstructure:"TXType,omitempty"`
@@ -1618,8 +1652,11 @@ func (o *SparsePing) GetBSON() (interface{}, error) {
 	if o.RTT != nil {
 		s.RTT = o.RTT
 	}
-	if o.TXController != nil {
-		s.TXController = o.TXController
+	if o.RemoteController != nil {
+		s.RemoteController = o.RemoteController
+	}
+	if o.RemoteNamespace != nil {
+		s.RemoteNamespace = o.RemoteNamespace
 	}
 	if o.TXType != nil {
 		s.TXType = o.TXType
@@ -1727,8 +1764,11 @@ func (o *SparsePing) SetBSON(raw bson.Raw) error {
 	if s.RTT != nil {
 		o.RTT = s.RTT
 	}
-	if s.TXController != nil {
-		o.TXController = s.TXController
+	if s.RemoteController != nil {
+		o.RemoteController = s.RemoteController
+	}
+	if s.RemoteNamespace != nil {
+		o.RemoteNamespace = s.RemoteNamespace
 	}
 	if s.TXType != nil {
 		o.TXType = s.TXType
@@ -1834,8 +1874,11 @@ func (o *SparsePing) ToPlain() elemental.PlainIdentifiable {
 	if o.RTT != nil {
 		out.RTT = *o.RTT
 	}
-	if o.TXController != nil {
-		out.TXController = *o.TXController
+	if o.RemoteController != nil {
+		out.RemoteController = *o.RemoteController
+	}
+	if o.RemoteNamespace != nil {
+		out.RemoteNamespace = *o.RemoteNamespace
 	}
 	if o.TXType != nil {
 		out.TXType = *o.TXType
@@ -2048,7 +2091,8 @@ func (o *SparsePing) DeepCopyInto(out *SparsePing) {
 type mongoAttributesPing struct {
 	ID                      bson.ObjectId     `bson:"_id,omitempty"`
 	RTT                     string            `bson:"rtt"`
-	TXController            string            `bson:"txcontroller"`
+	RemoteController        string            `bson:"remotecontroller"`
+	RemoteNamespace         string            `bson:"remotenamespace"`
 	TXType                  string            `bson:"txtype"`
 	ApplicationListening    bool              `bson:"applicationlistening"`
 	Claims                  []string          `bson:"claims"`
@@ -2081,7 +2125,8 @@ type mongoAttributesPing struct {
 type mongoAttributesSparsePing struct {
 	ID                      bson.ObjectId      `bson:"_id,omitempty"`
 	RTT                     *string            `bson:"rtt,omitempty"`
-	TXController            *string            `bson:"txcontroller,omitempty"`
+	RemoteController        *string            `bson:"remotecontroller,omitempty"`
+	RemoteNamespace         *string            `bson:"remotenamespace,omitempty"`
 	TXType                  *string            `bson:"txtype,omitempty"`
 	ApplicationListening    *bool              `bson:"applicationlistening,omitempty"`
 	Claims                  *[]string          `bson:"claims,omitempty"`

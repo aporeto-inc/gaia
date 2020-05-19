@@ -3098,6 +3098,10 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[PingRequestIdentity] = &elemental.Relationship{}
+
+	relationshipsRegistry[PingResultIdentity] = &elemental.Relationship{}
+
 	relationshipsRegistry[PlanIdentity] = &elemental.Relationship{
 		Retrieve: map[string]*elemental.RelationshipInfo{
 			"root": {},

@@ -22,8 +22,14 @@ attributes:
     exposed: true
     stored: true
 
-  - name: TXController
-    description: Controller of the transmitter.
+  - name: RemoteController
+    description: Controller of the remote endpoint.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: RemoteNamespace
+    description: Namespace of the remote endpoint.
     type: string
     exposed: true
     stored: true
