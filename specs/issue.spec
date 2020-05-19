@@ -22,6 +22,29 @@ attributes:
     validations:
     - $audience
 
+  - name: authorizedIdentities
+    description: |-
+      Limits roles/permissions the token can be used for. This is only given to reduce
+      the existing set of policies. For instance if you have administrative role, you
+      can ask for a token that will tell the policy engine to reduce the permission to
+      what it given here. Declaring a permission you don't initialy have according to
+      the policy engine is a no op.
+    type: list
+    exposed: true
+    subtype: string
+    example_value:
+    - '@auth:role=enforcer'
+
+  - name: authorizedNamespace
+    description: |-
+      Limts the namespace the token can be used in. For instance if you have access to
+      /ns1 and /ns2, you can ask for a token that will tell the policy engine to
+      reduce the permission to what simply /ns2. Declaring a namespace you don't
+      initialy have according to the policy engine is a no op.
+    type: string
+    exposed: true
+    example_value: /namespace
+
   - name: claims
     description: The claims in the token. It is only set is the parameter `asCookie`
       is given.

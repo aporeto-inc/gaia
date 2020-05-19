@@ -125,6 +125,19 @@ type Issue struct {
 	// for further information.
 	Audience string `json:"audience" msgpack:"audience" bson:"-" mapstructure:"audience,omitempty"`
 
+	// Limits roles/permissions the token can be used for. This is only given to reduce
+	// the existing set of policies. For instance if you have administrative role, you
+	// can ask for a token that will tell the policy engine to reduce the permission to
+	// what it given here. Declaring a permission you don't initialy have according to
+	// the policy engine is a no op.
+	AuthorizedIdentities []string `json:"authorizedIdentities" msgpack:"authorizedIdentities" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
+
+	// Limts the namespace the token can be used in. For instance if you have access to
+	// /ns1 and /ns2, you can ask for a token that will tell the policy engine to
+	// reduce the permission to what simply /ns2. Declaring a namespace you don't
+	// initialy have according to the policy engine is a no op.
+	AuthorizedNamespace string `json:"authorizedNamespace" msgpack:"authorizedNamespace" bson:"-" mapstructure:"authorizedNamespace,omitempty"`
+
 	// The claims in the token. It is only set is the parameter `asCookie` is given.
 	Claims *types.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
@@ -161,11 +174,12 @@ type Issue struct {
 func NewIssue() *Issue {
 
 	return &Issue{
-		ModelVersion: 1,
-		Claims:       types.NewMidgardClaims(),
-		Metadata:     map[string]interface{}{},
-		Opaque:       map[string]string{},
-		Validity:     "24h",
+		ModelVersion:         1,
+		AuthorizedIdentities: []string{},
+		Claims:               types.NewMidgardClaims(),
+		Metadata:             map[string]interface{}{},
+		Opaque:               map[string]string{},
+		Validity:             "24h",
 	}
 }
 
@@ -251,15 +265,17 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseIssue{
-			Audience: &o.Audience,
-			Claims:   o.Claims,
-			Data:     &o.Data,
-			Metadata: &o.Metadata,
-			Opaque:   &o.Opaque,
-			Quota:    &o.Quota,
-			Realm:    &o.Realm,
-			Token:    &o.Token,
-			Validity: &o.Validity,
+			Audience:             &o.Audience,
+			AuthorizedIdentities: &o.AuthorizedIdentities,
+			AuthorizedNamespace:  &o.AuthorizedNamespace,
+			Claims:               o.Claims,
+			Data:                 &o.Data,
+			Metadata:             &o.Metadata,
+			Opaque:               &o.Opaque,
+			Quota:                &o.Quota,
+			Realm:                &o.Realm,
+			Token:                &o.Token,
+			Validity:             &o.Validity,
 		}
 	}
 
@@ -268,6 +284,10 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "audience":
 			sp.Audience = &(o.Audience)
+		case "authorizedIdentities":
+			sp.AuthorizedIdentities = &(o.AuthorizedIdentities)
+		case "authorizedNamespace":
+			sp.AuthorizedNamespace = &(o.AuthorizedNamespace)
 		case "claims":
 			sp.Claims = o.Claims
 		case "data":
@@ -299,6 +319,12 @@ func (o *Issue) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseIssue)
 	if so.Audience != nil {
 		o.Audience = *so.Audience
+	}
+	if so.AuthorizedIdentities != nil {
+		o.AuthorizedIdentities = *so.AuthorizedIdentities
+	}
+	if so.AuthorizedNamespace != nil {
+		o.AuthorizedNamespace = *so.AuthorizedNamespace
 	}
 	if so.Claims != nil {
 		o.Claims = so.Claims
@@ -408,6 +434,10 @@ func (o *Issue) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "audience":
 		return o.Audience
+	case "authorizedIdentities":
+		return o.AuthorizedIdentities
+	case "authorizedNamespace":
+		return o.AuthorizedNamespace
 	case "claims":
 		return o.Claims
 	case "data":
@@ -440,6 +470,30 @@ Refer to [JSON Web Token (JWT)RFC
 for further information.`,
 		Exposed: true,
 		Name:    "audience",
+		Type:    "string",
+	},
+	"AuthorizedIdentities": {
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedIdentities",
+		Description: `Limits roles/permissions the token can be used for. This is only given to reduce
+the existing set of policies. For instance if you have administrative role, you
+can ask for a token that will tell the policy engine to reduce the permission to
+what it given here. Declaring a permission you don't initialy have according to
+the policy engine is a no op.`,
+		Exposed: true,
+		Name:    "authorizedIdentities",
+		SubType: "string",
+		Type:    "list",
+	},
+	"AuthorizedNamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedNamespace",
+		Description: `Limts the namespace the token can be used in. For instance if you have access to
+/ns1 and /ns2, you can ask for a token that will tell the policy engine to
+reduce the permission to what simply /ns2. Declaring a namespace you don't
+initialy have according to the policy engine is a no op.`,
+		Exposed: true,
+		Name:    "authorizedNamespace",
 		Type:    "string",
 	},
 	"Claims": {
@@ -537,6 +591,30 @@ Refer to [JSON Web Token (JWT)RFC
 for further information.`,
 		Exposed: true,
 		Name:    "audience",
+		Type:    "string",
+	},
+	"authorizedidentities": {
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedIdentities",
+		Description: `Limits roles/permissions the token can be used for. This is only given to reduce
+the existing set of policies. For instance if you have administrative role, you
+can ask for a token that will tell the policy engine to reduce the permission to
+what it given here. Declaring a permission you don't initialy have according to
+the policy engine is a no op.`,
+		Exposed: true,
+		Name:    "authorizedIdentities",
+		SubType: "string",
+		Type:    "list",
+	},
+	"authorizednamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedNamespace",
+		Description: `Limts the namespace the token can be used in. For instance if you have access to
+/ns1 and /ns2, you can ask for a token that will tell the policy engine to
+reduce the permission to what simply /ns2. Declaring a namespace you don't
+initialy have according to the policy engine is a no op.`,
+		Exposed: true,
+		Name:    "authorizedNamespace",
 		Type:    "string",
 	},
 	"claims": {
@@ -692,6 +770,19 @@ type SparseIssue struct {
 	// for further information.
 	Audience *string `json:"audience,omitempty" msgpack:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
 
+	// Limits roles/permissions the token can be used for. This is only given to reduce
+	// the existing set of policies. For instance if you have administrative role, you
+	// can ask for a token that will tell the policy engine to reduce the permission to
+	// what it given here. Declaring a permission you don't initialy have according to
+	// the policy engine is a no op.
+	AuthorizedIdentities *[]string `json:"authorizedIdentities,omitempty" msgpack:"authorizedIdentities,omitempty" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
+
+	// Limts the namespace the token can be used in. For instance if you have access to
+	// /ns1 and /ns2, you can ask for a token that will tell the policy engine to
+	// reduce the permission to what simply /ns2. Declaring a namespace you don't
+	// initialy have according to the policy engine is a no op.
+	AuthorizedNamespace *string `json:"authorizedNamespace,omitempty" msgpack:"authorizedNamespace,omitempty" bson:"-" mapstructure:"authorizedNamespace,omitempty"`
+
 	// The claims in the token. It is only set is the parameter `asCookie` is given.
 	Claims *types.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
@@ -787,6 +878,12 @@ func (o *SparseIssue) ToPlain() elemental.PlainIdentifiable {
 	out := NewIssue()
 	if o.Audience != nil {
 		out.Audience = *o.Audience
+	}
+	if o.AuthorizedIdentities != nil {
+		out.AuthorizedIdentities = *o.AuthorizedIdentities
+	}
+	if o.AuthorizedNamespace != nil {
+		out.AuthorizedNamespace = *o.AuthorizedNamespace
 	}
 	if o.Claims != nil {
 		out.Claims = o.Claims
