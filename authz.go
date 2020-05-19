@@ -80,6 +80,23 @@ func (o AuthzsList) Version() int {
 
 // Authz represents the model of a authz
 type Authz struct {
+	// Limits roles/permissions the token can be used for. This is only given to reduce
+	// the existing set of policies. For instance if you have administrative role, you
+	// can ask for a token that will tell the policy engine to reduce the permission to
+	// what it given here.
+	//
+	// Declaring a permission you don't initially have according to the policy engine
+	// has no effect.
+	AuthorizedIdentities []string `json:"authorizedIdentities" msgpack:"authorizedIdentities" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
+
+	// Limits the namespace the token can be used in. For instance if you have access
+	// to `ns1` and `/ns2`, you can ask for a token that will tell the policy engine to
+	// reduce the permission to what simply `/ns2`.
+	//
+	// Declaring a namespace you don't initially have according to the policy engine
+	// has no effect.
+	AuthorizedNamespace string `json:"authorizedNamespace" msgpack:"authorizedNamespace" bson:"-" mapstructure:"authorizedNamespace,omitempty"`
+
 	// The list of verified claims.
 	Claims []string `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
@@ -103,9 +120,10 @@ type Authz struct {
 func NewAuthz() *Authz {
 
 	return &Authz{
-		ModelVersion: 1,
-		Claims:       []string{},
-		Permissions:  map[string]map[string]bool{},
+		ModelVersion:         1,
+		AuthorizedIdentities: []string{},
+		Claims:               []string{},
+		Permissions:          map[string]map[string]bool{},
 	}
 }
 
@@ -191,17 +209,23 @@ func (o *Authz) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAuthz{
-			Claims:          &o.Claims,
-			ClientIP:        &o.ClientIP,
-			Error:           &o.Error,
-			Permissions:     &o.Permissions,
-			TargetNamespace: &o.TargetNamespace,
+			AuthorizedIdentities: &o.AuthorizedIdentities,
+			AuthorizedNamespace:  &o.AuthorizedNamespace,
+			Claims:               &o.Claims,
+			ClientIP:             &o.ClientIP,
+			Error:                &o.Error,
+			Permissions:          &o.Permissions,
+			TargetNamespace:      &o.TargetNamespace,
 		}
 	}
 
 	sp := &SparseAuthz{}
 	for _, f := range fields {
 		switch f {
+		case "authorizedIdentities":
+			sp.AuthorizedIdentities = &(o.AuthorizedIdentities)
+		case "authorizedNamespace":
+			sp.AuthorizedNamespace = &(o.AuthorizedNamespace)
 		case "claims":
 			sp.Claims = &(o.Claims)
 		case "clientIP":
@@ -225,6 +249,12 @@ func (o *Authz) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseAuthz)
+	if so.AuthorizedIdentities != nil {
+		o.AuthorizedIdentities = *so.AuthorizedIdentities
+	}
+	if so.AuthorizedNamespace != nil {
+		o.AuthorizedNamespace = *so.AuthorizedNamespace
+	}
 	if so.Claims != nil {
 		o.Claims = *so.Claims
 	}
@@ -314,6 +344,10 @@ func (*Authz) AttributeSpecifications() map[string]elemental.AttributeSpecificat
 func (o *Authz) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "authorizedIdentities":
+		return o.AuthorizedIdentities
+	case "authorizedNamespace":
+		return o.AuthorizedNamespace
 	case "claims":
 		return o.Claims
 	case "clientIP":
@@ -331,6 +365,34 @@ func (o *Authz) ValueForAttribute(name string) interface{} {
 
 // AuthzAttributesMap represents the map of attribute for Authz.
 var AuthzAttributesMap = map[string]elemental.AttributeSpecification{
+	"AuthorizedIdentities": {
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedIdentities",
+		Description: `Limits roles/permissions the token can be used for. This is only given to reduce
+the existing set of policies. For instance if you have administrative role, you
+can ask for a token that will tell the policy engine to reduce the permission to
+what it given here.
+
+Declaring a permission you don't initially have according to the policy engine
+has no effect.`,
+		Exposed: true,
+		Name:    "authorizedIdentities",
+		SubType: "string",
+		Type:    "list",
+	},
+	"AuthorizedNamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedNamespace",
+		Description: `Limits the namespace the token can be used in. For instance if you have access
+to ` + "`" + `ns1` + "`" + ` and ` + "`" + `/ns2` + "`" + `, you can ask for a token that will tell the policy engine to
+reduce the permission to what simply ` + "`" + `/ns2` + "`" + `.
+
+Declaring a namespace you don't initially have according to the policy engine
+has no effect.`,
+		Exposed: true,
+		Name:    "authorizedNamespace",
+		Type:    "string",
+	},
 	"Claims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
@@ -384,6 +446,34 @@ ignored and this attribute will contain all the permission for the given claims.
 
 // AuthzLowerCaseAttributesMap represents the map of attribute for Authz.
 var AuthzLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"authorizedidentities": {
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedIdentities",
+		Description: `Limits roles/permissions the token can be used for. This is only given to reduce
+the existing set of policies. For instance if you have administrative role, you
+can ask for a token that will tell the policy engine to reduce the permission to
+what it given here.
+
+Declaring a permission you don't initially have according to the policy engine
+has no effect.`,
+		Exposed: true,
+		Name:    "authorizedIdentities",
+		SubType: "string",
+		Type:    "list",
+	},
+	"authorizednamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedNamespace",
+		Description: `Limits the namespace the token can be used in. For instance if you have access
+to ` + "`" + `ns1` + "`" + ` and ` + "`" + `/ns2` + "`" + `, you can ask for a token that will tell the policy engine to
+reduce the permission to what simply ` + "`" + `/ns2` + "`" + `.
+
+Declaring a namespace you don't initially have according to the policy engine
+has no effect.`,
+		Exposed: true,
+		Name:    "authorizedNamespace",
+		Type:    "string",
+	},
 	"claims": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
@@ -498,6 +588,23 @@ func (o SparseAuthzsList) Version() int {
 
 // SparseAuthz represents the sparse version of a authz.
 type SparseAuthz struct {
+	// Limits roles/permissions the token can be used for. This is only given to reduce
+	// the existing set of policies. For instance if you have administrative role, you
+	// can ask for a token that will tell the policy engine to reduce the permission to
+	// what it given here.
+	//
+	// Declaring a permission you don't initially have according to the policy engine
+	// has no effect.
+	AuthorizedIdentities *[]string `json:"authorizedIdentities,omitempty" msgpack:"authorizedIdentities,omitempty" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
+
+	// Limits the namespace the token can be used in. For instance if you have access
+	// to `ns1` and `/ns2`, you can ask for a token that will tell the policy engine to
+	// reduce the permission to what simply `/ns2`.
+	//
+	// Declaring a namespace you don't initially have according to the policy engine
+	// has no effect.
+	AuthorizedNamespace *string `json:"authorizedNamespace,omitempty" msgpack:"authorizedNamespace,omitempty" bson:"-" mapstructure:"authorizedNamespace,omitempty"`
+
 	// The list of verified claims.
 	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
@@ -578,6 +685,12 @@ func (o *SparseAuthz) Version() int {
 func (o *SparseAuthz) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAuthz()
+	if o.AuthorizedIdentities != nil {
+		out.AuthorizedIdentities = *o.AuthorizedIdentities
+	}
+	if o.AuthorizedNamespace != nil {
+		out.AuthorizedNamespace = *o.AuthorizedNamespace
+	}
 	if o.Claims != nil {
 		out.Claims = *o.Claims
 	}
