@@ -109,6 +109,9 @@ type EnforcerRefresh struct {
 	// Set the debug information collected by the enforcer.
 	Debug EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
+	// Can be used to correlate with a DebugBundle.
+	DebugID string `json:"debugID,omitempty" msgpack:"debugID,omitempty" bson:"-" mapstructure:"debugID,omitempty"`
+
 	// Packet capture filter, syntax varying by platform.
 	DebugPcapFilter string `json:"debugPcapFilter,omitempty" msgpack:"debugPcapFilter,omitempty" bson:"-" mapstructure:"debugPcapFilter,omitempty"`
 
@@ -229,6 +232,7 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 		return &SparseEnforcerRefresh{
 			ID:                    &o.ID,
 			Debug:                 &o.Debug,
+			DebugID:               &o.DebugID,
 			DebugPcapFilter:       &o.DebugPcapFilter,
 			DebugProcessingUnitID: &o.DebugProcessingUnitID,
 			Namespace:             &o.Namespace,
@@ -242,6 +246,8 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ID = &(o.ID)
 		case "debug":
 			sp.Debug = &(o.Debug)
+		case "debugID":
+			sp.DebugID = &(o.DebugID)
 		case "debugPcapFilter":
 			sp.DebugPcapFilter = &(o.DebugPcapFilter)
 		case "debugProcessingUnitID":
@@ -266,6 +272,9 @@ func (o *EnforcerRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Debug != nil {
 		o.Debug = *so.Debug
+	}
+	if so.DebugID != nil {
+		o.DebugID = *so.DebugID
 	}
 	if so.DebugPcapFilter != nil {
 		o.DebugPcapFilter = *so.DebugPcapFilter
@@ -350,6 +359,8 @@ func (o *EnforcerRefresh) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "debug":
 		return o.Debug
+	case "debugID":
+		return o.DebugID
 	case "debugPcapFilter":
 		return o.DebugPcapFilter
 	case "debugProcessingUnitID":
@@ -383,6 +394,14 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "debug",
 		Type:           "enum",
+	},
+	"DebugID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DebugID",
+		Description:    `Can be used to correlate with a DebugBundle.`,
+		Exposed:        true,
+		Name:           "debugID",
+		Type:           "string",
 	},
 	"DebugPcapFilter": {
 		AllowedChoices: []string{},
@@ -434,6 +453,14 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Exposed:        true,
 		Name:           "debug",
 		Type:           "enum",
+	},
+	"debugid": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DebugID",
+		Description:    `Can be used to correlate with a DebugBundle.`,
+		Exposed:        true,
+		Name:           "debugID",
+		Type:           "string",
 	},
 	"debugpcapfilter": {
 		AllowedChoices: []string{},
@@ -532,6 +559,9 @@ type SparseEnforcerRefresh struct {
 	// Set the debug information collected by the enforcer.
 	Debug *EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
+	// Can be used to correlate with a DebugBundle.
+	DebugID *string `json:"debugID,omitempty" msgpack:"debugID,omitempty" bson:"-" mapstructure:"debugID,omitempty"`
+
 	// Packet capture filter, syntax varying by platform.
 	DebugPcapFilter *string `json:"debugPcapFilter,omitempty" msgpack:"debugPcapFilter,omitempty" bson:"-" mapstructure:"debugPcapFilter,omitempty"`
 
@@ -618,6 +648,9 @@ func (o *SparseEnforcerRefresh) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Debug != nil {
 		out.Debug = *o.Debug
+	}
+	if o.DebugID != nil {
+		out.DebugID = *o.DebugID
 	}
 	if o.DebugPcapFilter != nil {
 		out.DebugPcapFilter = *o.DebugPcapFilter

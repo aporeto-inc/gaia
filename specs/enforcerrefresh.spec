@@ -54,3 +54,10 @@ attributes:
     type: string
     exposed: true
     omit_empty: true
+
+  - name: debugID
+    description: Can be used to correlate with a DebugBundle.
+    type: string
+    exposed: true
+    omit_empty: true
+    

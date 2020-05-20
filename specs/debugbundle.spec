@@ -22,3 +22,10 @@ attributes:
     type: string
     exposed: true
     read_only: true
+
+  - name: debugID
+    description: Can be used to correlate with an EnforcerRefresh.
+    type: string
+    exposed: true
+    omit_empty: true
+    
