@@ -114,8 +114,10 @@ attributes:
     exposed: true
     subtype: string
     example_value:
-    - '@auth:role=enforcer'
-    - namespace,post
+    - 10.0.0.0/8
+    - 127.0.0.1/32
+    validations:
+    - $optionalcidrs
 
   - name: restrictedPermissions
     description: |-

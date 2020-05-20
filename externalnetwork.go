@@ -737,7 +737,7 @@ func (o *ExternalNetwork) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateNetworkList("entries", o.Entries); err != nil {
+	if err := ValidateNetworkOrHostnameList("entries", o.Entries); err != nil {
 		errors = errors.Append(err)
 	}
 

@@ -422,6 +422,10 @@ func (o *Issue) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateOptionalCIDRList("restrictedNetworks", o.RestrictedNetworks); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
 		errors = errors.Append(err)
 	}

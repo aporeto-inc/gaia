@@ -991,8 +991,8 @@ Issues a new Aporeto token according to given data.
   "realm": "Vince",
   "restrictedNamespace": "/namespace",
   "restrictedNetworks": [
-    "@auth:role=enforcer",
-    "namespace,post"
+    "10.0.0.0/8",
+    "127.0.0.1/32"
   ],
   "restrictedPermissions": [
     "@auth:role=enforcer",
