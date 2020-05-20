@@ -22,18 +22,6 @@ attributes:
     exposed: true
     stored: true
 
-  - name: RemoteController
-    description: Controller of the remote endpoint.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: RemoteNamespace
-    description: Namespace of the remote endpoint.
-    type: string
-    exposed: true
-    stored: true
-
   - name: TXType
     description: Type of the transmitter.
     type: string
@@ -140,6 +128,18 @@ attributes:
   - name: protocol
     description: Protocol used for the communication.
     type: integer
+    exposed: true
+    stored: true
+
+  - name: remoteController
+    description: Controller of the remote endpoint.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: remoteNamespaceHash
+    description: Namespace hash of the remote endpoint.
+    type: string
     exposed: true
     stored: true
 

@@ -3230,14 +3230,6 @@ Identifier of the object.
 
 Time taken for a single request-response to complete.
 
-##### `RemoteController` `string`
-
-Controller of the remote endpoint.
-
-##### `RemoteNamespace` `string`
-
-Namespace of the remote endpoint.
-
 ##### `TXType` `string`
 
 Type of the transmitter.
@@ -3313,6 +3305,14 @@ Namespace of the reporting processing unit.
 ##### `protocol` `integer`
 
 Protocol used for the communication.
+
+##### `remoteController` `string`
+
+Controller of the remote endpoint.
+
+##### `remoteNamespaceHash` `string`
+
+Namespace hash of the remote endpoint.
 
 ##### `seqNum` `integer`
 
