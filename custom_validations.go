@@ -109,7 +109,7 @@ func ValidateNetworkOrHostname(attribute string, network string) error {
 	return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a CIDR or hostname", attribute))
 }
 
-// ValidateNetworkList validates a list of networks.
+// ValidateNetworkOrHostnameList validates a list of networks.
 // The list cannot be empty
 func ValidateNetworkOrHostnameList(attribute string, networks []string) error {
 
