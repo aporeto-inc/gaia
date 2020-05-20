@@ -1,11 +1,11 @@
 # Model
 model:
-  rest_name: ping
-  resource_name: ping
-  entity_name: Ping
+  rest_name: pingprobe
+  resource_name: pingprobe
+  entity_name: PingProbe
   package: guy
   group: core/enforcer
-  description: Post a new pu ping.
+  description: Post a new pu ping probe.
   extends:
   - '@zoned'
   - '@migratable'

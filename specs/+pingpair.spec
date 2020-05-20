@@ -15,7 +15,7 @@ attributes:
     description: Contains the request probe information.
     type: ref
     exposed: true
-    subtype: ping
+    subtype: pingprobe
     stored: true
     extensions:
       refMode: pointer
@@ -24,7 +24,7 @@ attributes:
     description: Contains the response probe information.
     type: ref
     exposed: true
-    subtype: ping
+    subtype: pingprobe
     stored: true
     extensions:
       refMode: pointer

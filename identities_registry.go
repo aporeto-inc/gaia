@@ -90,8 +90,8 @@ var (
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
 		"pccprovider":            PCCProviderIdentity,
-		"ping":                   PingIdentity,
 
+		"pingprobe":   PingProbeIdentity,
 		"pingrequest": PingRequestIdentity,
 		"pingresult":  PingResultIdentity,
 
@@ -238,8 +238,8 @@ var (
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
 		"pccproviders":             PCCProviderIdentity,
-		"ping":                     PingIdentity,
 
+		"pingprobe":   PingProbeIdentity,
 		"pingrequest": PingRequestIdentity,
 		"pingresult":  PingResultIdentity,
 
@@ -734,7 +734,7 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"ping": {
+		"pingprobe": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"namespace"},
 			{"namespace", "normalizedTags"},
@@ -1095,8 +1095,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPasswordReset()
 	case PCCProviderIdentity:
 		return NewPCCProvider()
-	case PingIdentity:
-		return NewPing()
+	case PingProbeIdentity:
+		return NewPingProbe()
 	case PingRequestIdentity:
 		return NewPingRequest()
 	case PingResultIdentity:
@@ -1368,8 +1368,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePasswordReset()
 	case PCCProviderIdentity:
 		return NewSparsePCCProvider()
-	case PingIdentity:
-		return NewSparsePing()
+	case PingProbeIdentity:
+		return NewSparsePingProbe()
 	case PingRequestIdentity:
 		return NewSparsePingRequest()
 	case PingResultIdentity:
@@ -1649,8 +1649,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PasswordResetsList{}
 	case PCCProviderIdentity:
 		return &PCCProvidersList{}
-	case PingIdentity:
-		return &PingsList{}
+	case PingProbeIdentity:
+		return &PingProbesList{}
 	case PingRequestIdentity:
 		return &PingRequestsList{}
 	case PingResultIdentity:
@@ -1920,8 +1920,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePasswordResetsList{}
 	case PCCProviderIdentity:
 		return &SparsePCCProvidersList{}
-	case PingIdentity:
-		return &SparsePingsList{}
+	case PingProbeIdentity:
+		return &SparsePingProbesList{}
 	case PingRequestIdentity:
 		return &SparsePingRequestsList{}
 	case PingResultIdentity:
@@ -2126,7 +2126,7 @@ func AllIdentities() []elemental.Identity {
 		PacketReportIdentity,
 		PasswordResetIdentity,
 		PCCProviderIdentity,
-		PingIdentity,
+		PingProbeIdentity,
 		PingRequestIdentity,
 		PingResultIdentity,
 		PlanIdentity,
@@ -2427,7 +2427,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PCCProviderIdentity:
 		return []string{}
-	case PingIdentity:
+	case PingProbeIdentity:
 		return []string{}
 	case PingRequestIdentity:
 		return []string{}

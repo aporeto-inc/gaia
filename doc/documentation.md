@@ -3187,9 +3187,9 @@ Default value:
 true
 ```
 
-### Ping
+### PingProbe
 
-Post a new pu ping.
+Post a new pu ping probe.
 
 #### Example
 
@@ -3207,18 +3207,18 @@ Post a new pu ping.
 
 #### Relations
 
-##### `GET /ping`
+##### `GET /pingprobe`
 
-Retrieves the ping.
+Retrieves the pingprobe.
 
 Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 - `archived` (`boolean`): Also retrieve the objects that have been archived.
 
-##### `POST /ping`
+##### `POST /pingprobe`
 
-Create a ping.
+Create a ping probe.
 
 #### Attributes
 
@@ -10256,11 +10256,11 @@ Represents a service attached to a processing unit.
 
 #### Attributes
 
-##### `request` [`ping`](#ping)
+##### `request` [`pingprobe`](#pingprobe)
 
 Contains the request probe information.
 
-##### `response` [`ping`](#ping)
+##### `response` [`pingprobe`](#pingprobe)
 
 Contains the response probe information.
 

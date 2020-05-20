@@ -11,10 +11,10 @@ import (
 // PingPair represents the model of a pingpair
 type PingPair struct {
 	// Contains the request probe information.
-	Request *Ping `json:"request" msgpack:"request" bson:"request" mapstructure:"request,omitempty"`
+	Request *PingProbe `json:"request" msgpack:"request" bson:"request" mapstructure:"request,omitempty"`
 
 	// Contains the response probe information.
-	Response *Ping `json:"response" msgpack:"response" bson:"response" mapstructure:"response,omitempty"`
+	Response *PingProbe `json:"response" msgpack:"response" bson:"response" mapstructure:"response,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -24,8 +24,8 @@ func NewPingPair() *PingPair {
 
 	return &PingPair{
 		ModelVersion: 1,
-		Request:      NewPing(),
-		Response:     NewPing(),
+		Request:      NewPingProbe(),
+		Response:     NewPingProbe(),
 	}
 }
 
@@ -126,6 +126,6 @@ func (o *PingPair) Validate() error {
 }
 
 type mongoAttributesPingPair struct {
-	Request  *Ping `bson:"request"`
-	Response *Ping `bson:"response"`
+	Request  *PingProbe `bson:"request"`
+	Response *PingProbe `bson:"response"`
 }

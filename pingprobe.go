@@ -9,54 +9,54 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PingTypeValue represents the possible values for attribute "type".
-type PingTypeValue string
+// PingProbeTypeValue represents the possible values for attribute "type".
+type PingProbeTypeValue string
 
 const (
-	// PingTypeRequest represents the value Request.
-	PingTypeRequest PingTypeValue = "Request"
+	// PingProbeTypeRequest represents the value Request.
+	PingProbeTypeRequest PingProbeTypeValue = "Request"
 
-	// PingTypeResponse represents the value Response.
-	PingTypeResponse PingTypeValue = "Response"
+	// PingProbeTypeResponse represents the value Response.
+	PingProbeTypeResponse PingProbeTypeValue = "Response"
 )
 
-// PingIdentity represents the Identity of the object.
-var PingIdentity = elemental.Identity{
-	Name:     "ping",
-	Category: "ping",
+// PingProbeIdentity represents the Identity of the object.
+var PingProbeIdentity = elemental.Identity{
+	Name:     "pingprobe",
+	Category: "pingprobe",
 	Package:  "guy",
 	Private:  false,
 }
 
-// PingsList represents a list of Pings
-type PingsList []*Ping
+// PingProbesList represents a list of PingProbes
+type PingProbesList []*PingProbe
 
 // Identity returns the identity of the objects in the list.
-func (o PingsList) Identity() elemental.Identity {
+func (o PingProbesList) Identity() elemental.Identity {
 
-	return PingIdentity
+	return PingProbeIdentity
 }
 
-// Copy returns a pointer to a copy the PingsList.
-func (o PingsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the PingProbesList.
+func (o PingProbesList) Copy() elemental.Identifiables {
 
-	copy := append(PingsList{}, o...)
+	copy := append(PingProbesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the PingsList.
-func (o PingsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the PingProbesList.
+func (o PingProbesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(PingsList{}, o...)
+	out := append(PingProbesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*Ping))
+		out = append(out, obj.(*PingProbe))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o PingsList) List() elemental.IdentifiablesList {
+func (o PingProbesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -67,31 +67,31 @@ func (o PingsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o PingsList) DefaultOrder() []string {
+func (o PingProbesList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the PingsList converted to SparsePingsList.
+// ToSparse returns the PingProbesList converted to SparsePingProbesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PingsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o PingProbesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparsePingsList, len(o))
+	out := make(SparsePingProbesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparsePing)
+		out[i] = o[i].ToSparse(fields...).(*SparsePingProbe)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o PingsList) Version() int {
+func (o PingProbesList) Version() int {
 
 	return 1
 }
 
-// Ping represents the model of a ping
-type Ping struct {
+// PingProbe represents the model of a pingprobe
+type PingProbe struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -177,7 +177,7 @@ type Ping struct {
 	TargetTCPNetworks bool `json:"targetTCPNetworks" msgpack:"targetTCPNetworks" bson:"targettcpnetworks" mapstructure:"targetTCPNetworks,omitempty"`
 
 	// Type of the report.
-	Type PingTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
+	Type PingProbeTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -192,10 +192,10 @@ type Ping struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewPing returns a new *Ping
-func NewPing() *Ping {
+// NewPingProbe returns a new *PingProbe
+func NewPingProbe() *PingProbe {
 
-	return &Ping{
+	return &PingProbe{
 		ModelVersion:  1,
 		Claims:        []string{},
 		MigrationsLog: map[string]string{},
@@ -203,32 +203,32 @@ func NewPing() *Ping {
 }
 
 // Identity returns the Identity of the object.
-func (o *Ping) Identity() elemental.Identity {
+func (o *PingProbe) Identity() elemental.Identity {
 
-	return PingIdentity
+	return PingProbeIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Ping) Identifier() string {
+func (o *PingProbe) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Ping) SetIdentifier(id string) {
+func (o *PingProbe) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *Ping) GetBSON() (interface{}, error) {
+func (o *PingProbe) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesPing{}
+	s := &mongoAttributesPingProbe{}
 
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
@@ -270,13 +270,13 @@ func (o *Ping) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *Ping) SetBSON(raw bson.Raw) error {
+func (o *PingProbe) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesPing{}
+	s := &mongoAttributesPingProbe{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -318,113 +318,113 @@ func (o *Ping) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *Ping) Version() int {
+func (o *PingProbe) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *Ping) BleveType() string {
+func (o *PingProbe) BleveType() string {
 
-	return "ping"
+	return "pingprobe"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Ping) DefaultOrder() []string {
+func (o *PingProbe) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *Ping) Doc() string {
+func (o *PingProbe) Doc() string {
 
-	return `Post a new pu ping.`
+	return `Post a new pu ping probe.`
 }
 
-func (o *Ping) String() string {
+func (o *PingProbe) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *Ping) GetCreateTime() time.Time {
+func (o *PingProbe) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *Ping) SetCreateTime(createTime time.Time) {
+func (o *PingProbe) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *Ping) GetMigrationsLog() map[string]string {
+func (o *PingProbe) GetMigrationsLog() map[string]string {
 
 	return o.MigrationsLog
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
-func (o *Ping) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *PingProbe) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *Ping) GetNamespace() string {
+func (o *PingProbe) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *Ping) SetNamespace(namespace string) {
+func (o *PingProbe) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *Ping) GetUpdateTime() time.Time {
+func (o *PingProbe) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *Ping) SetUpdateTime(updateTime time.Time) {
+func (o *PingProbe) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *Ping) GetZHash() int {
+func (o *PingProbe) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *Ping) SetZHash(zHash int) {
+func (o *PingProbe) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *Ping) GetZone() int {
+func (o *PingProbe) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *Ping) SetZone(zone int) {
+func (o *PingProbe) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *Ping) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *PingProbe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparsePing{
+		return &SparsePingProbe{
 			ID:                      &o.ID,
 			RTT:                     &o.RTT,
 			TXType:                  &o.TXType,
@@ -460,7 +460,7 @@ func (o *Ping) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparsePing{}
+	sp := &SparsePingProbe{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -533,13 +533,13 @@ func (o *Ping) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparsePing to the object.
-func (o *Ping) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparsePingProbe to the object.
+func (o *PingProbe) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparsePing)
+	so := sparse.(*SparsePingProbe)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -638,32 +638,32 @@ func (o *Ping) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the Ping.
-func (o *Ping) DeepCopy() *Ping {
+// DeepCopy returns a deep copy if the PingProbe.
+func (o *PingProbe) DeepCopy() *PingProbe {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &Ping{}
+	out := &PingProbe{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *Ping.
-func (o *Ping) DeepCopyInto(out *Ping) {
+// DeepCopyInto copies the receiver into the given *PingProbe.
+func (o *PingProbe) DeepCopyInto(out *PingProbe) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy Ping: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy PingProbe: %s", err))
 	}
 
-	*out = *target.(*Ping)
+	*out = *target.(*PingProbe)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Ping) Validate() error {
+func (o *PingProbe) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -696,26 +696,26 @@ func (o *Ping) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Ping) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*PingProbe) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := PingAttributesMap[name]; ok {
+	if v, ok := PingProbeAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return PingLowerCaseAttributesMap[name]
+	return PingProbeLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Ping) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*PingProbe) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return PingAttributesMap
+	return PingProbeAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *Ping) ValueForAttribute(name string) interface{} {
+func (o *PingProbe) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -787,8 +787,8 @@ func (o *Ping) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// PingAttributesMap represents the map of attribute for Ping.
-var PingAttributesMap = map[string]elemental.AttributeSpecification{
+// PingProbeAttributesMap represents the map of attribute for PingProbe.
+var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1115,8 +1115,8 @@ georedundancy.`,
 	},
 }
 
-// PingLowerCaseAttributesMap represents the map of attribute for Ping.
-var PingLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// PingProbeLowerCaseAttributesMap represents the map of attribute for PingProbe.
+var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1443,35 +1443,35 @@ georedundancy.`,
 	},
 }
 
-// SparsePingsList represents a list of SparsePings
-type SparsePingsList []*SparsePing
+// SparsePingProbesList represents a list of SparsePingProbes
+type SparsePingProbesList []*SparsePingProbe
 
 // Identity returns the identity of the objects in the list.
-func (o SparsePingsList) Identity() elemental.Identity {
+func (o SparsePingProbesList) Identity() elemental.Identity {
 
-	return PingIdentity
+	return PingProbeIdentity
 }
 
-// Copy returns a pointer to a copy the SparsePingsList.
-func (o SparsePingsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparsePingProbesList.
+func (o SparsePingProbesList) Copy() elemental.Identifiables {
 
-	copy := append(SparsePingsList{}, o...)
+	copy := append(SparsePingProbesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparsePingsList.
-func (o SparsePingsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparsePingProbesList.
+func (o SparsePingProbesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparsePingsList{}, o...)
+	out := append(SparsePingProbesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparsePing))
+		out = append(out, obj.(*SparsePingProbe))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparsePingsList) List() elemental.IdentifiablesList {
+func (o SparsePingProbesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1482,13 +1482,13 @@ func (o SparsePingsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparsePingsList) DefaultOrder() []string {
+func (o SparsePingProbesList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparsePingsList converted to PingsList.
-func (o SparsePingsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparsePingProbesList converted to PingProbesList.
+func (o SparsePingProbesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1499,13 +1499,13 @@ func (o SparsePingsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparsePingsList) Version() int {
+func (o SparsePingProbesList) Version() int {
 
 	return 1
 }
 
-// SparsePing represents the sparse version of a ping.
-type SparsePing struct {
+// SparsePingProbe represents the sparse version of a pingprobe.
+type SparsePingProbe struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1591,7 +1591,7 @@ type SparsePing struct {
 	TargetTCPNetworks *bool `json:"targetTCPNetworks,omitempty" msgpack:"targetTCPNetworks,omitempty" bson:"targettcpnetworks,omitempty" mapstructure:"targetTCPNetworks,omitempty"`
 
 	// Type of the report.
-	Type *PingTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+	Type *PingProbeTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -1606,19 +1606,19 @@ type SparsePing struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparsePing returns a new  SparsePing.
-func NewSparsePing() *SparsePing {
-	return &SparsePing{}
+// NewSparsePingProbe returns a new  SparsePingProbe.
+func NewSparsePingProbe() *SparsePingProbe {
+	return &SparsePingProbe{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparsePing) Identity() elemental.Identity {
+func (o *SparsePingProbe) Identity() elemental.Identity {
 
-	return PingIdentity
+	return PingProbeIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparsePing) Identifier() string {
+func (o *SparsePingProbe) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1627,7 +1627,7 @@ func (o *SparsePing) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparsePing) SetIdentifier(id string) {
+func (o *SparsePingProbe) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -1638,13 +1638,13 @@ func (o *SparsePing) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparsePing) GetBSON() (interface{}, error) {
+func (o *SparsePingProbe) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparsePing{}
+	s := &mongoAttributesSparsePingProbe{}
 
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
@@ -1748,13 +1748,13 @@ func (o *SparsePing) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparsePing) SetBSON(raw bson.Raw) error {
+func (o *SparsePingProbe) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparsePing{}
+	s := &mongoAttributesSparsePingProbe{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -1859,15 +1859,15 @@ func (o *SparsePing) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparsePing) Version() int {
+func (o *SparsePingProbe) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparsePing) ToPlain() elemental.PlainIdentifiable {
+func (o *SparsePingProbe) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewPing()
+	out := NewPingProbe()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1969,7 +1969,7 @@ func (o *SparsePing) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparsePing) GetCreateTime() (out time.Time) {
+func (o *SparsePingProbe) GetCreateTime() (out time.Time) {
 
 	if o.CreateTime == nil {
 		return
@@ -1979,13 +1979,13 @@ func (o *SparsePing) GetCreateTime() (out time.Time) {
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparsePing) SetCreateTime(createTime time.Time) {
+func (o *SparsePingProbe) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparsePing) GetMigrationsLog() (out map[string]string) {
+func (o *SparsePingProbe) GetMigrationsLog() (out map[string]string) {
 
 	if o.MigrationsLog == nil {
 		return
@@ -1995,13 +1995,13 @@ func (o *SparsePing) GetMigrationsLog() (out map[string]string) {
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
-func (o *SparsePing) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *SparsePingProbe) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparsePing) GetNamespace() (out string) {
+func (o *SparsePingProbe) GetNamespace() (out string) {
 
 	if o.Namespace == nil {
 		return
@@ -2011,13 +2011,13 @@ func (o *SparsePing) GetNamespace() (out string) {
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparsePing) SetNamespace(namespace string) {
+func (o *SparsePingProbe) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparsePing) GetUpdateTime() (out time.Time) {
+func (o *SparsePingProbe) GetUpdateTime() (out time.Time) {
 
 	if o.UpdateTime == nil {
 		return
@@ -2027,13 +2027,13 @@ func (o *SparsePing) GetUpdateTime() (out time.Time) {
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparsePing) SetUpdateTime(updateTime time.Time) {
+func (o *SparsePingProbe) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparsePing) GetZHash() (out int) {
+func (o *SparsePingProbe) GetZHash() (out int) {
 
 	if o.ZHash == nil {
 		return
@@ -2043,13 +2043,13 @@ func (o *SparsePing) GetZHash() (out int) {
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparsePing) SetZHash(zHash int) {
+func (o *SparsePingProbe) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparsePing) GetZone() (out int) {
+func (o *SparsePingProbe) GetZone() (out int) {
 
 	if o.Zone == nil {
 		return
@@ -2059,100 +2059,100 @@ func (o *SparsePing) GetZone() (out int) {
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparsePing) SetZone(zone int) {
+func (o *SparsePingProbe) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparsePing.
-func (o *SparsePing) DeepCopy() *SparsePing {
+// DeepCopy returns a deep copy if the SparsePingProbe.
+func (o *SparsePingProbe) DeepCopy() *SparsePingProbe {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparsePing{}
+	out := &SparsePingProbe{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparsePing.
-func (o *SparsePing) DeepCopyInto(out *SparsePing) {
+// DeepCopyInto copies the receiver into the given *SparsePingProbe.
+func (o *SparsePingProbe) DeepCopyInto(out *SparsePingProbe) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparsePing: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparsePingProbe: %s", err))
 	}
 
-	*out = *target.(*SparsePing)
+	*out = *target.(*SparsePingProbe)
 }
 
-type mongoAttributesPing struct {
-	ID                      bson.ObjectId     `bson:"_id,omitempty"`
-	RTT                     string            `bson:"rtt"`
-	TXType                  string            `bson:"txtype"`
-	ApplicationListening    bool              `bson:"applicationlistening"`
-	Claims                  []string          `bson:"claims"`
-	CreateTime              time.Time         `bson:"createtime"`
-	DestinationID           string            `bson:"destinationid"`
-	EnforcerID              string            `bson:"enforcerid"`
-	EnforcerNamespace       string            `bson:"enforcernamespace"`
-	EnforcerVersion         string            `bson:"enforcerversion"`
-	Error                   string            `bson:"error"`
-	ExcludedNetworks        bool              `bson:"excludednetworks"`
-	FourTuple               string            `bson:"fourtuple"`
-	IterationID             string            `bson:"iterationid"`
-	MigrationsLog           map[string]string `bson:"migrationslog,omitempty"`
-	Namespace               string            `bson:"namespace"`
-	PayloadSize             int               `bson:"payloadsize"`
-	PingID                  string            `bson:"pingid"`
-	PolicyAction            string            `bson:"policyaction"`
-	PolicyID                string            `bson:"policyid"`
-	ProcessingUnitNamespace string            `bson:"processingunitnamespace"`
-	Protocol                int               `bson:"protocol"`
-	RemoteController        string            `bson:"remotecontroller"`
-	RemoteNamespaceHash     string            `bson:"remotenamespacehash"`
-	SeqNum                  int               `bson:"seqnum"`
-	ServiceType             string            `bson:"servicetype"`
-	SourceID                string            `bson:"sourceid"`
-	TargetTCPNetworks       bool              `bson:"targettcpnetworks"`
-	Type                    PingTypeValue     `bson:"type"`
-	UpdateTime              time.Time         `bson:"updatetime"`
-	ZHash                   int               `bson:"zhash"`
-	Zone                    int               `bson:"zone"`
-}
-type mongoAttributesSparsePing struct {
+type mongoAttributesPingProbe struct {
 	ID                      bson.ObjectId      `bson:"_id,omitempty"`
-	RTT                     *string            `bson:"rtt,omitempty"`
-	TXType                  *string            `bson:"txtype,omitempty"`
-	ApplicationListening    *bool              `bson:"applicationlistening,omitempty"`
-	Claims                  *[]string          `bson:"claims,omitempty"`
-	CreateTime              *time.Time         `bson:"createtime,omitempty"`
-	DestinationID           *string            `bson:"destinationid,omitempty"`
-	EnforcerID              *string            `bson:"enforcerid,omitempty"`
-	EnforcerNamespace       *string            `bson:"enforcernamespace,omitempty"`
-	EnforcerVersion         *string            `bson:"enforcerversion,omitempty"`
-	Error                   *string            `bson:"error,omitempty"`
-	ExcludedNetworks        *bool              `bson:"excludednetworks,omitempty"`
-	FourTuple               *string            `bson:"fourtuple,omitempty"`
-	IterationID             *string            `bson:"iterationid,omitempty"`
-	MigrationsLog           *map[string]string `bson:"migrationslog,omitempty"`
-	Namespace               *string            `bson:"namespace,omitempty"`
-	PayloadSize             *int               `bson:"payloadsize,omitempty"`
-	PingID                  *string            `bson:"pingid,omitempty"`
-	PolicyAction            *string            `bson:"policyaction,omitempty"`
-	PolicyID                *string            `bson:"policyid,omitempty"`
-	ProcessingUnitNamespace *string            `bson:"processingunitnamespace,omitempty"`
-	Protocol                *int               `bson:"protocol,omitempty"`
-	RemoteController        *string            `bson:"remotecontroller,omitempty"`
-	RemoteNamespaceHash     *string            `bson:"remotenamespacehash,omitempty"`
-	SeqNum                  *int               `bson:"seqnum,omitempty"`
-	ServiceType             *string            `bson:"servicetype,omitempty"`
-	SourceID                *string            `bson:"sourceid,omitempty"`
-	TargetTCPNetworks       *bool              `bson:"targettcpnetworks,omitempty"`
-	Type                    *PingTypeValue     `bson:"type,omitempty"`
-	UpdateTime              *time.Time         `bson:"updatetime,omitempty"`
-	ZHash                   *int               `bson:"zhash,omitempty"`
-	Zone                    *int               `bson:"zone,omitempty"`
+	RTT                     string             `bson:"rtt"`
+	TXType                  string             `bson:"txtype"`
+	ApplicationListening    bool               `bson:"applicationlistening"`
+	Claims                  []string           `bson:"claims"`
+	CreateTime              time.Time          `bson:"createtime"`
+	DestinationID           string             `bson:"destinationid"`
+	EnforcerID              string             `bson:"enforcerid"`
+	EnforcerNamespace       string             `bson:"enforcernamespace"`
+	EnforcerVersion         string             `bson:"enforcerversion"`
+	Error                   string             `bson:"error"`
+	ExcludedNetworks        bool               `bson:"excludednetworks"`
+	FourTuple               string             `bson:"fourtuple"`
+	IterationID             string             `bson:"iterationid"`
+	MigrationsLog           map[string]string  `bson:"migrationslog,omitempty"`
+	Namespace               string             `bson:"namespace"`
+	PayloadSize             int                `bson:"payloadsize"`
+	PingID                  string             `bson:"pingid"`
+	PolicyAction            string             `bson:"policyaction"`
+	PolicyID                string             `bson:"policyid"`
+	ProcessingUnitNamespace string             `bson:"processingunitnamespace"`
+	Protocol                int                `bson:"protocol"`
+	RemoteController        string             `bson:"remotecontroller"`
+	RemoteNamespaceHash     string             `bson:"remotenamespacehash"`
+	SeqNum                  int                `bson:"seqnum"`
+	ServiceType             string             `bson:"servicetype"`
+	SourceID                string             `bson:"sourceid"`
+	TargetTCPNetworks       bool               `bson:"targettcpnetworks"`
+	Type                    PingProbeTypeValue `bson:"type"`
+	UpdateTime              time.Time          `bson:"updatetime"`
+	ZHash                   int                `bson:"zhash"`
+	Zone                    int                `bson:"zone"`
+}
+type mongoAttributesSparsePingProbe struct {
+	ID                      bson.ObjectId       `bson:"_id,omitempty"`
+	RTT                     *string             `bson:"rtt,omitempty"`
+	TXType                  *string             `bson:"txtype,omitempty"`
+	ApplicationListening    *bool               `bson:"applicationlistening,omitempty"`
+	Claims                  *[]string           `bson:"claims,omitempty"`
+	CreateTime              *time.Time          `bson:"createtime,omitempty"`
+	DestinationID           *string             `bson:"destinationid,omitempty"`
+	EnforcerID              *string             `bson:"enforcerid,omitempty"`
+	EnforcerNamespace       *string             `bson:"enforcernamespace,omitempty"`
+	EnforcerVersion         *string             `bson:"enforcerversion,omitempty"`
+	Error                   *string             `bson:"error,omitempty"`
+	ExcludedNetworks        *bool               `bson:"excludednetworks,omitempty"`
+	FourTuple               *string             `bson:"fourtuple,omitempty"`
+	IterationID             *string             `bson:"iterationid,omitempty"`
+	MigrationsLog           *map[string]string  `bson:"migrationslog,omitempty"`
+	Namespace               *string             `bson:"namespace,omitempty"`
+	PayloadSize             *int                `bson:"payloadsize,omitempty"`
+	PingID                  *string             `bson:"pingid,omitempty"`
+	PolicyAction            *string             `bson:"policyaction,omitempty"`
+	PolicyID                *string             `bson:"policyid,omitempty"`
+	ProcessingUnitNamespace *string             `bson:"processingunitnamespace,omitempty"`
+	Protocol                *int                `bson:"protocol,omitempty"`
+	RemoteController        *string             `bson:"remotecontroller,omitempty"`
+	RemoteNamespaceHash     *string             `bson:"remotenamespacehash,omitempty"`
+	SeqNum                  *int                `bson:"seqnum,omitempty"`
+	ServiceType             *string             `bson:"servicetype,omitempty"`
+	SourceID                *string             `bson:"sourceid,omitempty"`
+	TargetTCPNetworks       *bool               `bson:"targettcpnetworks,omitempty"`
+	Type                    *PingProbeTypeValue `bson:"type,omitempty"`
+	UpdateTime              *time.Time          `bson:"updatetime,omitempty"`
+	ZHash                   *int                `bson:"zhash,omitempty"`
+	Zone                    *int                `bson:"zone,omitempty"`
 }
