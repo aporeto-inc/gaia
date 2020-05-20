@@ -85,7 +85,7 @@ attributes:
 
   - name: restrictedNamespace
     description: |-
-      Retricts the namespace where the token can be used.
+      Restricts the namespace where the token can be used.
 
       For instance, if you have have access to `/namespace` and below, you can
       tell the policy engine that it should restrict further more to
@@ -99,7 +99,7 @@ attributes:
 
   - name: restrictedNetworks
     description: |-
-      Retricts the networks from where the token can be used. This will reduce the
+      Restricts the networks from where the token can be used. This will reduce the
       existing set of authorized networks that normally apply to the token according
       to the policy engine.
 
@@ -119,7 +119,7 @@ attributes:
 
   - name: restrictedPermissions
     description: |-
-      Retricts the permissions of token. This will reduce the existing permissions
+      Restricts the permissions of token. This will reduce the existing permissions
       that normally apply to the token according to the policy engine.
 
       For instance, if you have administrative role, you can ask for a token that will

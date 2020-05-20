@@ -145,7 +145,7 @@ type Issue struct {
 	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
 	Realm IssueRealmValue `json:"realm" msgpack:"realm" bson:"-" mapstructure:"realm,omitempty"`
 
-	// Retricts the namespace where the token can be used.
+	// Restricts the namespace where the token can be used.
 	//
 	// For instance, if you have have access to `/namespace` and below, you can
 	// tell the policy engine that it should restrict further more to
@@ -155,7 +155,7 @@ type Issue struct {
 	// policy engine has no effect and may end up making the token unusable.
 	RestrictedNamespace string `json:"restrictedNamespace" msgpack:"restrictedNamespace" bson:"-" mapstructure:"restrictedNamespace,omitempty"`
 
-	// Retricts the networks from where the token can be used. This will reduce the
+	// Restricts the networks from where the token can be used. This will reduce the
 	// existing set of authorized networks that normally apply to the token according
 	// to the policy engine.
 	//
@@ -168,7 +168,7 @@ type Issue struct {
 	// engine has no effect and may end up making the token unusable.
 	RestrictedNetworks []string `json:"restrictedNetworks" msgpack:"restrictedNetworks" bson:"-" mapstructure:"restrictedNetworks,omitempty"`
 
-	// Retricts the permissions of token. This will reduce the existing permissions
+	// Restricts the permissions of token. This will reduce the existing permissions
 	// that normally apply to the token according to the policy engine.
 	//
 	// For instance, if you have administrative role, you can ask for a token that will
@@ -564,7 +564,7 @@ for further information.`,
 	"RestrictedNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RestrictedNamespace",
-		Description: `Retricts the namespace where the token can be used.
+		Description: `Restricts the namespace where the token can be used.
 
 For instance, if you have have access to ` + "`" + `/namespace` + "`" + ` and below, you can
 tell the policy engine that it should restrict further more to
@@ -579,7 +579,7 @@ policy engine has no effect and may end up making the token unusable.`,
 	"RestrictedNetworks": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RestrictedNetworks",
-		Description: `Retricts the networks from where the token can be used. This will reduce the
+		Description: `Restricts the networks from where the token can be used. This will reduce the
 existing set of authorized networks that normally apply to the token according
 to the policy engine.
 
@@ -598,7 +598,7 @@ engine has no effect and may end up making the token unusable.`,
 	"RestrictedPermissions": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RestrictedPermissions",
-		Description: `Retricts the permissions of token. This will reduce the existing permissions
+		Description: `Restricts the permissions of token. This will reduce the existing permissions
 that normally apply to the token according to the policy engine.
 
 For instance, if you have administrative role, you can ask for a token that will
@@ -712,7 +712,7 @@ for further information.`,
 	"restrictednamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RestrictedNamespace",
-		Description: `Retricts the namespace where the token can be used.
+		Description: `Restricts the namespace where the token can be used.
 
 For instance, if you have have access to ` + "`" + `/namespace` + "`" + ` and below, you can
 tell the policy engine that it should restrict further more to
@@ -727,7 +727,7 @@ policy engine has no effect and may end up making the token unusable.`,
 	"restrictednetworks": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RestrictedNetworks",
-		Description: `Retricts the networks from where the token can be used. This will reduce the
+		Description: `Restricts the networks from where the token can be used. This will reduce the
 existing set of authorized networks that normally apply to the token according
 to the policy engine.
 
@@ -746,7 +746,7 @@ engine has no effect and may end up making the token unusable.`,
 	"restrictedpermissions": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RestrictedPermissions",
-		Description: `Retricts the permissions of token. This will reduce the existing permissions
+		Description: `Restricts the permissions of token. This will reduce the existing permissions
 that normally apply to the token according to the policy engine.
 
 For instance, if you have administrative role, you can ask for a token that will
@@ -874,7 +874,7 @@ type SparseIssue struct {
 	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
 	Realm *IssueRealmValue `json:"realm,omitempty" msgpack:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
 
-	// Retricts the namespace where the token can be used.
+	// Restricts the namespace where the token can be used.
 	//
 	// For instance, if you have have access to `/namespace` and below, you can
 	// tell the policy engine that it should restrict further more to
@@ -884,7 +884,7 @@ type SparseIssue struct {
 	// policy engine has no effect and may end up making the token unusable.
 	RestrictedNamespace *string `json:"restrictedNamespace,omitempty" msgpack:"restrictedNamespace,omitempty" bson:"-" mapstructure:"restrictedNamespace,omitempty"`
 
-	// Retricts the networks from where the token can be used. This will reduce the
+	// Restricts the networks from where the token can be used. This will reduce the
 	// existing set of authorized networks that normally apply to the token according
 	// to the policy engine.
 	//
@@ -897,7 +897,7 @@ type SparseIssue struct {
 	// engine has no effect and may end up making the token unusable.
 	RestrictedNetworks *[]string `json:"restrictedNetworks,omitempty" msgpack:"restrictedNetworks,omitempty" bson:"-" mapstructure:"restrictedNetworks,omitempty"`
 
-	// Retricts the permissions of token. This will reduce the existing permissions
+	// Restricts the permissions of token. This will reduce the existing permissions
 	// that normally apply to the token according to the policy engine.
 	//
 	// For instance, if you have administrative role, you can ask for a token that will
