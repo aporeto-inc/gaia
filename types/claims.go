@@ -7,6 +7,7 @@ import jwt "github.com/dgrijalva/jwt-go"
 type MidgardClaimsRestrictions struct {
 	Permissions []string `msgpack:"perms,omitempty" json:"perms,omitempty"`
 	Namespace   string   `msgpack:"namespace,omitempty" json:"namespace,omitempty"`
+	Networks    []string `msgpack:"networks,omitempty" json:"networks,omitempty"`
 }
 
 // MidgardClaims is a struct to represeting the data some a Midgard issued claims.

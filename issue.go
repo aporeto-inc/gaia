@@ -125,23 +125,6 @@ type Issue struct {
 	// for further information.
 	Audience string `json:"audience" msgpack:"audience" bson:"-" mapstructure:"audience,omitempty"`
 
-	// Limits roles/permissions the token can be used for. This is only given to reduce
-	// the existing set of policies. For instance if you have administrative role, you
-	// can ask for a token that will tell the policy engine to reduce the permission to
-	// what it given here.
-	//
-	// Declaring a permission you don't initially have according to the policy engine
-	// has no effect.
-	AuthorizedIdentities []string `json:"authorizedIdentities" msgpack:"authorizedIdentities" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
-
-	// Limits the namespace the token can be used in. For instance if you have access
-	// to `ns1` and `/ns2`, you can ask for a token that will tell the policy engine to
-	// reduce the permission to what simply `/ns2`.
-	//
-	// Declaring a namespace you don't initially have according to the policy engine
-	// has no effect.
-	AuthorizedNamespace string `json:"authorizedNamespace" msgpack:"authorizedNamespace" bson:"-" mapstructure:"authorizedNamespace,omitempty"`
-
 	// The claims in the token. It is only set is the parameter `asCookie` is given.
 	Claims *types.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
@@ -162,6 +145,40 @@ type Issue struct {
 	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
 	Realm IssueRealmValue `json:"realm" msgpack:"realm" bson:"-" mapstructure:"realm,omitempty"`
 
+	// Retricts the namespace where the token can be used.
+	//
+	// For instance, if you have have access to `/namespace` and below, you can
+	// tell the policy engine that it should restrict further more to
+	// `/namespace/child`.
+	//
+	// Restricting to a namespace you don't have initially access according to the
+	// policy engine has no effect and may end up making the token unusable.
+	RestrictedNamespace string `json:"restrictedNamespace" msgpack:"restrictedNamespace" bson:"-" mapstructure:"restrictedNamespace,omitempty"`
+
+	// Retricts the networks from where the token can be used. This will reduce the
+	// existing set of authorized networks that normally apply to the token according
+	// to the policy engine.
+	//
+	// For instance, If you have authorized access from `0.0.0.0/0` (by default) or
+	// from
+	// `10.0.0.0/8`, you can ask for a token that will only be valid if used from
+	// `10.1.0.0/16`.
+	//
+	// Restricting to a network that is not initially authorized by the policy
+	// engine has no effect and may end up making the token unusable.
+	RestrictedNetworks []string `json:"restrictedNetworks" msgpack:"restrictedNetworks" bson:"-" mapstructure:"restrictedNetworks,omitempty"`
+
+	// Retricts the permissions of token. This will reduce the existing permissions
+	// that normally apply to the token according to the policy engine.
+	//
+	// For instance, if you have administrative role, you can ask for a token that will
+	// tell the policy engine to reduce the permission it would have granted to what is
+	// given defined in the token.
+	//
+	// Restricting to some permissions you don't initially have according to the policy
+	// engine has no effect and may end up making the token unusable.
+	RestrictedPermissions []string `json:"restrictedPermissions" msgpack:"restrictedPermissions" bson:"-" mapstructure:"restrictedPermissions,omitempty"`
+
 	// The token to use for the registration.
 	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
@@ -178,12 +195,13 @@ type Issue struct {
 func NewIssue() *Issue {
 
 	return &Issue{
-		ModelVersion:         1,
-		AuthorizedIdentities: []string{},
-		Claims:               types.NewMidgardClaims(),
-		Metadata:             map[string]interface{}{},
-		Opaque:               map[string]string{},
-		Validity:             "24h",
+		ModelVersion:          1,
+		Claims:                types.NewMidgardClaims(),
+		Metadata:              map[string]interface{}{},
+		Opaque:                map[string]string{},
+		RestrictedNetworks:    []string{},
+		RestrictedPermissions: []string{},
+		Validity:              "24h",
 	}
 }
 
@@ -269,17 +287,18 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseIssue{
-			Audience:             &o.Audience,
-			AuthorizedIdentities: &o.AuthorizedIdentities,
-			AuthorizedNamespace:  &o.AuthorizedNamespace,
-			Claims:               o.Claims,
-			Data:                 &o.Data,
-			Metadata:             &o.Metadata,
-			Opaque:               &o.Opaque,
-			Quota:                &o.Quota,
-			Realm:                &o.Realm,
-			Token:                &o.Token,
-			Validity:             &o.Validity,
+			Audience:              &o.Audience,
+			Claims:                o.Claims,
+			Data:                  &o.Data,
+			Metadata:              &o.Metadata,
+			Opaque:                &o.Opaque,
+			Quota:                 &o.Quota,
+			Realm:                 &o.Realm,
+			RestrictedNamespace:   &o.RestrictedNamespace,
+			RestrictedNetworks:    &o.RestrictedNetworks,
+			RestrictedPermissions: &o.RestrictedPermissions,
+			Token:                 &o.Token,
+			Validity:              &o.Validity,
 		}
 	}
 
@@ -288,10 +307,6 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "audience":
 			sp.Audience = &(o.Audience)
-		case "authorizedIdentities":
-			sp.AuthorizedIdentities = &(o.AuthorizedIdentities)
-		case "authorizedNamespace":
-			sp.AuthorizedNamespace = &(o.AuthorizedNamespace)
 		case "claims":
 			sp.Claims = o.Claims
 		case "data":
@@ -304,6 +319,12 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Quota = &(o.Quota)
 		case "realm":
 			sp.Realm = &(o.Realm)
+		case "restrictedNamespace":
+			sp.RestrictedNamespace = &(o.RestrictedNamespace)
+		case "restrictedNetworks":
+			sp.RestrictedNetworks = &(o.RestrictedNetworks)
+		case "restrictedPermissions":
+			sp.RestrictedPermissions = &(o.RestrictedPermissions)
 		case "token":
 			sp.Token = &(o.Token)
 		case "validity":
@@ -324,12 +345,6 @@ func (o *Issue) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Audience != nil {
 		o.Audience = *so.Audience
 	}
-	if so.AuthorizedIdentities != nil {
-		o.AuthorizedIdentities = *so.AuthorizedIdentities
-	}
-	if so.AuthorizedNamespace != nil {
-		o.AuthorizedNamespace = *so.AuthorizedNamespace
-	}
 	if so.Claims != nil {
 		o.Claims = so.Claims
 	}
@@ -347,6 +362,15 @@ func (o *Issue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Realm != nil {
 		o.Realm = *so.Realm
+	}
+	if so.RestrictedNamespace != nil {
+		o.RestrictedNamespace = *so.RestrictedNamespace
+	}
+	if so.RestrictedNetworks != nil {
+		o.RestrictedNetworks = *so.RestrictedNetworks
+	}
+	if so.RestrictedPermissions != nil {
+		o.RestrictedPermissions = *so.RestrictedPermissions
 	}
 	if so.Token != nil {
 		o.Token = *so.Token
@@ -438,10 +462,6 @@ func (o *Issue) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "audience":
 		return o.Audience
-	case "authorizedIdentities":
-		return o.AuthorizedIdentities
-	case "authorizedNamespace":
-		return o.AuthorizedNamespace
 	case "claims":
 		return o.Claims
 	case "data":
@@ -454,6 +474,12 @@ func (o *Issue) ValueForAttribute(name string) interface{} {
 		return o.Quota
 	case "realm":
 		return o.Realm
+	case "restrictedNamespace":
+		return o.RestrictedNamespace
+	case "restrictedNetworks":
+		return o.RestrictedNetworks
+	case "restrictedPermissions":
+		return o.RestrictedPermissions
 	case "token":
 		return o.Token
 	case "validity":
@@ -474,34 +500,6 @@ Refer to [JSON Web Token (JWT)RFC
 for further information.`,
 		Exposed: true,
 		Name:    "audience",
-		Type:    "string",
-	},
-	"AuthorizedIdentities": {
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizedIdentities",
-		Description: `Limits roles/permissions the token can be used for. This is only given to reduce
-the existing set of policies. For instance if you have administrative role, you
-can ask for a token that will tell the policy engine to reduce the permission to
-what it given here.
-
-Declaring a permission you don't initially have according to the policy engine
-has no effect.`,
-		Exposed: true,
-		Name:    "authorizedIdentities",
-		SubType: "string",
-		Type:    "list",
-	},
-	"AuthorizedNamespace": {
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizedNamespace",
-		Description: `Limits the namespace the token can be used in. For instance if you have access
-to ` + "`" + `ns1` + "`" + ` and ` + "`" + `/ns2` + "`" + `, you can ask for a token that will tell the policy engine to
-reduce the permission to what simply ` + "`" + `/ns2` + "`" + `.
-
-Declaring a namespace you don't initially have according to the policy engine
-has no effect.`,
-		Exposed: true,
-		Name:    "authorizedNamespace",
 		Type:    "string",
 	},
 	"Claims": {
@@ -563,6 +561,57 @@ has no effect.`,
 		Required: true,
 		Type:     "enum",
 	},
+	"RestrictedNamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNamespace",
+		Description: `Retricts the namespace where the token can be used.
+
+For instance, if you have have access to ` + "`" + `/namespace` + "`" + ` and below, you can
+tell the policy engine that it should restrict further more to
+` + "`" + `/namespace/child` + "`" + `.
+
+Restricting to a namespace you don't have initially access according to the
+policy engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedNamespace",
+		Type:    "string",
+	},
+	"RestrictedNetworks": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNetworks",
+		Description: `Retricts the networks from where the token can be used. This will reduce the
+existing set of authorized networks that normally apply to the token according
+to the policy engine.
+
+For instance, If you have authorized access from ` + "`" + `0.0.0.0/0` + "`" + ` (by default) or
+from
+` + "`" + `10.0.0.0/8` + "`" + `, you can ask for a token that will only be valid if used from
+` + "`" + `10.1.0.0/16` + "`" + `.
+
+Restricting to a network that is not initially authorized by the policy
+engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedNetworks",
+		SubType: "string",
+		Type:    "list",
+	},
+	"RestrictedPermissions": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedPermissions",
+		Description: `Retricts the permissions of token. This will reduce the existing permissions
+that normally apply to the token according to the policy engine.
+
+For instance, if you have administrative role, you can ask for a token that will
+tell the policy engine to reduce the permission it would have granted to what is
+given defined in the token.
+
+Restricting to some permissions you don't initially have according to the policy
+engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedPermissions",
+		SubType: "string",
+		Type:    "list",
+	},
 	"Token": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -599,34 +648,6 @@ Refer to [JSON Web Token (JWT)RFC
 for further information.`,
 		Exposed: true,
 		Name:    "audience",
-		Type:    "string",
-	},
-	"authorizedidentities": {
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizedIdentities",
-		Description: `Limits roles/permissions the token can be used for. This is only given to reduce
-the existing set of policies. For instance if you have administrative role, you
-can ask for a token that will tell the policy engine to reduce the permission to
-what it given here.
-
-Declaring a permission you don't initially have according to the policy engine
-has no effect.`,
-		Exposed: true,
-		Name:    "authorizedIdentities",
-		SubType: "string",
-		Type:    "list",
-	},
-	"authorizednamespace": {
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizedNamespace",
-		Description: `Limits the namespace the token can be used in. For instance if you have access
-to ` + "`" + `ns1` + "`" + ` and ` + "`" + `/ns2` + "`" + `, you can ask for a token that will tell the policy engine to
-reduce the permission to what simply ` + "`" + `/ns2` + "`" + `.
-
-Declaring a namespace you don't initially have according to the policy engine
-has no effect.`,
-		Exposed: true,
-		Name:    "authorizedNamespace",
 		Type:    "string",
 	},
 	"claims": {
@@ -687,6 +708,57 @@ has no effect.`,
 		Name:     "realm",
 		Required: true,
 		Type:     "enum",
+	},
+	"restrictednamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNamespace",
+		Description: `Retricts the namespace where the token can be used.
+
+For instance, if you have have access to ` + "`" + `/namespace` + "`" + ` and below, you can
+tell the policy engine that it should restrict further more to
+` + "`" + `/namespace/child` + "`" + `.
+
+Restricting to a namespace you don't have initially access according to the
+policy engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedNamespace",
+		Type:    "string",
+	},
+	"restrictednetworks": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNetworks",
+		Description: `Retricts the networks from where the token can be used. This will reduce the
+existing set of authorized networks that normally apply to the token according
+to the policy engine.
+
+For instance, If you have authorized access from ` + "`" + `0.0.0.0/0` + "`" + ` (by default) or
+from
+` + "`" + `10.0.0.0/8` + "`" + `, you can ask for a token that will only be valid if used from
+` + "`" + `10.1.0.0/16` + "`" + `.
+
+Restricting to a network that is not initially authorized by the policy
+engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedNetworks",
+		SubType: "string",
+		Type:    "list",
+	},
+	"restrictedpermissions": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedPermissions",
+		Description: `Retricts the permissions of token. This will reduce the existing permissions
+that normally apply to the token according to the policy engine.
+
+For instance, if you have administrative role, you can ask for a token that will
+tell the policy engine to reduce the permission it would have granted to what is
+given defined in the token.
+
+Restricting to some permissions you don't initially have according to the policy
+engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedPermissions",
+		SubType: "string",
+		Type:    "list",
 	},
 	"token": {
 		AllowedChoices: []string{},
@@ -782,23 +854,6 @@ type SparseIssue struct {
 	// for further information.
 	Audience *string `json:"audience,omitempty" msgpack:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
 
-	// Limits roles/permissions the token can be used for. This is only given to reduce
-	// the existing set of policies. For instance if you have administrative role, you
-	// can ask for a token that will tell the policy engine to reduce the permission to
-	// what it given here.
-	//
-	// Declaring a permission you don't initially have according to the policy engine
-	// has no effect.
-	AuthorizedIdentities *[]string `json:"authorizedIdentities,omitempty" msgpack:"authorizedIdentities,omitempty" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
-
-	// Limits the namespace the token can be used in. For instance if you have access
-	// to `ns1` and `/ns2`, you can ask for a token that will tell the policy engine to
-	// reduce the permission to what simply `/ns2`.
-	//
-	// Declaring a namespace you don't initially have according to the policy engine
-	// has no effect.
-	AuthorizedNamespace *string `json:"authorizedNamespace,omitempty" msgpack:"authorizedNamespace,omitempty" bson:"-" mapstructure:"authorizedNamespace,omitempty"`
-
 	// The claims in the token. It is only set is the parameter `asCookie` is given.
 	Claims *types.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
@@ -818,6 +873,40 @@ type SparseIssue struct {
 	// `Certificate`,
 	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
 	Realm *IssueRealmValue `json:"realm,omitempty" msgpack:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
+
+	// Retricts the namespace where the token can be used.
+	//
+	// For instance, if you have have access to `/namespace` and below, you can
+	// tell the policy engine that it should restrict further more to
+	// `/namespace/child`.
+	//
+	// Restricting to a namespace you don't have initially access according to the
+	// policy engine has no effect and may end up making the token unusable.
+	RestrictedNamespace *string `json:"restrictedNamespace,omitempty" msgpack:"restrictedNamespace,omitempty" bson:"-" mapstructure:"restrictedNamespace,omitempty"`
+
+	// Retricts the networks from where the token can be used. This will reduce the
+	// existing set of authorized networks that normally apply to the token according
+	// to the policy engine.
+	//
+	// For instance, If you have authorized access from `0.0.0.0/0` (by default) or
+	// from
+	// `10.0.0.0/8`, you can ask for a token that will only be valid if used from
+	// `10.1.0.0/16`.
+	//
+	// Restricting to a network that is not initially authorized by the policy
+	// engine has no effect and may end up making the token unusable.
+	RestrictedNetworks *[]string `json:"restrictedNetworks,omitempty" msgpack:"restrictedNetworks,omitempty" bson:"-" mapstructure:"restrictedNetworks,omitempty"`
+
+	// Retricts the permissions of token. This will reduce the existing permissions
+	// that normally apply to the token according to the policy engine.
+	//
+	// For instance, if you have administrative role, you can ask for a token that will
+	// tell the policy engine to reduce the permission it would have granted to what is
+	// given defined in the token.
+	//
+	// Restricting to some permissions you don't initially have according to the policy
+	// engine has no effect and may end up making the token unusable.
+	RestrictedPermissions *[]string `json:"restrictedPermissions,omitempty" msgpack:"restrictedPermissions,omitempty" bson:"-" mapstructure:"restrictedPermissions,omitempty"`
 
 	// The token to use for the registration.
 	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
@@ -895,12 +984,6 @@ func (o *SparseIssue) ToPlain() elemental.PlainIdentifiable {
 	if o.Audience != nil {
 		out.Audience = *o.Audience
 	}
-	if o.AuthorizedIdentities != nil {
-		out.AuthorizedIdentities = *o.AuthorizedIdentities
-	}
-	if o.AuthorizedNamespace != nil {
-		out.AuthorizedNamespace = *o.AuthorizedNamespace
-	}
 	if o.Claims != nil {
 		out.Claims = o.Claims
 	}
@@ -918,6 +1001,15 @@ func (o *SparseIssue) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Realm != nil {
 		out.Realm = *o.Realm
+	}
+	if o.RestrictedNamespace != nil {
+		out.RestrictedNamespace = *o.RestrictedNamespace
+	}
+	if o.RestrictedNetworks != nil {
+		out.RestrictedNetworks = *o.RestrictedNetworks
+	}
+	if o.RestrictedPermissions != nil {
+		out.RestrictedPermissions = *o.RestrictedPermissions
 	}
 	if o.Token != nil {
 		out.Token = *o.Token

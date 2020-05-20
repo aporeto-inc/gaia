@@ -22,33 +22,6 @@ attributes:
     validations:
     - $audience
 
-  - name: authorizedIdentities
-    description: |-
-      Limits roles/permissions the token can be used for. This is only given to reduce
-      the existing set of policies. For instance if you have administrative role, you
-      can ask for a token that will tell the policy engine to reduce the permission to
-      what it given here.
-
-      Declaring a permission you don't initially have according to the policy engine
-      has no effect.
-    type: list
-    exposed: true
-    subtype: string
-    example_value:
-    - '@auth:role=enforcer'
-
-  - name: authorizedNamespace
-    description: |-
-      Limits the namespace the token can be used in. For instance if you have access
-      to `ns1` and `/ns2`, you can ask for a token that will tell the policy engine to
-      reduce the permission to what simply `/ns2`.
-
-      Declaring a namespace you don't initially have according to the policy engine
-      has no effect.
-    type: string
-    exposed: true
-    example_value: /namespace
-
   - name: claims
     description: The claims in the token. It is only set is the parameter `asCookie`
       is given.
@@ -109,6 +82,58 @@ attributes:
     - PCC
     - PCCIdentityToken
     example_value: Vince
+
+  - name: restrictedNamespace
+    description: |-
+      Retricts the namespace where the token can be used.
+
+      For instance, if you have have access to `/namespace` and below, you can
+      tell the policy engine that it should restrict further more to
+      `/namespace/child`.
+
+      Restricting to a namespace you don't have initially access according to the
+      policy engine has no effect and may end up making the token unusable.
+    type: string
+    exposed: true
+    example_value: /namespace
+
+  - name: restrictedNetworks
+    description: |-
+      Retricts the networks from where the token can be used. This will reduce the
+      existing set of authorized networks that normally apply to the token according
+      to the policy engine.
+
+      For instance, If you have authorized access from `0.0.0.0/0` (by default) or
+      from
+      `10.0.0.0/8`, you can ask for a token that will only be valid if used from
+      `10.1.0.0/16`.
+
+      Restricting to a network that is not initially authorized by the policy
+      engine has no effect and may end up making the token unusable.
+    type: list
+    exposed: true
+    subtype: string
+    example_value:
+    - '@auth:role=enforcer'
+    - namespace,post
+
+  - name: restrictedPermissions
+    description: |-
+      Retricts the permissions of token. This will reduce the existing permissions
+      that normally apply to the token according to the policy engine.
+
+      For instance, if you have administrative role, you can ask for a token that will
+      tell the policy engine to reduce the permission it would have granted to what is
+      given defined in the token.
+
+      Restricting to some permissions you don't initially have according to the policy
+      engine has no effect and may end up making the token unusable.
+    type: list
+    exposed: true
+    subtype: string
+    example_value:
+    - '@auth:role=enforcer'
+    - namespace,post
 
   - name: token
     description: The token to use for the registration.
