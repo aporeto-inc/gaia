@@ -241,7 +241,7 @@ var (
 
 		"pingprobes":   PingProbeIdentity,
 		"pingrequests": PingRequestIdentity,
-		"pingresult":   PingResultIdentity,
+		"pingresults":  PingResultIdentity,
 
 		"plans":                   PlanIdentity,
 		"poke":                    PokeIdentity,

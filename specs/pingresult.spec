@@ -1,7 +1,7 @@
 # Model
 model:
   rest_name: pingresult
-  resource_name: pingresult
+  resource_name: pingresults
   entity_name: PingResult
   package: guy
   group: core/enforcer

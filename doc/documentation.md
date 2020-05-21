@@ -3382,7 +3382,7 @@ Post a new pu pingresult.
 
 #### Relations
 
-##### `POST /pingresult`
+##### `POST /pingresults`
 
 Create a ping result.
 

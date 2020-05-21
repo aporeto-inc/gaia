@@ -11,7 +11,7 @@ import (
 // PingResultIdentity represents the Identity of the object.
 var PingResultIdentity = elemental.Identity{
 	Name:     "pingresult",
-	Category: "pingresult",
+	Category: "pingresults",
 	Package:  "guy",
 	Private:  false,
 }
