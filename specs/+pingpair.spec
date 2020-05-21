@@ -3,9 +3,9 @@ model:
   rest_name: pingpair
   resource_name: pingpairs
   entity_name: PingPair
-  package: squall
-  group: policy/processingunits
-  description: Represents a service attached to a processing unit.
+  package: guy
+  group: core
+  description: Represents a pair of ping probes.
   detached: true
 
 # Attributes

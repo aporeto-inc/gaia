@@ -624,6 +624,14 @@ relations:
   create:
     description: Create a ping probe.
 
+- rest_name: pingrequest
+  get:
+    description: Retrieves the ping request.
+
+- rest_name: pingresult
+  create:
+    description: Create a ping result.
+
 - rest_name: plan
   get:
     description: Retrieves the list of plans.

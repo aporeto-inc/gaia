@@ -1,10 +1,10 @@
 # Model
 model:
   rest_name: pingprobe
-  resource_name: pingprobe
+  resource_name: pingprobes
   entity_name: PingProbe
   package: guy
-  group: core/enforcer
+  group: core
   description: Post a new pu ping probe.
   extends:
   - '@zoned'

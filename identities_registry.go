@@ -239,9 +239,9 @@ var (
 		"passwordreset":            PasswordResetIdentity,
 		"pccproviders":             PCCProviderIdentity,
 
-		"pingprobe":   PingProbeIdentity,
-		"pingrequest": PingRequestIdentity,
-		"pingresult":  PingResultIdentity,
+		"pingprobes":   PingProbeIdentity,
+		"pingrequests": PingRequestIdentity,
+		"pingresult":   PingResultIdentity,
 
 		"plans":                   PlanIdentity,
 		"poke":                    PokeIdentity,

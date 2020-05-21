@@ -23,7 +23,7 @@ const (
 // PingProbeIdentity represents the Identity of the object.
 var PingProbeIdentity = elemental.Identity{
 	Name:     "pingprobe",
-	Category: "pingprobe",
+	Category: "pingprobes",
 	Package:  "guy",
 	Private:  false,
 }

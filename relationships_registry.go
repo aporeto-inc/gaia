@@ -3098,9 +3098,20 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[PingRequestIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[PingRequestIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
 
-	relationshipsRegistry[PingResultIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[PingResultIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
 
 	relationshipsRegistry[PlanIdentity] = &elemental.Relationship{
 		Retrieve: map[string]*elemental.RelationshipInfo{
