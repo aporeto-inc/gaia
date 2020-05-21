@@ -71,7 +71,7 @@ attributes:
     subtype: string
     stored: true
     validations:
-    - $optionalnetworks
+    - $optionalcidrs
 
   - name: certificate
     description: The string representation of the certificate used by the app credential.

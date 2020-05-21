@@ -83,6 +83,60 @@ attributes:
     - PCCIdentityToken
     example_value: Vince
 
+  - name: restrictedNamespace
+    description: |-
+      Restricts the namespace where the token can be used.
+
+      For instance, if you have have access to `/namespace` and below, you can
+      tell the policy engine that it should restrict further more to
+      `/namespace/child`.
+
+      Restricting to a namespace you don't have initially access according to the
+      policy engine has no effect and may end up making the token unusable.
+    type: string
+    exposed: true
+    example_value: /namespace
+
+  - name: restrictedNetworks
+    description: |-
+      Restricts the networks from where the token can be used. This will reduce the
+      existing set of authorized networks that normally apply to the token according
+      to the policy engine.
+
+      For instance, If you have authorized access from `0.0.0.0/0` (by default) or
+      from
+      `10.0.0.0/8`, you can ask for a token that will only be valid if used from
+      `10.1.0.0/16`.
+
+      Restricting to a network that is not initially authorized by the policy
+      engine has no effect and may end up making the token unusable.
+    type: list
+    exposed: true
+    subtype: string
+    example_value:
+    - 10.0.0.0/8
+    - 127.0.0.1/32
+    validations:
+    - $optionalcidrs
+
+  - name: restrictedPermissions
+    description: |-
+      Restricts the permissions of token. This will reduce the existing permissions
+      that normally apply to the token according to the policy engine.
+
+      For instance, if you have administrative role, you can ask for a token that will
+      tell the policy engine to reduce the permission it would have granted to what is
+      given defined in the token.
+
+      Restricting to some permissions you don't initially have according to the policy
+      engine has no effect and may end up making the token unusable.
+    type: list
+    exposed: true
+    subtype: string
+    example_value:
+    - '@auth:role=enforcer'
+    - namespace,post
+
   - name: token
     description: The token to use for the registration.
     type: string

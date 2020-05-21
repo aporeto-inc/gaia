@@ -545,14 +545,14 @@ func TestValidateNetwork(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateNetwork(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
-				t.Errorf("ValidateNetwork() error = %v, wantErr %v", err, tt.wantErr)
+			if err := ValidateNetworkOrHostname(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateNetworkOrHostname() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestValidateNetworkList(t *testing.T) {
+func TestValidateNetworkOrHostnameList(t *testing.T) {
 	type args struct {
 		attribute string
 		networks  []string
@@ -589,8 +589,117 @@ func TestValidateNetworkList(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateNetworkList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
-				t.Errorf("ValidateNetworkList() error = %v, wantErr %v", err, tt.wantErr)
+			if err := ValidateNetworkOrHostnameList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateNetworkOrHostnameList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateCIDR(t *testing.T) {
+	type args struct {
+		attribute string
+		cidr      string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"cidr",
+				"10.0.0.0/8",
+			},
+			false,
+		},
+		{
+			"valid DNS name",
+			args{
+				"cidr",
+				"google.com",
+			},
+			true,
+		},
+		{
+			"valid DNS name",
+			args{
+				"cidr",
+				"*.google.com",
+			},
+			true,
+		},
+
+		// invalid CIDR
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"",
+			},
+			true,
+		},
+
+		// invalid DNn
+		{
+			"invalid DNS Name",
+			args{
+				"cidr",
+				"google@com",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCIDR(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateCIDR() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateCIDRList(t *testing.T) {
+	type args struct {
+		attribute string
+		networks  []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"invalid list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8", "google.com"},
+			},
+			true,
+		},
+		{
+			"empty list",
+			args{
+				"nets",
+				[]string{},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCIDRList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCIDRList() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
@@ -1324,7 +1433,7 @@ func TestValidateHTTPSURL(t *testing.T) {
 	}
 }
 
-func TestValidateOptionalNetworkList(t *testing.T) {
+func TestValidateOptionalNetworkOrHostnameList(t *testing.T) {
 	type args struct {
 		attribute string
 		networks  []string
@@ -1361,8 +1470,8 @@ func TestValidateOptionalNetworkList(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateOptionalNetworkList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
-				t.Errorf("ValidateOptionalNetworkList() error = %v, wantErr %v", err, tt.wantErr)
+			if err := ValidateOptionalNetworkOrHostnameList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateOptionalNetworkOrHostnameList() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

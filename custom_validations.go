@@ -95,8 +95,8 @@ func ValidatePortStringList(attribute string, ports []string) error {
 
 var rxDNSName = regexp.MustCompile(`^(\*\.){0,1}([a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62}){1}(\.[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62})*[\._]?$`)
 
-// ValidateNetwork validates a CIDR.
-func ValidateNetwork(attribute string, network string) error {
+// ValidateNetworkOrHostname validates a CIDR or a hostname.
+func ValidateNetworkOrHostname(attribute string, network string) error {
 
 	if _, _, err := net.ParseCIDR(network); err == nil {
 		return nil
@@ -109,23 +109,57 @@ func ValidateNetwork(attribute string, network string) error {
 	return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a CIDR or hostname", attribute))
 }
 
-// ValidateNetworkList validates a list of networks.
+// ValidateNetworkOrHostnameList validates a list of networks.
 // The list cannot be empty
-func ValidateNetworkList(attribute string, networks []string) error {
+func ValidateNetworkOrHostnameList(attribute string, networks []string) error {
 
 	if len(networks) == 0 {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must not be empty", attribute))
 	}
 
-	return ValidateOptionalNetworkList(attribute, networks)
+	return ValidateOptionalNetworkOrHostnameList(attribute, networks)
 }
 
-// ValidateOptionalNetworkList validates a list of networks.
-// It can be empty/
-func ValidateOptionalNetworkList(attribute string, networks []string) error {
+// ValidateOptionalNetworkOrHostnameList validates a list of networks.
+// It can be empty.
+func ValidateOptionalNetworkOrHostnameList(attribute string, networks []string) error {
 
 	for _, network := range networks {
-		if err := ValidateNetwork(attribute, network); err != nil {
+		if err := ValidateNetworkOrHostname(attribute, network); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ValidateCIDR validates a CIDR.
+func ValidateCIDR(attribute string, network string) error {
+
+	if _, _, err := net.ParseCIDR(network); err == nil {
+		return nil
+	}
+
+	return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a CIDR", attribute))
+}
+
+// ValidateCIDRList validates a list of CIDS.
+// The list cannot be empty
+func ValidateCIDRList(attribute string, networks []string) error {
+
+	if len(networks) == 0 {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must not be empty", attribute))
+	}
+
+	return ValidateOptionalCIDRList(attribute, networks)
+}
+
+// ValidateOptionalCIDRList validates a list of CIDRs.
+// It can be empty.
+func ValidateOptionalCIDRList(attribute string, networks []string) error {
+
+	for _, network := range networks {
+		if err := ValidateCIDR(attribute, network); err != nil {
 			return err
 		}
 	}
