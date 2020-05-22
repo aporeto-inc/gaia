@@ -16,6 +16,9 @@ const (
 	// IssueRealmAWSSecurityToken represents the value AWSSecurityToken.
 	IssueRealmAWSSecurityToken IssueRealmValue = "AWSSecurityToken"
 
+	// IssueRealmAporetoIdentityToken represents the value AporetoIdentityToken.
+	IssueRealmAporetoIdentityToken IssueRealmValue = "AporetoIdentityToken"
+
 	// IssueRealmAzureIdentityToken represents the value AzureIdentityToken.
 	IssueRealmAzureIdentityToken IssueRealmValue = "AzureIdentityToken"
 
@@ -140,9 +143,8 @@ type Issue struct {
 	// Restricts the number of times the issued token can be used.
 	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
-	// The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
-	// `Certificate`,
-	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
+	// The authentication realm. This will define how to verify
+	// credentials from internal or external source of authentication.
 	Realm IssueRealmValue `json:"realm" msgpack:"realm" bson:"-" mapstructure:"realm,omitempty"`
 
 	// Restricts the namespace where the token can be used.
@@ -418,7 +420,7 @@ func (o *Issue) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken"}, false); err != nil {
+	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken", "AporetoIdentityToken"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -555,11 +557,10 @@ for further information.`,
 		Type:           "integer",
 	},
 	"Realm": {
-		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken"},
+		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken", "AporetoIdentityToken"},
 		ConvertedName:  "Realm",
-		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
-` + "`" + `Certificate` + "`" + `,
-` + "`" + `Google` + "`" + `, ` + "`" + `LDAP` + "`" + `, ` + "`" + `Vince` + "`" + `, ` + "`" + `GCPIdentityToken` + "`" + `, ` + "`" + `AzureIdentityToken` + "`" + `, or ` + "`" + `OIDC` + "`" + `.`,
+		Description: `The authentication realm. This will define how to verify
+credentials from internal or external source of authentication.`,
 		Exposed:  true,
 		Name:     "realm",
 		Required: true,
@@ -703,11 +704,10 @@ for further information.`,
 		Type:           "integer",
 	},
 	"realm": {
-		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken"},
+		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken", "AporetoIdentityToken"},
 		ConvertedName:  "Realm",
-		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
-` + "`" + `Certificate` + "`" + `,
-` + "`" + `Google` + "`" + `, ` + "`" + `LDAP` + "`" + `, ` + "`" + `Vince` + "`" + `, ` + "`" + `GCPIdentityToken` + "`" + `, ` + "`" + `AzureIdentityToken` + "`" + `, or ` + "`" + `OIDC` + "`" + `.`,
+		Description: `The authentication realm. This will define how to verify
+credentials from internal or external source of authentication.`,
 		Exposed:  true,
 		Name:     "realm",
 		Required: true,
@@ -873,9 +873,8 @@ type SparseIssue struct {
 	// Restricts the number of times the issued token can be used.
 	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
-	// The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
-	// `Certificate`,
-	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
+	// The authentication realm. This will define how to verify
+	// credentials from internal or external source of authentication.
 	Realm *IssueRealmValue `json:"realm,omitempty" msgpack:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
 
 	// Restricts the namespace where the token can be used.

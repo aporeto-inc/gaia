@@ -1044,11 +1044,10 @@ Opaque data that will be included in the issued token.
 
 Restricts the number of times the issued token can be used.
 
-##### `realm` `enum(AWSSecurityToken | Certificate | Google | LDAP | Vince | GCPIdentityToken | AzureIdentityToken | OIDC | SAML | PCC | PCCIdentityToken)` [`required`]
+##### `realm` `enum(AWSSecurityToken | Certificate | Google | LDAP | Vince | GCPIdentityToken | AzureIdentityToken | OIDC | SAML | PCC | PCCIdentityToken | AporetoIdentityToken)` [`required`]
 
-The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
-`Certificate`,
-`Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
+The authentication realm. This will define how to verify
+credentials from internal or external source of authentication.
 
 ##### `restrictedNamespace` `string`
 
