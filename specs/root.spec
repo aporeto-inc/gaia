@@ -344,6 +344,10 @@ relations:
     - $archivable
     - $filtering
 
+- rest_name: healthcheck
+  get:
+    description: Retrieve the health of the platform.
+
 - rest_name: hit
   get:
     description: Retrieve a matching hit.
