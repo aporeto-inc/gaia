@@ -6,6 +6,10 @@ model:
   package: leon
   group: core/monitoring
   description: Allows you to report various events on any object.
+  extends:
+  - '@identifiable-stored'
+  - '@zoned'
+  - '@migratable'
 
 # Attributes
 attributes:
@@ -64,7 +68,9 @@ attributes:
     orderable: true
 
   - name: opaque
-    description: Opaque data that can be attached to the event log, for further machine processing.
+    description: |-
+      Opaque data that can be attached to the event log, for further machine
+      processing.
     type: string
     exposed: true
     stored: true

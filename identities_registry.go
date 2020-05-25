@@ -563,8 +563,10 @@ var (
 		"enforcerrefresh":              nil,
 		"enforcerreport":               nil,
 		"enforcertracereport":          nil,
-		"eventlog":                     nil,
-		"export":                       nil,
+		"eventlog": {
+			{":shard", ":unique", "zone", "zHash"},
+		},
+		"export": nil,
 		"externalnetwork": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},

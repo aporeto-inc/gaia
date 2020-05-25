@@ -101,6 +101,9 @@ func (o EventLogsList) Version() int {
 
 // EventLog represents the model of a eventlog
 type EventLog struct {
+	// Identifier of the object.
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
 	// Category of the event log.
 	Category string `json:"category" msgpack:"category" bson:"category" mapstructure:"category,omitempty"`
 
@@ -113,10 +116,14 @@ type EventLog struct {
 	// Sets the log level.
 	Level EventLogLevelValue `json:"level" msgpack:"level" bson:"level" mapstructure:"level,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+
 	// Namespace tag attached to the event log.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Opaque data that can be attached to the event log, for further machine processing.
+	// Opaque data that can be attached to the event log, for further machine
+	// processing.
 	Opaque string `json:"opaque" msgpack:"opaque" bson:"opaque" mapstructure:"opaque,omitempty"`
 
 	// ID of the object this event log is attached to. The object must be in the same
@@ -129,6 +136,13 @@ type EventLog struct {
 	// Title of the event log.
 	Title string `json:"title" msgpack:"title" bson:"title" mapstructure:"title,omitempty"`
 
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
+
+	// Geographical zone. Used for sharding and georedundancy.
+	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -136,8 +150,9 @@ type EventLog struct {
 func NewEventLog() *EventLog {
 
 	return &EventLog{
-		ModelVersion: 1,
-		Level:        EventLogLevelInfo,
+		ModelVersion:  1,
+		Level:         EventLogLevelInfo,
+		MigrationsLog: map[string]string{},
 	}
 }
 
@@ -150,12 +165,13 @@ func (o *EventLog) Identity() elemental.Identity {
 // Identifier returns the value of the object's unique identifier.
 func (o *EventLog) Identifier() string {
 
-	return ""
+	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *EventLog) SetIdentifier(id string) {
 
+	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -168,15 +184,21 @@ func (o *EventLog) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesEventLog{}
 
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.Category = o.Category
 	s.Content = o.Content
 	s.Date = o.Date
 	s.Level = o.Level
+	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
 	s.Opaque = o.Opaque
 	s.TargetID = o.TargetID
 	s.TargetIdentity = o.TargetIdentity
 	s.Title = o.Title
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
 
 	return s, nil
 }
@@ -194,15 +216,19 @@ func (o *EventLog) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.ID = s.ID.Hex()
 	o.Category = s.Category
 	o.Content = s.Content
 	o.Date = s.Date
 	o.Level = s.Level
+	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
 	o.Opaque = s.Opaque
 	o.TargetID = s.TargetID
 	o.TargetIdentity = s.TargetIdentity
 	o.Title = s.Title
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
 
 	return nil
 }
@@ -236,6 +262,18 @@ func (o *EventLog) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *EventLog) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *EventLog) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *EventLog) GetNamespace() string {
 
@@ -248,6 +286,30 @@ func (o *EventLog) SetNamespace(namespace string) {
 	o.Namespace = namespace
 }
 
+// GetZHash returns the ZHash of the receiver.
+func (o *EventLog) GetZHash() int {
+
+	return o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the given value.
+func (o *EventLog) SetZHash(zHash int) {
+
+	o.ZHash = zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *EventLog) GetZone() int {
+
+	return o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the given value.
+func (o *EventLog) SetZone(zone int) {
+
+	o.Zone = zone
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *EventLog) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -255,21 +317,27 @@ func (o *EventLog) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseEventLog{
+			ID:             &o.ID,
 			Category:       &o.Category,
 			Content:        &o.Content,
 			Date:           &o.Date,
 			Level:          &o.Level,
+			MigrationsLog:  &o.MigrationsLog,
 			Namespace:      &o.Namespace,
 			Opaque:         &o.Opaque,
 			TargetID:       &o.TargetID,
 			TargetIdentity: &o.TargetIdentity,
 			Title:          &o.Title,
+			ZHash:          &o.ZHash,
+			Zone:           &o.Zone,
 		}
 	}
 
 	sp := &SparseEventLog{}
 	for _, f := range fields {
 		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
 		case "category":
 			sp.Category = &(o.Category)
 		case "content":
@@ -278,6 +346,8 @@ func (o *EventLog) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Date = &(o.Date)
 		case "level":
 			sp.Level = &(o.Level)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "opaque":
@@ -288,6 +358,10 @@ func (o *EventLog) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.TargetIdentity = &(o.TargetIdentity)
 		case "title":
 			sp.Title = &(o.Title)
+		case "zHash":
+			sp.ZHash = &(o.ZHash)
+		case "zone":
+			sp.Zone = &(o.Zone)
 		}
 	}
 
@@ -301,6 +375,9 @@ func (o *EventLog) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseEventLog)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
 	if so.Category != nil {
 		o.Category = *so.Category
 	}
@@ -312,6 +389,9 @@ func (o *EventLog) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Level != nil {
 		o.Level = *so.Level
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
@@ -327,6 +407,12 @@ func (o *EventLog) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Title != nil {
 		o.Title = *so.Title
+	}
+	if so.ZHash != nil {
+		o.ZHash = *so.ZHash
+	}
+	if so.Zone != nil {
+		o.Zone = *so.Zone
 	}
 }
 
@@ -418,6 +504,8 @@ func (*EventLog) AttributeSpecifications() map[string]elemental.AttributeSpecifi
 func (o *EventLog) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "ID":
+		return o.ID
 	case "category":
 		return o.Category
 	case "content":
@@ -426,6 +514,8 @@ func (o *EventLog) ValueForAttribute(name string) interface{} {
 		return o.Date
 	case "level":
 		return o.Level
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "namespace":
 		return o.Namespace
 	case "opaque":
@@ -436,6 +526,10 @@ func (o *EventLog) ValueForAttribute(name string) interface{} {
 		return o.TargetIdentity
 	case "title":
 		return o.Title
+	case "zHash":
+		return o.ZHash
+	case "zone":
+		return o.Zone
 	}
 
 	return nil
@@ -443,6 +537,20 @@ func (o *EventLog) ValueForAttribute(name string) interface{} {
 
 // EventLogAttributesMap represents the map of attribute for EventLog.
 var EventLogAttributesMap = map[string]elemental.AttributeSpecification{
+	"ID": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ID",
+		Description:    `Identifier of the object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Identifier:     true,
+		Name:           "ID",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"Category": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Category",
@@ -488,6 +596,17 @@ var EventLogAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "enum",
 	},
+	"MigrationsLog": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"Namespace": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -507,12 +626,13 @@ var EventLogAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Opaque",
 		CreationOnly:   true,
-		Description:    `Opaque data that can be attached to the event log, for further machine processing.`,
-		Exposed:        true,
-		Name:           "opaque",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Opaque data that can be attached to the event log, for further machine
+processing.`,
+		Exposed:   true,
+		Name:      "opaque",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"TargetID": {
 		AllowedChoices: []string{},
@@ -548,10 +668,51 @@ namespace than the event log.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"ZHash": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"Zone": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
+	},
 }
 
 // EventLogLowerCaseAttributesMap represents the map of attribute for EventLog.
 var EventLogLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"id": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ID",
+		Description:    `Identifier of the object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Identifier:     true,
+		Name:           "ID",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"category": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Category",
@@ -597,6 +758,17 @@ var EventLogLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Stored:         true,
 		Type:           "enum",
 	},
+	"migrationslog": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
+	},
 	"namespace": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -616,12 +788,13 @@ var EventLogLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		ConvertedName:  "Opaque",
 		CreationOnly:   true,
-		Description:    `Opaque data that can be attached to the event log, for further machine processing.`,
-		Exposed:        true,
-		Name:           "opaque",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Opaque data that can be attached to the event log, for further machine
+processing.`,
+		Exposed:   true,
+		Name:      "opaque",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"targetid": {
 		AllowedChoices: []string{},
@@ -656,6 +829,33 @@ namespace than the event log.`,
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"zhash": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"zone": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -722,6 +922,9 @@ func (o SparseEventLogsList) Version() int {
 
 // SparseEventLog represents the sparse version of a eventlog.
 type SparseEventLog struct {
+	// Identifier of the object.
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
 	// Category of the event log.
 	Category *string `json:"category,omitempty" msgpack:"category,omitempty" bson:"category,omitempty" mapstructure:"category,omitempty"`
 
@@ -734,10 +937,14 @@ type SparseEventLog struct {
 	// Sets the log level.
 	Level *EventLogLevelValue `json:"level,omitempty" msgpack:"level,omitempty" bson:"level,omitempty" mapstructure:"level,omitempty"`
 
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
 	// Namespace tag attached to the event log.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// Opaque data that can be attached to the event log, for further machine processing.
+	// Opaque data that can be attached to the event log, for further machine
+	// processing.
 	Opaque *string `json:"opaque,omitempty" msgpack:"opaque,omitempty" bson:"opaque,omitempty" mapstructure:"opaque,omitempty"`
 
 	// ID of the object this event log is attached to. The object must be in the same
@@ -749,6 +956,13 @@ type SparseEventLog struct {
 
 	// Title of the event log.
 	Title *string `json:"title,omitempty" msgpack:"title,omitempty" bson:"title,omitempty" mapstructure:"title,omitempty"`
+
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+
+	// Geographical zone. Used for sharding and georedundancy.
+	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -767,12 +981,20 @@ func (o *SparseEventLog) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseEventLog) Identifier() string {
 
-	return ""
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseEventLog) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -785,6 +1007,9 @@ func (o *SparseEventLog) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseEventLog{}
 
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.Category != nil {
 		s.Category = o.Category
 	}
@@ -796,6 +1021,9 @@ func (o *SparseEventLog) GetBSON() (interface{}, error) {
 	}
 	if o.Level != nil {
 		s.Level = o.Level
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
 	}
 	if o.Namespace != nil {
 		s.Namespace = o.Namespace
@@ -811,6 +1039,12 @@ func (o *SparseEventLog) GetBSON() (interface{}, error) {
 	}
 	if o.Title != nil {
 		s.Title = o.Title
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
 	}
 
 	return s, nil
@@ -829,6 +1063,8 @@ func (o *SparseEventLog) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	id := s.ID.Hex()
+	o.ID = &id
 	if s.Category != nil {
 		o.Category = s.Category
 	}
@@ -840,6 +1076,9 @@ func (o *SparseEventLog) SetBSON(raw bson.Raw) error {
 	}
 	if s.Level != nil {
 		o.Level = s.Level
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
 	}
 	if s.Namespace != nil {
 		o.Namespace = s.Namespace
@@ -856,6 +1095,12 @@ func (o *SparseEventLog) SetBSON(raw bson.Raw) error {
 	if s.Title != nil {
 		o.Title = s.Title
 	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
 
 	return nil
 }
@@ -870,6 +1115,9 @@ func (o *SparseEventLog) Version() int {
 func (o *SparseEventLog) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewEventLog()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
 	if o.Category != nil {
 		out.Category = *o.Category
 	}
@@ -881,6 +1129,9 @@ func (o *SparseEventLog) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Level != nil {
 		out.Level = *o.Level
+	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
@@ -897,8 +1148,30 @@ func (o *SparseEventLog) ToPlain() elemental.PlainIdentifiable {
 	if o.Title != nil {
 		out.Title = *o.Title
 	}
+	if o.ZHash != nil {
+		out.ZHash = *o.ZHash
+	}
+	if o.Zone != nil {
+		out.Zone = *o.Zone
+	}
 
 	return out
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseEventLog) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseEventLog) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -915,6 +1188,38 @@ func (o *SparseEventLog) GetNamespace() (out string) {
 func (o *SparseEventLog) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
+}
+
+// GetZHash returns the ZHash of the receiver.
+func (o *SparseEventLog) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
+
+	return *o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the address of the given value.
+func (o *SparseEventLog) SetZHash(zHash int) {
+
+	o.ZHash = &zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *SparseEventLog) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
+
+	return *o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the address of the given value.
+func (o *SparseEventLog) SetZone(zone int) {
+
+	o.Zone = &zone
 }
 
 // DeepCopy returns a deep copy if the SparseEventLog.
@@ -942,24 +1247,32 @@ func (o *SparseEventLog) DeepCopyInto(out *SparseEventLog) {
 }
 
 type mongoAttributesEventLog struct {
+	ID             bson.ObjectId      `bson:"_id,omitempty"`
 	Category       string             `bson:"category"`
 	Content        string             `bson:"content"`
 	Date           time.Time          `bson:"date"`
 	Level          EventLogLevelValue `bson:"level"`
+	MigrationsLog  map[string]string  `bson:"migrationslog,omitempty"`
 	Namespace      string             `bson:"namespace"`
 	Opaque         string             `bson:"opaque"`
 	TargetID       string             `bson:"targetid"`
 	TargetIdentity string             `bson:"targetidentity"`
 	Title          string             `bson:"title"`
+	ZHash          int                `bson:"zhash"`
+	Zone           int                `bson:"zone"`
 }
 type mongoAttributesSparseEventLog struct {
+	ID             bson.ObjectId       `bson:"_id,omitempty"`
 	Category       *string             `bson:"category,omitempty"`
 	Content        *string             `bson:"content,omitempty"`
 	Date           *time.Time          `bson:"date,omitempty"`
 	Level          *EventLogLevelValue `bson:"level,omitempty"`
+	MigrationsLog  *map[string]string  `bson:"migrationslog,omitempty"`
 	Namespace      *string             `bson:"namespace,omitempty"`
 	Opaque         *string             `bson:"opaque,omitempty"`
 	TargetID       *string             `bson:"targetid,omitempty"`
 	TargetIdentity *string             `bson:"targetidentity,omitempty"`
 	Title          *string             `bson:"title,omitempty"`
+	ZHash          *int                `bson:"zhash,omitempty"`
+	Zone           *int                `bson:"zone,omitempty"`
 }
