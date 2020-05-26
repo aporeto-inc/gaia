@@ -531,8 +531,10 @@ var (
 		"datapathcertificate": nil,
 		"debugbundle":         nil,
 		"dependencymap":       nil,
-		"dnslookupreport":     nil,
-		"email":               nil,
+		"dnslookupreport": {
+			{":shard", ":unique", "zone", "zHash"},
+		},
+		"email": nil,
 		"enforcer": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
