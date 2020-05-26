@@ -6,6 +6,10 @@ model:
   package: zack
   group: core/enforcer
   description: Post a new Defender statistics report.
+  extends:
+  - '@identifiable-stored'
+  - '@zoned'
+  - '@migratable'
 
 # Attributes
 attributes:
@@ -14,12 +18,14 @@ attributes:
     description: Total CPU utilization of the Defender as a percentage of vCPUs.
     type: float
     exposed: true
+    stored: true
     example_value: 10
 
   - name: ID
     description: ID of the Defender.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: xxx-xxx-xxx-xxx
 
@@ -27,12 +33,14 @@ attributes:
     description: Total resident memory used by the Defender in bytes.
     type: integer
     exposed: true
+    stored: true
     example_value: 10000
 
   - name: name
     description: Name of the Defender.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: aporeto-enforcerd-xxx
 
@@ -40,6 +48,7 @@ attributes:
     description: Namespace of the Defender.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: /my/ns
 
@@ -47,11 +56,13 @@ attributes:
     description: Number of active processes of the Defender.
     type: integer
     exposed: true
+    stored: true
     example_value: 10
 
   - name: timestamp
     description: Date of the report.
     type: time
     exposed: true
+    stored: true
     required: true
     example_value: "2018-06-14T23:10:46.420397985Z"
