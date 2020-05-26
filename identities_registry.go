@@ -584,7 +584,9 @@ var (
 			{"archived"},
 		},
 		"fileaccesspolicy": nil,
-		"fileaccessreport": nil,
+		"fileaccessreport": {
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"filepath": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
