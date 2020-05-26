@@ -9,7 +9,7 @@ env:
   - GO111MODULE=on
 
 before_install:
-- go get -u github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+- go get -u github.com/golangci/golangci-lint/cmd/golangci-lint@v1.24.0
 
 script:
 - make

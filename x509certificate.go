@@ -118,9 +118,9 @@ type X509Certificate struct {
 	// ExpirationDate contains the requested expiration date.
 	ExpirationDate time.Time `json:"expirationDate" msgpack:"expirationDate" bson:"-" mapstructure:"expirationDate,omitempty"`
 
-	// Extensions is a list of extensions that can be added as SAN extensions to the
-	// certificate.
-	Extensions []string `json:"extensions" msgpack:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
+	// extensions to add to the certificate. It must contains ASN1 encoded bytes,
+	// themselves encoded in base64.
+	Extensions []byte `json:"extensions" msgpack:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// Selects what CA should sign the certificate.
 	Signer X509CertificateSignerValue `json:"signer" msgpack:"signer" bson:"-" mapstructure:"signer,omitempty"`
@@ -143,7 +143,7 @@ func NewX509Certificate() *X509Certificate {
 
 	return &X509Certificate{
 		ModelVersion:    1,
-		Extensions:      []string{},
+		Extensions:      []byte{},
 		Signer:          X509CertificateSignerPublic,
 		SubjectOverride: NewPKIXName(),
 		Usage:           X509CertificateUsageClient,
@@ -462,12 +462,12 @@ var X509CertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
 		CreationOnly:   true,
-		Description: `Extensions is a list of extensions that can be added as SAN extensions to the
-certificate.`,
+		Description: `extensions to add to the certificate. It must contains ASN1 encoded bytes,
+themselves encoded in base64.`,
 		Exposed: true,
 		Name:    "extensions",
-		SubType: "string",
-		Type:    "list",
+		SubType: "[]byte",
+		Type:    "external",
 	},
 	"Signer": {
 		AllowedChoices: []string{"Public", "System"},
@@ -556,12 +556,12 @@ var X509CertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
 		CreationOnly:   true,
-		Description: `Extensions is a list of extensions that can be added as SAN extensions to the
-certificate.`,
+		Description: `extensions to add to the certificate. It must contains ASN1 encoded bytes,
+themselves encoded in base64.`,
 		Exposed: true,
 		Name:    "extensions",
-		SubType: "string",
-		Type:    "list",
+		SubType: "[]byte",
+		Type:    "external",
 	},
 	"signer": {
 		AllowedChoices: []string{"Public", "System"},
@@ -677,9 +677,9 @@ type SparseX509Certificate struct {
 	// ExpirationDate contains the requested expiration date.
 	ExpirationDate *time.Time `json:"expirationDate,omitempty" msgpack:"expirationDate,omitempty" bson:"-" mapstructure:"expirationDate,omitempty"`
 
-	// Extensions is a list of extensions that can be added as SAN extensions to the
-	// certificate.
-	Extensions *[]string `json:"extensions,omitempty" msgpack:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
+	// extensions to add to the certificate. It must contains ASN1 encoded bytes,
+	// themselves encoded in base64.
+	Extensions *[]byte `json:"extensions,omitempty" msgpack:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// Selects what CA should sign the certificate.
 	Signer *X509CertificateSignerValue `json:"signer,omitempty" msgpack:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`

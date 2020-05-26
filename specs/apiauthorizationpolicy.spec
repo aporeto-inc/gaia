@@ -66,7 +66,7 @@ attributes:
     exposed: true
     subtype: string
     validations:
-    - $optionalnetworks
+    - $optionalcidrs
 
   - name: expirationTime
     description: If set, the policy will be automatically deleted after the given

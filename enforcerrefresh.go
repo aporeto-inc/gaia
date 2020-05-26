@@ -106,8 +106,8 @@ type EnforcerRefresh struct {
 	// Set the debug information collected by the enforcer.
 	Debug EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
-	// The duration that certain on-demand debug information is collected.
-	DebugDuration string `json:"debugDuration,omitempty" msgpack:"debugDuration,omitempty" bson:"-" mapstructure:"debugDuration,omitempty"`
+	// Packet capture filter, syntax varying by platform.
+	DebugPcapFilter string `json:"debugPcapFilter,omitempty" msgpack:"debugPcapFilter,omitempty" bson:"-" mapstructure:"debugPcapFilter,omitempty"`
 
 	// Isolates debug information to a given processing unit, where possible.
 	DebugProcessingUnitID string `json:"debugProcessingUnitID,omitempty" msgpack:"debugProcessingUnitID,omitempty" bson:"-" mapstructure:"debugProcessingUnitID,omitempty"`
@@ -226,7 +226,7 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 		return &SparseEnforcerRefresh{
 			ID:                    &o.ID,
 			Debug:                 &o.Debug,
-			DebugDuration:         &o.DebugDuration,
+			DebugPcapFilter:       &o.DebugPcapFilter,
 			DebugProcessingUnitID: &o.DebugProcessingUnitID,
 			Namespace:             &o.Namespace,
 		}
@@ -239,8 +239,8 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ID = &(o.ID)
 		case "debug":
 			sp.Debug = &(o.Debug)
-		case "debugDuration":
-			sp.DebugDuration = &(o.DebugDuration)
+		case "debugPcapFilter":
+			sp.DebugPcapFilter = &(o.DebugPcapFilter)
 		case "debugProcessingUnitID":
 			sp.DebugProcessingUnitID = &(o.DebugProcessingUnitID)
 		case "namespace":
@@ -264,8 +264,8 @@ func (o *EnforcerRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Debug != nil {
 		o.Debug = *so.Debug
 	}
-	if so.DebugDuration != nil {
-		o.DebugDuration = *so.DebugDuration
+	if so.DebugPcapFilter != nil {
+		o.DebugPcapFilter = *so.DebugPcapFilter
 	}
 	if so.DebugProcessingUnitID != nil {
 		o.DebugProcessingUnitID = *so.DebugProcessingUnitID
@@ -309,10 +309,6 @@ func (o *EnforcerRefresh) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateTimeDuration("debugDuration", o.DebugDuration); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -351,8 +347,8 @@ func (o *EnforcerRefresh) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "debug":
 		return o.Debug
-	case "debugDuration":
-		return o.DebugDuration
+	case "debugPcapFilter":
+		return o.DebugPcapFilter
 	case "debugProcessingUnitID":
 		return o.DebugProcessingUnitID
 	case "namespace":
@@ -385,12 +381,12 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "debug",
 		Type:           "enum",
 	},
-	"DebugDuration": {
+	"DebugPcapFilter": {
 		AllowedChoices: []string{},
-		ConvertedName:  "DebugDuration",
-		Description:    `The duration that certain on-demand debug information is collected.`,
+		ConvertedName:  "DebugPcapFilter",
+		Description:    `Packet capture filter, syntax varying by platform.`,
 		Exposed:        true,
-		Name:           "debugDuration",
+		Name:           "debugPcapFilter",
 		Type:           "string",
 	},
 	"DebugProcessingUnitID": {
@@ -436,12 +432,12 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "debug",
 		Type:           "enum",
 	},
-	"debugduration": {
+	"debugpcapfilter": {
 		AllowedChoices: []string{},
-		ConvertedName:  "DebugDuration",
-		Description:    `The duration that certain on-demand debug information is collected.`,
+		ConvertedName:  "DebugPcapFilter",
+		Description:    `Packet capture filter, syntax varying by platform.`,
 		Exposed:        true,
-		Name:           "debugDuration",
+		Name:           "debugPcapFilter",
 		Type:           "string",
 	},
 	"debugprocessingunitid": {
@@ -533,8 +529,8 @@ type SparseEnforcerRefresh struct {
 	// Set the debug information collected by the enforcer.
 	Debug *EnforcerRefreshDebugValue `json:"debug,omitempty" msgpack:"debug,omitempty" bson:"-" mapstructure:"debug,omitempty"`
 
-	// The duration that certain on-demand debug information is collected.
-	DebugDuration *string `json:"debugDuration,omitempty" msgpack:"debugDuration,omitempty" bson:"-" mapstructure:"debugDuration,omitempty"`
+	// Packet capture filter, syntax varying by platform.
+	DebugPcapFilter *string `json:"debugPcapFilter,omitempty" msgpack:"debugPcapFilter,omitempty" bson:"-" mapstructure:"debugPcapFilter,omitempty"`
 
 	// Isolates debug information to a given processing unit, where possible.
 	DebugProcessingUnitID *string `json:"debugProcessingUnitID,omitempty" msgpack:"debugProcessingUnitID,omitempty" bson:"-" mapstructure:"debugProcessingUnitID,omitempty"`
@@ -620,8 +616,8 @@ func (o *SparseEnforcerRefresh) ToPlain() elemental.PlainIdentifiable {
 	if o.Debug != nil {
 		out.Debug = *o.Debug
 	}
-	if o.DebugDuration != nil {
-		out.DebugDuration = *o.DebugDuration
+	if o.DebugPcapFilter != nil {
+		out.DebugPcapFilter = *o.DebugPcapFilter
 	}
 	if o.DebugProcessingUnitID != nil {
 		out.DebugProcessingUnitID = *o.DebugProcessingUnitID

@@ -52,7 +52,7 @@ attributes:
     exposed: true
     subtype: string
     validations:
-    - $optionalnetworks
+    - $optionalcidrs
 
   - name: expirationTime
     description: If set the SSH authorization will be automatically deleted after

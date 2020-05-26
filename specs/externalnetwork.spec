@@ -56,7 +56,7 @@ attributes:
     subtype: string
     stored: true
     validations:
-    - $networks
+    - $networksorhostnames
 
   - name: ports
     description: List of single ports or range (xx:yy).
@@ -88,8 +88,7 @@ attributes:
     - $serviceports
 
   - name: type
-    description: |-
-      The type of external network (default `Subnet`).
+    description: The type of external network (default `Subnet`).
     type: enum
     exposed: true
     stored: true

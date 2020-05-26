@@ -61,11 +61,11 @@ attributes:
 
   - name: extensions
     description: |-
-      Extensions is a list of extensions that can be added as SAN extensions to the
-      certificate.
-    type: list
+      extensions to add to the certificate. It must contains ASN1 encoded bytes,
+      themselves encoded in base64.
+    type: external
     exposed: true
-    subtype: string
+    subtype: '[]byte'
     creation_only: true
 
   - name: signer
