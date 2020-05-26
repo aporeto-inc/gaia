@@ -519,8 +519,10 @@ var (
 			{"namespace"},
 			{"namespace", "normalizedTags"},
 		},
-		"clausesmatch":  nil,
-		"counterreport": nil,
+		"clausesmatch": nil,
+		"counterreport": {
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"customer": {
 			{"providerCustomerID"},
 		},
