@@ -63,9 +63,8 @@ attributes:
 
   - name: realm
     description: |-
-      The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
-      `Certificate`,
-      `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
+      The authentication realm. This will define how to verify
+      credentials from internal or external source of authentication.
     type: enum
     exposed: true
     required: true
@@ -81,6 +80,7 @@ attributes:
     - SAML
     - PCC
     - PCCIdentityToken
+    - AporetoIdentityToken
     example_value: Vince
 
   - name: restrictedNamespace
