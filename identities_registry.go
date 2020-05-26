@@ -761,7 +761,9 @@ var (
 			{"namespace"},
 			{"namespace", "normalizedTags"},
 		},
-		"packetreport":  nil,
+		"packetreport": {
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"passwordreset": nil,
 		"pccprovider": {
 			{":shard", ":unique", "zone", "zHash"},

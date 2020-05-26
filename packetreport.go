@@ -95,6 +95,9 @@ func (o PacketReportsList) Version() int {
 
 // PacketReport represents the model of a packetreport
 type PacketReport struct {
+	// Identifier of the object.
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
 	// Flags are the TCP flags of the packet.
 	TCPFlags int `json:"TCPFlags" msgpack:"TCPFlags" bson:"tcpflags" mapstructure:"TCPFlags,omitempty"`
 
@@ -121,13 +124,16 @@ type PacketReport struct {
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
 	// The event that triggered the report.
-	Event PacketReportEventValue `json:"event" msgpack:"event" bson:"-" mapstructure:"event,omitempty"`
+	Event PacketReportEventValue `json:"event" msgpack:"event" bson:"event" mapstructure:"event,omitempty"`
 
 	// Length is the length of the packet.
 	Length int `json:"-" msgpack:"-" bson:"length" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
 	Mark int `json:"mark" msgpack:"mark" bson:"mark" mapstructure:"mark,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
 	// Namespace of the processing unit reporting the packet.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
@@ -156,6 +162,13 @@ type PacketReport struct {
 	// Set to `true` if the packet arrived with the Trireme options (default).
 	TriremePacket bool `json:"triremePacket" msgpack:"triremePacket" bson:"triremepacket" mapstructure:"triremePacket,omitempty"`
 
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
+
+	// Logical storage zone. Used for sharding.
+	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -165,6 +178,7 @@ func NewPacketReport() *PacketReport {
 	return &PacketReport{
 		ModelVersion:  1,
 		Claims:        []string{},
+		MigrationsLog: map[string]string{},
 		RawPacket:     "abcd",
 		TriremePacket: true,
 	}
@@ -179,12 +193,13 @@ func (o *PacketReport) Identity() elemental.Identity {
 // Identifier returns the value of the object's unique identifier.
 func (o *PacketReport) Identifier() string {
 
-	return ""
+	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *PacketReport) SetIdentifier(id string) {
 
+	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -197,6 +212,9 @@ func (o *PacketReport) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesPacketReport{}
 
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.TCPFlags = o.TCPFlags
 	s.Claims = o.Claims
 	s.DestinationIP = o.DestinationIP
@@ -205,8 +223,10 @@ func (o *PacketReport) GetBSON() (interface{}, error) {
 	s.Encrypt = o.Encrypt
 	s.EnforcerID = o.EnforcerID
 	s.EnforcerNamespace = o.EnforcerNamespace
+	s.Event = o.Event
 	s.Length = o.Length
 	s.Mark = o.Mark
+	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
 	s.PacketID = o.PacketID
 	s.Protocol = o.Protocol
@@ -216,6 +236,8 @@ func (o *PacketReport) GetBSON() (interface{}, error) {
 	s.SourcePort = o.SourcePort
 	s.Timestamp = o.Timestamp
 	s.TriremePacket = o.TriremePacket
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
 
 	return s, nil
 }
@@ -233,6 +255,7 @@ func (o *PacketReport) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.ID = s.ID.Hex()
 	o.TCPFlags = s.TCPFlags
 	o.Claims = s.Claims
 	o.DestinationIP = s.DestinationIP
@@ -241,8 +264,10 @@ func (o *PacketReport) SetBSON(raw bson.Raw) error {
 	o.Encrypt = s.Encrypt
 	o.EnforcerID = s.EnforcerID
 	o.EnforcerNamespace = s.EnforcerNamespace
+	o.Event = s.Event
 	o.Length = s.Length
 	o.Mark = s.Mark
+	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
 	o.PacketID = s.PacketID
 	o.Protocol = s.Protocol
@@ -252,6 +277,8 @@ func (o *PacketReport) SetBSON(raw bson.Raw) error {
 	o.SourcePort = s.SourcePort
 	o.Timestamp = s.Timestamp
 	o.TriremePacket = s.TriremePacket
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
 
 	return nil
 }
@@ -285,6 +312,42 @@ func (o *PacketReport) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *PacketReport) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *PacketReport) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
+// GetZHash returns the ZHash of the receiver.
+func (o *PacketReport) GetZHash() int {
+
+	return o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the given value.
+func (o *PacketReport) SetZHash(zHash int) {
+
+	o.ZHash = zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *PacketReport) GetZone() int {
+
+	return o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the given value.
+func (o *PacketReport) SetZone(zone int) {
+
+	o.Zone = zone
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *PacketReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -292,6 +355,7 @@ func (o *PacketReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePacketReport{
+			ID:                &o.ID,
 			TCPFlags:          &o.TCPFlags,
 			Claims:            &o.Claims,
 			DestinationIP:     &o.DestinationIP,
@@ -303,6 +367,7 @@ func (o *PacketReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Event:             &o.Event,
 			Length:            &o.Length,
 			Mark:              &o.Mark,
+			MigrationsLog:     &o.MigrationsLog,
 			Namespace:         &o.Namespace,
 			PacketID:          &o.PacketID,
 			Protocol:          &o.Protocol,
@@ -312,12 +377,16 @@ func (o *PacketReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			SourcePort:        &o.SourcePort,
 			Timestamp:         &o.Timestamp,
 			TriremePacket:     &o.TriremePacket,
+			ZHash:             &o.ZHash,
+			Zone:              &o.Zone,
 		}
 	}
 
 	sp := &SparsePacketReport{}
 	for _, f := range fields {
 		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
 		case "TCPFlags":
 			sp.TCPFlags = &(o.TCPFlags)
 		case "claims":
@@ -340,6 +409,8 @@ func (o *PacketReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Length = &(o.Length)
 		case "mark":
 			sp.Mark = &(o.Mark)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "packetID":
@@ -358,6 +429,10 @@ func (o *PacketReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Timestamp = &(o.Timestamp)
 		case "triremePacket":
 			sp.TriremePacket = &(o.TriremePacket)
+		case "zHash":
+			sp.ZHash = &(o.ZHash)
+		case "zone":
+			sp.Zone = &(o.Zone)
 		}
 	}
 
@@ -371,6 +446,9 @@ func (o *PacketReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparsePacketReport)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
 	if so.TCPFlags != nil {
 		o.TCPFlags = *so.TCPFlags
 	}
@@ -404,6 +482,9 @@ func (o *PacketReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Mark != nil {
 		o.Mark = *so.Mark
 	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
+	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
@@ -430,6 +511,12 @@ func (o *PacketReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.TriremePacket != nil {
 		o.TriremePacket = *so.TriremePacket
+	}
+	if so.ZHash != nil {
+		o.ZHash = *so.ZHash
+	}
+	if so.Zone != nil {
+		o.Zone = *so.Zone
 	}
 }
 
@@ -533,6 +620,8 @@ func (*PacketReport) AttributeSpecifications() map[string]elemental.AttributeSpe
 func (o *PacketReport) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "ID":
+		return o.ID
 	case "TCPFlags":
 		return o.TCPFlags
 	case "claims":
@@ -555,6 +644,8 @@ func (o *PacketReport) ValueForAttribute(name string) interface{} {
 		return o.Length
 	case "mark":
 		return o.Mark
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "namespace":
 		return o.Namespace
 	case "packetID":
@@ -573,6 +664,10 @@ func (o *PacketReport) ValueForAttribute(name string) interface{} {
 		return o.Timestamp
 	case "triremePacket":
 		return o.TriremePacket
+	case "zHash":
+		return o.ZHash
+	case "zone":
+		return o.Zone
 	}
 
 	return nil
@@ -580,6 +675,20 @@ func (o *PacketReport) ValueForAttribute(name string) interface{} {
 
 // PacketReportAttributesMap represents the map of attribute for PacketReport.
 var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
+	"ID": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ID",
+		Description:    `Identifier of the object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Identifier:     true,
+		Name:           "ID",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"TCPFlags": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TCPFlags",
@@ -664,6 +773,7 @@ Otherwise empty.`,
 		Exposed:        true,
 		Name:           "event",
 		Required:       true,
+		Stored:         true,
 		Type:           "enum",
 	},
 	"Length": {
@@ -683,6 +793,17 @@ Otherwise empty.`,
 		Name:           "mark",
 		Stored:         true,
 		Type:           "integer",
+	},
+	"MigrationsLog": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Namespace": {
 		AllowedChoices: []string{},
@@ -773,10 +894,50 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"ZHash": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"Zone": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description:    `Logical storage zone. Used for sharding.`,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
+	},
 }
 
 // PacketReportLowerCaseAttributesMap represents the map of attribute for PacketReport.
 var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"id": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ID",
+		Description:    `Identifier of the object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Identifier:     true,
+		Name:           "ID",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"tcpflags": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TCPFlags",
@@ -861,6 +1022,7 @@ Otherwise empty.`,
 		Exposed:        true,
 		Name:           "event",
 		Required:       true,
+		Stored:         true,
 		Type:           "enum",
 	},
 	"length": {
@@ -880,6 +1042,17 @@ Otherwise empty.`,
 		Name:           "mark",
 		Stored:         true,
 		Type:           "integer",
+	},
+	"migrationslog": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"namespace": {
 		AllowedChoices: []string{},
@@ -970,6 +1143,32 @@ Otherwise empty.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"zhash": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"zone": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description:    `Logical storage zone. Used for sharding.`,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
+	},
 }
 
 // SparsePacketReportsList represents a list of SparsePacketReports
@@ -1035,6 +1234,9 @@ func (o SparsePacketReportsList) Version() int {
 
 // SparsePacketReport represents the sparse version of a packetreport.
 type SparsePacketReport struct {
+	// Identifier of the object.
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
 	// Flags are the TCP flags of the packet.
 	TCPFlags *int `json:"TCPFlags,omitempty" msgpack:"TCPFlags,omitempty" bson:"tcpflags,omitempty" mapstructure:"TCPFlags,omitempty"`
 
@@ -1061,13 +1263,16 @@ type SparsePacketReport struct {
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// The event that triggered the report.
-	Event *PacketReportEventValue `json:"event,omitempty" msgpack:"event,omitempty" bson:"-" mapstructure:"event,omitempty"`
+	Event *PacketReportEventValue `json:"event,omitempty" msgpack:"event,omitempty" bson:"event,omitempty" mapstructure:"event,omitempty"`
 
 	// Length is the length of the packet.
 	Length *int `json:"-" msgpack:"-" bson:"length,omitempty" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
 	Mark *int `json:"mark,omitempty" msgpack:"mark,omitempty" bson:"mark,omitempty" mapstructure:"mark,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Namespace of the processing unit reporting the packet.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
@@ -1096,6 +1301,13 @@ type SparsePacketReport struct {
 	// Set to `true` if the packet arrived with the Trireme options (default).
 	TriremePacket *bool `json:"triremePacket,omitempty" msgpack:"triremePacket,omitempty" bson:"triremepacket,omitempty" mapstructure:"triremePacket,omitempty"`
 
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+
+	// Logical storage zone. Used for sharding.
+	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -1113,12 +1325,20 @@ func (o *SparsePacketReport) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparsePacketReport) Identifier() string {
 
-	return ""
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparsePacketReport) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1131,6 +1351,9 @@ func (o *SparsePacketReport) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparsePacketReport{}
 
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.TCPFlags != nil {
 		s.TCPFlags = o.TCPFlags
 	}
@@ -1155,11 +1378,17 @@ func (o *SparsePacketReport) GetBSON() (interface{}, error) {
 	if o.EnforcerNamespace != nil {
 		s.EnforcerNamespace = o.EnforcerNamespace
 	}
+	if o.Event != nil {
+		s.Event = o.Event
+	}
 	if o.Length != nil {
 		s.Length = o.Length
 	}
 	if o.Mark != nil {
 		s.Mark = o.Mark
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
 	}
 	if o.Namespace != nil {
 		s.Namespace = o.Namespace
@@ -1188,6 +1417,12 @@ func (o *SparsePacketReport) GetBSON() (interface{}, error) {
 	if o.TriremePacket != nil {
 		s.TriremePacket = o.TriremePacket
 	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
 
 	return s, nil
 }
@@ -1205,6 +1440,8 @@ func (o *SparsePacketReport) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	id := s.ID.Hex()
+	o.ID = &id
 	if s.TCPFlags != nil {
 		o.TCPFlags = s.TCPFlags
 	}
@@ -1229,11 +1466,17 @@ func (o *SparsePacketReport) SetBSON(raw bson.Raw) error {
 	if s.EnforcerNamespace != nil {
 		o.EnforcerNamespace = s.EnforcerNamespace
 	}
+	if s.Event != nil {
+		o.Event = s.Event
+	}
 	if s.Length != nil {
 		o.Length = s.Length
 	}
 	if s.Mark != nil {
 		o.Mark = s.Mark
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
 	}
 	if s.Namespace != nil {
 		o.Namespace = s.Namespace
@@ -1262,6 +1505,12 @@ func (o *SparsePacketReport) SetBSON(raw bson.Raw) error {
 	if s.TriremePacket != nil {
 		o.TriremePacket = s.TriremePacket
 	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
 
 	return nil
 }
@@ -1276,6 +1525,9 @@ func (o *SparsePacketReport) Version() int {
 func (o *SparsePacketReport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPacketReport()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
 	if o.TCPFlags != nil {
 		out.TCPFlags = *o.TCPFlags
 	}
@@ -1309,6 +1561,9 @@ func (o *SparsePacketReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Mark != nil {
 		out.Mark = *o.Mark
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
@@ -1336,8 +1591,62 @@ func (o *SparsePacketReport) ToPlain() elemental.PlainIdentifiable {
 	if o.TriremePacket != nil {
 		out.TriremePacket = *o.TriremePacket
 	}
+	if o.ZHash != nil {
+		out.ZHash = *o.ZHash
+	}
+	if o.Zone != nil {
+		out.Zone = *o.Zone
+	}
 
 	return out
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparsePacketReport) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparsePacketReport) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
+}
+
+// GetZHash returns the ZHash of the receiver.
+func (o *SparsePacketReport) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
+
+	return *o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the address of the given value.
+func (o *SparsePacketReport) SetZHash(zHash int) {
+
+	o.ZHash = &zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *SparsePacketReport) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
+
+	return *o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the address of the given value.
+func (o *SparsePacketReport) SetZone(zone int) {
+
+	o.Zone = &zone
 }
 
 // DeepCopy returns a deep copy if the SparsePacketReport.
@@ -1365,44 +1674,54 @@ func (o *SparsePacketReport) DeepCopyInto(out *SparsePacketReport) {
 }
 
 type mongoAttributesPacketReport struct {
-	TCPFlags          int       `bson:"tcpflags"`
-	Claims            []string  `bson:"claims"`
-	DestinationIP     string    `bson:"destinationip"`
-	DestinationPort   int       `bson:"destinationport"`
-	DropReason        string    `bson:"dropreason"`
-	Encrypt           bool      `bson:"encrypt"`
-	EnforcerID        string    `bson:"enforcerid"`
-	EnforcerNamespace string    `bson:"enforcernamespace"`
-	Length            int       `bson:"length"`
-	Mark              int       `bson:"mark"`
-	Namespace         string    `bson:"namespace"`
-	PacketID          int       `bson:"packetid"`
-	Protocol          int       `bson:"protocol"`
-	PuID              string    `bson:"puid"`
-	RawPacket         string    `bson:"rawpacket"`
-	SourceIP          string    `bson:"sourceip"`
-	SourcePort        int       `bson:"sourceport"`
-	Timestamp         time.Time `bson:"timestamp"`
-	TriremePacket     bool      `bson:"triremepacket"`
+	ID                bson.ObjectId          `bson:"_id,omitempty"`
+	TCPFlags          int                    `bson:"tcpflags"`
+	Claims            []string               `bson:"claims"`
+	DestinationIP     string                 `bson:"destinationip"`
+	DestinationPort   int                    `bson:"destinationport"`
+	DropReason        string                 `bson:"dropreason"`
+	Encrypt           bool                   `bson:"encrypt"`
+	EnforcerID        string                 `bson:"enforcerid"`
+	EnforcerNamespace string                 `bson:"enforcernamespace"`
+	Event             PacketReportEventValue `bson:"event"`
+	Length            int                    `bson:"length"`
+	Mark              int                    `bson:"mark"`
+	MigrationsLog     map[string]string      `bson:"migrationslog,omitempty"`
+	Namespace         string                 `bson:"namespace"`
+	PacketID          int                    `bson:"packetid"`
+	Protocol          int                    `bson:"protocol"`
+	PuID              string                 `bson:"puid"`
+	RawPacket         string                 `bson:"rawpacket"`
+	SourceIP          string                 `bson:"sourceip"`
+	SourcePort        int                    `bson:"sourceport"`
+	Timestamp         time.Time              `bson:"timestamp"`
+	TriremePacket     bool                   `bson:"triremepacket"`
+	ZHash             int                    `bson:"zhash"`
+	Zone              int                    `bson:"zone"`
 }
 type mongoAttributesSparsePacketReport struct {
-	TCPFlags          *int       `bson:"tcpflags,omitempty"`
-	Claims            *[]string  `bson:"claims,omitempty"`
-	DestinationIP     *string    `bson:"destinationip,omitempty"`
-	DestinationPort   *int       `bson:"destinationport,omitempty"`
-	DropReason        *string    `bson:"dropreason,omitempty"`
-	Encrypt           *bool      `bson:"encrypt,omitempty"`
-	EnforcerID        *string    `bson:"enforcerid,omitempty"`
-	EnforcerNamespace *string    `bson:"enforcernamespace,omitempty"`
-	Length            *int       `bson:"length,omitempty"`
-	Mark              *int       `bson:"mark,omitempty"`
-	Namespace         *string    `bson:"namespace,omitempty"`
-	PacketID          *int       `bson:"packetid,omitempty"`
-	Protocol          *int       `bson:"protocol,omitempty"`
-	PuID              *string    `bson:"puid,omitempty"`
-	RawPacket         *string    `bson:"rawpacket,omitempty"`
-	SourceIP          *string    `bson:"sourceip,omitempty"`
-	SourcePort        *int       `bson:"sourceport,omitempty"`
-	Timestamp         *time.Time `bson:"timestamp,omitempty"`
-	TriremePacket     *bool      `bson:"triremepacket,omitempty"`
+	ID                bson.ObjectId           `bson:"_id,omitempty"`
+	TCPFlags          *int                    `bson:"tcpflags,omitempty"`
+	Claims            *[]string               `bson:"claims,omitempty"`
+	DestinationIP     *string                 `bson:"destinationip,omitempty"`
+	DestinationPort   *int                    `bson:"destinationport,omitempty"`
+	DropReason        *string                 `bson:"dropreason,omitempty"`
+	Encrypt           *bool                   `bson:"encrypt,omitempty"`
+	EnforcerID        *string                 `bson:"enforcerid,omitempty"`
+	EnforcerNamespace *string                 `bson:"enforcernamespace,omitempty"`
+	Event             *PacketReportEventValue `bson:"event,omitempty"`
+	Length            *int                    `bson:"length,omitempty"`
+	Mark              *int                    `bson:"mark,omitempty"`
+	MigrationsLog     *map[string]string      `bson:"migrationslog,omitempty"`
+	Namespace         *string                 `bson:"namespace,omitempty"`
+	PacketID          *int                    `bson:"packetid,omitempty"`
+	Protocol          *int                    `bson:"protocol,omitempty"`
+	PuID              *string                 `bson:"puid,omitempty"`
+	RawPacket         *string                 `bson:"rawpacket,omitempty"`
+	SourceIP          *string                 `bson:"sourceip,omitempty"`
+	SourcePort        *int                    `bson:"sourceport,omitempty"`
+	Timestamp         *time.Time              `bson:"timestamp,omitempty"`
+	TriremePacket     *bool                   `bson:"triremepacket,omitempty"`
+	ZHash             *int                    `bson:"zhash,omitempty"`
+	Zone              *int                    `bson:"zone,omitempty"`
 }
