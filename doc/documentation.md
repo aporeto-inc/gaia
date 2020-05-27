@@ -596,7 +596,8 @@ Contains the response probe information.
 
 ### PingProbe
 
-Post a new pu ping probe.
+Represents the result of a unique ping probe. They are aggregated into a
+PingResult.
 
 #### Example
 
@@ -666,7 +667,7 @@ A non-empty error indicates a failure.
 
 ##### `excludedNetworks` `boolean`
 
-If true, destination IP is in excludedNetworks.
+If true, destination IP is in `excludedNetworks`.
 
 ##### `fourTuple` `string`
 
@@ -730,7 +731,7 @@ ID of the source PU.
 
 ##### `targetTCPNetworks` `boolean`
 
-If true, destination IP is in targetTCPNetworks.
+If true, destination IP is in `targetTCPNetworks`.
 
 ##### `type` `enum(Request | Response)`
 
@@ -746,7 +747,7 @@ Geographical zone. Used for sharding and georedundancy.
 
 ### PingRequest
 
-Post a new pu pingrequest.
+Initiates a ping request for enforcer debugging.
 
 #### Relations
 
@@ -3418,7 +3419,7 @@ true
 
 ### PingResult
 
-Post a new pu pingresult.
+Represents the results of a ping request.
 
 #### Relations
 

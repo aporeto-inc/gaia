@@ -125,7 +125,7 @@ type PingProbe struct {
 	// A non-empty error indicates a failure.
 	Error string `json:"error" msgpack:"error" bson:"error" mapstructure:"error,omitempty"`
 
-	// If true, destination IP is in excludedNetworks.
+	// If true, destination IP is in `excludedNetworks`.
 	ExcludedNetworks bool `json:"excludedNetworks" msgpack:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
 	// Four tuple in the format <sip:dip:spt:dpt>.
@@ -176,7 +176,7 @@ type PingProbe struct {
 	// ID of the source PU.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
 
-	// If true, destination IP is in targetTCPNetworks.
+	// If true, destination IP is in `targetTCPNetworks`.
 	TargetTCPNetworks bool `json:"targetTCPNetworks" msgpack:"targetTCPNetworks" bson:"targettcpnetworks" mapstructure:"targetTCPNetworks,omitempty"`
 
 	// Type of the report.
@@ -343,7 +343,8 @@ func (o *PingProbe) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PingProbe) Doc() string {
 
-	return `Post a new pu ping probe.`
+	return `Represents the result of a unique ping probe. They are aggregated into a
+PingResult.`
 }
 
 func (o *PingProbe) String() string {
@@ -917,7 +918,7 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExcludedNetworks": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedNetworks",
-		Description:    `If true, destination IP is in excludedNetworks.`,
+		Description:    `If true, destination IP is in ` + "`" + `excludedNetworks` + "`" + `.`,
 		Exposed:        true,
 		Name:           "excludedNetworks",
 		Stored:         true,
@@ -1079,7 +1080,7 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"TargetTCPNetworks": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetTCPNetworks",
-		Description:    `If true, destination IP is in targetTCPNetworks.`,
+		Description:    `If true, destination IP is in ` + "`" + `targetTCPNetworks` + "`" + `.`,
 		Exposed:        true,
 		Name:           "targetTCPNetworks",
 		Stored:         true,
@@ -1254,7 +1255,7 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"excludednetworks": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedNetworks",
-		Description:    `If true, destination IP is in excludedNetworks.`,
+		Description:    `If true, destination IP is in ` + "`" + `excludedNetworks` + "`" + `.`,
 		Exposed:        true,
 		Name:           "excludedNetworks",
 		Stored:         true,
@@ -1416,7 +1417,7 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"targettcpnetworks": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetTCPNetworks",
-		Description:    `If true, destination IP is in targetTCPNetworks.`,
+		Description:    `If true, destination IP is in ` + "`" + `targetTCPNetworks` + "`" + `.`,
 		Exposed:        true,
 		Name:           "targetTCPNetworks",
 		Stored:         true,
@@ -1570,7 +1571,7 @@ type SparsePingProbe struct {
 	// A non-empty error indicates a failure.
 	Error *string `json:"error,omitempty" msgpack:"error,omitempty" bson:"error,omitempty" mapstructure:"error,omitempty"`
 
-	// If true, destination IP is in excludedNetworks.
+	// If true, destination IP is in `excludedNetworks`.
 	ExcludedNetworks *bool `json:"excludedNetworks,omitempty" msgpack:"excludedNetworks,omitempty" bson:"excludednetworks,omitempty" mapstructure:"excludedNetworks,omitempty"`
 
 	// Four tuple in the format <sip:dip:spt:dpt>.
@@ -1621,7 +1622,7 @@ type SparsePingProbe struct {
 	// ID of the source PU.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"sourceid,omitempty" mapstructure:"sourceID,omitempty"`
 
-	// If true, destination IP is in targetTCPNetworks.
+	// If true, destination IP is in `targetTCPNetworks`.
 	TargetTCPNetworks *bool `json:"targetTCPNetworks,omitempty" msgpack:"targetTCPNetworks,omitempty" bson:"targettcpnetworks,omitempty" mapstructure:"targetTCPNetworks,omitempty"`
 
 	// Type of the report.

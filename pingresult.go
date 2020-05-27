@@ -177,7 +177,7 @@ func (o *PingResult) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PingResult) Doc() string {
 
-	return `Post a new pu pingresult.`
+	return `Represents the results of a ping request.`
 }
 
 func (o *PingResult) String() string {

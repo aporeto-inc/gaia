@@ -5,7 +5,7 @@ model:
   entity_name: PingRequest
   package: guy
   group: core
-  description: Post a new pu pingrequest.
+  description: Initiates a ping request for enforcer debugging.
 
 # Attributes
 attributes:

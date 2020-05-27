@@ -191,7 +191,11 @@ PCCProvider
 PEM-encoded
 PingConfig
 PingID
+PingPair
+PingProbe
 PingReport
+PingRequest
+PingResult
 PKI-based
 PKIXName
 policeable

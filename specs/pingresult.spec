@@ -5,7 +5,7 @@ model:
   entity_name: PingResult
   package: guy
   group: core/enforcer
-  description: Post a new pu pingresult.
+  description: Represents the results of a ping request.
   extends:
   - '@namespaced'
 

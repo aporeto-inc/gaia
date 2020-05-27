@@ -5,7 +5,9 @@ model:
   entity_name: PingProbe
   package: guy
   group: core
-  description: Post a new pu ping probe.
+  description: |-
+    Represents the result of a unique ping probe. They are aggregated into a
+    PingResult.
   extends:
   - '@zoned'
   - '@migratable'
@@ -76,7 +78,7 @@ attributes:
     stored: true
 
   - name: excludedNetworks
-    description: If true, destination IP is in excludedNetworks.
+    description: If true, destination IP is in `excludedNetworks`.
     type: boolean
     exposed: true
     stored: true
@@ -168,7 +170,7 @@ attributes:
     stored: true
 
   - name: targetTCPNetworks
-    description: If true, destination IP is in targetTCPNetworks.
+    description: If true, destination IP is in `targetTCPNetworks`.
     type: boolean
     exposed: true
     stored: true
