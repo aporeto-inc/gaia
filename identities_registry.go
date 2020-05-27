@@ -741,6 +741,7 @@ var (
 		},
 		"pingrequest": nil,
 		"pingresult": {
+			{":shard", ":unique", "zone", "zHash"},
 			{"namespace"},
 			{"namespace", "normalizedTags"},
 		},

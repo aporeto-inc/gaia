@@ -7,8 +7,11 @@ model:
   group: core/enforcer
   description: Represents the results of a ping request.
   extends:
+  - '@zoned'
+  - '@migratable'
   - '@namespaced'
   - '@timeable'
+  - '@identifiable-stored'
 
 # Attributes
 attributes:

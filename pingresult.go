@@ -81,11 +81,17 @@ func (o PingResultsList) Version() int {
 
 // PingResult represents the model of a pingresult
 type PingResult struct {
+	// Identifier of the object.
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// May contain a list of errors that have happened during the collection.
 	Errors []string `json:"errors,omitempty" msgpack:"errors,omitempty" bson:"errors" mapstructure:"errors,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
@@ -96,6 +102,13 @@ type PingResult struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
+
+	// Geographical zone. Used for sharding and georedundancy.
+	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -103,9 +116,10 @@ type PingResult struct {
 func NewPingResult() *PingResult {
 
 	return &PingResult{
-		ModelVersion: 1,
-		Errors:       []string{},
-		PingPairs:    []*PingPair{},
+		ModelVersion:  1,
+		Errors:        []string{},
+		MigrationsLog: map[string]string{},
+		PingPairs:     []*PingPair{},
 	}
 }
 
@@ -118,12 +132,13 @@ func (o *PingResult) Identity() elemental.Identity {
 // Identifier returns the value of the object's unique identifier.
 func (o *PingResult) Identifier() string {
 
-	return ""
+	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *PingResult) SetIdentifier(id string) {
 
+	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -136,11 +151,17 @@ func (o *PingResult) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesPingResult{}
 
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
 	s.CreateTime = o.CreateTime
 	s.Errors = o.Errors
+	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
 	s.PingPairs = o.PingPairs
 	s.UpdateTime = o.UpdateTime
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
 
 	return s, nil
 }
@@ -158,11 +179,15 @@ func (o *PingResult) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.ID = s.ID.Hex()
 	o.CreateTime = s.CreateTime
 	o.Errors = s.Errors
+	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
 	o.PingPairs = s.PingPairs
 	o.UpdateTime = s.UpdateTime
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
 
 	return nil
 }
@@ -208,6 +233,18 @@ func (o *PingResult) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *PingResult) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *PingResult) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *PingResult) GetNamespace() string {
 
@@ -232,6 +269,30 @@ func (o *PingResult) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// GetZHash returns the ZHash of the receiver.
+func (o *PingResult) GetZHash() int {
+
+	return o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the given value.
+func (o *PingResult) SetZHash(zHash int) {
+
+	o.ZHash = zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *PingResult) GetZone() int {
+
+	return o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the given value.
+func (o *PingResult) SetZone(zone int) {
+
+	o.Zone = zone
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *PingResult) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -239,27 +300,39 @@ func (o *PingResult) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePingResult{
-			CreateTime: &o.CreateTime,
-			Errors:     &o.Errors,
-			Namespace:  &o.Namespace,
-			PingPairs:  &o.PingPairs,
-			UpdateTime: &o.UpdateTime,
+			ID:            &o.ID,
+			CreateTime:    &o.CreateTime,
+			Errors:        &o.Errors,
+			MigrationsLog: &o.MigrationsLog,
+			Namespace:     &o.Namespace,
+			PingPairs:     &o.PingPairs,
+			UpdateTime:    &o.UpdateTime,
+			ZHash:         &o.ZHash,
+			Zone:          &o.Zone,
 		}
 	}
 
 	sp := &SparsePingResult{}
 	for _, f := range fields {
 		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "errors":
 			sp.Errors = &(o.Errors)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "pingPairs":
 			sp.PingPairs = &(o.PingPairs)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
+		case "zHash":
+			sp.ZHash = &(o.ZHash)
+		case "zone":
+			sp.Zone = &(o.Zone)
 		}
 	}
 
@@ -273,11 +346,17 @@ func (o *PingResult) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparsePingResult)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
 	if so.Errors != nil {
 		o.Errors = *so.Errors
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
@@ -287,6 +366,12 @@ func (o *PingResult) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
+	}
+	if so.ZHash != nil {
+		o.ZHash = *so.ZHash
+	}
+	if so.Zone != nil {
+		o.Zone = *so.Zone
 	}
 }
 
@@ -364,16 +449,24 @@ func (*PingResult) AttributeSpecifications() map[string]elemental.AttributeSpeci
 func (o *PingResult) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "ID":
+		return o.ID
 	case "createTime":
 		return o.CreateTime
 	case "errors":
 		return o.Errors
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "namespace":
 		return o.Namespace
 	case "pingPairs":
 		return o.PingPairs
 	case "updateTime":
 		return o.UpdateTime
+	case "zHash":
+		return o.ZHash
+	case "zone":
+		return o.Zone
 	}
 
 	return nil
@@ -381,6 +474,20 @@ func (o *PingResult) ValueForAttribute(name string) interface{} {
 
 // PingResultAttributesMap represents the map of attribute for PingResult.
 var PingResultAttributesMap = map[string]elemental.AttributeSpecification{
+	"ID": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ID",
+		Description:    `Identifier of the object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Identifier:     true,
+		Name:           "ID",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"CreateTime": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -406,6 +513,17 @@ var PingResultAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"MigrationsLog": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"Namespace": {
 		AllowedChoices: []string{},
@@ -446,10 +564,51 @@ var PingResultAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
+	"ZHash": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"Zone": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
+	},
 }
 
 // PingResultLowerCaseAttributesMap represents the map of attribute for PingResult.
 var PingResultLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"id": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ID",
+		Description:    `Identifier of the object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Identifier:     true,
+		Name:           "ID",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"createtime": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -475,6 +634,17 @@ var PingResultLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"migrationslog": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"namespace": {
 		AllowedChoices: []string{},
@@ -514,6 +684,33 @@ var PingResultLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"zhash": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"zone": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description:    `Geographical zone. Used for sharding and georedundancy.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -580,11 +777,17 @@ func (o SparsePingResultsList) Version() int {
 
 // SparsePingResult represents the sparse version of a pingresult.
 type SparsePingResult struct {
+	// Identifier of the object.
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// May contain a list of errors that have happened during the collection.
 	Errors *[]string `json:"errors,omitempty" msgpack:"errors,omitempty" bson:"errors,omitempty" mapstructure:"errors,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
@@ -594,6 +797,13 @@ type SparsePingResult struct {
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+
+	// Geographical zone. Used for sharding and georedundancy.
+	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -612,12 +822,20 @@ func (o *SparsePingResult) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparsePingResult) Identifier() string {
 
-	return ""
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparsePingResult) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -630,11 +848,17 @@ func (o *SparsePingResult) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparsePingResult{}
 
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
 	if o.CreateTime != nil {
 		s.CreateTime = o.CreateTime
 	}
 	if o.Errors != nil {
 		s.Errors = o.Errors
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
 	}
 	if o.Namespace != nil {
 		s.Namespace = o.Namespace
@@ -644,6 +868,12 @@ func (o *SparsePingResult) GetBSON() (interface{}, error) {
 	}
 	if o.UpdateTime != nil {
 		s.UpdateTime = o.UpdateTime
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
 	}
 
 	return s, nil
@@ -662,11 +892,16 @@ func (o *SparsePingResult) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	id := s.ID.Hex()
+	o.ID = &id
 	if s.CreateTime != nil {
 		o.CreateTime = s.CreateTime
 	}
 	if s.Errors != nil {
 		o.Errors = s.Errors
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
 	}
 	if s.Namespace != nil {
 		o.Namespace = s.Namespace
@@ -676,6 +911,12 @@ func (o *SparsePingResult) SetBSON(raw bson.Raw) error {
 	}
 	if s.UpdateTime != nil {
 		o.UpdateTime = s.UpdateTime
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
 	}
 
 	return nil
@@ -691,11 +932,17 @@ func (o *SparsePingResult) Version() int {
 func (o *SparsePingResult) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPingResult()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
 	if o.Errors != nil {
 		out.Errors = *o.Errors
+	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
@@ -705,6 +952,12 @@ func (o *SparsePingResult) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
+	}
+	if o.ZHash != nil {
+		out.ZHash = *o.ZHash
+	}
+	if o.Zone != nil {
+		out.Zone = *o.Zone
 	}
 
 	return out
@@ -724,6 +977,22 @@ func (o *SparsePingResult) GetCreateTime() (out time.Time) {
 func (o *SparsePingResult) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparsePingResult) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparsePingResult) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -758,6 +1027,38 @@ func (o *SparsePingResult) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = &updateTime
 }
 
+// GetZHash returns the ZHash of the receiver.
+func (o *SparsePingResult) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
+
+	return *o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the address of the given value.
+func (o *SparsePingResult) SetZHash(zHash int) {
+
+	o.ZHash = &zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *SparsePingResult) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
+
+	return *o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the address of the given value.
+func (o *SparsePingResult) SetZone(zone int) {
+
+	o.Zone = &zone
+}
+
 // DeepCopy returns a deep copy if the SparsePingResult.
 func (o *SparsePingResult) DeepCopy() *SparsePingResult {
 
@@ -783,16 +1084,24 @@ func (o *SparsePingResult) DeepCopyInto(out *SparsePingResult) {
 }
 
 type mongoAttributesPingResult struct {
-	CreateTime time.Time   `bson:"createtime"`
-	Errors     []string    `bson:"errors,omitempty"`
-	Namespace  string      `bson:"namespace"`
-	PingPairs  []*PingPair `bson:"pingpairs"`
-	UpdateTime time.Time   `bson:"updatetime"`
+	ID            bson.ObjectId     `bson:"_id,omitempty"`
+	CreateTime    time.Time         `bson:"createtime"`
+	Errors        []string          `bson:"errors,omitempty"`
+	MigrationsLog map[string]string `bson:"migrationslog,omitempty"`
+	Namespace     string            `bson:"namespace"`
+	PingPairs     []*PingPair       `bson:"pingpairs"`
+	UpdateTime    time.Time         `bson:"updatetime"`
+	ZHash         int               `bson:"zhash"`
+	Zone          int               `bson:"zone"`
 }
 type mongoAttributesSparsePingResult struct {
-	CreateTime *time.Time   `bson:"createtime,omitempty"`
-	Errors     *[]string    `bson:"errors,omitempty"`
-	Namespace  *string      `bson:"namespace,omitempty"`
-	PingPairs  *[]*PingPair `bson:"pingpairs,omitempty"`
-	UpdateTime *time.Time   `bson:"updatetime,omitempty"`
+	ID            bson.ObjectId      `bson:"_id,omitempty"`
+	CreateTime    *time.Time         `bson:"createtime,omitempty"`
+	Errors        *[]string          `bson:"errors,omitempty"`
+	MigrationsLog *map[string]string `bson:"migrationslog,omitempty"`
+	Namespace     *string            `bson:"namespace,omitempty"`
+	PingPairs     *[]*PingPair       `bson:"pingpairs,omitempty"`
+	UpdateTime    *time.Time         `bson:"updatetime,omitempty"`
+	ZHash         *int               `bson:"zhash,omitempty"`
+	Zone          *int               `bson:"zone,omitempty"`
 }
