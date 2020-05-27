@@ -93,6 +93,15 @@ type Authz struct {
 	// ignored and this attribute will contain all the permission for the given claims.
 	Permissions map[string]map[string]bool `json:"permissions,omitempty" msgpack:"permissions,omitempty" bson:"-" mapstructure:"permissions,omitempty"`
 
+	// Sets the namespace restrictions that should apply.
+	RestrictedNamespace string `json:"restrictedNamespace" msgpack:"restrictedNamespace" bson:"-" mapstructure:"restrictedNamespace,omitempty"`
+
+	// Sets the networks restrictions that should apply.
+	RestrictedNetworks []string `json:"restrictedNetworks" msgpack:"restrictedNetworks" bson:"-" mapstructure:"restrictedNetworks,omitempty"`
+
+	// Sets the permissions restrictions that should apply.
+	RestrictedPermissions []string `json:"restrictedPermissions" msgpack:"restrictedPermissions" bson:"-" mapstructure:"restrictedPermissions,omitempty"`
+
 	// description.
 	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
@@ -103,9 +112,11 @@ type Authz struct {
 func NewAuthz() *Authz {
 
 	return &Authz{
-		ModelVersion: 1,
-		Claims:       []string{},
-		Permissions:  map[string]map[string]bool{},
+		ModelVersion:          1,
+		Claims:                []string{},
+		Permissions:           map[string]map[string]bool{},
+		RestrictedNetworks:    []string{},
+		RestrictedPermissions: []string{},
 	}
 }
 
@@ -191,11 +202,14 @@ func (o *Authz) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAuthz{
-			Claims:          &o.Claims,
-			ClientIP:        &o.ClientIP,
-			Error:           &o.Error,
-			Permissions:     &o.Permissions,
-			TargetNamespace: &o.TargetNamespace,
+			Claims:                &o.Claims,
+			ClientIP:              &o.ClientIP,
+			Error:                 &o.Error,
+			Permissions:           &o.Permissions,
+			RestrictedNamespace:   &o.RestrictedNamespace,
+			RestrictedNetworks:    &o.RestrictedNetworks,
+			RestrictedPermissions: &o.RestrictedPermissions,
+			TargetNamespace:       &o.TargetNamespace,
 		}
 	}
 
@@ -210,6 +224,12 @@ func (o *Authz) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Error = &(o.Error)
 		case "permissions":
 			sp.Permissions = &(o.Permissions)
+		case "restrictedNamespace":
+			sp.RestrictedNamespace = &(o.RestrictedNamespace)
+		case "restrictedNetworks":
+			sp.RestrictedNetworks = &(o.RestrictedNetworks)
+		case "restrictedPermissions":
+			sp.RestrictedPermissions = &(o.RestrictedPermissions)
 		case "targetNamespace":
 			sp.TargetNamespace = &(o.TargetNamespace)
 		}
@@ -236,6 +256,15 @@ func (o *Authz) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Permissions != nil {
 		o.Permissions = *so.Permissions
+	}
+	if so.RestrictedNamespace != nil {
+		o.RestrictedNamespace = *so.RestrictedNamespace
+	}
+	if so.RestrictedNetworks != nil {
+		o.RestrictedNetworks = *so.RestrictedNetworks
+	}
+	if so.RestrictedPermissions != nil {
+		o.RestrictedPermissions = *so.RestrictedPermissions
 	}
 	if so.TargetNamespace != nil {
 		o.TargetNamespace = *so.TargetNamespace
@@ -322,6 +351,12 @@ func (o *Authz) ValueForAttribute(name string) interface{} {
 		return o.Error
 	case "permissions":
 		return o.Permissions
+	case "restrictedNamespace":
+		return o.RestrictedNamespace
+	case "restrictedNetworks":
+		return o.RestrictedNetworks
+	case "restrictedPermissions":
+		return o.RestrictedPermissions
 	case "targetNamespace":
 		return o.TargetNamespace
 	}
@@ -370,6 +405,32 @@ ignored and this attribute will contain all the permission for the given claims.
 		ReadOnly: true,
 		SubType:  "map[string]map[string]bool",
 		Type:     "external",
+	},
+	"RestrictedNamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNamespace",
+		Description:    `Sets the namespace restrictions that should apply.`,
+		Exposed:        true,
+		Name:           "restrictedNamespace",
+		Type:           "string",
+	},
+	"RestrictedNetworks": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNetworks",
+		Description:    `Sets the networks restrictions that should apply.`,
+		Exposed:        true,
+		Name:           "restrictedNetworks",
+		SubType:        "string",
+		Type:           "list",
+	},
+	"RestrictedPermissions": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedPermissions",
+		Description:    `Sets the permissions restrictions that should apply.`,
+		Exposed:        true,
+		Name:           "restrictedPermissions",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"TargetNamespace": {
 		AllowedChoices: []string{},
@@ -423,6 +484,32 @@ ignored and this attribute will contain all the permission for the given claims.
 		ReadOnly: true,
 		SubType:  "map[string]map[string]bool",
 		Type:     "external",
+	},
+	"restrictednamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNamespace",
+		Description:    `Sets the namespace restrictions that should apply.`,
+		Exposed:        true,
+		Name:           "restrictedNamespace",
+		Type:           "string",
+	},
+	"restrictednetworks": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNetworks",
+		Description:    `Sets the networks restrictions that should apply.`,
+		Exposed:        true,
+		Name:           "restrictedNetworks",
+		SubType:        "string",
+		Type:           "list",
+	},
+	"restrictedpermissions": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedPermissions",
+		Description:    `Sets the permissions restrictions that should apply.`,
+		Exposed:        true,
+		Name:           "restrictedPermissions",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"targetnamespace": {
 		AllowedChoices: []string{},
@@ -511,6 +598,15 @@ type SparseAuthz struct {
 	// ignored and this attribute will contain all the permission for the given claims.
 	Permissions *map[string]map[string]bool `json:"permissions,omitempty" msgpack:"permissions,omitempty" bson:"-" mapstructure:"permissions,omitempty"`
 
+	// Sets the namespace restrictions that should apply.
+	RestrictedNamespace *string `json:"restrictedNamespace,omitempty" msgpack:"restrictedNamespace,omitempty" bson:"-" mapstructure:"restrictedNamespace,omitempty"`
+
+	// Sets the networks restrictions that should apply.
+	RestrictedNetworks *[]string `json:"restrictedNetworks,omitempty" msgpack:"restrictedNetworks,omitempty" bson:"-" mapstructure:"restrictedNetworks,omitempty"`
+
+	// Sets the permissions restrictions that should apply.
+	RestrictedPermissions *[]string `json:"restrictedPermissions,omitempty" msgpack:"restrictedPermissions,omitempty" bson:"-" mapstructure:"restrictedPermissions,omitempty"`
+
 	// description.
 	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
@@ -589,6 +685,15 @@ func (o *SparseAuthz) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Permissions != nil {
 		out.Permissions = *o.Permissions
+	}
+	if o.RestrictedNamespace != nil {
+		out.RestrictedNamespace = *o.RestrictedNamespace
+	}
+	if o.RestrictedNetworks != nil {
+		out.RestrictedNetworks = *o.RestrictedNetworks
+	}
+	if o.RestrictedPermissions != nil {
+		out.RestrictedPermissions = *o.RestrictedPermissions
 	}
 	if o.TargetNamespace != nil {
 		out.TargetNamespace = *o.TargetNamespace

@@ -30,6 +30,9 @@ const (
 	// UIParameterVisibilityOperatorNotEqual represents the value NotEqual.
 	UIParameterVisibilityOperatorNotEqual UIParameterVisibilityOperatorValue = "NotEqual"
 
+	// UIParameterVisibilityOperatorNotMatch represents the value NotMatch.
+	UIParameterVisibilityOperatorNotMatch UIParameterVisibilityOperatorValue = "NotMatch"
+
 	// UIParameterVisibilityOperatorUndefined represents the value Undefined.
 	UIParameterVisibilityOperatorUndefined UIParameterVisibilityOperatorValue = "Undefined"
 )
@@ -133,7 +136,7 @@ func (o *UIParameterVisibility) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("operator", string(o.Operator), []string{"Equal", "NotEqual", "GreaterThan", "LesserThan", "Defined", "Undefined", "Match"}, false); err != nil {
+	if err := elemental.ValidateStringInList("operator", string(o.Operator), []string{"Equal", "NotEqual", "GreaterThan", "LesserThan", "Defined", "Undefined", "Match", "NotMatch"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 

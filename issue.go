@@ -16,6 +16,9 @@ const (
 	// IssueRealmAWSSecurityToken represents the value AWSSecurityToken.
 	IssueRealmAWSSecurityToken IssueRealmValue = "AWSSecurityToken"
 
+	// IssueRealmAporetoIdentityToken represents the value AporetoIdentityToken.
+	IssueRealmAporetoIdentityToken IssueRealmValue = "AporetoIdentityToken"
+
 	// IssueRealmAzureIdentityToken represents the value AzureIdentityToken.
 	IssueRealmAzureIdentityToken IssueRealmValue = "AzureIdentityToken"
 
@@ -140,10 +143,43 @@ type Issue struct {
 	// Restricts the number of times the issued token can be used.
 	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
-	// The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
-	// `Certificate`,
-	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
+	// The authentication realm. This will define how to verify
+	// credentials from internal or external source of authentication.
 	Realm IssueRealmValue `json:"realm" msgpack:"realm" bson:"-" mapstructure:"realm,omitempty"`
+
+	// Restricts the namespace where the token can be used.
+	//
+	// For instance, if you have have access to `/namespace` and below, you can
+	// tell the policy engine that it should restrict further more to
+	// `/namespace/child`.
+	//
+	// Restricting to a namespace you don't have initially access according to the
+	// policy engine has no effect and may end up making the token unusable.
+	RestrictedNamespace string `json:"restrictedNamespace" msgpack:"restrictedNamespace" bson:"-" mapstructure:"restrictedNamespace,omitempty"`
+
+	// Restricts the networks from where the token can be used. This will reduce the
+	// existing set of authorized networks that normally apply to the token according
+	// to the policy engine.
+	//
+	// For instance, If you have authorized access from `0.0.0.0/0` (by default) or
+	// from
+	// `10.0.0.0/8`, you can ask for a token that will only be valid if used from
+	// `10.1.0.0/16`.
+	//
+	// Restricting to a network that is not initially authorized by the policy
+	// engine has no effect and may end up making the token unusable.
+	RestrictedNetworks []string `json:"restrictedNetworks" msgpack:"restrictedNetworks" bson:"-" mapstructure:"restrictedNetworks,omitempty"`
+
+	// Restricts the permissions of token. This will reduce the existing permissions
+	// that normally apply to the token according to the policy engine.
+	//
+	// For instance, if you have administrative role, you can ask for a token that will
+	// tell the policy engine to reduce the permission it would have granted to what is
+	// given defined in the token.
+	//
+	// Restricting to some permissions you don't initially have according to the policy
+	// engine has no effect and may end up making the token unusable.
+	RestrictedPermissions []string `json:"restrictedPermissions" msgpack:"restrictedPermissions" bson:"-" mapstructure:"restrictedPermissions,omitempty"`
 
 	// The token to use for the registration.
 	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
@@ -161,11 +197,13 @@ type Issue struct {
 func NewIssue() *Issue {
 
 	return &Issue{
-		ModelVersion: 1,
-		Claims:       types.NewMidgardClaims(),
-		Metadata:     map[string]interface{}{},
-		Opaque:       map[string]string{},
-		Validity:     "24h",
+		ModelVersion:          1,
+		Claims:                types.NewMidgardClaims(),
+		Metadata:              map[string]interface{}{},
+		Opaque:                map[string]string{},
+		RestrictedNetworks:    []string{},
+		RestrictedPermissions: []string{},
+		Validity:              "24h",
 	}
 }
 
@@ -251,15 +289,18 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseIssue{
-			Audience: &o.Audience,
-			Claims:   o.Claims,
-			Data:     &o.Data,
-			Metadata: &o.Metadata,
-			Opaque:   &o.Opaque,
-			Quota:    &o.Quota,
-			Realm:    &o.Realm,
-			Token:    &o.Token,
-			Validity: &o.Validity,
+			Audience:              &o.Audience,
+			Claims:                o.Claims,
+			Data:                  &o.Data,
+			Metadata:              &o.Metadata,
+			Opaque:                &o.Opaque,
+			Quota:                 &o.Quota,
+			Realm:                 &o.Realm,
+			RestrictedNamespace:   &o.RestrictedNamespace,
+			RestrictedNetworks:    &o.RestrictedNetworks,
+			RestrictedPermissions: &o.RestrictedPermissions,
+			Token:                 &o.Token,
+			Validity:              &o.Validity,
 		}
 	}
 
@@ -280,6 +321,12 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Quota = &(o.Quota)
 		case "realm":
 			sp.Realm = &(o.Realm)
+		case "restrictedNamespace":
+			sp.RestrictedNamespace = &(o.RestrictedNamespace)
+		case "restrictedNetworks":
+			sp.RestrictedNetworks = &(o.RestrictedNetworks)
+		case "restrictedPermissions":
+			sp.RestrictedPermissions = &(o.RestrictedPermissions)
 		case "token":
 			sp.Token = &(o.Token)
 		case "validity":
@@ -317,6 +364,15 @@ func (o *Issue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Realm != nil {
 		o.Realm = *so.Realm
+	}
+	if so.RestrictedNamespace != nil {
+		o.RestrictedNamespace = *so.RestrictedNamespace
+	}
+	if so.RestrictedNetworks != nil {
+		o.RestrictedNetworks = *so.RestrictedNetworks
+	}
+	if so.RestrictedPermissions != nil {
+		o.RestrictedPermissions = *so.RestrictedPermissions
 	}
 	if so.Token != nil {
 		o.Token = *so.Token
@@ -364,7 +420,11 @@ func (o *Issue) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken"}, false); err != nil {
+	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken", "AporetoIdentityToken"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateOptionalCIDRList("restrictedNetworks", o.RestrictedNetworks); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -420,6 +480,12 @@ func (o *Issue) ValueForAttribute(name string) interface{} {
 		return o.Quota
 	case "realm":
 		return o.Realm
+	case "restrictedNamespace":
+		return o.RestrictedNamespace
+	case "restrictedNetworks":
+		return o.RestrictedNetworks
+	case "restrictedPermissions":
+		return o.RestrictedPermissions
 	case "token":
 		return o.Token
 	case "validity":
@@ -491,15 +557,65 @@ for further information.`,
 		Type:           "integer",
 	},
 	"Realm": {
-		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken"},
+		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken", "AporetoIdentityToken"},
 		ConvertedName:  "Realm",
-		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
-` + "`" + `Certificate` + "`" + `,
-` + "`" + `Google` + "`" + `, ` + "`" + `LDAP` + "`" + `, ` + "`" + `Vince` + "`" + `, ` + "`" + `GCPIdentityToken` + "`" + `, ` + "`" + `AzureIdentityToken` + "`" + `, or ` + "`" + `OIDC` + "`" + `.`,
+		Description: `The authentication realm. This will define how to verify
+credentials from internal or external source of authentication.`,
 		Exposed:  true,
 		Name:     "realm",
 		Required: true,
 		Type:     "enum",
+	},
+	"RestrictedNamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNamespace",
+		Description: `Restricts the namespace where the token can be used.
+
+For instance, if you have have access to ` + "`" + `/namespace` + "`" + ` and below, you can
+tell the policy engine that it should restrict further more to
+` + "`" + `/namespace/child` + "`" + `.
+
+Restricting to a namespace you don't have initially access according to the
+policy engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedNamespace",
+		Type:    "string",
+	},
+	"RestrictedNetworks": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNetworks",
+		Description: `Restricts the networks from where the token can be used. This will reduce the
+existing set of authorized networks that normally apply to the token according
+to the policy engine.
+
+For instance, If you have authorized access from ` + "`" + `0.0.0.0/0` + "`" + ` (by default) or
+from
+` + "`" + `10.0.0.0/8` + "`" + `, you can ask for a token that will only be valid if used from
+` + "`" + `10.1.0.0/16` + "`" + `.
+
+Restricting to a network that is not initially authorized by the policy
+engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedNetworks",
+		SubType: "string",
+		Type:    "list",
+	},
+	"RestrictedPermissions": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedPermissions",
+		Description: `Restricts the permissions of token. This will reduce the existing permissions
+that normally apply to the token according to the policy engine.
+
+For instance, if you have administrative role, you can ask for a token that will
+tell the policy engine to reduce the permission it would have granted to what is
+given defined in the token.
+
+Restricting to some permissions you don't initially have according to the policy
+engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedPermissions",
+		SubType: "string",
+		Type:    "list",
 	},
 	"Token": {
 		AllowedChoices: []string{},
@@ -588,15 +704,65 @@ for further information.`,
 		Type:           "integer",
 	},
 	"realm": {
-		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken"},
+		AllowedChoices: []string{"AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC", "SAML", "PCC", "PCCIdentityToken", "AporetoIdentityToken"},
 		ConvertedName:  "Realm",
-		Description: `The authentication realm. ` + "`" + `AWSIdentityDocument` + "`" + `, ` + "`" + `AWSSecurityToken` + "`" + `,
-` + "`" + `Certificate` + "`" + `,
-` + "`" + `Google` + "`" + `, ` + "`" + `LDAP` + "`" + `, ` + "`" + `Vince` + "`" + `, ` + "`" + `GCPIdentityToken` + "`" + `, ` + "`" + `AzureIdentityToken` + "`" + `, or ` + "`" + `OIDC` + "`" + `.`,
+		Description: `The authentication realm. This will define how to verify
+credentials from internal or external source of authentication.`,
 		Exposed:  true,
 		Name:     "realm",
 		Required: true,
 		Type:     "enum",
+	},
+	"restrictednamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNamespace",
+		Description: `Restricts the namespace where the token can be used.
+
+For instance, if you have have access to ` + "`" + `/namespace` + "`" + ` and below, you can
+tell the policy engine that it should restrict further more to
+` + "`" + `/namespace/child` + "`" + `.
+
+Restricting to a namespace you don't have initially access according to the
+policy engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedNamespace",
+		Type:    "string",
+	},
+	"restrictednetworks": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedNetworks",
+		Description: `Restricts the networks from where the token can be used. This will reduce the
+existing set of authorized networks that normally apply to the token according
+to the policy engine.
+
+For instance, If you have authorized access from ` + "`" + `0.0.0.0/0` + "`" + ` (by default) or
+from
+` + "`" + `10.0.0.0/8` + "`" + `, you can ask for a token that will only be valid if used from
+` + "`" + `10.1.0.0/16` + "`" + `.
+
+Restricting to a network that is not initially authorized by the policy
+engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedNetworks",
+		SubType: "string",
+		Type:    "list",
+	},
+	"restrictedpermissions": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedPermissions",
+		Description: `Restricts the permissions of token. This will reduce the existing permissions
+that normally apply to the token according to the policy engine.
+
+For instance, if you have administrative role, you can ask for a token that will
+tell the policy engine to reduce the permission it would have granted to what is
+given defined in the token.
+
+Restricting to some permissions you don't initially have according to the policy
+engine has no effect and may end up making the token unusable.`,
+		Exposed: true,
+		Name:    "restrictedPermissions",
+		SubType: "string",
+		Type:    "list",
 	},
 	"token": {
 		AllowedChoices: []string{},
@@ -707,10 +873,43 @@ type SparseIssue struct {
 	// Restricts the number of times the issued token can be used.
 	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
-	// The authentication realm. `AWSIdentityDocument`, `AWSSecurityToken`,
-	// `Certificate`,
-	// `Google`, `LDAP`, `Vince`, `GCPIdentityToken`, `AzureIdentityToken`, or `OIDC`.
+	// The authentication realm. This will define how to verify
+	// credentials from internal or external source of authentication.
 	Realm *IssueRealmValue `json:"realm,omitempty" msgpack:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
+
+	// Restricts the namespace where the token can be used.
+	//
+	// For instance, if you have have access to `/namespace` and below, you can
+	// tell the policy engine that it should restrict further more to
+	// `/namespace/child`.
+	//
+	// Restricting to a namespace you don't have initially access according to the
+	// policy engine has no effect and may end up making the token unusable.
+	RestrictedNamespace *string `json:"restrictedNamespace,omitempty" msgpack:"restrictedNamespace,omitempty" bson:"-" mapstructure:"restrictedNamespace,omitempty"`
+
+	// Restricts the networks from where the token can be used. This will reduce the
+	// existing set of authorized networks that normally apply to the token according
+	// to the policy engine.
+	//
+	// For instance, If you have authorized access from `0.0.0.0/0` (by default) or
+	// from
+	// `10.0.0.0/8`, you can ask for a token that will only be valid if used from
+	// `10.1.0.0/16`.
+	//
+	// Restricting to a network that is not initially authorized by the policy
+	// engine has no effect and may end up making the token unusable.
+	RestrictedNetworks *[]string `json:"restrictedNetworks,omitempty" msgpack:"restrictedNetworks,omitempty" bson:"-" mapstructure:"restrictedNetworks,omitempty"`
+
+	// Restricts the permissions of token. This will reduce the existing permissions
+	// that normally apply to the token according to the policy engine.
+	//
+	// For instance, if you have administrative role, you can ask for a token that will
+	// tell the policy engine to reduce the permission it would have granted to what is
+	// given defined in the token.
+	//
+	// Restricting to some permissions you don't initially have according to the policy
+	// engine has no effect and may end up making the token unusable.
+	RestrictedPermissions *[]string `json:"restrictedPermissions,omitempty" msgpack:"restrictedPermissions,omitempty" bson:"-" mapstructure:"restrictedPermissions,omitempty"`
 
 	// The token to use for the registration.
 	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
@@ -805,6 +1004,15 @@ func (o *SparseIssue) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Realm != nil {
 		out.Realm = *o.Realm
+	}
+	if o.RestrictedNamespace != nil {
+		out.RestrictedNamespace = *o.RestrictedNamespace
+	}
+	if o.RestrictedNetworks != nil {
+		out.RestrictedNetworks = *o.RestrictedNetworks
+	}
+	if o.RestrictedPermissions != nil {
+		out.RestrictedPermissions = *o.RestrictedPermissions
 	}
 	if o.Token != nil {
 		out.Token = *o.Token
