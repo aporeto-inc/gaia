@@ -81,10 +81,10 @@ func (o PingRequestsList) Version() int {
 // PingRequest represents the model of a pingrequest
 type PingRequest struct {
 	// Number of probes that will be triggered.
-	Iterations int `json:"iterations" msgpack:"iterations" bson:"iterations" mapstructure:"iterations,omitempty"`
+	Iterations int `json:"iterations" msgpack:"iterations" bson:"-" mapstructure:"iterations,omitempty"`
 
 	// Unique ID generated for each ping request.
-	PingID string `json:"pingID" msgpack:"pingID" bson:"pingid" mapstructure:"pingID,omitempty"`
+	PingID string `json:"pingID" msgpack:"pingID" bson:"-" mapstructure:"pingID,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -124,9 +124,6 @@ func (o *PingRequest) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesPingRequest{}
 
-	s.Iterations = o.Iterations
-	s.PingID = o.PingID
-
 	return s, nil
 }
 
@@ -142,9 +139,6 @@ func (o *PingRequest) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
-
-	o.Iterations = s.Iterations
-	o.PingID = s.PingID
 
 	return nil
 }
@@ -248,6 +242,14 @@ func (o *PingRequest) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateMaximumInt("iterations", o.Iterations, int(20), false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateMinimumInt("iterations", o.Iterations, int(1), false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -298,8 +300,9 @@ var PingRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Iterations",
 		Description:    `Number of probes that will be triggered.`,
 		Exposed:        true,
+		MaxValue:       20,
+		MinValue:       1,
 		Name:           "iterations",
-		Stored:         true,
 		Type:           "integer",
 	},
 	"PingID": {
@@ -310,7 +313,6 @@ var PingRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "pingID",
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
 	},
 }
@@ -322,8 +324,9 @@ var PingRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		ConvertedName:  "Iterations",
 		Description:    `Number of probes that will be triggered.`,
 		Exposed:        true,
+		MaxValue:       20,
+		MinValue:       1,
 		Name:           "iterations",
-		Stored:         true,
 		Type:           "integer",
 	},
 	"pingid": {
@@ -334,7 +337,6 @@ var PingRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Exposed:        true,
 		Name:           "pingID",
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
 	},
 }
@@ -403,10 +405,10 @@ func (o SparsePingRequestsList) Version() int {
 // SparsePingRequest represents the sparse version of a pingrequest.
 type SparsePingRequest struct {
 	// Number of probes that will be triggered.
-	Iterations *int `json:"iterations,omitempty" msgpack:"iterations,omitempty" bson:"iterations,omitempty" mapstructure:"iterations,omitempty"`
+	Iterations *int `json:"iterations,omitempty" msgpack:"iterations,omitempty" bson:"-" mapstructure:"iterations,omitempty"`
 
 	// Unique ID generated for each ping request.
-	PingID *string `json:"pingID,omitempty" msgpack:"pingID,omitempty" bson:"pingid,omitempty" mapstructure:"pingID,omitempty"`
+	PingID *string `json:"pingID,omitempty" msgpack:"pingID,omitempty" bson:"-" mapstructure:"pingID,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -443,13 +445,6 @@ func (o *SparsePingRequest) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparsePingRequest{}
 
-	if o.Iterations != nil {
-		s.Iterations = o.Iterations
-	}
-	if o.PingID != nil {
-		s.PingID = o.PingID
-	}
-
 	return s, nil
 }
 
@@ -464,13 +459,6 @@ func (o *SparsePingRequest) SetBSON(raw bson.Raw) error {
 	s := &mongoAttributesSparsePingRequest{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
-	}
-
-	if s.Iterations != nil {
-		o.Iterations = s.Iterations
-	}
-	if s.PingID != nil {
-		o.PingID = s.PingID
 	}
 
 	return nil
@@ -521,10 +509,6 @@ func (o *SparsePingRequest) DeepCopyInto(out *SparsePingRequest) {
 }
 
 type mongoAttributesPingRequest struct {
-	Iterations int    `bson:"iterations"`
-	PingID     string `bson:"pingid"`
 }
 type mongoAttributesSparsePingRequest struct {
-	Iterations *int    `bson:"iterations,omitempty"`
-	PingID     *string `bson:"pingid,omitempty"`
 }

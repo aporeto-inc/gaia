@@ -131,8 +131,8 @@ type PingProbe struct {
 	// Four tuple in the format <sip:dip:spt:dpt>.
 	FourTuple string `json:"fourTuple" msgpack:"fourTuple" bson:"fourtuple" mapstructure:"fourTuple,omitempty"`
 
-	// IterationID unique to a single ping request-response.
-	IterationID string `json:"iterationID" msgpack:"iterationID" bson:"iterationid" mapstructure:"iterationID,omitempty"`
+	// Holds the iteration number this probe is attached to.
+	IterationIndex int `json:"iterationIndex" msgpack:"iterationIndex" bson:"iterationindex" mapstructure:"iterationIndex,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
@@ -151,6 +151,9 @@ type PingProbe struct {
 
 	// ID of the policy.
 	PolicyID string `json:"policyID" msgpack:"policyID" bson:"policyid" mapstructure:"policyID,omitempty"`
+
+	// ID of the policy.
+	PolicyNamespace string `json:"policyNamespace" msgpack:"policyNamespace" bson:"policynamespace" mapstructure:"policyNamespace,omitempty"`
 
 	// Namespace of the reporting processing unit.
 	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"processingunitnamespace" mapstructure:"processingUnitNamespace,omitempty"`
@@ -245,13 +248,14 @@ func (o *PingProbe) GetBSON() (interface{}, error) {
 	s.Error = o.Error
 	s.ExcludedNetworks = o.ExcludedNetworks
 	s.FourTuple = o.FourTuple
-	s.IterationID = o.IterationID
+	s.IterationIndex = o.IterationIndex
 	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
 	s.PayloadSize = o.PayloadSize
 	s.PingID = o.PingID
 	s.PolicyAction = o.PolicyAction
 	s.PolicyID = o.PolicyID
+	s.PolicyNamespace = o.PolicyNamespace
 	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
 	s.Protocol = o.Protocol
 	s.RemoteController = o.RemoteController
@@ -294,13 +298,14 @@ func (o *PingProbe) SetBSON(raw bson.Raw) error {
 	o.Error = s.Error
 	o.ExcludedNetworks = s.ExcludedNetworks
 	o.FourTuple = s.FourTuple
-	o.IterationID = s.IterationID
+	o.IterationIndex = s.IterationIndex
 	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
 	o.PayloadSize = s.PayloadSize
 	o.PingID = s.PingID
 	o.PolicyAction = s.PolicyAction
 	o.PolicyID = s.PolicyID
+	o.PolicyNamespace = s.PolicyNamespace
 	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
 	o.Protocol = s.Protocol
 	o.RemoteController = s.RemoteController
@@ -438,13 +443,14 @@ func (o *PingProbe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Error:                   &o.Error,
 			ExcludedNetworks:        &o.ExcludedNetworks,
 			FourTuple:               &o.FourTuple,
-			IterationID:             &o.IterationID,
+			IterationIndex:          &o.IterationIndex,
 			MigrationsLog:           &o.MigrationsLog,
 			Namespace:               &o.Namespace,
 			PayloadSize:             &o.PayloadSize,
 			PingID:                  &o.PingID,
 			PolicyAction:            &o.PolicyAction,
 			PolicyID:                &o.PolicyID,
+			PolicyNamespace:         &o.PolicyNamespace,
 			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
 			Protocol:                &o.Protocol,
 			RemoteController:        &o.RemoteController,
@@ -489,8 +495,8 @@ func (o *PingProbe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ExcludedNetworks = &(o.ExcludedNetworks)
 		case "fourTuple":
 			sp.FourTuple = &(o.FourTuple)
-		case "iterationID":
-			sp.IterationID = &(o.IterationID)
+		case "iterationIndex":
+			sp.IterationIndex = &(o.IterationIndex)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
@@ -503,6 +509,8 @@ func (o *PingProbe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.PolicyAction = &(o.PolicyAction)
 		case "policyID":
 			sp.PolicyID = &(o.PolicyID)
+		case "policyNamespace":
+			sp.PolicyNamespace = &(o.PolicyNamespace)
 		case "processingUnitNamespace":
 			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
 		case "protocol":
@@ -579,8 +587,8 @@ func (o *PingProbe) Patch(sparse elemental.SparseIdentifiable) {
 	if so.FourTuple != nil {
 		o.FourTuple = *so.FourTuple
 	}
-	if so.IterationID != nil {
-		o.IterationID = *so.IterationID
+	if so.IterationIndex != nil {
+		o.IterationIndex = *so.IterationIndex
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -599,6 +607,9 @@ func (o *PingProbe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.PolicyID != nil {
 		o.PolicyID = *so.PolicyID
+	}
+	if so.PolicyNamespace != nil {
+		o.PolicyNamespace = *so.PolicyNamespace
 	}
 	if so.ProcessingUnitNamespace != nil {
 		o.ProcessingUnitNamespace = *so.ProcessingUnitNamespace
@@ -744,8 +755,8 @@ func (o *PingProbe) ValueForAttribute(name string) interface{} {
 		return o.ExcludedNetworks
 	case "fourTuple":
 		return o.FourTuple
-	case "iterationID":
-		return o.IterationID
+	case "iterationIndex":
+		return o.IterationIndex
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "namespace":
@@ -758,6 +769,8 @@ func (o *PingProbe) ValueForAttribute(name string) interface{} {
 		return o.PolicyAction
 	case "policyID":
 		return o.PolicyID
+	case "policyNamespace":
+		return o.PolicyNamespace
 	case "processingUnitNamespace":
 		return o.ProcessingUnitNamespace
 	case "protocol":
@@ -919,14 +932,14 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"IterationID": {
+	"IterationIndex": {
 		AllowedChoices: []string{},
-		ConvertedName:  "IterationID",
-		Description:    `IterationID unique to a single ping request-response.`,
+		ConvertedName:  "IterationIndex",
+		Description:    `Holds the iteration number this probe is attached to.`,
 		Exposed:        true,
-		Name:           "iterationID",
+		Name:           "iterationIndex",
 		Stored:         true,
-		Type:           "string",
+		Type:           "integer",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -988,6 +1001,15 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID of the policy.`,
 		Exposed:        true,
 		Name:           "policyID",
+		Stored:         true,
+		Type:           "string",
+	},
+	"PolicyNamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyNamespace",
+		Description:    `ID of the policy.`,
+		Exposed:        true,
+		Name:           "policyNamespace",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1247,14 +1269,14 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
-	"iterationid": {
+	"iterationindex": {
 		AllowedChoices: []string{},
-		ConvertedName:  "IterationID",
-		Description:    `IterationID unique to a single ping request-response.`,
+		ConvertedName:  "IterationIndex",
+		Description:    `Holds the iteration number this probe is attached to.`,
 		Exposed:        true,
-		Name:           "iterationID",
+		Name:           "iterationIndex",
 		Stored:         true,
-		Type:           "string",
+		Type:           "integer",
 	},
 	"migrationslog": {
 		AllowedChoices: []string{},
@@ -1316,6 +1338,15 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `ID of the policy.`,
 		Exposed:        true,
 		Name:           "policyID",
+		Stored:         true,
+		Type:           "string",
+	},
+	"policynamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyNamespace",
+		Description:    `ID of the policy.`,
+		Exposed:        true,
+		Name:           "policyNamespace",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1545,8 +1576,8 @@ type SparsePingProbe struct {
 	// Four tuple in the format <sip:dip:spt:dpt>.
 	FourTuple *string `json:"fourTuple,omitempty" msgpack:"fourTuple,omitempty" bson:"fourtuple,omitempty" mapstructure:"fourTuple,omitempty"`
 
-	// IterationID unique to a single ping request-response.
-	IterationID *string `json:"iterationID,omitempty" msgpack:"iterationID,omitempty" bson:"iterationid,omitempty" mapstructure:"iterationID,omitempty"`
+	// Holds the iteration number this probe is attached to.
+	IterationIndex *int `json:"iterationIndex,omitempty" msgpack:"iterationIndex,omitempty" bson:"iterationindex,omitempty" mapstructure:"iterationIndex,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1565,6 +1596,9 @@ type SparsePingProbe struct {
 
 	// ID of the policy.
 	PolicyID *string `json:"policyID,omitempty" msgpack:"policyID,omitempty" bson:"policyid,omitempty" mapstructure:"policyID,omitempty"`
+
+	// ID of the policy.
+	PolicyNamespace *string `json:"policyNamespace,omitempty" msgpack:"policyNamespace,omitempty" bson:"policynamespace,omitempty" mapstructure:"policyNamespace,omitempty"`
 
 	// Namespace of the reporting processing unit.
 	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"processingunitnamespace,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
@@ -1685,8 +1719,8 @@ func (o *SparsePingProbe) GetBSON() (interface{}, error) {
 	if o.FourTuple != nil {
 		s.FourTuple = o.FourTuple
 	}
-	if o.IterationID != nil {
-		s.IterationID = o.IterationID
+	if o.IterationIndex != nil {
+		s.IterationIndex = o.IterationIndex
 	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
@@ -1705,6 +1739,9 @@ func (o *SparsePingProbe) GetBSON() (interface{}, error) {
 	}
 	if o.PolicyID != nil {
 		s.PolicyID = o.PolicyID
+	}
+	if o.PolicyNamespace != nil {
+		s.PolicyNamespace = o.PolicyNamespace
 	}
 	if o.ProcessingUnitNamespace != nil {
 		s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
@@ -1797,8 +1834,8 @@ func (o *SparsePingProbe) SetBSON(raw bson.Raw) error {
 	if s.FourTuple != nil {
 		o.FourTuple = s.FourTuple
 	}
-	if s.IterationID != nil {
-		o.IterationID = s.IterationID
+	if s.IterationIndex != nil {
+		o.IterationIndex = s.IterationIndex
 	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
@@ -1817,6 +1854,9 @@ func (o *SparsePingProbe) SetBSON(raw bson.Raw) error {
 	}
 	if s.PolicyID != nil {
 		o.PolicyID = s.PolicyID
+	}
+	if s.PolicyNamespace != nil {
+		o.PolicyNamespace = s.PolicyNamespace
 	}
 	if s.ProcessingUnitNamespace != nil {
 		o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
@@ -1907,8 +1947,8 @@ func (o *SparsePingProbe) ToPlain() elemental.PlainIdentifiable {
 	if o.FourTuple != nil {
 		out.FourTuple = *o.FourTuple
 	}
-	if o.IterationID != nil {
-		out.IterationID = *o.IterationID
+	if o.IterationIndex != nil {
+		out.IterationIndex = *o.IterationIndex
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1927,6 +1967,9 @@ func (o *SparsePingProbe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.PolicyID != nil {
 		out.PolicyID = *o.PolicyID
+	}
+	if o.PolicyNamespace != nil {
+		out.PolicyNamespace = *o.PolicyNamespace
 	}
 	if o.ProcessingUnitNamespace != nil {
 		out.ProcessingUnitNamespace = *o.ProcessingUnitNamespace
@@ -2102,13 +2145,14 @@ type mongoAttributesPingProbe struct {
 	Error                   string             `bson:"error"`
 	ExcludedNetworks        bool               `bson:"excludednetworks"`
 	FourTuple               string             `bson:"fourtuple"`
-	IterationID             string             `bson:"iterationid"`
+	IterationIndex          int                `bson:"iterationindex"`
 	MigrationsLog           map[string]string  `bson:"migrationslog,omitempty"`
 	Namespace               string             `bson:"namespace"`
 	PayloadSize             int                `bson:"payloadsize"`
 	PingID                  string             `bson:"pingid"`
 	PolicyAction            string             `bson:"policyaction"`
 	PolicyID                string             `bson:"policyid"`
+	PolicyNamespace         string             `bson:"policynamespace"`
 	ProcessingUnitNamespace string             `bson:"processingunitnamespace"`
 	Protocol                int                `bson:"protocol"`
 	RemoteController        string             `bson:"remotecontroller"`
@@ -2136,13 +2180,14 @@ type mongoAttributesSparsePingProbe struct {
 	Error                   *string             `bson:"error,omitempty"`
 	ExcludedNetworks        *bool               `bson:"excludednetworks,omitempty"`
 	FourTuple               *string             `bson:"fourtuple,omitempty"`
-	IterationID             *string             `bson:"iterationid,omitempty"`
+	IterationIndex          *int                `bson:"iterationindex,omitempty"`
 	MigrationsLog           *map[string]string  `bson:"migrationslog,omitempty"`
 	Namespace               *string             `bson:"namespace,omitempty"`
 	PayloadSize             *int                `bson:"payloadsize,omitempty"`
 	PingID                  *string             `bson:"pingid,omitempty"`
 	PolicyAction            *string             `bson:"policyaction,omitempty"`
 	PolicyID                *string             `bson:"policyid,omitempty"`
+	PolicyNamespace         *string             `bson:"policynamespace,omitempty"`
 	ProcessingUnitNamespace *string             `bson:"processingunitnamespace,omitempty"`
 	Protocol                *int                `bson:"protocol,omitempty"`
 	RemoteController        *string             `bson:"remotecontroller,omitempty"`

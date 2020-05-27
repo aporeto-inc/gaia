@@ -616,21 +616,16 @@ relations:
     description: Creates a new PCC provider.
 
 - rest_name: pingprobe
-  get:
-    description: Retrieves the pingprobe.
-    global_parameters:
-    - $filtering
-    - $archivable
   create:
     description: Create a ping probe.
 
 - rest_name: pingrequest
-  get:
-    description: Retrieves the ping request.
+  create:
+    description: Initiate a new the ping request.
 
 - rest_name: pingresult
-  create:
-    description: Create a ping result.
+  get:
+    description: Retrieves a ping result.
 
 - rest_name: plan
   get:

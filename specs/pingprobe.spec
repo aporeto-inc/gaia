@@ -87,9 +87,9 @@ attributes:
     exposed: true
     stored: true
 
-  - name: iterationID
-    description: IterationID unique to a single ping request-response.
-    type: string
+  - name: iterationIndex
+    description: Holds the iteration number this probe is attached to.
+    type: integer
     exposed: true
     stored: true
 
@@ -114,6 +114,12 @@ attributes:
     stored: true
 
   - name: policyID
+    description: ID of the policy.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: policyNamespace
     description: ID of the policy.
     type: string
     exposed: true

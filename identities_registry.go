@@ -740,9 +740,12 @@ var (
 			{"namespace", "normalizedTags"},
 		},
 		"pingrequest": nil,
-		"pingresult":  nil,
-		"plan":        nil,
-		"poke":        nil,
+		"pingresult": {
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+		},
+		"plan": nil,
+		"poke": nil,
 		"policy": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
