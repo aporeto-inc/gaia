@@ -15,6 +15,15 @@ model:
   - '@timeable'
   - '@identifiable-stored'
 
+# Indexes
+indexes:
+- - pingID
+- - namespace
+  - pingID
+- - namespace
+  - pingID
+  - iterationIndex
+
 # Attributes
 attributes:
   v1:
