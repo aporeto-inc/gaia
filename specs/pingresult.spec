@@ -8,6 +8,7 @@ model:
   description: Represents the results of a ping request.
   extends:
   - '@namespaced'
+  - '@timeable'
 
 # Attributes
 attributes:
