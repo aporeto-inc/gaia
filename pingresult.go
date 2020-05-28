@@ -97,7 +97,7 @@ type PingResult struct {
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Contains the Ping ID.
-	PingID []string `json:"pingID" msgpack:"pingID" bson:"pingid" mapstructure:"pingID,omitempty"`
+	PingID string `json:"pingID" msgpack:"pingID" bson:"pingid" mapstructure:"pingID,omitempty"`
 
 	// Contains the result of aggregated ping pairs.
 	PingPairs []*PingPair `json:"pingPairs" msgpack:"pingPairs" bson:"pingpairs" mapstructure:"pingPairs,omitempty"`
@@ -122,7 +122,6 @@ func NewPingResult() *PingResult {
 		ModelVersion:  1,
 		Errors:        []string{},
 		MigrationsLog: map[string]string{},
-		PingID:        []string{},
 		PingPairs:     []*PingPair{},
 	}
 }
@@ -563,8 +562,7 @@ var PingResultAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "pingID",
 		ReadOnly:       true,
 		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Type:           "string",
 	},
 	"PingPairs": {
 		AllowedChoices: []string{},
@@ -696,8 +694,7 @@ var PingResultLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "pingID",
 		ReadOnly:       true,
 		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Type:           "string",
 	},
 	"pingpairs": {
 		AllowedChoices: []string{},
@@ -831,7 +828,7 @@ type SparsePingResult struct {
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Contains the Ping ID.
-	PingID *[]string `json:"pingID,omitempty" msgpack:"pingID,omitempty" bson:"pingid,omitempty" mapstructure:"pingID,omitempty"`
+	PingID *string `json:"pingID,omitempty" msgpack:"pingID,omitempty" bson:"pingid,omitempty" mapstructure:"pingID,omitempty"`
 
 	// Contains the result of aggregated ping pairs.
 	PingPairs *[]*PingPair `json:"pingPairs,omitempty" msgpack:"pingPairs,omitempty" bson:"pingpairs,omitempty" mapstructure:"pingPairs,omitempty"`
@@ -1139,7 +1136,7 @@ type mongoAttributesPingResult struct {
 	Errors        []string          `bson:"errors,omitempty"`
 	MigrationsLog map[string]string `bson:"migrationslog,omitempty"`
 	Namespace     string            `bson:"namespace"`
-	PingID        []string          `bson:"pingid"`
+	PingID        string            `bson:"pingid"`
 	PingPairs     []*PingPair       `bson:"pingpairs"`
 	UpdateTime    time.Time         `bson:"updatetime"`
 	ZHash         int               `bson:"zhash"`
@@ -1151,7 +1148,7 @@ type mongoAttributesSparsePingResult struct {
 	Errors        *[]string          `bson:"errors,omitempty"`
 	MigrationsLog *map[string]string `bson:"migrationslog,omitempty"`
 	Namespace     *string            `bson:"namespace,omitempty"`
-	PingID        *[]string          `bson:"pingid,omitempty"`
+	PingID        *string            `bson:"pingid,omitempty"`
 	PingPairs     *[]*PingPair       `bson:"pingpairs,omitempty"`
 	UpdateTime    *time.Time         `bson:"updatetime,omitempty"`
 	ZHash         *int               `bson:"zhash,omitempty"`
