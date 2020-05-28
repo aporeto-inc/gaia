@@ -11090,7 +11090,7 @@ Namespace tag attached to an entity.
 
 Contains the list of normalized tags of the entities.
 
-##### `port` `integer` [`required`,`max_value=65535.000000`]
+##### `port` `integer` [`max_value=65535.000000`]
 
 The port that the implementation of the service is listening to. It can be
 different than
