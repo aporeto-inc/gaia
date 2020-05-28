@@ -3064,7 +3064,7 @@ func init() {
 
 	relationshipsRegistry[PingProbeIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"processingunit": {},
 		},
 	}
 

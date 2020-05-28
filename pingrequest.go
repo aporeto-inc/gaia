@@ -94,6 +94,7 @@ func NewPingRequest() *PingRequest {
 
 	return &PingRequest{
 		ModelVersion: 1,
+		Iterations:   1,
 	}
 }
 
@@ -298,6 +299,7 @@ var PingRequestAttributesMap = map[string]elemental.AttributeSpecification{
 	"Iterations": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Iterations",
+		DefaultValue:   1,
 		Description:    `Number of probes that will be triggered.`,
 		Exposed:        true,
 		MaxValue:       20,
@@ -322,6 +324,7 @@ var PingRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"iterations": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Iterations",
+		DefaultValue:   1,
 		Description:    `Number of probes that will be triggered.`,
 		Exposed:        true,
 		MaxValue:       20,

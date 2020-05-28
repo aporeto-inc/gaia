@@ -155,9 +155,6 @@ type PingProbe struct {
 	// ID of the policy.
 	PolicyNamespace string `json:"policyNamespace" msgpack:"policyNamespace" bson:"policynamespace" mapstructure:"policyNamespace,omitempty"`
 
-	// Namespace of the reporting processing unit.
-	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"processingunitnamespace" mapstructure:"processingUnitNamespace,omitempty"`
-
 	// Protocol used for the communication.
 	Protocol int `json:"protocol" msgpack:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
 
@@ -173,7 +170,7 @@ type PingProbe struct {
 	// Type of the service.
 	ServiceType string `json:"serviceType" msgpack:"serviceType" bson:"servicetype" mapstructure:"serviceType,omitempty"`
 
-	// ID of the source PU.
+	// ID of the reporting processing unit.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
 
 	// If true, destination IP is in `targetTCPNetworks`.
@@ -256,7 +253,6 @@ func (o *PingProbe) GetBSON() (interface{}, error) {
 	s.PolicyAction = o.PolicyAction
 	s.PolicyID = o.PolicyID
 	s.PolicyNamespace = o.PolicyNamespace
-	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
 	s.Protocol = o.Protocol
 	s.RemoteController = o.RemoteController
 	s.RemoteNamespaceHash = o.RemoteNamespaceHash
@@ -306,7 +302,6 @@ func (o *PingProbe) SetBSON(raw bson.Raw) error {
 	o.PolicyAction = s.PolicyAction
 	o.PolicyID = s.PolicyID
 	o.PolicyNamespace = s.PolicyNamespace
-	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
 	o.Protocol = s.Protocol
 	o.RemoteController = s.RemoteController
 	o.RemoteNamespaceHash = s.RemoteNamespaceHash
@@ -431,39 +426,38 @@ func (o *PingProbe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePingProbe{
-			ID:                      &o.ID,
-			RTT:                     &o.RTT,
-			TXType:                  &o.TXType,
-			ApplicationListening:    &o.ApplicationListening,
-			Claims:                  &o.Claims,
-			CreateTime:              &o.CreateTime,
-			DestinationID:           &o.DestinationID,
-			EnforcerID:              &o.EnforcerID,
-			EnforcerNamespace:       &o.EnforcerNamespace,
-			EnforcerVersion:         &o.EnforcerVersion,
-			Error:                   &o.Error,
-			ExcludedNetworks:        &o.ExcludedNetworks,
-			FourTuple:               &o.FourTuple,
-			IterationIndex:          &o.IterationIndex,
-			MigrationsLog:           &o.MigrationsLog,
-			Namespace:               &o.Namespace,
-			PayloadSize:             &o.PayloadSize,
-			PingID:                  &o.PingID,
-			PolicyAction:            &o.PolicyAction,
-			PolicyID:                &o.PolicyID,
-			PolicyNamespace:         &o.PolicyNamespace,
-			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
-			Protocol:                &o.Protocol,
-			RemoteController:        &o.RemoteController,
-			RemoteNamespaceHash:     &o.RemoteNamespaceHash,
-			SeqNum:                  &o.SeqNum,
-			ServiceType:             &o.ServiceType,
-			SourceID:                &o.SourceID,
-			TargetTCPNetworks:       &o.TargetTCPNetworks,
-			Type:                    &o.Type,
-			UpdateTime:              &o.UpdateTime,
-			ZHash:                   &o.ZHash,
-			Zone:                    &o.Zone,
+			ID:                   &o.ID,
+			RTT:                  &o.RTT,
+			TXType:               &o.TXType,
+			ApplicationListening: &o.ApplicationListening,
+			Claims:               &o.Claims,
+			CreateTime:           &o.CreateTime,
+			DestinationID:        &o.DestinationID,
+			EnforcerID:           &o.EnforcerID,
+			EnforcerNamespace:    &o.EnforcerNamespace,
+			EnforcerVersion:      &o.EnforcerVersion,
+			Error:                &o.Error,
+			ExcludedNetworks:     &o.ExcludedNetworks,
+			FourTuple:            &o.FourTuple,
+			IterationIndex:       &o.IterationIndex,
+			MigrationsLog:        &o.MigrationsLog,
+			Namespace:            &o.Namespace,
+			PayloadSize:          &o.PayloadSize,
+			PingID:               &o.PingID,
+			PolicyAction:         &o.PolicyAction,
+			PolicyID:             &o.PolicyID,
+			PolicyNamespace:      &o.PolicyNamespace,
+			Protocol:             &o.Protocol,
+			RemoteController:     &o.RemoteController,
+			RemoteNamespaceHash:  &o.RemoteNamespaceHash,
+			SeqNum:               &o.SeqNum,
+			ServiceType:          &o.ServiceType,
+			SourceID:             &o.SourceID,
+			TargetTCPNetworks:    &o.TargetTCPNetworks,
+			Type:                 &o.Type,
+			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -512,8 +506,6 @@ func (o *PingProbe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.PolicyID = &(o.PolicyID)
 		case "policyNamespace":
 			sp.PolicyNamespace = &(o.PolicyNamespace)
-		case "processingUnitNamespace":
-			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
 		case "protocol":
 			sp.Protocol = &(o.Protocol)
 		case "remoteController":
@@ -611,9 +603,6 @@ func (o *PingProbe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.PolicyNamespace != nil {
 		o.PolicyNamespace = *so.PolicyNamespace
-	}
-	if so.ProcessingUnitNamespace != nil {
-		o.ProcessingUnitNamespace = *so.ProcessingUnitNamespace
 	}
 	if so.Protocol != nil {
 		o.Protocol = *so.Protocol
@@ -772,8 +761,6 @@ func (o *PingProbe) ValueForAttribute(name string) interface{} {
 		return o.PolicyID
 	case "policyNamespace":
 		return o.PolicyNamespace
-	case "processingUnitNamespace":
-		return o.ProcessingUnitNamespace
 	case "protocol":
 		return o.Protocol
 	case "remoteController":
@@ -1014,15 +1001,6 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"ProcessingUnitNamespace": {
-		AllowedChoices: []string{},
-		ConvertedName:  "ProcessingUnitNamespace",
-		Description:    `Namespace of the reporting processing unit.`,
-		Exposed:        true,
-		Name:           "processingUnitNamespace",
-		Stored:         true,
-		Type:           "string",
-	},
 	"Protocol": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocol",
@@ -1070,10 +1048,12 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"SourceID": {
 		AllowedChoices: []string{},
+		Autogenerated:  true,
 		ConvertedName:  "SourceID",
-		Description:    `ID of the source PU.`,
+		Description:    `ID of the reporting processing unit.`,
 		Exposed:        true,
 		Name:           "sourceID",
+		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1351,15 +1331,6 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
-	"processingunitnamespace": {
-		AllowedChoices: []string{},
-		ConvertedName:  "ProcessingUnitNamespace",
-		Description:    `Namespace of the reporting processing unit.`,
-		Exposed:        true,
-		Name:           "processingUnitNamespace",
-		Stored:         true,
-		Type:           "string",
-	},
 	"protocol": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocol",
@@ -1407,10 +1378,12 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"sourceid": {
 		AllowedChoices: []string{},
+		Autogenerated:  true,
 		ConvertedName:  "SourceID",
-		Description:    `ID of the source PU.`,
+		Description:    `ID of the reporting processing unit.`,
 		Exposed:        true,
 		Name:           "sourceID",
+		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1601,9 +1574,6 @@ type SparsePingProbe struct {
 	// ID of the policy.
 	PolicyNamespace *string `json:"policyNamespace,omitempty" msgpack:"policyNamespace,omitempty" bson:"policynamespace,omitempty" mapstructure:"policyNamespace,omitempty"`
 
-	// Namespace of the reporting processing unit.
-	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"processingunitnamespace,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
-
 	// Protocol used for the communication.
 	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"protocol,omitempty" mapstructure:"protocol,omitempty"`
 
@@ -1619,7 +1589,7 @@ type SparsePingProbe struct {
 	// Type of the service.
 	ServiceType *string `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"servicetype,omitempty" mapstructure:"serviceType,omitempty"`
 
-	// ID of the source PU.
+	// ID of the reporting processing unit.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"sourceid,omitempty" mapstructure:"sourceID,omitempty"`
 
 	// If true, destination IP is in `targetTCPNetworks`.
@@ -1744,9 +1714,6 @@ func (o *SparsePingProbe) GetBSON() (interface{}, error) {
 	if o.PolicyNamespace != nil {
 		s.PolicyNamespace = o.PolicyNamespace
 	}
-	if o.ProcessingUnitNamespace != nil {
-		s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
-	}
 	if o.Protocol != nil {
 		s.Protocol = o.Protocol
 	}
@@ -1859,9 +1826,6 @@ func (o *SparsePingProbe) SetBSON(raw bson.Raw) error {
 	if s.PolicyNamespace != nil {
 		o.PolicyNamespace = s.PolicyNamespace
 	}
-	if s.ProcessingUnitNamespace != nil {
-		o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
-	}
 	if s.Protocol != nil {
 		o.Protocol = s.Protocol
 	}
@@ -1971,9 +1935,6 @@ func (o *SparsePingProbe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.PolicyNamespace != nil {
 		out.PolicyNamespace = *o.PolicyNamespace
-	}
-	if o.ProcessingUnitNamespace != nil {
-		out.ProcessingUnitNamespace = *o.ProcessingUnitNamespace
 	}
 	if o.Protocol != nil {
 		out.Protocol = *o.Protocol
@@ -2133,72 +2094,70 @@ func (o *SparsePingProbe) DeepCopyInto(out *SparsePingProbe) {
 }
 
 type mongoAttributesPingProbe struct {
-	ID                      bson.ObjectId      `bson:"_id,omitempty"`
-	RTT                     string             `bson:"rtt"`
-	TXType                  string             `bson:"txtype"`
-	ApplicationListening    bool               `bson:"applicationlistening"`
-	Claims                  []string           `bson:"claims"`
-	CreateTime              time.Time          `bson:"createtime"`
-	DestinationID           string             `bson:"destinationid"`
-	EnforcerID              string             `bson:"enforcerid"`
-	EnforcerNamespace       string             `bson:"enforcernamespace"`
-	EnforcerVersion         string             `bson:"enforcerversion"`
-	Error                   string             `bson:"error"`
-	ExcludedNetworks        bool               `bson:"excludednetworks"`
-	FourTuple               string             `bson:"fourtuple"`
-	IterationIndex          int                `bson:"iterationindex"`
-	MigrationsLog           map[string]string  `bson:"migrationslog,omitempty"`
-	Namespace               string             `bson:"namespace"`
-	PayloadSize             int                `bson:"payloadsize"`
-	PingID                  string             `bson:"pingid"`
-	PolicyAction            string             `bson:"policyaction"`
-	PolicyID                string             `bson:"policyid"`
-	PolicyNamespace         string             `bson:"policynamespace"`
-	ProcessingUnitNamespace string             `bson:"processingunitnamespace"`
-	Protocol                int                `bson:"protocol"`
-	RemoteController        string             `bson:"remotecontroller"`
-	RemoteNamespaceHash     string             `bson:"remotenamespacehash"`
-	SeqNum                  int                `bson:"seqnum"`
-	ServiceType             string             `bson:"servicetype"`
-	SourceID                string             `bson:"sourceid"`
-	TargetTCPNetworks       bool               `bson:"targettcpnetworks"`
-	Type                    PingProbeTypeValue `bson:"type"`
-	UpdateTime              time.Time          `bson:"updatetime"`
-	ZHash                   int                `bson:"zhash"`
-	Zone                    int                `bson:"zone"`
+	ID                   bson.ObjectId      `bson:"_id,omitempty"`
+	RTT                  string             `bson:"rtt"`
+	TXType               string             `bson:"txtype"`
+	ApplicationListening bool               `bson:"applicationlistening"`
+	Claims               []string           `bson:"claims"`
+	CreateTime           time.Time          `bson:"createtime"`
+	DestinationID        string             `bson:"destinationid"`
+	EnforcerID           string             `bson:"enforcerid"`
+	EnforcerNamespace    string             `bson:"enforcernamespace"`
+	EnforcerVersion      string             `bson:"enforcerversion"`
+	Error                string             `bson:"error"`
+	ExcludedNetworks     bool               `bson:"excludednetworks"`
+	FourTuple            string             `bson:"fourtuple"`
+	IterationIndex       int                `bson:"iterationindex"`
+	MigrationsLog        map[string]string  `bson:"migrationslog,omitempty"`
+	Namespace            string             `bson:"namespace"`
+	PayloadSize          int                `bson:"payloadsize"`
+	PingID               string             `bson:"pingid"`
+	PolicyAction         string             `bson:"policyaction"`
+	PolicyID             string             `bson:"policyid"`
+	PolicyNamespace      string             `bson:"policynamespace"`
+	Protocol             int                `bson:"protocol"`
+	RemoteController     string             `bson:"remotecontroller"`
+	RemoteNamespaceHash  string             `bson:"remotenamespacehash"`
+	SeqNum               int                `bson:"seqnum"`
+	ServiceType          string             `bson:"servicetype"`
+	SourceID             string             `bson:"sourceid"`
+	TargetTCPNetworks    bool               `bson:"targettcpnetworks"`
+	Type                 PingProbeTypeValue `bson:"type"`
+	UpdateTime           time.Time          `bson:"updatetime"`
+	ZHash                int                `bson:"zhash"`
+	Zone                 int                `bson:"zone"`
 }
 type mongoAttributesSparsePingProbe struct {
-	ID                      bson.ObjectId       `bson:"_id,omitempty"`
-	RTT                     *string             `bson:"rtt,omitempty"`
-	TXType                  *string             `bson:"txtype,omitempty"`
-	ApplicationListening    *bool               `bson:"applicationlistening,omitempty"`
-	Claims                  *[]string           `bson:"claims,omitempty"`
-	CreateTime              *time.Time          `bson:"createtime,omitempty"`
-	DestinationID           *string             `bson:"destinationid,omitempty"`
-	EnforcerID              *string             `bson:"enforcerid,omitempty"`
-	EnforcerNamespace       *string             `bson:"enforcernamespace,omitempty"`
-	EnforcerVersion         *string             `bson:"enforcerversion,omitempty"`
-	Error                   *string             `bson:"error,omitempty"`
-	ExcludedNetworks        *bool               `bson:"excludednetworks,omitempty"`
-	FourTuple               *string             `bson:"fourtuple,omitempty"`
-	IterationIndex          *int                `bson:"iterationindex,omitempty"`
-	MigrationsLog           *map[string]string  `bson:"migrationslog,omitempty"`
-	Namespace               *string             `bson:"namespace,omitempty"`
-	PayloadSize             *int                `bson:"payloadsize,omitempty"`
-	PingID                  *string             `bson:"pingid,omitempty"`
-	PolicyAction            *string             `bson:"policyaction,omitempty"`
-	PolicyID                *string             `bson:"policyid,omitempty"`
-	PolicyNamespace         *string             `bson:"policynamespace,omitempty"`
-	ProcessingUnitNamespace *string             `bson:"processingunitnamespace,omitempty"`
-	Protocol                *int                `bson:"protocol,omitempty"`
-	RemoteController        *string             `bson:"remotecontroller,omitempty"`
-	RemoteNamespaceHash     *string             `bson:"remotenamespacehash,omitempty"`
-	SeqNum                  *int                `bson:"seqnum,omitempty"`
-	ServiceType             *string             `bson:"servicetype,omitempty"`
-	SourceID                *string             `bson:"sourceid,omitempty"`
-	TargetTCPNetworks       *bool               `bson:"targettcpnetworks,omitempty"`
-	Type                    *PingProbeTypeValue `bson:"type,omitempty"`
-	UpdateTime              *time.Time          `bson:"updatetime,omitempty"`
-	ZHash                   *int                `bson:"zhash,omitempty"`
-	Zone                    *int                `bson:"zone,omitempty"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
+	RTT                  *string             `bson:"rtt,omitempty"`
+	TXType               *string             `bson:"txtype,omitempty"`
+	ApplicationListening *bool               `bson:"applicationlistening,omitempty"`
+	Claims               *[]string           `bson:"claims,omitempty"`
+	CreateTime           *time.Time          `bson:"createtime,omitempty"`
+	DestinationID        *string             `bson:"destinationid,omitempty"`
+	EnforcerID           *string             `bson:"enforcerid,omitempty"`
+	EnforcerNamespace    *string             `bson:"enforcernamespace,omitempty"`
+	EnforcerVersion      *string             `bson:"enforcerversion,omitempty"`
+	Error                *string             `bson:"error,omitempty"`
+	ExcludedNetworks     *bool               `bson:"excludednetworks,omitempty"`
+	FourTuple            *string             `bson:"fourtuple,omitempty"`
+	IterationIndex       *int                `bson:"iterationindex,omitempty"`
+	MigrationsLog        *map[string]string  `bson:"migrationslog,omitempty"`
+	Namespace            *string             `bson:"namespace,omitempty"`
+	PayloadSize          *int                `bson:"payloadsize,omitempty"`
+	PingID               *string             `bson:"pingid,omitempty"`
+	PolicyAction         *string             `bson:"policyaction,omitempty"`
+	PolicyID             *string             `bson:"policyid,omitempty"`
+	PolicyNamespace      *string             `bson:"policynamespace,omitempty"`
+	Protocol             *int                `bson:"protocol,omitempty"`
+	RemoteController     *string             `bson:"remotecontroller,omitempty"`
+	RemoteNamespaceHash  *string             `bson:"remotenamespacehash,omitempty"`
+	SeqNum               *int                `bson:"seqnum,omitempty"`
+	ServiceType          *string             `bson:"servicetype,omitempty"`
+	SourceID             *string             `bson:"sourceid,omitempty"`
+	TargetTCPNetworks    *bool               `bson:"targettcpnetworks,omitempty"`
+	Type                 *PingProbeTypeValue `bson:"type,omitempty"`
+	UpdateTime           *time.Time          `bson:"updatetime,omitempty"`
+	ZHash                *int                `bson:"zhash,omitempty"`
+	Zone                 *int                `bson:"zone,omitempty"`
 }

@@ -24,8 +24,6 @@ func NewPingPair() *PingPair {
 
 	return &PingPair{
 		ModelVersion: 1,
-		Request:      NewPingProbe(),
-		Response:     NewPingProbe(),
 	}
 }
 

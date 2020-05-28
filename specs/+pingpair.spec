@@ -4,7 +4,7 @@ model:
   resource_name: pingpairs
   entity_name: PingPair
   package: guy
-  group: core
+  group: core/enforcer
   description: Represents a pair of ping probes.
   detached: true
 
@@ -18,6 +18,7 @@ attributes:
     subtype: pingprobe
     stored: true
     extensions:
+      noInit: true
       refMode: pointer
 
   - name: response
@@ -27,4 +28,5 @@ attributes:
     subtype: pingprobe
     stored: true
     extensions:
+      noInit: true
       refMode: pointer
