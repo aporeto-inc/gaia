@@ -1262,6 +1262,18 @@ func TestValidateServiceEntity(t *testing.T) {
 			true,
 		},
 		{
+			"service with both hosts and IPs",
+			args{
+				&Service{
+					Hosts:             []string{"foo.com"},
+					IPs:               []string{"10.1.0.0/16"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			true,
+		},
+		{
 			"service with overlapping hosts",
 			args{
 				&Service{
