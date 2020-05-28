@@ -242,6 +242,11 @@ func ValidateServiceEntity(service *Service) error {
 		}
 	}
 
+	if len(service.IPs) > 0 && len(service.Hosts) > 0 {
+		errs = errs.Append(makeValidationError("IPs", "Both FQDN and IP Addresses can't be defined at the same time"))
+		errs = errs.Append(makeValidationError("hosts", "Both FQDN and IP Addresses can't be defined at the same time"))
+	}
+
 	allSubnets := []*net.IPNet{}
 	for _, ip := range service.IPs {
 		ipNet, err := ipNetFromString(ip)
