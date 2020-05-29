@@ -245,11 +245,6 @@ func ValidateServiceEntity(service *Service) error {
 	}
 
 	// Hosts and IPs
-	if len(service.IPs) > 0 && len(service.Hosts) > 0 {
-		errs = errs.Append(makeValidationError("IPs", "Both FQDN and IP Addresses can't be defined at the same time"))
-		errs = errs.Append(makeValidationError("hosts", "Both FQDN and IP Addresses can't be defined at the same time"))
-	}
-
 	if len(service.Hosts) == 0 && len(service.IPs) == 0 {
 		errs = errs.Append(makeValidationError("IPs", "You must set at least one value in `hosts` or `IPs`"))
 		errs = errs.Append(makeValidationError("hosts", "You must set at least one value in `hosts` or `IPs`"))
@@ -283,9 +278,15 @@ func ValidateServiceEntity(service *Service) error {
 
 	// Port
 	if service.External {
+
 		if service.Port > 0 {
 			errs = errs.Append(makeValidationError("port", "Port is not needed for third party services"))
 		}
+
+		if service.PublicApplicationPort > 0 {
+			errs = errs.Append(makeValidationError("publicApplicationPort", "Public Port is not needed for third party services"))
+		}
+
 	} else {
 		if service.Port == 0 {
 			errs = errs.Append(makeValidationError("port", "Port is mandatory for services implemented by processing units"))

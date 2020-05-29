@@ -1279,7 +1279,7 @@ func TestValidateServiceEntity(t *testing.T) {
 			true,
 		},
 		{
-			"service with both hosts and IPs",
+			"service with both hosts and IPs is valid",
 			args{
 				&Service{
 					Hosts:             []string{"foo.com"},
@@ -1289,7 +1289,7 @@ func TestValidateServiceEntity(t *testing.T) {
 					Port:              80,
 				},
 			},
-			true,
+			false,
 		},
 		{
 			"service with overlapping hosts",
@@ -1363,9 +1363,9 @@ func TestValidateServiceEntity(t *testing.T) {
 			},
 			false,
 		},
-		// Listening port
+		// Listening Port
 		{
-			"service port is not mandatory if external",
+			"external service must not have a port",
 			args{
 				&Service{
 					IPs:               []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
@@ -1377,7 +1377,71 @@ func TestValidateServiceEntity(t *testing.T) {
 			false,
 		},
 		{
-			"service port is not mandatory if external",
+			"external service must not have a port otherwise it fails",
+			args{
+				&Service{
+					IPs:               []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+					External:          true,
+					Port:              80,
+				},
+			},
+			true,
+		},
+		{
+			"service must have port defined otherwise it fails",
+			args{
+				&Service{
+					IPs:               []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+					External:          false,
+				},
+			},
+			true,
+		},
+		{
+			"service must have port defined",
+			args{
+				&Service{
+					IPs:               []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+					External:          false,
+					Port:              80,
+				},
+			},
+			false,
+		},
+		// publicApplicationPort
+		{
+			"external service must not have a publicApplicationPort",
+			args{
+				&Service{
+					IPs:               []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+					External:          true,
+				},
+			},
+			false,
+		},
+		{
+			"external service must not have a publicApplicationPort otherwise it fails",
+			args{
+				&Service{
+					IPs:                   []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					AuthorizationType:     ServiceAuthorizationTypeMTLS,
+					TLSType:               ServiceTLSTypeNone,
+					External:              true,
+					PublicApplicationPort: 443,
+				},
+			},
+			true,
+		},
+		{
+			"service might not have a publicApplicationPort",
 			args{
 				&Service{
 					IPs:               []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
@@ -1390,26 +1454,15 @@ func TestValidateServiceEntity(t *testing.T) {
 			false,
 		},
 		{
-			"service port is not mandatory if not external",
+			"service can have a publicApplicationPort",
 			args{
 				&Service{
-					IPs:               []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
-					AuthorizationType: ServiceAuthorizationTypeMTLS,
-					TLSType:           ServiceTLSTypeNone,
-					External:          false,
-				},
-			},
-			true,
-		},
-		{
-			"service port is not mandatory if not external",
-			args{
-				&Service{
-					IPs:               []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
-					AuthorizationType: ServiceAuthorizationTypeMTLS,
-					TLSType:           ServiceTLSTypeNone,
-					External:          false,
-					Port:              80,
+					IPs:                   []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					AuthorizationType:     ServiceAuthorizationTypeMTLS,
+					TLSType:               ServiceTLSTypeNone,
+					External:              false,
+					Port:                  80,
+					PublicApplicationPort: 443,
 				},
 			},
 			false,
