@@ -3263,9 +3263,7 @@ PingResult.
   "isServer": false,
   "pingID": "xxx-xxx-xxx-xxx",
   "remoteEndpointType": "ProcessingUnit",
-  "remoteNamespaceType": [
-    "Plain"
-  ],
+  "remoteNamespaceType": "Plain",
   "targetTCPNetworks": false,
   "type": "Request"
 }
@@ -3406,14 +3404,6 @@ Namespace of the remote processing unit.
 ##### `remoteNamespaceType` `enum(Plain | Hash)`
 
 Type of the namespace reported.
-
-Default value:
-
-```json
-[
-  "Plain"
-]
-```
 
 ##### `remoteProcessingUnitID` `string`
 

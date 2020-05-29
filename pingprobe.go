@@ -262,9 +262,6 @@ func NewPingProbe() *PingProbe {
 		ModelVersion:  1,
 		Claims:        []string{},
 		MigrationsLog: map[string]string{},
-		RemoteNamespaceType: []string{
-			PingProbeRemoteNamespaceTypePlain,
-		},
 	}
 }
 
@@ -1282,14 +1279,11 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"RemoteNamespaceType": {
 		AllowedChoices: []string{"Plain", "Hash"},
 		ConvertedName:  "RemoteNamespaceType",
-		DefaultValue: []string{
-			PingProbeRemoteNamespaceTypePlain,
-		},
-		Description: `Type of the namespace reported.`,
-		Exposed:     true,
-		Name:        "remoteNamespaceType",
-		Stored:      true,
-		Type:        "enum",
+		Description:    `Type of the namespace reported.`,
+		Exposed:        true,
+		Name:           "remoteNamespaceType",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"RemoteProcessingUnitID": {
 		AllowedChoices: []string{},
@@ -1706,14 +1700,11 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"remotenamespacetype": {
 		AllowedChoices: []string{"Plain", "Hash"},
 		ConvertedName:  "RemoteNamespaceType",
-		DefaultValue: []string{
-			PingProbeRemoteNamespaceTypePlain,
-		},
-		Description: `Type of the namespace reported.`,
-		Exposed:     true,
-		Name:        "remoteNamespaceType",
-		Stored:      true,
-		Type:        "enum",
+		Description:    `Type of the namespace reported.`,
+		Exposed:        true,
+		Name:           "remoteNamespaceType",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"remoteprocessingunitid": {
 		AllowedChoices: []string{},

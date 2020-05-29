@@ -217,8 +217,6 @@ attributes:
     allowed_choices:
     - Plain
     - Hash
-    default_value:
-    - Plain
 
   - name: remoteProcessingUnitID
     description: ID of the remote processing unit.
