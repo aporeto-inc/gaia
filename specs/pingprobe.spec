@@ -58,6 +58,16 @@ attributes:
     subtype: string
     stored: true
 
+  - name: claimsType
+    description: Type of claims reported.
+    type: enum
+    exposed: true
+    subtype: string
+    stored: true
+    allowed_choices:
+    - Transmitted
+    - Received
+
   - name: enforcerID
     description: ID of the enforcer.
     type: string
@@ -193,11 +203,20 @@ attributes:
     - ProcessingUnit
     - External
 
-  - name: remoteNamespaceHash
-    description: Namespace hash of the remote processing unit.
+  - name: remoteNamespace
+    description: Namespace of the remote processing unit.
     type: string
     exposed: true
     stored: true
+
+  - name: remoteNamespaceType
+    description: Type of the namespace reported.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Plain
+    - Hash
 
   - name: remoteProcessingUnitID
     description: ID of the remote processing unit.
