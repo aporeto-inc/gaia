@@ -229,6 +229,7 @@ reCAPTCHA
 RecipeOptions
 RedHat
 Redis
+RemotePingProbe
 RemoteProcessor
 RenderedPolicy
 RenderTemplate

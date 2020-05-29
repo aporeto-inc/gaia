@@ -48,3 +48,17 @@ attributes:
     stored: true
     extensions:
       refMode: pointer
+
+  - name: remoteProbes
+    description: |-
+      Contains information about missing probes in the result. This field will be
+      populated in the ping probe is managed by a remote controller (federation) or is
+      stored in a namespace you don't have any permissions on.
+    type: refList
+    exposed: true
+    subtype: remotepingprobe
+    stored: true
+    omit_empty: true
+    extensions:
+      noInit: true
+      refMode: pointer

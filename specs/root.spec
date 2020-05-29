@@ -615,10 +615,6 @@ relations:
   create:
     description: Creates a new PCC provider.
 
-- rest_name: pingprobe
-  create:
-    description: Create a ping probe.
-
 - rest_name: pingrequest
   create:
     description: Initiate a new the ping request.

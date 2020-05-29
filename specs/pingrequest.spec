@@ -4,7 +4,7 @@ model:
   resource_name: pingrequests
   entity_name: PingRequest
   package: guy
-  group: core
+  group: core/enforcer
   description: Initiates a ping request for enforcer debugging.
 
 # Attributes
@@ -14,6 +14,7 @@ attributes:
     description: Number of probes that will be triggered.
     type: integer
     exposed: true
+    default_value: 1
     max_value: 20
     min_value: 1
 
