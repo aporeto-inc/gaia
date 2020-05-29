@@ -8,6 +8,17 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// RemotePingProbeNamespaceTypeValue represents the possible values for attribute "namespaceType".
+type RemotePingProbeNamespaceTypeValue string
+
+const (
+	// RemotePingProbeNamespaceTypeHash represents the value Hash.
+	RemotePingProbeNamespaceTypeHash RemotePingProbeNamespaceTypeValue = "Hash"
+
+	// RemotePingProbeNamespaceTypePlain represents the value Plain.
+	RemotePingProbeNamespaceTypePlain RemotePingProbeNamespaceTypeValue = "Plain"
+)
+
 // RemotePingProbe represents the model of a remotepingprobe
 type RemotePingProbe struct {
 	// The controller ID that manages the ping report.
@@ -17,9 +28,9 @@ type RemotePingProbe struct {
 	// controller is empty.
 	Namespace string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// The namespace hash where the ping report is stored. Only applicable when the
-	// remote controller is not empty.
-	NamespaceHash string `json:"namespaceHash,omitempty" msgpack:"namespaceHash,omitempty" bson:"namespacehash" mapstructure:"namespaceHash,omitempty"`
+	// Type of the namespace reported. It can be hash or plain, depending on various
+	// factors.
+	NamespaceType RemotePingProbeNamespaceTypeValue `json:"namespaceType" msgpack:"namespaceType" bson:"namespacetype" mapstructure:"namespaceType,omitempty"`
 
 	// The ID of the probe. Only applicable when the remote controller is empty.
 	ProbeID string `json:"probeID,omitempty" msgpack:"probeID,omitempty" bson:"probeid" mapstructure:"probeID,omitempty"`
@@ -47,7 +58,7 @@ func (o *RemotePingProbe) GetBSON() (interface{}, error) {
 
 	s.ControllerID = o.ControllerID
 	s.Namespace = o.Namespace
-	s.NamespaceHash = o.NamespaceHash
+	s.NamespaceType = o.NamespaceType
 	s.ProbeID = o.ProbeID
 
 	return s, nil
@@ -68,7 +79,7 @@ func (o *RemotePingProbe) SetBSON(raw bson.Raw) error {
 
 	o.ControllerID = s.ControllerID
 	o.Namespace = s.Namespace
-	o.NamespaceHash = s.NamespaceHash
+	o.NamespaceType = s.NamespaceType
 	o.ProbeID = s.ProbeID
 
 	return nil
@@ -110,6 +121,10 @@ func (o *RemotePingProbe) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateStringInList("namespaceType", string(o.NamespaceType), []string{"Plain", "Hash"}, true); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -122,8 +137,8 @@ func (o *RemotePingProbe) Validate() error {
 }
 
 type mongoAttributesRemotePingProbe struct {
-	ControllerID  string `bson:"controllerid,omitempty"`
-	Namespace     string `bson:"namespace,omitempty"`
-	NamespaceHash string `bson:"namespacehash,omitempty"`
-	ProbeID       string `bson:"probeid,omitempty"`
+	ControllerID  string                            `bson:"controllerid,omitempty"`
+	Namespace     string                            `bson:"namespace,omitempty"`
+	NamespaceType RemotePingProbeNamespaceTypeValue `bson:"namespacetype"`
+	ProbeID       string                            `bson:"probeid,omitempty"`
 }
