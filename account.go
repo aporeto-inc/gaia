@@ -101,12 +101,6 @@ type Account struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// The certificate authority used by this namespace.
-	LocalCA string `json:"LocalCA" msgpack:"LocalCA" bson:"localca" mapstructure:"LocalCA,omitempty"`
-
-	// Set to `true` to renew the local certificate authority of the account namespace.
-	LocalCARenew bool `json:"LocalCARenew" msgpack:"LocalCARenew" bson:"-" mapstructure:"LocalCARenew,omitempty"`
-
 	// Enable or disable two-factor authentication.
 	OTPEnabled bool `json:"OTPEnabled" msgpack:"OTPEnabled" bson:"otpenabled" mapstructure:"OTPEnabled,omitempty"`
 
@@ -117,7 +111,7 @@ type Account struct {
 	OTPSecret string `json:"-" msgpack:"-" bson:"otpsecret" mapstructure:"-,omitempty"`
 
 	// Holds the SSH certificate authority used by the account namespace.
-	SSHCA string `json:"SSHCA" msgpack:"SSHCA" bson:"sshca" mapstructure:"SSHCA,omitempty"`
+	SSHCA string `json:"SSHCA" msgpack:"SSHCA" bson:"-" mapstructure:"SSHCA,omitempty"`
 
 	// Set to `true` to renew the SSH certificate authority of the account namespace.
 	SSHCARenew bool `json:"SSHCARenew" msgpack:"SSHCARenew" bson:"-" mapstructure:"SSHCARenew,omitempty"`
@@ -169,6 +163,12 @@ type Account struct {
 
 	// Last name of the account user.
 	LastName string `json:"lastName" msgpack:"lastName" bson:"lastname" mapstructure:"lastName,omitempty"`
+
+	// The certificate authority used by this namespace.
+	LocalCA string `json:"localCA" msgpack:"localCA" bson:"-" mapstructure:"localCA,omitempty"`
+
+	// Set to `true` to renew the local certificate authority of the account namespace.
+	LocalCARenew bool `json:"localCARenew" msgpack:"localCARenew" bson:"-" mapstructure:"localCARenew,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
@@ -252,10 +252,8 @@ func (o *Account) GetBSON() (interface{}, error) {
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
-	s.LocalCA = o.LocalCA
 	s.OTPEnabled = o.OTPEnabled
 	s.OTPSecret = o.OTPSecret
-	s.SSHCA = o.SSHCA
 	s.AccessEnabled = o.AccessEnabled
 	s.ActivationExpiration = o.ActivationExpiration
 	s.ActivationToken = o.ActivationToken
@@ -299,10 +297,8 @@ func (o *Account) SetBSON(raw bson.Raw) error {
 	}
 
 	o.ID = s.ID.Hex()
-	o.LocalCA = s.LocalCA
 	o.OTPEnabled = s.OTPEnabled
 	o.OTPSecret = s.OTPSecret
-	o.SSHCA = s.SSHCA
 	o.AccessEnabled = s.AccessEnabled
 	o.ActivationExpiration = s.ActivationExpiration
 	o.ActivationToken = s.ActivationToken
@@ -430,8 +426,6 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseAccount{
 			ID:                        &o.ID,
-			LocalCA:                   &o.LocalCA,
-			LocalCARenew:              &o.LocalCARenew,
 			OTPEnabled:                &o.OTPEnabled,
 			OTPQRCode:                 &o.OTPQRCode,
 			OTPSecret:                 &o.OTPSecret,
@@ -453,6 +447,8 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			FailedTime:                &o.FailedTime,
 			FirstName:                 &o.FirstName,
 			LastName:                  &o.LastName,
+			LocalCA:                   &o.LocalCA,
+			LocalCARenew:              &o.LocalCARenew,
 			MigrationsLog:             &o.MigrationsLog,
 			Name:                      &o.Name,
 			NewPassword:               &o.NewPassword,
@@ -472,10 +468,6 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
-		case "LocalCA":
-			sp.LocalCA = &(o.LocalCA)
-		case "LocalCARenew":
-			sp.LocalCARenew = &(o.LocalCARenew)
 		case "OTPEnabled":
 			sp.OTPEnabled = &(o.OTPEnabled)
 		case "OTPQRCode":
@@ -518,6 +510,10 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.FirstName = &(o.FirstName)
 		case "lastName":
 			sp.LastName = &(o.LastName)
+		case "localCA":
+			sp.LocalCA = &(o.LocalCA)
+		case "localCARenew":
+			sp.LocalCARenew = &(o.LocalCARenew)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -555,12 +551,6 @@ func (o *Account) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseAccount)
 	if so.ID != nil {
 		o.ID = *so.ID
-	}
-	if so.LocalCA != nil {
-		o.LocalCA = *so.LocalCA
-	}
-	if so.LocalCARenew != nil {
-		o.LocalCARenew = *so.LocalCARenew
 	}
 	if so.OTPEnabled != nil {
 		o.OTPEnabled = *so.OTPEnabled
@@ -624,6 +614,12 @@ func (o *Account) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.LastName != nil {
 		o.LastName = *so.LastName
+	}
+	if so.LocalCA != nil {
+		o.LocalCA = *so.LocalCA
+	}
+	if so.LocalCARenew != nil {
+		o.LocalCARenew = *so.LocalCARenew
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -742,10 +738,6 @@ func (o *Account) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
-	case "LocalCA":
-		return o.LocalCA
-	case "LocalCARenew":
-		return o.LocalCARenew
 	case "OTPEnabled":
 		return o.OTPEnabled
 	case "OTPQRCode":
@@ -788,6 +780,10 @@ func (o *Account) ValueForAttribute(name string) interface{} {
 		return o.FirstName
 	case "lastName":
 		return o.LastName
+	case "localCA":
+		return o.LocalCA
+	case "localCARenew":
+		return o.LocalCARenew
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -831,25 +827,6 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"LocalCA": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "LocalCA",
-		Description:    `The certificate authority used by this namespace.`,
-		Exposed:        true,
-		Name:           "LocalCA",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"LocalCARenew": {
-		AllowedChoices: []string{},
-		ConvertedName:  "LocalCARenew",
-		Description:    `Set to ` + "`" + `true` + "`" + ` to renew the local certificate authority of the account namespace.`,
-		Exposed:        true,
-		Name:           "LocalCARenew",
-		Type:           "boolean",
-	},
 	"OTPEnabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "OTPEnabled",
@@ -886,7 +863,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "SSHCA",
 		ReadOnly:       true,
-		Stored:         true,
+		Transient:      true,
 		Type:           "string",
 	},
 	"SSHCARenew": {
@@ -1054,6 +1031,25 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"LocalCA": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "LocalCA",
+		Description:    `The certificate authority used by this namespace.`,
+		Exposed:        true,
+		Name:           "localCA",
+		ReadOnly:       true,
+		Transient:      true,
+		Type:           "string",
+	},
+	"LocalCARenew": {
+		AllowedChoices: []string{},
+		ConvertedName:  "LocalCARenew",
+		Description:    `Set to ` + "`" + `true` + "`" + ` to renew the local certificate authority of the account namespace.`,
+		Exposed:        true,
+		Name:           "localCARenew",
+		Type:           "boolean",
+	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
 		ConvertedName:  "MigrationsLog",
@@ -1198,25 +1194,6 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"localca": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "LocalCA",
-		Description:    `The certificate authority used by this namespace.`,
-		Exposed:        true,
-		Name:           "LocalCA",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"localcarenew": {
-		AllowedChoices: []string{},
-		ConvertedName:  "LocalCARenew",
-		Description:    `Set to ` + "`" + `true` + "`" + ` to renew the local certificate authority of the account namespace.`,
-		Exposed:        true,
-		Name:           "LocalCARenew",
-		Type:           "boolean",
-	},
 	"otpenabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "OTPEnabled",
@@ -1253,7 +1230,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "SSHCA",
 		ReadOnly:       true,
-		Stored:         true,
+		Transient:      true,
 		Type:           "string",
 	},
 	"sshcarenew": {
@@ -1420,6 +1397,25 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"localca": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "LocalCA",
+		Description:    `The certificate authority used by this namespace.`,
+		Exposed:        true,
+		Name:           "localCA",
+		ReadOnly:       true,
+		Transient:      true,
+		Type:           "string",
+	},
+	"localcarenew": {
+		AllowedChoices: []string{},
+		ConvertedName:  "LocalCARenew",
+		Description:    `Set to ` + "`" + `true` + "`" + ` to renew the local certificate authority of the account namespace.`,
+		Exposed:        true,
+		Name:           "localCARenew",
+		Type:           "boolean",
 	},
 	"migrationslog": {
 		AllowedChoices: []string{},
@@ -1615,12 +1611,6 @@ type SparseAccount struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// The certificate authority used by this namespace.
-	LocalCA *string `json:"LocalCA,omitempty" msgpack:"LocalCA,omitempty" bson:"localca,omitempty" mapstructure:"LocalCA,omitempty"`
-
-	// Set to `true` to renew the local certificate authority of the account namespace.
-	LocalCARenew *bool `json:"LocalCARenew,omitempty" msgpack:"LocalCARenew,omitempty" bson:"-" mapstructure:"LocalCARenew,omitempty"`
-
 	// Enable or disable two-factor authentication.
 	OTPEnabled *bool `json:"OTPEnabled,omitempty" msgpack:"OTPEnabled,omitempty" bson:"otpenabled,omitempty" mapstructure:"OTPEnabled,omitempty"`
 
@@ -1631,7 +1621,7 @@ type SparseAccount struct {
 	OTPSecret *string `json:"-" msgpack:"-" bson:"otpsecret,omitempty" mapstructure:"-,omitempty"`
 
 	// Holds the SSH certificate authority used by the account namespace.
-	SSHCA *string `json:"SSHCA,omitempty" msgpack:"SSHCA,omitempty" bson:"sshca,omitempty" mapstructure:"SSHCA,omitempty"`
+	SSHCA *string `json:"SSHCA,omitempty" msgpack:"SSHCA,omitempty" bson:"-" mapstructure:"SSHCA,omitempty"`
 
 	// Set to `true` to renew the SSH certificate authority of the account namespace.
 	SSHCARenew *bool `json:"SSHCARenew,omitempty" msgpack:"SSHCARenew,omitempty" bson:"-" mapstructure:"SSHCARenew,omitempty"`
@@ -1683,6 +1673,12 @@ type SparseAccount struct {
 
 	// Last name of the account user.
 	LastName *string `json:"lastName,omitempty" msgpack:"lastName,omitempty" bson:"lastname,omitempty" mapstructure:"lastName,omitempty"`
+
+	// The certificate authority used by this namespace.
+	LocalCA *string `json:"localCA,omitempty" msgpack:"localCA,omitempty" bson:"-" mapstructure:"localCA,omitempty"`
+
+	// Set to `true` to renew the local certificate authority of the account namespace.
+	LocalCARenew *bool `json:"localCARenew,omitempty" msgpack:"localCARenew,omitempty" bson:"-" mapstructure:"localCARenew,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1766,17 +1762,11 @@ func (o *SparseAccount) GetBSON() (interface{}, error) {
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
-	if o.LocalCA != nil {
-		s.LocalCA = o.LocalCA
-	}
 	if o.OTPEnabled != nil {
 		s.OTPEnabled = o.OTPEnabled
 	}
 	if o.OTPSecret != nil {
 		s.OTPSecret = o.OTPSecret
-	}
-	if o.SSHCA != nil {
-		s.SSHCA = o.SSHCA
 	}
 	if o.AccessEnabled != nil {
 		s.AccessEnabled = o.AccessEnabled
@@ -1872,17 +1862,11 @@ func (o *SparseAccount) SetBSON(raw bson.Raw) error {
 
 	id := s.ID.Hex()
 	o.ID = &id
-	if s.LocalCA != nil {
-		o.LocalCA = s.LocalCA
-	}
 	if s.OTPEnabled != nil {
 		o.OTPEnabled = s.OTPEnabled
 	}
 	if s.OTPSecret != nil {
 		o.OTPSecret = s.OTPSecret
-	}
-	if s.SSHCA != nil {
-		o.SSHCA = s.SSHCA
 	}
 	if s.AccessEnabled != nil {
 		o.AccessEnabled = s.AccessEnabled
@@ -1976,12 +1960,6 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
-	if o.LocalCA != nil {
-		out.LocalCA = *o.LocalCA
-	}
-	if o.LocalCARenew != nil {
-		out.LocalCARenew = *o.LocalCARenew
-	}
 	if o.OTPEnabled != nil {
 		out.OTPEnabled = *o.OTPEnabled
 	}
@@ -2044,6 +2022,12 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.LastName != nil {
 		out.LastName = *o.LastName
+	}
+	if o.LocalCA != nil {
+		out.LocalCA = *o.LocalCA
+	}
+	if o.LocalCARenew != nil {
+		out.LocalCARenew = *o.LocalCARenew
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -2188,10 +2172,8 @@ func (o *SparseAccount) DeepCopyInto(out *SparseAccount) {
 
 type mongoAttributesAccount struct {
 	ID                        bson.ObjectId      `bson:"_id,omitempty"`
-	LocalCA                   string             `bson:"localca"`
 	OTPEnabled                bool               `bson:"otpenabled"`
 	OTPSecret                 string             `bson:"otpsecret"`
-	SSHCA                     string             `bson:"sshca"`
 	AccessEnabled             bool               `bson:"accessenabled"`
 	ActivationExpiration      time.Time          `bson:"activationexpiration"`
 	ActivationToken           string             `bson:"activationtoken,omitempty"`
@@ -2220,10 +2202,8 @@ type mongoAttributesAccount struct {
 }
 type mongoAttributesSparseAccount struct {
 	ID                        bson.ObjectId       `bson:"_id,omitempty"`
-	LocalCA                   *string             `bson:"localca,omitempty"`
 	OTPEnabled                *bool               `bson:"otpenabled,omitempty"`
 	OTPSecret                 *string             `bson:"otpsecret,omitempty"`
-	SSHCA                     *string             `bson:"sshca,omitempty"`
 	AccessEnabled             *bool               `bson:"accessenabled,omitempty"`
 	ActivationExpiration      *time.Time          `bson:"activationexpiration,omitempty"`
 	ActivationToken           *string             `bson:"activationtoken,omitempty"`
