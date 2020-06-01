@@ -86,6 +86,9 @@ type PingRequest struct {
 	// Unique ID generated for each ping request.
 	PingID string `json:"pingID" msgpack:"pingID" bson:"-" mapstructure:"pingID,omitempty"`
 
+	// Contains the refresh ID set by processing unit refresh event.
+	RefreshID string `json:"refreshID" msgpack:"refreshID" bson:"-" mapstructure:"refreshID,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -182,6 +185,7 @@ func (o *PingRequest) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparsePingRequest{
 			Iterations: &o.Iterations,
 			PingID:     &o.PingID,
+			RefreshID:  &o.RefreshID,
 		}
 	}
 
@@ -192,6 +196,8 @@ func (o *PingRequest) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Iterations = &(o.Iterations)
 		case "pingID":
 			sp.PingID = &(o.PingID)
+		case "refreshID":
+			sp.RefreshID = &(o.RefreshID)
 		}
 	}
 
@@ -210,6 +216,9 @@ func (o *PingRequest) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.PingID != nil {
 		o.PingID = *so.PingID
+	}
+	if so.RefreshID != nil {
+		o.RefreshID = *so.RefreshID
 	}
 }
 
@@ -289,6 +298,8 @@ func (o *PingRequest) ValueForAttribute(name string) interface{} {
 		return o.Iterations
 	case "pingID":
 		return o.PingID
+	case "refreshID":
+		return o.RefreshID
 	}
 
 	return nil
@@ -317,6 +328,14 @@ var PingRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"RefreshID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RefreshID",
+		Description:    `Contains the refresh ID set by processing unit refresh event.`,
+		Exposed:        true,
+		Name:           "refreshID",
+		Type:           "string",
+	},
 }
 
 // PingRequestLowerCaseAttributesMap represents the map of attribute for PingRequest.
@@ -340,6 +359,14 @@ var PingRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Exposed:        true,
 		Name:           "pingID",
 		ReadOnly:       true,
+		Type:           "string",
+	},
+	"refreshid": {
+		AllowedChoices: []string{},
+		ConvertedName:  "RefreshID",
+		Description:    `Contains the refresh ID set by processing unit refresh event.`,
+		Exposed:        true,
+		Name:           "refreshID",
 		Type:           "string",
 	},
 }
@@ -413,6 +440,9 @@ type SparsePingRequest struct {
 	// Unique ID generated for each ping request.
 	PingID *string `json:"pingID,omitempty" msgpack:"pingID,omitempty" bson:"-" mapstructure:"pingID,omitempty"`
 
+	// Contains the refresh ID set by processing unit refresh event.
+	RefreshID *string `json:"refreshID,omitempty" msgpack:"refreshID,omitempty" bson:"-" mapstructure:"refreshID,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -482,6 +512,9 @@ func (o *SparsePingRequest) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.PingID != nil {
 		out.PingID = *o.PingID
+	}
+	if o.RefreshID != nil {
+		out.RefreshID = *o.RefreshID
 	}
 
 	return out

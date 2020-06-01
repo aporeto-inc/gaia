@@ -176,12 +176,6 @@ attributes:
     exposed: true
     stored: true
 
-  - name: processingUnitNamespace
-    description: Namespace of the reporting processing unit.
-    type: string
-    exposed: true
-    stored: true
-
   - name: protocol
     description: Protocol used for the communication.
     type: integer

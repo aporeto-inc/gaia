@@ -206,9 +206,6 @@ type PingProbe struct {
 	// ID of the reporting processing unit.
 	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"processingunitid" mapstructure:"processingUnitID,omitempty"`
 
-	// Namespace of the reporting processing unit.
-	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"processingunitnamespace" mapstructure:"processingUnitNamespace,omitempty"`
-
 	// Protocol used for the communication.
 	Protocol int `json:"protocol" msgpack:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
 
@@ -322,7 +319,6 @@ func (o *PingProbe) GetBSON() (interface{}, error) {
 	s.PolicyID = o.PolicyID
 	s.PolicyNamespace = o.PolicyNamespace
 	s.ProcessingUnitID = o.ProcessingUnitID
-	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
 	s.Protocol = o.Protocol
 	s.RemoteController = o.RemoteController
 	s.RemoteEndpointType = o.RemoteEndpointType
@@ -381,7 +377,6 @@ func (o *PingProbe) SetBSON(raw bson.Raw) error {
 	o.PolicyID = s.PolicyID
 	o.PolicyNamespace = s.PolicyNamespace
 	o.ProcessingUnitID = s.ProcessingUnitID
-	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
 	o.Protocol = s.Protocol
 	o.RemoteController = s.RemoteController
 	o.RemoteEndpointType = s.RemoteEndpointType
@@ -509,48 +504,47 @@ func (o *PingProbe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePingProbe{
-			ACLPolicyAction:         &o.ACLPolicyAction,
-			ACLPolicyID:             &o.ACLPolicyID,
-			ID:                      &o.ID,
-			RTT:                     &o.RTT,
-			ApplicationListening:    &o.ApplicationListening,
-			Claims:                  &o.Claims,
-			ClaimsType:              &o.ClaimsType,
-			CreateTime:              &o.CreateTime,
-			EnforcerID:              &o.EnforcerID,
-			EnforcerNamespace:       &o.EnforcerNamespace,
-			EnforcerVersion:         &o.EnforcerVersion,
-			Error:                   &o.Error,
-			ExcludedNetworks:        &o.ExcludedNetworks,
-			FourTuple:               &o.FourTuple,
-			IsServer:                &o.IsServer,
-			IterationIndex:          &o.IterationIndex,
-			MigrationsLog:           &o.MigrationsLog,
-			Namespace:               &o.Namespace,
-			PayloadSize:             &o.PayloadSize,
-			PeerCertExpiry:          &o.PeerCertExpiry,
-			PeerCertIssuer:          &o.PeerCertIssuer,
-			PeerCertSubject:         &o.PeerCertSubject,
-			PingID:                  &o.PingID,
-			PolicyAction:            &o.PolicyAction,
-			PolicyID:                &o.PolicyID,
-			PolicyNamespace:         &o.PolicyNamespace,
-			ProcessingUnitID:        &o.ProcessingUnitID,
-			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
-			Protocol:                &o.Protocol,
-			RemoteController:        &o.RemoteController,
-			RemoteEndpointType:      &o.RemoteEndpointType,
-			RemoteNamespace:         &o.RemoteNamespace,
-			RemoteNamespaceType:     &o.RemoteNamespaceType,
-			RemoteProcessingUnitID:  &o.RemoteProcessingUnitID,
-			SeqNum:                  &o.SeqNum,
-			ServiceID:               &o.ServiceID,
-			ServiceType:             &o.ServiceType,
-			TargetTCPNetworks:       &o.TargetTCPNetworks,
-			Type:                    &o.Type,
-			UpdateTime:              &o.UpdateTime,
-			ZHash:                   &o.ZHash,
-			Zone:                    &o.Zone,
+			ACLPolicyAction:        &o.ACLPolicyAction,
+			ACLPolicyID:            &o.ACLPolicyID,
+			ID:                     &o.ID,
+			RTT:                    &o.RTT,
+			ApplicationListening:   &o.ApplicationListening,
+			Claims:                 &o.Claims,
+			ClaimsType:             &o.ClaimsType,
+			CreateTime:             &o.CreateTime,
+			EnforcerID:             &o.EnforcerID,
+			EnforcerNamespace:      &o.EnforcerNamespace,
+			EnforcerVersion:        &o.EnforcerVersion,
+			Error:                  &o.Error,
+			ExcludedNetworks:       &o.ExcludedNetworks,
+			FourTuple:              &o.FourTuple,
+			IsServer:               &o.IsServer,
+			IterationIndex:         &o.IterationIndex,
+			MigrationsLog:          &o.MigrationsLog,
+			Namespace:              &o.Namespace,
+			PayloadSize:            &o.PayloadSize,
+			PeerCertExpiry:         &o.PeerCertExpiry,
+			PeerCertIssuer:         &o.PeerCertIssuer,
+			PeerCertSubject:        &o.PeerCertSubject,
+			PingID:                 &o.PingID,
+			PolicyAction:           &o.PolicyAction,
+			PolicyID:               &o.PolicyID,
+			PolicyNamespace:        &o.PolicyNamespace,
+			ProcessingUnitID:       &o.ProcessingUnitID,
+			Protocol:               &o.Protocol,
+			RemoteController:       &o.RemoteController,
+			RemoteEndpointType:     &o.RemoteEndpointType,
+			RemoteNamespace:        &o.RemoteNamespace,
+			RemoteNamespaceType:    &o.RemoteNamespaceType,
+			RemoteProcessingUnitID: &o.RemoteProcessingUnitID,
+			SeqNum:                 &o.SeqNum,
+			ServiceID:              &o.ServiceID,
+			ServiceType:            &o.ServiceType,
+			TargetTCPNetworks:      &o.TargetTCPNetworks,
+			Type:                   &o.Type,
+			UpdateTime:             &o.UpdateTime,
+			ZHash:                  &o.ZHash,
+			Zone:                   &o.Zone,
 		}
 	}
 
@@ -611,8 +605,6 @@ func (o *PingProbe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.PolicyNamespace = &(o.PolicyNamespace)
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
-		case "processingUnitNamespace":
-			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
 		case "protocol":
 			sp.Protocol = &(o.Protocol)
 		case "remoteController":
@@ -734,9 +726,6 @@ func (o *PingProbe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
-	}
-	if so.ProcessingUnitNamespace != nil {
-		o.ProcessingUnitNamespace = *so.ProcessingUnitNamespace
 	}
 	if so.Protocol != nil {
 		o.Protocol = *so.Protocol
@@ -928,8 +917,6 @@ func (o *PingProbe) ValueForAttribute(name string) interface{} {
 		return o.PolicyNamespace
 	case "processingUnitID":
 		return o.ProcessingUnitID
-	case "processingUnitNamespace":
-		return o.ProcessingUnitNamespace
 	case "protocol":
 		return o.Protocol
 	case "remoteController":
@@ -1228,15 +1215,6 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID of the reporting processing unit.`,
 		Exposed:        true,
 		Name:           "processingUnitID",
-		Stored:         true,
-		Type:           "string",
-	},
-	"ProcessingUnitNamespace": {
-		AllowedChoices: []string{},
-		ConvertedName:  "ProcessingUnitNamespace",
-		Description:    `Namespace of the reporting processing unit.`,
-		Exposed:        true,
-		Name:           "processingUnitNamespace",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1652,15 +1630,6 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
-	"processingunitnamespace": {
-		AllowedChoices: []string{},
-		ConvertedName:  "ProcessingUnitNamespace",
-		Description:    `Namespace of the reporting processing unit.`,
-		Exposed:        true,
-		Name:           "processingUnitNamespace",
-		Stored:         true,
-		Type:           "string",
-	},
 	"protocol": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Protocol",
@@ -1949,9 +1918,6 @@ type SparsePingProbe struct {
 	// ID of the reporting processing unit.
 	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"processingunitid,omitempty" mapstructure:"processingUnitID,omitempty"`
 
-	// Namespace of the reporting processing unit.
-	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"processingunitnamespace,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
-
 	// Protocol used for the communication.
 	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"protocol,omitempty" mapstructure:"protocol,omitempty"`
 
@@ -2119,9 +2085,6 @@ func (o *SparsePingProbe) GetBSON() (interface{}, error) {
 	if o.ProcessingUnitID != nil {
 		s.ProcessingUnitID = o.ProcessingUnitID
 	}
-	if o.ProcessingUnitNamespace != nil {
-		s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
-	}
 	if o.Protocol != nil {
 		s.Protocol = o.Protocol
 	}
@@ -2261,9 +2224,6 @@ func (o *SparsePingProbe) SetBSON(raw bson.Raw) error {
 	if s.ProcessingUnitID != nil {
 		o.ProcessingUnitID = s.ProcessingUnitID
 	}
-	if s.ProcessingUnitNamespace != nil {
-		o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
-	}
 	if s.Protocol != nil {
 		o.Protocol = s.Protocol
 	}
@@ -2400,9 +2360,6 @@ func (o *SparsePingProbe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID
-	}
-	if o.ProcessingUnitNamespace != nil {
-		out.ProcessingUnitNamespace = *o.ProcessingUnitNamespace
 	}
 	if o.Protocol != nil {
 		out.Protocol = *o.Protocol
@@ -2571,90 +2528,88 @@ func (o *SparsePingProbe) DeepCopyInto(out *SparsePingProbe) {
 }
 
 type mongoAttributesPingProbe struct {
-	ACLPolicyAction         string                            `bson:"aclpolicyaction"`
-	ACLPolicyID             string                            `bson:"aclpolicyid"`
-	ID                      bson.ObjectId                     `bson:"_id,omitempty"`
-	RTT                     string                            `bson:"rtt"`
-	ApplicationListening    bool                              `bson:"applicationlistening"`
-	Claims                  []string                          `bson:"claims"`
-	ClaimsType              PingProbeClaimsTypeValue          `bson:"claimstype"`
-	CreateTime              time.Time                         `bson:"createtime"`
-	EnforcerID              string                            `bson:"enforcerid"`
-	EnforcerNamespace       string                            `bson:"enforcernamespace"`
-	EnforcerVersion         string                            `bson:"enforcerversion"`
-	Error                   string                            `bson:"error"`
-	ExcludedNetworks        bool                              `bson:"excludednetworks"`
-	FourTuple               string                            `bson:"fourtuple"`
-	IsServer                bool                              `bson:"isserver"`
-	IterationIndex          int                               `bson:"iterationindex"`
-	MigrationsLog           map[string]string                 `bson:"migrationslog,omitempty"`
-	Namespace               string                            `bson:"namespace"`
-	PayloadSize             int                               `bson:"payloadsize"`
-	PeerCertExpiry          string                            `bson:"peercertexpiry"`
-	PeerCertIssuer          string                            `bson:"peercertissuer"`
-	PeerCertSubject         string                            `bson:"peercertsubject"`
-	PingID                  string                            `bson:"pingid"`
-	PolicyAction            string                            `bson:"policyaction"`
-	PolicyID                string                            `bson:"policyid"`
-	PolicyNamespace         string                            `bson:"policynamespace"`
-	ProcessingUnitID        string                            `bson:"processingunitid"`
-	ProcessingUnitNamespace string                            `bson:"processingunitnamespace"`
-	Protocol                int                               `bson:"protocol"`
-	RemoteController        string                            `bson:"remotecontroller"`
-	RemoteEndpointType      PingProbeRemoteEndpointTypeValue  `bson:"remoteendpointtype"`
-	RemoteNamespace         string                            `bson:"remotenamespace"`
-	RemoteNamespaceType     PingProbeRemoteNamespaceTypeValue `bson:"remotenamespacetype"`
-	RemoteProcessingUnitID  string                            `bson:"remoteprocessingunitid"`
-	SeqNum                  int                               `bson:"seqnum"`
-	ServiceID               string                            `bson:"serviceid"`
-	ServiceType             string                            `bson:"servicetype"`
-	TargetTCPNetworks       bool                              `bson:"targettcpnetworks"`
-	Type                    PingProbeTypeValue                `bson:"type"`
-	UpdateTime              time.Time                         `bson:"updatetime"`
-	ZHash                   int                               `bson:"zhash"`
-	Zone                    int                               `bson:"zone"`
+	ACLPolicyAction        string                            `bson:"aclpolicyaction"`
+	ACLPolicyID            string                            `bson:"aclpolicyid"`
+	ID                     bson.ObjectId                     `bson:"_id,omitempty"`
+	RTT                    string                            `bson:"rtt"`
+	ApplicationListening   bool                              `bson:"applicationlistening"`
+	Claims                 []string                          `bson:"claims"`
+	ClaimsType             PingProbeClaimsTypeValue          `bson:"claimstype"`
+	CreateTime             time.Time                         `bson:"createtime"`
+	EnforcerID             string                            `bson:"enforcerid"`
+	EnforcerNamespace      string                            `bson:"enforcernamespace"`
+	EnforcerVersion        string                            `bson:"enforcerversion"`
+	Error                  string                            `bson:"error"`
+	ExcludedNetworks       bool                              `bson:"excludednetworks"`
+	FourTuple              string                            `bson:"fourtuple"`
+	IsServer               bool                              `bson:"isserver"`
+	IterationIndex         int                               `bson:"iterationindex"`
+	MigrationsLog          map[string]string                 `bson:"migrationslog,omitempty"`
+	Namespace              string                            `bson:"namespace"`
+	PayloadSize            int                               `bson:"payloadsize"`
+	PeerCertExpiry         string                            `bson:"peercertexpiry"`
+	PeerCertIssuer         string                            `bson:"peercertissuer"`
+	PeerCertSubject        string                            `bson:"peercertsubject"`
+	PingID                 string                            `bson:"pingid"`
+	PolicyAction           string                            `bson:"policyaction"`
+	PolicyID               string                            `bson:"policyid"`
+	PolicyNamespace        string                            `bson:"policynamespace"`
+	ProcessingUnitID       string                            `bson:"processingunitid"`
+	Protocol               int                               `bson:"protocol"`
+	RemoteController       string                            `bson:"remotecontroller"`
+	RemoteEndpointType     PingProbeRemoteEndpointTypeValue  `bson:"remoteendpointtype"`
+	RemoteNamespace        string                            `bson:"remotenamespace"`
+	RemoteNamespaceType    PingProbeRemoteNamespaceTypeValue `bson:"remotenamespacetype"`
+	RemoteProcessingUnitID string                            `bson:"remoteprocessingunitid"`
+	SeqNum                 int                               `bson:"seqnum"`
+	ServiceID              string                            `bson:"serviceid"`
+	ServiceType            string                            `bson:"servicetype"`
+	TargetTCPNetworks      bool                              `bson:"targettcpnetworks"`
+	Type                   PingProbeTypeValue                `bson:"type"`
+	UpdateTime             time.Time                         `bson:"updatetime"`
+	ZHash                  int                               `bson:"zhash"`
+	Zone                   int                               `bson:"zone"`
 }
 type mongoAttributesSparsePingProbe struct {
-	ACLPolicyAction         *string                            `bson:"aclpolicyaction,omitempty"`
-	ACLPolicyID             *string                            `bson:"aclpolicyid,omitempty"`
-	ID                      bson.ObjectId                      `bson:"_id,omitempty"`
-	RTT                     *string                            `bson:"rtt,omitempty"`
-	ApplicationListening    *bool                              `bson:"applicationlistening,omitempty"`
-	Claims                  *[]string                          `bson:"claims,omitempty"`
-	ClaimsType              *PingProbeClaimsTypeValue          `bson:"claimstype,omitempty"`
-	CreateTime              *time.Time                         `bson:"createtime,omitempty"`
-	EnforcerID              *string                            `bson:"enforcerid,omitempty"`
-	EnforcerNamespace       *string                            `bson:"enforcernamespace,omitempty"`
-	EnforcerVersion         *string                            `bson:"enforcerversion,omitempty"`
-	Error                   *string                            `bson:"error,omitempty"`
-	ExcludedNetworks        *bool                              `bson:"excludednetworks,omitempty"`
-	FourTuple               *string                            `bson:"fourtuple,omitempty"`
-	IsServer                *bool                              `bson:"isserver,omitempty"`
-	IterationIndex          *int                               `bson:"iterationindex,omitempty"`
-	MigrationsLog           *map[string]string                 `bson:"migrationslog,omitempty"`
-	Namespace               *string                            `bson:"namespace,omitempty"`
-	PayloadSize             *int                               `bson:"payloadsize,omitempty"`
-	PeerCertExpiry          *string                            `bson:"peercertexpiry,omitempty"`
-	PeerCertIssuer          *string                            `bson:"peercertissuer,omitempty"`
-	PeerCertSubject         *string                            `bson:"peercertsubject,omitempty"`
-	PingID                  *string                            `bson:"pingid,omitempty"`
-	PolicyAction            *string                            `bson:"policyaction,omitempty"`
-	PolicyID                *string                            `bson:"policyid,omitempty"`
-	PolicyNamespace         *string                            `bson:"policynamespace,omitempty"`
-	ProcessingUnitID        *string                            `bson:"processingunitid,omitempty"`
-	ProcessingUnitNamespace *string                            `bson:"processingunitnamespace,omitempty"`
-	Protocol                *int                               `bson:"protocol,omitempty"`
-	RemoteController        *string                            `bson:"remotecontroller,omitempty"`
-	RemoteEndpointType      *PingProbeRemoteEndpointTypeValue  `bson:"remoteendpointtype,omitempty"`
-	RemoteNamespace         *string                            `bson:"remotenamespace,omitempty"`
-	RemoteNamespaceType     *PingProbeRemoteNamespaceTypeValue `bson:"remotenamespacetype,omitempty"`
-	RemoteProcessingUnitID  *string                            `bson:"remoteprocessingunitid,omitempty"`
-	SeqNum                  *int                               `bson:"seqnum,omitempty"`
-	ServiceID               *string                            `bson:"serviceid,omitempty"`
-	ServiceType             *string                            `bson:"servicetype,omitempty"`
-	TargetTCPNetworks       *bool                              `bson:"targettcpnetworks,omitempty"`
-	Type                    *PingProbeTypeValue                `bson:"type,omitempty"`
-	UpdateTime              *time.Time                         `bson:"updatetime,omitempty"`
-	ZHash                   *int                               `bson:"zhash,omitempty"`
-	Zone                    *int                               `bson:"zone,omitempty"`
+	ACLPolicyAction        *string                            `bson:"aclpolicyaction,omitempty"`
+	ACLPolicyID            *string                            `bson:"aclpolicyid,omitempty"`
+	ID                     bson.ObjectId                      `bson:"_id,omitempty"`
+	RTT                    *string                            `bson:"rtt,omitempty"`
+	ApplicationListening   *bool                              `bson:"applicationlistening,omitempty"`
+	Claims                 *[]string                          `bson:"claims,omitempty"`
+	ClaimsType             *PingProbeClaimsTypeValue          `bson:"claimstype,omitempty"`
+	CreateTime             *time.Time                         `bson:"createtime,omitempty"`
+	EnforcerID             *string                            `bson:"enforcerid,omitempty"`
+	EnforcerNamespace      *string                            `bson:"enforcernamespace,omitempty"`
+	EnforcerVersion        *string                            `bson:"enforcerversion,omitempty"`
+	Error                  *string                            `bson:"error,omitempty"`
+	ExcludedNetworks       *bool                              `bson:"excludednetworks,omitempty"`
+	FourTuple              *string                            `bson:"fourtuple,omitempty"`
+	IsServer               *bool                              `bson:"isserver,omitempty"`
+	IterationIndex         *int                               `bson:"iterationindex,omitempty"`
+	MigrationsLog          *map[string]string                 `bson:"migrationslog,omitempty"`
+	Namespace              *string                            `bson:"namespace,omitempty"`
+	PayloadSize            *int                               `bson:"payloadsize,omitempty"`
+	PeerCertExpiry         *string                            `bson:"peercertexpiry,omitempty"`
+	PeerCertIssuer         *string                            `bson:"peercertissuer,omitempty"`
+	PeerCertSubject        *string                            `bson:"peercertsubject,omitempty"`
+	PingID                 *string                            `bson:"pingid,omitempty"`
+	PolicyAction           *string                            `bson:"policyaction,omitempty"`
+	PolicyID               *string                            `bson:"policyid,omitempty"`
+	PolicyNamespace        *string                            `bson:"policynamespace,omitempty"`
+	ProcessingUnitID       *string                            `bson:"processingunitid,omitempty"`
+	Protocol               *int                               `bson:"protocol,omitempty"`
+	RemoteController       *string                            `bson:"remotecontroller,omitempty"`
+	RemoteEndpointType     *PingProbeRemoteEndpointTypeValue  `bson:"remoteendpointtype,omitempty"`
+	RemoteNamespace        *string                            `bson:"remotenamespace,omitempty"`
+	RemoteNamespaceType    *PingProbeRemoteNamespaceTypeValue `bson:"remotenamespacetype,omitempty"`
+	RemoteProcessingUnitID *string                            `bson:"remoteprocessingunitid,omitempty"`
+	SeqNum                 *int                               `bson:"seqnum,omitempty"`
+	ServiceID              *string                            `bson:"serviceid,omitempty"`
+	ServiceType            *string                            `bson:"servicetype,omitempty"`
+	TargetTCPNetworks      *bool                              `bson:"targettcpnetworks,omitempty"`
+	Type                   *PingProbeTypeValue                `bson:"type,omitempty"`
+	UpdateTime             *time.Time                         `bson:"updatetime,omitempty"`
+	ZHash                  *int                               `bson:"zhash,omitempty"`
+	Zone                   *int                               `bson:"zone,omitempty"`
 }
