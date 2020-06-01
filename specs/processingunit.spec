@@ -259,6 +259,10 @@ attributes:
 
 # Relations
 relations:
+- rest_name: pingprobe
+  create:
+    description: Create a ping probe.
+
 - rest_name: poke
   get:
     description: |-

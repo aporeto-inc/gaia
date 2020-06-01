@@ -78,6 +78,9 @@ const (
 	// UIParameterTypeTagsExpression represents the value TagsExpression.
 	UIParameterTypeTagsExpression UIParameterTypeValue = "TagsExpression"
 
+	// UIParameterTypeTitle represents the value Title.
+	UIParameterTypeTitle UIParameterTypeValue = "Title"
+
 	// UIParameterTypeWarningMessage represents the value WarningMessage.
 	UIParameterTypeWarningMessage UIParameterTypeValue = "WarningMessage"
 )
@@ -253,7 +256,7 @@ func (o *UIParameter) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Checkbox", "CVSSThreshold", "DangerMessage", "Duration", "Enum", "Endpoint", "FileDrop", "Float", "FloatSlice", "InfoMessage", "Integer", "IntegerSlice", "JSON", "List", "Message", "Namespace", "Password", "String", "StringSlice", "Switch", "TagsExpression", "WarningMessage"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Checkbox", "CVSSThreshold", "DangerMessage", "Duration", "Enum", "Endpoint", "FileDrop", "Float", "FloatSlice", "InfoMessage", "Integer", "IntegerSlice", "JSON", "List", "Message", "Namespace", "Password", "String", "StringSlice", "Switch", "TagsExpression", "Title", "WarningMessage"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 

@@ -204,6 +204,7 @@ func ValidateServiceEntity(service *Service) error {
 
 	var errs elemental.Errors
 
+	// User authorization
 	switch service.AuthorizationType {
 
 	case ServiceAuthorizationTypeOIDC:
@@ -231,6 +232,7 @@ func ValidateServiceEntity(service *Service) error {
 		}
 	}
 
+	// TLS Configuration
 	if service.TLSType == ServiceTLSTypeExternal {
 
 		if service.TLSCertificate == "" {
@@ -240,6 +242,12 @@ func ValidateServiceEntity(service *Service) error {
 		if service.TLSCertificateKey == "" {
 			errs = errs.Append(makeValidationError("TLSCertificateKey", "`TLSCertificateKey` is required when `TLSType` is set to `External`"))
 		}
+	}
+
+	// Hosts and IPs
+	if len(service.Hosts) == 0 && len(service.IPs) == 0 {
+		errs = errs.Append(makeValidationError("IPs", "You must set at least one value in `hosts` or `IPs`"))
+		errs = errs.Append(makeValidationError("hosts", "You must set at least one value in `hosts` or `IPs`"))
 	}
 
 	allSubnets := []*net.IPNet{}
@@ -268,8 +276,21 @@ func ValidateServiceEntity(service *Service) error {
 		allHosts[name] = true
 	}
 
-	if len(service.Hosts) == 0 && len(service.IPs) == 0 {
-		errs = errs.Append(makeValidationError("", "You must set at least one value in `hosts` or `IPs`"))
+	// Port
+	if service.External {
+
+		if service.Port > 0 {
+			errs = errs.Append(makeValidationError("port", "Port is not needed for third party services"))
+		}
+
+		if service.PublicApplicationPort > 0 {
+			errs = errs.Append(makeValidationError("publicApplicationPort", "Public Port is not needed for third party services"))
+		}
+
+	} else {
+		if service.Port == 0 {
+			errs = errs.Append(makeValidationError("port", "Port is mandatory for services implemented by processing units"))
+		}
 	}
 
 	if len(errs) > 0 {

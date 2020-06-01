@@ -106,6 +106,7 @@ attributes:
     - StringSlice
     - Switch
     - TagsExpression
+    - Title
     - WarningMessage
     example_value: String
 
