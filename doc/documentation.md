@@ -3441,7 +3441,8 @@ Initiates a ping request for enforcer debugging.
 
 ```json
 {
-  "iterations": 1
+  "iterations": 1,
+  "refreshID": "xxxx-xxxx-xxxx"
 }
 ```
 
@@ -3467,7 +3468,7 @@ Default value:
 
 Unique ID generated for each ping request.
 
-##### `refreshID` `string`
+##### `refreshID` `string` [`required`]
 
 Contains the refresh ID set by processing unit refresh event.
 

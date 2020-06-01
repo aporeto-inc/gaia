@@ -260,6 +260,10 @@ func (o *PingRequest) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("refreshID", o.RefreshID); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -334,6 +338,7 @@ var PingRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Contains the refresh ID set by processing unit refresh event.`,
 		Exposed:        true,
 		Name:           "refreshID",
+		Required:       true,
 		Type:           "string",
 	},
 }
@@ -367,6 +372,7 @@ var PingRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Contains the refresh ID set by processing unit refresh event.`,
 		Exposed:        true,
 		Name:           "refreshID",
+		Required:       true,
 		Type:           "string",
 	},
 }

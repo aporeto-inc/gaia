@@ -29,3 +29,5 @@ attributes:
     description: Contains the refresh ID set by processing unit refresh event.
     type: string
     exposed: true
+    required: true
+    example_value: xxxx-xxxx-xxxx
