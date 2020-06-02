@@ -2595,7 +2595,7 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[LocalAuthorityIdentity] = &elemental.Relationship{
+	relationshipsRegistry[LocalCAsIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"namespace": {},
 		},
