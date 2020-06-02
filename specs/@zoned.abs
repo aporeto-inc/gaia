@@ -20,7 +20,7 @@ attributes:
     setter: true
 
   - name: zone
-    description: Geographical zone. Used for sharding and georedundancy.
+    description: Logical storage zone. Used for sharding.
     type: integer
     exposed: true
     stored: true
