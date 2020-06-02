@@ -149,6 +149,7 @@ Kubernetes
 kubernetes-api
 kubernetes-api-example
 LDAPProvider
+LocalCA
 localhost
 loopback
 macOS
