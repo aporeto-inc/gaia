@@ -721,15 +721,6 @@ func init() {
 
 	relationshipsRegistry[CategoryIdentity] = &elemental.Relationship{}
 
-	relationshipsRegistry[CertificatesIdentity] = &elemental.Relationship{
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"namespace": {},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"namespace": {},
-		},
-	}
-
 	relationshipsRegistry[ClaimsIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
@@ -2601,6 +2592,15 @@ func init() {
 					},
 				},
 			},
+		},
+	}
+
+	relationshipsRegistry[LocalAuthorityIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"namespace": {},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"namespace": {},
 		},
 	}
 

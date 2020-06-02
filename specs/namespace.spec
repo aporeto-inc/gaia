@@ -186,7 +186,7 @@ attributes:
 
 # Relations
 relations:
-- rest_name: certificates
+- rest_name: localauthority
   get:
     description: Returns the local and SSH certificate authorities of the namespace.
   update:

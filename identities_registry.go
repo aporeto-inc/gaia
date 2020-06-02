@@ -27,7 +27,6 @@ var (
 		"awsregister":               AWSRegisterIdentity,
 		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
-		"certificates":              CertificatesIdentity,
 
 		"claims":       ClaimsIdentity,
 		"clausesmatch": ClauseMatchIdentity,
@@ -78,6 +77,7 @@ var (
 		"issueservicetoken":        IssueServiceTokenIdentity,
 
 		"ldapprovider":           LDAPProviderIdentity,
+		"localauthority":         LocalAuthorityIdentity,
 		"log":                    LogIdentity,
 		"logout":                 LogoutIdentity,
 		"message":                MessageIdentity,
@@ -176,7 +176,6 @@ var (
 		"awsregister":                 AWSRegisterIdentity,
 		"calls":                       CallIdentity,
 		"categories":                  CategoryIdentity,
-		"certificates":                CertificatesIdentity,
 
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
@@ -227,6 +226,7 @@ var (
 		"issueservicetokens":         IssueServiceTokenIdentity,
 
 		"ldapproviders":            LDAPProviderIdentity,
+		"localauthorities":         LocalAuthorityIdentity,
 		"logs":                     LogIdentity,
 		"logout":                   LogoutIdentity,
 		"messages":                 MessageIdentity,
@@ -492,10 +492,9 @@ var (
 			{"createIdempotencyKey"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
-		"awsregister":  nil,
-		"call":         nil,
-		"category":     nil,
-		"certificates": nil,
+		"awsregister": nil,
+		"call":        nil,
+		"category":    nil,
 		"claims": {
 			{"namespace", "hash"},
 			{":shard", ":unique", "zone", "zHash"},
@@ -688,8 +687,9 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"log":    nil,
-		"logout": nil,
+		"localauthority": nil,
+		"log":            nil,
+		"logout":         nil,
 		"message": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -993,8 +993,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCall()
 	case CategoryIdentity:
 		return NewCategory()
-	case CertificatesIdentity:
-		return NewCertificates()
 	case ClaimsIdentity:
 		return NewClaims()
 	case ClauseMatchIdentity:
@@ -1083,6 +1081,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewIssueServiceToken()
 	case LDAPProviderIdentity:
 		return NewLDAPProvider()
+	case LocalAuthorityIdentity:
+		return NewLocalAuthority()
 	case LogIdentity:
 		return NewLog()
 	case LogoutIdentity:
@@ -1268,8 +1268,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCall()
 	case CategoryIdentity:
 		return NewSparseCategory()
-	case CertificatesIdentity:
-		return NewSparseCertificates()
 	case ClaimsIdentity:
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
@@ -1358,6 +1356,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseIssueServiceToken()
 	case LDAPProviderIdentity:
 		return NewSparseLDAPProvider()
+	case LocalAuthorityIdentity:
+		return NewSparseLocalAuthority()
 	case LogIdentity:
 		return NewSparseLog()
 	case LogoutIdentity:
@@ -1551,8 +1551,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CallsList{}
 	case CategoryIdentity:
 		return &CategoriesList{}
-	case CertificatesIdentity:
-		return &CertificatesList{}
 	case ClaimsIdentity:
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
@@ -1641,6 +1639,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &IssueServiceTokensList{}
 	case LDAPProviderIdentity:
 		return &LDAPProvidersList{}
+	case LocalAuthorityIdentity:
+		return &LocalAuthoritiesList{}
 	case LogIdentity:
 		return &LogsList{}
 	case LogoutIdentity:
@@ -1824,8 +1824,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCallsList{}
 	case CategoryIdentity:
 		return &SparseCategoriesList{}
-	case CertificatesIdentity:
-		return &SparseCertificatesList{}
 	case ClaimsIdentity:
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
@@ -1914,6 +1912,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseIssueServiceTokensList{}
 	case LDAPProviderIdentity:
 		return &SparseLDAPProvidersList{}
+	case LocalAuthorityIdentity:
+		return &SparseLocalAuthoritiesList{}
 	case LogIdentity:
 		return &SparseLogsList{}
 	case LogoutIdentity:
@@ -2089,7 +2089,6 @@ func AllIdentities() []elemental.Identity {
 		AWSRegisterIdentity,
 		CallIdentity,
 		CategoryIdentity,
-		CertificatesIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
 		CounterReportIdentity,
@@ -2134,6 +2133,7 @@ func AllIdentities() []elemental.Identity {
 		IssueIdentity,
 		IssueServiceTokenIdentity,
 		LDAPProviderIdentity,
+		LocalAuthorityIdentity,
 		LogIdentity,
 		LogoutIdentity,
 		MessageIdentity,
@@ -2273,8 +2273,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case CategoryIdentity:
 		return []string{}
-	case CertificatesIdentity:
-		return []string{}
 	case ClaimsIdentity:
 		return []string{}
 	case ClauseMatchIdentity:
@@ -2409,6 +2407,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case IssueServiceTokenIdentity:
 		return []string{}
 	case LDAPProviderIdentity:
+		return []string{}
+	case LocalAuthorityIdentity:
 		return []string{}
 	case LogIdentity:
 		return []string{}
