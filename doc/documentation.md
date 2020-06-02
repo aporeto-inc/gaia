@@ -4078,14 +4078,15 @@ Geographical zone. Used for sharding and georedundancy.
 
 ### Certificates
 
-Can be used to retrieve or renew the local certificate authority of the
-namespace.
+Can be used to retrieve or renew the local and SSH certificate authorities of
+the namespace.
 
 #### Example
 
 ```json
 {
-  "LocalCARenew": false
+  "SSHCARenew": false,
+  "localCARenew": false
 }
 ```
 
@@ -4093,15 +4094,23 @@ namespace.
 
 ##### `GET /namespaces/:id/certificates`
 
-Returns the local certificate authority of the namespace.
+Returns the local and SSH certificate authorities of the namespace.
 
 #### Attributes
 
-##### `LocalCA` `string`
+##### `SSHCA` `string`
+
+The SSH certificate authority used by the namespace.
+
+##### `SSHCARenew` `boolean`
+
+Set to `true` to renew the SSH certificate authority of the namespace.
+
+##### `localCA` `string`
 
 The certificate authority used by the namespace.
 
-##### `LocalCARenew` `boolean`
+##### `localCARenew` `boolean`
 
 Set to `true` to renew the local certificate authority of the namespace.
 
@@ -4159,15 +4168,11 @@ Updates the namespace with the given ID.
 
 ##### `GET /namespaces/:id/certificates`
 
-Returns the local certificate authority of the namespace.
+Returns the local and SSH certificate authorities of the namespace.
 
 ##### `PUT /namespaces/:id/certificates`
 
-Renews the local certificate authority of the namespace.
-
-Parameters:
-
-- `localCARenew` (`boolean`): Set to `true` to renew the local certificate authority of the namespace.
+Renews the local and/or SSH certificate authorities of the namespace.
 
 ##### `GET /namespaces/:id/oauthinfo`
 

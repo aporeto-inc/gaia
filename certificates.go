@@ -80,11 +80,17 @@ func (o CertificatesList) Version() int {
 
 // Certificates represents the model of a certificates
 type Certificates struct {
+	// The SSH certificate authority used by the namespace.
+	SSHCA string `json:"SSHCA" msgpack:"SSHCA" bson:"-" mapstructure:"SSHCA,omitempty"`
+
+	// Set to `true` to renew the SSH certificate authority of the namespace.
+	SSHCARenew bool `json:"SSHCARenew" msgpack:"SSHCARenew" bson:"-" mapstructure:"SSHCARenew,omitempty"`
+
 	// The certificate authority used by the namespace.
-	LocalCA string `json:"LocalCA" msgpack:"LocalCA" bson:"-" mapstructure:"LocalCA,omitempty"`
+	LocalCA string `json:"localCA" msgpack:"localCA" bson:"-" mapstructure:"localCA,omitempty"`
 
 	// Set to `true` to renew the local certificate authority of the namespace.
-	LocalCARenew bool `json:"LocalCARenew" msgpack:"LocalCARenew" bson:"-" mapstructure:"LocalCARenew,omitempty"`
+	LocalCARenew bool `json:"localCARenew" msgpack:"localCARenew" bson:"-" mapstructure:"localCARenew,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -164,8 +170,8 @@ func (o *Certificates) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Certificates) Doc() string {
 
-	return `Can be used to retrieve or renew the local certificate authority of the
-namespace.`
+	return `Can be used to retrieve or renew the local and SSH certificate authorities of
+the namespace.`
 }
 
 func (o *Certificates) String() string {
@@ -180,6 +186,8 @@ func (o *Certificates) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCertificates{
+			SSHCA:        &o.SSHCA,
+			SSHCARenew:   &o.SSHCARenew,
 			LocalCA:      &o.LocalCA,
 			LocalCARenew: &o.LocalCARenew,
 		}
@@ -188,9 +196,13 @@ func (o *Certificates) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	sp := &SparseCertificates{}
 	for _, f := range fields {
 		switch f {
-		case "LocalCA":
+		case "SSHCA":
+			sp.SSHCA = &(o.SSHCA)
+		case "SSHCARenew":
+			sp.SSHCARenew = &(o.SSHCARenew)
+		case "localCA":
 			sp.LocalCA = &(o.LocalCA)
-		case "LocalCARenew":
+		case "localCARenew":
 			sp.LocalCARenew = &(o.LocalCARenew)
 		}
 	}
@@ -205,6 +217,12 @@ func (o *Certificates) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseCertificates)
+	if so.SSHCA != nil {
+		o.SSHCA = *so.SSHCA
+	}
+	if so.SSHCARenew != nil {
+		o.SSHCARenew = *so.SSHCARenew
+	}
 	if so.LocalCA != nil {
 		o.LocalCA = *so.LocalCA
 	}
@@ -277,9 +295,13 @@ func (*Certificates) AttributeSpecifications() map[string]elemental.AttributeSpe
 func (o *Certificates) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "LocalCA":
+	case "SSHCA":
+		return o.SSHCA
+	case "SSHCARenew":
+		return o.SSHCARenew
+	case "localCA":
 		return o.LocalCA
-	case "LocalCARenew":
+	case "localCARenew":
 		return o.LocalCARenew
 	}
 
@@ -288,12 +310,30 @@ func (o *Certificates) ValueForAttribute(name string) interface{} {
 
 // CertificatesAttributesMap represents the map of attribute for Certificates.
 var CertificatesAttributesMap = map[string]elemental.AttributeSpecification{
+	"SSHCA": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SSHCA",
+		Description:    `The SSH certificate authority used by the namespace.`,
+		Exposed:        true,
+		Name:           "SSHCA",
+		Transient:      true,
+		Type:           "string",
+	},
+	"SSHCARenew": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SSHCARenew",
+		Description:    `Set to ` + "`" + `true` + "`" + ` to renew the SSH certificate authority of the namespace.`,
+		Exposed:        true,
+		Name:           "SSHCARenew",
+		Transient:      true,
+		Type:           "boolean",
+	},
 	"LocalCA": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LocalCA",
 		Description:    `The certificate authority used by the namespace.`,
 		Exposed:        true,
-		Name:           "LocalCA",
+		Name:           "localCA",
 		Transient:      true,
 		Type:           "string",
 	},
@@ -302,7 +342,7 @@ var CertificatesAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "LocalCARenew",
 		Description:    `Set to ` + "`" + `true` + "`" + ` to renew the local certificate authority of the namespace.`,
 		Exposed:        true,
-		Name:           "LocalCARenew",
+		Name:           "localCARenew",
 		Transient:      true,
 		Type:           "boolean",
 	},
@@ -310,12 +350,30 @@ var CertificatesAttributesMap = map[string]elemental.AttributeSpecification{
 
 // CertificatesLowerCaseAttributesMap represents the map of attribute for Certificates.
 var CertificatesLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"sshca": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SSHCA",
+		Description:    `The SSH certificate authority used by the namespace.`,
+		Exposed:        true,
+		Name:           "SSHCA",
+		Transient:      true,
+		Type:           "string",
+	},
+	"sshcarenew": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SSHCARenew",
+		Description:    `Set to ` + "`" + `true` + "`" + ` to renew the SSH certificate authority of the namespace.`,
+		Exposed:        true,
+		Name:           "SSHCARenew",
+		Transient:      true,
+		Type:           "boolean",
+	},
 	"localca": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LocalCA",
 		Description:    `The certificate authority used by the namespace.`,
 		Exposed:        true,
-		Name:           "LocalCA",
+		Name:           "localCA",
 		Transient:      true,
 		Type:           "string",
 	},
@@ -324,7 +382,7 @@ var CertificatesLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "LocalCARenew",
 		Description:    `Set to ` + "`" + `true` + "`" + ` to renew the local certificate authority of the namespace.`,
 		Exposed:        true,
-		Name:           "LocalCARenew",
+		Name:           "localCARenew",
 		Transient:      true,
 		Type:           "boolean",
 	},
@@ -393,11 +451,17 @@ func (o SparseCertificatesList) Version() int {
 
 // SparseCertificates represents the sparse version of a certificates.
 type SparseCertificates struct {
+	// The SSH certificate authority used by the namespace.
+	SSHCA *string `json:"SSHCA,omitempty" msgpack:"SSHCA,omitempty" bson:"-" mapstructure:"SSHCA,omitempty"`
+
+	// Set to `true` to renew the SSH certificate authority of the namespace.
+	SSHCARenew *bool `json:"SSHCARenew,omitempty" msgpack:"SSHCARenew,omitempty" bson:"-" mapstructure:"SSHCARenew,omitempty"`
+
 	// The certificate authority used by the namespace.
-	LocalCA *string `json:"LocalCA,omitempty" msgpack:"LocalCA,omitempty" bson:"-" mapstructure:"LocalCA,omitempty"`
+	LocalCA *string `json:"localCA,omitempty" msgpack:"localCA,omitempty" bson:"-" mapstructure:"localCA,omitempty"`
 
 	// Set to `true` to renew the local certificate authority of the namespace.
-	LocalCARenew *bool `json:"LocalCARenew,omitempty" msgpack:"LocalCARenew,omitempty" bson:"-" mapstructure:"LocalCARenew,omitempty"`
+	LocalCARenew *bool `json:"localCARenew,omitempty" msgpack:"localCARenew,omitempty" bson:"-" mapstructure:"localCARenew,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -463,6 +527,12 @@ func (o *SparseCertificates) Version() int {
 func (o *SparseCertificates) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCertificates()
+	if o.SSHCA != nil {
+		out.SSHCA = *o.SSHCA
+	}
+	if o.SSHCARenew != nil {
+		out.SSHCARenew = *o.SSHCARenew
+	}
 	if o.LocalCA != nil {
 		out.LocalCA = *o.LocalCA
 	}
