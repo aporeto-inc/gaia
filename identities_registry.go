@@ -27,6 +27,7 @@ var (
 		"awsregister":               AWSRegisterIdentity,
 		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
+		"certificates":              CertificatesIdentity,
 
 		"claims":       ClaimsIdentity,
 		"clausesmatch": ClauseMatchIdentity,
@@ -175,6 +176,7 @@ var (
 		"awsregister":                 AWSRegisterIdentity,
 		"calls":                       CallIdentity,
 		"categories":                  CategoryIdentity,
+		"certificates":                CertificatesIdentity,
 
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
@@ -490,9 +492,10 @@ var (
 			{"createIdempotencyKey"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
-		"awsregister": nil,
-		"call":        nil,
-		"category":    nil,
+		"awsregister":  nil,
+		"call":         nil,
+		"category":     nil,
+		"certificates": nil,
 		"claims": {
 			{"namespace", "hash"},
 			{":shard", ":unique", "zone", "zHash"},
@@ -990,6 +993,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCall()
 	case CategoryIdentity:
 		return NewCategory()
+	case CertificatesIdentity:
+		return NewCertificates()
 	case ClaimsIdentity:
 		return NewClaims()
 	case ClauseMatchIdentity:
@@ -1263,6 +1268,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCall()
 	case CategoryIdentity:
 		return NewSparseCategory()
+	case CertificatesIdentity:
+		return NewSparseCertificates()
 	case ClaimsIdentity:
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
@@ -1544,6 +1551,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CallsList{}
 	case CategoryIdentity:
 		return &CategoriesList{}
+	case CertificatesIdentity:
+		return &CertificatesList{}
 	case ClaimsIdentity:
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
@@ -1815,6 +1824,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCallsList{}
 	case CategoryIdentity:
 		return &SparseCategoriesList{}
+	case CertificatesIdentity:
+		return &SparseCertificatesList{}
 	case ClaimsIdentity:
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
@@ -2078,6 +2089,7 @@ func AllIdentities() []elemental.Identity {
 		AWSRegisterIdentity,
 		CallIdentity,
 		CategoryIdentity,
+		CertificatesIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
 		CounterReportIdentity,
@@ -2260,6 +2272,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CallIdentity:
 		return []string{}
 	case CategoryIdentity:
+		return []string{}
+	case CertificatesIdentity:
 		return []string{}
 	case ClaimsIdentity:
 		return []string{}

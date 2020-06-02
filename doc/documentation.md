@@ -4076,6 +4076,35 @@ Geographical zone. Used for sharding and georedundancy.
 
 ## core/namespace
 
+### Certificates
+
+Can be used to retrieve or renew the local certificate authority of the
+namespace.
+
+#### Example
+
+```json
+{
+  "LocalCARenew": false
+}
+```
+
+#### Relations
+
+##### `GET /namespaces/:id/certificates`
+
+Returns the local certificate authority of the namespace.
+
+#### Attributes
+
+##### `LocalCA` `string`
+
+The certificate authority used by the namespace.
+
+##### `LocalCARenew` `boolean`
+
+Set to `true` to renew the local certificate authority of the namespace.
+
 ### Namespace
 
 A namespace represents the core organizational unit of the system. All objects
@@ -4127,6 +4156,18 @@ Retrieves the namespace with the given ID.
 ##### `PUT /namespaces/:id`
 
 Updates the namespace with the given ID.
+
+##### `GET /namespaces/:id/certificates`
+
+Returns the local certificate authority of the namespace.
+
+##### `PUT /namespaces/:id/certificates`
+
+Renews the local certificate authority of the namespace.
+
+Parameters:
+
+- `localCARenew` (`boolean`): Set to `true` to renew the local certificate authority of the namespace.
 
 ##### `GET /namespaces/:id/oauthinfo`
 

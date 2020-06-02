@@ -186,6 +186,18 @@ attributes:
 
 # Relations
 relations:
+- rest_name: certificates
+  get:
+    description: Returns the local certificate authority of the namespace.
+  update:
+    description: Renews the local certificate authority of the namespace.
+    parameters:
+      entries:
+      - name: localCARenew
+        description: Set to `true` to renew the local certificate authority of the
+          namespace.
+        type: boolean
+
 - rest_name: oauthinfo
   get:
     description: Retrieves the OAUTH info for this namespace.
