@@ -8,8 +8,8 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// LocalCAsIdentity represents the Identity of the object.
-var LocalCAsIdentity = elemental.Identity{
+// LocalCAIdentity represents the Identity of the object.
+var LocalCAIdentity = elemental.Identity{
 	Name:     "localca",
 	Category: "localcas",
 	Package:  "squall",
@@ -17,12 +17,12 @@ var LocalCAsIdentity = elemental.Identity{
 }
 
 // LocalCAsList represents a list of LocalCAs
-type LocalCAsList []*LocalCAs
+type LocalCAsList []*LocalCA
 
 // Identity returns the identity of the objects in the list.
 func (o LocalCAsList) Identity() elemental.Identity {
 
-	return LocalCAsIdentity
+	return LocalCAIdentity
 }
 
 // Copy returns a pointer to a copy the LocalCAsList.
@@ -37,7 +37,7 @@ func (o LocalCAsList) Append(objects ...elemental.Identifiable) elemental.Identi
 
 	out := append(LocalCAsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*LocalCAs))
+		out = append(out, obj.(*LocalCA))
 	}
 
 	return out
@@ -66,7 +66,7 @@ func (o LocalCAsList) ToSparse(fields ...string) elemental.Identifiables {
 
 	out := make(SparseLocalCAsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseLocalCAs)
+		out[i] = o[i].ToSparse(fields...).(*SparseLocalCA)
 	}
 
 	return out
@@ -78,8 +78,8 @@ func (o LocalCAsList) Version() int {
 	return 1
 }
 
-// LocalCAs represents the model of a localca
-type LocalCAs struct {
+// LocalCA represents the model of a localca
+type LocalCA struct {
 	// The certificate authority used by the namespace.
 	Certificate string `json:"Certificate" msgpack:"Certificate" bson:"-" mapstructure:"Certificate,omitempty"`
 
@@ -95,53 +95,53 @@ type LocalCAs struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewLocalCAs returns a new *LocalCAs
-func NewLocalCAs() *LocalCAs {
+// NewLocalCA returns a new *LocalCA
+func NewLocalCA() *LocalCA {
 
-	return &LocalCAs{
+	return &LocalCA{
 		ModelVersion: 1,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *LocalCAs) Identity() elemental.Identity {
+func (o *LocalCA) Identity() elemental.Identity {
 
-	return LocalCAsIdentity
+	return LocalCAIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *LocalCAs) Identifier() string {
+func (o *LocalCA) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *LocalCAs) SetIdentifier(id string) {
+func (o *LocalCA) SetIdentifier(id string) {
 
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *LocalCAs) GetBSON() (interface{}, error) {
+func (o *LocalCA) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesLocalCAs{}
+	s := &mongoAttributesLocalCA{}
 
 	return s, nil
 }
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *LocalCAs) SetBSON(raw bson.Raw) error {
+func (o *LocalCA) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesLocalCAs{}
+	s := &mongoAttributesLocalCA{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -150,42 +150,42 @@ func (o *LocalCAs) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *LocalCAs) Version() int {
+func (o *LocalCA) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *LocalCAs) BleveType() string {
+func (o *LocalCA) BleveType() string {
 
 	return "localca"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *LocalCAs) DefaultOrder() []string {
+func (o *LocalCA) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *LocalCAs) Doc() string {
+func (o *LocalCA) Doc() string {
 
 	return `Can be used to retrieve or renew the local and SSH certificate authorities of
 the namespace.`
 }
 
-func (o *LocalCAs) String() string {
+func (o *LocalCA) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *LocalCAs) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *LocalCA) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseLocalCAs{
+		return &SparseLocalCA{
 			Certificate:         &o.Certificate,
 			CertificateRenew:    &o.CertificateRenew,
 			SSHCertificate:      &o.SSHCertificate,
@@ -193,7 +193,7 @@ func (o *LocalCAs) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparseLocalCAs{}
+	sp := &SparseLocalCA{}
 	for _, f := range fields {
 		switch f {
 		case "Certificate":
@@ -210,13 +210,13 @@ func (o *LocalCAs) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseLocalCAs to the object.
-func (o *LocalCAs) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseLocalCA to the object.
+func (o *LocalCA) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseLocalCAs)
+	so := sparse.(*SparseLocalCA)
 	if so.Certificate != nil {
 		o.Certificate = *so.Certificate
 	}
@@ -231,32 +231,32 @@ func (o *LocalCAs) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the LocalCAs.
-func (o *LocalCAs) DeepCopy() *LocalCAs {
+// DeepCopy returns a deep copy if the LocalCA.
+func (o *LocalCA) DeepCopy() *LocalCA {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &LocalCAs{}
+	out := &LocalCA{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *LocalCAs.
-func (o *LocalCAs) DeepCopyInto(out *LocalCAs) {
+// DeepCopyInto copies the receiver into the given *LocalCA.
+func (o *LocalCA) DeepCopyInto(out *LocalCA) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy LocalCAs: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy LocalCA: %s", err))
 	}
 
-	*out = *target.(*LocalCAs)
+	*out = *target.(*LocalCA)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *LocalCAs) Validate() error {
+func (o *LocalCA) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -273,26 +273,26 @@ func (o *LocalCAs) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*LocalCAs) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*LocalCA) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := LocalCAsAttributesMap[name]; ok {
+	if v, ok := LocalCAAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return LocalCAsLowerCaseAttributesMap[name]
+	return LocalCALowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*LocalCAs) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*LocalCA) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return LocalCAsAttributesMap
+	return LocalCAAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *LocalCAs) ValueForAttribute(name string) interface{} {
+func (o *LocalCA) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "Certificate":
@@ -308,8 +308,8 @@ func (o *LocalCAs) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// LocalCAsAttributesMap represents the map of attribute for LocalCAs.
-var LocalCAsAttributesMap = map[string]elemental.AttributeSpecification{
+// LocalCAAttributesMap represents the map of attribute for LocalCA.
+var LocalCAAttributesMap = map[string]elemental.AttributeSpecification{
 	"Certificate": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -356,8 +356,8 @@ var LocalCAsAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// LocalCAsLowerCaseAttributesMap represents the map of attribute for LocalCAs.
-var LocalCAsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// LocalCALowerCaseAttributesMap represents the map of attribute for LocalCA.
+var LocalCALowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"certificate": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -405,12 +405,12 @@ var LocalCAsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 }
 
 // SparseLocalCAsList represents a list of SparseLocalCAs
-type SparseLocalCAsList []*SparseLocalCAs
+type SparseLocalCAsList []*SparseLocalCA
 
 // Identity returns the identity of the objects in the list.
 func (o SparseLocalCAsList) Identity() elemental.Identity {
 
-	return LocalCAsIdentity
+	return LocalCAIdentity
 }
 
 // Copy returns a pointer to a copy the SparseLocalCAsList.
@@ -425,7 +425,7 @@ func (o SparseLocalCAsList) Append(objects ...elemental.Identifiable) elemental.
 
 	out := append(SparseLocalCAsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseLocalCAs))
+		out = append(out, obj.(*SparseLocalCA))
 	}
 
 	return out
@@ -465,8 +465,8 @@ func (o SparseLocalCAsList) Version() int {
 	return 1
 }
 
-// SparseLocalCAs represents the sparse version of a localca.
-type SparseLocalCAs struct {
+// SparseLocalCA represents the sparse version of a localca.
+type SparseLocalCA struct {
 	// The certificate authority used by the namespace.
 	Certificate *string `json:"Certificate,omitempty" msgpack:"Certificate,omitempty" bson:"-" mapstructure:"Certificate,omitempty"`
 
@@ -482,50 +482,50 @@ type SparseLocalCAs struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseLocalCAs returns a new  SparseLocalCAs.
-func NewSparseLocalCAs() *SparseLocalCAs {
-	return &SparseLocalCAs{}
+// NewSparseLocalCA returns a new  SparseLocalCA.
+func NewSparseLocalCA() *SparseLocalCA {
+	return &SparseLocalCA{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseLocalCAs) Identity() elemental.Identity {
+func (o *SparseLocalCA) Identity() elemental.Identity {
 
-	return LocalCAsIdentity
+	return LocalCAIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseLocalCAs) Identifier() string {
+func (o *SparseLocalCA) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseLocalCAs) SetIdentifier(id string) {
+func (o *SparseLocalCA) SetIdentifier(id string) {
 
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseLocalCAs) GetBSON() (interface{}, error) {
+func (o *SparseLocalCA) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseLocalCAs{}
+	s := &mongoAttributesSparseLocalCA{}
 
 	return s, nil
 }
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseLocalCAs) SetBSON(raw bson.Raw) error {
+func (o *SparseLocalCA) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseLocalCAs{}
+	s := &mongoAttributesSparseLocalCA{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -534,15 +534,15 @@ func (o *SparseLocalCAs) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseLocalCAs) Version() int {
+func (o *SparseLocalCA) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseLocalCAs) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseLocalCA) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewLocalCAs()
+	out := NewLocalCA()
 	if o.Certificate != nil {
 		out.Certificate = *o.Certificate
 	}
@@ -559,31 +559,31 @@ func (o *SparseLocalCAs) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
-// DeepCopy returns a deep copy if the SparseLocalCAs.
-func (o *SparseLocalCAs) DeepCopy() *SparseLocalCAs {
+// DeepCopy returns a deep copy if the SparseLocalCA.
+func (o *SparseLocalCA) DeepCopy() *SparseLocalCA {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseLocalCAs{}
+	out := &SparseLocalCA{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseLocalCAs.
-func (o *SparseLocalCAs) DeepCopyInto(out *SparseLocalCAs) {
+// DeepCopyInto copies the receiver into the given *SparseLocalCA.
+func (o *SparseLocalCA) DeepCopyInto(out *SparseLocalCA) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseLocalCAs: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseLocalCA: %s", err))
 	}
 
-	*out = *target.(*SparseLocalCAs)
+	*out = *target.(*SparseLocalCA)
 }
 
-type mongoAttributesLocalCAs struct {
+type mongoAttributesLocalCA struct {
 }
-type mongoAttributesSparseLocalCAs struct {
+type mongoAttributesSparseLocalCA struct {
 }

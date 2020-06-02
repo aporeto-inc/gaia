@@ -4076,7 +4076,7 @@ Geographical zone. Used for sharding and georedundancy.
 
 ## core/namespace
 
-### LocalCAs
+### LocalCA
 
 Can be used to retrieve or renew the local and SSH certificate authorities of
 the namespace.

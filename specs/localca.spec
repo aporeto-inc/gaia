@@ -2,7 +2,7 @@
 model:
   rest_name: localca
   resource_name: localcas
-  entity_name: LocalCAs
+  entity_name: LocalCA
   package: squall
   group: core/namespace
   description: |-
