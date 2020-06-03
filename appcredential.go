@@ -131,7 +131,8 @@ type AppCredential struct {
 
 	// If set, this will limit the maximum validity of the token issued from this app
 	// credential. This information will be embeded into the delivered certificate and
-	// cannot be changed once set.
+	// cannot be changed once set. In order to change it, you need to renew the
+	// certificate.
 	MaxIssuedTokenValidity string `json:"maxIssuedTokenValidity" msgpack:"maxIssuedTokenValidity" bson:"maxissuedtokenvalidity" mapstructure:"maxIssuedTokenValidity,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
@@ -1011,10 +1012,10 @@ the declared subnets.`,
 	"MaxIssuedTokenValidity": {
 		AllowedChoices: []string{},
 		ConvertedName:  "MaxIssuedTokenValidity",
-		CreationOnly:   true,
 		Description: `If set, this will limit the maximum validity of the token issued from this app
 credential. This information will be embeded into the delivered certificate and
-cannot be changed once set.`,
+cannot be changed once set. In order to change it, you need to renew the
+certificate.`,
 		Exposed: true,
 		Name:    "maxIssuedTokenValidity",
 		Stored:  true,
@@ -1341,10 +1342,10 @@ the declared subnets.`,
 	"maxissuedtokenvalidity": {
 		AllowedChoices: []string{},
 		ConvertedName:  "MaxIssuedTokenValidity",
-		CreationOnly:   true,
 		Description: `If set, this will limit the maximum validity of the token issued from this app
 credential. This information will be embeded into the delivered certificate and
-cannot be changed once set.`,
+cannot be changed once set. In order to change it, you need to renew the
+certificate.`,
 		Exposed: true,
 		Name:    "maxIssuedTokenValidity",
 		Stored:  true,
@@ -1624,7 +1625,8 @@ type SparseAppCredential struct {
 
 	// If set, this will limit the maximum validity of the token issued from this app
 	// credential. This information will be embeded into the delivered certificate and
-	// cannot be changed once set.
+	// cannot be changed once set. In order to change it, you need to renew the
+	// certificate.
 	MaxIssuedTokenValidity *string `json:"maxIssuedTokenValidity,omitempty" msgpack:"maxIssuedTokenValidity,omitempty" bson:"maxissuedtokenvalidity,omitempty" mapstructure:"maxIssuedTokenValidity,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
