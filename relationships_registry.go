@@ -3180,8 +3180,6 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[PingReportIdentity] = &elemental.Relationship{}
-
 	relationshipsRegistry[PingRequestIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
