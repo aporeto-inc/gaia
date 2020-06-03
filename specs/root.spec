@@ -622,6 +622,8 @@ relations:
 - rest_name: pingresult
   get:
     description: Retrieves a ping result.
+    global_parameters:
+    - $filtering
 
 - rest_name: plan
   get:
