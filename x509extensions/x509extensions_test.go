@@ -75,3 +75,22 @@ func TestController(t *testing.T) {
 		})
 	}
 }
+
+func TestMaximumIssuedTokenValidity(t *testing.T) {
+	tests := []struct {
+		name string
+		want asn1.ObjectIdentifier
+	}{
+		{
+			name: "sanity",
+			want: asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 50798, 1, 3},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := MaximumIssuedTokenValidity(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MaximumIssuedTokenValidity() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
