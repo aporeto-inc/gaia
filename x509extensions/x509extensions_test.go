@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestTags(t *testing.T) {
+func TestIdentityTags(t *testing.T) {
 	tests := []struct {
 		name    string
 		clobber bool
@@ -26,11 +26,11 @@ func TestTags(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.clobber {
-				c := Tags()
+				c := IdentityTags()
 				c[0] = 0
 			}
-			if got := Tags(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Tags() = %v, want %v", got, tt.want)
+			if got := IdentityTags(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("IdentityTags() = %v, want %v", got, tt.want)
 			}
 		})
 	}
