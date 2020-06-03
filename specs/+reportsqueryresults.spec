@@ -22,7 +22,7 @@ attributes:
     description: List of projected fields.
     type: external
     exposed: true
-    subtype: map[string]string
+    subtype: map[string]interface{}
     stored: true
 
   - name: values

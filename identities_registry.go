@@ -610,6 +610,7 @@ var (
 			{"archived"},
 		},
 		"flowreport": {
+			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"graphedge": {

@@ -14,7 +14,7 @@ type ReportsQueryResults struct {
 	Fields []string `json:"fields" msgpack:"fields" bson:"fields" mapstructure:"fields,omitempty"`
 
 	// List of projected fields.
-	Groups map[string]string `json:"groups" msgpack:"groups" bson:"groups" mapstructure:"groups,omitempty"`
+	Groups map[string]interface{} `json:"groups" msgpack:"groups" bson:"groups" mapstructure:"groups,omitempty"`
 
 	// List of values associated with the projected fields.
 	Values [][]interface{} `json:"values" msgpack:"values" bson:"values" mapstructure:"values,omitempty"`
@@ -28,7 +28,7 @@ func NewReportsQueryResults() *ReportsQueryResults {
 	return &ReportsQueryResults{
 		ModelVersion: 1,
 		Fields:       []string{},
-		Groups:       map[string]string{},
+		Groups:       map[string]interface{}{},
 		Values:       [][]interface{}{},
 	}
 }
@@ -118,7 +118,7 @@ func (o *ReportsQueryResults) Validate() error {
 }
 
 type mongoAttributesReportsQueryResults struct {
-	Fields []string          `bson:"fields"`
-	Groups map[string]string `bson:"groups"`
-	Values [][]interface{}   `bson:"values"`
+	Fields []string               `bson:"fields"`
+	Groups map[string]interface{} `bson:"groups"`
+	Values [][]interface{}        `bson:"values"`
 }
