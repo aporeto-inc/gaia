@@ -15,12 +15,12 @@ func TestTags(t *testing.T) {
 		{
 			name:    "sanity",
 			clobber: false,
-			want:    x509ExtensionTags,
+			want:    asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 50798, 1, 1},
 		},
 		{
 			name:    "check constant",
 			clobber: true,
-			want:    x509ExtensionTags,
+			want:    asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 50798, 1, 1},
 		},
 	}
 	for _, tt := range tests {
@@ -45,12 +45,12 @@ func TestController(t *testing.T) {
 		{
 			name:    "sanity",
 			clobber: false,
-			want:    x509ExtensionController,
+			want:    asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 50798, 1, 2},
 		},
 		{
 			name:    "check constant",
 			clobber: true,
-			want:    x509ExtensionController,
+			want:    asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 50798, 1, 2},
 		},
 	}
 	for _, tt := range tests {
