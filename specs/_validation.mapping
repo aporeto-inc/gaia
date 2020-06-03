@@ -58,6 +58,10 @@ $networksorhostnames:
   elemental:
     name: ValidateNetworkOrHostnameList
 
+$optionalTimeDuration:
+  elemental:
+    name: ValidateOptionalTimeDuration
+
 $optionalcidrs:
   elemental:
     name: ValidateOptionalCIDRList
