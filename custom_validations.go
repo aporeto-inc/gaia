@@ -459,6 +459,15 @@ func ValidateTimeDuration(attribute string, duration string) error {
 	return nil
 }
 
+// ValidateOptionalTimeDuration validates that the time duration provided is compliant
+// with the go format. This function allows empty string as input.
+func ValidateOptionalTimeDuration(attribute string, duration string) error {
+	if duration == "" {
+		return nil
+	}
+	return ValidateTimeDuration(attribute, duration)
+}
+
 // hostname regex from github.com/go-playground/validator
 var hostnameRegexRFC1123 = regexp.MustCompile(`^[a-zA-Z0-9][a-zA-Z0-9\-\.]+[a-z-Az0-9]$`)
 

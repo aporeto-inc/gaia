@@ -105,6 +105,18 @@ attributes:
     stored: true
     orderable: true
 
+  - name: maxIssuedTokenValidity
+    description: |-
+      If set, this will limit the maximum validity of the token issued from this app
+      credential. This information will be embeded into the delivered certificate and
+      cannot be changed once set.
+    type: string
+    exposed: true
+    stored: true
+    creation_only: true
+    validations:
+    - $optionalTimeDuration
+
   - name: parentIDs
     description: |-
       Contains the ID of the parent app credential if this is a derived app

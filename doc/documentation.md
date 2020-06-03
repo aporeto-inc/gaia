@@ -7778,6 +7778,12 @@ Defines if the property is disabled.
 
 The email address that will receive a copy of the app credential.
 
+##### `maxIssuedTokenValidity` `string` [`creation_only`]
+
+If set, this will limit the maximum validity of the token issued from this app
+credential. This information will be embeded into the delivered certificate and
+cannot be changed once set.
+
 ##### `metadata` `[]string` [`creation_only`]
 
 Contains tags that can only be set during creation, must all start
