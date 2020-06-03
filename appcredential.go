@@ -130,7 +130,7 @@ type AppCredential struct {
 	Email string `json:"email" msgpack:"email" bson:"email" mapstructure:"email,omitempty"`
 
 	// If set, this will limit the maximum validity of the token issued from this app
-	// credential. This information will be embeded into the delivered certificate and
+	// credential. This information will be embedded into the delivered certificate and
 	// cannot be changed once set. In order to change it, you need to renew the
 	// certificate.
 	MaxIssuedTokenValidity string `json:"maxIssuedTokenValidity" msgpack:"maxIssuedTokenValidity" bson:"maxissuedtokenvalidity" mapstructure:"maxIssuedTokenValidity,omitempty"`
@@ -1013,7 +1013,7 @@ the declared subnets.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "MaxIssuedTokenValidity",
 		Description: `If set, this will limit the maximum validity of the token issued from this app
-credential. This information will be embeded into the delivered certificate and
+credential. This information will be embedded into the delivered certificate and
 cannot be changed once set. In order to change it, you need to renew the
 certificate.`,
 		Exposed: true,
@@ -1343,7 +1343,7 @@ the declared subnets.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "MaxIssuedTokenValidity",
 		Description: `If set, this will limit the maximum validity of the token issued from this app
-credential. This information will be embeded into the delivered certificate and
+credential. This information will be embedded into the delivered certificate and
 cannot be changed once set. In order to change it, you need to renew the
 certificate.`,
 		Exposed: true,
@@ -1624,7 +1624,7 @@ type SparseAppCredential struct {
 	Email *string `json:"email,omitempty" msgpack:"email,omitempty" bson:"email,omitempty" mapstructure:"email,omitempty"`
 
 	// If set, this will limit the maximum validity of the token issued from this app
-	// credential. This information will be embeded into the delivered certificate and
+	// credential. This information will be embedded into the delivered certificate and
 	// cannot be changed once set. In order to change it, you need to renew the
 	// certificate.
 	MaxIssuedTokenValidity *string `json:"maxIssuedTokenValidity,omitempty" msgpack:"maxIssuedTokenValidity,omitempty" bson:"maxissuedtokenvalidity,omitempty" mapstructure:"maxIssuedTokenValidity,omitempty"`
