@@ -2881,3 +2881,91 @@ func TestValidateUIParameters(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateTimeDuration(t *testing.T) {
+	type args struct {
+		attribute string
+		duration  string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid",
+			args{
+				"attr",
+				"1m",
+			},
+			false,
+		},
+		{
+			"invalid",
+			args{
+				"attr",
+				"dog",
+			},
+			true,
+		},
+		{
+			"empty",
+			args{
+				"attr",
+				"",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateTimeDuration(tt.args.attribute, tt.args.duration); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateTimeDuration() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateOptionalTimeDuration(t *testing.T) {
+	type args struct {
+		attribute string
+		duration  string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid",
+			args{
+				"attr",
+				"1m",
+			},
+			false,
+		},
+		{
+			"invalid",
+			args{
+				"attr",
+				"dog",
+			},
+			true,
+		},
+		{
+			"empty",
+			args{
+				"attr",
+				"",
+			},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateOptionalTimeDuration(tt.args.attribute, tt.args.duration); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateOptionalTimeDuration() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

@@ -129,6 +129,12 @@ type AppCredential struct {
 	// The email address that will receive a copy of the app credential.
 	Email string `json:"email" msgpack:"email" bson:"email" mapstructure:"email,omitempty"`
 
+	// If set, this will limit the maximum validity of the token issued from this app
+	// credential. This information will be embedded into the delivered certificate and
+	// cannot be changed once set. In order to change it, you need to renew the
+	// certificate.
+	MaxIssuedTokenValidity string `json:"maxIssuedTokenValidity" msgpack:"maxIssuedTokenValidity" bson:"maxissuedtokenvalidity" mapstructure:"maxIssuedTokenValidity,omitempty"`
+
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -182,8 +188,8 @@ func NewAppCredential() *AppCredential {
 		MigrationsLog:     map[string]string{},
 		NormalizedTags:    []string{},
 		ParentIDs:         []string{},
-		Metadata:          []string{},
 		Roles:             []string{},
+		Metadata:          []string{},
 	}
 }
 
@@ -228,6 +234,7 @@ func (o *AppCredential) GetBSON() (interface{}, error) {
 	s.Description = o.Description
 	s.Disabled = o.Disabled
 	s.Email = o.Email
+	s.MaxIssuedTokenValidity = o.MaxIssuedTokenValidity
 	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
@@ -268,6 +275,7 @@ func (o *AppCredential) SetBSON(raw bson.Raw) error {
 	o.Description = s.Description
 	o.Disabled = s.Disabled
 	o.Email = s.Email
+	o.MaxIssuedTokenValidity = s.MaxIssuedTokenValidity
 	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
@@ -514,31 +522,32 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAppCredential{
-			CSR:                  &o.CSR,
-			ID:                   &o.ID,
-			Annotations:          &o.Annotations,
-			AssociatedTags:       &o.AssociatedTags,
-			AuthorizedSubnets:    &o.AuthorizedSubnets,
-			Certificate:          &o.Certificate,
-			CertificateSN:        &o.CertificateSN,
-			CreateIdempotencyKey: &o.CreateIdempotencyKey,
-			CreateTime:           &o.CreateTime,
-			Credentials:          o.Credentials,
-			Description:          &o.Description,
-			Disabled:             &o.Disabled,
-			Email:                &o.Email,
-			Metadata:             &o.Metadata,
-			MigrationsLog:        &o.MigrationsLog,
-			Name:                 &o.Name,
-			Namespace:            &o.Namespace,
-			NormalizedTags:       &o.NormalizedTags,
-			ParentIDs:            &o.ParentIDs,
-			Protected:            &o.Protected,
-			Roles:                &o.Roles,
-			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
-			UpdateTime:           &o.UpdateTime,
-			ZHash:                &o.ZHash,
-			Zone:                 &o.Zone,
+			CSR:                    &o.CSR,
+			ID:                     &o.ID,
+			Annotations:            &o.Annotations,
+			AssociatedTags:         &o.AssociatedTags,
+			AuthorizedSubnets:      &o.AuthorizedSubnets,
+			Certificate:            &o.Certificate,
+			CertificateSN:          &o.CertificateSN,
+			CreateIdempotencyKey:   &o.CreateIdempotencyKey,
+			CreateTime:             &o.CreateTime,
+			Credentials:            o.Credentials,
+			Description:            &o.Description,
+			Disabled:               &o.Disabled,
+			Email:                  &o.Email,
+			MaxIssuedTokenValidity: &o.MaxIssuedTokenValidity,
+			Metadata:               &o.Metadata,
+			MigrationsLog:          &o.MigrationsLog,
+			Name:                   &o.Name,
+			Namespace:              &o.Namespace,
+			NormalizedTags:         &o.NormalizedTags,
+			ParentIDs:              &o.ParentIDs,
+			Protected:              &o.Protected,
+			Roles:                  &o.Roles,
+			UpdateIdempotencyKey:   &o.UpdateIdempotencyKey,
+			UpdateTime:             &o.UpdateTime,
+			ZHash:                  &o.ZHash,
+			Zone:                   &o.Zone,
 		}
 	}
 
@@ -571,6 +580,8 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Disabled = &(o.Disabled)
 		case "email":
 			sp.Email = &(o.Email)
+		case "maxIssuedTokenValidity":
+			sp.MaxIssuedTokenValidity = &(o.MaxIssuedTokenValidity)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "migrationsLog":
@@ -646,6 +657,9 @@ func (o *AppCredential) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Email != nil {
 		o.Email = *so.Email
+	}
+	if so.MaxIssuedTokenValidity != nil {
+		o.MaxIssuedTokenValidity = *so.MaxIssuedTokenValidity
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -727,6 +741,10 @@ func (o *AppCredential) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateOptionalTimeDuration("maxIssuedTokenValidity", o.MaxIssuedTokenValidity); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
@@ -803,6 +821,8 @@ func (o *AppCredential) ValueForAttribute(name string) interface{} {
 		return o.Disabled
 	case "email":
 		return o.Email
+	case "maxIssuedTokenValidity":
+		return o.MaxIssuedTokenValidity
 	case "metadata":
 		return o.Metadata
 	case "migrationsLog":
@@ -988,6 +1008,18 @@ the declared subnets.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"MaxIssuedTokenValidity": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MaxIssuedTokenValidity",
+		Description: `If set, this will limit the maximum validity of the token issued from this app
+credential. This information will be embedded into the delivered certificate and
+cannot be changed once set. In order to change it, you need to renew the
+certificate.`,
+		Exposed: true,
+		Name:    "maxIssuedTokenValidity",
+		Stored:  true,
+		Type:    "string",
 	},
 	"Metadata": {
 		AllowedChoices: []string{},
@@ -1307,6 +1339,18 @@ the declared subnets.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"maxissuedtokenvalidity": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MaxIssuedTokenValidity",
+		Description: `If set, this will limit the maximum validity of the token issued from this app
+credential. This information will be embedded into the delivered certificate and
+cannot be changed once set. In order to change it, you need to renew the
+certificate.`,
+		Exposed: true,
+		Name:    "maxIssuedTokenValidity",
+		Stored:  true,
+		Type:    "string",
+	},
 	"metadata": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -1579,6 +1623,12 @@ type SparseAppCredential struct {
 	// The email address that will receive a copy of the app credential.
 	Email *string `json:"email,omitempty" msgpack:"email,omitempty" bson:"email,omitempty" mapstructure:"email,omitempty"`
 
+	// If set, this will limit the maximum validity of the token issued from this app
+	// credential. This information will be embedded into the delivered certificate and
+	// cannot be changed once set. In order to change it, you need to renew the
+	// certificate.
+	MaxIssuedTokenValidity *string `json:"maxIssuedTokenValidity,omitempty" msgpack:"maxIssuedTokenValidity,omitempty" bson:"maxissuedtokenvalidity,omitempty" mapstructure:"maxIssuedTokenValidity,omitempty"`
+
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
@@ -1694,6 +1744,9 @@ func (o *SparseAppCredential) GetBSON() (interface{}, error) {
 	if o.Email != nil {
 		s.Email = o.Email
 	}
+	if o.MaxIssuedTokenValidity != nil {
+		s.MaxIssuedTokenValidity = o.MaxIssuedTokenValidity
+	}
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
 	}
@@ -1778,6 +1831,9 @@ func (o *SparseAppCredential) SetBSON(raw bson.Raw) error {
 	}
 	if s.Email != nil {
 		o.Email = s.Email
+	}
+	if s.MaxIssuedTokenValidity != nil {
+		o.MaxIssuedTokenValidity = s.MaxIssuedTokenValidity
 	}
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
@@ -1867,6 +1923,9 @@ func (o *SparseAppCredential) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Email != nil {
 		out.Email = *o.Email
+	}
+	if o.MaxIssuedTokenValidity != nil {
+		out.MaxIssuedTokenValidity = *o.MaxIssuedTokenValidity
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -2189,52 +2248,54 @@ func (o *SparseAppCredential) DeepCopyInto(out *SparseAppCredential) {
 }
 
 type mongoAttributesAppCredential struct {
-	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	Annotations          map[string][]string `bson:"annotations"`
-	AssociatedTags       []string            `bson:"associatedtags"`
-	AuthorizedSubnets    []string            `bson:"authorizedsubnets"`
-	Certificate          string              `bson:"certificate"`
-	CertificateSN        string              `bson:"certificatesn"`
-	CreateIdempotencyKey string              `bson:"createidempotencykey"`
-	CreateTime           time.Time           `bson:"createtime"`
-	Description          string              `bson:"description"`
-	Disabled             bool                `bson:"disabled"`
-	Email                string              `bson:"email"`
-	Metadata             []string            `bson:"metadata"`
-	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 string              `bson:"name"`
-	Namespace            string              `bson:"namespace"`
-	NormalizedTags       []string            `bson:"normalizedtags"`
-	ParentIDs            []string            `bson:"parentids"`
-	Protected            bool                `bson:"protected"`
-	Roles                []string            `bson:"roles"`
-	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
-	UpdateTime           time.Time           `bson:"updatetime"`
-	ZHash                int                 `bson:"zhash"`
-	Zone                 int                 `bson:"zone"`
+	ID                     bson.ObjectId       `bson:"_id,omitempty"`
+	Annotations            map[string][]string `bson:"annotations"`
+	AssociatedTags         []string            `bson:"associatedtags"`
+	AuthorizedSubnets      []string            `bson:"authorizedsubnets"`
+	Certificate            string              `bson:"certificate"`
+	CertificateSN          string              `bson:"certificatesn"`
+	CreateIdempotencyKey   string              `bson:"createidempotencykey"`
+	CreateTime             time.Time           `bson:"createtime"`
+	Description            string              `bson:"description"`
+	Disabled               bool                `bson:"disabled"`
+	Email                  string              `bson:"email"`
+	MaxIssuedTokenValidity string              `bson:"maxissuedtokenvalidity"`
+	Metadata               []string            `bson:"metadata"`
+	MigrationsLog          map[string]string   `bson:"migrationslog,omitempty"`
+	Name                   string              `bson:"name"`
+	Namespace              string              `bson:"namespace"`
+	NormalizedTags         []string            `bson:"normalizedtags"`
+	ParentIDs              []string            `bson:"parentids"`
+	Protected              bool                `bson:"protected"`
+	Roles                  []string            `bson:"roles"`
+	UpdateIdempotencyKey   string              `bson:"updateidempotencykey"`
+	UpdateTime             time.Time           `bson:"updatetime"`
+	ZHash                  int                 `bson:"zhash"`
+	Zone                   int                 `bson:"zone"`
 }
 type mongoAttributesSparseAppCredential struct {
-	ID                   bson.ObjectId        `bson:"_id,omitempty"`
-	Annotations          *map[string][]string `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	AuthorizedSubnets    *[]string            `bson:"authorizedsubnets,omitempty"`
-	Certificate          *string              `bson:"certificate,omitempty"`
-	CertificateSN        *string              `bson:"certificatesn,omitempty"`
-	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
-	CreateTime           *time.Time           `bson:"createtime,omitempty"`
-	Description          *string              `bson:"description,omitempty"`
-	Disabled             *bool                `bson:"disabled,omitempty"`
-	Email                *string              `bson:"email,omitempty"`
-	Metadata             *[]string            `bson:"metadata,omitempty"`
-	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 *string              `bson:"name,omitempty"`
-	Namespace            *string              `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	ParentIDs            *[]string            `bson:"parentids,omitempty"`
-	Protected            *bool                `bson:"protected,omitempty"`
-	Roles                *[]string            `bson:"roles,omitempty"`
-	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
-	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
-	ZHash                *int                 `bson:"zhash,omitempty"`
-	Zone                 *int                 `bson:"zone,omitempty"`
+	ID                     bson.ObjectId        `bson:"_id,omitempty"`
+	Annotations            *map[string][]string `bson:"annotations,omitempty"`
+	AssociatedTags         *[]string            `bson:"associatedtags,omitempty"`
+	AuthorizedSubnets      *[]string            `bson:"authorizedsubnets,omitempty"`
+	Certificate            *string              `bson:"certificate,omitempty"`
+	CertificateSN          *string              `bson:"certificatesn,omitempty"`
+	CreateIdempotencyKey   *string              `bson:"createidempotencykey,omitempty"`
+	CreateTime             *time.Time           `bson:"createtime,omitempty"`
+	Description            *string              `bson:"description,omitempty"`
+	Disabled               *bool                `bson:"disabled,omitempty"`
+	Email                  *string              `bson:"email,omitempty"`
+	MaxIssuedTokenValidity *string              `bson:"maxissuedtokenvalidity,omitempty"`
+	Metadata               *[]string            `bson:"metadata,omitempty"`
+	MigrationsLog          *map[string]string   `bson:"migrationslog,omitempty"`
+	Name                   *string              `bson:"name,omitempty"`
+	Namespace              *string              `bson:"namespace,omitempty"`
+	NormalizedTags         *[]string            `bson:"normalizedtags,omitempty"`
+	ParentIDs              *[]string            `bson:"parentids,omitempty"`
+	Protected              *bool                `bson:"protected,omitempty"`
+	Roles                  *[]string            `bson:"roles,omitempty"`
+	UpdateIdempotencyKey   *string              `bson:"updateidempotencykey,omitempty"`
+	UpdateTime             *time.Time           `bson:"updatetime,omitempty"`
+	ZHash                  *int                 `bson:"zhash,omitempty"`
+	Zone                   *int                 `bson:"zone,omitempty"`
 }
