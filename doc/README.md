@@ -1,24 +1,24 @@
-## Segment Console API concepts and usage
+# Segment Console API concepts and usage
 
-### Overview
+## Overview
 
 Segment provides a REST API to allow programmatic manipulation of the Console.
 Everything the web client or apoctl do is done through the Segment Console API.
 
-### Object types
+## Object types
 
 The Segment Console API accepts and returns [JSON](https://www.json.org) or [MessagePack](https://msgpack.org)
 encoded objects.
 This is controlled by the the `Accept` and `Content-Type` HTTP headers.
 
-### Authentication and authorization
+## Authentication and authorization
 
 Most of the resources require authentication and authorization.
 
 - For a request to be authenticated, it must provide the `Authorization` HTTP header.
 - For a request to be authorized, a policy must be in place to grant you access.
 
-### Errors
+## Errors
 
 When an error occurs, either due to the user input or platform error, it is returned as list of errors.
 Errors always have the same structure:
@@ -65,7 +65,7 @@ The error codes follow the HTTP status codes:
 There may be additional error codes in certain circumstances.
 Please refer to the HTTP error code documentation for more information.
 
-### Authentication
+## Authentication
 
 All API calls must explicitly pass the `Authorization` HTTP header in the following form:
 
@@ -138,7 +138,7 @@ Upon correct authentication, Segment Console will return a JWT wrapped in a JSON
 The `token` attribute contains the actual JWT you need to pass into the `Authorization` HTTP header for every
 subsequent request.
 
-#### Authenticating with a Segment account
+### Authenticating with a Segment account
 
 To authenticate from your Segment account, you can issue the following command.
 
@@ -155,7 +155,7 @@ curl https://api.console.aporeto.com/issue \
   }'
 ```
 
-#### Authenticating with an X.509 certificate
+### Authenticating with an X.509 certificate
 
 {{< note >}}
 How to retrieve an X.509 certificate from Segment Console is not in the scope of this document.
@@ -175,7 +175,7 @@ curl https://api.console.aporeto.com/issue \
   -d '{"realm": "Certificate"}'
 ```
 
-### Namespace
+## Namespace
 
 Most of the resources in Segment Console live in a namespace.
 When you issue a command, in addition to your JWT, you must pass the `X-Namespace` HTTP header.
@@ -224,7 +224,7 @@ curl https://api.console.aporeto.com/namespaces \
 ]
 ```
 
-### Idempotency
+## Idempotency
 
 The Segment Console API supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for `POST` operations.
 This allows you to safely retry requests that returned a communication error, but actually were honored by the system.
@@ -291,9 +291,9 @@ And the second one:
 {"ID":"5d2398157ddf1f3519ce6d96"}
 ```
 
-### CRUD operations
+## CRUD operations
 
-#### Hierarchy layout
+### Hierarchy layout
 
 The Segment Console API follows a three-level structure to traverse the hierarchy.
 For instance, for an hypothetical object `parent` that can have `children` who can in turn
@@ -306,7 +306,7 @@ have `grandchildren`, Segment lays out the API URLs as follows:
 - `/children/:id`: Affects a particular child with the given ID.
 - `/children/:id/grandchildren`: Affects all grandchildren in child with the given ID.
 
-#### Methods
+### Methods
 
 The Segment Console API uses standard HTTP methods to perform actions on resources.
 Not all methods apply to all URLs.
@@ -317,7 +317,7 @@ Not all methods apply to all URLs.
 - `DELETE`: Deletes an existing resource.
 - `HEAD`: Works like a `GET` but it does not return any body.
 
-#### Creating resources
+### Creating resources
 
 The `POST` method can be used with the following resource URLs.
 
@@ -338,7 +338,7 @@ curl https://api.console.aporeto.com/namespaces \
   }'
 ```
 
-#### Retrieving resources
+### Retrieving resources
 
 The `GET` (or `HEAD`) method can be used with the following resource URLs.
 
