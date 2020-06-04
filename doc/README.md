@@ -7,7 +7,7 @@ Everything the web client or apoctl do is done through the Segment Console API.
 
 ### Object types
 
-The Segmnt API accepts and returns [JSON](https://www.json.org) or [MessagePack](https://msgpack.org)
+The Segment Console API accepts and returns [JSON](https://www.json.org) or [MessagePack](https://msgpack.org)
 encoded objects.
 This is controlled by the the `Accept` and `Content-Type` HTTP headers.
 
