@@ -91,7 +91,10 @@ var (
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
 		"pccprovider":            PCCProviderIdentity,
-		"pingreport":             PingReportIdentity,
+
+		"pingprobe":   PingProbeIdentity,
+		"pingrequest": PingRequestIdentity,
+		"pingresult":  PingResultIdentity,
 
 		"plan":                  PlanIdentity,
 		"poke":                  PokeIdentity,
@@ -237,7 +240,10 @@ var (
 		"packetreports":            PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
 		"pccproviders":             PCCProviderIdentity,
-		"pingreports":              PingReportIdentity,
+
+		"pingprobes":   PingProbeIdentity,
+		"pingrequests": PingRequestIdentity,
+		"pingresults":  PingResultIdentity,
 
 		"plans":                   PlanIdentity,
 		"poke":                    PokeIdentity,
@@ -731,9 +737,24 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"pingreport": nil,
-		"plan":       nil,
-		"poke":       nil,
+		"pingprobe": {
+			{"pingID"},
+			{"namespace", "pingID"},
+			{"namespace", "pingID", "iterationIndex"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
+		"pingrequest": nil,
+		"pingresult": {
+			{"pingID"},
+			{"namespace", "pingID"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
+		"plan": nil,
+		"poke": nil,
 		"policy": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1088,8 +1109,12 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPasswordReset()
 	case PCCProviderIdentity:
 		return NewPCCProvider()
-	case PingReportIdentity:
-		return NewPingReport()
+	case PingProbeIdentity:
+		return NewPingProbe()
+	case PingRequestIdentity:
+		return NewPingRequest()
+	case PingResultIdentity:
+		return NewPingResult()
 	case PlanIdentity:
 		return NewPlan()
 	case PokeIdentity:
@@ -1359,8 +1384,12 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePasswordReset()
 	case PCCProviderIdentity:
 		return NewSparsePCCProvider()
-	case PingReportIdentity:
-		return NewSparsePingReport()
+	case PingProbeIdentity:
+		return NewSparsePingProbe()
+	case PingRequestIdentity:
+		return NewSparsePingRequest()
+	case PingResultIdentity:
+		return NewSparsePingResult()
 	case PlanIdentity:
 		return NewSparsePlan()
 	case PokeIdentity:
@@ -1638,8 +1667,12 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PasswordResetsList{}
 	case PCCProviderIdentity:
 		return &PCCProvidersList{}
-	case PingReportIdentity:
-		return &PingReportsList{}
+	case PingProbeIdentity:
+		return &PingProbesList{}
+	case PingRequestIdentity:
+		return &PingRequestsList{}
+	case PingResultIdentity:
+		return &PingResultsList{}
 	case PlanIdentity:
 		return &PlansList{}
 	case PokeIdentity:
@@ -1907,8 +1940,12 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePasswordResetsList{}
 	case PCCProviderIdentity:
 		return &SparsePCCProvidersList{}
-	case PingReportIdentity:
-		return &SparsePingReportsList{}
+	case PingProbeIdentity:
+		return &SparsePingProbesList{}
+	case PingRequestIdentity:
+		return &SparsePingRequestsList{}
+	case PingResultIdentity:
+		return &SparsePingResultsList{}
 	case PlanIdentity:
 		return &SparsePlansList{}
 	case PokeIdentity:
@@ -2110,7 +2147,9 @@ func AllIdentities() []elemental.Identity {
 		PacketReportIdentity,
 		PasswordResetIdentity,
 		PCCProviderIdentity,
-		PingReportIdentity,
+		PingProbeIdentity,
+		PingRequestIdentity,
+		PingResultIdentity,
 		PlanIdentity,
 		PokeIdentity,
 		PolicyIdentity,
@@ -2411,7 +2450,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PCCProviderIdentity:
 		return []string{}
-	case PingReportIdentity:
+	case PingProbeIdentity:
+		return []string{}
+	case PingRequestIdentity:
+		return []string{}
+	case PingResultIdentity:
 		return []string{}
 	case PlanIdentity:
 		return []string{}

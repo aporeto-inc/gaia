@@ -619,9 +619,15 @@ relations:
   create:
     description: Creates a new PCC provider.
 
-- rest_name: pingreport
+- rest_name: pingrequest
   create:
-    description: Create a ping report.
+    description: Initiate a new the ping request.
+
+- rest_name: pingresult
+  get:
+    description: Retrieves a ping result.
+    global_parameters:
+    - $filtering
 
 - rest_name: plan
   get:

@@ -83,6 +83,9 @@ type DebugBundle struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
+	// Can be used to correlate with an EnforcerRefresh.
+	DebugID string `json:"debugID,omitempty" msgpack:"debugID,omitempty" bson:"-" mapstructure:"debugID,omitempty"`
+
 	// The ID of the enforcer.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
 
@@ -200,6 +203,7 @@ func (o *DebugBundle) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseDebugBundle{
 			ID:         &o.ID,
+			DebugID:    &o.DebugID,
 			EnforcerID: &o.EnforcerID,
 			Namespace:  &o.Namespace,
 		}
@@ -210,6 +214,8 @@ func (o *DebugBundle) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "debugID":
+			sp.DebugID = &(o.DebugID)
 		case "enforcerID":
 			sp.EnforcerID = &(o.EnforcerID)
 		case "namespace":
@@ -229,6 +235,9 @@ func (o *DebugBundle) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseDebugBundle)
 	if so.ID != nil {
 		o.ID = *so.ID
+	}
+	if so.DebugID != nil {
+		o.DebugID = *so.DebugID
 	}
 	if so.EnforcerID != nil {
 		o.EnforcerID = *so.EnforcerID
@@ -304,6 +313,8 @@ func (o *DebugBundle) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
+	case "debugID":
+		return o.DebugID
 	case "enforcerID":
 		return o.EnforcerID
 	case "namespace":
@@ -326,6 +337,14 @@ var DebugBundleAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Type:           "string",
+	},
+	"DebugID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DebugID",
+		Description:    `Can be used to correlate with an EnforcerRefresh.`,
+		Exposed:        true,
+		Name:           "debugID",
 		Type:           "string",
 	},
 	"EnforcerID": {
@@ -367,6 +386,14 @@ var DebugBundleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Type:           "string",
+	},
+	"debugid": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DebugID",
+		Description:    `Can be used to correlate with an EnforcerRefresh.`,
+		Exposed:        true,
+		Name:           "debugID",
 		Type:           "string",
 	},
 	"enforcerid": {
@@ -461,6 +488,9 @@ type SparseDebugBundle struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
+	// Can be used to correlate with an EnforcerRefresh.
+	DebugID *string `json:"debugID,omitempty" msgpack:"debugID,omitempty" bson:"-" mapstructure:"debugID,omitempty"`
+
 	// The ID of the enforcer.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
 
@@ -549,6 +579,9 @@ func (o *SparseDebugBundle) ToPlain() elemental.PlainIdentifiable {
 	out := NewDebugBundle()
 	if o.ID != nil {
 		out.ID = *o.ID
+	}
+	if o.DebugID != nil {
+		out.DebugID = *o.DebugID
 	}
 	if o.EnforcerID != nil {
 		out.EnforcerID = *o.EnforcerID
