@@ -8,6 +8,10 @@ model:
   description: |-
     Represents the result of a unique ping probe. They are aggregated into a
     PingResult.
+  get:
+    description: Retrieves a ping result.
+    global_parameters:
+    - $filtering
   extends:
   - '@zoned'
   - '@migratable'

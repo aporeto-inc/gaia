@@ -3235,9 +3235,9 @@ PingResult.
 
 #### Relations
 
-##### `GET /pingprobes`
+##### `GET /pingprobes/:id`
 
-Retrieves a ping probe.
+Retrieves a ping result.
 
 Parameters:
 
