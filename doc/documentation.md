@@ -3235,6 +3235,14 @@ PingResult.
 
 #### Relations
 
+##### `GET /pingprobes`
+
+Retrieves a ping probe.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+
 ##### `POST /processingunits/:id/pingprobes`
 
 Create a ping probe.

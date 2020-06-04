@@ -3066,6 +3066,28 @@ func init() {
 		Create: map[string]*elemental.RelationshipInfo{
 			"processingunit": {},
 		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
 	}
 
 	relationshipsRegistry[PingRequestIdentity] = &elemental.Relationship{

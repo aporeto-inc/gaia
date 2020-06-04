@@ -615,6 +615,12 @@ relations:
   create:
     description: Creates a new PCC provider.
 
+- rest_name: pingprobe
+  get:
+    description: Retrieves a ping probe.
+    global_parameters:
+    - $filtering
+
 - rest_name: pingrequest
   create:
     description: Initiate a new the ping request.
