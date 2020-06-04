@@ -358,7 +358,7 @@ curl https://api.console.aporeto.com/namespaces?page=2&pageSize=10 \
   -H 'Authorization: Bearer <token>'
 ```
 
-#### Updating resources
+### Updating resources
 
 The `PUT` method can only be used with the `PUT /parents/:id` resource URL.
 It updates the parent with the given ID.
