@@ -1,24 +1,24 @@
-# Control Plane API concepts and usage
+## Segment Console API concepts and usage
 
-## Overview
+### Overview
 
-Aporeto provides a REST API to allow programmatic manipulation of the control plane.
-Everything the web client or apoctl do is done through the Control Plane API.
+Segment provides a REST API to allow programmatic manipulation of the Console.
+Everything the web client or apoctl do is done through the Segment Console API.
 
-## Object types
+### Object types
 
-The Control Plane API accepts and returns [JSON](https://www.json.org) or [MessagePack](https://msgpack.org)
+The Segmnt API accepts and returns [JSON](https://www.json.org) or [MessagePack](https://msgpack.org)
 encoded objects.
 This is controlled by the the `Accept` and `Content-Type` HTTP headers.
 
-## Authentication and authorization
+### Authentication and authorization
 
 Most of the resources require authentication and authorization.
 
 - For a request to be authenticated, it must provide the `Authorization` HTTP header.
 - For a request to be authorized, a policy must be in place to grant you access.
 
-## Errors
+### Errors
 
 When an error occurs, either due to the user input or platform error, it is returned as list of errors.
 Errors always have the same structure:
@@ -26,7 +26,7 @@ Errors always have the same structure:
 - `title`: The title of the error
 - `description`: A more detailed description of the error
 - `code`: The status code of the error
-- `trace`: Trace ID that can help Aporeto engineers to trace the cause of the error.
+- `trace`: Trace ID that can help Segment engineers to trace the cause of the error.
 - `data`: Additional opaque data related to the error.
 
 For example:
@@ -65,7 +65,7 @@ The error codes follow the HTTP status codes:
 There may be additional error codes in certain circumstances.
 Please refer to the HTTP error code documentation for more information.
 
-## Authentication
+### Authentication
 
 All API calls must explicitly pass the `Authorization` HTTP header in the following form:
 
@@ -76,14 +76,14 @@ Authorization: Bearer <token>
 The token is a [JSON Web Token (JWT)](https://jwt.io) that can be exchanged from one of the supported authentication
 sources:
 
-- Aporeto account: username and password.
+- Segment account: username and password.
 - App credentials: X.509 certificate.
 - User configured OIDC provider.
 - User configured LDAP server.
 
 These various sources are called realms.
 
-Regardless of the realm, Aporeto will validate the user provided info and will convert identification
+Regardless of the realm, Segment Console will validate the user provided info and will convert identification
 bits into claims that are inserted in the JWT.
 
 Administrators can then write API authorizations based on these claims to authorize actions
@@ -105,7 +105,7 @@ curl https://api.console.aporeto.com/issue \
 
 The `realm` property can be one of:
 
-- `Vince`: Aporeto account
+- `Vince`: Segment account
 - `Certificate`: Client X.509 certificate (app credentials)
 - `OIDC`: User configured OIDC provider
 - `LDAP`: User configured LDAP provider
@@ -124,7 +124,7 @@ quota so the token can be used as much as you like during its validity period.
 
 The `metadata` attribute contains various realm-dependent information (see below).
 
-Upon correct authentication, Aporeto will return a JWT wrapped in a JSON or MessagePack object.
+Upon correct authentication, Segment Console will return a JWT wrapped in a JSON or MessagePack object.
 
 ```json
 {
@@ -138,9 +138,9 @@ Upon correct authentication, Aporeto will return a JWT wrapped in a JSON or Mess
 The `token` attribute contains the actual JWT you need to pass into the `Authorization` HTTP header for every
 subsequent request.
 
-### Authenticating with an Aporeto account
+#### Authenticating with a Segment account
 
-To authenticate from your Aporeto account, you can issue the following command.
+To authenticate from your Segment account, you can issue the following command.
 
 ```shell
 curl https://api.console.aporeto.com/issue \
@@ -155,10 +155,10 @@ curl https://api.console.aporeto.com/issue \
   }'
 ```
 
-### Authenticating with an X.509 certificate
+#### Authenticating with an X.509 certificate
 
 {{< note >}}
-How to retrieve an X.509 certificate from Aporeto is not in the scope of this document.
+How to retrieve an X.509 certificate from Segment Console is not in the scope of this document.
 {{< /note >}}
 
 To use an X.509 user certificate, you must configure your client to pass it on the
@@ -175,9 +175,9 @@ curl https://api.console.aporeto.com/issue \
   -d '{"realm": "Certificate"}'
 ```
 
-## Namespace
+### Namespace
 
-Most of the resources in Aporeto live in a namespace.
+Most of the resources in Segment Console live in a namespace.
 When you issue a command, in addition to your JWT, you must pass the `X-Namespace` HTTP header.
 This will tell the system which namespace the request is targeting and what API authorizations to apply.
 
@@ -224,9 +224,9 @@ curl https://api.console.aporeto.com/namespaces \
 ]
 ```
 
-## Idempotency
+### Idempotency
 
-The Control Plane API supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for `POST` operations.
+The Segment Console API supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for `POST` operations.
 This allows you to safely retry requests that returned a communication error, but actually were honored by the system.
 
 If you issue two subsequent `POST` requests with the same idempotency key, the second will return the exact same response as the first one, while it will not have done anything in the system.
@@ -291,13 +291,13 @@ And the second one:
 {"ID":"5d2398157ddf1f3519ce6d96"}
 ```
 
-## CRUD operations
+### CRUD operations
 
-### Hierarchy layout
+#### Hierarchy layout
 
-The Control Plane API follows a three-level structure to traverse the hierarchy.
+The Segment Console API follows a three-level structure to traverse the hierarchy.
 For instance, for an hypothetical object `parent` that can have `children` who can in turn
-have `grandchildren`, Aporeto lays out the API URLs as follows:
+have `grandchildren`, Segment lays out the API URLs as follows:
 
 - `/parents`: Affects all parents.
 - `/parents/:id`: Affects a particular parent with the given ID.
@@ -306,9 +306,9 @@ have `grandchildren`, Aporeto lays out the API URLs as follows:
 - `/children/:id`: Affects a particular child with the given ID.
 - `/children/:id/grandchildren`: Affects all grandchildren in child with the given ID.
 
-### Methods
+#### Methods
 
-The Control Plane API uses standard HTTP methods to perform actions on resources.
+The Segment Console API uses standard HTTP methods to perform actions on resources.
 Not all methods apply to all URLs.
 
 - `GET`: Retrieves many or retrieve one.
@@ -317,7 +317,7 @@ Not all methods apply to all URLs.
 - `DELETE`: Deletes an existing resource.
 - `HEAD`: Works like a `GET` but it does not return any body.
 
-### Creating resources
+#### Creating resources
 
 The `POST` method can be used with the following resource URLs.
 
@@ -338,7 +338,7 @@ curl https://api.console.aporeto.com/namespaces \
   }'
 ```
 
-### Retrieving resources
+#### Retrieving resources
 
 The `GET` (or `HEAD`) method can be used with the following resource URLs.
 
@@ -358,7 +358,7 @@ curl https://api.console.aporeto.com/namespaces?page=2&pageSize=10 \
   -H 'Authorization: Bearer <token>'
 ```
 
-### Updating resources
+#### Updating resources
 
 The `PUT` method can only be used with the `PUT /parents/:id` resource URL.
 It updates the parent with the given ID.
