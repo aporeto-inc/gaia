@@ -222,9 +222,6 @@ type ProcessingUnit struct {
 	// The date and time when the information was collected.
 	LastCollectionTime time.Time `json:"lastCollectionTime" msgpack:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
 
-	// Last poke is the time when the pu got last poked.
-	LastPokeTime time.Time `json:"-" msgpack:"-" bson:"lastpoketime" mapstructure:"-,omitempty"`
-
 	// The date and time of the last policy resolution.
 	LastSyncTime time.Time `json:"lastSyncTime" msgpack:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
 
@@ -269,11 +266,6 @@ type ProcessingUnit struct {
 	// `RKT`, `User`, or `SSHSession`.
 	Type ProcessingUnitTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
-	// The Aporeto control plane sets this value to `true` if it hasn't heard from the
-	// processing
-	// unit for more than five minutes.
-	Unreachable bool `json:"unreachable" msgpack:"unreachable" bson:"unreachable" mapstructure:"unreachable,omitempty"`
-
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
@@ -310,9 +302,9 @@ func NewProcessingUnit() *ProcessingUnit {
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 		Images:            []string{},
 		Tracing:           NewTraceMode(),
-		Metadata:          []string{},
 		MigrationsLog:     map[string]string{},
 		NetworkServices:   []*ProcessingUnitService{},
+		Metadata:          []string{},
 		Vulnerabilities:   []string{},
 	}
 }
@@ -363,7 +355,6 @@ func (o *ProcessingUnit) GetBSON() (interface{}, error) {
 	s.EnforcerNamespace = o.EnforcerNamespace
 	s.Images = o.Images
 	s.LastCollectionTime = o.LastCollectionTime
-	s.LastPokeTime = o.LastPokeTime
 	s.LastSyncTime = o.LastSyncTime
 	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
@@ -375,7 +366,6 @@ func (o *ProcessingUnit) GetBSON() (interface{}, error) {
 	s.OperationalStatus = o.OperationalStatus
 	s.Protected = o.Protected
 	s.Type = o.Type
-	s.Unreachable = o.Unreachable
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
 	s.Vulnerabilities = o.Vulnerabilities
@@ -415,7 +405,6 @@ func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
 	o.EnforcerNamespace = s.EnforcerNamespace
 	o.Images = s.Images
 	o.LastCollectionTime = s.LastCollectionTime
-	o.LastPokeTime = s.LastPokeTime
 	o.LastSyncTime = s.LastSyncTime
 	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
@@ -427,7 +416,6 @@ func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
 	o.OperationalStatus = s.OperationalStatus
 	o.Protected = s.Protected
 	o.Type = s.Type
-	o.Unreachable = s.Unreachable
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
 	o.Vulnerabilities = s.Vulnerabilities
@@ -703,7 +691,6 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			Image:                &o.Image,
 			Images:               &o.Images,
 			LastCollectionTime:   &o.LastCollectionTime,
-			LastPokeTime:         &o.LastPokeTime,
 			LastSyncTime:         &o.LastSyncTime,
 			Metadata:             &o.Metadata,
 			MigrationsLog:        &o.MigrationsLog,
@@ -716,7 +703,6 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			Protected:            &o.Protected,
 			Tracing:              o.Tracing,
 			Type:                 &o.Type,
-			Unreachable:          &o.Unreachable,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 			Vulnerabilities:      &o.Vulnerabilities,
@@ -763,8 +749,6 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Images = &(o.Images)
 		case "lastCollectionTime":
 			sp.LastCollectionTime = &(o.LastCollectionTime)
-		case "lastPokeTime":
-			sp.LastPokeTime = &(o.LastPokeTime)
 		case "lastSyncTime":
 			sp.LastSyncTime = &(o.LastSyncTime)
 		case "metadata":
@@ -789,8 +773,6 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Tracing = o.Tracing
 		case "type":
 			sp.Type = &(o.Type)
-		case "unreachable":
-			sp.Unreachable = &(o.Unreachable)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -867,9 +849,6 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	if so.LastCollectionTime != nil {
 		o.LastCollectionTime = *so.LastCollectionTime
 	}
-	if so.LastPokeTime != nil {
-		o.LastPokeTime = *so.LastPokeTime
-	}
 	if so.LastSyncTime != nil {
 		o.LastSyncTime = *so.LastSyncTime
 	}
@@ -905,9 +884,6 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
-	}
-	if so.Unreachable != nil {
-		o.Unreachable = *so.Unreachable
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -1084,8 +1060,6 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.Images
 	case "lastCollectionTime":
 		return o.LastCollectionTime
-	case "lastPokeTime":
-		return o.LastPokeTime
 	case "lastSyncTime":
 		return o.LastSyncTime
 	case "metadata":
@@ -1110,8 +1084,6 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.Tracing
 	case "type":
 		return o.Type
-	case "unreachable":
-		return o.Unreachable
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -1339,14 +1311,6 @@ a host service. ` + "`" + `Failed` + "`" + `.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"LastPokeTime": {
-		AllowedChoices: []string{},
-		ConvertedName:  "LastPokeTime",
-		Description:    `Last poke is the time when the pu got last poked.`,
-		Name:           "lastPokeTime",
-		Stored:         true,
-		Type:           "time",
-	},
 	"LastSyncTime": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1498,20 +1462,6 @@ manifest.`,
 		Name:       "type",
 		Stored:     true,
 		Type:       "enum",
-	},
-	"Unreachable": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Unreachable",
-		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from the
-processing
-unit for more than five minutes.`,
-		Exposed:   true,
-		Name:      "unreachable",
-		ReadOnly:  true,
-		Stored:    true,
-		Transient: true,
-		Type:      "boolean",
 	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -1800,14 +1750,6 @@ a host service. ` + "`" + `Failed` + "`" + `.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"lastpoketime": {
-		AllowedChoices: []string{},
-		ConvertedName:  "LastPokeTime",
-		Description:    `Last poke is the time when the pu got last poked.`,
-		Name:           "lastPokeTime",
-		Stored:         true,
-		Type:           "time",
-	},
 	"lastsynctime": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1959,20 +1901,6 @@ manifest.`,
 		Name:       "type",
 		Stored:     true,
 		Type:       "enum",
-	},
-	"unreachable": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Unreachable",
-		Description: `The Aporeto control plane sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from the
-processing
-unit for more than five minutes.`,
-		Exposed:   true,
-		Name:      "unreachable",
-		ReadOnly:  true,
-		Stored:    true,
-		Transient: true,
-		Type:      "boolean",
 	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
@@ -2181,9 +2109,6 @@ type SparseProcessingUnit struct {
 	// The date and time when the information was collected.
 	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" msgpack:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
 
-	// Last poke is the time when the pu got last poked.
-	LastPokeTime *time.Time `json:"-" msgpack:"-" bson:"lastpoketime,omitempty" mapstructure:"-,omitempty"`
-
 	// The date and time of the last policy resolution.
 	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" msgpack:"lastSyncTime,omitempty" bson:"lastsynctime,omitempty" mapstructure:"lastSyncTime,omitempty"`
 
@@ -2227,11 +2152,6 @@ type SparseProcessingUnit struct {
 	// `LinuxService`,
 	// `RKT`, `User`, or `SSHSession`.
 	Type *ProcessingUnitTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
-
-	// The Aporeto control plane sets this value to `true` if it hasn't heard from the
-	// processing
-	// unit for more than five minutes.
-	Unreachable *bool `json:"unreachable,omitempty" msgpack:"unreachable,omitempty" bson:"unreachable,omitempty" mapstructure:"unreachable,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -2343,9 +2263,6 @@ func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
 	if o.LastCollectionTime != nil {
 		s.LastCollectionTime = o.LastCollectionTime
 	}
-	if o.LastPokeTime != nil {
-		s.LastPokeTime = o.LastPokeTime
-	}
 	if o.LastSyncTime != nil {
 		s.LastSyncTime = o.LastSyncTime
 	}
@@ -2378,9 +2295,6 @@ func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
 	}
 	if o.Type != nil {
 		s.Type = o.Type
-	}
-	if o.Unreachable != nil {
-		s.Unreachable = o.Unreachable
 	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -2464,9 +2378,6 @@ func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
 	if s.LastCollectionTime != nil {
 		o.LastCollectionTime = s.LastCollectionTime
 	}
-	if s.LastPokeTime != nil {
-		o.LastPokeTime = s.LastPokeTime
-	}
 	if s.LastSyncTime != nil {
 		o.LastSyncTime = s.LastSyncTime
 	}
@@ -2499,9 +2410,6 @@ func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
 	}
 	if s.Type != nil {
 		o.Type = s.Type
-	}
-	if s.Unreachable != nil {
-		o.Unreachable = s.Unreachable
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -2586,9 +2494,6 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	if o.LastCollectionTime != nil {
 		out.LastCollectionTime = *o.LastCollectionTime
 	}
-	if o.LastPokeTime != nil {
-		out.LastPokeTime = *o.LastPokeTime
-	}
 	if o.LastSyncTime != nil {
 		out.LastSyncTime = *o.LastSyncTime
 	}
@@ -2624,9 +2529,6 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Type != nil {
 		out.Type = *o.Type
-	}
-	if o.Unreachable != nil {
-		out.Unreachable = *o.Unreachable
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -2963,7 +2865,6 @@ type mongoAttributesProcessingUnit struct {
 	EnforcerNamespace    string                               `bson:"enforcernamespace"`
 	Images               []string                             `bson:"images"`
 	LastCollectionTime   time.Time                            `bson:"lastcollectiontime"`
-	LastPokeTime         time.Time                            `bson:"lastpoketime"`
 	LastSyncTime         time.Time                            `bson:"lastsynctime"`
 	Metadata             []string                             `bson:"metadata"`
 	MigrationsLog        map[string]string                    `bson:"migrationslog,omitempty"`
@@ -2975,7 +2876,6 @@ type mongoAttributesProcessingUnit struct {
 	OperationalStatus    ProcessingUnitOperationalStatusValue `bson:"operationalstatus"`
 	Protected            bool                                 `bson:"protected"`
 	Type                 ProcessingUnitTypeValue              `bson:"type"`
-	Unreachable          bool                                 `bson:"unreachable"`
 	UpdateIdempotencyKey string                               `bson:"updateidempotencykey"`
 	UpdateTime           time.Time                            `bson:"updatetime"`
 	Vulnerabilities      []string                             `bson:"vulnerabilities"`
@@ -3000,7 +2900,6 @@ type mongoAttributesSparseProcessingUnit struct {
 	EnforcerNamespace    *string                               `bson:"enforcernamespace,omitempty"`
 	Images               *[]string                             `bson:"images,omitempty"`
 	LastCollectionTime   *time.Time                            `bson:"lastcollectiontime,omitempty"`
-	LastPokeTime         *time.Time                            `bson:"lastpoketime,omitempty"`
 	LastSyncTime         *time.Time                            `bson:"lastsynctime,omitempty"`
 	Metadata             *[]string                             `bson:"metadata,omitempty"`
 	MigrationsLog        *map[string]string                    `bson:"migrationslog,omitempty"`
@@ -3012,7 +2911,6 @@ type mongoAttributesSparseProcessingUnit struct {
 	OperationalStatus    *ProcessingUnitOperationalStatusValue `bson:"operationalstatus,omitempty"`
 	Protected            *bool                                 `bson:"protected,omitempty"`
 	Type                 *ProcessingUnitTypeValue              `bson:"type,omitempty"`
-	Unreachable          *bool                                 `bson:"unreachable,omitempty"`
 	UpdateIdempotencyKey *string                               `bson:"updateidempotencykey,omitempty"`
 	UpdateTime           *time.Time                            `bson:"updatetime,omitempty"`
 	Vulnerabilities      *[]string                             `bson:"vulnerabilities,omitempty"`
