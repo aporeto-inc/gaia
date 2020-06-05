@@ -122,7 +122,7 @@ type Authority struct {
 	Key string `json:"-" msgpack:"-" bson:"key" mapstructure:"-,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Organization field of the CA.
 	Organization string `json:"organization" msgpack:"organization" bson:"organization" mapstructure:"organization,omitempty"`

@@ -88,10 +88,10 @@ type PingResult struct {
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// May contain a list of errors that have happened during the collection.
-	Errors []string `json:"errors,omitempty" msgpack:"errors,omitempty" bson:"errors" mapstructure:"errors,omitempty"`
+	Errors []string `json:"errors,omitempty" msgpack:"errors,omitempty" bson:"errors,omitempty" mapstructure:"errors,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
@@ -108,7 +108,7 @@ type PingResult struct {
 	// Contains information about missing probes in the result. This field will be
 	// populated in the ping probe is managed by a remote controller (federation) or is
 	// stored in a namespace you don't have any permissions on.
-	RemoteProbes []*RemotePingProbe `json:"remoteProbes,omitempty" msgpack:"remoteProbes,omitempty" bson:"remoteprobes" mapstructure:"remoteProbes,omitempty"`
+	RemoteProbes []*RemotePingProbe `json:"remoteProbes,omitempty" msgpack:"remoteProbes,omitempty" bson:"remoteprobes,omitempty" mapstructure:"remoteProbes,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`

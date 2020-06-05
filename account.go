@@ -123,7 +123,7 @@ type Account struct {
 	ActivationExpiration time.Time `json:"-" msgpack:"-" bson:"activationexpiration" mapstructure:"-,omitempty"`
 
 	// Contains the activation token.
-	ActivationToken string `json:"activationToken,omitempty" msgpack:"activationToken,omitempty" bson:"activationtoken" mapstructure:"activationToken,omitempty"`
+	ActivationToken string `json:"activationToken,omitempty" msgpack:"activationToken,omitempty" bson:"activationtoken,omitempty" mapstructure:"activationToken,omitempty"`
 
 	// Holds the ID of the associated API authorization.
 	AssociatedAPIAuthPolicyID string `json:"-" msgpack:"-" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
@@ -171,7 +171,7 @@ type Account struct {
 	LocalCARenew bool `json:"localCARenew" msgpack:"localCARenew" bson:"-" mapstructure:"localCARenew,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Name of the account.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`

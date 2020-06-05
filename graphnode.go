@@ -135,7 +135,7 @@ type GraphNode struct {
 	Status string `json:"status" msgpack:"status" bson:"status" mapstructure:"status,omitempty"`
 
 	// Tags of object represented by the node.
-	Tags []string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"tags" mapstructure:"tags,omitempty"`
+	Tags []string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"tags,omitempty" mapstructure:"tags,omitempty"`
 
 	// Type of object represented by the node.
 	Type GraphNodeTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`

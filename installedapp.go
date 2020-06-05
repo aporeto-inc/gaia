@@ -144,7 +144,7 @@ type InstalledApp struct {
 	ExternalWindowButton map[string]string `json:"externalWindowButton" msgpack:"externalWindowButton" bson:"externalwindowbutton" mapstructure:"externalWindowButton,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`

@@ -89,7 +89,7 @@ type Revocation struct {
 	ExpirationDate time.Time `json:"expirationDate" msgpack:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Set time from when the certificate will be revoked.
 	RevokeDate time.Time `json:"revokeDate" msgpack:"revokeDate" bson:"revokedate" mapstructure:"revokeDate,omitempty"`

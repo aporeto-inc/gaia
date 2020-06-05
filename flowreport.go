@@ -155,113 +155,113 @@ type FlowReport struct {
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action applied to the flow.
-	Action FlowReportActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
+	Action FlowReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
 
 	// Identifier of the destination controller.
-	DestinationController string `json:"destinationController" msgpack:"destinationController" bson:"-" mapstructure:"destinationController,omitempty"`
+	DestinationController string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"destinationcontroller,omitempty" mapstructure:"destinationController,omitempty"`
 
 	// ID of the destination.
-	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"destinationid" mapstructure:"destinationID,omitempty"`
+	DestinationID string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"destinationid,omitempty" mapstructure:"destinationID,omitempty"`
 
 	// Destination IP address.
-	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"destinationip" mapstructure:"destinationIP,omitempty"`
+	DestinationIP string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"destinationip,omitempty" mapstructure:"destinationIP,omitempty"`
 
 	// Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
-	DestinationNamespace string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"destinationnamespace" mapstructure:"destinationNamespace,omitempty"`
+	DestinationNamespace string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"destinationnamespace,omitempty" mapstructure:"destinationNamespace,omitempty"`
 
 	// Identifier of the destination platform.
-	DestinationPlatform string `json:"destinationPlatform" msgpack:"destinationPlatform" bson:"destinationplatform" mapstructure:"destinationPlatform,omitempty"`
+	DestinationPlatform string `json:"destinationPlatform,omitempty" msgpack:"destinationPlatform,omitempty" bson:"destinationplatform,omitempty" mapstructure:"destinationPlatform,omitempty"`
 
 	// Port of the destination.
-	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"destinationport" mapstructure:"destinationPort,omitempty"`
+	DestinationPort int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"destinationport,omitempty" mapstructure:"destinationPort,omitempty"`
 
 	// Destination type.
-	DestinationType FlowReportDestinationTypeValue `json:"destinationType" msgpack:"destinationType" bson:"destinationtype" mapstructure:"destinationType,omitempty"`
+	DestinationType FlowReportDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"destinationtype,omitempty" mapstructure:"destinationType,omitempty"`
 
 	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
-	DropReason string `json:"dropReason" msgpack:"dropReason" bson:"dropreason" mapstructure:"dropReason,omitempty"`
+	DropReason string `json:"dropReason,omitempty" msgpack:"dropReason,omitempty" bson:"dropreason,omitempty" mapstructure:"dropReason,omitempty"`
 
 	// If `true`, the flow was encrypted.
-	Encrypted bool `json:"encrypted" msgpack:"encrypted" bson:"encrypted" mapstructure:"encrypted,omitempty"`
+	Encrypted bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"encrypted,omitempty" mapstructure:"encrypted,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// This is here for backward compatibility.
-	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// If `true`, design mode is on.
-	Observed bool `json:"observed" msgpack:"observed" bson:"observed" mapstructure:"observed,omitempty"`
+	Observed bool `json:"observed,omitempty" msgpack:"observed,omitempty" bson:"observed,omitempty" mapstructure:"observed,omitempty"`
 
 	// Action observed on the flow.
-	ObservedAction FlowReportObservedActionValue `json:"observedAction" msgpack:"observedAction" bson:"observedaction" mapstructure:"observedAction,omitempty"`
+	ObservedAction FlowReportObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"observedaction,omitempty" mapstructure:"observedAction,omitempty"`
 
 	// Specifies the reason for a rejection. Only set if `observedAction` is set
 	// to `Reject`.
-	ObservedDropReason string `json:"observedDropReason" msgpack:"observedDropReason" bson:"observeddropreason" mapstructure:"observedDropReason,omitempty"`
+	ObservedDropReason string `json:"observedDropReason,omitempty" msgpack:"observedDropReason,omitempty" bson:"observeddropreason,omitempty" mapstructure:"observedDropReason,omitempty"`
 
 	// Value of the encryption of the network policy that observed the flow.
-	ObservedEncrypted bool `json:"observedEncrypted" msgpack:"observedEncrypted" bson:"observedencrypted" mapstructure:"observedEncrypted,omitempty"`
+	ObservedEncrypted bool `json:"observedEncrypted,omitempty" msgpack:"observedEncrypted,omitempty" bson:"observedencrypted,omitempty" mapstructure:"observedEncrypted,omitempty"`
 
 	// ID of the network policy that observed the flow.
-	ObservedPolicyID string `json:"observedPolicyID" msgpack:"observedPolicyID" bson:"observedpolicyid" mapstructure:"observedPolicyID,omitempty"`
+	ObservedPolicyID string `json:"observedPolicyID,omitempty" msgpack:"observedPolicyID,omitempty" bson:"observedpolicyid,omitempty" mapstructure:"observedPolicyID,omitempty"`
 
 	// Namespace of the network policy that observed the flow.
-	ObservedPolicyNamespace string `json:"observedPolicyNamespace" msgpack:"observedPolicyNamespace" bson:"observedpolicynamespace" mapstructure:"observedPolicyNamespace,omitempty"`
+	ObservedPolicyNamespace string `json:"observedPolicyNamespace,omitempty" msgpack:"observedPolicyNamespace,omitempty" bson:"observedpolicynamespace,omitempty" mapstructure:"observedPolicyNamespace,omitempty"`
 
 	// ID of the network policy that accepted the flow.
-	PolicyID string `json:"policyID" msgpack:"policyID" bson:"policyid" mapstructure:"policyID,omitempty"`
+	PolicyID string `json:"policyID,omitempty" msgpack:"policyID,omitempty" bson:"policyid,omitempty" mapstructure:"policyID,omitempty"`
 
 	// Namespace of the network policy that accepted the flow.
-	PolicyNamespace string `json:"policyNamespace" msgpack:"policyNamespace" bson:"policynamespace" mapstructure:"policyNamespace,omitempty"`
+	PolicyNamespace string `json:"policyNamespace,omitempty" msgpack:"policyNamespace,omitempty" bson:"policynamespace,omitempty" mapstructure:"policyNamespace,omitempty"`
 
 	// Protocol number.
-	Protocol int `json:"protocol" msgpack:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
+	Protocol int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"protocol,omitempty" mapstructure:"protocol,omitempty"`
 
 	// Namespace of the object at the other end of the flow.
-	RemoteNamespace string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"remotenamespace" mapstructure:"remoteNamespace,omitempty"`
+	RemoteNamespace string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"remotenamespace,omitempty" mapstructure:"remoteNamespace,omitempty"`
 
 	// Hash of the claims used to communicate.
-	ServiceClaimHash string `json:"serviceClaimHash" msgpack:"serviceClaimHash" bson:"serviceclaimhash" mapstructure:"serviceClaimHash,omitempty"`
+	ServiceClaimHash string `json:"serviceClaimHash,omitempty" msgpack:"serviceClaimHash,omitempty" bson:"serviceclaimhash,omitempty" mapstructure:"serviceClaimHash,omitempty"`
 
 	// ID of the service.
-	ServiceID string `json:"serviceID" msgpack:"serviceID" bson:"serviceid" mapstructure:"serviceID,omitempty"`
+	ServiceID string `json:"serviceID,omitempty" msgpack:"serviceID,omitempty" bson:"serviceid,omitempty" mapstructure:"serviceID,omitempty"`
 
 	// Namespace of Service accessed.
-	ServiceNamespace string `json:"serviceNamespace" msgpack:"serviceNamespace" bson:"servicenamespace" mapstructure:"serviceNamespace,omitempty"`
+	ServiceNamespace string `json:"serviceNamespace,omitempty" msgpack:"serviceNamespace,omitempty" bson:"servicenamespace,omitempty" mapstructure:"serviceNamespace,omitempty"`
 
 	// ID of the service.
-	ServiceType FlowReportServiceTypeValue `json:"serviceType" msgpack:"serviceType" bson:"servicetype" mapstructure:"serviceType,omitempty"`
+	ServiceType FlowReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"servicetype,omitempty" mapstructure:"serviceType,omitempty"`
 
 	// Service URL accessed.
-	ServiceURL string `json:"serviceURL" msgpack:"serviceURL" bson:"serviceurl" mapstructure:"serviceURL,omitempty"`
+	ServiceURL string `json:"serviceURL,omitempty" msgpack:"serviceURL,omitempty" bson:"serviceurl,omitempty" mapstructure:"serviceURL,omitempty"`
 
 	// Identifier of the source controller.
-	SourceController string `json:"sourceController" msgpack:"sourceController" bson:"-" mapstructure:"sourceController,omitempty"`
+	SourceController string `json:"sourceController,omitempty" msgpack:"sourceController,omitempty" bson:"sourcecontroller,omitempty" mapstructure:"sourceController,omitempty"`
 
 	// ID of the source.
-	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
+	SourceID string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"sourceid,omitempty" mapstructure:"sourceID,omitempty"`
 
 	// Type of the source.
-	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"sourceip" mapstructure:"sourceIP,omitempty"`
+	SourceIP string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"sourceip,omitempty" mapstructure:"sourceIP,omitempty"`
 
 	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
-	SourceNamespace string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"sourcenamespace" mapstructure:"sourceNamespace,omitempty"`
+	SourceNamespace string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"sourcenamespace,omitempty" mapstructure:"sourceNamespace,omitempty"`
 
 	// Identifier of the source platform.
-	SourcePlatform string `json:"sourcePlatform" msgpack:"sourcePlatform" bson:"sourceplatform" mapstructure:"sourcePlatform,omitempty"`
+	SourcePlatform string `json:"sourcePlatform,omitempty" msgpack:"sourcePlatform,omitempty" bson:"sourceplatform,omitempty" mapstructure:"sourcePlatform,omitempty"`
 
 	// Type of the source.
-	SourceType FlowReportSourceTypeValue `json:"sourceType" msgpack:"sourceType" bson:"sourcetype" mapstructure:"sourceType,omitempty"`
+	SourceType FlowReportSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"sourcetype,omitempty" mapstructure:"sourceType,omitempty"`
 
 	// Time and date of the log.
-	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"timestamp" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"timestamp,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// Number of flows in the log.
-	Value int `json:"value" msgpack:"value" bson:"value" mapstructure:"value,omitempty"`
+	Value int `json:"value,omitempty" msgpack:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -316,6 +316,7 @@ func (o *FlowReport) GetBSON() (interface{}, error) {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.Action = o.Action
+	s.DestinationController = o.DestinationController
 	s.DestinationID = o.DestinationID
 	s.DestinationIP = o.DestinationIP
 	s.DestinationNamespace = o.DestinationNamespace
@@ -341,6 +342,7 @@ func (o *FlowReport) GetBSON() (interface{}, error) {
 	s.ServiceNamespace = o.ServiceNamespace
 	s.ServiceType = o.ServiceType
 	s.ServiceURL = o.ServiceURL
+	s.SourceController = o.SourceController
 	s.SourceID = o.SourceID
 	s.SourceIP = o.SourceIP
 	s.SourceNamespace = o.SourceNamespace
@@ -369,6 +371,7 @@ func (o *FlowReport) SetBSON(raw bson.Raw) error {
 
 	o.ID = s.ID.Hex()
 	o.Action = s.Action
+	o.DestinationController = s.DestinationController
 	o.DestinationID = s.DestinationID
 	o.DestinationIP = s.DestinationIP
 	o.DestinationNamespace = s.DestinationNamespace
@@ -394,6 +397,7 @@ func (o *FlowReport) SetBSON(raw bson.Raw) error {
 	o.ServiceNamespace = s.ServiceNamespace
 	o.ServiceType = s.ServiceType
 	o.ServiceURL = s.ServiceURL
+	o.SourceController = s.SourceController
 	o.SourceID = s.SourceID
 	o.SourceIP = s.SourceIP
 	o.SourceNamespace = s.SourceNamespace
@@ -965,6 +969,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Identifier of the destination controller.`,
 		Exposed:        true,
 		Name:           "destinationController",
+		Stored:         true,
 		Type:           "string",
 	},
 	"DestinationID": {
@@ -1213,6 +1218,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Description:    `Identifier of the source controller.`,
 		Exposed:        true,
 		Name:           "sourceController",
+		Stored:         true,
 		Type:           "string",
 	},
 	"SourceID": {
@@ -1343,6 +1349,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Identifier of the destination controller.`,
 		Exposed:        true,
 		Name:           "destinationController",
+		Stored:         true,
 		Type:           "string",
 	},
 	"destinationid": {
@@ -1591,6 +1598,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Description:    `Identifier of the source controller.`,
 		Exposed:        true,
 		Name:           "sourceController",
+		Stored:         true,
 		Type:           "string",
 	},
 	"sourceid": {
@@ -1759,7 +1767,7 @@ type SparseFlowReport struct {
 	Action *FlowReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
 
 	// Identifier of the destination controller.
-	DestinationController *string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"-" mapstructure:"destinationController,omitempty"`
+	DestinationController *string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"destinationcontroller,omitempty" mapstructure:"destinationController,omitempty"`
 
 	// ID of the destination.
 	DestinationID *string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"destinationid,omitempty" mapstructure:"destinationID,omitempty"`
@@ -1840,7 +1848,7 @@ type SparseFlowReport struct {
 	ServiceURL *string `json:"serviceURL,omitempty" msgpack:"serviceURL,omitempty" bson:"serviceurl,omitempty" mapstructure:"serviceURL,omitempty"`
 
 	// Identifier of the source controller.
-	SourceController *string `json:"sourceController,omitempty" msgpack:"sourceController,omitempty" bson:"-" mapstructure:"sourceController,omitempty"`
+	SourceController *string `json:"sourceController,omitempty" msgpack:"sourceController,omitempty" bson:"sourcecontroller,omitempty" mapstructure:"sourceController,omitempty"`
 
 	// ID of the source.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"sourceid,omitempty" mapstructure:"sourceID,omitempty"`
@@ -1920,6 +1928,9 @@ func (o *SparseFlowReport) GetBSON() (interface{}, error) {
 	if o.Action != nil {
 		s.Action = o.Action
 	}
+	if o.DestinationController != nil {
+		s.DestinationController = o.DestinationController
+	}
 	if o.DestinationID != nil {
 		s.DestinationID = o.DestinationID
 	}
@@ -1995,6 +2006,9 @@ func (o *SparseFlowReport) GetBSON() (interface{}, error) {
 	if o.ServiceURL != nil {
 		s.ServiceURL = o.ServiceURL
 	}
+	if o.SourceController != nil {
+		s.SourceController = o.SourceController
+	}
 	if o.SourceID != nil {
 		s.SourceID = o.SourceID
 	}
@@ -2043,6 +2057,9 @@ func (o *SparseFlowReport) SetBSON(raw bson.Raw) error {
 	o.ID = &id
 	if s.Action != nil {
 		o.Action = s.Action
+	}
+	if s.DestinationController != nil {
+		o.DestinationController = s.DestinationController
 	}
 	if s.DestinationID != nil {
 		o.DestinationID = s.DestinationID
@@ -2118,6 +2135,9 @@ func (o *SparseFlowReport) SetBSON(raw bson.Raw) error {
 	}
 	if s.ServiceURL != nil {
 		o.ServiceURL = s.ServiceURL
+	}
+	if s.SourceController != nil {
+		o.SourceController = s.SourceController
 	}
 	if s.SourceID != nil {
 		o.SourceID = s.SourceID
@@ -2352,45 +2372,48 @@ func (o *SparseFlowReport) DeepCopyInto(out *SparseFlowReport) {
 
 type mongoAttributesFlowReport struct {
 	ID                      bson.ObjectId                  `bson:"_id,omitempty"`
-	Action                  FlowReportActionValue          `bson:"action"`
-	DestinationID           string                         `bson:"destinationid"`
-	DestinationIP           string                         `bson:"destinationip"`
+	Action                  FlowReportActionValue          `bson:"action,omitempty"`
+	DestinationController   string                         `bson:"destinationcontroller,omitempty"`
+	DestinationID           string                         `bson:"destinationid,omitempty"`
+	DestinationIP           string                         `bson:"destinationip,omitempty"`
 	DestinationNamespace    string                         `bson:"destinationnamespace,omitempty"`
-	DestinationPlatform     string                         `bson:"destinationplatform"`
-	DestinationPort         int                            `bson:"destinationport"`
-	DestinationType         FlowReportDestinationTypeValue `bson:"destinationtype"`
-	DropReason              string                         `bson:"dropreason"`
-	Encrypted               bool                           `bson:"encrypted"`
+	DestinationPlatform     string                         `bson:"destinationplatform,omitempty"`
+	DestinationPort         int                            `bson:"destinationport,omitempty"`
+	DestinationType         FlowReportDestinationTypeValue `bson:"destinationtype,omitempty"`
+	DropReason              string                         `bson:"dropreason,omitempty"`
+	Encrypted               bool                           `bson:"encrypted,omitempty"`
 	MigrationsLog           map[string]string              `bson:"migrationslog,omitempty"`
-	Namespace               string                         `bson:"namespace"`
-	Observed                bool                           `bson:"observed"`
-	ObservedAction          FlowReportObservedActionValue  `bson:"observedaction"`
-	ObservedDropReason      string                         `bson:"observeddropreason"`
-	ObservedEncrypted       bool                           `bson:"observedencrypted"`
-	ObservedPolicyID        string                         `bson:"observedpolicyid"`
-	ObservedPolicyNamespace string                         `bson:"observedpolicynamespace"`
-	PolicyID                string                         `bson:"policyid"`
-	PolicyNamespace         string                         `bson:"policynamespace"`
-	Protocol                int                            `bson:"protocol"`
+	Namespace               string                         `bson:"namespace,omitempty"`
+	Observed                bool                           `bson:"observed,omitempty"`
+	ObservedAction          FlowReportObservedActionValue  `bson:"observedaction,omitempty"`
+	ObservedDropReason      string                         `bson:"observeddropreason,omitempty"`
+	ObservedEncrypted       bool                           `bson:"observedencrypted,omitempty"`
+	ObservedPolicyID        string                         `bson:"observedpolicyid,omitempty"`
+	ObservedPolicyNamespace string                         `bson:"observedpolicynamespace,omitempty"`
+	PolicyID                string                         `bson:"policyid,omitempty"`
+	PolicyNamespace         string                         `bson:"policynamespace,omitempty"`
+	Protocol                int                            `bson:"protocol,omitempty"`
 	RemoteNamespace         string                         `bson:"remotenamespace,omitempty"`
-	ServiceClaimHash        string                         `bson:"serviceclaimhash"`
-	ServiceID               string                         `bson:"serviceid"`
-	ServiceNamespace        string                         `bson:"servicenamespace"`
-	ServiceType             FlowReportServiceTypeValue     `bson:"servicetype"`
-	ServiceURL              string                         `bson:"serviceurl"`
-	SourceID                string                         `bson:"sourceid"`
-	SourceIP                string                         `bson:"sourceip"`
+	ServiceClaimHash        string                         `bson:"serviceclaimhash,omitempty"`
+	ServiceID               string                         `bson:"serviceid,omitempty"`
+	ServiceNamespace        string                         `bson:"servicenamespace,omitempty"`
+	ServiceType             FlowReportServiceTypeValue     `bson:"servicetype,omitempty"`
+	ServiceURL              string                         `bson:"serviceurl,omitempty"`
+	SourceController        string                         `bson:"sourcecontroller,omitempty"`
+	SourceID                string                         `bson:"sourceid,omitempty"`
+	SourceIP                string                         `bson:"sourceip,omitempty"`
 	SourceNamespace         string                         `bson:"sourcenamespace,omitempty"`
-	SourcePlatform          string                         `bson:"sourceplatform"`
-	SourceType              FlowReportSourceTypeValue      `bson:"sourcetype"`
-	Timestamp               time.Time                      `bson:"timestamp"`
-	Value                   int                            `bson:"value"`
+	SourcePlatform          string                         `bson:"sourceplatform,omitempty"`
+	SourceType              FlowReportSourceTypeValue      `bson:"sourcetype,omitempty"`
+	Timestamp               time.Time                      `bson:"timestamp,omitempty"`
+	Value                   int                            `bson:"value,omitempty"`
 	ZHash                   int                            `bson:"zhash"`
 	Zone                    int                            `bson:"zone"`
 }
 type mongoAttributesSparseFlowReport struct {
 	ID                      bson.ObjectId                   `bson:"_id,omitempty"`
 	Action                  *FlowReportActionValue          `bson:"action,omitempty"`
+	DestinationController   *string                         `bson:"destinationcontroller,omitempty"`
 	DestinationID           *string                         `bson:"destinationid,omitempty"`
 	DestinationIP           *string                         `bson:"destinationip,omitempty"`
 	DestinationNamespace    *string                         `bson:"destinationnamespace,omitempty"`
@@ -2416,6 +2439,7 @@ type mongoAttributesSparseFlowReport struct {
 	ServiceNamespace        *string                         `bson:"servicenamespace,omitempty"`
 	ServiceType             *FlowReportServiceTypeValue     `bson:"servicetype,omitempty"`
 	ServiceURL              *string                         `bson:"serviceurl,omitempty"`
+	SourceController        *string                         `bson:"sourcecontroller,omitempty"`
 	SourceID                *string                         `bson:"sourceid,omitempty"`
 	SourceIP                *string                         `bson:"sourceip,omitempty"`
 	SourceNamespace         *string                         `bson:"sourcenamespace,omitempty"`

@@ -105,7 +105,7 @@ type FileAccessReport struct {
 	Host string `json:"host" msgpack:"host" bson:"host" mapstructure:"host,omitempty"`
 
 	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog" mapstructure:"-,omitempty"`
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Mode of file access.
 	Mode string `json:"mode" msgpack:"mode" bson:"mode" mapstructure:"mode,omitempty"`
