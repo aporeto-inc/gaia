@@ -3239,10 +3239,6 @@ PingResult.
 
 Retrieves a ping result.
 
-Parameters:
-
-- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
-
 ##### `POST /processingunits/:id/pingprobes`
 
 Create a ping probe.

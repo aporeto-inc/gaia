@@ -3067,15 +3067,7 @@ func init() {
 			"processingunit": {},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": {
-				Parameters: []elemental.ParameterDefinition{
-					{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-				},
-			},
+			"root": {},
 		},
 	}
 

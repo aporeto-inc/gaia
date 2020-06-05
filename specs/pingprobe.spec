@@ -10,8 +10,6 @@ model:
     PingResult.
   get:
     description: Retrieves a ping result.
-    global_parameters:
-    - $filtering
   extends:
   - '@zoned'
   - '@migratable'
