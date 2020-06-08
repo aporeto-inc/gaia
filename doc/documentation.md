@@ -3235,6 +3235,10 @@ PingResult.
 
 #### Relations
 
+##### `GET /pingprobes/:id`
+
+Retrieves a ping result.
+
 ##### `POST /processingunits/:id/pingprobes`
 
 Create a ping probe.
