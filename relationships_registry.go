@@ -2596,6 +2596,9 @@ func init() {
 	}
 
 	relationshipsRegistry[LocalCAIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"namespace": {},
+		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"namespace": {},
 		},
