@@ -29,6 +29,7 @@ model:
   - '@identifiable-stored'
   - '@named'
   - '@timeable'
+  - '@signed'
   validations:
   - $automations
 
@@ -124,12 +125,6 @@ attributes:
     description: |-
       Specifies when to run the automation. Must be in valid CRON format. This
       only applies if the trigger is set to `Time`.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: signature
-    description: Signature to validate the automation.
     type: string
     exposed: true
     stored: true

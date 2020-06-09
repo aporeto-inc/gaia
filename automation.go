@@ -178,7 +178,7 @@ type Automation struct {
 	// only applies if the trigger is set to `Time`.
 	Schedule string `json:"schedule" msgpack:"schedule" bson:"schedule" mapstructure:"schedule,omitempty"`
 
-	// Signature to validate the automation.
+	// Signature to validate the authenticity of the object.
 	Signature string `json:"signature" msgpack:"signature" bson:"signature" mapstructure:"signature,omitempty"`
 
 	// Contains the standard output of the last run.
@@ -1238,7 +1238,7 @@ only applies if the trigger is set to ` + "`" + `Time` + "`" + `.`,
 	"Signature": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Signature",
-		Description:    `Signature to validate the automation.`,
+		Description:    `Signature to validate the authenticity of the object.`,
 		Exposed:        true,
 		Name:           "signature",
 		Stored:         true,
@@ -1621,7 +1621,7 @@ only applies if the trigger is set to ` + "`" + `Time` + "`" + `.`,
 	"signature": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Signature",
-		Description:    `Signature to validate the automation.`,
+		Description:    `Signature to validate the authenticity of the object.`,
 		Exposed:        true,
 		Name:           "signature",
 		Stored:         true,
@@ -1866,7 +1866,7 @@ type SparseAutomation struct {
 	// only applies if the trigger is set to `Time`.
 	Schedule *string `json:"schedule,omitempty" msgpack:"schedule,omitempty" bson:"schedule,omitempty" mapstructure:"schedule,omitempty"`
 
-	// Signature to validate the automation.
+	// Signature to validate the authenticity of the object.
 	Signature *string `json:"signature,omitempty" msgpack:"signature,omitempty" bson:"signature,omitempty" mapstructure:"signature,omitempty"`
 
 	// Contains the standard output of the last run.
