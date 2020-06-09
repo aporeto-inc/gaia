@@ -95,9 +95,8 @@ func (o DataPathCertificatesList) Version() int {
 // DataPathCertificate represents the model of a datapathcertificate
 type DataPathCertificate struct {
 	// Contains the certificate signing request (CSR) the enforcer wants control plane
-	// to sign.
-	// Depending on the certificate there will be various requirements for the CSR to
-	// be accepted.
+	// to sign. Depending on the certificate there will be various requirements for the
+	// CSR to be accepted.
 	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// The certificate.
@@ -376,9 +375,8 @@ var DataPathCertificateAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
 		Description: `Contains the certificate signing request (CSR) the enforcer wants control plane
-to sign. 
-Depending on the certificate there will be various requirements for the CSR to
-be accepted.`,
+to sign. Depending on the certificate there will be various requirements for the
+CSR to be accepted.`,
 		Exposed:  true,
 		Name:     "CSR",
 		Required: true,
@@ -447,9 +445,8 @@ var DataPathCertificateLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
 		Description: `Contains the certificate signing request (CSR) the enforcer wants control plane
-to sign. 
-Depending on the certificate there will be various requirements for the CSR to
-be accepted.`,
+to sign. Depending on the certificate there will be various requirements for the
+CSR to be accepted.`,
 		Exposed:  true,
 		Name:     "CSR",
 		Required: true,
@@ -576,9 +573,8 @@ func (o SparseDataPathCertificatesList) Version() int {
 // SparseDataPathCertificate represents the sparse version of a datapathcertificate.
 type SparseDataPathCertificate struct {
 	// Contains the certificate signing request (CSR) the enforcer wants control plane
-	// to sign.
-	// Depending on the certificate there will be various requirements for the CSR to
-	// be accepted.
+	// to sign. Depending on the certificate there will be various requirements for the
+	// CSR to be accepted.
 	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// The certificate.
