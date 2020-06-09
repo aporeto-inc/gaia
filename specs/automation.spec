@@ -128,6 +128,12 @@ attributes:
     exposed: true
     stored: true
 
+  - name: signature
+    description: Signature to validate the automation.
+    type: string
+    exposed: true
+    stored: true
+
   - name: stdout
     description: Contains the standard output of the last run.
     type: string
