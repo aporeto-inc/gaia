@@ -4048,6 +4048,10 @@ the namespace.
 
 Returns the local and SSH certificate authorities of the namespace.
 
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+
 ##### `POST /namespaces/:id/localcas`
 
 Renews the local and/or SSH certificate authorities of the namespace.
@@ -4125,6 +4129,10 @@ Updates the namespace with the given ID.
 ##### `GET /namespaces/:id/localcas`
 
 Returns the local and SSH certificate authorities of the namespace.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
 ##### `POST /namespaces/:id/localcas`
 

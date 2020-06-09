@@ -2600,10 +2600,26 @@ func init() {
 			"namespace": {},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"namespace": {},
+			"namespace": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"namespace": {},
+			"namespace": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 

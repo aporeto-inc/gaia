@@ -187,6 +187,8 @@ relations:
 - rest_name: localca
   get:
     description: Returns the local and SSH certificate authorities of the namespace.
+    global_parameters:
+    - $filtering
   create:
     description: Renews the local and/or SSH certificate authorities of the namespace.
 
