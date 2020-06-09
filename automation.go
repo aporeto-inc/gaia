@@ -505,6 +505,18 @@ func (o *Automation) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetSignature returns the Signature of the receiver.
+func (o *Automation) GetSignature() string {
+
+	return o.Signature
+}
+
+// SetSignature sets the property Signature of the receiver using the given value.
+func (o *Automation) SetSignature(signature string) {
+
+	o.Signature = signature
+}
+
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
 func (o *Automation) GetUpdateIdempotencyKey() string {
 
@@ -1240,7 +1252,9 @@ only applies if the trigger is set to ` + "`" + `Time` + "`" + `.`,
 		ConvertedName:  "Signature",
 		Description:    `Signature to validate the authenticity of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "signature",
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1623,7 +1637,9 @@ only applies if the trigger is set to ` + "`" + `Time` + "`" + `.`,
 		ConvertedName:  "Signature",
 		Description:    `Signature to validate the authenticity of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "signature",
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -2454,6 +2470,22 @@ func (o *SparseAutomation) GetProtected() (out bool) {
 func (o *SparseAutomation) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetSignature returns the Signature of the receiver.
+func (o *SparseAutomation) GetSignature() (out string) {
+
+	if o.Signature == nil {
+		return
+	}
+
+	return *o.Signature
+}
+
+// SetSignature sets the property Signature of the receiver using the address of the given value.
+func (o *SparseAutomation) SetSignature(signature string) {
+
+	o.Signature = &signature
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.

@@ -6,3 +6,5 @@ attributes:
     type: string
     exposed: true
     stored: true
+    getter: true
+    setter: true
