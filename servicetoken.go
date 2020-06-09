@@ -99,7 +99,7 @@ type ServiceToken struct {
 	// ID of the object you want to issue a token for.
 	ObjectID string `json:"objectID" msgpack:"objectID" bson:"-" mapstructure:"objectID,omitempty"`
 
-	// Provides the session ID of the enforcer when retrieving a datapath certificate.
+	// Provides the session ID of the defender when retrieving a datapath certificate.
 	SessionID string `json:"sessionID" msgpack:"sessionID" bson:"-" mapstructure:"sessionID,omitempty"`
 
 	// Token is the signed JWT service token.
@@ -381,7 +381,7 @@ resolved, the request will be rejected with an error.`,
 	"SessionID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SessionID",
-		Description:    `Provides the session ID of the enforcer when retrieving a datapath certificate.`,
+		Description:    `Provides the session ID of the defender when retrieving a datapath certificate.`,
 		Exposed:        true,
 		Name:           "sessionID",
 		Type:           "string",
@@ -441,7 +441,7 @@ resolved, the request will be rejected with an error.`,
 	"sessionid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SessionID",
-		Description:    `Provides the session ID of the enforcer when retrieving a datapath certificate.`,
+		Description:    `Provides the session ID of the defender when retrieving a datapath certificate.`,
 		Exposed:        true,
 		Name:           "sessionID",
 		Type:           "string",
@@ -549,7 +549,7 @@ type SparseServiceToken struct {
 	// ID of the object you want to issue a token for.
 	ObjectID *string `json:"objectID,omitempty" msgpack:"objectID,omitempty" bson:"-" mapstructure:"objectID,omitempty"`
 
-	// Provides the session ID of the enforcer when retrieving a datapath certificate.
+	// Provides the session ID of the defender when retrieving a datapath certificate.
 	SessionID *string `json:"sessionID,omitempty" msgpack:"sessionID,omitempty" bson:"-" mapstructure:"sessionID,omitempty"`
 
 	// Token is the signed JWT service token.

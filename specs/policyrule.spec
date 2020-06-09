@@ -35,7 +35,7 @@ attributes:
     omit_empty: true
 
   - name: enforcerProfiles
-    description: Provides information about the enforcer profile.
+    description: Provides information about the defender profile.
     type: refList
     exposed: true
     subtype: enforcerprofile

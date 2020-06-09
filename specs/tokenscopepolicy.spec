@@ -7,7 +7,7 @@ model:
   group: policy/services
   description: |-
     Defines a set of policies that allow customization of the
-    authorization tokens issued by the Aporeto service. This allows Aporeto
+    authorization tokens issued by Segment Console. This allows Segment
     generated tokens to be used by external applications.
   aliases:
   - tsp

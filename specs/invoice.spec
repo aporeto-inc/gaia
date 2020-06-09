@@ -5,7 +5,7 @@ model:
   entity_name: Invoice
   package: bill
   group: core/billing
-  description: Provides access to Aporeto customer invoices.
+  description: Provides access to Segment customer invoices.
   get:
     description: Retrieves the invoice with the given ID.
   update:

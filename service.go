@@ -153,13 +153,13 @@ type Service struct {
 
 	// PEM-encoded certificate authority to use to verify client certificates. This
 	// only applies
-	// if `authorizationType` is set to `MTLS`. If it is not set, Aporeto's public
+	// if `authorizationType` is set to `MTLS`. If it is not set, Segment's public
 	// signing
 	// certificate authority will be used.
 	MTLSCertificateAuthority string `json:"MTLSCertificateAuthority" msgpack:"MTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-	// Aporeto will autodiscover it. It will be
+	// Segment will autodiscover it. It will be
 	// `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
 	OIDCCallbackURL string `json:"OIDCCallbackURL" msgpack:"OIDCCallbackURL" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
 
@@ -189,7 +189,7 @@ type Service struct {
 
 	// Set how to provide a server certificate to the service.
 	//
-	// - `Aporeto`: Generate a certificate issued from Aporeto public CA.
+	// - `Aporeto`: Generate a certificate issued from the Segment public CA.
 	// - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
 	// - `External`: : Let you define your own certificate and key to use.
 	// - `None`: : TLS is disabled (not recommended).
@@ -218,13 +218,13 @@ type Service struct {
 	// - `OIDC`: Configures OIDC authorization. You must then set
 	// `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
 	// - `MTLS`: Configures client certificate authorization. Then you can optionally
-	// use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
+	// use `MTLSCertificateAuthority`, otherwise Segment's public signing certificate
 	// will be used.
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" msgpack:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
 	// are defined,
-	// the enforcer will copy the values of the claims to the corresponding HTTP
+	// the defender will copy the values of the claims to the corresponding HTTP
 	// headers.
 	ClaimsToHTTPHeaderMappings []*ClaimMapping `json:"claimsToHTTPHeaderMappings" msgpack:"claimsToHTTPHeaderMappings" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
@@ -260,7 +260,7 @@ type Service struct {
 	// listening can be different.
 	ExposedPort int `json:"exposedPort" msgpack:"exposedPort" bson:"exposedport" mapstructure:"exposedPort,omitempty"`
 
-	// Indicates that the exposed service is TLS. This means that the enforcer has to
+	// Indicates that the exposed service is TLS. This means that the defender has to
 	// initiate a
 	// TLS session in order to forward traffic to the service.
 	ExposedServiceIsTLS bool `json:"exposedServiceIsTLS" msgpack:"exposedServiceIsTLS" bson:"exposedserviceistls" mapstructure:"exposedServiceIsTLS,omitempty"`
@@ -298,12 +298,12 @@ type Service struct {
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// A new virtual port that the service can be accessed on, using HTTPS. Since the
-	// enforcer
+	// defender
 	// transparently inserts TLS in the application path, you might want to declare a
 	// new port
-	// where the enforcer listens for TLS. However, the application does not need to be
+	// where the defender listens for TLS. However, the application does not need to be
 	// modified
-	// and the enforcer will map the traffic to the correct application port. This
+	// and the defender will map the traffic to the correct application port. This
 	// useful when
 	// an application is being accessed from a public network.
 	PublicApplicationPort int `json:"publicApplicationPort" msgpack:"publicApplicationPort" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
@@ -1356,7 +1356,7 @@ is set to ` + "`" + `JWT` + "`" + `.`,
 		ConvertedName:  "MTLSCertificateAuthority",
 		Description: `PEM-encoded certificate authority to use to verify client certificates. This
 only applies
-if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, Aporeto's public
+if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, Segment's public
 signing
 certificate authority will be used.`,
 		Exposed: true,
@@ -1368,7 +1368,7 @@ certificate authority will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCCallbackURL",
 		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-Aporeto will autodiscover it. It will be
+Segment will autodiscover it. It will be
 ` + "`" + `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback` + "`" + `.`,
 		Exposed: true,
 		Name:    "OIDCCallbackURL",
@@ -1443,7 +1443,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		DefaultValue:   ServiceTLSTypeAporeto,
 		Description: `Set how to provide a server certificate to the service.
 
-- ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
+- ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from the Segment public CA.
 - ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from Let's Encrypt.
 - ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.
 - ` + "`" + `None` + "`" + `: : TLS is disabled (not recommended).`,
@@ -1518,7 +1518,7 @@ header.
 - ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
 ` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
 - ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
-use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate
+use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Segment's public signing certificate
 will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
@@ -1530,7 +1530,7 @@ will be used.`,
 		ConvertedName:  "ClaimsToHTTPHeaderMappings",
 		Description: `Defines a list of mappings between claims and HTTP headers. When these mappings
 are defined,
-the enforcer will copy the values of the claims to the corresponding HTTP
+the defender will copy the values of the claims to the corresponding HTTP
 headers.`,
 		Exposed: true,
 		Name:    "claimsToHTTPHeaderMappings",
@@ -1634,7 +1634,7 @@ listening can be different.`,
 	"ExposedServiceIsTLS": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedServiceIsTLS",
-		Description: `Indicates that the exposed service is TLS. This means that the enforcer has to
+		Description: `Indicates that the exposed service is TLS. This means that the defender has to
 initiate a
 TLS session in order to forward traffic to the service.`,
 		Exposed:    true,
@@ -1767,12 +1767,12 @@ public ports.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "PublicApplicationPort",
 		Description: `A new virtual port that the service can be accessed on, using HTTPS. Since the
-enforcer
+defender
 transparently inserts TLS in the application path, you might want to declare a
 new port
-where the enforcer listens for TLS. However, the application does not need to be
+where the defender listens for TLS. However, the application does not need to be
 modified
-and the enforcer will map the traffic to the correct application port. This
+and the defender will map the traffic to the correct application port. This
 useful when
 an application is being accessed from a public network.`,
 		Exposed:  true,
@@ -1931,7 +1931,7 @@ is set to ` + "`" + `JWT` + "`" + `.`,
 		ConvertedName:  "MTLSCertificateAuthority",
 		Description: `PEM-encoded certificate authority to use to verify client certificates. This
 only applies
-if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, Aporeto's public
+if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, Segment's public
 signing
 certificate authority will be used.`,
 		Exposed: true,
@@ -1943,7 +1943,7 @@ certificate authority will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCCallbackURL",
 		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-Aporeto will autodiscover it. It will be
+Segment will autodiscover it. It will be
 ` + "`" + `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback` + "`" + `.`,
 		Exposed: true,
 		Name:    "OIDCCallbackURL",
@@ -2018,7 +2018,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		DefaultValue:   ServiceTLSTypeAporeto,
 		Description: `Set how to provide a server certificate to the service.
 
-- ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
+- ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from the Segment public CA.
 - ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from Let's Encrypt.
 - ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.
 - ` + "`" + `None` + "`" + `: : TLS is disabled (not recommended).`,
@@ -2093,7 +2093,7 @@ header.
 - ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
 ` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
 - ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
-use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Aporeto's public signing certificate
+use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Segment's public signing certificate
 will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
@@ -2105,7 +2105,7 @@ will be used.`,
 		ConvertedName:  "ClaimsToHTTPHeaderMappings",
 		Description: `Defines a list of mappings between claims and HTTP headers. When these mappings
 are defined,
-the enforcer will copy the values of the claims to the corresponding HTTP
+the defender will copy the values of the claims to the corresponding HTTP
 headers.`,
 		Exposed: true,
 		Name:    "claimsToHTTPHeaderMappings",
@@ -2209,7 +2209,7 @@ listening can be different.`,
 	"exposedserviceistls": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedServiceIsTLS",
-		Description: `Indicates that the exposed service is TLS. This means that the enforcer has to
+		Description: `Indicates that the exposed service is TLS. This means that the defender has to
 initiate a
 TLS session in order to forward traffic to the service.`,
 		Exposed:    true,
@@ -2342,12 +2342,12 @@ public ports.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "PublicApplicationPort",
 		Description: `A new virtual port that the service can be accessed on, using HTTPS. Since the
-enforcer
+defender
 transparently inserts TLS in the application path, you might want to declare a
 new port
-where the enforcer listens for TLS. However, the application does not need to be
+where the defender listens for TLS. However, the application does not need to be
 modified
-and the enforcer will map the traffic to the correct application port. This
+and the defender will map the traffic to the correct application port. This
 useful when
 an application is being accessed from a public network.`,
 		Exposed:  true,
@@ -2542,13 +2542,13 @@ type SparseService struct {
 
 	// PEM-encoded certificate authority to use to verify client certificates. This
 	// only applies
-	// if `authorizationType` is set to `MTLS`. If it is not set, Aporeto's public
+	// if `authorizationType` is set to `MTLS`. If it is not set, Segment's public
 	// signing
 	// certificate authority will be used.
 	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" msgpack:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority,omitempty" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-	// Aporeto will autodiscover it. It will be
+	// Segment will autodiscover it. It will be
 	// `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
 	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" msgpack:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl,omitempty" mapstructure:"OIDCCallbackURL,omitempty"`
 
@@ -2578,7 +2578,7 @@ type SparseService struct {
 
 	// Set how to provide a server certificate to the service.
 	//
-	// - `Aporeto`: Generate a certificate issued from Aporeto public CA.
+	// - `Aporeto`: Generate a certificate issued from the Segment public CA.
 	// - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
 	// - `External`: : Let you define your own certificate and key to use.
 	// - `None`: : TLS is disabled (not recommended).
@@ -2607,13 +2607,13 @@ type SparseService struct {
 	// - `OIDC`: Configures OIDC authorization. You must then set
 	// `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
 	// - `MTLS`: Configures client certificate authorization. Then you can optionally
-	// use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
+	// use `MTLSCertificateAuthority`, otherwise Segment's public signing certificate
 	// will be used.
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" msgpack:"authorizationType,omitempty" bson:"authorizationtype,omitempty" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
 	// are defined,
-	// the enforcer will copy the values of the claims to the corresponding HTTP
+	// the defender will copy the values of the claims to the corresponding HTTP
 	// headers.
 	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" msgpack:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings,omitempty" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
@@ -2649,7 +2649,7 @@ type SparseService struct {
 	// listening can be different.
 	ExposedPort *int `json:"exposedPort,omitempty" msgpack:"exposedPort,omitempty" bson:"exposedport,omitempty" mapstructure:"exposedPort,omitempty"`
 
-	// Indicates that the exposed service is TLS. This means that the enforcer has to
+	// Indicates that the exposed service is TLS. This means that the defender has to
 	// initiate a
 	// TLS session in order to forward traffic to the service.
 	ExposedServiceIsTLS *bool `json:"exposedServiceIsTLS,omitempty" msgpack:"exposedServiceIsTLS,omitempty" bson:"exposedserviceistls,omitempty" mapstructure:"exposedServiceIsTLS,omitempty"`
@@ -2687,12 +2687,12 @@ type SparseService struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// A new virtual port that the service can be accessed on, using HTTPS. Since the
-	// enforcer
+	// defender
 	// transparently inserts TLS in the application path, you might want to declare a
 	// new port
-	// where the enforcer listens for TLS. However, the application does not need to be
+	// where the defender listens for TLS. However, the application does not need to be
 	// modified
-	// and the enforcer will map the traffic to the correct application port. This
+	// and the defender will map the traffic to the correct application port. This
 	// useful when
 	// an application is being accessed from a public network.
 	PublicApplicationPort *int `json:"publicApplicationPort,omitempty" msgpack:"publicApplicationPort,omitempty" bson:"publicapplicationport,omitempty" mapstructure:"publicApplicationPort,omitempty"`

@@ -299,9 +299,9 @@ func (o *InfrastructurePolicy) Doc() string {
 	return `Infrastructure policies represent the network access rules of the underlying
 infrastructure. They can assist you in analyzing how AWS security groups,
 firewalls,
-and other access control list (ACL) mechanisms may affect Aporeto network
+and other access control list (ACL) mechanisms may affect Segment network
 policies.
-Aporeto's AWS integration app automatically populates AWS security groups.`
+Segment's AWS integration app automatically populates AWS security groups.`
 }
 
 func (o *InfrastructurePolicy) String() string {

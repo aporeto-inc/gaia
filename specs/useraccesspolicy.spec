@@ -5,7 +5,7 @@ model:
   entity_name: UserAccessPolicy
   package: squall
   group: policy/access
-  description: The enforcer policy that controls user access.
+  description: The defender policy that controls user access.
   aliases:
   - usrpol
   - usrpols
@@ -54,7 +54,7 @@ attributes:
 
   - name: object
     description: |-
-      Contains the tag expression matching the enforcers the subject is allowed
+      Contains the tag expression matching the defenders the subject is allowed
       to connect to.
     type: external
     exposed: true

@@ -5,7 +5,7 @@ model:
   entity_name: Issue
   package: midgard
   group: core/authentication
-  description: Issues a new Aporeto token according to given data.
+  description: Issues a new Segment token according to given data.
 
 # Attributes
 attributes:

@@ -274,7 +274,7 @@ func (o *Issue) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Issue) Doc() string {
 
-	return `Issues a new Aporeto token according to given data.`
+	return `Issues a new Segment token according to given data.`
 }
 
 func (o *Issue) String() string {

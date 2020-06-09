@@ -12,7 +12,7 @@ model:
 attributes:
   v1:
   - name: APIURL
-    description: The URL of the Aporeto API.
+    description: The URL of the Segment Console API.
     type: string
     exposed: true
 

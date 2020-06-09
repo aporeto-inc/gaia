@@ -80,10 +80,10 @@ func (o EnforcerTraceReportsList) Version() int {
 
 // EnforcerTraceReport represents the model of a enforcertracereport
 type EnforcerTraceReport struct {
-	// ID of the enforcer where the trace was collected.
+	// ID of the defender where the trace was collected.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the enforcer where the trace was collected.
+	// Namespace of the defender where the trace was collected.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Namespace of the processing unit where the trace was collected.
@@ -186,7 +186,7 @@ func (o *EnforcerTraceReport) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *EnforcerTraceReport) Doc() string {
 
-	return `Post a new enforcer trace that determines how packets are.`
+	return `Post a new defender trace that determines how packets are.`
 }
 
 func (o *EnforcerTraceReport) String() string {
@@ -352,7 +352,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the enforcer where the trace was collected.`,
+		Description:    `ID of the defender where the trace was collected.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -362,7 +362,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the enforcer where the trace was collected.`,
+		Description:    `Namespace of the defender where the trace was collected.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -405,7 +405,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the enforcer where the trace was collected.`,
+		Description:    `ID of the defender where the trace was collected.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -415,7 +415,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"enforcernamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the enforcer where the trace was collected.`,
+		Description:    `Namespace of the defender where the trace was collected.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -516,10 +516,10 @@ func (o SparseEnforcerTraceReportsList) Version() int {
 
 // SparseEnforcerTraceReport represents the sparse version of a enforcertracereport.
 type SparseEnforcerTraceReport struct {
-	// ID of the enforcer where the trace was collected.
+	// ID of the defender where the trace was collected.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the enforcer where the trace was collected.
+	// Namespace of the defender where the trace was collected.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Namespace of the processing unit where the trace was collected.

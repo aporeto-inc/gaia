@@ -171,7 +171,7 @@ type Namespace struct {
 
 	// List of tags that describe this namespace. All organizational tags are
 	// automatically passed to policeable objects (e.g. processing units, external
-	// networks, enforcers) during their creation.
+	// networks, defenders) during their creation.
 	OrganizationalMetadata []string `json:"organizationalMetadata" msgpack:"organizationalMetadata" bson:"organizationalmetadata" mapstructure:"organizationalMetadata,omitempty"`
 
 	// Defines if the object is protected.
@@ -1183,7 +1183,7 @@ policies in the namespace and its children.`,
 		ConvertedName:  "OrganizationalMetadata",
 		Description: `List of tags that describe this namespace. All organizational tags are
 automatically passed to policeable objects (e.g. processing units, external
-networks, enforcers) during their creation.`,
+networks, defenders) during their creation.`,
 		Exposed: true,
 		Name:    "organizationalMetadata",
 		Stored:  true,
@@ -1545,7 +1545,7 @@ policies in the namespace and its children.`,
 		ConvertedName:  "OrganizationalMetadata",
 		Description: `List of tags that describe this namespace. All organizational tags are
 automatically passed to policeable objects (e.g. processing units, external
-networks, enforcers) during their creation.`,
+networks, defenders) during their creation.`,
 		Exposed: true,
 		Name:    "organizationalMetadata",
 		Stored:  true,
@@ -1780,7 +1780,7 @@ type SparseNamespace struct {
 
 	// List of tags that describe this namespace. All organizational tags are
 	// automatically passed to policeable objects (e.g. processing units, external
-	// networks, enforcers) during their creation.
+	// networks, defenders) during their creation.
 	OrganizationalMetadata *[]string `json:"organizationalMetadata,omitempty" msgpack:"organizationalMetadata,omitempty" bson:"organizationalmetadata,omitempty" mapstructure:"organizationalMetadata,omitempty"`
 
 	// Defines if the object is protected.

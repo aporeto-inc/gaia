@@ -249,7 +249,7 @@ func (o *NamespaceMappingPolicy) DefaultOrder() []string {
 func (o *NamespaceMappingPolicy) Doc() string {
 
 	return `A namespace mapping defines the namespace a processing unit should
-be placed when it is created, based on its tags.  When an Aporeto agent creates
+be placed when it is created, based on its tags.  When a defender creates
 a new processing unit, the system will place it in its own namespace if no
 matching namespace mapping can be found. If one match is found, then the
 processing unit will be bumped down to the namespace declared in the namespace mapping. If it

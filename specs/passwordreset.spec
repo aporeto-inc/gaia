@@ -5,7 +5,7 @@ model:
   entity_name: PasswordReset
   package: vince
   group: core/account
-  description: Used to reset an Aporeto account password.
+  description: Used to reset a Segment account password.
 
 # Attributes
 attributes:

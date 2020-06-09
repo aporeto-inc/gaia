@@ -122,7 +122,7 @@ type EnforcerProfileMappingPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// The tag or tag expression that identifies the enforcer profile to
+	// The tag or tag expression that identifies the defender profile to
 	// be mapped.
 	Object [][]string `json:"object" msgpack:"object" bson:"object" mapstructure:"object,omitempty"`
 
@@ -132,7 +132,7 @@ type EnforcerProfileMappingPolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// The tag or tag expression that identifies the enforcers that should
+	// The tag or tag expression that identifies the defenders that should
 	// implement the mapped profile.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
@@ -265,7 +265,7 @@ func (o *EnforcerProfileMappingPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *EnforcerProfileMappingPolicy) Doc() string {
 
-	return `Allows you to map an enforcer profile to one or more enforcers.
+	return `Allows you to map a defender profile to one or more defenders.
 The mapping can also be propagated down to the child namespace.`
 }
 
@@ -890,7 +890,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `The tag or tag expression that identifies the enforcer profile to 
+		Description: `The tag or tag expression that identifies the defender profile to 
 be mapped.`,
 		Exposed: true,
 		Name:    "object",
@@ -925,7 +925,7 @@ be mapped.`,
 	"Subject": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `The tag or tag expression that identifies the enforcers that should 
+		Description: `The tag or tag expression that identifies the defenders that should 
 implement the mapped profile.`,
 		Exposed: true,
 		Name:    "subject",
@@ -1128,7 +1128,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `The tag or tag expression that identifies the enforcer profile to 
+		Description: `The tag or tag expression that identifies the defender profile to 
 be mapped.`,
 		Exposed: true,
 		Name:    "object",
@@ -1163,7 +1163,7 @@ be mapped.`,
 	"subject": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `The tag or tag expression that identifies the enforcers that should 
+		Description: `The tag or tag expression that identifies the defenders that should 
 implement the mapped profile.`,
 		Exposed: true,
 		Name:    "subject",
@@ -1303,7 +1303,7 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// The tag or tag expression that identifies the enforcer profile to
+	// The tag or tag expression that identifies the defender profile to
 	// be mapped.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"object,omitempty" mapstructure:"object,omitempty"`
 
@@ -1313,7 +1313,7 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// The tag or tag expression that identifies the enforcers that should
+	// The tag or tag expression that identifies the defenders that should
 	// implement the mapped profile.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 

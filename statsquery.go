@@ -228,8 +228,8 @@ func (o *StatsQuery) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *StatsQuery) Doc() string {
 
-	return `Retrieves time-series data stored by the Aporeto
-system. Allows different types of queries that are all protected within
+	return `Retrieves time-series data stored by the Segment Console.
+Allows different types of queries that are all protected within
 the namespace of the user.`
 }
 

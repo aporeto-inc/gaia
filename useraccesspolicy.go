@@ -131,7 +131,7 @@ type UserAccessPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the tag expression matching the enforcers the subject is allowed
+	// Contains the tag expression matching the defenders the subject is allowed
 	// to connect to.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
@@ -275,7 +275,7 @@ func (o *UserAccessPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *UserAccessPolicy) Doc() string {
 
-	return `The enforcer policy that controls user access.`
+	return `The defender policy that controls user access.`
 }
 
 func (o *UserAccessPolicy) String() string {
@@ -982,7 +982,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Contains the tag expression matching the enforcers the subject is allowed
+		Description: `Contains the tag expression matching the defenders the subject is allowed
 to connect to.`,
 		Exposed:   true,
 		Name:      "object",
@@ -1251,7 +1251,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Contains the tag expression matching the enforcers the subject is allowed
+		Description: `Contains the tag expression matching the defenders the subject is allowed
 to connect to.`,
 		Exposed:   true,
 		Name:      "object",
@@ -1435,7 +1435,7 @@ type SparseUserAccessPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the tag expression matching the enforcers the subject is allowed
+	// Contains the tag expression matching the defenders the subject is allowed
 	// to connect to.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 

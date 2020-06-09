@@ -92,7 +92,7 @@ type PolicyRule struct {
 	// Provides the audit profiles that must be applied.
 	AuditProfiles AuditProfilesList `json:"auditProfiles,omitempty" msgpack:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
-	// Provides information about the enforcer profile.
+	// Provides information about the defender profile.
 	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles,omitempty" msgpack:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
 	// Provides the external network that the policy targets.
@@ -593,7 +593,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerProfiles": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerProfiles",
-		Description:    `Provides information about the enforcer profile.`,
+		Description:    `Provides information about the defender profile.`,
 		Exposed:        true,
 		Name:           "enforcerProfiles",
 		SubType:        "enforcerprofile",
@@ -748,7 +748,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"enforcerprofiles": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerProfiles",
-		Description:    `Provides information about the enforcer profile.`,
+		Description:    `Provides information about the defender profile.`,
 		Exposed:        true,
 		Name:           "enforcerProfiles",
 		SubType:        "enforcerprofile",
@@ -941,7 +941,7 @@ type SparsePolicyRule struct {
 	// Provides the audit profiles that must be applied.
 	AuditProfiles *AuditProfilesList `json:"auditProfiles,omitempty" msgpack:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
-	// Provides information about the enforcer profile.
+	// Provides information about the defender profile.
 	EnforcerProfiles *EnforcerProfilesList `json:"enforcerProfiles,omitempty" msgpack:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
 	// Provides the external network that the policy targets.

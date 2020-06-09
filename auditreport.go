@@ -153,10 +153,10 @@ type AuditReport struct {
 	// Command issued.
 	Command string `json:"command" msgpack:"command" bson:"-" mapstructure:"command,omitempty"`
 
-	// ID of the enforcer reporting.
+	// ID of the defender reporting.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the enforcer reporting.
+	// Namespace of the defender reporting.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Exit code of the executed system call.
@@ -871,7 +871,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the enforcer reporting.`,
+		Description:    `ID of the defender reporting.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -880,7 +880,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the enforcer reporting.`,
+		Description:    `Namespace of the defender reporting.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -1156,7 +1156,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the enforcer reporting.`,
+		Description:    `ID of the defender reporting.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -1165,7 +1165,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"enforcernamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the enforcer reporting.`,
+		Description:    `Namespace of the defender reporting.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -1376,10 +1376,10 @@ type SparseAuditReport struct {
 	// Command issued.
 	Command *string `json:"command,omitempty" msgpack:"command,omitempty" bson:"-" mapstructure:"command,omitempty"`
 
-	// ID of the enforcer reporting.
+	// ID of the defender reporting.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the enforcer reporting.
+	// Namespace of the defender reporting.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Exit code of the executed system call.

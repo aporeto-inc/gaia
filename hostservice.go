@@ -104,11 +104,11 @@ type HostService struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Forces the corresponding enforcers to enable host protection. When `true`, all
+	// Forces the corresponding defenders to enable host protection. When `true`, all
 	// incoming and outgoing flows will be monitored. Flows will be allowed if and only
 	// if a network policy has been created to allow the flow. The option applies to
 	// all
-	// enforcers to which the host service is mapped.
+	// defenders to which the host service is mapped.
 	HostModeEnabled bool `json:"hostModeEnabled" msgpack:"hostModeEnabled" bson:"hostmodeenabled" mapstructure:"hostModeEnabled,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
@@ -872,11 +872,11 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"HostModeEnabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "HostModeEnabled",
-		Description: `Forces the corresponding enforcers to enable host protection. When ` + "`" + `true` + "`" + `, all
+		Description: `Forces the corresponding defenders to enable host protection. When ` + "`" + `true` + "`" + `, all
 incoming and outgoing flows will be monitored. Flows will be allowed if and only
 if a network policy has been created to allow the flow. The option applies to
 all
-enforcers to which the host service is mapped.`,
+defenders to which the host service is mapped.`,
 		Exposed:   true,
 		Name:      "hostModeEnabled",
 		Orderable: true,
@@ -1140,11 +1140,11 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"hostmodeenabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "HostModeEnabled",
-		Description: `Forces the corresponding enforcers to enable host protection. When ` + "`" + `true` + "`" + `, all
+		Description: `Forces the corresponding defenders to enable host protection. When ` + "`" + `true` + "`" + `, all
 incoming and outgoing flows will be monitored. Flows will be allowed if and only
 if a network policy has been created to allow the flow. The option applies to
 all
-enforcers to which the host service is mapped.`,
+defenders to which the host service is mapped.`,
 		Exposed:   true,
 		Name:      "hostModeEnabled",
 		Orderable: true,
@@ -1402,11 +1402,11 @@ type SparseHostService struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Forces the corresponding enforcers to enable host protection. When `true`, all
+	// Forces the corresponding defenders to enable host protection. When `true`, all
 	// incoming and outgoing flows will be monitored. Flows will be allowed if and only
 	// if a network policy has been created to allow the flow. The option applies to
 	// all
-	// enforcers to which the host service is mapped.
+	// defenders to which the host service is mapped.
 	HostModeEnabled *bool `json:"hostModeEnabled,omitempty" msgpack:"hostModeEnabled,omitempty" bson:"hostmodeenabled,omitempty" mapstructure:"hostModeEnabled,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start

@@ -102,10 +102,10 @@ type RenderedPolicy struct {
 	// The datapath type that this processing unit must implement according to
 	// the rendered policy:
 	// - `Default`: This policy is not making a decision for the datapath.
-	// - `Aporeto`: The enforcer is managing and handling the datapath.
-	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
-	// that for example can be used by an envoy proxy to use the Aporeto PKI
-	// and implement Aporeto network access policies. NOTE: The enforcer is not
+	// - `Aporeto`: The defender is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The defender is serving Envoy-compatible gRPC APIs
+	// that for example can be used by an Envoy proxy to use the Segment PKI
+	// and implement Segment network policies. NOTE: The defender is not
 	// owning the datapath in this case. It is merely providing an authorizer API.
 	DatapathType RenderedPolicyDatapathTypeValue `json:"datapathType" msgpack:"datapathType" bson:"-" mapstructure:"datapathType,omitempty"`
 
@@ -477,10 +477,10 @@ processing unit to any internal or external services.`,
 		Description: `The datapath type that this processing unit must implement according to
 the rendered policy:
 - ` + "`" + `Default` + "`" + `: This policy is not making a decision for the datapath.
-- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
-- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
-that for example can be used by an envoy proxy to use the Aporeto PKI
-and implement Aporeto network access policies. NOTE: The enforcer is not
+- ` + "`" + `Aporeto` + "`" + `: The defender is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The defender is serving Envoy-compatible gRPC APIs
+that for example can be used by an Envoy proxy to use the Segment PKI
+and implement Segment network policies. NOTE: The defender is not
 owning the datapath in this case. It is merely providing an authorizer API.`,
 		Exposed:  true,
 		Name:     "datapathType",
@@ -604,10 +604,10 @@ processing unit to any internal or external services.`,
 		Description: `The datapath type that this processing unit must implement according to
 the rendered policy:
 - ` + "`" + `Default` + "`" + `: This policy is not making a decision for the datapath.
-- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
-- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving envoy compatible gRPC APIs
-that for example can be used by an envoy proxy to use the Aporeto PKI
-and implement Aporeto network access policies. NOTE: The enforcer is not
+- ` + "`" + `Aporeto` + "`" + `: The defender is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The defender is serving Envoy-compatible gRPC APIs
+that for example can be used by an Envoy proxy to use the Segment PKI
+and implement Segment network policies. NOTE: The defender is not
 owning the datapath in this case. It is merely providing an authorizer API.`,
 		Exposed:  true,
 		Name:     "datapathType",
@@ -782,10 +782,10 @@ type SparseRenderedPolicy struct {
 	// The datapath type that this processing unit must implement according to
 	// the rendered policy:
 	// - `Default`: This policy is not making a decision for the datapath.
-	// - `Aporeto`: The enforcer is managing and handling the datapath.
-	// - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
-	// that for example can be used by an envoy proxy to use the Aporeto PKI
-	// and implement Aporeto network access policies. NOTE: The enforcer is not
+	// - `Aporeto`: The defender is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The defender is serving Envoy-compatible gRPC APIs
+	// that for example can be used by an Envoy proxy to use the Segment PKI
+	// and implement Segment network policies. NOTE: The defender is not
 	// owning the datapath in this case. It is merely providing an authorizer API.
 	DatapathType *RenderedPolicyDatapathTypeValue `json:"datapathType,omitempty" msgpack:"datapathType,omitempty" bson:"-" mapstructure:"datapathType,omitempty"`
 

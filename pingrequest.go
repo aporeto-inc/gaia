@@ -168,7 +168,7 @@ func (o *PingRequest) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PingRequest) Doc() string {
 
-	return `Initiates a ping request for enforcer debugging.`
+	return `Initiates a ping request for defender debugging.`
 }
 
 func (o *PingRequest) String() string {

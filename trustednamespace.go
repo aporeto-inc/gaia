@@ -269,8 +269,8 @@ func (o *TrustedNamespace) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *TrustedNamespace) Doc() string {
 
-	return `This objects allows to declare trust between namespaces that cryptographically
-isolated. The namespaces can be local or served by different Aporeto controller.`
+	return `This object allows you to declare trust between namespaces that are cryptographically
+isolated. The namespaces can be local or served by different Segment Console controllers.`
 }
 
 func (o *TrustedNamespace) String() string {

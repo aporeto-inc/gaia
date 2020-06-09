@@ -170,7 +170,7 @@ func (o *SSHIdentity) Doc() string {
 
 	return `Returns an SSH certificate containing the bearer claims. This SSH certificate
 can
-be used to connect to a node where enforcer is protecting SSH sessions.`
+be used to connect to a node where the defender is protecting SSH sessions.`
 }
 
 func (o *SSHIdentity) String() string {

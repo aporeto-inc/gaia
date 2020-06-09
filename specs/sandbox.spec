@@ -6,7 +6,7 @@ model:
   package: service
   group: ext/documentation
   description: |-
-    This APIs allows to create a temporary namespace to experiment with Aporeto.
+    This APIs allows to create a temporary namespace to experiment with Segment.
     This API is not authenticated, and contains small quotas. After one hour,
     everything will be deleted.
 

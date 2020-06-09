@@ -6,7 +6,7 @@ model:
   package: cactuar
   group: core/authentication
   description: Allows you to declare a trusted Prisma Cloud Compute (PCC) 
-    authentication provider. Aporeto will accept JSON web tokens (JWT) from
+    authentication provider. Segment will accept JSON web tokens (JWT) from
     the specified PCC provider.
   get:
     description: Retrieves the provider with the given ID.

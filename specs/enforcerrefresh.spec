@@ -14,7 +14,7 @@ model:
 attributes:
   v1:
   - name: ID
-    description: Contains the ID of the target enforcer.
+    description: Contains the ID of the target defender.
     type: string
     exposed: true
     read_only: true
@@ -23,7 +23,7 @@ attributes:
     identifier: true
 
   - name: debug
-    description: Set the debug information collected by the enforcer.
+    description: Set the debug information collected by the defender.
     type: enum
     exposed: true
     allowed_choices:
@@ -37,7 +37,7 @@ attributes:
     omit_empty: true
 
   - name: namespace
-    description: Contains the original namespace of the enforcer.
+    description: Contains the original namespace of the defender.
     type: string
     exposed: true
     read_only: true

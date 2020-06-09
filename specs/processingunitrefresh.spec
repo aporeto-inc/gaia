@@ -89,7 +89,7 @@ attributes:
 
   - name: traceApplicationConnections
     description: |-
-      Instructs the enforcer to send records for all
+      Instructs the defender to send records for all
       application-initiated connections for the target processing unit.
     type: boolean
     exposed: true
@@ -107,7 +107,7 @@ attributes:
 
   - name: traceIPTables
     description: |-
-      Instructs the enforcers to provide an iptables trace for the target processing
+      Instructs the defenders to provide an iptables trace for the target processing
       unit.
     type: boolean
     exposed: true
@@ -115,7 +115,7 @@ attributes:
 
   - name: traceNetworkConnections
     description: |-
-      Instructs the enforcer to send records for all
+      Instructs the defender to send records for all
       network-initiated connections for the target processing unit.
     type: boolean
     exposed: true

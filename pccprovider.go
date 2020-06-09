@@ -261,7 +261,7 @@ func (o *PCCProvider) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PCCProvider) Doc() string {
 
-	return `Allows you to declare a trusted Prisma Cloud Compute (PCC) authentication provider. Aporeto will accept JSON web tokens (JWT) from the specified PCC provider.`
+	return `Allows you to declare a trusted Prisma Cloud Compute (PCC) authentication provider. Segment will accept JSON web tokens (JWT) from the specified PCC provider.`
 }
 
 func (o *PCCProvider) String() string {

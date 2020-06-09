@@ -128,7 +128,7 @@ type Account struct {
 	// Holds the ID of the associated API authorization.
 	AssociatedAPIAuthPolicyID string `json:"-" msgpack:"-" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
 
-	// Contains a map of associated AWS enforcer policies.
+	// Contains a map of associated AWS defender policies.
 	AssociatedAWSPolicies map[string]string `json:"-" msgpack:"-" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
 
 	// Holds the ID of the associated billing customer.
@@ -914,7 +914,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"AssociatedAWSPolicies": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedAWSPolicies",
-		Description:    `Contains a map of associated AWS enforcer policies.`,
+		Description:    `Contains a map of associated AWS defender policies.`,
 		Name:           "associatedAWSPolicies",
 		Stored:         true,
 		SubType:        "map[string]string",
@@ -1280,7 +1280,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"associatedawspolicies": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedAWSPolicies",
-		Description:    `Contains a map of associated AWS enforcer policies.`,
+		Description:    `Contains a map of associated AWS defender policies.`,
 		Name:           "associatedAWSPolicies",
 		Stored:         true,
 		SubType:        "map[string]string",
@@ -1636,7 +1636,7 @@ type SparseAccount struct {
 	// Holds the ID of the associated API authorization.
 	AssociatedAPIAuthPolicyID *string `json:"-" msgpack:"-" bson:"associatedapiauthpolicyid,omitempty" mapstructure:"-,omitempty"`
 
-	// Contains a map of associated AWS enforcer policies.
+	// Contains a map of associated AWS defender policies.
 	AssociatedAWSPolicies *map[string]string `json:"-" msgpack:"-" bson:"associatedawspolicies,omitempty" mapstructure:"-,omitempty"`
 
 	// Holds the ID of the associated billing customer.

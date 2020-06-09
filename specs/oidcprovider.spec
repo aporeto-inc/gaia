@@ -88,7 +88,7 @@ attributes:
     example_value: https://accounts.google.com
 
   - name: parentID
-    description: Contains the parent Aporeto account ID.
+    description: Contains the parent Segment account ID.
     type: string
     exposed: true
     stored: true
@@ -97,7 +97,7 @@ attributes:
     filterable: true
 
   - name: parentName
-    description: Contains the name of the parent Aporeto account.
+    description: Contains the name of the parent Segment account.
     type: string
     exposed: true
     stored: true

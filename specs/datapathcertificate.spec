@@ -6,16 +6,17 @@ model:
   package: squall
   group: core/processingunit
   description: |-
-    Used by enforcer instances to retrieve various certificates used
+    Used by defender instances to retrieve various certificates used
     for the datapath.
 
 # Attributes
 attributes:
   v1:
   - name: CSR
-    description: "Contains the certificate signing request (CSR) the enforcer wants
-      control plane\nto sign. \nDepending on the certificate there will be various
-      requirements for the CSR to\nbe accepted."
+    description: |-
+      Contains the certificate signing request (CSR) the defender wants 
+      Segment Console to sign. Depending on the certificate there will 
+      be various requirements for the CSR to be accepted.
     type: string
     exposed: true
     required: true
@@ -53,7 +54,7 @@ attributes:
     example_value: 5c83035648675400019ab901
 
   - name: sessionID
-    description: Provides the session ID of the enforcer when retrieving a datapath
+    description: Provides the session ID of the defender when retrieving a datapath
       certificate.
     type: string
     exposed: true

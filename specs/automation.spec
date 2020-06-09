@@ -45,7 +45,7 @@ attributes:
 
   - name: aporetoToken
     description: |-
-      Contains the Aporeto token used by the Automation's HTTP client. This token is
+      Contains the Segment token used by the automation's HTTP client. This token is
       derived from the automation's app credential attribute.
     type: string
     stored: true

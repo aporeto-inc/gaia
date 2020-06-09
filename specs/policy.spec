@@ -5,7 +5,7 @@ model:
   entity_name: Policy
   package: squall
   group: core/policy
-  description: Represents the policy primitive used by all Aporeto policies.
+  description: Represents the policy primitive used by all Segment policies.
   get:
     description: Retrieves the object with the given ID.
   delete:

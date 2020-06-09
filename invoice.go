@@ -208,7 +208,7 @@ func (o *Invoice) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Invoice) Doc() string {
 
-	return `Provides access to Aporeto customer invoices.`
+	return `Provides access to Segment customer invoices.`
 }
 
 func (o *Invoice) String() string {

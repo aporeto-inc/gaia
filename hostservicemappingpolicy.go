@@ -139,7 +139,7 @@ type HostServiceMappingPolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// A tag or tag expression identifying the enforcer(s) that should implement
+	// A tag or tag expression identifying the defender(s) that should implement
 	// the specified host service(s).
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -272,8 +272,8 @@ func (o *HostServiceMappingPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *HostServiceMappingPolicy) Doc() string {
 
-	return `Host service mapping allows you to map host services to the enforcers which should
-implement them. You must map host services to one or more enforcers for the host 
+	return `Host service mapping allows you to map host services to the defenders which should
+implement them. You must map host services to one or more defenders for the host 
 services to have any effect.`
 }
 
@@ -1001,7 +1001,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `A tag or tag expression identifying the enforcer(s) that should implement
+		Description: `A tag or tag expression identifying the defender(s) that should implement
 the specified host service(s).`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1263,7 +1263,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `A tag or tag expression identifying the enforcer(s) that should implement
+		Description: `A tag or tag expression identifying the defender(s) that should implement
 the specified host service(s).`,
 		Exposed:   true,
 		Name:      "subject",
@@ -1420,7 +1420,7 @@ type SparseHostServiceMappingPolicy struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// A tag or tag expression identifying the enforcer(s) that should implement
+	// A tag or tag expression identifying the defender(s) that should implement
 	// the specified host service(s).
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 

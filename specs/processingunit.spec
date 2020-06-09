@@ -59,7 +59,7 @@ attributes:
   v1:
   - name: collectInfo
     description: |-
-      A value of `true` indicates to the enforcer that it needs to collect information
+      A value of `true` indicates to the defender that it needs to collect information
       for
       this processing unit.
     type: boolean
@@ -68,7 +68,7 @@ attributes:
 
   - name: collectedInfo
     description: |-
-      Represents the latest information collected by the enforcer for this processing
+      Represents the latest information collected by the defender for this processing
       unit.
     type: external
     exposed: true
@@ -78,10 +78,10 @@ attributes:
   - name: datapathType
     description: |-
       The datapath type that processing units are implementing:
-      - `Aporeto`: The enforcer is managing and handling the datapath.
-      - `EnvoyAuthorizer`: The enforcer is serving envoy compatible gRPC APIs
-      that for example can be used by an envoy proxy to use the Aporeto PKI
-      and implement Aporeto network access policies. NOTE: The enforcer is not
+      - `Aporeto`: The defender is managing and handling the datapath.
+      - `EnvoyAuthorizer`: The defender is serving Envoy-compatible gRPC APIs
+      that for example can be used by an Envoy proxy to use the Segment PKI
+      and implement Segment network policies. NOTE: The defender is not
       owning the datapath in this case. It is merely providing an authorizer API.
     type: enum
     exposed: true
@@ -94,9 +94,9 @@ attributes:
 
   - name: enforcementStatus
     description: |-
-      Contains the state of the enforcer for the processing unit. `Inactive`
+      Contains the state of the defender for the processing unit. `Inactive`
       (default):
-      the enforcer is not enforcing any host service. `Active`: the enforcer is
+      the defender is not enforcing any host service. `Active`: the defender is
       enforcing
       a host service. `Failed`.
     type: enum
@@ -110,14 +110,14 @@ attributes:
     filterable: true
 
   - name: enforcerID
-    description: The ID of the enforcer associated with the processing unit.
+    description: The ID of the defender associated with the processing unit.
     type: string
     exposed: true
     stored: true
     filterable: true
 
   - name: enforcerNamespace
-    description: The namespace of the enforcer associated with the processing unit.
+    description: The namespace of the defender associated with the processing unit.
     type: string
     exposed: true
     stored: true
@@ -267,7 +267,7 @@ relations:
 
       - name: notify
         description: Can be sent to trigger a `ProcessingUnitRefresh` event that will
-          be handled by the enforcer. If this is set, all other additional parameters
+          be handled by the defender. If this is set, all other additional parameters
           will be ignored.
         type: boolean
 

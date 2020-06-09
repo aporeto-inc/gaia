@@ -14,7 +14,7 @@ model:
 attributes:
   v1:
   - name: APIVersion
-    description: Version of the Aporeto API used for the exported data.
+    description: Version of the Segment Console API used for the exported data.
     type: integer
     exposed: true
     stored: true

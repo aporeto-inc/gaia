@@ -10,7 +10,7 @@ import (
 
 // Credential represents the model of a credential
 type Credential struct {
-	// The URL of the Aporeto API.
+	// The URL of the Segment Console API.
 	APIURL string `json:"APIURL" msgpack:"APIURL" bson:"-" mapstructure:"APIURL,omitempty"`
 
 	// The ID of the app credential.

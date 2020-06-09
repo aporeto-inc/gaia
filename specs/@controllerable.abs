@@ -3,8 +3,8 @@ attributes:
   v1:
   - name: controller
     description: |-
-      The control plane identifier managing this object. This property is mostly
-      useful when federating multiple control planes.
+      The Segment Console identifier managing this object. This property is mostly
+      useful when federating multiple Segment Consoles.
     type: string
     exposed: true
     stored: true

@@ -5,7 +5,7 @@ model:
   entity_name: AWSRegister
   package: bill
   group: none
-  description: This api allows AWS customer to register with Aporeto SaaS for billing.
+  description: This endpoint allows AWS customers to register with Palo Alto Networks-hosted Segment Consoles for billing.
   extends:
   - '@identifiable-stored'
   - '@timeable'

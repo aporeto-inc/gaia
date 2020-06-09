@@ -76,7 +76,7 @@ attributes:
     description: |-
       PEM-encoded certificate authority to use to verify client certificates. This
       only applies
-      if `authorizationType` is set to `MTLS`. If it is not set, Aporeto's public
+      if `authorizationType` is set to `MTLS`. If it is not set, Segment's public
       signing
       certificate authority will be used.
     type: string
@@ -86,7 +86,7 @@ attributes:
   - name: OIDCCallbackURL
     description: |-
       This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-      Aporeto will autodiscover it. It will be
+      Segment will autodiscover it. It will be
       `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
     type: string
     exposed: true
@@ -150,7 +150,7 @@ attributes:
     description: |-
       Set how to provide a server certificate to the service.
 
-      - `Aporeto`: Generate a certificate issued from Aporeto public CA.
+      - `Aporeto`: Generate a certificate issued from the Segment public CA.
       - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
       - `External`: : Let you define your own certificate and key to use.
       - `None`: : TLS is disabled (not recommended).
@@ -188,7 +188,7 @@ attributes:
       - `OIDC`: Configures OIDC authorization. You must then set
       `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
       - `MTLS`: Configures client certificate authorization. Then you can optionally
-      use `MTLSCertificateAuthority`, otherwise Aporeto's public signing certificate
+      use `MTLSCertificateAuthority`, otherwise Segment's public signing certificate
       will be used.
     type: enum
     exposed: true
@@ -204,7 +204,7 @@ attributes:
     description: |-
       Defines a list of mappings between claims and HTTP headers. When these mappings
       are defined,
-      the enforcer will copy the values of the claims to the corresponding HTTP
+      the defender will copy the values of the claims to the corresponding HTTP
       headers.
     type: refList
     exposed: true
@@ -258,7 +258,7 @@ attributes:
 
   - name: exposedServiceIsTLS
     description: |-
-      Indicates that the exposed service is TLS. This means that the enforcer has to
+      Indicates that the exposed service is TLS. This means that the defender has to
       initiate a
       TLS session in order to forward traffic to the service.
     type: boolean
@@ -301,12 +301,12 @@ attributes:
   - name: publicApplicationPort
     description: |-
       A new virtual port that the service can be accessed on, using HTTPS. Since the
-      enforcer
+      defender
       transparently inserts TLS in the application path, you might want to declare a
       new port
-      where the enforcer listens for TLS. However, the application does not need to be
+      where the defender listens for TLS. However, the application does not need to be
       modified
-      and the enforcer will map the traffic to the correct application port. This
+      and the defender will map the traffic to the correct application port. This
       useful when
       an application is being accessed from a public network.
     type: integer

@@ -149,13 +149,13 @@ type PingProbe struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// ID of the enforcer.
+	// ID of the defender.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the enforcer.
+	// Namespace of the defender.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Semantic version of the enforcer.
+	// Semantic version of the defender.
 	EnforcerVersion string `json:"enforcerVersion" msgpack:"enforcerVersion" bson:"enforcerversion" mapstructure:"enforcerVersion,omitempty"`
 
 	// A non-empty error indicates a failure.
@@ -1039,7 +1039,7 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the enforcer.`,
+		Description:    `ID of the defender.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -1049,7 +1049,7 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the enforcer.`,
+		Description:    `Namespace of the defender.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -1059,7 +1059,7 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerVersion": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerVersion",
-		Description:    `Semantic version of the enforcer.`,
+		Description:    `Semantic version of the defender.`,
 		Exposed:        true,
 		Name:           "enforcerVersion",
 		Stored:         true,
@@ -1450,7 +1450,7 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the enforcer.`,
+		Description:    `ID of the defender.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -1460,7 +1460,7 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"enforcernamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the enforcer.`,
+		Description:    `Namespace of the defender.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -1470,7 +1470,7 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"enforcerversion": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerVersion",
-		Description:    `Semantic version of the enforcer.`,
+		Description:    `Semantic version of the defender.`,
 		Exposed:        true,
 		Name:           "enforcerVersion",
 		Stored:         true,
@@ -1859,13 +1859,13 @@ type SparsePingProbe struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// ID of the enforcer.
+	// ID of the defender.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the enforcer.
+	// Namespace of the defender.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Semantic version of the enforcer.
+	// Semantic version of the defender.
 	EnforcerVersion *string `json:"enforcerVersion,omitempty" msgpack:"enforcerVersion,omitempty" bson:"enforcerversion,omitempty" mapstructure:"enforcerVersion,omitempty"`
 
 	// A non-empty error indicates a failure.

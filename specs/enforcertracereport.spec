@@ -5,13 +5,13 @@ model:
   entity_name: EnforcerTraceReport
   package: zack
   group: core/enforcer
-  description: Post a new enforcer trace that determines how packets are.
+  description: Post a new defender trace that determines how packets are.
 
 # Attributes
 attributes:
   v1:
   - name: enforcerID
-    description: ID of the enforcer where the trace was collected.
+    description: ID of the defender where the trace was collected.
     type: string
     exposed: true
     stored: true
@@ -19,7 +19,7 @@ attributes:
     example_value: 5c6cce207ddf1fc159a104bf
 
   - name: enforcerNamespace
-    description: Namespace of the enforcer where the trace was collected.
+    description: Namespace of the defender where the trace was collected.
     type: string
     exposed: true
     stored: true

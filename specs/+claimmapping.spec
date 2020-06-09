@@ -7,7 +7,7 @@ model:
   group: policy/services
   description: |-
     Allows you to map a claim in a token to an HTTP header. This can be useful 
-    when offloading authentication and authorization to Aporeto. Some applications 
+    when offloading authentication and authorization to Segment. Some applications 
     may expect to receive information in the HTTP header.
   detached: true
 

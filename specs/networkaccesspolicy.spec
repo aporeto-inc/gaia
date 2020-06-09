@@ -108,8 +108,7 @@ attributes:
 
   - name: logsEnabled
     description: |-
-      If `true`, the relevant flows are logged and available from the Aporeto control
-      plane.
+      If `true`, the relevant flows are logged and available from Segment Console.
       Under some advanced scenarios you may wish to set this to `false`, such as to
       save space or
       improve performance.

@@ -6,8 +6,8 @@ model:
   package: squall
   group: policy/enforcerconfig
   description: |-
-    This objects allows to declare trust between namespaces that cryptographically
-    isolated. The namespaces can be local or served by different Aporeto controller.
+    This object allows you to declare trust between namespaces that are cryptographically
+    isolated. The namespaces can be local or served by different Segment Console controllers.
   aliases:
   - trustedns
   get:

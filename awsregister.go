@@ -182,7 +182,7 @@ func (o *AWSRegister) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *AWSRegister) Doc() string {
 
-	return `This api allows AWS customer to register with Aporeto SaaS for billing.`
+	return `This endpoint allows AWS customers to register with Palo Alto Networks-hosted Segment Consoles for billing.`
 }
 
 func (o *AWSRegister) String() string {

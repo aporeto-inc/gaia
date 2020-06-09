@@ -6,9 +6,9 @@ model:
   package: zack
   group: policy/dns
   description: |-
-    A DNS Lookup report is used to report a DNS lookup that is happening on
-    behalf of a processing unit. If the DNS server is on the standard udp port 53
-    then enforcer is able to proxy the DNS traffic and make a report. The report
+    A DNS lookup report is used to report a DNS lookup that is happening on
+    behalf of a processing unit. If the DNS server is on the standard UDP port 53
+    then the defender can proxy the DNS traffic and make a report. The report
     indicate whether or not the lookup was successful.
 
 # Attributes
@@ -25,12 +25,12 @@ attributes:
     example_value: Accept
 
   - name: enforcerID
-    description: ID of the enforcer.
+    description: ID of the defender.
     type: string
     exposed: true
 
   - name: enforcerNamespace
-    description: Namespace of the enforcer.
+    description: Namespace of the defender.
     type: string
     exposed: true
     required: true

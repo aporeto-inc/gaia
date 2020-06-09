@@ -71,7 +71,7 @@ attributes:
     - Received
 
   - name: enforcerID
-    description: ID of the enforcer.
+    description: ID of the defender.
     type: string
     exposed: true
     stored: true
@@ -79,7 +79,7 @@ attributes:
     example_value: xxx-xxx-xxx-xxx
 
   - name: enforcerNamespace
-    description: Namespace of the enforcer.
+    description: Namespace of the defender.
     type: string
     exposed: true
     stored: true
@@ -87,7 +87,7 @@ attributes:
     example_value: /my/ns
 
   - name: enforcerVersion
-    description: Semantic version of the enforcer.
+    description: Semantic version of the defender.
     type: string
     exposed: true
     stored: true
