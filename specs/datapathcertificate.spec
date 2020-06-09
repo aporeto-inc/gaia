@@ -13,10 +13,9 @@ model:
 attributes:
   v1:
   - name: CSR
-    description: |-
-      Contains the certificate signing request (CSR) the enforcer wants control plane
-      to sign. Depending on the certificate there will be various requirements for the
-      CSR to be accepted.
+    description: "Contains the certificate signing request (CSR) the enforcer wants
+      control plane\nto sign. \nDepending on the certificate there will be various
+      requirements for the CSR to\nbe accepted."
     type: string
     exposed: true
     required: true
