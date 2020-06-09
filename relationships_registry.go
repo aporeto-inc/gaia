@@ -1791,10 +1791,24 @@ func init() {
 
 	relationshipsRegistry[HealthCheckIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "quiet",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "quiet",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 

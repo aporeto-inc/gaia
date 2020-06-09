@@ -347,6 +347,14 @@ relations:
 - rest_name: healthcheck
   get:
     description: Retrieve the health of the platform.
+    parameters:
+      entries:
+      - name: quiet
+        description: If set to true, the healthcheck endpoint will not return data
+          but will return 200 OK if everything is fine or 218 if the controller is
+          not operational. This is usefull when you want to use the healthcheck endpoint
+          as a load balancer healthcheck.
+        type: boolean
 
 - rest_name: hit
   get:
