@@ -6,12 +6,14 @@ var (
 	x509ExtensionIdentityTags               asn1.ObjectIdentifier
 	x509ExtensionController                 asn1.ObjectIdentifier
 	x509ExtensionMaximumIssuedTokenValidity asn1.ObjectIdentifier
+	x509ExtensionPing                       asn1.ObjectIdentifier
 )
 
 func init() {
 	x509ExtensionIdentityTags = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 50798, 1, 1}
 	x509ExtensionController = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 50798, 1, 2}
 	x509ExtensionMaximumIssuedTokenValidity = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 50798, 1, 3}
+	x509ExtensionPing = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 50798, 1, 4}
 }
 
 // clone an asn1.ObjectIdentifier
@@ -32,6 +34,12 @@ func IdentityTags() asn1.ObjectIdentifier {
 // encoding a URI of a controller.
 func Controller() asn1.ObjectIdentifier {
 	return clone(x509ExtensionController)
+}
+
+// Ping returns the OID for ping extension. The extension allows
+// indicating the cert is for ping.
+func Ping() asn1.ObjectIdentifier {
+	return clone(x509ExtensionPing)
 }
 
 // MaximumIssuedTokenValidity returns the OID for maximum issued token validity
