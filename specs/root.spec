@@ -350,10 +350,10 @@ relations:
     parameters:
       entries:
       - name: quiet
-        description: If set to true, the healthcheck endpoint will not return data
+        description: If set to true, the health check endpoint will not return data
           but will return 200 OK if everything is fine or 218 if the controller is
-          not operational. This is usefull when you want to use the healthcheck endpoint
-          as a load balancer healthcheck.
+          not operational. This is useful when you want to use the health check endpoint
+          as a load balancer health check.
         type: boolean
 
 - rest_name: hit
