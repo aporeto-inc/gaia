@@ -17,6 +17,9 @@ const (
 
 	// DataPathCertificateTypeService represents the value Service.
 	DataPathCertificateTypeService DataPathCertificateTypeValue = "Service"
+
+	// DataPathCertificateTypeServicePing represents the value ServicePing.
+	DataPathCertificateTypeServicePing DataPathCertificateTypeValue = "ServicePing"
 )
 
 // DataPathCertificateIdentity represents the Identity of the object.
@@ -91,8 +94,10 @@ func (o DataPathCertificatesList) Version() int {
 
 // DataPathCertificate represents the model of a datapathcertificate
 type DataPathCertificate struct {
-	// Contains the certificate signing request (CSR) the enforcer wants control plane to sign.
-	// Depending on the certificate there will be various requirements for the CSR to be accepted.
+	// Contains the certificate signing request (CSR) the enforcer wants control plane
+	// to sign.
+	// Depending on the certificate there will be various requirements for the CSR to
+	// be accepted.
 	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// The certificate.
@@ -308,7 +313,7 @@ func (o *DataPathCertificate) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Enforcer", "Service"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Enforcer", "Service", "ServicePing"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -370,8 +375,10 @@ var DataPathCertificateAttributesMap = map[string]elemental.AttributeSpecificati
 	"CSR": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
-		Description: `Contains the certificate signing request (CSR) the enforcer wants control plane to sign. 
-Depending on the certificate there will be various requirements for the CSR to be accepted.`,
+		Description: `Contains the certificate signing request (CSR) the enforcer wants control plane
+to sign. 
+Depending on the certificate there will be various requirements for the CSR to
+be accepted.`,
 		Exposed:  true,
 		Name:     "CSR",
 		Required: true,
@@ -425,7 +432,7 @@ Depending on the certificate there will be various requirements for the CSR to b
 		Type:           "string",
 	},
 	"Type": {
-		AllowedChoices: []string{"Enforcer", "Service"},
+		AllowedChoices: []string{"Enforcer", "Service", "ServicePing"},
 		ConvertedName:  "Type",
 		Description:    `Type of certificate.`,
 		Exposed:        true,
@@ -439,8 +446,10 @@ var DataPathCertificateLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"csr": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
-		Description: `Contains the certificate signing request (CSR) the enforcer wants control plane to sign. 
-Depending on the certificate there will be various requirements for the CSR to be accepted.`,
+		Description: `Contains the certificate signing request (CSR) the enforcer wants control plane
+to sign. 
+Depending on the certificate there will be various requirements for the CSR to
+be accepted.`,
 		Exposed:  true,
 		Name:     "CSR",
 		Required: true,
@@ -494,7 +503,7 @@ Depending on the certificate there will be various requirements for the CSR to b
 		Type:           "string",
 	},
 	"type": {
-		AllowedChoices: []string{"Enforcer", "Service"},
+		AllowedChoices: []string{"Enforcer", "Service", "ServicePing"},
 		ConvertedName:  "Type",
 		Description:    `Type of certificate.`,
 		Exposed:        true,
@@ -566,8 +575,10 @@ func (o SparseDataPathCertificatesList) Version() int {
 
 // SparseDataPathCertificate represents the sparse version of a datapathcertificate.
 type SparseDataPathCertificate struct {
-	// Contains the certificate signing request (CSR) the enforcer wants control plane to sign.
-	// Depending on the certificate there will be various requirements for the CSR to be accepted.
+	// Contains the certificate signing request (CSR) the enforcer wants control plane
+	// to sign.
+	// Depending on the certificate there will be various requirements for the CSR to
+	// be accepted.
 	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// The certificate.
