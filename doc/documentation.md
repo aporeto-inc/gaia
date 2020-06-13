@@ -4752,6 +4752,10 @@ unit.
 
 Contains the original namespace of the processing unit.
 
+##### `pingAddress` `string`
+
+Destination address to run ping.
+
 ##### `pingEnabled` `boolean`
 
 If set to true, start ping to the destination.
@@ -4769,10 +4773,6 @@ Default value:
 ```json
 "Auto"
 ```
-
-##### `pingNetwork` `string`
-
-Destination network to run ping.
 
 ##### `pingPort` `integer`
 
