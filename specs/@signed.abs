@@ -1,0 +1,10 @@
+# Attributes
+attributes:
+  v1:
+  - name: signature
+    description: Signature to validate the authenticity of the object.
+    type: string
+    exposed: true
+    stored: true
+    getter: true
+    setter: true

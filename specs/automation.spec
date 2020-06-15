@@ -29,6 +29,7 @@ model:
   - '@identifiable-stored'
   - '@named'
   - '@timeable'
+  - '@signed'
   validations:
   - $automations
 
