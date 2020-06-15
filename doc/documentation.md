@@ -4044,11 +4044,11 @@ the namespace.
 
 #### Relations
 
-##### `GET /namespaces/:id/localcas`
+##### `GET /localcas`
 
 Returns the local and SSH certificate authorities of the namespace.
 
-##### `POST /namespaces/:id/localcas`
+##### `POST /localcas`
 
 Renews the local and/or SSH certificate authorities of the namespace.
 
@@ -4121,14 +4121,6 @@ Retrieves the namespace with the given ID.
 ##### `PUT /namespaces/:id`
 
 Updates the namespace with the given ID.
-
-##### `GET /namespaces/:id/localcas`
-
-Returns the local and SSH certificate authorities of the namespace.
-
-##### `POST /namespaces/:id/localcas`
-
-Renews the local and/or SSH certificate authorities of the namespace.
 
 ##### `GET /namespaces/:id/oauthinfo`
 

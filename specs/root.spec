@@ -531,6 +531,12 @@ relations:
   create:
     description: Creates a new LDAP provider.
 
+- rest_name: localca
+  get:
+    description: Returns the local and SSH certificate authorities of the namespace.
+  create:
+    description: Renews the local and/or SSH certificate authorities of the namespace.
+
 - rest_name: logout
   get:
     description: Performs a logout operation.

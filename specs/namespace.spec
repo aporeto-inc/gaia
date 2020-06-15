@@ -184,12 +184,6 @@ attributes:
 
 # Relations
 relations:
-- rest_name: localca
-  get:
-    description: Returns the local and SSH certificate authorities of the namespace.
-  create:
-    description: Renews the local and/or SSH certificate authorities of the namespace.
-
 - rest_name: oauthinfo
   get:
     description: Retrieves the OAUTH info for this namespace.
