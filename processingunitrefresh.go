@@ -107,6 +107,9 @@ type ProcessingUnitRefresh struct {
 	// Contains the original namespace of the processing unit.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
+	// Destination address to run ping.
+	PingAddress string `json:"pingAddress,omitempty" msgpack:"pingAddress,omitempty" bson:"-" mapstructure:"pingAddress,omitempty"`
+
 	// If set to true, start ping to the destination.
 	PingEnabled bool `json:"pingEnabled,omitempty" msgpack:"pingEnabled,omitempty" bson:"-" mapstructure:"pingEnabled,omitempty"`
 
@@ -115,9 +118,6 @@ type ProcessingUnitRefresh struct {
 
 	// Represents the mode of ping to be used.
 	PingMode ProcessingUnitRefreshPingModeValue `json:"pingMode" msgpack:"pingMode" bson:"-" mapstructure:"pingMode,omitempty"`
-
-	// Destination network to run ping.
-	PingNetwork string `json:"pingNetwork,omitempty" msgpack:"pingNetwork,omitempty" bson:"-" mapstructure:"pingNetwork,omitempty"`
 
 	// Destination port to run ping.
 	PingPort int `json:"pingPort,omitempty" msgpack:"pingPort,omitempty" bson:"-" mapstructure:"pingPort,omitempty"`
@@ -258,10 +258,10 @@ func (o *ProcessingUnitRefresh) ToSparse(fields ...string) elemental.SparseIdent
 			ID:                          &o.ID,
 			Debug:                       &o.Debug,
 			Namespace:                   &o.Namespace,
+			PingAddress:                 &o.PingAddress,
 			PingEnabled:                 &o.PingEnabled,
 			PingIterations:              &o.PingIterations,
 			PingMode:                    &o.PingMode,
-			PingNetwork:                 &o.PingNetwork,
 			PingPort:                    &o.PingPort,
 			RefreshID:                   &o.RefreshID,
 			RefreshPolicy:               &o.RefreshPolicy,
@@ -281,14 +281,14 @@ func (o *ProcessingUnitRefresh) ToSparse(fields ...string) elemental.SparseIdent
 			sp.Debug = &(o.Debug)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
+		case "pingAddress":
+			sp.PingAddress = &(o.PingAddress)
 		case "pingEnabled":
 			sp.PingEnabled = &(o.PingEnabled)
 		case "pingIterations":
 			sp.PingIterations = &(o.PingIterations)
 		case "pingMode":
 			sp.PingMode = &(o.PingMode)
-		case "pingNetwork":
-			sp.PingNetwork = &(o.PingNetwork)
 		case "pingPort":
 			sp.PingPort = &(o.PingPort)
 		case "refreshID":
@@ -325,6 +325,9 @@ func (o *ProcessingUnitRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
+	if so.PingAddress != nil {
+		o.PingAddress = *so.PingAddress
+	}
 	if so.PingEnabled != nil {
 		o.PingEnabled = *so.PingEnabled
 	}
@@ -333,9 +336,6 @@ func (o *ProcessingUnitRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.PingMode != nil {
 		o.PingMode = *so.PingMode
-	}
-	if so.PingNetwork != nil {
-		o.PingNetwork = *so.PingNetwork
 	}
 	if so.PingPort != nil {
 		o.PingPort = *so.PingPort
@@ -434,14 +434,14 @@ func (o *ProcessingUnitRefresh) ValueForAttribute(name string) interface{} {
 		return o.Debug
 	case "namespace":
 		return o.Namespace
+	case "pingAddress":
+		return o.PingAddress
 	case "pingEnabled":
 		return o.PingEnabled
 	case "pingIterations":
 		return o.PingIterations
 	case "pingMode":
 		return o.PingMode
-	case "pingNetwork":
-		return o.PingNetwork
 	case "pingPort":
 		return o.PingPort
 	case "refreshID":
@@ -494,6 +494,14 @@ unit.`,
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"PingAddress": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PingAddress",
+		Description:    `Destination address to run ping.`,
+		Exposed:        true,
+		Name:           "pingAddress",
+		Type:           "string",
+	},
 	"PingEnabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PingEnabled",
@@ -518,14 +526,6 @@ unit.`,
 		Exposed:        true,
 		Name:           "pingMode",
 		Type:           "enum",
-	},
-	"PingNetwork": {
-		AllowedChoices: []string{},
-		ConvertedName:  "PingNetwork",
-		Description:    `Destination network to run ping.`,
-		Exposed:        true,
-		Name:           "pingNetwork",
-		Type:           "string",
 	},
 	"PingPort": {
 		AllowedChoices: []string{},
@@ -625,6 +625,14 @@ unit.`,
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"pingaddress": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PingAddress",
+		Description:    `Destination address to run ping.`,
+		Exposed:        true,
+		Name:           "pingAddress",
+		Type:           "string",
+	},
 	"pingenabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PingEnabled",
@@ -649,14 +657,6 @@ unit.`,
 		Exposed:        true,
 		Name:           "pingMode",
 		Type:           "enum",
-	},
-	"pingnetwork": {
-		AllowedChoices: []string{},
-		ConvertedName:  "PingNetwork",
-		Description:    `Destination network to run ping.`,
-		Exposed:        true,
-		Name:           "pingNetwork",
-		Type:           "string",
 	},
 	"pingport": {
 		AllowedChoices: []string{},
@@ -796,6 +796,9 @@ type SparseProcessingUnitRefresh struct {
 	// Contains the original namespace of the processing unit.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
+	// Destination address to run ping.
+	PingAddress *string `json:"pingAddress,omitempty" msgpack:"pingAddress,omitempty" bson:"-" mapstructure:"pingAddress,omitempty"`
+
 	// If set to true, start ping to the destination.
 	PingEnabled *bool `json:"pingEnabled,omitempty" msgpack:"pingEnabled,omitempty" bson:"-" mapstructure:"pingEnabled,omitempty"`
 
@@ -804,9 +807,6 @@ type SparseProcessingUnitRefresh struct {
 
 	// Represents the mode of ping to be used.
 	PingMode *ProcessingUnitRefreshPingModeValue `json:"pingMode,omitempty" msgpack:"pingMode,omitempty" bson:"-" mapstructure:"pingMode,omitempty"`
-
-	// Destination network to run ping.
-	PingNetwork *string `json:"pingNetwork,omitempty" msgpack:"pingNetwork,omitempty" bson:"-" mapstructure:"pingNetwork,omitempty"`
 
 	// Destination port to run ping.
 	PingPort *int `json:"pingPort,omitempty" msgpack:"pingPort,omitempty" bson:"-" mapstructure:"pingPort,omitempty"`
@@ -915,6 +915,9 @@ func (o *SparseProcessingUnitRefresh) ToPlain() elemental.PlainIdentifiable {
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
+	if o.PingAddress != nil {
+		out.PingAddress = *o.PingAddress
+	}
 	if o.PingEnabled != nil {
 		out.PingEnabled = *o.PingEnabled
 	}
@@ -923,9 +926,6 @@ func (o *SparseProcessingUnitRefresh) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.PingMode != nil {
 		out.PingMode = *o.PingMode
-	}
-	if o.PingNetwork != nil {
-		out.PingNetwork = *o.PingNetwork
 	}
 	if o.PingPort != nil {
 		out.PingPort = *o.PingPort
