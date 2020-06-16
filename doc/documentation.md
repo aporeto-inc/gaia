@@ -4756,6 +4756,7 @@ external change on the processing unit must be processed.
 {
   "debug": false,
   "pingEnabled": false,
+  "pingIterations": 1,
   "pingMode": "Auto",
   "refreshPolicy": false,
   "traceApplicationConnections": false,
@@ -4797,6 +4798,12 @@ If set to true, start ping to the destination.
 ##### `pingIterations` `integer`
 
 Number of iterations to run a ping probe.
+
+Default value:
+
+```json
+1
+```
 
 ##### `pingMode` `enum(Auto | L3 | L4 | L7)`
 

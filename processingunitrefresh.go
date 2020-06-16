@@ -152,9 +152,10 @@ type ProcessingUnitRefresh struct {
 func NewProcessingUnitRefresh() *ProcessingUnitRefresh {
 
 	return &ProcessingUnitRefresh{
-		ModelVersion:  1,
-		PingMode:      ProcessingUnitRefreshPingModeAuto,
-		TraceDuration: "10s",
+		ModelVersion:   1,
+		PingIterations: 1,
+		PingMode:       ProcessingUnitRefreshPingModeAuto,
+		TraceDuration:  "10s",
 	}
 }
 
@@ -513,6 +514,7 @@ unit.`,
 	"PingIterations": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PingIterations",
+		DefaultValue:   1,
 		Description:    `Number of iterations to run a ping probe.`,
 		Exposed:        true,
 		Name:           "pingIterations",
@@ -644,6 +646,7 @@ unit.`,
 	"pingiterations": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PingIterations",
+		DefaultValue:   1,
 		Description:    `Number of iterations to run a ping probe.`,
 		Exposed:        true,
 		Name:           "pingIterations",
