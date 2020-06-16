@@ -78,6 +78,7 @@ var (
 		"issueservicetoken":        IssueServiceTokenIdentity,
 
 		"ldapprovider":           LDAPProviderIdentity,
+		"localca":                LocalCAIdentity,
 		"log":                    LogIdentity,
 		"logout":                 LogoutIdentity,
 		"message":                MessageIdentity,
@@ -227,6 +228,7 @@ var (
 		"issueservicetokens":         IssueServiceTokenIdentity,
 
 		"ldapproviders":            LDAPProviderIdentity,
+		"localcas":                 LocalCAIdentity,
 		"logs":                     LogIdentity,
 		"logout":                   LogoutIdentity,
 		"messages":                 MessageIdentity,
@@ -688,8 +690,9 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"log":    nil,
-		"logout": nil,
+		"localca": nil,
+		"log":     nil,
+		"logout":  nil,
 		"message": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1084,6 +1087,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewIssueServiceToken()
 	case LDAPProviderIdentity:
 		return NewLDAPProvider()
+	case LocalCAIdentity:
+		return NewLocalCA()
 	case LogIdentity:
 		return NewLog()
 	case LogoutIdentity:
@@ -1359,6 +1364,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseIssueServiceToken()
 	case LDAPProviderIdentity:
 		return NewSparseLDAPProvider()
+	case LocalCAIdentity:
+		return NewSparseLocalCA()
 	case LogIdentity:
 		return NewSparseLog()
 	case LogoutIdentity:
@@ -1642,6 +1649,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &IssueServiceTokensList{}
 	case LDAPProviderIdentity:
 		return &LDAPProvidersList{}
+	case LocalCAIdentity:
+		return &LocalCAsList{}
 	case LogIdentity:
 		return &LogsList{}
 	case LogoutIdentity:
@@ -1915,6 +1924,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseIssueServiceTokensList{}
 	case LDAPProviderIdentity:
 		return &SparseLDAPProvidersList{}
+	case LocalCAIdentity:
+		return &SparseLocalCAsList{}
 	case LogIdentity:
 		return &SparseLogsList{}
 	case LogoutIdentity:
@@ -2135,6 +2146,7 @@ func AllIdentities() []elemental.Identity {
 		IssueIdentity,
 		IssueServiceTokenIdentity,
 		LDAPProviderIdentity,
+		LocalCAIdentity,
 		LogIdentity,
 		LogoutIdentity,
 		MessageIdentity,
@@ -2410,6 +2422,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case IssueServiceTokenIdentity:
 		return []string{}
 	case LDAPProviderIdentity:
+		return []string{}
+	case LocalCAIdentity:
 		return []string{}
 	case LogIdentity:
 		return []string{}
