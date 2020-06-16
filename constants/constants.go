@@ -448,6 +448,6 @@ const (
 )
 
 const (
-	// ConstraintViolationKey is added in elemental errors when having a constraint violation.
-	ConstraintViolationKey = "constraintviolation"
+	// ValidationConstraintViolationKey is added in elemental errors when having a constraint violation.
+	ValidationConstraintViolationKey = "constraintViolation"
 )
