@@ -4795,7 +4795,7 @@ Destination address to run ping.
 
 If set to true, start ping to the destination.
 
-##### `pingIterations` `integer`
+##### `pingIterations` `integer` [`min_value=1.000000`]
 
 Number of iterations to run a ping probe.
 

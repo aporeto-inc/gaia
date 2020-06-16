@@ -54,6 +54,7 @@ attributes:
     type: integer
     exposed: true
     default_value: 1
+    min_value: 1
     omit_empty: true
 
   - name: pingMode
