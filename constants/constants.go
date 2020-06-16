@@ -446,3 +446,8 @@ const (
 	// ActionHookContinueOnErrorKey represents if the hook should continue in case of error.
 	ActionHookContinueOnErrorKey = "continueOnError"
 )
+
+const (
+	// ConstraintViolationKey is added in elemental errors when having a constraint violation.
+	ConstraintViolationKey = "ConstraintViolation"
+)
