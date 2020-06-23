@@ -328,6 +328,12 @@ relations:
 - rest_name: flowreport
   create:
     description: Create a flow statistics report.
+    parameters:
+      entries:
+      - name: ingestionMode
+        description: If set, can override the ingestion mode for report storage.
+        type: string
+        example_value: mongovictoria
 
 - rest_name: graphedge
   get:
