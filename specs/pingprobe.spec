@@ -129,7 +129,7 @@ attributes:
     stored: true
 
   - name: payloadSizeType
-    description: Type of the payload size type.
+    description: Type of the payload size.
     type: enum
     exposed: true
     subtype: string

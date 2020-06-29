@@ -3319,7 +3319,7 @@ Size of the payload attached to the packet.
 
 ##### `payloadSizeType` `enum(Transmitted | Received)`
 
-Type of the payload size type.
+Type of the payload size.
 
 ##### `peerCertExpiry` `string`
 

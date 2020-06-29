@@ -193,7 +193,7 @@ type PingProbe struct {
 	// Size of the payload attached to the packet.
 	PayloadSize int `json:"payloadSize" msgpack:"payloadSize" bson:"payloadsize" mapstructure:"payloadSize,omitempty"`
 
-	// Type of the payload size type.
+	// Type of the payload size.
 	PayloadSizeType PingProbePayloadSizeTypeValue `json:"payloadSizeType" msgpack:"payloadSizeType" bson:"payloadsizetype" mapstructure:"payloadSizeType,omitempty"`
 
 	// Represents the expiry of the peer certificate.
@@ -1176,7 +1176,7 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"PayloadSizeType": {
 		AllowedChoices: []string{"Transmitted", "Received"},
 		ConvertedName:  "PayloadSizeType",
-		Description:    `Type of the payload size type.`,
+		Description:    `Type of the payload size.`,
 		Exposed:        true,
 		Name:           "payloadSizeType",
 		Stored:         true,
@@ -1597,7 +1597,7 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"payloadsizetype": {
 		AllowedChoices: []string{"Transmitted", "Received"},
 		ConvertedName:  "PayloadSizeType",
-		Description:    `Type of the payload size type.`,
+		Description:    `Type of the payload size.`,
 		Exposed:        true,
 		Name:           "payloadSizeType",
 		Stored:         true,
@@ -1940,7 +1940,7 @@ type SparsePingProbe struct {
 	// Size of the payload attached to the packet.
 	PayloadSize *int `json:"payloadSize,omitempty" msgpack:"payloadSize,omitempty" bson:"payloadsize,omitempty" mapstructure:"payloadSize,omitempty"`
 
-	// Type of the payload size type.
+	// Type of the payload size.
 	PayloadSizeType *PingProbePayloadSizeTypeValue `json:"payloadSizeType,omitempty" msgpack:"payloadSizeType,omitempty" bson:"payloadsizetype,omitempty" mapstructure:"payloadSizeType,omitempty"`
 
 	// Represents the expiry of the peer certificate.
