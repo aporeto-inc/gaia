@@ -780,11 +780,11 @@ var tagRegex = regexp.MustCompile(`^[^= ]+=.+`)
 func ValidateTag(attribute string, tag string) error {
 
 	if !tagRegex.MatchString(tag) {
-		return makeValidationError(attribute, fmt.Sprintf("`%s must contain at least one '=' symbol separating two valid words", tag))
+		return makeValidationError(attribute, fmt.Sprintf("'%s' must contain at least one '=' symbol separating two valid words", tag))
 	}
 
 	if len([]byte(tag)) >= 1024 {
-		return makeValidationError(attribute, fmt.Sprintf("`%s must be less than 1024 bytes", tag))
+		return makeValidationError(attribute, fmt.Sprintf("'%s' must be less than 1024 bytes", tag))
 	}
 
 	return nil
