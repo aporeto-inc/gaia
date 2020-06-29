@@ -128,6 +128,16 @@ attributes:
     exposed: true
     stored: true
 
+  - name: payloadSizeType
+    description: Type of the payload size type.
+    type: enum
+    exposed: true
+    subtype: string
+    stored: true
+    allowed_choices:
+    - Transmitted
+    - Received
+
   - name: peerCertExpiry
     description: Represents the expiry of the peer certificate.
     type: string

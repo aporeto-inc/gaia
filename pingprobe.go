@@ -20,6 +20,17 @@ const (
 	PingProbeClaimsTypeTransmitted PingProbeClaimsTypeValue = "Transmitted"
 )
 
+// PingProbePayloadSizeTypeValue represents the possible values for attribute "payloadSizeType".
+type PingProbePayloadSizeTypeValue string
+
+const (
+	// PingProbePayloadSizeTypeReceived represents the value Received.
+	PingProbePayloadSizeTypeReceived PingProbePayloadSizeTypeValue = "Received"
+
+	// PingProbePayloadSizeTypeTransmitted represents the value Transmitted.
+	PingProbePayloadSizeTypeTransmitted PingProbePayloadSizeTypeValue = "Transmitted"
+)
+
 // PingProbeRemoteEndpointTypeValue represents the possible values for attribute "remoteEndpointType".
 type PingProbeRemoteEndpointTypeValue string
 
@@ -182,6 +193,9 @@ type PingProbe struct {
 	// Size of the payload attached to the packet.
 	PayloadSize int `json:"payloadSize" msgpack:"payloadSize" bson:"payloadsize" mapstructure:"payloadSize,omitempty"`
 
+	// Type of the payload size type.
+	PayloadSizeType PingProbePayloadSizeTypeValue `json:"payloadSizeType" msgpack:"payloadSizeType" bson:"payloadsizetype" mapstructure:"payloadSizeType,omitempty"`
+
 	// Represents the expiry of the peer certificate.
 	PeerCertExpiry string `json:"peerCertExpiry" msgpack:"peerCertExpiry" bson:"peercertexpiry" mapstructure:"peerCertExpiry,omitempty"`
 
@@ -311,6 +325,7 @@ func (o *PingProbe) GetBSON() (interface{}, error) {
 	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
 	s.PayloadSize = o.PayloadSize
+	s.PayloadSizeType = o.PayloadSizeType
 	s.PeerCertExpiry = o.PeerCertExpiry
 	s.PeerCertIssuer = o.PeerCertIssuer
 	s.PeerCertSubject = o.PeerCertSubject
@@ -369,6 +384,7 @@ func (o *PingProbe) SetBSON(raw bson.Raw) error {
 	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
 	o.PayloadSize = s.PayloadSize
+	o.PayloadSizeType = s.PayloadSizeType
 	o.PeerCertExpiry = s.PeerCertExpiry
 	o.PeerCertIssuer = s.PeerCertIssuer
 	o.PeerCertSubject = s.PeerCertSubject
@@ -523,6 +539,7 @@ func (o *PingProbe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			MigrationsLog:          &o.MigrationsLog,
 			Namespace:              &o.Namespace,
 			PayloadSize:            &o.PayloadSize,
+			PayloadSizeType:        &o.PayloadSizeType,
 			PeerCertExpiry:         &o.PeerCertExpiry,
 			PeerCertIssuer:         &o.PeerCertIssuer,
 			PeerCertSubject:        &o.PeerCertSubject,
@@ -589,6 +606,8 @@ func (o *PingProbe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespace = &(o.Namespace)
 		case "payloadSize":
 			sp.PayloadSize = &(o.PayloadSize)
+		case "payloadSizeType":
+			sp.PayloadSizeType = &(o.PayloadSizeType)
 		case "peerCertExpiry":
 			sp.PeerCertExpiry = &(o.PeerCertExpiry)
 		case "peerCertIssuer":
@@ -703,6 +722,9 @@ func (o *PingProbe) Patch(sparse elemental.SparseIdentifiable) {
 	if so.PayloadSize != nil {
 		o.PayloadSize = *so.PayloadSize
 	}
+	if so.PayloadSizeType != nil {
+		o.PayloadSizeType = *so.PayloadSizeType
+	}
 	if so.PeerCertExpiry != nil {
 		o.PeerCertExpiry = *so.PeerCertExpiry
 	}
@@ -813,6 +835,10 @@ func (o *PingProbe) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("payloadSizeType", string(o.PayloadSizeType), []string{"Transmitted", "Received"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("pingID", o.PingID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -901,6 +927,8 @@ func (o *PingProbe) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "payloadSize":
 		return o.PayloadSize
+	case "payloadSizeType":
+		return o.PayloadSizeType
 	case "peerCertExpiry":
 		return o.PeerCertExpiry
 	case "peerCertIssuer":
@@ -1144,6 +1172,16 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "payloadSize",
 		Stored:         true,
 		Type:           "integer",
+	},
+	"PayloadSizeType": {
+		AllowedChoices: []string{"Transmitted", "Received"},
+		ConvertedName:  "PayloadSizeType",
+		Description:    `Type of the payload size type.`,
+		Exposed:        true,
+		Name:           "payloadSizeType",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "enum",
 	},
 	"PeerCertExpiry": {
 		AllowedChoices: []string{},
@@ -1556,6 +1594,16 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "integer",
 	},
+	"payloadsizetype": {
+		AllowedChoices: []string{"Transmitted", "Received"},
+		ConvertedName:  "PayloadSizeType",
+		Description:    `Type of the payload size type.`,
+		Exposed:        true,
+		Name:           "payloadSizeType",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "enum",
+	},
 	"peercertexpiry": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PeerCertExpiry",
@@ -1892,6 +1940,9 @@ type SparsePingProbe struct {
 	// Size of the payload attached to the packet.
 	PayloadSize *int `json:"payloadSize,omitempty" msgpack:"payloadSize,omitempty" bson:"payloadsize,omitempty" mapstructure:"payloadSize,omitempty"`
 
+	// Type of the payload size type.
+	PayloadSizeType *PingProbePayloadSizeTypeValue `json:"payloadSizeType,omitempty" msgpack:"payloadSizeType,omitempty" bson:"payloadsizetype,omitempty" mapstructure:"payloadSizeType,omitempty"`
+
 	// Represents the expiry of the peer certificate.
 	PeerCertExpiry *string `json:"peerCertExpiry,omitempty" msgpack:"peerCertExpiry,omitempty" bson:"peercertexpiry,omitempty" mapstructure:"peerCertExpiry,omitempty"`
 
@@ -2059,6 +2110,9 @@ func (o *SparsePingProbe) GetBSON() (interface{}, error) {
 	if o.PayloadSize != nil {
 		s.PayloadSize = o.PayloadSize
 	}
+	if o.PayloadSizeType != nil {
+		s.PayloadSizeType = o.PayloadSizeType
+	}
 	if o.PeerCertExpiry != nil {
 		s.PeerCertExpiry = o.PeerCertExpiry
 	}
@@ -2198,6 +2252,9 @@ func (o *SparsePingProbe) SetBSON(raw bson.Raw) error {
 	if s.PayloadSize != nil {
 		o.PayloadSize = s.PayloadSize
 	}
+	if s.PayloadSizeType != nil {
+		o.PayloadSizeType = s.PayloadSizeType
+	}
 	if s.PeerCertExpiry != nil {
 		o.PeerCertExpiry = s.PeerCertExpiry
 	}
@@ -2334,6 +2391,9 @@ func (o *SparsePingProbe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.PayloadSize != nil {
 		out.PayloadSize = *o.PayloadSize
+	}
+	if o.PayloadSizeType != nil {
+		out.PayloadSizeType = *o.PayloadSizeType
 	}
 	if o.PeerCertExpiry != nil {
 		out.PeerCertExpiry = *o.PeerCertExpiry
@@ -2545,6 +2605,7 @@ type mongoAttributesPingProbe struct {
 	MigrationsLog          map[string]string                 `bson:"migrationslog,omitempty"`
 	Namespace              string                            `bson:"namespace"`
 	PayloadSize            int                               `bson:"payloadsize"`
+	PayloadSizeType        PingProbePayloadSizeTypeValue     `bson:"payloadsizetype"`
 	PeerCertExpiry         string                            `bson:"peercertexpiry"`
 	PeerCertIssuer         string                            `bson:"peercertissuer"`
 	PeerCertSubject        string                            `bson:"peercertsubject"`
@@ -2588,6 +2649,7 @@ type mongoAttributesSparsePingProbe struct {
 	MigrationsLog          *map[string]string                 `bson:"migrationslog,omitempty"`
 	Namespace              *string                            `bson:"namespace,omitempty"`
 	PayloadSize            *int                               `bson:"payloadsize,omitempty"`
+	PayloadSizeType        *PingProbePayloadSizeTypeValue     `bson:"payloadsizetype,omitempty"`
 	PeerCertExpiry         *string                            `bson:"peercertexpiry,omitempty"`
 	PeerCertIssuer         *string                            `bson:"peercertissuer,omitempty"`
 	PeerCertSubject        *string                            `bson:"peercertsubject,omitempty"`
