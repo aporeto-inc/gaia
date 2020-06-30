@@ -70,7 +70,7 @@ attributes:
     allowed_choices:
     - Transmitted
     - Received
-    default_value:
+    example_value:
     - Transmitted
 
   - name: enforcerID
@@ -141,7 +141,7 @@ attributes:
     allowed_choices:
     - Transmitted
     - Received
-    default_value:
+    example_value:
     - Transmitted
 
   - name: peerCertExpiry
@@ -215,7 +215,7 @@ attributes:
     allowed_choices:
     - ProcessingUnit
     - External
-    default_value:
+    example_value:
     - External
 
   - name: remoteNamespace
@@ -233,7 +233,7 @@ attributes:
     allowed_choices:
     - Plain
     - Hash
-    default_value:
+    example_value:
     - Plain
 
   - name: remoteProcessingUnitID
@@ -277,5 +277,5 @@ attributes:
     allowed_choices:
     - Request
     - Response
-    default_value:
+    example_value:
     - Request
