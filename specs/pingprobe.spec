@@ -66,9 +66,12 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    required: true
     allowed_choices:
     - Transmitted
     - Received
+    default_value:
+    - Transmitted
 
   - name: enforcerID
     description: ID of the defender.
@@ -134,9 +137,12 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    required: true
     allowed_choices:
     - Transmitted
     - Received
+    default_value:
+    - Transmitted
 
   - name: peerCertExpiry
     description: Represents the expiry of the peer certificate.
@@ -205,8 +211,11 @@ attributes:
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - ProcessingUnit
+    - External
+    default_value:
     - External
 
   - name: remoteNamespace
@@ -220,9 +229,12 @@ attributes:
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - Plain
     - Hash
+    default_value:
+    - Plain
 
   - name: remoteProcessingUnitID
     description: ID of the remote processing unit.
@@ -261,6 +273,9 @@ attributes:
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - Request
     - Response
+    default_value:
+    - Request

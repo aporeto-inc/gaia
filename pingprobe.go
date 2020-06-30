@@ -273,6 +273,21 @@ func NewPingProbe() *PingProbe {
 		ModelVersion:  1,
 		Claims:        []string{},
 		MigrationsLog: map[string]string{},
+		RemoteEndpointType: []string{
+			PingProbeRemoteEndpointTypeExternal,
+		},
+		RemoteNamespaceType: []string{
+			PingProbeRemoteNamespaceTypePlain,
+		},
+		Type: []string{
+			PingProbeTypeRequest,
+		},
+		PayloadSizeType: []string{
+			PingProbePayloadSizeTypeTransmitted,
+		},
+		ClaimsType: []string{
+			PingProbeClaimsTypeTransmitted,
+		},
 	}
 }
 
@@ -823,6 +838,10 @@ func (o *PingProbe) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredString("claimsType", string(o.ClaimsType)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateStringInList("claimsType", string(o.ClaimsType), []string{"Transmitted", "Received"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -835,6 +854,10 @@ func (o *PingProbe) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("payloadSizeType", string(o.PayloadSizeType)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateStringInList("payloadSizeType", string(o.PayloadSizeType), []string{"Transmitted", "Received"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -843,12 +866,24 @@ func (o *PingProbe) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("remoteEndpointType", string(o.RemoteEndpointType)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateStringInList("remoteEndpointType", string(o.RemoteEndpointType), []string{"ProcessingUnit", "External"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("remoteNamespaceType", string(o.RemoteNamespaceType)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateStringInList("remoteNamespaceType", string(o.RemoteNamespaceType), []string{"Plain", "Hash"}, false); err != nil {
 		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Request", "Response"}, false); err != nil {
@@ -1043,12 +1078,16 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"ClaimsType": {
 		AllowedChoices: []string{"Transmitted", "Received"},
 		ConvertedName:  "ClaimsType",
-		Description:    `Type of claims reported.`,
-		Exposed:        true,
-		Name:           "claimsType",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "enum",
+		DefaultValue: []string{
+			PingProbeClaimsTypeTransmitted,
+		},
+		Description: `Type of claims reported.`,
+		Exposed:     true,
+		Name:        "claimsType",
+		Required:    true,
+		Stored:      true,
+		SubType:     "string",
+		Type:        "enum",
 	},
 	"CreateTime": {
 		AllowedChoices: []string{},
@@ -1176,12 +1215,16 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"PayloadSizeType": {
 		AllowedChoices: []string{"Transmitted", "Received"},
 		ConvertedName:  "PayloadSizeType",
-		Description:    `Type of the payload size.`,
-		Exposed:        true,
-		Name:           "payloadSizeType",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "enum",
+		DefaultValue: []string{
+			PingProbePayloadSizeTypeTransmitted,
+		},
+		Description: `Type of the payload size.`,
+		Exposed:     true,
+		Name:        "payloadSizeType",
+		Required:    true,
+		Stored:      true,
+		SubType:     "string",
+		Type:        "enum",
 	},
 	"PeerCertExpiry": {
 		AllowedChoices: []string{},
@@ -1277,11 +1320,15 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"RemoteEndpointType": {
 		AllowedChoices: []string{"ProcessingUnit", "External"},
 		ConvertedName:  "RemoteEndpointType",
-		Description:    `Represents the remote endpoint type.`,
-		Exposed:        true,
-		Name:           "remoteEndpointType",
-		Stored:         true,
-		Type:           "enum",
+		DefaultValue: []string{
+			PingProbeRemoteEndpointTypeExternal,
+		},
+		Description: `Represents the remote endpoint type.`,
+		Exposed:     true,
+		Name:        "remoteEndpointType",
+		Required:    true,
+		Stored:      true,
+		Type:        "enum",
 	},
 	"RemoteNamespace": {
 		AllowedChoices: []string{},
@@ -1295,11 +1342,15 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"RemoteNamespaceType": {
 		AllowedChoices: []string{"Plain", "Hash"},
 		ConvertedName:  "RemoteNamespaceType",
-		Description:    `Type of the namespace reported.`,
-		Exposed:        true,
-		Name:           "remoteNamespaceType",
-		Stored:         true,
-		Type:           "enum",
+		DefaultValue: []string{
+			PingProbeRemoteNamespaceTypePlain,
+		},
+		Description: `Type of the namespace reported.`,
+		Exposed:     true,
+		Name:        "remoteNamespaceType",
+		Required:    true,
+		Stored:      true,
+		Type:        "enum",
 	},
 	"RemoteProcessingUnitID": {
 		AllowedChoices: []string{},
@@ -1351,11 +1402,15 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"Type": {
 		AllowedChoices: []string{"Request", "Response"},
 		ConvertedName:  "Type",
-		Description:    `Type of the report.`,
-		Exposed:        true,
-		Name:           "type",
-		Stored:         true,
-		Type:           "enum",
+		DefaultValue: []string{
+			PingProbeTypeRequest,
+		},
+		Description: `Type of the report.`,
+		Exposed:     true,
+		Name:        "type",
+		Required:    true,
+		Stored:      true,
+		Type:        "enum",
 	},
 	"UpdateTime": {
 		AllowedChoices: []string{},
@@ -1464,12 +1519,16 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"claimstype": {
 		AllowedChoices: []string{"Transmitted", "Received"},
 		ConvertedName:  "ClaimsType",
-		Description:    `Type of claims reported.`,
-		Exposed:        true,
-		Name:           "claimsType",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "enum",
+		DefaultValue: []string{
+			PingProbeClaimsTypeTransmitted,
+		},
+		Description: `Type of claims reported.`,
+		Exposed:     true,
+		Name:        "claimsType",
+		Required:    true,
+		Stored:      true,
+		SubType:     "string",
+		Type:        "enum",
 	},
 	"createtime": {
 		AllowedChoices: []string{},
@@ -1597,12 +1656,16 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"payloadsizetype": {
 		AllowedChoices: []string{"Transmitted", "Received"},
 		ConvertedName:  "PayloadSizeType",
-		Description:    `Type of the payload size.`,
-		Exposed:        true,
-		Name:           "payloadSizeType",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "enum",
+		DefaultValue: []string{
+			PingProbePayloadSizeTypeTransmitted,
+		},
+		Description: `Type of the payload size.`,
+		Exposed:     true,
+		Name:        "payloadSizeType",
+		Required:    true,
+		Stored:      true,
+		SubType:     "string",
+		Type:        "enum",
 	},
 	"peercertexpiry": {
 		AllowedChoices: []string{},
@@ -1698,11 +1761,15 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"remoteendpointtype": {
 		AllowedChoices: []string{"ProcessingUnit", "External"},
 		ConvertedName:  "RemoteEndpointType",
-		Description:    `Represents the remote endpoint type.`,
-		Exposed:        true,
-		Name:           "remoteEndpointType",
-		Stored:         true,
-		Type:           "enum",
+		DefaultValue: []string{
+			PingProbeRemoteEndpointTypeExternal,
+		},
+		Description: `Represents the remote endpoint type.`,
+		Exposed:     true,
+		Name:        "remoteEndpointType",
+		Required:    true,
+		Stored:      true,
+		Type:        "enum",
 	},
 	"remotenamespace": {
 		AllowedChoices: []string{},
@@ -1716,11 +1783,15 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"remotenamespacetype": {
 		AllowedChoices: []string{"Plain", "Hash"},
 		ConvertedName:  "RemoteNamespaceType",
-		Description:    `Type of the namespace reported.`,
-		Exposed:        true,
-		Name:           "remoteNamespaceType",
-		Stored:         true,
-		Type:           "enum",
+		DefaultValue: []string{
+			PingProbeRemoteNamespaceTypePlain,
+		},
+		Description: `Type of the namespace reported.`,
+		Exposed:     true,
+		Name:        "remoteNamespaceType",
+		Required:    true,
+		Stored:      true,
+		Type:        "enum",
 	},
 	"remoteprocessingunitid": {
 		AllowedChoices: []string{},
@@ -1772,11 +1843,15 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"type": {
 		AllowedChoices: []string{"Request", "Response"},
 		ConvertedName:  "Type",
-		Description:    `Type of the report.`,
-		Exposed:        true,
-		Name:           "type",
-		Stored:         true,
-		Type:           "enum",
+		DefaultValue: []string{
+			PingProbeTypeRequest,
+		},
+		Description: `Type of the report.`,
+		Exposed:     true,
+		Name:        "type",
+		Required:    true,
+		Stored:      true,
+		Type:        "enum",
 	},
 	"updatetime": {
 		AllowedChoices: []string{},
