@@ -159,6 +159,7 @@ RedHat
 Redis
 RemotePingProbe
 RemoteProcessor
+RenderNamespace
 RenderTemplate
 RenderedPolicy
 ResponseTypesSupported

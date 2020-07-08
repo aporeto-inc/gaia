@@ -731,6 +731,10 @@ relations:
           xxx-xxx-xxx-xxx
           --- END CSR ---
 
+- rest_name: rendernamespace
+  create:
+    description: Renders the namespace where an object should reside.
+
 - rest_name: rendertemplate
   create:
     description: Renders a new template.

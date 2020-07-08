@@ -115,6 +115,7 @@ var (
 
 		"remoteprocessor":        RemoteProcessorIdentity,
 		"renderedpolicy":         RenderedPolicyIdentity,
+		"rendernamespace":        RenderNamespaceIdentity,
 		"rendertemplate":         RenderTemplateIdentity,
 		"report":                 ReportIdentity,
 		"revocation":             RevocationIdentity,
@@ -265,6 +266,7 @@ var (
 
 		"remoteprocessors":         RemoteProcessorIdentity,
 		"renderedpolicies":         RenderedPolicyIdentity,
+		"rendernamespaces":         RenderNamespaceIdentity,
 		"rendertemplates":          RenderTemplateIdentity,
 		"reports":                  ReportIdentity,
 		"revocations":              RevocationIdentity,
@@ -374,6 +376,7 @@ var (
 		"hk":             RemoteProcessorIdentity,
 		"rpol":           RenderedPolicyIdentity,
 		"rpols":          RenderedPolicyIdentity,
+		"renderns":       RenderNamespaceIdentity,
 		"cook":           RenderTemplateIdentity,
 		"rtpl":           RenderTemplateIdentity,
 		"srv":            ServiceIdentity,
@@ -818,6 +821,7 @@ var (
 		},
 		"remoteprocessor": nil,
 		"renderedpolicy":  nil,
+		"rendernamespace": nil,
 		"rendertemplate":  nil,
 		"report":          nil,
 		"revocation": {
@@ -1154,6 +1158,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRemoteProcessor()
 	case RenderedPolicyIdentity:
 		return NewRenderedPolicy()
+	case RenderNamespaceIdentity:
+		return NewRenderNamespace()
 	case RenderTemplateIdentity:
 		return NewRenderTemplate()
 	case ReportIdentity:
@@ -1431,6 +1437,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRemoteProcessor()
 	case RenderedPolicyIdentity:
 		return NewSparseRenderedPolicy()
+	case RenderNamespaceIdentity:
+		return NewSparseRenderNamespace()
 	case RenderTemplateIdentity:
 		return NewSparseRenderTemplate()
 	case ReportIdentity:
@@ -1716,6 +1724,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RemoteProcessorsList{}
 	case RenderedPolicyIdentity:
 		return &RenderedPoliciesList{}
+	case RenderNamespaceIdentity:
+		return &RenderNamespacesList{}
 	case RenderTemplateIdentity:
 		return &RenderTemplatesList{}
 	case ReportIdentity:
@@ -1991,6 +2001,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRemoteProcessorsList{}
 	case RenderedPolicyIdentity:
 		return &SparseRenderedPoliciesList{}
+	case RenderNamespaceIdentity:
+		return &SparseRenderNamespacesList{}
 	case RenderTemplateIdentity:
 		return &SparseRenderTemplatesList{}
 	case ReportIdentity:
@@ -2180,6 +2192,7 @@ func AllIdentities() []elemental.Identity {
 		RecipeIdentity,
 		RemoteProcessorIdentity,
 		RenderedPolicyIdentity,
+		RenderNamespaceIdentity,
 		RenderTemplateIdentity,
 		ReportIdentity,
 		RevocationIdentity,
@@ -2526,6 +2539,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"rpol",
 			"rpols",
+		}
+	case RenderNamespaceIdentity:
+		return []string{
+			"renderns",
 		}
 	case RenderTemplateIdentity:
 		return []string{
