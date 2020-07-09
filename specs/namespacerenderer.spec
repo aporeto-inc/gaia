@@ -1,15 +1,15 @@
 # Model
 model:
-  rest_name: rendernamespace
-  resource_name: rendernamespaces
-  entity_name: RenderNamespace
+  rest_name: namespacerenderer
+  resource_name: namespacerenderers
+  entity_name: NamespaceRenderer
   package: squall
   group: core/namespace
   description: |-
     This object allows you to determine which namespace an object should reside in
     based on the tags provided.
   aliases:
-  - renderns
+  - nsrenderer
 
 # Attributes
 attributes:

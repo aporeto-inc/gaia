@@ -104,6 +104,7 @@ MessagePack
 Midgard
 MongoDB
 NamespaceMappingPolicy
+NamespaceRenderer
 NamespaceUnique
 NetworkAccessPolicy
 NfQueue
@@ -159,7 +160,6 @@ RedHat
 Redis
 RemotePingProbe
 RemoteProcessor
-RenderNamespace
 RenderTemplate
 RenderedPolicy
 ResponseTypesSupported

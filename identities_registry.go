@@ -84,6 +84,7 @@ var (
 		"message":                MessageIdentity,
 		"namespace":              NamespaceIdentity,
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
+		"namespacerenderer":      NamespaceRendererIdentity,
 		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
 		"oauthinfo":              OAUTHInfoIdentity,
 		"oauthkey":               OAUTHKeyIdentity,
@@ -115,7 +116,6 @@ var (
 
 		"remoteprocessor":        RemoteProcessorIdentity,
 		"renderedpolicy":         RenderedPolicyIdentity,
-		"rendernamespace":        RenderNamespaceIdentity,
 		"rendertemplate":         RenderTemplateIdentity,
 		"report":                 ReportIdentity,
 		"revocation":             RevocationIdentity,
@@ -235,6 +235,7 @@ var (
 		"messages":                 MessageIdentity,
 		"namespaces":               NamespaceIdentity,
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
+		"namespacerenderers":       NamespaceRendererIdentity,
 		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
 		"oauthinfo":                OAUTHInfoIdentity,
 		"oauthkeys":                OAUTHKeyIdentity,
@@ -266,7 +267,6 @@ var (
 
 		"remoteprocessors":         RemoteProcessorIdentity,
 		"renderedpolicies":         RenderedPolicyIdentity,
-		"rendernamespaces":         RenderNamespaceIdentity,
 		"rendertemplates":          RenderTemplateIdentity,
 		"reports":                  ReportIdentity,
 		"revocations":              RevocationIdentity,
@@ -359,6 +359,7 @@ var (
 		"nspolicies":     NamespaceMappingPolicyIdentity,
 		"nsmap":          NamespaceMappingPolicyIdentity,
 		"nsmaps":         NamespaceMappingPolicyIdentity,
+		"nsrenderer":     NamespaceRendererIdentity,
 		"netpol":         NetworkAccessPolicyIdentity,
 		"netpols":        NetworkAccessPolicyIdentity,
 		"om":             OrganizationalMetadataIdentity,
@@ -376,7 +377,6 @@ var (
 		"hk":             RemoteProcessorIdentity,
 		"rpol":           RenderedPolicyIdentity,
 		"rpols":          RenderedPolicyIdentity,
-		"renderns":       RenderNamespaceIdentity,
 		"cook":           RenderTemplateIdentity,
 		"rtpl":           RenderTemplateIdentity,
 		"srv":            ServiceIdentity,
@@ -717,6 +717,7 @@ var (
 			{"createIdempotencyKey"},
 		},
 		"namespacemappingpolicy": nil,
+		"namespacerenderer":      nil,
 		"networkaccesspolicy":    nil,
 		"oauthinfo":              nil,
 		"oauthkey":               nil,
@@ -821,7 +822,6 @@ var (
 		},
 		"remoteprocessor": nil,
 		"renderedpolicy":  nil,
-		"rendernamespace": nil,
 		"rendertemplate":  nil,
 		"report":          nil,
 		"revocation": {
@@ -1104,6 +1104,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewNamespace()
 	case NamespaceMappingPolicyIdentity:
 		return NewNamespaceMappingPolicy()
+	case NamespaceRendererIdentity:
+		return NewNamespaceRenderer()
 	case NetworkAccessPolicyIdentity:
 		return NewNetworkAccessPolicy()
 	case OAUTHInfoIdentity:
@@ -1158,8 +1160,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRemoteProcessor()
 	case RenderedPolicyIdentity:
 		return NewRenderedPolicy()
-	case RenderNamespaceIdentity:
-		return NewRenderNamespace()
 	case RenderTemplateIdentity:
 		return NewRenderTemplate()
 	case ReportIdentity:
@@ -1383,6 +1383,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseNamespace()
 	case NamespaceMappingPolicyIdentity:
 		return NewSparseNamespaceMappingPolicy()
+	case NamespaceRendererIdentity:
+		return NewSparseNamespaceRenderer()
 	case NetworkAccessPolicyIdentity:
 		return NewSparseNetworkAccessPolicy()
 	case OAUTHInfoIdentity:
@@ -1437,8 +1439,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRemoteProcessor()
 	case RenderedPolicyIdentity:
 		return NewSparseRenderedPolicy()
-	case RenderNamespaceIdentity:
-		return NewSparseRenderNamespace()
 	case RenderTemplateIdentity:
 		return NewSparseRenderTemplate()
 	case ReportIdentity:
@@ -1670,6 +1670,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &NamespacesList{}
 	case NamespaceMappingPolicyIdentity:
 		return &NamespaceMappingPoliciesList{}
+	case NamespaceRendererIdentity:
+		return &NamespaceRenderersList{}
 	case NetworkAccessPolicyIdentity:
 		return &NetworkAccessPoliciesList{}
 	case OAUTHInfoIdentity:
@@ -1724,8 +1726,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RemoteProcessorsList{}
 	case RenderedPolicyIdentity:
 		return &RenderedPoliciesList{}
-	case RenderNamespaceIdentity:
-		return &RenderNamespacesList{}
 	case RenderTemplateIdentity:
 		return &RenderTemplatesList{}
 	case ReportIdentity:
@@ -1947,6 +1947,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseNamespacesList{}
 	case NamespaceMappingPolicyIdentity:
 		return &SparseNamespaceMappingPoliciesList{}
+	case NamespaceRendererIdentity:
+		return &SparseNamespaceRenderersList{}
 	case NetworkAccessPolicyIdentity:
 		return &SparseNetworkAccessPoliciesList{}
 	case OAUTHInfoIdentity:
@@ -2001,8 +2003,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRemoteProcessorsList{}
 	case RenderedPolicyIdentity:
 		return &SparseRenderedPoliciesList{}
-	case RenderNamespaceIdentity:
-		return &SparseRenderNamespacesList{}
 	case RenderTemplateIdentity:
 		return &SparseRenderTemplatesList{}
 	case ReportIdentity:
@@ -2165,6 +2165,7 @@ func AllIdentities() []elemental.Identity {
 		MessageIdentity,
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
+		NamespaceRendererIdentity,
 		NetworkAccessPolicyIdentity,
 		OAUTHInfoIdentity,
 		OAUTHKeyIdentity,
@@ -2192,7 +2193,6 @@ func AllIdentities() []elemental.Identity {
 		RecipeIdentity,
 		RemoteProcessorIdentity,
 		RenderedPolicyIdentity,
-		RenderNamespaceIdentity,
 		RenderTemplateIdentity,
 		ReportIdentity,
 		RevocationIdentity,
@@ -2460,6 +2460,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"nsmap",
 			"nsmaps",
 		}
+	case NamespaceRendererIdentity:
+		return []string{
+			"nsrenderer",
+		}
 	case NetworkAccessPolicyIdentity:
 		return []string{
 			"netpol",
@@ -2539,10 +2543,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"rpol",
 			"rpols",
-		}
-	case RenderNamespaceIdentity:
-		return []string{
-			"renderns",
 		}
 	case RenderTemplateIdentity:
 		return []string{

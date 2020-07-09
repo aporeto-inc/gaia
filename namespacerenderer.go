@@ -8,43 +8,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// RenderNamespaceIdentity represents the Identity of the object.
-var RenderNamespaceIdentity = elemental.Identity{
-	Name:     "rendernamespace",
-	Category: "rendernamespaces",
+// NamespaceRendererIdentity represents the Identity of the object.
+var NamespaceRendererIdentity = elemental.Identity{
+	Name:     "namespacerenderer",
+	Category: "namespacerenderers",
 	Package:  "squall",
 	Private:  false,
 }
 
-// RenderNamespacesList represents a list of RenderNamespaces
-type RenderNamespacesList []*RenderNamespace
+// NamespaceRenderersList represents a list of NamespaceRenderers
+type NamespaceRenderersList []*NamespaceRenderer
 
 // Identity returns the identity of the objects in the list.
-func (o RenderNamespacesList) Identity() elemental.Identity {
+func (o NamespaceRenderersList) Identity() elemental.Identity {
 
-	return RenderNamespaceIdentity
+	return NamespaceRendererIdentity
 }
 
-// Copy returns a pointer to a copy the RenderNamespacesList.
-func (o RenderNamespacesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the NamespaceRenderersList.
+func (o NamespaceRenderersList) Copy() elemental.Identifiables {
 
-	copy := append(RenderNamespacesList{}, o...)
+	copy := append(NamespaceRenderersList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the RenderNamespacesList.
-func (o RenderNamespacesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the NamespaceRenderersList.
+func (o NamespaceRenderersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(RenderNamespacesList{}, o...)
+	out := append(NamespaceRenderersList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*RenderNamespace))
+		out = append(out, obj.(*NamespaceRenderer))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o RenderNamespacesList) List() elemental.IdentifiablesList {
+func (o NamespaceRenderersList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -55,31 +55,31 @@ func (o RenderNamespacesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o RenderNamespacesList) DefaultOrder() []string {
+func (o NamespaceRenderersList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the RenderNamespacesList converted to SparseRenderNamespacesList.
+// ToSparse returns the NamespaceRenderersList converted to SparseNamespaceRenderersList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o RenderNamespacesList) ToSparse(fields ...string) elemental.Identifiables {
+func (o NamespaceRenderersList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseRenderNamespacesList, len(o))
+	out := make(SparseNamespaceRenderersList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseRenderNamespace)
+		out[i] = o[i].ToSparse(fields...).(*SparseNamespaceRenderer)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o RenderNamespacesList) Version() int {
+func (o NamespaceRenderersList) Version() int {
 
 	return 1
 }
 
-// RenderNamespace represents the model of a rendernamespace
-type RenderNamespace struct {
+// NamespaceRenderer represents the model of a namespacerenderer
+type NamespaceRenderer struct {
 	// The namespace where the object should reside in.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
@@ -89,54 +89,54 @@ type RenderNamespace struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewRenderNamespace returns a new *RenderNamespace
-func NewRenderNamespace() *RenderNamespace {
+// NewNamespaceRenderer returns a new *NamespaceRenderer
+func NewNamespaceRenderer() *NamespaceRenderer {
 
-	return &RenderNamespace{
+	return &NamespaceRenderer{
 		ModelVersion: 1,
 		Tags:         []string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *RenderNamespace) Identity() elemental.Identity {
+func (o *NamespaceRenderer) Identity() elemental.Identity {
 
-	return RenderNamespaceIdentity
+	return NamespaceRendererIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *RenderNamespace) Identifier() string {
+func (o *NamespaceRenderer) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *RenderNamespace) SetIdentifier(id string) {
+func (o *NamespaceRenderer) SetIdentifier(id string) {
 
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *RenderNamespace) GetBSON() (interface{}, error) {
+func (o *NamespaceRenderer) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesRenderNamespace{}
+	s := &mongoAttributesNamespaceRenderer{}
 
 	return s, nil
 }
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *RenderNamespace) SetBSON(raw bson.Raw) error {
+func (o *NamespaceRenderer) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesRenderNamespace{}
+	s := &mongoAttributesNamespaceRenderer{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -145,48 +145,48 @@ func (o *RenderNamespace) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *RenderNamespace) Version() int {
+func (o *NamespaceRenderer) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *RenderNamespace) BleveType() string {
+func (o *NamespaceRenderer) BleveType() string {
 
-	return "rendernamespace"
+	return "namespacerenderer"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *RenderNamespace) DefaultOrder() []string {
+func (o *NamespaceRenderer) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *RenderNamespace) Doc() string {
+func (o *NamespaceRenderer) Doc() string {
 
 	return `This object allows you to determine which namespace an object should reside in
 based on the tags provided.`
 }
 
-func (o *RenderNamespace) String() string {
+func (o *NamespaceRenderer) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *RenderNamespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *NamespaceRenderer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseRenderNamespace{
+		return &SparseNamespaceRenderer{
 			Namespace: &o.Namespace,
 			Tags:      &o.Tags,
 		}
 	}
 
-	sp := &SparseRenderNamespace{}
+	sp := &SparseNamespaceRenderer{}
 	for _, f := range fields {
 		switch f {
 		case "namespace":
@@ -199,13 +199,13 @@ func (o *RenderNamespace) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseRenderNamespace to the object.
-func (o *RenderNamespace) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseNamespaceRenderer to the object.
+func (o *NamespaceRenderer) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseRenderNamespace)
+	so := sparse.(*SparseNamespaceRenderer)
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
@@ -214,32 +214,32 @@ func (o *RenderNamespace) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the RenderNamespace.
-func (o *RenderNamespace) DeepCopy() *RenderNamespace {
+// DeepCopy returns a deep copy if the NamespaceRenderer.
+func (o *NamespaceRenderer) DeepCopy() *NamespaceRenderer {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &RenderNamespace{}
+	out := &NamespaceRenderer{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *RenderNamespace.
-func (o *RenderNamespace) DeepCopyInto(out *RenderNamespace) {
+// DeepCopyInto copies the receiver into the given *NamespaceRenderer.
+func (o *NamespaceRenderer) DeepCopyInto(out *NamespaceRenderer) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy RenderNamespace: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy NamespaceRenderer: %s", err))
 	}
 
-	*out = *target.(*RenderNamespace)
+	*out = *target.(*NamespaceRenderer)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *RenderNamespace) Validate() error {
+func (o *NamespaceRenderer) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -260,26 +260,26 @@ func (o *RenderNamespace) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*RenderNamespace) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*NamespaceRenderer) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := RenderNamespaceAttributesMap[name]; ok {
+	if v, ok := NamespaceRendererAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return RenderNamespaceLowerCaseAttributesMap[name]
+	return NamespaceRendererLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*RenderNamespace) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*NamespaceRenderer) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return RenderNamespaceAttributesMap
+	return NamespaceRendererAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *RenderNamespace) ValueForAttribute(name string) interface{} {
+func (o *NamespaceRenderer) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "namespace":
@@ -291,8 +291,8 @@ func (o *RenderNamespace) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// RenderNamespaceAttributesMap represents the map of attribute for RenderNamespace.
-var RenderNamespaceAttributesMap = map[string]elemental.AttributeSpecification{
+// NamespaceRendererAttributesMap represents the map of attribute for NamespaceRenderer.
+var NamespaceRendererAttributesMap = map[string]elemental.AttributeSpecification{
 	"Namespace": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -315,8 +315,8 @@ var RenderNamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// RenderNamespaceLowerCaseAttributesMap represents the map of attribute for RenderNamespace.
-var RenderNamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// NamespaceRendererLowerCaseAttributesMap represents the map of attribute for NamespaceRenderer.
+var NamespaceRendererLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"namespace": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -339,35 +339,35 @@ var RenderNamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	},
 }
 
-// SparseRenderNamespacesList represents a list of SparseRenderNamespaces
-type SparseRenderNamespacesList []*SparseRenderNamespace
+// SparseNamespaceRenderersList represents a list of SparseNamespaceRenderers
+type SparseNamespaceRenderersList []*SparseNamespaceRenderer
 
 // Identity returns the identity of the objects in the list.
-func (o SparseRenderNamespacesList) Identity() elemental.Identity {
+func (o SparseNamespaceRenderersList) Identity() elemental.Identity {
 
-	return RenderNamespaceIdentity
+	return NamespaceRendererIdentity
 }
 
-// Copy returns a pointer to a copy the SparseRenderNamespacesList.
-func (o SparseRenderNamespacesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseNamespaceRenderersList.
+func (o SparseNamespaceRenderersList) Copy() elemental.Identifiables {
 
-	copy := append(SparseRenderNamespacesList{}, o...)
+	copy := append(SparseNamespaceRenderersList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseRenderNamespacesList.
-func (o SparseRenderNamespacesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseNamespaceRenderersList.
+func (o SparseNamespaceRenderersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseRenderNamespacesList{}, o...)
+	out := append(SparseNamespaceRenderersList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseRenderNamespace))
+		out = append(out, obj.(*SparseNamespaceRenderer))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseRenderNamespacesList) List() elemental.IdentifiablesList {
+func (o SparseNamespaceRenderersList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -378,13 +378,13 @@ func (o SparseRenderNamespacesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseRenderNamespacesList) DefaultOrder() []string {
+func (o SparseNamespaceRenderersList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparseRenderNamespacesList converted to RenderNamespacesList.
-func (o SparseRenderNamespacesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseNamespaceRenderersList converted to NamespaceRenderersList.
+func (o SparseNamespaceRenderersList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -395,13 +395,13 @@ func (o SparseRenderNamespacesList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseRenderNamespacesList) Version() int {
+func (o SparseNamespaceRenderersList) Version() int {
 
 	return 1
 }
 
-// SparseRenderNamespace represents the sparse version of a rendernamespace.
-type SparseRenderNamespace struct {
+// SparseNamespaceRenderer represents the sparse version of a namespacerenderer.
+type SparseNamespaceRenderer struct {
 	// The namespace where the object should reside in.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
@@ -411,50 +411,50 @@ type SparseRenderNamespace struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseRenderNamespace returns a new  SparseRenderNamespace.
-func NewSparseRenderNamespace() *SparseRenderNamespace {
-	return &SparseRenderNamespace{}
+// NewSparseNamespaceRenderer returns a new  SparseNamespaceRenderer.
+func NewSparseNamespaceRenderer() *SparseNamespaceRenderer {
+	return &SparseNamespaceRenderer{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseRenderNamespace) Identity() elemental.Identity {
+func (o *SparseNamespaceRenderer) Identity() elemental.Identity {
 
-	return RenderNamespaceIdentity
+	return NamespaceRendererIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseRenderNamespace) Identifier() string {
+func (o *SparseNamespaceRenderer) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseRenderNamespace) SetIdentifier(id string) {
+func (o *SparseNamespaceRenderer) SetIdentifier(id string) {
 
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseRenderNamespace) GetBSON() (interface{}, error) {
+func (o *SparseNamespaceRenderer) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseRenderNamespace{}
+	s := &mongoAttributesSparseNamespaceRenderer{}
 
 	return s, nil
 }
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseRenderNamespace) SetBSON(raw bson.Raw) error {
+func (o *SparseNamespaceRenderer) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseRenderNamespace{}
+	s := &mongoAttributesSparseNamespaceRenderer{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -463,15 +463,15 @@ func (o *SparseRenderNamespace) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseRenderNamespace) Version() int {
+func (o *SparseNamespaceRenderer) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseRenderNamespace) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseNamespaceRenderer) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewRenderNamespace()
+	out := NewNamespaceRenderer()
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
@@ -482,31 +482,31 @@ func (o *SparseRenderNamespace) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
-// DeepCopy returns a deep copy if the SparseRenderNamespace.
-func (o *SparseRenderNamespace) DeepCopy() *SparseRenderNamespace {
+// DeepCopy returns a deep copy if the SparseNamespaceRenderer.
+func (o *SparseNamespaceRenderer) DeepCopy() *SparseNamespaceRenderer {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseRenderNamespace{}
+	out := &SparseNamespaceRenderer{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseRenderNamespace.
-func (o *SparseRenderNamespace) DeepCopyInto(out *SparseRenderNamespace) {
+// DeepCopyInto copies the receiver into the given *SparseNamespaceRenderer.
+func (o *SparseNamespaceRenderer) DeepCopyInto(out *SparseNamespaceRenderer) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseRenderNamespace: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseNamespaceRenderer: %s", err))
 	}
 
-	*out = *target.(*SparseRenderNamespace)
+	*out = *target.(*SparseNamespaceRenderer)
 }
 
-type mongoAttributesRenderNamespace struct {
+type mongoAttributesNamespaceRenderer struct {
 }
-type mongoAttributesSparseRenderNamespace struct {
+type mongoAttributesSparseNamespaceRenderer struct {
 }
