@@ -783,6 +783,7 @@ relations:
     global_parameters:
     - $filtering
     - $archivable
+    - $propagatable
   create:
     description: Creates a new service.
 

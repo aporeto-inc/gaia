@@ -16,6 +16,7 @@ model:
     description: Retrieves the service with the given ID.
     global_parameters:
     - $archivable
+    - $propagatable
   update:
     description: Updates the service with the given ID.
   delete:

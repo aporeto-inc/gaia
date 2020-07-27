@@ -13680,6 +13680,7 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 - `archived` (`boolean`): Also retrieve the objects that have been archived.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `POST /services`
 
@@ -13700,6 +13701,7 @@ Retrieves the service with the given ID.
 Parameters:
 
 - `archived` (`boolean`): Also retrieve the objects that have been archived.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `PUT /services/:id`
 
