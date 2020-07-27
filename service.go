@@ -294,6 +294,9 @@ type Service struct {
 	// public ports.
 	Port int `json:"port" msgpack:"port" bson:"port" mapstructure:"port,omitempty"`
 
+	// Propagates the policy to all of its children.
+	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -362,14 +365,14 @@ func NewService() *Service {
 		Endpoints:                  []*Endpoint{},
 		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		AssociatedTags:             []string{},
-		NormalizedTags:             []string{},
-		OIDCScopes:                 []string{},
-		Selectors:                  [][]string{},
-		MigrationsLog:              map[string]string{},
-		Type:                       ServiceTypeHTTP,
-		IPs:                        []string{},
-		Metadata:                   []string{},
 		TLSType:                    ServiceTLSTypeAporeto,
+		NormalizedTags:             []string{},
+		IPs:                        []string{},
+		Selectors:                  [][]string{},
+		OIDCScopes:                 []string{},
+		Type:                       ServiceTypeHTTP,
+		MigrationsLog:              map[string]string{},
+		Metadata:                   []string{},
 	}
 }
 
@@ -437,6 +440,7 @@ func (o *Service) GetBSON() (interface{}, error) {
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
 	s.Port = o.Port
+	s.Propagate = o.Propagate
 	s.Protected = o.Protected
 	s.PublicApplicationPort = o.PublicApplicationPort
 	s.RedirectURLOnAuthorizationFailure = o.RedirectURLOnAuthorizationFailure
@@ -498,6 +502,7 @@ func (o *Service) SetBSON(raw bson.Raw) error {
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
 	o.Port = s.Port
+	o.Propagate = s.Propagate
 	o.Protected = s.Protected
 	o.PublicApplicationPort = s.PublicApplicationPort
 	o.RedirectURLOnAuthorizationFailure = s.RedirectURLOnAuthorizationFailure
@@ -690,6 +695,18 @@ func (o *Service) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *Service) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *Service) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *Service) GetProtected() bool {
 
@@ -792,6 +809,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Namespace:                         &o.Namespace,
 			NormalizedTags:                    &o.NormalizedTags,
 			Port:                              &o.Port,
+			Propagate:                         &o.Propagate,
 			Protected:                         &o.Protected,
 			PublicApplicationPort:             &o.PublicApplicationPort,
 			RedirectURLOnAuthorizationFailure: &o.RedirectURLOnAuthorizationFailure,
@@ -878,6 +896,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "port":
 			sp.Port = &(o.Port)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "publicApplicationPort":
@@ -1035,6 +1055,9 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Port != nil {
 		o.Port = *so.Port
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -1283,6 +1306,8 @@ func (o *Service) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "port":
 		return o.Port
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "publicApplicationPort":
@@ -1750,6 +1775,18 @@ public ports.`,
 		Name:     "port",
 		Stored:   true,
 		Type:     "integer",
+	},
+	"Propagate": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagates the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Protected": {
 		AllowedChoices: []string{},
@@ -2326,6 +2363,18 @@ public ports.`,
 		Stored:   true,
 		Type:     "integer",
 	},
+	"propagate": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagates the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"protected": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -2683,6 +2732,9 @@ type SparseService struct {
 	// public ports.
 	Port *int `json:"port,omitempty" msgpack:"port,omitempty" bson:"port,omitempty" mapstructure:"port,omitempty"`
 
+	// Propagates the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
+
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
@@ -2877,6 +2929,9 @@ func (o *SparseService) GetBSON() (interface{}, error) {
 	if o.Port != nil {
 		s.Port = o.Port
 	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
@@ -3024,6 +3079,9 @@ func (o *SparseService) SetBSON(raw bson.Raw) error {
 	}
 	if s.Port != nil {
 		o.Port = s.Port
+	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
@@ -3173,6 +3231,9 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Port != nil {
 		out.Port = *o.Port
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -3420,6 +3481,22 @@ func (o *SparseService) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = &normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseService) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseService) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *SparseService) GetProtected() (out bool) {
 
@@ -3559,6 +3636,7 @@ type mongoAttributesService struct {
 	Namespace                         string                        `bson:"namespace"`
 	NormalizedTags                    []string                      `bson:"normalizedtags"`
 	Port                              int                           `bson:"port"`
+	Propagate                         bool                          `bson:"propagate"`
 	Protected                         bool                          `bson:"protected"`
 	PublicApplicationPort             int                           `bson:"publicapplicationport"`
 	RedirectURLOnAuthorizationFailure string                        `bson:"redirecturlonauthorizationfailure"`
@@ -3605,6 +3683,7 @@ type mongoAttributesSparseService struct {
 	Namespace                         *string                        `bson:"namespace,omitempty"`
 	NormalizedTags                    *[]string                      `bson:"normalizedtags,omitempty"`
 	Port                              *int                           `bson:"port,omitempty"`
+	Propagate                         *bool                          `bson:"propagate,omitempty"`
 	Protected                         *bool                          `bson:"protected,omitempty"`
 	PublicApplicationPort             *int                           `bson:"publicapplicationport,omitempty"`
 	RedirectURLOnAuthorizationFailure *string                        `bson:"redirecturlonauthorizationfailure,omitempty"`
