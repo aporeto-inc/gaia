@@ -196,9 +196,9 @@ github.com/xeipuuv/gojsonschema v1.2.0 h1:LhYJRs+L4fBtjZUfuSZIKGeVu0QRy8e5Xi7D17
 github.com/xeipuuv/gojsonschema v1.2.0/go.mod h1:anYRn/JVcOK2ZgGU+IjEV4nwlhoK5sQluxsYJ78Id3Y=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
-go.aporeto.io/elemental v1.100.1-0.20200617155434-2d1f67120246 h1:XAr8fTWBzfMr9G6QHk2vIHAld4FHbrnxLrdFMPqXTZg=
-go.aporeto.io/elemental v1.100.1-0.20200617155434-2d1f67120246/go.mod h1:qg7CFo/VBvjTvWhp1ZybRU5vkD80r8rTMjlSFfcCPec=
-go.aporeto.io/regolithe v1.50.1-0.20200611183808-03c6f321c9ec/go.mod h1:+CaUtk6vhi0QJKdW6rabnCbqXUUBzQeQb6uMUNzmqZE=
+go.aporeto.io/elemental v1.100.1-0.20200729012332-b8c6e84fe209 h1:VX8am5ARQooYpqy1FGC/X13Pb1tctiK1sQgp9hIqeiY=
+go.aporeto.io/elemental v1.100.1-0.20200729012332-b8c6e84fe209/go.mod h1:m12R8E98PxTvnk3ZNrWOmtTlPb7C5qDiOnBXeqGBS/8=
+go.aporeto.io/regolithe v1.50.1-0.20200707220828-605c4273724b/go.mod h1:+CaUtk6vhi0QJKdW6rabnCbqXUUBzQeQb6uMUNzmqZE=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
 go.uber.org/atomic v1.4.0 h1:cxzIVoETapQEqDhQu3QfnvXAV4AlzcvUCxkVUFw3+EU=
 go.uber.org/atomic v1.4.0/go.mod h1:gD2HeocX3+yG+ygLZcrzQJaqmWj9AIm7n08wl/qW/PE=
