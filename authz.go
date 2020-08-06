@@ -187,7 +187,7 @@ func (o *Authz) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Authz) Doc() string {
 
-	return `This is an internal api that is used to resolve to api authorization.`
+	return `This is an internal API that is used to resolve to API authorization.`
 }
 
 func (o *Authz) String() string {

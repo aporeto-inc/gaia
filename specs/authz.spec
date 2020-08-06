@@ -5,7 +5,7 @@ model:
   entity_name: Authz
   package: cid
   group: core/authorization
-  description: This is an internal api that is used to resolve to api authorization.
+  description: This is an internal API that is used to resolve to API authorization.
   private: true
 
 # Attributes

@@ -74,7 +74,7 @@ attributes:
     - Transmitted
 
   - name: enforcerID
-    description: ID of the defender.
+    description: ID of the Defender.
     type: string
     exposed: true
     stored: true
@@ -82,7 +82,7 @@ attributes:
     example_value: xxx-xxx-xxx-xxx
 
   - name: enforcerNamespace
-    description: Namespace of the defender.
+    description: Namespace of the Defender.
     type: string
     exposed: true
     stored: true
@@ -90,7 +90,7 @@ attributes:
     example_value: /my/ns
 
   - name: enforcerVersion
-    description: Semantic version of the defender.
+    description: Semantic version of the Defender.
     type: string
     exposed: true
     stored: true

@@ -7,8 +7,7 @@ model:
   group: core/authentication
   description: |-
     Allows you to declare a generic OpenID Connect (OIDC) provider that can be used in
-    exchange
-    for a Midgard token.
+    exchange for a Midgard token.
   get:
     description: Retrieves the provider with the given ID.
   update:
@@ -88,7 +87,7 @@ attributes:
     example_value: https://accounts.google.com
 
   - name: parentID
-    description: Contains the parent Segment account ID.
+    description: Contains the parent Microsegmentation account ID.
     type: string
     exposed: true
     stored: true
@@ -97,7 +96,7 @@ attributes:
     filterable: true
 
   - name: parentName
-    description: Contains the name of the parent Segment account.
+    description: Contains the name of the parent Microsegmentation account.
     type: string
     exposed: true
     stored: true

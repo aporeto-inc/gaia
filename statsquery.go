@@ -228,7 +228,7 @@ func (o *StatsQuery) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *StatsQuery) Doc() string {
 
-	return `Retrieves time-series data stored by the Segment Console.
+	return `Retrieves time-series data stored by the Microsegmentation Console.
 Allows different types of queries that are all protected within
 the namespace of the user.`
 }

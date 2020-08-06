@@ -5,7 +5,7 @@ model:
   entity_name: RemoteProcessor
   package: rufus
   group: policy/hooks
-  description: Hook to integrate a Segment service.
+  description: Hook to integrate a Microsegmentation service.
   aliases:
   - hks
   - hk

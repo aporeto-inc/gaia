@@ -98,7 +98,7 @@ attributes:
           - app=partner-data
 
   - name: requesterClaims
-    description: The identity claims of the requester; populated by Segment Console.
+    description: The identity claims of the requester; populated by the Microsegmentation Console.
     type: list
     exposed: true
     subtype: string
@@ -111,7 +111,7 @@ attributes:
 
   - name: requesterNamespace
     description: |-
-      The namespace from which the request originated; populated by Segment Console.
+      The namespace from which the request originated; populated by the Microsegmentation Console.
     type: string
     exposed: true
     stored: true

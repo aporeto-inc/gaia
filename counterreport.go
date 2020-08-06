@@ -211,7 +211,7 @@ type CounterReport struct {
 	// Counter for dropped UDP data packets.
 	UDPDropPacket int `json:"UDPDropPacket" msgpack:"UDPDropPacket" bson:"-" mapstructure:"UDPDropPacket,omitempty"`
 
-	// Counter for dropped UDP Queue Full.
+	// Counter for dropped UDP queue full.
 	UDPDropQueueFull int `json:"UDPDropQueueFull" msgpack:"UDPDropQueueFull" bson:"-" mapstructure:"UDPDropQueueFull,omitempty"`
 
 	// Counter for dropped UDP SYN ACK handshake packets.
@@ -273,10 +273,10 @@ type CounterReport struct {
 	// Non-zero counter indicates encryption processing failures of data packets.
 	EncryptionFailures int `json:"encryptionFailures" msgpack:"encryptionFailures" bson:"-" mapstructure:"encryptionFailures,omitempty"`
 
-	// Identifier of the defender sending the report.
+	// Identifier of the Defender sending the report.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the defender sending the report.
+	// Namespace of the Defender sending the report.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Non-zero counter indicates connections going to and from external networks.
@@ -1471,7 +1471,7 @@ packet.`,
 	"UDPDropQueueFull": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropQueueFull",
-		Description:    `Counter for dropped UDP Queue Full.`,
+		Description:    `Counter for dropped UDP queue full.`,
 		Exposed:        true,
 		Name:           "UDPDropQueueFull",
 		Type:           "integer",
@@ -1628,7 +1628,7 @@ rules and queue drops.`,
 	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `Identifier of the defender sending the report.`,
+		Description:    `Identifier of the Defender sending the report.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -1638,7 +1638,7 @@ rules and queue drops.`,
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the defender sending the report.`,
+		Description:    `Namespace of the Defender sending the report.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -2049,7 +2049,7 @@ packet.`,
 	"udpdropqueuefull": {
 		AllowedChoices: []string{},
 		ConvertedName:  "UDPDropQueueFull",
-		Description:    `Counter for dropped UDP Queue Full.`,
+		Description:    `Counter for dropped UDP queue full.`,
 		Exposed:        true,
 		Name:           "UDPDropQueueFull",
 		Type:           "integer",
@@ -2206,7 +2206,7 @@ rules and queue drops.`,
 	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `Identifier of the defender sending the report.`,
+		Description:    `Identifier of the Defender sending the report.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -2216,7 +2216,7 @@ rules and queue drops.`,
 	"enforcernamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the defender sending the report.`,
+		Description:    `Namespace of the Defender sending the report.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -2470,7 +2470,7 @@ type SparseCounterReport struct {
 	// Counter for dropped UDP data packets.
 	UDPDropPacket *int `json:"UDPDropPacket,omitempty" msgpack:"UDPDropPacket,omitempty" bson:"-" mapstructure:"UDPDropPacket,omitempty"`
 
-	// Counter for dropped UDP Queue Full.
+	// Counter for dropped UDP queue full.
 	UDPDropQueueFull *int `json:"UDPDropQueueFull,omitempty" msgpack:"UDPDropQueueFull,omitempty" bson:"-" mapstructure:"UDPDropQueueFull,omitempty"`
 
 	// Counter for dropped UDP SYN ACK handshake packets.
@@ -2532,10 +2532,10 @@ type SparseCounterReport struct {
 	// Non-zero counter indicates encryption processing failures of data packets.
 	EncryptionFailures *int `json:"encryptionFailures,omitempty" msgpack:"encryptionFailures,omitempty" bson:"-" mapstructure:"encryptionFailures,omitempty"`
 
-	// Identifier of the defender sending the report.
+	// Identifier of the Defender sending the report.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the defender sending the report.
+	// Namespace of the Defender sending the report.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Non-zero counter indicates connections going to and from external networks.

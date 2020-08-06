@@ -5,7 +5,7 @@ model:
   entity_name: TraceRecord
   package: zack
   group: core/enforcer
-  description: Represents a single trace record from the defender.
+  description: Represents a single trace record from the Defender.
   detached: true
 
 # Attributes

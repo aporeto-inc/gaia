@@ -95,10 +95,10 @@ type DNSLookupReport struct {
 	// Action of the DNS request.
 	Action DNSLookupReportActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
-	// ID of the defender.
+	// ID of the Defender.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the defender.
+	// Namespace of the Defender.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
 	// ID of the PU.
@@ -203,7 +203,7 @@ func (o *DNSLookupReport) Doc() string {
 
 	return `A DNS lookup report is used to report a DNS lookup that is happening on
 behalf of a processing unit. If the DNS server is on the standard UDP port 53
-then the defender can proxy the DNS traffic and make a report. The report
+then the Defender can proxy the DNS traffic and make a report. The report
 indicate whether or not the lookup was successful.`
 }
 
@@ -435,7 +435,7 @@ var DNSLookupReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the defender.`,
+		Description:    `ID of the Defender.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Type:           "string",
@@ -443,7 +443,7 @@ var DNSLookupReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the defender.`,
+		Description:    `Namespace of the Defender.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -527,7 +527,7 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the defender.`,
+		Description:    `ID of the Defender.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Type:           "string",
@@ -535,7 +535,7 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"enforcernamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the defender.`,
+		Description:    `Namespace of the Defender.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -671,10 +671,10 @@ type SparseDNSLookupReport struct {
 	// Action of the DNS request.
 	Action *DNSLookupReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
-	// ID of the defender.
+	// ID of the Defender.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the defender.
+	// Namespace of the Defender.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
 	// ID of the PU.

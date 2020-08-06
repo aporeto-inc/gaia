@@ -6,8 +6,8 @@ model:
   package: cactuar
   group: core/authentication
   description: Allows you to declare a trusted Prisma Cloud Compute (PCC) 
-    authentication provider. Segment will accept JSON web tokens (JWT) from
-    the specified PCC provider.
+    authentication provider. Microsegmentation will accept JSON web tokens (JWT) 
+    from the specified PCC provider.
   get:
     description: Retrieves the provider with the given ID.
   update:
@@ -30,7 +30,7 @@ attributes:
   v1:
   - name: certificateAuthority
     description: |-
-      Set the CA to use to contact the PCC service in case it uses a non widely trusted
+      Set the CA to use to contact the PCC Console in case it uses a non widely trusted
       certificate authority.
     type: string
     exposed: true

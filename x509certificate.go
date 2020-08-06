@@ -106,7 +106,7 @@ func (o X509CertificatesList) Version() int {
 
 // X509Certificate represents the model of a x509certificate
 type X509Certificate struct {
-	// CSR contains the Certificate Signing Request as a PEM encoded string.
+	// Contains the Certificate Signing Request (CSR) as a PEM-encoded string.
 	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// ID contains the identifier of the certificate.
@@ -118,7 +118,7 @@ type X509Certificate struct {
 	// ExpirationDate contains the requested expiration date.
 	ExpirationDate time.Time `json:"expirationDate" msgpack:"expirationDate" bson:"-" mapstructure:"expirationDate,omitempty"`
 
-	// extensions to add to the certificate. It must contains ASN1 encoded bytes,
+	// Extensions to add to the certificate. It must contains ASN1-encoded bytes,
 	// themselves encoded in base64.
 	Extensions []byte `json:"extensions" msgpack:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
 
@@ -218,7 +218,7 @@ func (o *X509Certificate) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *X509Certificate) Doc() string {
 
-	return `This API allows to retrieve an client certifcate for api authentication.`
+	return `This API allows you to retrieve an client certificate for API authentication.`
 }
 
 func (o *X509Certificate) String() string {
@@ -420,7 +420,7 @@ var X509CertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
 		CreationOnly:   true,
-		Description:    `CSR contains the Certificate Signing Request as a PEM encoded string.`,
+		Description:    `Contains the Certificate Signing Request (CSR) as a PEM-encoded string.`,
 		Exposed:        true,
 		Name:           "CSR",
 		Required:       true,
@@ -462,7 +462,7 @@ var X509CertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
 		CreationOnly:   true,
-		Description: `extensions to add to the certificate. It must contains ASN1 encoded bytes,
+		Description: `Extensions to add to the certificate. It must contains ASN1-encoded bytes,
 themselves encoded in base64.`,
 		Exposed: true,
 		Name:    "extensions",
@@ -514,7 +514,7 @@ var X509CertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
 		CreationOnly:   true,
-		Description:    `CSR contains the Certificate Signing Request as a PEM encoded string.`,
+		Description:    `Contains the Certificate Signing Request (CSR) as a PEM-encoded string.`,
 		Exposed:        true,
 		Name:           "CSR",
 		Required:       true,
@@ -556,7 +556,7 @@ var X509CertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
 		CreationOnly:   true,
-		Description: `extensions to add to the certificate. It must contains ASN1 encoded bytes,
+		Description: `Extensions to add to the certificate. It must contains ASN1-encoded bytes,
 themselves encoded in base64.`,
 		Exposed: true,
 		Name:    "extensions",
@@ -665,7 +665,7 @@ func (o SparseX509CertificatesList) Version() int {
 
 // SparseX509Certificate represents the sparse version of a x509certificate.
 type SparseX509Certificate struct {
-	// CSR contains the Certificate Signing Request as a PEM encoded string.
+	// Contains the Certificate Signing Request (CSR) as a PEM-encoded string.
 	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// ID contains the identifier of the certificate.
@@ -677,7 +677,7 @@ type SparseX509Certificate struct {
 	// ExpirationDate contains the requested expiration date.
 	ExpirationDate *time.Time `json:"expirationDate,omitempty" msgpack:"expirationDate,omitempty" bson:"-" mapstructure:"expirationDate,omitempty"`
 
-	// extensions to add to the certificate. It must contains ASN1 encoded bytes,
+	// Extensions to add to the certificate. It must contains ASN1-encoded bytes,
 	// themselves encoded in base64.
 	Extensions *[]byte `json:"extensions,omitempty" msgpack:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
 

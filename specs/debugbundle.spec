@@ -18,7 +18,7 @@ indexes:
 attributes:
   v1:
   - name: enforcerID
-    description: The ID of the defender.
+    description: The ID of the Defender.
     type: string
     exposed: true
     read_only: true

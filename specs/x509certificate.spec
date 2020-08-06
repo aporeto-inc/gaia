@@ -5,14 +5,14 @@ model:
   entity_name: X509Certificate
   package: barret
   group: internal/x509
-  description: This API allows to retrieve an client certifcate for api authentication.
+  description: This API allows you to retrieve an client certificate for API authentication.
   private: true
 
 # Attributes
 attributes:
   v1:
   - name: CSR
-    description: CSR contains the Certificate Signing Request as a PEM encoded string.
+    description: Contains the Certificate Signing Request (CSR) as a PEM-encoded string.
     type: string
     exposed: true
     required: true
@@ -61,7 +61,7 @@ attributes:
 
   - name: extensions
     description: |-
-      extensions to add to the certificate. It must contains ASN1 encoded bytes,
+      Extensions to add to the certificate. It must contains ASN1-encoded bytes,
       themselves encoded in base64.
     type: external
     exposed: true

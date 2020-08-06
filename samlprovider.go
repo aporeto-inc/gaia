@@ -86,7 +86,7 @@ type SAMLProvider struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Identity Provider Certificate in PEM format.
+	// Identity provider certificate in PEM format.
 	IDPCertificate string `json:"IDPCertificate" msgpack:"IDPCertificate" bson:"idpcertificate" mapstructure:"IDPCertificate,omitempty"`
 
 	// Identity Provider Issuer (also called Entity ID).
@@ -276,7 +276,7 @@ func (o *SAMLProvider) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *SAMLProvider) Doc() string {
 
-	return `Allows to declare a generic SAML provider that can be used in
+	return `Allows you to declare a generic SAML provider that can be used in
 exchange for a Midgard token.`
 }
 
@@ -734,7 +734,7 @@ var SAMLProviderAttributesMap = map[string]elemental.AttributeSpecification{
 	"IDPCertificate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "IDPCertificate",
-		Description:    `Identity Provider Certificate in PEM format.`,
+		Description:    `Identity provider certificate in PEM format.`,
 		Exposed:        true,
 		Name:           "IDPCertificate",
 		Stored:         true,
@@ -980,7 +980,7 @@ var SAMLProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"idpcertificate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "IDPCertificate",
-		Description:    `Identity Provider Certificate in PEM format.`,
+		Description:    `Identity provider certificate in PEM format.`,
 		Exposed:        true,
 		Name:           "IDPCertificate",
 		Stored:         true,
@@ -1275,7 +1275,7 @@ type SparseSAMLProvider struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Identity Provider Certificate in PEM format.
+	// Identity provider certificate in PEM format.
 	IDPCertificate *string `json:"IDPCertificate,omitempty" msgpack:"IDPCertificate,omitempty" bson:"idpcertificate,omitempty" mapstructure:"IDPCertificate,omitempty"`
 
 	// Identity Provider Issuer (also called Entity ID).

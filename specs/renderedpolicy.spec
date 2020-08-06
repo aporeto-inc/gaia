@@ -27,10 +27,10 @@ attributes:
       The datapath type that this processing unit must implement according to
       the rendered policy:
       - `Default`: This policy is not making a decision for the datapath.
-      - `Aporeto`: The defender is managing and handling the datapath.
-      - `EnvoyAuthorizer`: The defender is serving Envoy-compatible gRPC APIs
-      that for example can be used by an Envoy proxy to use the Segment PKI
-      and implement Segment network policies. NOTE: The defender is not
+      - `Aporeto`: The Defender is managing and handling the datapath.
+      - `EnvoyAuthorizer`: The Defender is serving Envoy-compatible gRPC APIs
+      that for example can be used by an Envoy proxy to use the Microsegmentation PKI
+      and implement Microsegmentation network policies. NOTE: The Defender is not
       owning the datapath in this case. It is merely providing an authorizer API.
     type: enum
     exposed: true

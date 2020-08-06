@@ -5,7 +5,7 @@ model:
   entity_name: RenderTemplate
   package: ignis
   group: core/workflow
-  description: Cooks a template based some parameters.
+  description: Cooks a template based on some parameters.
   aliases:
   - cook
   - rtpl

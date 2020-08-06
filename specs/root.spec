@@ -242,11 +242,11 @@ relations:
 
 - rest_name: enforcer
   get:
-    description: Retrieves the list of defenders.
+    description: Retrieves the list of Defenders.
     global_parameters:
     - $filtering
   create:
-    description: Creates a new defender.
+    description: Creates a new Defender.
 
 - rest_name: enforcerlog
   get:
@@ -258,29 +258,29 @@ relations:
 
 - rest_name: enforcerprofile
   get:
-    description: Retrieves the list of defender profiles.
+    description: Retrieves the list of Defender profiles.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new defender profile.
+    description: Creates a new Defender profile.
 
 - rest_name: enforcerprofilemappingpolicy
   get:
-    description: Retrieves the list of defender profile mappings.
+    description: Retrieves the list of Defender profile mappings.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new defender profile mappings.
+    description: Creates a new Defender profile mappings.
 
 - rest_name: enforcerreport
   create:
-    description: Create a defender statistics report.
+    description: Create a Defender statistics report.
 
 - rest_name: enforcertracereport
   create:
-    description: Create a defender trace report.
+    description: Create a Defender trace report.
 
 - rest_name: eventlog
   create:
@@ -932,7 +932,7 @@ relations:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new defender policy.
+    description: Creates a new Defender policy.
 
 - rest_name: validateuiparameter
   create:
@@ -953,6 +953,6 @@ relations:
 
 - rest_name: x509certificatecheck
   get:
-    description: Verifies if a X.509 certificate is valid.
+    description: Verifies if an X.509 certificate is valid.
     global_parameters:
     - $filtering

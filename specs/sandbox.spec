@@ -6,7 +6,7 @@ model:
   package: service
   group: ext/documentation
   description: |-
-    This APIs allows to create a temporary namespace to experiment with Segment.
+    This APIs allows to create a temporary namespace to experiment with Microsegmentation.
     This API is not authenticated, and contains small quotas. After one hour,
     everything will be deleted.
 
@@ -14,7 +14,7 @@ model:
 attributes:
   v1:
   - name: URL
-    description: Contains a link to directly connect the UI to your api sandbox.
+    description: Contains a link to directly connect the UI to your API sandbox.
     type: string
     exposed: true
     read_only: true

@@ -8,10 +8,9 @@ model:
   description: |-
     Infrastructure policies represent the network access rules of the underlying
     infrastructure. They can assist you in analyzing how AWS security groups,
-    firewalls,
-    and other access control list (ACL) mechanisms may affect Segment network
-    policies.
-    Segment's AWS integration app automatically populates AWS security groups.
+    firewalls, and other access control list (ACL) mechanisms may affect 
+    Microsegmentation network policies. Microsegmentation's AWS integration 
+    app automatically populates AWS security groups.
   aliases:
   - infrapol
   - infrapols

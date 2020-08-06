@@ -59,16 +59,15 @@ attributes:
   v1:
   - name: collectInfo
     description: |-
-      A value of `true` indicates to the defender that it needs to collect information
-      for
-      this processing unit.
+      A value of `true` indicates to the Defender that it needs to collect information
+      for this processing unit.
     type: boolean
     exposed: true
     stored: true
 
   - name: collectedInfo
     description: |-
-      Represents the latest information collected by the defender for this processing
+      Represents the latest information collected by the Defender for this processing
       unit.
     type: external
     exposed: true
@@ -78,10 +77,10 @@ attributes:
   - name: datapathType
     description: |-
       The datapath type that processing units are implementing:
-      - `Aporeto`: The defender is managing and handling the datapath.
-      - `EnvoyAuthorizer`: The defender is serving Envoy-compatible gRPC APIs
-      that for example can be used by an Envoy proxy to use the Segment PKI
-      and implement Segment network policies. NOTE: The defender is not
+      - `Aporeto`: The Defender is managing and handling the datapath.
+      - `EnvoyAuthorizer`: The Defender is serving Envoy-compatible gRPC APIs
+      that for example can be used by an Envoy proxy to use the Microsegmentation PKI
+      and implement Microsegmentation network policies. NOTE: The Defender is not
       owning the datapath in this case. It is merely providing an authorizer API.
     type: enum
     exposed: true
@@ -94,11 +93,9 @@ attributes:
 
   - name: enforcementStatus
     description: |-
-      Contains the state of the defender for the processing unit. `Inactive`
-      (default):
-      the defender is not enforcing any host service. `Active`: the defender is
-      enforcing
-      a host service. `Failed`.
+      Contains the state of the Defender for the processing unit. `Inactive`
+      (default): the Defender is not enforcing any host service. `Active`: the 
+      Defender is enforcing a host service. `Failed`.
     type: enum
     exposed: true
     stored: true
@@ -110,14 +107,14 @@ attributes:
     filterable: true
 
   - name: enforcerID
-    description: The ID of the defender associated with the processing unit.
+    description: The ID of the Defender associated with the processing unit.
     type: string
     exposed: true
     stored: true
     filterable: true
 
   - name: enforcerNamespace
-    description: The namespace of the defender associated with the processing unit.
+    description: The namespace of the Defender associated with the processing unit.
     type: string
     exposed: true
     stored: true
@@ -267,7 +264,7 @@ relations:
 
       - name: notify
         description: Can be sent to trigger a `ProcessingUnitRefresh` event that will
-          be handled by the defender. If this is set, all other additional parameters
+          be handled by the Defender. If this is set, all other additional parameters
           will be ignored.
         type: boolean
 

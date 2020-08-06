@@ -5,7 +5,7 @@ model:
   entity_name: AWSRegister
   package: bill
   group: none
-  description: This endpoint allows AWS customers to register with Palo Alto Networks-hosted Segment Consoles for billing.
+  description: This endpoint allows AWS customers to register with Palo Alto Networks-hosted Microsegmentation Consoles for billing.
   extends:
   - '@identifiable-stored'
   - '@timeable'

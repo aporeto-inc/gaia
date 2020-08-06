@@ -67,12 +67,12 @@ attributes:
       implement:
       - `Default`: This policy is not making a decision for the
       datapath.
-      - `Aporeto`: The defender is managing and handling the datapath.
-      - `EnvoyAuthorizer`: The defender is serving Envoy-compatible gRPC APIs
+      - `Aporeto`: The Defender is managing and handling the datapath.
+      - `EnvoyAuthorizer`: The Defender is serving Envoy-compatible gRPC APIs
       for every processing unit that for example can be used by an Envoy
-      proxy to use the Segment PKI and implement Segment network
-      policies. NOTE: The defender is not going to own the datapath in this
-      example. It is merely providing an authorizer API.
+      proxy to use the Microsegmentation PKI and implement Microsegmentation 
+      network policies. NOTE: The Defender is not going to own the datapath in 
+      this example. It is merely providing an authorizer API.
     type: enum
     exposed: true
     stored: true

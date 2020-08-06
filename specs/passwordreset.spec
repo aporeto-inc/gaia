@@ -5,7 +5,7 @@ model:
   entity_name: PasswordReset
   package: vince
   group: core/account
-  description: Used to reset a Segment account password.
+  description: Used to reset a Microsegmentation account password.
 
 # Attributes
 attributes:
