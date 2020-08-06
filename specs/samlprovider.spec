@@ -6,7 +6,7 @@ model:
   package: cactuar
   group: core/authentication
   description: |-
-    Allows to declare a generic SAML provider that can be used in
+    Allows you to declare a generic SAML provider that can be used in
     exchange for a Midgard token.
   get:
     description: Retrieves the provider with the given ID.
@@ -31,7 +31,7 @@ model:
 attributes:
   v1:
   - name: IDPCertificate
-    description: Identity Provider Certificate in PEM format.
+    description: Identity provider certificate in PEM format.
     type: string
     exposed: true
     stored: true

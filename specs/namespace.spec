@@ -154,8 +154,8 @@ attributes:
   - name: organizationalMetadata
     description: |-
       List of tags that describe this namespace. All organizational tags are
-      automatically passed to policeable objects (e.g. processing units, external
-      networks, defenders) during their creation.
+      automatically passed to policeable objects (e.g., processing units, external
+      networks, Defenders) during their creation.
     type: list
     exposed: true
     subtype: string
@@ -191,7 +191,7 @@ relations:
       entries:
       - name: mode
         description: When set to type `OIDC` it will return the data as a raw JSON
-          object and not a Segment Console compatible API.
+          object and not a Microsegmentation Console-compatible API.
         type: enum
         allowed_choices:
         - oidc
@@ -203,7 +203,7 @@ relations:
       entries:
       - name: mode
         description: When set to `OIDC` it will return the data as a raw JSON object
-          and not a Segment Console compatible API.
+          and not a Microsegmentation Console-compatible API.
         type: enum
         allowed_choices:
         - oidc

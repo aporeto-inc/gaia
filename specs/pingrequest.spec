@@ -5,7 +5,7 @@ model:
   entity_name: PingRequest
   package: guy
   group: core/enforcer
-  description: Initiates a ping request for defender debugging.
+  description: Initiates a ping request for Defender debugging.
 
 # Attributes
 attributes:

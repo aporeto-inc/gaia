@@ -26,14 +26,14 @@ attributes:
     exposed: true
 
   - name: enforcerID
-    description: Identifier of the defender.
+    description: Identifier of the Defender.
     type: string
     exposed: true
     required: true
     example_value: xxx-xxx-xxx
 
   - name: enforcerNamespace
-    description: Namespace of the defender.
+    description: Namespace of the Defender.
     type: string
     exposed: true
     required: true

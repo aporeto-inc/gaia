@@ -7,7 +7,7 @@ model:
   group: policy/services
   description: |-
     Defines a generic service object at layer 4 or layer 7 that encapsulates the
-    description of a micro-service. A service exposes APIs and can be implemented
+    description of a microservice. A service exposes APIs and can be implemented
     through third party entities (such as a cloud provider) or through  processing
     units.
   aliases:
@@ -75,10 +75,8 @@ attributes:
   - name: MTLSCertificateAuthority
     description: |-
       PEM-encoded certificate authority to use to verify client certificates. This
-      only applies
-      if `authorizationType` is set to `MTLS`. If it is not set, Segment's public
-      signing
-      certificate authority will be used.
+      only applies if `authorizationType` is set to `MTLS`. If it is not set, 
+      Microsegmentation Console's public signing certificate authority will be used.
     type: string
     exposed: true
     stored: true
@@ -86,7 +84,7 @@ attributes:
   - name: OIDCCallbackURL
     description: |-
       This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-      Segment will autodiscover it. It will be
+      the Defender will autodiscover it. It will be
       `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
     type: string
     exposed: true
@@ -139,8 +137,7 @@ attributes:
   - name: TLSCertificateKey
     description: |-
       PEM-encoded certificate key associated with `TLSCertificate`. Only has effect
-      and
-      required if `TLSType` is set to `External`.
+      and required if `TLSType` is set to `External`.
     type: string
     exposed: true
     stored: true
@@ -150,10 +147,11 @@ attributes:
     description: |-
       Set how to provide a server certificate to the service.
 
-      - `Aporeto`: Generate a certificate issued from the Segment public CA.
+      - `Aporeto`: Generate a certificate signed by the Microsegmentation 
+      Console public CA.
       - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
-      - `External`: : Let you define your own certificate and key to use.
-      - `None`: : TLS is disabled (not recommended).
+      - `External`: Let you define your own certificate and key to use.
+      - `None`: TLS is disabled (not recommended).
     type: enum
     exposed: true
     stored: true
@@ -165,14 +163,14 @@ attributes:
     default_value: Aporeto
 
   - name: allAPITags
-    description: This is a set of all API tags for matching in the DB.
+    description: This is a set of all API tags for matching in the database.
     type: list
     subtype: string
     stored: true
     read_only: true
 
   - name: allServiceTags
-    description: This is a set of all selector tags for matching in the DB.
+    description: This is a set of all selector tags for matching in the database.
     type: list
     subtype: string
     stored: true
@@ -188,8 +186,8 @@ attributes:
       - `OIDC`: Configures OIDC authorization. You must then set
       `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
       - `MTLS`: Configures client certificate authorization. Then you can optionally
-      use `MTLSCertificateAuthority`, otherwise Segment's public signing certificate
-      will be used.
+      use `MTLSCertificateAuthority`, otherwise Microsegmentation Console's public 
+      signing certificate will be used.
     type: enum
     exposed: true
     stored: true
@@ -203,9 +201,8 @@ attributes:
   - name: claimsToHTTPHeaderMappings
     description: |-
       Defines a list of mappings between claims and HTTP headers. When these mappings
-      are defined,
-      the defender will copy the values of the claims to the corresponding HTTP
-      headers.
+      are defined, the Defender will copy the values of the claims to the corresponding 
+      HTTP headers.
     type: refList
     exposed: true
     subtype: claimmapping
@@ -241,14 +238,10 @@ attributes:
   - name: exposedPort
     description: |-
       The port that the service can be accessed on. Note that this is different from
-      the
-      `port` attribute that describes the port that the service is actually listening
-      on.
-      For example if a load balancer is used, the `exposedPort` is the port that the
-      load
-      balancer is listening for the service, whereas the port that the implementation
-      is
-      listening can be different.
+      the `port` attribute that describes the port that the service is actually 
+      listening on. For example if a load balancer is used, the `exposedPort` is 
+      the port that the load balancer is listening for the service, whereas the 
+      port that the implementation is listening on can be different.
     type: integer
     exposed: true
     stored: true
@@ -258,9 +251,8 @@ attributes:
 
   - name: exposedServiceIsTLS
     description: |-
-      Indicates that the exposed service is TLS. This means that the defender has to
-      initiate a
-      TLS session in order to forward traffic to the service.
+      Indicates that the exposed service is TLS. This means that the Defender has to
+      initiate a TLS session in order to forward traffic to the service.
     type: boolean
     exposed: true
     stored: true
@@ -288,10 +280,8 @@ attributes:
   - name: port
     description: |-
       The port that the implementation of the service is listening to. It can be
-      different than
-      `exposedPort`. This is needed for port mapping use cases where there are private
-      and
-      public ports.
+      different than `exposedPort`. This is needed for port mapping use cases 
+      where there are private and public ports.
     type: integer
     exposed: true
     stored: true
@@ -300,14 +290,11 @@ attributes:
 
   - name: publicApplicationPort
     description: |-
-      A new virtual port that the service can be accessed on, using HTTPS. Since the
-      defender
-      transparently inserts TLS in the application path, you might want to declare a
-      new port
-      where the defender listens for TLS. However, the application does not need to be
-      modified
-      and the defender will map the traffic to the correct application port. This
-      useful when
+      A new virtual port that the service can be accessed on using HTTPS. Since the
+      Defender transparently inserts TLS in the application path, you might want 
+      to declare a new port where the Defender listens for TLS. However, the 
+      application does not need to be modified and the Defender will map the 
+      traffic to the correct application port. This is useful when
       an application is being accessed from a public network.
     type: integer
     exposed: true
@@ -318,11 +305,9 @@ attributes:
   - name: redirectURLOnAuthorizationFailure
     description: |-
       If this is set, the user will be redirected to that URL in case of any
-      authorization
-      failure, allowing you to provide a nice message to the user. The query parameter
-      `?failure_message=<message>` will be added to that URL explaining the possible
-      reasons
-      of the failure.
+      authorization failure, allowing you to provide a nice message to the user. 
+      The query parameter `?failure_message=<message>` will be added to that 
+      URL explaining the possible reason for the failure.
     type: string
     exposed: true
     stored: true
@@ -343,10 +328,8 @@ attributes:
   - name: trustedCertificateAuthorities
     description: |-
       PEM-encoded certificate authorities to trust when additional hops are needed. It
-      must be
-      set if the service must reach a service marked as `external` or must go through
-      an
-      additional TLS termination point like a layer 7 load balancer.
+      must be set if the service must reach a service marked as `external` or must go 
+      through an additional TLS termination point like a layer 7 load balancer.
     type: string
     exposed: true
     stored: true

@@ -115,28 +115,28 @@ type Customer struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// CommittedUseLimit holds the customer's use limit provided by a contract.
+	// Holds the customer's use limit provided by a contract.
 	CommittedUseLimit int `json:"committedUseLimit" msgpack:"committedUseLimit" bson:"committeduselimit" mapstructure:"committedUseLimit,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// lastReportTime holds the last time the customer was reported to their
+	// Holds the last time the customer was reported to their
 	// provider.
 	LastReportTime time.Time `json:"lastReportTime" msgpack:"lastReportTime" bson:"lastreporttime" mapstructure:"lastReportTime,omitempty"`
 
-	// Provider holds the name of the provider to be billed for this service.
+	// Holds the name of the provider to be billed for this service.
 	Provider CustomerProviderValue `json:"provider" msgpack:"provider" bson:"provider" mapstructure:"provider,omitempty"`
 
-	// providerCustomerID holds the customer id as used by the provider for this
+	// Holds the customer ID as used by the provider for this
 	// customer to enable provider billing.
 	ProviderCustomerID string `json:"providerCustomerID" msgpack:"providerCustomerID" bson:"providercustomerid" mapstructure:"providerCustomerID,omitempty"`
 
-	// ProviderProductID holds the product id as used by the provider for this
+	// Holds the product ID as used by the provider for this
 	// customer to enable provider billing.
 	ProviderProductID string `json:"providerProductID" msgpack:"providerProductID" bson:"providerproductid" mapstructure:"providerProductID,omitempty"`
 
-	// State holds the status of the customer with the provider.
+	// Holds the status of the customer with the provider.
 	State CustomerStateValue `json:"state" msgpack:"state" bson:"state" mapstructure:"state,omitempty"`
 
 	// Last update date of the object.
@@ -245,7 +245,7 @@ func (o *Customer) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Customer) Doc() string {
 
-	return `This api allows to view and manage basic information about customer profile for
+	return `This API allows you to view and manage basic information about customer profiles for
 billing purposes.`
 }
 
@@ -474,7 +474,7 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 	"CommittedUseLimit": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CommittedUseLimit",
-		Description:    `CommittedUseLimit holds the customer's use limit provided by a contract.`,
+		Description:    `Holds the customer's use limit provided by a contract.`,
 		Exposed:        true,
 		Name:           "committedUseLimit",
 		Orderable:      true,
@@ -498,7 +498,7 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 	"LastReportTime": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LastReportTime",
-		Description: `lastReportTime holds the last time the customer was reported to their
+		Description: `Holds the last time the customer was reported to their
 provider.`,
 		Exposed:   true,
 		Name:      "lastReportTime",
@@ -510,7 +510,7 @@ provider.`,
 		AllowedChoices: []string{"Aporeto", "AWS"},
 		ConvertedName:  "Provider",
 		DefaultValue:   CustomerProviderAporeto,
-		Description:    `Provider holds the name of the provider to be billed for this service.`,
+		Description:    `Holds the name of the provider to be billed for this service.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "provider",
@@ -520,7 +520,7 @@ provider.`,
 	"ProviderCustomerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProviderCustomerID",
-		Description: `providerCustomerID holds the customer id as used by the provider for this
+		Description: `Holds the customer ID as used by the provider for this
 customer to enable provider billing.`,
 		Exposed:   true,
 		Name:      "providerCustomerID",
@@ -531,7 +531,7 @@ customer to enable provider billing.`,
 	"ProviderProductID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProviderProductID",
-		Description: `ProviderProductID holds the product id as used by the provider for this
+		Description: `Holds the product ID as used by the provider for this
 customer to enable provider billing.`,
 		Exposed:   true,
 		Name:      "providerProductID",
@@ -543,7 +543,7 @@ customer to enable provider billing.`,
 		AllowedChoices: []string{"SubscribePending", "SubscribeFailed", "SubscribeSuccess", "UnsubscribePending", "UnsubscribeSuccess"},
 		ConvertedName:  "State",
 		DefaultValue:   CustomerStateSubscribePending,
-		Description:    `State holds the status of the customer with the provider.`,
+		Description:    `Holds the status of the customer with the provider.`,
 		Exposed:        true,
 		Name:           "state",
 		ReadOnly:       true,
@@ -585,7 +585,7 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	"committeduselimit": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CommittedUseLimit",
-		Description:    `CommittedUseLimit holds the customer's use limit provided by a contract.`,
+		Description:    `Holds the customer's use limit provided by a contract.`,
 		Exposed:        true,
 		Name:           "committedUseLimit",
 		Orderable:      true,
@@ -609,7 +609,7 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	"lastreporttime": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LastReportTime",
-		Description: `lastReportTime holds the last time the customer was reported to their
+		Description: `Holds the last time the customer was reported to their
 provider.`,
 		Exposed:   true,
 		Name:      "lastReportTime",
@@ -621,7 +621,7 @@ provider.`,
 		AllowedChoices: []string{"Aporeto", "AWS"},
 		ConvertedName:  "Provider",
 		DefaultValue:   CustomerProviderAporeto,
-		Description:    `Provider holds the name of the provider to be billed for this service.`,
+		Description:    `Holds the name of the provider to be billed for this service.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "provider",
@@ -631,7 +631,7 @@ provider.`,
 	"providercustomerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProviderCustomerID",
-		Description: `providerCustomerID holds the customer id as used by the provider for this
+		Description: `Holds the customer ID as used by the provider for this
 customer to enable provider billing.`,
 		Exposed:   true,
 		Name:      "providerCustomerID",
@@ -642,7 +642,7 @@ customer to enable provider billing.`,
 	"providerproductid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProviderProductID",
-		Description: `ProviderProductID holds the product id as used by the provider for this
+		Description: `Holds the product ID as used by the provider for this
 customer to enable provider billing.`,
 		Exposed:   true,
 		Name:      "providerProductID",
@@ -654,7 +654,7 @@ customer to enable provider billing.`,
 		AllowedChoices: []string{"SubscribePending", "SubscribeFailed", "SubscribeSuccess", "UnsubscribePending", "UnsubscribeSuccess"},
 		ConvertedName:  "State",
 		DefaultValue:   CustomerStateSubscribePending,
-		Description:    `State holds the status of the customer with the provider.`,
+		Description:    `Holds the status of the customer with the provider.`,
 		Exposed:        true,
 		Name:           "state",
 		ReadOnly:       true,
@@ -743,28 +743,28 @@ type SparseCustomer struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// CommittedUseLimit holds the customer's use limit provided by a contract.
+	// Holds the customer's use limit provided by a contract.
 	CommittedUseLimit *int `json:"committedUseLimit,omitempty" msgpack:"committedUseLimit,omitempty" bson:"committeduselimit,omitempty" mapstructure:"committedUseLimit,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// lastReportTime holds the last time the customer was reported to their
+	// Holds the last time the customer was reported to their
 	// provider.
 	LastReportTime *time.Time `json:"lastReportTime,omitempty" msgpack:"lastReportTime,omitempty" bson:"lastreporttime,omitempty" mapstructure:"lastReportTime,omitempty"`
 
-	// Provider holds the name of the provider to be billed for this service.
+	// Holds the name of the provider to be billed for this service.
 	Provider *CustomerProviderValue `json:"provider,omitempty" msgpack:"provider,omitempty" bson:"provider,omitempty" mapstructure:"provider,omitempty"`
 
-	// providerCustomerID holds the customer id as used by the provider for this
+	// Holds the customer ID as used by the provider for this
 	// customer to enable provider billing.
 	ProviderCustomerID *string `json:"providerCustomerID,omitempty" msgpack:"providerCustomerID,omitempty" bson:"providercustomerid,omitempty" mapstructure:"providerCustomerID,omitempty"`
 
-	// ProviderProductID holds the product id as used by the provider for this
+	// Holds the product ID as used by the provider for this
 	// customer to enable provider billing.
 	ProviderProductID *string `json:"providerProductID,omitempty" msgpack:"providerProductID,omitempty" bson:"providerproductid,omitempty" mapstructure:"providerProductID,omitempty"`
 
-	// State holds the status of the customer with the provider.
+	// Holds the status of the customer with the provider.
 	State *CustomerStateValue `json:"state,omitempty" msgpack:"state,omitempty" bson:"state,omitempty" mapstructure:"state,omitempty"`
 
 	// Last update date of the object.

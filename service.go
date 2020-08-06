@@ -152,14 +152,12 @@ type Service struct {
 	JWTSigningCertificate string `json:"JWTSigningCertificate" msgpack:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
 	// PEM-encoded certificate authority to use to verify client certificates. This
-	// only applies
-	// if `authorizationType` is set to `MTLS`. If it is not set, Segment's public
-	// signing
-	// certificate authority will be used.
+	// only applies if `authorizationType` is set to `MTLS`. If it is not set,
+	// Microsegmentation Console's public signing certificate authority will be used.
 	MTLSCertificateAuthority string `json:"MTLSCertificateAuthority" msgpack:"MTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-	// Segment will autodiscover it. It will be
+	// the Defender will autodiscover it. It will be
 	// `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
 	OIDCCallbackURL string `json:"OIDCCallbackURL" msgpack:"OIDCCallbackURL" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
 
@@ -183,22 +181,22 @@ type Service struct {
 	TLSCertificate string `json:"TLSCertificate" msgpack:"TLSCertificate" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
 	// PEM-encoded certificate key associated with `TLSCertificate`. Only has effect
-	// and
-	// required if `TLSType` is set to `External`.
+	// and required if `TLSType` is set to `External`.
 	TLSCertificateKey string `json:"TLSCertificateKey" msgpack:"TLSCertificateKey" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
 	// Set how to provide a server certificate to the service.
 	//
-	// - `Aporeto`: Generate a certificate issued from the Segment public CA.
+	// - `Aporeto`: Generate a certificate signed by the Microsegmentation
+	// Console public CA.
 	// - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
-	// - `External`: : Let you define your own certificate and key to use.
-	// - `None`: : TLS is disabled (not recommended).
+	// - `External`: Let you define your own certificate and key to use.
+	// - `None`: TLS is disabled (not recommended).
 	TLSType ServiceTLSTypeValue `json:"TLSType" msgpack:"TLSType" bson:"tlstype" mapstructure:"TLSType,omitempty"`
 
-	// This is a set of all API tags for matching in the DB.
+	// This is a set of all API tags for matching in the database.
 	AllAPITags []string `json:"-" msgpack:"-" bson:"allapitags" mapstructure:"-,omitempty"`
 
-	// This is a set of all selector tags for matching in the DB.
+	// This is a set of all selector tags for matching in the database.
 	AllServiceTags []string `json:"-" msgpack:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
 
 	// Stores additional information about an entity.
@@ -218,14 +216,13 @@ type Service struct {
 	// - `OIDC`: Configures OIDC authorization. You must then set
 	// `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
 	// - `MTLS`: Configures client certificate authorization. Then you can optionally
-	// use `MTLSCertificateAuthority`, otherwise Segment's public signing certificate
-	// will be used.
+	// use `MTLSCertificateAuthority`, otherwise Microsegmentation Console's public
+	// signing certificate will be used.
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" msgpack:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
-	// are defined,
-	// the defender will copy the values of the claims to the corresponding HTTP
-	// headers.
+	// are defined, the Defender will copy the values of the claims to the corresponding
+	// HTTP headers.
 	ClaimsToHTTPHeaderMappings []*ClaimMapping `json:"claimsToHTTPHeaderMappings" msgpack:"claimsToHTTPHeaderMappings" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -250,19 +247,14 @@ type Service struct {
 	ExposedAPIs [][]string `json:"exposedAPIs" msgpack:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
 	// The port that the service can be accessed on. Note that this is different from
-	// the
-	// `port` attribute that describes the port that the service is actually listening
-	// on.
-	// For example if a load balancer is used, the `exposedPort` is the port that the
-	// load
-	// balancer is listening for the service, whereas the port that the implementation
-	// is
-	// listening can be different.
+	// the `port` attribute that describes the port that the service is actually
+	// listening on. For example if a load balancer is used, the `exposedPort` is
+	// the port that the load balancer is listening for the service, whereas the
+	// port that the implementation is listening on can be different.
 	ExposedPort int `json:"exposedPort" msgpack:"exposedPort" bson:"exposedport" mapstructure:"exposedPort,omitempty"`
 
-	// Indicates that the exposed service is TLS. This means that the defender has to
-	// initiate a
-	// TLS session in order to forward traffic to the service.
+	// Indicates that the exposed service is TLS. This means that the Defender has to
+	// initiate a TLS session in order to forward traffic to the service.
 	ExposedServiceIsTLS bool `json:"exposedServiceIsTLS" msgpack:"exposedServiceIsTLS" bson:"exposedserviceistls" mapstructure:"exposedServiceIsTLS,omitempty"`
 
 	// Indicates if this is an external service.
@@ -288,32 +280,25 @@ type Service struct {
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// The port that the implementation of the service is listening to. It can be
-	// different than
-	// `exposedPort`. This is needed for port mapping use cases where there are private
-	// and
-	// public ports.
+	// different than `exposedPort`. This is needed for port mapping use cases
+	// where there are private and public ports.
 	Port int `json:"port" msgpack:"port" bson:"port" mapstructure:"port,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// A new virtual port that the service can be accessed on, using HTTPS. Since the
-	// defender
-	// transparently inserts TLS in the application path, you might want to declare a
-	// new port
-	// where the defender listens for TLS. However, the application does not need to be
-	// modified
-	// and the defender will map the traffic to the correct application port. This
-	// useful when
+	// A new virtual port that the service can be accessed on using HTTPS. Since the
+	// Defender transparently inserts TLS in the application path, you might want
+	// to declare a new port where the Defender listens for TLS. However, the
+	// application does not need to be modified and the Defender will map the
+	// traffic to the correct application port. This is useful when
 	// an application is being accessed from a public network.
 	PublicApplicationPort int `json:"publicApplicationPort" msgpack:"publicApplicationPort" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
 
 	// If this is set, the user will be redirected to that URL in case of any
-	// authorization
-	// failure, allowing you to provide a nice message to the user. The query parameter
-	// `?failure_message=<message>` will be added to that URL explaining the possible
-	// reasons
-	// of the failure.
+	// authorization failure, allowing you to provide a nice message to the user.
+	// The query parameter `?failure_message=<message>` will be added to that
+	// URL explaining the possible reason for the failure.
 	RedirectURLOnAuthorizationFailure string `json:"redirectURLOnAuthorizationFailure" msgpack:"redirectURLOnAuthorizationFailure" bson:"redirecturlonauthorizationfailure" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
 
 	// A tag or tag expression that identifies the processing unit that implements this
@@ -321,10 +306,8 @@ type Service struct {
 	Selectors [][]string `json:"selectors" msgpack:"selectors" bson:"selectors" mapstructure:"selectors,omitempty"`
 
 	// PEM-encoded certificate authorities to trust when additional hops are needed. It
-	// must be
-	// set if the service must reach a service marked as `external` or must go through
-	// an
-	// additional TLS termination point like a layer 7 load balancer.
+	// must be set if the service must reach a service marked as `external` or must go
+	// through an additional TLS termination point like a layer 7 load balancer.
 	TrustedCertificateAuthorities string `json:"trustedCertificateAuthorities" msgpack:"trustedCertificateAuthorities" bson:"trustedcertificateauthorities" mapstructure:"trustedCertificateAuthorities,omitempty"`
 
 	// Type of service.
@@ -536,7 +519,7 @@ func (o *Service) DefaultOrder() []string {
 func (o *Service) Doc() string {
 
 	return `Defines a generic service object at layer 4 or layer 7 that encapsulates the
-description of a micro-service. A service exposes APIs and can be implemented
+description of a microservice. A service exposes APIs and can be implemented
 through third party entities (such as a cloud provider) or through  processing
 units.`
 }
@@ -1355,10 +1338,8 @@ is set to ` + "`" + `JWT` + "`" + `.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "MTLSCertificateAuthority",
 		Description: `PEM-encoded certificate authority to use to verify client certificates. This
-only applies
-if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, Segment's public
-signing
-certificate authority will be used.`,
+only applies if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, 
+Microsegmentation Console's public signing certificate authority will be used.`,
 		Exposed: true,
 		Name:    "MTLSCertificateAuthority",
 		Stored:  true,
@@ -1368,7 +1349,7 @@ certificate authority will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCCallbackURL",
 		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-Segment will autodiscover it. It will be
+the Defender will autodiscover it. It will be
 ` + "`" + `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback` + "`" + `.`,
 		Exposed: true,
 		Name:    "OIDCCallbackURL",
@@ -1429,8 +1410,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
 		Description: `PEM-encoded certificate key associated with ` + "`" + `TLSCertificate` + "`" + `. Only has effect
-and
-required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
+and required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
 		Encrypted: true,
 		Exposed:   true,
 		Name:      "TLSCertificateKey",
@@ -1443,10 +1423,11 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		DefaultValue:   ServiceTLSTypeAporeto,
 		Description: `Set how to provide a server certificate to the service.
 
-- ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from the Segment public CA.
+- ` + "`" + `Aporeto` + "`" + `: Generate a certificate signed by the Microsegmentation 
+Console public CA.
 - ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from Let's Encrypt.
-- ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.
-- ` + "`" + `None` + "`" + `: : TLS is disabled (not recommended).`,
+- ` + "`" + `External` + "`" + `: Let you define your own certificate and key to use.
+- ` + "`" + `None` + "`" + `: TLS is disabled (not recommended).`,
 		Exposed: true,
 		Name:    "TLSType",
 		Stored:  true,
@@ -1455,7 +1436,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 	"AllAPITags": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AllAPITags",
-		Description:    `This is a set of all API tags for matching in the DB.`,
+		Description:    `This is a set of all API tags for matching in the database.`,
 		Name:           "allAPITags",
 		ReadOnly:       true,
 		Stored:         true,
@@ -1465,7 +1446,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 	"AllServiceTags": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AllServiceTags",
-		Description:    `This is a set of all selector tags for matching in the DB.`,
+		Description:    `This is a set of all selector tags for matching in the database.`,
 		Name:           "allServiceTags",
 		ReadOnly:       true,
 		Stored:         true,
@@ -1518,8 +1499,8 @@ header.
 - ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
 ` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
 - ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
-use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Segment's public signing certificate
-will be used.`,
+use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Microsegmentation Console's public 
+signing certificate will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -1529,9 +1510,8 @@ will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ClaimsToHTTPHeaderMappings",
 		Description: `Defines a list of mappings between claims and HTTP headers. When these mappings
-are defined,
-the defender will copy the values of the claims to the corresponding HTTP
-headers.`,
+are defined, the Defender will copy the values of the claims to the corresponding 
+HTTP headers.`,
 		Exposed: true,
 		Name:    "claimsToHTTPHeaderMappings",
 		Stored:  true,
@@ -1616,14 +1596,10 @@ layer 7 protocols.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedPort",
 		Description: `The port that the service can be accessed on. Note that this is different from
-the
-` + "`" + `port` + "`" + ` attribute that describes the port that the service is actually listening
-on.
-For example if a load balancer is used, the ` + "`" + `exposedPort` + "`" + ` is the port that the
-load
-balancer is listening for the service, whereas the port that the implementation
-is
-listening can be different.`,
+the ` + "`" + `port` + "`" + ` attribute that describes the port that the service is actually 
+listening on. For example if a load balancer is used, the ` + "`" + `exposedPort` + "`" + ` is 
+the port that the load balancer is listening for the service, whereas the 
+port that the implementation is listening on can be different.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "exposedPort",
@@ -1634,9 +1610,8 @@ listening can be different.`,
 	"ExposedServiceIsTLS": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedServiceIsTLS",
-		Description: `Indicates that the exposed service is TLS. This means that the defender has to
-initiate a
-TLS session in order to forward traffic to the service.`,
+		Description: `Indicates that the exposed service is TLS. This means that the Defender has to
+initiate a TLS session in order to forward traffic to the service.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "exposedServiceIsTLS",
@@ -1741,10 +1716,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
 		Description: `The port that the implementation of the service is listening to. It can be
-different than
-` + "`" + `exposedPort` + "`" + `. This is needed for port mapping use cases where there are private
-and
-public ports.`,
+different than ` + "`" + `exposedPort` + "`" + `. This is needed for port mapping use cases 
+where there are private and public ports.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "port",
@@ -1766,14 +1739,11 @@ public ports.`,
 	"PublicApplicationPort": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PublicApplicationPort",
-		Description: `A new virtual port that the service can be accessed on, using HTTPS. Since the
-defender
-transparently inserts TLS in the application path, you might want to declare a
-new port
-where the defender listens for TLS. However, the application does not need to be
-modified
-and the defender will map the traffic to the correct application port. This
-useful when
+		Description: `A new virtual port that the service can be accessed on using HTTPS. Since the
+Defender transparently inserts TLS in the application path, you might want 
+to declare a new port where the Defender listens for TLS. However, the 
+application does not need to be modified and the Defender will map the 
+traffic to the correct application port. This is useful when
 an application is being accessed from a public network.`,
 		Exposed:  true,
 		MaxValue: 65535,
@@ -1785,11 +1755,9 @@ an application is being accessed from a public network.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RedirectURLOnAuthorizationFailure",
 		Description: `If this is set, the user will be redirected to that URL in case of any
-authorization
-failure, allowing you to provide a nice message to the user. The query parameter
-` + "`" + `?failure_message=<message>` + "`" + ` will be added to that URL explaining the possible
-reasons
-of the failure.`,
+authorization failure, allowing you to provide a nice message to the user. 
+The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that 
+URL explaining the possible reason for the failure.`,
 		Exposed: true,
 		Name:    "redirectURLOnAuthorizationFailure",
 		Stored:  true,
@@ -1810,10 +1778,8 @@ particular service.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "TrustedCertificateAuthorities",
 		Description: `PEM-encoded certificate authorities to trust when additional hops are needed. It
-must be
-set if the service must reach a service marked as ` + "`" + `external` + "`" + ` or must go through
-an
-additional TLS termination point like a layer 7 load balancer.`,
+must be set if the service must reach a service marked as ` + "`" + `external` + "`" + ` or must go 
+through an additional TLS termination point like a layer 7 load balancer.`,
 		Exposed: true,
 		Name:    "trustedCertificateAuthorities",
 		Stored:  true,
@@ -1930,10 +1896,8 @@ is set to ` + "`" + `JWT` + "`" + `.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "MTLSCertificateAuthority",
 		Description: `PEM-encoded certificate authority to use to verify client certificates. This
-only applies
-if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, Segment's public
-signing
-certificate authority will be used.`,
+only applies if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, 
+Microsegmentation Console's public signing certificate authority will be used.`,
 		Exposed: true,
 		Name:    "MTLSCertificateAuthority",
 		Stored:  true,
@@ -1943,7 +1907,7 @@ certificate authority will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCCallbackURL",
 		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-Segment will autodiscover it. It will be
+the Defender will autodiscover it. It will be
 ` + "`" + `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback` + "`" + `.`,
 		Exposed: true,
 		Name:    "OIDCCallbackURL",
@@ -2004,8 +1968,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
 		Description: `PEM-encoded certificate key associated with ` + "`" + `TLSCertificate` + "`" + `. Only has effect
-and
-required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
+and required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
 		Encrypted: true,
 		Exposed:   true,
 		Name:      "TLSCertificateKey",
@@ -2018,10 +1981,11 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		DefaultValue:   ServiceTLSTypeAporeto,
 		Description: `Set how to provide a server certificate to the service.
 
-- ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from the Segment public CA.
+- ` + "`" + `Aporeto` + "`" + `: Generate a certificate signed by the Microsegmentation 
+Console public CA.
 - ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from Let's Encrypt.
-- ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.
-- ` + "`" + `None` + "`" + `: : TLS is disabled (not recommended).`,
+- ` + "`" + `External` + "`" + `: Let you define your own certificate and key to use.
+- ` + "`" + `None` + "`" + `: TLS is disabled (not recommended).`,
 		Exposed: true,
 		Name:    "TLSType",
 		Stored:  true,
@@ -2030,7 +1994,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 	"allapitags": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AllAPITags",
-		Description:    `This is a set of all API tags for matching in the DB.`,
+		Description:    `This is a set of all API tags for matching in the database.`,
 		Name:           "allAPITags",
 		ReadOnly:       true,
 		Stored:         true,
@@ -2040,7 +2004,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 	"allservicetags": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AllServiceTags",
-		Description:    `This is a set of all selector tags for matching in the DB.`,
+		Description:    `This is a set of all selector tags for matching in the database.`,
 		Name:           "allServiceTags",
 		ReadOnly:       true,
 		Stored:         true,
@@ -2093,8 +2057,8 @@ header.
 - ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
 ` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
 - ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
-use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Segment's public signing certificate
-will be used.`,
+use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Microsegmentation Console's public 
+signing certificate will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -2104,9 +2068,8 @@ will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ClaimsToHTTPHeaderMappings",
 		Description: `Defines a list of mappings between claims and HTTP headers. When these mappings
-are defined,
-the defender will copy the values of the claims to the corresponding HTTP
-headers.`,
+are defined, the Defender will copy the values of the claims to the corresponding 
+HTTP headers.`,
 		Exposed: true,
 		Name:    "claimsToHTTPHeaderMappings",
 		Stored:  true,
@@ -2191,14 +2154,10 @@ layer 7 protocols.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedPort",
 		Description: `The port that the service can be accessed on. Note that this is different from
-the
-` + "`" + `port` + "`" + ` attribute that describes the port that the service is actually listening
-on.
-For example if a load balancer is used, the ` + "`" + `exposedPort` + "`" + ` is the port that the
-load
-balancer is listening for the service, whereas the port that the implementation
-is
-listening can be different.`,
+the ` + "`" + `port` + "`" + ` attribute that describes the port that the service is actually 
+listening on. For example if a load balancer is used, the ` + "`" + `exposedPort` + "`" + ` is 
+the port that the load balancer is listening for the service, whereas the 
+port that the implementation is listening on can be different.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "exposedPort",
@@ -2209,9 +2168,8 @@ listening can be different.`,
 	"exposedserviceistls": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedServiceIsTLS",
-		Description: `Indicates that the exposed service is TLS. This means that the defender has to
-initiate a
-TLS session in order to forward traffic to the service.`,
+		Description: `Indicates that the exposed service is TLS. This means that the Defender has to
+initiate a TLS session in order to forward traffic to the service.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "exposedServiceIsTLS",
@@ -2316,10 +2274,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
 		Description: `The port that the implementation of the service is listening to. It can be
-different than
-` + "`" + `exposedPort` + "`" + `. This is needed for port mapping use cases where there are private
-and
-public ports.`,
+different than ` + "`" + `exposedPort` + "`" + `. This is needed for port mapping use cases 
+where there are private and public ports.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "port",
@@ -2341,14 +2297,11 @@ public ports.`,
 	"publicapplicationport": {
 		AllowedChoices: []string{},
 		ConvertedName:  "PublicApplicationPort",
-		Description: `A new virtual port that the service can be accessed on, using HTTPS. Since the
-defender
-transparently inserts TLS in the application path, you might want to declare a
-new port
-where the defender listens for TLS. However, the application does not need to be
-modified
-and the defender will map the traffic to the correct application port. This
-useful when
+		Description: `A new virtual port that the service can be accessed on using HTTPS. Since the
+Defender transparently inserts TLS in the application path, you might want 
+to declare a new port where the Defender listens for TLS. However, the 
+application does not need to be modified and the Defender will map the 
+traffic to the correct application port. This is useful when
 an application is being accessed from a public network.`,
 		Exposed:  true,
 		MaxValue: 65535,
@@ -2360,11 +2313,9 @@ an application is being accessed from a public network.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RedirectURLOnAuthorizationFailure",
 		Description: `If this is set, the user will be redirected to that URL in case of any
-authorization
-failure, allowing you to provide a nice message to the user. The query parameter
-` + "`" + `?failure_message=<message>` + "`" + ` will be added to that URL explaining the possible
-reasons
-of the failure.`,
+authorization failure, allowing you to provide a nice message to the user. 
+The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that 
+URL explaining the possible reason for the failure.`,
 		Exposed: true,
 		Name:    "redirectURLOnAuthorizationFailure",
 		Stored:  true,
@@ -2385,10 +2336,8 @@ particular service.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "TrustedCertificateAuthorities",
 		Description: `PEM-encoded certificate authorities to trust when additional hops are needed. It
-must be
-set if the service must reach a service marked as ` + "`" + `external` + "`" + ` or must go through
-an
-additional TLS termination point like a layer 7 load balancer.`,
+must be set if the service must reach a service marked as ` + "`" + `external` + "`" + ` or must go 
+through an additional TLS termination point like a layer 7 load balancer.`,
 		Exposed: true,
 		Name:    "trustedCertificateAuthorities",
 		Stored:  true,
@@ -2541,14 +2490,12 @@ type SparseService struct {
 	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" msgpack:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate,omitempty" mapstructure:"JWTSigningCertificate,omitempty"`
 
 	// PEM-encoded certificate authority to use to verify client certificates. This
-	// only applies
-	// if `authorizationType` is set to `MTLS`. If it is not set, Segment's public
-	// signing
-	// certificate authority will be used.
+	// only applies if `authorizationType` is set to `MTLS`. If it is not set,
+	// Microsegmentation Console's public signing certificate authority will be used.
 	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" msgpack:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority,omitempty" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-	// Segment will autodiscover it. It will be
+	// the Defender will autodiscover it. It will be
 	// `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
 	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" msgpack:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl,omitempty" mapstructure:"OIDCCallbackURL,omitempty"`
 
@@ -2572,22 +2519,22 @@ type SparseService struct {
 	TLSCertificate *string `json:"TLSCertificate,omitempty" msgpack:"TLSCertificate,omitempty" bson:"tlscertificate,omitempty" mapstructure:"TLSCertificate,omitempty"`
 
 	// PEM-encoded certificate key associated with `TLSCertificate`. Only has effect
-	// and
-	// required if `TLSType` is set to `External`.
+	// and required if `TLSType` is set to `External`.
 	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" msgpack:"TLSCertificateKey,omitempty" bson:"tlscertificatekey,omitempty" mapstructure:"TLSCertificateKey,omitempty"`
 
 	// Set how to provide a server certificate to the service.
 	//
-	// - `Aporeto`: Generate a certificate issued from the Segment public CA.
+	// - `Aporeto`: Generate a certificate signed by the Microsegmentation
+	// Console public CA.
 	// - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
-	// - `External`: : Let you define your own certificate and key to use.
-	// - `None`: : TLS is disabled (not recommended).
+	// - `External`: Let you define your own certificate and key to use.
+	// - `None`: TLS is disabled (not recommended).
 	TLSType *ServiceTLSTypeValue `json:"TLSType,omitempty" msgpack:"TLSType,omitempty" bson:"tlstype,omitempty" mapstructure:"TLSType,omitempty"`
 
-	// This is a set of all API tags for matching in the DB.
+	// This is a set of all API tags for matching in the database.
 	AllAPITags *[]string `json:"-" msgpack:"-" bson:"allapitags,omitempty" mapstructure:"-,omitempty"`
 
-	// This is a set of all selector tags for matching in the DB.
+	// This is a set of all selector tags for matching in the database.
 	AllServiceTags *[]string `json:"-" msgpack:"-" bson:"allservicetags,omitempty" mapstructure:"-,omitempty"`
 
 	// Stores additional information about an entity.
@@ -2607,14 +2554,13 @@ type SparseService struct {
 	// - `OIDC`: Configures OIDC authorization. You must then set
 	// `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
 	// - `MTLS`: Configures client certificate authorization. Then you can optionally
-	// use `MTLSCertificateAuthority`, otherwise Segment's public signing certificate
-	// will be used.
+	// use `MTLSCertificateAuthority`, otherwise Microsegmentation Console's public
+	// signing certificate will be used.
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" msgpack:"authorizationType,omitempty" bson:"authorizationtype,omitempty" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
-	// are defined,
-	// the defender will copy the values of the claims to the corresponding HTTP
-	// headers.
+	// are defined, the Defender will copy the values of the claims to the corresponding
+	// HTTP headers.
 	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" msgpack:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings,omitempty" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -2639,19 +2585,14 @@ type SparseService struct {
 	ExposedAPIs *[][]string `json:"exposedAPIs,omitempty" msgpack:"exposedAPIs,omitempty" bson:"exposedapis,omitempty" mapstructure:"exposedAPIs,omitempty"`
 
 	// The port that the service can be accessed on. Note that this is different from
-	// the
-	// `port` attribute that describes the port that the service is actually listening
-	// on.
-	// For example if a load balancer is used, the `exposedPort` is the port that the
-	// load
-	// balancer is listening for the service, whereas the port that the implementation
-	// is
-	// listening can be different.
+	// the `port` attribute that describes the port that the service is actually
+	// listening on. For example if a load balancer is used, the `exposedPort` is
+	// the port that the load balancer is listening for the service, whereas the
+	// port that the implementation is listening on can be different.
 	ExposedPort *int `json:"exposedPort,omitempty" msgpack:"exposedPort,omitempty" bson:"exposedport,omitempty" mapstructure:"exposedPort,omitempty"`
 
-	// Indicates that the exposed service is TLS. This means that the defender has to
-	// initiate a
-	// TLS session in order to forward traffic to the service.
+	// Indicates that the exposed service is TLS. This means that the Defender has to
+	// initiate a TLS session in order to forward traffic to the service.
 	ExposedServiceIsTLS *bool `json:"exposedServiceIsTLS,omitempty" msgpack:"exposedServiceIsTLS,omitempty" bson:"exposedserviceistls,omitempty" mapstructure:"exposedServiceIsTLS,omitempty"`
 
 	// Indicates if this is an external service.
@@ -2677,32 +2618,25 @@ type SparseService struct {
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// The port that the implementation of the service is listening to. It can be
-	// different than
-	// `exposedPort`. This is needed for port mapping use cases where there are private
-	// and
-	// public ports.
+	// different than `exposedPort`. This is needed for port mapping use cases
+	// where there are private and public ports.
 	Port *int `json:"port,omitempty" msgpack:"port,omitempty" bson:"port,omitempty" mapstructure:"port,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// A new virtual port that the service can be accessed on, using HTTPS. Since the
-	// defender
-	// transparently inserts TLS in the application path, you might want to declare a
-	// new port
-	// where the defender listens for TLS. However, the application does not need to be
-	// modified
-	// and the defender will map the traffic to the correct application port. This
-	// useful when
+	// A new virtual port that the service can be accessed on using HTTPS. Since the
+	// Defender transparently inserts TLS in the application path, you might want
+	// to declare a new port where the Defender listens for TLS. However, the
+	// application does not need to be modified and the Defender will map the
+	// traffic to the correct application port. This is useful when
 	// an application is being accessed from a public network.
 	PublicApplicationPort *int `json:"publicApplicationPort,omitempty" msgpack:"publicApplicationPort,omitempty" bson:"publicapplicationport,omitempty" mapstructure:"publicApplicationPort,omitempty"`
 
 	// If this is set, the user will be redirected to that URL in case of any
-	// authorization
-	// failure, allowing you to provide a nice message to the user. The query parameter
-	// `?failure_message=<message>` will be added to that URL explaining the possible
-	// reasons
-	// of the failure.
+	// authorization failure, allowing you to provide a nice message to the user.
+	// The query parameter `?failure_message=<message>` will be added to that
+	// URL explaining the possible reason for the failure.
 	RedirectURLOnAuthorizationFailure *string `json:"redirectURLOnAuthorizationFailure,omitempty" msgpack:"redirectURLOnAuthorizationFailure,omitempty" bson:"redirecturlonauthorizationfailure,omitempty" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
 
 	// A tag or tag expression that identifies the processing unit that implements this
@@ -2710,10 +2644,8 @@ type SparseService struct {
 	Selectors *[][]string `json:"selectors,omitempty" msgpack:"selectors,omitempty" bson:"selectors,omitempty" mapstructure:"selectors,omitempty"`
 
 	// PEM-encoded certificate authorities to trust when additional hops are needed. It
-	// must be
-	// set if the service must reach a service marked as `external` or must go through
-	// an
-	// additional TLS termination point like a layer 7 load balancer.
+	// must be set if the service must reach a service marked as `external` or must go
+	// through an additional TLS termination point like a layer 7 load balancer.
 	TrustedCertificateAuthorities *string `json:"trustedCertificateAuthorities,omitempty" msgpack:"trustedCertificateAuthorities,omitempty" bson:"trustedcertificateauthorities,omitempty" mapstructure:"trustedCertificateAuthorities,omitempty"`
 
 	// Type of service.

@@ -5,7 +5,7 @@ model:
   entity_name: InvoiceRecord
   package: bill
   group: core/billing
-  description: Provides detailed records of invoices for Segment customers.
+  description: Provides detailed records of invoices for Microsegmentation customers.
   get:
     description: Retrieves the object with the given ID.
   update:

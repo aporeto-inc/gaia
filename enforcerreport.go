@@ -81,22 +81,22 @@ func (o EnforcerReportsList) Version() int {
 
 // EnforcerReport represents the model of a enforcerreport
 type EnforcerReport struct {
-	// Total CPU utilization of the defender as a percentage of vCPUs.
+	// Total CPU utilization of the Defender as a percentage of vCPUs.
 	CPULoad float64 `json:"CPULoad" msgpack:"CPULoad" bson:"-" mapstructure:"CPULoad,omitempty"`
 
-	// ID of the defender.
+	// ID of the Defender.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Total resident memory used by the defender in bytes.
+	// Total resident memory used by the Defender in bytes.
 	Memory int `json:"memory" msgpack:"memory" bson:"-" mapstructure:"memory,omitempty"`
 
-	// Name of the defender.
+	// Name of the Defender.
 	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
-	// Namespace of the defender.
+	// Namespace of the Defender.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// Number of active processes of the defender.
+	// Number of active processes of the Defender.
 	Processes int `json:"processes" msgpack:"processes" bson:"-" mapstructure:"processes,omitempty"`
 
 	// Date of the report.
@@ -180,7 +180,7 @@ func (o *EnforcerReport) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *EnforcerReport) Doc() string {
 
-	return `Post a new defender statistics report.`
+	return `Post a new Defender statistics report.`
 }
 
 func (o *EnforcerReport) String() string {
@@ -362,7 +362,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"CPULoad": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CPULoad",
-		Description:    `Total CPU utilization of the defender as a percentage of vCPUs.`,
+		Description:    `Total CPU utilization of the Defender as a percentage of vCPUs.`,
 		Exposed:        true,
 		Name:           "CPULoad",
 		Type:           "float",
@@ -370,7 +370,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID of the defender.`,
+		Description:    `ID of the Defender.`,
 		Exposed:        true,
 		Name:           "ID",
 		Required:       true,
@@ -379,7 +379,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Memory": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Memory",
-		Description:    `Total resident memory used by the defender in bytes.`,
+		Description:    `Total resident memory used by the Defender in bytes.`,
 		Exposed:        true,
 		Name:           "memory",
 		Type:           "integer",
@@ -387,7 +387,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `Name of the defender.`,
+		Description:    `Name of the Defender.`,
 		Exposed:        true,
 		Name:           "name",
 		Required:       true,
@@ -396,7 +396,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Namespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace of the defender.`,
+		Description:    `Namespace of the Defender.`,
 		Exposed:        true,
 		Name:           "namespace",
 		Required:       true,
@@ -405,7 +405,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Processes": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Processes",
-		Description:    `Number of active processes of the defender.`,
+		Description:    `Number of active processes of the Defender.`,
 		Exposed:        true,
 		Name:           "processes",
 		Type:           "integer",
@@ -426,7 +426,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"cpuload": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CPULoad",
-		Description:    `Total CPU utilization of the defender as a percentage of vCPUs.`,
+		Description:    `Total CPU utilization of the Defender as a percentage of vCPUs.`,
 		Exposed:        true,
 		Name:           "CPULoad",
 		Type:           "float",
@@ -434,7 +434,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"id": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID of the defender.`,
+		Description:    `ID of the Defender.`,
 		Exposed:        true,
 		Name:           "ID",
 		Required:       true,
@@ -443,7 +443,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"memory": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Memory",
-		Description:    `Total resident memory used by the defender in bytes.`,
+		Description:    `Total resident memory used by the Defender in bytes.`,
 		Exposed:        true,
 		Name:           "memory",
 		Type:           "integer",
@@ -451,7 +451,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `Name of the defender.`,
+		Description:    `Name of the Defender.`,
 		Exposed:        true,
 		Name:           "name",
 		Required:       true,
@@ -460,7 +460,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"namespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace of the defender.`,
+		Description:    `Namespace of the Defender.`,
 		Exposed:        true,
 		Name:           "namespace",
 		Required:       true,
@@ -469,7 +469,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"processes": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Processes",
-		Description:    `Number of active processes of the defender.`,
+		Description:    `Number of active processes of the Defender.`,
 		Exposed:        true,
 		Name:           "processes",
 		Type:           "integer",
@@ -548,22 +548,22 @@ func (o SparseEnforcerReportsList) Version() int {
 
 // SparseEnforcerReport represents the sparse version of a enforcerreport.
 type SparseEnforcerReport struct {
-	// Total CPU utilization of the defender as a percentage of vCPUs.
+	// Total CPU utilization of the Defender as a percentage of vCPUs.
 	CPULoad *float64 `json:"CPULoad,omitempty" msgpack:"CPULoad,omitempty" bson:"-" mapstructure:"CPULoad,omitempty"`
 
-	// ID of the defender.
+	// ID of the Defender.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Total resident memory used by the defender in bytes.
+	// Total resident memory used by the Defender in bytes.
 	Memory *int `json:"memory,omitempty" msgpack:"memory,omitempty" bson:"-" mapstructure:"memory,omitempty"`
 
-	// Name of the defender.
+	// Name of the Defender.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
-	// Namespace of the defender.
+	// Namespace of the Defender.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// Number of active processes of the defender.
+	// Number of active processes of the Defender.
 	Processes *int `json:"processes,omitempty" msgpack:"processes,omitempty" bson:"-" mapstructure:"processes,omitempty"`
 
 	// Date of the report.

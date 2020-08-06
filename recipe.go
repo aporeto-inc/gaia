@@ -112,11 +112,10 @@ type Recipe struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Defines the deployment mode of the recipe. If Unrestricted, recipe
-	// can be deployed multiple times in the current namespace and below. If Unique,
-	// only one deployment is allowed
-	// in the current namespace and its child namespaces. If NamespaceUnique, only
-	// one deployment is allowed in the current namespace.
+	// Defines the deployment mode of the recipe. If `Unrestricted`, the recipe
+	// can be deployed multiple times in the current namespace and below. If `Unique`,
+	// only one deployment is allowed in the current namespace and its child namespaces.
+	// If `NamespaceUnique`, only one deployment is allowed in the current namespace.
 	DeploymentMode RecipeDeploymentModeValue `json:"deploymentMode" msgpack:"deploymentMode" bson:"deploymentmode" mapstructure:"deploymentMode,omitempty"`
 
 	// Description of the object.
@@ -978,11 +977,10 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
 		ConvertedName:  "DeploymentMode",
 		DefaultValue:   RecipeDeploymentModeUnrestricted,
-		Description: `Defines the deployment mode of the recipe. If Unrestricted, recipe
-can be deployed multiple times in the current namespace and below. If Unique,
-only one deployment is allowed
-in the current namespace and its child namespaces. If NamespaceUnique, only
-one deployment is allowed in the current namespace.`,
+		Description: `Defines the deployment mode of the recipe. If ` + "`" + `Unrestricted` + "`" + `, the recipe
+can be deployed multiple times in the current namespace and below. If ` + "`" + `Unique` + "`" + `,
+only one deployment is allowed in the current namespace and its child namespaces. 
+If ` + "`" + `NamespaceUnique` + "`" + `, only one deployment is allowed in the current namespace.`,
 		Exposed: true,
 		Name:    "deploymentMode",
 		Stored:  true,
@@ -1319,11 +1317,10 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"Unrestricted", "Unique", "NamespaceUnique"},
 		ConvertedName:  "DeploymentMode",
 		DefaultValue:   RecipeDeploymentModeUnrestricted,
-		Description: `Defines the deployment mode of the recipe. If Unrestricted, recipe
-can be deployed multiple times in the current namespace and below. If Unique,
-only one deployment is allowed
-in the current namespace and its child namespaces. If NamespaceUnique, only
-one deployment is allowed in the current namespace.`,
+		Description: `Defines the deployment mode of the recipe. If ` + "`" + `Unrestricted` + "`" + `, the recipe
+can be deployed multiple times in the current namespace and below. If ` + "`" + `Unique` + "`" + `,
+only one deployment is allowed in the current namespace and its child namespaces. 
+If ` + "`" + `NamespaceUnique` + "`" + `, only one deployment is allowed in the current namespace.`,
 		Exposed: true,
 		Name:    "deploymentMode",
 		Stored:  true,
@@ -1670,11 +1667,10 @@ type SparseRecipe struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Defines the deployment mode of the recipe. If Unrestricted, recipe
-	// can be deployed multiple times in the current namespace and below. If Unique,
-	// only one deployment is allowed
-	// in the current namespace and its child namespaces. If NamespaceUnique, only
-	// one deployment is allowed in the current namespace.
+	// Defines the deployment mode of the recipe. If `Unrestricted`, the recipe
+	// can be deployed multiple times in the current namespace and below. If `Unique`,
+	// only one deployment is allowed in the current namespace and its child namespaces.
+	// If `NamespaceUnique`, only one deployment is allowed in the current namespace.
 	DeploymentMode *RecipeDeploymentModeValue `json:"deploymentMode,omitempty" msgpack:"deploymentMode,omitempty" bson:"deploymentmode,omitempty" mapstructure:"deploymentMode,omitempty"`
 
 	// Description of the object.

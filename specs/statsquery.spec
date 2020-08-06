@@ -6,7 +6,7 @@ model:
   package: jenova
   group: visualization/statsquery
   description: |-
-    Retrieves time-series data stored by the Segment Console.
+    Retrieves time-series data stored by the Microsegmentation Console.
     Allows different types of queries that are all protected within
     the namespace of the user.
   aliases:

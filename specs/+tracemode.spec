@@ -12,7 +12,7 @@ model:
 attributes:
   v1:
   - name: IPTables
-    description: Instructs the defenders to provide an iptables trace for
+    description: Instructs the Defenders to provide an iptables trace for
       a processing unit.
     type: boolean
     exposed: true
@@ -20,7 +20,7 @@ attributes:
 
   - name: applicationConnections
     description: |-
-      Instructs the defender to send records for all
+      Instructs the Defender to send records for all
       application-initiated connections.
     type: boolean
     exposed: true
@@ -37,7 +37,7 @@ attributes:
 
   - name: networkConnections
     description: |-
-      Instructs the defender to send records for all
+      Instructs the Defender to send records for all
       network-initiated connections.
     type: boolean
     exposed: true

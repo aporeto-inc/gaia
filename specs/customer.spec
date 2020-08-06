@@ -6,7 +6,7 @@ model:
   package: bill
   group: core/billing
   description: |-
-    This api allows to view and manage basic information about customer profile for
+    This API allows you to view and manage basic information about customer profiles for
     billing purposes.
   private: true
   get:
@@ -30,7 +30,7 @@ attributes:
   v1:
   - name: committedUseLimit
     description: |-
-      CommittedUseLimit holds the customer's use limit provided by a contract.
+      Holds the customer's use limit provided by a contract.
     type: integer
     exposed: true
     stored: true
@@ -38,7 +38,7 @@ attributes:
 
   - name: lastReportTime
     description: |-
-      lastReportTime holds the last time the customer was reported to their
+      Holds the last time the customer was reported to their
       provider.
     type: time
     exposed: true
@@ -46,7 +46,7 @@ attributes:
     orderable: true
 
   - name: provider
-    description: Provider holds the name of the provider to be billed for this service.
+    description: Holds the name of the provider to be billed for this service.
     type: enum
     exposed: true
     stored: true
@@ -58,7 +58,7 @@ attributes:
 
   - name: providerCustomerID
     description: |-
-      providerCustomerID holds the customer id as used by the provider for this
+      Holds the customer ID as used by the provider for this
       customer to enable provider billing.
     type: string
     exposed: true
@@ -67,7 +67,7 @@ attributes:
 
   - name: providerProductID
     description: |-
-      ProviderProductID holds the product id as used by the provider for this
+      Holds the product ID as used by the provider for this
       customer to enable provider billing.
     type: string
     exposed: true
@@ -75,7 +75,7 @@ attributes:
     orderable: true
 
   - name: state
-    description: State holds the status of the customer with the provider.
+    description: Holds the status of the customer with the provider.
     type: enum
     exposed: true
     stored: true

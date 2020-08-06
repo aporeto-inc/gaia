@@ -1,13 +1,13 @@
-# Segment Console API concepts and usage
+# Microsegmentation Console API concepts and usage
 
 ## Overview
 
-Segment provides a REST API to allow programmatic manipulation of the Console.
-Everything the web client or apoctl do is done through the Segment Console API.
+Prisma Cloud Identity-Based Microsegmentation provides a REST API to allow programmatic manipulation of the Microsegmentation Console.
+The Microsegmentation Console web interface and `apoctl` are clients of the Microsegmentation Console API.
 
 ## Object types
 
-The Segment Console API accepts and returns [JSON](https://www.json.org) or [MessagePack](https://msgpack.org)
+The Microsegmentation Console API accepts and returns [JSON](https://www.json.org) or [MessagePack](https://msgpack.org)
 encoded objects.
 This is controlled by the the `Accept` and `Content-Type` HTTP headers.
 
@@ -26,7 +26,7 @@ Errors always have the same structure:
 - `title`: The title of the error
 - `description`: A more detailed description of the error
 - `code`: The status code of the error
-- `trace`: Trace ID that can help Segment engineers to trace the cause of the error.
+- `trace`: Trace ID that can help Palo Alto Networks engineers trace the cause of the error.
 - `data`: Additional opaque data related to the error.
 
 For example:
@@ -76,14 +76,14 @@ Authorization: Bearer <token>
 The token is a [JSON Web Token (JWT)](https://jwt.io) that can be exchanged from one of the supported authentication
 sources:
 
-- Segment account: username and password.
+- Microsegmentation account: username and password.
 - App credentials: X.509 certificate.
-- User configured OIDC provider.
-- User configured LDAP server.
+- User-configured OIDC provider.
+- User-configured LDAP server.
 
 These various sources are called realms.
 
-Regardless of the realm, Segment Console will validate the user provided info and will convert identification
+Regardless of the realm, the Microsegmentation Console validates the user-provided information and converts identification
 bits into claims that are inserted in the JWT.
 
 Administrators can then write API authorizations based on these claims to authorize actions
@@ -105,10 +105,10 @@ curl https://api.console.aporeto.com/issue \
 
 The `realm` property can be one of:
 
-- `Vince`: Segment account
+- `Vince`: Microsegmentation account
 - `Certificate`: Client X.509 certificate (app credentials)
-- `OIDC`: User configured OIDC provider
-- `LDAP`: User configured LDAP provider
+- `OIDC`: User-configured OIDC provider
+- `LDAP`: User-configured LDAP provider
 - `AWSSecurityToken`: ID token issued from [Amazon Security Token Service](https://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html)
 - `AzureIdentityToken`: ID token issued from [Azure Identity Platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/id-tokens).
 - `GCPIdentityToken`: ID token issued from [Google Cloud Platform](https://cloud.google.com/compute/docs/instances/verifying-instance-identity).
@@ -124,7 +124,7 @@ quota so the token can be used as much as you like during its validity period.
 
 The `metadata` attribute contains various realm-dependent information (see below).
 
-Upon correct authentication, Segment Console will return a JWT wrapped in a JSON or MessagePack object.
+Upon correct authentication, the Microsegmentation Console returns a JWT wrapped in a JSON or MessagePack object.
 
 ```json
 {
@@ -138,9 +138,9 @@ Upon correct authentication, Segment Console will return a JWT wrapped in a JSON
 The `token` attribute contains the actual JWT you need to pass into the `Authorization` HTTP header for every
 subsequent request.
 
-### Authenticating with a Segment account
+### Authenticating with a Microsegmentation account
 
-To authenticate from your Segment account, you can issue the following command.
+To authenticate from your Microsegmentation account, you can issue the following command.
 
 ```shell
 curl https://api.console.aporeto.com/issue \
@@ -157,9 +157,7 @@ curl https://api.console.aporeto.com/issue \
 
 ### Authenticating with an X.509 certificate
 
-{{< note >}}
-How to retrieve an X.509 certificate from Segment Console is not in the scope of this document.
-{{< /note >}}
+NOTE: How to retrieve an X.509 certificate from the Microsegmentation Console is not in the scope of this document.
 
 To use an X.509 user certificate, you must configure your client to pass it on the
 TLS layer.
@@ -177,9 +175,9 @@ curl https://api.console.aporeto.com/issue \
 
 ## Namespace
 
-Most of the resources in Segment Console live in a namespace.
+Most of the resources in Microsegmentation Console live in a namespace.
 When you issue a command, in addition to your JWT, you must pass the `X-Namespace` HTTP header.
-This will tell the system which namespace the request is targeting and what API authorizations to apply.
+This tells Microsegmentation Console which namespace the request is targeting and what API authorizations to apply.
 
 Note that the API authorization associated with your JWT claims will depend on the namespace you target.
 
@@ -226,7 +224,7 @@ curl https://api.console.aporeto.com/namespaces \
 
 ## Idempotency
 
-The Segment Console API supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for `POST` operations.
+The Microsegmentation Console API supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for `POST` operations.
 This allows you to safely retry requests that returned a communication error, but actually were honored by the system.
 
 If you issue two subsequent `POST` requests with the same idempotency key, the second will return the exact same response as the first one, while it will not have done anything in the system.
@@ -279,13 +277,13 @@ curl \
   https://api.console.aporeto.com/issue
 ```
 
-The first one will return:
+The first one returns:
 
 ```output
 {"ID":"5d2398157ddf1f3519ce6d96"}
 ```
 
-And the second one:
+The second one returns:
 
 ```output
 {"ID":"5d2398157ddf1f3519ce6d96"}
@@ -295,9 +293,9 @@ And the second one:
 
 ### Hierarchy layout
 
-The Segment Console API follows a three-level structure to traverse the hierarchy.
-For instance, for an hypothetical object `parent` that can have `children` who can in turn
-have `grandchildren`, Segment lays out the API URLs as follows:
+The Microsegmentation Console API follows a three-level structure to traverse the hierarchy.
+For instance, for a hypothetical object `parent` that can have `children` who can in turn
+have `grandchildren`, the Microsegmentation Console lays out the API URLs as follows:
 
 - `/parents`: Affects all parents.
 - `/parents/:id`: Affects a particular parent with the given ID.
@@ -308,7 +306,7 @@ have `grandchildren`, Segment lays out the API URLs as follows:
 
 ### Methods
 
-The Segment Console API uses standard HTTP methods to perform actions on resources.
+The Microsegmentation Console API uses standard HTTP methods to perform actions on resources.
 Not all methods apply to all URLs.
 
 - `GET`: Retrieves many or retrieve one.

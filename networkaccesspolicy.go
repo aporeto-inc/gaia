@@ -190,7 +190,7 @@ type NetworkAccessPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// If `true`, the relevant flows are logged and available from Segment Console.
+	// If `true`, the relevant flows are logged and available from Microsegmentation Console.
 	// Under some advanced scenarios you may wish to set this to `false`, such as to
 	// save space or
 	// improve performance.
@@ -1206,7 +1206,7 @@ propagated it will become a fallback for children namespaces.`,
 	"LogsEnabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LogsEnabled",
-		Description: `If ` + "`" + `true` + "`" + `, the relevant flows are logged and available from Segment Console.
+		Description: `If ` + "`" + `true` + "`" + `, the relevant flows are logged and available from Microsegmentation Console.
 Under some advanced scenarios you may wish to set this to ` + "`" + `false` + "`" + `, such as to
 save space or
 improve performance.`,
@@ -1594,7 +1594,7 @@ propagated it will become a fallback for children namespaces.`,
 	"logsenabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LogsEnabled",
-		Description: `If ` + "`" + `true` + "`" + `, the relevant flows are logged and available from Segment Console.
+		Description: `If ` + "`" + `true` + "`" + `, the relevant flows are logged and available from Microsegmentation Console.
 Under some advanced scenarios you may wish to set this to ` + "`" + `false` + "`" + `, such as to
 save space or
 improve performance.`,
@@ -1920,7 +1920,7 @@ type SparseNetworkAccessPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// If `true`, the relevant flows are logged and available from Segment Console.
+	// If `true`, the relevant flows are logged and available from Microsegmentation Console.
 	// Under some advanced scenarios you may wish to set this to `false`, such as to
 	// save space or
 	// improve performance.

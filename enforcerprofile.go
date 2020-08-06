@@ -135,7 +135,7 @@ type EnforcerProfile struct {
 
 	// Ignore any networks specified here and do not even report any flows.
 	// This can be useful for excluding localhost loopback traffic, ignoring
-	// traffic to the Kubernetes API, and using Segment for SSH only.
+	// traffic to the Kubernetes API, and using Microsegmentation for SSH only.
 	ExcludedNetworks []string `json:"excludedNetworks" msgpack:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
 	// A tag expression that identifies processing units to ignore. This can be
@@ -143,17 +143,17 @@ type EnforcerProfile struct {
 	// agents.
 	IgnoreExpression [][]string `json:"ignoreExpression" msgpack:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
-	// This field is kept for backward compatibility for defenders <= 3.5.
+	// This field is kept for backward compatibility for Defenders <= 3.5.
 	KubernetesMetadataExtractor EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor" msgpack:"kubernetesMetadataExtractor" bson:"kubernetesmetadataextractor" mapstructure:"kubernetesMetadataExtractor,omitempty"`
 
-	// This field is kept for backward compatibility for defenders <= 3.5.
+	// This field is kept for backward compatibility for Defenders <= 3.5.
 	KubernetesSupportEnabled bool `json:"kubernetesSupportEnabled" msgpack:"kubernetesSupportEnabled" bson:"kubernetessupportenabled" mapstructure:"kubernetesSupportEnabled,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// This field is kept for backward compatibility for defenders <= 3.5.
+	// This field is kept for backward compatibility for Defenders <= 3.5.
 	MetadataExtractor EnforcerProfileMetadataExtractorValue `json:"metadataExtractor" msgpack:"metadataExtractor" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
 	// Internal property maintaining migrations information.
@@ -174,14 +174,14 @@ type EnforcerProfile struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// If empty, the defender auto-discovers the TCP networks. Auto-discovery
+	// If empty, the Defender auto-discovers the TCP networks. Auto-discovery
 	// works best in Kubernetes and OpenShift deployments. You may need to manually
 	// specify the TCP networks if middle boxes exist that do not comply with
 	// [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).
 	TargetNetworks []string `json:"targetNetworks" msgpack:"targetNetworks" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
 
-	// If empty, Segment enforces all UDP networks. This works best when all UDP
-	// networks have defenders. If some UDP networks do not have defenders, you
+	// If empty, the Defender enforces all UDP networks. This works best when all UDP
+	// networks have Defenders. If some UDP networks do not have Defenders, you
 	// may need to manually specify the UDP networks that should be enforced.
 	TargetUDPNetworks []string `json:"targetUDPNetworks" msgpack:"targetUDPNetworks" bson:"targetudpnetworks" mapstructure:"targetUDPNetworks,omitempty"`
 
@@ -352,11 +352,10 @@ func (o *EnforcerProfile) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *EnforcerProfile) Doc() string {
 
-	return `Allows you to create reusable configuration profiles for your defenders.
-Defender
-profiles contain various startup information that can (for some) be updated
-live. Defender profiles are assigned to defenders using a defender profile
-mapping.`
+	return `Allows you to create reusable configuration profiles for your Defenders.
+Defender profiles contain various startup information that can (for some) 
+be updated live. Defender profiles are assigned to Defenders using a 
+Defender profile mapping.`
 }
 
 func (o *EnforcerProfile) String() string {
@@ -994,7 +993,7 @@ interfaces.`,
 		ConvertedName:  "ExcludedNetworks",
 		Description: `Ignore any networks specified here and do not even report any flows.
 This can be useful for excluding localhost loopback traffic, ignoring
-traffic to the Kubernetes API, and using Segment for SSH only.`,
+traffic to the Kubernetes API, and using Microsegmentation for SSH only.`,
 		Exposed:   true,
 		Name:      "excludedNetworks",
 		Orderable: true,
@@ -1019,7 +1018,7 @@ agents.`,
 		ConvertedName:  "KubernetesMetadataExtractor",
 		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
 		Deprecated:     true,
-		Description:    `This field is kept for backward compatibility for defenders <= 3.5.`,
+		Description:    `This field is kept for backward compatibility for Defenders <= 3.5.`,
 		Exposed:        true,
 		Name:           "kubernetesMetadataExtractor",
 		Stored:         true,
@@ -1029,7 +1028,7 @@ agents.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "KubernetesSupportEnabled",
 		Deprecated:     true,
-		Description:    `This field is kept for backward compatibility for defenders <= 3.5.`,
+		Description:    `This field is kept for backward compatibility for Defenders <= 3.5.`,
 		Exposed:        true,
 		Name:           "kubernetesSupportEnabled",
 		Stored:         true,
@@ -1055,7 +1054,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "MetadataExtractor",
 		DefaultValue:   EnforcerProfileMetadataExtractorDocker,
 		Deprecated:     true,
-		Description:    `This field is kept for backward compatibility for defenders <= 3.5.`,
+		Description:    `This field is kept for backward compatibility for Defenders <= 3.5.`,
 		Exposed:        true,
 		Name:           "metadataExtractor",
 		Stored:         true,
@@ -1144,7 +1143,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"TargetNetworks": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNetworks",
-		Description: `If empty, the defender auto-discovers the TCP networks. Auto-discovery
+		Description: `If empty, the Defender auto-discovers the TCP networks. Auto-discovery
 works best in Kubernetes and OpenShift deployments. You may need to manually
 specify the TCP networks if middle boxes exist that do not comply with
 [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).`,
@@ -1158,8 +1157,8 @@ specify the TCP networks if middle boxes exist that do not comply with
 	"TargetUDPNetworks": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetUDPNetworks",
-		Description: `If empty, Segment enforces all UDP networks. This works best when all UDP
-networks have defenders. If some UDP networks do not have defenders, you
+		Description: `If empty, the Defender enforces all UDP networks. This works best when all UDP
+networks have Defenders. If some UDP networks do not have Defenders, you
 may need to manually specify the UDP networks that should be enforced.`,
 		Exposed:   true,
 		Name:      "targetUDPNetworks",
@@ -1329,7 +1328,7 @@ interfaces.`,
 		ConvertedName:  "ExcludedNetworks",
 		Description: `Ignore any networks specified here and do not even report any flows.
 This can be useful for excluding localhost loopback traffic, ignoring
-traffic to the Kubernetes API, and using Segment for SSH only.`,
+traffic to the Kubernetes API, and using Microsegmentation for SSH only.`,
 		Exposed:   true,
 		Name:      "excludedNetworks",
 		Orderable: true,
@@ -1354,7 +1353,7 @@ agents.`,
 		ConvertedName:  "KubernetesMetadataExtractor",
 		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
 		Deprecated:     true,
-		Description:    `This field is kept for backward compatibility for defenders <= 3.5.`,
+		Description:    `This field is kept for backward compatibility for Defenders <= 3.5.`,
 		Exposed:        true,
 		Name:           "kubernetesMetadataExtractor",
 		Stored:         true,
@@ -1364,7 +1363,7 @@ agents.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "KubernetesSupportEnabled",
 		Deprecated:     true,
-		Description:    `This field is kept for backward compatibility for defenders <= 3.5.`,
+		Description:    `This field is kept for backward compatibility for Defenders <= 3.5.`,
 		Exposed:        true,
 		Name:           "kubernetesSupportEnabled",
 		Stored:         true,
@@ -1390,7 +1389,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "MetadataExtractor",
 		DefaultValue:   EnforcerProfileMetadataExtractorDocker,
 		Deprecated:     true,
-		Description:    `This field is kept for backward compatibility for defenders <= 3.5.`,
+		Description:    `This field is kept for backward compatibility for Defenders <= 3.5.`,
 		Exposed:        true,
 		Name:           "metadataExtractor",
 		Stored:         true,
@@ -1479,7 +1478,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"targetnetworks": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNetworks",
-		Description: `If empty, the defender auto-discovers the TCP networks. Auto-discovery
+		Description: `If empty, the Defender auto-discovers the TCP networks. Auto-discovery
 works best in Kubernetes and OpenShift deployments. You may need to manually
 specify the TCP networks if middle boxes exist that do not comply with
 [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).`,
@@ -1493,8 +1492,8 @@ specify the TCP networks if middle boxes exist that do not comply with
 	"targetudpnetworks": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetUDPNetworks",
-		Description: `If empty, Segment enforces all UDP networks. This works best when all UDP
-networks have defenders. If some UDP networks do not have defenders, you
+		Description: `If empty, the Defender enforces all UDP networks. This works best when all UDP
+networks have Defenders. If some UDP networks do not have Defenders, you
 may need to manually specify the UDP networks that should be enforced.`,
 		Exposed:   true,
 		Name:      "targetUDPNetworks",
@@ -1657,7 +1656,7 @@ type SparseEnforcerProfile struct {
 
 	// Ignore any networks specified here and do not even report any flows.
 	// This can be useful for excluding localhost loopback traffic, ignoring
-	// traffic to the Kubernetes API, and using Segment for SSH only.
+	// traffic to the Kubernetes API, and using Microsegmentation for SSH only.
 	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" msgpack:"excludedNetworks,omitempty" bson:"excludednetworks,omitempty" mapstructure:"excludedNetworks,omitempty"`
 
 	// A tag expression that identifies processing units to ignore. This can be
@@ -1665,17 +1664,17 @@ type SparseEnforcerProfile struct {
 	// agents.
 	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" msgpack:"ignoreExpression,omitempty" bson:"ignoreexpression,omitempty" mapstructure:"ignoreExpression,omitempty"`
 
-	// This field is kept for backward compatibility for defenders <= 3.5.
+	// This field is kept for backward compatibility for Defenders <= 3.5.
 	KubernetesMetadataExtractor *EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor,omitempty" msgpack:"kubernetesMetadataExtractor,omitempty" bson:"kubernetesmetadataextractor,omitempty" mapstructure:"kubernetesMetadataExtractor,omitempty"`
 
-	// This field is kept for backward compatibility for defenders <= 3.5.
+	// This field is kept for backward compatibility for Defenders <= 3.5.
 	KubernetesSupportEnabled *bool `json:"kubernetesSupportEnabled,omitempty" msgpack:"kubernetesSupportEnabled,omitempty" bson:"kubernetessupportenabled,omitempty" mapstructure:"kubernetesSupportEnabled,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// This field is kept for backward compatibility for defenders <= 3.5.
+	// This field is kept for backward compatibility for Defenders <= 3.5.
 	MetadataExtractor *EnforcerProfileMetadataExtractorValue `json:"metadataExtractor,omitempty" msgpack:"metadataExtractor,omitempty" bson:"metadataextractor,omitempty" mapstructure:"metadataExtractor,omitempty"`
 
 	// Internal property maintaining migrations information.
@@ -1696,14 +1695,14 @@ type SparseEnforcerProfile struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// If empty, the defender auto-discovers the TCP networks. Auto-discovery
+	// If empty, the Defender auto-discovers the TCP networks. Auto-discovery
 	// works best in Kubernetes and OpenShift deployments. You may need to manually
 	// specify the TCP networks if middle boxes exist that do not comply with
 	// [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).
 	TargetNetworks *[]string `json:"targetNetworks,omitempty" msgpack:"targetNetworks,omitempty" bson:"targetnetworks,omitempty" mapstructure:"targetNetworks,omitempty"`
 
-	// If empty, Segment enforces all UDP networks. This works best when all UDP
-	// networks have defenders. If some UDP networks do not have defenders, you
+	// If empty, the Defender enforces all UDP networks. This works best when all UDP
+	// networks have Defenders. If some UDP networks do not have Defenders, you
 	// may need to manually specify the UDP networks that should be enforced.
 	TargetUDPNetworks *[]string `json:"targetUDPNetworks,omitempty" msgpack:"targetUDPNetworks,omitempty" bson:"targetudpnetworks,omitempty" mapstructure:"targetUDPNetworks,omitempty"`
 

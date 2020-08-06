@@ -84,7 +84,7 @@ type Authn struct {
 	// The claims in the token.
 	Claims *types.MidgardClaims `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
-	// The token to verify. This is only used is a POST request is used.
+	// The token to verify. This is only used if a POST request is used.
 	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -304,7 +304,7 @@ var AuthnAttributesMap = map[string]elemental.AttributeSpecification{
 	"Token": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
-		Description:    `The token to verify. This is only used is a POST request is used.`,
+		Description:    `The token to verify. This is only used if a POST request is used.`,
 		Exposed:        true,
 		Name:           "token",
 		Type:           "string",
@@ -327,7 +327,7 @@ var AuthnLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"token": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
-		Description:    `The token to verify. This is only used is a POST request is used.`,
+		Description:    `The token to verify. This is only used if a POST request is used.`,
 		Exposed:        true,
 		Name:           "token",
 		Type:           "string",
@@ -400,7 +400,7 @@ type SparseAuthn struct {
 	// The claims in the token.
 	Claims *types.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
-	// The token to verify. This is only used is a POST request is used.
+	// The token to verify. This is only used if a POST request is used.
 	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

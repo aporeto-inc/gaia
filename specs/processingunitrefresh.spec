@@ -7,7 +7,7 @@ model:
   group: core/policy
   description: |-
     Sent to client when a poke has been triggered using the
-    parameter `?notify=true`. This is used by instances of enforcerd to notify an
+    parameter `?notify=true`. This is used to notify a Defender of an
     external change on the processing unit must be processed.
 
 # Attributes
@@ -81,7 +81,7 @@ attributes:
     read_only: true
 
   - name: refreshPolicy
-    description: If set to true, the target Processing Unit will refresh its policy
+    description: If set to true, the target processing unit will refresh its policy
       immediately.
     type: boolean
     exposed: true
@@ -89,7 +89,7 @@ attributes:
 
   - name: traceApplicationConnections
     description: |-
-      Instructs the defender to send records for all
+      Instructs the Defender to send records for all
       application-initiated connections for the target processing unit.
     type: boolean
     exposed: true
@@ -107,7 +107,7 @@ attributes:
 
   - name: traceIPTables
     description: |-
-      Instructs the defenders to provide an iptables trace for the target processing
+      Instructs the Defenders to provide an iptables trace for the target processing
       unit.
     type: boolean
     exposed: true
@@ -115,7 +115,7 @@ attributes:
 
   - name: traceNetworkConnections
     description: |-
-      Instructs the defender to send records for all
+      Instructs the Defender to send records for all
       network-initiated connections for the target processing unit.
     type: boolean
     exposed: true

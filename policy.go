@@ -396,7 +396,7 @@ func (o *Policy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *Policy) Doc() string {
 
-	return `Represents the policy primitive used by all Segment policies.`
+	return `Represents the policy primitive used by all Microsegmentation policies.`
 }
 
 func (o *Policy) String() string {
