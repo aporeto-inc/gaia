@@ -487,71 +487,6 @@ func TestValidatePortStringList(t *testing.T) {
 	}
 }
 
-func TestValidateNetwork(t *testing.T) {
-	type args struct {
-		attribute string
-		cidr      string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		wantErr bool
-	}{
-		// valid
-		{
-			"valid CIDR",
-			args{
-				"cidr",
-				"10.0.0.0/8",
-			},
-			false,
-		},
-		{
-			"valid DNS name",
-			args{
-				"cidr",
-				"google.com",
-			},
-			false,
-		},
-		{
-			"valid DNS name",
-			args{
-				"cidr",
-				"*.google.com",
-			},
-			false,
-		},
-
-		// invalid CIDR
-		{
-			"invalid CIDR",
-			args{
-				"cidr",
-				"",
-			},
-			true,
-		},
-
-		// invalid DNn
-		{
-			"invalid DNS Name",
-			args{
-				"cidr",
-				"google@com",
-			},
-			true,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateNetworkOrHostname(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
-				t.Errorf("ValidateNetworkOrHostname() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
-}
-
 func TestValidateNetworkOrHostnameList(t *testing.T) {
 	type args struct {
 		attribute string
@@ -583,6 +518,46 @@ func TestValidateNetworkOrHostnameList(t *testing.T) {
 			args{
 				"nets",
 				[]string{},
+			},
+			true,
+		},
+		{
+			"valid entries with just CIDRs",
+			args{
+				"nets",
+				[]string{"0.0.0.0/0", "!10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"valid entries with except condition operator",
+			args{
+				"nets",
+				[]string{"google.com", "0.0.0.0/0", "!10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"invalid entry with only valid NOT operator",
+			args{
+				"nets",
+				[]string{"!10.0.0.0/8"},
+			},
+			true,
+		},
+		{
+			"invalid entries with without valid CIDR pairing",
+			args{
+				"nets",
+				[]string{"google.com", "!10.0.0.0/8"},
+			},
+			true,
+		},
+		{
+			"invalid entry with multiple NOT operators",
+			args{
+				"nets",
+				[]string{"!!10.0.0.0/8"},
 			},
 			true,
 		},

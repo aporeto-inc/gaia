@@ -95,20 +95,6 @@ func ValidatePortStringList(attribute string, ports []string) error {
 
 var rxDNSName = regexp.MustCompile(`^(\*\.){0,1}([a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62}){1}(\.[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62})*[\._]?$`)
 
-// ValidateNetworkOrHostname validates a CIDR or a hostname.
-func ValidateNetworkOrHostname(attribute string, network string) error {
-
-	if _, _, err := net.ParseCIDR(network); err == nil {
-		return nil
-	}
-
-	if rxDNSName.MatchString(network) {
-		return nil
-	}
-
-	return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a CIDR or hostname", attribute))
-}
-
 // ValidateNetworkOrHostnameList validates a list of networks.
 // The list cannot be empty
 func ValidateNetworkOrHostnameList(attribute string, networks []string) error {
@@ -123,11 +109,21 @@ func ValidateNetworkOrHostnameList(attribute string, networks []string) error {
 // ValidateOptionalNetworkOrHostnameList validates a list of networks.
 // It can be empty.
 func ValidateOptionalNetworkOrHostnameList(attribute string, networks []string) error {
+	var count int
+
+	potentialCIDRS := make([]string, len(networks))
 
 	for _, network := range networks {
-		if err := ValidateNetworkOrHostname(attribute, network); err != nil {
-			return err
+		if rxDNSName.MatchString(network) {
+			continue
 		}
+
+		potentialCIDRS[count] = network
+		count++
+	}
+
+	if err := netutils.ValidateCIDRs(potentialCIDRS[:count]); err != nil {
+		return makeValidationError(attribute, err.Error())
 	}
 
 	return nil
