@@ -150,7 +150,7 @@ attributes:
     subtype: string
     orderable: true
     validations:
-    - $protoports
+    - $serviceports
 
   - name: subject
     description: A tag or tag expression identifying the subject of the policy.

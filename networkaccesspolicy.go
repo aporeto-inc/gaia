@@ -904,7 +904,7 @@ func (o *NetworkAccessPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateProtoPorts("ports", o.Ports); err != nil {
+	if err := ValidateServicePorts("ports", o.Ports); err != nil {
 		errors = errors.Append(err)
 	}
 
