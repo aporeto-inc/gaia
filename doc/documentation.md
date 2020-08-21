@@ -12689,7 +12689,8 @@ propagated it will become a fallback for children namespaces.
 
 Type: `boolean`
 
-If `true`, the relevant flows are logged and available from Microsegmentation Console.
+If `true`, the relevant flows are logged and available from Microsegmentation
+Console.
 Under some advanced scenarios you may wish to set this to `false`, such as to
 save space or
 improve performance.
