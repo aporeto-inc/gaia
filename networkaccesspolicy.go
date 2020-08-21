@@ -128,8 +128,10 @@ type NetworkAccessPolicy struct {
 	// Defines the action to apply to a flow.
 	//
 	// - `Allow`: allows the defined traffic.
-	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all policy.
-	// - `Continue`: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.
+	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
+	// policy.
+	// - `Continue`: neither allows or rejects the traffic; useful for applying another
+	// property to the traffic, such as encryption.
 	Action NetworkAccessPolicyActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the
@@ -902,7 +904,7 @@ func (o *NetworkAccessPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateProtoPorts("ports", o.Ports); err != nil {
+	if err := ValidateServicePorts("ports", o.Ports); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1031,8 +1033,10 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		Description: `Defines the action to apply to a flow.
 
 - ` + "`" + `Allow` + "`" + `: allows the defined traffic.
-- ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all policy.
-- ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.`,
+- ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all
+policy.
+- ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another
+property to the traffic, such as encryption.`,
 		Exposed:   true,
 		Name:      "action",
 		Orderable: true,
@@ -1416,8 +1420,10 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Description: `Defines the action to apply to a flow.
 
 - ` + "`" + `Allow` + "`" + `: allows the defined traffic.
-- ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all policy.
-- ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.`,
+- ` + "`" + `Reject` + "`" + `: rejects the defined traffic; useful in conjunction with an allow all
+policy.
+- ` + "`" + `Continue` + "`" + `: neither allows or rejects the traffic; useful for applying another
+property to the traffic, such as encryption.`,
 		Exposed:   true,
 		Name:      "action",
 		Orderable: true,
@@ -1850,8 +1856,10 @@ type SparseNetworkAccessPolicy struct {
 	// Defines the action to apply to a flow.
 	//
 	// - `Allow`: allows the defined traffic.
-	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all policy.
-	// - `Continue`: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.
+	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
+	// policy.
+	// - `Continue`: neither allows or rejects the traffic; useful for applying another
+	// property to the traffic, such as encryption.
 	Action *NetworkAccessPolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// Defines for how long the policy will be active according to the

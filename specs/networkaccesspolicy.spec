@@ -49,9 +49,10 @@ attributes:
       Defines the action to apply to a flow.
 
       - `Allow`: allows the defined traffic.
-      - `Reject`: rejects the defined traffic; useful in conjunction with an allow all policy.
-      - `Continue`: neither allows or rejects the traffic; useful for applying another property to the traffic, such as encryption.
-
+      - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
+      policy.
+      - `Continue`: neither allows or rejects the traffic; useful for applying another
+      property to the traffic, such as encryption.
     type: enum
     exposed: true
     allowed_choices:
@@ -147,7 +148,7 @@ attributes:
     subtype: string
     orderable: true
     validations:
-    - $protoports
+    - $serviceports
 
   - name: subject
     description: A tag or tag expression identifying the subject of the policy.

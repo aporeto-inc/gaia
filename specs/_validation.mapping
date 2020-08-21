@@ -98,10 +98,6 @@ $protocols:
   elemental:
     name: ValidateProtocolList
 
-$protoports:
-  elemental:
-    name: ValidateProtoPorts
-
 $samlprovider:
   elemental:
     name: ValidateSAMLProvider
