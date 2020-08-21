@@ -7,7 +7,8 @@ model:
   group: policy/networking
   description: |-
     An external network represents a random network or IP address that is not
-    managed by Microsegmentation. External networks can be used in network policies to
+    managed by Microsegmentation. External networks can be used in network policies
+    to
     allow traffic from or to the declared network or IP, using the provided
     protocol and port (or range of ports). If you want to describe the internet
     (i.e., anywhere), use `0.0.0.0/0` as the address and `1-65000` for the ports.
