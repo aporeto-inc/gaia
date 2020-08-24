@@ -724,7 +724,7 @@ func isNumberBetween(s string, min int, max int) (int, error) {
 		return -1, fmt.Errorf("'%s' is not a valid number", s)
 	}
 
-	if i < min || i > 255 {
+	if i < min || i > max {
 		return -1, fmt.Errorf("'%d' should be between %d and %d", i, min, max)
 	}
 
