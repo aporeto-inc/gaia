@@ -376,13 +376,6 @@ func TestValidateServicePorts(t *testing.T) {
 			true,
 		},
 		{
-			"icmp/256 is not valid",
-			args{
-				[]string{"icmp/256"},
-			},
-			true,
-		},
-		{
 			"icmp/2,3 is not valid",
 			args{
 				[]string{"icmp/2,3"},
