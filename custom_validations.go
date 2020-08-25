@@ -652,7 +652,7 @@ func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode st
 
 	// Validate type
 	if _, err := isNumberBetween(parts[0], 0, 255); err != nil {
-		return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid type notation. %s", protocol, err.Error()))
+		return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid type notation. %s", protocol, err))
 	}
 
 	// Validate codes
@@ -669,13 +669,13 @@ func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode st
 				// Validate left part
 				codeLeft, err := isNumberBetween(rangeParts[0], 0, 255)
 				if err != nil {
-					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation. %s", protocol, err.Error()))
+					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation. %s", protocol, err))
 				}
 
 				// Validate right part
 				codeRight, err := isNumberBetween(rangeParts[1], 0, 255)
 				if err != nil {
-					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation. %s", protocol, err.Error()))
+					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation. %s", protocol, err))
 				}
 
 				// Validate order
@@ -686,7 +686,7 @@ func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode st
 			} else {
 				// Validate unique code
 				if _, err := isNumberBetween(code, 0, 255); err != nil {
-					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation: %s", protocol, err.Error()))
+					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation: %s", protocol, err))
 				}
 			}
 		}
