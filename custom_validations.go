@@ -468,8 +468,8 @@ func ValidateOptionalTimeDuration(attribute string, duration string) error {
 	return ValidateTimeDuration(attribute, duration)
 }
 
-// hostname regex from github.com/go-playground/validator
-var hostnameRegexRFC1123 = regexp.MustCompile(`^[a-zA-Z0-9][a-zA-Z0-9\-\.]+[a-z-Az0-9]$`)
+// FQDN regex from github.com/go-playground/validator
+var fqdnRegexRFC1123 = regexp.MustCompile(`^([a-zA-Z0-9]{1}[a-zA-Z0-9_-]{0,62})(\.[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62})*?(\.[a-zA-Z]{1}[a-zA-Z0-9]{0,62})\.?$`)
 
 func isFQDN(val string) bool {
 
@@ -477,11 +477,7 @@ func isFQDN(val string) bool {
 		return false
 	}
 
-	if val[len(val)-1] == '.' {
-		val = val[0 : len(val)-1]
-	}
-
-	return hostnameRegexRFC1123.MatchString(val)
+	return fqdnRegexRFC1123.MatchString(val)
 }
 
 func ipNetFromString(ip string) (*net.IPNet, error) {

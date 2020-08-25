@@ -1943,6 +1943,20 @@ func Test_isFQDN(t *testing.T) {
 			},
 			false,
 		},
+		{
+			"invalid one",
+			args{
+				"sdfjsdjfs",
+			},
+			false,
+		},
+		{
+			"empty",
+			args{
+				"",
+			},
+			false,
+		},
 	}
 
 	for _, tt := range tests {
