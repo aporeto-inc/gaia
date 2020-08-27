@@ -1205,7 +1205,7 @@ Restricts the number of times the issued token can be used.
 
 ##### `realm` [`required`]
 
-Type: `enum(AWSSecurityToken | Certificate | Google | LDAP | Vince | GCPIdentityToken | AzureIdentityToken | OIDC | SAML | AporetoIdentityToken)`
+Type: `enum(AWSSecurityToken | Certificate | Google | LDAP | Vince | GCPIdentityToken | AzureIdentityToken | OIDC | SAML | AporetoIdentityToken | PCIdentityToken)`
 
 The authentication realm. This will define how to verify
 credentials from internal or external source of authentication.
