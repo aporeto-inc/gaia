@@ -6994,12 +6994,6 @@ Type: `string`
 
 The name of the tenant.
 
-##### `roleTypeID`
-
-Type: `string`
-
-The user role type ID applied to the tenant.
-
 ## core/workflow
 
 ### Recipe

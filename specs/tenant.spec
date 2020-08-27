@@ -17,9 +17,3 @@ attributes:
     type: string
     exposed: true
     transient: true
-
-  - name: roleTypeID
-    description: The user role type ID applied to the tenant.
-    type: string
-    exposed: true
-    transient: true

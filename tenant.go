@@ -83,9 +83,6 @@ type Tenant struct {
 	// The name of the tenant.
 	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
-	// The user role type ID applied to the tenant.
-	RoleTypeID string `json:"roleTypeID" msgpack:"roleTypeID" bson:"-" mapstructure:"roleTypeID,omitempty"`
-
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -180,8 +177,7 @@ func (o *Tenant) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseTenant{
-			Name:       &o.Name,
-			RoleTypeID: &o.RoleTypeID,
+			Name: &o.Name,
 		}
 	}
 
@@ -190,8 +186,6 @@ func (o *Tenant) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "name":
 			sp.Name = &(o.Name)
-		case "roleTypeID":
-			sp.RoleTypeID = &(o.RoleTypeID)
 		}
 	}
 
@@ -207,9 +201,6 @@ func (o *Tenant) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseTenant)
 	if so.Name != nil {
 		o.Name = *so.Name
-	}
-	if so.RoleTypeID != nil {
-		o.RoleTypeID = *so.RoleTypeID
 	}
 }
 
@@ -279,8 +270,6 @@ func (o *Tenant) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "name":
 		return o.Name
-	case "roleTypeID":
-		return o.RoleTypeID
 	}
 
 	return nil
@@ -297,15 +286,6 @@ var TenantAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "string",
 	},
-	"RoleTypeID": {
-		AllowedChoices: []string{},
-		ConvertedName:  "RoleTypeID",
-		Description:    `The user role type ID applied to the tenant.`,
-		Exposed:        true,
-		Name:           "roleTypeID",
-		Transient:      true,
-		Type:           "string",
-	},
 }
 
 // TenantLowerCaseAttributesMap represents the map of attribute for Tenant.
@@ -316,15 +296,6 @@ var TenantLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The name of the tenant.`,
 		Exposed:        true,
 		Name:           "name",
-		Transient:      true,
-		Type:           "string",
-	},
-	"roletypeid": {
-		AllowedChoices: []string{},
-		ConvertedName:  "RoleTypeID",
-		Description:    `The user role type ID applied to the tenant.`,
-		Exposed:        true,
-		Name:           "roleTypeID",
 		Transient:      true,
 		Type:           "string",
 	},
@@ -396,9 +367,6 @@ type SparseTenant struct {
 	// The name of the tenant.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
-	// The user role type ID applied to the tenant.
-	RoleTypeID *string `json:"roleTypeID,omitempty" msgpack:"roleTypeID,omitempty" bson:"-" mapstructure:"roleTypeID,omitempty"`
-
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -465,9 +433,6 @@ func (o *SparseTenant) ToPlain() elemental.PlainIdentifiable {
 	out := NewTenant()
 	if o.Name != nil {
 		out.Name = *o.Name
-	}
-	if o.RoleTypeID != nil {
-		out.RoleTypeID = *o.RoleTypeID
 	}
 
 	return out
