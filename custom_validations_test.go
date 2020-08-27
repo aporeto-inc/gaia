@@ -213,6 +213,7 @@ func TestValidateServicePorts(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
+		// Service Ports
 		{
 			"valid serviceports",
 			args{
@@ -321,6 +322,126 @@ func TestValidateServicePorts(t *testing.T) {
 			"nil serviceports",
 			args{
 				nil,
+			},
+			false,
+		},
+		// ICMP Type/codes
+		{
+			"icmp alone is valid",
+			args{
+				[]string{"icmp"},
+			},
+			false,
+		},
+		{
+			"icmp6 alone is valid",
+			args{
+				[]string{"icmp6"},
+			},
+			false,
+		},
+		{
+			"icmp/ is an error",
+			args{
+				[]string{"icmp/"},
+			},
+			true,
+		},
+		{
+			"icmp6/ is an error",
+			args{
+				[]string{"icmp6/"},
+			},
+			true,
+		},
+		{
+			"icmp/0 is valid",
+			args{
+				[]string{"icmp/0"},
+			},
+			false,
+		},
+		{
+			"icmp/255 is valid",
+			args{
+				[]string{"icmp/255"},
+			},
+			false,
+		},
+		{
+			"icmp/256 is not valid",
+			args{
+				[]string{"icmp/256"},
+			},
+			true,
+		},
+		{
+			"icmp/2,3 is not valid",
+			args{
+				[]string{"icmp/2,3"},
+			},
+			true,
+		},
+		{
+			"icmp/2/3:10 is valid",
+			args{
+				[]string{"icmp/2/3:10"},
+			},
+			false,
+		},
+		{
+			"icmp/2/3: is not valid",
+			args{
+				[]string{"icmp/2/3:"},
+			},
+			true,
+		},
+		{
+			"icmp/2/3/5: is not valid",
+			args{
+				[]string{"icmp/2/3/5"},
+			},
+			true,
+		},
+		{
+			"icmp/2/3:1 is not valid",
+			args{
+				[]string{"icmp/2/3:1"},
+			},
+			true,
+		},
+		{
+			"icmp/2/3:10:20 is not valid",
+			args{
+				[]string{"icmp/2/3:10:20"},
+			},
+			true,
+		},
+		{
+			"icmp/2/3:256 is not valid",
+			args{
+				[]string{"icmp/2/3:256"},
+			},
+			true,
+		},
+		{
+			"icmp/2/256:256 is not valid",
+			args{
+				[]string{"icmp/2/256:256"},
+			},
+			true,
+		},
+		{
+			"icmp/2/2,3:10 is valid",
+			args{
+				[]string{"icmp/2/2,3:10"},
+			},
+			false,
+		},
+		{
+			"icmp/2/3,5,20,40 is valid",
+			args{
+				[]string{"icmp/2/3,5,20,40"},
 			},
 			false,
 		},
@@ -1780,53 +1901,6 @@ func TestValidateHostService(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateHostServices(tt.hs); (err != nil) != tt.wantErr {
 				t.Errorf("TestValidateHostServicesList() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
-}
-
-func TestValidateProtoPorts(t *testing.T) {
-	tests := []struct {
-		name     string
-		services []string
-		wantErr  bool
-	}{
-		{
-			"valid services",
-			[]string{"tcp/80", "udp/80"},
-			false,
-		},
-		{
-			"invalid protocol",
-			[]string{"tcp/80", "bro/80"},
-			true,
-		},
-		{
-			"invalid port format",
-			[]string{"tcp/80", "bro/code"},
-			true,
-		},
-		{
-			"invalid port number",
-			[]string{"tcp/80", "bro/10000"},
-			true,
-		},
-		{
-			"nil services",
-			nil,
-			false,
-		},
-		{
-			"empty services",
-			[]string{},
-			false,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateProtoPorts("ports", tt.services); (err != nil) != tt.wantErr {
-				t.Errorf("TestValidateProtoPorts() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

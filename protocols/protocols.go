@@ -149,6 +149,7 @@ const (
 	L4ProtocolShim6          = "SHIM6"
 	L4ProtocolWESP           = "WESP"
 	L4ProtocolROHC           = "ROHC"
+	L4ProtocolICMP6          = "ICMP6"
 )
 
 // L4ProtocolNumbers contains the list of all IANA protocols organized by numbers
@@ -300,6 +301,7 @@ func init() {
 	L4ProtocolNumbers[140] = L4ProtocolShim6
 	L4ProtocolNumbers[141] = L4ProtocolWESP
 	L4ProtocolNumbers[142] = L4ProtocolROHC
+	L4ProtocolNumbers[143] = L4ProtocolICMP6
 
 	L4ProtocolNumbersMap = map[int]string{
 		0:   L4ProtocolHOPOPT,
@@ -440,6 +442,7 @@ func init() {
 		140: L4ProtocolShim6,
 		141: L4ProtocolWESP,
 		142: L4ProtocolROHC,
+		143: L4ProtocolICMP6,
 	}
 
 	L4ProtocolNames = map[string]int{
@@ -581,6 +584,7 @@ func init() {
 		L4ProtocolShim6:          140,
 		L4ProtocolWESP:           141,
 		L4ProtocolROHC:           142,
+		L4ProtocolICMP6:          143,
 	}
 }
 

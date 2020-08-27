@@ -569,34 +569,6 @@ func ValidateHostServices(hs *HostService) error {
 	return nil
 }
 
-// ValidateProtoPorts validates a list of protocol/ports.
-func ValidateProtoPorts(attribute string, services []string) error {
-
-	for _, service := range services {
-		if err := ValidateProtoPort(attribute, service); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ValidateProtoPort validates protocol/port.
-func ValidateProtoPort(attribute string, service string) error {
-
-	portSubString, _, err := portutils.ExtractPortsAndProtocol(service)
-	if err != nil {
-		return makeValidationError(attribute, fmt.Sprintf("invalid format: %s", err))
-	}
-
-	_, err = portutils.ConvertToSinglePort(portSubString)
-	if err != nil {
-		return makeValidationError(attribute, fmt.Sprintf("invalid port: %s", err))
-	}
-
-	return nil
-}
-
 // ValidateHostServicesNonOverlapPorts validates a list of processing unit services has no overlap with any given parameter.
 func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 
@@ -674,12 +646,89 @@ func ValidateServicePort(attribute string, servicePort string) error {
 		return nil
 	}
 
-	if upperProto != protocols.L4ProtocolTCP && upperProto != protocols.L4ProtocolUDP {
-		return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used with ports", upperProto))
+	switch upperProto {
+	case protocols.L4ProtocolTCP, protocols.L4ProtocolUDP:
+		ports := parts[1]
+		return ValidatePortString(attribute, ports)
+
+	case protocols.L4ProtocolICMP, protocols.L4ProtocolICMP6:
+		typeCode := parts[1]
+		return ValidateICMPTypeCodeNotation(attribute, upperProto, typeCode)
 	}
 
-	ports := parts[1]
-	return ValidatePortString(attribute, ports)
+	return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used with ports", upperProto))
+}
+
+// ValidateICMPTypeCodeNotation validates the type code for ICMP and ICMP6
+// Accepted notations: type/code with
+// - Type is between 0 and 255. Only 1 type at a type (ex: 1,3 is not accepted)
+// - Code can be between 0 and 255. Can be a combination of list (ex: 2,3) and range (2,3:35)
+func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode string) error {
+
+	if typeCode == "" {
+		return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has missing type/code information", protocol))
+	}
+
+	parts := strings.SplitN(typeCode, "/", 2)
+
+	// Validate type
+	if _, err := isNumberBetween(parts[0], 0, 255); err != nil {
+		return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid type notation. %s", protocol, err))
+	}
+
+	// Validate codes
+	if len(parts) == 2 {
+		codes := strings.Split(parts[1], ",")
+
+		for _, code := range codes {
+
+			// Validate code range "x:y" with x < y.
+			if strings.Contains(code, ":") {
+
+				rangeParts := strings.SplitN(code, ":", 2)
+
+				// Validate left part
+				codeLeft, err := isNumberBetween(rangeParts[0], 0, 255)
+				if err != nil {
+					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation. %s", protocol, err))
+				}
+
+				// Validate right part
+				codeRight, err := isNumberBetween(rangeParts[1], 0, 255)
+				if err != nil {
+					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation. %s", protocol, err))
+				}
+
+				// Validate order
+				if codeLeft >= codeRight {
+					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code range order", protocol))
+				}
+
+			} else {
+				// Validate unique code
+				if _, err := isNumberBetween(code, 0, 255); err != nil {
+					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation: %s", protocol, err))
+				}
+			}
+		}
+	}
+
+	return nil
+}
+
+// isNumberBetween check if a string is a number within the min and max boundaries.
+func isNumberBetween(s string, min int, max int) (int, error) {
+
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		return -1, fmt.Errorf("'%s' is not a valid number", s)
+	}
+
+	if i < min || i > max {
+		return -1, fmt.Errorf("'%d' should be between %d and %d", i, min, max)
+	}
+
+	return i, nil
 }
 
 // ValidateAudience validates an audience string.
