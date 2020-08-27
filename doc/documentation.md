@@ -6973,6 +6973,33 @@ Type: `[]string`
 
 List of all values.
 
+## core/tenant
+
+### Tenant
+
+Can be used to create a tenant's namespace and API authorization policy to grant
+access.
+
+#### Relations
+
+##### `POST /tenants`
+
+Creates the tenant's namespace and API authorization policy.
+
+#### Attributes
+
+##### `name`
+
+Type: `string`
+
+The name of the tenant.
+
+##### `roleTypeID`
+
+Type: `string`
+
+The user role type ID applied to the tenant.
+
 ## core/workflow
 
 ### Recipe

@@ -138,6 +138,7 @@ var (
 		"tag":                    TagIdentity,
 		"taginject":              TagInjectIdentity,
 		"tagvalue":               TagValueIdentity,
+		"tenant":                 TenantIdentity,
 		"textindex":              TextIndexIdentity,
 
 		"token":            TokenIdentity,
@@ -289,6 +290,7 @@ var (
 		"tags":                     TagIdentity,
 		"taginjects":               TagInjectIdentity,
 		"tagvalues":                TagValueIdentity,
+		"tenants":                  TenantIdentity,
 		"textindexes":              TextIndexIdentity,
 
 		"tokens":             TokenIdentity,
@@ -878,6 +880,7 @@ var (
 		},
 		"taginject": nil,
 		"tagvalue":  nil,
+		"tenant":    nil,
 		"textindex": {
 			{"objectNamespace"},
 			{"objectNamespace", "objectIdentity", "objectID"},
@@ -1205,6 +1208,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewTagInject()
 	case TagValueIdentity:
 		return NewTagValue()
+	case TenantIdentity:
+		return NewTenant()
 	case TextIndexIdentity:
 		return NewTextIndex()
 	case TokenIdentity:
@@ -1482,6 +1487,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseTagInject()
 	case TagValueIdentity:
 		return NewSparseTagValue()
+	case TenantIdentity:
+		return NewSparseTenant()
 	case TextIndexIdentity:
 		return NewSparseTextIndex()
 	case TokenIdentity:
@@ -1769,6 +1776,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &TagInjectsList{}
 	case TagValueIdentity:
 		return &TagValuesList{}
+	case TenantIdentity:
+		return &TenantsList{}
 	case TextIndexIdentity:
 		return &TextIndexsList{}
 	case TokenIdentity:
@@ -2046,6 +2055,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseTagInjectsList{}
 	case TagValueIdentity:
 		return &SparseTagValuesList{}
+	case TenantIdentity:
+		return &SparseTenantsList{}
 	case TextIndexIdentity:
 		return &SparseTextIndexsList{}
 	case TokenIdentity:
@@ -2216,6 +2227,7 @@ func AllIdentities() []elemental.Identity {
 		TagIdentity,
 		TagInjectIdentity,
 		TagValueIdentity,
+		TenantIdentity,
 		TextIndexIdentity,
 		TokenIdentity,
 		TokenScopePolicyIdentity,
@@ -2608,6 +2620,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case TagInjectIdentity:
 		return []string{}
 	case TagValueIdentity:
+		return []string{}
+	case TenantIdentity:
 		return []string{}
 	case TextIndexIdentity:
 		return []string{}
