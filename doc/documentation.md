@@ -6988,6 +6988,12 @@ Creates the tenant's namespace and API authorization policy.
 
 #### Attributes
 
+##### `externalID`
+
+Type: `string`
+
+The external ID of the tenant.
+
 ##### `name`
 
 Type: `string`

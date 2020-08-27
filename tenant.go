@@ -80,6 +80,9 @@ func (o TenantsList) Version() int {
 
 // Tenant represents the model of a tenant
 type Tenant struct {
+	// The external ID of the tenant.
+	ExternalID string `json:"externalID" msgpack:"externalID" bson:"-" mapstructure:"externalID,omitempty"`
+
 	// The name of the tenant.
 	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
@@ -177,13 +180,16 @@ func (o *Tenant) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseTenant{
-			Name: &o.Name,
+			ExternalID: &o.ExternalID,
+			Name:       &o.Name,
 		}
 	}
 
 	sp := &SparseTenant{}
 	for _, f := range fields {
 		switch f {
+		case "externalID":
+			sp.ExternalID = &(o.ExternalID)
 		case "name":
 			sp.Name = &(o.Name)
 		}
@@ -199,6 +205,9 @@ func (o *Tenant) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseTenant)
+	if so.ExternalID != nil {
+		o.ExternalID = *so.ExternalID
+	}
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
@@ -268,6 +277,8 @@ func (*Tenant) AttributeSpecifications() map[string]elemental.AttributeSpecifica
 func (o *Tenant) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "externalID":
+		return o.ExternalID
 	case "name":
 		return o.Name
 	}
@@ -277,6 +288,15 @@ func (o *Tenant) ValueForAttribute(name string) interface{} {
 
 // TenantAttributesMap represents the map of attribute for Tenant.
 var TenantAttributesMap = map[string]elemental.AttributeSpecification{
+	"ExternalID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalID",
+		Description:    `The external ID of the tenant.`,
+		Exposed:        true,
+		Name:           "externalID",
+		Transient:      true,
+		Type:           "string",
+	},
 	"Name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -290,6 +310,15 @@ var TenantAttributesMap = map[string]elemental.AttributeSpecification{
 
 // TenantLowerCaseAttributesMap represents the map of attribute for Tenant.
 var TenantLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"externalid": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalID",
+		Description:    `The external ID of the tenant.`,
+		Exposed:        true,
+		Name:           "externalID",
+		Transient:      true,
+		Type:           "string",
+	},
 	"name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -364,6 +393,9 @@ func (o SparseTenantsList) Version() int {
 
 // SparseTenant represents the sparse version of a tenant.
 type SparseTenant struct {
+	// The external ID of the tenant.
+	ExternalID *string `json:"externalID,omitempty" msgpack:"externalID,omitempty" bson:"-" mapstructure:"externalID,omitempty"`
+
 	// The name of the tenant.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
@@ -431,6 +463,9 @@ func (o *SparseTenant) Version() int {
 func (o *SparseTenant) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewTenant()
+	if o.ExternalID != nil {
+		out.ExternalID = *o.ExternalID
+	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
