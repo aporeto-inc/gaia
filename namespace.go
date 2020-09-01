@@ -970,6 +970,7 @@ This is map indexed by the ID of the certificate.`,
 	"SSHCAEnabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SSHCAEnabled",
+		Deprecated:     true,
 		Description: `If ` + "`" + `true` + "`" + `, an SSH certificate authority (CA) will be generated for the
 namespace. This CA can be deployed in SSH server to validate SSH certificates
 issued by the controller.`,
@@ -1332,6 +1333,7 @@ This is map indexed by the ID of the certificate.`,
 	"sshcaenabled": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SSHCAEnabled",
+		Deprecated:     true,
 		Description: `If ` + "`" + `true` + "`" + `, an SSH certificate authority (CA) will be generated for the
 namespace. This CA can be deployed in SSH server to validate SSH certificates
 issued by the controller.`,

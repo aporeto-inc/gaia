@@ -82,6 +82,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
+    deprecated: true
     orderable: true
 
   - name: associatedLocalCAID

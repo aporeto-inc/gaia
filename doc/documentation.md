@@ -5134,6 +5134,8 @@ This is map indexed by the ID of the certificate.
 
 ##### `SSHCAEnabled`
 
+_This attribute is deprecated_.
+
 Type: `boolean`
 
 If `true`, an SSH certificate authority (CA) will be generated for the
@@ -6980,6 +6982,14 @@ List of all values.
 Can be used to create a tenant's namespace and API authorization policy to grant
 access.
 
+#### Example
+
+```json
+{
+  "name": "acme"
+}
+```
+
 #### Relations
 
 ##### `POST /tenants`
@@ -6994,7 +7004,7 @@ Type: `string`
 
 The external ID of the tenant.
 
-##### `name`
+##### `name` [`required`,`format=^[a-zA-Z0-9-_/]+$`]
 
 Type: `string`
 
