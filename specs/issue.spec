@@ -79,6 +79,7 @@ attributes:
     - OIDC
     - SAML
     - AporetoIdentityToken
+    - PCIdentityToken
     example_value: Vince
 
   - name: restrictedNamespace
