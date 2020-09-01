@@ -78,8 +78,6 @@ attributes:
     - AzureIdentityToken
     - OIDC
     - SAML
-    - PCC
-    - PCCIdentityToken
     - AporetoIdentityToken
     example_value: Vince
 

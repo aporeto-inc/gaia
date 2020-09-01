@@ -1205,7 +1205,7 @@ Restricts the number of times the issued token can be used.
 
 ##### `realm` [`required`]
 
-Type: `enum(AWSSecurityToken | Certificate | Google | LDAP | Vince | GCPIdentityToken | AzureIdentityToken | OIDC | SAML | PCC | PCCIdentityToken | AporetoIdentityToken)`
+Type: `enum(AWSSecurityToken | Certificate | Google | LDAP | Vince | GCPIdentityToken | AzureIdentityToken | OIDC | SAML | AporetoIdentityToken)`
 
 The authentication realm. This will define how to verify
 credentials from internal or external source of authentication.
@@ -11832,7 +11832,8 @@ Namespace tag attached to an entity.
 ### ExternalNetwork
 
 An external network represents a random network or IP address that is not
-managed by Microsegmentation. External networks can be used in network policies to
+managed by Microsegmentation. External networks can be used in network policies
+to
 allow traffic from or to the declared network or IP, using the provided
 protocol and port (or range of ports). If you want to describe the internet
 (i.e., anywhere), use `0.0.0.0/0` as the address and `1-65000` for the ports.
@@ -12688,7 +12689,8 @@ propagated it will become a fallback for children namespaces.
 
 Type: `boolean`
 
-If `true`, the relevant flows are logged and available from Microsegmentation Console.
+If `true`, the relevant flows are logged and available from Microsegmentation
+Console.
 Under some advanced scenarios you may wish to set this to `false`, such as to
 save space or
 improve performance.
