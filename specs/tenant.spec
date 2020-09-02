@@ -16,6 +16,8 @@ attributes:
     description: The external ID of the tenant.
     type: string
     exposed: true
+    required: true
+    example_value: customer-123
     transient: true
 
   - name: name

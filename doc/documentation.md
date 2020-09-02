@@ -6986,6 +6986,7 @@ access.
 
 ```json
 {
+  "externalID": "customer-123",
   "name": "acme"
 }
 ```
@@ -6998,7 +6999,7 @@ Creates the tenant's namespace and API authorization policy.
 
 #### Attributes
 
-##### `externalID`
+##### `externalID` [`required`]
 
 Type: `string`
 
