@@ -54,10 +54,6 @@ $metadata:
   elemental:
     name: ValidateMetadata
 
-$networkorhostname:
-  elemental:
-    name: ValidateNetworkOrHostname
-
 $networksorhostnames:
   elemental:
     name: ValidateNetworkOrHostnameList
