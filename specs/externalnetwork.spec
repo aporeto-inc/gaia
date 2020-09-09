@@ -59,32 +59,16 @@ attributes:
     validations:
     - $networksorhostnames
 
-  - name: ports
-    description: List of single ports or range (xx:yy).
-    type: list
-    exposed: true
-    subtype: string
-    stored: true
-    deprecated: true
-    validations:
-    - $ports
-
-  - name: protocols
-    description: List of protocols (`tcp`, `udp`, or protocol number).
-    type: list
-    exposed: true
-    subtype: string
-    stored: true
-    deprecated: true
-    validations:
-    - $protocols
-
   - name: servicePorts
     description: List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
     type: list
     exposed: true
     subtype: string
     stored: true
+    required: true
+    example_value:
+    - tcp/80
+    - udp/80:100
     validations:
     - $serviceports
 
