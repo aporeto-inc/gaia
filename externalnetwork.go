@@ -143,17 +143,11 @@ type ExternalNetwork struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// List of single ports or range (xx:yy).
-	Ports []string `json:"ports" msgpack:"ports" bson:"ports" mapstructure:"ports,omitempty"`
-
 	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
-	// List of protocols (`tcp`, `udp`, or protocol number).
-	Protocols []string `json:"protocols" msgpack:"protocols" bson:"protocols" mapstructure:"protocols,omitempty"`
 
 	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
 	ServicePorts []string `json:"servicePorts" msgpack:"servicePorts" bson:"serviceports" mapstructure:"servicePorts,omitempty"`
@@ -185,10 +179,8 @@ func NewExternalNetwork() *ExternalNetwork {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Entries:        []string{},
-		Protocols:      []string{},
 		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
-		Ports:          []string{},
 		Metadata:       []string{},
 		ServicePorts:   []string{},
 		Type:           ExternalNetworkTypeSubnet,
@@ -238,10 +230,8 @@ func (o *ExternalNetwork) GetBSON() (interface{}, error) {
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
-	s.Ports = o.Ports
 	s.Propagate = o.Propagate
 	s.Protected = o.Protected
-	s.Protocols = o.Protocols
 	s.ServicePorts = o.ServicePorts
 	s.Type = o.Type
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -278,10 +268,8 @@ func (o *ExternalNetwork) SetBSON(raw bson.Raw) error {
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
-	o.Ports = s.Ports
 	o.Propagate = s.Propagate
 	o.Protected = s.Protected
-	o.Protocols = s.Protocols
 	o.ServicePorts = s.ServicePorts
 	o.Type = s.Type
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -554,10 +542,8 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
-			Ports:                &o.Ports,
 			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
-			Protocols:            &o.Protocols,
 			ServicePorts:         &o.ServicePorts,
 			Type:                 &o.Type,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
@@ -596,14 +582,10 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "ports":
-			sp.Ports = &(o.Ports)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "protocols":
-			sp.Protocols = &(o.Protocols)
 		case "servicePorts":
 			sp.ServicePorts = &(o.ServicePorts)
 		case "type":
@@ -668,17 +650,11 @@ func (o *ExternalNetwork) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
-	if so.Ports != nil {
-		o.Ports = *so.Ports
-	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
-	}
-	if so.Protocols != nil {
-		o.Protocols = *so.Protocols
 	}
 	if so.ServicePorts != nil {
 		o.ServicePorts = *so.ServicePorts
@@ -754,12 +730,8 @@ func (o *ExternalNetwork) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidatePortStringList("ports", o.Ports); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := ValidateProtocolList("protocols", o.Protocols); err != nil {
-		errors = errors.Append(err)
+	if err := elemental.ValidateRequiredExternal("servicePorts", o.ServicePorts); err != nil {
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := ValidateServicePorts("servicePorts", o.ServicePorts); err != nil {
@@ -830,14 +802,10 @@ func (o *ExternalNetwork) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "ports":
-		return o.Ports
 	case "propagate":
 		return o.Propagate
 	case "protected":
 		return o.Protected
-	case "protocols":
-		return o.Protocols
 	case "servicePorts":
 		return o.ServicePorts
 	case "type":
@@ -1025,17 +993,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"Ports": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Ports",
-		Deprecated:     true,
-		Description:    `List of single ports or range (xx:yy).`,
-		Exposed:        true,
-		Name:           "ports",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"Propagate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -1060,23 +1017,13 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Protocols": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Protocols",
-		Deprecated:     true,
-		Description:    `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
-		Exposed:        true,
-		Name:           "protocols",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"ServicePorts": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ServicePorts",
 		Description:    `List of protocol/ports ` + "`" + `(tcp/80)` + "`" + ` or ` + "`" + `(udp/80:100)` + "`" + `.`,
 		Exposed:        true,
 		Name:           "servicePorts",
+		Required:       true,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
@@ -1316,17 +1263,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"ports": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Ports",
-		Deprecated:     true,
-		Description:    `List of single ports or range (xx:yy).`,
-		Exposed:        true,
-		Name:           "ports",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"propagate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -1351,23 +1287,13 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"protocols": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Protocols",
-		Deprecated:     true,
-		Description:    `List of protocols (` + "`" + `tcp` + "`" + `, ` + "`" + `udp` + "`" + `, or protocol number).`,
-		Exposed:        true,
-		Name:           "protocols",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"serviceports": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ServicePorts",
 		Description:    `List of protocol/ports ` + "`" + `(tcp/80)` + "`" + ` or ` + "`" + `(udp/80:100)` + "`" + `.`,
 		Exposed:        true,
 		Name:           "servicePorts",
+		Required:       true,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
@@ -1542,17 +1468,11 @@ type SparseExternalNetwork struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// List of single ports or range (xx:yy).
-	Ports *[]string `json:"ports,omitempty" msgpack:"ports,omitempty" bson:"ports,omitempty" mapstructure:"ports,omitempty"`
-
 	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
-
-	// List of protocols (`tcp`, `udp`, or protocol number).
-	Protocols *[]string `json:"protocols,omitempty" msgpack:"protocols,omitempty" bson:"protocols,omitempty" mapstructure:"protocols,omitempty"`
 
 	// List of protocol/ports `(tcp/80)` or `(udp/80:100)`.
 	ServicePorts *[]string `json:"servicePorts,omitempty" msgpack:"servicePorts,omitempty" bson:"serviceports,omitempty" mapstructure:"servicePorts,omitempty"`
@@ -1655,17 +1575,11 @@ func (o *SparseExternalNetwork) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
-	if o.Ports != nil {
-		s.Ports = o.Ports
-	}
 	if o.Propagate != nil {
 		s.Propagate = o.Propagate
 	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
-	}
-	if o.Protocols != nil {
-		s.Protocols = o.Protocols
 	}
 	if o.ServicePorts != nil {
 		s.ServicePorts = o.ServicePorts
@@ -1740,17 +1654,11 @@ func (o *SparseExternalNetwork) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
-	if s.Ports != nil {
-		o.Ports = s.Ports
-	}
 	if s.Propagate != nil {
 		o.Propagate = s.Propagate
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
-	}
-	if s.Protocols != nil {
-		o.Protocols = s.Protocols
 	}
 	if s.ServicePorts != nil {
 		o.ServicePorts = s.ServicePorts
@@ -1823,17 +1731,11 @@ func (o *SparseExternalNetwork) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
-	if o.Ports != nil {
-		out.Ports = *o.Ports
-	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
-	}
-	if o.Protocols != nil {
-		out.Protocols = *o.Protocols
 	}
 	if o.ServicePorts != nil {
 		out.ServicePorts = *o.ServicePorts
@@ -2167,10 +2069,8 @@ type mongoAttributesExternalNetwork struct {
 	Name                 string                   `bson:"name"`
 	Namespace            string                   `bson:"namespace"`
 	NormalizedTags       []string                 `bson:"normalizedtags"`
-	Ports                []string                 `bson:"ports"`
 	Propagate            bool                     `bson:"propagate"`
 	Protected            bool                     `bson:"protected"`
-	Protocols            []string                 `bson:"protocols"`
 	ServicePorts         []string                 `bson:"serviceports"`
 	Type                 ExternalNetworkTypeValue `bson:"type"`
 	UpdateIdempotencyKey string                   `bson:"updateidempotencykey"`
@@ -2192,10 +2092,8 @@ type mongoAttributesSparseExternalNetwork struct {
 	Name                 *string                   `bson:"name,omitempty"`
 	Namespace            *string                   `bson:"namespace,omitempty"`
 	NormalizedTags       *[]string                 `bson:"normalizedtags,omitempty"`
-	Ports                *[]string                 `bson:"ports,omitempty"`
 	Propagate            *bool                     `bson:"propagate,omitempty"`
 	Protected            *bool                     `bson:"protected,omitempty"`
-	Protocols            *[]string                 `bson:"protocols,omitempty"`
 	ServicePorts         *[]string                 `bson:"serviceports,omitempty"`
 	Type                 *ExternalNetworkTypeValue `bson:"type,omitempty"`
 	UpdateIdempotencyKey *string                   `bson:"updateidempotencykey,omitempty"`
