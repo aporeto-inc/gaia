@@ -174,8 +174,8 @@ Imports an export of policies and related objects into the namespace.
           "0.0.0.0/0"
         ],
         "name": "all-tcp",
-        "protocols": [
-          "tcp"
+        "servicePorts": [
+          "tcp/1:65535"
         ]
       },
       {
@@ -187,8 +187,8 @@ Imports an export of policies and related objects into the namespace.
           "0.0.0.0/0"
         ],
         "name": "all-udp",
-        "protocols": [
-          "udp"
+        "servicePorts": [
+          "udp/1:65535"
         ]
       }
     ],
@@ -271,8 +271,8 @@ Allows you to import and keep a reference.
           "0.0.0.0/0"
         ],
         "name": "all-tcp",
-        "protocols": [
-          "tcp"
+        "servicePorts": [
+          "tcp/1:65535"
         ]
       },
       {
@@ -284,8 +284,8 @@ Allows you to import and keep a reference.
           "0.0.0.0/0"
         ],
         "name": "all-udp",
-        "protocols": [
-          "udp"
+        "servicePorts": [
+          "udp/1:65535"
         ]
       }
     ],
