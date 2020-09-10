@@ -53,16 +53,16 @@ attributes:
         entries:
         - 0.0.0.0/0
         name: all-tcp
-        protocols:
-        - tcp
+        servicePorts:
+        - tcp/1:65535
       - associatedTags:
         - ext:net=udp
         description: Represents all UDP traffic on any port
         entries:
         - 0.0.0.0/0
         name: all-udp
-        protocols:
-        - udp
+        servicePorts:
+        - udp/1:65535
       networkaccesspolicies:
       - action: Allow
         description: Allows all communication from pu to pu, tcp and udp
