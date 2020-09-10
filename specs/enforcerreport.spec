@@ -6,6 +6,8 @@ model:
   package: zack
   group: core/enforcer
   description: Post a new Defender statistics report.
+  extends:
+  - '@identifiable-stored'
 
 # Attributes
 attributes:
@@ -16,7 +18,7 @@ attributes:
     exposed: true
     example_value: 10
 
-  - name: ID
+  - name: enforcerID
     description: ID of the Defender.
     type: string
     exposed: true
