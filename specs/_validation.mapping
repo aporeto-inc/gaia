@@ -30,6 +30,10 @@ $enforcerprofile:
   elemental:
     name: ValidateEnforcerProfile
 
+$enforcerreport:
+  elemental:
+    name: ValidateEnforcerReport
+
 $hookpolicy:
   elemental:
     name: ValidateHookPolicy

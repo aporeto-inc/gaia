@@ -3593,7 +3593,7 @@ Type: `string`
 
 Identifier of the object.
 
-##### `enforcerID` [`required`]
+##### `enforcerID`
 
 Type: `string`
 

@@ -352,6 +352,25 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 	return nil
 }
 
+// ValidateEnforcerReport validates that an EnforcerReport for backwards compatibility as a result of the usage change of
+// the 'ID' field.
+func ValidateEnforcerReport(report *EnforcerReport) error {
+
+	// backwards compatibility:
+	// deal with the deprecation of the 'ID' field which was previously used by the client to represent the Enforcer ID
+	switch {
+	case report.ID != "" && report.EnforcerID == "":
+		report.EnforcerID = report.ID
+		report.ID = ""
+	case report.ID != "" && report.EnforcerID != "":
+		return makeValidationError("ID", "Both 'ID' and 'enforcerID' cannot be set")
+	case report.ID == "" && report.EnforcerID == "":
+		return makeValidationError("enforcerID", "Attribute 'enforcerID' is required")
+	}
+
+	return nil
+}
+
 // ValidateProcessingUnitPolicy validates a processing unit policy has no action and datapath set to default.
 func ValidateProcessingUnitPolicy(policy *ProcessingUnitPolicy) error {
 

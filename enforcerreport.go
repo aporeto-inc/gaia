@@ -304,10 +304,6 @@ func (o *EnforcerReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("enforcerID", o.EnforcerID); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -318,6 +314,11 @@ func (o *EnforcerReport) Validate() error {
 
 	if err := elemental.ValidateRequiredTime("timestamp", o.Timestamp); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	// Custom object validation.
+	if err := ValidateEnforcerReport(o); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -405,7 +406,6 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID of the Defender.`,
 		Exposed:        true,
 		Name:           "enforcerID",
-		Required:       true,
 		Type:           "string",
 	},
 	"Memory": {
@@ -483,7 +483,6 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Description:    `ID of the Defender.`,
 		Exposed:        true,
 		Name:           "enforcerID",
-		Required:       true,
 		Type:           "string",
 	},
 	"memory": {

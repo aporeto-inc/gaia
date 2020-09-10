@@ -1143,6 +1143,62 @@ AiEA0epxATHNzheAa8ZuiPeNQL6DhoKYz3B+41J2vgVlGZY=
 	}
 }
 
+func TestValidateEnforcerReport_IDFieldCompatibility(t *testing.T) {
+
+	tests := map[string]struct {
+		report *EnforcerReport
+		wantErr bool
+	} {
+		"only the 'ID' field is specified" : {
+			report:  &EnforcerReport{
+				ID: "xxx-xxx-xxx-xxx",
+			},
+			wantErr: false,
+		},
+		"only the 'enforcerID' field is specified" : {
+			report:  &EnforcerReport{
+				EnforcerID: "xxx-xxx-xxx-xxx",
+			},
+			wantErr: false,
+		},
+		"both the 'enforcerID' and 'ID' fields have been left omitted" : {
+			report:  &EnforcerReport{
+				EnforcerID: "",
+				ID: "",
+			},
+			wantErr: true,
+		},
+		"both the 'enforcerID' and 'ID' fields have been provided" : {
+			report:  &EnforcerReport{
+				EnforcerID: "xxx-xxx-xxx-xxx",
+				ID: "xxx-xxx-xxx-xxx",
+			},
+			wantErr: true,
+		},
+	}
+
+	for description, scenario := range tests {
+		t.Run(description, func(t *testing.T) {
+			var err error
+			if err = ValidateEnforcerReport(scenario.report); (err != nil) != scenario.wantErr {
+				t.Errorf("TestValidateEnforcerReport_IDFieldCompatibility() error = %s, expected an error? %t", err, scenario.wantErr)
+			}
+
+			// verify that ONLY the `EnforcerID` field is populated so the backend processors do not need to worry about
+			// dealing with the 'ID' field being set
+			if err == nil {
+				if scenario.report.ID != "" {
+					t.Errorf("Validation passed, but the report's 'ID' field was NOT reset. It contained the value: %s", scenario.report.ID)
+				}
+
+				if scenario.report.EnforcerID == "" {
+					t.Error("Validation passed, but the report's 'enforcerID' field was empty")
+				}
+			}
+		})
+	}
+}
+
 func TestValidateServiceEntity(t *testing.T) {
 	type args struct {
 		service *Service

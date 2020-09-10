@@ -8,6 +8,8 @@ model:
   description: Post a new Defender statistics report.
   extends:
   - '@identifiable-stored'
+  validations:
+  - $enforcerreport
 
 # Attributes
 attributes:
@@ -22,7 +24,6 @@ attributes:
     description: ID of the Defender.
     type: string
     exposed: true
-    required: true
     example_value: xxx-xxx-xxx-xxx
 
   - name: memory
