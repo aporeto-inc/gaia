@@ -10,6 +10,8 @@ model:
   - '@identifiable-stored'
   - '@zoned'
   - '@migratable'
+  validations:
+  - $enforcerreport
 
 # Attributes
 attributes:
@@ -21,12 +23,11 @@ attributes:
     stored: true
     example_value: 10
 
-  - name: ID
+  - name: enforcerID
     description: ID of the Defender.
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: xxx-xxx-xxx-xxx
 
   - name: memory
