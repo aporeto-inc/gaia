@@ -276,16 +276,20 @@ func ValidateServiceEntity(service *Service) error {
 	if service.External {
 
 		if service.Port > 0 {
-			errs = errs.Append(makeValidationError("port", "Port is not needed for third party services"))
+			errs = errs.Append(makeValidationError("port", "Port is not needed for third-party services"))
 		}
 
 		if service.PublicApplicationPort > 0 {
-			errs = errs.Append(makeValidationError("publicApplicationPort", "Public Port is not needed for third party services"))
+			errs = errs.Append(makeValidationError("publicApplicationPort", "Public port is not needed for third-party services"))
 		}
 
 	} else {
 		if service.Port == 0 {
 			errs = errs.Append(makeValidationError("port", "Port is mandatory for services implemented by processing units"))
+		}
+
+		if service.Port != 0 && service.Port == service.PublicApplicationPort {
+			errs = errs.Append(makeValidationError("port", "Port cannot be the same as the public port"))
 		}
 	}
 

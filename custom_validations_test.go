@@ -1566,6 +1566,20 @@ func TestValidateServiceEntity(t *testing.T) {
 			},
 			false,
 		},
+		{
+			"service with port and public port matching fails",
+			args{
+				&Service{
+					IPs:                   []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					AuthorizationType:     ServiceAuthorizationTypeMTLS,
+					TLSType:               ServiceTLSTypeNone,
+					External:              false,
+					Port:                  443,
+					PublicApplicationPort: 443,
+				},
+			},
+			true,
+		},
 		// publicApplicationPort
 		{
 			"external service must not have a publicApplicationPort",

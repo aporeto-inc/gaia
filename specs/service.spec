@@ -8,7 +8,7 @@ model:
   description: |-
     Defines a generic service object at layer 4 or layer 7 that encapsulates the
     description of a microservice. A service exposes APIs and can be implemented
-    through third party entities (such as a cloud provider) or through  processing
+    through third-party entities (such as a cloud provider) or through processing
     units.
   aliases:
   - srv
@@ -54,10 +54,8 @@ attributes:
   - name: IPs
     description: |-
       The list of IP addresses where the service can be accessed. This is an optional
-      attribute and
-      is only required if no host names are provided. The system will automatically
-      resolve IP
-      addresses from host names otherwise.
+      attribute and is only required if no host names are provided. The system will
+      automatically resolve IP addresses from host names otherwise.
     type: list
     exposed: true
     subtype: string
@@ -77,7 +75,7 @@ attributes:
   - name: MTLSCertificateAuthority
     description: |-
       PEM-encoded certificate authority to use to verify client certificates. This
-      only applies if `authorizationType` is set to `MTLS`. If it is not set, 
+      only applies if `authorizationType` is set to `MTLS`. If it is not set,
       Microsegmentation Console's public signing certificate authority will be used.
     type: string
     exposed: true
@@ -149,7 +147,7 @@ attributes:
     description: |-
       Set how to provide a server certificate to the service.
 
-      - `Aporeto`: Generate a certificate signed by the Microsegmentation 
+      - `Aporeto`: Generate a certificate signed by the Microsegmentation
       Console public CA.
       - `LetsEncrypt`: Issue a certificate from Let's Encrypt.
       - `External`: Let you define your own certificate and key to use.
@@ -188,7 +186,7 @@ attributes:
       - `OIDC`: Configures OIDC authorization. You must then set
       `OIDCClientID`,`OIDCClientSecret`, `OIDCProviderURL`.
       - `MTLS`: Configures client certificate authorization. Then you can optionally
-      use `MTLSCertificateAuthority`, otherwise Microsegmentation Console's public 
+      use `MTLSCertificateAuthority`, otherwise Microsegmentation Console's public
       signing certificate will be used.
     type: enum
     exposed: true
@@ -203,8 +201,8 @@ attributes:
   - name: claimsToHTTPHeaderMappings
     description: |-
       Defines a list of mappings between claims and HTTP headers. When these mappings
-      are defined, the Defender will copy the values of the claims to the corresponding 
-      HTTP headers.
+      are defined, the Defender will copy the values of the claims to the
+      corresponding HTTP headers.
     type: refList
     exposed: true
     subtype: claimmapping
@@ -240,9 +238,9 @@ attributes:
   - name: exposedPort
     description: |-
       The port that the service can be accessed on. Note that this is different from
-      the `port` attribute that describes the port that the service is actually 
-      listening on. For example if a load balancer is used, the `exposedPort` is 
-      the port that the load balancer is listening for the service, whereas the 
+      the `port` attribute that describes the port that the service is actually
+      listening on. For example if a load balancer is used, the `exposedPort` is
+      the port that the load balancer is listening for the service, whereas the
       port that the implementation is listening on can be different.
     type: integer
     exposed: true
@@ -282,7 +280,7 @@ attributes:
   - name: port
     description: |-
       The port that the implementation of the service is listening to. It can be
-      different than `exposedPort`. This is needed for port mapping use cases 
+      different than `exposedPort`. This is needed for port mapping use cases
       where there are private and public ports.
     type: integer
     exposed: true
@@ -293,9 +291,9 @@ attributes:
   - name: publicApplicationPort
     description: |-
       A new virtual port that the service can be accessed on using HTTPS. Since the
-      Defender transparently inserts TLS in the application path, you might want 
-      to declare a new port where the Defender listens for TLS. However, the 
-      application does not need to be modified and the Defender will map the 
+      Defender transparently inserts TLS in the application path, you might want
+      to declare a new port where the Defender listens for TLS. However, the
+      application does not need to be modified and the Defender will map the
       traffic to the correct application port. This is useful when
       an application is being accessed from a public network.
     type: integer
@@ -307,8 +305,8 @@ attributes:
   - name: redirectURLOnAuthorizationFailure
     description: |-
       If this is set, the user will be redirected to that URL in case of any
-      authorization failure, allowing you to provide a nice message to the user. 
-      The query parameter `?failure_message=<message>` will be added to that 
+      authorization failure, allowing you to provide a nice message to the user.
+      The query parameter `?failure_message=<message>` will be added to that
       URL explaining the possible reason for the failure.
     type: string
     exposed: true
@@ -330,7 +328,7 @@ attributes:
   - name: trustedCertificateAuthorities
     description: |-
       PEM-encoded certificate authorities to trust when additional hops are needed. It
-      must be set if the service must reach a service marked as `external` or must go 
+      must be set if the service must reach a service marked as `external` or must go
       through an additional TLS termination point like a layer 7 load balancer.
     type: string
     exposed: true
