@@ -288,8 +288,8 @@ func ValidateServiceEntity(service *Service) error {
 			errs = errs.Append(makeValidationError("port", "Port is mandatory for services implemented by processing units"))
 		}
 
-		if service.Port != 0 && service.Port == service.PublicApplicationPort {
-			errs = errs.Append(makeValidationError("port", "Port cannot be the same as the public port"))
+		if service.PublicApplicationPort == service.ExposedPort {
+			errs = errs.Append(makeValidationError("publicApplicationPort", "Public port cannot be the same as the exposed port"))
 		}
 	}
 
