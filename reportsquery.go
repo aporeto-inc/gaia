@@ -24,9 +24,6 @@ const (
 	// ReportsQueryReportDNSLookups represents the value DNSLookups.
 	ReportsQueryReportDNSLookups ReportsQueryReportValue = "DNSLookups"
 
-	// ReportsQueryReportEnforcerTraces represents the value EnforcerTraces.
-	ReportsQueryReportEnforcerTraces ReportsQueryReportValue = "EnforcerTraces"
-
 	// ReportsQueryReportEnforcers represents the value Enforcers.
 	ReportsQueryReportEnforcers ReportsQueryReportValue = "Enforcers"
 
@@ -41,9 +38,6 @@ const (
 
 	// ReportsQueryReportPackets represents the value Packets.
 	ReportsQueryReportPackets ReportsQueryReportValue = "Packets"
-
-	// ReportsQueryReportPingReports represents the value PingReports.
-	ReportsQueryReportPingReports ReportsQueryReportValue = "PingReports"
 )
 
 // ReportsQueryIdentity represents the Identity of the object.
@@ -343,7 +337,7 @@ func (o *ReportsQuery) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("report", string(o.Report), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports"}, false); err != nil {
+	if err := elemental.ValidateStringInList("report", string(o.Report), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "Counters", "Accesses", "DNSLookups"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -469,7 +463,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"Report": {
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "Counters", "Accesses", "DNSLookups"},
 		ConvertedName:  "Report",
 		DefaultValue:   ReportsQueryReportFlows,
 		Description:    `Name of the report type to query.`,
@@ -547,7 +541,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"report": {
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "Counters", "Accesses", "DNSLookups"},
 		ConvertedName:  "Report",
 		DefaultValue:   ReportsQueryReportFlows,
 		Description:    `Name of the report type to query.`,

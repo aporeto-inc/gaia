@@ -15,8 +15,7 @@ model:
 attributes:
   v1:
   - name: descending
-    description: If set, the results will be ordered by time from the most recent
-      to the oldest.
+    description: If set, the results will be ordered by time from the most recent to the oldest.
     type: boolean
     exposed: true
 
@@ -64,11 +63,9 @@ attributes:
     - Files
     - EventLogs
     - Packets
-    - EnforcerTraces
     - Counters
     - Accesses
     - DNSLookups
-    - PingReports
     default_value: Flows
 
   - name: results
