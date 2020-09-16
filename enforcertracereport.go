@@ -404,6 +404,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"enforcerid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "enforcerid",
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the Defender where the trace was collected.`,
 		Exposed:        true,
@@ -414,6 +415,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	},
 	"enforcernamespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "enforcernamespace",
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the Defender where the trace was collected.`,
 		Exposed:        true,
@@ -424,6 +426,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	},
 	"namespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "namespace",
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the processing unit where the trace was collected.`,
 		Exposed:        true,
@@ -434,6 +437,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	},
 	"puid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "puid",
 		ConvertedName:  "PuID",
 		Description:    `ID of the processing unit where the trace was collected.`,
 		Exposed:        true,
@@ -444,6 +448,7 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	},
 	"records": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "records",
 		ConvertedName:  "Records",
 		Description:    `List of iptables trace records collected.`,
 		Name:           "records",

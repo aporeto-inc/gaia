@@ -358,6 +358,7 @@ var ValidateUIParameterLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	},
 	"parameters": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "parameters",
 		ConvertedName:  "Parameters",
 		Description:    `List of parameters to validate.`,
 		Exposed:        true,

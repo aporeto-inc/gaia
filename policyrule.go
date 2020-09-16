@@ -792,6 +792,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	},
 	"name": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "name",
 		ConvertedName:  "Name",
 		Description:    `Name of the entity.`,
 		Exposed:        true,

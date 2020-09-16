@@ -514,6 +514,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"description": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "description",
 		ConvertedName:  "Description",
 		Description:    `Description of the object.`,
 		Exposed:        true,
@@ -561,6 +562,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 	},
 	"name": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "name",
 		ConvertedName:  "Name",
 		Description:    `Name of the entity.`,
 		Exposed:        true,

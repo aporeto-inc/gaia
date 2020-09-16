@@ -882,6 +882,7 @@ georedundancy.`,
 var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "_id",
 		ConvertedName:  "ID",
 		Description:    `DB Identifier of the edge.`,
 		Identifier:     true,
@@ -891,6 +892,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"acceptedflows": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "acceptedflows",
 		ConvertedName:  "AcceptedFlows",
 		Description:    `Number of accepted flows in the edge.`,
 		Exposed:        true,
@@ -900,6 +902,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"bucketday": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "bucketday",
 		ConvertedName:  "BucketDay",
 		Description:    `The date for the day bucket.`,
 		Name:           "bucketDay",
@@ -908,6 +911,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"buckethour": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "buckethour",
 		ConvertedName:  "BucketHour",
 		Description:    `The date for the hour bucket.`,
 		Name:           "bucketHour",
@@ -916,6 +920,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"bucketminute": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "bucketminute",
 		ConvertedName:  "BucketMinute",
 		Description:    `The date for the minute bucket.`,
 		Name:           "bucketMinute",
@@ -924,6 +929,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"bucketmonth": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "bucketmonth",
 		ConvertedName:  "BucketMonth",
 		Description:    `The date for the month bucket.`,
 		Name:           "bucketMonth",
@@ -932,6 +938,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"destinationcontroller": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "destinationcontroller",
 		ConvertedName:  "DestinationController",
 		Description:    `Name of the remote destination controller if different than the current one.`,
 		Exposed:        true,
@@ -941,6 +948,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"destinationid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "destinationid",
 		ConvertedName:  "DestinationID",
 		Description:    `ID of the destination ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -950,6 +958,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"destinationtype": {
 		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemoteController"},
+		BSONFieldName:  "destinationtype",
 		ConvertedName:  "DestinationType",
 		Description:    `Type of the destination ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -959,6 +968,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"encrypted": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "encrypted",
 		ConvertedName:  "Encrypted",
 		Description:    `The number of encrypted flows in the edge.`,
 		Exposed:        true,
@@ -968,6 +978,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"firstseen": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "firstseen",
 		ConvertedName:  "FirstSeen",
 		Description:    `Contains the date when the edge was first seen.`,
 		Exposed:        true,
@@ -977,6 +988,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"flowid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "flowid",
 		ConvertedName:  "FlowID",
 		Description:    `Identifier of the edge.`,
 		Exposed:        true,
@@ -986,6 +998,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"lastseen": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "lastseen",
 		ConvertedName:  "LastSeen",
 		Description:    `Contains the date when the edge was last seen.`,
 		Exposed:        true,
@@ -995,6 +1008,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"namespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "namespace",
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the object that reported the flow.`,
 		Exposed:        true,
@@ -1004,6 +1018,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"observedacceptedflows": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "observedacceptedflows",
 		ConvertedName:  "ObservedAcceptedFlows",
 		Description:    `Number of accepted observed flows.`,
 		Exposed:        true,
@@ -1013,6 +1028,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"observedencrypted": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "observedencrypted",
 		ConvertedName:  "ObservedEncrypted",
 		Description:    `Number of encrypted observed flows.`,
 		Exposed:        true,
@@ -1022,6 +1038,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"observedrejectedflows": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "observedrejectedflows",
 		ConvertedName:  "ObservedRejectedFlows",
 		Description:    `Number of rejected observed flows.`,
 		Exposed:        true,
@@ -1031,6 +1048,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"rejectedflows": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "rejectedflows",
 		ConvertedName:  "RejectedFlows",
 		Description:    `Number of rejected flows in the edge.`,
 		Exposed:        true,
@@ -1040,6 +1058,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"remotenamespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "remotenamespace",
 		ConvertedName:  "RemoteNamespace",
 		Description:    `Namespace of the object that was targeted by the flow.`,
 		Exposed:        true,
@@ -1049,6 +1068,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"sourcecontroller": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "sourcecontroller",
 		ConvertedName:  "SourceController",
 		Description:    `Name of the remote source controller if different than the current one.`,
 		Exposed:        true,
@@ -1058,6 +1078,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"sourceid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "sourceid",
 		ConvertedName:  "SourceID",
 		Description:    `ID of the source ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -1067,6 +1088,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"sourcetype": {
 		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Namespace", "Node", "RemoteController"},
+		BSONFieldName:  "sourcetype",
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source ` + "`" + `GraphNode` + "`" + ` of the edge.`,
 		Exposed:        true,
@@ -1077,6 +1099,7 @@ var GraphEdgeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"zhash": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "zhash",
 		ConvertedName:  "ZHash",
 		Description: `geographical hash of the data. This is used for sharding and
 georedundancy.`,
@@ -1090,6 +1113,7 @@ georedundancy.`,
 	"zone": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "zone",
 		ConvertedName:  "Zone",
 		Description:    `Logical storage zone. Used for sharding.`,
 		Getter:         true,

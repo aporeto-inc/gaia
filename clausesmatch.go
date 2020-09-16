@@ -358,6 +358,7 @@ var ClauseMatchAttributesMap = map[string]elemental.AttributeSpecification{
 var ClauseMatchLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"clauses": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "clauses",
 		ConvertedName:  "Clauses",
 		Description:    `The tag clause to resolve.`,
 		Exposed:        true,

@@ -308,6 +308,7 @@ var SuggestedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 var SuggestedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"networkaccesspolicies": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "networkaccesspolicies",
 		ConvertedName:  "NetworkAccessPolicies",
 		Description:    `List of suggested network policies.`,
 		Exposed:        true,

@@ -1478,7 +1478,14 @@ func init() {
 
 	relationshipsRegistry[FlowReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "ingestionMode",
+						Type: "string",
+					},
+				},
+			},
 		},
 	}
 

@@ -109,36 +109,49 @@ func (o AccessReportsList) Version() int {
 
 // AccessReport represents the model of a accessreport
 type AccessReport struct {
+	// Identifier of the object.
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
 	// Action applied to the access.
-	Action AccessReportActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
+	Action AccessReportActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
 
 	// Hash of the claims used to communicate.
-	ClaimHash string `json:"claimHash" msgpack:"claimHash" bson:"-" mapstructure:"claimHash,omitempty"`
+	ClaimHash string `json:"claimHash" msgpack:"claimHash" bson:"claimhash" mapstructure:"claimHash,omitempty"`
 
 	// Identifier of the Defender.
-	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
+	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the Defender.
-	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the processing unit of the report.
-	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"processingunitid" mapstructure:"processingUnitID,omitempty"`
 
 	// Name of the processing unit of the report.
-	ProcessingUnitName string `json:"processingUnitName" msgpack:"processingUnitName" bson:"-" mapstructure:"processingUnitName,omitempty"`
+	ProcessingUnitName string `json:"processingUnitName" msgpack:"processingUnitName" bson:"processingunitname" mapstructure:"processingUnitName,omitempty"`
 
 	// Namespace of the processing unit of the report.
-	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"processingunitnamespace" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
-	Reason string `json:"reason" msgpack:"reason" bson:"-" mapstructure:"reason,omitempty"`
+	Reason string `json:"reason" msgpack:"reason" bson:"reason" mapstructure:"reason,omitempty"`
 
 	// Date of the report.
-	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"timestamp" mapstructure:"timestamp,omitempty"`
 
 	// Type of the report.
-	Type AccessReportTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type AccessReportTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
+
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
+
+	// Logical storage zone. Used for sharding.
+	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -147,7 +160,8 @@ type AccessReport struct {
 func NewAccessReport() *AccessReport {
 
 	return &AccessReport{
-		ModelVersion: 1,
+		ModelVersion:  1,
+		MigrationsLog: map[string]string{},
 	}
 }
 
@@ -160,12 +174,13 @@ func (o *AccessReport) Identity() elemental.Identity {
 // Identifier returns the value of the object's unique identifier.
 func (o *AccessReport) Identifier() string {
 
-	return ""
+	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *AccessReport) SetIdentifier(id string) {
 
+	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -177,6 +192,23 @@ func (o *AccessReport) GetBSON() (interface{}, error) {
 	}
 
 	s := &mongoAttributesAccessReport{}
+
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
+	s.Action = o.Action
+	s.ClaimHash = o.ClaimHash
+	s.EnforcerID = o.EnforcerID
+	s.EnforcerNamespace = o.EnforcerNamespace
+	s.MigrationsLog = o.MigrationsLog
+	s.ProcessingUnitID = o.ProcessingUnitID
+	s.ProcessingUnitName = o.ProcessingUnitName
+	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
+	s.Reason = o.Reason
+	s.Timestamp = o.Timestamp
+	s.Type = o.Type
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
 
 	return s, nil
 }
@@ -193,6 +225,21 @@ func (o *AccessReport) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
+
+	o.ID = s.ID.Hex()
+	o.Action = s.Action
+	o.ClaimHash = s.ClaimHash
+	o.EnforcerID = s.EnforcerID
+	o.EnforcerNamespace = s.EnforcerNamespace
+	o.MigrationsLog = s.MigrationsLog
+	o.ProcessingUnitID = s.ProcessingUnitID
+	o.ProcessingUnitName = s.ProcessingUnitName
+	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
+	o.Reason = s.Reason
+	o.Timestamp = s.Timestamp
+	o.Type = s.Type
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
 
 	return nil
 }
@@ -226,6 +273,42 @@ func (o *AccessReport) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *AccessReport) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *AccessReport) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
+// GetZHash returns the ZHash of the receiver.
+func (o *AccessReport) GetZHash() int {
+
+	return o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the given value.
+func (o *AccessReport) SetZHash(zHash int) {
+
+	o.ZHash = zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *AccessReport) GetZone() int {
+
+	return o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the given value.
+func (o *AccessReport) SetZone(zone int) {
+
+	o.Zone = zone
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *AccessReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -233,22 +316,28 @@ func (o *AccessReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAccessReport{
+			ID:                      &o.ID,
 			Action:                  &o.Action,
 			ClaimHash:               &o.ClaimHash,
 			EnforcerID:              &o.EnforcerID,
 			EnforcerNamespace:       &o.EnforcerNamespace,
+			MigrationsLog:           &o.MigrationsLog,
 			ProcessingUnitID:        &o.ProcessingUnitID,
 			ProcessingUnitName:      &o.ProcessingUnitName,
 			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
 			Reason:                  &o.Reason,
 			Timestamp:               &o.Timestamp,
 			Type:                    &o.Type,
+			ZHash:                   &o.ZHash,
+			Zone:                    &o.Zone,
 		}
 	}
 
 	sp := &SparseAccessReport{}
 	for _, f := range fields {
 		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
 		case "action":
 			sp.Action = &(o.Action)
 		case "claimHash":
@@ -257,6 +346,8 @@ func (o *AccessReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.EnforcerID = &(o.EnforcerID)
 		case "enforcerNamespace":
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
 		case "processingUnitName":
@@ -269,6 +360,10 @@ func (o *AccessReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Timestamp = &(o.Timestamp)
 		case "type":
 			sp.Type = &(o.Type)
+		case "zHash":
+			sp.ZHash = &(o.ZHash)
+		case "zone":
+			sp.Zone = &(o.Zone)
 		}
 	}
 
@@ -282,6 +377,9 @@ func (o *AccessReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseAccessReport)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
 	if so.Action != nil {
 		o.Action = *so.Action
 	}
@@ -293,6 +391,9 @@ func (o *AccessReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EnforcerNamespace != nil {
 		o.EnforcerNamespace = *so.EnforcerNamespace
+	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
 	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
@@ -311,6 +412,12 @@ func (o *AccessReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
+	}
+	if so.ZHash != nil {
+		o.ZHash = *so.ZHash
+	}
+	if so.Zone != nil {
+		o.Zone = *so.Zone
 	}
 }
 
@@ -402,6 +509,8 @@ func (*AccessReport) AttributeSpecifications() map[string]elemental.AttributeSpe
 func (o *AccessReport) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "ID":
+		return o.ID
 	case "action":
 		return o.Action
 	case "claimHash":
@@ -410,6 +519,8 @@ func (o *AccessReport) ValueForAttribute(name string) interface{} {
 		return o.EnforcerID
 	case "enforcerNamespace":
 		return o.EnforcerNamespace
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "processingUnitID":
 		return o.ProcessingUnitID
 	case "processingUnitName":
@@ -422,6 +533,10 @@ func (o *AccessReport) ValueForAttribute(name string) interface{} {
 		return o.Timestamp
 	case "type":
 		return o.Type
+	case "zHash":
+		return o.ZHash
+	case "zone":
+		return o.Zone
 	}
 
 	return nil
@@ -429,6 +544,20 @@ func (o *AccessReport) ValueForAttribute(name string) interface{} {
 
 // AccessReportAttributesMap represents the map of attribute for AccessReport.
 var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
+	"ID": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ID",
+		Description:    `Identifier of the object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Identifier:     true,
+		Name:           "ID",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"Action": {
 		AllowedChoices: []string{"Accept", "Reject"},
 		ConvertedName:  "Action",
@@ -436,6 +565,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "action",
 		Required:       true,
+		Stored:         true,
 		Type:           "enum",
 	},
 	"ClaimHash": {
@@ -444,6 +574,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Hash of the claims used to communicate.`,
 		Exposed:        true,
 		Name:           "claimHash",
+		Stored:         true,
 		Type:           "string",
 	},
 	"EnforcerID": {
@@ -453,6 +584,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"EnforcerNamespace": {
@@ -462,7 +594,19 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
+	},
+	"MigrationsLog": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"ProcessingUnitID": {
 		AllowedChoices: []string{},
@@ -470,6 +614,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID of the processing unit of the report.`,
 		Exposed:        true,
 		Name:           "processingUnitID",
+		Stored:         true,
 		Type:           "string",
 	},
 	"ProcessingUnitName": {
@@ -478,6 +623,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Name of the processing unit of the report.`,
 		Exposed:        true,
 		Name:           "processingUnitName",
+		Stored:         true,
 		Type:           "string",
 	},
 	"ProcessingUnitNamespace": {
@@ -486,6 +632,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Namespace of the processing unit of the report.`,
 		Exposed:        true,
 		Name:           "processingUnitNamespace",
+		Stored:         true,
 		Type:           "string",
 	},
 	"Reason": {
@@ -495,6 +642,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 for the rejection.`,
 		Exposed: true,
 		Name:    "reason",
+		Stored:  true,
 		Type:    "string",
 	},
 	"Timestamp": {
@@ -503,6 +651,7 @@ for the rejection.`,
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Stored:         true,
 		Type:           "time",
 	},
 	"Type": {
@@ -512,96 +661,198 @@ for the rejection.`,
 		Exposed:        true,
 		Name:           "type",
 		Required:       true,
+		Stored:         true,
 		Type:           "enum",
+	},
+	"ZHash": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"Zone": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description:    `Logical storage zone. Used for sharding.`,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
 // AccessReportLowerCaseAttributesMap represents the map of attribute for AccessReport.
 var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"id": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "_id",
+		ConvertedName:  "ID",
+		Description:    `Identifier of the object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Identifier:     true,
+		Name:           "ID",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"action": {
 		AllowedChoices: []string{"Accept", "Reject"},
+		BSONFieldName:  "action",
 		ConvertedName:  "Action",
 		Description:    `Action applied to the access.`,
 		Exposed:        true,
 		Name:           "action",
 		Required:       true,
+		Stored:         true,
 		Type:           "enum",
 	},
 	"claimhash": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "claimhash",
 		ConvertedName:  "ClaimHash",
 		Description:    `Hash of the claims used to communicate.`,
 		Exposed:        true,
 		Name:           "claimHash",
+		Stored:         true,
 		Type:           "string",
 	},
 	"enforcerid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "enforcerid",
 		ConvertedName:  "EnforcerID",
 		Description:    `Identifier of the Defender.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"enforcernamespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "enforcernamespace",
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the Defender.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
+	},
+	"migrationslog": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "migrationslog",
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"processingunitid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "processingunitid",
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit of the report.`,
 		Exposed:        true,
 		Name:           "processingUnitID",
+		Stored:         true,
 		Type:           "string",
 	},
 	"processingunitname": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "processingunitname",
 		ConvertedName:  "ProcessingUnitName",
 		Description:    `Name of the processing unit of the report.`,
 		Exposed:        true,
 		Name:           "processingUnitName",
+		Stored:         true,
 		Type:           "string",
 	},
 	"processingunitnamespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "processingunitnamespace",
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit of the report.`,
 		Exposed:        true,
 		Name:           "processingUnitNamespace",
+		Stored:         true,
 		Type:           "string",
 	},
 	"reason": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "reason",
 		ConvertedName:  "Reason",
 		Description: `This field is only set if ` + "`" + `action` + "`" + ` is set to ` + "`" + `Reject` + "`" + `. It specifies the reason
 for the rejection.`,
 		Exposed: true,
 		Name:    "reason",
+		Stored:  true,
 		Type:    "string",
 	},
 	"timestamp": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "timestamp",
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Stored:         true,
 		Type:           "time",
 	},
 	"type": {
 		AllowedChoices: []string{"SSHLogin", "SSHLogout", "SudoEnter", "SudoExit"},
+		BSONFieldName:  "type",
 		ConvertedName:  "Type",
 		Description:    `Type of the report.`,
 		Exposed:        true,
 		Name:           "type",
 		Required:       true,
+		Stored:         true,
 		Type:           "enum",
+	},
+	"zhash": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "zhash",
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"zone": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "zone",
+		ConvertedName:  "Zone",
+		Description:    `Logical storage zone. Used for sharding.`,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -668,36 +919,49 @@ func (o SparseAccessReportsList) Version() int {
 
 // SparseAccessReport represents the sparse version of a accessreport.
 type SparseAccessReport struct {
+	// Identifier of the object.
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
 	// Action applied to the access.
-	Action *AccessReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
+	Action *AccessReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
 
 	// Hash of the claims used to communicate.
-	ClaimHash *string `json:"claimHash,omitempty" msgpack:"claimHash,omitempty" bson:"-" mapstructure:"claimHash,omitempty"`
+	ClaimHash *string `json:"claimHash,omitempty" msgpack:"claimHash,omitempty" bson:"claimhash,omitempty" mapstructure:"claimHash,omitempty"`
 
 	// Identifier of the Defender.
-	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the Defender.
-	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the processing unit of the report.
-	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"processingunitid,omitempty" mapstructure:"processingUnitID,omitempty"`
 
 	// Name of the processing unit of the report.
-	ProcessingUnitName *string `json:"processingUnitName,omitempty" msgpack:"processingUnitName,omitempty" bson:"-" mapstructure:"processingUnitName,omitempty"`
+	ProcessingUnitName *string `json:"processingUnitName,omitempty" msgpack:"processingUnitName,omitempty" bson:"processingunitname,omitempty" mapstructure:"processingUnitName,omitempty"`
 
 	// Namespace of the processing unit of the report.
-	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"processingunitnamespace,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
-	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"-" mapstructure:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"reason,omitempty" mapstructure:"reason,omitempty"`
 
 	// Date of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"timestamp,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// Type of the report.
-	Type *AccessReportTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
+	Type *AccessReportTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+
+	// Logical storage zone. Used for sharding.
+	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -716,12 +980,20 @@ func (o *SparseAccessReport) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseAccessReport) Identifier() string {
 
-	return ""
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAccessReport) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -733,6 +1005,49 @@ func (o *SparseAccessReport) GetBSON() (interface{}, error) {
 	}
 
 	s := &mongoAttributesSparseAccessReport{}
+
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
+	if o.Action != nil {
+		s.Action = o.Action
+	}
+	if o.ClaimHash != nil {
+		s.ClaimHash = o.ClaimHash
+	}
+	if o.EnforcerID != nil {
+		s.EnforcerID = o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		s.EnforcerNamespace = o.EnforcerNamespace
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.ProcessingUnitID != nil {
+		s.ProcessingUnitID = o.ProcessingUnitID
+	}
+	if o.ProcessingUnitName != nil {
+		s.ProcessingUnitName = o.ProcessingUnitName
+	}
+	if o.ProcessingUnitNamespace != nil {
+		s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
+	}
+	if o.Reason != nil {
+		s.Reason = o.Reason
+	}
+	if o.Timestamp != nil {
+		s.Timestamp = o.Timestamp
+	}
+	if o.Type != nil {
+		s.Type = o.Type
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
 
 	return s, nil
 }
@@ -750,6 +1065,48 @@ func (o *SparseAccessReport) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.Action != nil {
+		o.Action = s.Action
+	}
+	if s.ClaimHash != nil {
+		o.ClaimHash = s.ClaimHash
+	}
+	if s.EnforcerID != nil {
+		o.EnforcerID = s.EnforcerID
+	}
+	if s.EnforcerNamespace != nil {
+		o.EnforcerNamespace = s.EnforcerNamespace
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.ProcessingUnitID != nil {
+		o.ProcessingUnitID = s.ProcessingUnitID
+	}
+	if s.ProcessingUnitName != nil {
+		o.ProcessingUnitName = s.ProcessingUnitName
+	}
+	if s.ProcessingUnitNamespace != nil {
+		o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
+	}
+	if s.Reason != nil {
+		o.Reason = s.Reason
+	}
+	if s.Timestamp != nil {
+		o.Timestamp = s.Timestamp
+	}
+	if s.Type != nil {
+		o.Type = s.Type
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
+	}
+
 	return nil
 }
 
@@ -763,6 +1120,9 @@ func (o *SparseAccessReport) Version() int {
 func (o *SparseAccessReport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAccessReport()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
 	if o.Action != nil {
 		out.Action = *o.Action
 	}
@@ -774,6 +1134,9 @@ func (o *SparseAccessReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EnforcerNamespace != nil {
 		out.EnforcerNamespace = *o.EnforcerNamespace
+	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
 	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID
@@ -793,8 +1156,62 @@ func (o *SparseAccessReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Type != nil {
 		out.Type = *o.Type
 	}
+	if o.ZHash != nil {
+		out.ZHash = *o.ZHash
+	}
+	if o.Zone != nil {
+		out.Zone = *o.Zone
+	}
 
 	return out
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseAccessReport) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseAccessReport) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
+}
+
+// GetZHash returns the ZHash of the receiver.
+func (o *SparseAccessReport) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
+
+	return *o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the address of the given value.
+func (o *SparseAccessReport) SetZHash(zHash int) {
+
+	o.ZHash = &zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *SparseAccessReport) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
+
+	return *o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the address of the given value.
+func (o *SparseAccessReport) SetZone(zone int) {
+
+	o.Zone = &zone
 }
 
 // DeepCopy returns a deep copy if the SparseAccessReport.
@@ -822,6 +1239,34 @@ func (o *SparseAccessReport) DeepCopyInto(out *SparseAccessReport) {
 }
 
 type mongoAttributesAccessReport struct {
+	ID                      bson.ObjectId           `bson:"_id,omitempty"`
+	Action                  AccessReportActionValue `bson:"action"`
+	ClaimHash               string                  `bson:"claimhash"`
+	EnforcerID              string                  `bson:"enforcerid"`
+	EnforcerNamespace       string                  `bson:"enforcernamespace"`
+	MigrationsLog           map[string]string       `bson:"migrationslog,omitempty"`
+	ProcessingUnitID        string                  `bson:"processingunitid"`
+	ProcessingUnitName      string                  `bson:"processingunitname"`
+	ProcessingUnitNamespace string                  `bson:"processingunitnamespace"`
+	Reason                  string                  `bson:"reason"`
+	Timestamp               time.Time               `bson:"timestamp"`
+	Type                    AccessReportTypeValue   `bson:"type"`
+	ZHash                   int                     `bson:"zhash"`
+	Zone                    int                     `bson:"zone"`
 }
 type mongoAttributesSparseAccessReport struct {
+	ID                      bson.ObjectId            `bson:"_id,omitempty"`
+	Action                  *AccessReportActionValue `bson:"action,omitempty"`
+	ClaimHash               *string                  `bson:"claimhash,omitempty"`
+	EnforcerID              *string                  `bson:"enforcerid,omitempty"`
+	EnforcerNamespace       *string                  `bson:"enforcernamespace,omitempty"`
+	MigrationsLog           *map[string]string       `bson:"migrationslog,omitempty"`
+	ProcessingUnitID        *string                  `bson:"processingunitid,omitempty"`
+	ProcessingUnitName      *string                  `bson:"processingunitname,omitempty"`
+	ProcessingUnitNamespace *string                  `bson:"processingunitnamespace,omitempty"`
+	Reason                  *string                  `bson:"reason,omitempty"`
+	Timestamp               *time.Time               `bson:"timestamp,omitempty"`
+	Type                    *AccessReportTypeValue   `bson:"type,omitempty"`
+	ZHash                   *int                     `bson:"zhash,omitempty"`
+	Zone                    *int                     `bson:"zone,omitempty"`
 }
