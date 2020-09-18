@@ -608,6 +608,7 @@ var (
 			{"archived"},
 		},
 		"flowreport": {
+			{"remotenamespace"},
 			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},

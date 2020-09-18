@@ -15,6 +15,7 @@ model:
 indexes:
 - - namespace
   - timestamp
+- - remotenamespace
 
 # Attributes
 attributes:
@@ -30,6 +31,8 @@ attributes:
     - Reject
     example_value: Accept
     omit_empty: true
+    extensions:
+      bson_name: a
 
   - name: destinationController
     description: Identifier of the destination controller.
@@ -38,6 +41,8 @@ attributes:
     stored: true
     example_value: api.east.acme.com
     omit_empty: true
+    extensions:
+      bson_name: b
 
   - name: destinationID
     description: ID of the destination.
@@ -47,6 +52,8 @@ attributes:
     required: true
     example_value: xxx-xxx-xxx
     omit_empty: true
+    extensions:
+      bson_name: c
 
   - name: destinationIP
     description: Destination IP address.
@@ -54,6 +61,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: d
 
   - name: destinationNamespace
     description: |-
@@ -65,6 +74,8 @@ attributes:
     deprecated: true
     example_value: /my/namespace
     omit_empty: true
+    extensions:
+      bson_name: e
 
   - name: destinationPlatform
     description: Identifier of the destination platform.
@@ -73,6 +84,8 @@ attributes:
     stored: true
     example_value: api.east.acme.com
     omit_empty: true
+    extensions:
+      bson_name: f
 
   - name: destinationPort
     description: Port of the destination.
@@ -80,6 +93,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: g
 
   - name: destinationType
     description: Destination type.
@@ -93,6 +108,8 @@ attributes:
     - Claims
     example_value: ProcessingUnit
     omit_empty: true
+    extensions:
+      bson_name: h
 
   - name: dropReason
     description: |-
@@ -102,6 +119,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: i
 
   - name: encrypted
     description: If `true`, the flow was encrypted.
@@ -109,6 +128,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: j
 
   - name: namespace
     description: This is here for backward compatibility.
@@ -126,6 +147,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: k
 
   - name: observedAction
     description: Action observed on the flow.
@@ -138,6 +161,8 @@ attributes:
     - NotApplicable
     default_value: NotApplicable
     omit_empty: true
+    extensions:
+      bson_name: l
 
   - name: observedDropReason
     description: |-
@@ -147,6 +172,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: m
 
   - name: observedEncrypted
     description: Value of the encryption of the network policy that observed the flow.
@@ -154,6 +181,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: false
 
   - name: observedPolicyID
     description: ID of the network policy that observed the flow.
@@ -162,6 +191,8 @@ attributes:
     stored: true
     example_value: xxx-xxx-xxx
     omit_empty: true
+    extensions:
+      bson_name: o
 
   - name: observedPolicyNamespace
     description: Namespace of the network policy that observed the flow.
@@ -170,6 +201,8 @@ attributes:
     stored: true
     example_value: /my/namespace
     omit_empty: true
+    extensions:
+      bson_name: p
 
   - name: policyID
     description: ID of the network policy that accepted the flow.
@@ -179,6 +212,8 @@ attributes:
     required: true
     example_value: xxx-xxx-xxx
     omit_empty: true
+    extensions:
+      bson_name: q
 
   - name: policyNamespace
     description: Namespace of the network policy that accepted the flow.
@@ -188,6 +223,8 @@ attributes:
     required: true
     example_value: /my/namespace
     omit_empty: true
+    extensions:
+      bson_name: r
 
   - name: protocol
     description: Protocol number.
@@ -197,6 +234,8 @@ attributes:
     required: true
     example_value: 6
     omit_empty: true
+    extensions:
+      bson_name: s
 
   - name: remoteNamespace
     description: Namespace of the object at the other end of the flow.
@@ -211,6 +250,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: t
 
   - name: serviceID
     description: ID of the service.
@@ -218,6 +259,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: u
 
   - name: serviceNamespace
     description: Namespace of Service accessed.
@@ -225,6 +268,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: v
 
   - name: serviceType
     description: ID of the service.
@@ -238,6 +283,8 @@ attributes:
     - NotApplicable
     default_value: NotApplicable
     omit_empty: true
+    extensions:
+      bson_name: w
 
   - name: serviceURL
     description: Service URL accessed.
@@ -245,6 +292,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: x
 
   - name: sourceController
     description: Identifier of the source controller.
@@ -253,6 +302,8 @@ attributes:
     stored: true
     example_value: api.west.acme.com
     omit_empty: true
+    extensions:
+      bson_name: true
 
   - name: sourceID
     description: ID of the source.
@@ -262,6 +313,8 @@ attributes:
     required: true
     example_value: xxx-xxx-xxx
     omit_empty: true
+    extensions:
+      bson_name: z
 
   - name: sourceIP
     description: Type of the source.
@@ -269,6 +322,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: aa
 
   - name: sourceNamespace
     description: |-
@@ -280,6 +335,8 @@ attributes:
     deprecated: true
     example_value: /my/namespace
     omit_empty: true
+    extensions:
+      bson_name: ab
 
   - name: sourcePlatform
     description: Identifier of the source platform.
@@ -288,6 +345,8 @@ attributes:
     stored: true
     example_value: api.west.acme.com
     omit_empty: true
+    extensions:
+      bson_name: ac
 
   - name: sourceType
     description: Type of the source.
@@ -301,6 +360,8 @@ attributes:
     - Claims
     example_value: ProcessingUnit
     omit_empty: true
+    extensions:
+      bson_name: ad
 
   - name: timestamp
     description: Time and date of the log.
@@ -317,3 +378,5 @@ attributes:
     required: true
     example_value: 1
     omit_empty: true
+    extensions:
+      bson_name: ae
