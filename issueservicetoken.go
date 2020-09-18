@@ -506,6 +506,7 @@ to an array. The claims  will appear under the Data section of the token.`,
 	},
 	"signingkeyid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "signingkeyid",
 		ConvertedName:  "SigningKeyID",
 		Description:    `SigningKeyID holds the ID of the private certificate to use to sign the token.`,
 		Exposed:        true,
