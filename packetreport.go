@@ -114,10 +114,10 @@ type PacketReport struct {
 	// Set to `true` if the packet was encrypted.
 	Encrypt bool `json:"encrypt" msgpack:"encrypt" bson:"encrypt" mapstructure:"encrypt,omitempty"`
 
-	// Identifier of the Defender sending the report.
+	// Identifier of the enforcer sending the report.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the Defender sending the report.
+	// Namespace of the enforcer sending the report.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
 	// The event that triggered the report.
@@ -640,7 +640,7 @@ Otherwise empty.`,
 	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `Identifier of the Defender sending the report.`,
+		Description:    `Identifier of the enforcer sending the report.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -650,7 +650,7 @@ Otherwise empty.`,
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the Defender sending the report.`,
+		Description:    `Namespace of the enforcer sending the report.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -844,7 +844,7 @@ Otherwise empty.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "enforcerid",
 		ConvertedName:  "EnforcerID",
-		Description:    `Identifier of the Defender sending the report.`,
+		Description:    `Identifier of the enforcer sending the report.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -855,7 +855,7 @@ Otherwise empty.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "enforcernamespace",
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the Defender sending the report.`,
+		Description:    `Namespace of the enforcer sending the report.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -1073,10 +1073,10 @@ type SparsePacketReport struct {
 	// Set to `true` if the packet was encrypted.
 	Encrypt *bool `json:"encrypt,omitempty" msgpack:"encrypt,omitempty" bson:"encrypt,omitempty" mapstructure:"encrypt,omitempty"`
 
-	// Identifier of the Defender sending the report.
+	// Identifier of the enforcer sending the report.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the Defender sending the report.
+	// Namespace of the enforcer sending the report.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// The event that triggered the report.

@@ -7,7 +7,7 @@ model:
   group: core/policy
   description: |-
     Sent to client when a poke has been triggered using the
-    parameter `?notify=true`. This is used to notify a Defender of an
+    parameter `?notify=true`. This is used to notify a enforcer of an
     external change on the processing unit must be processed.
 
 # Attributes
@@ -89,7 +89,7 @@ attributes:
 
   - name: traceApplicationConnections
     description: |-
-      Instructs the Defender to send records for all
+      Instructs the enforcer to send records for all
       application-initiated connections for the target processing unit.
     type: boolean
     exposed: true
@@ -107,7 +107,7 @@ attributes:
 
   - name: traceIPTables
     description: |-
-      Instructs the Defenders to provide an iptables trace for the target processing
+      Instructs the enforcers to provide an iptables trace for the target processing
       unit.
     type: boolean
     exposed: true
@@ -115,7 +115,7 @@ attributes:
 
   - name: traceNetworkConnections
     description: |-
-      Instructs the Defender to send records for all
+      Instructs the enforcer to send records for all
       network-initiated connections for the target processing unit.
     type: boolean
     exposed: true

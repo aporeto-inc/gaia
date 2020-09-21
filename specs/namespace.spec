@@ -156,7 +156,7 @@ attributes:
     description: |-
       List of tags that describe this namespace. All organizational tags are
       automatically passed to policeable objects (e.g., processing units, external
-      networks, Defenders) during their creation.
+      networks, enforcers) during their creation.
     type: list
     exposed: true
     subtype: string

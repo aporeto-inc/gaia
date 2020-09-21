@@ -122,7 +122,7 @@ type EnforcerProfileMappingPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// The tag or tag expression that identifies the Defender profile to
+	// The tag or tag expression that identifies the enforcer profile to
 	// be mapped.
 	Object [][]string `json:"object" msgpack:"object" bson:"object" mapstructure:"object,omitempty"`
 
@@ -132,7 +132,7 @@ type EnforcerProfileMappingPolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// The tag or tag expression that identifies the Defenders that should
+	// The tag or tag expression that identifies the enforcers that should
 	// implement the mapped profile.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
@@ -265,7 +265,7 @@ func (o *EnforcerProfileMappingPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *EnforcerProfileMappingPolicy) Doc() string {
 
-	return `Allows you to map a Defender profile to one or more Defenders.
+	return `Allows you to map an enforcer profile to one or more enforcers.
 The mapping can also be propagated down to the child namespace.`
 }
 
@@ -890,7 +890,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `The tag or tag expression that identifies the Defender profile to 
+		Description: `The tag or tag expression that identifies the enforcer profile to 
 be mapped.`,
 		Exposed: true,
 		Name:    "object",
@@ -925,7 +925,7 @@ be mapped.`,
 	"Subject": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `The tag or tag expression that identifies the Defenders that should 
+		Description: `The tag or tag expression that identifies the enforcers that should 
 implement the mapped profile.`,
 		Exposed: true,
 		Name:    "subject",
@@ -1140,7 +1140,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "object",
 		ConvertedName:  "Object",
-		Description: `The tag or tag expression that identifies the Defender profile to 
+		Description: `The tag or tag expression that identifies the enforcer profile to 
 be mapped.`,
 		Exposed: true,
 		Name:    "object",
@@ -1178,7 +1178,7 @@ be mapped.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "subject",
 		ConvertedName:  "Subject",
-		Description: `The tag or tag expression that identifies the Defenders that should 
+		Description: `The tag or tag expression that identifies the enforcers that should 
 implement the mapped profile.`,
 		Exposed: true,
 		Name:    "subject",
@@ -1320,7 +1320,7 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// The tag or tag expression that identifies the Defender profile to
+	// The tag or tag expression that identifies the enforcer profile to
 	// be mapped.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"object,omitempty" mapstructure:"object,omitempty"`
 
@@ -1330,7 +1330,7 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// The tag or tag expression that identifies the Defenders that should
+	// The tag or tag expression that identifies the enforcers that should
 	// implement the mapped profile.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 

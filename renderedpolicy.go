@@ -102,10 +102,10 @@ type RenderedPolicy struct {
 	// The datapath type that this processing unit must implement according to
 	// the rendered policy:
 	// - `Default`: This policy is not making a decision for the datapath.
-	// - `Aporeto`: The Defender is managing and handling the datapath.
-	// - `EnvoyAuthorizer`: The Defender is serving Envoy-compatible gRPC APIs
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving Envoy-compatible gRPC APIs
 	// that for example can be used by an Envoy proxy to use the Microsegmentation PKI
-	// and implement Microsegmentation network policies. NOTE: The Defender is not
+	// and implement Microsegmentation network policies. NOTE: The enforcer is not
 	// owning the datapath in this case. It is merely providing an authorizer API.
 	DatapathType RenderedPolicyDatapathTypeValue `json:"datapathType" msgpack:"datapathType" bson:"-" mapstructure:"datapathType,omitempty"`
 
@@ -477,10 +477,10 @@ processing unit to any internal or external services.`,
 		Description: `The datapath type that this processing unit must implement according to
 the rendered policy:
 - ` + "`" + `Default` + "`" + `: This policy is not making a decision for the datapath.
-- ` + "`" + `Aporeto` + "`" + `: The Defender is managing and handling the datapath.
-- ` + "`" + `EnvoyAuthorizer` + "`" + `: The Defender is serving Envoy-compatible gRPC APIs
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving Envoy-compatible gRPC APIs
 that for example can be used by an Envoy proxy to use the Microsegmentation PKI
-and implement Microsegmentation network policies. NOTE: The Defender is not
+and implement Microsegmentation network policies. NOTE: The enforcer is not
 owning the datapath in this case. It is merely providing an authorizer API.`,
 		Exposed:  true,
 		Name:     "datapathType",
@@ -604,10 +604,10 @@ processing unit to any internal or external services.`,
 		Description: `The datapath type that this processing unit must implement according to
 the rendered policy:
 - ` + "`" + `Default` + "`" + `: This policy is not making a decision for the datapath.
-- ` + "`" + `Aporeto` + "`" + `: The Defender is managing and handling the datapath.
-- ` + "`" + `EnvoyAuthorizer` + "`" + `: The Defender is serving Envoy-compatible gRPC APIs
+- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
+- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving Envoy-compatible gRPC APIs
 that for example can be used by an Envoy proxy to use the Microsegmentation PKI
-and implement Microsegmentation network policies. NOTE: The Defender is not
+and implement Microsegmentation network policies. NOTE: The enforcer is not
 owning the datapath in this case. It is merely providing an authorizer API.`,
 		Exposed:  true,
 		Name:     "datapathType",
@@ -783,10 +783,10 @@ type SparseRenderedPolicy struct {
 	// The datapath type that this processing unit must implement according to
 	// the rendered policy:
 	// - `Default`: This policy is not making a decision for the datapath.
-	// - `Aporeto`: The Defender is managing and handling the datapath.
-	// - `EnvoyAuthorizer`: The Defender is serving Envoy-compatible gRPC APIs
+	// - `Aporeto`: The enforcer is managing and handling the datapath.
+	// - `EnvoyAuthorizer`: The enforcer is serving Envoy-compatible gRPC APIs
 	// that for example can be used by an Envoy proxy to use the Microsegmentation PKI
-	// and implement Microsegmentation network policies. NOTE: The Defender is not
+	// and implement Microsegmentation network policies. NOTE: The enforcer is not
 	// owning the datapath in this case. It is merely providing an authorizer API.
 	DatapathType *RenderedPolicyDatapathTypeValue `json:"datapathType,omitempty" msgpack:"datapathType,omitempty" bson:"-" mapstructure:"datapathType,omitempty"`
 

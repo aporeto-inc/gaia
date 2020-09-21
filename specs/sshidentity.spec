@@ -8,7 +8,7 @@ model:
   description: |-
     Returns an SSH certificate containing the bearer claims. This SSH certificate
     can
-    be used to connect to a node where the Defender is protecting SSH sessions.
+    be used to connect to a node where the enforcer is protecting SSH sessions.
 
 # Attributes
 attributes:

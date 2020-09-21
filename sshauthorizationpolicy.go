@@ -156,11 +156,11 @@ type SSHAuthorizationPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the tag expression identifying the Defenders on the hosts the `subject`
+	// Contains the tag expression identifying the enforcers on the hosts the `subject`
 	// is allowed to access.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
-	// On systems without a Microsegmentation-enabled Defender, you must provide the
+	// On systems without an enforcer, you must provide the
 	// name of the Linux user. Otherwise, Microsegmentation will automatically populate
 	// this field and adding a value here is
 	// optional and not used during the authorization. However, the value becomes a tag
@@ -1147,7 +1147,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Contains the tag expression identifying the Defenders on the hosts the ` + "`" + `subject` + "`" + `
+		Description: `Contains the tag expression identifying the enforcers on the hosts the ` + "`" + `subject` + "`" + `
 is allowed to access.`,
 		Exposed:   true,
 		Name:      "object",
@@ -1158,7 +1158,7 @@ is allowed to access.`,
 	"Principals": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Principals",
-		Description: `On systems without a Microsegmentation-enabled Defender, you must provide the 
+		Description: `On systems without an enforcer, you must provide the 
 name of the Linux user. Otherwise, Microsegmentation will automatically populate 
 this field and adding a value here is
 optional and not used during the authorization. However, the value becomes a tag
@@ -1509,7 +1509,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Contains the tag expression identifying the Defenders on the hosts the ` + "`" + `subject` + "`" + `
+		Description: `Contains the tag expression identifying the enforcers on the hosts the ` + "`" + `subject` + "`" + `
 is allowed to access.`,
 		Exposed:   true,
 		Name:      "object",
@@ -1520,7 +1520,7 @@ is allowed to access.`,
 	"principals": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Principals",
-		Description: `On systems without a Microsegmentation-enabled Defender, you must provide the 
+		Description: `On systems without an enforcer, you must provide the 
 name of the Linux user. Otherwise, Microsegmentation will automatically populate 
 this field and adding a value here is
 optional and not used during the authorization. However, the value becomes a tag
@@ -1757,11 +1757,11 @@ type SparseSSHAuthorizationPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Contains the tag expression identifying the Defenders on the hosts the `subject`
+	// Contains the tag expression identifying the enforcers on the hosts the `subject`
 	// is allowed to access.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
-	// On systems without a Microsegmentation-enabled Defender, you must provide the
+	// On systems without an enforcer, you must provide the
 	// name of the Linux user. Otherwise, Microsegmentation will automatically populate
 	// this field and adding a value here is
 	// optional and not used during the authorization. However, the value becomes a tag

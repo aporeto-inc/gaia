@@ -6,15 +6,15 @@ model:
   package: gaga
   group: core/policy
   description: |-
-    Sent to Defenders when a poke has been triggered using the
-    parameter `?notify=true`. This is used to notify a Defender of an
+    Sent to enforcers when a poke has been triggered using the
+    parameter `?notify=true`. This is used to notify an enforcer of an
     external change on the processing unit that must be processed.
 
 # Attributes
 attributes:
   v1:
   - name: ID
-    description: Contains the ID of the target Defender.
+    description: Contains the ID of the target enforcer.
     type: string
     exposed: true
     read_only: true
@@ -23,7 +23,7 @@ attributes:
     identifier: true
 
   - name: debug
-    description: Set the debug information collected by the Defender.
+    description: Set the debug information collected by the enforcer.
     type: enum
     exposed: true
     allowed_choices:
@@ -37,7 +37,7 @@ attributes:
     omit_empty: true
 
   - name: namespace
-    description: Contains the original namespace of the Defender.
+    description: Contains the original namespace of the enforcer.
     type: string
     exposed: true
     read_only: true

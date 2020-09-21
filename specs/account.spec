@@ -92,7 +92,7 @@ attributes:
     stored: true
 
   - name: associatedAWSPolicies
-    description: Contains a map of associated AWS Defender policies.
+    description: Contains a map of associated AWS enforcer policies.
     type: external
     subtype: map[string]string
     stored: true

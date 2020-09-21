@@ -6,7 +6,7 @@ model:
   package: ifrit
   group: core/enforcer
   description: |-
-    A Defender log represents the log collected by a Defender. Each Defender log
+    An enforcer log represents the log collected by an enforcer. Each enforcer log
     can have partial or complete data. The `collectionID` is used to aggregate the
     multipart data into one.
   get:
@@ -33,7 +33,7 @@ attributes:
   v1:
   - name: collectionID
     description: |-
-      Contains the ID of the Defender log. `CollectionID` is used to
+      Contains the ID of the enforcer log. `CollectionID` is used to
       aggregate the multipart data.
     type: string
     exposed: true
@@ -42,13 +42,13 @@ attributes:
     example_value: xxx-xxx-xxx-xxx
 
   - name: data
-    description: Represents the data collected by the Defender.
+    description: Represents the data collected by the enforcer.
     type: string
     exposed: true
     stored: true
 
   - name: enforcerID
-    description: ID of the Defender.
+    description: ID of the enforcer.
     type: string
     exposed: true
     stored: true

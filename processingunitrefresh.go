@@ -128,7 +128,7 @@ type ProcessingUnitRefresh struct {
 	// If set to true, the target processing unit will refresh its policy immediately.
 	RefreshPolicy bool `json:"refreshPolicy,omitempty" msgpack:"refreshPolicy,omitempty" bson:"-" mapstructure:"refreshPolicy,omitempty"`
 
-	// Instructs the Defender to send records for all
+	// Instructs the enforcer to send records for all
 	// application-initiated connections for the target processing unit.
 	TraceApplicationConnections bool `json:"traceApplicationConnections,omitempty" msgpack:"traceApplicationConnections,omitempty" bson:"-" mapstructure:"traceApplicationConnections,omitempty"`
 
@@ -137,11 +137,11 @@ type ProcessingUnitRefresh struct {
 	// syntax](https://golang.org/pkg/time/#example_Duration).
 	TraceDuration string `json:"traceDuration,omitempty" msgpack:"traceDuration,omitempty" bson:"-" mapstructure:"traceDuration,omitempty"`
 
-	// Instructs the Defenders to provide an iptables trace for the target processing
+	// Instructs the enforcers to provide an iptables trace for the target processing
 	// unit.
 	TraceIPTables bool `json:"traceIPTables,omitempty" msgpack:"traceIPTables,omitempty" bson:"-" mapstructure:"traceIPTables,omitempty"`
 
-	// Instructs the Defender to send records for all
+	// Instructs the enforcer to send records for all
 	// network-initiated connections for the target processing unit.
 	TraceNetworkConnections bool `json:"traceNetworkConnections,omitempty" msgpack:"traceNetworkConnections,omitempty" bson:"-" mapstructure:"traceNetworkConnections,omitempty"`
 
@@ -228,7 +228,7 @@ func (o *ProcessingUnitRefresh) DefaultOrder() []string {
 func (o *ProcessingUnitRefresh) Doc() string {
 
 	return `Sent to client when a poke has been triggered using the
-parameter ` + "`" + `?notify=true` + "`" + `. This is used to notify a Defender of an
+parameter ` + "`" + `?notify=true` + "`" + `. This is used to notify a enforcer of an
 external change on the processing unit must be processed.`
 }
 
@@ -562,7 +562,7 @@ unit.`,
 	"TraceApplicationConnections": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TraceApplicationConnections",
-		Description: `Instructs the Defender to send records for all
+		Description: `Instructs the enforcer to send records for all
 application-initiated connections for the target processing unit.`,
 		Exposed: true,
 		Name:    "traceApplicationConnections",
@@ -582,7 +582,7 @@ syntax](https://golang.org/pkg/time/#example_Duration).`,
 	"TraceIPTables": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TraceIPTables",
-		Description: `Instructs the Defenders to provide an iptables trace for the target processing
+		Description: `Instructs the enforcers to provide an iptables trace for the target processing
 unit.`,
 		Exposed: true,
 		Name:    "traceIPTables",
@@ -591,7 +591,7 @@ unit.`,
 	"TraceNetworkConnections": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TraceNetworkConnections",
-		Description: `Instructs the Defender to send records for all
+		Description: `Instructs the enforcer to send records for all
 network-initiated connections for the target processing unit.`,
 		Exposed: true,
 		Name:    "traceNetworkConnections",
@@ -695,7 +695,7 @@ unit.`,
 	"traceapplicationconnections": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TraceApplicationConnections",
-		Description: `Instructs the Defender to send records for all
+		Description: `Instructs the enforcer to send records for all
 application-initiated connections for the target processing unit.`,
 		Exposed: true,
 		Name:    "traceApplicationConnections",
@@ -715,7 +715,7 @@ syntax](https://golang.org/pkg/time/#example_Duration).`,
 	"traceiptables": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TraceIPTables",
-		Description: `Instructs the Defenders to provide an iptables trace for the target processing
+		Description: `Instructs the enforcers to provide an iptables trace for the target processing
 unit.`,
 		Exposed: true,
 		Name:    "traceIPTables",
@@ -724,7 +724,7 @@ unit.`,
 	"tracenetworkconnections": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TraceNetworkConnections",
-		Description: `Instructs the Defender to send records for all
+		Description: `Instructs the enforcer to send records for all
 network-initiated connections for the target processing unit.`,
 		Exposed: true,
 		Name:    "traceNetworkConnections",
@@ -826,7 +826,7 @@ type SparseProcessingUnitRefresh struct {
 	// If set to true, the target processing unit will refresh its policy immediately.
 	RefreshPolicy *bool `json:"refreshPolicy,omitempty" msgpack:"refreshPolicy,omitempty" bson:"-" mapstructure:"refreshPolicy,omitempty"`
 
-	// Instructs the Defender to send records for all
+	// Instructs the enforcer to send records for all
 	// application-initiated connections for the target processing unit.
 	TraceApplicationConnections *bool `json:"traceApplicationConnections,omitempty" msgpack:"traceApplicationConnections,omitempty" bson:"-" mapstructure:"traceApplicationConnections,omitempty"`
 
@@ -835,11 +835,11 @@ type SparseProcessingUnitRefresh struct {
 	// syntax](https://golang.org/pkg/time/#example_Duration).
 	TraceDuration *string `json:"traceDuration,omitempty" msgpack:"traceDuration,omitempty" bson:"-" mapstructure:"traceDuration,omitempty"`
 
-	// Instructs the Defenders to provide an iptables trace for the target processing
+	// Instructs the enforcers to provide an iptables trace for the target processing
 	// unit.
 	TraceIPTables *bool `json:"traceIPTables,omitempty" msgpack:"traceIPTables,omitempty" bson:"-" mapstructure:"traceIPTables,omitempty"`
 
-	// Instructs the Defender to send records for all
+	// Instructs the enforcer to send records for all
 	// network-initiated connections for the target processing unit.
 	TraceNetworkConnections *bool `json:"traceNetworkConnections,omitempty" msgpack:"traceNetworkConnections,omitempty" bson:"-" mapstructure:"traceNetworkConnections,omitempty"`
 

@@ -6,7 +6,7 @@ model:
   package: squall
   group: policy/enforcerconfig
   description: |-
-    Allows you to map a Defender profile to one or more Defenders.
+    Allows you to map an enforcer profile to one or more enforcers.
     The mapping can also be propagated down to the child namespace.
   aliases:
   - enfpols
@@ -41,7 +41,7 @@ attributes:
   v1:
   - name: object
     description: |-
-      The tag or tag expression that identifies the Defender profile to 
+      The tag or tag expression that identifies the enforcer profile to 
       be mapped.
     type: external
     exposed: true
@@ -56,7 +56,7 @@ attributes:
 
   - name: subject
     description: |-
-      The tag or tag expression that identifies the Defenders that should 
+      The tag or tag expression that identifies the enforcers that should 
       implement the mapped profile.
     type: external
     exposed: true
@@ -73,10 +73,10 @@ attributes:
 relations:
 - rest_name: enforcer
   get:
-    description: Returns the list of Defenders affected by a Defender profile mapping.
+    description: Returns the list of enforcers affected by an enforcer profile mapping.
 
 - rest_name: enforcerprofile
   get:
     description: |-
-      Returns the list of Defender profiles that a Defender profile mapping
+      Returns the list of enforcer profiles that an enforcer profile mapping
       matches.
