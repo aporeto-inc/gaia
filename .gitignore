@@ -8,3 +8,5 @@ values_codecgen.go
 .DS_Store
 .vscode
 dist
+remod.dev
+.remod

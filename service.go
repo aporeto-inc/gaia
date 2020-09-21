@@ -138,10 +138,8 @@ type Service struct {
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// The list of IP addresses where the service can be accessed. This is an optional
-	// attribute and
-	// is only required if no host names are provided. The system will automatically
-	// resolve IP
-	// addresses from host names otherwise.
+	// attribute and is only required if no host names are provided. The system will
+	// automatically resolve IP addresses from host names otherwise.
 	IPs []string `json:"IPs" msgpack:"IPs" bson:"ips" mapstructure:"IPs,omitempty"`
 
 	// PEM-encoded certificate that will be used to validate the user's JSON web token
@@ -221,8 +219,8 @@ type Service struct {
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" msgpack:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
-	// are defined, the Defender will copy the values of the claims to the corresponding
-	// HTTP headers.
+	// are defined, the Defender will copy the values of the claims to the
+	// corresponding HTTP headers.
 	ClaimsToHTTPHeaderMappings []*ClaimMapping `json:"claimsToHTTPHeaderMappings" msgpack:"claimsToHTTPHeaderMappings" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// internal idempotency key for a create operation.
@@ -525,7 +523,7 @@ func (o *Service) Doc() string {
 
 	return `Defines a generic service object at layer 4 or layer 7 that encapsulates the
 description of a microservice. A service exposes APIs and can be implemented
-through third party entities (such as a cloud provider) or through  processing
+through third-party entities (such as a cloud provider) or through processing
 units.`
 }
 
@@ -1336,10 +1334,8 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IPs",
 		Description: `The list of IP addresses where the service can be accessed. This is an optional
-attribute and
-is only required if no host names are provided. The system will automatically
-resolve IP
-addresses from host names otherwise.`,
+attribute and is only required if no host names are provided. The system will
+automatically resolve IP addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
@@ -1363,7 +1359,7 @@ is set to ` + "`" + `JWT` + "`" + `.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "MTLSCertificateAuthority",
 		Description: `PEM-encoded certificate authority to use to verify client certificates. This
-only applies if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, 
+only applies if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set,
 Microsegmentation Console's public signing certificate authority will be used.`,
 		Exposed: true,
 		Name:    "MTLSCertificateAuthority",
@@ -1448,7 +1444,7 @@ and required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "
 		DefaultValue:   ServiceTLSTypeAporeto,
 		Description: `Set how to provide a server certificate to the service.
 
-- ` + "`" + `Aporeto` + "`" + `: Generate a certificate signed by the Microsegmentation 
+- ` + "`" + `Aporeto` + "`" + `: Generate a certificate signed by the Microsegmentation
 Console public CA.
 - ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from Let's Encrypt.
 - ` + "`" + `External` + "`" + `: Let you define your own certificate and key to use.
@@ -1524,7 +1520,7 @@ header.
 - ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
 ` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
 - ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
-use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Microsegmentation Console's public 
+use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Microsegmentation Console's public
 signing certificate will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
@@ -1535,8 +1531,8 @@ signing certificate will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ClaimsToHTTPHeaderMappings",
 		Description: `Defines a list of mappings between claims and HTTP headers. When these mappings
-are defined, the Defender will copy the values of the claims to the corresponding 
-HTTP headers.`,
+are defined, the Defender will copy the values of the claims to the
+corresponding HTTP headers.`,
 		Exposed: true,
 		Name:    "claimsToHTTPHeaderMappings",
 		Stored:  true,
@@ -1621,9 +1617,9 @@ layer 7 protocols.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedPort",
 		Description: `The port that the service can be accessed on. Note that this is different from
-the ` + "`" + `port` + "`" + ` attribute that describes the port that the service is actually 
-listening on. For example if a load balancer is used, the ` + "`" + `exposedPort` + "`" + ` is 
-the port that the load balancer is listening for the service, whereas the 
+the ` + "`" + `port` + "`" + ` attribute that describes the port that the service is actually
+listening on. For example if a load balancer is used, the ` + "`" + `exposedPort` + "`" + ` is
+the port that the load balancer is listening for the service, whereas the
 port that the implementation is listening on can be different.`,
 		Exposed:  true,
 		MaxValue: 65535,
@@ -1741,7 +1737,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
 		Description: `The port that the implementation of the service is listening to. It can be
-different than ` + "`" + `exposedPort` + "`" + `. This is needed for port mapping use cases 
+different than ` + "`" + `exposedPort` + "`" + `. This is needed for port mapping use cases
 where there are private and public ports.`,
 		Exposed:  true,
 		MaxValue: 65535,
@@ -1777,9 +1773,9 @@ where there are private and public ports.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "PublicApplicationPort",
 		Description: `A new virtual port that the service can be accessed on using HTTPS. Since the
-Defender transparently inserts TLS in the application path, you might want 
-to declare a new port where the Defender listens for TLS. However, the 
-application does not need to be modified and the Defender will map the 
+Defender transparently inserts TLS in the application path, you might want
+to declare a new port where the Defender listens for TLS. However, the
+application does not need to be modified and the Defender will map the
 traffic to the correct application port. This is useful when
 an application is being accessed from a public network.`,
 		Exposed:  true,
@@ -1792,8 +1788,8 @@ an application is being accessed from a public network.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RedirectURLOnAuthorizationFailure",
 		Description: `If this is set, the user will be redirected to that URL in case of any
-authorization failure, allowing you to provide a nice message to the user. 
-The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that 
+authorization failure, allowing you to provide a nice message to the user.
+The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that
 URL explaining the possible reason for the failure.`,
 		Exposed: true,
 		Name:    "redirectURLOnAuthorizationFailure",
@@ -1815,7 +1811,7 @@ particular service.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "TrustedCertificateAuthorities",
 		Description: `PEM-encoded certificate authorities to trust when additional hops are needed. It
-must be set if the service must reach a service marked as ` + "`" + `external` + "`" + ` or must go 
+must be set if the service must reach a service marked as ` + "`" + `external` + "`" + ` or must go
 through an additional TLS termination point like a layer 7 load balancer.`,
 		Exposed: true,
 		Name:    "trustedCertificateAuthorities",
@@ -1908,10 +1904,8 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		BSONFieldName:  "ips",
 		ConvertedName:  "IPs",
 		Description: `The list of IP addresses where the service can be accessed. This is an optional
-attribute and
-is only required if no host names are provided. The system will automatically
-resolve IP
-addresses from host names otherwise.`,
+attribute and is only required if no host names are provided. The system will
+automatically resolve IP addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
@@ -1937,7 +1931,7 @@ is set to ` + "`" + `JWT` + "`" + `.`,
 		BSONFieldName:  "mtlscertificateauthority",
 		ConvertedName:  "MTLSCertificateAuthority",
 		Description: `PEM-encoded certificate authority to use to verify client certificates. This
-only applies if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set, 
+only applies if ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + `. If it is not set,
 Microsegmentation Console's public signing certificate authority will be used.`,
 		Exposed: true,
 		Name:    "MTLSCertificateAuthority",
@@ -2030,7 +2024,7 @@ and required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "
 		DefaultValue:   ServiceTLSTypeAporeto,
 		Description: `Set how to provide a server certificate to the service.
 
-- ` + "`" + `Aporeto` + "`" + `: Generate a certificate signed by the Microsegmentation 
+- ` + "`" + `Aporeto` + "`" + `: Generate a certificate signed by the Microsegmentation
 Console public CA.
 - ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from Let's Encrypt.
 - ` + "`" + `External` + "`" + `: Let you define your own certificate and key to use.
@@ -2112,7 +2106,7 @@ header.
 - ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set
 ` + "`" + `OIDCClientID` + "`" + `,` + "`" + `OIDCClientSecret` + "`" + `, ` + "`" + `OIDCProviderURL` + "`" + `.
 - ` + "`" + `MTLS` + "`" + `: Configures client certificate authorization. Then you can optionally
-use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Microsegmentation Console's public 
+use ` + "`" + `MTLSCertificateAuthority` + "`" + `, otherwise Microsegmentation Console's public
 signing certificate will be used.`,
 		Exposed: true,
 		Name:    "authorizationType",
@@ -2124,8 +2118,8 @@ signing certificate will be used.`,
 		BSONFieldName:  "claimstohttpheadermappings",
 		ConvertedName:  "ClaimsToHTTPHeaderMappings",
 		Description: `Defines a list of mappings between claims and HTTP headers. When these mappings
-are defined, the Defender will copy the values of the claims to the corresponding 
-HTTP headers.`,
+are defined, the Defender will copy the values of the claims to the
+corresponding HTTP headers.`,
 		Exposed: true,
 		Name:    "claimsToHTTPHeaderMappings",
 		Stored:  true,
@@ -2216,9 +2210,9 @@ layer 7 protocols.`,
 		BSONFieldName:  "exposedport",
 		ConvertedName:  "ExposedPort",
 		Description: `The port that the service can be accessed on. Note that this is different from
-the ` + "`" + `port` + "`" + ` attribute that describes the port that the service is actually 
-listening on. For example if a load balancer is used, the ` + "`" + `exposedPort` + "`" + ` is 
-the port that the load balancer is listening for the service, whereas the 
+the ` + "`" + `port` + "`" + ` attribute that describes the port that the service is actually
+listening on. For example if a load balancer is used, the ` + "`" + `exposedPort` + "`" + ` is
+the port that the load balancer is listening for the service, whereas the
 port that the implementation is listening on can be different.`,
 		Exposed:  true,
 		MaxValue: 65535,
@@ -2345,7 +2339,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		BSONFieldName:  "port",
 		ConvertedName:  "Port",
 		Description: `The port that the implementation of the service is listening to. It can be
-different than ` + "`" + `exposedPort` + "`" + `. This is needed for port mapping use cases 
+different than ` + "`" + `exposedPort` + "`" + `. This is needed for port mapping use cases
 where there are private and public ports.`,
 		Exposed:  true,
 		MaxValue: 65535,
@@ -2384,9 +2378,9 @@ where there are private and public ports.`,
 		BSONFieldName:  "publicapplicationport",
 		ConvertedName:  "PublicApplicationPort",
 		Description: `A new virtual port that the service can be accessed on using HTTPS. Since the
-Defender transparently inserts TLS in the application path, you might want 
-to declare a new port where the Defender listens for TLS. However, the 
-application does not need to be modified and the Defender will map the 
+Defender transparently inserts TLS in the application path, you might want
+to declare a new port where the Defender listens for TLS. However, the
+application does not need to be modified and the Defender will map the
 traffic to the correct application port. This is useful when
 an application is being accessed from a public network.`,
 		Exposed:  true,
@@ -2400,8 +2394,8 @@ an application is being accessed from a public network.`,
 		BSONFieldName:  "redirecturlonauthorizationfailure",
 		ConvertedName:  "RedirectURLOnAuthorizationFailure",
 		Description: `If this is set, the user will be redirected to that URL in case of any
-authorization failure, allowing you to provide a nice message to the user. 
-The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that 
+authorization failure, allowing you to provide a nice message to the user.
+The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that
 URL explaining the possible reason for the failure.`,
 		Exposed: true,
 		Name:    "redirectURLOnAuthorizationFailure",
@@ -2425,7 +2419,7 @@ particular service.`,
 		BSONFieldName:  "trustedcertificateauthorities",
 		ConvertedName:  "TrustedCertificateAuthorities",
 		Description: `PEM-encoded certificate authorities to trust when additional hops are needed. It
-must be set if the service must reach a service marked as ` + "`" + `external` + "`" + ` or must go 
+must be set if the service must reach a service marked as ` + "`" + `external` + "`" + ` or must go
 through an additional TLS termination point like a layer 7 load balancer.`,
 		Exposed: true,
 		Name:    "trustedCertificateAuthorities",
@@ -2570,10 +2564,8 @@ type SparseService struct {
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// The list of IP addresses where the service can be accessed. This is an optional
-	// attribute and
-	// is only required if no host names are provided. The system will automatically
-	// resolve IP
-	// addresses from host names otherwise.
+	// attribute and is only required if no host names are provided. The system will
+	// automatically resolve IP addresses from host names otherwise.
 	IPs *[]string `json:"IPs,omitempty" msgpack:"IPs,omitempty" bson:"ips,omitempty" mapstructure:"IPs,omitempty"`
 
 	// PEM-encoded certificate that will be used to validate the user's JSON web token
@@ -2653,8 +2645,8 @@ type SparseService struct {
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" msgpack:"authorizationType,omitempty" bson:"authorizationtype,omitempty" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
-	// are defined, the Defender will copy the values of the claims to the corresponding
-	// HTTP headers.
+	// are defined, the Defender will copy the values of the claims to the
+	// corresponding HTTP headers.
 	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" msgpack:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings,omitempty" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// internal idempotency key for a create operation.

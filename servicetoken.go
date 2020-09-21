@@ -193,7 +193,7 @@ func (o *ServiceToken) DefaultOrder() []string {
 func (o *ServiceToken) Doc() string {
 
 	return `This API issues a new service token using the namespace certificate that can be
-used by third party applications.`
+used by third-party applications.`
 }
 
 func (o *ServiceToken) String() string {
