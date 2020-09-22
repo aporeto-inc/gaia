@@ -16,6 +16,7 @@ indexes:
 - - namespace
   - timestamp
 - - remotenamespace
+  - timestamp
 
 # Attributes
 attributes:
