@@ -141,6 +141,8 @@ attributes:
     deprecated: true
     example_value: /my/namespace
     omit_empty: true
+    extensions:
+      bson_name: k
 
   - name: observed
     description: If `true`, design mode is on.
@@ -149,7 +151,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: k
+      bson_name: l
 
   - name: observedAction
     description: Action observed on the flow.
@@ -163,7 +165,7 @@ attributes:
     default_value: NotApplicable
     omit_empty: true
     extensions:
-      bson_name: l
+      bson_name: m
 
   - name: observedDropReason
     description: |-
@@ -174,7 +176,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: m
+      bson_name: "n"
 
   - name: observedEncrypted
     description: Value of the encryption of the network policy that observed the flow.
@@ -183,7 +185,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: false
+      bson_name: o
 
   - name: observedPolicyID
     description: ID of the network policy that observed the flow.
@@ -193,7 +195,7 @@ attributes:
     example_value: xxx-xxx-xxx
     omit_empty: true
     extensions:
-      bson_name: o
+      bson_name: p
 
   - name: observedPolicyNamespace
     description: Namespace of the network policy that observed the flow.
@@ -203,7 +205,7 @@ attributes:
     example_value: /my/namespace
     omit_empty: true
     extensions:
-      bson_name: p
+      bson_name: q
 
   - name: policyID
     description: ID of the network policy that accepted the flow.
@@ -214,7 +216,7 @@ attributes:
     example_value: xxx-xxx-xxx
     omit_empty: true
     extensions:
-      bson_name: q
+      bson_name: r
 
   - name: policyNamespace
     description: Namespace of the network policy that accepted the flow.
@@ -225,7 +227,7 @@ attributes:
     example_value: /my/namespace
     omit_empty: true
     extensions:
-      bson_name: r
+      bson_name: s
 
   - name: protocol
     description: Protocol number.
@@ -236,7 +238,7 @@ attributes:
     example_value: 6
     omit_empty: true
     extensions:
-      bson_name: s
+      bson_name: t
 
   - name: remoteNamespace
     description: Namespace of the object at the other end of the flow.
@@ -244,6 +246,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: u
 
   - name: serviceClaimHash
     description: Hash of the claims used to communicate.
@@ -252,7 +256,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: t
+      bson_name: v
 
   - name: serviceID
     description: ID of the service.
@@ -261,7 +265,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: u
+      bson_name: w
 
   - name: serviceNamespace
     description: Namespace of Service accessed.
@@ -270,7 +274,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: v
+      bson_name: x
 
   - name: serviceType
     description: ID of the service.
@@ -285,7 +289,7 @@ attributes:
     default_value: NotApplicable
     omit_empty: true
     extensions:
-      bson_name: w
+      bson_name: "y"
 
   - name: serviceURL
     description: Service URL accessed.
@@ -294,7 +298,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: x
+      bson_name: z
 
   - name: sourceController
     description: Identifier of the source controller.
@@ -304,7 +308,7 @@ attributes:
     example_value: api.west.acme.com
     omit_empty: true
     extensions:
-      bson_name: true
+      bson_name: aa
 
   - name: sourceID
     description: ID of the source.
@@ -315,7 +319,7 @@ attributes:
     example_value: xxx-xxx-xxx
     omit_empty: true
     extensions:
-      bson_name: z
+      bson_name: ab
 
   - name: sourceIP
     description: Type of the source.
@@ -324,7 +328,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: aa
+      bson_name: ac
 
   - name: sourceNamespace
     description: |-
@@ -337,7 +341,7 @@ attributes:
     example_value: /my/namespace
     omit_empty: true
     extensions:
-      bson_name: ab
+      bson_name: ad
 
   - name: sourcePlatform
     description: Identifier of the source platform.
@@ -347,7 +351,7 @@ attributes:
     example_value: api.west.acme.com
     omit_empty: true
     extensions:
-      bson_name: ac
+      bson_name: ae
 
   - name: sourceType
     description: Type of the source.
@@ -362,7 +366,7 @@ attributes:
     example_value: ProcessingUnit
     omit_empty: true
     extensions:
-      bson_name: ad
+      bson_name: af
 
   - name: timestamp
     description: Time and date of the log.
@@ -370,6 +374,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: ag
 
   - name: value
     description: Number of flows in the log.
@@ -380,4 +386,4 @@ attributes:
     example_value: 1
     omit_empty: true
     extensions:
-      bson_name: ae
+      bson_name: ah
