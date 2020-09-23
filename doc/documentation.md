@@ -662,27 +662,27 @@ Last update date of the object.
 ### Poke
 
 When available, poke can be used to update various information about the parent.
-For instance, for Defenders, poke will be used as the heartbeat.
+For instance, for enforcers, poke will be used as the heartbeat.
 
 #### Relations
 
 ##### `GET /enforcers/:id/poke`
 
-Sends a poke empty object. This is used to ensure a Defender is up and running.
+Sends a poke empty object. This is used to ensure a enforcer is up and running.
 
 Parameters:
 
 - `cpuload` (`float`): Deprecated.
-- `enforcementStatus` (`enum(Failed | Inactive | Active)`): If set, changes the enforcement status of the Defender along with the poke.
+- `enforcementStatus` (`enum(Failed | Inactive | Active)`): If set, changes the enforcement status of the enforcer along with the poke.
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
 - `memory` (`integer`): Deprecated.
 - `processes` (`integer`): Deprecated.
-- `sessionClose` (`boolean`): If set, terminates a session for a Defender.
-- `sessionID` (`string`): If set, sends the current session ID of a Defender.
-- `status` (`enum(Registered | Connected | Disconnected)`): If set, changes the status of the Defender along with the poke.
+- `sessionClose` (`boolean`): If set, terminates a session for a enforcer.
+- `sessionID` (`string`): If set, sends the current session ID of a enforcer.
+- `status` (`enum(Registered | Connected | Disconnected)`): If set, changes the status of the enforcer along with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
-- `version` (`string`): If set, version of the current running Defender.
-- `zhash` (`integer`): Can be set to help Microsegmentation Console target the correct shard where the Defender is stored.
+- `version` (`string`): If set, version of the current running enforcer.
+- `zhash` (`integer`): Can be set to help Microsegmentation Console target the correct shard where the enforcer is stored.
 
 ##### `GET /processingunits/:id/poke`
 
@@ -693,7 +693,7 @@ Parameters:
 
 - `enforcementStatus` (`enum(Failed | Inactive | Active)`): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
-- `notify` (`boolean`): Can be sent to trigger a `ProcessingUnitRefresh` event that will be handled by the Defender. If this is set, all other additional parameters will be ignored.
+- `notify` (`boolean`): Can be sent to trigger a `ProcessingUnitRefresh` event that will be handled by the enforcer. If this is set, all other additional parameters will be ignored.
 - `status` (`enum(Initialized | Paused | Running | Stopped)`): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
 - `zhash` (`integer`): Can be set to help backend target the correct shard where the processing unit is stored.
@@ -3005,13 +3005,13 @@ Default value:
 
 Type: `string`
 
-Identifier of the Defender sending the report.
+Identifier of the enforcer sending the report.
 
 ##### `enforcerNamespace` [`required`]
 
 Type: `string`
 
-Namespace of the Defender sending the report.
+Namespace of the enforcer sending the report.
 
 ##### `externalNetworkConnections`
 
@@ -3071,9 +3071,9 @@ Default value:
 
 ### Enforcer
 
-Contains all parameters associated with a registered Defender. The
-object is mainly maintained by the Defenders themselves. Users can read the
-object in order to understand the current status of the Defenders.
+Contains all parameters associated with a registered enforcer. The
+object is mainly maintained by the enforcers themselves. Users can read the
+object in order to understand the current status of the enforcers.
 
 #### Example
 
@@ -3114,7 +3114,7 @@ ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
 
 ##### `GET /enforcers`
 
-Retrieves the list of Defenders.
+Retrieves the list of enforcers.
 
 Parameters:
 
@@ -3122,11 +3122,11 @@ Parameters:
 
 ##### `POST /enforcers`
 
-Creates a new Defender.
+Creates a new enforcer.
 
 ##### `DELETE /enforcers/:id`
 
-Deletes the Defender with the given ID.
+Deletes the enforcer with the given ID.
 
 Parameters:
 
@@ -3134,27 +3134,27 @@ Parameters:
 
 ##### `GET /enforcers/:id`
 
-Retrieves the Defender with the given ID.
+Retrieves the enforcer with the given ID.
 
 ##### `PUT /enforcers/:id`
 
-Updates the Defender with the given ID.
+Updates the enforcer with the given ID.
 
 ##### `GET /auditprofilemappingpolicies/:id/enforcers`
 
-Returns the list of Defenders that are affected by this mapping.
+Returns the list of enforcers that are affected by this mapping.
 
 ##### `GET /enforcerprofilemappingpolicies/:id/enforcers`
 
-Returns the list of Defenders affected by a Defender profile mapping.
+Returns the list of enforcers affected by an enforcer profile mapping.
 
 ##### `GET /hostservicemappingpolicies/:id/enforcers`
 
-Returns the list of Defenders that are affected by this mapping.
+Returns the list of enforcers that are affected by this mapping.
 
 ##### `GET /enforcers/:id/auditprofiles`
 
-Returns a list of the audit profiles that must be applied to this Defender.
+Returns a list of the audit profiles that must be applied to this enforcer.
 
 ##### `GET /enforcers/:id/debugbundles`
 
@@ -3166,43 +3166,43 @@ Uploads a debug bundle.
 
 ##### `GET /enforcers/:id/enforcerprofiles`
 
-Returns the Defender profile that must be used by a Defender.
+Returns the enforcer profile that must be used by a enforcer.
 
 ##### `POST /enforcers/:id/enforcerrefreshes`
 
-Sends a Defender refresh command.
+Sends a enforcer refresh command.
 
 ##### `GET /enforcers/:id/hostservices`
 
-Returns a list of the host services policies that apply to this Defender.
+Returns a list of the host services policies that apply to this enforcer.
 
 Parameters:
 
-- `appliedServices` (`boolean`): Valid when retrieved for a given Defender and returns the applied services.
+- `appliedServices` (`boolean`): Valid when retrieved for a given enforcer and returns the applied services.
 - `setServices` (`boolean`): Instructs Microsegmentation Console to cache the services that were resolved.
 
 ##### `GET /enforcers/:id/poke`
 
-Sends a poke empty object. This is used to ensure a Defender is up and running.
+Sends a poke empty object. This is used to ensure a enforcer is up and running.
 
 Parameters:
 
 - `cpuload` (`float`): Deprecated.
-- `enforcementStatus` (`enum(Failed | Inactive | Active)`): If set, changes the enforcement status of the Defender along with the poke.
+- `enforcementStatus` (`enum(Failed | Inactive | Active)`): If set, changes the enforcement status of the enforcer along with the poke.
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
 - `memory` (`integer`): Deprecated.
 - `processes` (`integer`): Deprecated.
-- `sessionClose` (`boolean`): If set, terminates a session for a Defender.
-- `sessionID` (`string`): If set, sends the current session ID of a Defender.
-- `status` (`enum(Registered | Connected | Disconnected)`): If set, changes the status of the Defender along with the poke.
+- `sessionClose` (`boolean`): If set, terminates a session for a enforcer.
+- `sessionID` (`string`): If set, sends the current session ID of a enforcer.
+- `status` (`enum(Registered | Connected | Disconnected)`): If set, changes the status of the enforcer along with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
-- `version` (`string`): If set, version of the current running Defender.
-- `zhash` (`integer`): Can be set to help Microsegmentation Console target the correct shard where the Defender is stored.
+- `version` (`string`): If set, version of the current running enforcer.
+- `zhash` (`integer`): Can be set to help Microsegmentation Console target the correct shard where the enforcer is stored.
 
 ##### `GET /enforcers/:id/trustedcas`
 
 Returns the list of certificate authorities that should be trusted by this
-Defender.
+enforcer.
 
 Parameters:
 
@@ -3215,7 +3215,7 @@ Parameters:
 Type: `string`
 
 Contains the fully qualified domain name (FQDN) of the server where the
-Defender is running.
+enforcer is running.
 
 ##### `ID` [`identifier`,`autogenerated`,`read_only`]
 
@@ -3239,7 +3239,7 @@ List of tags attached to an entity.
 
 Type: `string`
 
-The certificate of the Defender.
+The certificate of the enforcer.
 
 ##### `certificateRequest`
 
@@ -3253,7 +3253,7 @@ Console, providing a renewed certificate.
 
 Type: `boolean`
 
-Indicates to the Defender whether or not it needs to collect information.
+Indicates to the enforcer whether or not it needs to collect information.
 
 ##### `collectedInfo`
 
@@ -3261,7 +3261,7 @@ _This attribute is deprecated_.
 
 Type: `map[string]string`
 
-Represents the latest information collected by the Defender.
+Represents the latest information collected by the enforcer.
 
 ##### `controller` [`autogenerated`,`read_only`]
 
@@ -3280,7 +3280,7 @@ Creation date of the object.
 
 Type: `string`
 
-The version number of the installed Defender binary.
+The version number of the installed enforcer binary.
 
 ##### `description` [`max_length=1024`]
 
@@ -3322,14 +3322,14 @@ The time and date of the last heartbeat.
 
 Type: `string`
 
-Contains the initial chain of trust for the Defender. This value is only
-given when you retrieve a single Defender.
+Contains the initial chain of trust for the enforcer. This value is only
+given when you retrieve a single enforcer.
 
 ##### `logLevel`
 
 Type: `enum(Info | Debug | Warn | Error | Trace)`
 
-Log level of the Defender.
+Log level of the enforcer.
 
 Default value:
 
@@ -3354,7 +3354,7 @@ Default value:
 
 Type: `string`
 
-A unique identifier for every machine as detected by the Defender. It is
+A unique identifier for every machine as detected by the enforcer. It is
 based on hardware information such as the SMBIOS UUID, MAC addresses of
 interfaces, or cloud provider IDs.
 
@@ -3387,7 +3387,7 @@ Contains the list of normalized tags of the entities.
 
 Type: `enum(Registered | Connected | Disconnected | Initialized)`
 
-The status of the Defender.
+The status of the enforcer.
 
 Default value:
 
@@ -3412,27 +3412,27 @@ is signed by the private certificate authority.
 
 Type: `time`
 
-The time and date on which this Defender was started. The Defender reports
+The time and date on which this enforcer was started. The enforcer reports
 this and the value is preserved across disconnects.
 
 ##### `subnets`
 
 Type: `[]string`
 
-Local subnets of this Defender.
+Local subnets of this enforcer.
 
 ##### `unreachable` [`autogenerated`,`read_only`]
 
 Type: `boolean`
 
 The Microsegmentation Console sets this value to `true` if it hasn't heard from
-the Defender in the last five minutes.
+the enforcer in the last five minutes.
 
 ##### `updateAvailable`
 
 Type: `boolean`
 
-If `true`, the Defender version is outdated and should be updated.
+If `true`, the enforcer version is outdated and should be updated.
 
 ##### `updateTime` [`autogenerated`,`read_only`]
 
@@ -3442,7 +3442,7 @@ Last update date of the object.
 
 ### EnforcerLog
 
-A Defender log represents the log collected by a Defender. Each Defender log
+An enforcer log represents the log collected by an enforcer. Each enforcer log
 can have partial or complete data. The `collectionID` is used to aggregate the
 multipart data into one.
 
@@ -3498,7 +3498,7 @@ List of tags attached to an entity.
 
 Type: `string`
 
-Contains the ID of the Defender log. `CollectionID` is used to
+Contains the ID of the enforcer log. `CollectionID` is used to
 aggregate the multipart data.
 
 ##### `createTime` [`autogenerated`,`read_only`]
@@ -3511,13 +3511,13 @@ Creation date of the object.
 
 Type: `string`
 
-Represents the data collected by the Defender.
+Represents the data collected by the enforcer.
 
 ##### `enforcerID` [`required`]
 
 Type: `string`
 
-ID of the Defender.
+ID of the enforcer.
 
 ##### `namespace` [`autogenerated`,`read_only`]
 
@@ -3557,7 +3557,7 @@ Last update date of the object.
 
 ### EnforcerReport
 
-Post a new Defender statistics report.
+Post a new enforcer statistics report.
 
 #### Example
 
@@ -3577,7 +3577,7 @@ Post a new Defender statistics report.
 
 ##### `POST /enforcerreports`
 
-Create a Defender statistics report.
+Create an enforcer statistics report.
 
 #### Attributes
 
@@ -3585,7 +3585,7 @@ Create a Defender statistics report.
 
 Type: `float`
 
-Total CPU utilization of the Defender as a percentage of vCPUs.
+Total CPU utilization of the enforcer as a percentage of vCPUs.
 
 ##### `ID` [`identifier`,`autogenerated`,`read_only`]
 
@@ -3597,31 +3597,31 @@ Identifier of the object.
 
 Type: `string`
 
-ID of the Defender.
+ID of the enforcer.
 
 ##### `memory`
 
 Type: `integer`
 
-Total resident memory used by the Defender in bytes.
+Total resident memory used by the enforcer in bytes.
 
 ##### `name` [`required`]
 
 Type: `string`
 
-Name of the Defender.
+Name of the enforcer.
 
 ##### `namespace` [`required`]
 
 Type: `string`
 
-Namespace of the Defender.
+Namespace of the enforcer.
 
 ##### `processes`
 
 Type: `integer`
 
-Number of active processes of the Defender.
+Number of active processes of the enforcer.
 
 ##### `timestamp` [`required`]
 
@@ -3631,7 +3631,7 @@ Date of the report.
 
 ### EnforcerTraceReport
 
-Post a new Defender trace that determines how packets are.
+Post a new enforcer trace that determines how packets are.
 
 #### Example
 
@@ -3648,7 +3648,7 @@ Post a new Defender trace that determines how packets are.
 
 ##### `POST /enforcertracereports`
 
-Create a Defender trace report.
+Create an enforcer trace report.
 
 #### Attributes
 
@@ -3656,13 +3656,13 @@ Create a Defender trace report.
 
 Type: `string`
 
-ID of the Defender where the trace was collected.
+ID of the enforcer where the trace was collected.
 
 ##### `enforcerNamespace` [`required`]
 
 Type: `string`
 
-Namespace of the Defender where the trace was collected.
+Namespace of the enforcer where the trace was collected.
 
 ##### `namespace` [`required`]
 
@@ -3750,13 +3750,13 @@ Set to `true` if the packet was encrypted.
 
 Type: `string`
 
-Identifier of the Defender sending the report.
+Identifier of the enforcer sending the report.
 
 ##### `enforcerNamespace` [`required`]
 
 Type: `string`
 
-Namespace of the Defender sending the report.
+Namespace of the enforcer sending the report.
 
 ##### `event` [`required`]
 
@@ -3952,19 +3952,19 @@ Creation date of the object.
 
 Type: `string`
 
-ID of the Defender.
+ID of the enforcer.
 
 ##### `enforcerNamespace` [`required`]
 
 Type: `string`
 
-Namespace of the Defender.
+Namespace of the enforcer.
 
 ##### `enforcerVersion`
 
 Type: `string`
 
-Semantic version of the Defender.
+Semantic version of the enforcer.
 
 ##### `error`
 
@@ -4136,7 +4136,7 @@ Last update date of the object.
 
 ### PingRequest
 
-Initiates a ping request for Defender debugging.
+Initiates a ping request for enforcer debugging.
 
 #### Example
 
@@ -4305,13 +4305,13 @@ Represents the tracing mode to apply to a processing unit.
 
 Type: `boolean`
 
-Instructs the Defenders to provide an iptables trace for a processing unit.
+Instructs the enforcers to provide an iptables trace for a processing unit.
 
 ##### `applicationConnections`
 
 Type: `boolean`
 
-Instructs the Defender to send records for all
+Instructs the enforcer to send records for all
 application-initiated connections.
 
 ##### `interval`
@@ -4331,12 +4331,12 @@ Default value:
 
 Type: `boolean`
 
-Instructs the Defender to send records for all
+Instructs the enforcer to send records for all
 network-initiated connections.
 
 ### TraceRecord
 
-Represents a single trace record from the Defender.
+Represents a single trace record from the enforcer.
 
 #### Example
 
@@ -5234,7 +5234,7 @@ Type: `[]string`
 
 List of tags that describe this namespace. All organizational tags are
 automatically passed to policeable objects (e.g., processing units, external
-networks, Defenders) during their creation.
+networks, enforcers) during their creation.
 
 ##### `protected`
 
@@ -5271,7 +5271,7 @@ Defines what zone the namespace should live in.
 ### NamespaceMappingPolicy
 
 A namespace mapping defines the namespace a processing unit should
-be placed when it is created, based on its tags.  When a Defender creates
+be placed when it is created, based on its tags.  When an enforcer creates
 a new processing unit, the system will place it in its own namespace if no
 matching namespace mapping can be found. If one match is found, then the
 processing unit will be bumped down to the namespace declared in the namespace mapping. If it
@@ -5528,8 +5528,8 @@ The identity to render the clauses from.
 
 ### EnforcerRefresh
 
-Sent to Defenders when a poke has been triggered using the
-parameter `?notify=true`. This is used to notify a Defender of an
+Sent to enforcers when a poke has been triggered using the
+parameter `?notify=true`. This is used to notify an enforcer of an
 external change on the processing unit that must be processed.
 
 #### Example
@@ -5544,7 +5544,7 @@ external change on the processing unit that must be processed.
 
 ##### `POST /enforcers/:id/enforcerrefreshes`
 
-Sends a Defender refresh command.
+Sends a enforcer refresh command.
 
 #### Attributes
 
@@ -5552,13 +5552,13 @@ Sends a Defender refresh command.
 
 Type: `string`
 
-Contains the ID of the target Defender.
+Contains the ID of the target enforcer.
 
 ##### `debug`
 
 Type: `enum(Counters | Logs | Packets | PUState | Pcap | CoreDump)`
 
-Set the debug information collected by the Defender.
+Set the debug information collected by the enforcer.
 
 Default value:
 
@@ -5588,7 +5588,7 @@ Isolates debug information to a given processing unit, where possible.
 
 Type: `string`
 
-Contains the original namespace of the Defender.
+Contains the original namespace of the enforcer.
 
 ### Policy
 
@@ -5849,7 +5849,7 @@ Provides the audit profiles that must be applied.
 
 Type: [`[]enforcerprofile`](#enforcerprofile)
 
-Provides information about the Defender profile.
+Provides information about the enforcer profile.
 
 ##### `externalNetworks`
 
@@ -5926,7 +5926,7 @@ Policy target tags.
 ### ProcessingUnitRefresh
 
 Sent to client when a poke has been triggered using the
-parameter `?notify=true`. This is used to notify a Defender of an
+parameter `?notify=true`. This is used to notify a enforcer of an
 external change on the processing unit must be processed.
 
 #### Example
@@ -6030,7 +6030,7 @@ If set to true, the target processing unit will refresh its policy immediately.
 
 Type: `boolean`
 
-Instructs the Defender to send records for all
+Instructs the enforcer to send records for all
 application-initiated connections for the target processing unit.
 
 ##### `traceDuration`
@@ -6051,14 +6051,14 @@ Default value:
 
 Type: `boolean`
 
-Instructs the Defenders to provide an iptables trace for the target processing
+Instructs the enforcers to provide an iptables trace for the target processing
 unit.
 
 ##### `traceNetworkConnections`
 
 Type: `boolean`
 
-Instructs the Defender to send records for all
+Instructs the enforcer to send records for all
 network-initiated connections for the target processing unit.
 
 ### RenderedPolicy
@@ -6114,10 +6114,10 @@ Type: `enum(Default | Aporeto | EnvoyAuthorizer)`
 The datapath type that this processing unit must implement according to
 the rendered policy:
 - `Default`: This policy is not making a decision for the datapath.
-- `Aporeto`: The Defender is managing and handling the datapath.
-- `EnvoyAuthorizer`: The Defender is serving Envoy-compatible gRPC APIs
+- `Aporeto`: The enforcer is managing and handling the datapath.
+- `EnvoyAuthorizer`: The enforcer is serving Envoy-compatible gRPC APIs
 that for example can be used by an Envoy proxy to use the Microsegmentation PKI
-and implement Microsegmentation network policies. NOTE: The Defender is not
+and implement Microsegmentation network policies. NOTE: The enforcer is not
 owning the datapath in this case. It is merely providing an authorizer API.
 
 ##### `dependendServices`
@@ -6181,7 +6181,7 @@ present in HTTP requests.
 
 ### DataPathCertificate
 
-Used by Defender instances to retrieve various certificates used
+Used by enforcer instances to retrieve various certificates used
 for the datapath.
 
 #### Example
@@ -6223,7 +6223,7 @@ Creates a new certificate for datapath.
 
 Type: `string`
 
-Contains a certificate signing request (CSR) from the Defender.
+Contains a certificate signing request (CSR) from the enforcer.
 Depending on the certificate there will be various requirements
 for the Microsegmentation Console to accept the CSR.
 
@@ -6243,7 +6243,7 @@ ID of the object you want to issue a certificate for.
 
 Type: `string`
 
-Provides the session ID of the Defender when retrieving a datapath certificate.
+Provides the session ID of the enforcer when retrieving a datapath certificate.
 
 ##### `signer` [`autogenerated`,`read_only`]
 
@@ -6539,7 +6539,7 @@ Parameters:
 
 - `enforcementStatus` (`enum(Failed | Inactive | Active)`): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
-- `notify` (`boolean`): Can be sent to trigger a `ProcessingUnitRefresh` event that will be handled by the Defender. If this is set, all other additional parameters will be ignored.
+- `notify` (`boolean`): Can be sent to trigger a `ProcessingUnitRefresh` event that will be handled by the enforcer. If this is set, all other additional parameters will be ignored.
 - `status` (`enum(Initialized | Paused | Running | Stopped)`): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
 - `zhash` (`integer`): Can be set to help backend target the correct shard where the processing unit is stored.
@@ -6592,14 +6592,14 @@ List of tags attached to an entity.
 
 Type: `boolean`
 
-A value of `true` indicates to the Defender that it needs to collect information
+A value of `true` indicates to the enforcer that it needs to collect information
 for this processing unit.
 
 ##### `collectedInfo`
 
 Type: `map[string]string`
 
-Represents the latest information collected by the Defender for this processing
+Represents the latest information collected by the enforcer for this processing
 unit.
 
 ##### `controller` [`autogenerated`,`read_only`]
@@ -6620,10 +6620,10 @@ Creation date of the object.
 Type: `enum(Aporeto | EnvoyAuthorizer)`
 
 The datapath type that processing units are implementing:
-- `Aporeto`: The Defender is managing and handling the datapath.
-- `EnvoyAuthorizer`: The Defender is serving Envoy-compatible gRPC APIs
+- `Aporeto`: The enforcer is managing and handling the datapath.
+- `EnvoyAuthorizer`: The enforcer is serving Envoy-compatible gRPC APIs
 that for example can be used by an Envoy proxy to use the Microsegmentation PKI
-and implement Microsegmentation network policies. NOTE: The Defender is not
+and implement Microsegmentation network policies. NOTE: The enforcer is not
 owning the datapath in this case. It is merely providing an authorizer API.
 
 Default value:
@@ -6642,9 +6642,9 @@ Description of the object.
 
 Type: `enum(Active | Failed | Inactive)`
 
-Contains the state of the Defender for the processing unit. `Inactive`
-(default): the Defender is not enforcing any host service. `Active`: the
-Defender is enforcing a host service. `Failed`.
+Contains the state of the enforcer for the processing unit. `Inactive`
+(default): the enforcer is not enforcing any host service. `Active`: the
+enforcer is enforcing a host service. `Failed`.
 
 Default value:
 
@@ -6656,13 +6656,13 @@ Default value:
 
 Type: `string`
 
-The ID of the Defender associated with the processing unit.
+The ID of the enforcer associated with the processing unit.
 
 ##### `enforcerNamespace`
 
 Type: `string`
 
-The namespace of the Defender associated with the processing unit.
+The namespace of the enforcer associated with the processing unit.
 
 ##### `image`
 
@@ -7552,7 +7552,7 @@ Can be used to correlate with an EnforcerRefresh.
 
 Type: `string`
 
-The ID of the Defender.
+The ID of the enforcer.
 
 ##### `namespace` [`autogenerated`,`read_only`]
 
@@ -8643,13 +8643,13 @@ Hash of the claims used to communicate.
 
 Type: `string`
 
-Identifier of the Defender.
+Identifier of the enforcer.
 
 ##### `enforcerNamespace` [`required`]
 
 Type: `string`
 
-Namespace of the Defender.
+Namespace of the enforcer.
 
 ##### `processingUnitID`
 
@@ -8690,7 +8690,7 @@ Type of the report.
 
 ### UserAccessPolicy
 
-The Defender policy that controls user access.
+The enforcer policy that controls user access.
 
 #### Example
 
@@ -8716,7 +8716,7 @@ Parameters:
 
 ##### `POST /useraccesspolicies`
 
-Creates a new Defender policy.
+Creates a new enforcer policy.
 
 ##### `DELETE /useraccesspolicies/:id`
 
@@ -8831,7 +8831,7 @@ Contains the list of normalized tags of the entities.
 
 Type: `[][]string`
 
-Contains the tag expression matching the Defenders the subject is allowed
+Contains the tag expression matching the enforcers the subject is allowed
 to connect to.
 
 ##### `propagate`
@@ -8917,7 +8917,7 @@ Returns the list of audit profiles that are referred to by this mapping.
 
 ##### `GET /enforcers/:id/auditprofiles`
 
-Returns a list of the audit profiles that must be applied to this Defender.
+Returns a list of the audit profiles that must be applied to this enforcer.
 
 #### Attributes
 
@@ -9002,7 +9002,7 @@ Last update date of the object.
 
 ### AuditProfileMappingPolicy
 
-Use an audit profile mapping to define the set of Defenders that must
+Use an audit profile mapping to define the set of enforcers that must
 implement a specific audit profile.
 
 #### Example
@@ -9058,7 +9058,7 @@ Returns the list of audit profiles that are referred to by this mapping.
 
 ##### `GET /auditprofilemappingpolicies/:id/enforcers`
 
-Returns the list of Defenders that are affected by this mapping.
+Returns the list of enforcers that are affected by this mapping.
 
 #### Attributes
 
@@ -9167,7 +9167,7 @@ Defines if the object is protected.
 
 Type: `[][]string`
 
-The tag or tag expression that identifies the Defender(s) to implement the audit profile.
+The tag or tag expression that identifies the enforcer(s) to implement the audit profile.
 
 ##### `updateTime` [`autogenerated`,`read_only`]
 
@@ -9361,13 +9361,13 @@ Command issued.
 
 Type: `string`
 
-ID of the Defender reporting.
+ID of the enforcer reporting.
 
 ##### `enforcerNamespace` [`required`]
 
 Type: `string`
 
-Namespace of the Defender reporting.
+Namespace of the enforcer reporting.
 
 ##### `exit`
 
@@ -9956,7 +9956,7 @@ Set to `true` to make the role private and hidden from the UI.
 
 A DNS lookup report is used to report a DNS lookup that is happening on
 behalf of a processing unit. If the DNS server is on the standard UDP port 53
-then the Defender can proxy the DNS traffic and make a report. The report
+then the enforcer can proxy the DNS traffic and make a report. The report
 indicate whether or not the lookup was successful.
 
 #### Example
@@ -9991,13 +9991,13 @@ Action of the DNS request.
 
 Type: `string`
 
-ID of the Defender.
+ID of the enforcer.
 
 ##### `enforcerNamespace` [`required`]
 
 Type: `string`
 
-Namespace of the Defender.
+Namespace of the enforcer.
 
 ##### `processingUnitID` [`required`]
 
@@ -10046,10 +10046,10 @@ Number of times the client saw this activity.
 
 ### EnforcerProfile
 
-Allows you to create reusable configuration profiles for your Defenders.
-Defender profiles contain various startup information that can (for some)
-be updated live. Defender profiles are assigned to Defenders using a
-Defender profile mapping.
+Allows you to create reusable configuration profiles for your enforcers.
+Enforcer profiles contain various startup information that can (for some)
+be updated live. Enforcer profiles are assigned to enforcers using a
+enforcer profile mapping.
 
 #### Example
 
@@ -10068,7 +10068,7 @@ Defender profile mapping.
 
 ##### `GET /enforcerprofiles`
 
-Retrieves the list of Defender profiles.
+Retrieves the list of enforcer profiles.
 
 Parameters:
 
@@ -10077,11 +10077,11 @@ Parameters:
 
 ##### `POST /enforcerprofiles`
 
-Creates a new Defender profile.
+Creates a new enforcer profile.
 
 ##### `DELETE /enforcerprofiles/:id`
 
-Deletes the Defender profile with the given ID.
+Deletes the enforcer profile with the given ID.
 
 Parameters:
 
@@ -10089,7 +10089,7 @@ Parameters:
 
 ##### `GET /enforcerprofiles/:id`
 
-Retrieves the Defender profile with the given ID.
+Retrieves the enforcer profile with the given ID.
 
 Parameters:
 
@@ -10097,16 +10097,16 @@ Parameters:
 
 ##### `PUT /enforcerprofiles/:id`
 
-Updates the Defender profile with the given ID.
+Updates the enforcer profile with the given ID.
 
 ##### `GET /enforcerprofilemappingpolicies/:id/enforcerprofiles`
 
-Returns the list of Defender profiles that a Defender profile mapping
+Returns the list of enforcer profiles that an enforcer profile mapping
 matches.
 
 ##### `GET /enforcers/:id/enforcerprofiles`
 
-Returns the Defender profile that must be used by a Defender.
+Returns the enforcer profile that must be used by a enforcer.
 
 #### Attributes
 
@@ -10169,7 +10169,7 @@ _This attribute is deprecated_.
 
 Type: `enum(KubeSquall | PodAtomic | PodContainers)`
 
-This field is kept for backward compatibility for Defenders <= 3.5.
+This field is kept for backward compatibility for enforcers <= 3.5.
 
 Default value:
 
@@ -10183,7 +10183,7 @@ _This attribute is deprecated_.
 
 Type: `boolean`
 
-This field is kept for backward compatibility for Defenders <= 3.5.
+This field is kept for backward compatibility for enforcers <= 3.5.
 
 ##### `metadata` [`creation_only`]
 
@@ -10198,7 +10198,7 @@ _This attribute is deprecated_.
 
 Type: `enum(Docker | ECS | Kubernetes)`
 
-This field is kept for backward compatibility for Defenders <= 3.5.
+This field is kept for backward compatibility for enforcers <= 3.5.
 
 Default value:
 
@@ -10240,7 +10240,7 @@ Defines if the object is protected.
 
 Type: `[]string`
 
-If empty, the Defender auto-discovers the TCP networks. Auto-discovery
+If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
 works best in Kubernetes and OpenShift deployments. You may need to manually
 specify the TCP networks if middle boxes exist that do not comply with
 [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).
@@ -10249,8 +10249,8 @@ specify the TCP networks if middle boxes exist that do not comply with
 
 Type: `[]string`
 
-If empty, the Defender enforces all UDP networks. This works best when all UDP
-networks have Defenders. If some UDP networks do not have Defenders, you
+If empty, the enforcer enforces all UDP networks. This works best when all UDP
+networks have enforcers. If some UDP networks do not have enforcers, you
 may need to manually specify the UDP networks that should be enforced.
 
 ##### `trustedCAs`
@@ -10268,7 +10268,7 @@ Last update date of the object.
 
 ### EnforcerProfileMappingPolicy
 
-Allows you to map a Defender profile to one or more Defenders.
+Allows you to map an enforcer profile to one or more enforcers.
 The mapping can also be propagated down to the child namespace.
 
 #### Example
@@ -10305,7 +10305,7 @@ The mapping can also be propagated down to the child namespace.
 
 ##### `GET /enforcerprofilemappingpolicies`
 
-Retrieves the list of Defender profile mappings.
+Retrieves the list of enforcer profile mappings.
 
 Parameters:
 
@@ -10314,7 +10314,7 @@ Parameters:
 
 ##### `POST /enforcerprofilemappingpolicies`
 
-Creates a new Defender profile mappings.
+Creates a new enforcer profile mappings.
 
 ##### `DELETE /enforcerprofilemappingpolicies/:id`
 
@@ -10334,12 +10334,12 @@ Updates the mapping with the given ID.
 
 ##### `GET /enforcerprofilemappingpolicies/:id/enforcerprofiles`
 
-Returns the list of Defender profiles that a Defender profile mapping
+Returns the list of enforcer profiles that an enforcer profile mapping
 matches.
 
 ##### `GET /enforcerprofilemappingpolicies/:id/enforcers`
 
-Returns the list of Defenders affected by a Defender profile mapping.
+Returns the list of enforcers affected by an enforcer profile mapping.
 
 #### Attributes
 
@@ -10416,7 +10416,7 @@ Contains the list of normalized tags of the entities.
 
 Type: `[][]string`
 
-The tag or tag expression that identifies the Defender profile to
+The tag or tag expression that identifies the enforcer profile to
 be mapped.
 
 ##### `propagate`
@@ -10435,7 +10435,7 @@ Defines if the object is protected.
 
 Type: `[][]string`
 
-The tag or tag expression that identifies the Defenders that should
+The tag or tag expression that identifies the enforcers that should
 implement the mapped profile.
 
 ##### `updateTime` [`autogenerated`,`read_only`]
@@ -10461,7 +10461,7 @@ Parameters:
 ##### `GET /enforcers/:id/trustedcas`
 
 Returns the list of certificate authorities that should be trusted by this
-Defender.
+enforcer.
 
 Parameters:
 
@@ -11522,11 +11522,11 @@ Updates the host service with the given ID.
 
 ##### `GET /enforcers/:id/hostservices`
 
-Returns a list of the host services policies that apply to this Defender.
+Returns a list of the host services policies that apply to this enforcer.
 
 Parameters:
 
-- `appliedServices` (`boolean`): Valid when retrieved for a given Defender and returns the applied services.
+- `appliedServices` (`boolean`): Valid when retrieved for a given enforcer and returns the applied services.
 - `setServices` (`boolean`): Instructs Microsegmentation Console to cache the services that were resolved.
 
 ##### `GET /hostservicemappingpolicies/:id/hostservices`
@@ -11569,10 +11569,10 @@ Description of the object.
 
 Type: `boolean`
 
-Forces the corresponding Defenders to enable host protection. When `true`, all
+Forces the corresponding enforcers to enable host protection. When `true`, all
 incoming and outgoing flows will be monitored. Flows will be allowed if and only
 if a network policy has been created to allow the flow. The option applies to
-all Defenders to which the host service is mapped.
+all enforcers to which the host service is mapped.
 
 ##### `metadata` [`creation_only`]
 
@@ -11631,8 +11631,8 @@ Last update date of the object.
 
 ### HostServiceMappingPolicy
 
-Host service mapping allows you to map host services to the Defenders that should
-implement them. You must map host services to one or more Defenders for the host
+Host service mapping allows you to map host services to the enforcers that should
+implement them. You must map host services to one or more enforcers for the host
 services to have any effect.
 
 #### Example
@@ -11684,7 +11684,7 @@ Updates the mapping with the given ID.
 
 ##### `GET /hostservicemappingpolicies/:id/enforcers`
 
-Returns the list of Defenders that are affected by this mapping.
+Returns the list of enforcers that are affected by this mapping.
 
 ##### `GET /hostservicemappingpolicies/:id/hostservices`
 
@@ -11797,7 +11797,7 @@ Defines if the object is protected.
 
 Type: `[][]string`
 
-A tag or tag expression identifying the Defender(s) that should implement
+A tag or tag expression identifying the enforcer(s) that should implement
 the specified host service(s).
 
 ##### `updateTime` [`autogenerated`,`read_only`]
@@ -13094,11 +13094,11 @@ The datapath type that processing units selected by `subject` should
 implement:
 - `Default`: This policy is not making a decision for the
 datapath.
-- `Aporeto`: The Defender is managing and handling the datapath.
-- `EnvoyAuthorizer`: The Defender is serving Envoy-compatible gRPC APIs
+- `Aporeto`: The enforcer is managing and handling the datapath.
+- `EnvoyAuthorizer`: The enforcer is serving Envoy-compatible gRPC APIs
 for every processing unit that for example can be used by an Envoy
 proxy to use the Microsegmentation PKI and implement Microsegmentation
-network policies. NOTE: The Defender is not going to own the datapath in
+network policies. NOTE: The enforcer is not going to own the datapath in
 this example. It is merely providing an authorizer API.
 
 Default value:
@@ -13805,7 +13805,7 @@ Microsegmentation Console's public signing certificate authority will be used.
 Type: `string`
 
 This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-the Defender will autodiscover it. It will be
+the enforcer will autodiscover it. It will be
 `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
 
 ##### `OIDCClientID`
@@ -13905,7 +13905,7 @@ Default value:
 Type: [`[]claimmapping`](#claimmapping)
 
 Defines a list of mappings between claims and HTTP headers. When these mappings
-are defined, the Defender will copy the values of the claims to the
+are defined, the enforcer will copy the values of the claims to the
 corresponding HTTP headers.
 
 ##### `createTime` [`autogenerated`,`read_only`]
@@ -13955,7 +13955,7 @@ port that the implementation is listening on can be different.
 
 Type: `boolean`
 
-Indicates that the exposed service is TLS. This means that the Defender has to
+Indicates that the exposed service is TLS. This means that the enforcer has to
 initiate a TLS session in order to forward traffic to the service.
 
 Default value:
@@ -14032,9 +14032,9 @@ Defines if the object is protected.
 Type: `integer`
 
 A new virtual port that the service can be accessed on using HTTPS. Since the
-Defender transparently inserts TLS in the application path, you might want
-to declare a new port where the Defender listens for TLS. However, the
-application does not need to be modified and the Defender will map the
+enforcer transparently inserts TLS in the application path, you might want
+to declare a new port where the enforcer listens for TLS. However, the
+application does not need to be modified and the enforcer will map the
 traffic to the correct application port. This is useful when
 an application is being accessed from a public network.
 
@@ -14630,14 +14630,14 @@ Contains the list of normalized tags of the entities.
 
 Type: `[][]string`
 
-Contains the tag expression identifying the Defenders on the hosts the `subject`
+Contains the tag expression identifying the enforcers on the hosts the `subject`
 is allowed to access.
 
 ##### `principals`
 
 Type: `[]string`
 
-On systems without a Microsegmentation-enabled Defender, you must provide the
+On systems without an enforcer, you must provide the
 name of the Linux user. Otherwise, Microsegmentation will automatically populate
 this field and adding a value here is
 optional and not used during the authorization. However, the value becomes a tag
@@ -14693,7 +14693,7 @@ Default value:
 
 Returns an SSH certificate containing the bearer claims. This SSH certificate
 can
-be used to connect to a node where the Defender is protecting SSH sessions.
+be used to connect to a node where the enforcer is protecting SSH sessions.
 
 #### Example
 
@@ -14774,7 +14774,7 @@ ID of the object you want to issue a token for.
 
 Type: `string`
 
-Provides the session ID of the Defender when retrieving a datapath certificate.
+Provides the session ID of the enforcer when retrieving a datapath certificate.
 
 ##### `token` [`autogenerated`,`read_only`]
 

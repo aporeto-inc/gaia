@@ -84,7 +84,7 @@ attributes:
   - name: OIDCCallbackURL
     description: |-
       This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-      the Defender will autodiscover it. It will be
+      the enforcer will autodiscover it. It will be
       `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
     type: string
     exposed: true
@@ -201,7 +201,7 @@ attributes:
   - name: claimsToHTTPHeaderMappings
     description: |-
       Defines a list of mappings between claims and HTTP headers. When these mappings
-      are defined, the Defender will copy the values of the claims to the
+      are defined, the enforcer will copy the values of the claims to the
       corresponding HTTP headers.
     type: refList
     exposed: true
@@ -251,7 +251,7 @@ attributes:
 
   - name: exposedServiceIsTLS
     description: |-
-      Indicates that the exposed service is TLS. This means that the Defender has to
+      Indicates that the exposed service is TLS. This means that the enforcer has to
       initiate a TLS session in order to forward traffic to the service.
     type: boolean
     exposed: true
@@ -291,9 +291,9 @@ attributes:
   - name: publicApplicationPort
     description: |-
       A new virtual port that the service can be accessed on using HTTPS. Since the
-      Defender transparently inserts TLS in the application path, you might want
-      to declare a new port where the Defender listens for TLS. However, the
-      application does not need to be modified and the Defender will map the
+      enforcer transparently inserts TLS in the application path, you might want
+      to declare a new port where the enforcer listens for TLS. However, the
+      application does not need to be modified and the enforcer will map the
       traffic to the correct application port. This is useful when
       an application is being accessed from a public network.
     type: integer

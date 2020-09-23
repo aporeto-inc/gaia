@@ -90,7 +90,7 @@ type EnforcerLog struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Contains the ID of the Defender log. `CollectionID` is used to
+	// Contains the ID of the enforcer log. `CollectionID` is used to
 	// aggregate the multipart data.
 	CollectionID string `json:"collectionID" msgpack:"collectionID" bson:"collectionid" mapstructure:"collectionID,omitempty"`
 
@@ -100,10 +100,10 @@ type EnforcerLog struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Represents the data collected by the Defender.
+	// Represents the data collected by the enforcer.
 	Data string `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
 
-	// ID of the Defender.
+	// ID of the enforcer.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
 	// Internal property maintaining migrations information.
@@ -260,7 +260,7 @@ func (o *EnforcerLog) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *EnforcerLog) Doc() string {
 
-	return `A Defender log represents the log collected by a Defender. Each Defender log
+	return `An enforcer log represents the log collected by an enforcer. Each enforcer log
 can have partial or complete data. The ` + "`" + `collectionID` + "`" + ` is used to aggregate the
 multipart data into one.`
 }
@@ -710,7 +710,7 @@ var EnforcerLogAttributesMap = map[string]elemental.AttributeSpecification{
 	"CollectionID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectionID",
-		Description: `Contains the ID of the Defender log. ` + "`" + `CollectionID` + "`" + ` is used to
+		Description: `Contains the ID of the enforcer log. ` + "`" + `CollectionID` + "`" + ` is used to
 aggregate the multipart data.`,
 		Exposed:  true,
 		Name:     "collectionID",
@@ -747,7 +747,7 @@ aggregate the multipart data.`,
 	"Data": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
-		Description:    `Represents the data collected by the Defender.`,
+		Description:    `Represents the data collected by the enforcer.`,
 		Exposed:        true,
 		Name:           "data",
 		Stored:         true,
@@ -756,7 +756,7 @@ aggregate the multipart data.`,
 	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the Defender.`,
+		Description:    `ID of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -935,7 +935,7 @@ var EnforcerLogLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		AllowedChoices: []string{},
 		BSONFieldName:  "collectionid",
 		ConvertedName:  "CollectionID",
-		Description: `Contains the ID of the Defender log. ` + "`" + `CollectionID` + "`" + ` is used to
+		Description: `Contains the ID of the enforcer log. ` + "`" + `CollectionID` + "`" + ` is used to
 aggregate the multipart data.`,
 		Exposed:  true,
 		Name:     "collectionID",
@@ -975,7 +975,7 @@ aggregate the multipart data.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "data",
 		ConvertedName:  "Data",
-		Description:    `Represents the data collected by the Defender.`,
+		Description:    `Represents the data collected by the enforcer.`,
 		Exposed:        true,
 		Name:           "data",
 		Stored:         true,
@@ -985,7 +985,7 @@ aggregate the multipart data.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "enforcerid",
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the Defender.`,
+		Description:    `ID of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -1199,7 +1199,7 @@ type SparseEnforcerLog struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// Contains the ID of the Defender log. `CollectionID` is used to
+	// Contains the ID of the enforcer log. `CollectionID` is used to
 	// aggregate the multipart data.
 	CollectionID *string `json:"collectionID,omitempty" msgpack:"collectionID,omitempty" bson:"collectionid,omitempty" mapstructure:"collectionID,omitempty"`
 
@@ -1209,10 +1209,10 @@ type SparseEnforcerLog struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Represents the data collected by the Defender.
+	// Represents the data collected by the enforcer.
 	Data *string `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
-	// ID of the Defender.
+	// ID of the enforcer.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Internal property maintaining migrations information.

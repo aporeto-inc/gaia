@@ -6,21 +6,21 @@ model:
   package: squall
   group: policy/enforcerconfig
   description: |-
-    Allows you to create reusable configuration profiles for your Defenders.
-    Defender profiles contain various startup information that can (for some) 
-    be updated live. Defender profiles are assigned to Defenders using a 
-    Defender profile mapping.
+    Allows you to create reusable configuration profiles for your enforcers.
+    Enforcer profiles contain various startup information that can (for some) 
+    be updated live. Enforcer profiles are assigned to enforcers using a 
+    enforcer profile mapping.
   aliases:
   - profile
   - profiles
   get:
-    description: Retrieves the Defender profile with the given ID.
+    description: Retrieves the enforcer profile with the given ID.
     global_parameters:
     - $propagatable
   update:
-    description: Updates the Defender profile with the given ID.
+    description: Updates the enforcer profile with the given ID.
   delete:
-    description: Deletes the Defender profile with the given ID.
+    description: Deletes the enforcer profile with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -74,7 +74,7 @@ attributes:
     - $tagsExpression
 
   - name: kubernetesMetadataExtractor
-    description: This field is kept for backward compatibility for Defenders <= 3.5.
+    description: This field is kept for backward compatibility for enforcers <= 3.5.
     type: enum
     exposed: true
     stored: true
@@ -86,14 +86,14 @@ attributes:
     deprecated: true
 
   - name: kubernetesSupportEnabled
-    description: This field is kept for backward compatibility for Defenders <= 3.5.
+    description: This field is kept for backward compatibility for enforcers <= 3.5.
     type: boolean
     exposed: true
     stored: true
     deprecated: true
 
   - name: metadataExtractor
-    description: This field is kept for backward compatibility for Defenders <= 3.5.
+    description: This field is kept for backward compatibility for enforcers <= 3.5.
     type: enum
     exposed: true
     stored: true
@@ -106,7 +106,7 @@ attributes:
 
   - name: targetNetworks
     description: |-
-      If empty, the Defender auto-discovers the TCP networks. Auto-discovery
+      If empty, the enforcer auto-discovers the TCP networks. Auto-discovery
       works best in Kubernetes and OpenShift deployments. You may need to manually
       specify the TCP networks if middle boxes exist that do not comply with
       [TCP Fast Open RFC 7413](https://tools.ietf.org/html/rfc7413).
@@ -118,8 +118,8 @@ attributes:
 
   - name: targetUDPNetworks
     description: |-
-      If empty, the Defender enforces all UDP networks. This works best when all UDP
-      networks have Defenders. If some UDP networks do not have Defenders, you
+      If empty, the enforcer enforces all UDP networks. This works best when all UDP
+      networks have enforcers. If some UDP networks do not have enforcers, you
       may need to manually specify the UDP networks that should be enforced.
     type: list
     exposed: true

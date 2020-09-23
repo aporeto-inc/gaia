@@ -86,7 +86,7 @@ type DebugBundle struct {
 	// Can be used to correlate with an EnforcerRefresh.
 	DebugID string `json:"debugID,omitempty" msgpack:"debugID,omitempty" bson:"-" mapstructure:"debugID,omitempty"`
 
-	// The ID of the Defender.
+	// The ID of the enforcer.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -350,7 +350,7 @@ var DebugBundleAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `The ID of the Defender.`,
+		Description:    `The ID of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		ReadOnly:       true,
@@ -399,7 +399,7 @@ var DebugBundleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `The ID of the Defender.`,
+		Description:    `The ID of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		ReadOnly:       true,
@@ -492,7 +492,7 @@ type SparseDebugBundle struct {
 	// Can be used to correlate with an EnforcerRefresh.
 	DebugID *string `json:"debugID,omitempty" msgpack:"debugID,omitempty" bson:"-" mapstructure:"debugID,omitempty"`
 
-	// The ID of the Defender.
+	// The ID of the enforcer.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace tag attached to an entity.

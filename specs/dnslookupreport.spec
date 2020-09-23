@@ -8,7 +8,7 @@ model:
   description: |-
     A DNS lookup report is used to report a DNS lookup that is happening on
     behalf of a processing unit. If the DNS server is on the standard UDP port 53
-    then the Defender can proxy the DNS traffic and make a report. The report
+    then the enforcer can proxy the DNS traffic and make a report. The report
     indicate whether or not the lookup was successful.
 
 # Attributes
@@ -25,12 +25,12 @@ attributes:
     example_value: Accept
 
   - name: enforcerID
-    description: ID of the Defender.
+    description: ID of the enforcer.
     type: string
     exposed: true
 
   - name: enforcerNamespace
-    description: Namespace of the Defender.
+    description: Namespace of the enforcer.
     type: string
     exposed: true
     required: true

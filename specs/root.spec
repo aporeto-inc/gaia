@@ -242,11 +242,11 @@ relations:
 
 - rest_name: enforcer
   get:
-    description: Retrieves the list of Defenders.
+    description: Retrieves the list of enforcers.
     global_parameters:
     - $filtering
   create:
-    description: Creates a new Defender.
+    description: Creates a new enforcer.
 
 - rest_name: enforcerlog
   get:
@@ -258,29 +258,29 @@ relations:
 
 - rest_name: enforcerprofile
   get:
-    description: Retrieves the list of Defender profiles.
+    description: Retrieves the list of enforcer profiles.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new Defender profile.
+    description: Creates a new enforcer profile.
 
 - rest_name: enforcerprofilemappingpolicy
   get:
-    description: Retrieves the list of Defender profile mappings.
+    description: Retrieves the list of enforcer profile mappings.
     global_parameters:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new Defender profile mappings.
+    description: Creates a new enforcer profile mappings.
 
 - rest_name: enforcerreport
   create:
-    description: Create a Defender statistics report.
+    description: Create an enforcer statistics report.
 
 - rest_name: enforcertracereport
   create:
-    description: Create a Defender trace report.
+    description: Create an enforcer trace report.
 
 - rest_name: eventlog
   create:
@@ -936,7 +936,7 @@ relations:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new Defender policy.
+    description: Creates a new enforcer policy.
 
 - rest_name: validateuiparameter
   create:

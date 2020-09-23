@@ -115,10 +115,10 @@ type AccessReport struct {
 	// Hash of the claims used to communicate.
 	ClaimHash string `json:"claimHash" msgpack:"claimHash" bson:"-" mapstructure:"claimHash,omitempty"`
 
-	// Identifier of the Defender.
+	// Identifier of the enforcer.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the Defender.
+	// Namespace of the enforcer.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
 	// ID of the processing unit of the report.
@@ -449,7 +449,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `Identifier of the Defender.`,
+		Description:    `Identifier of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -458,7 +458,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the Defender.`,
+		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -538,7 +538,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"enforcerid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `Identifier of the Defender.`,
+		Description:    `Identifier of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -547,7 +547,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"enforcernamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the Defender.`,
+		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -674,10 +674,10 @@ type SparseAccessReport struct {
 	// Hash of the claims used to communicate.
 	ClaimHash *string `json:"claimHash,omitempty" msgpack:"claimHash,omitempty" bson:"-" mapstructure:"claimHash,omitempty"`
 
-	// Identifier of the Defender.
+	// Identifier of the enforcer.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the Defender.
+	// Namespace of the enforcer.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
 	// ID of the processing unit of the report.

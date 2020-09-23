@@ -94,7 +94,7 @@ func (o DataPathCertificatesList) Version() int {
 
 // DataPathCertificate represents the model of a datapathcertificate
 type DataPathCertificate struct {
-	// Contains a certificate signing request (CSR) from the Defender.
+	// Contains a certificate signing request (CSR) from the enforcer.
 	// Depending on the certificate there will be various requirements
 	// for the Microsegmentation Console to accept the CSR.
 	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
@@ -105,7 +105,7 @@ type DataPathCertificate struct {
 	// ID of the object you want to issue a certificate for.
 	ObjectID string `json:"objectID" msgpack:"objectID" bson:"-" mapstructure:"objectID,omitempty"`
 
-	// Provides the session ID of the Defender when retrieving a datapath certificate.
+	// Provides the session ID of the enforcer when retrieving a datapath certificate.
 	SessionID string `json:"sessionID" msgpack:"sessionID" bson:"-" mapstructure:"sessionID,omitempty"`
 
 	// Contains the CA that signed the delivered certificate.
@@ -195,7 +195,7 @@ func (o *DataPathCertificate) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *DataPathCertificate) Doc() string {
 
-	return `Used by Defender instances to retrieve various certificates used
+	return `Used by enforcer instances to retrieve various certificates used
 for the datapath.`
 }
 
@@ -374,7 +374,7 @@ var DataPathCertificateAttributesMap = map[string]elemental.AttributeSpecificati
 	"CSR": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
-		Description: `Contains a certificate signing request (CSR) from the Defender.
+		Description: `Contains a certificate signing request (CSR) from the enforcer.
 Depending on the certificate there will be various requirements 
 for the Microsegmentation Console to accept the CSR.`,
 		Exposed:  true,
@@ -404,7 +404,7 @@ for the Microsegmentation Console to accept the CSR.`,
 	"SessionID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SessionID",
-		Description:    `Provides the session ID of the Defender when retrieving a datapath certificate.`,
+		Description:    `Provides the session ID of the enforcer when retrieving a datapath certificate.`,
 		Exposed:        true,
 		Name:           "sessionID",
 		Type:           "string",
@@ -444,7 +444,7 @@ var DataPathCertificateLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"csr": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
-		Description: `Contains a certificate signing request (CSR) from the Defender.
+		Description: `Contains a certificate signing request (CSR) from the enforcer.
 Depending on the certificate there will be various requirements 
 for the Microsegmentation Console to accept the CSR.`,
 		Exposed:  true,
@@ -474,7 +474,7 @@ for the Microsegmentation Console to accept the CSR.`,
 	"sessionid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SessionID",
-		Description:    `Provides the session ID of the Defender when retrieving a datapath certificate.`,
+		Description:    `Provides the session ID of the enforcer when retrieving a datapath certificate.`,
 		Exposed:        true,
 		Name:           "sessionID",
 		Type:           "string",
@@ -572,7 +572,7 @@ func (o SparseDataPathCertificatesList) Version() int {
 
 // SparseDataPathCertificate represents the sparse version of a datapathcertificate.
 type SparseDataPathCertificate struct {
-	// Contains a certificate signing request (CSR) from the Defender.
+	// Contains a certificate signing request (CSR) from the enforcer.
 	// Depending on the certificate there will be various requirements
 	// for the Microsegmentation Console to accept the CSR.
 	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
@@ -583,7 +583,7 @@ type SparseDataPathCertificate struct {
 	// ID of the object you want to issue a certificate for.
 	ObjectID *string `json:"objectID,omitempty" msgpack:"objectID,omitempty" bson:"-" mapstructure:"objectID,omitempty"`
 
-	// Provides the session ID of the Defender when retrieving a datapath certificate.
+	// Provides the session ID of the enforcer when retrieving a datapath certificate.
 	SessionID *string `json:"sessionID,omitempty" msgpack:"sessionID,omitempty" bson:"-" mapstructure:"sessionID,omitempty"`
 
 	// Contains the CA that signed the delivered certificate.
