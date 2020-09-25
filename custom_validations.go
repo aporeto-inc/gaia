@@ -391,19 +391,19 @@ func ValidateProcessingUnitPolicy(policy *ProcessingUnitPolicy) error {
 // ValidateProcessingUnitServicesList validates a list of processing unit services.
 func ValidateProcessingUnitServicesList(attribute string, svcs []*ProcessingUnitService) error {
 
-	if _, _, err := ValidateProcessingUnitServicesListWithoutOverlap(svcs, map[int]*portutils.PortsList{}, map[int]*portutils.PortsRangeList{}); err != nil {
-		return makeValidationError(attribute, err.Error())
+	if _, _, err := ValidateProcessingUnitServicesListWithoutOverlap(attribute, svcs, map[int]*portutils.PortsList{}, map[int]*portutils.PortsRangeList{}); err != nil {
+		return err
 	}
 	return nil
 }
 
 // ValidateProcessingUnitServicesListWithoutOverlap validates a list of processing unit services has no overlap with any given parameter.
-func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitService, cachePortsList map[int]*portutils.PortsList, cacheRanges map[int]*portutils.PortsRangeList) (map[int]*portutils.PortsList, map[int]*portutils.PortsRangeList, error) {
+func ValidateProcessingUnitServicesListWithoutOverlap(attribute string, svcs []*ProcessingUnitService, cachePortsList map[int]*portutils.PortsList, cacheRanges map[int]*portutils.PortsRangeList) (map[int]*portutils.PortsList, map[int]*portutils.PortsRangeList, error) {
 
 	for i, svc := range svcs {
 
 		if svc == nil {
-			return nil, nil, fmt.Errorf("Nil processingunitservice in list at index %d", i)
+			return nil, nil, makeValidationError(attribute, fmt.Sprintf("Nil processingunitservice in list at index %d", i))
 		}
 
 		var cpl *portutils.PortsList
@@ -432,11 +432,11 @@ func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitServ
 				}
 
 				if pr.HasOverlapWithPortsRanges(cpr) {
-					return nil, nil, fmt.Errorf("Port range overlaps with another range")
+					return nil, nil, makeValidationError(attribute, "Port range overlaps with another range")
 				}
 
 				if pr.HasOverlapWithPortsList(cpl) {
-					return nil, nil, fmt.Errorf("Port range overlaps with another port")
+					return nil, nil, makeValidationError(attribute, "Port range overlaps with another port")
 				}
 
 				*cpr = append(*cpr, pr)
@@ -452,11 +452,11 @@ func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitServ
 			}
 
 			if pl.HasOverlapWithPortsList(cpl) {
-				return nil, nil, fmt.Errorf("Port overlaps with another port")
+				return nil, nil, makeValidationError(attribute, "Port overlaps with another port")
 			}
 
 			if pl.HasOverlapWithPortsRanges(cpr) {
-				return nil, nil, fmt.Errorf("Port overlaps with another port range")
+				return nil, nil, makeValidationError(attribute, "Port overlaps with another port range")
 			}
 
 			*cpl = append(*cpl, *pl...)
@@ -581,15 +581,15 @@ func ValidateHostServices(hs *HostService) error {
 		return makeValidationError("services", "Host service must have either HostModeEnabled or must declare services")
 	}
 
-	if err := ValidateHostServicesNonOverlapPorts(hs.Services); err != nil {
-		return makeValidationError("services", err.Error())
+	if err := ValidateHostServicesNonOverlapPorts("services", hs.Services); err != nil {
+		return err
 	}
 
 	return nil
 }
 
 // ValidateHostServicesNonOverlapPorts validates a list of processing unit services has no overlap with any given parameter.
-func ValidateHostServicesNonOverlapPorts(svcs []string) error {
+func ValidateHostServicesNonOverlapPorts(attribute string, svcs []string) error {
 
 	udpPorts := portutils.PortsRangeList{}
 	tcpPorts := portutils.PortsRangeList{}
@@ -602,22 +602,22 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 
 		pr, protocol, err = portutils.ExtractPortsAndProtocolFromHostService(svc)
 		if err != nil {
-			return err
+			return makeValidationError(attribute, err.Error())
 		}
 
 		switch protocol {
 		case protocols.L4ProtocolTCP:
 			if pr.HasOverlapWithPortsRanges(&tcpPorts) {
-				return fmt.Errorf("Host service cannot have overlapping TCP ports")
+				return makeValidationError(attribute, "Host service cannot have overlapping TCP ports")
 			}
 			tcpPorts = append(tcpPorts, pr)
 		case protocols.L4ProtocolUDP:
 			if pr.HasOverlapWithPortsRanges(&udpPorts) {
-				return fmt.Errorf("Host service cannot have overlapping UDP ports")
+				return makeValidationError(attribute, "Host service cannot have overlapping UDP ports")
 			}
 			udpPorts = append(udpPorts, pr)
 		default:
-			return fmt.Errorf("Host service has invalid format: %s", protocol)
+			return makeValidationError(attribute, fmt.Sprintf("Host service has invalid format: %s", protocol))
 		}
 
 	}
@@ -691,8 +691,8 @@ func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode st
 	parts := strings.SplitN(typeCode, "/", 2)
 
 	// Validate type
-	if _, err := isNumberBetween(parts[0], 0, 255); err != nil {
-		return makeValidationError(attribute, fmt.Sprintf("Protocol '%s' has invalid type notation: %s", protocol, err))
+	if _, err := isNumberBetween(attribute, protocol, parts[0], 0, 255); err != nil {
+		return err
 	}
 
 	// Validate codes
@@ -707,15 +707,15 @@ func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode st
 				rangeParts := strings.SplitN(code, ":", 2)
 
 				// Validate left part
-				codeLeft, err := isNumberBetween(rangeParts[0], 0, 255)
+				codeLeft, err := isNumberBetween(attribute, protocol, rangeParts[0], 0, 255)
 				if err != nil {
-					return makeValidationError(attribute, fmt.Sprintf("Protocol '%s' has invalid code notation: %s", protocol, err))
+					return err
 				}
 
 				// Validate right part
-				codeRight, err := isNumberBetween(rangeParts[1], 0, 255)
+				codeRight, err := isNumberBetween(attribute, protocol, rangeParts[1], 0, 255)
 				if err != nil {
-					return makeValidationError(attribute, fmt.Sprintf("Protocol '%s' has invalid code notation: %s", protocol, err))
+					return err
 				}
 
 				// Validate order
@@ -725,8 +725,8 @@ func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode st
 
 			} else {
 				// Validate unique code
-				if _, err := isNumberBetween(code, 0, 255); err != nil {
-					return makeValidationError(attribute, fmt.Sprintf("Protocol '%s' has invalid code notation: %s", protocol, err))
+				if _, err := isNumberBetween(attribute, protocol, code, 0, 255); err != nil {
+					return err
 				}
 			}
 		}
@@ -736,15 +736,15 @@ func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode st
 }
 
 // isNumberBetween check if a string is a number within the min and max boundaries.
-func isNumberBetween(s string, min int, max int) (int, error) {
+func isNumberBetween(attribute string, protocol string, s string, min int, max int) (int, error) {
 
 	i, err := strconv.Atoi(s)
 	if err != nil {
-		return -1, fmt.Errorf("'%s' is not a valid number", s)
+		return -1, makeValidationError(attribute, fmt.Sprintf("Protocol '%s' has invalid type notation: '%s' is not a valid number", protocol, s))
 	}
 
 	if i < min || i > max {
-		return -1, fmt.Errorf("'%d' should be between %d and %d", i, min, max)
+		return -1, makeValidationError(attribute, fmt.Sprintf("Protocol '%s' has invalid type notation: '%d' should be between %d and %d", protocol, i, min, max))
 	}
 
 	return i, nil
