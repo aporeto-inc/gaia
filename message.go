@@ -147,7 +147,7 @@ type Message struct {
 
 	// Sets when the message will be automatically deleted using
 	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
-	Validity string `json:"validity" msgpack:"validity" bson:"validity" mapstructure:"validity,omitempty"`
+	Validity string `json:"validity" msgpack:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -218,7 +218,6 @@ func (o *Message) GetBSON() (interface{}, error) {
 	s.Protected = o.Protected
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
-	s.Validity = o.Validity
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
 
@@ -254,7 +253,6 @@ func (o *Message) SetBSON(raw bson.Raw) error {
 	o.Protected = s.Protected
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
-	o.Validity = s.Validity
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
 
@@ -665,7 +663,11 @@ func (o *Message) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidatePattern("validity", o.Validity, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+	if err := elemental.ValidateRequiredString("validity", o.Validity); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -832,6 +834,7 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "expirationTime",
 		Orderable:      true,
+		ReadOnly:       true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -953,15 +956,14 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "time",
 	},
 	"Validity": {
-		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		Description: `Sets when the message will be automatically deleted using
 [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).`,
-		Exposed: true,
-		Name:    "validity",
-		Stored:  true,
-		Type:    "string",
+		Exposed:  true,
+		Name:     "validity",
+		Required: true,
+		Type:     "string",
 	},
 	"ZHash": {
 		AllowedChoices: []string{},
@@ -1084,6 +1086,7 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "expirationTime",
 		Orderable:      true,
+		ReadOnly:       true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -1214,16 +1217,14 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "time",
 	},
 	"validity": {
-		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
-		BSONFieldName:  "validity",
 		ConvertedName:  "Validity",
 		Description: `Sets when the message will be automatically deleted using
 [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).`,
-		Exposed: true,
-		Name:    "validity",
-		Stored:  true,
-		Type:    "string",
+		Exposed:  true,
+		Name:     "validity",
+		Required: true,
+		Type:     "string",
 	},
 	"zhash": {
 		AllowedChoices: []string{},
@@ -1370,7 +1371,7 @@ type SparseMessage struct {
 
 	// Sets when the message will be automatically deleted using
 	// [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
-	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"validity,omitempty" mapstructure:"validity,omitempty"`
+	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -1470,9 +1471,6 @@ func (o *SparseMessage) GetBSON() (interface{}, error) {
 	if o.UpdateTime != nil {
 		s.UpdateTime = o.UpdateTime
 	}
-	if o.Validity != nil {
-		s.Validity = o.Validity
-	}
 	if o.ZHash != nil {
 		s.ZHash = o.ZHash
 	}
@@ -1542,9 +1540,6 @@ func (o *SparseMessage) SetBSON(raw bson.Raw) error {
 	}
 	if s.UpdateTime != nil {
 		o.UpdateTime = s.UpdateTime
-	}
-	if s.Validity != nil {
-		o.Validity = s.Validity
 	}
 	if s.ZHash != nil {
 		o.ZHash = s.ZHash
@@ -1908,7 +1903,6 @@ type mongoAttributesMessage struct {
 	Protected            bool                `bson:"protected"`
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
-	Validity             string              `bson:"validity"`
 	ZHash                int                 `bson:"zhash"`
 	Zone                 int                 `bson:"zone"`
 }
@@ -1929,7 +1923,6 @@ type mongoAttributesSparseMessage struct {
 	Protected            *bool                `bson:"protected,omitempty"`
 	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
 	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
-	Validity             *string              `bson:"validity,omitempty"`
 	ZHash                *int                 `bson:"zhash,omitempty"`
 	Zone                 *int                 `bson:"zone,omitempty"`
 }

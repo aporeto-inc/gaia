@@ -4850,7 +4850,8 @@ children namespaces.
   "level": "Info",
   "name": "the name",
   "propagate": false,
-  "protected": false
+  "protected": false,
+  "validity": "12h"
 }
 ```
 
@@ -4921,7 +4922,7 @@ Type: `string`
 
 Description of the object.
 
-##### `expirationTime`
+##### `expirationTime` [`read_only`]
 
 Type: `time`
 
@@ -4975,7 +4976,7 @@ Type: `time`
 
 Last update date of the object.
 
-##### `validity` [`format=^[0-9]+[smh]$`]
+##### `validity` [`required`]
 
 Type: `string`
 
