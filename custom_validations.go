@@ -581,7 +581,7 @@ func ValidateHostServices(hs *HostService) error {
 		return makeValidationError("services", "Host service must have either HostModeEnabled or must declare services")
 	}
 
-	if err := ValidateHostServicesNonOverlapPorts("services", hs.Services); err != nil {
+	if err := ValidateHostServicesNonOverlapPorts(hs.Services); err != nil {
 		return err
 	}
 
@@ -589,7 +589,7 @@ func ValidateHostServices(hs *HostService) error {
 }
 
 // ValidateHostServicesNonOverlapPorts validates a list of processing unit services has no overlap with any given parameter.
-func ValidateHostServicesNonOverlapPorts(attribute string, svcs []string) error {
+func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 
 	udpPorts := portutils.PortsRangeList{}
 	tcpPorts := portutils.PortsRangeList{}
@@ -602,22 +602,22 @@ func ValidateHostServicesNonOverlapPorts(attribute string, svcs []string) error 
 
 		pr, protocol, err = portutils.ExtractPortsAndProtocolFromHostService(svc)
 		if err != nil {
-			return makeValidationError(attribute, err.Error())
+			return makeValidationError("services", err.Error())
 		}
 
 		switch protocol {
 		case protocols.L4ProtocolTCP:
 			if pr.HasOverlapWithPortsRanges(&tcpPorts) {
-				return makeValidationError(attribute, "Host service cannot have overlapping TCP ports")
+				return makeValidationError("services", "Host service cannot have overlapping TCP ports")
 			}
 			tcpPorts = append(tcpPorts, pr)
 		case protocols.L4ProtocolUDP:
 			if pr.HasOverlapWithPortsRanges(&udpPorts) {
-				return makeValidationError(attribute, "Host service cannot have overlapping UDP ports")
+				return makeValidationError("services", "Host service cannot have overlapping UDP ports")
 			}
 			udpPorts = append(udpPorts, pr)
 		default:
-			return makeValidationError(attribute, fmt.Sprintf("Host service has invalid format: %s", protocol))
+			return makeValidationError("services", fmt.Sprintf("Host service has invalid format: %s", protocol))
 		}
 
 	}
