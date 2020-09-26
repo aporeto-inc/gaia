@@ -39,6 +39,7 @@ attributes:
     type: time
     exposed: true
     stored: true
+    read_only: true
     orderable: true
 
   - name: level
@@ -59,6 +60,7 @@ attributes:
       [Golang duration syntax](https://golang.org/pkg/time/#example_Duration).
     type: string
     exposed: true
-    stored: true
-    allowed_chars: ^[0-9]+[smh]$
-    allowed_chars_message: must be a valid duration like <n>s or <n>s or <n>h
+    required: true
+    example_value: 12h
+    validations:
+    - $timeDuration

@@ -173,7 +173,7 @@ attributes:
     example_value: ls
 
   - name: enforcerID
-    description: ID of the Defender reporting.
+    description: ID of the enforcer reporting.
     type: string
     exposed: true
     stored: true
@@ -181,7 +181,7 @@ attributes:
     example_value: xxx-xxx-xxx-xxx
 
   - name: enforcerNamespace
-    description: Namespace of the Defender reporting.
+    description: Namespace of the enforcer reporting.
     type: string
     exposed: true
     stored: true

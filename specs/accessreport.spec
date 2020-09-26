@@ -32,7 +32,7 @@ attributes:
     stored: true
 
   - name: enforcerID
-    description: Identifier of the Defender.
+    description: Identifier of the enforcer.
     type: string
     exposed: true
     stored: true
@@ -40,7 +40,7 @@ attributes:
     example_value: xxx-xxx-xxx
 
   - name: enforcerNamespace
-    description: Namespace of the Defender.
+    description: Namespace of the enforcer.
     type: string
     exposed: true
     stored: true

@@ -459,7 +459,7 @@ attributes:
     default_value: 0
 
   - name: enforcerID
-    description: Identifier of the Defender sending the report.
+    description: Identifier of the enforcer sending the report.
     type: string
     exposed: true
     stored: true
@@ -467,7 +467,7 @@ attributes:
     example_value: xxxx-xxx-xxxx
 
   - name: enforcerNamespace
-    description: Namespace of the Defender sending the report.
+    description: Namespace of the enforcer sending the report.
     type: string
     exposed: true
     stored: true

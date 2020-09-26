@@ -155,7 +155,7 @@ type Service struct {
 	MTLSCertificateAuthority string `json:"MTLSCertificateAuthority" msgpack:"MTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-	// the Defender will autodiscover it. It will be
+	// the enforcer will autodiscover it. It will be
 	// `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
 	OIDCCallbackURL string `json:"OIDCCallbackURL" msgpack:"OIDCCallbackURL" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
 
@@ -219,7 +219,7 @@ type Service struct {
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" msgpack:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
-	// are defined, the Defender will copy the values of the claims to the
+	// are defined, the enforcer will copy the values of the claims to the
 	// corresponding HTTP headers.
 	ClaimsToHTTPHeaderMappings []*ClaimMapping `json:"claimsToHTTPHeaderMappings" msgpack:"claimsToHTTPHeaderMappings" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
@@ -251,7 +251,7 @@ type Service struct {
 	// port that the implementation is listening on can be different.
 	ExposedPort int `json:"exposedPort" msgpack:"exposedPort" bson:"exposedport" mapstructure:"exposedPort,omitempty"`
 
-	// Indicates that the exposed service is TLS. This means that the Defender has to
+	// Indicates that the exposed service is TLS. This means that the enforcer has to
 	// initiate a TLS session in order to forward traffic to the service.
 	ExposedServiceIsTLS bool `json:"exposedServiceIsTLS" msgpack:"exposedServiceIsTLS" bson:"exposedserviceistls" mapstructure:"exposedServiceIsTLS,omitempty"`
 
@@ -289,9 +289,9 @@ type Service struct {
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// A new virtual port that the service can be accessed on using HTTPS. Since the
-	// Defender transparently inserts TLS in the application path, you might want
-	// to declare a new port where the Defender listens for TLS. However, the
-	// application does not need to be modified and the Defender will map the
+	// enforcer transparently inserts TLS in the application path, you might want
+	// to declare a new port where the enforcer listens for TLS. However, the
+	// application does not need to be modified and the enforcer will map the
 	// traffic to the correct application port. This is useful when
 	// an application is being accessed from a public network.
 	PublicApplicationPort int `json:"publicApplicationPort" msgpack:"publicApplicationPort" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
@@ -1370,7 +1370,7 @@ Microsegmentation Console's public signing certificate authority will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCCallbackURL",
 		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-the Defender will autodiscover it. It will be
+the enforcer will autodiscover it. It will be
 ` + "`" + `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback` + "`" + `.`,
 		Exposed: true,
 		Name:    "OIDCCallbackURL",
@@ -1531,7 +1531,7 @@ signing certificate will be used.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ClaimsToHTTPHeaderMappings",
 		Description: `Defines a list of mappings between claims and HTTP headers. When these mappings
-are defined, the Defender will copy the values of the claims to the
+are defined, the enforcer will copy the values of the claims to the
 corresponding HTTP headers.`,
 		Exposed: true,
 		Name:    "claimsToHTTPHeaderMappings",
@@ -1631,7 +1631,7 @@ port that the implementation is listening on can be different.`,
 	"ExposedServiceIsTLS": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedServiceIsTLS",
-		Description: `Indicates that the exposed service is TLS. This means that the Defender has to
+		Description: `Indicates that the exposed service is TLS. This means that the enforcer has to
 initiate a TLS session in order to forward traffic to the service.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1773,9 +1773,9 @@ where there are private and public ports.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "PublicApplicationPort",
 		Description: `A new virtual port that the service can be accessed on using HTTPS. Since the
-Defender transparently inserts TLS in the application path, you might want
-to declare a new port where the Defender listens for TLS. However, the
-application does not need to be modified and the Defender will map the
+enforcer transparently inserts TLS in the application path, you might want
+to declare a new port where the enforcer listens for TLS. However, the
+application does not need to be modified and the enforcer will map the
 traffic to the correct application port. This is useful when
 an application is being accessed from a public network.`,
 		Exposed:  true,
@@ -1943,7 +1943,7 @@ Microsegmentation Console's public signing certificate authority will be used.`,
 		BSONFieldName:  "oidccallbackurl",
 		ConvertedName:  "OIDCCallbackURL",
 		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-the Defender will autodiscover it. It will be
+the enforcer will autodiscover it. It will be
 ` + "`" + `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback` + "`" + `.`,
 		Exposed: true,
 		Name:    "OIDCCallbackURL",
@@ -2118,7 +2118,7 @@ signing certificate will be used.`,
 		BSONFieldName:  "claimstohttpheadermappings",
 		ConvertedName:  "ClaimsToHTTPHeaderMappings",
 		Description: `Defines a list of mappings between claims and HTTP headers. When these mappings
-are defined, the Defender will copy the values of the claims to the
+are defined, the enforcer will copy the values of the claims to the
 corresponding HTTP headers.`,
 		Exposed: true,
 		Name:    "claimsToHTTPHeaderMappings",
@@ -2225,7 +2225,7 @@ port that the implementation is listening on can be different.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "exposedserviceistls",
 		ConvertedName:  "ExposedServiceIsTLS",
-		Description: `Indicates that the exposed service is TLS. This means that the Defender has to
+		Description: `Indicates that the exposed service is TLS. This means that the enforcer has to
 initiate a TLS session in order to forward traffic to the service.`,
 		Exposed:    true,
 		Filterable: true,
@@ -2378,9 +2378,9 @@ where there are private and public ports.`,
 		BSONFieldName:  "publicapplicationport",
 		ConvertedName:  "PublicApplicationPort",
 		Description: `A new virtual port that the service can be accessed on using HTTPS. Since the
-Defender transparently inserts TLS in the application path, you might want
-to declare a new port where the Defender listens for TLS. However, the
-application does not need to be modified and the Defender will map the
+enforcer transparently inserts TLS in the application path, you might want
+to declare a new port where the enforcer listens for TLS. However, the
+application does not need to be modified and the enforcer will map the
 traffic to the correct application port. This is useful when
 an application is being accessed from a public network.`,
 		Exposed:  true,
@@ -2581,7 +2581,7 @@ type SparseService struct {
 	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" msgpack:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority,omitempty" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
-	// the Defender will autodiscover it. It will be
+	// the enforcer will autodiscover it. It will be
 	// `https://<hosts[0]|IPs[0]>/aporeto/oidc/callback`.
 	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" msgpack:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl,omitempty" mapstructure:"OIDCCallbackURL,omitempty"`
 
@@ -2645,7 +2645,7 @@ type SparseService struct {
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" msgpack:"authorizationType,omitempty" bson:"authorizationtype,omitempty" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and HTTP headers. When these mappings
-	// are defined, the Defender will copy the values of the claims to the
+	// are defined, the enforcer will copy the values of the claims to the
 	// corresponding HTTP headers.
 	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" msgpack:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings,omitempty" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
@@ -2677,7 +2677,7 @@ type SparseService struct {
 	// port that the implementation is listening on can be different.
 	ExposedPort *int `json:"exposedPort,omitempty" msgpack:"exposedPort,omitempty" bson:"exposedport,omitempty" mapstructure:"exposedPort,omitempty"`
 
-	// Indicates that the exposed service is TLS. This means that the Defender has to
+	// Indicates that the exposed service is TLS. This means that the enforcer has to
 	// initiate a TLS session in order to forward traffic to the service.
 	ExposedServiceIsTLS *bool `json:"exposedServiceIsTLS,omitempty" msgpack:"exposedServiceIsTLS,omitempty" bson:"exposedserviceistls,omitempty" mapstructure:"exposedServiceIsTLS,omitempty"`
 
@@ -2715,9 +2715,9 @@ type SparseService struct {
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// A new virtual port that the service can be accessed on using HTTPS. Since the
-	// Defender transparently inserts TLS in the application path, you might want
-	// to declare a new port where the Defender listens for TLS. However, the
-	// application does not need to be modified and the Defender will map the
+	// enforcer transparently inserts TLS in the application path, you might want
+	// to declare a new port where the enforcer listens for TLS. However, the
+	// application does not need to be modified and the enforcer will map the
 	// traffic to the correct application port. This is useful when
 	// an application is being accessed from a public network.
 	PublicApplicationPort *int `json:"publicApplicationPort,omitempty" msgpack:"publicApplicationPort,omitempty" bson:"publicapplicationport,omitempty" mapstructure:"publicApplicationPort,omitempty"`

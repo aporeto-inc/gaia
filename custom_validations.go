@@ -28,11 +28,11 @@ func ValidateAPIProxyEntity(apiProxy *APIProxy) error {
 	// We only want to check if there is a key on creation as it is a secret which
 	// means it will never be exposed outside of the service
 	if apiProxy.ID == "" && apiProxy.ClientCertificate != "" && apiProxy.ClientCertificateKey == "" {
-		errs = errs.Append(makeValidationError("ClientCertificateKey", "client certificate private key was not provided"))
+		errs = errs.Append(makeValidationError("ClientCertificateKey", "Client certificate private key was not provided"))
 	}
 
 	if apiProxy.ClientCertificate == "" && apiProxy.ClientCertificateKey != "" {
-		errs = errs.Append(makeValidationError("ClientCertificate", "client certificate was not provided"))
+		errs = errs.Append(makeValidationError("ClientCertificate", "Client certificate was not provided"))
 	}
 
 	if len(errs) > 0 {
@@ -75,7 +75,7 @@ func ValidatePortString(attribute string, portExp string) error {
 	}
 
 	if p1 >= p2 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' left bound is greater or equal to left bound ", attribute))
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' left bound is greater or equal to left bound", attribute))
 	}
 
 	return nil
@@ -255,7 +255,7 @@ func ValidateServiceEntity(service *Service) error {
 		}
 		for j := 0; j < len(allSubnets); j++ {
 			if allSubnets[j].Contains(ipNet.IP) || ipNet.Contains(allSubnets[j].IP) {
-				errs = errs.Append(makeValidationError("IPs", "subnets cannot overlap"))
+				errs = errs.Append(makeValidationError("IPs", "Subnets cannot overlap"))
 			}
 		}
 		allSubnets = append(allSubnets, ipNet)
@@ -391,19 +391,19 @@ func ValidateProcessingUnitPolicy(policy *ProcessingUnitPolicy) error {
 // ValidateProcessingUnitServicesList validates a list of processing unit services.
 func ValidateProcessingUnitServicesList(attribute string, svcs []*ProcessingUnitService) error {
 
-	if _, _, err := ValidateProcessingUnitServicesListWithoutOverlap(svcs, map[int]*portutils.PortsList{}, map[int]*portutils.PortsRangeList{}); err != nil {
-		return makeValidationError(attribute, err.Error())
+	if _, _, err := ValidateProcessingUnitServicesListWithoutOverlap(attribute, svcs, map[int]*portutils.PortsList{}, map[int]*portutils.PortsRangeList{}); err != nil {
+		return err
 	}
 	return nil
 }
 
 // ValidateProcessingUnitServicesListWithoutOverlap validates a list of processing unit services has no overlap with any given parameter.
-func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitService, cachePortsList map[int]*portutils.PortsList, cacheRanges map[int]*portutils.PortsRangeList) (map[int]*portutils.PortsList, map[int]*portutils.PortsRangeList, error) {
+func ValidateProcessingUnitServicesListWithoutOverlap(attribute string, svcs []*ProcessingUnitService, cachePortsList map[int]*portutils.PortsList, cacheRanges map[int]*portutils.PortsRangeList) (map[int]*portutils.PortsList, map[int]*portutils.PortsRangeList, error) {
 
 	for i, svc := range svcs {
 
 		if svc == nil {
-			return nil, nil, fmt.Errorf("nil processingunitservice in list at index %d", i)
+			return nil, nil, makeValidationError(attribute, fmt.Sprintf("Nil processingunitservice in list at index %d", i))
 		}
 
 		var cpl *portutils.PortsList
@@ -432,11 +432,11 @@ func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitServ
 				}
 
 				if pr.HasOverlapWithPortsRanges(cpr) {
-					return nil, nil, fmt.Errorf("port range overlaps with another range")
+					return nil, nil, makeValidationError(attribute, "Port range overlaps with another range")
 				}
 
 				if pr.HasOverlapWithPortsList(cpl) {
-					return nil, nil, fmt.Errorf("port range overlaps with another port")
+					return nil, nil, makeValidationError(attribute, "Port range overlaps with another port")
 				}
 
 				*cpr = append(*cpr, pr)
@@ -452,11 +452,11 @@ func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitServ
 			}
 
 			if pl.HasOverlapWithPortsList(cpl) {
-				return nil, nil, fmt.Errorf("port overlaps with another port")
+				return nil, nil, makeValidationError(attribute, "Port overlaps with another port")
 			}
 
 			if pl.HasOverlapWithPortsRanges(cpr) {
-				return nil, nil, fmt.Errorf("port overlaps with another port range")
+				return nil, nil, makeValidationError(attribute, "Port overlaps with another port range")
 			}
 
 			*cpl = append(*cpl, *pl...)
@@ -528,7 +528,7 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 			mu != http.MethodHead &&
 			mu != http.MethodPatch {
 
-			return makeValidationError(attribute, fmt.Sprintf("invalid HTTP method %s", m))
+			return makeValidationError(attribute, fmt.Sprintf("Invalid HTTP method %s", m))
 		}
 	}
 
@@ -582,7 +582,7 @@ func ValidateHostServices(hs *HostService) error {
 	}
 
 	if err := ValidateHostServicesNonOverlapPorts(hs.Services); err != nil {
-		return makeValidationError("services", err.Error())
+		return err
 	}
 
 	return nil
@@ -602,22 +602,22 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 
 		pr, protocol, err = portutils.ExtractPortsAndProtocolFromHostService(svc)
 		if err != nil {
-			return err
+			return makeValidationError("services", err.Error())
 		}
 
 		switch protocol {
 		case protocols.L4ProtocolTCP:
 			if pr.HasOverlapWithPortsRanges(&tcpPorts) {
-				return fmt.Errorf("host service cannot have overlapping TCP ports")
+				return makeValidationError("services", "Host service cannot have overlapping TCP ports")
 			}
 			tcpPorts = append(tcpPorts, pr)
 		case protocols.L4ProtocolUDP:
 			if pr.HasOverlapWithPortsRanges(&udpPorts) {
-				return fmt.Errorf("host service cannot have overlapping UDP ports")
+				return makeValidationError("services", "Host service cannot have overlapping UDP ports")
 			}
 			udpPorts = append(udpPorts, pr)
 		default:
-			return fmt.Errorf("host service has invalid format: %s", protocol)
+			return makeValidationError("services", fmt.Sprintf("Host service has invalid format: %s", protocol))
 		}
 
 	}
@@ -660,7 +660,7 @@ func ValidateServicePort(attribute string, servicePort string) error {
 
 	if len(parts) == 1 {
 		if upperProto == protocols.L4ProtocolTCP || upperProto == protocols.L4ProtocolUDP {
-			return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used without ports", upperProto))
+			return makeValidationError(attribute, fmt.Sprintf("Protocol '%s' cannot be used without ports", upperProto))
 		}
 		return nil
 	}
@@ -675,7 +675,7 @@ func ValidateServicePort(attribute string, servicePort string) error {
 		return ValidateICMPTypeCodeNotation(attribute, upperProto, typeCode)
 	}
 
-	return makeValidationError(attribute, fmt.Sprintf("protocol '%s' cannot be used with ports", upperProto))
+	return makeValidationError(attribute, fmt.Sprintf("Protocol '%s' cannot be used with ports", upperProto))
 }
 
 // ValidateICMPTypeCodeNotation validates the type code for ICMP and ICMP6
@@ -685,14 +685,14 @@ func ValidateServicePort(attribute string, servicePort string) error {
 func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode string) error {
 
 	if typeCode == "" {
-		return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has missing type/code information", protocol))
+		return makeValidationError(attribute, fmt.Sprintf("Protocol '%s' has missing type/code information", protocol))
 	}
 
 	parts := strings.SplitN(typeCode, "/", 2)
 
 	// Validate type
-	if _, err := isNumberBetween(parts[0], 0, 255); err != nil {
-		return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid type notation. %s", protocol, err))
+	if _, err := isNumberBetween(attribute, protocol, parts[0], 0, 255); err != nil {
+		return err
 	}
 
 	// Validate codes
@@ -707,26 +707,26 @@ func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode st
 				rangeParts := strings.SplitN(code, ":", 2)
 
 				// Validate left part
-				codeLeft, err := isNumberBetween(rangeParts[0], 0, 255)
+				codeLeft, err := isNumberBetween(attribute, protocol, rangeParts[0], 0, 255)
 				if err != nil {
-					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation. %s", protocol, err))
+					return err
 				}
 
 				// Validate right part
-				codeRight, err := isNumberBetween(rangeParts[1], 0, 255)
+				codeRight, err := isNumberBetween(attribute, protocol, rangeParts[1], 0, 255)
 				if err != nil {
-					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation. %s", protocol, err))
+					return err
 				}
 
 				// Validate order
 				if codeLeft >= codeRight {
-					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code range order", protocol))
+					return makeValidationError(attribute, fmt.Sprintf("Protocol '%s' has invalid code range order", protocol))
 				}
 
 			} else {
 				// Validate unique code
-				if _, err := isNumberBetween(code, 0, 255); err != nil {
-					return makeValidationError(attribute, fmt.Sprintf("protocol '%s' has invalid code notation: %s", protocol, err))
+				if _, err := isNumberBetween(attribute, protocol, code, 0, 255); err != nil {
+					return err
 				}
 			}
 		}
@@ -736,15 +736,15 @@ func ValidateICMPTypeCodeNotation(attribute string, protocol string, typeCode st
 }
 
 // isNumberBetween check if a string is a number within the min and max boundaries.
-func isNumberBetween(s string, min int, max int) (int, error) {
+func isNumberBetween(attribute string, protocol string, s string, min int, max int) (int, error) {
 
 	i, err := strconv.Atoi(s)
 	if err != nil {
-		return -1, fmt.Errorf("'%s' is not a valid number", s)
+		return -1, makeValidationError(attribute, fmt.Sprintf("Protocol '%s' has invalid type notation: '%s' is not a valid number", protocol, s))
 	}
 
 	if i < min || i > max {
-		return -1, fmt.Errorf("'%d' should be between %d and %d", i, min, max)
+		return -1, makeValidationError(attribute, fmt.Sprintf("Protocol '%s' has invalid type notation: '%d' should be between %d and %d", protocol, i, min, max))
 	}
 
 	return i, nil
@@ -922,7 +922,7 @@ func ValidateOrganizationalMetadata(attribute string, metadata []string) error {
 func ValidateYAMLString(attribute, data string) error {
 
 	if err := yaml.Unmarshal([]byte(data), &map[string]interface{}{}); err != nil {
-		return makeValidationError(attribute, fmt.Sprintf("not a valid yaml: %s", err))
+		return makeValidationError(attribute, fmt.Sprintf("Not a valid yaml: %s", err))
 	}
 	return nil
 }
@@ -983,9 +983,9 @@ func ValidateAPIAuthorizationPolicySubject(attribute string, subject [][]string)
 
 				switch strings.TrimPrefix(claim, "@auth:realm=") {
 				case "oidc":
-					neededAdditionalMandatoryClaims["@auth:namespace"] = "The realm oidc mandates to add the '@auth:namespace' key to prevent potential security side effects"
+					neededAdditionalMandatoryClaims["@auth:namespace"] = "The realm OIDC mandates to add the '@auth:namespace' key to prevent potential security side effects"
 				case "saml":
-					neededAdditionalMandatoryClaims["@auth:namespace"] = "The realm saml mandates to add the '@auth:namespace' key to prevent potential security side effects"
+					neededAdditionalMandatoryClaims["@auth:namespace"] = "The realm SAML mandates to add the '@auth:namespace' key to prevent potential security side effects"
 				default:
 				}
 			}
@@ -1024,12 +1024,12 @@ func ValidateWriteOperations(attribute string, operations []string) error {
 		case elemental.OperationDelete:
 			ndelete++
 		default:
-			return makeValidationError(attribute, fmt.Sprintf("Invalid operation '%s': must be 'create', 'update' or 'delete'.", op))
+			return makeValidationError(attribute, fmt.Sprintf("Invalid operation '%s': must be 'create', 'update' or 'delete'", op))
 		}
 	}
 
 	if ncreate > 1 || nupdate > 1 || ndelete > 1 {
-		return makeValidationError(attribute, fmt.Sprintf("Must not contain the same operation multiple times."))
+		return makeValidationError(attribute, fmt.Sprintf("Must not contain the same operation multiple times"))
 	}
 
 	return nil
@@ -1040,7 +1040,7 @@ func ValidateIdentity(attribute string, identity string) error {
 
 	i := Manager().IdentityFromAny(identity)
 	if i.IsEmpty() {
-		return makeValidationError(attribute, fmt.Sprintf("Invalid identity '%s': unknown.", identity))
+		return makeValidationError(attribute, fmt.Sprintf("Invalid identity '%s': unknown", identity))
 	}
 
 	return nil
@@ -1062,18 +1062,18 @@ func ValidateHookPolicy(policy *HookPolicy) error {
 	switch policy.EndpointType {
 	case HookPolicyEndpointTypeURL:
 		if policy.Endpoint == "" {
-			return makeValidationError("endpoint", "endpoint is required")
+			return makeValidationError("endpoint", "Endpoint is required")
 		}
 		if len(policy.Selectors) > 0 {
-			return makeValidationError("selectors", "no selectors should be specified with EndpointType Endpoint")
+			return makeValidationError("selectors", "No selectors should be specified with EndpointType Endpoint")
 		}
 
 	case HookPolicyEndpointTypeAutomation:
 		if len(policy.Selectors) == 0 {
-			return makeValidationError("selectors", "selectors must be specified")
+			return makeValidationError("selectors", "Selectors must be specified")
 		}
 		if policy.Endpoint != "" {
-			return makeValidationError("endpoint", "no endpoint should be specified with EndpointType AutomationSelector")
+			return makeValidationError("endpoint", "No endpoint should be specified with EndpointType AutomationSelector")
 		}
 	}
 
@@ -1095,12 +1095,12 @@ func ValidateUIParameters(p *UIParameter) error {
 
 	if p.Type == UIParameterTypeList {
 		if p.Subtype == "" {
-			return makeValidationError("type", "type List requires a subtype")
+			return makeValidationError("type", "Type List requires a subtype")
 		}
 
 		supported := supportedSubtypes()
 		if _, ok := supported[p.Subtype]; !ok {
-			return makeValidationError("subtype", "unsupported subtype for type list")
+			return makeValidationError("subtype", "Unsupported subtype for type list")
 		}
 	}
 

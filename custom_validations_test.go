@@ -2480,7 +2480,7 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 				},
 			},
 			true,
-			"error 422 (gaia): Validation Error: The realm oidc mandates to add the '@auth:namespace' key to prevent potential security side effects",
+			"error 422 (gaia): Validation Error: The realm OIDC mandates to add the '@auth:namespace' key to prevent potential security side effects",
 		},
 		{
 			"saml correct",
@@ -2504,7 +2504,7 @@ func TestValidateAPIAuthorizationPolicySubject(t *testing.T) {
 				},
 			},
 			true,
-			"error 422 (gaia): Validation Error: The realm saml mandates to add the '@auth:namespace' key to prevent potential security side effects",
+			"error 422 (gaia): Validation Error: The realm SAML mandates to add the '@auth:namespace' key to prevent potential security side effects",
 		},
 		{
 			"broken tag with no equal",
@@ -2596,7 +2596,7 @@ func TestValidateWriteOperations(t *testing.T) {
 				},
 			},
 			true,
-			"error 422 (gaia): Validation Error: Invalid operation 'Create': must be 'create', 'update' or 'delete'.",
+			"error 422 (gaia): Validation Error: Invalid operation 'Create': must be 'create', 'update' or 'delete'",
 		},
 		{
 			"duplicate create",
@@ -2610,7 +2610,7 @@ func TestValidateWriteOperations(t *testing.T) {
 				},
 			},
 			true,
-			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times.",
+			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times",
 		},
 		{
 			"duplicate update",
@@ -2624,7 +2624,7 @@ func TestValidateWriteOperations(t *testing.T) {
 				},
 			},
 			true,
-			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times.",
+			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times",
 		},
 		{
 			"duplicate delete",
@@ -2638,7 +2638,7 @@ func TestValidateWriteOperations(t *testing.T) {
 				},
 			},
 			true,
-			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times.",
+			"error 422 (gaia): Validation Error: Must not contain the same operation multiple times",
 		},
 	}
 	for _, tt := range tests {

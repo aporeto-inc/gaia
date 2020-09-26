@@ -91,7 +91,7 @@ attributes:
 
   - name: object
     description: |-
-      Contains the tag expression identifying the Defenders on the hosts the `subject`
+      Contains the tag expression identifying the enforcers on the hosts the `subject`
       is allowed to access.
     type: external
     exposed: true
@@ -102,7 +102,7 @@ attributes:
 
   - name: principals
     description: |-
-      On systems without a Microsegmentation-enabled Defender, you must provide the 
+      On systems without an enforcer, you must provide the 
       name of the Linux user. Otherwise, Microsegmentation will automatically populate 
       this field and adding a value here is
       optional and not used during the authorization. However, the value becomes a tag

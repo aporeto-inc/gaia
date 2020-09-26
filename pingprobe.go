@@ -160,13 +160,13 @@ type PingProbe struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// ID of the Defender.
+	// ID of the enforcer.
 	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the Defender.
+	// Namespace of the enforcer.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Semantic version of the Defender.
+	// Semantic version of the enforcer.
 	EnforcerVersion string `json:"enforcerVersion" msgpack:"enforcerVersion" bson:"enforcerversion" mapstructure:"enforcerVersion,omitempty"`
 
 	// A non-empty error indicates a failure.
@@ -1088,7 +1088,7 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the Defender.`,
+		Description:    `ID of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -1098,7 +1098,7 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the Defender.`,
+		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -1108,7 +1108,7 @@ var PingProbeAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerVersion": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerVersion",
-		Description:    `Semantic version of the Defender.`,
+		Description:    `Semantic version of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerVersion",
 		Stored:         true,
@@ -1523,7 +1523,7 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		BSONFieldName:  "enforcerid",
 		ConvertedName:  "EnforcerID",
-		Description:    `ID of the Defender.`,
+		Description:    `ID of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
@@ -1534,7 +1534,7 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		BSONFieldName:  "enforcernamespace",
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the Defender.`,
+		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
@@ -1545,7 +1545,7 @@ var PingProbeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		BSONFieldName:  "enforcerversion",
 		ConvertedName:  "EnforcerVersion",
-		Description:    `Semantic version of the Defender.`,
+		Description:    `Semantic version of the enforcer.`,
 		Exposed:        true,
 		Name:           "enforcerVersion",
 		Stored:         true,
@@ -1979,13 +1979,13 @@ type SparsePingProbe struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// ID of the Defender.
+	// ID of the enforcer.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the Defender.
+	// Namespace of the enforcer.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Semantic version of the Defender.
+	// Semantic version of the enforcer.
 	EnforcerVersion *string `json:"enforcerVersion,omitempty" msgpack:"enforcerVersion,omitempty" bson:"enforcerversion,omitempty" mapstructure:"enforcerVersion,omitempty"`
 
 	// A non-empty error indicates a failure.
