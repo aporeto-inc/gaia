@@ -11,6 +11,11 @@ model:
   - '@zoned'
   - '@migratable'
 
+# Indexes
+indexes:
+- - namespace
+  - timestamp
+
 # Attributes
 attributes:
   v1:

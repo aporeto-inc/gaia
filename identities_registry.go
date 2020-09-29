@@ -413,6 +413,7 @@ var (
 
 	indexesMap = map[string][][]string{
 		"accessreport": {
+			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"account": {
@@ -485,6 +486,7 @@ var (
 		},
 		"auditprofilemappingpolicy": nil,
 		"auditreport": {
+			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"authn": nil,
@@ -523,6 +525,7 @@ var (
 		},
 		"clausesmatch": nil,
 		"counterreport": {
+			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"customer": {
@@ -532,6 +535,7 @@ var (
 		"debugbundle":         nil,
 		"dependencymap":       nil,
 		"dnslookupreport": {
+			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"email": nil,
@@ -570,9 +574,16 @@ var (
 		"enforcerprofilemappingpolicy": nil,
 		"enforcerrefresh":              nil,
 		"enforcerreport": {
+			{"namespace", "timestamp"},
+			{"namespace", "enforcerID"},
+			{"enforcerID"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
-		"enforcertracereport": nil,
+		"enforcertracereport": {
+			{"namespace", "timestamp"},
+			{"namespace", "enforcerID"},
+			{"enforcerID"},
+		},
 		"eventlog": {
 			{":shard", ":unique", "zone", "zHash"},
 		},
@@ -593,6 +604,7 @@ var (
 		},
 		"fileaccesspolicy": nil,
 		"fileaccessreport": {
+			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"filepath": {
@@ -764,6 +776,7 @@ var (
 			{"namespace", "normalizedTags"},
 		},
 		"packetreport": {
+			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"passwordreset": nil,

@@ -13,6 +13,14 @@ model:
   validations:
   - $enforcerreport
 
+# Indexes
+indexes:
+- - namespace
+  - timestamp
+- - namespace
+  - enforcerID
+- - enforcerID
+
 # Attributes
 attributes:
   v1:
