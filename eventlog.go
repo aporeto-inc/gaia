@@ -594,6 +594,7 @@ var EventLogAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "date",
 		Orderable:      true,
+		Transient:      true,
 		Type:           "time",
 	},
 	"Level": {
@@ -767,6 +768,7 @@ var EventLogLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Exposed:        true,
 		Name:           "date",
 		Orderable:      true,
+		Transient:      true,
 		Type:           "time",
 	},
 	"level": {

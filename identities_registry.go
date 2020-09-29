@@ -585,6 +585,7 @@ var (
 			{"enforcerID"},
 		},
 		"eventlog": {
+			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"export": nil,
