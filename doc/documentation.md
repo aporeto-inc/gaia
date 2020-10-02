@@ -11808,6 +11808,234 @@ Last update date of the object.
 
 ## policy/networking
 
+### CachedFlowRecord
+
+Post a new cached flow record.
+
+#### Example
+
+```json
+{
+  "action": "Accept",
+  "destinationController": "api.east.acme.com",
+  "destinationID": "xxx-xxx-xxx",
+  "destinationIsTemporary": false,
+  "encrypted": false,
+  "namespace": "/my/namespace",
+  "observed": false,
+  "observedAction": "NotApplicable",
+  "observedEncrypted": false,
+  "observedPolicyID": "xxx-xxx-xxx",
+  "observedPolicyNamespace": "/my/namespace",
+  "policyID": "xxx-xxx-xxx",
+  "policyNamespace": "/my/namespace",
+  "protocol": 6,
+  "serviceType": "NotApplicable",
+  "sourceController": "api.west.acme.com",
+  "sourceID": "xxx-xxx-xxx",
+  "sourceIsTemporary": false,
+  "value": 1
+}
+```
+
+#### Attributes
+
+##### `action` [`required`]
+
+Type: `enum(Accept | Reject)`
+
+Action applied to the flow.
+
+##### `destinationController`
+
+Type: `string`
+
+Identifier of the destination controller.
+
+##### `destinationID` [`required`]
+
+Type: `string`
+
+ID of the destination.
+
+##### `destinationIP`
+
+Type: `string`
+
+Destination IP address.
+
+##### `destinationIsTemporary`
+
+Type: `boolean`
+
+Indicates if the destination endpoint is an enforcer-local processing unit.
+
+##### `destinationPort`
+
+Type: `integer`
+
+Port of the destination.
+
+##### `dropReason`
+
+Type: `string`
+
+This field is only set if `action` is set to `Reject`. It specifies the reason
+for the rejection.
+
+##### `encrypted`
+
+Type: `boolean`
+
+If `true`, the flow was encrypted.
+
+##### `namespace` [`required`]
+
+_This attribute is deprecated_.
+
+Type: `string`
+
+This is here for backward compatibility.
+
+##### `observed`
+
+Type: `boolean`
+
+If `true`, design mode is on.
+
+##### `observedAction`
+
+Type: `enum(Accept | Reject | NotApplicable)`
+
+Action observed on the flow.
+
+Default value:
+
+```json
+"NotApplicable"
+```
+
+##### `observedDropReason`
+
+Type: `string`
+
+Specifies the reason for a rejection. Only set if `observedAction` is set
+to `Reject`.
+
+##### `observedEncrypted`
+
+Type: `boolean`
+
+Value of the encryption of the network policy that observed the flow.
+
+##### `observedPolicyID`
+
+Type: `string`
+
+ID of the network policy that observed the flow.
+
+##### `observedPolicyNamespace`
+
+Type: `string`
+
+Namespace of the network policy that observed the flow.
+
+##### `policyID` [`required`]
+
+Type: `string`
+
+ID of the network policy that accepted the flow.
+
+##### `policyNamespace` [`required`]
+
+Type: `string`
+
+Namespace of the network policy that accepted the flow.
+
+##### `protocol` [`required`]
+
+Type: `integer`
+
+Protocol number.
+
+##### `remoteNamespace`
+
+Type: `string`
+
+Namespace of the object at the other end of the flow.
+
+##### `serviceClaimHash`
+
+Type: `string`
+
+Hash of the claims used to communicate.
+
+##### `serviceID`
+
+Type: `string`
+
+ID of the service.
+
+##### `serviceNamespace`
+
+Type: `string`
+
+Namespace of Service accessed.
+
+##### `serviceType`
+
+Type: `enum(L3 | HTTP | TCP | NotApplicable)`
+
+ID of the service.
+
+Default value:
+
+```json
+"NotApplicable"
+```
+
+##### `serviceURL`
+
+Type: `string`
+
+Service URL accessed.
+
+##### `sourceController`
+
+Type: `string`
+
+Identifier of the source controller.
+
+##### `sourceID` [`required`]
+
+Type: `string`
+
+ID of the source.
+
+##### `sourceIP`
+
+Type: `string`
+
+Type of the source.
+
+##### `sourceIsTemporary`
+
+Type: `boolean`
+
+Indicates if the source endpoint is an enforcer-local processing unit.
+
+##### `timestamp`
+
+Type: `time`
+
+Time and date of the log.
+
+##### `value` [`required`]
+
+Type: `integer`
+
+Number of flows in the log.
+
 ### Claims
 
 Represents the claims in the token used to access a service.
