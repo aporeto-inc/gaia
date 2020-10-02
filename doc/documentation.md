@@ -12133,7 +12133,7 @@ Port of the destination.
 
 ##### `destinationType` [`required`]
 
-Type: `enum(ProcessingUnit | ExternalNetwork | Claims)`
+Type: `enum(ProcessingUnit | ExternalNetwork | Claims | OfflineProcessingUnit)`
 
 Destination type.
 
@@ -12290,7 +12290,7 @@ property does nothing.
 
 ##### `sourceType` [`required`]
 
-Type: `enum(ProcessingUnit | ExternalNetwork | Claims)`
+Type: `enum(ProcessingUnit | ExternalNetwork | Claims | OfflineProcessingUnit)`
 
 Type of the source.
 

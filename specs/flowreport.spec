@@ -62,6 +62,7 @@ attributes:
     - ProcessingUnit
     - ExternalNetwork
     - Claims
+    - OfflineProcessingUnit
     example_value: ProcessingUnit
 
   - name: dropReason
@@ -218,6 +219,7 @@ attributes:
     - ProcessingUnit
     - ExternalNetwork
     - Claims
+    - OfflineProcessingUnit
     example_value: ProcessingUnit
 
   - name: timestamp

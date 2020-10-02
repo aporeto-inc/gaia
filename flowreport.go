@@ -30,6 +30,9 @@ const (
 	// FlowReportDestinationTypeExternalNetwork represents the value ExternalNetwork.
 	FlowReportDestinationTypeExternalNetwork FlowReportDestinationTypeValue = "ExternalNetwork"
 
+	// FlowReportDestinationTypeOfflineProcessingUnit represents the value OfflineProcessingUnit.
+	FlowReportDestinationTypeOfflineProcessingUnit FlowReportDestinationTypeValue = "OfflineProcessingUnit"
+
 	// FlowReportDestinationTypeProcessingUnit represents the value ProcessingUnit.
 	FlowReportDestinationTypeProcessingUnit FlowReportDestinationTypeValue = "ProcessingUnit"
 )
@@ -74,6 +77,9 @@ const (
 
 	// FlowReportSourceTypeExternalNetwork represents the value ExternalNetwork.
 	FlowReportSourceTypeExternalNetwork FlowReportSourceTypeValue = "ExternalNetwork"
+
+	// FlowReportSourceTypeOfflineProcessingUnit represents the value OfflineProcessingUnit.
+	FlowReportSourceTypeOfflineProcessingUnit FlowReportSourceTypeValue = "OfflineProcessingUnit"
 
 	// FlowReportSourceTypeProcessingUnit represents the value ProcessingUnit.
 	FlowReportSourceTypeProcessingUnit FlowReportSourceTypeValue = "ProcessingUnit"
@@ -605,7 +611,7 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Claims"}, false); err != nil {
+	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Claims", "OfflineProcessingUnit"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -641,7 +647,7 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Claims"}, false); err != nil {
+	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Claims", "OfflineProcessingUnit"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -807,7 +813,7 @@ property does nothing.`,
 		Type:           "integer",
 	},
 	"DestinationType": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims", "OfflineProcessingUnit"},
 		ConvertedName:  "DestinationType",
 		Description:    `Destination type.`,
 		Exposed:        true,
@@ -1004,7 +1010,7 @@ property does nothing.`,
 		Type:    "string",
 	},
 	"SourceType": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims", "OfflineProcessingUnit"},
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source.`,
 		Exposed:        true,
@@ -1086,7 +1092,7 @@ property does nothing.`,
 		Type:           "integer",
 	},
 	"destinationtype": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims", "OfflineProcessingUnit"},
 		ConvertedName:  "DestinationType",
 		Description:    `Destination type.`,
 		Exposed:        true,
@@ -1283,7 +1289,7 @@ property does nothing.`,
 		Type:    "string",
 	},
 	"sourcetype": {
-		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims", "OfflineProcessingUnit"},
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source.`,
 		Exposed:        true,
