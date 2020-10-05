@@ -1262,7 +1262,7 @@ func (o SparseCachedFlowRecordsList) Version() int {
 // SparseCachedFlowRecord represents the sparse version of a cachedflowrecord.
 type SparseCachedFlowRecord struct {
 	// Action applied to the flow.
-	Action *FlowReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
+	Action *CachedFlowRecordActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// Identifier of the destination controller.
 	DestinationController *string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"-" mapstructure:"destinationController,omitempty"`
@@ -1293,7 +1293,7 @@ type SparseCachedFlowRecord struct {
 	Observed *bool `json:"observed,omitempty" msgpack:"observed,omitempty" bson:"-" mapstructure:"observed,omitempty"`
 
 	// Action observed on the flow.
-	ObservedAction *FlowReportObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"-" mapstructure:"observedAction,omitempty"`
+	ObservedAction *CachedFlowRecordObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"-" mapstructure:"observedAction,omitempty"`
 
 	// Specifies the reason for a rejection. Only set if `observedAction` is set
 	// to `Reject`.
@@ -1330,7 +1330,7 @@ type SparseCachedFlowRecord struct {
 	ServiceNamespace *string `json:"serviceNamespace,omitempty" msgpack:"serviceNamespace,omitempty" bson:"-" mapstructure:"serviceNamespace,omitempty"`
 
 	// ID of the service.
-	ServiceType *FlowReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"-" mapstructure:"serviceType,omitempty"`
+	ServiceType *CachedFlowRecordServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"-" mapstructure:"serviceType,omitempty"`
 
 	// Service URL accessed.
 	ServiceURL *string `json:"serviceURL,omitempty" msgpack:"serviceURL,omitempty" bson:"-" mapstructure:"serviceURL,omitempty"`
