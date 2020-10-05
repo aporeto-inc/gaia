@@ -11856,7 +11856,7 @@ Identifier of the destination controller.
 
 Type: `string`
 
-ID of the destination.
+ID of the destination. May be a processing unit ID or an enforcer-local ID.
 
 ##### `destinationIP`
 
@@ -12010,7 +12010,7 @@ Identifier of the source controller.
 
 Type: `string`
 
-ID of the source.
+ID of the source. May be a processing unit ID or an enforcer-local ID.
 
 ##### `sourceIP`
 

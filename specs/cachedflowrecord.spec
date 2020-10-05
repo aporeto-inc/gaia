@@ -19,7 +19,7 @@ attributes:
     example_value: api.east.acme.com
 
   - name: destinationID
-    description: ID of the destination.
+    description: ID of the destination. May be a processing unit ID or an enforcer-local ID.
     type: string
     exposed: true
     required: true
@@ -47,7 +47,7 @@ attributes:
     example_value: api.west.acme.com
 
   - name: sourceID
-    description: ID of the source.
+    description: ID of the source. May be a processing unit ID or an enforcer-local ID.
     type: string
     exposed: true
     required: true

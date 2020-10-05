@@ -129,7 +129,7 @@ type CachedFlowRecord struct {
 	// Identifier of the destination controller.
 	DestinationController string `json:"destinationController" msgpack:"destinationController" bson:"-" mapstructure:"destinationController,omitempty"`
 
-	// ID of the destination.
+	// ID of the destination. May be a processing unit ID or an enforcer-local ID.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"-" mapstructure:"destinationID,omitempty"`
 
 	// Destination IP address.
@@ -200,7 +200,7 @@ type CachedFlowRecord struct {
 	// Identifier of the source controller.
 	SourceController string `json:"sourceController" msgpack:"sourceController" bson:"-" mapstructure:"sourceController,omitempty"`
 
-	// ID of the source.
+	// ID of the source. May be a processing unit ID or an enforcer-local ID.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"-" mapstructure:"sourceID,omitempty"`
 
 	// Type of the source.
@@ -706,7 +706,7 @@ var CachedFlowRecordAttributesMap = map[string]elemental.AttributeSpecification{
 	"DestinationID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationID",
-		Description:    `ID of the destination.`,
+		Description:    `ID of the destination. May be a processing unit ID or an enforcer-local ID.`,
 		Exposed:        true,
 		Name:           "destinationID",
 		Required:       true,
@@ -900,7 +900,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	"SourceID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
-		Description:    `ID of the source.`,
+		Description:    `ID of the source. May be a processing unit ID or an enforcer-local ID.`,
 		Exposed:        true,
 		Name:           "sourceID",
 		Required:       true,
@@ -963,7 +963,7 @@ var CachedFlowRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"destinationid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationID",
-		Description:    `ID of the destination.`,
+		Description:    `ID of the destination. May be a processing unit ID or an enforcer-local ID.`,
 		Exposed:        true,
 		Name:           "destinationID",
 		Required:       true,
@@ -1157,7 +1157,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	"sourceid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
-		Description:    `ID of the source.`,
+		Description:    `ID of the source. May be a processing unit ID or an enforcer-local ID.`,
 		Exposed:        true,
 		Name:           "sourceID",
 		Required:       true,
@@ -1262,12 +1262,12 @@ func (o SparseCachedFlowRecordsList) Version() int {
 // SparseCachedFlowRecord represents the sparse version of a cachedflowrecord.
 type SparseCachedFlowRecord struct {
 	// Action applied to the flow.
-	Action *CachedFlowRecordActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
+	Action *FlowReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// Identifier of the destination controller.
 	DestinationController *string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"-" mapstructure:"destinationController,omitempty"`
 
-	// ID of the destination.
+	// ID of the destination. May be a processing unit ID or an enforcer-local ID.
 	DestinationID *string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"-" mapstructure:"destinationID,omitempty"`
 
 	// Destination IP address.
@@ -1293,7 +1293,7 @@ type SparseCachedFlowRecord struct {
 	Observed *bool `json:"observed,omitempty" msgpack:"observed,omitempty" bson:"-" mapstructure:"observed,omitempty"`
 
 	// Action observed on the flow.
-	ObservedAction *CachedFlowRecordObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"-" mapstructure:"observedAction,omitempty"`
+	ObservedAction *FlowReportObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"-" mapstructure:"observedAction,omitempty"`
 
 	// Specifies the reason for a rejection. Only set if `observedAction` is set
 	// to `Reject`.
@@ -1330,7 +1330,7 @@ type SparseCachedFlowRecord struct {
 	ServiceNamespace *string `json:"serviceNamespace,omitempty" msgpack:"serviceNamespace,omitempty" bson:"-" mapstructure:"serviceNamespace,omitempty"`
 
 	// ID of the service.
-	ServiceType *CachedFlowRecordServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"-" mapstructure:"serviceType,omitempty"`
+	ServiceType *FlowReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"-" mapstructure:"serviceType,omitempty"`
 
 	// Service URL accessed.
 	ServiceURL *string `json:"serviceURL,omitempty" msgpack:"serviceURL,omitempty" bson:"-" mapstructure:"serviceURL,omitempty"`
@@ -1338,7 +1338,7 @@ type SparseCachedFlowRecord struct {
 	// Identifier of the source controller.
 	SourceController *string `json:"sourceController,omitempty" msgpack:"sourceController,omitempty" bson:"-" mapstructure:"sourceController,omitempty"`
 
-	// ID of the source.
+	// ID of the source. May be a processing unit ID or an enforcer-local ID.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"-" mapstructure:"sourceID,omitempty"`
 
 	// Type of the source.
