@@ -4520,6 +4520,9 @@ func init() {
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 	}
 
 	relationshipsRegistry[TextIndexIdentity] = &elemental.Relationship{}
