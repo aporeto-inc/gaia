@@ -11819,7 +11819,7 @@ Post a new cached flow record.
   "action": "Accept",
   "destinationController": "api.east.acme.com",
   "destinationID": "xxx-xxx-xxx",
-  "destinationIsTemporary": false,
+  "destinationIsLocalProcessingUnit": false,
   "destinationNamespace": "/my/namespace",
   "destinationType": "ProcessingUnit",
   "encrypted": false,
@@ -11835,7 +11835,7 @@ Post a new cached flow record.
   "serviceType": "NotApplicable",
   "sourceController": "api.west.acme.com",
   "sourceID": "xxx-xxx-xxx",
-  "sourceIsTemporary": false,
+  "sourceIsLocalProcessingUnit": false,
   "sourceNamespace": "/my/namespace",
   "sourceType": "ProcessingUnit",
   "value": 1
@@ -11868,7 +11868,7 @@ Type: `string`
 
 Destination IP address.
 
-##### `destinationIsTemporary`
+##### `destinationIsLocalProcessingUnit`
 
 Type: `boolean`
 
@@ -12037,7 +12037,7 @@ Type: `string`
 
 Type of the source.
 
-##### `sourceIsTemporary`
+##### `sourceIsLocalProcessingUnit`
 
 Type: `boolean`
 

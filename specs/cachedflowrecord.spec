@@ -12,12 +12,12 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: destinationIsTemporary
+  - name: destinationIsLocalProcessingUnit
     description: Indicates if the destination endpoint is an enforcer-local processing unit.
     type: boolean
     exposed: true
 
-  - name: sourceIsTemporary
+  - name: sourceIsLocalProcessingUnit
     description: Indicates if the source endpoint is an enforcer-local processing unit.
     type: boolean
     exposed: true
