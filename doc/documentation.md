@@ -7012,7 +7012,7 @@ Type: `string`
 
 The external ID of the tenant.
 
-##### `name` [`required`,`format=^[a-zA-Z0-9-_/]+$`]
+##### `name` [`required`,`format=^[a-zA-Z0-9-_/]+$`,`max_length=231`]
 
 Type: `string`
 
