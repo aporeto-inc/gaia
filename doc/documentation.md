@@ -11821,6 +11821,7 @@ Post a new cached flow record.
   "destinationID": "xxx-xxx-xxx",
   "destinationIsTemporary": false,
   "destinationNamespace": "/my/namespace",
+  "destinationType": "ProcessingUnit",
   "encrypted": false,
   "namespace": "/my/namespace",
   "observed": false,
@@ -11836,6 +11837,7 @@ Post a new cached flow record.
   "sourceID": "xxx-xxx-xxx",
   "sourceIsTemporary": false,
   "sourceNamespace": "/my/namespace",
+  "sourceType": "ProcessingUnit",
   "value": 1
 }
 ```
@@ -11886,6 +11888,12 @@ property does nothing.
 Type: `integer`
 
 Port of the destination.
+
+##### `destinationType` [`required`]
+
+Type: `enum(ProcessingUnit | ExternalNetwork | Claims)`
+
+Destination type.
 
 ##### `dropReason`
 
@@ -12043,6 +12051,12 @@ Type: `string`
 
 Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 property does nothing.
+
+##### `sourceType` [`required`]
+
+Type: `enum(ProcessingUnit | ExternalNetwork | Claims)`
+
+Type of the source.
 
 ##### `timestamp`
 

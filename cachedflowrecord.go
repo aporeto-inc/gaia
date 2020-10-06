@@ -20,6 +20,20 @@ const (
 	CachedFlowRecordActionReject CachedFlowRecordActionValue = "Reject"
 )
 
+// CachedFlowRecordDestinationTypeValue represents the possible values for attribute "destinationType".
+type CachedFlowRecordDestinationTypeValue string
+
+const (
+	// CachedFlowRecordDestinationTypeClaims represents the value Claims.
+	CachedFlowRecordDestinationTypeClaims CachedFlowRecordDestinationTypeValue = "Claims"
+
+	// CachedFlowRecordDestinationTypeExternalNetwork represents the value ExternalNetwork.
+	CachedFlowRecordDestinationTypeExternalNetwork CachedFlowRecordDestinationTypeValue = "ExternalNetwork"
+
+	// CachedFlowRecordDestinationTypeProcessingUnit represents the value ProcessingUnit.
+	CachedFlowRecordDestinationTypeProcessingUnit CachedFlowRecordDestinationTypeValue = "ProcessingUnit"
+)
+
 // CachedFlowRecordObservedActionValue represents the possible values for attribute "observedAction".
 type CachedFlowRecordObservedActionValue string
 
@@ -49,6 +63,20 @@ const (
 
 	// CachedFlowRecordServiceTypeTCP represents the value TCP.
 	CachedFlowRecordServiceTypeTCP CachedFlowRecordServiceTypeValue = "TCP"
+)
+
+// CachedFlowRecordSourceTypeValue represents the possible values for attribute "sourceType".
+type CachedFlowRecordSourceTypeValue string
+
+const (
+	// CachedFlowRecordSourceTypeClaims represents the value Claims.
+	CachedFlowRecordSourceTypeClaims CachedFlowRecordSourceTypeValue = "Claims"
+
+	// CachedFlowRecordSourceTypeExternalNetwork represents the value ExternalNetwork.
+	CachedFlowRecordSourceTypeExternalNetwork CachedFlowRecordSourceTypeValue = "ExternalNetwork"
+
+	// CachedFlowRecordSourceTypeProcessingUnit represents the value ProcessingUnit.
+	CachedFlowRecordSourceTypeProcessingUnit CachedFlowRecordSourceTypeValue = "ProcessingUnit"
 )
 
 // CachedFlowRecordIdentity represents the Identity of the object.
@@ -145,6 +173,9 @@ type CachedFlowRecord struct {
 	// Port of the destination.
 	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
 
+	// Destination type.
+	DestinationType CachedFlowRecordDestinationTypeValue `json:"destinationType" msgpack:"destinationType" bson:"-" mapstructure:"destinationType,omitempty"`
+
 	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
 	DropReason string `json:"dropReason" msgpack:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
@@ -216,6 +247,9 @@ type CachedFlowRecord struct {
 	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
 	SourceNamespace string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
+
+	// Type of the source.
+	SourceType CachedFlowRecordSourceTypeValue `json:"sourceType" msgpack:"sourceType" bson:"-" mapstructure:"sourceType,omitempty"`
 
 	// Time and date of the log.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -325,6 +359,7 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			DestinationIsTemporary:  &o.DestinationIsTemporary,
 			DestinationNamespace:    &o.DestinationNamespace,
 			DestinationPort:         &o.DestinationPort,
+			DestinationType:         &o.DestinationType,
 			DropReason:              &o.DropReason,
 			Encrypted:               &o.Encrypted,
 			Namespace:               &o.Namespace,
@@ -348,6 +383,7 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			SourceIP:                &o.SourceIP,
 			SourceIsTemporary:       &o.SourceIsTemporary,
 			SourceNamespace:         &o.SourceNamespace,
+			SourceType:              &o.SourceType,
 			Timestamp:               &o.Timestamp,
 			Value:                   &o.Value,
 		}
@@ -370,6 +406,8 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.DestinationNamespace = &(o.DestinationNamespace)
 		case "destinationPort":
 			sp.DestinationPort = &(o.DestinationPort)
+		case "destinationType":
+			sp.DestinationType = &(o.DestinationType)
 		case "dropReason":
 			sp.DropReason = &(o.DropReason)
 		case "encrypted":
@@ -416,6 +454,8 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.SourceIsTemporary = &(o.SourceIsTemporary)
 		case "sourceNamespace":
 			sp.SourceNamespace = &(o.SourceNamespace)
+		case "sourceType":
+			sp.SourceType = &(o.SourceType)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
 		case "value":
@@ -453,6 +493,9 @@ func (o *CachedFlowRecord) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DestinationPort != nil {
 		o.DestinationPort = *so.DestinationPort
+	}
+	if so.DestinationType != nil {
+		o.DestinationType = *so.DestinationType
 	}
 	if so.DropReason != nil {
 		o.DropReason = *so.DropReason
@@ -523,6 +566,9 @@ func (o *CachedFlowRecord) Patch(sparse elemental.SparseIdentifiable) {
 	if so.SourceNamespace != nil {
 		o.SourceNamespace = *so.SourceNamespace
 	}
+	if so.SourceType != nil {
+		o.SourceType = *so.SourceType
+	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
 	}
@@ -573,6 +619,14 @@ func (o *CachedFlowRecord) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("destinationType", string(o.DestinationType)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Claims"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -599,6 +653,14 @@ func (o *CachedFlowRecord) Validate() error {
 
 	if err := elemental.ValidateRequiredString("sourceID", o.SourceID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("sourceType", string(o.SourceType)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Claims"}, false); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredInt("value", o.Value); err != nil {
@@ -653,6 +715,8 @@ func (o *CachedFlowRecord) ValueForAttribute(name string) interface{} {
 		return o.DestinationNamespace
 	case "destinationPort":
 		return o.DestinationPort
+	case "destinationType":
+		return o.DestinationType
 	case "dropReason":
 		return o.DropReason
 	case "encrypted":
@@ -699,6 +763,8 @@ func (o *CachedFlowRecord) ValueForAttribute(name string) interface{} {
 		return o.SourceIsTemporary
 	case "sourceNamespace":
 		return o.SourceNamespace
+	case "sourceType":
+		return o.SourceType
 	case "timestamp":
 		return o.Timestamp
 	case "value":
@@ -769,6 +835,15 @@ property does nothing.`,
 		Exposed:        true,
 		Name:           "destinationPort",
 		Type:           "integer",
+	},
+	"DestinationType": {
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
+		ConvertedName:  "DestinationType",
+		Description:    `Destination type.`,
+		Exposed:        true,
+		Name:           "destinationType",
+		Required:       true,
+		Type:           "enum",
 	},
 	"DropReason": {
 		AllowedChoices: []string{},
@@ -966,6 +1041,15 @@ property does nothing.`,
 		Name:    "sourceNamespace",
 		Type:    "string",
 	},
+	"SourceType": {
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
+		ConvertedName:  "SourceType",
+		Description:    `Type of the source.`,
+		Exposed:        true,
+		Name:           "sourceType",
+		Required:       true,
+		Type:           "enum",
+	},
 	"Timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
@@ -1046,6 +1130,15 @@ property does nothing.`,
 		Exposed:        true,
 		Name:           "destinationPort",
 		Type:           "integer",
+	},
+	"destinationtype": {
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
+		ConvertedName:  "DestinationType",
+		Description:    `Destination type.`,
+		Exposed:        true,
+		Name:           "destinationType",
+		Required:       true,
+		Type:           "enum",
 	},
 	"dropreason": {
 		AllowedChoices: []string{},
@@ -1243,6 +1336,15 @@ property does nothing.`,
 		Name:    "sourceNamespace",
 		Type:    "string",
 	},
+	"sourcetype": {
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
+		ConvertedName:  "SourceType",
+		Description:    `Type of the source.`,
+		Exposed:        true,
+		Name:           "sourceType",
+		Required:       true,
+		Type:           "enum",
+	},
 	"timestamp": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
@@ -1347,6 +1449,9 @@ type SparseCachedFlowRecord struct {
 	// Port of the destination.
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
 
+	// Destination type.
+	DestinationType *CachedFlowRecordDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"-" mapstructure:"destinationType,omitempty"`
+
 	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
 	DropReason *string `json:"dropReason,omitempty" msgpack:"dropReason,omitempty" bson:"-" mapstructure:"dropReason,omitempty"`
@@ -1418,6 +1523,9 @@ type SparseCachedFlowRecord struct {
 	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
+
+	// Type of the source.
+	SourceType *CachedFlowRecordSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"-" mapstructure:"sourceType,omitempty"`
 
 	// Time and date of the log.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -1510,6 +1618,9 @@ func (o *SparseCachedFlowRecord) ToPlain() elemental.PlainIdentifiable {
 	if o.DestinationPort != nil {
 		out.DestinationPort = *o.DestinationPort
 	}
+	if o.DestinationType != nil {
+		out.DestinationType = *o.DestinationType
+	}
 	if o.DropReason != nil {
 		out.DropReason = *o.DropReason
 	}
@@ -1578,6 +1689,9 @@ func (o *SparseCachedFlowRecord) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SourceNamespace != nil {
 		out.SourceNamespace = *o.SourceNamespace
+	}
+	if o.SourceType != nil {
+		out.SourceType = *o.SourceType
 	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp

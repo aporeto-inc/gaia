@@ -44,6 +44,17 @@ attributes:
     type: integer
     exposed: true
 
+  - name: destinationType
+    description: Destination type.
+    type: enum
+    exposed: true
+    required: true
+    allowed_choices:
+    - ProcessingUnit
+    - ExternalNetwork
+    - Claims
+    example_value: ProcessingUnit
+
   - name: dropReason
     description: |-
       This field is only set if `action` is set to `Reject`. It specifies the reason
@@ -188,6 +199,17 @@ attributes:
     deprecated: true
     example_value: /my/namespace
     omit_empty: true
+
+  - name: sourceType
+    description: Type of the source.
+    type: enum
+    exposed: true
+    required: true
+    allowed_choices:
+    - ProcessingUnit
+    - ExternalNetwork
+    - Claims
+    example_value: ProcessingUnit
 
   - name: timestamp
     description: Time and date of the log.
