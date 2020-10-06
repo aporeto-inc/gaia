@@ -163,9 +163,6 @@ type CachedFlowRecord struct {
 	// Destination IP address.
 	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
 
-	// Indicates if the destination endpoint is an enforcer-local processing unit.
-	DestinationIsLocalProcessingUnit bool `json:"destinationIsLocalProcessingUnit" msgpack:"destinationIsLocalProcessingUnit" bson:"-" mapstructure:"destinationIsLocalProcessingUnit,omitempty"`
-
 	// Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
 	DestinationNamespace string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
@@ -182,6 +179,12 @@ type CachedFlowRecord struct {
 
 	// If `true`, the flow was encrypted.
 	Encrypted bool `json:"encrypted" msgpack:"encrypted" bson:"-" mapstructure:"encrypted,omitempty"`
+
+	// Indicates if the destination endpoint is an enforcer-local processing unit.
+	IsLocalDestinationID bool `json:"isLocalDestinationID" msgpack:"isLocalDestinationID" bson:"-" mapstructure:"isLocalDestinationID,omitempty"`
+
+	// Indicates if the source endpoint is an enforcer-local processing unit.
+	IsLocalSourceID bool `json:"isLocalSourceID" msgpack:"isLocalSourceID" bson:"-" mapstructure:"isLocalSourceID,omitempty"`
 
 	// This is here for backward compatibility.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
@@ -240,9 +243,6 @@ type CachedFlowRecord struct {
 
 	// Type of the source.
 	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
-
-	// Indicates if the source endpoint is an enforcer-local processing unit.
-	SourceIsLocalProcessingUnit bool `json:"sourceIsLocalProcessingUnit" msgpack:"sourceIsLocalProcessingUnit" bson:"-" mapstructure:"sourceIsLocalProcessingUnit,omitempty"`
 
 	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
@@ -352,40 +352,40 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCachedFlowRecord{
-			Action:                           &o.Action,
-			DestinationController:            &o.DestinationController,
-			DestinationID:                    &o.DestinationID,
-			DestinationIP:                    &o.DestinationIP,
-			DestinationIsLocalProcessingUnit: &o.DestinationIsLocalProcessingUnit,
-			DestinationNamespace:             &o.DestinationNamespace,
-			DestinationPort:                  &o.DestinationPort,
-			DestinationType:                  &o.DestinationType,
-			DropReason:                       &o.DropReason,
-			Encrypted:                        &o.Encrypted,
-			Namespace:                        &o.Namespace,
-			Observed:                         &o.Observed,
-			ObservedAction:                   &o.ObservedAction,
-			ObservedDropReason:               &o.ObservedDropReason,
-			ObservedEncrypted:                &o.ObservedEncrypted,
-			ObservedPolicyID:                 &o.ObservedPolicyID,
-			ObservedPolicyNamespace:          &o.ObservedPolicyNamespace,
-			PolicyID:                         &o.PolicyID,
-			PolicyNamespace:                  &o.PolicyNamespace,
-			Protocol:                         &o.Protocol,
-			RemoteNamespace:                  &o.RemoteNamespace,
-			ServiceClaimHash:                 &o.ServiceClaimHash,
-			ServiceID:                        &o.ServiceID,
-			ServiceNamespace:                 &o.ServiceNamespace,
-			ServiceType:                      &o.ServiceType,
-			ServiceURL:                       &o.ServiceURL,
-			SourceController:                 &o.SourceController,
-			SourceID:                         &o.SourceID,
-			SourceIP:                         &o.SourceIP,
-			SourceIsLocalProcessingUnit:      &o.SourceIsLocalProcessingUnit,
-			SourceNamespace:                  &o.SourceNamespace,
-			SourceType:                       &o.SourceType,
-			Timestamp:                        &o.Timestamp,
-			Value:                            &o.Value,
+			Action:                  &o.Action,
+			DestinationController:   &o.DestinationController,
+			DestinationID:           &o.DestinationID,
+			DestinationIP:           &o.DestinationIP,
+			DestinationNamespace:    &o.DestinationNamespace,
+			DestinationPort:         &o.DestinationPort,
+			DestinationType:         &o.DestinationType,
+			DropReason:              &o.DropReason,
+			Encrypted:               &o.Encrypted,
+			IsLocalDestinationID:    &o.IsLocalDestinationID,
+			IsLocalSourceID:         &o.IsLocalSourceID,
+			Namespace:               &o.Namespace,
+			Observed:                &o.Observed,
+			ObservedAction:          &o.ObservedAction,
+			ObservedDropReason:      &o.ObservedDropReason,
+			ObservedEncrypted:       &o.ObservedEncrypted,
+			ObservedPolicyID:        &o.ObservedPolicyID,
+			ObservedPolicyNamespace: &o.ObservedPolicyNamespace,
+			PolicyID:                &o.PolicyID,
+			PolicyNamespace:         &o.PolicyNamespace,
+			Protocol:                &o.Protocol,
+			RemoteNamespace:         &o.RemoteNamespace,
+			ServiceClaimHash:        &o.ServiceClaimHash,
+			ServiceID:               &o.ServiceID,
+			ServiceNamespace:        &o.ServiceNamespace,
+			ServiceType:             &o.ServiceType,
+			ServiceURL:              &o.ServiceURL,
+			SourceController:        &o.SourceController,
+			SourceID:                &o.SourceID,
+			SourceIP:                &o.SourceIP,
+			SourceNamespace:         &o.SourceNamespace,
+			SourceType:              &o.SourceType,
+			Timestamp:               &o.Timestamp,
+			Value:                   &o.Value,
 		}
 	}
 
@@ -400,8 +400,6 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.DestinationID = &(o.DestinationID)
 		case "destinationIP":
 			sp.DestinationIP = &(o.DestinationIP)
-		case "destinationIsLocalProcessingUnit":
-			sp.DestinationIsLocalProcessingUnit = &(o.DestinationIsLocalProcessingUnit)
 		case "destinationNamespace":
 			sp.DestinationNamespace = &(o.DestinationNamespace)
 		case "destinationPort":
@@ -412,6 +410,10 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.DropReason = &(o.DropReason)
 		case "encrypted":
 			sp.Encrypted = &(o.Encrypted)
+		case "isLocalDestinationID":
+			sp.IsLocalDestinationID = &(o.IsLocalDestinationID)
+		case "isLocalSourceID":
+			sp.IsLocalSourceID = &(o.IsLocalSourceID)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "observed":
@@ -450,8 +452,6 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.SourceID = &(o.SourceID)
 		case "sourceIP":
 			sp.SourceIP = &(o.SourceIP)
-		case "sourceIsLocalProcessingUnit":
-			sp.SourceIsLocalProcessingUnit = &(o.SourceIsLocalProcessingUnit)
 		case "sourceNamespace":
 			sp.SourceNamespace = &(o.SourceNamespace)
 		case "sourceType":
@@ -485,9 +485,6 @@ func (o *CachedFlowRecord) Patch(sparse elemental.SparseIdentifiable) {
 	if so.DestinationIP != nil {
 		o.DestinationIP = *so.DestinationIP
 	}
-	if so.DestinationIsLocalProcessingUnit != nil {
-		o.DestinationIsLocalProcessingUnit = *so.DestinationIsLocalProcessingUnit
-	}
 	if so.DestinationNamespace != nil {
 		o.DestinationNamespace = *so.DestinationNamespace
 	}
@@ -502,6 +499,12 @@ func (o *CachedFlowRecord) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Encrypted != nil {
 		o.Encrypted = *so.Encrypted
+	}
+	if so.IsLocalDestinationID != nil {
+		o.IsLocalDestinationID = *so.IsLocalDestinationID
+	}
+	if so.IsLocalSourceID != nil {
+		o.IsLocalSourceID = *so.IsLocalSourceID
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
@@ -559,9 +562,6 @@ func (o *CachedFlowRecord) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SourceIP != nil {
 		o.SourceIP = *so.SourceIP
-	}
-	if so.SourceIsLocalProcessingUnit != nil {
-		o.SourceIsLocalProcessingUnit = *so.SourceIsLocalProcessingUnit
 	}
 	if so.SourceNamespace != nil {
 		o.SourceNamespace = *so.SourceNamespace
@@ -709,8 +709,6 @@ func (o *CachedFlowRecord) ValueForAttribute(name string) interface{} {
 		return o.DestinationID
 	case "destinationIP":
 		return o.DestinationIP
-	case "destinationIsLocalProcessingUnit":
-		return o.DestinationIsLocalProcessingUnit
 	case "destinationNamespace":
 		return o.DestinationNamespace
 	case "destinationPort":
@@ -721,6 +719,10 @@ func (o *CachedFlowRecord) ValueForAttribute(name string) interface{} {
 		return o.DropReason
 	case "encrypted":
 		return o.Encrypted
+	case "isLocalDestinationID":
+		return o.IsLocalDestinationID
+	case "isLocalSourceID":
+		return o.IsLocalSourceID
 	case "namespace":
 		return o.Namespace
 	case "observed":
@@ -759,8 +761,6 @@ func (o *CachedFlowRecord) ValueForAttribute(name string) interface{} {
 		return o.SourceID
 	case "sourceIP":
 		return o.SourceIP
-	case "sourceIsLocalProcessingUnit":
-		return o.SourceIsLocalProcessingUnit
 	case "sourceNamespace":
 		return o.SourceNamespace
 	case "sourceType":
@@ -810,14 +810,6 @@ var CachedFlowRecordAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "destinationIP",
 		Type:           "string",
 	},
-	"DestinationIsLocalProcessingUnit": {
-		AllowedChoices: []string{},
-		ConvertedName:  "DestinationIsLocalProcessingUnit",
-		Description:    `Indicates if the destination endpoint is an enforcer-local processing unit.`,
-		Exposed:        true,
-		Name:           "destinationIsLocalProcessingUnit",
-		Type:           "boolean",
-	},
 	"DestinationNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationNamespace",
@@ -860,6 +852,22 @@ for the rejection.`,
 		Description:    `If ` + "`" + `true` + "`" + `, the flow was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypted",
+		Type:           "boolean",
+	},
+	"IsLocalDestinationID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "IsLocalDestinationID",
+		Description:    `Indicates if the destination endpoint is an enforcer-local processing unit.`,
+		Exposed:        true,
+		Name:           "isLocalDestinationID",
+		Type:           "boolean",
+	},
+	"IsLocalSourceID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "IsLocalSourceID",
+		Description:    `Indicates if the source endpoint is an enforcer-local processing unit.`,
+		Exposed:        true,
+		Name:           "isLocalSourceID",
 		Type:           "boolean",
 	},
 	"Namespace": {
@@ -1023,14 +1031,6 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Name:           "sourceIP",
 		Type:           "string",
 	},
-	"SourceIsLocalProcessingUnit": {
-		AllowedChoices: []string{},
-		ConvertedName:  "SourceIsLocalProcessingUnit",
-		Description:    `Indicates if the source endpoint is an enforcer-local processing unit.`,
-		Exposed:        true,
-		Name:           "sourceIsLocalProcessingUnit",
-		Type:           "boolean",
-	},
 	"SourceNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
@@ -1105,14 +1105,6 @@ var CachedFlowRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Name:           "destinationIP",
 		Type:           "string",
 	},
-	"destinationislocalprocessingunit": {
-		AllowedChoices: []string{},
-		ConvertedName:  "DestinationIsLocalProcessingUnit",
-		Description:    `Indicates if the destination endpoint is an enforcer-local processing unit.`,
-		Exposed:        true,
-		Name:           "destinationIsLocalProcessingUnit",
-		Type:           "boolean",
-	},
 	"destinationnamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationNamespace",
@@ -1155,6 +1147,22 @@ for the rejection.`,
 		Description:    `If ` + "`" + `true` + "`" + `, the flow was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypted",
+		Type:           "boolean",
+	},
+	"islocaldestinationid": {
+		AllowedChoices: []string{},
+		ConvertedName:  "IsLocalDestinationID",
+		Description:    `Indicates if the destination endpoint is an enforcer-local processing unit.`,
+		Exposed:        true,
+		Name:           "isLocalDestinationID",
+		Type:           "boolean",
+	},
+	"islocalsourceid": {
+		AllowedChoices: []string{},
+		ConvertedName:  "IsLocalSourceID",
+		Description:    `Indicates if the source endpoint is an enforcer-local processing unit.`,
+		Exposed:        true,
+		Name:           "isLocalSourceID",
 		Type:           "boolean",
 	},
 	"namespace": {
@@ -1318,14 +1326,6 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Name:           "sourceIP",
 		Type:           "string",
 	},
-	"sourceislocalprocessingunit": {
-		AllowedChoices: []string{},
-		ConvertedName:  "SourceIsLocalProcessingUnit",
-		Description:    `Indicates if the source endpoint is an enforcer-local processing unit.`,
-		Exposed:        true,
-		Name:           "sourceIsLocalProcessingUnit",
-		Type:           "boolean",
-	},
 	"sourcenamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
@@ -1439,9 +1439,6 @@ type SparseCachedFlowRecord struct {
 	// Destination IP address.
 	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
 
-	// Indicates if the destination endpoint is an enforcer-local processing unit.
-	DestinationIsLocalProcessingUnit *bool `json:"destinationIsLocalProcessingUnit,omitempty" msgpack:"destinationIsLocalProcessingUnit,omitempty" bson:"-" mapstructure:"destinationIsLocalProcessingUnit,omitempty"`
-
 	// Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
 	DestinationNamespace *string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
@@ -1458,6 +1455,12 @@ type SparseCachedFlowRecord struct {
 
 	// If `true`, the flow was encrypted.
 	Encrypted *bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"-" mapstructure:"encrypted,omitempty"`
+
+	// Indicates if the destination endpoint is an enforcer-local processing unit.
+	IsLocalDestinationID *bool `json:"isLocalDestinationID,omitempty" msgpack:"isLocalDestinationID,omitempty" bson:"-" mapstructure:"isLocalDestinationID,omitempty"`
+
+	// Indicates if the source endpoint is an enforcer-local processing unit.
+	IsLocalSourceID *bool `json:"isLocalSourceID,omitempty" msgpack:"isLocalSourceID,omitempty" bson:"-" mapstructure:"isLocalSourceID,omitempty"`
 
 	// This is here for backward compatibility.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
@@ -1516,9 +1519,6 @@ type SparseCachedFlowRecord struct {
 
 	// Type of the source.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
-
-	// Indicates if the source endpoint is an enforcer-local processing unit.
-	SourceIsLocalProcessingUnit *bool `json:"sourceIsLocalProcessingUnit,omitempty" msgpack:"sourceIsLocalProcessingUnit,omitempty" bson:"-" mapstructure:"sourceIsLocalProcessingUnit,omitempty"`
 
 	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
 	// property does nothing.
@@ -1609,9 +1609,6 @@ func (o *SparseCachedFlowRecord) ToPlain() elemental.PlainIdentifiable {
 	if o.DestinationIP != nil {
 		out.DestinationIP = *o.DestinationIP
 	}
-	if o.DestinationIsLocalProcessingUnit != nil {
-		out.DestinationIsLocalProcessingUnit = *o.DestinationIsLocalProcessingUnit
-	}
 	if o.DestinationNamespace != nil {
 		out.DestinationNamespace = *o.DestinationNamespace
 	}
@@ -1626,6 +1623,12 @@ func (o *SparseCachedFlowRecord) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Encrypted != nil {
 		out.Encrypted = *o.Encrypted
+	}
+	if o.IsLocalDestinationID != nil {
+		out.IsLocalDestinationID = *o.IsLocalDestinationID
+	}
+	if o.IsLocalSourceID != nil {
+		out.IsLocalSourceID = *o.IsLocalSourceID
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
@@ -1683,9 +1686,6 @@ func (o *SparseCachedFlowRecord) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SourceIP != nil {
 		out.SourceIP = *o.SourceIP
-	}
-	if o.SourceIsLocalProcessingUnit != nil {
-		out.SourceIsLocalProcessingUnit = *o.SourceIsLocalProcessingUnit
 	}
 	if o.SourceNamespace != nil {
 		out.SourceNamespace = *o.SourceNamespace

@@ -11819,10 +11819,11 @@ Post a new cached flow record.
   "action": "Accept",
   "destinationController": "api.east.acme.com",
   "destinationID": "xxx-xxx-xxx",
-  "destinationIsLocalProcessingUnit": false,
   "destinationNamespace": "/my/namespace",
   "destinationType": "ProcessingUnit",
   "encrypted": false,
+  "isLocalDestinationID": false,
+  "isLocalSourceID": false,
   "namespace": "/my/namespace",
   "observed": false,
   "observedAction": "NotApplicable",
@@ -11835,7 +11836,6 @@ Post a new cached flow record.
   "serviceType": "NotApplicable",
   "sourceController": "api.west.acme.com",
   "sourceID": "xxx-xxx-xxx",
-  "sourceIsLocalProcessingUnit": false,
   "sourceNamespace": "/my/namespace",
   "sourceType": "ProcessingUnit",
   "value": 1
@@ -11867,12 +11867,6 @@ ID of the destination.
 Type: `string`
 
 Destination IP address.
-
-##### `destinationIsLocalProcessingUnit`
-
-Type: `boolean`
-
-Indicates if the destination endpoint is an enforcer-local processing unit.
 
 ##### `destinationNamespace`
 
@@ -11907,6 +11901,18 @@ for the rejection.
 Type: `boolean`
 
 If `true`, the flow was encrypted.
+
+##### `isLocalDestinationID`
+
+Type: `boolean`
+
+Indicates if the destination endpoint is an enforcer-local processing unit.
+
+##### `isLocalSourceID`
+
+Type: `boolean`
+
+Indicates if the source endpoint is an enforcer-local processing unit.
 
 ##### `namespace` [`required`]
 
@@ -12036,12 +12042,6 @@ ID of the source.
 Type: `string`
 
 Type of the source.
-
-##### `sourceIsLocalProcessingUnit`
-
-Type: `boolean`
-
-Indicates if the source endpoint is an enforcer-local processing unit.
 
 ##### `sourceNamespace`
 
