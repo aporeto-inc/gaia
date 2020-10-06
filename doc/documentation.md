@@ -11820,6 +11820,7 @@ Post a new cached flow record.
   "destinationController": "api.east.acme.com",
   "destinationID": "xxx-xxx-xxx",
   "destinationIsTemporary": false,
+  "destinationNamespace": "/my/namespace",
   "encrypted": false,
   "namespace": "/my/namespace",
   "observed": false,
@@ -11834,6 +11835,7 @@ Post a new cached flow record.
   "sourceController": "api.west.acme.com",
   "sourceID": "xxx-xxx-xxx",
   "sourceIsTemporary": false,
+  "sourceNamespace": "/my/namespace",
   "value": 1
 }
 ```
@@ -11856,7 +11858,7 @@ Identifier of the destination controller.
 
 Type: `string`
 
-ID of the destination. May be a processing unit ID or an enforcer-local ID.
+ID of the destination.
 
 ##### `destinationIP`
 
@@ -11869,6 +11871,15 @@ Destination IP address.
 Type: `boolean`
 
 Indicates if the destination endpoint is an enforcer-local processing unit.
+
+##### `destinationNamespace`
+
+_This attribute is deprecated_.
+
+Type: `string`
+
+Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
+property does nothing.
 
 ##### `destinationPort`
 
@@ -12010,7 +12021,7 @@ Identifier of the source controller.
 
 Type: `string`
 
-ID of the source. May be a processing unit ID or an enforcer-local ID.
+ID of the source.
 
 ##### `sourceIP`
 
@@ -12023,6 +12034,15 @@ Type of the source.
 Type: `boolean`
 
 Indicates if the source endpoint is an enforcer-local processing unit.
+
+##### `sourceNamespace`
+
+_This attribute is deprecated_.
+
+Type: `string`
+
+Namespace of the source. This is deprecated. Use `remoteNamespace`. This
+property does nothing.
 
 ##### `timestamp`
 

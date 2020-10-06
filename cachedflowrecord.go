@@ -129,7 +129,7 @@ type CachedFlowRecord struct {
 	// Identifier of the destination controller.
 	DestinationController string `json:"destinationController" msgpack:"destinationController" bson:"-" mapstructure:"destinationController,omitempty"`
 
-	// ID of the destination. May be a processing unit ID or an enforcer-local ID.
+	// ID of the destination.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"-" mapstructure:"destinationID,omitempty"`
 
 	// Destination IP address.
@@ -137,6 +137,10 @@ type CachedFlowRecord struct {
 
 	// Indicates if the destination endpoint is an enforcer-local processing unit.
 	DestinationIsTemporary bool `json:"destinationIsTemporary" msgpack:"destinationIsTemporary" bson:"-" mapstructure:"destinationIsTemporary,omitempty"`
+
+	// Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
+	// property does nothing.
+	DestinationNamespace string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
 
 	// Port of the destination.
 	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
@@ -200,7 +204,7 @@ type CachedFlowRecord struct {
 	// Identifier of the source controller.
 	SourceController string `json:"sourceController" msgpack:"sourceController" bson:"-" mapstructure:"sourceController,omitempty"`
 
-	// ID of the source. May be a processing unit ID or an enforcer-local ID.
+	// ID of the source.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"-" mapstructure:"sourceID,omitempty"`
 
 	// Type of the source.
@@ -208,6 +212,10 @@ type CachedFlowRecord struct {
 
 	// Indicates if the source endpoint is an enforcer-local processing unit.
 	SourceIsTemporary bool `json:"sourceIsTemporary" msgpack:"sourceIsTemporary" bson:"-" mapstructure:"sourceIsTemporary,omitempty"`
+
+	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
+	// property does nothing.
+	SourceNamespace string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
 
 	// Time and date of the log.
 	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -315,6 +323,7 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			DestinationID:           &o.DestinationID,
 			DestinationIP:           &o.DestinationIP,
 			DestinationIsTemporary:  &o.DestinationIsTemporary,
+			DestinationNamespace:    &o.DestinationNamespace,
 			DestinationPort:         &o.DestinationPort,
 			DropReason:              &o.DropReason,
 			Encrypted:               &o.Encrypted,
@@ -338,6 +347,7 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			SourceID:                &o.SourceID,
 			SourceIP:                &o.SourceIP,
 			SourceIsTemporary:       &o.SourceIsTemporary,
+			SourceNamespace:         &o.SourceNamespace,
 			Timestamp:               &o.Timestamp,
 			Value:                   &o.Value,
 		}
@@ -356,6 +366,8 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.DestinationIP = &(o.DestinationIP)
 		case "destinationIsTemporary":
 			sp.DestinationIsTemporary = &(o.DestinationIsTemporary)
+		case "destinationNamespace":
+			sp.DestinationNamespace = &(o.DestinationNamespace)
 		case "destinationPort":
 			sp.DestinationPort = &(o.DestinationPort)
 		case "dropReason":
@@ -402,6 +414,8 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.SourceIP = &(o.SourceIP)
 		case "sourceIsTemporary":
 			sp.SourceIsTemporary = &(o.SourceIsTemporary)
+		case "sourceNamespace":
+			sp.SourceNamespace = &(o.SourceNamespace)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
 		case "value":
@@ -433,6 +447,9 @@ func (o *CachedFlowRecord) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DestinationIsTemporary != nil {
 		o.DestinationIsTemporary = *so.DestinationIsTemporary
+	}
+	if so.DestinationNamespace != nil {
+		o.DestinationNamespace = *so.DestinationNamespace
 	}
 	if so.DestinationPort != nil {
 		o.DestinationPort = *so.DestinationPort
@@ -502,6 +519,9 @@ func (o *CachedFlowRecord) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SourceIsTemporary != nil {
 		o.SourceIsTemporary = *so.SourceIsTemporary
+	}
+	if so.SourceNamespace != nil {
+		o.SourceNamespace = *so.SourceNamespace
 	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
@@ -629,6 +649,8 @@ func (o *CachedFlowRecord) ValueForAttribute(name string) interface{} {
 		return o.DestinationIP
 	case "destinationIsTemporary":
 		return o.DestinationIsTemporary
+	case "destinationNamespace":
+		return o.DestinationNamespace
 	case "destinationPort":
 		return o.DestinationPort
 	case "dropReason":
@@ -675,6 +697,8 @@ func (o *CachedFlowRecord) ValueForAttribute(name string) interface{} {
 		return o.SourceIP
 	case "sourceIsTemporary":
 		return o.SourceIsTemporary
+	case "sourceNamespace":
+		return o.SourceNamespace
 	case "timestamp":
 		return o.Timestamp
 	case "value":
@@ -706,7 +730,7 @@ var CachedFlowRecordAttributesMap = map[string]elemental.AttributeSpecification{
 	"DestinationID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationID",
-		Description:    `ID of the destination. May be a processing unit ID or an enforcer-local ID.`,
+		Description:    `ID of the destination.`,
 		Exposed:        true,
 		Name:           "destinationID",
 		Required:       true,
@@ -727,6 +751,16 @@ var CachedFlowRecordAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "destinationIsTemporary",
 		Type:           "boolean",
+	},
+	"DestinationNamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationNamespace",
+		Deprecated:     true,
+		Description: `Namespace of the destination. This is deprecated. Use ` + "`" + `remoteNamespace` + "`" + `. This
+property does nothing.`,
+		Exposed: true,
+		Name:    "destinationNamespace",
+		Type:    "string",
 	},
 	"DestinationPort": {
 		AllowedChoices: []string{},
@@ -900,7 +934,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	"SourceID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
-		Description:    `ID of the source. May be a processing unit ID or an enforcer-local ID.`,
+		Description:    `ID of the source.`,
 		Exposed:        true,
 		Name:           "sourceID",
 		Required:       true,
@@ -921,6 +955,16 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Exposed:        true,
 		Name:           "sourceIsTemporary",
 		Type:           "boolean",
+	},
+	"SourceNamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceNamespace",
+		Deprecated:     true,
+		Description: `Namespace of the source. This is deprecated. Use ` + "`" + `remoteNamespace` + "`" + `. This
+property does nothing.`,
+		Exposed: true,
+		Name:    "sourceNamespace",
+		Type:    "string",
 	},
 	"Timestamp": {
 		AllowedChoices: []string{},
@@ -963,7 +1007,7 @@ var CachedFlowRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"destinationid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationID",
-		Description:    `ID of the destination. May be a processing unit ID or an enforcer-local ID.`,
+		Description:    `ID of the destination.`,
 		Exposed:        true,
 		Name:           "destinationID",
 		Required:       true,
@@ -984,6 +1028,16 @@ var CachedFlowRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Exposed:        true,
 		Name:           "destinationIsTemporary",
 		Type:           "boolean",
+	},
+	"destinationnamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationNamespace",
+		Deprecated:     true,
+		Description: `Namespace of the destination. This is deprecated. Use ` + "`" + `remoteNamespace` + "`" + `. This
+property does nothing.`,
+		Exposed: true,
+		Name:    "destinationNamespace",
+		Type:    "string",
 	},
 	"destinationport": {
 		AllowedChoices: []string{},
@@ -1157,7 +1211,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	"sourceid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceID",
-		Description:    `ID of the source. May be a processing unit ID or an enforcer-local ID.`,
+		Description:    `ID of the source.`,
 		Exposed:        true,
 		Name:           "sourceID",
 		Required:       true,
@@ -1178,6 +1232,16 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Exposed:        true,
 		Name:           "sourceIsTemporary",
 		Type:           "boolean",
+	},
+	"sourcenamespace": {
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceNamespace",
+		Deprecated:     true,
+		Description: `Namespace of the source. This is deprecated. Use ` + "`" + `remoteNamespace` + "`" + `. This
+property does nothing.`,
+		Exposed: true,
+		Name:    "sourceNamespace",
+		Type:    "string",
 	},
 	"timestamp": {
 		AllowedChoices: []string{},
@@ -1267,7 +1331,7 @@ type SparseCachedFlowRecord struct {
 	// Identifier of the destination controller.
 	DestinationController *string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"-" mapstructure:"destinationController,omitempty"`
 
-	// ID of the destination. May be a processing unit ID or an enforcer-local ID.
+	// ID of the destination.
 	DestinationID *string `json:"destinationID,omitempty" msgpack:"destinationID,omitempty" bson:"-" mapstructure:"destinationID,omitempty"`
 
 	// Destination IP address.
@@ -1275,6 +1339,10 @@ type SparseCachedFlowRecord struct {
 
 	// Indicates if the destination endpoint is an enforcer-local processing unit.
 	DestinationIsTemporary *bool `json:"destinationIsTemporary,omitempty" msgpack:"destinationIsTemporary,omitempty" bson:"-" mapstructure:"destinationIsTemporary,omitempty"`
+
+	// Namespace of the destination. This is deprecated. Use `remoteNamespace`. This
+	// property does nothing.
+	DestinationNamespace *string `json:"destinationNamespace,omitempty" msgpack:"destinationNamespace,omitempty" bson:"-" mapstructure:"destinationNamespace,omitempty"`
 
 	// Port of the destination.
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
@@ -1338,7 +1406,7 @@ type SparseCachedFlowRecord struct {
 	// Identifier of the source controller.
 	SourceController *string `json:"sourceController,omitempty" msgpack:"sourceController,omitempty" bson:"-" mapstructure:"sourceController,omitempty"`
 
-	// ID of the source. May be a processing unit ID or an enforcer-local ID.
+	// ID of the source.
 	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"-" mapstructure:"sourceID,omitempty"`
 
 	// Type of the source.
@@ -1346,6 +1414,10 @@ type SparseCachedFlowRecord struct {
 
 	// Indicates if the source endpoint is an enforcer-local processing unit.
 	SourceIsTemporary *bool `json:"sourceIsTemporary,omitempty" msgpack:"sourceIsTemporary,omitempty" bson:"-" mapstructure:"sourceIsTemporary,omitempty"`
+
+	// Namespace of the source. This is deprecated. Use `remoteNamespace`. This
+	// property does nothing.
+	SourceNamespace *string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"-" mapstructure:"sourceNamespace,omitempty"`
 
 	// Time and date of the log.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -1432,6 +1504,9 @@ func (o *SparseCachedFlowRecord) ToPlain() elemental.PlainIdentifiable {
 	if o.DestinationIsTemporary != nil {
 		out.DestinationIsTemporary = *o.DestinationIsTemporary
 	}
+	if o.DestinationNamespace != nil {
+		out.DestinationNamespace = *o.DestinationNamespace
+	}
 	if o.DestinationPort != nil {
 		out.DestinationPort = *o.DestinationPort
 	}
@@ -1500,6 +1575,9 @@ func (o *SparseCachedFlowRecord) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SourceIsTemporary != nil {
 		out.SourceIsTemporary = *o.SourceIsTemporary
+	}
+	if o.SourceNamespace != nil {
+		out.SourceNamespace = *o.SourceNamespace
 	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp
