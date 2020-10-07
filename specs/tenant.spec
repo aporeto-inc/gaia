@@ -32,4 +32,4 @@ attributes:
     allowed_chars: ^[a-zA-Z0-9-_/]+$
     allowed_chars_message: must only contain alpha numerical characters, '-' or '_'
     example_value: acme
-    transient: true
+    max_length: 231

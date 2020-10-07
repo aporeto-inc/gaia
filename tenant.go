@@ -253,6 +253,18 @@ func (o *Tenant) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidatePattern("name", o.Name, `^[a-zA-Z0-9-_/]+$`, `must only contain alpha numerical characters, '-' or '_'`, true); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 231, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -329,9 +341,9 @@ var TenantAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Name",
 		Description:    `The name of the tenant.`,
 		Exposed:        true,
+		MaxLength:      231,
 		Name:           "name",
 		Required:       true,
-		Transient:      true,
 		Type:           "string",
 	},
 }
@@ -367,9 +379,9 @@ var TenantLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Name",
 		Description:    `The name of the tenant.`,
 		Exposed:        true,
+		MaxLength:      231,
 		Name:           "name",
 		Required:       true,
-		Transient:      true,
 		Type:           "string",
 	},
 }
