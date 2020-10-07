@@ -29,4 +29,3 @@ attributes:
     allowed_chars_message: must only contain alpha numerical characters, '-' or '_'
     example_value: acme
     max_length: 231
-    transient: true
