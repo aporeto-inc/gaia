@@ -23,6 +23,23 @@ const (
 	NamespaceJWTCertificateTypeRSA NamespaceJWTCertificateTypeValue = "RSA"
 )
 
+// NamespaceTypeValue represents the possible values for attribute "type".
+type NamespaceTypeValue string
+
+const (
+	// NamespaceTypeCloudAccount represents the value CloudAccount.
+	NamespaceTypeCloudAccount NamespaceTypeValue = "CloudAccount"
+
+	// NamespaceTypeDefault represents the value Default.
+	NamespaceTypeDefault NamespaceTypeValue = "Default"
+
+	// NamespaceTypeGroup represents the value Group.
+	NamespaceTypeGroup NamespaceTypeValue = "Group"
+
+	// NamespaceTypeTenant represents the value Tenant.
+	NamespaceTypeTenant NamespaceTypeValue = "Tenant"
+)
+
 // NamespaceIdentity represents the Identity of the object.
 var NamespaceIdentity = elemental.Identity{
 	Name:     "namespace",
@@ -180,6 +197,15 @@ type Namespace struct {
 	// This flag is deprecated and has no incidence.
 	ServiceCertificateValidity string `json:"serviceCertificateValidity" msgpack:"serviceCertificateValidity" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
 
+	// The type defines the purpose of the namespace:
+	// - `Default`: A universal namespace that is capable of all actions and views.
+	// - `Tenant`: A namespace that houses a tenant (e.g. ACME).
+	// - `CloudAccount`: A child namespace of a tenant that houses a cloud provider
+	// account (e.g. aws-123, gcp-54).
+	// - `Group`: A child namespace of a cloud account that houses a managed group
+	// (e.g. marketing, app-234).
+	Type NamespaceTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
+
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
@@ -206,14 +232,15 @@ func NewNamespace() *Namespace {
 		ModelVersion:               1,
 		Annotations:                map[string][]string{},
 		AssociatedTags:             []string{},
+		Metadata:                   []string{},
 		NetworkAccessPolicyTags:    []string{},
 		NormalizedTags:             []string{},
-		JWTCertificates:            map[string]string{},
 		OrganizationalMetadata:     []string{},
-		Metadata:                   []string{},
 		JWTCertificateType:         NamespaceJWTCertificateTypeNone,
-		MigrationsLog:              map[string]string{},
 		ServiceCertificateValidity: "168h",
+		MigrationsLog:              map[string]string{},
+		JWTCertificates:            map[string]string{},
+		Type:                       NamespaceTypeDefault,
 	}
 }
 
@@ -271,6 +298,7 @@ func (o *Namespace) GetBSON() (interface{}, error) {
 	s.OrganizationalMetadata = o.OrganizationalMetadata
 	s.Protected = o.Protected
 	s.ServiceCertificateValidity = o.ServiceCertificateValidity
+	s.Type = o.Type
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
 	s.ZHash = o.ZHash
@@ -317,6 +345,7 @@ func (o *Namespace) SetBSON(raw bson.Raw) error {
 	o.OrganizationalMetadata = s.OrganizationalMetadata
 	o.Protected = s.Protected
 	o.ServiceCertificateValidity = s.ServiceCertificateValidity
+	o.Type = s.Type
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
 	o.ZHash = s.ZHash
@@ -583,6 +612,7 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			OrganizationalMetadata:     &o.OrganizationalMetadata,
 			Protected:                  &o.Protected,
 			ServiceCertificateValidity: &o.ServiceCertificateValidity,
+			Type:                       &o.Type,
 			UpdateIdempotencyKey:       &o.UpdateIdempotencyKey,
 			UpdateTime:                 &o.UpdateTime,
 			ZHash:                      &o.ZHash,
@@ -642,6 +672,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protected = &(o.Protected)
 		case "serviceCertificateValidity":
 			sp.ServiceCertificateValidity = &(o.ServiceCertificateValidity)
+		case "type":
+			sp.Type = &(o.Type)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -737,6 +769,9 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ServiceCertificateValidity != nil {
 		o.ServiceCertificateValidity = *so.ServiceCertificateValidity
 	}
+	if so.Type != nil {
+		o.Type = *so.Type
+	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
@@ -817,6 +852,10 @@ func (o *Namespace) Validate() error {
 	}
 
 	if err := ValidateTimeDuration("serviceCertificateValidity", o.ServiceCertificateValidity); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Default", "Tenant", "CloudAccount", "Group"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -902,6 +941,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "serviceCertificateValidity":
 		return o.ServiceCertificateValidity
+	case "type":
+		return o.Type
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -1213,6 +1254,24 @@ networks, enforcers) during their creation.`,
 		Name:           "serviceCertificateValidity",
 		Stored:         true,
 		Type:           "string",
+	},
+	"Type": {
+		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "Group"},
+		ConvertedName:  "Type",
+		CreationOnly:   true,
+		DefaultValue:   NamespaceTypeDefault,
+		Description: `The type defines the purpose of the namespace:
+- ` + "`" + `Default` + "`" + `: A universal namespace that is capable of all actions and views.
+- ` + "`" + `Tenant` + "`" + `: A namespace that houses a tenant (e.g. ACME).
+- ` + "`" + `CloudAccount` + "`" + `: A child namespace of a tenant that houses a cloud provider
+account (e.g. aws-123, gcp-54).
+- ` + "`" + `Group` + "`" + `: A child namespace of a cloud account that houses a managed group
+(e.g. marketing, app-234).`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "type",
+		Stored:     true,
+		Type:       "enum",
 	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -1601,6 +1660,25 @@ networks, enforcers) during their creation.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"type": {
+		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "Group"},
+		BSONFieldName:  "type",
+		ConvertedName:  "Type",
+		CreationOnly:   true,
+		DefaultValue:   NamespaceTypeDefault,
+		Description: `The type defines the purpose of the namespace:
+- ` + "`" + `Default` + "`" + `: A universal namespace that is capable of all actions and views.
+- ` + "`" + `Tenant` + "`" + `: A namespace that houses a tenant (e.g. ACME).
+- ` + "`" + `CloudAccount` + "`" + `: A child namespace of a tenant that houses a cloud provider
+account (e.g. aws-123, gcp-54).
+- ` + "`" + `Group` + "`" + `: A child namespace of a cloud account that houses a managed group
+(e.g. marketing, app-234).`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "type",
+		Stored:     true,
+		Type:       "enum",
+	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1820,6 +1898,15 @@ type SparseNamespace struct {
 	// This flag is deprecated and has no incidence.
 	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" msgpack:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity,omitempty" mapstructure:"serviceCertificateValidity,omitempty"`
 
+	// The type defines the purpose of the namespace:
+	// - `Default`: A universal namespace that is capable of all actions and views.
+	// - `Tenant`: A namespace that houses a tenant (e.g. ACME).
+	// - `CloudAccount`: A child namespace of a tenant that houses a cloud provider
+	// account (e.g. aws-123, gcp-54).
+	// - `Group`: A child namespace of a cloud account that houses a managed group
+	// (e.g. marketing, app-234).
+	Type *NamespaceTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
@@ -1951,6 +2038,9 @@ func (o *SparseNamespace) GetBSON() (interface{}, error) {
 	if o.ServiceCertificateValidity != nil {
 		s.ServiceCertificateValidity = o.ServiceCertificateValidity
 	}
+	if o.Type != nil {
+		s.Type = o.Type
+	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	}
@@ -2054,6 +2144,9 @@ func (o *SparseNamespace) SetBSON(raw bson.Raw) error {
 	if s.ServiceCertificateValidity != nil {
 		o.ServiceCertificateValidity = s.ServiceCertificateValidity
 	}
+	if s.Type != nil {
+		o.Type = s.Type
+	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	}
@@ -2154,6 +2247,9 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ServiceCertificateValidity != nil {
 		out.ServiceCertificateValidity = *o.ServiceCertificateValidity
+	}
+	if o.Type != nil {
+		out.Type = *o.Type
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -2479,6 +2575,7 @@ type mongoAttributesNamespace struct {
 	OrganizationalMetadata     []string                         `bson:"organizationalmetadata"`
 	Protected                  bool                             `bson:"protected"`
 	ServiceCertificateValidity string                           `bson:"servicecertificatevalidity"`
+	Type                       NamespaceTypeValue               `bson:"type"`
 	UpdateIdempotencyKey       string                           `bson:"updateidempotencykey"`
 	UpdateTime                 time.Time                        `bson:"updatetime"`
 	ZHash                      int                              `bson:"zhash"`
@@ -2510,6 +2607,7 @@ type mongoAttributesSparseNamespace struct {
 	OrganizationalMetadata     *[]string                         `bson:"organizationalmetadata,omitempty"`
 	Protected                  *bool                             `bson:"protected,omitempty"`
 	ServiceCertificateValidity *string                           `bson:"servicecertificatevalidity,omitempty"`
+	Type                       *NamespaceTypeValue               `bson:"type,omitempty"`
 	UpdateIdempotencyKey       *string                           `bson:"updateidempotencykey,omitempty"`
 	UpdateTime                 *time.Time                        `bson:"updatetime,omitempty"`
 	ZHash                      *int                              `bson:"zhash,omitempty"`
