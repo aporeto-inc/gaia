@@ -193,7 +193,6 @@ attributes:
     - CloudAccount
     - Group
     default_value: Default
-    filterable: true
 
   - name: zoning
     description: Defines what zone the namespace should live in.

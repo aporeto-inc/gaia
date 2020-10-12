@@ -1267,11 +1267,10 @@ networks, enforcers) during their creation.`,
 account (e.g. aws-123, gcp-54).
 - ` + "`" + `Group` + "`" + `: A child namespace of a cloud account that houses a managed group
 (e.g. marketing, app-234).`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "type",
-		Stored:     true,
-		Type:       "enum",
+		Exposed: true,
+		Name:    "type",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -1673,11 +1672,10 @@ networks, enforcers) during their creation.`,
 account (e.g. aws-123, gcp-54).
 - ` + "`" + `Group` + "`" + `: A child namespace of a cloud account that houses a managed group
 (e.g. marketing, app-234).`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "type",
-		Stored:     true,
-		Type:       "enum",
+		Exposed: true,
+		Name:    "type",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
