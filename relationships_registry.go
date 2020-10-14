@@ -758,6 +758,8 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[ConnectionExceptionReportIdentity] = &elemental.Relationship{}
+
 	relationshipsRegistry[CounterReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},

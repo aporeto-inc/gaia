@@ -31,7 +31,8 @@ var (
 		"claims":       ClaimsIdentity,
 		"clausesmatch": ClauseMatchIdentity,
 
-		"counterreport": CounterReportIdentity,
+		"connectionexceptionreport": ConnectionExceptionReportIdentity,
+		"counterreport":             CounterReportIdentity,
 
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
@@ -186,7 +187,8 @@ var (
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
 
-		"counterreports": CounterReportIdentity,
+		"connectionexceptionreports": ConnectionExceptionReportIdentity,
+		"counterreports":             CounterReportIdentity,
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
@@ -524,6 +526,11 @@ var (
 			{"namespace", "normalizedTags"},
 		},
 		"clausesmatch": nil,
+		"connectionexceptionreport": {
+			{"namespace", "timestamp"},
+			{"enforcerID", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"counterreport": {
 			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
@@ -1054,6 +1061,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewClaims()
 	case ClauseMatchIdentity:
 		return NewClauseMatch()
+	case ConnectionExceptionReportIdentity:
+		return NewConnectionExceptionReport()
 	case CounterReportIdentity:
 		return NewCounterReport()
 	case CustomerIdentity:
@@ -1339,6 +1348,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
 		return NewSparseClauseMatch()
+	case ConnectionExceptionReportIdentity:
+		return NewSparseConnectionExceptionReport()
 	case CounterReportIdentity:
 		return NewSparseCounterReport()
 	case CustomerIdentity:
@@ -1632,6 +1643,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
 		return &ClauseMatchesList{}
+	case ConnectionExceptionReportIdentity:
+		return &ConnectionExceptionReportsList{}
 	case CounterReportIdentity:
 		return &CounterReportsList{}
 	case CustomerIdentity:
@@ -1915,6 +1928,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
 		return &SparseClauseMatchesList{}
+	case ConnectionExceptionReportIdentity:
+		return &SparseConnectionExceptionReportsList{}
 	case CounterReportIdentity:
 		return &SparseCounterReportsList{}
 	case CustomerIdentity:
@@ -2188,6 +2203,7 @@ func AllIdentities() []elemental.Identity {
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
+		ConnectionExceptionReportIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
@@ -2378,6 +2394,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ClaimsIdentity:
 		return []string{}
 	case ClauseMatchIdentity:
+		return []string{}
+	case ConnectionExceptionReportIdentity:
 		return []string{}
 	case CounterReportIdentity:
 		return []string{}
