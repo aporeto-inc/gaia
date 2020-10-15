@@ -527,8 +527,6 @@ var (
 		},
 		"clausesmatch": nil,
 		"connectionexceptionreport": {
-			{"namespace", "timestamp"},
-			{"enforcerID", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"counterreport": {

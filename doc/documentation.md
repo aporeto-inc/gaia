@@ -11538,7 +11538,7 @@ Namespace of the enforcer.
 
 Type: `string`
 
-ID of the destination processing unit.
+ID of the processing unit.
 
 ##### `processingUnitNamespace`
 
@@ -11546,7 +11546,7 @@ _This attribute is deprecated_.
 
 Type: `string`
 
-Namespace of the destination processing unit.
+Namespace of the processing unit.
 
 ##### `protocol` [`required`]
 

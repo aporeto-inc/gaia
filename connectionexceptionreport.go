@@ -116,10 +116,10 @@ type ConnectionExceptionReport struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
-	// ID of the destination processing unit.
+	// ID of the processing unit.
 	ProcessingUnitID string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"processingunitid,omitempty" mapstructure:"processingUnitID,omitempty"`
 
-	// Namespace of the destination processing unit.
+	// Namespace of the processing unit.
 	ProcessingUnitNamespace string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"processingunitnamespace,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// Protocol number.
@@ -624,7 +624,7 @@ var ConnectionExceptionReportAttributesMap = map[string]elemental.AttributeSpeci
 	"ProcessingUnitID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitID",
-		Description:    `ID of the destination processing unit.`,
+		Description:    `ID of the processing unit.`,
 		Exposed:        true,
 		Name:           "processingUnitID",
 		Required:       true,
@@ -635,7 +635,7 @@ var ConnectionExceptionReportAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnitNamespace",
 		Deprecated:     true,
-		Description:    `Namespace of the destination processing unit.`,
+		Description:    `Namespace of the processing unit.`,
 		Exposed:        true,
 		Name:           "processingUnitNamespace",
 		Stored:         true,
@@ -802,7 +802,7 @@ var ConnectionExceptionReportLowerCaseAttributesMap = map[string]elemental.Attri
 		AllowedChoices: []string{},
 		BSONFieldName:  "processingunitid",
 		ConvertedName:  "ProcessingUnitID",
-		Description:    `ID of the destination processing unit.`,
+		Description:    `ID of the processing unit.`,
 		Exposed:        true,
 		Name:           "processingUnitID",
 		Required:       true,
@@ -814,7 +814,7 @@ var ConnectionExceptionReportLowerCaseAttributesMap = map[string]elemental.Attri
 		BSONFieldName:  "processingunitnamespace",
 		ConvertedName:  "ProcessingUnitNamespace",
 		Deprecated:     true,
-		Description:    `Namespace of the destination processing unit.`,
+		Description:    `Namespace of the processing unit.`,
 		Exposed:        true,
 		Name:           "processingUnitNamespace",
 		Stored:         true,
@@ -995,10 +995,10 @@ type SparseConnectionExceptionReport struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
-	// ID of the destination processing unit.
+	// ID of the processing unit.
 	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"processingunitid,omitempty" mapstructure:"processingUnitID,omitempty"`
 
-	// Namespace of the destination processing unit.
+	// Namespace of the processing unit.
 	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"processingunitnamespace,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// Protocol number.

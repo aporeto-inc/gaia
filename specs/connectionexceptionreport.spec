@@ -11,13 +11,6 @@ model:
   - '@zoned'
   - '@migratable'
 
-# Indexes
-indexes:
-- - namespace
-  - timestamp
-- - enforcerID
-  - timestamp
-
 # Attributes
 attributes:
   v1:
@@ -54,7 +47,7 @@ attributes:
     omit_empty: true
 
   - name: processingUnitID
-    description: ID of the destination processing unit.
+    description: ID of the processing unit.
     type: string
     exposed: true
     stored: true
@@ -63,7 +56,7 @@ attributes:
     omit_empty: true
 
   - name: processingUnitNamespace
-    description: Namespace of the destination processing unit.
+    description: Namespace of the processing unit.
     type: string
     exposed: true
     stored: true
