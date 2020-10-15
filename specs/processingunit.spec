@@ -143,6 +143,11 @@ attributes:
     exposed: true
     stored: true
 
+  - name: lastLocalTimestamp
+    description: Time and date of the processing unit set by the enforcer.
+    type: time
+    exposed: true
+
   - name: lastSyncTime
     description: The date and time of the last policy resolution.
     type: time
