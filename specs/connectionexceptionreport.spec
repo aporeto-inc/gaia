@@ -104,6 +104,7 @@ attributes:
     allowed_choices:
     - SynTransmitted
     - SynAckTransmitted
+    - SynAckReceived
     - Unknown
     example_value:
     - Unknown

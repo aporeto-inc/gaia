@@ -13,6 +13,9 @@ import (
 type ConnectionExceptionReportStateValue string
 
 const (
+	// ConnectionExceptionReportStateSynAckReceived represents the value SynAckReceived.
+	ConnectionExceptionReportStateSynAckReceived ConnectionExceptionReportStateValue = "SynAckReceived"
+
 	// ConnectionExceptionReportStateSynAckTransmitted represents the value SynAckTransmitted.
 	ConnectionExceptionReportStateSynAckTransmitted ConnectionExceptionReportStateValue = "SynAckTransmitted"
 
@@ -474,7 +477,7 @@ func (o *ConnectionExceptionReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("state", string(o.State), []string{"SynTransmitted", "SynAckTransmitted", "Unknown"}, false); err != nil {
+	if err := elemental.ValidateStringInList("state", string(o.State), []string{"SynTransmitted", "SynAckTransmitted", "SynAckReceived", "Unknown"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -667,7 +670,7 @@ var ConnectionExceptionReportAttributesMap = map[string]elemental.AttributeSpeci
 		Type:           "string",
 	},
 	"State": {
-		AllowedChoices: []string{"SynTransmitted", "SynAckTransmitted", "Unknown"},
+		AllowedChoices: []string{"SynTransmitted", "SynAckTransmitted", "SynAckReceived", "Unknown"},
 		ConvertedName:  "State",
 		Description:    `Represents the current state this report was generated.`,
 		Exposed:        true,
@@ -849,7 +852,7 @@ var ConnectionExceptionReportLowerCaseAttributesMap = map[string]elemental.Attri
 		Type:           "string",
 	},
 	"state": {
-		AllowedChoices: []string{"SynTransmitted", "SynAckTransmitted", "Unknown"},
+		AllowedChoices: []string{"SynTransmitted", "SynAckTransmitted", "SynAckReceived", "Unknown"},
 		BSONFieldName:  "state",
 		ConvertedName:  "State",
 		Description:    `Represents the current state this report was generated.`,
