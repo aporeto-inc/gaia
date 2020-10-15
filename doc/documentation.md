@@ -11568,7 +11568,7 @@ Source IP address.
 
 ##### `state` [`required`]
 
-Type: `enum(SynTransmitted | SynAckTransmitted | SynAckReceived | Unknown)`
+Type: `enum(SynTransmitted | SynAckTransmitted | Unknown)`
 
 Represents the current state this report was generated.
 
