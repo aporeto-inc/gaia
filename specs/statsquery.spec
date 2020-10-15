@@ -64,6 +64,7 @@ attributes:
     - Accesses
     - DNSLookups
     - PingReports
+    - ConnectionException
     default_value: Flows
 
   - name: offset
