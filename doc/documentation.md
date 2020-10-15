@@ -15352,7 +15352,7 @@ Default value:
 
 ##### `measurement`
 
-Type: `enum(Flows | Audit | Enforcers | Files | EventLogs | Packets | EnforcerTraces | Counters | Accesses | DNSLookups | PingReports)`
+Type: `enum(Flows | Audit | Enforcers | Files | EventLogs | Packets | EnforcerTraces | Counters | Accesses | DNSLookups | PingReports | ConnectionException)`
 
 Name of the measurement.
 

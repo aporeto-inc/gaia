@@ -18,6 +18,9 @@ const (
 	// StatsQueryMeasurementAudit represents the value Audit.
 	StatsQueryMeasurementAudit StatsQueryMeasurementValue = "Audit"
 
+	// StatsQueryMeasurementConnectionException represents the value ConnectionException.
+	StatsQueryMeasurementConnectionException StatsQueryMeasurementValue = "ConnectionException"
+
 	// StatsQueryMeasurementCounters represents the value Counters.
 	StatsQueryMeasurementCounters StatsQueryMeasurementValue = "Counters"
 
@@ -344,7 +347,7 @@ func (o *StatsQuery) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports"}, false); err != nil {
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports", "ConnectionException"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -461,7 +464,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"Measurement": {
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports", "ConnectionException"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsQueryMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -539,7 +542,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"measurement": {
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces", "Counters", "Accesses", "DNSLookups", "PingReports", "ConnectionException"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsQueryMeasurementFlows,
 		Description:    `Name of the measurement.`,
