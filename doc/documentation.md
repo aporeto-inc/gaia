@@ -4655,6 +4655,12 @@ Type: `string`
 Identifies the kind of alarm. If two alarms are created with the same
 identifier, then only the occurrence will be incremented.
 
+##### `lastLocalTimestamp`
+
+Type: `time`
+
+Time and date of the alarm set by the enforcer.
+
 ##### `name` [`required`,`max_length=256`]
 
 Type: `string`
