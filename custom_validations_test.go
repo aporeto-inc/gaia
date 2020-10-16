@@ -3120,3 +3120,78 @@ func TestValidateOptionalTimeDuration(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateCachedFlowRecord(t *testing.T) {
+	type args struct {
+		cachedFlowRecord *CachedFlowRecord
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"invalid",
+			args{
+				cachedFlowRecord: &CachedFlowRecord{
+					IsLocalDestinationID: false,
+					DestinationID:        "5f863169e767b10001b0bb1a",
+					DestinationType:      CachedFlowRecordDestinationTypeProcessingUnit,
+					IsLocalSourceID:      false,
+					SourceID:             "5f863169e767b10001b0bb1b",
+					SourceType:           CachedFlowRecordSourceTypeProcessingUnit,
+				},
+			},
+			true,
+		},
+		{
+			"valid1",
+			args{
+				cachedFlowRecord: &CachedFlowRecord{
+					IsLocalDestinationID: true,
+					DestinationID:        "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					DestinationType:      CachedFlowRecordDestinationTypeProcessingUnit,
+					IsLocalSourceID:      false,
+					SourceID:             "5f863169e767b10001b0bb1b",
+					SourceType:           CachedFlowRecordSourceTypeProcessingUnit,
+				},
+			},
+			false,
+		},
+		{
+			"valid2",
+			args{
+				cachedFlowRecord: &CachedFlowRecord{
+					IsLocalDestinationID: false,
+					DestinationID:        "5f863169e767b10001b0bb1a",
+					DestinationType:      CachedFlowRecordDestinationTypeProcessingUnit,
+					IsLocalSourceID:      true,
+					SourceID:             "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					SourceType:           CachedFlowRecordSourceTypeProcessingUnit,
+				},
+			},
+			false,
+		},
+		{
+			"valid3",
+			args{
+				cachedFlowRecord: &CachedFlowRecord{
+					IsLocalDestinationID: true,
+					DestinationID:        "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					DestinationType:      CachedFlowRecordDestinationTypeProcessingUnit,
+					IsLocalSourceID:      true,
+					SourceID:             "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					SourceType:           CachedFlowRecordSourceTypeProcessingUnit,
+				},
+			},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCachedFlowRecord(tt.args.cachedFlowRecord); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCachedFlowRecord() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

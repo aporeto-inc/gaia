@@ -11,6 +11,8 @@ model:
   - '@identifiable-stored'
   - '@zoned'
   - '@migratable'
+  validations:
+  - $cachedflowrecord
 
 # Attributes
 attributes:
