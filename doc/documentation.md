@@ -11493,6 +11493,8 @@ Post a new flow log.
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
   "protocol": 6,
+  "remoteController": "api.west.acme.com",
+  "remoteProcessingUnitID": "xxx-xxx-xxx",
   "state": [
     "Unknown"
   ],
@@ -11538,7 +11540,7 @@ Namespace of the enforcer.
 
 Type: `string`
 
-ID of the processing unit.
+ID of the processing unit encountered this exception.
 
 ##### `processingUnitNamespace`
 
@@ -11546,7 +11548,7 @@ _This attribute is deprecated_.
 
 Type: `string`
 
-Namespace of the processing unit.
+Namespace of the processing unit encountered this exception.
 
 ##### `protocol` [`required`]
 
@@ -11559,6 +11561,20 @@ Protocol number.
 Type: `string`
 
 It specifies the reason for the exception.
+
+##### `remoteController`
+
+_This attribute is deprecated_.
+
+Type: `string`
+
+Identifier of the remote controller.
+
+##### `remoteProcessingUnitID` [`required`]
+
+Type: `string`
+
+ID of the remote processing unit.
 
 ##### `sourceIP`
 
