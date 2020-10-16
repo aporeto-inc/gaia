@@ -47,7 +47,7 @@ attributes:
     omit_empty: true
 
   - name: processingUnitID
-    description: ID of the processing unit.
+    description: ID of the processing unit encountered this exception.
     type: string
     exposed: true
     stored: true
@@ -56,7 +56,7 @@ attributes:
     omit_empty: true
 
   - name: processingUnitNamespace
-    description: Namespace of the processing unit.
+    description: Namespace of the processing unit encountered this exception.
     type: string
     exposed: true
     stored: true
@@ -78,6 +78,24 @@ attributes:
     type: string
     exposed: true
     stored: true
+    omit_empty: true
+
+  - name: remoteController
+    description: Identifier of the remote controller.
+    type: string
+    exposed: true
+    stored: true
+    deprecated: true
+    example_value: api.west.acme.com
+    omit_empty: true
+
+  - name: remoteProcessingUnitID
+    description: ID of the remote processing unit.
+    type: string
+    exposed: true
+    stored: true
+    required: true
+    example_value: xxx-xxx-xxx
     omit_empty: true
 
   - name: sourceIP
