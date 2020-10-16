@@ -14,6 +14,17 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: destinationController
+    description: |-
+      Identifier of the destination controller. This should be set in
+      SynAckTransmitted state.
+    type: string
+    exposed: true
+    stored: true
+    deprecated: true
+    example_value: api.west.acme.com
+    omit_empty: true
+
   - name: destinationIP
     description: Destination IP address.
     type: string
@@ -26,6 +37,17 @@ attributes:
     type: integer
     exposed: true
     stored: true
+    omit_empty: true
+
+  - name: destinationProcessingUnitID
+    description: |-
+      ID of the destination processing unit. This should be set in SynAckTransmitted
+      state.
+    type: string
+    exposed: true
+    stored: true
+    required: true
+    example_value: xxx-xxx-xxx
     omit_empty: true
 
   - name: enforcerID
@@ -78,24 +100,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    omit_empty: true
-
-  - name: remoteController
-    description: Identifier of the remote controller.
-    type: string
-    exposed: true
-    stored: true
-    deprecated: true
-    example_value: api.west.acme.com
-    omit_empty: true
-
-  - name: remoteProcessingUnitID
-    description: ID of the remote processing unit.
-    type: string
-    exposed: true
-    stored: true
-    required: true
-    example_value: xxx-xxx-xxx
     omit_empty: true
 
   - name: sourceIP

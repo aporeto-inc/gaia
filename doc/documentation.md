@@ -11488,13 +11488,13 @@ Post a new flow log.
 
 ```json
 {
+  "destinationController": "api.west.acme.com",
+  "destinationProcessingUnitID": "xxx-xxx-xxx",
   "enforcerID": "xxx-xxx-xxx",
   "enforcerNamespace": "/my/namespace",
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
   "protocol": 6,
-  "remoteController": "api.west.acme.com",
-  "remoteProcessingUnitID": "xxx-xxx-xxx",
   "state": [
     "Unknown"
   ],
@@ -11510,6 +11510,15 @@ Type: `string`
 
 Identifier of the object.
 
+##### `destinationController`
+
+_This attribute is deprecated_.
+
+Type: `string`
+
+Identifier of the destination controller. This should be set in
+SynAckTransmitted state.
+
 ##### `destinationIP`
 
 Type: `string`
@@ -11521,6 +11530,13 @@ Destination IP address.
 Type: `integer`
 
 Port of the destination.
+
+##### `destinationProcessingUnitID` [`required`]
+
+Type: `string`
+
+ID of the destination processing unit. This should be set in SynAckTransmitted
+state.
 
 ##### `enforcerID` [`required`]
 
@@ -11561,20 +11577,6 @@ Protocol number.
 Type: `string`
 
 It specifies the reason for the exception.
-
-##### `remoteController`
-
-_This attribute is deprecated_.
-
-Type: `string`
-
-Identifier of the remote controller.
-
-##### `remoteProcessingUnitID` [`required`]
-
-Type: `string`
-
-ID of the remote processing unit.
 
 ##### `sourceIP`
 

@@ -101,11 +101,19 @@ type ConnectionExceptionReport struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
+	// Identifier of the destination controller. This should be set in
+	// SynAckTransmitted state.
+	DestinationController string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"destinationcontroller,omitempty" mapstructure:"destinationController,omitempty"`
+
 	// Destination IP address.
 	DestinationIP string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"destinationip,omitempty" mapstructure:"destinationIP,omitempty"`
 
 	// Port of the destination.
 	DestinationPort int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"destinationport,omitempty" mapstructure:"destinationPort,omitempty"`
+
+	// ID of the destination processing unit. This should be set in SynAckTransmitted
+	// state.
+	DestinationProcessingUnitID string `json:"destinationProcessingUnitID,omitempty" msgpack:"destinationProcessingUnitID,omitempty" bson:"destinationprocessingunitid,omitempty" mapstructure:"destinationProcessingUnitID,omitempty"`
 
 	// ID of the enforcer.
 	EnforcerID string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
@@ -127,12 +135,6 @@ type ConnectionExceptionReport struct {
 
 	// It specifies the reason for the exception.
 	Reason string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"reason,omitempty" mapstructure:"reason,omitempty"`
-
-	// Identifier of the remote controller.
-	RemoteController string `json:"remoteController,omitempty" msgpack:"remoteController,omitempty" bson:"remotecontroller,omitempty" mapstructure:"remoteController,omitempty"`
-
-	// ID of the remote processing unit.
-	RemoteProcessingUnitID string `json:"remoteProcessingUnitID,omitempty" msgpack:"remoteProcessingUnitID,omitempty" bson:"remoteprocessingunitid,omitempty" mapstructure:"remoteProcessingUnitID,omitempty"`
 
 	// Source IP address.
 	SourceIP string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"sourceip,omitempty" mapstructure:"sourceIP,omitempty"`
@@ -196,8 +198,10 @@ func (o *ConnectionExceptionReport) GetBSON() (interface{}, error) {
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
+	s.DestinationController = o.DestinationController
 	s.DestinationIP = o.DestinationIP
 	s.DestinationPort = o.DestinationPort
+	s.DestinationProcessingUnitID = o.DestinationProcessingUnitID
 	s.EnforcerID = o.EnforcerID
 	s.EnforcerNamespace = o.EnforcerNamespace
 	s.MigrationsLog = o.MigrationsLog
@@ -205,8 +209,6 @@ func (o *ConnectionExceptionReport) GetBSON() (interface{}, error) {
 	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
 	s.Protocol = o.Protocol
 	s.Reason = o.Reason
-	s.RemoteController = o.RemoteController
-	s.RemoteProcessingUnitID = o.RemoteProcessingUnitID
 	s.SourceIP = o.SourceIP
 	s.State = o.State
 	s.Timestamp = o.Timestamp
@@ -231,8 +233,10 @@ func (o *ConnectionExceptionReport) SetBSON(raw bson.Raw) error {
 	}
 
 	o.ID = s.ID.Hex()
+	o.DestinationController = s.DestinationController
 	o.DestinationIP = s.DestinationIP
 	o.DestinationPort = s.DestinationPort
+	o.DestinationProcessingUnitID = s.DestinationProcessingUnitID
 	o.EnforcerID = s.EnforcerID
 	o.EnforcerNamespace = s.EnforcerNamespace
 	o.MigrationsLog = s.MigrationsLog
@@ -240,8 +244,6 @@ func (o *ConnectionExceptionReport) SetBSON(raw bson.Raw) error {
 	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
 	o.Protocol = s.Protocol
 	o.Reason = s.Reason
-	o.RemoteController = s.RemoteController
-	o.RemoteProcessingUnitID = s.RemoteProcessingUnitID
 	o.SourceIP = s.SourceIP
 	o.State = s.State
 	o.Timestamp = s.Timestamp
@@ -324,24 +326,24 @@ func (o *ConnectionExceptionReport) ToSparse(fields ...string) elemental.SparseI
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseConnectionExceptionReport{
-			ID:                      &o.ID,
-			DestinationIP:           &o.DestinationIP,
-			DestinationPort:         &o.DestinationPort,
-			EnforcerID:              &o.EnforcerID,
-			EnforcerNamespace:       &o.EnforcerNamespace,
-			MigrationsLog:           &o.MigrationsLog,
-			ProcessingUnitID:        &o.ProcessingUnitID,
-			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
-			Protocol:                &o.Protocol,
-			Reason:                  &o.Reason,
-			RemoteController:        &o.RemoteController,
-			RemoteProcessingUnitID:  &o.RemoteProcessingUnitID,
-			SourceIP:                &o.SourceIP,
-			State:                   &o.State,
-			Timestamp:               &o.Timestamp,
-			Value:                   &o.Value,
-			ZHash:                   &o.ZHash,
-			Zone:                    &o.Zone,
+			ID:                          &o.ID,
+			DestinationController:       &o.DestinationController,
+			DestinationIP:               &o.DestinationIP,
+			DestinationPort:             &o.DestinationPort,
+			DestinationProcessingUnitID: &o.DestinationProcessingUnitID,
+			EnforcerID:                  &o.EnforcerID,
+			EnforcerNamespace:           &o.EnforcerNamespace,
+			MigrationsLog:               &o.MigrationsLog,
+			ProcessingUnitID:            &o.ProcessingUnitID,
+			ProcessingUnitNamespace:     &o.ProcessingUnitNamespace,
+			Protocol:                    &o.Protocol,
+			Reason:                      &o.Reason,
+			SourceIP:                    &o.SourceIP,
+			State:                       &o.State,
+			Timestamp:                   &o.Timestamp,
+			Value:                       &o.Value,
+			ZHash:                       &o.ZHash,
+			Zone:                        &o.Zone,
 		}
 	}
 
@@ -350,10 +352,14 @@ func (o *ConnectionExceptionReport) ToSparse(fields ...string) elemental.SparseI
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "destinationController":
+			sp.DestinationController = &(o.DestinationController)
 		case "destinationIP":
 			sp.DestinationIP = &(o.DestinationIP)
 		case "destinationPort":
 			sp.DestinationPort = &(o.DestinationPort)
+		case "destinationProcessingUnitID":
+			sp.DestinationProcessingUnitID = &(o.DestinationProcessingUnitID)
 		case "enforcerID":
 			sp.EnforcerID = &(o.EnforcerID)
 		case "enforcerNamespace":
@@ -368,10 +374,6 @@ func (o *ConnectionExceptionReport) ToSparse(fields ...string) elemental.SparseI
 			sp.Protocol = &(o.Protocol)
 		case "reason":
 			sp.Reason = &(o.Reason)
-		case "remoteController":
-			sp.RemoteController = &(o.RemoteController)
-		case "remoteProcessingUnitID":
-			sp.RemoteProcessingUnitID = &(o.RemoteProcessingUnitID)
 		case "sourceIP":
 			sp.SourceIP = &(o.SourceIP)
 		case "state":
@@ -400,11 +402,17 @@ func (o *ConnectionExceptionReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
+	if so.DestinationController != nil {
+		o.DestinationController = *so.DestinationController
+	}
 	if so.DestinationIP != nil {
 		o.DestinationIP = *so.DestinationIP
 	}
 	if so.DestinationPort != nil {
 		o.DestinationPort = *so.DestinationPort
+	}
+	if so.DestinationProcessingUnitID != nil {
+		o.DestinationProcessingUnitID = *so.DestinationProcessingUnitID
 	}
 	if so.EnforcerID != nil {
 		o.EnforcerID = *so.EnforcerID
@@ -426,12 +434,6 @@ func (o *ConnectionExceptionReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Reason != nil {
 		o.Reason = *so.Reason
-	}
-	if so.RemoteController != nil {
-		o.RemoteController = *so.RemoteController
-	}
-	if so.RemoteProcessingUnitID != nil {
-		o.RemoteProcessingUnitID = *so.RemoteProcessingUnitID
 	}
 	if so.SourceIP != nil {
 		o.SourceIP = *so.SourceIP
@@ -483,6 +485,10 @@ func (o *ConnectionExceptionReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredString("destinationProcessingUnitID", o.DestinationProcessingUnitID); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("enforcerID", o.EnforcerID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -492,10 +498,6 @@ func (o *ConnectionExceptionReport) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredInt("protocol", o.Protocol); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("remoteProcessingUnitID", o.RemoteProcessingUnitID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -547,10 +549,14 @@ func (o *ConnectionExceptionReport) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
+	case "destinationController":
+		return o.DestinationController
 	case "destinationIP":
 		return o.DestinationIP
 	case "destinationPort":
 		return o.DestinationPort
+	case "destinationProcessingUnitID":
+		return o.DestinationProcessingUnitID
 	case "enforcerID":
 		return o.EnforcerID
 	case "enforcerNamespace":
@@ -565,10 +571,6 @@ func (o *ConnectionExceptionReport) ValueForAttribute(name string) interface{} {
 		return o.Protocol
 	case "reason":
 		return o.Reason
-	case "remoteController":
-		return o.RemoteController
-	case "remoteProcessingUnitID":
-		return o.RemoteProcessingUnitID
 	case "sourceIP":
 		return o.SourceIP
 	case "state":
@@ -602,6 +604,17 @@ var ConnectionExceptionReportAttributesMap = map[string]elemental.AttributeSpeci
 		Stored:         true,
 		Type:           "string",
 	},
+	"DestinationController": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationController",
+		Deprecated:     true,
+		Description: `Identifier of the destination controller. This should be set in
+SynAckTransmitted state.`,
+		Exposed: true,
+		Name:    "destinationController",
+		Stored:  true,
+		Type:    "string",
+	},
 	"DestinationIP": {
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationIP",
@@ -619,6 +632,17 @@ var ConnectionExceptionReportAttributesMap = map[string]elemental.AttributeSpeci
 		Name:           "destinationPort",
 		Stored:         true,
 		Type:           "integer",
+	},
+	"DestinationProcessingUnitID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationProcessingUnitID",
+		Description: `ID of the destination processing unit. This should be set in SynAckTransmitted
+state.`,
+		Exposed:  true,
+		Name:     "destinationProcessingUnitID",
+		Required: true,
+		Stored:   true,
+		Type:     "string",
 	},
 	"EnforcerID": {
 		AllowedChoices: []string{},
@@ -687,26 +711,6 @@ var ConnectionExceptionReportAttributesMap = map[string]elemental.AttributeSpeci
 		Description:    `It specifies the reason for the exception.`,
 		Exposed:        true,
 		Name:           "reason",
-		Stored:         true,
-		Type:           "string",
-	},
-	"RemoteController": {
-		AllowedChoices: []string{},
-		ConvertedName:  "RemoteController",
-		Deprecated:     true,
-		Description:    `Identifier of the remote controller.`,
-		Exposed:        true,
-		Name:           "remoteController",
-		Stored:         true,
-		Type:           "string",
-	},
-	"RemoteProcessingUnitID": {
-		AllowedChoices: []string{},
-		ConvertedName:  "RemoteProcessingUnitID",
-		Description:    `ID of the remote processing unit.`,
-		Exposed:        true,
-		Name:           "remoteProcessingUnitID",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -794,6 +798,18 @@ var ConnectionExceptionReportLowerCaseAttributesMap = map[string]elemental.Attri
 		Stored:         true,
 		Type:           "string",
 	},
+	"destinationcontroller": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "destinationcontroller",
+		ConvertedName:  "DestinationController",
+		Deprecated:     true,
+		Description: `Identifier of the destination controller. This should be set in
+SynAckTransmitted state.`,
+		Exposed: true,
+		Name:    "destinationController",
+		Stored:  true,
+		Type:    "string",
+	},
 	"destinationip": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "destinationip",
@@ -813,6 +829,18 @@ var ConnectionExceptionReportLowerCaseAttributesMap = map[string]elemental.Attri
 		Name:           "destinationPort",
 		Stored:         true,
 		Type:           "integer",
+	},
+	"destinationprocessingunitid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "destinationprocessingunitid",
+		ConvertedName:  "DestinationProcessingUnitID",
+		Description: `ID of the destination processing unit. This should be set in SynAckTransmitted
+state.`,
+		Exposed:  true,
+		Name:     "destinationProcessingUnitID",
+		Required: true,
+		Stored:   true,
+		Type:     "string",
 	},
 	"enforcerid": {
 		AllowedChoices: []string{},
@@ -888,28 +916,6 @@ var ConnectionExceptionReportLowerCaseAttributesMap = map[string]elemental.Attri
 		Description:    `It specifies the reason for the exception.`,
 		Exposed:        true,
 		Name:           "reason",
-		Stored:         true,
-		Type:           "string",
-	},
-	"remotecontroller": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "remotecontroller",
-		ConvertedName:  "RemoteController",
-		Deprecated:     true,
-		Description:    `Identifier of the remote controller.`,
-		Exposed:        true,
-		Name:           "remoteController",
-		Stored:         true,
-		Type:           "string",
-	},
-	"remoteprocessingunitid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "remoteprocessingunitid",
-		ConvertedName:  "RemoteProcessingUnitID",
-		Description:    `ID of the remote processing unit.`,
-		Exposed:        true,
-		Name:           "remoteProcessingUnitID",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1052,11 +1058,19 @@ type SparseConnectionExceptionReport struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
+	// Identifier of the destination controller. This should be set in
+	// SynAckTransmitted state.
+	DestinationController *string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"destinationcontroller,omitempty" mapstructure:"destinationController,omitempty"`
+
 	// Destination IP address.
 	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"destinationip,omitempty" mapstructure:"destinationIP,omitempty"`
 
 	// Port of the destination.
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"destinationport,omitempty" mapstructure:"destinationPort,omitempty"`
+
+	// ID of the destination processing unit. This should be set in SynAckTransmitted
+	// state.
+	DestinationProcessingUnitID *string `json:"destinationProcessingUnitID,omitempty" msgpack:"destinationProcessingUnitID,omitempty" bson:"destinationprocessingunitid,omitempty" mapstructure:"destinationProcessingUnitID,omitempty"`
 
 	// ID of the enforcer.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
@@ -1078,12 +1092,6 @@ type SparseConnectionExceptionReport struct {
 
 	// It specifies the reason for the exception.
 	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"reason,omitempty" mapstructure:"reason,omitempty"`
-
-	// Identifier of the remote controller.
-	RemoteController *string `json:"remoteController,omitempty" msgpack:"remoteController,omitempty" bson:"remotecontroller,omitempty" mapstructure:"remoteController,omitempty"`
-
-	// ID of the remote processing unit.
-	RemoteProcessingUnitID *string `json:"remoteProcessingUnitID,omitempty" msgpack:"remoteProcessingUnitID,omitempty" bson:"remoteprocessingunitid,omitempty" mapstructure:"remoteProcessingUnitID,omitempty"`
 
 	// Source IP address.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"sourceip,omitempty" mapstructure:"sourceIP,omitempty"`
@@ -1150,11 +1158,17 @@ func (o *SparseConnectionExceptionReport) GetBSON() (interface{}, error) {
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
+	if o.DestinationController != nil {
+		s.DestinationController = o.DestinationController
+	}
 	if o.DestinationIP != nil {
 		s.DestinationIP = o.DestinationIP
 	}
 	if o.DestinationPort != nil {
 		s.DestinationPort = o.DestinationPort
+	}
+	if o.DestinationProcessingUnitID != nil {
+		s.DestinationProcessingUnitID = o.DestinationProcessingUnitID
 	}
 	if o.EnforcerID != nil {
 		s.EnforcerID = o.EnforcerID
@@ -1176,12 +1190,6 @@ func (o *SparseConnectionExceptionReport) GetBSON() (interface{}, error) {
 	}
 	if o.Reason != nil {
 		s.Reason = o.Reason
-	}
-	if o.RemoteController != nil {
-		s.RemoteController = o.RemoteController
-	}
-	if o.RemoteProcessingUnitID != nil {
-		s.RemoteProcessingUnitID = o.RemoteProcessingUnitID
 	}
 	if o.SourceIP != nil {
 		s.SourceIP = o.SourceIP
@@ -1220,11 +1228,17 @@ func (o *SparseConnectionExceptionReport) SetBSON(raw bson.Raw) error {
 
 	id := s.ID.Hex()
 	o.ID = &id
+	if s.DestinationController != nil {
+		o.DestinationController = s.DestinationController
+	}
 	if s.DestinationIP != nil {
 		o.DestinationIP = s.DestinationIP
 	}
 	if s.DestinationPort != nil {
 		o.DestinationPort = s.DestinationPort
+	}
+	if s.DestinationProcessingUnitID != nil {
+		o.DestinationProcessingUnitID = s.DestinationProcessingUnitID
 	}
 	if s.EnforcerID != nil {
 		o.EnforcerID = s.EnforcerID
@@ -1246,12 +1260,6 @@ func (o *SparseConnectionExceptionReport) SetBSON(raw bson.Raw) error {
 	}
 	if s.Reason != nil {
 		o.Reason = s.Reason
-	}
-	if s.RemoteController != nil {
-		o.RemoteController = s.RemoteController
-	}
-	if s.RemoteProcessingUnitID != nil {
-		o.RemoteProcessingUnitID = s.RemoteProcessingUnitID
 	}
 	if s.SourceIP != nil {
 		o.SourceIP = s.SourceIP
@@ -1288,11 +1296,17 @@ func (o *SparseConnectionExceptionReport) ToPlain() elemental.PlainIdentifiable 
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
+	if o.DestinationController != nil {
+		out.DestinationController = *o.DestinationController
+	}
 	if o.DestinationIP != nil {
 		out.DestinationIP = *o.DestinationIP
 	}
 	if o.DestinationPort != nil {
 		out.DestinationPort = *o.DestinationPort
+	}
+	if o.DestinationProcessingUnitID != nil {
+		out.DestinationProcessingUnitID = *o.DestinationProcessingUnitID
 	}
 	if o.EnforcerID != nil {
 		out.EnforcerID = *o.EnforcerID
@@ -1314,12 +1328,6 @@ func (o *SparseConnectionExceptionReport) ToPlain() elemental.PlainIdentifiable 
 	}
 	if o.Reason != nil {
 		out.Reason = *o.Reason
-	}
-	if o.RemoteController != nil {
-		out.RemoteController = *o.RemoteController
-	}
-	if o.RemoteProcessingUnitID != nil {
-		out.RemoteProcessingUnitID = *o.RemoteProcessingUnitID
 	}
 	if o.SourceIP != nil {
 		out.SourceIP = *o.SourceIP
@@ -1416,42 +1424,42 @@ func (o *SparseConnectionExceptionReport) DeepCopyInto(out *SparseConnectionExce
 }
 
 type mongoAttributesConnectionExceptionReport struct {
-	ID                      bson.ObjectId                       `bson:"_id,omitempty"`
-	DestinationIP           string                              `bson:"destinationip,omitempty"`
-	DestinationPort         int                                 `bson:"destinationport,omitempty"`
-	EnforcerID              string                              `bson:"enforcerid,omitempty"`
-	EnforcerNamespace       string                              `bson:"enforcernamespace,omitempty"`
-	MigrationsLog           map[string]string                   `bson:"migrationslog,omitempty"`
-	ProcessingUnitID        string                              `bson:"processingunitid,omitempty"`
-	ProcessingUnitNamespace string                              `bson:"processingunitnamespace,omitempty"`
-	Protocol                int                                 `bson:"protocol,omitempty"`
-	Reason                  string                              `bson:"reason,omitempty"`
-	RemoteController        string                              `bson:"remotecontroller,omitempty"`
-	RemoteProcessingUnitID  string                              `bson:"remoteprocessingunitid,omitempty"`
-	SourceIP                string                              `bson:"sourceip,omitempty"`
-	State                   ConnectionExceptionReportStateValue `bson:"state"`
-	Timestamp               time.Time                           `bson:"timestamp,omitempty"`
-	Value                   int                                 `bson:"value,omitempty"`
-	ZHash                   int                                 `bson:"zhash"`
-	Zone                    int                                 `bson:"zone"`
+	ID                          bson.ObjectId                       `bson:"_id,omitempty"`
+	DestinationController       string                              `bson:"destinationcontroller,omitempty"`
+	DestinationIP               string                              `bson:"destinationip,omitempty"`
+	DestinationPort             int                                 `bson:"destinationport,omitempty"`
+	DestinationProcessingUnitID string                              `bson:"destinationprocessingunitid,omitempty"`
+	EnforcerID                  string                              `bson:"enforcerid,omitempty"`
+	EnforcerNamespace           string                              `bson:"enforcernamespace,omitempty"`
+	MigrationsLog               map[string]string                   `bson:"migrationslog,omitempty"`
+	ProcessingUnitID            string                              `bson:"processingunitid,omitempty"`
+	ProcessingUnitNamespace     string                              `bson:"processingunitnamespace,omitempty"`
+	Protocol                    int                                 `bson:"protocol,omitempty"`
+	Reason                      string                              `bson:"reason,omitempty"`
+	SourceIP                    string                              `bson:"sourceip,omitempty"`
+	State                       ConnectionExceptionReportStateValue `bson:"state"`
+	Timestamp                   time.Time                           `bson:"timestamp,omitempty"`
+	Value                       int                                 `bson:"value,omitempty"`
+	ZHash                       int                                 `bson:"zhash"`
+	Zone                        int                                 `bson:"zone"`
 }
 type mongoAttributesSparseConnectionExceptionReport struct {
-	ID                      bson.ObjectId                        `bson:"_id,omitempty"`
-	DestinationIP           *string                              `bson:"destinationip,omitempty"`
-	DestinationPort         *int                                 `bson:"destinationport,omitempty"`
-	EnforcerID              *string                              `bson:"enforcerid,omitempty"`
-	EnforcerNamespace       *string                              `bson:"enforcernamespace,omitempty"`
-	MigrationsLog           *map[string]string                   `bson:"migrationslog,omitempty"`
-	ProcessingUnitID        *string                              `bson:"processingunitid,omitempty"`
-	ProcessingUnitNamespace *string                              `bson:"processingunitnamespace,omitempty"`
-	Protocol                *int                                 `bson:"protocol,omitempty"`
-	Reason                  *string                              `bson:"reason,omitempty"`
-	RemoteController        *string                              `bson:"remotecontroller,omitempty"`
-	RemoteProcessingUnitID  *string                              `bson:"remoteprocessingunitid,omitempty"`
-	SourceIP                *string                              `bson:"sourceip,omitempty"`
-	State                   *ConnectionExceptionReportStateValue `bson:"state,omitempty"`
-	Timestamp               *time.Time                           `bson:"timestamp,omitempty"`
-	Value                   *int                                 `bson:"value,omitempty"`
-	ZHash                   *int                                 `bson:"zhash,omitempty"`
-	Zone                    *int                                 `bson:"zone,omitempty"`
+	ID                          bson.ObjectId                        `bson:"_id,omitempty"`
+	DestinationController       *string                              `bson:"destinationcontroller,omitempty"`
+	DestinationIP               *string                              `bson:"destinationip,omitempty"`
+	DestinationPort             *int                                 `bson:"destinationport,omitempty"`
+	DestinationProcessingUnitID *string                              `bson:"destinationprocessingunitid,omitempty"`
+	EnforcerID                  *string                              `bson:"enforcerid,omitempty"`
+	EnforcerNamespace           *string                              `bson:"enforcernamespace,omitempty"`
+	MigrationsLog               *map[string]string                   `bson:"migrationslog,omitempty"`
+	ProcessingUnitID            *string                              `bson:"processingunitid,omitempty"`
+	ProcessingUnitNamespace     *string                              `bson:"processingunitnamespace,omitempty"`
+	Protocol                    *int                                 `bson:"protocol,omitempty"`
+	Reason                      *string                              `bson:"reason,omitempty"`
+	SourceIP                    *string                              `bson:"sourceip,omitempty"`
+	State                       *ConnectionExceptionReportStateValue `bson:"state,omitempty"`
+	Timestamp                   *time.Time                           `bson:"timestamp,omitempty"`
+	Value                       *int                                 `bson:"value,omitempty"`
+	ZHash                       *int                                 `bson:"zhash,omitempty"`
+	Zone                        *int                                 `bson:"zone,omitempty"`
 }
