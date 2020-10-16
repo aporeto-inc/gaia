@@ -451,3 +451,9 @@ const (
 	// ValidationConstraintViolationKey is added in elemental errors when having a constraint violation.
 	ValidationConstraintViolationKey = "constraintViolation"
 )
+
+// Annotation names
+const (
+	// AnnotationLocalPUID is the local PUID set by enforcer.
+	AnnotationLocalPUID = "io:aporeto:enforcer:localpuid"
+)
