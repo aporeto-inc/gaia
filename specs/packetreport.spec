@@ -6,6 +6,15 @@ model:
   package: zack
   group: core/enforcer
   description: Post a new packet tracing report.
+  extends:
+  - '@identifiable-stored'
+  - '@zoned'
+  - '@migratable'
+
+# Indexes
+indexes:
+- - namespace
+  - timestamp
 
 # Attributes
 attributes:
@@ -71,6 +80,7 @@ attributes:
     description: The event that triggered the report.
     type: enum
     exposed: true
+    stored: true
     required: true
     allowed_choices:
     - Received

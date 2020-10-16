@@ -8,3 +8,7 @@ model:
   description: Post a new flow log.
   extends:
   - '@flow'
+  - '@identifiable-stored'
+  - '@zoned'
+  - '@migratable'
+  

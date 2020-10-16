@@ -83,6 +83,7 @@ var (
 		"log":                    LogIdentity,
 		"logout":                 LogoutIdentity,
 		"message":                MessageIdentity,
+		"metrics":                MetricsIdentity,
 		"namespace":              NamespaceIdentity,
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
 		"namespacerenderer":      NamespaceRendererIdentity,
@@ -115,10 +116,12 @@ var (
 		"quotapolicy": QuotaPolicyIdentity,
 		"recipe":      RecipeIdentity,
 
-		"remoteprocessor":        RemoteProcessorIdentity,
-		"renderedpolicy":         RenderedPolicyIdentity,
-		"rendertemplate":         RenderTemplateIdentity,
-		"report":                 ReportIdentity,
+		"remoteprocessor": RemoteProcessorIdentity,
+		"renderedpolicy":  RenderedPolicyIdentity,
+		"rendertemplate":  RenderTemplateIdentity,
+		"report":          ReportIdentity,
+		"reportsquery":    ReportsQueryIdentity,
+
 		"revocation":             RevocationIdentity,
 		"role":                   RoleIdentity,
 		"root":                   RootIdentity,
@@ -236,6 +239,7 @@ var (
 		"logs":                     LogIdentity,
 		"logout":                   LogoutIdentity,
 		"messages":                 MessageIdentity,
+		"metrics":                  MetricsIdentity,
 		"namespaces":               NamespaceIdentity,
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
 		"namespacerenderers":       NamespaceRendererIdentity,
@@ -268,10 +272,12 @@ var (
 		"quotapolicies": QuotaPolicyIdentity,
 		"recipes":       RecipeIdentity,
 
-		"remoteprocessors":         RemoteProcessorIdentity,
-		"renderedpolicies":         RenderedPolicyIdentity,
-		"rendertemplates":          RenderTemplateIdentity,
-		"reports":                  ReportIdentity,
+		"remoteprocessors": RemoteProcessorIdentity,
+		"renderedpolicies": RenderedPolicyIdentity,
+		"rendertemplates":  RenderTemplateIdentity,
+		"reports":          ReportIdentity,
+		"reportsqueries":   ReportsQueryIdentity,
+
 		"revocations":              RevocationIdentity,
 		"roles":                    RoleIdentity,
 		"root":                     RootIdentity,
@@ -358,6 +364,7 @@ var (
 		"iapp":           InstalledAppIdentity,
 		"ip":             IsolationProfileIdentity,
 		"mess":           MessageIdentity,
+		"mq":             MetricsIdentity,
 		"ns":             NamespaceIdentity,
 		"nspolicy":       NamespaceMappingPolicyIdentity,
 		"nspolicies":     NamespaceMappingPolicyIdentity,
@@ -383,6 +390,7 @@ var (
 		"rpols":          RenderedPolicyIdentity,
 		"cook":           RenderTemplateIdentity,
 		"rtpl":           RenderTemplateIdentity,
+		"rq":             ReportsQueryIdentity,
 		"srv":            ServiceIdentity,
 		"srvdep":         ServiceDependencyIdentity,
 		"srvdeps":        ServiceDependencyIdentity,
@@ -406,7 +414,10 @@ var (
 	}
 
 	indexesMap = map[string][][]string{
-		"accessreport": nil,
+		"accessreport": {
+			{"namespace", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"account": {
 			{"resetPasswordToken"},
 			{"name"},
@@ -476,8 +487,11 @@ var (
 			{"createIdempotencyKey"},
 		},
 		"auditprofilemappingpolicy": nil,
-		"auditreport":               nil,
-		"authn":                     nil,
+		"auditreport": {
+			{"namespace", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
+		"authn": nil,
 		"authority": {
 			{"commonName"},
 			{":shard", ":unique", "zone", "zHash"},
@@ -502,26 +516,36 @@ var (
 			{"createIdempotencyKey"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
-		"awsregister":      nil,
-		"cachedflowrecord": nil,
-		"call":             nil,
-		"category":         nil,
+		"awsregister": nil,
+		"cachedflowrecord": {
+			{"remotenamespace", "timestamp"},
+			{"namespace", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
+		"call":     nil,
+		"category": nil,
 		"claims": {
 			{"namespace", "hash"},
 			{":shard", ":unique", "zone", "zHash"},
 			{"namespace"},
 			{"namespace", "normalizedTags"},
 		},
-		"clausesmatch":  nil,
-		"counterreport": nil,
+		"clausesmatch": nil,
+		"counterreport": {
+			{"namespace", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"customer": {
 			{"providerCustomerID"},
 		},
 		"datapathcertificate": nil,
 		"debugbundle":         nil,
 		"dependencymap":       nil,
-		"dnslookupreport":     nil,
-		"email":               nil,
+		"dnslookupreport": {
+			{"namespace", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
+		"email": nil,
 		"enforcer": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -556,10 +580,22 @@ var (
 		},
 		"enforcerprofilemappingpolicy": nil,
 		"enforcerrefresh":              nil,
-		"enforcerreport":               nil,
-		"enforcertracereport":          nil,
-		"eventlog":                     nil,
-		"export":                       nil,
+		"enforcerreport": {
+			{"namespace", "timestamp"},
+			{"namespace", "enforcerID"},
+			{"enforcerID"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
+		"enforcertracereport": {
+			{"namespace", "timestamp"},
+			{"namespace", "enforcerID"},
+			{"enforcerID"},
+		},
+		"eventlog": {
+			{"namespace", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
+		"export": nil,
 		"externalnetwork": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -575,7 +611,10 @@ var (
 			{"archived"},
 		},
 		"fileaccesspolicy": nil,
-		"fileaccessreport": nil,
+		"fileaccessreport": {
+			{"namespace", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"filepath": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -588,7 +627,11 @@ var (
 			{"createIdempotencyKey"},
 			{"archived"},
 		},
-		"flowreport": nil,
+		"flowreport": {
+			{"remotenamespace", "timestamp"},
+			{"namespace", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"graphedge": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"namespace"},
@@ -712,6 +755,7 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
+		"metrics": nil,
 		"namespace": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -739,7 +783,10 @@ var (
 			{"namespace"},
 			{"namespace", "normalizedTags"},
 		},
-		"packetreport":  nil,
+		"packetreport": {
+			{"namespace", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"passwordreset": nil,
 		"pccprovider": {
 			{":shard", ":unique", "zone", "zHash"},
@@ -829,6 +876,7 @@ var (
 		"renderedpolicy":  nil,
 		"rendertemplate":  nil,
 		"report":          nil,
+		"reportsquery":    nil,
 		"revocation": {
 			{":shard", ":unique", "zone", "zHash"},
 		},
@@ -1109,6 +1157,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewLogout()
 	case MessageIdentity:
 		return NewMessage()
+	case MetricsIdentity:
+		return NewMetrics()
 	case NamespaceIdentity:
 		return NewNamespace()
 	case NamespaceMappingPolicyIdentity:
@@ -1173,6 +1223,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRenderTemplate()
 	case ReportIdentity:
 		return NewReport()
+	case ReportsQueryIdentity:
+		return NewReportsQuery()
 	case RevocationIdentity:
 		return NewRevocation()
 	case RoleIdentity:
@@ -1392,6 +1444,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseLogout()
 	case MessageIdentity:
 		return NewSparseMessage()
+	case MetricsIdentity:
+		return NewSparseMetrics()
 	case NamespaceIdentity:
 		return NewSparseNamespace()
 	case NamespaceMappingPolicyIdentity:
@@ -1456,6 +1510,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRenderTemplate()
 	case ReportIdentity:
 		return NewSparseReport()
+	case ReportsQueryIdentity:
+		return NewSparseReportsQuery()
 	case RevocationIdentity:
 		return NewSparseRevocation()
 	case RoleIdentity:
@@ -1683,6 +1739,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &LogoutsList{}
 	case MessageIdentity:
 		return &MessagesList{}
+	case MetricsIdentity:
+		return &MetricsList{}
 	case NamespaceIdentity:
 		return &NamespacesList{}
 	case NamespaceMappingPolicyIdentity:
@@ -1747,6 +1805,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RenderTemplatesList{}
 	case ReportIdentity:
 		return &ReportsList{}
+	case ReportsQueryIdentity:
+		return &ReportsQueriesList{}
 	case RevocationIdentity:
 		return &RevocationsList{}
 	case RoleIdentity:
@@ -1964,6 +2024,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseLogoutsList{}
 	case MessageIdentity:
 		return &SparseMessagesList{}
+	case MetricsIdentity:
+		return &SparseMetricsList{}
 	case NamespaceIdentity:
 		return &SparseNamespacesList{}
 	case NamespaceMappingPolicyIdentity:
@@ -2028,6 +2090,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRenderTemplatesList{}
 	case ReportIdentity:
 		return &SparseReportsList{}
+	case ReportsQueryIdentity:
+		return &SparseReportsQueriesList{}
 	case RevocationIdentity:
 		return &SparseRevocationsList{}
 	case RoleIdentity:
@@ -2187,6 +2251,7 @@ func AllIdentities() []elemental.Identity {
 		LogIdentity,
 		LogoutIdentity,
 		MessageIdentity,
+		MetricsIdentity,
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
 		NamespaceRendererIdentity,
@@ -2219,6 +2284,7 @@ func AllIdentities() []elemental.Identity {
 		RenderedPolicyIdentity,
 		RenderTemplateIdentity,
 		ReportIdentity,
+		ReportsQueryIdentity,
 		RevocationIdentity,
 		RoleIdentity,
 		RootIdentity,
@@ -2476,6 +2542,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"mess",
 		}
+	case MetricsIdentity:
+		return []string{
+			"mq",
+		}
 	case NamespaceIdentity:
 		return []string{
 			"ns",
@@ -2578,6 +2648,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case ReportIdentity:
 		return []string{}
+	case ReportsQueryIdentity:
+		return []string{
+			"rq",
+		}
 	case RevocationIdentity:
 		return []string{}
 	case RoleIdentity:

@@ -82,106 +82,119 @@ func (o AuditReportsList) Version() int {
 // AuditReport represents the model of a auditreport
 type AuditReport struct {
 	// The login ID of the user who started the audited process.
-	AUID string `json:"AUID" msgpack:"AUID" bson:"-" mapstructure:"AUID,omitempty"`
+	AUID string `json:"AUID" msgpack:"AUID" bson:"auid" mapstructure:"AUID,omitempty"`
 
 	// Command working directory.
-	CWD string `json:"CWD" msgpack:"CWD" bson:"-" mapstructure:"CWD,omitempty"`
+	CWD string `json:"CWD" msgpack:"CWD" bson:"cwd" mapstructure:"CWD,omitempty"`
 
 	// Effective group ID of the user who started the audited process.
-	EGID int `json:"EGID" msgpack:"EGID" bson:"-" mapstructure:"EGID,omitempty"`
+	EGID int `json:"EGID" msgpack:"EGID" bson:"egid" mapstructure:"EGID,omitempty"`
 
 	// Effective user ID of the user who started the audited process.
-	EUID int `json:"EUID" msgpack:"EUID" bson:"-" mapstructure:"EUID,omitempty"`
+	EUID int `json:"EUID" msgpack:"EUID" bson:"euid" mapstructure:"EUID,omitempty"`
 
 	// Path to the executable.
-	EXE string `json:"EXE" msgpack:"EXE" bson:"-" mapstructure:"EXE,omitempty"`
+	EXE string `json:"EXE" msgpack:"EXE" bson:"exe" mapstructure:"EXE,omitempty"`
 
 	// File system group ID of the user who started the audited process.
-	FSGID int `json:"FSGID" msgpack:"FSGID" bson:"-" mapstructure:"FSGID,omitempty"`
+	FSGID int `json:"FSGID" msgpack:"FSGID" bson:"fsgid" mapstructure:"FSGID,omitempty"`
 
 	// File system user ID of the user who started the audited process.
-	FSUID int `json:"FSUID" msgpack:"FSUID" bson:"-" mapstructure:"FSUID,omitempty"`
+	FSUID int `json:"FSUID" msgpack:"FSUID" bson:"fsuid" mapstructure:"FSUID,omitempty"`
 
 	// Full path of the file that was passed to the system call.
-	FilePath string `json:"FilePath" msgpack:"FilePath" bson:"-" mapstructure:"FilePath,omitempty"`
+	FilePath string `json:"FilePath" msgpack:"FilePath" bson:"filepath" mapstructure:"FilePath,omitempty"`
 
 	// Group ID of the user who started the analyzed process.
-	GID int `json:"GID" msgpack:"GID" bson:"-" mapstructure:"GID,omitempty"`
+	GID int `json:"GID" msgpack:"GID" bson:"gid" mapstructure:"GID,omitempty"`
+
+	// Identifier of the object.
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// File or directory permissions.
-	PER int `json:"PER" msgpack:"PER" bson:"-" mapstructure:"PER,omitempty"`
+	PER int `json:"PER" msgpack:"PER" bson:"per" mapstructure:"PER,omitempty"`
 
 	// Process ID of the executable.
-	PID int `json:"PID" msgpack:"PID" bson:"-" mapstructure:"PID,omitempty"`
+	PID int `json:"PID" msgpack:"PID" bson:"pid" mapstructure:"PID,omitempty"`
 
 	// Process ID of the parent executable.
-	PPID int `json:"PPID" msgpack:"PPID" bson:"-" mapstructure:"PPID,omitempty"`
+	PPID int `json:"PPID" msgpack:"PPID" bson:"ppid" mapstructure:"PPID,omitempty"`
 
 	// Set group ID of the user who started the audited process.
-	SGID int `json:"SGID" msgpack:"SGID" bson:"-" mapstructure:"SGID,omitempty"`
+	SGID int `json:"SGID" msgpack:"SGID" bson:"sgid" mapstructure:"SGID,omitempty"`
 
 	// Set user ID of the user who started the audited process.
-	SUID int `json:"SUID" msgpack:"SUID" bson:"-" mapstructure:"SUID,omitempty"`
+	SUID int `json:"SUID" msgpack:"SUID" bson:"suid" mapstructure:"SUID,omitempty"`
 
 	// User ID.
-	UID int `json:"UID" msgpack:"UID" bson:"-" mapstructure:"UID,omitempty"`
+	UID int `json:"UID" msgpack:"UID" bson:"uid" mapstructure:"UID,omitempty"`
 
 	// First argument of the executed system call.
-	A0 string `json:"a0" msgpack:"a0" bson:"-" mapstructure:"a0,omitempty"`
+	A0 string `json:"a0" msgpack:"a0" bson:"a0" mapstructure:"a0,omitempty"`
 
 	// Second argument of the executed system call.
-	A1 string `json:"a1" msgpack:"a1" bson:"-" mapstructure:"a1,omitempty"`
+	A1 string `json:"a1" msgpack:"a1" bson:"a1" mapstructure:"a1,omitempty"`
 
 	// Third argument of the executed system call.
-	A2 string `json:"a2" msgpack:"a2" bson:"-" mapstructure:"a2,omitempty"`
+	A2 string `json:"a2" msgpack:"a2" bson:"a2" mapstructure:"a2,omitempty"`
 
 	// Fourth argument of the executed system call.
-	A3 string `json:"a3" msgpack:"a3" bson:"-" mapstructure:"a3,omitempty"`
+	A3 string `json:"a3" msgpack:"a3" bson:"a3" mapstructure:"a3,omitempty"`
 
 	// Architecture of the system of the monitored process.
-	Arch string `json:"arch" msgpack:"arch" bson:"-" mapstructure:"arch,omitempty"`
+	Arch string `json:"arch" msgpack:"arch" bson:"arch" mapstructure:"arch,omitempty"`
 
 	// Arguments passed to the command.
-	Arguments []string `json:"arguments" msgpack:"arguments" bson:"-" mapstructure:"arguments,omitempty"`
+	Arguments []string `json:"arguments" msgpack:"arguments" bson:"arguments" mapstructure:"arguments,omitempty"`
 
 	// ID of the audit profile that triggered the report.
-	AuditProfileID string `json:"auditProfileID" msgpack:"auditProfileID" bson:"-" mapstructure:"auditProfileID,omitempty"`
+	AuditProfileID string `json:"auditProfileID" msgpack:"auditProfileID" bson:"auditprofileid" mapstructure:"auditProfileID,omitempty"`
 
 	// Namespace of the audit profile that triggered the report.
-	AuditProfileNamespace string `json:"auditProfileNamespace" msgpack:"auditProfileNamespace" bson:"-" mapstructure:"auditProfileNamespace,omitempty"`
+	AuditProfileNamespace string `json:"auditProfileNamespace" msgpack:"auditProfileNamespace" bson:"auditprofilenamespace" mapstructure:"auditProfileNamespace,omitempty"`
 
 	// Command issued.
-	Command string `json:"command" msgpack:"command" bson:"-" mapstructure:"command,omitempty"`
+	Command string `json:"command" msgpack:"command" bson:"command" mapstructure:"command,omitempty"`
 
 	// ID of the enforcer reporting.
-	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
+	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer reporting.
-	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Exit code of the executed system call.
-	Exit int `json:"exit" msgpack:"exit" bson:"-" mapstructure:"exit,omitempty"`
+	Exit int `json:"exit" msgpack:"exit" bson:"exit" mapstructure:"exit,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the processing unit originating the report.
-	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"processingunitid" mapstructure:"processingUnitID,omitempty"`
 
 	// Namespace of the processing unit originating the report.
-	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"processingunitnamespace" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// Type of audit record.
-	RecordType string `json:"recordType" msgpack:"recordType" bson:"-" mapstructure:"recordType,omitempty"`
+	RecordType string `json:"recordType" msgpack:"recordType" bson:"recordtype" mapstructure:"recordType,omitempty"`
 
 	// Needs documentation.
-	Sequence int `json:"sequence" msgpack:"sequence" bson:"-" mapstructure:"sequence,omitempty"`
+	Sequence int `json:"sequence" msgpack:"sequence" bson:"sequence" mapstructure:"sequence,omitempty"`
 
 	// Tells if the operation has been a success or a failure.
-	Success bool `json:"success" msgpack:"success" bson:"-" mapstructure:"success,omitempty"`
+	Success bool `json:"success" msgpack:"success" bson:"success" mapstructure:"success,omitempty"`
 
 	// System call executed.
-	Syscall string `json:"syscall" msgpack:"syscall" bson:"-" mapstructure:"syscall,omitempty"`
+	Syscall string `json:"syscall" msgpack:"syscall" bson:"syscall" mapstructure:"syscall,omitempty"`
 
 	// Date of the report.
-	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"timestamp" mapstructure:"timestamp,omitempty"`
+
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
+
+	// Logical storage zone. Used for sharding.
+	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -190,8 +203,9 @@ type AuditReport struct {
 func NewAuditReport() *AuditReport {
 
 	return &AuditReport{
-		ModelVersion: 1,
-		Arguments:    []string{},
+		ModelVersion:  1,
+		Arguments:     []string{},
+		MigrationsLog: map[string]string{},
 	}
 }
 
@@ -204,12 +218,13 @@ func (o *AuditReport) Identity() elemental.Identity {
 // Identifier returns the value of the object's unique identifier.
 func (o *AuditReport) Identifier() string {
 
-	return ""
+	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *AuditReport) SetIdentifier(id string) {
 
+	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -221,6 +236,47 @@ func (o *AuditReport) GetBSON() (interface{}, error) {
 	}
 
 	s := &mongoAttributesAuditReport{}
+
+	s.AUID = o.AUID
+	s.CWD = o.CWD
+	s.EGID = o.EGID
+	s.EUID = o.EUID
+	s.EXE = o.EXE
+	s.FSGID = o.FSGID
+	s.FSUID = o.FSUID
+	s.FilePath = o.FilePath
+	s.GID = o.GID
+	if o.ID != "" {
+		s.ID = bson.ObjectIdHex(o.ID)
+	}
+	s.PER = o.PER
+	s.PID = o.PID
+	s.PPID = o.PPID
+	s.SGID = o.SGID
+	s.SUID = o.SUID
+	s.UID = o.UID
+	s.A0 = o.A0
+	s.A1 = o.A1
+	s.A2 = o.A2
+	s.A3 = o.A3
+	s.Arch = o.Arch
+	s.Arguments = o.Arguments
+	s.AuditProfileID = o.AuditProfileID
+	s.AuditProfileNamespace = o.AuditProfileNamespace
+	s.Command = o.Command
+	s.EnforcerID = o.EnforcerID
+	s.EnforcerNamespace = o.EnforcerNamespace
+	s.Exit = o.Exit
+	s.MigrationsLog = o.MigrationsLog
+	s.ProcessingUnitID = o.ProcessingUnitID
+	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
+	s.RecordType = o.RecordType
+	s.Sequence = o.Sequence
+	s.Success = o.Success
+	s.Syscall = o.Syscall
+	s.Timestamp = o.Timestamp
+	s.ZHash = o.ZHash
+	s.Zone = o.Zone
 
 	return s, nil
 }
@@ -237,6 +293,45 @@ func (o *AuditReport) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
+
+	o.AUID = s.AUID
+	o.CWD = s.CWD
+	o.EGID = s.EGID
+	o.EUID = s.EUID
+	o.EXE = s.EXE
+	o.FSGID = s.FSGID
+	o.FSUID = s.FSUID
+	o.FilePath = s.FilePath
+	o.GID = s.GID
+	o.ID = s.ID.Hex()
+	o.PER = s.PER
+	o.PID = s.PID
+	o.PPID = s.PPID
+	o.SGID = s.SGID
+	o.SUID = s.SUID
+	o.UID = s.UID
+	o.A0 = s.A0
+	o.A1 = s.A1
+	o.A2 = s.A2
+	o.A3 = s.A3
+	o.Arch = s.Arch
+	o.Arguments = s.Arguments
+	o.AuditProfileID = s.AuditProfileID
+	o.AuditProfileNamespace = s.AuditProfileNamespace
+	o.Command = s.Command
+	o.EnforcerID = s.EnforcerID
+	o.EnforcerNamespace = s.EnforcerNamespace
+	o.Exit = s.Exit
+	o.MigrationsLog = s.MigrationsLog
+	o.ProcessingUnitID = s.ProcessingUnitID
+	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
+	o.RecordType = s.RecordType
+	o.Sequence = s.Sequence
+	o.Success = s.Success
+	o.Syscall = s.Syscall
+	o.Timestamp = s.Timestamp
+	o.ZHash = s.ZHash
+	o.Zone = s.Zone
 
 	return nil
 }
@@ -270,6 +365,42 @@ func (o *AuditReport) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *AuditReport) GetMigrationsLog() map[string]string {
+
+	return o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
+func (o *AuditReport) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = migrationsLog
+}
+
+// GetZHash returns the ZHash of the receiver.
+func (o *AuditReport) GetZHash() int {
+
+	return o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the given value.
+func (o *AuditReport) SetZHash(zHash int) {
+
+	o.ZHash = zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *AuditReport) GetZone() int {
+
+	return o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the given value.
+func (o *AuditReport) SetZone(zone int) {
+
+	o.Zone = zone
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -286,6 +417,7 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			FSUID:                   &o.FSUID,
 			FilePath:                &o.FilePath,
 			GID:                     &o.GID,
+			ID:                      &o.ID,
 			PER:                     &o.PER,
 			PID:                     &o.PID,
 			PPID:                    &o.PPID,
@@ -304,6 +436,7 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			EnforcerID:              &o.EnforcerID,
 			EnforcerNamespace:       &o.EnforcerNamespace,
 			Exit:                    &o.Exit,
+			MigrationsLog:           &o.MigrationsLog,
 			ProcessingUnitID:        &o.ProcessingUnitID,
 			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
 			RecordType:              &o.RecordType,
@@ -311,6 +444,8 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Success:                 &o.Success,
 			Syscall:                 &o.Syscall,
 			Timestamp:               &o.Timestamp,
+			ZHash:                   &o.ZHash,
+			Zone:                    &o.Zone,
 		}
 	}
 
@@ -335,6 +470,8 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.FilePath = &(o.FilePath)
 		case "GID":
 			sp.GID = &(o.GID)
+		case "ID":
+			sp.ID = &(o.ID)
 		case "PER":
 			sp.PER = &(o.PER)
 		case "PID":
@@ -371,6 +508,8 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "exit":
 			sp.Exit = &(o.Exit)
+		case "migrationsLog":
+			sp.MigrationsLog = &(o.MigrationsLog)
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
 		case "processingUnitNamespace":
@@ -385,6 +524,10 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Syscall = &(o.Syscall)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
+		case "zHash":
+			sp.ZHash = &(o.ZHash)
+		case "zone":
+			sp.Zone = &(o.Zone)
 		}
 	}
 
@@ -424,6 +567,9 @@ func (o *AuditReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.GID != nil {
 		o.GID = *so.GID
+	}
+	if so.ID != nil {
+		o.ID = *so.ID
 	}
 	if so.PER != nil {
 		o.PER = *so.PER
@@ -479,6 +625,9 @@ func (o *AuditReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Exit != nil {
 		o.Exit = *so.Exit
 	}
+	if so.MigrationsLog != nil {
+		o.MigrationsLog = *so.MigrationsLog
+	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
 	}
@@ -499,6 +648,12 @@ func (o *AuditReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
+	}
+	if so.ZHash != nil {
+		o.ZHash = *so.ZHash
+	}
+	if so.Zone != nil {
+		o.Zone = *so.Zone
 	}
 }
 
@@ -616,6 +771,8 @@ func (o *AuditReport) ValueForAttribute(name string) interface{} {
 		return o.FilePath
 	case "GID":
 		return o.GID
+	case "ID":
+		return o.ID
 	case "PER":
 		return o.PER
 	case "PID":
@@ -652,6 +809,8 @@ func (o *AuditReport) ValueForAttribute(name string) interface{} {
 		return o.EnforcerNamespace
 	case "exit":
 		return o.Exit
+	case "migrationsLog":
+		return o.MigrationsLog
 	case "processingUnitID":
 		return o.ProcessingUnitID
 	case "processingUnitNamespace":
@@ -666,6 +825,10 @@ func (o *AuditReport) ValueForAttribute(name string) interface{} {
 		return o.Syscall
 	case "timestamp":
 		return o.Timestamp
+	case "zHash":
+		return o.ZHash
+	case "zone":
+		return o.Zone
 	}
 
 	return nil
@@ -679,6 +842,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The login ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "AUID",
+		Stored:         true,
 		Type:           "string",
 	},
 	"CWD": {
@@ -687,6 +851,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Command working directory.`,
 		Exposed:        true,
 		Name:           "CWD",
+		Stored:         true,
 		Type:           "string",
 	},
 	"EGID": {
@@ -695,6 +860,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Effective group ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "EGID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"EUID": {
@@ -703,6 +869,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Effective user ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "EUID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"EXE": {
@@ -711,6 +878,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Path to the executable.`,
 		Exposed:        true,
 		Name:           "EXE",
+		Stored:         true,
 		Type:           "string",
 	},
 	"FSGID": {
@@ -719,6 +887,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `File system group ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "FSGID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"FSUID": {
@@ -727,6 +896,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `File system user ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "FSUID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"FilePath": {
@@ -735,6 +905,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Full path of the file that was passed to the system call.`,
 		Exposed:        true,
 		Name:           "FilePath",
+		Stored:         true,
 		Type:           "string",
 	},
 	"GID": {
@@ -743,7 +914,22 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Group ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "GID",
+		Stored:         true,
 		Type:           "integer",
+	},
+	"ID": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ID",
+		Description:    `Identifier of the object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Identifier:     true,
+		Name:           "ID",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"PER": {
 		AllowedChoices: []string{},
@@ -751,6 +937,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `File or directory permissions.`,
 		Exposed:        true,
 		Name:           "PER",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"PID": {
@@ -759,6 +946,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Process ID of the executable.`,
 		Exposed:        true,
 		Name:           "PID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"PPID": {
@@ -767,6 +955,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Process ID of the parent executable.`,
 		Exposed:        true,
 		Name:           "PPID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"SGID": {
@@ -775,6 +964,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Set group ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "SGID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"SUID": {
@@ -783,6 +973,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Set user ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "SUID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"UID": {
@@ -791,6 +982,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `User ID.`,
 		Exposed:        true,
 		Name:           "UID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"A0": {
@@ -799,6 +991,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `First argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a0",
+		Stored:         true,
 		Type:           "string",
 	},
 	"A1": {
@@ -807,6 +1000,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Second argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a1",
+		Stored:         true,
 		Type:           "string",
 	},
 	"A2": {
@@ -815,6 +1009,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Third argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a2",
+		Stored:         true,
 		Type:           "string",
 	},
 	"A3": {
@@ -823,6 +1018,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Fourth argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a3",
+		Stored:         true,
 		Type:           "string",
 	},
 	"Arch": {
@@ -831,6 +1027,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Architecture of the system of the monitored process.`,
 		Exposed:        true,
 		Name:           "arch",
+		Stored:         true,
 		Type:           "string",
 	},
 	"Arguments": {
@@ -839,6 +1036,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Arguments passed to the command.`,
 		Exposed:        true,
 		Name:           "arguments",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -849,6 +1047,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "auditProfileID",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"AuditProfileNamespace": {
@@ -858,6 +1057,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "auditProfileNamespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"Command": {
@@ -866,6 +1066,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Command issued.`,
 		Exposed:        true,
 		Name:           "command",
+		Stored:         true,
 		Type:           "string",
 	},
 	"EnforcerID": {
@@ -875,6 +1076,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"EnforcerNamespace": {
@@ -884,6 +1086,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"Exit": {
@@ -892,7 +1095,19 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Exit code of the executed system call.`,
 		Exposed:        true,
 		Name:           "exit",
+		Stored:         true,
 		Type:           "integer",
+	},
+	"MigrationsLog": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"ProcessingUnitID": {
 		AllowedChoices: []string{},
@@ -901,6 +1116,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "processingUnitID",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"ProcessingUnitNamespace": {
@@ -910,6 +1126,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "processingUnitNamespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"RecordType": {
@@ -919,6 +1136,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "recordType",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"Sequence": {
@@ -927,6 +1145,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "sequence",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"Success": {
@@ -935,6 +1154,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Tells if the operation has been a success or a failure.`,
 		Exposed:        true,
 		Name:           "success",
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"Syscall": {
@@ -943,6 +1163,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `System call executed.`,
 		Exposed:        true,
 		Name:           "syscall",
+		Stored:         true,
 		Type:           "string",
 	},
 	"Timestamp": {
@@ -952,7 +1173,34 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "timestamp",
 		Required:       true,
+		Stored:         true,
 		Type:           "time",
+	},
+	"ZHash": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"Zone": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description:    `Logical storage zone. Used for sharding.`,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -960,284 +1208,407 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"auid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "auid",
 		ConvertedName:  "AUID",
 		Description:    `The login ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "AUID",
+		Stored:         true,
 		Type:           "string",
 	},
 	"cwd": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "cwd",
 		ConvertedName:  "CWD",
 		Description:    `Command working directory.`,
 		Exposed:        true,
 		Name:           "CWD",
+		Stored:         true,
 		Type:           "string",
 	},
 	"egid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "egid",
 		ConvertedName:  "EGID",
 		Description:    `Effective group ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "EGID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"euid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "euid",
 		ConvertedName:  "EUID",
 		Description:    `Effective user ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "EUID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"exe": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "exe",
 		ConvertedName:  "EXE",
 		Description:    `Path to the executable.`,
 		Exposed:        true,
 		Name:           "EXE",
+		Stored:         true,
 		Type:           "string",
 	},
 	"fsgid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "fsgid",
 		ConvertedName:  "FSGID",
 		Description:    `File system group ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "FSGID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"fsuid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "fsuid",
 		ConvertedName:  "FSUID",
 		Description:    `File system user ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "FSUID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"filepath": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "filepath",
 		ConvertedName:  "FilePath",
 		Description:    `Full path of the file that was passed to the system call.`,
 		Exposed:        true,
 		Name:           "FilePath",
+		Stored:         true,
 		Type:           "string",
 	},
 	"gid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "gid",
 		ConvertedName:  "GID",
 		Description:    `Group ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "GID",
+		Stored:         true,
 		Type:           "integer",
+	},
+	"id": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "_id",
+		ConvertedName:  "ID",
+		Description:    `Identifier of the object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Identifier:     true,
+		Name:           "ID",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"per": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "per",
 		ConvertedName:  "PER",
 		Description:    `File or directory permissions.`,
 		Exposed:        true,
 		Name:           "PER",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"pid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "pid",
 		ConvertedName:  "PID",
 		Description:    `Process ID of the executable.`,
 		Exposed:        true,
 		Name:           "PID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"ppid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "ppid",
 		ConvertedName:  "PPID",
 		Description:    `Process ID of the parent executable.`,
 		Exposed:        true,
 		Name:           "PPID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"sgid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "sgid",
 		ConvertedName:  "SGID",
 		Description:    `Set group ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "SGID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"suid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "suid",
 		ConvertedName:  "SUID",
 		Description:    `Set user ID of the user who started the audited process.`,
 		Exposed:        true,
 		Name:           "SUID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"uid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "uid",
 		ConvertedName:  "UID",
 		Description:    `User ID.`,
 		Exposed:        true,
 		Name:           "UID",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"a0": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "a0",
 		ConvertedName:  "A0",
 		Description:    `First argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a0",
+		Stored:         true,
 		Type:           "string",
 	},
 	"a1": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "a1",
 		ConvertedName:  "A1",
 		Description:    `Second argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a1",
+		Stored:         true,
 		Type:           "string",
 	},
 	"a2": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "a2",
 		ConvertedName:  "A2",
 		Description:    `Third argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a2",
+		Stored:         true,
 		Type:           "string",
 	},
 	"a3": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "a3",
 		ConvertedName:  "A3",
 		Description:    `Fourth argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a3",
+		Stored:         true,
 		Type:           "string",
 	},
 	"arch": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "arch",
 		ConvertedName:  "Arch",
 		Description:    `Architecture of the system of the monitored process.`,
 		Exposed:        true,
 		Name:           "arch",
+		Stored:         true,
 		Type:           "string",
 	},
 	"arguments": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "arguments",
 		ConvertedName:  "Arguments",
 		Description:    `Arguments passed to the command.`,
 		Exposed:        true,
 		Name:           "arguments",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
 	"auditprofileid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "auditprofileid",
 		ConvertedName:  "AuditProfileID",
 		Description:    `ID of the audit profile that triggered the report.`,
 		Exposed:        true,
 		Name:           "auditProfileID",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"auditprofilenamespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "auditprofilenamespace",
 		ConvertedName:  "AuditProfileNamespace",
 		Description:    `Namespace of the audit profile that triggered the report.`,
 		Exposed:        true,
 		Name:           "auditProfileNamespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"command": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "command",
 		ConvertedName:  "Command",
 		Description:    `Command issued.`,
 		Exposed:        true,
 		Name:           "command",
+		Stored:         true,
 		Type:           "string",
 	},
 	"enforcerid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "enforcerid",
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the enforcer reporting.`,
 		Exposed:        true,
 		Name:           "enforcerID",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"enforcernamespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "enforcernamespace",
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer reporting.`,
 		Exposed:        true,
 		Name:           "enforcerNamespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"exit": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "exit",
 		ConvertedName:  "Exit",
 		Description:    `Exit code of the executed system call.`,
 		Exposed:        true,
 		Name:           "exit",
+		Stored:         true,
 		Type:           "integer",
+	},
+	"migrationslog": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "migrationslog",
+		ConvertedName:  "MigrationsLog",
+		Description:    `Internal property maintaining migrations information.`,
+		Getter:         true,
+		Name:           "migrationsLog",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string]string",
+		Type:           "external",
 	},
 	"processingunitid": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "processingunitid",
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit originating the report.`,
 		Exposed:        true,
 		Name:           "processingUnitID",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"processingunitnamespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "processingunitnamespace",
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit originating the report.`,
 		Exposed:        true,
 		Name:           "processingUnitNamespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"recordtype": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "recordtype",
 		ConvertedName:  "RecordType",
 		Description:    `Type of audit record.`,
 		Exposed:        true,
 		Name:           "recordType",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"sequence": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "sequence",
 		ConvertedName:  "Sequence",
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "sequence",
+		Stored:         true,
 		Type:           "integer",
 	},
 	"success": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "success",
 		ConvertedName:  "Success",
 		Description:    `Tells if the operation has been a success or a failure.`,
 		Exposed:        true,
 		Name:           "success",
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"syscall": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "syscall",
 		ConvertedName:  "Syscall",
 		Description:    `System call executed.`,
 		Exposed:        true,
 		Name:           "syscall",
+		Stored:         true,
 		Type:           "string",
 	},
 	"timestamp": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "timestamp",
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
 		Required:       true,
+		Stored:         true,
 		Type:           "time",
+	},
+	"zhash": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "zhash",
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"zone": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "zone",
+		ConvertedName:  "Zone",
+		Description:    `Logical storage zone. Used for sharding.`,
+		Getter:         true,
+		Name:           "zone",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "integer",
 	},
 }
 
@@ -1305,106 +1676,119 @@ func (o SparseAuditReportsList) Version() int {
 // SparseAuditReport represents the sparse version of a auditreport.
 type SparseAuditReport struct {
 	// The login ID of the user who started the audited process.
-	AUID *string `json:"AUID,omitempty" msgpack:"AUID,omitempty" bson:"-" mapstructure:"AUID,omitempty"`
+	AUID *string `json:"AUID,omitempty" msgpack:"AUID,omitempty" bson:"auid,omitempty" mapstructure:"AUID,omitempty"`
 
 	// Command working directory.
-	CWD *string `json:"CWD,omitempty" msgpack:"CWD,omitempty" bson:"-" mapstructure:"CWD,omitempty"`
+	CWD *string `json:"CWD,omitempty" msgpack:"CWD,omitempty" bson:"cwd,omitempty" mapstructure:"CWD,omitempty"`
 
 	// Effective group ID of the user who started the audited process.
-	EGID *int `json:"EGID,omitempty" msgpack:"EGID,omitempty" bson:"-" mapstructure:"EGID,omitempty"`
+	EGID *int `json:"EGID,omitempty" msgpack:"EGID,omitempty" bson:"egid,omitempty" mapstructure:"EGID,omitempty"`
 
 	// Effective user ID of the user who started the audited process.
-	EUID *int `json:"EUID,omitempty" msgpack:"EUID,omitempty" bson:"-" mapstructure:"EUID,omitempty"`
+	EUID *int `json:"EUID,omitempty" msgpack:"EUID,omitempty" bson:"euid,omitempty" mapstructure:"EUID,omitempty"`
 
 	// Path to the executable.
-	EXE *string `json:"EXE,omitempty" msgpack:"EXE,omitempty" bson:"-" mapstructure:"EXE,omitempty"`
+	EXE *string `json:"EXE,omitempty" msgpack:"EXE,omitempty" bson:"exe,omitempty" mapstructure:"EXE,omitempty"`
 
 	// File system group ID of the user who started the audited process.
-	FSGID *int `json:"FSGID,omitempty" msgpack:"FSGID,omitempty" bson:"-" mapstructure:"FSGID,omitempty"`
+	FSGID *int `json:"FSGID,omitempty" msgpack:"FSGID,omitempty" bson:"fsgid,omitempty" mapstructure:"FSGID,omitempty"`
 
 	// File system user ID of the user who started the audited process.
-	FSUID *int `json:"FSUID,omitempty" msgpack:"FSUID,omitempty" bson:"-" mapstructure:"FSUID,omitempty"`
+	FSUID *int `json:"FSUID,omitempty" msgpack:"FSUID,omitempty" bson:"fsuid,omitempty" mapstructure:"FSUID,omitempty"`
 
 	// Full path of the file that was passed to the system call.
-	FilePath *string `json:"FilePath,omitempty" msgpack:"FilePath,omitempty" bson:"-" mapstructure:"FilePath,omitempty"`
+	FilePath *string `json:"FilePath,omitempty" msgpack:"FilePath,omitempty" bson:"filepath,omitempty" mapstructure:"FilePath,omitempty"`
 
 	// Group ID of the user who started the analyzed process.
-	GID *int `json:"GID,omitempty" msgpack:"GID,omitempty" bson:"-" mapstructure:"GID,omitempty"`
+	GID *int `json:"GID,omitempty" msgpack:"GID,omitempty" bson:"gid,omitempty" mapstructure:"GID,omitempty"`
+
+	// Identifier of the object.
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// File or directory permissions.
-	PER *int `json:"PER,omitempty" msgpack:"PER,omitempty" bson:"-" mapstructure:"PER,omitempty"`
+	PER *int `json:"PER,omitempty" msgpack:"PER,omitempty" bson:"per,omitempty" mapstructure:"PER,omitempty"`
 
 	// Process ID of the executable.
-	PID *int `json:"PID,omitempty" msgpack:"PID,omitempty" bson:"-" mapstructure:"PID,omitempty"`
+	PID *int `json:"PID,omitempty" msgpack:"PID,omitempty" bson:"pid,omitempty" mapstructure:"PID,omitempty"`
 
 	// Process ID of the parent executable.
-	PPID *int `json:"PPID,omitempty" msgpack:"PPID,omitempty" bson:"-" mapstructure:"PPID,omitempty"`
+	PPID *int `json:"PPID,omitempty" msgpack:"PPID,omitempty" bson:"ppid,omitempty" mapstructure:"PPID,omitempty"`
 
 	// Set group ID of the user who started the audited process.
-	SGID *int `json:"SGID,omitempty" msgpack:"SGID,omitempty" bson:"-" mapstructure:"SGID,omitempty"`
+	SGID *int `json:"SGID,omitempty" msgpack:"SGID,omitempty" bson:"sgid,omitempty" mapstructure:"SGID,omitempty"`
 
 	// Set user ID of the user who started the audited process.
-	SUID *int `json:"SUID,omitempty" msgpack:"SUID,omitempty" bson:"-" mapstructure:"SUID,omitempty"`
+	SUID *int `json:"SUID,omitempty" msgpack:"SUID,omitempty" bson:"suid,omitempty" mapstructure:"SUID,omitempty"`
 
 	// User ID.
-	UID *int `json:"UID,omitempty" msgpack:"UID,omitempty" bson:"-" mapstructure:"UID,omitempty"`
+	UID *int `json:"UID,omitempty" msgpack:"UID,omitempty" bson:"uid,omitempty" mapstructure:"UID,omitempty"`
 
 	// First argument of the executed system call.
-	A0 *string `json:"a0,omitempty" msgpack:"a0,omitempty" bson:"-" mapstructure:"a0,omitempty"`
+	A0 *string `json:"a0,omitempty" msgpack:"a0,omitempty" bson:"a0,omitempty" mapstructure:"a0,omitempty"`
 
 	// Second argument of the executed system call.
-	A1 *string `json:"a1,omitempty" msgpack:"a1,omitempty" bson:"-" mapstructure:"a1,omitempty"`
+	A1 *string `json:"a1,omitempty" msgpack:"a1,omitempty" bson:"a1,omitempty" mapstructure:"a1,omitempty"`
 
 	// Third argument of the executed system call.
-	A2 *string `json:"a2,omitempty" msgpack:"a2,omitempty" bson:"-" mapstructure:"a2,omitempty"`
+	A2 *string `json:"a2,omitempty" msgpack:"a2,omitempty" bson:"a2,omitempty" mapstructure:"a2,omitempty"`
 
 	// Fourth argument of the executed system call.
-	A3 *string `json:"a3,omitempty" msgpack:"a3,omitempty" bson:"-" mapstructure:"a3,omitempty"`
+	A3 *string `json:"a3,omitempty" msgpack:"a3,omitempty" bson:"a3,omitempty" mapstructure:"a3,omitempty"`
 
 	// Architecture of the system of the monitored process.
-	Arch *string `json:"arch,omitempty" msgpack:"arch,omitempty" bson:"-" mapstructure:"arch,omitempty"`
+	Arch *string `json:"arch,omitempty" msgpack:"arch,omitempty" bson:"arch,omitempty" mapstructure:"arch,omitempty"`
 
 	// Arguments passed to the command.
-	Arguments *[]string `json:"arguments,omitempty" msgpack:"arguments,omitempty" bson:"-" mapstructure:"arguments,omitempty"`
+	Arguments *[]string `json:"arguments,omitempty" msgpack:"arguments,omitempty" bson:"arguments,omitempty" mapstructure:"arguments,omitempty"`
 
 	// ID of the audit profile that triggered the report.
-	AuditProfileID *string `json:"auditProfileID,omitempty" msgpack:"auditProfileID,omitempty" bson:"-" mapstructure:"auditProfileID,omitempty"`
+	AuditProfileID *string `json:"auditProfileID,omitempty" msgpack:"auditProfileID,omitempty" bson:"auditprofileid,omitempty" mapstructure:"auditProfileID,omitempty"`
 
 	// Namespace of the audit profile that triggered the report.
-	AuditProfileNamespace *string `json:"auditProfileNamespace,omitempty" msgpack:"auditProfileNamespace,omitempty" bson:"-" mapstructure:"auditProfileNamespace,omitempty"`
+	AuditProfileNamespace *string `json:"auditProfileNamespace,omitempty" msgpack:"auditProfileNamespace,omitempty" bson:"auditprofilenamespace,omitempty" mapstructure:"auditProfileNamespace,omitempty"`
 
 	// Command issued.
-	Command *string `json:"command,omitempty" msgpack:"command,omitempty" bson:"-" mapstructure:"command,omitempty"`
+	Command *string `json:"command,omitempty" msgpack:"command,omitempty" bson:"command,omitempty" mapstructure:"command,omitempty"`
 
 	// ID of the enforcer reporting.
-	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer reporting.
-	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Exit code of the executed system call.
-	Exit *int `json:"exit,omitempty" msgpack:"exit,omitempty" bson:"-" mapstructure:"exit,omitempty"`
+	Exit *int `json:"exit,omitempty" msgpack:"exit,omitempty" bson:"exit,omitempty" mapstructure:"exit,omitempty"`
+
+	// Internal property maintaining migrations information.
+	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the processing unit originating the report.
-	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"processingunitid,omitempty" mapstructure:"processingUnitID,omitempty"`
 
 	// Namespace of the processing unit originating the report.
-	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"processingunitnamespace,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// Type of audit record.
-	RecordType *string `json:"recordType,omitempty" msgpack:"recordType,omitempty" bson:"-" mapstructure:"recordType,omitempty"`
+	RecordType *string `json:"recordType,omitempty" msgpack:"recordType,omitempty" bson:"recordtype,omitempty" mapstructure:"recordType,omitempty"`
 
 	// Needs documentation.
-	Sequence *int `json:"sequence,omitempty" msgpack:"sequence,omitempty" bson:"-" mapstructure:"sequence,omitempty"`
+	Sequence *int `json:"sequence,omitempty" msgpack:"sequence,omitempty" bson:"sequence,omitempty" mapstructure:"sequence,omitempty"`
 
 	// Tells if the operation has been a success or a failure.
-	Success *bool `json:"success,omitempty" msgpack:"success,omitempty" bson:"-" mapstructure:"success,omitempty"`
+	Success *bool `json:"success,omitempty" msgpack:"success,omitempty" bson:"success,omitempty" mapstructure:"success,omitempty"`
 
 	// System call executed.
-	Syscall *string `json:"syscall,omitempty" msgpack:"syscall,omitempty" bson:"-" mapstructure:"syscall,omitempty"`
+	Syscall *string `json:"syscall,omitempty" msgpack:"syscall,omitempty" bson:"syscall,omitempty" mapstructure:"syscall,omitempty"`
 
 	// Date of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"timestamp,omitempty" mapstructure:"timestamp,omitempty"`
+
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+
+	// Logical storage zone. Used for sharding.
+	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -1423,12 +1807,20 @@ func (o *SparseAuditReport) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseAuditReport) Identifier() string {
 
-	return ""
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseAuditReport) SetIdentifier(id string) {
 
+	if id != "" {
+		o.ID = &id
+	} else {
+		o.ID = nil
+	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1440,6 +1832,121 @@ func (o *SparseAuditReport) GetBSON() (interface{}, error) {
 	}
 
 	s := &mongoAttributesSparseAuditReport{}
+
+	if o.AUID != nil {
+		s.AUID = o.AUID
+	}
+	if o.CWD != nil {
+		s.CWD = o.CWD
+	}
+	if o.EGID != nil {
+		s.EGID = o.EGID
+	}
+	if o.EUID != nil {
+		s.EUID = o.EUID
+	}
+	if o.EXE != nil {
+		s.EXE = o.EXE
+	}
+	if o.FSGID != nil {
+		s.FSGID = o.FSGID
+	}
+	if o.FSUID != nil {
+		s.FSUID = o.FSUID
+	}
+	if o.FilePath != nil {
+		s.FilePath = o.FilePath
+	}
+	if o.GID != nil {
+		s.GID = o.GID
+	}
+	if o.ID != nil {
+		s.ID = bson.ObjectIdHex(*o.ID)
+	}
+	if o.PER != nil {
+		s.PER = o.PER
+	}
+	if o.PID != nil {
+		s.PID = o.PID
+	}
+	if o.PPID != nil {
+		s.PPID = o.PPID
+	}
+	if o.SGID != nil {
+		s.SGID = o.SGID
+	}
+	if o.SUID != nil {
+		s.SUID = o.SUID
+	}
+	if o.UID != nil {
+		s.UID = o.UID
+	}
+	if o.A0 != nil {
+		s.A0 = o.A0
+	}
+	if o.A1 != nil {
+		s.A1 = o.A1
+	}
+	if o.A2 != nil {
+		s.A2 = o.A2
+	}
+	if o.A3 != nil {
+		s.A3 = o.A3
+	}
+	if o.Arch != nil {
+		s.Arch = o.Arch
+	}
+	if o.Arguments != nil {
+		s.Arguments = o.Arguments
+	}
+	if o.AuditProfileID != nil {
+		s.AuditProfileID = o.AuditProfileID
+	}
+	if o.AuditProfileNamespace != nil {
+		s.AuditProfileNamespace = o.AuditProfileNamespace
+	}
+	if o.Command != nil {
+		s.Command = o.Command
+	}
+	if o.EnforcerID != nil {
+		s.EnforcerID = o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		s.EnforcerNamespace = o.EnforcerNamespace
+	}
+	if o.Exit != nil {
+		s.Exit = o.Exit
+	}
+	if o.MigrationsLog != nil {
+		s.MigrationsLog = o.MigrationsLog
+	}
+	if o.ProcessingUnitID != nil {
+		s.ProcessingUnitID = o.ProcessingUnitID
+	}
+	if o.ProcessingUnitNamespace != nil {
+		s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
+	}
+	if o.RecordType != nil {
+		s.RecordType = o.RecordType
+	}
+	if o.Sequence != nil {
+		s.Sequence = o.Sequence
+	}
+	if o.Success != nil {
+		s.Success = o.Success
+	}
+	if o.Syscall != nil {
+		s.Syscall = o.Syscall
+	}
+	if o.Timestamp != nil {
+		s.Timestamp = o.Timestamp
+	}
+	if o.ZHash != nil {
+		s.ZHash = o.ZHash
+	}
+	if o.Zone != nil {
+		s.Zone = o.Zone
+	}
 
 	return s, nil
 }
@@ -1455,6 +1962,120 @@ func (o *SparseAuditReport) SetBSON(raw bson.Raw) error {
 	s := &mongoAttributesSparseAuditReport{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
+	}
+
+	if s.AUID != nil {
+		o.AUID = s.AUID
+	}
+	if s.CWD != nil {
+		o.CWD = s.CWD
+	}
+	if s.EGID != nil {
+		o.EGID = s.EGID
+	}
+	if s.EUID != nil {
+		o.EUID = s.EUID
+	}
+	if s.EXE != nil {
+		o.EXE = s.EXE
+	}
+	if s.FSGID != nil {
+		o.FSGID = s.FSGID
+	}
+	if s.FSUID != nil {
+		o.FSUID = s.FSUID
+	}
+	if s.FilePath != nil {
+		o.FilePath = s.FilePath
+	}
+	if s.GID != nil {
+		o.GID = s.GID
+	}
+	id := s.ID.Hex()
+	o.ID = &id
+	if s.PER != nil {
+		o.PER = s.PER
+	}
+	if s.PID != nil {
+		o.PID = s.PID
+	}
+	if s.PPID != nil {
+		o.PPID = s.PPID
+	}
+	if s.SGID != nil {
+		o.SGID = s.SGID
+	}
+	if s.SUID != nil {
+		o.SUID = s.SUID
+	}
+	if s.UID != nil {
+		o.UID = s.UID
+	}
+	if s.A0 != nil {
+		o.A0 = s.A0
+	}
+	if s.A1 != nil {
+		o.A1 = s.A1
+	}
+	if s.A2 != nil {
+		o.A2 = s.A2
+	}
+	if s.A3 != nil {
+		o.A3 = s.A3
+	}
+	if s.Arch != nil {
+		o.Arch = s.Arch
+	}
+	if s.Arguments != nil {
+		o.Arguments = s.Arguments
+	}
+	if s.AuditProfileID != nil {
+		o.AuditProfileID = s.AuditProfileID
+	}
+	if s.AuditProfileNamespace != nil {
+		o.AuditProfileNamespace = s.AuditProfileNamespace
+	}
+	if s.Command != nil {
+		o.Command = s.Command
+	}
+	if s.EnforcerID != nil {
+		o.EnforcerID = s.EnforcerID
+	}
+	if s.EnforcerNamespace != nil {
+		o.EnforcerNamespace = s.EnforcerNamespace
+	}
+	if s.Exit != nil {
+		o.Exit = s.Exit
+	}
+	if s.MigrationsLog != nil {
+		o.MigrationsLog = s.MigrationsLog
+	}
+	if s.ProcessingUnitID != nil {
+		o.ProcessingUnitID = s.ProcessingUnitID
+	}
+	if s.ProcessingUnitNamespace != nil {
+		o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
+	}
+	if s.RecordType != nil {
+		o.RecordType = s.RecordType
+	}
+	if s.Sequence != nil {
+		o.Sequence = s.Sequence
+	}
+	if s.Success != nil {
+		o.Success = s.Success
+	}
+	if s.Syscall != nil {
+		o.Syscall = s.Syscall
+	}
+	if s.Timestamp != nil {
+		o.Timestamp = s.Timestamp
+	}
+	if s.ZHash != nil {
+		o.ZHash = s.ZHash
+	}
+	if s.Zone != nil {
+		o.Zone = s.Zone
 	}
 
 	return nil
@@ -1496,6 +2117,9 @@ func (o *SparseAuditReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.GID != nil {
 		out.GID = *o.GID
+	}
+	if o.ID != nil {
+		out.ID = *o.ID
 	}
 	if o.PER != nil {
 		out.PER = *o.PER
@@ -1551,6 +2175,9 @@ func (o *SparseAuditReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Exit != nil {
 		out.Exit = *o.Exit
 	}
+	if o.MigrationsLog != nil {
+		out.MigrationsLog = *o.MigrationsLog
+	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID
 	}
@@ -1572,8 +2199,62 @@ func (o *SparseAuditReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp
 	}
+	if o.ZHash != nil {
+		out.ZHash = *o.ZHash
+	}
+	if o.Zone != nil {
+		out.Zone = *o.Zone
+	}
 
 	return out
+}
+
+// GetMigrationsLog returns the MigrationsLog of the receiver.
+func (o *SparseAuditReport) GetMigrationsLog() (out map[string]string) {
+
+	if o.MigrationsLog == nil {
+		return
+	}
+
+	return *o.MigrationsLog
+}
+
+// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
+func (o *SparseAuditReport) SetMigrationsLog(migrationsLog map[string]string) {
+
+	o.MigrationsLog = &migrationsLog
+}
+
+// GetZHash returns the ZHash of the receiver.
+func (o *SparseAuditReport) GetZHash() (out int) {
+
+	if o.ZHash == nil {
+		return
+	}
+
+	return *o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the address of the given value.
+func (o *SparseAuditReport) SetZHash(zHash int) {
+
+	o.ZHash = &zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *SparseAuditReport) GetZone() (out int) {
+
+	if o.Zone == nil {
+		return
+	}
+
+	return *o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the address of the given value.
+func (o *SparseAuditReport) SetZone(zone int) {
+
+	o.Zone = &zone
 }
 
 // DeepCopy returns a deep copy if the SparseAuditReport.
@@ -1601,6 +2282,82 @@ func (o *SparseAuditReport) DeepCopyInto(out *SparseAuditReport) {
 }
 
 type mongoAttributesAuditReport struct {
+	AUID                    string            `bson:"auid"`
+	CWD                     string            `bson:"cwd"`
+	EGID                    int               `bson:"egid"`
+	EUID                    int               `bson:"euid"`
+	EXE                     string            `bson:"exe"`
+	FSGID                   int               `bson:"fsgid"`
+	FSUID                   int               `bson:"fsuid"`
+	FilePath                string            `bson:"filepath"`
+	GID                     int               `bson:"gid"`
+	ID                      bson.ObjectId     `bson:"_id,omitempty"`
+	PER                     int               `bson:"per"`
+	PID                     int               `bson:"pid"`
+	PPID                    int               `bson:"ppid"`
+	SGID                    int               `bson:"sgid"`
+	SUID                    int               `bson:"suid"`
+	UID                     int               `bson:"uid"`
+	A0                      string            `bson:"a0"`
+	A1                      string            `bson:"a1"`
+	A2                      string            `bson:"a2"`
+	A3                      string            `bson:"a3"`
+	Arch                    string            `bson:"arch"`
+	Arguments               []string          `bson:"arguments"`
+	AuditProfileID          string            `bson:"auditprofileid"`
+	AuditProfileNamespace   string            `bson:"auditprofilenamespace"`
+	Command                 string            `bson:"command"`
+	EnforcerID              string            `bson:"enforcerid"`
+	EnforcerNamespace       string            `bson:"enforcernamespace"`
+	Exit                    int               `bson:"exit"`
+	MigrationsLog           map[string]string `bson:"migrationslog,omitempty"`
+	ProcessingUnitID        string            `bson:"processingunitid"`
+	ProcessingUnitNamespace string            `bson:"processingunitnamespace"`
+	RecordType              string            `bson:"recordtype"`
+	Sequence                int               `bson:"sequence"`
+	Success                 bool              `bson:"success"`
+	Syscall                 string            `bson:"syscall"`
+	Timestamp               time.Time         `bson:"timestamp"`
+	ZHash                   int               `bson:"zhash"`
+	Zone                    int               `bson:"zone"`
 }
 type mongoAttributesSparseAuditReport struct {
+	AUID                    *string            `bson:"auid,omitempty"`
+	CWD                     *string            `bson:"cwd,omitempty"`
+	EGID                    *int               `bson:"egid,omitempty"`
+	EUID                    *int               `bson:"euid,omitempty"`
+	EXE                     *string            `bson:"exe,omitempty"`
+	FSGID                   *int               `bson:"fsgid,omitempty"`
+	FSUID                   *int               `bson:"fsuid,omitempty"`
+	FilePath                *string            `bson:"filepath,omitempty"`
+	GID                     *int               `bson:"gid,omitempty"`
+	ID                      bson.ObjectId      `bson:"_id,omitempty"`
+	PER                     *int               `bson:"per,omitempty"`
+	PID                     *int               `bson:"pid,omitempty"`
+	PPID                    *int               `bson:"ppid,omitempty"`
+	SGID                    *int               `bson:"sgid,omitempty"`
+	SUID                    *int               `bson:"suid,omitempty"`
+	UID                     *int               `bson:"uid,omitempty"`
+	A0                      *string            `bson:"a0,omitempty"`
+	A1                      *string            `bson:"a1,omitempty"`
+	A2                      *string            `bson:"a2,omitempty"`
+	A3                      *string            `bson:"a3,omitempty"`
+	Arch                    *string            `bson:"arch,omitempty"`
+	Arguments               *[]string          `bson:"arguments,omitempty"`
+	AuditProfileID          *string            `bson:"auditprofileid,omitempty"`
+	AuditProfileNamespace   *string            `bson:"auditprofilenamespace,omitempty"`
+	Command                 *string            `bson:"command,omitempty"`
+	EnforcerID              *string            `bson:"enforcerid,omitempty"`
+	EnforcerNamespace       *string            `bson:"enforcernamespace,omitempty"`
+	Exit                    *int               `bson:"exit,omitempty"`
+	MigrationsLog           *map[string]string `bson:"migrationslog,omitempty"`
+	ProcessingUnitID        *string            `bson:"processingunitid,omitempty"`
+	ProcessingUnitNamespace *string            `bson:"processingunitnamespace,omitempty"`
+	RecordType              *string            `bson:"recordtype,omitempty"`
+	Sequence                *int               `bson:"sequence,omitempty"`
+	Success                 *bool              `bson:"success,omitempty"`
+	Syscall                 *string            `bson:"syscall,omitempty"`
+	Timestamp               *time.Time         `bson:"timestamp,omitempty"`
+	ZHash                   *int               `bson:"zhash,omitempty"`
+	Zone                    *int               `bson:"zone,omitempty"`
 }

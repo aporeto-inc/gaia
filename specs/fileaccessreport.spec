@@ -6,6 +6,15 @@ model:
   package: zack
   group: policy/files
   description: Post a new file access report.
+  extends:
+  - '@identifiable-stored'
+  - '@zoned'
+  - '@migratable'
+
+# Indexes
+indexes:
+- - namespace
+  - timestamp
 
 # Attributes
 attributes:
@@ -14,6 +23,7 @@ attributes:
     description: Action taken.
     type: enum
     exposed: true
+    stored: true
     required: true
     allowed_choices:
     - Accept
@@ -25,6 +35,7 @@ attributes:
     description: Host storing the file.
     type: string
     exposed: true
+    stored: true
     required: true
     default_value: localhost
 
@@ -32,6 +43,7 @@ attributes:
     description: Mode of file access.
     type: string
     exposed: true
+    stored: true
     required: true
     default_value: rxw
 
@@ -39,6 +51,7 @@ attributes:
     description: Path of the file.
     type: string
     exposed: true
+    stored: true
     required: true
     default_value: /etc/passwd
 
@@ -46,6 +59,7 @@ attributes:
     description: ID of the processing unit.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: xxx-xxx-xxx-xxx
 
@@ -53,6 +67,7 @@ attributes:
     description: Namespace of the processing unit.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: /my/ns
 
@@ -60,5 +75,6 @@ attributes:
     description: Date of the report.
     type: time
     exposed: true
+    stored: true
     required: true
     example_value: "2018-06-14T23:10:46.420397985Z"

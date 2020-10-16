@@ -7,6 +7,14 @@ model:
   group: core/enforcer
   description: Post a new enforcer trace that determines how packets are.
 
+# Indexes
+indexes:
+- - namespace
+  - timestamp
+- - namespace
+  - enforcerID
+- - enforcerID
+
 # Attributes
 attributes:
   v1:

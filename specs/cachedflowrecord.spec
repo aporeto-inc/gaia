@@ -8,6 +8,9 @@ model:
   description: Post a new cached flow record.
   extends:
   - '@flow'
+  - '@identifiable-stored'
+  - '@zoned'
+  - '@migratable'
 
 # Attributes
 attributes:
@@ -16,8 +19,16 @@ attributes:
     description: Indicates if the destination endpoint is an enforcer-local processing unit.
     type: boolean
     exposed: true
+    stored: true
+    omit_empty: true
+    extensions:
+      bson_name: ai
 
   - name: isLocalSourceID
     description: Indicates if the source endpoint is an enforcer-local processing unit.
     type: boolean
     exposed: true
+    stored: true
+    omit_empty: true
+    extensions:
+      bson_name: aj

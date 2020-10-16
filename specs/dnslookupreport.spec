@@ -10,6 +10,15 @@ model:
     behalf of a processing unit. If the DNS server is on the standard UDP port 53
     then the enforcer can proxy the DNS traffic and make a report. The report
     indicate whether or not the lookup was successful.
+  extends:
+  - '@identifiable-stored'
+  - '@zoned'
+  - '@migratable'
+
+# Indexes
+indexes:
+- - namespace
+  - timestamp
 
 # Attributes
 attributes:
@@ -18,6 +27,7 @@ attributes:
     description: Action of the DNS request.
     type: enum
     exposed: true
+    stored: true
     required: true
     allowed_choices:
     - Accept
@@ -28,11 +38,13 @@ attributes:
     description: ID of the enforcer.
     type: string
     exposed: true
+    stored: true
 
   - name: enforcerNamespace
     description: Namespace of the enforcer.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: /my/namespace
 
@@ -40,6 +52,7 @@ attributes:
     description: ID of the PU.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: xxx-xxx-xxx
 
@@ -47,6 +60,7 @@ attributes:
     description: Namespace of the PU.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: /my/namespace
 
@@ -56,11 +70,13 @@ attributes:
       failure.
     type: string
     exposed: true
+    stored: true
 
   - name: resolvedName
     description: name used for DNS resolution.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: www.google.com
 
@@ -68,6 +84,7 @@ attributes:
     description: Type of the source.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: 10.0.0.1
 
@@ -75,10 +92,12 @@ attributes:
     description: Time and date of the log.
     type: time
     exposed: true
+    stored: true
 
   - name: value
     description: Number of times the client saw this activity.
     type: integer
     exposed: true
+    stored: true
     required: true
     example_value: 1

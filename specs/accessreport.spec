@@ -6,6 +6,15 @@ model:
   package: zack
   group: policy/access
   description: Represents any access made by the user.
+  extends:
+  - '@identifiable-stored'
+  - '@zoned'
+  - '@migratable'
+
+# Indexes
+indexes:
+- - namespace
+  - timestamp
 
 # Attributes
 attributes:
@@ -14,6 +23,7 @@ attributes:
     description: Action applied to the access.
     type: enum
     exposed: true
+    stored: true
     required: true
     allowed_choices:
     - Accept
@@ -24,11 +34,13 @@ attributes:
     description: Hash of the claims used to communicate.
     type: string
     exposed: true
+    stored: true
 
   - name: enforcerID
     description: Identifier of the enforcer.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: xxx-xxx-xxx
 
@@ -36,6 +48,7 @@ attributes:
     description: Namespace of the enforcer.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: /my/namespace
 
@@ -43,18 +56,21 @@ attributes:
     description: ID of the processing unit of the report.
     type: string
     exposed: true
+    stored: true
     example_value: xxx-xxx-xxx-xxx
 
   - name: processingUnitName
     description: Name of the processing unit of the report.
     type: string
     exposed: true
+    stored: true
     example_value: pu1
 
   - name: processingUnitNamespace
     description: Namespace of the processing unit of the report.
     type: string
     exposed: true
+    stored: true
     example_value: /my/ns
 
   - name: reason
@@ -63,16 +79,19 @@ attributes:
       for the rejection.
     type: string
     exposed: true
+    stored: true
 
   - name: timestamp
     description: Date of the report.
     type: time
     exposed: true
+    stored: true
 
   - name: type
     description: Type of the report.
     type: enum
     exposed: true
+    stored: true
     required: true
     allowed_choices:
     - SSHLogin

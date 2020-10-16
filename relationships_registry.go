@@ -1480,7 +1480,14 @@ func init() {
 
 	relationshipsRegistry[FlowReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "ingestionMode",
+						Type: "string",
+					},
+				},
+			},
 		},
 	}
 
@@ -2713,6 +2720,74 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[MetricsIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						{
+							{
+								"query",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "end",
+						Type: "string",
+					},
+					{
+						Name: "query",
+						Type: "string",
+					},
+					{
+						Name: "start",
+						Type: "string",
+					},
+					{
+						Name: "step",
+						Type: "string",
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						{
+							{
+								"query",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "end",
+						Type: "string",
+					},
+					{
+						Name: "query",
+						Type: "string",
+					},
+					{
+						Name: "start",
+						Type: "string",
+					},
+					{
+						Name: "step",
+						Type: "string",
+					},
+				},
+			},
+		},
+	}
+
 	relationshipsRegistry[NamespaceIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
@@ -3804,6 +3879,59 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[ReportsQueryIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						{
+							{
+								"endRelative",
+							},
+							{
+								"startRelative",
+							},
+							{
+								"startRelative",
+								"endRelative",
+							},
+							{
+								"startRelative",
+								"endAbsolute",
+							},
+							{
+								"startAbsolute",
+								"endRelative",
+							},
+							{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					{
+						Name: "startRelative",
+						Type: "duration",
+					},
+				},
+			},
+		},
+	}
+
 	relationshipsRegistry[RevocationIdentity] = &elemental.Relationship{
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": {},
@@ -4520,6 +4648,9 @@ func init() {
 
 	relationshipsRegistry[TenantIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
 	}

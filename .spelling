@@ -107,6 +107,8 @@ Microsegmentation
 microservice
 Midgard
 MongoDB
+multipart
+namespace
 NamespaceMappingPolicy
 NamespaceRenderer
 NamespaceUnique
@@ -161,6 +163,9 @@ QuotaCheck
 QuotaCheck
 QuotaPolicy
 RecipeOptions
+reportsquery
+ReportsQuery
+ReportsQueryResults
 RedHat
 Redis
 RemotePingProbe
@@ -189,6 +194,8 @@ TagValue
 TimeSeriesQueryResults
 TimeSeriesRow
 Timestamp
+timestamp
+TLSType
 TokenEndpointAuthMethodsSupported
 TokenScopePolicy
 TraceMode
@@ -318,6 +325,7 @@ whitelisted
 whitelisting
 x509
 xip.io
+x-www-form-urlencoded
 xxhash
 yaml
 yy

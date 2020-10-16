@@ -8,6 +8,10 @@ model:
   description: |-
     Can be used to create a tenant's namespace and API authorization policy to grant
     access.
+  delete:
+    description: Delete the tenant with the given namespace ID.
+  extends:
+  - '@identifiable-not-stored'
 
 # Attributes
 attributes:
@@ -28,4 +32,4 @@ attributes:
     allowed_chars: ^[a-zA-Z0-9-_/]+$
     allowed_chars_message: must only contain alpha numerical characters, '-' or '_'
     example_value: acme
-    transient: true
+    max_length: 231

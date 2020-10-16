@@ -328,6 +328,12 @@ relations:
 - rest_name: flowreport
   create:
     description: Create a flow statistics report.
+    parameters:
+      entries:
+      - name: ingestionMode
+        description: If set, can override the ingestion mode for report storage.
+        type: string
+        example_value: mongovictoria
 
 - rest_name: graphedge
   get:
@@ -562,6 +568,44 @@ relations:
   create:
     description: Creates a new message.
 
+- rest_name: metrics
+  get:
+    description: |-
+      Evaluates an expression query over a range of time returning a "matrix" result
+      type.
+    parameters:
+      required:
+      - - - query
+      entries:
+      - name: end
+        description: End timestamp <rfc3339 | unix_timestamp>.
+        type: string
+        example_value: "2015-07-01T20:11:00.781Z"
+
+      - name: query
+        description: Prometheus expression query string.
+        type: string
+        example_value: flows{namespace=~"/mycompany.*"}
+
+      - name: start
+        description: Start timestamp <rfc3339 | unix_timestamp>.
+        type: string
+        example_value: "2015-07-01T20:10:30.781Z"
+
+      - name: step
+        description: Query resolution step width in duration format or float number
+          of seconds.
+        type: string
+        example_value: 15s
+  create:
+    description: |-
+      Evaluates an expression query over a range of time returning a "matrix" result.
+      This has the same behavior as the GET request, however it is useful when
+      specifying a large query that may breach server-side URL character limits. In
+      such a case, you can URL-encode the parameters that would be used for a GET
+      request directly in the request body by using the POST method and Content-Type:
+      application/x-www-form-urlencoded header.
+
 - rest_name: namespace
   get:
     description: Retrieves the list of namespaces.
@@ -742,6 +786,12 @@ relations:
 - rest_name: report
   create:
     description: Create a statistics report.
+
+- rest_name: reportsquery
+  create:
+    description: Sends a query on report data.
+    global_parameters:
+    - $timewindow
 
 - rest_name: revocation
   get:
