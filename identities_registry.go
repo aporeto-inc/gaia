@@ -518,7 +518,6 @@ var (
 		},
 		"awsregister": nil,
 		"cachedflowrecord": {
-			{"remotenamespace", "timestamp"},
 			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},

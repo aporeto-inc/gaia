@@ -12,3 +12,7 @@ model:
   - '@zoned'
   - '@migratable'
   
+# Indexes
+indexes:
+- - remotenamespace
+  - timestamp

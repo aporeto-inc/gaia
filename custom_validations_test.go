@@ -3131,7 +3131,7 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			"invalid",
+			"invalid-flag",
 			args{
 				cachedFlowRecord: &CachedFlowRecord{
 					IsLocalDestinationID: false,
@@ -3145,7 +3145,35 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 			true,
 		},
 		{
-			"valid1",
+			"invalid-type-1",
+			args{
+				cachedFlowRecord: &CachedFlowRecord{
+					IsLocalDestinationID: true,
+					DestinationID:        "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					DestinationType:      CachedFlowRecordDestinationTypeExternalNetwork,
+					IsLocalSourceID:      false,
+					SourceID:             "5f863169e767b10001b0bb1b",
+					SourceType:           CachedFlowRecordSourceTypeProcessingUnit,
+				},
+			},
+			true,
+		},
+		{
+			"invalid-type-2",
+			args{
+				cachedFlowRecord: &CachedFlowRecord{
+					IsLocalDestinationID: false,
+					DestinationID:        "5f863169e767b10001b0bb1a",
+					DestinationType:      CachedFlowRecordDestinationTypeProcessingUnit,
+					IsLocalSourceID:      true,
+					SourceID:             "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					SourceType:           CachedFlowRecordSourceTypeExternalNetwork,
+				},
+			},
+			true,
+		},
+		{
+			"valid-1",
 			args{
 				cachedFlowRecord: &CachedFlowRecord{
 					IsLocalDestinationID: true,
@@ -3159,7 +3187,7 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 			false,
 		},
 		{
-			"valid2",
+			"valid-2",
 			args{
 				cachedFlowRecord: &CachedFlowRecord{
 					IsLocalDestinationID: false,
@@ -3173,7 +3201,7 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 			false,
 		},
 		{
-			"valid3",
+			"valid-3",
 			args{
 				cachedFlowRecord: &CachedFlowRecord{
 					IsLocalDestinationID: true,

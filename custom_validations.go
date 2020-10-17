@@ -1107,11 +1107,20 @@ func ValidateUIParameters(p *UIParameter) error {
 	return nil
 }
 
-// ValidateCachedFlowRecord validates that a CachedFlowRecord has at least one local PU.
+// ValidateCachedFlowRecord validates a CachedFlowRecord.
 func ValidateCachedFlowRecord(cachedFlowRecord *CachedFlowRecord) error {
 
+	// a CachedFlowRecord must have at least one local PU
 	if !cachedFlowRecord.IsLocalDestinationID && !cachedFlowRecord.IsLocalSourceID {
 		return makeValidationError("IsLocalSourceID", "At least one of 'IsLocalDestinationID' and 'IsLocalSourceID' must be true")
+	}
+
+	// verify type for local PU(s)
+	if cachedFlowRecord.IsLocalDestinationID && cachedFlowRecord.DestinationType != CachedFlowRecordDestinationTypeProcessingUnit {
+		return makeValidationError("IsLocalDestinationID", "'IsLocalDestinationID' must only apply to ProcessingUnits")
+	}
+	if cachedFlowRecord.IsLocalSourceID && cachedFlowRecord.SourceType != CachedFlowRecordSourceTypeProcessingUnit {
+		return makeValidationError("IsLocalSourceID", "'IsLocalSourceID' must only apply to ProcessingUnits")
 	}
 
 	return nil
