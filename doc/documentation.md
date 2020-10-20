@@ -6275,6 +6275,14 @@ Type: `time`
 
 The date and time of the last policy resolution.
 
+##### `localID`
+
+Type: `string`
+
+The local PUID set by enforcer. Enforcer may create a local PU if it cannot talk to the backend.
+When eventually the backend is able to create the PU, the localID will be used to convert a
+CachedFlowReport containing a local PUID to a real FlowReport.
+
 ##### `metadata` [`creation_only`]
 
 Type: `[]string`

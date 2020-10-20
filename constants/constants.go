@@ -451,12 +451,3 @@ const (
 	// ValidationConstraintViolationKey is added in elemental errors when having a constraint violation.
 	ValidationConstraintViolationKey = "constraintViolation"
 )
-
-// Annotation names
-const (
-	// AnnotationLocalPUID is set by enforcer to indicate the local PUID that backend should use to resolve CachedFlowRecords.
-	// Enforcer may create a local PU if it cannot talk to the backend. In this case, enforcer will assign a local PUID
-	// to this PU, and when eventually the backend is able to create the PU it will expect to see this annotation. This way
-	// it can convert a CachedFlowRecord containing a local PUID to a real FlowReport.
-	AnnotationLocalPUID = "io:aporeto:enforcer:localpuid"
-)

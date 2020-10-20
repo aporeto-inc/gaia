@@ -225,6 +225,11 @@ type ProcessingUnit struct {
 	// The date and time of the last policy resolution.
 	LastSyncTime time.Time `json:"lastSyncTime" msgpack:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
 
+	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot talk to the backend.
+	// When eventually the backend is able to create the PU, the localID will be used to convert a
+	// CachedFlowReport containing a local PUID to a real FlowReport.
+	LocalID string `json:"localID,omitempty" msgpack:"localID,omitempty" bson:"localid,omitempty" mapstructure:"localID,omitempty"`
+
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -298,12 +303,12 @@ func NewProcessingUnit() *ProcessingUnit {
 		CollectedInfo:     map[string]string{},
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
 		DatapathType:      ProcessingUnitDatapathTypeAporeto,
+		NetworkServices:   []*ProcessingUnitService{},
 		NormalizedTags:    []string{},
+		Images:            []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 		Tracing:           NewTraceMode(),
 		MigrationsLog:     map[string]string{},
-		NetworkServices:   []*ProcessingUnitService{},
-		Images:            []string{},
 		Metadata:          []string{},
 		Vulnerabilities:   []string{},
 	}
@@ -356,6 +361,7 @@ func (o *ProcessingUnit) GetBSON() (interface{}, error) {
 	s.Images = o.Images
 	s.LastCollectionTime = o.LastCollectionTime
 	s.LastSyncTime = o.LastSyncTime
+	s.LocalID = o.LocalID
 	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
@@ -406,6 +412,7 @@ func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
 	o.Images = s.Images
 	o.LastCollectionTime = s.LastCollectionTime
 	o.LastSyncTime = s.LastSyncTime
+	o.LocalID = s.LocalID
 	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
@@ -693,6 +700,7 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			LastCollectionTime:   &o.LastCollectionTime,
 			LastLocalTimestamp:   &o.LastLocalTimestamp,
 			LastSyncTime:         &o.LastSyncTime,
+			LocalID:              &o.LocalID,
 			Metadata:             &o.Metadata,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
@@ -754,6 +762,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.LastLocalTimestamp = &(o.LastLocalTimestamp)
 		case "lastSyncTime":
 			sp.LastSyncTime = &(o.LastSyncTime)
+		case "localID":
+			sp.LocalID = &(o.LocalID)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "migrationsLog":
@@ -857,6 +867,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.LastSyncTime != nil {
 		o.LastSyncTime = *so.LastSyncTime
+	}
+	if so.LocalID != nil {
+		o.LocalID = *so.LocalID
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -1070,6 +1083,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.LastLocalTimestamp
 	case "lastSyncTime":
 		return o.LastSyncTime
+	case "localID":
+		return o.LocalID
 	case "metadata":
 		return o.Metadata
 	case "migrationsLog":
@@ -1334,6 +1349,17 @@ enforcer is enforcing a host service. ` + "`" + `Failed` + "`" + `.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"LocalID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "LocalID",
+		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot talk to the backend. 
+When eventually the backend is able to create the PU, the localID will be used to convert a 
+CachedFlowReport containing a local PUID to a real FlowReport.`,
+		Exposed: true,
+		Name:    "localID",
+		Stored:  true,
+		Type:    "string",
 	},
 	"Metadata": {
 		AllowedChoices: []string{},
@@ -1796,6 +1822,18 @@ enforcer is enforcing a host service. ` + "`" + `Failed` + "`" + `.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"localid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "localid",
+		ConvertedName:  "LocalID",
+		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot talk to the backend. 
+When eventually the backend is able to create the PU, the localID will be used to convert a 
+CachedFlowReport containing a local PUID to a real FlowReport.`,
+		Exposed: true,
+		Name:    "localID",
+		Stored:  true,
+		Type:    "string",
+	},
 	"metadata": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "metadata",
@@ -2163,6 +2201,11 @@ type SparseProcessingUnit struct {
 	// The date and time of the last policy resolution.
 	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" msgpack:"lastSyncTime,omitempty" bson:"lastsynctime,omitempty" mapstructure:"lastSyncTime,omitempty"`
 
+	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot talk to the backend.
+	// When eventually the backend is able to create the PU, the localID will be used to convert a
+	// CachedFlowReport containing a local PUID to a real FlowReport.
+	LocalID *string `json:"localID,omitempty" msgpack:"localID,omitempty" bson:"localid,omitempty" mapstructure:"localID,omitempty"`
+
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
@@ -2317,6 +2360,9 @@ func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
 	if o.LastSyncTime != nil {
 		s.LastSyncTime = o.LastSyncTime
 	}
+	if o.LocalID != nil {
+		s.LocalID = o.LocalID
+	}
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
 	}
@@ -2431,6 +2477,9 @@ func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
 	}
 	if s.LastSyncTime != nil {
 		o.LastSyncTime = s.LastSyncTime
+	}
+	if s.LocalID != nil {
+		o.LocalID = s.LocalID
 	}
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
@@ -2550,6 +2599,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.LastSyncTime != nil {
 		out.LastSyncTime = *o.LastSyncTime
+	}
+	if o.LocalID != nil {
+		out.LocalID = *o.LocalID
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -2920,6 +2972,7 @@ type mongoAttributesProcessingUnit struct {
 	Images               []string                             `bson:"images"`
 	LastCollectionTime   time.Time                            `bson:"lastcollectiontime"`
 	LastSyncTime         time.Time                            `bson:"lastsynctime"`
+	LocalID              string                               `bson:"localid,omitempty"`
 	Metadata             []string                             `bson:"metadata"`
 	MigrationsLog        map[string]string                    `bson:"migrationslog,omitempty"`
 	Name                 string                               `bson:"name"`
@@ -2955,6 +3008,7 @@ type mongoAttributesSparseProcessingUnit struct {
 	Images               *[]string                             `bson:"images,omitempty"`
 	LastCollectionTime   *time.Time                            `bson:"lastcollectiontime,omitempty"`
 	LastSyncTime         *time.Time                            `bson:"lastsynctime,omitempty"`
+	LocalID              *string                               `bson:"localid,omitempty"`
 	Metadata             *[]string                             `bson:"metadata,omitempty"`
 	MigrationsLog        *map[string]string                    `bson:"migrationslog,omitempty"`
 	Name                 *string                               `bson:"name,omitempty"`
