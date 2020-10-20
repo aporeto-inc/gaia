@@ -232,6 +232,7 @@ backend
 base64-encoded
 bolded
 claims_supported
+clientLocalID
 clob
 collectionID
 containerd
@@ -268,7 +269,6 @@ kubelet
 kubernetes-api
 kubernetes-api-example
 localhost
-localID
 loopback
 macOS
 metadata

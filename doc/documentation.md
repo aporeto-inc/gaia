@@ -6166,6 +6166,14 @@ Type: `[]string`
 
 List of tags attached to an entity.
 
+##### `clientLocalID`
+
+Type: `string`
+
+The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the
+Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU,
+the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
+
 ##### `collectInfo`
 
 Type: `boolean`
@@ -6274,14 +6282,6 @@ Time and date of the processing unit set by the enforcer.
 Type: `time`
 
 The date and time of the last policy resolution.
-
-##### `localID`
-
-Type: `string`
-
-The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the
-Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU,
-the localID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
 
 ##### `metadata` [`creation_only`]
 

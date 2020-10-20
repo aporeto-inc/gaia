@@ -169,6 +169,11 @@ type ProcessingUnit struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the
+	// Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU,
+	// the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
+	ClientLocalID string `json:"clientLocalID,omitempty" msgpack:"clientLocalID,omitempty" bson:"clientlocalid,omitempty" mapstructure:"clientLocalID,omitempty"`
+
 	// A value of `true` indicates to the enforcer that it needs to collect information
 	// for this processing unit.
 	CollectInfo bool `json:"collectInfo" msgpack:"collectInfo" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
@@ -224,11 +229,6 @@ type ProcessingUnit struct {
 
 	// The date and time of the last policy resolution.
 	LastSyncTime time.Time `json:"lastSyncTime" msgpack:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
-
-	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the
-	// Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU,
-	// the localID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
-	LocalID string `json:"localID,omitempty" msgpack:"localID,omitempty" bson:"localid,omitempty" mapstructure:"localID,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -299,16 +299,16 @@ func NewProcessingUnit() *ProcessingUnit {
 	return &ProcessingUnit{
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
-		AssociatedTags:    []string{},
 		CollectedInfo:     map[string]string{},
+		AssociatedTags:    []string{},
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
 		DatapathType:      ProcessingUnitDatapathTypeAporeto,
-		NetworkServices:   []*ProcessingUnitService{},
 		NormalizedTags:    []string{},
-		Images:            []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 		Tracing:           NewTraceMode(),
 		MigrationsLog:     map[string]string{},
+		NetworkServices:   []*ProcessingUnitService{},
+		Images:            []string{},
 		Metadata:          []string{},
 		Vulnerabilities:   []string{},
 	}
@@ -348,6 +348,7 @@ func (o *ProcessingUnit) GetBSON() (interface{}, error) {
 	s.Annotations = o.Annotations
 	s.Archived = o.Archived
 	s.AssociatedTags = o.AssociatedTags
+	s.ClientLocalID = o.ClientLocalID
 	s.CollectInfo = o.CollectInfo
 	s.CollectedInfo = o.CollectedInfo
 	s.Controller = o.Controller
@@ -361,7 +362,6 @@ func (o *ProcessingUnit) GetBSON() (interface{}, error) {
 	s.Images = o.Images
 	s.LastCollectionTime = o.LastCollectionTime
 	s.LastSyncTime = o.LastSyncTime
-	s.LocalID = o.LocalID
 	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
@@ -399,6 +399,7 @@ func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
 	o.Annotations = s.Annotations
 	o.Archived = s.Archived
 	o.AssociatedTags = s.AssociatedTags
+	o.ClientLocalID = s.ClientLocalID
 	o.CollectInfo = s.CollectInfo
 	o.CollectedInfo = s.CollectedInfo
 	o.Controller = s.Controller
@@ -412,7 +413,6 @@ func (o *ProcessingUnit) SetBSON(raw bson.Raw) error {
 	o.Images = s.Images
 	o.LastCollectionTime = s.LastCollectionTime
 	o.LastSyncTime = s.LastSyncTime
-	o.LocalID = s.LocalID
 	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
@@ -685,6 +685,7 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			Annotations:          &o.Annotations,
 			Archived:             &o.Archived,
 			AssociatedTags:       &o.AssociatedTags,
+			ClientLocalID:        &o.ClientLocalID,
 			CollectInfo:          &o.CollectInfo,
 			CollectedInfo:        &o.CollectedInfo,
 			Controller:           &o.Controller,
@@ -700,7 +701,6 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			LastCollectionTime:   &o.LastCollectionTime,
 			LastLocalTimestamp:   &o.LastLocalTimestamp,
 			LastSyncTime:         &o.LastSyncTime,
-			LocalID:              &o.LocalID,
 			Metadata:             &o.Metadata,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
@@ -732,6 +732,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Archived = &(o.Archived)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "clientLocalID":
+			sp.ClientLocalID = &(o.ClientLocalID)
 		case "collectInfo":
 			sp.CollectInfo = &(o.CollectInfo)
 		case "collectedInfo":
@@ -762,8 +764,6 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.LastLocalTimestamp = &(o.LastLocalTimestamp)
 		case "lastSyncTime":
 			sp.LastSyncTime = &(o.LastSyncTime)
-		case "localID":
-			sp.LocalID = &(o.LocalID)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "migrationsLog":
@@ -823,6 +823,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
+	if so.ClientLocalID != nil {
+		o.ClientLocalID = *so.ClientLocalID
+	}
 	if so.CollectInfo != nil {
 		o.CollectInfo = *so.CollectInfo
 	}
@@ -867,9 +870,6 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.LastSyncTime != nil {
 		o.LastSyncTime = *so.LastSyncTime
-	}
-	if so.LocalID != nil {
-		o.LocalID = *so.LocalID
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -1053,6 +1053,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.Archived
 	case "associatedTags":
 		return o.AssociatedTags
+	case "clientLocalID":
+		return o.ClientLocalID
 	case "collectInfo":
 		return o.CollectInfo
 	case "collectedInfo":
@@ -1083,8 +1085,6 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.LastLocalTimestamp
 	case "lastSyncTime":
 		return o.LastSyncTime
-	case "localID":
-		return o.LocalID
 	case "metadata":
 		return o.Metadata
 	case "migrationsLog":
@@ -1173,6 +1173,17 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"ClientLocalID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ClientLocalID",
+		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the 
+Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU, 
+the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.`,
+		Exposed: true,
+		Name:    "clientLocalID",
+		Stored:  true,
+		Type:    "string",
 	},
 	"CollectInfo": {
 		AllowedChoices: []string{},
@@ -1349,17 +1360,6 @@ enforcer is enforcing a host service. ` + "`" + `Failed` + "`" + `.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"LocalID": {
-		AllowedChoices: []string{},
-		ConvertedName:  "LocalID",
-		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the 
-Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU, 
-the localID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.`,
-		Exposed: true,
-		Name:    "localID",
-		Stored:  true,
-		Type:    "string",
 	},
 	"Metadata": {
 		AllowedChoices: []string{},
@@ -1633,6 +1633,18 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		SubType:        "string",
 		Type:           "list",
 	},
+	"clientlocalid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "clientlocalid",
+		ConvertedName:  "ClientLocalID",
+		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the 
+Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU, 
+the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.`,
+		Exposed: true,
+		Name:    "clientLocalID",
+		Stored:  true,
+		Type:    "string",
+	},
 	"collectinfo": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "collectinfo",
@@ -1821,18 +1833,6 @@ enforcer is enforcing a host service. ` + "`" + `Failed` + "`" + `.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"localid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "localid",
-		ConvertedName:  "LocalID",
-		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the 
-Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU, 
-the localID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.`,
-		Exposed: true,
-		Name:    "localID",
-		Stored:  true,
-		Type:    "string",
 	},
 	"metadata": {
 		AllowedChoices: []string{},
@@ -2145,6 +2145,11 @@ type SparseProcessingUnit struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
+	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the
+	// Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU,
+	// the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
+	ClientLocalID *string `json:"clientLocalID,omitempty" msgpack:"clientLocalID,omitempty" bson:"clientlocalid,omitempty" mapstructure:"clientLocalID,omitempty"`
+
 	// A value of `true` indicates to the enforcer that it needs to collect information
 	// for this processing unit.
 	CollectInfo *bool `json:"collectInfo,omitempty" msgpack:"collectInfo,omitempty" bson:"collectinfo,omitempty" mapstructure:"collectInfo,omitempty"`
@@ -2200,11 +2205,6 @@ type SparseProcessingUnit struct {
 
 	// The date and time of the last policy resolution.
 	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" msgpack:"lastSyncTime,omitempty" bson:"lastsynctime,omitempty" mapstructure:"lastSyncTime,omitempty"`
-
-	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the
-	// Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU,
-	// the localID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
-	LocalID *string `json:"localID,omitempty" msgpack:"localID,omitempty" bson:"localid,omitempty" mapstructure:"localID,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -2321,6 +2321,9 @@ func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
 	}
+	if o.ClientLocalID != nil {
+		s.ClientLocalID = o.ClientLocalID
+	}
 	if o.CollectInfo != nil {
 		s.CollectInfo = o.CollectInfo
 	}
@@ -2359,9 +2362,6 @@ func (o *SparseProcessingUnit) GetBSON() (interface{}, error) {
 	}
 	if o.LastSyncTime != nil {
 		s.LastSyncTime = o.LastSyncTime
-	}
-	if o.LocalID != nil {
-		s.LocalID = o.LocalID
 	}
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
@@ -2439,6 +2439,9 @@ func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
 	}
+	if s.ClientLocalID != nil {
+		o.ClientLocalID = s.ClientLocalID
+	}
 	if s.CollectInfo != nil {
 		o.CollectInfo = s.CollectInfo
 	}
@@ -2477,9 +2480,6 @@ func (o *SparseProcessingUnit) SetBSON(raw bson.Raw) error {
 	}
 	if s.LastSyncTime != nil {
 		o.LastSyncTime = s.LastSyncTime
-	}
-	if s.LocalID != nil {
-		o.LocalID = s.LocalID
 	}
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
@@ -2555,6 +2555,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
+	if o.ClientLocalID != nil {
+		out.ClientLocalID = *o.ClientLocalID
+	}
 	if o.CollectInfo != nil {
 		out.CollectInfo = *o.CollectInfo
 	}
@@ -2599,9 +2602,6 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.LastSyncTime != nil {
 		out.LastSyncTime = *o.LastSyncTime
-	}
-	if o.LocalID != nil {
-		out.LocalID = *o.LocalID
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -2959,6 +2959,7 @@ type mongoAttributesProcessingUnit struct {
 	Annotations          map[string][]string                  `bson:"annotations"`
 	Archived             bool                                 `bson:"archived"`
 	AssociatedTags       []string                             `bson:"associatedtags"`
+	ClientLocalID        string                               `bson:"clientlocalid,omitempty"`
 	CollectInfo          bool                                 `bson:"collectinfo"`
 	CollectedInfo        map[string]string                    `bson:"collectedinfo"`
 	Controller           string                               `bson:"controller"`
@@ -2972,7 +2973,6 @@ type mongoAttributesProcessingUnit struct {
 	Images               []string                             `bson:"images"`
 	LastCollectionTime   time.Time                            `bson:"lastcollectiontime"`
 	LastSyncTime         time.Time                            `bson:"lastsynctime"`
-	LocalID              string                               `bson:"localid,omitempty"`
 	Metadata             []string                             `bson:"metadata"`
 	MigrationsLog        map[string]string                    `bson:"migrationslog,omitempty"`
 	Name                 string                               `bson:"name"`
@@ -2995,6 +2995,7 @@ type mongoAttributesSparseProcessingUnit struct {
 	Annotations          *map[string][]string                  `bson:"annotations,omitempty"`
 	Archived             *bool                                 `bson:"archived,omitempty"`
 	AssociatedTags       *[]string                             `bson:"associatedtags,omitempty"`
+	ClientLocalID        *string                               `bson:"clientlocalid,omitempty"`
 	CollectInfo          *bool                                 `bson:"collectinfo,omitempty"`
 	CollectedInfo        *map[string]string                    `bson:"collectedinfo,omitempty"`
 	Controller           *string                               `bson:"controller,omitempty"`
@@ -3008,7 +3009,6 @@ type mongoAttributesSparseProcessingUnit struct {
 	Images               *[]string                             `bson:"images,omitempty"`
 	LastCollectionTime   *time.Time                            `bson:"lastcollectiontime,omitempty"`
 	LastSyncTime         *time.Time                            `bson:"lastsynctime,omitempty"`
-	LocalID              *string                               `bson:"localid,omitempty"`
 	Metadata             *[]string                             `bson:"metadata,omitempty"`
 	MigrationsLog        *map[string]string                    `bson:"migrationslog,omitempty"`
 	Name                 *string                               `bson:"name,omitempty"`
