@@ -758,7 +758,18 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[ConnectionExceptionReportIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[ConnectionExceptionReportIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "ingestionMode",
+						Type: "string",
+					},
+				},
+			},
+		},
+	}
 
 	relationshipsRegistry[CounterReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{

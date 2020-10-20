@@ -200,6 +200,16 @@ relations:
   create:
     description: Performs a clause matching.
 
+- rest_name: connectionexceptionreport
+  create:
+    description: Create a connection exception report.
+    parameters:
+      entries:
+      - name: ingestionMode
+        description: If set, can override the ingestion mode for report storage.
+        type: string
+        example_value: mongovictoria
+
 - rest_name: counterreport
   create:
     description: Create a counter report.

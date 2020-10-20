@@ -35,6 +35,7 @@ attributes:
     - Packets
     - DNSLookups
     - PingReports
+    - ConnectionExceptions
     default_value: Flows
 
   - name: tags
