@@ -1117,10 +1117,14 @@ func ValidateCachedFlowRecord(cachedFlowRecord *CachedFlowRecord) error {
 
 	// verify type for local PU(s)
 	if cachedFlowRecord.IsLocalDestinationID && cachedFlowRecord.DestinationType != CachedFlowRecordDestinationTypeProcessingUnit {
-		return makeValidationError("IsLocalDestinationID", "'IsLocalDestinationID' must only apply to ProcessingUnits")
+		return makeValidationError("IsLocalDestinationID",
+			fmt.Sprintf("'IsLocalDestinationID' cannot be set for DestinationType %s. It is only applicable to DestinationType %s",
+				cachedFlowRecord.DestinationType, CachedFlowRecordDestinationTypeProcessingUnit))
 	}
 	if cachedFlowRecord.IsLocalSourceID && cachedFlowRecord.SourceType != CachedFlowRecordSourceTypeProcessingUnit {
-		return makeValidationError("IsLocalSourceID", "'IsLocalSourceID' must only apply to ProcessingUnits")
+		return makeValidationError("IsLocalSourceID",
+			fmt.Sprintf("'IsLocalSourceID' cannot be set for SourceType %s. It is only applicable to SourceType %s",
+				cachedFlowRecord.SourceType, CachedFlowRecordSourceTypeProcessingUnit))
 	}
 
 	return nil
