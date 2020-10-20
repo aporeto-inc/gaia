@@ -16,8 +16,8 @@ model:
 
 # Indexes
 indexes:
-- - isLocalDestinationID
-- - isLocalSourceID
+- - destinationID
+- - sourceID
 
 # Attributes
 attributes:
