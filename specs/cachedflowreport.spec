@@ -14,6 +14,11 @@ model:
   validations:
   - $cachedflowreport
 
+# Indexes
+indexes:
+- - isLocalDestinationID
+- - isLocalSourceID
+
 # Attributes
 attributes:
   v1:

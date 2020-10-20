@@ -519,6 +519,8 @@ var (
 		"awsregister": nil,
 		"cachedflowreport": {
 			{"namespace", "timestamp"},
+			{"isLocalSourceID"},
+			{"isLocalDestinationID"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"call":     nil,
