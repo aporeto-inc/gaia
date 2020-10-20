@@ -225,9 +225,9 @@ type ProcessingUnit struct {
 	// The date and time of the last policy resolution.
 	LastSyncTime time.Time `json:"lastSyncTime" msgpack:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
 
-	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot talk to the backend.
-	// When eventually the backend is able to create the PU, the localID will be used to convert a
-	// CachedFlowReport containing a local PUID to a real FlowReport.
+	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the
+	// Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU,
+	// the localID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
 	LocalID string `json:"localID,omitempty" msgpack:"localID,omitempty" bson:"localid,omitempty" mapstructure:"localID,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
@@ -1353,9 +1353,9 @@ enforcer is enforcing a host service. ` + "`" + `Failed` + "`" + `.`,
 	"LocalID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "LocalID",
-		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot talk to the backend. 
-When eventually the backend is able to create the PU, the localID will be used to convert a 
-CachedFlowReport containing a local PUID to a real FlowReport.`,
+		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the 
+Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU, 
+the localID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.`,
 		Exposed: true,
 		Name:    "localID",
 		Stored:  true,
@@ -1826,9 +1826,9 @@ enforcer is enforcing a host service. ` + "`" + `Failed` + "`" + `.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "localid",
 		ConvertedName:  "LocalID",
-		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot talk to the backend. 
-When eventually the backend is able to create the PU, the localID will be used to convert a 
-CachedFlowReport containing a local PUID to a real FlowReport.`,
+		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the 
+Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU, 
+the localID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.`,
 		Exposed: true,
 		Name:    "localID",
 		Stored:  true,
@@ -2201,9 +2201,9 @@ type SparseProcessingUnit struct {
 	// The date and time of the last policy resolution.
 	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" msgpack:"lastSyncTime,omitempty" bson:"lastsynctime,omitempty" mapstructure:"lastSyncTime,omitempty"`
 
-	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot talk to the backend.
-	// When eventually the backend is able to create the PU, the localID will be used to convert a
-	// CachedFlowReport containing a local PUID to a real FlowReport.
+	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the
+	// Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU,
+	// the localID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
 	LocalID *string `json:"localID,omitempty" msgpack:"localID,omitempty" bson:"localid,omitempty" mapstructure:"localID,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
