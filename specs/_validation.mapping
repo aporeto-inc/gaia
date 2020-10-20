@@ -18,9 +18,9 @@ $capem:
   elemental:
     name: ValidateCA
 
-$cachedflowrecord:
+$cachedflowreport:
   elemental:
-    name: ValidateCachedFlowRecord
+    name: ValidateCachedFlowReport
 
 $cidr:
   elemental:

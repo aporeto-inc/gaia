@@ -707,7 +707,7 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[CachedFlowRecordIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[CachedFlowReportIdentity] = &elemental.Relationship{}
 
 	relationshipsRegistry[CallIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{

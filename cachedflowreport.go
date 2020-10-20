@@ -9,113 +9,113 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// CachedFlowRecordActionValue represents the possible values for attribute "action".
-type CachedFlowRecordActionValue string
+// CachedFlowReportActionValue represents the possible values for attribute "action".
+type CachedFlowReportActionValue string
 
 const (
-	// CachedFlowRecordActionAccept represents the value Accept.
-	CachedFlowRecordActionAccept CachedFlowRecordActionValue = "Accept"
+	// CachedFlowReportActionAccept represents the value Accept.
+	CachedFlowReportActionAccept CachedFlowReportActionValue = "Accept"
 
-	// CachedFlowRecordActionReject represents the value Reject.
-	CachedFlowRecordActionReject CachedFlowRecordActionValue = "Reject"
+	// CachedFlowReportActionReject represents the value Reject.
+	CachedFlowReportActionReject CachedFlowReportActionValue = "Reject"
 )
 
-// CachedFlowRecordDestinationTypeValue represents the possible values for attribute "destinationType".
-type CachedFlowRecordDestinationTypeValue string
+// CachedFlowReportDestinationTypeValue represents the possible values for attribute "destinationType".
+type CachedFlowReportDestinationTypeValue string
 
 const (
-	// CachedFlowRecordDestinationTypeClaims represents the value Claims.
-	CachedFlowRecordDestinationTypeClaims CachedFlowRecordDestinationTypeValue = "Claims"
+	// CachedFlowReportDestinationTypeClaims represents the value Claims.
+	CachedFlowReportDestinationTypeClaims CachedFlowReportDestinationTypeValue = "Claims"
 
-	// CachedFlowRecordDestinationTypeExternalNetwork represents the value ExternalNetwork.
-	CachedFlowRecordDestinationTypeExternalNetwork CachedFlowRecordDestinationTypeValue = "ExternalNetwork"
+	// CachedFlowReportDestinationTypeExternalNetwork represents the value ExternalNetwork.
+	CachedFlowReportDestinationTypeExternalNetwork CachedFlowReportDestinationTypeValue = "ExternalNetwork"
 
-	// CachedFlowRecordDestinationTypeProcessingUnit represents the value ProcessingUnit.
-	CachedFlowRecordDestinationTypeProcessingUnit CachedFlowRecordDestinationTypeValue = "ProcessingUnit"
+	// CachedFlowReportDestinationTypeProcessingUnit represents the value ProcessingUnit.
+	CachedFlowReportDestinationTypeProcessingUnit CachedFlowReportDestinationTypeValue = "ProcessingUnit"
 )
 
-// CachedFlowRecordObservedActionValue represents the possible values for attribute "observedAction".
-type CachedFlowRecordObservedActionValue string
+// CachedFlowReportObservedActionValue represents the possible values for attribute "observedAction".
+type CachedFlowReportObservedActionValue string
 
 const (
-	// CachedFlowRecordObservedActionAccept represents the value Accept.
-	CachedFlowRecordObservedActionAccept CachedFlowRecordObservedActionValue = "Accept"
+	// CachedFlowReportObservedActionAccept represents the value Accept.
+	CachedFlowReportObservedActionAccept CachedFlowReportObservedActionValue = "Accept"
 
-	// CachedFlowRecordObservedActionNotApplicable represents the value NotApplicable.
-	CachedFlowRecordObservedActionNotApplicable CachedFlowRecordObservedActionValue = "NotApplicable"
+	// CachedFlowReportObservedActionNotApplicable represents the value NotApplicable.
+	CachedFlowReportObservedActionNotApplicable CachedFlowReportObservedActionValue = "NotApplicable"
 
-	// CachedFlowRecordObservedActionReject represents the value Reject.
-	CachedFlowRecordObservedActionReject CachedFlowRecordObservedActionValue = "Reject"
+	// CachedFlowReportObservedActionReject represents the value Reject.
+	CachedFlowReportObservedActionReject CachedFlowReportObservedActionValue = "Reject"
 )
 
-// CachedFlowRecordServiceTypeValue represents the possible values for attribute "serviceType".
-type CachedFlowRecordServiceTypeValue string
+// CachedFlowReportServiceTypeValue represents the possible values for attribute "serviceType".
+type CachedFlowReportServiceTypeValue string
 
 const (
-	// CachedFlowRecordServiceTypeHTTP represents the value HTTP.
-	CachedFlowRecordServiceTypeHTTP CachedFlowRecordServiceTypeValue = "HTTP"
+	// CachedFlowReportServiceTypeHTTP represents the value HTTP.
+	CachedFlowReportServiceTypeHTTP CachedFlowReportServiceTypeValue = "HTTP"
 
-	// CachedFlowRecordServiceTypeL3 represents the value L3.
-	CachedFlowRecordServiceTypeL3 CachedFlowRecordServiceTypeValue = "L3"
+	// CachedFlowReportServiceTypeL3 represents the value L3.
+	CachedFlowReportServiceTypeL3 CachedFlowReportServiceTypeValue = "L3"
 
-	// CachedFlowRecordServiceTypeNotApplicable represents the value NotApplicable.
-	CachedFlowRecordServiceTypeNotApplicable CachedFlowRecordServiceTypeValue = "NotApplicable"
+	// CachedFlowReportServiceTypeNotApplicable represents the value NotApplicable.
+	CachedFlowReportServiceTypeNotApplicable CachedFlowReportServiceTypeValue = "NotApplicable"
 
-	// CachedFlowRecordServiceTypeTCP represents the value TCP.
-	CachedFlowRecordServiceTypeTCP CachedFlowRecordServiceTypeValue = "TCP"
+	// CachedFlowReportServiceTypeTCP represents the value TCP.
+	CachedFlowReportServiceTypeTCP CachedFlowReportServiceTypeValue = "TCP"
 )
 
-// CachedFlowRecordSourceTypeValue represents the possible values for attribute "sourceType".
-type CachedFlowRecordSourceTypeValue string
+// CachedFlowReportSourceTypeValue represents the possible values for attribute "sourceType".
+type CachedFlowReportSourceTypeValue string
 
 const (
-	// CachedFlowRecordSourceTypeClaims represents the value Claims.
-	CachedFlowRecordSourceTypeClaims CachedFlowRecordSourceTypeValue = "Claims"
+	// CachedFlowReportSourceTypeClaims represents the value Claims.
+	CachedFlowReportSourceTypeClaims CachedFlowReportSourceTypeValue = "Claims"
 
-	// CachedFlowRecordSourceTypeExternalNetwork represents the value ExternalNetwork.
-	CachedFlowRecordSourceTypeExternalNetwork CachedFlowRecordSourceTypeValue = "ExternalNetwork"
+	// CachedFlowReportSourceTypeExternalNetwork represents the value ExternalNetwork.
+	CachedFlowReportSourceTypeExternalNetwork CachedFlowReportSourceTypeValue = "ExternalNetwork"
 
-	// CachedFlowRecordSourceTypeProcessingUnit represents the value ProcessingUnit.
-	CachedFlowRecordSourceTypeProcessingUnit CachedFlowRecordSourceTypeValue = "ProcessingUnit"
+	// CachedFlowReportSourceTypeProcessingUnit represents the value ProcessingUnit.
+	CachedFlowReportSourceTypeProcessingUnit CachedFlowReportSourceTypeValue = "ProcessingUnit"
 )
 
-// CachedFlowRecordIdentity represents the Identity of the object.
-var CachedFlowRecordIdentity = elemental.Identity{
-	Name:     "cachedflowrecord",
-	Category: "cachedflowrecords",
+// CachedFlowReportIdentity represents the Identity of the object.
+var CachedFlowReportIdentity = elemental.Identity{
+	Name:     "cachedflowreport",
+	Category: "cachedflowreports",
 	Package:  "zack",
 	Private:  false,
 }
 
-// CachedFlowRecordsList represents a list of CachedFlowRecords
-type CachedFlowRecordsList []*CachedFlowRecord
+// CachedFlowReportsList represents a list of CachedFlowReports
+type CachedFlowReportsList []*CachedFlowReport
 
 // Identity returns the identity of the objects in the list.
-func (o CachedFlowRecordsList) Identity() elemental.Identity {
+func (o CachedFlowReportsList) Identity() elemental.Identity {
 
-	return CachedFlowRecordIdentity
+	return CachedFlowReportIdentity
 }
 
-// Copy returns a pointer to a copy the CachedFlowRecordsList.
-func (o CachedFlowRecordsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the CachedFlowReportsList.
+func (o CachedFlowReportsList) Copy() elemental.Identifiables {
 
-	copy := append(CachedFlowRecordsList{}, o...)
+	copy := append(CachedFlowReportsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the CachedFlowRecordsList.
-func (o CachedFlowRecordsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the CachedFlowReportsList.
+func (o CachedFlowReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(CachedFlowRecordsList{}, o...)
+	out := append(CachedFlowReportsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*CachedFlowRecord))
+		out = append(out, obj.(*CachedFlowReport))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o CachedFlowRecordsList) List() elemental.IdentifiablesList {
+func (o CachedFlowReportsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -126,36 +126,36 @@ func (o CachedFlowRecordsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o CachedFlowRecordsList) DefaultOrder() []string {
+func (o CachedFlowReportsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the CachedFlowRecordsList converted to SparseCachedFlowRecordsList.
+// ToSparse returns the CachedFlowReportsList converted to SparseCachedFlowReportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o CachedFlowRecordsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o CachedFlowReportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseCachedFlowRecordsList, len(o))
+	out := make(SparseCachedFlowReportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseCachedFlowRecord)
+		out[i] = o[i].ToSparse(fields...).(*SparseCachedFlowReport)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o CachedFlowRecordsList) Version() int {
+func (o CachedFlowReportsList) Version() int {
 
 	return 1
 }
 
-// CachedFlowRecord represents the model of a cachedflowrecord
-type CachedFlowRecord struct {
+// CachedFlowReport represents the model of a cachedflowreport
+type CachedFlowReport struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action applied to the flow.
-	Action CachedFlowRecordActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
+	Action CachedFlowReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
 
 	// Identifier of the destination controller.
 	DestinationController string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"b,omitempty" mapstructure:"destinationController,omitempty"`
@@ -177,7 +177,7 @@ type CachedFlowRecord struct {
 	DestinationPort int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"g,omitempty" mapstructure:"destinationPort,omitempty"`
 
 	// Destination type.
-	DestinationType CachedFlowRecordDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"h,omitempty" mapstructure:"destinationType,omitempty"`
+	DestinationType CachedFlowReportDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"h,omitempty" mapstructure:"destinationType,omitempty"`
 
 	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
@@ -202,7 +202,7 @@ type CachedFlowRecord struct {
 	Observed bool `json:"observed,omitempty" msgpack:"observed,omitempty" bson:"l,omitempty" mapstructure:"observed,omitempty"`
 
 	// Action observed on the flow.
-	ObservedAction CachedFlowRecordObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"m,omitempty" mapstructure:"observedAction,omitempty"`
+	ObservedAction CachedFlowReportObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"m,omitempty" mapstructure:"observedAction,omitempty"`
 
 	// Specifies the reason for a rejection. Only set if `observedAction` is set
 	// to `Reject`.
@@ -239,7 +239,7 @@ type CachedFlowRecord struct {
 	ServiceNamespace string `json:"serviceNamespace,omitempty" msgpack:"serviceNamespace,omitempty" bson:"x,omitempty" mapstructure:"serviceNamespace,omitempty"`
 
 	// ID of the service.
-	ServiceType CachedFlowRecordServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"y,omitempty" mapstructure:"serviceType,omitempty"`
+	ServiceType CachedFlowReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"y,omitempty" mapstructure:"serviceType,omitempty"`
 
 	// Service URL accessed.
 	ServiceURL string `json:"serviceURL,omitempty" msgpack:"serviceURL,omitempty" bson:"z,omitempty" mapstructure:"serviceURL,omitempty"`
@@ -261,7 +261,7 @@ type CachedFlowRecord struct {
 	SourcePlatform string `json:"sourcePlatform,omitempty" msgpack:"sourcePlatform,omitempty" bson:"ae,omitempty" mapstructure:"sourcePlatform,omitempty"`
 
 	// Type of the source.
-	SourceType CachedFlowRecordSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"af,omitempty" mapstructure:"sourceType,omitempty"`
+	SourceType CachedFlowReportSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"af,omitempty" mapstructure:"sourceType,omitempty"`
 
 	// Time and date of the log.
 	Timestamp time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"ag,omitempty" mapstructure:"timestamp,omitempty"`
@@ -279,44 +279,44 @@ type CachedFlowRecord struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewCachedFlowRecord returns a new *CachedFlowRecord
-func NewCachedFlowRecord() *CachedFlowRecord {
+// NewCachedFlowReport returns a new *CachedFlowReport
+func NewCachedFlowReport() *CachedFlowReport {
 
-	return &CachedFlowRecord{
+	return &CachedFlowReport{
 		ModelVersion:   1,
-		ServiceType:    CachedFlowRecordServiceTypeNotApplicable,
-		ObservedAction: CachedFlowRecordObservedActionNotApplicable,
+		ServiceType:    CachedFlowReportServiceTypeNotApplicable,
+		ObservedAction: CachedFlowReportObservedActionNotApplicable,
 		MigrationsLog:  map[string]string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *CachedFlowRecord) Identity() elemental.Identity {
+func (o *CachedFlowReport) Identity() elemental.Identity {
 
-	return CachedFlowRecordIdentity
+	return CachedFlowReportIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *CachedFlowRecord) Identifier() string {
+func (o *CachedFlowReport) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *CachedFlowRecord) SetIdentifier(id string) {
+func (o *CachedFlowReport) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CachedFlowRecord) GetBSON() (interface{}, error) {
+func (o *CachedFlowReport) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesCachedFlowRecord{}
+	s := &mongoAttributesCachedFlowReport{}
 
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
@@ -366,13 +366,13 @@ func (o *CachedFlowRecord) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CachedFlowRecord) SetBSON(raw bson.Raw) error {
+func (o *CachedFlowReport) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesCachedFlowRecord{}
+	s := &mongoAttributesCachedFlowReport{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -422,77 +422,77 @@ func (o *CachedFlowRecord) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *CachedFlowRecord) Version() int {
+func (o *CachedFlowReport) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *CachedFlowRecord) BleveType() string {
+func (o *CachedFlowReport) BleveType() string {
 
-	return "cachedflowrecord"
+	return "cachedflowreport"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *CachedFlowRecord) DefaultOrder() []string {
+func (o *CachedFlowReport) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *CachedFlowRecord) Doc() string {
+func (o *CachedFlowReport) Doc() string {
 
-	return `Post a new cached flow record.`
+	return `Post a new cached flow report.`
 }
 
-func (o *CachedFlowRecord) String() string {
+func (o *CachedFlowReport) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *CachedFlowRecord) GetMigrationsLog() map[string]string {
+func (o *CachedFlowReport) GetMigrationsLog() map[string]string {
 
 	return o.MigrationsLog
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
-func (o *CachedFlowRecord) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *CachedFlowReport) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *CachedFlowRecord) GetZHash() int {
+func (o *CachedFlowReport) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *CachedFlowRecord) SetZHash(zHash int) {
+func (o *CachedFlowReport) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *CachedFlowRecord) GetZone() int {
+func (o *CachedFlowReport) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *CachedFlowRecord) SetZone(zone int) {
+func (o *CachedFlowReport) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *CachedFlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseCachedFlowRecord{
+		return &SparseCachedFlowReport{
 			ID:                      &o.ID,
 			Action:                  &o.Action,
 			DestinationController:   &o.DestinationController,
@@ -536,7 +536,7 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 		}
 	}
 
-	sp := &SparseCachedFlowRecord{}
+	sp := &SparseCachedFlowReport{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -625,13 +625,13 @@ func (o *CachedFlowRecord) ToSparse(fields ...string) elemental.SparseIdentifiab
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseCachedFlowRecord to the object.
-func (o *CachedFlowRecord) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseCachedFlowReport to the object.
+func (o *CachedFlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseCachedFlowRecord)
+	so := sparse.(*SparseCachedFlowReport)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -754,32 +754,32 @@ func (o *CachedFlowRecord) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the CachedFlowRecord.
-func (o *CachedFlowRecord) DeepCopy() *CachedFlowRecord {
+// DeepCopy returns a deep copy if the CachedFlowReport.
+func (o *CachedFlowReport) DeepCopy() *CachedFlowReport {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &CachedFlowRecord{}
+	out := &CachedFlowReport{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *CachedFlowRecord.
-func (o *CachedFlowRecord) DeepCopyInto(out *CachedFlowRecord) {
+// DeepCopyInto copies the receiver into the given *CachedFlowReport.
+func (o *CachedFlowReport) DeepCopyInto(out *CachedFlowReport) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy CachedFlowRecord: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CachedFlowReport: %s", err))
 	}
 
-	*out = *target.(*CachedFlowRecord)
+	*out = *target.(*CachedFlowReport)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *CachedFlowRecord) Validate() error {
+func (o *CachedFlowReport) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -845,7 +845,7 @@ func (o *CachedFlowRecord) Validate() error {
 	}
 
 	// Custom object validation.
-	if err := ValidateCachedFlowRecord(o); err != nil {
+	if err := ValidateCachedFlowReport(o); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -861,26 +861,26 @@ func (o *CachedFlowRecord) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*CachedFlowRecord) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*CachedFlowReport) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := CachedFlowRecordAttributesMap[name]; ok {
+	if v, ok := CachedFlowReportAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return CachedFlowRecordLowerCaseAttributesMap[name]
+	return CachedFlowReportLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*CachedFlowRecord) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*CachedFlowReport) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return CachedFlowRecordAttributesMap
+	return CachedFlowReportAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *CachedFlowRecord) ValueForAttribute(name string) interface{} {
+func (o *CachedFlowReport) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -968,8 +968,8 @@ func (o *CachedFlowRecord) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// CachedFlowRecordAttributesMap represents the map of attribute for CachedFlowRecord.
-var CachedFlowRecordAttributesMap = map[string]elemental.AttributeSpecification{
+// CachedFlowReportAttributesMap represents the map of attribute for CachedFlowReport.
+var CachedFlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1132,7 +1132,7 @@ for the rejection.`,
 	"ObservedAction": {
 		AllowedChoices: []string{"Accept", "Reject", "NotApplicable"},
 		ConvertedName:  "ObservedAction",
-		DefaultValue:   CachedFlowRecordObservedActionNotApplicable,
+		DefaultValue:   CachedFlowReportObservedActionNotApplicable,
 		Description:    `Action observed on the flow.`,
 		Exposed:        true,
 		Name:           "observedAction",
@@ -1245,7 +1245,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	"ServiceType": {
 		AllowedChoices: []string{"L3", "HTTP", "TCP", "NotApplicable"},
 		ConvertedName:  "ServiceType",
-		DefaultValue:   CachedFlowRecordServiceTypeNotApplicable,
+		DefaultValue:   CachedFlowReportServiceTypeNotApplicable,
 		Description:    `ID of the service.`,
 		Exposed:        true,
 		Name:           "serviceType",
@@ -1366,8 +1366,8 @@ georedundancy.`,
 	},
 }
 
-// CachedFlowRecordLowerCaseAttributesMap represents the map of attribute for CachedFlowRecord.
-var CachedFlowRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// CachedFlowReportLowerCaseAttributesMap represents the map of attribute for CachedFlowReport.
+var CachedFlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1547,7 +1547,7 @@ for the rejection.`,
 		AllowedChoices: []string{"Accept", "Reject", "NotApplicable"},
 		BSONFieldName:  "m",
 		ConvertedName:  "ObservedAction",
-		DefaultValue:   CachedFlowRecordObservedActionNotApplicable,
+		DefaultValue:   CachedFlowReportObservedActionNotApplicable,
 		Description:    `Action observed on the flow.`,
 		Exposed:        true,
 		Name:           "observedAction",
@@ -1672,7 +1672,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 		AllowedChoices: []string{"L3", "HTTP", "TCP", "NotApplicable"},
 		BSONFieldName:  "y",
 		ConvertedName:  "ServiceType",
-		DefaultValue:   CachedFlowRecordServiceTypeNotApplicable,
+		DefaultValue:   CachedFlowReportServiceTypeNotApplicable,
 		Description:    `ID of the service.`,
 		Exposed:        true,
 		Name:           "serviceType",
@@ -1804,35 +1804,35 @@ georedundancy.`,
 	},
 }
 
-// SparseCachedFlowRecordsList represents a list of SparseCachedFlowRecords
-type SparseCachedFlowRecordsList []*SparseCachedFlowRecord
+// SparseCachedFlowReportsList represents a list of SparseCachedFlowReports
+type SparseCachedFlowReportsList []*SparseCachedFlowReport
 
 // Identity returns the identity of the objects in the list.
-func (o SparseCachedFlowRecordsList) Identity() elemental.Identity {
+func (o SparseCachedFlowReportsList) Identity() elemental.Identity {
 
-	return CachedFlowRecordIdentity
+	return CachedFlowReportIdentity
 }
 
-// Copy returns a pointer to a copy the SparseCachedFlowRecordsList.
-func (o SparseCachedFlowRecordsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseCachedFlowReportsList.
+func (o SparseCachedFlowReportsList) Copy() elemental.Identifiables {
 
-	copy := append(SparseCachedFlowRecordsList{}, o...)
+	copy := append(SparseCachedFlowReportsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseCachedFlowRecordsList.
-func (o SparseCachedFlowRecordsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseCachedFlowReportsList.
+func (o SparseCachedFlowReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseCachedFlowRecordsList{}, o...)
+	out := append(SparseCachedFlowReportsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseCachedFlowRecord))
+		out = append(out, obj.(*SparseCachedFlowReport))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseCachedFlowRecordsList) List() elemental.IdentifiablesList {
+func (o SparseCachedFlowReportsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1843,13 +1843,13 @@ func (o SparseCachedFlowRecordsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseCachedFlowRecordsList) DefaultOrder() []string {
+func (o SparseCachedFlowReportsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparseCachedFlowRecordsList converted to CachedFlowRecordsList.
-func (o SparseCachedFlowRecordsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseCachedFlowReportsList converted to CachedFlowReportsList.
+func (o SparseCachedFlowReportsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1860,18 +1860,18 @@ func (o SparseCachedFlowRecordsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseCachedFlowRecordsList) Version() int {
+func (o SparseCachedFlowReportsList) Version() int {
 
 	return 1
 }
 
-// SparseCachedFlowRecord represents the sparse version of a cachedflowrecord.
-type SparseCachedFlowRecord struct {
+// SparseCachedFlowReport represents the sparse version of a cachedflowreport.
+type SparseCachedFlowReport struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action applied to the flow.
-	Action *CachedFlowRecordActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
+	Action *CachedFlowReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
 
 	// Identifier of the destination controller.
 	DestinationController *string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"b,omitempty" mapstructure:"destinationController,omitempty"`
@@ -1893,7 +1893,7 @@ type SparseCachedFlowRecord struct {
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"g,omitempty" mapstructure:"destinationPort,omitempty"`
 
 	// Destination type.
-	DestinationType *CachedFlowRecordDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"h,omitempty" mapstructure:"destinationType,omitempty"`
+	DestinationType *CachedFlowReportDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"h,omitempty" mapstructure:"destinationType,omitempty"`
 
 	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
@@ -1918,7 +1918,7 @@ type SparseCachedFlowRecord struct {
 	Observed *bool `json:"observed,omitempty" msgpack:"observed,omitempty" bson:"l,omitempty" mapstructure:"observed,omitempty"`
 
 	// Action observed on the flow.
-	ObservedAction *CachedFlowRecordObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"m,omitempty" mapstructure:"observedAction,omitempty"`
+	ObservedAction *CachedFlowReportObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"m,omitempty" mapstructure:"observedAction,omitempty"`
 
 	// Specifies the reason for a rejection. Only set if `observedAction` is set
 	// to `Reject`.
@@ -1955,7 +1955,7 @@ type SparseCachedFlowRecord struct {
 	ServiceNamespace *string `json:"serviceNamespace,omitempty" msgpack:"serviceNamespace,omitempty" bson:"x,omitempty" mapstructure:"serviceNamespace,omitempty"`
 
 	// ID of the service.
-	ServiceType *CachedFlowRecordServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"y,omitempty" mapstructure:"serviceType,omitempty"`
+	ServiceType *CachedFlowReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"y,omitempty" mapstructure:"serviceType,omitempty"`
 
 	// Service URL accessed.
 	ServiceURL *string `json:"serviceURL,omitempty" msgpack:"serviceURL,omitempty" bson:"z,omitempty" mapstructure:"serviceURL,omitempty"`
@@ -1977,7 +1977,7 @@ type SparseCachedFlowRecord struct {
 	SourcePlatform *string `json:"sourcePlatform,omitempty" msgpack:"sourcePlatform,omitempty" bson:"ae,omitempty" mapstructure:"sourcePlatform,omitempty"`
 
 	// Type of the source.
-	SourceType *CachedFlowRecordSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"af,omitempty" mapstructure:"sourceType,omitempty"`
+	SourceType *CachedFlowReportSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"af,omitempty" mapstructure:"sourceType,omitempty"`
 
 	// Time and date of the log.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"ag,omitempty" mapstructure:"timestamp,omitempty"`
@@ -1995,19 +1995,19 @@ type SparseCachedFlowRecord struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseCachedFlowRecord returns a new  SparseCachedFlowRecord.
-func NewSparseCachedFlowRecord() *SparseCachedFlowRecord {
-	return &SparseCachedFlowRecord{}
+// NewSparseCachedFlowReport returns a new  SparseCachedFlowReport.
+func NewSparseCachedFlowReport() *SparseCachedFlowReport {
+	return &SparseCachedFlowReport{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseCachedFlowRecord) Identity() elemental.Identity {
+func (o *SparseCachedFlowReport) Identity() elemental.Identity {
 
-	return CachedFlowRecordIdentity
+	return CachedFlowReportIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseCachedFlowRecord) Identifier() string {
+func (o *SparseCachedFlowReport) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -2016,7 +2016,7 @@ func (o *SparseCachedFlowRecord) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseCachedFlowRecord) SetIdentifier(id string) {
+func (o *SparseCachedFlowReport) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -2027,13 +2027,13 @@ func (o *SparseCachedFlowRecord) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseCachedFlowRecord) GetBSON() (interface{}, error) {
+func (o *SparseCachedFlowReport) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseCachedFlowRecord{}
+	s := &mongoAttributesSparseCachedFlowReport{}
 
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
@@ -2161,13 +2161,13 @@ func (o *SparseCachedFlowRecord) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseCachedFlowRecord) SetBSON(raw bson.Raw) error {
+func (o *SparseCachedFlowReport) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseCachedFlowRecord{}
+	s := &mongoAttributesSparseCachedFlowReport{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -2296,15 +2296,15 @@ func (o *SparseCachedFlowRecord) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseCachedFlowRecord) Version() int {
+func (o *SparseCachedFlowReport) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseCachedFlowRecord) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseCachedFlowReport) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewCachedFlowRecord()
+	out := NewCachedFlowReport()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -2430,7 +2430,7 @@ func (o *SparseCachedFlowRecord) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseCachedFlowRecord) GetMigrationsLog() (out map[string]string) {
+func (o *SparseCachedFlowReport) GetMigrationsLog() (out map[string]string) {
 
 	if o.MigrationsLog == nil {
 		return
@@ -2440,13 +2440,13 @@ func (o *SparseCachedFlowRecord) GetMigrationsLog() (out map[string]string) {
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
-func (o *SparseCachedFlowRecord) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *SparseCachedFlowReport) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseCachedFlowRecord) GetZHash() (out int) {
+func (o *SparseCachedFlowReport) GetZHash() (out int) {
 
 	if o.ZHash == nil {
 		return
@@ -2456,13 +2456,13 @@ func (o *SparseCachedFlowRecord) GetZHash() (out int) {
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseCachedFlowRecord) SetZHash(zHash int) {
+func (o *SparseCachedFlowReport) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseCachedFlowRecord) GetZone() (out int) {
+func (o *SparseCachedFlowReport) GetZone() (out int) {
 
 	if o.Zone == nil {
 		return
@@ -2472,45 +2472,45 @@ func (o *SparseCachedFlowRecord) GetZone() (out int) {
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseCachedFlowRecord) SetZone(zone int) {
+func (o *SparseCachedFlowReport) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseCachedFlowRecord.
-func (o *SparseCachedFlowRecord) DeepCopy() *SparseCachedFlowRecord {
+// DeepCopy returns a deep copy if the SparseCachedFlowReport.
+func (o *SparseCachedFlowReport) DeepCopy() *SparseCachedFlowReport {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseCachedFlowRecord{}
+	out := &SparseCachedFlowReport{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseCachedFlowRecord.
-func (o *SparseCachedFlowRecord) DeepCopyInto(out *SparseCachedFlowRecord) {
+// DeepCopyInto copies the receiver into the given *SparseCachedFlowReport.
+func (o *SparseCachedFlowReport) DeepCopyInto(out *SparseCachedFlowReport) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseCachedFlowRecord: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseCachedFlowReport: %s", err))
 	}
 
-	*out = *target.(*SparseCachedFlowRecord)
+	*out = *target.(*SparseCachedFlowReport)
 }
 
-type mongoAttributesCachedFlowRecord struct {
+type mongoAttributesCachedFlowReport struct {
 	ID                      bson.ObjectId                        `bson:"_id,omitempty"`
-	Action                  CachedFlowRecordActionValue          `bson:"a,omitempty"`
+	Action                  CachedFlowReportActionValue          `bson:"a,omitempty"`
 	DestinationController   string                               `bson:"b,omitempty"`
 	DestinationID           string                               `bson:"c,omitempty"`
 	DestinationIP           string                               `bson:"d,omitempty"`
 	DestinationNamespace    string                               `bson:"e,omitempty"`
 	DestinationPlatform     string                               `bson:"f,omitempty"`
 	DestinationPort         int                                  `bson:"g,omitempty"`
-	DestinationType         CachedFlowRecordDestinationTypeValue `bson:"h,omitempty"`
+	DestinationType         CachedFlowReportDestinationTypeValue `bson:"h,omitempty"`
 	DropReason              string                               `bson:"i,omitempty"`
 	Encrypted               bool                                 `bson:"j,omitempty"`
 	IsLocalDestinationID    bool                                 `bson:"ai,omitempty"`
@@ -2518,7 +2518,7 @@ type mongoAttributesCachedFlowRecord struct {
 	MigrationsLog           map[string]string                    `bson:"migrationslog,omitempty"`
 	Namespace               string                               `bson:"k,omitempty"`
 	Observed                bool                                 `bson:"l,omitempty"`
-	ObservedAction          CachedFlowRecordObservedActionValue  `bson:"m,omitempty"`
+	ObservedAction          CachedFlowReportObservedActionValue  `bson:"m,omitempty"`
 	ObservedDropReason      string                               `bson:"n,omitempty"`
 	ObservedEncrypted       bool                                 `bson:"o,omitempty"`
 	ObservedPolicyID        string                               `bson:"p,omitempty"`
@@ -2530,29 +2530,29 @@ type mongoAttributesCachedFlowRecord struct {
 	ServiceClaimHash        string                               `bson:"v,omitempty"`
 	ServiceID               string                               `bson:"w,omitempty"`
 	ServiceNamespace        string                               `bson:"x,omitempty"`
-	ServiceType             CachedFlowRecordServiceTypeValue     `bson:"y,omitempty"`
+	ServiceType             CachedFlowReportServiceTypeValue     `bson:"y,omitempty"`
 	ServiceURL              string                               `bson:"z,omitempty"`
 	SourceController        string                               `bson:"aa,omitempty"`
 	SourceID                string                               `bson:"ab,omitempty"`
 	SourceIP                string                               `bson:"ac,omitempty"`
 	SourceNamespace         string                               `bson:"ad,omitempty"`
 	SourcePlatform          string                               `bson:"ae,omitempty"`
-	SourceType              CachedFlowRecordSourceTypeValue      `bson:"af,omitempty"`
+	SourceType              CachedFlowReportSourceTypeValue      `bson:"af,omitempty"`
 	Timestamp               time.Time                            `bson:"ag,omitempty"`
 	Value                   int                                  `bson:"ah,omitempty"`
 	ZHash                   int                                  `bson:"zhash"`
 	Zone                    int                                  `bson:"zone"`
 }
-type mongoAttributesSparseCachedFlowRecord struct {
+type mongoAttributesSparseCachedFlowReport struct {
 	ID                      bson.ObjectId                         `bson:"_id,omitempty"`
-	Action                  *CachedFlowRecordActionValue          `bson:"a,omitempty"`
+	Action                  *CachedFlowReportActionValue          `bson:"a,omitempty"`
 	DestinationController   *string                               `bson:"b,omitempty"`
 	DestinationID           *string                               `bson:"c,omitempty"`
 	DestinationIP           *string                               `bson:"d,omitempty"`
 	DestinationNamespace    *string                               `bson:"e,omitempty"`
 	DestinationPlatform     *string                               `bson:"f,omitempty"`
 	DestinationPort         *int                                  `bson:"g,omitempty"`
-	DestinationType         *CachedFlowRecordDestinationTypeValue `bson:"h,omitempty"`
+	DestinationType         *CachedFlowReportDestinationTypeValue `bson:"h,omitempty"`
 	DropReason              *string                               `bson:"i,omitempty"`
 	Encrypted               *bool                                 `bson:"j,omitempty"`
 	IsLocalDestinationID    *bool                                 `bson:"ai,omitempty"`
@@ -2560,7 +2560,7 @@ type mongoAttributesSparseCachedFlowRecord struct {
 	MigrationsLog           *map[string]string                    `bson:"migrationslog,omitempty"`
 	Namespace               *string                               `bson:"k,omitempty"`
 	Observed                *bool                                 `bson:"l,omitempty"`
-	ObservedAction          *CachedFlowRecordObservedActionValue  `bson:"m,omitempty"`
+	ObservedAction          *CachedFlowReportObservedActionValue  `bson:"m,omitempty"`
 	ObservedDropReason      *string                               `bson:"n,omitempty"`
 	ObservedEncrypted       *bool                                 `bson:"o,omitempty"`
 	ObservedPolicyID        *string                               `bson:"p,omitempty"`
@@ -2572,14 +2572,14 @@ type mongoAttributesSparseCachedFlowRecord struct {
 	ServiceClaimHash        *string                               `bson:"v,omitempty"`
 	ServiceID               *string                               `bson:"w,omitempty"`
 	ServiceNamespace        *string                               `bson:"x,omitempty"`
-	ServiceType             *CachedFlowRecordServiceTypeValue     `bson:"y,omitempty"`
+	ServiceType             *CachedFlowReportServiceTypeValue     `bson:"y,omitempty"`
 	ServiceURL              *string                               `bson:"z,omitempty"`
 	SourceController        *string                               `bson:"aa,omitempty"`
 	SourceID                *string                               `bson:"ab,omitempty"`
 	SourceIP                *string                               `bson:"ac,omitempty"`
 	SourceNamespace         *string                               `bson:"ad,omitempty"`
 	SourcePlatform          *string                               `bson:"ae,omitempty"`
-	SourceType              *CachedFlowRecordSourceTypeValue      `bson:"af,omitempty"`
+	SourceType              *CachedFlowReportSourceTypeValue      `bson:"af,omitempty"`
 	Timestamp               *time.Time                            `bson:"ag,omitempty"`
 	Value                   *int                                  `bson:"ah,omitempty"`
 	ZHash                   *int                                  `bson:"zhash,omitempty"`

@@ -1,18 +1,18 @@
 # Model
 model:
-  rest_name: cachedflowrecord
-  resource_name: cachedflowrecords
-  entity_name: CachedFlowRecord
+  rest_name: cachedflowreport
+  resource_name: cachedflowreports
+  entity_name: CachedFlowReport
   package: zack
   group: policy/networking
-  description: Post a new cached flow record.
+  description: Post a new cached flow report.
   extends:
   - '@flow'
   - '@identifiable-stored'
   - '@zoned'
   - '@migratable'
   validations:
-  - $cachedflowrecord
+  - $cachedflowreport
 
 # Attributes
 attributes:

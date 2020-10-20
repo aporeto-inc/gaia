@@ -3121,9 +3121,9 @@ func TestValidateOptionalTimeDuration(t *testing.T) {
 	}
 }
 
-func TestValidateCachedFlowRecord(t *testing.T) {
+func TestValidateCachedFlowReport(t *testing.T) {
 	type args struct {
-		cachedFlowRecord *CachedFlowRecord
+		cachedFlowReport *CachedFlowReport
 	}
 	tests := []struct {
 		name    string
@@ -3133,13 +3133,13 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 		{
 			"invalid-flag",
 			args{
-				cachedFlowRecord: &CachedFlowRecord{
+				cachedFlowReport: &CachedFlowReport{
 					IsLocalDestinationID: false,
 					DestinationID:        "5f863169e767b10001b0bb1a",
-					DestinationType:      CachedFlowRecordDestinationTypeProcessingUnit,
+					DestinationType:      CachedFlowReportDestinationTypeProcessingUnit,
 					IsLocalSourceID:      false,
 					SourceID:             "5f863169e767b10001b0bb1b",
-					SourceType:           CachedFlowRecordSourceTypeProcessingUnit,
+					SourceType:           CachedFlowReportSourceTypeProcessingUnit,
 				},
 			},
 			true,
@@ -3147,13 +3147,13 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 		{
 			"invalid-type-1",
 			args{
-				cachedFlowRecord: &CachedFlowRecord{
+				cachedFlowReport: &CachedFlowReport{
 					IsLocalDestinationID: true,
 					DestinationID:        "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
-					DestinationType:      CachedFlowRecordDestinationTypeExternalNetwork,
+					DestinationType:      CachedFlowReportDestinationTypeExternalNetwork,
 					IsLocalSourceID:      false,
 					SourceID:             "5f863169e767b10001b0bb1b",
-					SourceType:           CachedFlowRecordSourceTypeProcessingUnit,
+					SourceType:           CachedFlowReportSourceTypeProcessingUnit,
 				},
 			},
 			true,
@@ -3161,13 +3161,13 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 		{
 			"invalid-type-2",
 			args{
-				cachedFlowRecord: &CachedFlowRecord{
+				cachedFlowReport: &CachedFlowReport{
 					IsLocalDestinationID: false,
 					DestinationID:        "5f863169e767b10001b0bb1a",
-					DestinationType:      CachedFlowRecordDestinationTypeProcessingUnit,
+					DestinationType:      CachedFlowReportDestinationTypeProcessingUnit,
 					IsLocalSourceID:      true,
 					SourceID:             "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
-					SourceType:           CachedFlowRecordSourceTypeExternalNetwork,
+					SourceType:           CachedFlowReportSourceTypeExternalNetwork,
 				},
 			},
 			true,
@@ -3175,13 +3175,13 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 		{
 			"valid-1",
 			args{
-				cachedFlowRecord: &CachedFlowRecord{
+				cachedFlowReport: &CachedFlowReport{
 					IsLocalDestinationID: true,
 					DestinationID:        "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
-					DestinationType:      CachedFlowRecordDestinationTypeProcessingUnit,
+					DestinationType:      CachedFlowReportDestinationTypeProcessingUnit,
 					IsLocalSourceID:      false,
 					SourceID:             "5f863169e767b10001b0bb1b",
-					SourceType:           CachedFlowRecordSourceTypeProcessingUnit,
+					SourceType:           CachedFlowReportSourceTypeProcessingUnit,
 				},
 			},
 			false,
@@ -3189,13 +3189,13 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 		{
 			"valid-2",
 			args{
-				cachedFlowRecord: &CachedFlowRecord{
+				cachedFlowReport: &CachedFlowReport{
 					IsLocalDestinationID: false,
 					DestinationID:        "5f863169e767b10001b0bb1a",
-					DestinationType:      CachedFlowRecordDestinationTypeProcessingUnit,
+					DestinationType:      CachedFlowReportDestinationTypeProcessingUnit,
 					IsLocalSourceID:      true,
 					SourceID:             "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
-					SourceType:           CachedFlowRecordSourceTypeProcessingUnit,
+					SourceType:           CachedFlowReportSourceTypeProcessingUnit,
 				},
 			},
 			false,
@@ -3203,13 +3203,13 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 		{
 			"valid-3",
 			args{
-				cachedFlowRecord: &CachedFlowRecord{
+				cachedFlowReport: &CachedFlowReport{
 					IsLocalDestinationID: true,
 					DestinationID:        "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
-					DestinationType:      CachedFlowRecordDestinationTypeProcessingUnit,
+					DestinationType:      CachedFlowReportDestinationTypeProcessingUnit,
 					IsLocalSourceID:      true,
 					SourceID:             "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
-					SourceType:           CachedFlowRecordSourceTypeProcessingUnit,
+					SourceType:           CachedFlowReportSourceTypeProcessingUnit,
 				},
 			},
 			false,
@@ -3217,8 +3217,8 @@ func TestValidateCachedFlowRecord(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateCachedFlowRecord(tt.args.cachedFlowRecord); (err != nil) != tt.wantErr {
-				t.Errorf("ValidateCachedFlowRecord() error = %v, wantErr %v", err, tt.wantErr)
+			if err := ValidateCachedFlowReport(tt.args.cachedFlowReport); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCachedFlowReport() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

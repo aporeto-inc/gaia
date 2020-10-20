@@ -11426,9 +11426,9 @@ Last update date of the object.
 
 ## policy/networking
 
-### CachedFlowRecord
+### CachedFlowReport
 
-Post a new cached flow record.
+Post a new cached flow report.
 
 #### Example
 

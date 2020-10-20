@@ -1107,24 +1107,24 @@ func ValidateUIParameters(p *UIParameter) error {
 	return nil
 }
 
-// ValidateCachedFlowRecord validates a CachedFlowRecord.
-func ValidateCachedFlowRecord(cachedFlowRecord *CachedFlowRecord) error {
+// ValidateCachedFlowReport validates a CachedFlowReport.
+func ValidateCachedFlowReport(cachedFlowReport *CachedFlowReport) error {
 
-	// a CachedFlowRecord must have at least one local PU
-	if !cachedFlowRecord.IsLocalDestinationID && !cachedFlowRecord.IsLocalSourceID {
+	// a CachedFlowReport must have at least one local PU
+	if !cachedFlowReport.IsLocalDestinationID && !cachedFlowReport.IsLocalSourceID {
 		return makeValidationError("IsLocalSourceID", "At least one of 'IsLocalDestinationID' and 'IsLocalSourceID' must be true")
 	}
 
 	// verify type for local PU(s)
-	if cachedFlowRecord.IsLocalDestinationID && cachedFlowRecord.DestinationType != CachedFlowRecordDestinationTypeProcessingUnit {
+	if cachedFlowReport.IsLocalDestinationID && cachedFlowReport.DestinationType != CachedFlowReportDestinationTypeProcessingUnit {
 		return makeValidationError("IsLocalDestinationID",
 			fmt.Sprintf("'IsLocalDestinationID' cannot be set for DestinationType %s. It is only applicable to DestinationType %s",
-				cachedFlowRecord.DestinationType, CachedFlowRecordDestinationTypeProcessingUnit))
+				cachedFlowReport.DestinationType, CachedFlowReportDestinationTypeProcessingUnit))
 	}
-	if cachedFlowRecord.IsLocalSourceID && cachedFlowRecord.SourceType != CachedFlowRecordSourceTypeProcessingUnit {
+	if cachedFlowReport.IsLocalSourceID && cachedFlowReport.SourceType != CachedFlowReportSourceTypeProcessingUnit {
 		return makeValidationError("IsLocalSourceID",
 			fmt.Sprintf("'IsLocalSourceID' cannot be set for SourceType %s. It is only applicable to SourceType %s",
-				cachedFlowRecord.SourceType, CachedFlowRecordSourceTypeProcessingUnit))
+				cachedFlowReport.SourceType, CachedFlowReportSourceTypeProcessingUnit))
 	}
 
 	return nil
