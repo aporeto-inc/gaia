@@ -3,7 +3,7 @@ model:
   rest_name: cachedflowreport
   resource_name: cachedflowreports
   entity_name: CachedFlowReport
-  package: zack
+  package: angeal
   group: policy/networking
   description: Post a new cached flow report.
   extends:

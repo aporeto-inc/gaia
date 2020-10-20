@@ -83,7 +83,7 @@ const (
 var CachedFlowReportIdentity = elemental.Identity{
 	Name:     "cachedflowreport",
 	Category: "cachedflowreports",
-	Package:  "zack",
+	Package:  "angeal",
 	Private:  false,
 }
 
