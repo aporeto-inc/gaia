@@ -8,6 +8,8 @@ model:
   description: |-
     Can be used to create a tenant's namespace and API authorization policy to grant
     access.
+  get:
+    description: Retrieve the tenant with the given namespace ID.
   delete:
     description: Delete the tenant with the given namespace ID.
   extends:

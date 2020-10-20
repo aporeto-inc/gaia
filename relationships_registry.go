@@ -4651,6 +4651,9 @@ func init() {
 		Delete: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 	}
 
 	relationshipsRegistry[TextIndexIdentity] = &elemental.Relationship{}
