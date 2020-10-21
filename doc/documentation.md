@@ -11541,7 +11541,7 @@ Type: `integer`
 
 Port of the destination.
 
-##### `destinationProcessingUnitID` [`required`]
+##### `destinationProcessingUnitID`
 
 Type: `string`
 

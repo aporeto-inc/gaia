@@ -485,10 +485,6 @@ func (o *ConnectionExceptionReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("destinationProcessingUnitID", o.DestinationProcessingUnitID); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("enforcerID", o.EnforcerID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -638,11 +634,10 @@ SynAckTransmitted state.`,
 		ConvertedName:  "DestinationProcessingUnitID",
 		Description: `ID of the destination processing unit. This should be set in SynAckTransmitted
 state.`,
-		Exposed:  true,
-		Name:     "destinationProcessingUnitID",
-		Required: true,
-		Stored:   true,
-		Type:     "string",
+		Exposed: true,
+		Name:    "destinationProcessingUnitID",
+		Stored:  true,
+		Type:    "string",
 	},
 	"EnforcerID": {
 		AllowedChoices: []string{},
@@ -836,11 +831,10 @@ SynAckTransmitted state.`,
 		ConvertedName:  "DestinationProcessingUnitID",
 		Description: `ID of the destination processing unit. This should be set in SynAckTransmitted
 state.`,
-		Exposed:  true,
-		Name:     "destinationProcessingUnitID",
-		Required: true,
-		Stored:   true,
-		Type:     "string",
+		Exposed: true,
+		Name:    "destinationProcessingUnitID",
+		Stored:  true,
+		Type:    "string",
 	},
 	"enforcerid": {
 		AllowedChoices: []string{},
