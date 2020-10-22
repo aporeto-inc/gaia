@@ -11,6 +11,13 @@ model:
   - '@zoned'
   - '@migratable'
 
+# Indexes
+indexes:
+- - namespace
+  - timestamp
+- - processingUnitNamespace
+  - enforcerNamespace
+
 # Attributes
 attributes:
   v1:
@@ -24,6 +31,8 @@ attributes:
     deprecated: true
     example_value: api.west.acme.com
     omit_empty: true
+    extensions:
+      bson_name: a
 
   - name: destinationIP
     description: Destination IP address.
@@ -31,6 +40,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: b
 
   - name: destinationPort
     description: Port of the destination.
@@ -38,6 +49,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: c
 
   - name: destinationProcessingUnitID
     description: |-
@@ -48,6 +61,8 @@ attributes:
     stored: true
     example_value: xxx-xxx-xxx
     omit_empty: true
+    extensions:
+      bson_name: d
 
   - name: enforcerID
     description: ID of the enforcer.
@@ -57,6 +72,8 @@ attributes:
     required: true
     example_value: xxx-xxx-xxx
     omit_empty: true
+    extensions:
+      bson_name: e
 
   - name: enforcerNamespace
     description: Namespace of the enforcer.
@@ -66,6 +83,8 @@ attributes:
     deprecated: true
     example_value: /my/namespace
     omit_empty: true
+    extensions:
+      bson_name: f
 
   - name: processingUnitID
     description: ID of the processing unit encountered this exception.
@@ -75,6 +94,8 @@ attributes:
     required: true
     example_value: xxx-xxx-xxx
     omit_empty: true
+    extensions:
+      bson_name: g
 
   - name: processingUnitNamespace
     description: Namespace of the processing unit encountered this exception.
@@ -84,6 +105,8 @@ attributes:
     deprecated: true
     example_value: /my/namespace
     omit_empty: true
+    extensions:
+      bson_name: h
 
   - name: protocol
     description: Protocol number.
@@ -93,6 +116,8 @@ attributes:
     required: true
     example_value: 6
     omit_empty: true
+    extensions:
+      bson_name: i
 
   - name: reason
     description: It specifies the reason for the exception.
@@ -100,6 +125,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: j
 
   - name: sourceIP
     description: Source IP address.
@@ -107,6 +134,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: k
 
   - name: state
     description: Represents the current state this report was generated.
@@ -122,6 +151,8 @@ attributes:
     - Unknown
     example_value:
     - Unknown
+    extensions:
+      bson_name: l
 
   - name: timestamp
     description: Time and date of the report.
@@ -129,6 +160,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: m
 
   - name: value
     description: Number of packets hit.
@@ -138,3 +171,5 @@ attributes:
     required: true
     example_value: 1
     omit_empty: true
+    extensions:
+      bson_name: "n"

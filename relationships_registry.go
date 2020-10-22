@@ -760,14 +760,7 @@ func init() {
 
 	relationshipsRegistry[ConnectionExceptionReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": {
-				Parameters: []elemental.ParameterDefinition{
-					{
-						Name: "ingestionMode",
-						Type: "string",
-					},
-				},
-			},
+			"root": {},
 		},
 	}
 

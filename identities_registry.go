@@ -527,6 +527,8 @@ var (
 		},
 		"clausesmatch": nil,
 		"connectionexceptionreport": {
+			{"processingUnitNamespace", "enforcerNamespace"},
+			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"counterreport": {
