@@ -13,10 +13,10 @@ model:
 
 # Indexes
 indexes:
-- - namespace
+- - processingunitnamespace
   - timestamp
-- - processingUnitNamespace
-  - enforcerNamespace
+- - enforcernamespace
+  - timestamp
 
 # Attributes
 attributes:
