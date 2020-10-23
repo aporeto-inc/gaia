@@ -174,6 +174,26 @@ attributes:
     validations:
     - $timeDuration
 
+  - name: type
+    description: |-
+      The type defines the purpose of the namespace:
+      - `Default`: A universal namespace that is capable of all actions and views.
+      - `Tenant`: A namespace that houses a tenant (e.g. ACME).
+      - `CloudAccount`: A child namespace of a tenant that houses a cloud provider
+      account (e.g. aws-123, gcp-54).
+      - `Group`: A child namespace of a cloud account that houses a managed group
+      (e.g. marketing, app-234).
+    type: enum
+    exposed: true
+    stored: true
+    creation_only: true
+    allowed_choices:
+    - Default
+    - Tenant
+    - CloudAccount
+    - Group
+    default_value: Default
+
   - name: zoning
     description: Defines what zone the namespace should live in.
     type: integer
