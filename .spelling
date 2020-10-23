@@ -33,6 +33,7 @@ ClaimsSupported
 ClauseMatch
 CollectionID
 ComplianceIssue
+ConnectionExceptionReport
 ContainerImage
 ContextID
 CoreOS
@@ -188,6 +189,7 @@ StatsInfo
 StatsQuery
 SubjectTypesSupported
 SuggestedPolicy
+SynAckTransmitted
 TLSType
 TagValue
 TimeSeriesQueryResults
