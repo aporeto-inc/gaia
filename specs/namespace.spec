@@ -125,6 +125,14 @@ attributes:
     stored: true
     orderable: true
 
+  - name: minimumEnforcerVersion
+    description: Indicates the minimum enforcer version for this namespace.
+    type: string
+    exposed: true
+    stored: true
+    validations:
+    - $semver
+
   - name: name
     description: The name of the namespace.
     type: string

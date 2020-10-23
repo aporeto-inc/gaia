@@ -60,6 +60,20 @@ const (
 	EnforcerOperationalStatusRegistered EnforcerOperationalStatusValue = "Registered"
 )
 
+// EnforcerUpgradeStatusValue represents the possible values for attribute "upgradeStatus".
+type EnforcerUpgradeStatusValue string
+
+const (
+	// EnforcerUpgradeStatusNone represents the value None.
+	EnforcerUpgradeStatusNone EnforcerUpgradeStatusValue = "None"
+
+	// EnforcerUpgradeStatusUpgradeRequested represents the value UpgradeRequested.
+	EnforcerUpgradeStatusUpgradeRequested EnforcerUpgradeStatusValue = "UpgradeRequested"
+
+	// EnforcerUpgradeStatusUpgrading represents the value Upgrading.
+	EnforcerUpgradeStatusUpgrading EnforcerUpgradeStatusValue = "Upgrading"
+)
+
 // EnforcerIdentity represents the Identity of the object.
 var EnforcerIdentity = elemental.Identity{
 	Name:     "enforcer",
@@ -259,14 +273,17 @@ type Enforcer struct {
 	// the enforcer in the last five minutes.
 	Unreachable bool `json:"unreachable" msgpack:"unreachable" bson:"unreachable" mapstructure:"unreachable,omitempty"`
 
-	// If `true`, the enforcer version is outdated and should be updated.
-	UpdateAvailable bool `json:"updateAvailable" msgpack:"updateAvailable" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
-
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	// Defines the upgrade status.
+	UpgradeStatus EnforcerUpgradeStatusValue `json:"upgradeStatus" msgpack:"upgradeStatus" bson:"upgradestatus" mapstructure:"upgradeStatus,omitempty"`
+
+	// Defines the next version the enforcer will be upgraded to.
+	UpgradeTargetVersion string `json:"upgradeTargetVersion" msgpack:"upgradeTargetVersion" bson:"upgradetargetversion" mapstructure:"upgradeTargetVersion,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -287,14 +304,15 @@ func NewEnforcer() *Enforcer {
 		AssociatedTags:        []string{},
 		CollectedInfo:         map[string]string{},
 		EnforcementStatus:     EnforcerEnforcementStatusInactive,
-		LastValidHostServices: HostServicesList{},
 		NormalizedTags:        []string{},
-		LogLevelDuration:      "10s",
-		Subnets:               []string{},
-		Metadata:              []string{},
-		LogLevel:              EnforcerLogLevelInfo,
-		MigrationsLog:         map[string]string{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
+		LastValidHostServices: HostServicesList{},
+		LogLevel:              EnforcerLogLevelInfo,
+		Subnets:               []string{},
+		UpgradeStatus:         EnforcerUpgradeStatusNone,
+		Metadata:              []string{},
+		MigrationsLog:         map[string]string{},
+		LogLevelDuration:      "10s",
 	}
 }
 
@@ -360,9 +378,10 @@ func (o *Enforcer) GetBSON() (interface{}, error) {
 	s.StartTime = o.StartTime
 	s.Subnets = o.Subnets
 	s.Unreachable = o.Unreachable
-	s.UpdateAvailable = o.UpdateAvailable
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
+	s.UpgradeStatus = o.UpgradeStatus
+	s.UpgradeTargetVersion = o.UpgradeTargetVersion
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
 
@@ -414,9 +433,10 @@ func (o *Enforcer) SetBSON(raw bson.Raw) error {
 	o.StartTime = s.StartTime
 	o.Subnets = s.Subnets
 	o.Unreachable = s.Unreachable
-	o.UpdateAvailable = s.UpdateAvailable
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
+	o.UpgradeStatus = s.UpgradeStatus
+	o.UpgradeTargetVersion = s.UpgradeTargetVersion
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
 
@@ -691,9 +711,10 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			StartTime:                 &o.StartTime,
 			Subnets:                   &o.Subnets,
 			Unreachable:               &o.Unreachable,
-			UpdateAvailable:           &o.UpdateAvailable,
 			UpdateIdempotencyKey:      &o.UpdateIdempotencyKey,
 			UpdateTime:                &o.UpdateTime,
+			UpgradeStatus:             &o.UpgradeStatus,
+			UpgradeTargetVersion:      &o.UpgradeTargetVersion,
 			ZHash:                     &o.ZHash,
 			Zone:                      &o.Zone,
 		}
@@ -774,12 +795,14 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Subnets = &(o.Subnets)
 		case "unreachable":
 			sp.Unreachable = &(o.Unreachable)
-		case "updateAvailable":
-			sp.UpdateAvailable = &(o.UpdateAvailable)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
+		case "upgradeStatus":
+			sp.UpgradeStatus = &(o.UpgradeStatus)
+		case "upgradeTargetVersion":
+			sp.UpgradeTargetVersion = &(o.UpgradeTargetVersion)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -905,14 +928,17 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Unreachable != nil {
 		o.Unreachable = *so.Unreachable
 	}
-	if so.UpdateAvailable != nil {
-		o.UpdateAvailable = *so.UpdateAvailable
-	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
+	}
+	if so.UpgradeStatus != nil {
+		o.UpgradeStatus = *so.UpgradeStatus
+	}
+	if so.UpgradeTargetVersion != nil {
+		o.UpgradeTargetVersion = *so.UpgradeTargetVersion
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -989,6 +1015,14 @@ func (o *Enforcer) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("operationalStatus", string(o.OperationalStatus), []string{"Registered", "Connected", "Disconnected", "Initialized"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("upgradeStatus", string(o.UpgradeStatus), []string{"None", "UpgradeRequested", "Upgrading"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateSemVer("upgradeTargetVersion", o.UpgradeTargetVersion); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1098,12 +1132,14 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.Subnets
 	case "unreachable":
 		return o.Unreachable
-	case "updateAvailable":
-		return o.UpdateAvailable
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
+	case "upgradeStatus":
+		return o.UpgradeStatus
+	case "upgradeTargetVersion":
+		return o.UpgradeTargetVersion
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -1202,7 +1238,7 @@ attribute, not exposed in the API.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequest",
 		Description: `If not empty during a create or update operation, the provided certificate
-signing request (CSR) will be validated and signed by the Microsegmentation 
+signing request (CSR) will be validated and signed by the Microsegmentation
 Console, providing a renewed certificate.`,
 		Exposed:   true,
 		Name:      "certificateRequest",
@@ -1541,16 +1577,6 @@ the enforcer in the last five minutes.`,
 		Transient: true,
 		Type:      "boolean",
 	},
-	"UpdateAvailable": {
-		AllowedChoices: []string{},
-		ConvertedName:  "UpdateAvailable",
-		Description:    `If ` + "`" + `true` + "`" + `, the enforcer version is outdated and should be updated.`,
-		Exposed:        true,
-		Name:           "updateAvailable",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1576,6 +1602,28 @@ the enforcer in the last five minutes.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"UpgradeStatus": {
+		AllowedChoices: []string{"None", "UpgradeRequested", "Upgrading"},
+		ConvertedName:  "UpgradeStatus",
+		DefaultValue:   EnforcerUpgradeStatusNone,
+		Description:    `Defines the upgrade status.`,
+		Exposed:        true,
+		Name:           "upgradeStatus",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
+	},
+	"UpgradeTargetVersion": {
+		AllowedChoices: []string{},
+		ConvertedName:  "UpgradeTargetVersion",
+		Description:    `Defines the next version the enforcer will be upgraded to.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "upgradeTargetVersion",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"ZHash": {
 		AllowedChoices: []string{},
@@ -1699,7 +1747,7 @@ attribute, not exposed in the API.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequest",
 		Description: `If not empty during a create or update operation, the provided certificate
-signing request (CSR) will be validated and signed by the Microsegmentation 
+signing request (CSR) will be validated and signed by the Microsegmentation
 Console, providing a renewed certificate.`,
 		Exposed:   true,
 		Name:      "certificateRequest",
@@ -2065,17 +2113,6 @@ the enforcer in the last five minutes.`,
 		Transient: true,
 		Type:      "boolean",
 	},
-	"updateavailable": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "updateavailable",
-		ConvertedName:  "UpdateAvailable",
-		Description:    `If ` + "`" + `true` + "`" + `, the enforcer version is outdated and should be updated.`,
-		Exposed:        true,
-		Name:           "updateAvailable",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -2103,6 +2140,30 @@ the enforcer in the last five minutes.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"upgradestatus": {
+		AllowedChoices: []string{"None", "UpgradeRequested", "Upgrading"},
+		BSONFieldName:  "upgradestatus",
+		ConvertedName:  "UpgradeStatus",
+		DefaultValue:   EnforcerUpgradeStatusNone,
+		Description:    `Defines the upgrade status.`,
+		Exposed:        true,
+		Name:           "upgradeStatus",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
+	},
+	"upgradetargetversion": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "upgradetargetversion",
+		ConvertedName:  "UpgradeTargetVersion",
+		Description:    `Defines the next version the enforcer will be upgraded to.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "upgradeTargetVersion",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"zhash": {
 		AllowedChoices: []string{},
@@ -2324,14 +2385,17 @@ type SparseEnforcer struct {
 	// the enforcer in the last five minutes.
 	Unreachable *bool `json:"unreachable,omitempty" msgpack:"unreachable,omitempty" bson:"unreachable,omitempty" mapstructure:"unreachable,omitempty"`
 
-	// If `true`, the enforcer version is outdated and should be updated.
-	UpdateAvailable *bool `json:"updateAvailable,omitempty" msgpack:"updateAvailable,omitempty" bson:"updateavailable,omitempty" mapstructure:"updateAvailable,omitempty"`
-
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+
+	// Defines the upgrade status.
+	UpgradeStatus *EnforcerUpgradeStatusValue `json:"upgradeStatus,omitempty" msgpack:"upgradeStatus,omitempty" bson:"upgradestatus,omitempty" mapstructure:"upgradeStatus,omitempty"`
+
+	// Defines the next version the enforcer will be upgraded to.
+	UpgradeTargetVersion *string `json:"upgradeTargetVersion,omitempty" msgpack:"upgradeTargetVersion,omitempty" bson:"upgradetargetversion,omitempty" mapstructure:"upgradeTargetVersion,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -2479,14 +2543,17 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	if o.Unreachable != nil {
 		s.Unreachable = o.Unreachable
 	}
-	if o.UpdateAvailable != nil {
-		s.UpdateAvailable = o.UpdateAvailable
-	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		s.UpdateTime = o.UpdateTime
+	}
+	if o.UpgradeStatus != nil {
+		s.UpgradeStatus = o.UpgradeStatus
+	}
+	if o.UpgradeTargetVersion != nil {
+		s.UpgradeTargetVersion = o.UpgradeTargetVersion
 	}
 	if o.ZHash != nil {
 		s.ZHash = o.ZHash
@@ -2606,14 +2673,17 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	if s.Unreachable != nil {
 		o.Unreachable = s.Unreachable
 	}
-	if s.UpdateAvailable != nil {
-		o.UpdateAvailable = s.UpdateAvailable
-	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	}
 	if s.UpdateTime != nil {
 		o.UpdateTime = s.UpdateTime
+	}
+	if s.UpgradeStatus != nil {
+		o.UpgradeStatus = s.UpgradeStatus
+	}
+	if s.UpgradeTargetVersion != nil {
+		o.UpgradeTargetVersion = s.UpgradeTargetVersion
 	}
 	if s.ZHash != nil {
 		o.ZHash = s.ZHash
@@ -2743,14 +2813,17 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	if o.Unreachable != nil {
 		out.Unreachable = *o.Unreachable
 	}
-	if o.UpdateAvailable != nil {
-		out.UpdateAvailable = *o.UpdateAvailable
-	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
+	}
+	if o.UpgradeStatus != nil {
+		out.UpgradeStatus = *o.UpgradeStatus
+	}
+	if o.UpgradeTargetVersion != nil {
+		out.UpgradeTargetVersion = *o.UpgradeTargetVersion
 	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
@@ -3075,9 +3148,10 @@ type mongoAttributesEnforcer struct {
 	StartTime             time.Time                      `bson:"starttime"`
 	Subnets               []string                       `bson:"subnets"`
 	Unreachable           bool                           `bson:"unreachable"`
-	UpdateAvailable       bool                           `bson:"updateavailable"`
 	UpdateIdempotencyKey  string                         `bson:"updateidempotencykey"`
 	UpdateTime            time.Time                      `bson:"updatetime"`
+	UpgradeStatus         EnforcerUpgradeStatusValue     `bson:"upgradestatus"`
+	UpgradeTargetVersion  string                         `bson:"upgradetargetversion"`
 	ZHash                 int                            `bson:"zhash"`
 	Zone                  int                            `bson:"zone"`
 }
@@ -3114,9 +3188,10 @@ type mongoAttributesSparseEnforcer struct {
 	StartTime             *time.Time                      `bson:"starttime,omitempty"`
 	Subnets               *[]string                       `bson:"subnets,omitempty"`
 	Unreachable           *bool                           `bson:"unreachable,omitempty"`
-	UpdateAvailable       *bool                           `bson:"updateavailable,omitempty"`
 	UpdateIdempotencyKey  *string                         `bson:"updateidempotencykey,omitempty"`
 	UpdateTime            *time.Time                      `bson:"updatetime,omitempty"`
+	UpgradeStatus         *EnforcerUpgradeStatusValue     `bson:"upgradestatus,omitempty"`
+	UpgradeTargetVersion  *string                         `bson:"upgradetargetversion,omitempty"`
 	ZHash                 *int                            `bson:"zhash,omitempty"`
 	Zone                  *int                            `bson:"zone,omitempty"`
 }

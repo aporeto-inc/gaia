@@ -173,6 +173,9 @@ type Namespace struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
+	// Indicates the minimum enforcer version for this namespace.
+	MinimumEnforcerVersion string `json:"minimumEnforcerVersion" msgpack:"minimumEnforcerVersion" bson:"minimumenforcerversion" mapstructure:"minimumEnforcerVersion,omitempty"`
+
 	// The name of the namespace.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -235,12 +238,12 @@ func NewNamespace() *Namespace {
 		Metadata:                   []string{},
 		NetworkAccessPolicyTags:    []string{},
 		NormalizedTags:             []string{},
-		OrganizationalMetadata:     []string{},
-		JWTCertificateType:         NamespaceJWTCertificateTypeNone,
-		ServiceCertificateValidity: "168h",
-		MigrationsLog:              map[string]string{},
 		JWTCertificates:            map[string]string{},
+		OrganizationalMetadata:     []string{},
+		ServiceCertificateValidity: "168h",
 		Type:                       NamespaceTypeDefault,
+		JWTCertificateType:         NamespaceJWTCertificateTypeNone,
+		MigrationsLog:              map[string]string{},
 	}
 }
 
@@ -291,6 +294,7 @@ func (o *Namespace) GetBSON() (interface{}, error) {
 	s.LocalCAEnabled = o.LocalCAEnabled
 	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
+	s.MinimumEnforcerVersion = o.MinimumEnforcerVersion
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NetworkAccessPolicyTags = o.NetworkAccessPolicyTags
@@ -338,6 +342,7 @@ func (o *Namespace) SetBSON(raw bson.Raw) error {
 	o.LocalCAEnabled = s.LocalCAEnabled
 	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
+	o.MinimumEnforcerVersion = s.MinimumEnforcerVersion
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NetworkAccessPolicyTags = s.NetworkAccessPolicyTags
@@ -605,6 +610,7 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			LocalCAEnabled:             &o.LocalCAEnabled,
 			Metadata:                   &o.Metadata,
 			MigrationsLog:              &o.MigrationsLog,
+			MinimumEnforcerVersion:     &o.MinimumEnforcerVersion,
 			Name:                       &o.Name,
 			Namespace:                  &o.Namespace,
 			NetworkAccessPolicyTags:    &o.NetworkAccessPolicyTags,
@@ -658,6 +664,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Metadata = &(o.Metadata)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
+		case "minimumEnforcerVersion":
+			sp.MinimumEnforcerVersion = &(o.MinimumEnforcerVersion)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -748,6 +756,9 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
 	}
+	if so.MinimumEnforcerVersion != nil {
+		o.MinimumEnforcerVersion = *so.MinimumEnforcerVersion
+	}
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
@@ -832,6 +843,10 @@ func (o *Namespace) Validate() error {
 	}
 
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateSemVer("minimumEnforcerVersion", o.MinimumEnforcerVersion); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -927,6 +942,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.Metadata
 	case "migrationsLog":
 		return o.MigrationsLog
+	case "minimumEnforcerVersion":
+		return o.MinimumEnforcerVersion
 	case "name":
 		return o.Name
 	case "namespace":
@@ -1161,6 +1178,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"MinimumEnforcerVersion": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MinimumEnforcerVersion",
+		Description:    `Indicates the minimum enforcer version for this namespace.`,
+		Exposed:        true,
+		Name:           "minimumEnforcerVersion",
+		Stored:         true,
+		Type:           "string",
 	},
 	"Name": {
 		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
@@ -1559,6 +1585,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "map[string]string",
 		Type:           "external",
 	},
+	"minimumenforcerversion": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "minimumenforcerversion",
+		ConvertedName:  "MinimumEnforcerVersion",
+		Description:    `Indicates the minimum enforcer version for this namespace.`,
+		Exposed:        true,
+		Name:           "minimumEnforcerVersion",
+		Stored:         true,
+		Type:           "string",
+	},
 	"name": {
 		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
 		AllowedChoices: []string{},
@@ -1872,6 +1908,9 @@ type SparseNamespace struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
+	// Indicates the minimum enforcer version for this namespace.
+	MinimumEnforcerVersion *string `json:"minimumEnforcerVersion,omitempty" msgpack:"minimumEnforcerVersion,omitempty" bson:"minimumenforcerversion,omitempty" mapstructure:"minimumEnforcerVersion,omitempty"`
+
 	// The name of the namespace.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -2015,6 +2054,9 @@ func (o *SparseNamespace) GetBSON() (interface{}, error) {
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
+	if o.MinimumEnforcerVersion != nil {
+		s.MinimumEnforcerVersion = o.MinimumEnforcerVersion
+	}
 	if o.Name != nil {
 		s.Name = o.Name
 	}
@@ -2121,6 +2163,9 @@ func (o *SparseNamespace) SetBSON(raw bson.Raw) error {
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
+	if s.MinimumEnforcerVersion != nil {
+		o.MinimumEnforcerVersion = s.MinimumEnforcerVersion
+	}
 	if s.Name != nil {
 		o.Name = s.Name
 	}
@@ -2224,6 +2269,9 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
+	}
+	if o.MinimumEnforcerVersion != nil {
+		out.MinimumEnforcerVersion = *o.MinimumEnforcerVersion
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -2566,6 +2614,7 @@ type mongoAttributesNamespace struct {
 	LocalCAEnabled             bool                             `bson:"localcaenabled"`
 	Metadata                   []string                         `bson:"metadata"`
 	MigrationsLog              map[string]string                `bson:"migrationslog,omitempty"`
+	MinimumEnforcerVersion     string                           `bson:"minimumenforcerversion"`
 	Name                       string                           `bson:"name"`
 	Namespace                  string                           `bson:"namespace"`
 	NetworkAccessPolicyTags    []string                         `bson:"networkaccesspolicytags"`
@@ -2598,6 +2647,7 @@ type mongoAttributesSparseNamespace struct {
 	LocalCAEnabled             *bool                             `bson:"localcaenabled,omitempty"`
 	Metadata                   *[]string                         `bson:"metadata,omitempty"`
 	MigrationsLog              *map[string]string                `bson:"migrationslog,omitempty"`
+	MinimumEnforcerVersion     *string                           `bson:"minimumenforcerversion,omitempty"`
 	Name                       *string                           `bson:"name,omitempty"`
 	Namespace                  *string                           `bson:"namespace,omitempty"`
 	NetworkAccessPolicyTags    *[]string                         `bson:"networkaccesspolicytags,omitempty"`
