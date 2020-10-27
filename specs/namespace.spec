@@ -180,9 +180,13 @@ attributes:
       - `Default`: A universal namespace that is capable of all actions and views.
       - `Tenant`: A namespace that houses a tenant (e.g. ACME).
       - `CloudAccount`: A child namespace of a tenant that houses a cloud provider
-      account (e.g. aws-123, gcp-54).
-      - `Group`: A child namespace of a cloud account that houses a managed group
-      (e.g. marketing, app-234).
+      account.
+      - `HostGroup`: A child namespace of a cloud account that houses a managed
+      non-Kubernetes group.
+      - `K8sClusterGroup`: A child namespace of a cloud account that houses a managed
+      Kubernetes group.
+      - `K8s`: A child namespace of a Kubernetes cluster group that houses a
+      Kubernetes cluster (automatically created by the enforcer).
     type: enum
     exposed: true
     stored: true
@@ -191,7 +195,9 @@ attributes:
     - Default
     - Tenant
     - CloudAccount
-    - Group
+    - HostGroup
+    - K8sClusterGroup
+    - K8s
     default_value: Default
 
   - name: zoning

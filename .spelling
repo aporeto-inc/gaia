@@ -224,14 +224,12 @@ apiproxy
 apoctl
 aporeto-crds
 aporeto-operator
-app-234
 auditd
 authorizer
 autocomplete
 autocompletion
 autodiscover
 automations
-aws-123
 backend
 base64-encoded
 bolded
@@ -255,7 +253,6 @@ enum
 failover
 finack
 gRPC
-gcp-54
 georedundancy
 i.e.
 iOS
