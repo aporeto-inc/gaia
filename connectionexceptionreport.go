@@ -151,19 +151,19 @@ type ConnectionExceptionReport struct {
 	Reason string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"j,omitempty" mapstructure:"reason,omitempty"`
 
 	// Type of the service.
-	ServiceType ConnectionExceptionReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"k,omitempty" mapstructure:"serviceType,omitempty"`
+	ServiceType ConnectionExceptionReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"o,omitempty" mapstructure:"serviceType,omitempty"`
 
 	// Source IP address.
-	SourceIP string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"l,omitempty" mapstructure:"sourceIP,omitempty"`
+	SourceIP string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"k,omitempty" mapstructure:"sourceIP,omitempty"`
 
 	// Represents the current state this report was generated.
-	State ConnectionExceptionReportStateValue `json:"state" msgpack:"state" bson:"m" mapstructure:"state,omitempty"`
+	State ConnectionExceptionReportStateValue `json:"state" msgpack:"state" bson:"l" mapstructure:"state,omitempty"`
 
 	// Time and date of the report.
-	Timestamp time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"n,omitempty" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"m,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// Number of packets hit.
-	Value int `json:"value,omitempty" msgpack:"value,omitempty" bson:"o,omitempty" mapstructure:"value,omitempty"`
+	Value int `json:"value,omitempty" msgpack:"value,omitempty" bson:"n,omitempty" mapstructure:"value,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -957,7 +957,7 @@ state.`,
 	},
 	"servicetype": {
 		AllowedChoices: []string{"L3", "HTTP", "TCP"},
-		BSONFieldName:  "k",
+		BSONFieldName:  "o",
 		ConvertedName:  "ServiceType",
 		DefaultValue:   ConnectionExceptionReportServiceTypeL3,
 		Description:    `Type of the service.`,
@@ -968,7 +968,7 @@ state.`,
 	},
 	"sourceip": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "l",
+		BSONFieldName:  "k",
 		ConvertedName:  "SourceIP",
 		Description:    `Source IP address.`,
 		Exposed:        true,
@@ -978,7 +978,7 @@ state.`,
 	},
 	"state": {
 		AllowedChoices: []string{"SynTransmitted", "SynAckTransmitted", "AckTransmitted", "Unknown"},
-		BSONFieldName:  "m",
+		BSONFieldName:  "l",
 		ConvertedName:  "State",
 		Description:    `Represents the current state this report was generated.`,
 		Exposed:        true,
@@ -990,7 +990,7 @@ state.`,
 	},
 	"timestamp": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "n",
+		BSONFieldName:  "m",
 		ConvertedName:  "Timestamp",
 		Description:    `Time and date of the report.`,
 		Exposed:        true,
@@ -1000,7 +1000,7 @@ state.`,
 	},
 	"value": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "o",
+		BSONFieldName:  "n",
 		ConvertedName:  "Value",
 		Description:    `Number of packets hit.`,
 		Exposed:        true,
@@ -1141,19 +1141,19 @@ type SparseConnectionExceptionReport struct {
 	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"j,omitempty" mapstructure:"reason,omitempty"`
 
 	// Type of the service.
-	ServiceType *ConnectionExceptionReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"k,omitempty" mapstructure:"serviceType,omitempty"`
+	ServiceType *ConnectionExceptionReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"o,omitempty" mapstructure:"serviceType,omitempty"`
 
 	// Source IP address.
-	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"l,omitempty" mapstructure:"sourceIP,omitempty"`
+	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"k,omitempty" mapstructure:"sourceIP,omitempty"`
 
 	// Represents the current state this report was generated.
-	State *ConnectionExceptionReportStateValue `json:"state,omitempty" msgpack:"state,omitempty" bson:"m,omitempty" mapstructure:"state,omitempty"`
+	State *ConnectionExceptionReportStateValue `json:"state,omitempty" msgpack:"state,omitempty" bson:"l,omitempty" mapstructure:"state,omitempty"`
 
 	// Time and date of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"n,omitempty" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"m,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// Number of packets hit.
-	Value *int `json:"value,omitempty" msgpack:"value,omitempty" bson:"o,omitempty" mapstructure:"value,omitempty"`
+	Value *int `json:"value,omitempty" msgpack:"value,omitempty" bson:"n,omitempty" mapstructure:"value,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -1495,11 +1495,11 @@ type mongoAttributesConnectionExceptionReport struct {
 	ProcessingUnitNamespace     string                                    `bson:"h,omitempty"`
 	Protocol                    int                                       `bson:"i,omitempty"`
 	Reason                      string                                    `bson:"j,omitempty"`
-	ServiceType                 ConnectionExceptionReportServiceTypeValue `bson:"k,omitempty"`
-	SourceIP                    string                                    `bson:"l,omitempty"`
-	State                       ConnectionExceptionReportStateValue       `bson:"m"`
-	Timestamp                   time.Time                                 `bson:"n,omitempty"`
-	Value                       int                                       `bson:"o,omitempty"`
+	ServiceType                 ConnectionExceptionReportServiceTypeValue `bson:"o,omitempty"`
+	SourceIP                    string                                    `bson:"k,omitempty"`
+	State                       ConnectionExceptionReportStateValue       `bson:"l"`
+	Timestamp                   time.Time                                 `bson:"m,omitempty"`
+	Value                       int                                       `bson:"n,omitempty"`
 	ZHash                       int                                       `bson:"zhash"`
 	Zone                        int                                       `bson:"zone"`
 }
@@ -1516,11 +1516,11 @@ type mongoAttributesSparseConnectionExceptionReport struct {
 	ProcessingUnitNamespace     *string                                    `bson:"h,omitempty"`
 	Protocol                    *int                                       `bson:"i,omitempty"`
 	Reason                      *string                                    `bson:"j,omitempty"`
-	ServiceType                 *ConnectionExceptionReportServiceTypeValue `bson:"k,omitempty"`
-	SourceIP                    *string                                    `bson:"l,omitempty"`
-	State                       *ConnectionExceptionReportStateValue       `bson:"m,omitempty"`
-	Timestamp                   *time.Time                                 `bson:"n,omitempty"`
-	Value                       *int                                       `bson:"o,omitempty"`
+	ServiceType                 *ConnectionExceptionReportServiceTypeValue `bson:"o,omitempty"`
+	SourceIP                    *string                                    `bson:"k,omitempty"`
+	State                       *ConnectionExceptionReportStateValue       `bson:"l,omitempty"`
+	Timestamp                   *time.Time                                 `bson:"m,omitempty"`
+	Value                       *int                                       `bson:"n,omitempty"`
 	ZHash                       *int                                       `bson:"zhash,omitempty"`
 	Zone                        *int                                       `bson:"zone,omitempty"`
 }

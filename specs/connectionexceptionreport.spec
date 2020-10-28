@@ -140,7 +140,7 @@ attributes:
     default_value: L3
     omit_empty: true
     extensions:
-      bson_name: k
+      bson_name: o
 
   - name: sourceIP
     description: Source IP address.
@@ -149,7 +149,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: l
+      bson_name: k
 
   - name: state
     description: Represents the current state this report was generated.
@@ -166,7 +166,7 @@ attributes:
     example_value:
     - Unknown
     extensions:
-      bson_name: m
+      bson_name: l
 
   - name: timestamp
     description: Time and date of the report.
@@ -175,7 +175,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: "n"
+      bson_name: m
 
   - name: value
     description: Number of packets hit.
@@ -186,4 +186,4 @@ attributes:
     example_value: 1
     omit_empty: true
     extensions:
-      bson_name: o
+      bson_name: "n"
