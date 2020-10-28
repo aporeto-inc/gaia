@@ -19,9 +19,6 @@ const (
 	// ConnectionExceptionReportServiceTypeL3 represents the value L3.
 	ConnectionExceptionReportServiceTypeL3 ConnectionExceptionReportServiceTypeValue = "L3"
 
-	// ConnectionExceptionReportServiceTypeNotApplicable represents the value NotApplicable.
-	ConnectionExceptionReportServiceTypeNotApplicable ConnectionExceptionReportServiceTypeValue = "NotApplicable"
-
 	// ConnectionExceptionReportServiceTypeTCP represents the value TCP.
 	ConnectionExceptionReportServiceTypeTCP ConnectionExceptionReportServiceTypeValue = "TCP"
 )
@@ -184,7 +181,7 @@ func NewConnectionExceptionReport() *ConnectionExceptionReport {
 	return &ConnectionExceptionReport{
 		ModelVersion:  1,
 		MigrationsLog: map[string]string{},
-		ServiceType:   ConnectionExceptionReportServiceTypeNotApplicable,
+		ServiceType:   ConnectionExceptionReportServiceTypeL3,
 	}
 }
 
@@ -526,7 +523,7 @@ func (o *ConnectionExceptionReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("serviceType", string(o.ServiceType), []string{"L3", "HTTP", "TCP", "NotApplicable"}, false); err != nil {
+	if err := elemental.ValidateStringInList("serviceType", string(o.ServiceType), []string{"L3", "HTTP", "TCP"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -745,9 +742,9 @@ state.`,
 		Type:           "string",
 	},
 	"ServiceType": {
-		AllowedChoices: []string{"L3", "HTTP", "TCP", "NotApplicable"},
+		AllowedChoices: []string{"L3", "HTTP", "TCP"},
 		ConvertedName:  "ServiceType",
-		DefaultValue:   ConnectionExceptionReportServiceTypeNotApplicable,
+		DefaultValue:   ConnectionExceptionReportServiceTypeL3,
 		Description:    `Type of the service.`,
 		Exposed:        true,
 		Name:           "serviceType",
@@ -959,10 +956,10 @@ state.`,
 		Type:           "string",
 	},
 	"servicetype": {
-		AllowedChoices: []string{"L3", "HTTP", "TCP", "NotApplicable"},
+		AllowedChoices: []string{"L3", "HTTP", "TCP"},
 		BSONFieldName:  "o",
 		ConvertedName:  "ServiceType",
-		DefaultValue:   ConnectionExceptionReportServiceTypeNotApplicable,
+		DefaultValue:   ConnectionExceptionReportServiceTypeL3,
 		Description:    `Type of the service.`,
 		Exposed:        true,
 		Name:           "serviceType",

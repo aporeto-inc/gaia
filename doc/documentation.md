@@ -11820,7 +11820,7 @@ Post a new flow log.
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
   "protocol": 6,
-  "serviceType": "NotApplicable",
+  "serviceType": "L3",
   "state": [
     "Unknown"
   ],
@@ -11912,14 +11912,14 @@ It specifies the reason for the exception.
 
 ##### `serviceType`
 
-Type: `enum(L3 | HTTP | TCP | NotApplicable)`
+Type: `enum(L3 | HTTP | TCP)`
 
 Type of the service.
 
 Default value:
 
 ```json
-"NotApplicable"
+"L3"
 ```
 
 ##### `sourceIP`

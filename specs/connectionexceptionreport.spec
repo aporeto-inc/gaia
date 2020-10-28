@@ -137,8 +137,7 @@ attributes:
     - L3
     - HTTP
     - TCP
-    - NotApplicable
-    default_value: NotApplicable
+    default_value: L3
     omit_empty: true
     extensions:
       bson_name: o
