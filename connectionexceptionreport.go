@@ -9,6 +9,23 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// ConnectionExceptionReportServiceTypeValue represents the possible values for attribute "serviceType".
+type ConnectionExceptionReportServiceTypeValue string
+
+const (
+	// ConnectionExceptionReportServiceTypeHTTP represents the value HTTP.
+	ConnectionExceptionReportServiceTypeHTTP ConnectionExceptionReportServiceTypeValue = "HTTP"
+
+	// ConnectionExceptionReportServiceTypeL3 represents the value L3.
+	ConnectionExceptionReportServiceTypeL3 ConnectionExceptionReportServiceTypeValue = "L3"
+
+	// ConnectionExceptionReportServiceTypeNotApplicable represents the value NotApplicable.
+	ConnectionExceptionReportServiceTypeNotApplicable ConnectionExceptionReportServiceTypeValue = "NotApplicable"
+
+	// ConnectionExceptionReportServiceTypeTCP represents the value TCP.
+	ConnectionExceptionReportServiceTypeTCP ConnectionExceptionReportServiceTypeValue = "TCP"
+)
+
 // ConnectionExceptionReportStateValue represents the possible values for attribute "state".
 type ConnectionExceptionReportStateValue string
 
@@ -136,6 +153,9 @@ type ConnectionExceptionReport struct {
 	// It specifies the reason for the exception.
 	Reason string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"j,omitempty" mapstructure:"reason,omitempty"`
 
+	// Type of the service.
+	ServiceType ConnectionExceptionReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"o,omitempty" mapstructure:"serviceType,omitempty"`
+
 	// Source IP address.
 	SourceIP string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"k,omitempty" mapstructure:"sourceIP,omitempty"`
 
@@ -164,6 +184,7 @@ func NewConnectionExceptionReport() *ConnectionExceptionReport {
 	return &ConnectionExceptionReport{
 		ModelVersion:  1,
 		MigrationsLog: map[string]string{},
+		ServiceType:   ConnectionExceptionReportServiceTypeNotApplicable,
 	}
 }
 
@@ -209,6 +230,7 @@ func (o *ConnectionExceptionReport) GetBSON() (interface{}, error) {
 	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
 	s.Protocol = o.Protocol
 	s.Reason = o.Reason
+	s.ServiceType = o.ServiceType
 	s.SourceIP = o.SourceIP
 	s.State = o.State
 	s.Timestamp = o.Timestamp
@@ -244,6 +266,7 @@ func (o *ConnectionExceptionReport) SetBSON(raw bson.Raw) error {
 	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
 	o.Protocol = s.Protocol
 	o.Reason = s.Reason
+	o.ServiceType = s.ServiceType
 	o.SourceIP = s.SourceIP
 	o.State = s.State
 	o.Timestamp = s.Timestamp
@@ -338,6 +361,7 @@ func (o *ConnectionExceptionReport) ToSparse(fields ...string) elemental.SparseI
 			ProcessingUnitNamespace:     &o.ProcessingUnitNamespace,
 			Protocol:                    &o.Protocol,
 			Reason:                      &o.Reason,
+			ServiceType:                 &o.ServiceType,
 			SourceIP:                    &o.SourceIP,
 			State:                       &o.State,
 			Timestamp:                   &o.Timestamp,
@@ -374,6 +398,8 @@ func (o *ConnectionExceptionReport) ToSparse(fields ...string) elemental.SparseI
 			sp.Protocol = &(o.Protocol)
 		case "reason":
 			sp.Reason = &(o.Reason)
+		case "serviceType":
+			sp.ServiceType = &(o.ServiceType)
 		case "sourceIP":
 			sp.SourceIP = &(o.SourceIP)
 		case "state":
@@ -435,6 +461,9 @@ func (o *ConnectionExceptionReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Reason != nil {
 		o.Reason = *so.Reason
 	}
+	if so.ServiceType != nil {
+		o.ServiceType = *so.ServiceType
+	}
 	if so.SourceIP != nil {
 		o.SourceIP = *so.SourceIP
 	}
@@ -495,6 +524,10 @@ func (o *ConnectionExceptionReport) Validate() error {
 
 	if err := elemental.ValidateRequiredInt("protocol", o.Protocol); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("serviceType", string(o.ServiceType), []string{"L3", "HTTP", "TCP", "NotApplicable"}, false); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("state", string(o.State)); err != nil {
@@ -567,6 +600,8 @@ func (o *ConnectionExceptionReport) ValueForAttribute(name string) interface{} {
 		return o.Protocol
 	case "reason":
 		return o.Reason
+	case "serviceType":
+		return o.ServiceType
 	case "sourceIP":
 		return o.SourceIP
 	case "state":
@@ -708,6 +743,16 @@ state.`,
 		Name:           "reason",
 		Stored:         true,
 		Type:           "string",
+	},
+	"ServiceType": {
+		AllowedChoices: []string{"L3", "HTTP", "TCP", "NotApplicable"},
+		ConvertedName:  "ServiceType",
+		DefaultValue:   ConnectionExceptionReportServiceTypeNotApplicable,
+		Description:    `Type of the service.`,
+		Exposed:        true,
+		Name:           "serviceType",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"SourceIP": {
 		AllowedChoices: []string{},
@@ -913,6 +958,17 @@ state.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"servicetype": {
+		AllowedChoices: []string{"L3", "HTTP", "TCP", "NotApplicable"},
+		BSONFieldName:  "o",
+		ConvertedName:  "ServiceType",
+		DefaultValue:   ConnectionExceptionReportServiceTypeNotApplicable,
+		Description:    `Type of the service.`,
+		Exposed:        true,
+		Name:           "serviceType",
+		Stored:         true,
+		Type:           "enum",
+	},
 	"sourceip": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "k",
@@ -1087,6 +1143,9 @@ type SparseConnectionExceptionReport struct {
 	// It specifies the reason for the exception.
 	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"j,omitempty" mapstructure:"reason,omitempty"`
 
+	// Type of the service.
+	ServiceType *ConnectionExceptionReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"o,omitempty" mapstructure:"serviceType,omitempty"`
+
 	// Source IP address.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"k,omitempty" mapstructure:"sourceIP,omitempty"`
 
@@ -1185,6 +1244,9 @@ func (o *SparseConnectionExceptionReport) GetBSON() (interface{}, error) {
 	if o.Reason != nil {
 		s.Reason = o.Reason
 	}
+	if o.ServiceType != nil {
+		s.ServiceType = o.ServiceType
+	}
 	if o.SourceIP != nil {
 		s.SourceIP = o.SourceIP
 	}
@@ -1255,6 +1317,9 @@ func (o *SparseConnectionExceptionReport) SetBSON(raw bson.Raw) error {
 	if s.Reason != nil {
 		o.Reason = s.Reason
 	}
+	if s.ServiceType != nil {
+		o.ServiceType = s.ServiceType
+	}
 	if s.SourceIP != nil {
 		o.SourceIP = s.SourceIP
 	}
@@ -1322,6 +1387,9 @@ func (o *SparseConnectionExceptionReport) ToPlain() elemental.PlainIdentifiable 
 	}
 	if o.Reason != nil {
 		out.Reason = *o.Reason
+	}
+	if o.ServiceType != nil {
+		out.ServiceType = *o.ServiceType
 	}
 	if o.SourceIP != nil {
 		out.SourceIP = *o.SourceIP
@@ -1418,42 +1486,44 @@ func (o *SparseConnectionExceptionReport) DeepCopyInto(out *SparseConnectionExce
 }
 
 type mongoAttributesConnectionExceptionReport struct {
-	ID                          bson.ObjectId                       `bson:"_id,omitempty"`
-	DestinationController       string                              `bson:"a,omitempty"`
-	DestinationIP               string                              `bson:"b,omitempty"`
-	DestinationPort             int                                 `bson:"c,omitempty"`
-	DestinationProcessingUnitID string                              `bson:"d,omitempty"`
-	EnforcerID                  string                              `bson:"e,omitempty"`
-	EnforcerNamespace           string                              `bson:"f,omitempty"`
-	MigrationsLog               map[string]string                   `bson:"migrationslog,omitempty"`
-	ProcessingUnitID            string                              `bson:"g,omitempty"`
-	ProcessingUnitNamespace     string                              `bson:"h,omitempty"`
-	Protocol                    int                                 `bson:"i,omitempty"`
-	Reason                      string                              `bson:"j,omitempty"`
-	SourceIP                    string                              `bson:"k,omitempty"`
-	State                       ConnectionExceptionReportStateValue `bson:"l"`
-	Timestamp                   time.Time                           `bson:"m,omitempty"`
-	Value                       int                                 `bson:"n,omitempty"`
-	ZHash                       int                                 `bson:"zhash"`
-	Zone                        int                                 `bson:"zone"`
+	ID                          bson.ObjectId                             `bson:"_id,omitempty"`
+	DestinationController       string                                    `bson:"a,omitempty"`
+	DestinationIP               string                                    `bson:"b,omitempty"`
+	DestinationPort             int                                       `bson:"c,omitempty"`
+	DestinationProcessingUnitID string                                    `bson:"d,omitempty"`
+	EnforcerID                  string                                    `bson:"e,omitempty"`
+	EnforcerNamespace           string                                    `bson:"f,omitempty"`
+	MigrationsLog               map[string]string                         `bson:"migrationslog,omitempty"`
+	ProcessingUnitID            string                                    `bson:"g,omitempty"`
+	ProcessingUnitNamespace     string                                    `bson:"h,omitempty"`
+	Protocol                    int                                       `bson:"i,omitempty"`
+	Reason                      string                                    `bson:"j,omitempty"`
+	ServiceType                 ConnectionExceptionReportServiceTypeValue `bson:"o,omitempty"`
+	SourceIP                    string                                    `bson:"k,omitempty"`
+	State                       ConnectionExceptionReportStateValue       `bson:"l"`
+	Timestamp                   time.Time                                 `bson:"m,omitempty"`
+	Value                       int                                       `bson:"n,omitempty"`
+	ZHash                       int                                       `bson:"zhash"`
+	Zone                        int                                       `bson:"zone"`
 }
 type mongoAttributesSparseConnectionExceptionReport struct {
-	ID                          bson.ObjectId                        `bson:"_id,omitempty"`
-	DestinationController       *string                              `bson:"a,omitempty"`
-	DestinationIP               *string                              `bson:"b,omitempty"`
-	DestinationPort             *int                                 `bson:"c,omitempty"`
-	DestinationProcessingUnitID *string                              `bson:"d,omitempty"`
-	EnforcerID                  *string                              `bson:"e,omitempty"`
-	EnforcerNamespace           *string                              `bson:"f,omitempty"`
-	MigrationsLog               *map[string]string                   `bson:"migrationslog,omitempty"`
-	ProcessingUnitID            *string                              `bson:"g,omitempty"`
-	ProcessingUnitNamespace     *string                              `bson:"h,omitempty"`
-	Protocol                    *int                                 `bson:"i,omitempty"`
-	Reason                      *string                              `bson:"j,omitempty"`
-	SourceIP                    *string                              `bson:"k,omitempty"`
-	State                       *ConnectionExceptionReportStateValue `bson:"l,omitempty"`
-	Timestamp                   *time.Time                           `bson:"m,omitempty"`
-	Value                       *int                                 `bson:"n,omitempty"`
-	ZHash                       *int                                 `bson:"zhash,omitempty"`
-	Zone                        *int                                 `bson:"zone,omitempty"`
+	ID                          bson.ObjectId                              `bson:"_id,omitempty"`
+	DestinationController       *string                                    `bson:"a,omitempty"`
+	DestinationIP               *string                                    `bson:"b,omitempty"`
+	DestinationPort             *int                                       `bson:"c,omitempty"`
+	DestinationProcessingUnitID *string                                    `bson:"d,omitempty"`
+	EnforcerID                  *string                                    `bson:"e,omitempty"`
+	EnforcerNamespace           *string                                    `bson:"f,omitempty"`
+	MigrationsLog               *map[string]string                         `bson:"migrationslog,omitempty"`
+	ProcessingUnitID            *string                                    `bson:"g,omitempty"`
+	ProcessingUnitNamespace     *string                                    `bson:"h,omitempty"`
+	Protocol                    *int                                       `bson:"i,omitempty"`
+	Reason                      *string                                    `bson:"j,omitempty"`
+	ServiceType                 *ConnectionExceptionReportServiceTypeValue `bson:"o,omitempty"`
+	SourceIP                    *string                                    `bson:"k,omitempty"`
+	State                       *ConnectionExceptionReportStateValue       `bson:"l,omitempty"`
+	Timestamp                   *time.Time                                 `bson:"m,omitempty"`
+	Value                       *int                                       `bson:"n,omitempty"`
+	ZHash                       *int                                       `bson:"zhash,omitempty"`
+	Zone                        *int                                       `bson:"zone,omitempty"`
 }
