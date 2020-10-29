@@ -11824,6 +11824,7 @@ Post a new flow log.
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
   "protocol": 6,
+  "serviceType": "L3",
   "state": [
     "Unknown"
   ],
@@ -11912,6 +11913,18 @@ Protocol number.
 Type: `string`
 
 It specifies the reason for the exception.
+
+##### `serviceType`
+
+Type: `enum(L3 | HTTP | TCP)`
+
+Type of the service.
+
+Default value:
+
+```json
+"L3"
+```
 
 ##### `sourceIP`
 

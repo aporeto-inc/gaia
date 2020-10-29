@@ -128,6 +128,20 @@ attributes:
     extensions:
       bson_name: j
 
+  - name: serviceType
+    description: Type of the service.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - L3
+    - HTTP
+    - TCP
+    default_value: L3
+    omit_empty: true
+    extensions:
+      bson_name: o
+
   - name: sourceIP
     description: Source IP address.
     type: string
