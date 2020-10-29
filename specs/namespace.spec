@@ -183,9 +183,9 @@ attributes:
       account.
       - `HostGroup`: A child namespace of a cloud account that houses a managed
       non-Kubernetes group.
-      - `K8sClusterGroup`: A child namespace of a cloud account that houses a managed
-      Kubernetes group.
-      - `K8s`: A child namespace of a Kubernetes cluster group that houses a
+      - `KubernetesClusterGroup`: A child namespace of a cloud account that houses a
+      managed Kubernetes group.
+      - `Kubernetes`: A child namespace of a Kubernetes cluster group that houses a
       Kubernetes cluster (automatically created by the enforcer).
     type: enum
     exposed: true
@@ -196,8 +196,8 @@ attributes:
     - Tenant
     - CloudAccount
     - HostGroup
-    - K8sClusterGroup
-    - K8s
+    - KubernetesClusterGroup
+    - Kubernetes
     default_value: Default
 
   - name: zoning

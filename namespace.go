@@ -36,11 +36,11 @@ const (
 	// NamespaceTypeHostGroup represents the value HostGroup.
 	NamespaceTypeHostGroup NamespaceTypeValue = "HostGroup"
 
-	// NamespaceTypeK8s represents the value K8s.
-	NamespaceTypeK8s NamespaceTypeValue = "K8s"
+	// NamespaceTypeKubernetes represents the value Kubernetes.
+	NamespaceTypeKubernetes NamespaceTypeValue = "Kubernetes"
 
-	// NamespaceTypeK8sClusterGroup represents the value K8sClusterGroup.
-	NamespaceTypeK8sClusterGroup NamespaceTypeValue = "K8sClusterGroup"
+	// NamespaceTypeKubernetesClusterGroup represents the value KubernetesClusterGroup.
+	NamespaceTypeKubernetesClusterGroup NamespaceTypeValue = "KubernetesClusterGroup"
 
 	// NamespaceTypeTenant represents the value Tenant.
 	NamespaceTypeTenant NamespaceTypeValue = "Tenant"
@@ -210,9 +210,9 @@ type Namespace struct {
 	// account.
 	// - `HostGroup`: A child namespace of a cloud account that houses a managed
 	// non-Kubernetes group.
-	// - `K8sClusterGroup`: A child namespace of a cloud account that houses a managed
-	// Kubernetes group.
-	// - `K8s`: A child namespace of a Kubernetes cluster group that houses a
+	// - `KubernetesClusterGroup`: A child namespace of a cloud account that houses a
+	// managed Kubernetes group.
+	// - `Kubernetes`: A child namespace of a Kubernetes cluster group that houses a
 	// Kubernetes cluster (automatically created by the enforcer).
 	Type NamespaceTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -865,7 +865,7 @@ func (o *Namespace) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Default", "Tenant", "CloudAccount", "HostGroup", "K8sClusterGroup", "K8s"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Default", "Tenant", "CloudAccount", "HostGroup", "KubernetesClusterGroup", "Kubernetes"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1266,7 +1266,7 @@ networks, enforcers) during their creation.`,
 		Type:           "string",
 	},
 	"Type": {
-		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "HostGroup", "K8sClusterGroup", "K8s"},
+		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "HostGroup", "KubernetesClusterGroup", "Kubernetes"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		DefaultValue:   NamespaceTypeDefault,
@@ -1277,9 +1277,9 @@ networks, enforcers) during their creation.`,
 account.
 - ` + "`" + `HostGroup` + "`" + `: A child namespace of a cloud account that houses a managed
 non-Kubernetes group.
-- ` + "`" + `K8sClusterGroup` + "`" + `: A child namespace of a cloud account that houses a managed
-Kubernetes group.
-- ` + "`" + `K8s` + "`" + `: A child namespace of a Kubernetes cluster group that houses a
+- ` + "`" + `KubernetesClusterGroup` + "`" + `: A child namespace of a cloud account that houses a
+managed Kubernetes group.
+- ` + "`" + `Kubernetes` + "`" + `: A child namespace of a Kubernetes cluster group that houses a
 Kubernetes cluster (automatically created by the enforcer).`,
 		Exposed: true,
 		Name:    "type",
@@ -1674,7 +1674,7 @@ networks, enforcers) during their creation.`,
 		Type:           "string",
 	},
 	"type": {
-		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "HostGroup", "K8sClusterGroup", "K8s"},
+		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "HostGroup", "KubernetesClusterGroup", "Kubernetes"},
 		BSONFieldName:  "type",
 		ConvertedName:  "Type",
 		CreationOnly:   true,
@@ -1686,9 +1686,9 @@ networks, enforcers) during their creation.`,
 account.
 - ` + "`" + `HostGroup` + "`" + `: A child namespace of a cloud account that houses a managed
 non-Kubernetes group.
-- ` + "`" + `K8sClusterGroup` + "`" + `: A child namespace of a cloud account that houses a managed
-Kubernetes group.
-- ` + "`" + `K8s` + "`" + `: A child namespace of a Kubernetes cluster group that houses a
+- ` + "`" + `KubernetesClusterGroup` + "`" + `: A child namespace of a cloud account that houses a
+managed Kubernetes group.
+- ` + "`" + `Kubernetes` + "`" + `: A child namespace of a Kubernetes cluster group that houses a
 Kubernetes cluster (automatically created by the enforcer).`,
 		Exposed: true,
 		Name:    "type",
@@ -1921,9 +1921,9 @@ type SparseNamespace struct {
 	// account.
 	// - `HostGroup`: A child namespace of a cloud account that houses a managed
 	// non-Kubernetes group.
-	// - `K8sClusterGroup`: A child namespace of a cloud account that houses a managed
-	// Kubernetes group.
-	// - `K8s`: A child namespace of a Kubernetes cluster group that houses a
+	// - `KubernetesClusterGroup`: A child namespace of a cloud account that houses a
+	// managed Kubernetes group.
+	// - `Kubernetes`: A child namespace of a Kubernetes cluster group that houses a
 	// Kubernetes cluster (automatically created by the enforcer).
 	Type *NamespaceTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 

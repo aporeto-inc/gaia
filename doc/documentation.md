@@ -4837,7 +4837,7 @@ Default value:
 
 ##### `type` [`creation_only`]
 
-Type: `enum(Default | Tenant | CloudAccount | HostGroup | K8sClusterGroup | K8s)`
+Type: `enum(Default | Tenant | CloudAccount | HostGroup | KubernetesClusterGroup | Kubernetes)`
 
 The type defines the purpose of the namespace:
 - `Default`: A universal namespace that is capable of all actions and views.
@@ -4846,9 +4846,9 @@ The type defines the purpose of the namespace:
 account.
 - `HostGroup`: A child namespace of a cloud account that houses a managed
 non-Kubernetes group.
-- `K8sClusterGroup`: A child namespace of a cloud account that houses a managed
-Kubernetes group.
-- `K8s`: A child namespace of a Kubernetes cluster group that houses a
+- `KubernetesClusterGroup`: A child namespace of a cloud account that houses a
+managed Kubernetes group.
+- `Kubernetes`: A child namespace of a Kubernetes cluster group that houses a
 Kubernetes cluster (automatically created by the enforcer).
 
 Default value:
