@@ -112,8 +112,8 @@ multipart
 namespace
 NamespaceMappingPolicy
 NamespaceRenderer
-NamespaceUnique
 NamespaceType
+NamespaceUnique
 NetworkAccessPolicy
 NfQueue
 NodePort

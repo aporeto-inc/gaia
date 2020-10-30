@@ -638,7 +638,7 @@ relations:
 
 - rest_name: namespacetype
   get:
-    description: Returns the type of the current namespace (passed in the X-Namespace header).
+    description: Returns the type of the specified namespace.
 
 - rest_name: networkaccesspolicy
   get:
