@@ -636,6 +636,10 @@ relations:
   create:
     description: Renders the namespace where an object should reside.
 
+- rest_name: namespacetype
+  get:
+    description: Returns the type of the current namespace (passed in the X-Namespace header).
+
 - rest_name: networkaccesspolicy
   get:
     description: Retrieves the list of network policies.
