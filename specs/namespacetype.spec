@@ -2,7 +2,7 @@
 model:
   rest_name: namespacetype
   resource_name: namespacetypes
-  entity_name: NamespaceTypes
+  entity_name: NamespaceType
   package: squall
   group: core/namespace
   description: |-

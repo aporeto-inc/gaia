@@ -88,7 +88,7 @@ var (
 		"namespace":              NamespaceIdentity,
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
 		"namespacerenderer":      NamespaceRendererIdentity,
-		"namespacetype":          NamespaceTypesIdentity,
+		"namespacetype":          NamespaceTypeIdentity,
 		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
 		"oauthinfo":              OAUTHInfoIdentity,
 		"oauthkey":               OAUTHKeyIdentity,
@@ -246,7 +246,7 @@ var (
 		"namespaces":               NamespaceIdentity,
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
 		"namespacerenderers":       NamespaceRendererIdentity,
-		"namespacetypes":           NamespaceTypesIdentity,
+		"namespacetypes":           NamespaceTypeIdentity,
 		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
 		"oauthinfo":                OAUTHInfoIdentity,
 		"oauthkeys":                OAUTHKeyIdentity,
@@ -1178,8 +1178,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewNamespaceMappingPolicy()
 	case NamespaceRendererIdentity:
 		return NewNamespaceRenderer()
-	case NamespaceTypesIdentity:
-		return NewNamespaceTypes()
+	case NamespaceTypeIdentity:
+		return NewNamespaceType()
 	case NetworkAccessPolicyIdentity:
 		return NewNetworkAccessPolicy()
 	case OAUTHInfoIdentity:
@@ -1469,8 +1469,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseNamespaceMappingPolicy()
 	case NamespaceRendererIdentity:
 		return NewSparseNamespaceRenderer()
-	case NamespaceTypesIdentity:
-		return NewSparseNamespaceTypes()
+	case NamespaceTypeIdentity:
+		return NewSparseNamespaceType()
 	case NetworkAccessPolicyIdentity:
 		return NewSparseNetworkAccessPolicy()
 	case OAUTHInfoIdentity:
@@ -1768,7 +1768,7 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &NamespaceMappingPoliciesList{}
 	case NamespaceRendererIdentity:
 		return &NamespaceRenderersList{}
-	case NamespaceTypesIdentity:
+	case NamespaceTypeIdentity:
 		return &NamespaceTypesList{}
 	case NetworkAccessPolicyIdentity:
 		return &NetworkAccessPoliciesList{}
@@ -2057,7 +2057,7 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseNamespaceMappingPoliciesList{}
 	case NamespaceRendererIdentity:
 		return &SparseNamespaceRenderersList{}
-	case NamespaceTypesIdentity:
+	case NamespaceTypeIdentity:
 		return &SparseNamespaceTypesList{}
 	case NetworkAccessPolicyIdentity:
 		return &SparseNetworkAccessPoliciesList{}
@@ -2283,7 +2283,7 @@ func AllIdentities() []elemental.Identity {
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
 		NamespaceRendererIdentity,
-		NamespaceTypesIdentity,
+		NamespaceTypeIdentity,
 		NetworkAccessPolicyIdentity,
 		OAUTHInfoIdentity,
 		OAUTHKeyIdentity,
@@ -2592,7 +2592,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"nsrenderer",
 		}
-	case NamespaceTypesIdentity:
+	case NamespaceTypeIdentity:
 		return []string{}
 	case NetworkAccessPolicyIdentity:
 		return []string{

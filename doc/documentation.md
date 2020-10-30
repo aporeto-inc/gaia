@@ -5048,7 +5048,7 @@ Type: `[]string`
 
 List of tags of the object to render the namespace for.
 
-### NamespaceTypes
+### NamespaceType
 
 Returns the type of the current namespace (passed in the X-Namespace header).
 

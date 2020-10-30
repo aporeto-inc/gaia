@@ -2904,7 +2904,7 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[NamespaceTypesIdentity] = &elemental.Relationship{
+	relationshipsRegistry[NamespaceTypeIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
