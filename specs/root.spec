@@ -236,6 +236,10 @@ relations:
         description: Also return the view suggestions.
         type: boolean
 
+- rest_name: designmode
+  create:
+    description: Deploy the design mode assests onto the specified namespace.
+
 - rest_name: dnslookupreport
   create:
     description: Create a DNS Lookup report.
