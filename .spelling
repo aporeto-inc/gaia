@@ -113,6 +113,7 @@ namespace
 NamespaceMappingPolicy
 NamespaceRenderer
 NamespaceUnique
+NamespaceType
 NetworkAccessPolicy
 NfQueue
 NodePort
