@@ -43,6 +43,20 @@ const (
 	EnforcerLogLevelWarn EnforcerLogLevelValue = "Warn"
 )
 
+// EnforcerMigrationStatusValue represents the possible values for attribute "migrationStatus".
+type EnforcerMigrationStatusValue string
+
+const (
+	// EnforcerMigrationStatusMigrating represents the value Migrating.
+	EnforcerMigrationStatusMigrating EnforcerMigrationStatusValue = "Migrating"
+
+	// EnforcerMigrationStatusMigrationRequested represents the value MigrationRequested.
+	EnforcerMigrationStatusMigrationRequested EnforcerMigrationStatusValue = "MigrationRequested"
+
+	// EnforcerMigrationStatusNone represents the value None.
+	EnforcerMigrationStatusNone EnforcerMigrationStatusValue = "None"
+)
+
 // EnforcerOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type EnforcerOperationalStatusValue string
 
@@ -58,20 +72,6 @@ const (
 
 	// EnforcerOperationalStatusRegistered represents the value Registered.
 	EnforcerOperationalStatusRegistered EnforcerOperationalStatusValue = "Registered"
-)
-
-// EnforcerUpgradeStatusValue represents the possible values for attribute "upgradeStatus".
-type EnforcerUpgradeStatusValue string
-
-const (
-	// EnforcerUpgradeStatusNone represents the value None.
-	EnforcerUpgradeStatusNone EnforcerUpgradeStatusValue = "None"
-
-	// EnforcerUpgradeStatusUpgradeRequested represents the value UpgradeRequested.
-	EnforcerUpgradeStatusUpgradeRequested EnforcerUpgradeStatusValue = "UpgradeRequested"
-
-	// EnforcerUpgradeStatusUpgrading represents the value Upgrading.
-	EnforcerUpgradeStatusUpgrading EnforcerUpgradeStatusValue = "Upgrading"
 )
 
 // EnforcerIdentity represents the Identity of the object.
@@ -240,6 +240,12 @@ type Enforcer struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
+	// Defines the migration status.
+	MigrationStatus EnforcerMigrationStatusValue `json:"migrationStatus" msgpack:"migrationStatus" bson:"migrationstatus" mapstructure:"migrationStatus,omitempty"`
+
+	// Defines the next version the enforcer will be migrated to.
+	MigrationVersion string `json:"migrationVersion" msgpack:"migrationVersion" bson:"migrationversion" mapstructure:"migrationVersion,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -279,12 +285,6 @@ type Enforcer struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	// Defines the upgrade status.
-	UpgradeStatus EnforcerUpgradeStatusValue `json:"upgradeStatus" msgpack:"upgradeStatus" bson:"upgradestatus" mapstructure:"upgradeStatus,omitempty"`
-
-	// Defines the next version the enforcer will be upgraded to.
-	UpgradeTargetVersion string `json:"upgradeTargetVersion" msgpack:"upgradeTargetVersion" bson:"upgradetargetversion" mapstructure:"upgradeTargetVersion,omitempty"`
-
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
@@ -304,14 +304,14 @@ func NewEnforcer() *Enforcer {
 		AssociatedTags:        []string{},
 		CollectedInfo:         map[string]string{},
 		EnforcementStatus:     EnforcerEnforcementStatusInactive,
-		NormalizedTags:        []string{},
-		OperationalStatus:     EnforcerOperationalStatusRegistered,
+		MigrationsLog:         map[string]string{},
 		LastValidHostServices: HostServicesList{},
+		OperationalStatus:     EnforcerOperationalStatusRegistered,
 		LogLevel:              EnforcerLogLevelInfo,
 		Subnets:               []string{},
-		UpgradeStatus:         EnforcerUpgradeStatusNone,
+		NormalizedTags:        []string{},
 		Metadata:              []string{},
-		MigrationsLog:         map[string]string{},
+		MigrationStatus:       EnforcerMigrationStatusNone,
 		LogLevelDuration:      "10s",
 	}
 }
@@ -368,6 +368,8 @@ func (o *Enforcer) GetBSON() (interface{}, error) {
 	s.LogLevelDuration = o.LogLevelDuration
 	s.MachineID = o.MachineID
 	s.Metadata = o.Metadata
+	s.MigrationStatus = o.MigrationStatus
+	s.MigrationVersion = o.MigrationVersion
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
@@ -380,8 +382,6 @@ func (o *Enforcer) GetBSON() (interface{}, error) {
 	s.Unreachable = o.Unreachable
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
-	s.UpgradeStatus = o.UpgradeStatus
-	s.UpgradeTargetVersion = o.UpgradeTargetVersion
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
 
@@ -423,6 +423,8 @@ func (o *Enforcer) SetBSON(raw bson.Raw) error {
 	o.LogLevelDuration = s.LogLevelDuration
 	o.MachineID = s.MachineID
 	o.Metadata = s.Metadata
+	o.MigrationStatus = s.MigrationStatus
+	o.MigrationVersion = s.MigrationVersion
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
@@ -435,8 +437,6 @@ func (o *Enforcer) SetBSON(raw bson.Raw) error {
 	o.Unreachable = s.Unreachable
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
-	o.UpgradeStatus = s.UpgradeStatus
-	o.UpgradeTargetVersion = s.UpgradeTargetVersion
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
 
@@ -701,6 +701,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			LogLevelDuration:          &o.LogLevelDuration,
 			MachineID:                 &o.MachineID,
 			Metadata:                  &o.Metadata,
+			MigrationStatus:           &o.MigrationStatus,
+			MigrationVersion:          &o.MigrationVersion,
 			MigrationsLog:             &o.MigrationsLog,
 			Name:                      &o.Name,
 			Namespace:                 &o.Namespace,
@@ -713,8 +715,6 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Unreachable:               &o.Unreachable,
 			UpdateIdempotencyKey:      &o.UpdateIdempotencyKey,
 			UpdateTime:                &o.UpdateTime,
-			UpgradeStatus:             &o.UpgradeStatus,
-			UpgradeTargetVersion:      &o.UpgradeTargetVersion,
 			ZHash:                     &o.ZHash,
 			Zone:                      &o.Zone,
 		}
@@ -775,6 +775,10 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.MachineID = &(o.MachineID)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "migrationStatus":
+			sp.MigrationStatus = &(o.MigrationStatus)
+		case "migrationVersion":
+			sp.MigrationVersion = &(o.MigrationVersion)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -799,10 +803,6 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
-		case "upgradeStatus":
-			sp.UpgradeStatus = &(o.UpgradeStatus)
-		case "upgradeTargetVersion":
-			sp.UpgradeTargetVersion = &(o.UpgradeTargetVersion)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -898,6 +898,12 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
 	}
+	if so.MigrationStatus != nil {
+		o.MigrationStatus = *so.MigrationStatus
+	}
+	if so.MigrationVersion != nil {
+		o.MigrationVersion = *so.MigrationVersion
+	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
 	}
@@ -933,12 +939,6 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
-	}
-	if so.UpgradeStatus != nil {
-		o.UpgradeStatus = *so.UpgradeStatus
-	}
-	if so.UpgradeTargetVersion != nil {
-		o.UpgradeTargetVersion = *so.UpgradeTargetVersion
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -1006,6 +1006,14 @@ func (o *Enforcer) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("migrationStatus", string(o.MigrationStatus), []string{"None", "MigrationRequested", "Migrating"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateSemVer("migrationVersion", o.MigrationVersion); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -1015,14 +1023,6 @@ func (o *Enforcer) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("operationalStatus", string(o.OperationalStatus), []string{"Registered", "Connected", "Disconnected", "Initialized"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateStringInList("upgradeStatus", string(o.UpgradeStatus), []string{"None", "UpgradeRequested", "Upgrading"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := ValidateSemVer("upgradeTargetVersion", o.UpgradeTargetVersion); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1112,6 +1112,10 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.MachineID
 	case "metadata":
 		return o.Metadata
+	case "migrationStatus":
+		return o.MigrationStatus
+	case "migrationVersion":
+		return o.MigrationVersion
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -1136,10 +1140,6 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
-	case "upgradeStatus":
-		return o.UpgradeStatus
-	case "upgradeTargetVersion":
-		return o.UpgradeTargetVersion
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -1451,6 +1451,29 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
+	"MigrationStatus": {
+		AllowedChoices: []string{"None", "MigrationRequested", "Migrating"},
+		ConvertedName:  "MigrationStatus",
+		DefaultValue:   EnforcerMigrationStatusNone,
+		Description:    `Defines the migration status.`,
+		Exposed:        true,
+		Name:           "migrationStatus",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
+	},
+	"MigrationVersion": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationVersion",
+		Description:    `Defines the next version the enforcer will be migrated to.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "migrationVersion",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
 		ConvertedName:  "MigrationsLog",
@@ -1602,28 +1625,6 @@ the enforcer in the last five minutes.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"UpgradeStatus": {
-		AllowedChoices: []string{"None", "UpgradeRequested", "Upgrading"},
-		ConvertedName:  "UpgradeStatus",
-		DefaultValue:   EnforcerUpgradeStatusNone,
-		Description:    `Defines the upgrade status.`,
-		Exposed:        true,
-		Name:           "upgradeStatus",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
-	},
-	"UpgradeTargetVersion": {
-		AllowedChoices: []string{},
-		ConvertedName:  "UpgradeTargetVersion",
-		Description:    `Defines the next version the enforcer will be upgraded to.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "upgradeTargetVersion",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"ZHash": {
 		AllowedChoices: []string{},
@@ -1977,6 +1978,31 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
+	"migrationstatus": {
+		AllowedChoices: []string{"None", "MigrationRequested", "Migrating"},
+		BSONFieldName:  "migrationstatus",
+		ConvertedName:  "MigrationStatus",
+		DefaultValue:   EnforcerMigrationStatusNone,
+		Description:    `Defines the migration status.`,
+		Exposed:        true,
+		Name:           "migrationStatus",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
+	},
+	"migrationversion": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "migrationversion",
+		ConvertedName:  "MigrationVersion",
+		Description:    `Defines the next version the enforcer will be migrated to.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "migrationVersion",
+		Orderable:      true,
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"migrationslog": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "migrationslog",
@@ -2140,30 +2166,6 @@ the enforcer in the last five minutes.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"upgradestatus": {
-		AllowedChoices: []string{"None", "UpgradeRequested", "Upgrading"},
-		BSONFieldName:  "upgradestatus",
-		ConvertedName:  "UpgradeStatus",
-		DefaultValue:   EnforcerUpgradeStatusNone,
-		Description:    `Defines the upgrade status.`,
-		Exposed:        true,
-		Name:           "upgradeStatus",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
-	},
-	"upgradetargetversion": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "upgradetargetversion",
-		ConvertedName:  "UpgradeTargetVersion",
-		Description:    `Defines the next version the enforcer will be upgraded to.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "upgradeTargetVersion",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"zhash": {
 		AllowedChoices: []string{},
@@ -2352,6 +2354,12 @@ type SparseEnforcer struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
+	// Defines the migration status.
+	MigrationStatus *EnforcerMigrationStatusValue `json:"migrationStatus,omitempty" msgpack:"migrationStatus,omitempty" bson:"migrationstatus,omitempty" mapstructure:"migrationStatus,omitempty"`
+
+	// Defines the next version the enforcer will be migrated to.
+	MigrationVersion *string `json:"migrationVersion,omitempty" msgpack:"migrationVersion,omitempty" bson:"migrationversion,omitempty" mapstructure:"migrationVersion,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -2390,12 +2398,6 @@ type SparseEnforcer struct {
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
-
-	// Defines the upgrade status.
-	UpgradeStatus *EnforcerUpgradeStatusValue `json:"upgradeStatus,omitempty" msgpack:"upgradeStatus,omitempty" bson:"upgradestatus,omitempty" mapstructure:"upgradeStatus,omitempty"`
-
-	// Defines the next version the enforcer will be upgraded to.
-	UpgradeTargetVersion *string `json:"upgradeTargetVersion,omitempty" msgpack:"upgradeTargetVersion,omitempty" bson:"upgradetargetversion,omitempty" mapstructure:"upgradeTargetVersion,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -2513,6 +2515,12 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
 	}
+	if o.MigrationStatus != nil {
+		s.MigrationStatus = o.MigrationStatus
+	}
+	if o.MigrationVersion != nil {
+		s.MigrationVersion = o.MigrationVersion
+	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -2548,12 +2556,6 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	}
 	if o.UpdateTime != nil {
 		s.UpdateTime = o.UpdateTime
-	}
-	if o.UpgradeStatus != nil {
-		s.UpgradeStatus = o.UpgradeStatus
-	}
-	if o.UpgradeTargetVersion != nil {
-		s.UpgradeTargetVersion = o.UpgradeTargetVersion
 	}
 	if o.ZHash != nil {
 		s.ZHash = o.ZHash
@@ -2643,6 +2645,12 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
 	}
+	if s.MigrationStatus != nil {
+		o.MigrationStatus = s.MigrationStatus
+	}
+	if s.MigrationVersion != nil {
+		o.MigrationVersion = s.MigrationVersion
+	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
@@ -2678,12 +2686,6 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	}
 	if s.UpdateTime != nil {
 		o.UpdateTime = s.UpdateTime
-	}
-	if s.UpgradeStatus != nil {
-		o.UpgradeStatus = s.UpgradeStatus
-	}
-	if s.UpgradeTargetVersion != nil {
-		o.UpgradeTargetVersion = s.UpgradeTargetVersion
 	}
 	if s.ZHash != nil {
 		o.ZHash = s.ZHash
@@ -2783,6 +2785,12 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
 	}
+	if o.MigrationStatus != nil {
+		out.MigrationStatus = *o.MigrationStatus
+	}
+	if o.MigrationVersion != nil {
+		out.MigrationVersion = *o.MigrationVersion
+	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
 	}
@@ -2818,12 +2826,6 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
-	}
-	if o.UpgradeStatus != nil {
-		out.UpgradeStatus = *o.UpgradeStatus
-	}
-	if o.UpgradeTargetVersion != nil {
-		out.UpgradeTargetVersion = *o.UpgradeTargetVersion
 	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
@@ -3138,6 +3140,8 @@ type mongoAttributesEnforcer struct {
 	LogLevelDuration      string                         `bson:"loglevelduration"`
 	MachineID             string                         `bson:"machineid"`
 	Metadata              []string                       `bson:"metadata"`
+	MigrationStatus       EnforcerMigrationStatusValue   `bson:"migrationstatus"`
+	MigrationVersion      string                         `bson:"migrationversion"`
 	MigrationsLog         map[string]string              `bson:"migrationslog,omitempty"`
 	Name                  string                         `bson:"name"`
 	Namespace             string                         `bson:"namespace"`
@@ -3150,8 +3154,6 @@ type mongoAttributesEnforcer struct {
 	Unreachable           bool                           `bson:"unreachable"`
 	UpdateIdempotencyKey  string                         `bson:"updateidempotencykey"`
 	UpdateTime            time.Time                      `bson:"updatetime"`
-	UpgradeStatus         EnforcerUpgradeStatusValue     `bson:"upgradestatus"`
-	UpgradeTargetVersion  string                         `bson:"upgradetargetversion"`
 	ZHash                 int                            `bson:"zhash"`
 	Zone                  int                            `bson:"zone"`
 }
@@ -3178,6 +3180,8 @@ type mongoAttributesSparseEnforcer struct {
 	LogLevelDuration      *string                         `bson:"loglevelduration,omitempty"`
 	MachineID             *string                         `bson:"machineid,omitempty"`
 	Metadata              *[]string                       `bson:"metadata,omitempty"`
+	MigrationStatus       *EnforcerMigrationStatusValue   `bson:"migrationstatus,omitempty"`
+	MigrationVersion      *string                         `bson:"migrationversion,omitempty"`
 	MigrationsLog         *map[string]string              `bson:"migrationslog,omitempty"`
 	Name                  *string                         `bson:"name,omitempty"`
 	Namespace             *string                         `bson:"namespace,omitempty"`
@@ -3190,8 +3194,6 @@ type mongoAttributesSparseEnforcer struct {
 	Unreachable           *bool                           `bson:"unreachable,omitempty"`
 	UpdateIdempotencyKey  *string                         `bson:"updateidempotencykey,omitempty"`
 	UpdateTime            *time.Time                      `bson:"updatetime,omitempty"`
-	UpgradeStatus         *EnforcerUpgradeStatusValue     `bson:"upgradestatus,omitempty"`
-	UpgradeTargetVersion  *string                         `bson:"upgradetargetversion,omitempty"`
 	ZHash                 *int                            `bson:"zhash,omitempty"`
 	Zone                  *int                            `bson:"zone,omitempty"`
 }

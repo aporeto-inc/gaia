@@ -109,6 +109,14 @@ attributes:
     stored: true
     creation_only: true
 
+  - name: defaultEnforcerVersion
+    description: Indicates the default enforcer version for this namespace.
+    type: string
+    exposed: true
+    stored: true
+    validations:
+    - $semver
+
   - name: localCA
     description: The certificate authority used by this namespace.
     type: string
@@ -124,14 +132,6 @@ attributes:
     exposed: true
     stored: true
     orderable: true
-
-  - name: minimumEnforcerVersion
-    description: Indicates the minimum enforcer version for this namespace.
-    type: string
-    exposed: true
-    stored: true
-    validations:
-    - $semver
 
   - name: name
     description: The name of the namespace.

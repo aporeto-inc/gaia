@@ -31,6 +31,17 @@ const (
 	EnforcerRefreshDebugPcap EnforcerRefreshDebugValue = "Pcap"
 )
 
+// EnforcerRefreshRefreshTypeValue represents the possible values for attribute "refreshType".
+type EnforcerRefreshRefreshTypeValue string
+
+const (
+	// EnforcerRefreshRefreshTypeDebug represents the value Debug.
+	EnforcerRefreshRefreshTypeDebug EnforcerRefreshRefreshTypeValue = "Debug"
+
+	// EnforcerRefreshRefreshTypeMigration represents the value Migration.
+	EnforcerRefreshRefreshTypeMigration EnforcerRefreshRefreshTypeValue = "Migration"
+)
+
 // EnforcerRefreshIdentity represents the Identity of the object.
 var EnforcerRefreshIdentity = elemental.Identity{
 	Name:     "enforcerrefresh",
@@ -118,17 +129,20 @@ type EnforcerRefresh struct {
 	// Isolates debug information to a given processing unit, where possible.
 	DebugProcessingUnitID string `json:"debugProcessingUnitID,omitempty" msgpack:"debugProcessingUnitID,omitempty" bson:"-" mapstructure:"debugProcessingUnitID,omitempty"`
 
+	// Indicates if the upgrade should be done recursively in all namespaces.
+	MigrationRecursive bool `json:"migrationRecursive" msgpack:"migrationRecursive" bson:"-" mapstructure:"migrationRecursive,omitempty"`
+
+	// Request a migration for the enforcers matching the following tag expression.
+	MigrationSelector [][]string `json:"migrationSelector,omitempty" msgpack:"migrationSelector,omitempty" bson:"-" mapstructure:"migrationSelector,omitempty"`
+
+	// Defines the version to migrate enforcers.
+	MigrationVersion string `json:"migrationVersion,omitempty" msgpack:"migrationVersion,omitempty" bson:"-" mapstructure:"migrationVersion,omitempty"`
+
 	// Contains the original namespace of the enforcer.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// Request an upgrade on the enforcer matching the following tag expression.
-	UpgradeEnforcerSelector [][]string `json:"upgradeEnforcerSelector,omitempty" msgpack:"upgradeEnforcerSelector,omitempty" bson:"-" mapstructure:"upgradeEnforcerSelector,omitempty"`
-
-	// Indicates if the upgrade should be done recursively in all namespaces.
-	UpgradeRecursive bool `json:"upgradeRecursive" msgpack:"upgradeRecursive" bson:"-" mapstructure:"upgradeRecursive,omitempty"`
-
-	// Defines the version to upgrade the enforcers.
-	UpgradeTargetVersion string `json:"upgradeTargetVersion,omitempty" msgpack:"upgradeTargetVersion,omitempty" bson:"-" mapstructure:"upgradeTargetVersion,omitempty"`
+	// Indicates the type of refresh.
+	RefreshType EnforcerRefreshRefreshTypeValue `json:"refreshType" msgpack:"refreshType" bson:"refreshtype" mapstructure:"refreshType,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -137,9 +151,10 @@ type EnforcerRefresh struct {
 func NewEnforcerRefresh() *EnforcerRefresh {
 
 	return &EnforcerRefresh{
-		ModelVersion:            1,
-		Debug:                   EnforcerRefreshDebugCounters,
-		UpgradeEnforcerSelector: [][]string{},
+		ModelVersion:      1,
+		Debug:             EnforcerRefreshDebugCounters,
+		MigrationSelector: [][]string{},
+		RefreshType:       EnforcerRefreshRefreshTypeDebug,
 	}
 }
 
@@ -171,6 +186,8 @@ func (o *EnforcerRefresh) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesEnforcerRefresh{}
 
+	s.RefreshType = o.RefreshType
+
 	return s, nil
 }
 
@@ -186,6 +203,8 @@ func (o *EnforcerRefresh) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
+
+	o.RefreshType = s.RefreshType
 
 	return nil
 }
@@ -240,15 +259,16 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseEnforcerRefresh{
-			ID:                      &o.ID,
-			Debug:                   &o.Debug,
-			DebugID:                 &o.DebugID,
-			DebugPcapFilter:         &o.DebugPcapFilter,
-			DebugProcessingUnitID:   &o.DebugProcessingUnitID,
-			Namespace:               &o.Namespace,
-			UpgradeEnforcerSelector: &o.UpgradeEnforcerSelector,
-			UpgradeRecursive:        &o.UpgradeRecursive,
-			UpgradeTargetVersion:    &o.UpgradeTargetVersion,
+			ID:                    &o.ID,
+			Debug:                 &o.Debug,
+			DebugID:               &o.DebugID,
+			DebugPcapFilter:       &o.DebugPcapFilter,
+			DebugProcessingUnitID: &o.DebugProcessingUnitID,
+			MigrationRecursive:    &o.MigrationRecursive,
+			MigrationSelector:     &o.MigrationSelector,
+			MigrationVersion:      &o.MigrationVersion,
+			Namespace:             &o.Namespace,
+			RefreshType:           &o.RefreshType,
 		}
 	}
 
@@ -265,14 +285,16 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.DebugPcapFilter = &(o.DebugPcapFilter)
 		case "debugProcessingUnitID":
 			sp.DebugProcessingUnitID = &(o.DebugProcessingUnitID)
+		case "migrationRecursive":
+			sp.MigrationRecursive = &(o.MigrationRecursive)
+		case "migrationSelector":
+			sp.MigrationSelector = &(o.MigrationSelector)
+		case "migrationVersion":
+			sp.MigrationVersion = &(o.MigrationVersion)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
-		case "upgradeEnforcerSelector":
-			sp.UpgradeEnforcerSelector = &(o.UpgradeEnforcerSelector)
-		case "upgradeRecursive":
-			sp.UpgradeRecursive = &(o.UpgradeRecursive)
-		case "upgradeTargetVersion":
-			sp.UpgradeTargetVersion = &(o.UpgradeTargetVersion)
+		case "refreshType":
+			sp.RefreshType = &(o.RefreshType)
 		}
 	}
 
@@ -301,17 +323,20 @@ func (o *EnforcerRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	if so.DebugProcessingUnitID != nil {
 		o.DebugProcessingUnitID = *so.DebugProcessingUnitID
 	}
+	if so.MigrationRecursive != nil {
+		o.MigrationRecursive = *so.MigrationRecursive
+	}
+	if so.MigrationSelector != nil {
+		o.MigrationSelector = *so.MigrationSelector
+	}
+	if so.MigrationVersion != nil {
+		o.MigrationVersion = *so.MigrationVersion
+	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
-	if so.UpgradeEnforcerSelector != nil {
-		o.UpgradeEnforcerSelector = *so.UpgradeEnforcerSelector
-	}
-	if so.UpgradeRecursive != nil {
-		o.UpgradeRecursive = *so.UpgradeRecursive
-	}
-	if so.UpgradeTargetVersion != nil {
-		o.UpgradeTargetVersion = *so.UpgradeTargetVersion
+	if so.RefreshType != nil {
+		o.RefreshType = *so.RefreshType
 	}
 }
 
@@ -349,11 +374,15 @@ func (o *EnforcerRefresh) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateTagsExpression("upgradeEnforcerSelector", o.UpgradeEnforcerSelector); err != nil {
+	if err := ValidateTagsExpression("migrationSelector", o.MigrationSelector); err != nil {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateSemVer("upgradeTargetVersion", o.UpgradeTargetVersion); err != nil {
+	if err := ValidateSemVer("migrationVersion", o.MigrationVersion); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("refreshType", string(o.RefreshType), []string{"Debug", "Migration"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -401,14 +430,16 @@ func (o *EnforcerRefresh) ValueForAttribute(name string) interface{} {
 		return o.DebugPcapFilter
 	case "debugProcessingUnitID":
 		return o.DebugProcessingUnitID
+	case "migrationRecursive":
+		return o.MigrationRecursive
+	case "migrationSelector":
+		return o.MigrationSelector
+	case "migrationVersion":
+		return o.MigrationVersion
 	case "namespace":
 		return o.Namespace
-	case "upgradeEnforcerSelector":
-		return o.UpgradeEnforcerSelector
-	case "upgradeRecursive":
-		return o.UpgradeRecursive
-	case "upgradeTargetVersion":
-		return o.UpgradeTargetVersion
+	case "refreshType":
+		return o.RefreshType
 	}
 
 	return nil
@@ -461,6 +492,33 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "debugProcessingUnitID",
 		Type:           "string",
 	},
+	"MigrationRecursive": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationRecursive",
+		Description:    `Indicates if the upgrade should be done recursively in all namespaces.`,
+		Exposed:        true,
+		Name:           "migrationRecursive",
+		Type:           "boolean",
+	},
+	"MigrationSelector": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "MigrationSelector",
+		Description:    `Request a migration for the enforcers matching the following tag expression.`,
+		Exposed:        true,
+		Name:           "migrationSelector",
+		SubType:        "[][]string",
+		Type:           "external",
+	},
+	"MigrationVersion": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationVersion",
+		Description:    `Defines the version to migrate enforcers.`,
+		Exposed:        true,
+		Name:           "migrationVersion",
+		ReadOnly:       true,
+		Type:           "string",
+	},
 	"Namespace": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -471,36 +529,15 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"UpgradeEnforcerSelector": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "UpgradeEnforcerSelector",
-		Description:    `Request an upgrade on the enforcer matching the following tag expression.`,
+	"RefreshType": {
+		AllowedChoices: []string{"Debug", "Migration"},
+		ConvertedName:  "RefreshType",
+		DefaultValue:   EnforcerRefreshRefreshTypeDebug,
+		Description:    `Indicates the type of refresh.`,
 		Exposed:        true,
-		Name:           "upgradeEnforcerSelector",
-		ReadOnly:       true,
-		SubType:        "[][]string",
-		Type:           "external",
-	},
-	"UpgradeRecursive": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "UpgradeRecursive",
-		Description:    `Indicates if the upgrade should be done recursively in all namespaces.`,
-		Exposed:        true,
-		Name:           "upgradeRecursive",
-		ReadOnly:       true,
-		Type:           "boolean",
-	},
-	"UpgradeTargetVersion": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "UpgradeTargetVersion",
-		Description:    `Defines the version to upgrade the enforcers.`,
-		Exposed:        true,
-		Name:           "upgradeTargetVersion",
-		ReadOnly:       true,
-		Type:           "string",
+		Name:           "refreshType",
+		Stored:         true,
+		Type:           "enum",
 	},
 }
 
@@ -551,6 +588,33 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "debugProcessingUnitID",
 		Type:           "string",
 	},
+	"migrationrecursive": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationRecursive",
+		Description:    `Indicates if the upgrade should be done recursively in all namespaces.`,
+		Exposed:        true,
+		Name:           "migrationRecursive",
+		Type:           "boolean",
+	},
+	"migrationselector": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "MigrationSelector",
+		Description:    `Request a migration for the enforcers matching the following tag expression.`,
+		Exposed:        true,
+		Name:           "migrationSelector",
+		SubType:        "[][]string",
+		Type:           "external",
+	},
+	"migrationversion": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationVersion",
+		Description:    `Defines the version to migrate enforcers.`,
+		Exposed:        true,
+		Name:           "migrationVersion",
+		ReadOnly:       true,
+		Type:           "string",
+	},
 	"namespace": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -561,36 +625,16 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"upgradeenforcerselector": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "UpgradeEnforcerSelector",
-		Description:    `Request an upgrade on the enforcer matching the following tag expression.`,
+	"refreshtype": {
+		AllowedChoices: []string{"Debug", "Migration"},
+		BSONFieldName:  "refreshtype",
+		ConvertedName:  "RefreshType",
+		DefaultValue:   EnforcerRefreshRefreshTypeDebug,
+		Description:    `Indicates the type of refresh.`,
 		Exposed:        true,
-		Name:           "upgradeEnforcerSelector",
-		ReadOnly:       true,
-		SubType:        "[][]string",
-		Type:           "external",
-	},
-	"upgraderecursive": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "UpgradeRecursive",
-		Description:    `Indicates if the upgrade should be done recursively in all namespaces.`,
-		Exposed:        true,
-		Name:           "upgradeRecursive",
-		ReadOnly:       true,
-		Type:           "boolean",
-	},
-	"upgradetargetversion": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "UpgradeTargetVersion",
-		Description:    `Defines the version to upgrade the enforcers.`,
-		Exposed:        true,
-		Name:           "upgradeTargetVersion",
-		ReadOnly:       true,
-		Type:           "string",
+		Name:           "refreshType",
+		Stored:         true,
+		Type:           "enum",
 	},
 }
 
@@ -672,17 +716,20 @@ type SparseEnforcerRefresh struct {
 	// Isolates debug information to a given processing unit, where possible.
 	DebugProcessingUnitID *string `json:"debugProcessingUnitID,omitempty" msgpack:"debugProcessingUnitID,omitempty" bson:"-" mapstructure:"debugProcessingUnitID,omitempty"`
 
+	// Indicates if the upgrade should be done recursively in all namespaces.
+	MigrationRecursive *bool `json:"migrationRecursive,omitempty" msgpack:"migrationRecursive,omitempty" bson:"-" mapstructure:"migrationRecursive,omitempty"`
+
+	// Request a migration for the enforcers matching the following tag expression.
+	MigrationSelector *[][]string `json:"migrationSelector,omitempty" msgpack:"migrationSelector,omitempty" bson:"-" mapstructure:"migrationSelector,omitempty"`
+
+	// Defines the version to migrate enforcers.
+	MigrationVersion *string `json:"migrationVersion,omitempty" msgpack:"migrationVersion,omitempty" bson:"-" mapstructure:"migrationVersion,omitempty"`
+
 	// Contains the original namespace of the enforcer.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// Request an upgrade on the enforcer matching the following tag expression.
-	UpgradeEnforcerSelector *[][]string `json:"upgradeEnforcerSelector,omitempty" msgpack:"upgradeEnforcerSelector,omitempty" bson:"-" mapstructure:"upgradeEnforcerSelector,omitempty"`
-
-	// Indicates if the upgrade should be done recursively in all namespaces.
-	UpgradeRecursive *bool `json:"upgradeRecursive,omitempty" msgpack:"upgradeRecursive,omitempty" bson:"-" mapstructure:"upgradeRecursive,omitempty"`
-
-	// Defines the version to upgrade the enforcers.
-	UpgradeTargetVersion *string `json:"upgradeTargetVersion,omitempty" msgpack:"upgradeTargetVersion,omitempty" bson:"-" mapstructure:"upgradeTargetVersion,omitempty"`
+	// Indicates the type of refresh.
+	RefreshType *EnforcerRefreshRefreshTypeValue `json:"refreshType,omitempty" msgpack:"refreshType,omitempty" bson:"refreshtype,omitempty" mapstructure:"refreshType,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -727,6 +774,10 @@ func (o *SparseEnforcerRefresh) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseEnforcerRefresh{}
 
+	if o.RefreshType != nil {
+		s.RefreshType = o.RefreshType
+	}
+
 	return s, nil
 }
 
@@ -741,6 +792,10 @@ func (o *SparseEnforcerRefresh) SetBSON(raw bson.Raw) error {
 	s := &mongoAttributesSparseEnforcerRefresh{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
+	}
+
+	if s.RefreshType != nil {
+		o.RefreshType = s.RefreshType
 	}
 
 	return nil
@@ -771,17 +826,20 @@ func (o *SparseEnforcerRefresh) ToPlain() elemental.PlainIdentifiable {
 	if o.DebugProcessingUnitID != nil {
 		out.DebugProcessingUnitID = *o.DebugProcessingUnitID
 	}
+	if o.MigrationRecursive != nil {
+		out.MigrationRecursive = *o.MigrationRecursive
+	}
+	if o.MigrationSelector != nil {
+		out.MigrationSelector = *o.MigrationSelector
+	}
+	if o.MigrationVersion != nil {
+		out.MigrationVersion = *o.MigrationVersion
+	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
-	if o.UpgradeEnforcerSelector != nil {
-		out.UpgradeEnforcerSelector = *o.UpgradeEnforcerSelector
-	}
-	if o.UpgradeRecursive != nil {
-		out.UpgradeRecursive = *o.UpgradeRecursive
-	}
-	if o.UpgradeTargetVersion != nil {
-		out.UpgradeTargetVersion = *o.UpgradeTargetVersion
+	if o.RefreshType != nil {
+		out.RefreshType = *o.RefreshType
 	}
 
 	return out
@@ -828,6 +886,8 @@ func (o *SparseEnforcerRefresh) DeepCopyInto(out *SparseEnforcerRefresh) {
 }
 
 type mongoAttributesEnforcerRefresh struct {
+	RefreshType EnforcerRefreshRefreshTypeValue `bson:"refreshtype"`
 }
 type mongoAttributesSparseEnforcerRefresh struct {
+	RefreshType *EnforcerRefreshRefreshTypeValue `bson:"refreshtype,omitempty"`
 }
