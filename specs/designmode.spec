@@ -1,7 +1,7 @@
 # Model
 model:
   rest_name: designmode
-  resource_name: designmodes
+  resource_name: designmode
   entity_name: DesignMode
   package: yuna
   group: core

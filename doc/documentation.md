@@ -46,11 +46,11 @@ view.
 
 #### Relations
 
-##### `POST /designmodes`
+##### `POST /designmode`
 
 Deploy the design mode assests onto the specified namespace.
 
-##### `DELETE /designmodes/:id`
+##### `DELETE /designmode/:id`
 
 Remove the design mode assests with the specified namespace ID.
 

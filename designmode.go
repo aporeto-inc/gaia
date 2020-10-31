@@ -11,7 +11,7 @@ import (
 // DesignModeIdentity represents the Identity of the object.
 var DesignModeIdentity = elemental.Identity{
 	Name:     "designmode",
-	Category: "designmodes",
+	Category: "designmode",
 	Package:  "yuna",
 	Private:  false,
 }

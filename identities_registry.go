@@ -197,7 +197,7 @@ var (
 		"datapathcertificates": DataPathCertificateIdentity,
 		"debugbundles":         DebugBundleIdentity,
 		"dependencymaps":       DependencyMapIdentity,
-		"designmodes":          DesignModeIdentity,
+		"designmode":           DesignModeIdentity,
 		"dnslookupreports":     DNSLookupReportIdentity,
 		"emails":               EmailIdentity,
 
