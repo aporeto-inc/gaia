@@ -57,6 +57,16 @@ indexes:
 # Attributes
 attributes:
   v1:
+  - name: clientLocalID
+    description: |-
+      The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the 
+      Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU, 
+      the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
+    type: string
+    exposed: true
+    stored: true
+    omit_empty: true
+
   - name: collectInfo
     description: |-
       A value of `true` indicates to the enforcer that it needs to collect information
@@ -142,6 +152,11 @@ attributes:
     type: time
     exposed: true
     stored: true
+
+  - name: lastLocalTimestamp
+    description: Time and date of the processing unit set by the enforcer.
+    type: time
+    exposed: true
 
   - name: lastSyncTime
     description: The date and time of the last policy resolution.

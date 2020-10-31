@@ -129,6 +129,9 @@ type Alarm struct {
 	// identifier, then only the occurrence will be incremented.
 	Kind string `json:"kind" msgpack:"kind" bson:"kind" mapstructure:"kind,omitempty"`
 
+	// Time and date of the alarm set by the enforcer.
+	LastLocalTimestamp time.Time `json:"lastLocalTimestamp" msgpack:"lastLocalTimestamp" bson:"-" mapstructure:"lastLocalTimestamp,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -176,8 +179,8 @@ func NewAlarm() *Alarm {
 		AssociatedTags: []string{},
 		Emails:         []string{},
 		MigrationsLog:  map[string]string{},
-		NormalizedTags: []string{},
 		Occurrences:    []time.Time{},
+		NormalizedTags: []string{},
 		Status:         AlarmStatusOpen,
 	}
 }
@@ -491,6 +494,7 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Description:          &o.Description,
 			Emails:               &o.Emails,
 			Kind:                 &o.Kind,
+			LastLocalTimestamp:   &o.LastLocalTimestamp,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -528,6 +532,8 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Emails = &(o.Emails)
 		case "kind":
 			sp.Kind = &(o.Kind)
+		case "lastLocalTimestamp":
+			sp.LastLocalTimestamp = &(o.LastLocalTimestamp)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -592,6 +598,9 @@ func (o *Alarm) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Kind != nil {
 		o.Kind = *so.Kind
+	}
+	if so.LastLocalTimestamp != nil {
+		o.LastLocalTimestamp = *so.LastLocalTimestamp
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -740,6 +749,8 @@ func (o *Alarm) ValueForAttribute(name string) interface{} {
 		return o.Emails
 	case "kind":
 		return o.Kind
+	case "lastLocalTimestamp":
+		return o.LastLocalTimestamp
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -890,6 +901,14 @@ identifier, then only the occurrence will be incremented.`,
 		Required:  true,
 		Stored:    true,
 		Type:      "string",
+	},
+	"LastLocalTimestamp": {
+		AllowedChoices: []string{},
+		ConvertedName:  "LastLocalTimestamp",
+		Description:    `Time and date of the alarm set by the enforcer.`,
+		Exposed:        true,
+		Name:           "lastLocalTimestamp",
+		Type:           "time",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -1170,6 +1189,14 @@ identifier, then only the occurrence will be incremented.`,
 		Stored:    true,
 		Type:      "string",
 	},
+	"lastlocaltimestamp": {
+		AllowedChoices: []string{},
+		ConvertedName:  "LastLocalTimestamp",
+		Description:    `Time and date of the alarm set by the enforcer.`,
+		Exposed:        true,
+		Name:           "lastLocalTimestamp",
+		Type:           "time",
+	},
 	"migrationslog": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "migrationslog",
@@ -1422,6 +1449,9 @@ type SparseAlarm struct {
 	// Identifies the kind of alarm. If two alarms are created with the same
 	// identifier, then only the occurrence will be incremented.
 	Kind *string `json:"kind,omitempty" msgpack:"kind,omitempty" bson:"kind,omitempty" mapstructure:"kind,omitempty"`
+
+	// Time and date of the alarm set by the enforcer.
+	LastLocalTimestamp *time.Time `json:"lastLocalTimestamp,omitempty" msgpack:"lastLocalTimestamp,omitempty" bson:"-" mapstructure:"lastLocalTimestamp,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1685,6 +1715,9 @@ func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Kind != nil {
 		out.Kind = *o.Kind
+	}
+	if o.LastLocalTimestamp != nil {
+		out.LastLocalTimestamp = *o.LastLocalTimestamp
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog

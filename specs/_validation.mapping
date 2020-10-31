@@ -18,6 +18,10 @@ $capem:
   elemental:
     name: ValidateCA
 
+$cachedflowreport:
+  elemental:
+    name: ValidateCachedFlowReport
+
 $cidr:
   elemental:
     name: ValidateCIDR

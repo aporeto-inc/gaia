@@ -82,6 +82,11 @@ attributes:
     example_value: aporeto.alarm.kind
     orderable: true
 
+  - name: lastLocalTimestamp
+    description: Time and date of the alarm set by the enforcer.
+    type: time
+    exposed: true
+
   - name: occurrences
     description: Number of times this alarm has been seen.
     type: external

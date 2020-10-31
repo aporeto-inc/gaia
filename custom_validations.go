@@ -1108,12 +1108,35 @@ func ValidateUIParameters(p *UIParameter) error {
 	return nil
 }
 
-// ValidateSemVer validates the semantic version.
+// ValidateSemVer validates a semantic version.
 func ValidateSemVer(attribute, data string) error {
 
 	_, err := semver.Parse(strings.TrimPrefix(data, "v"))
 	if err != nil {
 		return makeValidationError(attribute, fmt.Sprintf("invalid semver %s: %s", data, err))
+	}
+
+	return nil
+}
+
+// ValidateCachedFlowReport validates a CachedFlowReport.
+func ValidateCachedFlowReport(cachedFlowReport *CachedFlowReport) error {
+
+	// a CachedFlowReport must have at least one local PU
+	if !cachedFlowReport.IsLocalDestinationID && !cachedFlowReport.IsLocalSourceID {
+		return makeValidationError("IsLocalSourceID", "At least one of 'IsLocalDestinationID' and 'IsLocalSourceID' must be true")
+	}
+
+	// verify type for local PU(s)
+	if cachedFlowReport.IsLocalDestinationID && cachedFlowReport.DestinationType != CachedFlowReportDestinationTypeProcessingUnit {
+		return makeValidationError("IsLocalDestinationID",
+			fmt.Sprintf("'IsLocalDestinationID' cannot be set for DestinationType %s. It is only applicable to DestinationType %s",
+				cachedFlowReport.DestinationType, CachedFlowReportDestinationTypeProcessingUnit))
+	}
+	if cachedFlowReport.IsLocalSourceID && cachedFlowReport.SourceType != CachedFlowReportSourceTypeProcessingUnit {
+		return makeValidationError("IsLocalSourceID",
+			fmt.Sprintf("'IsLocalSourceID' cannot be set for SourceType %s. It is only applicable to SourceType %s",
+				cachedFlowReport.SourceType, CachedFlowReportSourceTypeProcessingUnit))
 	}
 
 	return nil

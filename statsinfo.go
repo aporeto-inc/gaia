@@ -18,6 +18,9 @@ const (
 	// StatsInfoMeasurementAudit represents the value Audit.
 	StatsInfoMeasurementAudit StatsInfoMeasurementValue = "Audit"
 
+	// StatsInfoMeasurementConnectionExceptions represents the value ConnectionExceptions.
+	StatsInfoMeasurementConnectionExceptions StatsInfoMeasurementValue = "ConnectionExceptions"
+
 	// StatsInfoMeasurementCounters represents the value Counters.
 	StatsInfoMeasurementCounters StatsInfoMeasurementValue = "Counters"
 
@@ -289,7 +292,7 @@ func (o *StatsInfo) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports"}, false); err != nil {
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports", "ConnectionExceptions"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -352,7 +355,7 @@ var StatsInfoAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Measurement": {
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports", "ConnectionExceptions"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsInfoMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -387,7 +390,7 @@ var StatsInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Type:           "external",
 	},
 	"measurement": {
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Counters", "Accesses", "Packets", "DNSLookups", "PingReports", "ConnectionExceptions"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsInfoMeasurementFlows,
 		Description:    `Name of the measurement.`,

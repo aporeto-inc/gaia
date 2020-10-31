@@ -3132,6 +3132,7 @@ func TestValidateSemVer(t *testing.T) {
 		wantErr bool
 	}{
 		{
+
 			"valid semver with prefix",
 			args{
 				"upgradeVersion",
@@ -3176,6 +3177,109 @@ func TestValidateSemVer(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateSemVer(tt.args.attribute, tt.args.data); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateSemVer() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateCachedFlowReport(t *testing.T) {
+	type args struct {
+		cachedFlowReport *CachedFlowReport
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"invalid-flag",
+			args{
+				cachedFlowReport: &CachedFlowReport{
+					IsLocalDestinationID: false,
+					DestinationID:        "5f863169e767b10001b0bb1a",
+					DestinationType:      CachedFlowReportDestinationTypeProcessingUnit,
+					IsLocalSourceID:      false,
+					SourceID:             "5f863169e767b10001b0bb1b",
+					SourceType:           CachedFlowReportSourceTypeProcessingUnit,
+				},
+			},
+			true,
+		},
+		{
+			"invalid-type-1",
+			args{
+				cachedFlowReport: &CachedFlowReport{
+					IsLocalDestinationID: true,
+					DestinationID:        "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					DestinationType:      CachedFlowReportDestinationTypeExternalNetwork,
+					IsLocalSourceID:      false,
+					SourceID:             "5f863169e767b10001b0bb1b",
+					SourceType:           CachedFlowReportSourceTypeProcessingUnit,
+				},
+			},
+			true,
+		},
+		{
+			"invalid-type-2",
+			args{
+				cachedFlowReport: &CachedFlowReport{
+					IsLocalDestinationID: false,
+					DestinationID:        "5f863169e767b10001b0bb1a",
+					DestinationType:      CachedFlowReportDestinationTypeProcessingUnit,
+					IsLocalSourceID:      true,
+					SourceID:             "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					SourceType:           CachedFlowReportSourceTypeExternalNetwork,
+				},
+			},
+			true,
+		},
+		{
+			"valid-1",
+			args{
+				cachedFlowReport: &CachedFlowReport{
+					IsLocalDestinationID: true,
+					DestinationID:        "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					DestinationType:      CachedFlowReportDestinationTypeProcessingUnit,
+					IsLocalSourceID:      false,
+					SourceID:             "5f863169e767b10001b0bb1b",
+					SourceType:           CachedFlowReportSourceTypeProcessingUnit,
+				},
+			},
+			false,
+		},
+		{
+			"valid-2",
+			args{
+				cachedFlowReport: &CachedFlowReport{
+					IsLocalDestinationID: false,
+					DestinationID:        "5f863169e767b10001b0bb1a",
+					DestinationType:      CachedFlowReportDestinationTypeProcessingUnit,
+					IsLocalSourceID:      true,
+					SourceID:             "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					SourceType:           CachedFlowReportSourceTypeProcessingUnit,
+				},
+			},
+			false,
+		},
+		{
+			"valid-3",
+			args{
+				cachedFlowReport: &CachedFlowReport{
+					IsLocalDestinationID: true,
+					DestinationID:        "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					DestinationType:      CachedFlowReportDestinationTypeProcessingUnit,
+					IsLocalSourceID:      true,
+					SourceID:             "L-5f863169e767b10001b0bb1e-1234567890ab-76543210",
+					SourceType:           CachedFlowReportSourceTypeProcessingUnit,
+				},
+			},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCachedFlowReport(tt.args.cachedFlowReport); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCachedFlowReport() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

@@ -25,13 +25,15 @@ var (
 		"automationtemplate":        AutomationTemplateIdentity,
 		"awsapigateway":             AWSAPIGatewayIdentity,
 		"awsregister":               AWSRegisterIdentity,
+		"cachedflowreport":          CachedFlowReportIdentity,
 		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
 
 		"claims":       ClaimsIdentity,
 		"clausesmatch": ClauseMatchIdentity,
 
-		"counterreport": CounterReportIdentity,
+		"connectionexceptionreport": ConnectionExceptionReportIdentity,
+		"counterreport":             CounterReportIdentity,
 
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
@@ -180,13 +182,15 @@ var (
 		"automationtemplates":         AutomationTemplateIdentity,
 		"awsapigateways":              AWSAPIGatewayIdentity,
 		"awsregister":                 AWSRegisterIdentity,
+		"cachedflowreports":           CachedFlowReportIdentity,
 		"calls":                       CallIdentity,
 		"categories":                  CategoryIdentity,
 
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
 
-		"counterreports": CounterReportIdentity,
+		"connectionexceptionreports": ConnectionExceptionReportIdentity,
+		"counterreports":             CounterReportIdentity,
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
@@ -515,8 +519,14 @@ var (
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"awsregister": nil,
-		"call":        nil,
-		"category":    nil,
+		"cachedflowreport": {
+			{"sourceID"},
+			{"namespace", "timestamp"},
+			{"destinationID"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
+		"call":     nil,
+		"category": nil,
 		"claims": {
 			{"namespace", "hash"},
 			{":shard", ":unique", "zone", "zHash"},
@@ -524,6 +534,11 @@ var (
 			{"namespace", "normalizedTags"},
 		},
 		"clausesmatch": nil,
+		"connectionexceptionreport": {
+			{"processingunitnamespace", "timestamp"},
+			{"enforcernamespace", "timestamp"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"counterreport": {
 			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
@@ -1046,6 +1061,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAWSAPIGateway()
 	case AWSRegisterIdentity:
 		return NewAWSRegister()
+	case CachedFlowReportIdentity:
+		return NewCachedFlowReport()
 	case CallIdentity:
 		return NewCall()
 	case CategoryIdentity:
@@ -1054,6 +1071,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewClaims()
 	case ClauseMatchIdentity:
 		return NewClauseMatch()
+	case ConnectionExceptionReportIdentity:
+		return NewConnectionExceptionReport()
 	case CounterReportIdentity:
 		return NewCounterReport()
 	case CustomerIdentity:
@@ -1331,6 +1350,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAWSAPIGateway()
 	case AWSRegisterIdentity:
 		return NewSparseAWSRegister()
+	case CachedFlowReportIdentity:
+		return NewSparseCachedFlowReport()
 	case CallIdentity:
 		return NewSparseCall()
 	case CategoryIdentity:
@@ -1339,6 +1360,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
 		return NewSparseClauseMatch()
+	case ConnectionExceptionReportIdentity:
+		return NewSparseConnectionExceptionReport()
 	case CounterReportIdentity:
 		return NewSparseCounterReport()
 	case CustomerIdentity:
@@ -1624,6 +1647,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AWSAPIGatewaysList{}
 	case AWSRegisterIdentity:
 		return &AWSRegistersList{}
+	case CachedFlowReportIdentity:
+		return &CachedFlowReportsList{}
 	case CallIdentity:
 		return &CallsList{}
 	case CategoryIdentity:
@@ -1632,6 +1657,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
 		return &ClauseMatchesList{}
+	case ConnectionExceptionReportIdentity:
+		return &ConnectionExceptionReportsList{}
 	case CounterReportIdentity:
 		return &CounterReportsList{}
 	case CustomerIdentity:
@@ -1907,6 +1934,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAWSAPIGatewaysList{}
 	case AWSRegisterIdentity:
 		return &SparseAWSRegistersList{}
+	case CachedFlowReportIdentity:
+		return &SparseCachedFlowReportsList{}
 	case CallIdentity:
 		return &SparseCallsList{}
 	case CategoryIdentity:
@@ -1915,6 +1944,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
 		return &SparseClauseMatchesList{}
+	case ConnectionExceptionReportIdentity:
+		return &SparseConnectionExceptionReportsList{}
 	case CounterReportIdentity:
 		return &SparseCounterReportsList{}
 	case CustomerIdentity:
@@ -2184,10 +2215,12 @@ func AllIdentities() []elemental.Identity {
 		AutomationTemplateIdentity,
 		AWSAPIGatewayIdentity,
 		AWSRegisterIdentity,
+		CachedFlowReportIdentity,
 		CallIdentity,
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
+		ConnectionExceptionReportIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
@@ -2371,6 +2404,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case AWSRegisterIdentity:
 		return []string{}
+	case CachedFlowReportIdentity:
+		return []string{}
 	case CallIdentity:
 		return []string{}
 	case CategoryIdentity:
@@ -2378,6 +2413,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ClaimsIdentity:
 		return []string{}
 	case ClauseMatchIdentity:
+		return []string{}
+	case ConnectionExceptionReportIdentity:
 		return []string{}
 	case CounterReportIdentity:
 		return []string{}

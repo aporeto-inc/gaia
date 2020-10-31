@@ -707,6 +707,8 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[CachedFlowReportIdentity] = &elemental.Relationship{}
+
 	relationshipsRegistry[CallIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"apiproxy": {},
@@ -753,6 +755,12 @@ func init() {
 	}
 
 	relationshipsRegistry[ClauseMatchIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
+	relationshipsRegistry[ConnectionExceptionReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -4649,6 +4657,9 @@ func init() {
 			"root": {},
 		},
 		Delete: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
 	}

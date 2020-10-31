@@ -33,8 +33,14 @@ const (
 	// NamespaceTypeDefault represents the value Default.
 	NamespaceTypeDefault NamespaceTypeValue = "Default"
 
-	// NamespaceTypeGroup represents the value Group.
-	NamespaceTypeGroup NamespaceTypeValue = "Group"
+	// NamespaceTypeHostGroup represents the value HostGroup.
+	NamespaceTypeHostGroup NamespaceTypeValue = "HostGroup"
+
+	// NamespaceTypeKubernetes represents the value Kubernetes.
+	NamespaceTypeKubernetes NamespaceTypeValue = "Kubernetes"
+
+	// NamespaceTypeKubernetesClusterGroup represents the value KubernetesClusterGroup.
+	NamespaceTypeKubernetesClusterGroup NamespaceTypeValue = "KubernetesClusterGroup"
 
 	// NamespaceTypeTenant represents the value Tenant.
 	NamespaceTypeTenant NamespaceTypeValue = "Tenant"
@@ -204,9 +210,13 @@ type Namespace struct {
 	// - `Default`: A universal namespace that is capable of all actions and views.
 	// - `Tenant`: A namespace that houses a tenant (e.g. ACME).
 	// - `CloudAccount`: A child namespace of a tenant that houses a cloud provider
-	// account (e.g. aws-123, gcp-54).
-	// - `Group`: A child namespace of a cloud account that houses a managed group
-	// (e.g. marketing, app-234).
+	// account.
+	// - `HostGroup`: A child namespace of a cloud account that houses a managed
+	// non-Kubernetes group.
+	// - `KubernetesClusterGroup`: A child namespace of a cloud account that houses a
+	// managed Kubernetes group.
+	// - `Kubernetes`: A child namespace of a Kubernetes cluster group that houses a
+	// Kubernetes cluster (automatically created by the enforcer).
 	Type NamespaceTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -870,7 +880,7 @@ func (o *Namespace) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Default", "Tenant", "CloudAccount", "Group"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Default", "Tenant", "CloudAccount", "HostGroup", "KubernetesClusterGroup", "Kubernetes"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1282,7 +1292,7 @@ networks, enforcers) during their creation.`,
 		Type:           "string",
 	},
 	"Type": {
-		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "Group"},
+		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "HostGroup", "KubernetesClusterGroup", "Kubernetes"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		DefaultValue:   NamespaceTypeDefault,
@@ -1290,9 +1300,13 @@ networks, enforcers) during their creation.`,
 - ` + "`" + `Default` + "`" + `: A universal namespace that is capable of all actions and views.
 - ` + "`" + `Tenant` + "`" + `: A namespace that houses a tenant (e.g. ACME).
 - ` + "`" + `CloudAccount` + "`" + `: A child namespace of a tenant that houses a cloud provider
-account (e.g. aws-123, gcp-54).
-- ` + "`" + `Group` + "`" + `: A child namespace of a cloud account that houses a managed group
-(e.g. marketing, app-234).`,
+account.
+- ` + "`" + `HostGroup` + "`" + `: A child namespace of a cloud account that houses a managed
+non-Kubernetes group.
+- ` + "`" + `KubernetesClusterGroup` + "`" + `: A child namespace of a cloud account that houses a
+managed Kubernetes group.
+- ` + "`" + `Kubernetes` + "`" + `: A child namespace of a Kubernetes cluster group that houses a
+Kubernetes cluster (automatically created by the enforcer).`,
 		Exposed: true,
 		Name:    "type",
 		Stored:  true,
@@ -1696,7 +1710,7 @@ networks, enforcers) during their creation.`,
 		Type:           "string",
 	},
 	"type": {
-		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "Group"},
+		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "HostGroup", "KubernetesClusterGroup", "Kubernetes"},
 		BSONFieldName:  "type",
 		ConvertedName:  "Type",
 		CreationOnly:   true,
@@ -1705,9 +1719,13 @@ networks, enforcers) during their creation.`,
 - ` + "`" + `Default` + "`" + `: A universal namespace that is capable of all actions and views.
 - ` + "`" + `Tenant` + "`" + `: A namespace that houses a tenant (e.g. ACME).
 - ` + "`" + `CloudAccount` + "`" + `: A child namespace of a tenant that houses a cloud provider
-account (e.g. aws-123, gcp-54).
-- ` + "`" + `Group` + "`" + `: A child namespace of a cloud account that houses a managed group
-(e.g. marketing, app-234).`,
+account.
+- ` + "`" + `HostGroup` + "`" + `: A child namespace of a cloud account that houses a managed
+non-Kubernetes group.
+- ` + "`" + `KubernetesClusterGroup` + "`" + `: A child namespace of a cloud account that houses a
+managed Kubernetes group.
+- ` + "`" + `Kubernetes` + "`" + `: A child namespace of a Kubernetes cluster group that houses a
+Kubernetes cluster (automatically created by the enforcer).`,
 		Exposed: true,
 		Name:    "type",
 		Stored:  true,
@@ -1939,9 +1957,13 @@ type SparseNamespace struct {
 	// - `Default`: A universal namespace that is capable of all actions and views.
 	// - `Tenant`: A namespace that houses a tenant (e.g. ACME).
 	// - `CloudAccount`: A child namespace of a tenant that houses a cloud provider
-	// account (e.g. aws-123, gcp-54).
-	// - `Group`: A child namespace of a cloud account that houses a managed group
-	// (e.g. marketing, app-234).
+	// account.
+	// - `HostGroup`: A child namespace of a cloud account that houses a managed
+	// non-Kubernetes group.
+	// - `KubernetesClusterGroup`: A child namespace of a cloud account that houses a
+	// managed Kubernetes group.
+	// - `Kubernetes`: A child namespace of a Kubernetes cluster group that houses a
+	// Kubernetes cluster (automatically created by the enforcer).
 	Type *NamespaceTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.

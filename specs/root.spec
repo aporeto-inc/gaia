@@ -200,6 +200,10 @@ relations:
   create:
     description: Performs a clause matching.
 
+- rest_name: connectionexceptionreport
+  create:
+    description: Create a connection exception report.
+
 - rest_name: counterreport
   create:
     description: Create a counter report.
