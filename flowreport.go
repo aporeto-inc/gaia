@@ -1802,7 +1802,7 @@ type SparseFlowReport struct {
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action applied to the flow.
-	Action *CachedFlowReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
+	Action *FlowReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
 
 	// Identifier of the destination controller.
 	DestinationController *string `json:"destinationController,omitempty" msgpack:"destinationController,omitempty" bson:"b,omitempty" mapstructure:"destinationController,omitempty"`
@@ -1824,7 +1824,7 @@ type SparseFlowReport struct {
 	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"g,omitempty" mapstructure:"destinationPort,omitempty"`
 
 	// Destination type.
-	DestinationType *CachedFlowReportDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"h,omitempty" mapstructure:"destinationType,omitempty"`
+	DestinationType *FlowReportDestinationTypeValue `json:"destinationType,omitempty" msgpack:"destinationType,omitempty" bson:"h,omitempty" mapstructure:"destinationType,omitempty"`
 
 	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
@@ -1843,7 +1843,7 @@ type SparseFlowReport struct {
 	Observed *bool `json:"observed,omitempty" msgpack:"observed,omitempty" bson:"l,omitempty" mapstructure:"observed,omitempty"`
 
 	// Action observed on the flow.
-	ObservedAction *CachedFlowReportObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"m,omitempty" mapstructure:"observedAction,omitempty"`
+	ObservedAction *FlowReportObservedActionValue `json:"observedAction,omitempty" msgpack:"observedAction,omitempty" bson:"m,omitempty" mapstructure:"observedAction,omitempty"`
 
 	// Specifies the reason for a rejection. Only set if `observedAction` is set
 	// to `Reject`.
@@ -1880,7 +1880,7 @@ type SparseFlowReport struct {
 	ServiceNamespace *string `json:"serviceNamespace,omitempty" msgpack:"serviceNamespace,omitempty" bson:"x,omitempty" mapstructure:"serviceNamespace,omitempty"`
 
 	// ID of the service.
-	ServiceType *CachedFlowReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"y,omitempty" mapstructure:"serviceType,omitempty"`
+	ServiceType *FlowReportServiceTypeValue `json:"serviceType,omitempty" msgpack:"serviceType,omitempty" bson:"y,omitempty" mapstructure:"serviceType,omitempty"`
 
 	// Service URL accessed.
 	ServiceURL *string `json:"serviceURL,omitempty" msgpack:"serviceURL,omitempty" bson:"z,omitempty" mapstructure:"serviceURL,omitempty"`
@@ -1902,7 +1902,7 @@ type SparseFlowReport struct {
 	SourcePlatform *string `json:"sourcePlatform,omitempty" msgpack:"sourcePlatform,omitempty" bson:"ae,omitempty" mapstructure:"sourcePlatform,omitempty"`
 
 	// Type of the source.
-	SourceType *CachedFlowReportSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"af,omitempty" mapstructure:"sourceType,omitempty"`
+	SourceType *FlowReportSourceTypeValue `json:"sourceType,omitempty" msgpack:"sourceType,omitempty" bson:"af,omitempty" mapstructure:"sourceType,omitempty"`
 
 	// Time and date of the log.
 	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"ag,omitempty" mapstructure:"timestamp,omitempty"`
@@ -2409,82 +2409,82 @@ func (o *SparseFlowReport) DeepCopyInto(out *SparseFlowReport) {
 }
 
 type mongoAttributesFlowReport struct {
-	ID                      bson.ObjectId                        `bson:"_id,omitempty"`
-	Action                  CachedFlowReportActionValue          `bson:"a,omitempty"`
-	DestinationController   string                               `bson:"b,omitempty"`
-	DestinationID           string                               `bson:"c,omitempty"`
-	DestinationIP           string                               `bson:"d,omitempty"`
-	DestinationNamespace    string                               `bson:"e,omitempty"`
-	DestinationPlatform     string                               `bson:"f,omitempty"`
-	DestinationPort         int                                  `bson:"g,omitempty"`
-	DestinationType         CachedFlowReportDestinationTypeValue `bson:"h,omitempty"`
-	DropReason              string                               `bson:"i,omitempty"`
-	Encrypted               bool                                 `bson:"j,omitempty"`
-	MigrationsLog           map[string]string                    `bson:"migrationslog,omitempty"`
-	Namespace               string                               `bson:"k,omitempty"`
-	Observed                bool                                 `bson:"l,omitempty"`
-	ObservedAction          CachedFlowReportObservedActionValue  `bson:"m,omitempty"`
-	ObservedDropReason      string                               `bson:"n,omitempty"`
-	ObservedEncrypted       bool                                 `bson:"o,omitempty"`
-	ObservedPolicyID        string                               `bson:"p,omitempty"`
-	ObservedPolicyNamespace string                               `bson:"q,omitempty"`
-	PolicyID                string                               `bson:"r,omitempty"`
-	PolicyNamespace         string                               `bson:"s,omitempty"`
-	Protocol                int                                  `bson:"t,omitempty"`
-	RemoteNamespace         string                               `bson:"u,omitempty"`
-	ServiceClaimHash        string                               `bson:"v,omitempty"`
-	ServiceID               string                               `bson:"w,omitempty"`
-	ServiceNamespace        string                               `bson:"x,omitempty"`
-	ServiceType             CachedFlowReportServiceTypeValue     `bson:"y,omitempty"`
-	ServiceURL              string                               `bson:"z,omitempty"`
-	SourceController        string                               `bson:"aa,omitempty"`
-	SourceID                string                               `bson:"ab,omitempty"`
-	SourceIP                string                               `bson:"ac,omitempty"`
-	SourceNamespace         string                               `bson:"ad,omitempty"`
-	SourcePlatform          string                               `bson:"ae,omitempty"`
-	SourceType              CachedFlowReportSourceTypeValue      `bson:"af,omitempty"`
-	Timestamp               time.Time                            `bson:"ag,omitempty"`
-	Value                   int                                  `bson:"ah,omitempty"`
-	ZHash                   int                                  `bson:"zhash"`
-	Zone                    int                                  `bson:"zone"`
+	ID                      bson.ObjectId                  `bson:"_id,omitempty"`
+	Action                  FlowReportActionValue          `bson:"a,omitempty"`
+	DestinationController   string                         `bson:"b,omitempty"`
+	DestinationID           string                         `bson:"c,omitempty"`
+	DestinationIP           string                         `bson:"d,omitempty"`
+	DestinationNamespace    string                         `bson:"e,omitempty"`
+	DestinationPlatform     string                         `bson:"f,omitempty"`
+	DestinationPort         int                            `bson:"g,omitempty"`
+	DestinationType         FlowReportDestinationTypeValue `bson:"h,omitempty"`
+	DropReason              string                         `bson:"i,omitempty"`
+	Encrypted               bool                           `bson:"j,omitempty"`
+	MigrationsLog           map[string]string              `bson:"migrationslog,omitempty"`
+	Namespace               string                         `bson:"k,omitempty"`
+	Observed                bool                           `bson:"l,omitempty"`
+	ObservedAction          FlowReportObservedActionValue  `bson:"m,omitempty"`
+	ObservedDropReason      string                         `bson:"n,omitempty"`
+	ObservedEncrypted       bool                           `bson:"o,omitempty"`
+	ObservedPolicyID        string                         `bson:"p,omitempty"`
+	ObservedPolicyNamespace string                         `bson:"q,omitempty"`
+	PolicyID                string                         `bson:"r,omitempty"`
+	PolicyNamespace         string                         `bson:"s,omitempty"`
+	Protocol                int                            `bson:"t,omitempty"`
+	RemoteNamespace         string                         `bson:"u,omitempty"`
+	ServiceClaimHash        string                         `bson:"v,omitempty"`
+	ServiceID               string                         `bson:"w,omitempty"`
+	ServiceNamespace        string                         `bson:"x,omitempty"`
+	ServiceType             FlowReportServiceTypeValue     `bson:"y,omitempty"`
+	ServiceURL              string                         `bson:"z,omitempty"`
+	SourceController        string                         `bson:"aa,omitempty"`
+	SourceID                string                         `bson:"ab,omitempty"`
+	SourceIP                string                         `bson:"ac,omitempty"`
+	SourceNamespace         string                         `bson:"ad,omitempty"`
+	SourcePlatform          string                         `bson:"ae,omitempty"`
+	SourceType              FlowReportSourceTypeValue      `bson:"af,omitempty"`
+	Timestamp               time.Time                      `bson:"ag,omitempty"`
+	Value                   int                            `bson:"ah,omitempty"`
+	ZHash                   int                            `bson:"zhash"`
+	Zone                    int                            `bson:"zone"`
 }
 type mongoAttributesSparseFlowReport struct {
-	ID                      bson.ObjectId                         `bson:"_id,omitempty"`
-	Action                  *CachedFlowReportActionValue          `bson:"a,omitempty"`
-	DestinationController   *string                               `bson:"b,omitempty"`
-	DestinationID           *string                               `bson:"c,omitempty"`
-	DestinationIP           *string                               `bson:"d,omitempty"`
-	DestinationNamespace    *string                               `bson:"e,omitempty"`
-	DestinationPlatform     *string                               `bson:"f,omitempty"`
-	DestinationPort         *int                                  `bson:"g,omitempty"`
-	DestinationType         *CachedFlowReportDestinationTypeValue `bson:"h,omitempty"`
-	DropReason              *string                               `bson:"i,omitempty"`
-	Encrypted               *bool                                 `bson:"j,omitempty"`
-	MigrationsLog           *map[string]string                    `bson:"migrationslog,omitempty"`
-	Namespace               *string                               `bson:"k,omitempty"`
-	Observed                *bool                                 `bson:"l,omitempty"`
-	ObservedAction          *CachedFlowReportObservedActionValue  `bson:"m,omitempty"`
-	ObservedDropReason      *string                               `bson:"n,omitempty"`
-	ObservedEncrypted       *bool                                 `bson:"o,omitempty"`
-	ObservedPolicyID        *string                               `bson:"p,omitempty"`
-	ObservedPolicyNamespace *string                               `bson:"q,omitempty"`
-	PolicyID                *string                               `bson:"r,omitempty"`
-	PolicyNamespace         *string                               `bson:"s,omitempty"`
-	Protocol                *int                                  `bson:"t,omitempty"`
-	RemoteNamespace         *string                               `bson:"u,omitempty"`
-	ServiceClaimHash        *string                               `bson:"v,omitempty"`
-	ServiceID               *string                               `bson:"w,omitempty"`
-	ServiceNamespace        *string                               `bson:"x,omitempty"`
-	ServiceType             *CachedFlowReportServiceTypeValue     `bson:"y,omitempty"`
-	ServiceURL              *string                               `bson:"z,omitempty"`
-	SourceController        *string                               `bson:"aa,omitempty"`
-	SourceID                *string                               `bson:"ab,omitempty"`
-	SourceIP                *string                               `bson:"ac,omitempty"`
-	SourceNamespace         *string                               `bson:"ad,omitempty"`
-	SourcePlatform          *string                               `bson:"ae,omitempty"`
-	SourceType              *CachedFlowReportSourceTypeValue      `bson:"af,omitempty"`
-	Timestamp               *time.Time                            `bson:"ag,omitempty"`
-	Value                   *int                                  `bson:"ah,omitempty"`
-	ZHash                   *int                                  `bson:"zhash,omitempty"`
-	Zone                    *int                                  `bson:"zone,omitempty"`
+	ID                      bson.ObjectId                   `bson:"_id,omitempty"`
+	Action                  *FlowReportActionValue          `bson:"a,omitempty"`
+	DestinationController   *string                         `bson:"b,omitempty"`
+	DestinationID           *string                         `bson:"c,omitempty"`
+	DestinationIP           *string                         `bson:"d,omitempty"`
+	DestinationNamespace    *string                         `bson:"e,omitempty"`
+	DestinationPlatform     *string                         `bson:"f,omitempty"`
+	DestinationPort         *int                            `bson:"g,omitempty"`
+	DestinationType         *FlowReportDestinationTypeValue `bson:"h,omitempty"`
+	DropReason              *string                         `bson:"i,omitempty"`
+	Encrypted               *bool                           `bson:"j,omitempty"`
+	MigrationsLog           *map[string]string              `bson:"migrationslog,omitempty"`
+	Namespace               *string                         `bson:"k,omitempty"`
+	Observed                *bool                           `bson:"l,omitempty"`
+	ObservedAction          *FlowReportObservedActionValue  `bson:"m,omitempty"`
+	ObservedDropReason      *string                         `bson:"n,omitempty"`
+	ObservedEncrypted       *bool                           `bson:"o,omitempty"`
+	ObservedPolicyID        *string                         `bson:"p,omitempty"`
+	ObservedPolicyNamespace *string                         `bson:"q,omitempty"`
+	PolicyID                *string                         `bson:"r,omitempty"`
+	PolicyNamespace         *string                         `bson:"s,omitempty"`
+	Protocol                *int                            `bson:"t,omitempty"`
+	RemoteNamespace         *string                         `bson:"u,omitempty"`
+	ServiceClaimHash        *string                         `bson:"v,omitempty"`
+	ServiceID               *string                         `bson:"w,omitempty"`
+	ServiceNamespace        *string                         `bson:"x,omitempty"`
+	ServiceType             *FlowReportServiceTypeValue     `bson:"y,omitempty"`
+	ServiceURL              *string                         `bson:"z,omitempty"`
+	SourceController        *string                         `bson:"aa,omitempty"`
+	SourceID                *string                         `bson:"ab,omitempty"`
+	SourceIP                *string                         `bson:"ac,omitempty"`
+	SourceNamespace         *string                         `bson:"ad,omitempty"`
+	SourcePlatform          *string                         `bson:"ae,omitempty"`
+	SourceType              *FlowReportSourceTypeValue      `bson:"af,omitempty"`
+	Timestamp               *time.Time                      `bson:"ag,omitempty"`
+	Value                   *int                            `bson:"ah,omitempty"`
+	ZHash                   *int                            `bson:"zhash,omitempty"`
+	Zone                    *int                            `bson:"zone,omitempty"`
 }
