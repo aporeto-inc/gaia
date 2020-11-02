@@ -7,11 +7,11 @@ model:
   group: policy/networking
   description: Post a new flow log.
   extends:
-  - '@flow'
   - '@identifiable-stored'
   - '@zoned'
   - '@migratable'
-  
+  - '@flow'
+
 # Indexes
 indexes:
 - - remotenamespace
