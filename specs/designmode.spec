@@ -9,8 +9,10 @@ model:
     When design mode is enabled, all flows are accepted. Flows which do not match an
     existing network policy will be represented by a dotted line in your Platform
     view.
+  get:
+    description: Retrieve the design mode with the given import reference ID.
   delete:
-    description: Remove the design mode assests with the specified namespace ID.
+    description: Remove the design mode assests with the given import reference ID.
   extends:
   - '@identifiable-not-stored'
   - '@propagated'

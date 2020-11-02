@@ -52,7 +52,11 @@ Deploy the design mode assests onto the specified namespace.
 
 ##### `DELETE /designmode/:id`
 
-Remove the design mode assests with the specified namespace ID.
+Remove the design mode assests with the given import reference ID.
+
+##### `GET /designmode/:id`
+
+Retrieve the design mode with the given import reference ID.
 
 #### Attributes
 
