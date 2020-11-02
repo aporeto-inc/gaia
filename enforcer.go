@@ -240,9 +240,6 @@ type Enforcer struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Defines the next version the enforcer will be migrated to.
-	MigrationAvailableVersion string `json:"migrationAvailableVersion" msgpack:"migrationAvailableVersion" bson:"migrationavailableversion" mapstructure:"migrationAvailableVersion,omitempty"`
-
 	// Defines the migration status.
 	MigrationStatus EnforcerMigrationStatusValue `json:"migrationStatus" msgpack:"migrationStatus" bson:"migrationstatus" mapstructure:"migrationStatus,omitempty"`
 
@@ -254,6 +251,9 @@ type Enforcer struct {
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// Defines the next version the enforcer will be migrated to.
+	NextAvailableVersion string `json:"nextAvailableVersion" msgpack:"nextAvailableVersion" bson:"nextavailableversion" mapstructure:"nextAvailableVersion,omitempty"`
 
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
@@ -304,14 +304,14 @@ func NewEnforcer() *Enforcer {
 		AssociatedTags:        []string{},
 		CollectedInfo:         map[string]string{},
 		EnforcementStatus:     EnforcerEnforcementStatusInactive,
-		MigrationsLog:         map[string]string{},
 		LastValidHostServices: HostServicesList{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
 		LogLevel:              EnforcerLogLevelInfo,
 		Subnets:               []string{},
 		NormalizedTags:        []string{},
-		MigrationStatus:       EnforcerMigrationStatusNone,
+		MigrationsLog:         map[string]string{},
 		Metadata:              []string{},
+		MigrationStatus:       EnforcerMigrationStatusNone,
 		LogLevelDuration:      "10s",
 	}
 }
@@ -368,11 +368,11 @@ func (o *Enforcer) GetBSON() (interface{}, error) {
 	s.LogLevelDuration = o.LogLevelDuration
 	s.MachineID = o.MachineID
 	s.Metadata = o.Metadata
-	s.MigrationAvailableVersion = o.MigrationAvailableVersion
 	s.MigrationStatus = o.MigrationStatus
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
+	s.NextAvailableVersion = o.NextAvailableVersion
 	s.NormalizedTags = o.NormalizedTags
 	s.OperationalStatus = o.OperationalStatus
 	s.Protected = o.Protected
@@ -423,11 +423,11 @@ func (o *Enforcer) SetBSON(raw bson.Raw) error {
 	o.LogLevelDuration = s.LogLevelDuration
 	o.MachineID = s.MachineID
 	o.Metadata = s.Metadata
-	o.MigrationAvailableVersion = s.MigrationAvailableVersion
 	o.MigrationStatus = s.MigrationStatus
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
+	o.NextAvailableVersion = s.NextAvailableVersion
 	o.NormalizedTags = s.NormalizedTags
 	o.OperationalStatus = s.OperationalStatus
 	o.Protected = s.Protected
@@ -701,11 +701,11 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			LogLevelDuration:          &o.LogLevelDuration,
 			MachineID:                 &o.MachineID,
 			Metadata:                  &o.Metadata,
-			MigrationAvailableVersion: &o.MigrationAvailableVersion,
 			MigrationStatus:           &o.MigrationStatus,
 			MigrationsLog:             &o.MigrationsLog,
 			Name:                      &o.Name,
 			Namespace:                 &o.Namespace,
+			NextAvailableVersion:      &o.NextAvailableVersion,
 			NormalizedTags:            &o.NormalizedTags,
 			OperationalStatus:         &o.OperationalStatus,
 			Protected:                 &o.Protected,
@@ -775,8 +775,6 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.MachineID = &(o.MachineID)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
-		case "migrationAvailableVersion":
-			sp.MigrationAvailableVersion = &(o.MigrationAvailableVersion)
 		case "migrationStatus":
 			sp.MigrationStatus = &(o.MigrationStatus)
 		case "migrationsLog":
@@ -785,6 +783,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
+		case "nextAvailableVersion":
+			sp.NextAvailableVersion = &(o.NextAvailableVersion)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "operationalStatus":
@@ -898,9 +898,6 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
 	}
-	if so.MigrationAvailableVersion != nil {
-		o.MigrationAvailableVersion = *so.MigrationAvailableVersion
-	}
 	if so.MigrationStatus != nil {
 		o.MigrationStatus = *so.MigrationStatus
 	}
@@ -912,6 +909,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
+	}
+	if so.NextAvailableVersion != nil {
+		o.NextAvailableVersion = *so.NextAvailableVersion
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
@@ -1006,10 +1006,6 @@ func (o *Enforcer) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateSemVer("migrationAvailableVersion", o.MigrationAvailableVersion); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := elemental.ValidateStringInList("migrationStatus", string(o.MigrationStatus), []string{"None", "Running", "Failed"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -1019,6 +1015,10 @@ func (o *Enforcer) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateSemVer("nextAvailableVersion", o.NextAvailableVersion); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1112,8 +1112,6 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.MachineID
 	case "metadata":
 		return o.Metadata
-	case "migrationAvailableVersion":
-		return o.MigrationAvailableVersion
 	case "migrationStatus":
 		return o.MigrationStatus
 	case "migrationsLog":
@@ -1122,6 +1120,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.Name
 	case "namespace":
 		return o.Namespace
+	case "nextAvailableVersion":
+		return o.NextAvailableVersion
 	case "normalizedTags":
 		return o.NormalizedTags
 	case "operationalStatus":
@@ -1451,17 +1451,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
-	"MigrationAvailableVersion": {
-		AllowedChoices: []string{},
-		ConvertedName:  "MigrationAvailableVersion",
-		Description:    `Defines the next version the enforcer will be migrated to.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "migrationAvailableVersion",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"MigrationStatus": {
 		AllowedChoices: []string{"None", "Running", "Failed"},
 		ConvertedName:  "MigrationStatus",
@@ -1511,6 +1500,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"NextAvailableVersion": {
+		AllowedChoices: []string{},
+		ConvertedName:  "NextAvailableVersion",
+		Description:    `Defines the next version the enforcer will be migrated to.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "nextAvailableVersion",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1977,18 +1977,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
-	"migrationavailableversion": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "migrationavailableversion",
-		ConvertedName:  "MigrationAvailableVersion",
-		Description:    `Defines the next version the enforcer will be migrated to.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "migrationAvailableVersion",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"migrationstatus": {
 		AllowedChoices: []string{"None", "Running", "Failed"},
 		BSONFieldName:  "migrationstatus",
@@ -2042,6 +2030,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"nextavailableversion": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "nextavailableversion",
+		ConvertedName:  "NextAvailableVersion",
+		Description:    `Defines the next version the enforcer will be migrated to.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "nextAvailableVersion",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -2352,9 +2352,6 @@ type SparseEnforcer struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
-	// Defines the next version the enforcer will be migrated to.
-	MigrationAvailableVersion *string `json:"migrationAvailableVersion,omitempty" msgpack:"migrationAvailableVersion,omitempty" bson:"migrationavailableversion,omitempty" mapstructure:"migrationAvailableVersion,omitempty"`
-
 	// Defines the migration status.
 	MigrationStatus *EnforcerMigrationStatusValue `json:"migrationStatus,omitempty" msgpack:"migrationStatus,omitempty" bson:"migrationstatus,omitempty" mapstructure:"migrationStatus,omitempty"`
 
@@ -2366,6 +2363,9 @@ type SparseEnforcer struct {
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+
+	// Defines the next version the enforcer will be migrated to.
+	NextAvailableVersion *string `json:"nextAvailableVersion,omitempty" msgpack:"nextAvailableVersion,omitempty" bson:"nextavailableversion,omitempty" mapstructure:"nextAvailableVersion,omitempty"`
 
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
@@ -2513,9 +2513,6 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
 	}
-	if o.MigrationAvailableVersion != nil {
-		s.MigrationAvailableVersion = o.MigrationAvailableVersion
-	}
 	if o.MigrationStatus != nil {
 		s.MigrationStatus = o.MigrationStatus
 	}
@@ -2527,6 +2524,9 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	}
 	if o.Namespace != nil {
 		s.Namespace = o.Namespace
+	}
+	if o.NextAvailableVersion != nil {
+		s.NextAvailableVersion = o.NextAvailableVersion
 	}
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
@@ -2643,9 +2643,6 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
 	}
-	if s.MigrationAvailableVersion != nil {
-		o.MigrationAvailableVersion = s.MigrationAvailableVersion
-	}
 	if s.MigrationStatus != nil {
 		o.MigrationStatus = s.MigrationStatus
 	}
@@ -2657,6 +2654,9 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	}
 	if s.Namespace != nil {
 		o.Namespace = s.Namespace
+	}
+	if s.NextAvailableVersion != nil {
+		o.NextAvailableVersion = s.NextAvailableVersion
 	}
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
@@ -2783,9 +2783,6 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
 	}
-	if o.MigrationAvailableVersion != nil {
-		out.MigrationAvailableVersion = *o.MigrationAvailableVersion
-	}
 	if o.MigrationStatus != nil {
 		out.MigrationStatus = *o.MigrationStatus
 	}
@@ -2797,6 +2794,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
+	}
+	if o.NextAvailableVersion != nil {
+		out.NextAvailableVersion = *o.NextAvailableVersion
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
@@ -3116,82 +3116,82 @@ func (o *SparseEnforcer) DeepCopyInto(out *SparseEnforcer) {
 }
 
 type mongoAttributesEnforcer struct {
-	FQDN                      string                         `bson:"fqdn"`
-	ID                        bson.ObjectId                  `bson:"_id,omitempty"`
-	Annotations               map[string][]string            `bson:"annotations"`
-	AssociatedTags            []string                       `bson:"associatedtags"`
-	Certificate               string                         `bson:"certificate"`
-	CollectInfo               bool                           `bson:"collectinfo"`
-	CollectedInfo             map[string]string              `bson:"collectedinfo"`
-	Controller                string                         `bson:"controller"`
-	CreateIdempotencyKey      string                         `bson:"createidempotencykey"`
-	CreateTime                time.Time                      `bson:"createtime"`
-	CurrentVersion            string                         `bson:"currentversion"`
-	Description               string                         `bson:"description"`
-	EnforcementStatus         EnforcerEnforcementStatusValue `bson:"enforcementstatus"`
-	LastCollectionID          string                         `bson:"lastcollectionid"`
-	LastCollectionTime        time.Time                      `bson:"lastcollectiontime"`
-	LastPokeTime              time.Time                      `bson:"lastpoketime"`
-	LastSyncTime              time.Time                      `bson:"lastsynctime"`
-	LastValidHostServices     HostServicesList               `bson:"lastvalidhostservices"`
-	LogLevel                  EnforcerLogLevelValue          `bson:"loglevel"`
-	LogLevelDuration          string                         `bson:"loglevelduration"`
-	MachineID                 string                         `bson:"machineid"`
-	Metadata                  []string                       `bson:"metadata"`
-	MigrationAvailableVersion string                         `bson:"migrationavailableversion"`
-	MigrationStatus           EnforcerMigrationStatusValue   `bson:"migrationstatus"`
-	MigrationsLog             map[string]string              `bson:"migrationslog,omitempty"`
-	Name                      string                         `bson:"name"`
-	Namespace                 string                         `bson:"namespace"`
-	NormalizedTags            []string                       `bson:"normalizedtags"`
-	OperationalStatus         EnforcerOperationalStatusValue `bson:"operationalstatus"`
-	Protected                 bool                           `bson:"protected"`
-	PublicToken               string                         `bson:"publictoken"`
-	StartTime                 time.Time                      `bson:"starttime"`
-	Subnets                   []string                       `bson:"subnets"`
-	Unreachable               bool                           `bson:"unreachable"`
-	UpdateIdempotencyKey      string                         `bson:"updateidempotencykey"`
-	UpdateTime                time.Time                      `bson:"updatetime"`
-	ZHash                     int                            `bson:"zhash"`
-	Zone                      int                            `bson:"zone"`
+	FQDN                  string                         `bson:"fqdn"`
+	ID                    bson.ObjectId                  `bson:"_id,omitempty"`
+	Annotations           map[string][]string            `bson:"annotations"`
+	AssociatedTags        []string                       `bson:"associatedtags"`
+	Certificate           string                         `bson:"certificate"`
+	CollectInfo           bool                           `bson:"collectinfo"`
+	CollectedInfo         map[string]string              `bson:"collectedinfo"`
+	Controller            string                         `bson:"controller"`
+	CreateIdempotencyKey  string                         `bson:"createidempotencykey"`
+	CreateTime            time.Time                      `bson:"createtime"`
+	CurrentVersion        string                         `bson:"currentversion"`
+	Description           string                         `bson:"description"`
+	EnforcementStatus     EnforcerEnforcementStatusValue `bson:"enforcementstatus"`
+	LastCollectionID      string                         `bson:"lastcollectionid"`
+	LastCollectionTime    time.Time                      `bson:"lastcollectiontime"`
+	LastPokeTime          time.Time                      `bson:"lastpoketime"`
+	LastSyncTime          time.Time                      `bson:"lastsynctime"`
+	LastValidHostServices HostServicesList               `bson:"lastvalidhostservices"`
+	LogLevel              EnforcerLogLevelValue          `bson:"loglevel"`
+	LogLevelDuration      string                         `bson:"loglevelduration"`
+	MachineID             string                         `bson:"machineid"`
+	Metadata              []string                       `bson:"metadata"`
+	MigrationStatus       EnforcerMigrationStatusValue   `bson:"migrationstatus"`
+	MigrationsLog         map[string]string              `bson:"migrationslog,omitempty"`
+	Name                  string                         `bson:"name"`
+	Namespace             string                         `bson:"namespace"`
+	NextAvailableVersion  string                         `bson:"nextavailableversion"`
+	NormalizedTags        []string                       `bson:"normalizedtags"`
+	OperationalStatus     EnforcerOperationalStatusValue `bson:"operationalstatus"`
+	Protected             bool                           `bson:"protected"`
+	PublicToken           string                         `bson:"publictoken"`
+	StartTime             time.Time                      `bson:"starttime"`
+	Subnets               []string                       `bson:"subnets"`
+	Unreachable           bool                           `bson:"unreachable"`
+	UpdateIdempotencyKey  string                         `bson:"updateidempotencykey"`
+	UpdateTime            time.Time                      `bson:"updatetime"`
+	ZHash                 int                            `bson:"zhash"`
+	Zone                  int                            `bson:"zone"`
 }
 type mongoAttributesSparseEnforcer struct {
-	FQDN                      *string                         `bson:"fqdn,omitempty"`
-	ID                        bson.ObjectId                   `bson:"_id,omitempty"`
-	Annotations               *map[string][]string            `bson:"annotations,omitempty"`
-	AssociatedTags            *[]string                       `bson:"associatedtags,omitempty"`
-	Certificate               *string                         `bson:"certificate,omitempty"`
-	CollectInfo               *bool                           `bson:"collectinfo,omitempty"`
-	CollectedInfo             *map[string]string              `bson:"collectedinfo,omitempty"`
-	Controller                *string                         `bson:"controller,omitempty"`
-	CreateIdempotencyKey      *string                         `bson:"createidempotencykey,omitempty"`
-	CreateTime                *time.Time                      `bson:"createtime,omitempty"`
-	CurrentVersion            *string                         `bson:"currentversion,omitempty"`
-	Description               *string                         `bson:"description,omitempty"`
-	EnforcementStatus         *EnforcerEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
-	LastCollectionID          *string                         `bson:"lastcollectionid,omitempty"`
-	LastCollectionTime        *time.Time                      `bson:"lastcollectiontime,omitempty"`
-	LastPokeTime              *time.Time                      `bson:"lastpoketime,omitempty"`
-	LastSyncTime              *time.Time                      `bson:"lastsynctime,omitempty"`
-	LastValidHostServices     *HostServicesList               `bson:"lastvalidhostservices,omitempty"`
-	LogLevel                  *EnforcerLogLevelValue          `bson:"loglevel,omitempty"`
-	LogLevelDuration          *string                         `bson:"loglevelduration,omitempty"`
-	MachineID                 *string                         `bson:"machineid,omitempty"`
-	Metadata                  *[]string                       `bson:"metadata,omitempty"`
-	MigrationAvailableVersion *string                         `bson:"migrationavailableversion,omitempty"`
-	MigrationStatus           *EnforcerMigrationStatusValue   `bson:"migrationstatus,omitempty"`
-	MigrationsLog             *map[string]string              `bson:"migrationslog,omitempty"`
-	Name                      *string                         `bson:"name,omitempty"`
-	Namespace                 *string                         `bson:"namespace,omitempty"`
-	NormalizedTags            *[]string                       `bson:"normalizedtags,omitempty"`
-	OperationalStatus         *EnforcerOperationalStatusValue `bson:"operationalstatus,omitempty"`
-	Protected                 *bool                           `bson:"protected,omitempty"`
-	PublicToken               *string                         `bson:"publictoken,omitempty"`
-	StartTime                 *time.Time                      `bson:"starttime,omitempty"`
-	Subnets                   *[]string                       `bson:"subnets,omitempty"`
-	Unreachable               *bool                           `bson:"unreachable,omitempty"`
-	UpdateIdempotencyKey      *string                         `bson:"updateidempotencykey,omitempty"`
-	UpdateTime                *time.Time                      `bson:"updatetime,omitempty"`
-	ZHash                     *int                            `bson:"zhash,omitempty"`
-	Zone                      *int                            `bson:"zone,omitempty"`
+	FQDN                  *string                         `bson:"fqdn,omitempty"`
+	ID                    bson.ObjectId                   `bson:"_id,omitempty"`
+	Annotations           *map[string][]string            `bson:"annotations,omitempty"`
+	AssociatedTags        *[]string                       `bson:"associatedtags,omitempty"`
+	Certificate           *string                         `bson:"certificate,omitempty"`
+	CollectInfo           *bool                           `bson:"collectinfo,omitempty"`
+	CollectedInfo         *map[string]string              `bson:"collectedinfo,omitempty"`
+	Controller            *string                         `bson:"controller,omitempty"`
+	CreateIdempotencyKey  *string                         `bson:"createidempotencykey,omitempty"`
+	CreateTime            *time.Time                      `bson:"createtime,omitempty"`
+	CurrentVersion        *string                         `bson:"currentversion,omitempty"`
+	Description           *string                         `bson:"description,omitempty"`
+	EnforcementStatus     *EnforcerEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
+	LastCollectionID      *string                         `bson:"lastcollectionid,omitempty"`
+	LastCollectionTime    *time.Time                      `bson:"lastcollectiontime,omitempty"`
+	LastPokeTime          *time.Time                      `bson:"lastpoketime,omitempty"`
+	LastSyncTime          *time.Time                      `bson:"lastsynctime,omitempty"`
+	LastValidHostServices *HostServicesList               `bson:"lastvalidhostservices,omitempty"`
+	LogLevel              *EnforcerLogLevelValue          `bson:"loglevel,omitempty"`
+	LogLevelDuration      *string                         `bson:"loglevelduration,omitempty"`
+	MachineID             *string                         `bson:"machineid,omitempty"`
+	Metadata              *[]string                       `bson:"metadata,omitempty"`
+	MigrationStatus       *EnforcerMigrationStatusValue   `bson:"migrationstatus,omitempty"`
+	MigrationsLog         *map[string]string              `bson:"migrationslog,omitempty"`
+	Name                  *string                         `bson:"name,omitempty"`
+	Namespace             *string                         `bson:"namespace,omitempty"`
+	NextAvailableVersion  *string                         `bson:"nextavailableversion,omitempty"`
+	NormalizedTags        *[]string                       `bson:"normalizedtags,omitempty"`
+	OperationalStatus     *EnforcerOperationalStatusValue `bson:"operationalstatus,omitempty"`
+	Protected             *bool                           `bson:"protected,omitempty"`
+	PublicToken           *string                         `bson:"publictoken,omitempty"`
+	StartTime             *time.Time                      `bson:"starttime,omitempty"`
+	Subnets               *[]string                       `bson:"subnets,omitempty"`
+	Unreachable           *bool                           `bson:"unreachable,omitempty"`
+	UpdateIdempotencyKey  *string                         `bson:"updateidempotencykey,omitempty"`
+	UpdateTime            *time.Time                      `bson:"updatetime,omitempty"`
+	ZHash                 *int                            `bson:"zhash,omitempty"`
+	Zone                  *int                            `bson:"zone,omitempty"`
 }
