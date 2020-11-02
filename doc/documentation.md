@@ -2916,9 +2916,15 @@ Type: `[]string`
 Contains tags that can only be set during creation, must all start
 with the '@' prefix, and should only be used by external systems.
 
+##### `migrationAvailableVersion`
+
+Type: `string`
+
+Defines the next version the enforcer will be migrated to.
+
 ##### `migrationStatus`
 
-Type: `enum(None | MigrationRequested | Migrating)`
+Type: `enum(None | Running | Failed)`
 
 Defines the migration status.
 
@@ -2927,12 +2933,6 @@ Default value:
 ```json
 "None"
 ```
-
-##### `migrationVersion` [`read_only`]
-
-Type: `string`
-
-Defines the next version the enforcer will be migrated to.
 
 ##### `name` [`required`,`max_length=256`]
 

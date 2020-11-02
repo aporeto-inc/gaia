@@ -219,6 +219,16 @@ attributes:
     example_value: 3F23E8DF-C56D-45CF-89B8-A867F3956409
     filterable: true
 
+  - name: migrationAvailableVersion
+    description: Defines the next version the enforcer will be migrated to.
+    type: string
+    exposed: true
+    stored: true
+    filterable: true
+    orderable: true
+    validations:
+    - $semver
+
   - name: migrationStatus
     description: Defines the migration status.
     type: enum
@@ -226,21 +236,10 @@ attributes:
     stored: true
     allowed_choices:
     - None
-    - MigrationRequested
-    - Migrating
+    - Running
+    - Failed
     default_value: None
     orderable: true
-
-  - name: migrationVersion
-    description: Defines the next version the enforcer will be migrated to.
-    type: string
-    exposed: true
-    stored: true
-    read_only: true
-    filterable: true
-    orderable: true
-    validations:
-    - $semver
 
   - name: operationalStatus
     description: The status of the enforcer.
