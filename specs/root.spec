@@ -238,7 +238,7 @@ relations:
 
 - rest_name: designmode
   create:
-    description: Deploy the design mode assests onto the specified namespace.
+    description: Deploy the design mode assets onto the specified namespace.
 
 - rest_name: dnslookupreport
   create:

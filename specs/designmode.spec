@@ -12,7 +12,7 @@ model:
   get:
     description: Retrieve the design mode with the given import reference ID.
   delete:
-    description: Remove the design mode assests with the given import reference ID.
+    description: Remove the design mode assets with the given import reference ID.
   extends:
   - '@identifiable-not-stored'
   - '@propagated'

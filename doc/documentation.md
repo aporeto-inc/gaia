@@ -48,11 +48,11 @@ view.
 
 ##### `POST /designmode`
 
-Deploy the design mode assests onto the specified namespace.
+Deploy the design mode assets onto the specified namespace.
 
 ##### `DELETE /designmode/:id`
 
-Remove the design mode assests with the given import reference ID.
+Remove the design mode assets with the given import reference ID.
 
 ##### `GET /designmode/:id`
 

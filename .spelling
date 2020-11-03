@@ -44,6 +44,7 @@ DaemonSet
 DataPathCertificate
 DebugBundle
 DependencyMap
+DesignMode
 Docker
 ECDSA
 Elasticsearch
