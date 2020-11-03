@@ -5068,17 +5068,7 @@ Returns the type of the specified namespace.
 
 Type: `string`
 
-The type defines the purpose of the namespace:
-- `Default`: A universal namespace that is capable of all actions and views.
-- `Tenant`: A namespace that houses a tenant (e.g. ACME).
-- `CloudAccount`: A child namespace of a tenant that houses a cloud provider
-account.
-- `HostGroup`: A child namespace of a cloud account that houses a managed
-non-Kubernetes group.
-- `KubernetesClusterGroup`: A child namespace of a cloud account that houses a
-managed Kubernetes group.
-- `Kubernetes`: A child namespace of a Kubernetes cluster group that houses a
-Kubernetes cluster (automatically created by the enforcer).
+the namespace type for the current namespace.
 
 ### OrganizationalMetadata
 
