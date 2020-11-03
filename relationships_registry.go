@@ -707,7 +707,11 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[CachedFlowReportIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[CachedFlowReportIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
 
 	relationshipsRegistry[CallIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
@@ -1486,14 +1490,7 @@ func init() {
 
 	relationshipsRegistry[FlowReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": {
-				Parameters: []elemental.ParameterDefinition{
-					{
-						Name: "ingestionMode",
-						Type: "string",
-					},
-				},
-			},
+			"root": {},
 		},
 	}
 
