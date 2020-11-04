@@ -113,6 +113,7 @@ multipart
 namespace
 NamespaceMappingPolicy
 NamespaceRenderer
+NamespaceType
 NamespaceUnique
 NetworkAccessPolicy
 NfQueue

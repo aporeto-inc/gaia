@@ -169,9 +169,10 @@ type ProcessingUnit struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the
-	// Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU,
-	// the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
+	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot
+	// communicate with the Microsegmentation Console. When eventually the
+	// Microsegmentation Console is able to create the PU, the `clientLocalID` will be
+	// used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
 	ClientLocalID string `json:"clientLocalID,omitempty" msgpack:"clientLocalID,omitempty" bson:"clientlocalid,omitempty" mapstructure:"clientLocalID,omitempty"`
 
 	// A value of `true` indicates to the enforcer that it needs to collect information
@@ -203,9 +204,11 @@ type ProcessingUnit struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Contains the state of the enforcer for the processing unit. `Inactive`
-	// (default): the enforcer is not enforcing any host service. `Active`: the
-	// enforcer is enforcing a host service. `Failed`.
+	// Contains the state of the enforcer for the processing unit.
+	//
+	// `Inactive` (default): the enforcer is not enforcing any host service.
+	// `Active`: the enforcer is enforcing a host service.
+	// `Failed`: an error occurred during the enforcement attempt.
 	EnforcementStatus ProcessingUnitEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
 
 	// The ID of the enforcer associated with the processing unit.
@@ -1177,9 +1180,10 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 	"ClientLocalID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientLocalID",
-		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the 
-Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU, 
-the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.`,
+		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot
+communicate with the Microsegmentation Console. When eventually the
+Microsegmentation Console is able to create the PU, the ` + "`" + `clientLocalID` + "`" + ` will be
+used to convert a CachedFlowReport containing a local PUID to a real FlowReport.`,
 		Exposed: true,
 		Name:    "clientLocalID",
 		Stored:  true,
@@ -1282,9 +1286,11 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		AllowedChoices: []string{"Active", "Failed", "Inactive"},
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   ProcessingUnitEnforcementStatusInactive,
-		Description: `Contains the state of the enforcer for the processing unit. ` + "`" + `Inactive` + "`" + `
-(default): the enforcer is not enforcing any host service. ` + "`" + `Active` + "`" + `: the 
-enforcer is enforcing a host service. ` + "`" + `Failed` + "`" + `.`,
+		Description: `Contains the state of the enforcer for the processing unit. 
+
+` + "`" + `Inactive` + "`" + ` (default): the enforcer is not enforcing any host service. 
+` + "`" + `Active` + "`" + `: the enforcer is enforcing a host service. 
+` + "`" + `Failed` + "`" + `: an error occurred during the enforcement attempt.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "enforcementStatus",
@@ -1637,9 +1643,10 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		AllowedChoices: []string{},
 		BSONFieldName:  "clientlocalid",
 		ConvertedName:  "ClientLocalID",
-		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the 
-Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU, 
-the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.`,
+		Description: `The local PUID set by enforcer. Enforcer may create a local PU if it cannot
+communicate with the Microsegmentation Console. When eventually the
+Microsegmentation Console is able to create the PU, the ` + "`" + `clientLocalID` + "`" + ` will be
+used to convert a CachedFlowReport containing a local PUID to a real FlowReport.`,
 		Exposed: true,
 		Name:    "clientLocalID",
 		Stored:  true,
@@ -1750,9 +1757,11 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		BSONFieldName:  "enforcementstatus",
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   ProcessingUnitEnforcementStatusInactive,
-		Description: `Contains the state of the enforcer for the processing unit. ` + "`" + `Inactive` + "`" + `
-(default): the enforcer is not enforcing any host service. ` + "`" + `Active` + "`" + `: the 
-enforcer is enforcing a host service. ` + "`" + `Failed` + "`" + `.`,
+		Description: `Contains the state of the enforcer for the processing unit. 
+
+` + "`" + `Inactive` + "`" + ` (default): the enforcer is not enforcing any host service. 
+` + "`" + `Active` + "`" + `: the enforcer is enforcing a host service. 
+` + "`" + `Failed` + "`" + `: an error occurred during the enforcement attempt.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "enforcementStatus",
@@ -2145,9 +2154,10 @@ type SparseProcessingUnit struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the
-	// Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU,
-	// the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
+	// The local PUID set by enforcer. Enforcer may create a local PU if it cannot
+	// communicate with the Microsegmentation Console. When eventually the
+	// Microsegmentation Console is able to create the PU, the `clientLocalID` will be
+	// used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
 	ClientLocalID *string `json:"clientLocalID,omitempty" msgpack:"clientLocalID,omitempty" bson:"clientlocalid,omitempty" mapstructure:"clientLocalID,omitempty"`
 
 	// A value of `true` indicates to the enforcer that it needs to collect information
@@ -2179,9 +2189,11 @@ type SparseProcessingUnit struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Contains the state of the enforcer for the processing unit. `Inactive`
-	// (default): the enforcer is not enforcing any host service. `Active`: the
-	// enforcer is enforcing a host service. `Failed`.
+	// Contains the state of the enforcer for the processing unit.
+	//
+	// `Inactive` (default): the enforcer is not enforcing any host service.
+	// `Active`: the enforcer is enforcing a host service.
+	// `Failed`: an error occurred during the enforcement attempt.
 	EnforcementStatus *ProcessingUnitEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
 	// The ID of the enforcer associated with the processing unit.
