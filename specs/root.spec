@@ -240,9 +240,11 @@ relations:
         description: Also return the view suggestions.
         type: boolean
 
-- rest_name: designmode
+- rest_name: discoverymode
+  get:
+    description: Returns the list of discovery modes.
   create:
-    description: Deploy the design mode assets onto the specified namespace.
+    description: Deploy the discovery mode assets onto the specified namespace.
 
 - rest_name: dnslookupreport
   create:

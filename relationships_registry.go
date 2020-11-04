@@ -970,7 +970,7 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[DesignModeIdentity] = &elemental.Relationship{
+	relationshipsRegistry[DiscoveryModeIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -978,6 +978,12 @@ func init() {
 			"root": {},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
 	}

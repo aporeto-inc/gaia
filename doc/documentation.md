@@ -30,10 +30,10 @@ Type: `time`
 
 The date of the comment.
 
-### DesignMode
+### DiscoveryMode
 
-When design mode is enabled, all flows are accepted. Flows which do not match an
-existing network policy will be represented by a dotted line in your Platform
+When discovery mode is enabled, all flows are accepted. Flows which do not match
+an existing network policy will be represented by a dotted line in your Platform
 view.
 
 #### Example
@@ -46,17 +46,21 @@ view.
 
 #### Relations
 
-##### `POST /designmode`
+##### `GET /discoverymode`
 
-Deploy the design mode assets onto the specified namespace.
+Returns the list of discovery modes.
 
-##### `DELETE /designmode/:id`
+##### `POST /discoverymode`
 
-Remove the design mode assets with the given import reference ID.
+Deploy the discovery mode assets onto the specified namespace.
 
-##### `GET /designmode/:id`
+##### `DELETE /discoverymode/:id`
 
-Retrieve the design mode with the given import reference ID.
+Remove the discovery mode assets with the given import reference ID.
+
+##### `GET /discoverymode/:id`
+
+Retrieve the discovery mode with the given import reference ID.
 
 #### Attributes
 
