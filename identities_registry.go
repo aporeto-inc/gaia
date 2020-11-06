@@ -555,6 +555,8 @@ var (
 		"dependencymap":       nil,
 		"discoverymode": {
 			{"propagate"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
 		},
 		"dnslookupreport": {
 			{"namespace", "timestamp"},

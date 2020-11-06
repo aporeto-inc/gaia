@@ -17,3 +17,4 @@ model:
   extends:
   - '@identifiable-not-stored'
   - '@propagated'
+  - '@namespaced'
