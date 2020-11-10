@@ -43,6 +43,7 @@ DNSLookupReport
 DaemonSet
 DataPathCertificate
 DebugBundle
+DefaultEnforcerVersion
 DependencyMap
 DiscoveryMode
 Docker

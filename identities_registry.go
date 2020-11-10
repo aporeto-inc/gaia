@@ -35,13 +35,14 @@ var (
 		"connectionexceptionreport": ConnectionExceptionReportIdentity,
 		"counterreport":             CounterReportIdentity,
 
-		"customer":            CustomerIdentity,
-		"datapathcertificate": DataPathCertificateIdentity,
-		"debugbundle":         DebugBundleIdentity,
-		"dependencymap":       DependencyMapIdentity,
-		"discoverymode":       DiscoveryModeIdentity,
-		"dnslookupreport":     DNSLookupReportIdentity,
-		"email":               EmailIdentity,
+		"customer":               CustomerIdentity,
+		"datapathcertificate":    DataPathCertificateIdentity,
+		"debugbundle":            DebugBundleIdentity,
+		"defaultenforcerversion": DefaultEnforcerVersionIdentity,
+		"dependencymap":          DependencyMapIdentity,
+		"discoverymode":          DiscoveryModeIdentity,
+		"dnslookupreport":        DNSLookupReportIdentity,
+		"email":                  EmailIdentity,
 
 		"enforcer":                     EnforcerIdentity,
 		"enforcerlog":                  EnforcerLogIdentity,
@@ -194,13 +195,14 @@ var (
 		"connectionexceptionreports": ConnectionExceptionReportIdentity,
 		"counterreports":             CounterReportIdentity,
 
-		"customers":            CustomerIdentity,
-		"datapathcertificates": DataPathCertificateIdentity,
-		"debugbundles":         DebugBundleIdentity,
-		"dependencymaps":       DependencyMapIdentity,
-		"discoverymode":        DiscoveryModeIdentity,
-		"dnslookupreports":     DNSLookupReportIdentity,
-		"emails":               EmailIdentity,
+		"customers":              CustomerIdentity,
+		"datapathcertificates":   DataPathCertificateIdentity,
+		"debugbundles":           DebugBundleIdentity,
+		"defaultenforcerversion": DefaultEnforcerVersionIdentity,
+		"dependencymaps":         DependencyMapIdentity,
+		"discoverymode":          DiscoveryModeIdentity,
+		"dnslookupreports":       DNSLookupReportIdentity,
+		"emails":                 EmailIdentity,
 
 		"enforcers":                      EnforcerIdentity,
 		"enforcerlog":                    EnforcerLogIdentity,
@@ -550,9 +552,10 @@ var (
 		"customer": {
 			{"providerCustomerID"},
 		},
-		"datapathcertificate": nil,
-		"debugbundle":         nil,
-		"dependencymap":       nil,
+		"datapathcertificate":    nil,
+		"debugbundle":            nil,
+		"defaultenforcerversion": nil,
+		"dependencymap":          nil,
 		"discoverymode": {
 			{"propagate"},
 			{"namespace"},
@@ -1091,6 +1094,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewDataPathCertificate()
 	case DebugBundleIdentity:
 		return NewDebugBundle()
+	case DefaultEnforcerVersionIdentity:
+		return NewDefaultEnforcerVersion()
 	case DependencyMapIdentity:
 		return NewDependencyMap()
 	case DiscoveryModeIdentity:
@@ -1384,6 +1389,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseDataPathCertificate()
 	case DebugBundleIdentity:
 		return NewSparseDebugBundle()
+	case DefaultEnforcerVersionIdentity:
+		return NewSparseDefaultEnforcerVersion()
 	case DependencyMapIdentity:
 		return NewSparseDependencyMap()
 	case DiscoveryModeIdentity:
@@ -1685,6 +1692,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &DataPathCertificatesList{}
 	case DebugBundleIdentity:
 		return &DebugBundlesList{}
+	case DefaultEnforcerVersionIdentity:
+		return &DefaultEnforcerVersionsList{}
 	case DependencyMapIdentity:
 		return &DependencyMapsList{}
 	case DiscoveryModeIdentity:
@@ -1976,6 +1985,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseDataPathCertificatesList{}
 	case DebugBundleIdentity:
 		return &SparseDebugBundlesList{}
+	case DefaultEnforcerVersionIdentity:
+		return &SparseDefaultEnforcerVersionsList{}
 	case DependencyMapIdentity:
 		return &SparseDependencyMapsList{}
 	case DiscoveryModeIdentity:
@@ -2251,6 +2262,7 @@ func AllIdentities() []elemental.Identity {
 		CustomerIdentity,
 		DataPathCertificateIdentity,
 		DebugBundleIdentity,
+		DefaultEnforcerVersionIdentity,
 		DependencyMapIdentity,
 		DiscoveryModeIdentity,
 		DNSLookupReportIdentity,
@@ -2451,6 +2463,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case DataPathCertificateIdentity:
 		return []string{}
 	case DebugBundleIdentity:
+		return []string{}
+	case DefaultEnforcerVersionIdentity:
 		return []string{}
 	case DependencyMapIdentity:
 		return []string{

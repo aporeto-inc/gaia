@@ -216,6 +216,10 @@ relations:
   create:
     description: Creates a new certificate for datapath.
 
+- rest_name: defaultenforcerversion
+  get:
+    description: Returns the default enforcer version of the specified namespace.
+
 - rest_name: dependencymap
   get:
     description: Retrieves the dependency map of a namespace.
