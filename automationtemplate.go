@@ -430,6 +430,7 @@ func (o *AutomationTemplate) ValueForAttribute(name string) interface{} {
 var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecification{
 	"Description": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "description",
 		ConvertedName:  "Description",
 		Description:    `Description of the object.`,
 		Exposed:        true,
@@ -477,6 +478,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"Name": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "name",
 		ConvertedName:  "Name",
 		Description:    `Name of the entity.`,
 		Exposed:        true,

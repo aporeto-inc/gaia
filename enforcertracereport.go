@@ -351,6 +351,7 @@ func (o *EnforcerTraceReport) ValueForAttribute(name string) interface{} {
 var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"EnforcerID": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "enforcerid",
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the enforcer where the trace was collected.`,
 		Exposed:        true,
@@ -361,6 +362,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 	},
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "enforcernamespace",
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer where the trace was collected.`,
 		Exposed:        true,
@@ -371,6 +373,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 	},
 	"Namespace": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "namespace",
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the processing unit where the trace was collected.`,
 		Exposed:        true,
@@ -381,6 +384,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 	},
 	"PuID": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "puid",
 		ConvertedName:  "PuID",
 		Description:    `ID of the processing unit where the trace was collected.`,
 		Exposed:        true,
@@ -391,6 +395,7 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 	},
 	"Records": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "records",
 		ConvertedName:  "Records",
 		Description:    `List of iptables trace records collected.`,
 		Name:           "records",

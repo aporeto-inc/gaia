@@ -293,6 +293,7 @@ func (o *SuggestedPolicy) ValueForAttribute(name string) interface{} {
 var SuggestedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"NetworkAccessPolicies": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "networkaccesspolicies",
 		ConvertedName:  "NetworkAccessPolicies",
 		Description:    `List of suggested network policies.`,
 		Exposed:        true,
