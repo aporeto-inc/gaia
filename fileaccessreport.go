@@ -99,28 +99,28 @@ type FileAccessReport struct {
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action taken.
-	Action FileAccessReportActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
+	Action FileAccessReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
 
 	// Host storing the file.
-	Host string `json:"host" msgpack:"host" bson:"host" mapstructure:"host,omitempty"`
+	Host string `json:"host,omitempty" msgpack:"host,omitempty" bson:"b,omitempty" mapstructure:"host,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Mode of file access.
-	Mode string `json:"mode" msgpack:"mode" bson:"mode" mapstructure:"mode,omitempty"`
+	Mode string `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"c,omitempty" mapstructure:"mode,omitempty"`
 
 	// Path of the file.
-	Path string `json:"path" msgpack:"path" bson:"path" mapstructure:"path,omitempty"`
+	Path string `json:"path,omitempty" msgpack:"path,omitempty" bson:"d,omitempty" mapstructure:"path,omitempty"`
 
 	// ID of the processing unit.
-	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"processingunitid" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"e,omitempty" mapstructure:"processingUnitID,omitempty"`
 
 	// Namespace of the processing unit.
-	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"processingunitnamespace" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"f,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// Date of the report.
-	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"timestamp" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"g,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -657,7 +657,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	},
 	"action": {
 		AllowedChoices: []string{"Accept", "Reject", "Limit"},
-		BSONFieldName:  "action",
+		BSONFieldName:  "a",
 		ConvertedName:  "Action",
 		Description:    `Action taken.`,
 		Exposed:        true,
@@ -668,7 +668,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	},
 	"host": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "host",
+		BSONFieldName:  "b",
 		ConvertedName:  "Host",
 		DefaultValue:   "localhost",
 		Description:    `Host storing the file.`,
@@ -692,7 +692,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	},
 	"mode": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "mode",
+		BSONFieldName:  "c",
 		ConvertedName:  "Mode",
 		DefaultValue:   "rxw",
 		Description:    `Mode of file access.`,
@@ -704,7 +704,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	},
 	"path": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "path",
+		BSONFieldName:  "d",
 		ConvertedName:  "Path",
 		DefaultValue:   "/etc/passwd",
 		Description:    `Path of the file.`,
@@ -716,7 +716,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	},
 	"processingunitid": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitid",
+		BSONFieldName:  "e",
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit.`,
 		Exposed:        true,
@@ -727,7 +727,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	},
 	"processingunitnamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitnamespace",
+		BSONFieldName:  "f",
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit.`,
 		Exposed:        true,
@@ -738,7 +738,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	},
 	"timestamp": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "timestamp",
+		BSONFieldName:  "g",
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
 		Exposed:        true,
@@ -844,28 +844,28 @@ type SparseFileAccessReport struct {
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action taken.
-	Action *FileAccessReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
+	Action *FileAccessReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
 
 	// Host storing the file.
-	Host *string `json:"host,omitempty" msgpack:"host,omitempty" bson:"host,omitempty" mapstructure:"host,omitempty"`
+	Host *string `json:"host,omitempty" msgpack:"host,omitempty" bson:"b,omitempty" mapstructure:"host,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Mode of file access.
-	Mode *string `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"mode,omitempty" mapstructure:"mode,omitempty"`
+	Mode *string `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"c,omitempty" mapstructure:"mode,omitempty"`
 
 	// Path of the file.
-	Path *string `json:"path,omitempty" msgpack:"path,omitempty" bson:"path,omitempty" mapstructure:"path,omitempty"`
+	Path *string `json:"path,omitempty" msgpack:"path,omitempty" bson:"d,omitempty" mapstructure:"path,omitempty"`
 
 	// ID of the processing unit.
-	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"processingunitid,omitempty" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"e,omitempty" mapstructure:"processingUnitID,omitempty"`
 
 	// Namespace of the processing unit.
-	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"processingunitnamespace,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"f,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// Date of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"timestamp,omitempty" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"g,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -1124,27 +1124,27 @@ func (o *SparseFileAccessReport) DeepCopyInto(out *SparseFileAccessReport) {
 
 type mongoAttributesFileAccessReport struct {
 	ID                      bson.ObjectId               `bson:"_id,omitempty"`
-	Action                  FileAccessReportActionValue `bson:"action"`
-	Host                    string                      `bson:"host"`
+	Action                  FileAccessReportActionValue `bson:"a,omitempty"`
+	Host                    string                      `bson:"b,omitempty"`
 	MigrationsLog           map[string]string           `bson:"migrationslog,omitempty"`
-	Mode                    string                      `bson:"mode"`
-	Path                    string                      `bson:"path"`
-	ProcessingUnitID        string                      `bson:"processingunitid"`
-	ProcessingUnitNamespace string                      `bson:"processingunitnamespace"`
-	Timestamp               time.Time                   `bson:"timestamp"`
+	Mode                    string                      `bson:"c,omitempty"`
+	Path                    string                      `bson:"d,omitempty"`
+	ProcessingUnitID        string                      `bson:"e,omitempty"`
+	ProcessingUnitNamespace string                      `bson:"f,omitempty"`
+	Timestamp               time.Time                   `bson:"g,omitempty"`
 	ZHash                   int                         `bson:"zhash"`
 	Zone                    int                         `bson:"zone"`
 }
 type mongoAttributesSparseFileAccessReport struct {
 	ID                      bson.ObjectId                `bson:"_id,omitempty"`
-	Action                  *FileAccessReportActionValue `bson:"action,omitempty"`
-	Host                    *string                      `bson:"host,omitempty"`
+	Action                  *FileAccessReportActionValue `bson:"a,omitempty"`
+	Host                    *string                      `bson:"b,omitempty"`
 	MigrationsLog           *map[string]string           `bson:"migrationslog,omitempty"`
-	Mode                    *string                      `bson:"mode,omitempty"`
-	Path                    *string                      `bson:"path,omitempty"`
-	ProcessingUnitID        *string                      `bson:"processingunitid,omitempty"`
-	ProcessingUnitNamespace *string                      `bson:"processingunitnamespace,omitempty"`
-	Timestamp               *time.Time                   `bson:"timestamp,omitempty"`
+	Mode                    *string                      `bson:"c,omitempty"`
+	Path                    *string                      `bson:"d,omitempty"`
+	ProcessingUnitID        *string                      `bson:"e,omitempty"`
+	ProcessingUnitNamespace *string                      `bson:"f,omitempty"`
+	Timestamp               *time.Time                   `bson:"g,omitempty"`
 	ZHash                   *int                         `bson:"zhash,omitempty"`
 	Zone                    *int                         `bson:"zone,omitempty"`
 }

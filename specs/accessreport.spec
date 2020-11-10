@@ -29,12 +29,18 @@ attributes:
     - Accept
     - Reject
     example_value: Accept
+    omit_empty: true
+    extensions:
+      bson_name: a
 
   - name: claimHash
     description: Hash of the claims used to communicate.
     type: string
     exposed: true
     stored: true
+    omit_empty: true
+    extensions:
+      bson_name: b
 
   - name: enforcerID
     description: Identifier of the enforcer.
@@ -43,6 +49,9 @@ attributes:
     stored: true
     required: true
     example_value: xxx-xxx-xxx
+    omit_empty: true
+    extensions:
+      bson_name: c
 
   - name: enforcerNamespace
     description: Namespace of the enforcer.
@@ -51,6 +60,9 @@ attributes:
     stored: true
     required: true
     example_value: /my/namespace
+    omit_empty: true
+    extensions:
+      bson_name: d
 
   - name: processingUnitID
     description: ID of the processing unit of the report.
@@ -58,6 +70,9 @@ attributes:
     exposed: true
     stored: true
     example_value: xxx-xxx-xxx-xxx
+    omit_empty: true
+    extensions:
+      bson_name: e
 
   - name: processingUnitName
     description: Name of the processing unit of the report.
@@ -65,6 +80,9 @@ attributes:
     exposed: true
     stored: true
     example_value: pu1
+    omit_empty: true
+    extensions:
+      bson_name: f
 
   - name: processingUnitNamespace
     description: Namespace of the processing unit of the report.
@@ -72,6 +90,9 @@ attributes:
     exposed: true
     stored: true
     example_value: /my/ns
+    omit_empty: true
+    extensions:
+      bson_name: g
 
   - name: reason
     description: |-
@@ -80,12 +101,18 @@ attributes:
     type: string
     exposed: true
     stored: true
+    omit_empty: true
+    extensions:
+      bson_name: h
 
   - name: timestamp
     description: Date of the report.
     type: time
     exposed: true
     stored: true
+    omit_empty: true
+    extensions:
+      bson_name: i
 
   - name: type
     description: Type of the report.
@@ -99,3 +126,6 @@ attributes:
     - SudoEnter
     - SudoExit
     example_value: SSHLogin
+    omit_empty: true
+    extensions:
+      bson_name: j

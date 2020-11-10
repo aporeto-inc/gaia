@@ -27,6 +27,9 @@ attributes:
     required: true
     creation_only: true
     example_value: enforcerd:policy
+    omit_empty: true
+    extensions:
+      bson_name: a
 
   - name: content
     description: Content of the event log.
@@ -36,6 +39,9 @@ attributes:
     required: true
     creation_only: true
     example_value: Unable to activate docker container xyz because abc.
+    omit_empty: true
+    extensions:
+      bson_name: b
 
   - name: date
     description: Creation date of the event log.
@@ -46,6 +52,9 @@ attributes:
     deprecated: true
     orderable: true
     transient: true
+    omit_empty: true
+    extensions:
+      bson_name: c
 
   - name: level
     description: Sets the log level.
@@ -60,6 +69,9 @@ attributes:
     - Error
     - Critical
     default_value: Info
+    omit_empty: true
+    extensions:
+      bson_name: d
 
   - name: namespace
     description: Namespace tag attached to the event log.
@@ -72,6 +84,9 @@ attributes:
     getter: true
     setter: true
     orderable: true
+    omit_empty: true
+    extensions:
+      bson_name: e
 
   - name: opaque
     description: |-
@@ -82,6 +97,9 @@ attributes:
     stored: true
     creation_only: true
     orderable: true
+    omit_empty: true
+    extensions:
+      bson_name: f
 
   - name: targetID
     description: |-
@@ -93,6 +111,9 @@ attributes:
     required: true
     creation_only: true
     example_value: xxx-xxx-xxx-xxx
+    omit_empty: true
+    extensions:
+      bson_name: g
 
   - name: targetIdentity
     description: Identity of the object this event log is attached to.
@@ -102,6 +123,9 @@ attributes:
     required: true
     creation_only: true
     example_value: processingunit
+    omit_empty: true
+    extensions:
+      bson_name: h
 
   - name: timestamp
     description: Creation date of the event log.
@@ -109,6 +133,8 @@ attributes:
     exposed: true
     stored: true
     omit_empty: true
+    extensions:
+      bson_name: i
 
   - name: title
     description: Title of the event log.
@@ -118,3 +144,6 @@ attributes:
     required: true
     creation_only: true
     example_value: Error while activating processing unit.
+    omit_empty: true
+    extensions:
+      bson_name: j

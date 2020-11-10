@@ -96,38 +96,38 @@ type DNSLookupReport struct {
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action of the DNS request.
-	Action DNSLookupReportActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
+	Action DNSLookupReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
 
 	// ID of the enforcer.
-	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
+	EnforcerID string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"b,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer.
-	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"c,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the PU.
-	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"processingunitid" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"d,omitempty" mapstructure:"processingUnitID,omitempty"`
 
 	// Namespace of the PU.
-	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"processingunitnamespace" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"e,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// This field is only set when the lookup fails. It specifies the reason for the
 	// failure.
-	Reason string `json:"reason" msgpack:"reason" bson:"reason" mapstructure:"reason,omitempty"`
+	Reason string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"f,omitempty" mapstructure:"reason,omitempty"`
 
 	// name used for DNS resolution.
-	ResolvedName string `json:"resolvedName" msgpack:"resolvedName" bson:"resolvedname" mapstructure:"resolvedName,omitempty"`
+	ResolvedName string `json:"resolvedName,omitempty" msgpack:"resolvedName,omitempty" bson:"g,omitempty" mapstructure:"resolvedName,omitempty"`
 
 	// Type of the source.
-	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"sourceip" mapstructure:"sourceIP,omitempty"`
+	SourceIP string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"h,omitempty" mapstructure:"sourceIP,omitempty"`
 
 	// Time and date of the log.
-	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"timestamp" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"i,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// Number of times the client saw this activity.
-	Value int `json:"value" msgpack:"value" bson:"value" mapstructure:"value,omitempty"`
+	Value int `json:"value,omitempty" msgpack:"value,omitempty" bson:"j,omitempty" mapstructure:"value,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -722,7 +722,7 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	},
 	"action": {
 		AllowedChoices: []string{"Accept", "Reject"},
-		BSONFieldName:  "action",
+		BSONFieldName:  "a",
 		ConvertedName:  "Action",
 		Description:    `Action of the DNS request.`,
 		Exposed:        true,
@@ -733,7 +733,7 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	},
 	"enforcerid": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "enforcerid",
+		BSONFieldName:  "b",
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the enforcer.`,
 		Exposed:        true,
@@ -743,7 +743,7 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	},
 	"enforcernamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "enforcernamespace",
+		BSONFieldName:  "c",
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
@@ -766,7 +766,7 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	},
 	"processingunitid": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitid",
+		BSONFieldName:  "d",
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the PU.`,
 		Exposed:        true,
@@ -777,7 +777,7 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	},
 	"processingunitnamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitnamespace",
+		BSONFieldName:  "e",
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the PU.`,
 		Exposed:        true,
@@ -788,7 +788,7 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	},
 	"reason": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "reason",
+		BSONFieldName:  "f",
 		ConvertedName:  "Reason",
 		Description: `This field is only set when the lookup fails. It specifies the reason for the
 failure.`,
@@ -799,7 +799,7 @@ failure.`,
 	},
 	"resolvedname": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "resolvedname",
+		BSONFieldName:  "g",
 		ConvertedName:  "ResolvedName",
 		Description:    `name used for DNS resolution.`,
 		Exposed:        true,
@@ -810,7 +810,7 @@ failure.`,
 	},
 	"sourceip": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "sourceip",
+		BSONFieldName:  "h",
 		ConvertedName:  "SourceIP",
 		Description:    `Type of the source.`,
 		Exposed:        true,
@@ -821,7 +821,7 @@ failure.`,
 	},
 	"timestamp": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "timestamp",
+		BSONFieldName:  "i",
 		ConvertedName:  "Timestamp",
 		Description:    `Time and date of the log.`,
 		Exposed:        true,
@@ -831,7 +831,7 @@ failure.`,
 	},
 	"value": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "value",
+		BSONFieldName:  "j",
 		ConvertedName:  "Value",
 		Description:    `Number of times the client saw this activity.`,
 		Exposed:        true,
@@ -937,38 +937,38 @@ type SparseDNSLookupReport struct {
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action of the DNS request.
-	Action *DNSLookupReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
+	Action *DNSLookupReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
 
 	// ID of the enforcer.
-	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"b,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer.
-	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"c,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the PU.
-	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"processingunitid,omitempty" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"d,omitempty" mapstructure:"processingUnitID,omitempty"`
 
 	// Namespace of the PU.
-	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"processingunitnamespace,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"e,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// This field is only set when the lookup fails. It specifies the reason for the
 	// failure.
-	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"reason,omitempty" mapstructure:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"f,omitempty" mapstructure:"reason,omitempty"`
 
 	// name used for DNS resolution.
-	ResolvedName *string `json:"resolvedName,omitempty" msgpack:"resolvedName,omitempty" bson:"resolvedname,omitempty" mapstructure:"resolvedName,omitempty"`
+	ResolvedName *string `json:"resolvedName,omitempty" msgpack:"resolvedName,omitempty" bson:"g,omitempty" mapstructure:"resolvedName,omitempty"`
 
 	// Type of the source.
-	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"sourceip,omitempty" mapstructure:"sourceIP,omitempty"`
+	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"h,omitempty" mapstructure:"sourceIP,omitempty"`
 
 	// Time and date of the log.
-	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"timestamp,omitempty" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"i,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// Number of times the client saw this activity.
-	Value *int `json:"value,omitempty" msgpack:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
+	Value *int `json:"value,omitempty" msgpack:"value,omitempty" bson:"j,omitempty" mapstructure:"value,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -1254,33 +1254,33 @@ func (o *SparseDNSLookupReport) DeepCopyInto(out *SparseDNSLookupReport) {
 
 type mongoAttributesDNSLookupReport struct {
 	ID                      bson.ObjectId              `bson:"_id,omitempty"`
-	Action                  DNSLookupReportActionValue `bson:"action"`
-	EnforcerID              string                     `bson:"enforcerid"`
-	EnforcerNamespace       string                     `bson:"enforcernamespace"`
+	Action                  DNSLookupReportActionValue `bson:"a,omitempty"`
+	EnforcerID              string                     `bson:"b,omitempty"`
+	EnforcerNamespace       string                     `bson:"c,omitempty"`
 	MigrationsLog           map[string]string          `bson:"migrationslog,omitempty"`
-	ProcessingUnitID        string                     `bson:"processingunitid"`
-	ProcessingUnitNamespace string                     `bson:"processingunitnamespace"`
-	Reason                  string                     `bson:"reason"`
-	ResolvedName            string                     `bson:"resolvedname"`
-	SourceIP                string                     `bson:"sourceip"`
-	Timestamp               time.Time                  `bson:"timestamp"`
-	Value                   int                        `bson:"value"`
+	ProcessingUnitID        string                     `bson:"d,omitempty"`
+	ProcessingUnitNamespace string                     `bson:"e,omitempty"`
+	Reason                  string                     `bson:"f,omitempty"`
+	ResolvedName            string                     `bson:"g,omitempty"`
+	SourceIP                string                     `bson:"h,omitempty"`
+	Timestamp               time.Time                  `bson:"i,omitempty"`
+	Value                   int                        `bson:"j,omitempty"`
 	ZHash                   int                        `bson:"zhash"`
 	Zone                    int                        `bson:"zone"`
 }
 type mongoAttributesSparseDNSLookupReport struct {
 	ID                      bson.ObjectId               `bson:"_id,omitempty"`
-	Action                  *DNSLookupReportActionValue `bson:"action,omitempty"`
-	EnforcerID              *string                     `bson:"enforcerid,omitempty"`
-	EnforcerNamespace       *string                     `bson:"enforcernamespace,omitempty"`
+	Action                  *DNSLookupReportActionValue `bson:"a,omitempty"`
+	EnforcerID              *string                     `bson:"b,omitempty"`
+	EnforcerNamespace       *string                     `bson:"c,omitempty"`
 	MigrationsLog           *map[string]string          `bson:"migrationslog,omitempty"`
-	ProcessingUnitID        *string                     `bson:"processingunitid,omitempty"`
-	ProcessingUnitNamespace *string                     `bson:"processingunitnamespace,omitempty"`
-	Reason                  *string                     `bson:"reason,omitempty"`
-	ResolvedName            *string                     `bson:"resolvedname,omitempty"`
-	SourceIP                *string                     `bson:"sourceip,omitempty"`
-	Timestamp               *time.Time                  `bson:"timestamp,omitempty"`
-	Value                   *int                        `bson:"value,omitempty"`
+	ProcessingUnitID        *string                     `bson:"d,omitempty"`
+	ProcessingUnitNamespace *string                     `bson:"e,omitempty"`
+	Reason                  *string                     `bson:"f,omitempty"`
+	ResolvedName            *string                     `bson:"g,omitempty"`
+	SourceIP                *string                     `bson:"h,omitempty"`
+	Timestamp               *time.Time                  `bson:"i,omitempty"`
+	Value                   *int                        `bson:"j,omitempty"`
 	ZHash                   *int                        `bson:"zhash,omitempty"`
 	Zone                    *int                        `bson:"zone,omitempty"`
 }

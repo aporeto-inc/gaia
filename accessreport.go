@@ -113,38 +113,38 @@ type AccessReport struct {
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action applied to the access.
-	Action AccessReportActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
+	Action AccessReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
 
 	// Hash of the claims used to communicate.
-	ClaimHash string `json:"claimHash" msgpack:"claimHash" bson:"claimhash" mapstructure:"claimHash,omitempty"`
+	ClaimHash string `json:"claimHash,omitempty" msgpack:"claimHash,omitempty" bson:"b,omitempty" mapstructure:"claimHash,omitempty"`
 
 	// Identifier of the enforcer.
-	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
+	EnforcerID string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"c,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer.
-	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"d,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the processing unit of the report.
-	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"processingunitid" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"e,omitempty" mapstructure:"processingUnitID,omitempty"`
 
 	// Name of the processing unit of the report.
-	ProcessingUnitName string `json:"processingUnitName" msgpack:"processingUnitName" bson:"processingunitname" mapstructure:"processingUnitName,omitempty"`
+	ProcessingUnitName string `json:"processingUnitName,omitempty" msgpack:"processingUnitName,omitempty" bson:"f,omitempty" mapstructure:"processingUnitName,omitempty"`
 
 	// Namespace of the processing unit of the report.
-	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"processingunitnamespace" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"g,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
-	Reason string `json:"reason" msgpack:"reason" bson:"reason" mapstructure:"reason,omitempty"`
+	Reason string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"h,omitempty" mapstructure:"reason,omitempty"`
 
 	// Date of the report.
-	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"timestamp" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"i,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// Type of the report.
-	Type AccessReportTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
+	Type AccessReportTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"j,omitempty" mapstructure:"type,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -725,7 +725,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	},
 	"action": {
 		AllowedChoices: []string{"Accept", "Reject"},
-		BSONFieldName:  "action",
+		BSONFieldName:  "a",
 		ConvertedName:  "Action",
 		Description:    `Action applied to the access.`,
 		Exposed:        true,
@@ -736,7 +736,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	},
 	"claimhash": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "claimhash",
+		BSONFieldName:  "b",
 		ConvertedName:  "ClaimHash",
 		Description:    `Hash of the claims used to communicate.`,
 		Exposed:        true,
@@ -746,7 +746,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	},
 	"enforcerid": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "enforcerid",
+		BSONFieldName:  "c",
 		ConvertedName:  "EnforcerID",
 		Description:    `Identifier of the enforcer.`,
 		Exposed:        true,
@@ -757,7 +757,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	},
 	"enforcernamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "enforcernamespace",
+		BSONFieldName:  "d",
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
@@ -780,7 +780,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	},
 	"processingunitid": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitid",
+		BSONFieldName:  "e",
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit of the report.`,
 		Exposed:        true,
@@ -790,7 +790,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	},
 	"processingunitname": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitname",
+		BSONFieldName:  "f",
 		ConvertedName:  "ProcessingUnitName",
 		Description:    `Name of the processing unit of the report.`,
 		Exposed:        true,
@@ -800,7 +800,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	},
 	"processingunitnamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitnamespace",
+		BSONFieldName:  "g",
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit of the report.`,
 		Exposed:        true,
@@ -810,7 +810,7 @@ var AccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	},
 	"reason": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "reason",
+		BSONFieldName:  "h",
 		ConvertedName:  "Reason",
 		Description: `This field is only set if ` + "`" + `action` + "`" + ` is set to ` + "`" + `Reject` + "`" + `. It specifies the reason
 for the rejection.`,
@@ -821,7 +821,7 @@ for the rejection.`,
 	},
 	"timestamp": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "timestamp",
+		BSONFieldName:  "i",
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
 		Exposed:        true,
@@ -831,7 +831,7 @@ for the rejection.`,
 	},
 	"type": {
 		AllowedChoices: []string{"SSHLogin", "SSHLogout", "SudoEnter", "SudoExit"},
-		BSONFieldName:  "type",
+		BSONFieldName:  "j",
 		ConvertedName:  "Type",
 		Description:    `Type of the report.`,
 		Exposed:        true,
@@ -937,38 +937,38 @@ type SparseAccessReport struct {
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action applied to the access.
-	Action *AccessReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"action,omitempty" mapstructure:"action,omitempty"`
+	Action *AccessReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"a,omitempty" mapstructure:"action,omitempty"`
 
 	// Hash of the claims used to communicate.
-	ClaimHash *string `json:"claimHash,omitempty" msgpack:"claimHash,omitempty" bson:"claimhash,omitempty" mapstructure:"claimHash,omitempty"`
+	ClaimHash *string `json:"claimHash,omitempty" msgpack:"claimHash,omitempty" bson:"b,omitempty" mapstructure:"claimHash,omitempty"`
 
 	// Identifier of the enforcer.
-	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"c,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer.
-	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"d,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the processing unit of the report.
-	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"processingunitid,omitempty" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"e,omitempty" mapstructure:"processingUnitID,omitempty"`
 
 	// Name of the processing unit of the report.
-	ProcessingUnitName *string `json:"processingUnitName,omitempty" msgpack:"processingUnitName,omitempty" bson:"processingunitname,omitempty" mapstructure:"processingUnitName,omitempty"`
+	ProcessingUnitName *string `json:"processingUnitName,omitempty" msgpack:"processingUnitName,omitempty" bson:"f,omitempty" mapstructure:"processingUnitName,omitempty"`
 
 	// Namespace of the processing unit of the report.
-	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"processingunitnamespace,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"g,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// This field is only set if `action` is set to `Reject`. It specifies the reason
 	// for the rejection.
-	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"reason,omitempty" mapstructure:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"h,omitempty" mapstructure:"reason,omitempty"`
 
 	// Date of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"timestamp,omitempty" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"i,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// Type of the report.
-	Type *AccessReportTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+	Type *AccessReportTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"j,omitempty" mapstructure:"type,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -1254,33 +1254,33 @@ func (o *SparseAccessReport) DeepCopyInto(out *SparseAccessReport) {
 
 type mongoAttributesAccessReport struct {
 	ID                      bson.ObjectId           `bson:"_id,omitempty"`
-	Action                  AccessReportActionValue `bson:"action"`
-	ClaimHash               string                  `bson:"claimhash"`
-	EnforcerID              string                  `bson:"enforcerid"`
-	EnforcerNamespace       string                  `bson:"enforcernamespace"`
+	Action                  AccessReportActionValue `bson:"a,omitempty"`
+	ClaimHash               string                  `bson:"b,omitempty"`
+	EnforcerID              string                  `bson:"c,omitempty"`
+	EnforcerNamespace       string                  `bson:"d,omitempty"`
 	MigrationsLog           map[string]string       `bson:"migrationslog,omitempty"`
-	ProcessingUnitID        string                  `bson:"processingunitid"`
-	ProcessingUnitName      string                  `bson:"processingunitname"`
-	ProcessingUnitNamespace string                  `bson:"processingunitnamespace"`
-	Reason                  string                  `bson:"reason"`
-	Timestamp               time.Time               `bson:"timestamp"`
-	Type                    AccessReportTypeValue   `bson:"type"`
+	ProcessingUnitID        string                  `bson:"e,omitempty"`
+	ProcessingUnitName      string                  `bson:"f,omitempty"`
+	ProcessingUnitNamespace string                  `bson:"g,omitempty"`
+	Reason                  string                  `bson:"h,omitempty"`
+	Timestamp               time.Time               `bson:"i,omitempty"`
+	Type                    AccessReportTypeValue   `bson:"j,omitempty"`
 	ZHash                   int                     `bson:"zhash"`
 	Zone                    int                     `bson:"zone"`
 }
 type mongoAttributesSparseAccessReport struct {
 	ID                      bson.ObjectId            `bson:"_id,omitempty"`
-	Action                  *AccessReportActionValue `bson:"action,omitempty"`
-	ClaimHash               *string                  `bson:"claimhash,omitempty"`
-	EnforcerID              *string                  `bson:"enforcerid,omitempty"`
-	EnforcerNamespace       *string                  `bson:"enforcernamespace,omitempty"`
+	Action                  *AccessReportActionValue `bson:"a,omitempty"`
+	ClaimHash               *string                  `bson:"b,omitempty"`
+	EnforcerID              *string                  `bson:"c,omitempty"`
+	EnforcerNamespace       *string                  `bson:"d,omitempty"`
 	MigrationsLog           *map[string]string       `bson:"migrationslog,omitempty"`
-	ProcessingUnitID        *string                  `bson:"processingunitid,omitempty"`
-	ProcessingUnitName      *string                  `bson:"processingunitname,omitempty"`
-	ProcessingUnitNamespace *string                  `bson:"processingunitnamespace,omitempty"`
-	Reason                  *string                  `bson:"reason,omitempty"`
-	Timestamp               *time.Time               `bson:"timestamp,omitempty"`
-	Type                    *AccessReportTypeValue   `bson:"type,omitempty"`
+	ProcessingUnitID        *string                  `bson:"e,omitempty"`
+	ProcessingUnitName      *string                  `bson:"f,omitempty"`
+	ProcessingUnitNamespace *string                  `bson:"g,omitempty"`
+	Reason                  *string                  `bson:"h,omitempty"`
+	Timestamp               *time.Time               `bson:"i,omitempty"`
+	Type                    *AccessReportTypeValue   `bson:"j,omitempty"`
 	ZHash                   *int                     `bson:"zhash,omitempty"`
 	Zone                    *int                     `bson:"zone,omitempty"`
 }

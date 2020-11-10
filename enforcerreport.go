@@ -82,31 +82,31 @@ func (o EnforcerReportsList) Version() int {
 // EnforcerReport represents the model of a enforcerreport
 type EnforcerReport struct {
 	// Total CPU utilization of the enforcer as a percentage of vCPUs.
-	CPULoad float64 `json:"CPULoad" msgpack:"CPULoad" bson:"cpuload" mapstructure:"CPULoad,omitempty"`
+	CPULoad float64 `json:"CPULoad,omitempty" msgpack:"CPULoad,omitempty" bson:"a,omitempty" mapstructure:"CPULoad,omitempty"`
 
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// ID of the enforcer.
-	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
+	EnforcerID string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"b,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Total resident memory used by the enforcer in bytes.
-	Memory int `json:"memory" msgpack:"memory" bson:"memory" mapstructure:"memory,omitempty"`
+	Memory int `json:"memory,omitempty" msgpack:"memory,omitempty" bson:"c,omitempty" mapstructure:"memory,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Name of the enforcer.
-	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name,omitempty" msgpack:"name,omitempty" bson:"d,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace of the enforcer.
-	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"e,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Number of active processes of the enforcer.
-	Processes int `json:"processes" msgpack:"processes" bson:"processes" mapstructure:"processes,omitempty"`
+	Processes int `json:"processes,omitempty" msgpack:"processes,omitempty" bson:"f,omitempty" mapstructure:"processes,omitempty"`
 
 	// Date of the report.
-	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"timestamp" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"g,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -603,7 +603,7 @@ georedundancy.`,
 var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"cpuload": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "cpuload",
+		BSONFieldName:  "a",
 		ConvertedName:  "CPULoad",
 		Description:    `Total CPU utilization of the enforcer as a percentage of vCPUs.`,
 		Exposed:        true,
@@ -628,7 +628,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	},
 	"enforcerid": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "enforcerid",
+		BSONFieldName:  "b",
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the enforcer.`,
 		Exposed:        true,
@@ -638,7 +638,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	},
 	"memory": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "memory",
+		BSONFieldName:  "c",
 		ConvertedName:  "Memory",
 		Description:    `Total resident memory used by the enforcer in bytes.`,
 		Exposed:        true,
@@ -660,7 +660,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	},
 	"name": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "name",
+		BSONFieldName:  "d",
 		ConvertedName:  "Name",
 		Description:    `Name of the enforcer.`,
 		Exposed:        true,
@@ -671,7 +671,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	},
 	"namespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "namespace",
+		BSONFieldName:  "e",
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
@@ -682,7 +682,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	},
 	"processes": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processes",
+		BSONFieldName:  "f",
 		ConvertedName:  "Processes",
 		Description:    `Number of active processes of the enforcer.`,
 		Exposed:        true,
@@ -692,7 +692,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	},
 	"timestamp": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "timestamp",
+		BSONFieldName:  "g",
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
 		Exposed:        true,
@@ -795,31 +795,31 @@ func (o SparseEnforcerReportsList) Version() int {
 // SparseEnforcerReport represents the sparse version of a enforcerreport.
 type SparseEnforcerReport struct {
 	// Total CPU utilization of the enforcer as a percentage of vCPUs.
-	CPULoad *float64 `json:"CPULoad,omitempty" msgpack:"CPULoad,omitempty" bson:"cpuload,omitempty" mapstructure:"CPULoad,omitempty"`
+	CPULoad *float64 `json:"CPULoad,omitempty" msgpack:"CPULoad,omitempty" bson:"a,omitempty" mapstructure:"CPULoad,omitempty"`
 
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// ID of the enforcer.
-	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"b,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Total resident memory used by the enforcer in bytes.
-	Memory *int `json:"memory,omitempty" msgpack:"memory,omitempty" bson:"memory,omitempty" mapstructure:"memory,omitempty"`
+	Memory *int `json:"memory,omitempty" msgpack:"memory,omitempty" bson:"c,omitempty" mapstructure:"memory,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Name of the enforcer.
-	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"d,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace of the enforcer.
-	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"e,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Number of active processes of the enforcer.
-	Processes *int `json:"processes,omitempty" msgpack:"processes,omitempty" bson:"processes,omitempty" mapstructure:"processes,omitempty"`
+	Processes *int `json:"processes,omitempty" msgpack:"processes,omitempty" bson:"f,omitempty" mapstructure:"processes,omitempty"`
 
 	// Date of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"timestamp,omitempty" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"g,omitempty" mapstructure:"timestamp,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -1077,28 +1077,28 @@ func (o *SparseEnforcerReport) DeepCopyInto(out *SparseEnforcerReport) {
 }
 
 type mongoAttributesEnforcerReport struct {
-	CPULoad       float64           `bson:"cpuload"`
+	CPULoad       float64           `bson:"a,omitempty"`
 	ID            bson.ObjectId     `bson:"_id,omitempty"`
-	EnforcerID    string            `bson:"enforcerid"`
-	Memory        int               `bson:"memory"`
+	EnforcerID    string            `bson:"b,omitempty"`
+	Memory        int               `bson:"c,omitempty"`
 	MigrationsLog map[string]string `bson:"migrationslog,omitempty"`
-	Name          string            `bson:"name"`
-	Namespace     string            `bson:"namespace"`
-	Processes     int               `bson:"processes"`
-	Timestamp     time.Time         `bson:"timestamp"`
+	Name          string            `bson:"d,omitempty"`
+	Namespace     string            `bson:"e,omitempty"`
+	Processes     int               `bson:"f,omitempty"`
+	Timestamp     time.Time         `bson:"g,omitempty"`
 	ZHash         int               `bson:"zhash"`
 	Zone          int               `bson:"zone"`
 }
 type mongoAttributesSparseEnforcerReport struct {
-	CPULoad       *float64           `bson:"cpuload,omitempty"`
+	CPULoad       *float64           `bson:"a,omitempty"`
 	ID            bson.ObjectId      `bson:"_id,omitempty"`
-	EnforcerID    *string            `bson:"enforcerid,omitempty"`
-	Memory        *int               `bson:"memory,omitempty"`
+	EnforcerID    *string            `bson:"b,omitempty"`
+	Memory        *int               `bson:"c,omitempty"`
 	MigrationsLog *map[string]string `bson:"migrationslog,omitempty"`
-	Name          *string            `bson:"name,omitempty"`
-	Namespace     *string            `bson:"namespace,omitempty"`
-	Processes     *int               `bson:"processes,omitempty"`
-	Timestamp     *time.Time         `bson:"timestamp,omitempty"`
+	Name          *string            `bson:"d,omitempty"`
+	Namespace     *string            `bson:"e,omitempty"`
+	Processes     *int               `bson:"f,omitempty"`
+	Timestamp     *time.Time         `bson:"g,omitempty"`
 	ZHash         *int               `bson:"zhash,omitempty"`
 	Zone          *int               `bson:"zone,omitempty"`
 }

@@ -33,12 +33,18 @@ attributes:
     - Accept
     - Reject
     example_value: Accept
+    omit_empty: true
+    extensions:
+      bson_name: a
 
   - name: enforcerID
     description: ID of the enforcer.
     type: string
     exposed: true
     stored: true
+    omit_empty: true
+    extensions:
+      bson_name: b
 
   - name: enforcerNamespace
     description: Namespace of the enforcer.
@@ -47,6 +53,9 @@ attributes:
     stored: true
     required: true
     example_value: /my/namespace
+    omit_empty: true
+    extensions:
+      bson_name: c
 
   - name: processingUnitID
     description: ID of the PU.
@@ -55,6 +64,9 @@ attributes:
     stored: true
     required: true
     example_value: xxx-xxx-xxx
+    omit_empty: true
+    extensions:
+      bson_name: d
 
   - name: processingUnitNamespace
     description: Namespace of the PU.
@@ -63,6 +75,9 @@ attributes:
     stored: true
     required: true
     example_value: /my/namespace
+    omit_empty: true
+    extensions:
+      bson_name: e
 
   - name: reason
     description: |-
@@ -71,6 +86,9 @@ attributes:
     type: string
     exposed: true
     stored: true
+    omit_empty: true
+    extensions:
+      bson_name: f
 
   - name: resolvedName
     description: name used for DNS resolution.
@@ -79,6 +97,9 @@ attributes:
     stored: true
     required: true
     example_value: www.google.com
+    omit_empty: true
+    extensions:
+      bson_name: g
 
   - name: sourceIP
     description: Type of the source.
@@ -87,12 +108,18 @@ attributes:
     stored: true
     required: true
     example_value: 10.0.0.1
+    omit_empty: true
+    extensions:
+      bson_name: h
 
   - name: timestamp
     description: Time and date of the log.
     type: time
     exposed: true
     stored: true
+    omit_empty: true
+    extensions:
+      bson_name: i
 
   - name: value
     description: Number of times the client saw this activity.
@@ -101,3 +128,6 @@ attributes:
     stored: true
     required: true
     example_value: 1
+    omit_empty: true
+    extensions:
+      bson_name: j

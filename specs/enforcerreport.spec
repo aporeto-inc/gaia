@@ -30,6 +30,9 @@ attributes:
     exposed: true
     stored: true
     example_value: 10
+    omit_empty: true
+    extensions:
+      bson_name: a
 
   - name: enforcerID
     description: ID of the enforcer.
@@ -37,6 +40,9 @@ attributes:
     exposed: true
     stored: true
     example_value: xxx-xxx-xxx-xxx
+    omit_empty: true
+    extensions:
+      bson_name: b
 
   - name: memory
     description: Total resident memory used by the enforcer in bytes.
@@ -44,6 +50,9 @@ attributes:
     exposed: true
     stored: true
     example_value: 10000
+    omit_empty: true
+    extensions:
+      bson_name: c
 
   - name: name
     description: Name of the enforcer.
@@ -52,6 +61,9 @@ attributes:
     stored: true
     required: true
     example_value: aporeto-enforcerd-xxx
+    omit_empty: true
+    extensions:
+      bson_name: d
 
   - name: namespace
     description: Namespace of the enforcer.
@@ -60,6 +72,9 @@ attributes:
     stored: true
     required: true
     example_value: /my/ns
+    omit_empty: true
+    extensions:
+      bson_name: e
 
   - name: processes
     description: Number of active processes of the enforcer.
@@ -67,6 +82,9 @@ attributes:
     exposed: true
     stored: true
     example_value: 10
+    omit_empty: true
+    extensions:
+      bson_name: f
 
   - name: timestamp
     description: Date of the report.
@@ -75,3 +93,6 @@ attributes:
     stored: true
     required: true
     example_value: "2018-06-14T23:10:46.420397985Z"
+    omit_empty: true
+    extensions:
+      bson_name: g

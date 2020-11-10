@@ -30,6 +30,9 @@ attributes:
     - Reject
     - Limit
     example_value: Accepted
+    omit_empty: true
+    extensions:
+      bson_name: a
 
   - name: host
     description: Host storing the file.
@@ -38,6 +41,9 @@ attributes:
     stored: true
     required: true
     default_value: localhost
+    omit_empty: true
+    extensions:
+      bson_name: b
 
   - name: mode
     description: Mode of file access.
@@ -46,6 +52,9 @@ attributes:
     stored: true
     required: true
     default_value: rxw
+    omit_empty: true
+    extensions:
+      bson_name: c
 
   - name: path
     description: Path of the file.
@@ -54,6 +63,9 @@ attributes:
     stored: true
     required: true
     default_value: /etc/passwd
+    omit_empty: true
+    extensions:
+      bson_name: d
 
   - name: processingUnitID
     description: ID of the processing unit.
@@ -62,6 +74,9 @@ attributes:
     stored: true
     required: true
     example_value: xxx-xxx-xxx-xxx
+    omit_empty: true
+    extensions:
+      bson_name: e
 
   - name: processingUnitNamespace
     description: Namespace of the processing unit.
@@ -70,6 +85,9 @@ attributes:
     stored: true
     required: true
     example_value: /my/ns
+    omit_empty: true
+    extensions:
+      bson_name: f
 
   - name: timestamp
     description: Date of the report.
@@ -78,3 +96,6 @@ attributes:
     stored: true
     required: true
     example_value: "2018-06-14T23:10:46.420397985Z"
+    omit_empty: true
+    extensions:
+      bson_name: g
