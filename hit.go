@@ -346,6 +346,7 @@ var HitAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"TargetIdentity": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "targetidentity",
 		ConvertedName:  "TargetIdentity",
 		Description:    `The identity of the referenced object.`,
 		Exposed:        true,

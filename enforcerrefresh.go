@@ -520,6 +520,7 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"RefreshType": {
 		AllowedChoices: []string{"Debug", "Migration"},
+		BSONFieldName:  "refreshtype",
 		ConvertedName:  "RefreshType",
 		DefaultValue:   EnforcerRefreshRefreshTypeDebug,
 		Description:    `Indicates the type of refresh.`,
