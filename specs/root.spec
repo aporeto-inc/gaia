@@ -188,6 +188,10 @@ relations:
   create:
     description: Creates a new AWS registration for billing.
 
+- rest_name: cachedflowreport
+  create:
+    description: Create a cached flow statistics report.
+
 - rest_name: claims
   get:
     description: Retrieves the list of claims.
@@ -235,6 +239,12 @@ relations:
       - name: viewSuggestions
         description: Also return the view suggestions.
         type: boolean
+
+- rest_name: discoverymode
+  get:
+    description: Returns the list of discovery modes.
+  create:
+    description: Deploy the discovery mode assets onto the specified namespace.
 
 - rest_name: dnslookupreport
   create:
@@ -336,12 +346,6 @@ relations:
 - rest_name: flowreport
   create:
     description: Create a flow statistics report.
-    parameters:
-      entries:
-      - name: ingestionMode
-        description: If set, can override the ingestion mode for report storage.
-        type: string
-        example_value: mongovictoria
 
 - rest_name: graphedge
   get:
@@ -639,6 +643,10 @@ relations:
 - rest_name: namespacerenderer
   create:
     description: Renders the namespace where an object should reside.
+
+- rest_name: namespacetype
+  get:
+    description: Returns the type of the specified namespace.
 
 - rest_name: networkaccesspolicy
   get:

@@ -44,6 +44,7 @@ DaemonSet
 DataPathCertificate
 DebugBundle
 DependencyMap
+DiscoveryMode
 Docker
 ECDSA
 Elasticsearch
@@ -112,6 +113,7 @@ multipart
 namespace
 NamespaceMappingPolicy
 NamespaceRenderer
+NamespaceType
 NamespaceUnique
 NetworkAccessPolicy
 NfQueue

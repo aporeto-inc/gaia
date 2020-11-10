@@ -39,6 +39,7 @@ var (
 		"datapathcertificate": DataPathCertificateIdentity,
 		"debugbundle":         DebugBundleIdentity,
 		"dependencymap":       DependencyMapIdentity,
+		"discoverymode":       DiscoveryModeIdentity,
 		"dnslookupreport":     DNSLookupReportIdentity,
 		"email":               EmailIdentity,
 
@@ -88,6 +89,7 @@ var (
 		"namespace":              NamespaceIdentity,
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
 		"namespacerenderer":      NamespaceRendererIdentity,
+		"namespacetype":          NamespaceTypeIdentity,
 		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
 		"oauthinfo":              OAUTHInfoIdentity,
 		"oauthkey":               OAUTHKeyIdentity,
@@ -196,6 +198,7 @@ var (
 		"datapathcertificates": DataPathCertificateIdentity,
 		"debugbundles":         DebugBundleIdentity,
 		"dependencymaps":       DependencyMapIdentity,
+		"discoverymode":        DiscoveryModeIdentity,
 		"dnslookupreports":     DNSLookupReportIdentity,
 		"emails":               EmailIdentity,
 
@@ -245,6 +248,7 @@ var (
 		"namespaces":               NamespaceIdentity,
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
 		"namespacerenderers":       NamespaceRendererIdentity,
+		"namespacetypes":           NamespaceTypeIdentity,
 		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
 		"oauthinfo":                OAUTHInfoIdentity,
 		"oauthkeys":                OAUTHKeyIdentity,
@@ -549,6 +553,11 @@ var (
 		"datapathcertificate": nil,
 		"debugbundle":         nil,
 		"dependencymap":       nil,
+		"discoverymode": {
+			{"propagate"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+		},
 		"dnslookupreport": {
 			{"namespace", "timestamp"},
 			{":shard", ":unique", "zone", "zHash"},
@@ -775,6 +784,7 @@ var (
 		},
 		"namespacemappingpolicy": nil,
 		"namespacerenderer":      nil,
+		"namespacetype":          nil,
 		"networkaccesspolicy":    nil,
 		"oauthinfo":              nil,
 		"oauthkey":               nil,
@@ -1083,6 +1093,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewDebugBundle()
 	case DependencyMapIdentity:
 		return NewDependencyMap()
+	case DiscoveryModeIdentity:
+		return NewDiscoveryMode()
 	case DNSLookupReportIdentity:
 		return NewDNSLookupReport()
 	case EmailIdentity:
@@ -1175,6 +1187,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewNamespaceMappingPolicy()
 	case NamespaceRendererIdentity:
 		return NewNamespaceRenderer()
+	case NamespaceTypeIdentity:
+		return NewNamespaceType()
 	case NetworkAccessPolicyIdentity:
 		return NewNetworkAccessPolicy()
 	case OAUTHInfoIdentity:
@@ -1372,6 +1386,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseDebugBundle()
 	case DependencyMapIdentity:
 		return NewSparseDependencyMap()
+	case DiscoveryModeIdentity:
+		return NewSparseDiscoveryMode()
 	case DNSLookupReportIdentity:
 		return NewSparseDNSLookupReport()
 	case EmailIdentity:
@@ -1464,6 +1480,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseNamespaceMappingPolicy()
 	case NamespaceRendererIdentity:
 		return NewSparseNamespaceRenderer()
+	case NamespaceTypeIdentity:
+		return NewSparseNamespaceType()
 	case NetworkAccessPolicyIdentity:
 		return NewSparseNetworkAccessPolicy()
 	case OAUTHInfoIdentity:
@@ -1669,6 +1687,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &DebugBundlesList{}
 	case DependencyMapIdentity:
 		return &DependencyMapsList{}
+	case DiscoveryModeIdentity:
+		return &DiscoveryModesList{}
 	case DNSLookupReportIdentity:
 		return &DNSLookupReportsList{}
 	case EmailIdentity:
@@ -1761,6 +1781,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &NamespaceMappingPoliciesList{}
 	case NamespaceRendererIdentity:
 		return &NamespaceRenderersList{}
+	case NamespaceTypeIdentity:
+		return &NamespaceTypesList{}
 	case NetworkAccessPolicyIdentity:
 		return &NetworkAccessPoliciesList{}
 	case OAUTHInfoIdentity:
@@ -1956,6 +1978,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseDebugBundlesList{}
 	case DependencyMapIdentity:
 		return &SparseDependencyMapsList{}
+	case DiscoveryModeIdentity:
+		return &SparseDiscoveryModesList{}
 	case DNSLookupReportIdentity:
 		return &SparseDNSLookupReportsList{}
 	case EmailIdentity:
@@ -2048,6 +2072,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseNamespaceMappingPoliciesList{}
 	case NamespaceRendererIdentity:
 		return &SparseNamespaceRenderersList{}
+	case NamespaceTypeIdentity:
+		return &SparseNamespaceTypesList{}
 	case NetworkAccessPolicyIdentity:
 		return &SparseNetworkAccessPoliciesList{}
 	case OAUTHInfoIdentity:
@@ -2226,6 +2252,7 @@ func AllIdentities() []elemental.Identity {
 		DataPathCertificateIdentity,
 		DebugBundleIdentity,
 		DependencyMapIdentity,
+		DiscoveryModeIdentity,
 		DNSLookupReportIdentity,
 		EmailIdentity,
 		EnforcerIdentity,
@@ -2272,6 +2299,7 @@ func AllIdentities() []elemental.Identity {
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
 		NamespaceRendererIdentity,
+		NamespaceTypeIdentity,
 		NetworkAccessPolicyIdentity,
 		OAUTHInfoIdentity,
 		OAUTHKeyIdentity,
@@ -2429,6 +2457,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"depmaps",
 			"depmap",
 		}
+	case DiscoveryModeIdentity:
+		return []string{}
 	case DNSLookupReportIdentity:
 		return []string{}
 	case EmailIdentity:
@@ -2580,6 +2610,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"nsrenderer",
 		}
+	case NamespaceTypeIdentity:
+		return []string{}
 	case NetworkAccessPolicyIdentity:
 		return []string{
 			"netpol",

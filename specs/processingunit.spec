@@ -59,9 +59,10 @@ attributes:
   v1:
   - name: clientLocalID
     description: |-
-      The local PUID set by enforcer. Enforcer may create a local PU if it cannot communicate with the 
-      Microsegmentation Console. When eventually the Microsegmentation Console is able to create the PU, 
-      the clientLocalID will be used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
+      The local PUID set by enforcer. Enforcer may create a local PU if it cannot
+      communicate with the Microsegmentation Console. When eventually the
+      Microsegmentation Console is able to create the PU, the `clientLocalID` will be
+      used to convert a CachedFlowReport containing a local PUID to a real FlowReport.
     type: string
     exposed: true
     stored: true
@@ -102,10 +103,10 @@ attributes:
     filterable: true
 
   - name: enforcementStatus
-    description: |-
-      Contains the state of the enforcer for the processing unit. `Inactive`
-      (default): the enforcer is not enforcing any host service. `Active`: the 
-      enforcer is enforcing a host service. `Failed`.
+    description: "Contains the state of the enforcer for the processing unit. \n\n`Inactive`
+      (default): the enforcer is not enforcing any host service. \n`Active`: the enforcer
+      is enforcing a host service. \n`Failed`: an error occurred during the enforcement
+      attempt."
     type: enum
     exposed: true
     stored: true

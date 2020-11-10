@@ -707,7 +707,11 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[CachedFlowReportIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[CachedFlowReportIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
 
 	relationshipsRegistry[CallIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
@@ -963,6 +967,24 @@ func init() {
 					},
 				},
 			},
+		},
+	}
+
+	relationshipsRegistry[DiscoveryModeIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {},
 		},
 	}
 
@@ -1487,14 +1509,7 @@ func init() {
 
 	relationshipsRegistry[FlowReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": {
-				Parameters: []elemental.ParameterDefinition{
-					{
-						Name: "ingestionMode",
-						Type: "string",
-					},
-				},
-			},
+			"root": {},
 		},
 	}
 
@@ -2901,6 +2916,15 @@ func init() {
 
 	relationshipsRegistry[NamespaceRendererIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
+	relationshipsRegistry[NamespaceTypeIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
 	}
