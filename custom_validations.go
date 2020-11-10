@@ -1111,6 +1111,10 @@ func ValidateUIParameters(p *UIParameter) error {
 // ValidateSemVer validates a semantic version.
 func ValidateSemVer(attribute, data string) error {
 
+	if data == "" {
+		return nil
+	}
+
 	_, err := semver.Parse(strings.TrimPrefix(data, "v"))
 	if err != nil {
 		return makeValidationError(attribute, fmt.Sprintf("invalid semver %s: %s", data, err))

@@ -3149,6 +3149,14 @@ func TestValidateSemVer(t *testing.T) {
 			false,
 		},
 		{
+			"empty semver",
+			args{
+				"upgradeVersion",
+				"",
+			},
+			false,
+		},
+		{
 			"missing patch in version",
 			args{
 				"upgradeVersion",
