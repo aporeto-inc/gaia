@@ -323,6 +323,7 @@ func (o *ClauseMatch) ValueForAttribute(name string) interface{} {
 var ClauseMatchAttributesMap = map[string]elemental.AttributeSpecification{
 	"Clauses": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "clauses",
 		ConvertedName:  "Clauses",
 		Description:    `The tag clause to resolve.`,
 		Exposed:        true,

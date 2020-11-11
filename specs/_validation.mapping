@@ -114,6 +114,10 @@ $samlprovider:
   elemental:
     name: ValidateSAMLProvider
 
+$semver:
+  elemental:
+    name: ValidateSemVer
+
 $serviceEntity:
   elemental:
     name: ValidateServiceEntity

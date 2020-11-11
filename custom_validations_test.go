@@ -3121,6 +3121,75 @@ func TestValidateOptionalTimeDuration(t *testing.T) {
 	}
 }
 
+func TestValidateSemVer(t *testing.T) {
+	type args struct {
+		attribute string
+		data      string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+
+			"valid semver with prefix",
+			args{
+				"upgradeVersion",
+				"v1.2.3",
+			},
+			false,
+		},
+		{
+			"valid semver without prefix",
+			args{
+				"upgradeVersion",
+				"1.2.3",
+			},
+			false,
+		},
+		{
+			"empty semver",
+			args{
+				"upgradeVersion",
+				"",
+			},
+			false,
+		},
+		{
+			"missing patch in version",
+			args{
+				"upgradeVersion",
+				"1.2",
+			},
+			true,
+		},
+		{
+			"invalid semver",
+			args{
+				"upgradeVersion",
+				"pizza",
+			},
+			true,
+		},
+		{
+			"aporeto release semver",
+			args{
+				"upgradeVersion",
+				"release-4.0.0",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateSemVer(tt.args.attribute, tt.args.data); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateSemVer() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func TestValidateCachedFlowReport(t *testing.T) {
 	type args struct {
 		cachedFlowReport *CachedFlowReport

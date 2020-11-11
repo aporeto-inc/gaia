@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/blang/semver"
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/constants"
 	"go.aporeto.io/gaia/netutils"
@@ -1102,6 +1103,21 @@ func ValidateUIParameters(p *UIParameter) error {
 		if _, ok := supported[p.Subtype]; !ok {
 			return makeValidationError("subtype", "Unsupported subtype for type list")
 		}
+	}
+
+	return nil
+}
+
+// ValidateSemVer validates a semantic version.
+func ValidateSemVer(attribute, data string) error {
+
+	if data == "" {
+		return nil
+	}
+
+	_, err := semver.Parse(strings.TrimPrefix(data, "v"))
+	if err != nil {
+		return makeValidationError(attribute, fmt.Sprintf("invalid semver %s: %s", data, err))
 	}
 
 	return nil

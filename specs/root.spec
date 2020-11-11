@@ -292,6 +292,10 @@ relations:
   create:
     description: Creates a new enforcer profile mappings.
 
+- rest_name: enforcerrefresh
+  create:
+    description: Create an enforcer refresh report.
+
 - rest_name: enforcerreport
   create:
     description: Create an enforcer statistics report.

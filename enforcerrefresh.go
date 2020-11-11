@@ -31,6 +31,17 @@ const (
 	EnforcerRefreshDebugPcap EnforcerRefreshDebugValue = "Pcap"
 )
 
+// EnforcerRefreshRefreshTypeValue represents the possible values for attribute "refreshType".
+type EnforcerRefreshRefreshTypeValue string
+
+const (
+	// EnforcerRefreshRefreshTypeDebug represents the value Debug.
+	EnforcerRefreshRefreshTypeDebug EnforcerRefreshRefreshTypeValue = "Debug"
+
+	// EnforcerRefreshRefreshTypeMigration represents the value Migration.
+	EnforcerRefreshRefreshTypeMigration EnforcerRefreshRefreshTypeValue = "Migration"
+)
+
 // EnforcerRefreshIdentity represents the Identity of the object.
 var EnforcerRefreshIdentity = elemental.Identity{
 	Name:     "enforcerrefresh",
@@ -118,8 +129,20 @@ type EnforcerRefresh struct {
 	// Isolates debug information to a given processing unit, where possible.
 	DebugProcessingUnitID string `json:"debugProcessingUnitID,omitempty" msgpack:"debugProcessingUnitID,omitempty" bson:"-" mapstructure:"debugProcessingUnitID,omitempty"`
 
+	// Defines the version to migrate enforcers.
+	MigrationVersion string `json:"migrationVersion,omitempty" msgpack:"migrationVersion,omitempty" bson:"-" mapstructure:"migrationVersion,omitempty"`
+
 	// Contains the original namespace of the enforcer.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// Indicates if the command should be done recursively in all namespaces.
+	Recursive bool `json:"recursive" msgpack:"recursive" bson:"-" mapstructure:"recursive,omitempty"`
+
+	// Indicates the type of refresh.
+	RefreshType EnforcerRefreshRefreshTypeValue `json:"refreshType" msgpack:"refreshType" bson:"refreshtype" mapstructure:"refreshType,omitempty"`
+
+	// Request a command for the enforcers matching the following tag expression.
+	Selector [][]string `json:"selector,omitempty" msgpack:"selector,omitempty" bson:"-" mapstructure:"selector,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -130,6 +153,8 @@ func NewEnforcerRefresh() *EnforcerRefresh {
 	return &EnforcerRefresh{
 		ModelVersion: 1,
 		Debug:        EnforcerRefreshDebugCounters,
+		RefreshType:  EnforcerRefreshRefreshTypeDebug,
+		Selector:     [][]string{},
 	}
 }
 
@@ -161,6 +186,8 @@ func (o *EnforcerRefresh) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesEnforcerRefresh{}
 
+	s.RefreshType = o.RefreshType
+
 	return s, nil
 }
 
@@ -176,6 +203,8 @@ func (o *EnforcerRefresh) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
+
+	o.RefreshType = s.RefreshType
 
 	return nil
 }
@@ -235,7 +264,11 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			DebugID:               &o.DebugID,
 			DebugPcapFilter:       &o.DebugPcapFilter,
 			DebugProcessingUnitID: &o.DebugProcessingUnitID,
+			MigrationVersion:      &o.MigrationVersion,
 			Namespace:             &o.Namespace,
+			Recursive:             &o.Recursive,
+			RefreshType:           &o.RefreshType,
+			Selector:              &o.Selector,
 		}
 	}
 
@@ -252,8 +285,16 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.DebugPcapFilter = &(o.DebugPcapFilter)
 		case "debugProcessingUnitID":
 			sp.DebugProcessingUnitID = &(o.DebugProcessingUnitID)
+		case "migrationVersion":
+			sp.MigrationVersion = &(o.MigrationVersion)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
+		case "recursive":
+			sp.Recursive = &(o.Recursive)
+		case "refreshType":
+			sp.RefreshType = &(o.RefreshType)
+		case "selector":
+			sp.Selector = &(o.Selector)
 		}
 	}
 
@@ -282,8 +323,20 @@ func (o *EnforcerRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	if so.DebugProcessingUnitID != nil {
 		o.DebugProcessingUnitID = *so.DebugProcessingUnitID
 	}
+	if so.MigrationVersion != nil {
+		o.MigrationVersion = *so.MigrationVersion
+	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
+	}
+	if so.Recursive != nil {
+		o.Recursive = *so.Recursive
+	}
+	if so.RefreshType != nil {
+		o.RefreshType = *so.RefreshType
+	}
+	if so.Selector != nil {
+		o.Selector = *so.Selector
 	}
 }
 
@@ -318,6 +371,18 @@ func (o *EnforcerRefresh) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("debug", string(o.Debug), []string{"Counters", "Logs", "Packets", "PUState", "Pcap", "CoreDump"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateSemVer("migrationVersion", o.MigrationVersion); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("refreshType", string(o.RefreshType), []string{"Debug", "Migration"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateTagsExpression("selector", o.Selector); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -365,8 +430,16 @@ func (o *EnforcerRefresh) ValueForAttribute(name string) interface{} {
 		return o.DebugPcapFilter
 	case "debugProcessingUnitID":
 		return o.DebugProcessingUnitID
+	case "migrationVersion":
+		return o.MigrationVersion
 	case "namespace":
 		return o.Namespace
+	case "recursive":
+		return o.Recursive
+	case "refreshType":
+		return o.RefreshType
+	case "selector":
+		return o.Selector
 	}
 
 	return nil
@@ -419,6 +492,14 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "debugProcessingUnitID",
 		Type:           "string",
 	},
+	"MigrationVersion": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationVersion",
+		Description:    `Defines the version to migrate enforcers.`,
+		Exposed:        true,
+		Name:           "migrationVersion",
+		Type:           "string",
+	},
 	"Namespace": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -428,6 +509,34 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "namespace",
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"Recursive": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Recursive",
+		Description:    `Indicates if the command should be done recursively in all namespaces.`,
+		Exposed:        true,
+		Name:           "recursive",
+		Type:           "boolean",
+	},
+	"RefreshType": {
+		AllowedChoices: []string{"Debug", "Migration"},
+		BSONFieldName:  "refreshtype",
+		ConvertedName:  "RefreshType",
+		DefaultValue:   EnforcerRefreshRefreshTypeDebug,
+		Description:    `Indicates the type of refresh.`,
+		Exposed:        true,
+		Name:           "refreshType",
+		Stored:         true,
+		Type:           "enum",
+	},
+	"Selector": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Selector",
+		Description:    `Request a command for the enforcers matching the following tag expression.`,
+		Exposed:        true,
+		Name:           "selector",
+		SubType:        "[][]string",
+		Type:           "external",
 	},
 }
 
@@ -478,6 +587,14 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "debugProcessingUnitID",
 		Type:           "string",
 	},
+	"migrationversion": {
+		AllowedChoices: []string{},
+		ConvertedName:  "MigrationVersion",
+		Description:    `Defines the version to migrate enforcers.`,
+		Exposed:        true,
+		Name:           "migrationVersion",
+		Type:           "string",
+	},
 	"namespace": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -487,6 +604,34 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "namespace",
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"recursive": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Recursive",
+		Description:    `Indicates if the command should be done recursively in all namespaces.`,
+		Exposed:        true,
+		Name:           "recursive",
+		Type:           "boolean",
+	},
+	"refreshtype": {
+		AllowedChoices: []string{"Debug", "Migration"},
+		BSONFieldName:  "refreshtype",
+		ConvertedName:  "RefreshType",
+		DefaultValue:   EnforcerRefreshRefreshTypeDebug,
+		Description:    `Indicates the type of refresh.`,
+		Exposed:        true,
+		Name:           "refreshType",
+		Stored:         true,
+		Type:           "enum",
+	},
+	"selector": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Selector",
+		Description:    `Request a command for the enforcers matching the following tag expression.`,
+		Exposed:        true,
+		Name:           "selector",
+		SubType:        "[][]string",
+		Type:           "external",
 	},
 }
 
@@ -568,8 +713,20 @@ type SparseEnforcerRefresh struct {
 	// Isolates debug information to a given processing unit, where possible.
 	DebugProcessingUnitID *string `json:"debugProcessingUnitID,omitempty" msgpack:"debugProcessingUnitID,omitempty" bson:"-" mapstructure:"debugProcessingUnitID,omitempty"`
 
+	// Defines the version to migrate enforcers.
+	MigrationVersion *string `json:"migrationVersion,omitempty" msgpack:"migrationVersion,omitempty" bson:"-" mapstructure:"migrationVersion,omitempty"`
+
 	// Contains the original namespace of the enforcer.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// Indicates if the command should be done recursively in all namespaces.
+	Recursive *bool `json:"recursive,omitempty" msgpack:"recursive,omitempty" bson:"-" mapstructure:"recursive,omitempty"`
+
+	// Indicates the type of refresh.
+	RefreshType *EnforcerRefreshRefreshTypeValue `json:"refreshType,omitempty" msgpack:"refreshType,omitempty" bson:"refreshtype,omitempty" mapstructure:"refreshType,omitempty"`
+
+	// Request a command for the enforcers matching the following tag expression.
+	Selector *[][]string `json:"selector,omitempty" msgpack:"selector,omitempty" bson:"-" mapstructure:"selector,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -614,6 +771,10 @@ func (o *SparseEnforcerRefresh) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseEnforcerRefresh{}
 
+	if o.RefreshType != nil {
+		s.RefreshType = o.RefreshType
+	}
+
 	return s, nil
 }
 
@@ -628,6 +789,10 @@ func (o *SparseEnforcerRefresh) SetBSON(raw bson.Raw) error {
 	s := &mongoAttributesSparseEnforcerRefresh{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
+	}
+
+	if s.RefreshType != nil {
+		o.RefreshType = s.RefreshType
 	}
 
 	return nil
@@ -658,8 +823,20 @@ func (o *SparseEnforcerRefresh) ToPlain() elemental.PlainIdentifiable {
 	if o.DebugProcessingUnitID != nil {
 		out.DebugProcessingUnitID = *o.DebugProcessingUnitID
 	}
+	if o.MigrationVersion != nil {
+		out.MigrationVersion = *o.MigrationVersion
+	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
+	}
+	if o.Recursive != nil {
+		out.Recursive = *o.Recursive
+	}
+	if o.RefreshType != nil {
+		out.RefreshType = *o.RefreshType
+	}
+	if o.Selector != nil {
+		out.Selector = *o.Selector
 	}
 
 	return out
@@ -706,6 +883,8 @@ func (o *SparseEnforcerRefresh) DeepCopyInto(out *SparseEnforcerRefresh) {
 }
 
 type mongoAttributesEnforcerRefresh struct {
+	RefreshType EnforcerRefreshRefreshTypeValue `bson:"refreshtype"`
 }
 type mongoAttributesSparseEnforcerRefresh struct {
+	RefreshType *EnforcerRefreshRefreshTypeValue `bson:"refreshtype,omitempty"`
 }

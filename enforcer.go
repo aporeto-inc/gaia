@@ -43,6 +43,20 @@ const (
 	EnforcerLogLevelWarn EnforcerLogLevelValue = "Warn"
 )
 
+// EnforcerMigrationStatusValue represents the possible values for attribute "migrationStatus".
+type EnforcerMigrationStatusValue string
+
+const (
+	// EnforcerMigrationStatusFailed represents the value Failed.
+	EnforcerMigrationStatusFailed EnforcerMigrationStatusValue = "Failed"
+
+	// EnforcerMigrationStatusNone represents the value None.
+	EnforcerMigrationStatusNone EnforcerMigrationStatusValue = "None"
+
+	// EnforcerMigrationStatusRunning represents the value Running.
+	EnforcerMigrationStatusRunning EnforcerMigrationStatusValue = "Running"
+)
+
 // EnforcerOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type EnforcerOperationalStatusValue string
 
@@ -226,6 +240,9 @@ type Enforcer struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
+	// Defines the migration status.
+	MigrationStatus EnforcerMigrationStatusValue `json:"migrationStatus" msgpack:"migrationStatus" bson:"migrationstatus" mapstructure:"migrationStatus,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -234,6 +251,9 @@ type Enforcer struct {
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// Defines the next version the enforcer will be migrated to.
+	NextAvailableVersion string `json:"nextAvailableVersion" msgpack:"nextAvailableVersion" bson:"nextavailableversion" mapstructure:"nextAvailableVersion,omitempty"`
 
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
@@ -258,9 +278,6 @@ type Enforcer struct {
 	// The Microsegmentation Console sets this value to `true` if it hasn't heard from
 	// the enforcer in the last five minutes.
 	Unreachable bool `json:"unreachable" msgpack:"unreachable" bson:"unreachable" mapstructure:"unreachable,omitempty"`
-
-	// If `true`, the enforcer version is outdated and should be updated.
-	UpdateAvailable bool `json:"updateAvailable" msgpack:"updateAvailable" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -288,13 +305,14 @@ func NewEnforcer() *Enforcer {
 		CollectedInfo:         map[string]string{},
 		EnforcementStatus:     EnforcerEnforcementStatusInactive,
 		LastValidHostServices: HostServicesList{},
-		NormalizedTags:        []string{},
-		LogLevelDuration:      "10s",
-		Subnets:               []string{},
-		Metadata:              []string{},
-		LogLevel:              EnforcerLogLevelInfo,
-		MigrationsLog:         map[string]string{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
+		LogLevel:              EnforcerLogLevelInfo,
+		Subnets:               []string{},
+		NormalizedTags:        []string{},
+		MigrationsLog:         map[string]string{},
+		Metadata:              []string{},
+		MigrationStatus:       EnforcerMigrationStatusNone,
+		LogLevelDuration:      "10s",
 	}
 }
 
@@ -350,9 +368,11 @@ func (o *Enforcer) GetBSON() (interface{}, error) {
 	s.LogLevelDuration = o.LogLevelDuration
 	s.MachineID = o.MachineID
 	s.Metadata = o.Metadata
+	s.MigrationStatus = o.MigrationStatus
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
+	s.NextAvailableVersion = o.NextAvailableVersion
 	s.NormalizedTags = o.NormalizedTags
 	s.OperationalStatus = o.OperationalStatus
 	s.Protected = o.Protected
@@ -360,7 +380,6 @@ func (o *Enforcer) GetBSON() (interface{}, error) {
 	s.StartTime = o.StartTime
 	s.Subnets = o.Subnets
 	s.Unreachable = o.Unreachable
-	s.UpdateAvailable = o.UpdateAvailable
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
 	s.ZHash = o.ZHash
@@ -404,9 +423,11 @@ func (o *Enforcer) SetBSON(raw bson.Raw) error {
 	o.LogLevelDuration = s.LogLevelDuration
 	o.MachineID = s.MachineID
 	o.Metadata = s.Metadata
+	o.MigrationStatus = s.MigrationStatus
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
+	o.NextAvailableVersion = s.NextAvailableVersion
 	o.NormalizedTags = s.NormalizedTags
 	o.OperationalStatus = s.OperationalStatus
 	o.Protected = s.Protected
@@ -414,7 +435,6 @@ func (o *Enforcer) SetBSON(raw bson.Raw) error {
 	o.StartTime = s.StartTime
 	o.Subnets = s.Subnets
 	o.Unreachable = s.Unreachable
-	o.UpdateAvailable = s.UpdateAvailable
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
 	o.ZHash = s.ZHash
@@ -681,9 +701,11 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			LogLevelDuration:          &o.LogLevelDuration,
 			MachineID:                 &o.MachineID,
 			Metadata:                  &o.Metadata,
+			MigrationStatus:           &o.MigrationStatus,
 			MigrationsLog:             &o.MigrationsLog,
 			Name:                      &o.Name,
 			Namespace:                 &o.Namespace,
+			NextAvailableVersion:      &o.NextAvailableVersion,
 			NormalizedTags:            &o.NormalizedTags,
 			OperationalStatus:         &o.OperationalStatus,
 			Protected:                 &o.Protected,
@@ -691,7 +713,6 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			StartTime:                 &o.StartTime,
 			Subnets:                   &o.Subnets,
 			Unreachable:               &o.Unreachable,
-			UpdateAvailable:           &o.UpdateAvailable,
 			UpdateIdempotencyKey:      &o.UpdateIdempotencyKey,
 			UpdateTime:                &o.UpdateTime,
 			ZHash:                     &o.ZHash,
@@ -754,12 +775,16 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.MachineID = &(o.MachineID)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "migrationStatus":
+			sp.MigrationStatus = &(o.MigrationStatus)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
+		case "nextAvailableVersion":
+			sp.NextAvailableVersion = &(o.NextAvailableVersion)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "operationalStatus":
@@ -774,8 +799,6 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Subnets = &(o.Subnets)
 		case "unreachable":
 			sp.Unreachable = &(o.Unreachable)
-		case "updateAvailable":
-			sp.UpdateAvailable = &(o.UpdateAvailable)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -875,6 +898,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
 	}
+	if so.MigrationStatus != nil {
+		o.MigrationStatus = *so.MigrationStatus
+	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
 	}
@@ -883,6 +909,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
+	}
+	if so.NextAvailableVersion != nil {
+		o.NextAvailableVersion = *so.NextAvailableVersion
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
@@ -904,9 +933,6 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Unreachable != nil {
 		o.Unreachable = *so.Unreachable
-	}
-	if so.UpdateAvailable != nil {
-		o.UpdateAvailable = *so.UpdateAvailable
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -980,11 +1006,19 @@ func (o *Enforcer) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("migrationStatus", string(o.MigrationStatus), []string{"None", "Running", "Failed"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateSemVer("nextAvailableVersion", o.NextAvailableVersion); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1078,12 +1112,16 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.MachineID
 	case "metadata":
 		return o.Metadata
+	case "migrationStatus":
+		return o.MigrationStatus
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
 		return o.Namespace
+	case "nextAvailableVersion":
+		return o.NextAvailableVersion
 	case "normalizedTags":
 		return o.NormalizedTags
 	case "operationalStatus":
@@ -1098,8 +1136,6 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.Subnets
 	case "unreachable":
 		return o.Unreachable
-	case "updateAvailable":
-		return o.UpdateAvailable
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -1117,6 +1153,7 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 	"FQDN": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "fqdn",
 		ConvertedName:  "FQDN",
 		CreationOnly:   true,
 		Description: `Contains the fully qualified domain name (FQDN) of the server where the
@@ -1131,6 +1168,7 @@ enforcer is running.`,
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "_id",
 		ConvertedName:  "ID",
 		Description:    `Identifier of the object.`,
 		Exposed:        true,
@@ -1144,6 +1182,7 @@ enforcer is running.`,
 	},
 	"Annotations": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "annotations",
 		ConvertedName:  "Annotations",
 		Description:    `Stores additional information about an entity.`,
 		Exposed:        true,
@@ -1156,6 +1195,7 @@ enforcer is running.`,
 	},
 	"AssociatedTags": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "associatedtags",
 		ConvertedName:  "AssociatedTags",
 		Description:    `List of tags attached to an entity.`,
 		Exposed:        true,
@@ -1169,6 +1209,7 @@ enforcer is running.`,
 	"Certificate": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "certificate",
 		ConvertedName:  "Certificate",
 		Description:    `The certificate of the enforcer.`,
 		Exposed:        true,
@@ -1202,7 +1243,7 @@ attribute, not exposed in the API.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequest",
 		Description: `If not empty during a create or update operation, the provided certificate
-signing request (CSR) will be validated and signed by the Microsegmentation 
+signing request (CSR) will be validated and signed by the Microsegmentation
 Console, providing a renewed certificate.`,
 		Exposed:   true,
 		Name:      "certificateRequest",
@@ -1211,6 +1252,7 @@ Console, providing a renewed certificate.`,
 	},
 	"CollectInfo": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "collectinfo",
 		ConvertedName:  "CollectInfo",
 		Description:    `Indicates to the enforcer whether or not it needs to collect information.`,
 		Exposed:        true,
@@ -1220,6 +1262,7 @@ Console, providing a renewed certificate.`,
 	},
 	"CollectedInfo": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "collectedinfo",
 		ConvertedName:  "CollectedInfo",
 		Deprecated:     true,
 		Description:    `Represents the latest information collected by the enforcer.`,
@@ -1232,6 +1275,7 @@ Console, providing a renewed certificate.`,
 	"Controller": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "controller",
 		ConvertedName:  "Controller",
 		Description: `The Microsegmentation Console identifier managing this object. This property is mostly
 useful when federating multiple Microsegmentation Consoles.`,
@@ -1249,6 +1293,7 @@ useful when federating multiple Microsegmentation Consoles.`,
 	"CreateIdempotencyKey": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "createidempotencykey",
 		ConvertedName:  "CreateIdempotencyKey",
 		Description:    `internal idempotency key for a create operation.`,
 		Getter:         true,
@@ -1261,6 +1306,7 @@ useful when federating multiple Microsegmentation Consoles.`,
 	"CreateTime": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "createtime",
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
@@ -1274,6 +1320,7 @@ useful when federating multiple Microsegmentation Consoles.`,
 	},
 	"CurrentVersion": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "currentversion",
 		ConvertedName:  "CurrentVersion",
 		Description:    `The version number of the installed enforcer binary.`,
 		Exposed:        true,
@@ -1285,6 +1332,7 @@ useful when federating multiple Microsegmentation Consoles.`,
 	},
 	"Description": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "description",
 		ConvertedName:  "Description",
 		Description:    `Description of the object.`,
 		Exposed:        true,
@@ -1298,6 +1346,7 @@ useful when federating multiple Microsegmentation Consoles.`,
 	},
 	"EnforcementStatus": {
 		AllowedChoices: []string{"Inactive", "Active", "Failed"},
+		BSONFieldName:  "enforcementstatus",
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   EnforcerEnforcementStatusInactive,
 		Description:    `Status of the enforcement for host services.`,
@@ -1309,6 +1358,7 @@ useful when federating multiple Microsegmentation Consoles.`,
 	},
 	"LastCollectionID": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "lastcollectionid",
 		ConvertedName:  "LastCollectionID",
 		Description:    `Identifies the last collection.`,
 		Exposed:        true,
@@ -1318,6 +1368,7 @@ useful when federating multiple Microsegmentation Consoles.`,
 	},
 	"LastCollectionTime": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "lastcollectiontime",
 		ConvertedName:  "LastCollectionTime",
 		Description:    `Identifies when the information was collected.`,
 		Exposed:        true,
@@ -1327,6 +1378,7 @@ useful when federating multiple Microsegmentation Consoles.`,
 	},
 	"LastPokeTime": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "lastpoketime",
 		ConvertedName:  "LastPokeTime",
 		Description:    `The time and date of the last poke.`,
 		Name:           "lastPokeTime",
@@ -1335,6 +1387,7 @@ useful when federating multiple Microsegmentation Consoles.`,
 	},
 	"LastSyncTime": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "lastsynctime",
 		ConvertedName:  "LastSyncTime",
 		Description:    `The time and date of the last heartbeat.`,
 		Exposed:        true,
@@ -1346,6 +1399,7 @@ useful when federating multiple Microsegmentation Consoles.`,
 	"LastValidHostServices": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "lastvalidhostservices",
 		ConvertedName:  "LastValidHostServices",
 		Description: `` + "`" + `lastValidHostServices` + "`" + ` is a read only attribute that stores the list valid host
 services that have been applied to this enforcer. This list might be different
@@ -1369,6 +1423,7 @@ given when you retrieve a single enforcer.`,
 	},
 	"LogLevel": {
 		AllowedChoices: []string{"Info", "Debug", "Warn", "Error", "Trace"},
+		BSONFieldName:  "loglevel",
 		ConvertedName:  "LogLevel",
 		DefaultValue:   EnforcerLogLevelInfo,
 		Description:    `Log level of the enforcer.`,
@@ -1379,6 +1434,7 @@ given when you retrieve a single enforcer.`,
 	},
 	"LogLevelDuration": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "loglevelduration",
 		ConvertedName:  "LogLevelDuration",
 		DefaultValue:   "10s",
 		Description: `Determines the duration of which the log level will be active, using [Golang
@@ -1390,6 +1446,7 @@ duration syntax](https://golang.org/pkg/time/#example_Duration).`,
 	},
 	"MachineID": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "machineid",
 		ConvertedName:  "MachineID",
 		Description: `A unique identifier for every machine as detected by the enforcer. It is
 based on hardware information such as the SMBIOS UUID, MAC addresses of
@@ -1402,6 +1459,7 @@ interfaces, or cloud provider IDs.`,
 	},
 	"Metadata": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "metadata",
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
 		Description: `Contains tags that can only be set during creation, must all start
@@ -1415,8 +1473,21 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
+	"MigrationStatus": {
+		AllowedChoices: []string{"None", "Running", "Failed"},
+		BSONFieldName:  "migrationstatus",
+		ConvertedName:  "MigrationStatus",
+		DefaultValue:   EnforcerMigrationStatusNone,
+		Description:    `Defines the migration status.`,
+		Exposed:        true,
+		Name:           "migrationStatus",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
+	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "migrationslog",
 		ConvertedName:  "MigrationsLog",
 		Description:    `Internal property maintaining migrations information.`,
 		Getter:         true,
@@ -1428,6 +1499,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	},
 	"Name": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "name",
 		ConvertedName:  "Name",
 		Description:    `Name of the entity.`,
 		Exposed:        true,
@@ -1444,6 +1516,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Namespace": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "namespace",
 		ConvertedName:  "Namespace",
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -1456,9 +1529,22 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"NextAvailableVersion": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "nextavailableversion",
+		ConvertedName:  "NextAvailableVersion",
+		Description:    `Defines the next version the enforcer will be migrated to.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "nextAvailableVersion",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"NormalizedTags": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "normalizedtags",
 		ConvertedName:  "NormalizedTags",
 		Description:    `Contains the list of normalized tags of the entities.`,
 		Exposed:        true,
@@ -1473,6 +1559,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	},
 	"OperationalStatus": {
 		AllowedChoices: []string{"Registered", "Connected", "Disconnected", "Initialized"},
+		BSONFieldName:  "operationalstatus",
 		ConvertedName:  "OperationalStatus",
 		DefaultValue:   EnforcerOperationalStatusRegistered,
 		Description:    `The status of the enforcer.`,
@@ -1484,6 +1571,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	},
 	"Protected": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "protected",
 		ConvertedName:  "Protected",
 		Description:    `Defines if the object is protected.`,
 		Exposed:        true,
@@ -1497,6 +1585,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"PublicToken": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "publictoken",
 		ConvertedName:  "PublicToken",
 		Description: `The public token of the server that will be included in the datapath and
 is signed by the private certificate authority.`,
@@ -1509,6 +1598,7 @@ is signed by the private certificate authority.`,
 	},
 	"StartTime": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "starttime",
 		ConvertedName:  "StartTime",
 		Description: `The time and date on which this enforcer was started. The enforcer reports
 this and the value is preserved across disconnects.`,
@@ -1520,6 +1610,7 @@ this and the value is preserved across disconnects.`,
 	},
 	"Subnets": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "subnets",
 		ConvertedName:  "Subnets",
 		Description:    `Local subnets of this enforcer.`,
 		Exposed:        true,
@@ -1531,6 +1622,7 @@ this and the value is preserved across disconnects.`,
 	"Unreachable": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "unreachable",
 		ConvertedName:  "Unreachable",
 		Description: `The Microsegmentation Console sets this value to ` + "`" + `true` + "`" + ` if it hasn't heard from
 the enforcer in the last five minutes.`,
@@ -1541,19 +1633,10 @@ the enforcer in the last five minutes.`,
 		Transient: true,
 		Type:      "boolean",
 	},
-	"UpdateAvailable": {
-		AllowedChoices: []string{},
-		ConvertedName:  "UpdateAvailable",
-		Description:    `If ` + "`" + `true` + "`" + `, the enforcer version is outdated and should be updated.`,
-		Exposed:        true,
-		Name:           "updateAvailable",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "updateidempotencykey",
 		ConvertedName:  "UpdateIdempotencyKey",
 		Description:    `internal idempotency key for a update operation.`,
 		Getter:         true,
@@ -1566,6 +1649,7 @@ the enforcer in the last five minutes.`,
 	"UpdateTime": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "updatetime",
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
@@ -1580,6 +1664,7 @@ the enforcer in the last five minutes.`,
 	"ZHash": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "zhash",
 		ConvertedName:  "ZHash",
 		Description: `geographical hash of the data. This is used for sharding and
 georedundancy.`,
@@ -1593,6 +1678,7 @@ georedundancy.`,
 	"Zone": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
+		BSONFieldName:  "zone",
 		ConvertedName:  "Zone",
 		Description:    `Logical storage zone. Used for sharding.`,
 		Getter:         true,
@@ -1699,7 +1785,7 @@ attribute, not exposed in the API.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequest",
 		Description: `If not empty during a create or update operation, the provided certificate
-signing request (CSR) will be validated and signed by the Microsegmentation 
+signing request (CSR) will be validated and signed by the Microsegmentation
 Console, providing a renewed certificate.`,
 		Exposed:   true,
 		Name:      "certificateRequest",
@@ -1929,6 +2015,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
+	"migrationstatus": {
+		AllowedChoices: []string{"None", "Running", "Failed"},
+		BSONFieldName:  "migrationstatus",
+		ConvertedName:  "MigrationStatus",
+		DefaultValue:   EnforcerMigrationStatusNone,
+		Description:    `Defines the migration status.`,
+		Exposed:        true,
+		Name:           "migrationStatus",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
+	},
 	"migrationslog": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "migrationslog",
@@ -1970,6 +2068,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"nextavailableversion": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "nextavailableversion",
+		ConvertedName:  "NextAvailableVersion",
+		Description:    `Defines the next version the enforcer will be migrated to.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "nextAvailableVersion",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -2064,17 +2174,6 @@ the enforcer in the last five minutes.`,
 		Stored:    true,
 		Transient: true,
 		Type:      "boolean",
-	},
-	"updateavailable": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "updateavailable",
-		ConvertedName:  "UpdateAvailable",
-		Description:    `If ` + "`" + `true` + "`" + `, the enforcer version is outdated and should be updated.`,
-		Exposed:        true,
-		Name:           "updateAvailable",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
@@ -2291,6 +2390,9 @@ type SparseEnforcer struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
+	// Defines the migration status.
+	MigrationStatus *EnforcerMigrationStatusValue `json:"migrationStatus,omitempty" msgpack:"migrationStatus,omitempty" bson:"migrationstatus,omitempty" mapstructure:"migrationStatus,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -2299,6 +2401,9 @@ type SparseEnforcer struct {
 
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+
+	// Defines the next version the enforcer will be migrated to.
+	NextAvailableVersion *string `json:"nextAvailableVersion,omitempty" msgpack:"nextAvailableVersion,omitempty" bson:"nextavailableversion,omitempty" mapstructure:"nextAvailableVersion,omitempty"`
 
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
@@ -2323,9 +2428,6 @@ type SparseEnforcer struct {
 	// The Microsegmentation Console sets this value to `true` if it hasn't heard from
 	// the enforcer in the last five minutes.
 	Unreachable *bool `json:"unreachable,omitempty" msgpack:"unreachable,omitempty" bson:"unreachable,omitempty" mapstructure:"unreachable,omitempty"`
-
-	// If `true`, the enforcer version is outdated and should be updated.
-	UpdateAvailable *bool `json:"updateAvailable,omitempty" msgpack:"updateAvailable,omitempty" bson:"updateavailable,omitempty" mapstructure:"updateAvailable,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -2449,6 +2551,9 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
 	}
+	if o.MigrationStatus != nil {
+		s.MigrationStatus = o.MigrationStatus
+	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -2457,6 +2562,9 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	}
 	if o.Namespace != nil {
 		s.Namespace = o.Namespace
+	}
+	if o.NextAvailableVersion != nil {
+		s.NextAvailableVersion = o.NextAvailableVersion
 	}
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
@@ -2478,9 +2586,6 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	}
 	if o.Unreachable != nil {
 		s.Unreachable = o.Unreachable
-	}
-	if o.UpdateAvailable != nil {
-		s.UpdateAvailable = o.UpdateAvailable
 	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -2576,6 +2681,9 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
 	}
+	if s.MigrationStatus != nil {
+		o.MigrationStatus = s.MigrationStatus
+	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
@@ -2584,6 +2692,9 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	}
 	if s.Namespace != nil {
 		o.Namespace = s.Namespace
+	}
+	if s.NextAvailableVersion != nil {
+		o.NextAvailableVersion = s.NextAvailableVersion
 	}
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
@@ -2605,9 +2716,6 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	}
 	if s.Unreachable != nil {
 		o.Unreachable = s.Unreachable
-	}
-	if s.UpdateAvailable != nil {
-		o.UpdateAvailable = s.UpdateAvailable
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -2713,6 +2821,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
 	}
+	if o.MigrationStatus != nil {
+		out.MigrationStatus = *o.MigrationStatus
+	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
 	}
@@ -2721,6 +2832,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
+	}
+	if o.NextAvailableVersion != nil {
+		out.NextAvailableVersion = *o.NextAvailableVersion
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
@@ -2742,9 +2856,6 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Unreachable != nil {
 		out.Unreachable = *o.Unreachable
-	}
-	if o.UpdateAvailable != nil {
-		out.UpdateAvailable = *o.UpdateAvailable
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -3065,9 +3176,11 @@ type mongoAttributesEnforcer struct {
 	LogLevelDuration      string                         `bson:"loglevelduration"`
 	MachineID             string                         `bson:"machineid"`
 	Metadata              []string                       `bson:"metadata"`
+	MigrationStatus       EnforcerMigrationStatusValue   `bson:"migrationstatus"`
 	MigrationsLog         map[string]string              `bson:"migrationslog,omitempty"`
 	Name                  string                         `bson:"name"`
 	Namespace             string                         `bson:"namespace"`
+	NextAvailableVersion  string                         `bson:"nextavailableversion"`
 	NormalizedTags        []string                       `bson:"normalizedtags"`
 	OperationalStatus     EnforcerOperationalStatusValue `bson:"operationalstatus"`
 	Protected             bool                           `bson:"protected"`
@@ -3075,7 +3188,6 @@ type mongoAttributesEnforcer struct {
 	StartTime             time.Time                      `bson:"starttime"`
 	Subnets               []string                       `bson:"subnets"`
 	Unreachable           bool                           `bson:"unreachable"`
-	UpdateAvailable       bool                           `bson:"updateavailable"`
 	UpdateIdempotencyKey  string                         `bson:"updateidempotencykey"`
 	UpdateTime            time.Time                      `bson:"updatetime"`
 	ZHash                 int                            `bson:"zhash"`
@@ -3104,9 +3216,11 @@ type mongoAttributesSparseEnforcer struct {
 	LogLevelDuration      *string                         `bson:"loglevelduration,omitempty"`
 	MachineID             *string                         `bson:"machineid,omitempty"`
 	Metadata              *[]string                       `bson:"metadata,omitempty"`
+	MigrationStatus       *EnforcerMigrationStatusValue   `bson:"migrationstatus,omitempty"`
 	MigrationsLog         *map[string]string              `bson:"migrationslog,omitempty"`
 	Name                  *string                         `bson:"name,omitempty"`
 	Namespace             *string                         `bson:"namespace,omitempty"`
+	NextAvailableVersion  *string                         `bson:"nextavailableversion,omitempty"`
 	NormalizedTags        *[]string                       `bson:"normalizedtags,omitempty"`
 	OperationalStatus     *EnforcerOperationalStatusValue `bson:"operationalstatus,omitempty"`
 	Protected             *bool                           `bson:"protected,omitempty"`
@@ -3114,7 +3228,6 @@ type mongoAttributesSparseEnforcer struct {
 	StartTime             *time.Time                      `bson:"starttime,omitempty"`
 	Subnets               *[]string                       `bson:"subnets,omitempty"`
 	Unreachable           *bool                           `bson:"unreachable,omitempty"`
-	UpdateAvailable       *bool                           `bson:"updateavailable,omitempty"`
 	UpdateIdempotencyKey  *string                         `bson:"updateidempotencykey,omitempty"`
 	UpdateTime            *time.Time                      `bson:"updatetime,omitempty"`
 	ZHash                 *int                            `bson:"zhash,omitempty"`
