@@ -561,7 +561,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Action": {
 		AllowedChoices: []string{"Accept", "Reject"},
-		BSONFieldName:  "action",
+		BSONFieldName:  "a",
 		ConvertedName:  "Action",
 		Description:    `Action applied to the access.`,
 		Exposed:        true,
@@ -572,7 +572,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"ClaimHash": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "claimhash",
+		BSONFieldName:  "b",
 		ConvertedName:  "ClaimHash",
 		Description:    `Hash of the claims used to communicate.`,
 		Exposed:        true,
@@ -582,7 +582,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"EnforcerID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "enforcerid",
+		BSONFieldName:  "c",
 		ConvertedName:  "EnforcerID",
 		Description:    `Identifier of the enforcer.`,
 		Exposed:        true,
@@ -593,7 +593,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "enforcernamespace",
+		BSONFieldName:  "d",
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
@@ -616,7 +616,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"ProcessingUnitID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitid",
+		BSONFieldName:  "e",
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit of the report.`,
 		Exposed:        true,
@@ -626,7 +626,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"ProcessingUnitName": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitname",
+		BSONFieldName:  "f",
 		ConvertedName:  "ProcessingUnitName",
 		Description:    `Name of the processing unit of the report.`,
 		Exposed:        true,
@@ -636,7 +636,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"ProcessingUnitNamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitnamespace",
+		BSONFieldName:  "g",
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit of the report.`,
 		Exposed:        true,
@@ -646,7 +646,7 @@ var AccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Reason": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "reason",
+		BSONFieldName:  "h",
 		ConvertedName:  "Reason",
 		Description: `This field is only set if ` + "`" + `action` + "`" + ` is set to ` + "`" + `Reject` + "`" + `. It specifies the reason
 for the rejection.`,
@@ -657,7 +657,7 @@ for the rejection.`,
 	},
 	"Timestamp": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "timestamp",
+		BSONFieldName:  "i",
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
 		Exposed:        true,
@@ -667,7 +667,7 @@ for the rejection.`,
 	},
 	"Type": {
 		AllowedChoices: []string{"SSHLogin", "SSHLogout", "SudoEnter", "SudoExit"},
-		BSONFieldName:  "type",
+		BSONFieldName:  "j",
 		ConvertedName:  "Type",
 		Description:    `Type of the report.`,
 		Exposed:        true,

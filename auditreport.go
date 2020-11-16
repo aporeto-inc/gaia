@@ -838,7 +838,7 @@ func (o *AuditReport) ValueForAttribute(name string) interface{} {
 var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"AUID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "auid",
+		BSONFieldName:  "a",
 		ConvertedName:  "AUID",
 		Description:    `The login ID of the user who started the audited process.`,
 		Exposed:        true,
@@ -848,7 +848,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"CWD": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "cwd",
+		BSONFieldName:  "b",
 		ConvertedName:  "CWD",
 		Description:    `Command working directory.`,
 		Exposed:        true,
@@ -858,7 +858,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"EGID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "egid",
+		BSONFieldName:  "c",
 		ConvertedName:  "EGID",
 		Description:    `Effective group ID of the user who started the audited process.`,
 		Exposed:        true,
@@ -868,7 +868,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"EUID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "euid",
+		BSONFieldName:  "d",
 		ConvertedName:  "EUID",
 		Description:    `Effective user ID of the user who started the audited process.`,
 		Exposed:        true,
@@ -878,7 +878,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"EXE": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "exe",
+		BSONFieldName:  "e",
 		ConvertedName:  "EXE",
 		Description:    `Path to the executable.`,
 		Exposed:        true,
@@ -888,7 +888,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"FSGID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "fsgid",
+		BSONFieldName:  "f",
 		ConvertedName:  "FSGID",
 		Description:    `File system group ID of the user who started the audited process.`,
 		Exposed:        true,
@@ -898,7 +898,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"FSUID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "fsuid",
+		BSONFieldName:  "g",
 		ConvertedName:  "FSUID",
 		Description:    `File system user ID of the user who started the audited process.`,
 		Exposed:        true,
@@ -908,7 +908,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"FilePath": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "filepath",
+		BSONFieldName:  "h",
 		ConvertedName:  "FilePath",
 		Description:    `Full path of the file that was passed to the system call.`,
 		Exposed:        true,
@@ -918,7 +918,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"GID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "gid",
+		BSONFieldName:  "i",
 		ConvertedName:  "GID",
 		Description:    `Group ID of the user who started the analyzed process.`,
 		Exposed:        true,
@@ -943,7 +943,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"PER": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "per",
+		BSONFieldName:  "j",
 		ConvertedName:  "PER",
 		Description:    `File or directory permissions.`,
 		Exposed:        true,
@@ -953,7 +953,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"PID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "pid",
+		BSONFieldName:  "k",
 		ConvertedName:  "PID",
 		Description:    `Process ID of the executable.`,
 		Exposed:        true,
@@ -963,7 +963,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"PPID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "ppid",
+		BSONFieldName:  "l",
 		ConvertedName:  "PPID",
 		Description:    `Process ID of the parent executable.`,
 		Exposed:        true,
@@ -973,7 +973,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"SGID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "sgid",
+		BSONFieldName:  "m",
 		ConvertedName:  "SGID",
 		Description:    `Set group ID of the user who started the audited process.`,
 		Exposed:        true,
@@ -983,7 +983,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"SUID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "suid",
+		BSONFieldName:  "n",
 		ConvertedName:  "SUID",
 		Description:    `Set user ID of the user who started the audited process.`,
 		Exposed:        true,
@@ -993,7 +993,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"UID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "uid",
+		BSONFieldName:  "o",
 		ConvertedName:  "UID",
 		Description:    `User ID.`,
 		Exposed:        true,
@@ -1003,7 +1003,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"A0": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "a0",
+		BSONFieldName:  "p",
 		ConvertedName:  "A0",
 		Description:    `First argument of the executed system call.`,
 		Exposed:        true,
@@ -1013,7 +1013,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"A1": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "a1",
+		BSONFieldName:  "q",
 		ConvertedName:  "A1",
 		Description:    `Second argument of the executed system call.`,
 		Exposed:        true,
@@ -1023,7 +1023,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"A2": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "a2",
+		BSONFieldName:  "r",
 		ConvertedName:  "A2",
 		Description:    `Third argument of the executed system call.`,
 		Exposed:        true,
@@ -1033,7 +1033,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"A3": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "a3",
+		BSONFieldName:  "s",
 		ConvertedName:  "A3",
 		Description:    `Fourth argument of the executed system call.`,
 		Exposed:        true,
@@ -1043,7 +1043,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Arch": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "arch",
+		BSONFieldName:  "t",
 		ConvertedName:  "Arch",
 		Description:    `Architecture of the system of the monitored process.`,
 		Exposed:        true,
@@ -1053,7 +1053,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Arguments": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "arguments",
+		BSONFieldName:  "u",
 		ConvertedName:  "Arguments",
 		Description:    `Arguments passed to the command.`,
 		Exposed:        true,
@@ -1064,7 +1064,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"AuditProfileID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "auditprofileid",
+		BSONFieldName:  "v",
 		ConvertedName:  "AuditProfileID",
 		Description:    `ID of the audit profile that triggered the report.`,
 		Exposed:        true,
@@ -1075,7 +1075,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"AuditProfileNamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "auditprofilenamespace",
+		BSONFieldName:  "w",
 		ConvertedName:  "AuditProfileNamespace",
 		Description:    `Namespace of the audit profile that triggered the report.`,
 		Exposed:        true,
@@ -1086,7 +1086,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Command": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "command",
+		BSONFieldName:  "x",
 		ConvertedName:  "Command",
 		Description:    `Command issued.`,
 		Exposed:        true,
@@ -1096,7 +1096,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"EnforcerID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "enforcerid",
+		BSONFieldName:  "y",
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the enforcer reporting.`,
 		Exposed:        true,
@@ -1107,7 +1107,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"EnforcerNamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "enforcernamespace",
+		BSONFieldName:  "z",
 		ConvertedName:  "EnforcerNamespace",
 		Description:    `Namespace of the enforcer reporting.`,
 		Exposed:        true,
@@ -1118,7 +1118,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Exit": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "exit",
+		BSONFieldName:  "aa",
 		ConvertedName:  "Exit",
 		Description:    `Exit code of the executed system call.`,
 		Exposed:        true,
@@ -1140,7 +1140,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"ProcessingUnitID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitid",
+		BSONFieldName:  "ab",
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit originating the report.`,
 		Exposed:        true,
@@ -1151,7 +1151,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"ProcessingUnitNamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitnamespace",
+		BSONFieldName:  "ac",
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit originating the report.`,
 		Exposed:        true,
@@ -1162,7 +1162,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"RecordType": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "recordtype",
+		BSONFieldName:  "ad",
 		ConvertedName:  "RecordType",
 		Description:    `Type of audit record.`,
 		Exposed:        true,
@@ -1173,7 +1173,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Sequence": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "sequence",
+		BSONFieldName:  "ae",
 		ConvertedName:  "Sequence",
 		Description:    `Needs documentation.`,
 		Exposed:        true,
@@ -1183,7 +1183,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Success": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "success",
+		BSONFieldName:  "af",
 		ConvertedName:  "Success",
 		Description:    `Tells if the operation has been a success or a failure.`,
 		Exposed:        true,
@@ -1193,7 +1193,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Syscall": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "syscall",
+		BSONFieldName:  "ag",
 		ConvertedName:  "Syscall",
 		Description:    `System call executed.`,
 		Exposed:        true,
@@ -1203,7 +1203,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Timestamp": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "timestamp",
+		BSONFieldName:  "ah",
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
 		Exposed:        true,
