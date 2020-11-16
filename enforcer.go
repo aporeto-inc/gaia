@@ -208,6 +208,9 @@ type Enforcer struct {
 	// Identifies when the information was collected.
 	LastCollectionTime time.Time `json:"lastCollectionTime" msgpack:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
 
+	// Last migration date of the enforcer.
+	LastMigrationTime time.Time `json:"lastMigrationTime" msgpack:"lastMigrationTime" bson:"lastmigrationtime" mapstructure:"lastMigrationTime,omitempty"`
+
 	// The time and date of the last poke.
 	LastPokeTime time.Time `json:"-" msgpack:"-" bson:"lastpoketime" mapstructure:"-,omitempty"`
 
@@ -307,12 +310,12 @@ func NewEnforcer() *Enforcer {
 		LastValidHostServices: HostServicesList{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
 		LogLevel:              EnforcerLogLevelInfo,
-		Subnets:               []string{},
 		NormalizedTags:        []string{},
-		MigrationsLog:         map[string]string{},
-		Metadata:              []string{},
 		MigrationStatus:       EnforcerMigrationStatusNone,
+		Subnets:               []string{},
 		LogLevelDuration:      "10s",
+		Metadata:              []string{},
+		MigrationsLog:         map[string]string{},
 	}
 }
 
@@ -361,6 +364,7 @@ func (o *Enforcer) GetBSON() (interface{}, error) {
 	s.EnforcementStatus = o.EnforcementStatus
 	s.LastCollectionID = o.LastCollectionID
 	s.LastCollectionTime = o.LastCollectionTime
+	s.LastMigrationTime = o.LastMigrationTime
 	s.LastPokeTime = o.LastPokeTime
 	s.LastSyncTime = o.LastSyncTime
 	s.LastValidHostServices = o.LastValidHostServices
@@ -416,6 +420,7 @@ func (o *Enforcer) SetBSON(raw bson.Raw) error {
 	o.EnforcementStatus = s.EnforcementStatus
 	o.LastCollectionID = s.LastCollectionID
 	o.LastCollectionTime = s.LastCollectionTime
+	o.LastMigrationTime = s.LastMigrationTime
 	o.LastPokeTime = s.LastPokeTime
 	o.LastSyncTime = s.LastSyncTime
 	o.LastValidHostServices = s.LastValidHostServices
@@ -693,6 +698,7 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			EnforcementStatus:         &o.EnforcementStatus,
 			LastCollectionID:          &o.LastCollectionID,
 			LastCollectionTime:        &o.LastCollectionTime,
+			LastMigrationTime:         &o.LastMigrationTime,
 			LastPokeTime:              &o.LastPokeTime,
 			LastSyncTime:              &o.LastSyncTime,
 			LastValidHostServices:     &o.LastValidHostServices,
@@ -759,6 +765,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.LastCollectionID = &(o.LastCollectionID)
 		case "lastCollectionTime":
 			sp.LastCollectionTime = &(o.LastCollectionTime)
+		case "lastMigrationTime":
+			sp.LastMigrationTime = &(o.LastMigrationTime)
 		case "lastPokeTime":
 			sp.LastPokeTime = &(o.LastPokeTime)
 		case "lastSyncTime":
@@ -873,6 +881,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.LastCollectionTime != nil {
 		o.LastCollectionTime = *so.LastCollectionTime
+	}
+	if so.LastMigrationTime != nil {
+		o.LastMigrationTime = *so.LastMigrationTime
 	}
 	if so.LastPokeTime != nil {
 		o.LastPokeTime = *so.LastPokeTime
@@ -1096,6 +1107,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.LastCollectionID
 	case "lastCollectionTime":
 		return o.LastCollectionTime
+	case "lastMigrationTime":
+		return o.LastMigrationTime
 	case "lastPokeTime":
 		return o.LastPokeTime
 	case "lastSyncTime":
@@ -1373,6 +1386,17 @@ useful when federating multiple Microsegmentation Consoles.`,
 		Description:    `Identifies when the information was collected.`,
 		Exposed:        true,
 		Name:           "lastCollectionTime",
+		Stored:         true,
+		Type:           "time",
+	},
+	"LastMigrationTime": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "lastmigrationtime",
+		ConvertedName:  "LastMigrationTime",
+		Description:    `Last migration date of the enforcer.`,
+		Exposed:        true,
+		Name:           "lastMigrationTime",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -1918,6 +1942,17 @@ useful when federating multiple Microsegmentation Consoles.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"lastmigrationtime": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "lastmigrationtime",
+		ConvertedName:  "LastMigrationTime",
+		Description:    `Last migration date of the enforcer.`,
+		Exposed:        true,
+		Name:           "lastMigrationTime",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "time",
+	},
 	"lastpoketime": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "lastpoketime",
@@ -2358,6 +2393,9 @@ type SparseEnforcer struct {
 	// Identifies when the information was collected.
 	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" msgpack:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
 
+	// Last migration date of the enforcer.
+	LastMigrationTime *time.Time `json:"lastMigrationTime,omitempty" msgpack:"lastMigrationTime,omitempty" bson:"lastmigrationtime,omitempty" mapstructure:"lastMigrationTime,omitempty"`
+
 	// The time and date of the last poke.
 	LastPokeTime *time.Time `json:"-" msgpack:"-" bson:"lastpoketime,omitempty" mapstructure:"-,omitempty"`
 
@@ -2530,6 +2568,9 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	if o.LastCollectionTime != nil {
 		s.LastCollectionTime = o.LastCollectionTime
 	}
+	if o.LastMigrationTime != nil {
+		s.LastMigrationTime = o.LastMigrationTime
+	}
 	if o.LastPokeTime != nil {
 		s.LastPokeTime = o.LastPokeTime
 	}
@@ -2659,6 +2700,9 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	}
 	if s.LastCollectionTime != nil {
 		o.LastCollectionTime = s.LastCollectionTime
+	}
+	if s.LastMigrationTime != nil {
+		o.LastMigrationTime = s.LastMigrationTime
 	}
 	if s.LastPokeTime != nil {
 		o.LastPokeTime = s.LastPokeTime
@@ -2796,6 +2840,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.LastCollectionTime != nil {
 		out.LastCollectionTime = *o.LastCollectionTime
+	}
+	if o.LastMigrationTime != nil {
+		out.LastMigrationTime = *o.LastMigrationTime
 	}
 	if o.LastPokeTime != nil {
 		out.LastPokeTime = *o.LastPokeTime
@@ -3169,6 +3216,7 @@ type mongoAttributesEnforcer struct {
 	EnforcementStatus     EnforcerEnforcementStatusValue `bson:"enforcementstatus"`
 	LastCollectionID      string                         `bson:"lastcollectionid"`
 	LastCollectionTime    time.Time                      `bson:"lastcollectiontime"`
+	LastMigrationTime     time.Time                      `bson:"lastmigrationtime"`
 	LastPokeTime          time.Time                      `bson:"lastpoketime"`
 	LastSyncTime          time.Time                      `bson:"lastsynctime"`
 	LastValidHostServices HostServicesList               `bson:"lastvalidhostservices"`
@@ -3209,6 +3257,7 @@ type mongoAttributesSparseEnforcer struct {
 	EnforcementStatus     *EnforcerEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
 	LastCollectionID      *string                         `bson:"lastcollectionid,omitempty"`
 	LastCollectionTime    *time.Time                      `bson:"lastcollectiontime,omitempty"`
+	LastMigrationTime     *time.Time                      `bson:"lastmigrationtime,omitempty"`
 	LastPokeTime          *time.Time                      `bson:"lastpoketime,omitempty"`
 	LastSyncTime          *time.Time                      `bson:"lastsynctime,omitempty"`
 	LastValidHostServices *HostServicesList               `bson:"lastvalidhostservices,omitempty"`

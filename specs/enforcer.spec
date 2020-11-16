@@ -152,6 +152,13 @@ attributes:
     exposed: true
     stored: true
 
+  - name: lastMigrationTime
+    description: Last migration date of the enforcer.
+    type: time
+    exposed: true
+    stored: true
+    orderable: true
+
   - name: lastPokeTime
     description: The time and date of the last poke.
     type: time
