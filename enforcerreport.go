@@ -471,7 +471,7 @@ func (o *EnforcerReport) ValueForAttribute(name string) interface{} {
 var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"CPULoad": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "cpuload",
+		BSONFieldName:  "a",
 		ConvertedName:  "CPULoad",
 		Description:    `Total CPU utilization of the enforcer as a percentage of vCPUs.`,
 		Exposed:        true,
@@ -496,7 +496,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"EnforcerID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "enforcerid",
+		BSONFieldName:  "b",
 		ConvertedName:  "EnforcerID",
 		Description:    `ID of the enforcer.`,
 		Exposed:        true,
@@ -506,7 +506,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Memory": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "memory",
+		BSONFieldName:  "c",
 		ConvertedName:  "Memory",
 		Description:    `Total resident memory used by the enforcer in bytes.`,
 		Exposed:        true,
@@ -528,7 +528,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Name": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "name",
+		BSONFieldName:  "d",
 		ConvertedName:  "Name",
 		Description:    `Name of the enforcer.`,
 		Exposed:        true,
@@ -539,7 +539,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Namespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "namespace",
+		BSONFieldName:  "e",
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the enforcer.`,
 		Exposed:        true,
@@ -550,7 +550,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Processes": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processes",
+		BSONFieldName:  "f",
 		ConvertedName:  "Processes",
 		Description:    `Number of active processes of the enforcer.`,
 		Exposed:        true,
@@ -560,7 +560,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Timestamp": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "timestamp",
+		BSONFieldName:  "g",
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
 		Exposed:        true,

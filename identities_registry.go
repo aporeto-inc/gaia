@@ -92,6 +92,8 @@ var (
 		"namespacerenderer":      NamespaceRendererIdentity,
 		"namespacetype":          NamespaceTypeIdentity,
 		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
+
+		"networkruleset":         NetworkRuleSetIdentity,
 		"oauthinfo":              OAUTHInfoIdentity,
 		"oauthkey":               OAUTHKeyIdentity,
 		"oidcprovider":           OIDCProviderIdentity,
@@ -252,13 +254,15 @@ var (
 		"namespacerenderers":       NamespaceRendererIdentity,
 		"namespacetypes":           NamespaceTypeIdentity,
 		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
-		"oauthinfo":                OAUTHInfoIdentity,
-		"oauthkeys":                OAUTHKeyIdentity,
-		"oidcproviders":            OIDCProviderIdentity,
-		"organizationalmetadata":   OrganizationalMetadataIdentity,
-		"packetreports":            PacketReportIdentity,
-		"passwordreset":            PasswordResetIdentity,
-		"pccproviders":             PCCProviderIdentity,
+
+		"networkrulesets":        NetworkRuleSetIdentity,
+		"oauthinfo":              OAUTHInfoIdentity,
+		"oauthkeys":              OAUTHKeyIdentity,
+		"oidcproviders":          OIDCProviderIdentity,
+		"organizationalmetadata": OrganizationalMetadataIdentity,
+		"packetreports":          PacketReportIdentity,
+		"passwordreset":          PasswordResetIdentity,
+		"pccproviders":           PCCProviderIdentity,
 
 		"pingprobes":   PingProbeIdentity,
 		"pingrequests": PingRequestIdentity,
@@ -381,6 +385,8 @@ var (
 		"nsrenderer":     NamespaceRendererIdentity,
 		"netpol":         NetworkAccessPolicyIdentity,
 		"netpols":        NetworkAccessPolicyIdentity,
+		"netpol":         NetworkRuleSetIdentity,
+		"netpols":        NetworkRuleSetIdentity,
 		"om":             OrganizationalMetadataIdentity,
 		"polgraph":       PolicyGraphIdentity,
 		"pu":             ProcessingUnitIdentity,
@@ -789,6 +795,7 @@ var (
 		"namespacerenderer":      nil,
 		"namespacetype":          nil,
 		"networkaccesspolicy":    nil,
+		"networkruleset":         nil,
 		"oauthinfo":              nil,
 		"oauthkey":               nil,
 		"oidcprovider": {
@@ -1196,6 +1203,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewNamespaceType()
 	case NetworkAccessPolicyIdentity:
 		return NewNetworkAccessPolicy()
+	case NetworkRuleSetIdentity:
+		return NewNetworkRuleSet()
 	case OAUTHInfoIdentity:
 		return NewOAUTHInfo()
 	case OAUTHKeyIdentity:
@@ -1491,6 +1500,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseNamespaceType()
 	case NetworkAccessPolicyIdentity:
 		return NewSparseNetworkAccessPolicy()
+	case NetworkRuleSetIdentity:
+		return NewSparseNetworkRuleSet()
 	case OAUTHInfoIdentity:
 		return NewSparseOAUTHInfo()
 	case OAUTHKeyIdentity:
@@ -1794,6 +1805,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &NamespaceTypesList{}
 	case NetworkAccessPolicyIdentity:
 		return &NetworkAccessPoliciesList{}
+	case NetworkRuleSetIdentity:
+		return &NetworkRuleSetsList{}
 	case OAUTHInfoIdentity:
 		return &OAUTHInfosList{}
 	case OAUTHKeyIdentity:
@@ -2087,6 +2100,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseNamespaceTypesList{}
 	case NetworkAccessPolicyIdentity:
 		return &SparseNetworkAccessPoliciesList{}
+	case NetworkRuleSetIdentity:
+		return &SparseNetworkRuleSetsList{}
 	case OAUTHInfoIdentity:
 		return &SparseOAUTHInfosList{}
 	case OAUTHKeyIdentity:
@@ -2313,6 +2328,7 @@ func AllIdentities() []elemental.Identity {
 		NamespaceRendererIdentity,
 		NamespaceTypeIdentity,
 		NetworkAccessPolicyIdentity,
+		NetworkRuleSetIdentity,
 		OAUTHInfoIdentity,
 		OAUTHKeyIdentity,
 		OIDCProviderIdentity,
@@ -2627,6 +2643,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case NamespaceTypeIdentity:
 		return []string{}
 	case NetworkAccessPolicyIdentity:
+		return []string{
+			"netpol",
+			"netpols",
+		}
+	case NetworkRuleSetIdentity:
 		return []string{
 			"netpol",
 			"netpols",
