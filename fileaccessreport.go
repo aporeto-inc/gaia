@@ -518,7 +518,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Action": {
 		AllowedChoices: []string{"Accept", "Reject", "Limit"},
-		BSONFieldName:  "action",
+		BSONFieldName:  "a",
 		ConvertedName:  "Action",
 		Description:    `Action taken.`,
 		Exposed:        true,
@@ -529,7 +529,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Host": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "host",
+		BSONFieldName:  "b",
 		ConvertedName:  "Host",
 		DefaultValue:   "localhost",
 		Description:    `Host storing the file.`,
@@ -553,7 +553,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Mode": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "mode",
+		BSONFieldName:  "c",
 		ConvertedName:  "Mode",
 		DefaultValue:   "rxw",
 		Description:    `Mode of file access.`,
@@ -565,7 +565,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Path": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "path",
+		BSONFieldName:  "d",
 		ConvertedName:  "Path",
 		DefaultValue:   "/etc/passwd",
 		Description:    `Path of the file.`,
@@ -577,7 +577,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"ProcessingUnitID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitid",
+		BSONFieldName:  "e",
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `ID of the processing unit.`,
 		Exposed:        true,
@@ -588,7 +588,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"ProcessingUnitNamespace": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "processingunitnamespace",
+		BSONFieldName:  "f",
 		ConvertedName:  "ProcessingUnitNamespace",
 		Description:    `Namespace of the processing unit.`,
 		Exposed:        true,
@@ -599,7 +599,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Timestamp": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "timestamp",
+		BSONFieldName:  "g",
 		ConvertedName:  "Timestamp",
 		Description:    `Date of the report.`,
 		Exposed:        true,
