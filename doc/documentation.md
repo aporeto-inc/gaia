@@ -2915,6 +2915,12 @@ Type: `time`
 
 Identifies when the information was collected.
 
+##### `lastMigrationTime`
+
+Type: `time`
+
+Last migration date of the enforcer.
+
 ##### `lastSyncTime`
 
 Type: `time`
