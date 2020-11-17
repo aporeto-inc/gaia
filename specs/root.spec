@@ -219,6 +219,8 @@ relations:
 - rest_name: defaultenforcerversion
   get:
     description: Returns the default enforcer version of the specified namespace.
+  create:
+    description: Modify the default enforcer version of the specified namespace.
 
 - rest_name: dependencymap
   get:

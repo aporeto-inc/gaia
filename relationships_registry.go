@@ -824,6 +824,9 @@ func init() {
 	}
 
 	relationshipsRegistry[DefaultEnforcerVersionIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
