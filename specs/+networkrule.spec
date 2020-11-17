@@ -27,14 +27,6 @@ attributes:
     default_value: Allow
     orderable: true
 
-  - name: networkConnections
-    description: |-
-      Instructs the enforcer to send records for all
-      network-initiated connections.
-    type: boolean
-    exposed: true
-    stored: true
-
   - name: networks
     description: A list of IP CIDRS or FQDNS that identify remote endpoints.
     type: list
@@ -52,7 +44,8 @@ attributes:
   - name: protocolPorts
     description: |-
       Represents the ports and protocols this policy applies to. Protocol/ports are
-      defined as tcp/80, udp/22. For protocols that do not have ports, the port part
+      defined as tcp/80, udp/22. For protocols that do not have ports, the port
+      designation
       is not allowed.
     type: list
     exposed: true

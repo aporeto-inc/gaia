@@ -62,8 +62,7 @@ attributes:
     description: |-
       If set to `true`, this will be a fallback rule set that will only apply to the
       processing units in children namespaces if no other normal rule has been defined
-      for
-      these processing units in the namespace hierarchy.
+      for these processing units in the namespace hierarchy.
     type: boolean
     exposed: true
     orderable: true

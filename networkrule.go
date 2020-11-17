@@ -30,10 +30,6 @@ type NetworkRule struct {
 	// policy.
 	Action NetworkRuleActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
-	// Instructs the enforcer to send records for all
-	// network-initiated connections.
-	NetworkConnections bool `json:"networkConnections" msgpack:"networkConnections" bson:"networkconnections" mapstructure:"networkConnections,omitempty"`
-
 	// A list of IP CIDRS or FQDNS that identify remote endpoints.
 	Networks []string `json:"networks" msgpack:"networks" bson:"-" mapstructure:"networks,omitempty"`
 
@@ -41,7 +37,8 @@ type NetworkRule struct {
 	ObservationEnabled bool `json:"observationEnabled" msgpack:"observationEnabled" bson:"-" mapstructure:"observationEnabled,omitempty"`
 
 	// Represents the ports and protocols this policy applies to. Protocol/ports are
-	// defined as tcp/80, udp/22. For protocols that do not have ports, the port part
+	// defined as tcp/80, udp/22. For protocols that do not have ports, the port
+	// designation
 	// is not allowed.
 	ProtocolPorts []string `json:"protocolPorts" msgpack:"protocolPorts" bson:"-" mapstructure:"protocolPorts,omitempty"`
 
@@ -76,8 +73,6 @@ func (o *NetworkRule) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesNetworkRule{}
 
-	s.NetworkConnections = o.NetworkConnections
-
 	return s, nil
 }
 
@@ -93,8 +88,6 @@ func (o *NetworkRule) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
-
-	o.NetworkConnections = s.NetworkConnections
 
 	return nil
 }
@@ -163,5 +156,4 @@ func (o *NetworkRule) Validate() error {
 }
 
 type mongoAttributesNetworkRule struct {
-	NetworkConnections bool `bson:"networkconnections"`
 }

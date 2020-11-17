@@ -5353,7 +5353,6 @@ Represents an ingress or egress network rule.
 ```json
 {
   "action": "Allow",
-  "networkConnections": false,
   "observationEnabled": false
 }
 ```
@@ -5374,13 +5373,6 @@ Default value:
 ```json
 "Allow"
 ```
-
-##### `networkConnections`
-
-Type: `boolean`
-
-Instructs the enforcer to send records for all
-network-initiated connections.
 
 ##### `networks`
 
@@ -5405,7 +5397,8 @@ false
 Type: `[]string`
 
 Represents the ports and protocols this policy applies to. Protocol/ports are
-defined as tcp/80, udp/22. For protocols that do not have ports, the port part
+defined as tcp/80, udp/22. For protocols that do not have ports, the port
+designation
 is not allowed.
 
 ##### `remoteResourceSelector`
@@ -13262,8 +13255,7 @@ Type: `boolean`
 
 If set to `true`, this will be a fallback rule set that will only apply to the
 processing units in children namespaces if no other normal rule has been defined
-for
-these processing units in the namespace hierarchy.
+for these processing units in the namespace hierarchy.
 
 ##### `ingressRules`
 

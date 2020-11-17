@@ -120,8 +120,7 @@ type NetworkRuleSet struct {
 
 	// If set to `true`, this will be a fallback rule set that will only apply to the
 	// processing units in children namespaces if no other normal rule has been defined
-	// for
-	// these processing units in the namespace hierarchy.
+	// for these processing units in the namespace hierarchy.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"-" mapstructure:"fallback,omitempty"`
 
 	// The set of ingress rules that comprise this rule set.
@@ -994,8 +993,7 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		ConvertedName:  "Fallback",
 		Description: `If set to ` + "`" + `true` + "`" + `, this will be a fallback rule set that will only apply to the
 processing units in children namespaces if no other normal rule has been defined
-for
-these processing units in the namespace hierarchy.`,
+for these processing units in the namespace hierarchy.`,
 		Exposed:   true,
 		Name:      "fallback",
 		Orderable: true,
@@ -1314,8 +1312,7 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		ConvertedName:  "Fallback",
 		Description: `If set to ` + "`" + `true` + "`" + `, this will be a fallback rule set that will only apply to the
 processing units in children namespaces if no other normal rule has been defined
-for
-these processing units in the namespace hierarchy.`,
+for these processing units in the namespace hierarchy.`,
 		Exposed:   true,
 		Name:      "fallback",
 		Orderable: true,
@@ -1587,8 +1584,7 @@ type SparseNetworkRuleSet struct {
 
 	// If set to `true`, this will be a fallback rule set that will only apply to the
 	// processing units in children namespaces if no other normal rule has been defined
-	// for
-	// these processing units in the namespace hierarchy.
+	// for these processing units in the namespace hierarchy.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"-" mapstructure:"fallback,omitempty"`
 
 	// The set of ingress rules that comprise this rule set.
