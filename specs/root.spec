@@ -268,6 +268,12 @@ relations:
   create:
     description: Creates a new enforcer.
 
+- rest_name: enforcerdefaultbehavior
+  get:
+    description: Returns the default enforcer behavior of the specified namespace.
+  create:
+    description: Modifies the default enforcer behavior of the specified namespace.
+
 - rest_name: enforcerlog
   get:
     description: Retrieves the list of enforcerlogs.

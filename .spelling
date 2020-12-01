@@ -49,6 +49,7 @@ DiscoveryMode
 Docker
 ECDSA
 Elasticsearch
+EnforcerDefaultBehavior
 EnforcerLog
 EnforcerProfile
 EnforcerProfileMappingPolicy

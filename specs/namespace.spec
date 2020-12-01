@@ -117,6 +117,18 @@ attributes:
     validations:
     - $semver
 
+  - name: enforcerDefaultBehavior
+    description: Describes the default communication behavior of an enforcer for this
+      namespace.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Allow
+    - Reject
+    - Inherit
+    default_value: Inherit
+
   - name: localCA
     description: The certificate authority used by this namespace.
     type: string

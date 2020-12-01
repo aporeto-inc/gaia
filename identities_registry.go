@@ -45,6 +45,7 @@ var (
 		"email":                  EmailIdentity,
 
 		"enforcer":                     EnforcerIdentity,
+		"enforcerdefaultbehavior":      EnforcerDefaultBehaviorIdentity,
 		"enforcerlog":                  EnforcerLogIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
@@ -205,6 +206,7 @@ var (
 		"emails":                 EmailIdentity,
 
 		"enforcers":                      EnforcerIdentity,
+		"enforcerdefaultbehavior":        EnforcerDefaultBehaviorIdentity,
 		"enforcerlog":                    EnforcerLogIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
@@ -577,6 +579,7 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
+		"enforcerdefaultbehavior": nil,
 		"enforcerlog": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1106,6 +1109,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewEmail()
 	case EnforcerIdentity:
 		return NewEnforcer()
+	case EnforcerDefaultBehaviorIdentity:
+		return NewEnforcerDefaultBehavior()
 	case EnforcerLogIdentity:
 		return NewEnforcerLog()
 	case EnforcerProfileIdentity:
@@ -1401,6 +1406,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseEmail()
 	case EnforcerIdentity:
 		return NewSparseEnforcer()
+	case EnforcerDefaultBehaviorIdentity:
+		return NewSparseEnforcerDefaultBehavior()
 	case EnforcerLogIdentity:
 		return NewSparseEnforcerLog()
 	case EnforcerProfileIdentity:
@@ -1704,6 +1711,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &EmailsList{}
 	case EnforcerIdentity:
 		return &EnforcersList{}
+	case EnforcerDefaultBehaviorIdentity:
+		return &EnforcerDefaultBehaviorsList{}
 	case EnforcerLogIdentity:
 		return &EnforcerLogsList{}
 	case EnforcerProfileIdentity:
@@ -1997,6 +2006,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseEmailsList{}
 	case EnforcerIdentity:
 		return &SparseEnforcersList{}
+	case EnforcerDefaultBehaviorIdentity:
+		return &SparseEnforcerDefaultBehaviorsList{}
 	case EnforcerLogIdentity:
 		return &SparseEnforcerLogsList{}
 	case EnforcerProfileIdentity:
@@ -2268,6 +2279,7 @@ func AllIdentities() []elemental.Identity {
 		DNSLookupReportIdentity,
 		EmailIdentity,
 		EnforcerIdentity,
+		EnforcerDefaultBehaviorIdentity,
 		EnforcerLogIdentity,
 		EnforcerProfileIdentity,
 		EnforcerProfileMappingPolicyIdentity,
@@ -2481,6 +2493,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"defender",
 		}
+	case EnforcerDefaultBehaviorIdentity:
+		return []string{}
 	case EnforcerLogIdentity:
 		return []string{}
 	case EnforcerProfileIdentity:

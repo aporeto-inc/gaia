@@ -4657,6 +4657,36 @@ Type: `string`
 
 The default enforcer version for the namespace.
 
+### EnforcerDefaultBehavior
+
+Returns the default enforcer behavior of the specified namespace.
+
+#### Example
+
+```json
+{
+  "behavior": "Allow"
+}
+```
+
+#### Relations
+
+##### `GET /enforcerdefaultbehavior`
+
+Returns the default enforcer behavior of the specified namespace.
+
+##### `POST /enforcerdefaultbehavior`
+
+Modifies the default enforcer behavior of the specified namespace.
+
+#### Attributes
+
+##### `behavior`
+
+Type: `enum(Allow | Reject | Inherit)`
+
+The default enforcer behavior for the namespace.
+
 ### LocalCA
 
 Can be used to retrieve or renew the local and SSH certificate authorities of
@@ -4721,6 +4751,7 @@ applications, services or any combination you like.
   "JWTCertificateType": "None",
   "SSHCAEnabled": false,
   "customZoning": false,
+  "enforcerDefaultBehavior": "Inherit",
   "localCAEnabled": false,
   "name": "mynamespace",
   "protected": false,
@@ -4865,6 +4896,18 @@ Indicates the default enforcer version for this namespace.
 Type: `string`
 
 Description of the object.
+
+##### `enforcerDefaultBehavior`
+
+Type: `enum(Allow | Reject | Inherit)`
+
+Describes the default communication behavior of an enforcer for this namespace.
+
+Default value:
+
+```json
+"Inherit"
+```
 
 ##### `localCAEnabled`
 
