@@ -182,6 +182,15 @@ attributes:
     validations:
     - $timeDuration
 
+  - name: tagPrefixes
+    description: |-
+      List of tag prefixes that will be used to suggest policies. Only these tags will
+      be transmitted on the wire.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+
   - name: type
     description: |-
       The type defines the purpose of the namespace:

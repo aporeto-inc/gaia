@@ -206,6 +206,10 @@ type Namespace struct {
 	// This flag is deprecated and has no incidence.
 	ServiceCertificateValidity string `json:"serviceCertificateValidity" msgpack:"serviceCertificateValidity" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
 
+	// List of tag prefixes that will be used to suggest policies. Only these tags will
+	// be transmitted on the wire.
+	TagPrefixes []string `json:"tagPrefixes" msgpack:"tagPrefixes" bson:"tagprefixes" mapstructure:"tagPrefixes,omitempty"`
+
 	// The type defines the purpose of the namespace:
 	// - `Default`: A universal namespace that is capable of all actions and views.
 	// - `Tenant`: A namespace that houses a tenant (e.g. ACME).
@@ -245,14 +249,15 @@ func NewNamespace() *Namespace {
 		ModelVersion:               1,
 		AssociatedTags:             []string{},
 		Annotations:                map[string][]string{},
-		NetworkAccessPolicyTags:    []string{},
+		Metadata:                   []string{},
 		NormalizedTags:             []string{},
 		OrganizationalMetadata:     []string{},
-		JWTCertificateType:         NamespaceJWTCertificateTypeNone,
-		ServiceCertificateValidity: "168h",
-		MigrationsLog:              map[string]string{},
 		JWTCertificates:            map[string]string{},
-		Metadata:                   []string{},
+		ServiceCertificateValidity: "168h",
+		TagPrefixes:                []string{},
+		NetworkAccessPolicyTags:    []string{},
+		JWTCertificateType:         NamespaceJWTCertificateTypeNone,
+		MigrationsLog:              map[string]string{},
 		Type:                       NamespaceTypeDefault,
 	}
 }
@@ -312,6 +317,7 @@ func (o *Namespace) GetBSON() (interface{}, error) {
 	s.OrganizationalMetadata = o.OrganizationalMetadata
 	s.Protected = o.Protected
 	s.ServiceCertificateValidity = o.ServiceCertificateValidity
+	s.TagPrefixes = o.TagPrefixes
 	s.Type = o.Type
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
@@ -360,6 +366,7 @@ func (o *Namespace) SetBSON(raw bson.Raw) error {
 	o.OrganizationalMetadata = s.OrganizationalMetadata
 	o.Protected = s.Protected
 	o.ServiceCertificateValidity = s.ServiceCertificateValidity
+	o.TagPrefixes = s.TagPrefixes
 	o.Type = s.Type
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
@@ -628,6 +635,7 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			OrganizationalMetadata:     &o.OrganizationalMetadata,
 			Protected:                  &o.Protected,
 			ServiceCertificateValidity: &o.ServiceCertificateValidity,
+			TagPrefixes:                &o.TagPrefixes,
 			Type:                       &o.Type,
 			UpdateIdempotencyKey:       &o.UpdateIdempotencyKey,
 			UpdateTime:                 &o.UpdateTime,
@@ -690,6 +698,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protected = &(o.Protected)
 		case "serviceCertificateValidity":
 			sp.ServiceCertificateValidity = &(o.ServiceCertificateValidity)
+		case "tagPrefixes":
+			sp.TagPrefixes = &(o.TagPrefixes)
 		case "type":
 			sp.Type = &(o.Type)
 		case "updateIdempotencyKey":
@@ -789,6 +799,9 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ServiceCertificateValidity != nil {
 		o.ServiceCertificateValidity = *so.ServiceCertificateValidity
+	}
+	if so.TagPrefixes != nil {
+		o.TagPrefixes = *so.TagPrefixes
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
@@ -968,6 +981,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "serviceCertificateValidity":
 		return o.ServiceCertificateValidity
+	case "tagPrefixes":
+		return o.TagPrefixes
 	case "type":
 		return o.Type
 	case "updateIdempotencyKey":
@@ -1315,6 +1330,18 @@ networks, enforcers) during their creation.`,
 		Name:           "serviceCertificateValidity",
 		Stored:         true,
 		Type:           "string",
+	},
+	"TagPrefixes": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "tagprefixes",
+		ConvertedName:  "TagPrefixes",
+		Description: `List of tag prefixes that will be used to suggest policies. Only these tags will
+be transmitted on the wire.`,
+		Exposed: true,
+		Name:    "tagPrefixes",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"Type": {
 		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "HostGroup", "KubernetesClusterGroup", "Kubernetes"},
@@ -1740,6 +1767,18 @@ networks, enforcers) during their creation.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"tagprefixes": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "tagprefixes",
+		ConvertedName:  "TagPrefixes",
+		Description: `List of tag prefixes that will be used to suggest policies. Only these tags will
+be transmitted on the wire.`,
+		Exposed: true,
+		Name:    "tagPrefixes",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
+	},
 	"type": {
 		AllowedChoices: []string{"Default", "Tenant", "CloudAccount", "HostGroup", "KubernetesClusterGroup", "Kubernetes"},
 		BSONFieldName:  "type",
@@ -1984,6 +2023,10 @@ type SparseNamespace struct {
 	// This flag is deprecated and has no incidence.
 	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" msgpack:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity,omitempty" mapstructure:"serviceCertificateValidity,omitempty"`
 
+	// List of tag prefixes that will be used to suggest policies. Only these tags will
+	// be transmitted on the wire.
+	TagPrefixes *[]string `json:"tagPrefixes,omitempty" msgpack:"tagPrefixes,omitempty" bson:"tagprefixes,omitempty" mapstructure:"tagPrefixes,omitempty"`
+
 	// The type defines the purpose of the namespace:
 	// - `Default`: A universal namespace that is capable of all actions and views.
 	// - `Tenant`: A namespace that houses a tenant (e.g. ACME).
@@ -2131,6 +2174,9 @@ func (o *SparseNamespace) GetBSON() (interface{}, error) {
 	if o.ServiceCertificateValidity != nil {
 		s.ServiceCertificateValidity = o.ServiceCertificateValidity
 	}
+	if o.TagPrefixes != nil {
+		s.TagPrefixes = o.TagPrefixes
+	}
 	if o.Type != nil {
 		s.Type = o.Type
 	}
@@ -2240,6 +2286,9 @@ func (o *SparseNamespace) SetBSON(raw bson.Raw) error {
 	if s.ServiceCertificateValidity != nil {
 		o.ServiceCertificateValidity = s.ServiceCertificateValidity
 	}
+	if s.TagPrefixes != nil {
+		o.TagPrefixes = s.TagPrefixes
+	}
 	if s.Type != nil {
 		o.Type = s.Type
 	}
@@ -2346,6 +2395,9 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ServiceCertificateValidity != nil {
 		out.ServiceCertificateValidity = *o.ServiceCertificateValidity
+	}
+	if o.TagPrefixes != nil {
+		out.TagPrefixes = *o.TagPrefixes
 	}
 	if o.Type != nil {
 		out.Type = *o.Type
@@ -2675,6 +2727,7 @@ type mongoAttributesNamespace struct {
 	OrganizationalMetadata     []string                         `bson:"organizationalmetadata"`
 	Protected                  bool                             `bson:"protected"`
 	ServiceCertificateValidity string                           `bson:"servicecertificatevalidity"`
+	TagPrefixes                []string                         `bson:"tagprefixes"`
 	Type                       NamespaceTypeValue               `bson:"type"`
 	UpdateIdempotencyKey       string                           `bson:"updateidempotencykey"`
 	UpdateTime                 time.Time                        `bson:"updatetime"`
@@ -2708,6 +2761,7 @@ type mongoAttributesSparseNamespace struct {
 	OrganizationalMetadata     *[]string                         `bson:"organizationalmetadata,omitempty"`
 	Protected                  *bool                             `bson:"protected,omitempty"`
 	ServiceCertificateValidity *string                           `bson:"servicecertificatevalidity,omitempty"`
+	TagPrefixes                *[]string                         `bson:"tagprefixes,omitempty"`
 	Type                       *NamespaceTypeValue               `bson:"type,omitempty"`
 	UpdateIdempotencyKey       *string                           `bson:"updateidempotencykey,omitempty"`
 	UpdateTime                 *time.Time                        `bson:"updatetime,omitempty"`

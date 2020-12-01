@@ -145,6 +145,7 @@ var (
 		"suggestedpolicy":        SuggestedPolicyIdentity,
 		"tag":                    TagIdentity,
 		"taginject":              TagInjectIdentity,
+		"tagprefixes":            TagPrefixesIdentity,
 		"tagvalue":               TagValueIdentity,
 		"tenant":                 TenantIdentity,
 		"textindex":              TextIndexIdentity,
@@ -305,6 +306,7 @@ var (
 		"suggestedpolicies":        SuggestedPolicyIdentity,
 		"tags":                     TagIdentity,
 		"taginjects":               TagInjectIdentity,
+		"tagprefixes":              TagPrefixesIdentity,
 		"tagvalues":                TagValueIdentity,
 		"tenants":                  TenantIdentity,
 		"textindexes":              TextIndexIdentity,
@@ -950,9 +952,10 @@ var (
 			{"namespace"},
 			{"namespace", "normalizedTags"},
 		},
-		"taginject": nil,
-		"tagvalue":  nil,
-		"tenant":    nil,
+		"taginject":   nil,
+		"tagprefixes": nil,
+		"tagvalue":    nil,
+		"tenant":      nil,
 		"textindex": {
 			{"objectNamespace"},
 			{"objectNamespace", "objectIdentity", "objectID"},
@@ -1292,6 +1295,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewTag()
 	case TagInjectIdentity:
 		return NewTagInject()
+	case TagPrefixesIdentity:
+		return NewTagPrefixes()
 	case TagValueIdentity:
 		return NewTagValue()
 	case TenantIdentity:
@@ -1585,6 +1590,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseTag()
 	case TagInjectIdentity:
 		return NewSparseTagInject()
+	case TagPrefixesIdentity:
+		return NewSparseTagPrefixes()
 	case TagValueIdentity:
 		return NewSparseTagValue()
 	case TenantIdentity:
@@ -1888,6 +1895,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &TagsList{}
 	case TagInjectIdentity:
 		return &TagInjectsList{}
+	case TagPrefixesIdentity:
+		return &TagPrefixesList{}
 	case TagValueIdentity:
 		return &TagValuesList{}
 	case TenantIdentity:
@@ -2181,6 +2190,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseTagsList{}
 	case TagInjectIdentity:
 		return &SparseTagInjectsList{}
+	case TagPrefixesIdentity:
+		return &SparseTagPrefixesList{}
 	case TagValueIdentity:
 		return &SparseTagValuesList{}
 	case TenantIdentity:
@@ -2361,6 +2372,7 @@ func AllIdentities() []elemental.Identity {
 		SuggestedPolicyIdentity,
 		TagIdentity,
 		TagInjectIdentity,
+		TagPrefixesIdentity,
 		TagValueIdentity,
 		TenantIdentity,
 		TextIndexIdentity,
@@ -2771,6 +2783,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case TagIdentity:
 		return []string{}
 	case TagInjectIdentity:
+		return []string{}
+	case TagPrefixesIdentity:
 		return []string{}
 	case TagValueIdentity:
 		return []string{}

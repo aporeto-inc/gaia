@@ -200,6 +200,7 @@ TimeSeriesQueryResults
 TimeSeriesRow
 Timestamp
 timestamp
+TagPrefixes
 TLSType
 TokenEndpointAuthMethodsSupported
 TokenScopePolicy
