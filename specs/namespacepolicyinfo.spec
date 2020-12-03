@@ -14,7 +14,7 @@ attributes:
     description: The default enforcer behavior for the namespace.
     type: enum
     exposed: true
-    stored: true
+    read_only: true
     allowed_choices:
     - Allow
     - Reject
@@ -25,4 +25,4 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    stored: true
+    read_only: true

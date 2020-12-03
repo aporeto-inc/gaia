@@ -649,8 +649,6 @@ relations:
 - rest_name: namespacepolicyinfo
   get:
     description: Returns the policy info of the specified namespace.
-  create:
-    description: Modifies the policy info of the specified namespace.
 
 - rest_name: namespacerenderer
   create:

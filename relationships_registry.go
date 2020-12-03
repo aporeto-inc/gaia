@@ -2927,9 +2927,6 @@ func init() {
 	}
 
 	relationshipsRegistry[NamespacePolicyInfoIdentity] = &elemental.Relationship{
-		Create: map[string]*elemental.RelationshipInfo{
-			"root": {},
-		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},

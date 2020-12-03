@@ -5154,19 +5154,15 @@ Returns the policy info of the specified namespace.
 
 Returns the policy info of the specified namespace.
 
-##### `POST /namespacepolicyinfo`
-
-Modifies the policy info of the specified namespace.
-
 #### Attributes
 
-##### `behavior`
+##### `behavior` [`read_only`]
 
 Type: `enum(Allow | Reject | Inherit)`
 
 The default enforcer behavior for the namespace.
 
-##### `prefixes`
+##### `prefixes` [`read_only`]
 
 Type: `[]string`
 

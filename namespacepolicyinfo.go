@@ -95,10 +95,10 @@ func (o NamespacePolicyInfosList) Version() int {
 // NamespacePolicyInfo represents the model of a namespacepolicyinfo
 type NamespacePolicyInfo struct {
 	// The default enforcer behavior for the namespace.
-	Behavior NamespacePolicyInfoBehaviorValue `json:"behavior" msgpack:"behavior" bson:"behavior" mapstructure:"behavior,omitempty"`
+	Behavior NamespacePolicyInfoBehaviorValue `json:"behavior" msgpack:"behavior" bson:"-" mapstructure:"behavior,omitempty"`
 
 	// List of tag prefixes that will be used to suggest policies.
-	Prefixes []string `json:"prefixes" msgpack:"prefixes" bson:"prefixes" mapstructure:"prefixes,omitempty"`
+	Prefixes []string `json:"prefixes" msgpack:"prefixes" bson:"-" mapstructure:"prefixes,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -139,9 +139,6 @@ func (o *NamespacePolicyInfo) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesNamespacePolicyInfo{}
 
-	s.Behavior = o.Behavior
-	s.Prefixes = o.Prefixes
-
 	return s, nil
 }
 
@@ -157,9 +154,6 @@ func (o *NamespacePolicyInfo) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
-
-	o.Behavior = s.Behavior
-	o.Prefixes = s.Prefixes
 
 	return nil
 }
@@ -314,22 +308,20 @@ func (o *NamespacePolicyInfo) ValueForAttribute(name string) interface{} {
 var NamespacePolicyInfoAttributesMap = map[string]elemental.AttributeSpecification{
 	"Behavior": {
 		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
-		BSONFieldName:  "behavior",
 		ConvertedName:  "Behavior",
 		Description:    `The default enforcer behavior for the namespace.`,
 		Exposed:        true,
 		Name:           "behavior",
-		Stored:         true,
+		ReadOnly:       true,
 		Type:           "enum",
 	},
 	"Prefixes": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "prefixes",
 		ConvertedName:  "Prefixes",
 		Description:    `List of tag prefixes that will be used to suggest policies.`,
 		Exposed:        true,
 		Name:           "prefixes",
-		Stored:         true,
+		ReadOnly:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -339,22 +331,20 @@ var NamespacePolicyInfoAttributesMap = map[string]elemental.AttributeSpecificati
 var NamespacePolicyInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"behavior": {
 		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
-		BSONFieldName:  "behavior",
 		ConvertedName:  "Behavior",
 		Description:    `The default enforcer behavior for the namespace.`,
 		Exposed:        true,
 		Name:           "behavior",
-		Stored:         true,
+		ReadOnly:       true,
 		Type:           "enum",
 	},
 	"prefixes": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "prefixes",
 		ConvertedName:  "Prefixes",
 		Description:    `List of tag prefixes that will be used to suggest policies.`,
 		Exposed:        true,
 		Name:           "prefixes",
-		Stored:         true,
+		ReadOnly:       true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -424,10 +414,10 @@ func (o SparseNamespacePolicyInfosList) Version() int {
 // SparseNamespacePolicyInfo represents the sparse version of a namespacepolicyinfo.
 type SparseNamespacePolicyInfo struct {
 	// The default enforcer behavior for the namespace.
-	Behavior *NamespacePolicyInfoBehaviorValue `json:"behavior,omitempty" msgpack:"behavior,omitempty" bson:"behavior,omitempty" mapstructure:"behavior,omitempty"`
+	Behavior *NamespacePolicyInfoBehaviorValue `json:"behavior,omitempty" msgpack:"behavior,omitempty" bson:"-" mapstructure:"behavior,omitempty"`
 
 	// List of tag prefixes that will be used to suggest policies.
-	Prefixes *[]string `json:"prefixes,omitempty" msgpack:"prefixes,omitempty" bson:"prefixes,omitempty" mapstructure:"prefixes,omitempty"`
+	Prefixes *[]string `json:"prefixes,omitempty" msgpack:"prefixes,omitempty" bson:"-" mapstructure:"prefixes,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -464,13 +454,6 @@ func (o *SparseNamespacePolicyInfo) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseNamespacePolicyInfo{}
 
-	if o.Behavior != nil {
-		s.Behavior = o.Behavior
-	}
-	if o.Prefixes != nil {
-		s.Prefixes = o.Prefixes
-	}
-
 	return s, nil
 }
 
@@ -485,13 +468,6 @@ func (o *SparseNamespacePolicyInfo) SetBSON(raw bson.Raw) error {
 	s := &mongoAttributesSparseNamespacePolicyInfo{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
-	}
-
-	if s.Behavior != nil {
-		o.Behavior = s.Behavior
-	}
-	if s.Prefixes != nil {
-		o.Prefixes = s.Prefixes
 	}
 
 	return nil
@@ -542,10 +518,6 @@ func (o *SparseNamespacePolicyInfo) DeepCopyInto(out *SparseNamespacePolicyInfo)
 }
 
 type mongoAttributesNamespacePolicyInfo struct {
-	Behavior NamespacePolicyInfoBehaviorValue `bson:"behavior"`
-	Prefixes []string                         `bson:"prefixes"`
 }
 type mongoAttributesSparseNamespacePolicyInfo struct {
-	Behavior *NamespacePolicyInfoBehaviorValue `bson:"behavior,omitempty"`
-	Prefixes *[]string                         `bson:"prefixes,omitempty"`
 }
