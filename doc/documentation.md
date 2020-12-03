@@ -4721,6 +4721,7 @@ applications, services or any combination you like.
   "JWTCertificateType": "None",
   "SSHCAEnabled": false,
   "customZoning": false,
+  "enforcerDefaultBehavior": "Inherit",
   "localCAEnabled": false,
   "name": "mynamespace",
   "protected": false,
@@ -4865,6 +4866,18 @@ Indicates the default enforcer version for this namespace.
 Type: `string`
 
 Description of the object.
+
+##### `enforcerDefaultBehavior`
+
+Type: `enum(Allow | Reject | Inherit)`
+
+Describes the default communication behavior of an enforcer for this namespace.
+
+Default value:
+
+```json
+"Inherit"
+```
 
 ##### `localCAEnabled`
 
@@ -5123,6 +5136,42 @@ Type: `time`
 
 Last update date of the object.
 
+### NamespacePolicyInfo
+
+Returns the policy info of the specified namespace.
+
+#### Example
+
+```json
+{
+  "behavior": "Allow"
+}
+```
+
+#### Relations
+
+##### `GET /namespacepolicyinfo`
+
+Returns the policy info of the specified namespace.
+
+##### `POST /namespacepolicyinfo`
+
+Modifies the policy info of the specified namespace.
+
+#### Attributes
+
+##### `behavior`
+
+Type: `enum(Allow | Reject | Inherit)`
+
+The default enforcer behavior for the namespace.
+
+##### `prefixes`
+
+Type: `[]string`
+
+List of tag prefixes that will be used to suggest policies.
+
 ### NamespaceRenderer
 
 This object allows you to determine which namespace an object should reside in
@@ -5201,28 +5250,6 @@ List of organizational metadata for the namespace.
 Type: `string`
 
 Namespace tag attached to an entity.
-
-### TagPrefixes
-
-Returns the tag prefixes of the specified namespace.
-
-#### Relations
-
-##### `GET /tagprefixes`
-
-Returns the tag prefixes of the specified namespace.
-
-##### `POST /tagprefixes`
-
-Modifies the tag prefixes of the specified namespace.
-
-#### Attributes
-
-##### `prefixes`
-
-Type: `[]string`
-
-List of tag prefixes that will be used to suggest policies.
 
 ## core/policy
 

@@ -113,6 +113,7 @@ MongoDB
 multipart
 namespace
 NamespaceMappingPolicy
+NamespacePolicyInfo
 NamespaceRenderer
 NamespaceType
 NamespaceUnique
@@ -200,7 +201,6 @@ TimeSeriesQueryResults
 TimeSeriesRow
 Timestamp
 timestamp
-TagPrefixes
 TLSType
 TokenEndpointAuthMethodsSupported
 TokenScopePolicy

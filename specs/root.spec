@@ -646,6 +646,12 @@ relations:
   create:
     description: Creates a new namespace mapping.
 
+- rest_name: namespacepolicyinfo
+  get:
+    description: Returns the policy info of the specified namespace.
+  create:
+    description: Modifies the policy info of the specified namespace.
+
 - rest_name: namespacerenderer
   create:
     description: Renders the namespace where an object should reside.
@@ -946,12 +952,6 @@ relations:
 - rest_name: taginject
   create:
     description: Internal API to inject tags.
-
-- rest_name: tagprefixes
-  get:
-    description: Returns the tag prefixes of the specified namespace.
-  create:
-    description: Modifies the tag prefixes of the specified namespace.
 
 - rest_name: tagvalue
   get:
