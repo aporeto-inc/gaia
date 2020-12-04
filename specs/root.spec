@@ -219,6 +219,8 @@ relations:
 - rest_name: defaultenforcerversion
   get:
     description: Returns the default enforcer version of the specified namespace.
+  create:
+    description: Modify the default enforcer version of the specified namespace.
 
 - rest_name: dependencymap
   get:
@@ -643,6 +645,10 @@ relations:
     - $filtering
   create:
     description: Creates a new namespace mapping.
+
+- rest_name: namespacepolicyinfo
+  get:
+    description: Returns the policy info of the specified namespace.
 
 - rest_name: namespacerenderer
   create:

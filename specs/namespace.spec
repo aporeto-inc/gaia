@@ -117,6 +117,18 @@ attributes:
     validations:
     - $semver
 
+  - name: enforcerDefaultBehavior
+    description: Describes the default communication behavior of an enforcer for this
+      namespace.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Allow
+    - Reject
+    - Inherit
+    default_value: Inherit
+
   - name: localCA
     description: The certificate authority used by this namespace.
     type: string
@@ -181,6 +193,15 @@ attributes:
     deprecated: true
     validations:
     - $timeDuration
+
+  - name: tagPrefixes
+    description: |-
+      List of tag prefixes that will be used to suggest policies. Only these tags will
+      be transmitted on the wire.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
 
   - name: type
     description: |-

@@ -89,6 +89,7 @@ var (
 		"metrics":                MetricsIdentity,
 		"namespace":              NamespaceIdentity,
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
+		"namespacepolicyinfo":    NamespacePolicyInfoIdentity,
 		"namespacerenderer":      NamespaceRendererIdentity,
 		"namespacetype":          NamespaceTypeIdentity,
 		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
@@ -251,6 +252,7 @@ var (
 		"metrics":                  MetricsIdentity,
 		"namespaces":               NamespaceIdentity,
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
+		"namespacepolicyinfo":      NamespacePolicyInfoIdentity,
 		"namespacerenderers":       NamespaceRendererIdentity,
 		"namespacetypes":           NamespaceTypeIdentity,
 		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
@@ -792,6 +794,7 @@ var (
 			{"createIdempotencyKey"},
 		},
 		"namespacemappingpolicy": nil,
+		"namespacepolicyinfo":    nil,
 		"namespacerenderer":      nil,
 		"namespacetype":          nil,
 		"networkaccesspolicy":    nil,
@@ -1197,6 +1200,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewNamespace()
 	case NamespaceMappingPolicyIdentity:
 		return NewNamespaceMappingPolicy()
+	case NamespacePolicyInfoIdentity:
+		return NewNamespacePolicyInfo()
 	case NamespaceRendererIdentity:
 		return NewNamespaceRenderer()
 	case NamespaceTypeIdentity:
@@ -1494,6 +1499,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseNamespace()
 	case NamespaceMappingPolicyIdentity:
 		return NewSparseNamespaceMappingPolicy()
+	case NamespacePolicyInfoIdentity:
+		return NewSparseNamespacePolicyInfo()
 	case NamespaceRendererIdentity:
 		return NewSparseNamespaceRenderer()
 	case NamespaceTypeIdentity:
@@ -1799,6 +1806,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &NamespacesList{}
 	case NamespaceMappingPolicyIdentity:
 		return &NamespaceMappingPoliciesList{}
+	case NamespacePolicyInfoIdentity:
+		return &NamespacePolicyInfosList{}
 	case NamespaceRendererIdentity:
 		return &NamespaceRenderersList{}
 	case NamespaceTypeIdentity:
@@ -2094,6 +2103,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseNamespacesList{}
 	case NamespaceMappingPolicyIdentity:
 		return &SparseNamespaceMappingPoliciesList{}
+	case NamespacePolicyInfoIdentity:
+		return &SparseNamespacePolicyInfosList{}
 	case NamespaceRendererIdentity:
 		return &SparseNamespaceRenderersList{}
 	case NamespaceTypeIdentity:
@@ -2325,6 +2336,7 @@ func AllIdentities() []elemental.Identity {
 		MetricsIdentity,
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
+		NamespacePolicyInfoIdentity,
 		NamespaceRendererIdentity,
 		NamespaceTypeIdentity,
 		NetworkAccessPolicyIdentity,
@@ -2636,6 +2648,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"nsmap",
 			"nsmaps",
 		}
+	case NamespacePolicyInfoIdentity:
+		return []string{}
 	case NamespaceRendererIdentity:
 		return []string{
 			"nsrenderer",

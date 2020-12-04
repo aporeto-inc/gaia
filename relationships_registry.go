@@ -824,6 +824,9 @@ func init() {
 	}
 
 	relationshipsRegistry[DefaultEnforcerVersionIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -2920,6 +2923,15 @@ func init() {
 					},
 				},
 			},
+		},
+	}
+
+	relationshipsRegistry[NamespacePolicyInfoIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {},
 		},
 	}
 
