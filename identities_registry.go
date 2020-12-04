@@ -387,8 +387,8 @@ var (
 		"nsrenderer":     NamespaceRendererIdentity,
 		"netpol":         NetworkAccessPolicyIdentity,
 		"netpols":        NetworkAccessPolicyIdentity,
-		"netpol":         NetworkRuleSetIdentity,
-		"netpols":        NetworkRuleSetIdentity,
+		"netruleset":     NetworkRuleSetIdentity,
+		"netset":         NetworkRuleSetIdentity,
 		"om":             OrganizationalMetadataIdentity,
 		"polgraph":       PolicyGraphIdentity,
 		"pu":             ProcessingUnitIdentity,
@@ -2663,8 +2663,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case NetworkRuleSetIdentity:
 		return []string{
-			"netpol",
-			"netpols",
+			"netruleset",
+			"netset",
 		}
 	case OAUTHInfoIdentity:
 		return []string{}

@@ -10,8 +10,8 @@ model:
     identified by their tags to talk to other processing units or external networks
     (also identified by their tags).
   aliases:
-  - netpol
-  - netpols
+  - netruleset
+  - netset
   get:
     description: Retrieves the policy with the given ID.
     global_parameters:
@@ -32,9 +32,6 @@ model:
   - '@named'
   - '@propagated'
   - '@fallback'
-  - '@schedulable'
-  - '@negatable-object'
-  - '@negatable-subject'
   - '@timeable'
 
 # Indexes
@@ -50,30 +47,13 @@ attributes:
     exposed: true
     subtype: networkrule
 
-  - name: expirationTime
-    description: If set the policy will be automatically deleted after the given time.
-    type: time
-    exposed: true
-    stored: true
-    getter: true
-    setter: true
-
-  - name: fallback
-    description: |-
-      If set to `true`, this will be a fallback rule set that will only apply to the
-      processing units in children namespaces if no other normal rule has been defined
-      for these processing units in the namespace hierarchy.
-    type: boolean
-    exposed: true
-    orderable: true
-
   - name: ingressRules
     description: The set of ingress rules that comprise this rule set.
     type: list
     exposed: true
     subtype: networkrule
 
-  - name: resourceSelector
+  - name: selector
     description: |-
       A tag or tag expression identifying the set of workloads where this policy
       applies to.

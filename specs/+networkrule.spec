@@ -23,7 +23,6 @@ attributes:
     allowed_choices:
     - Allow
     - Reject
-    - Continue
     default_value: Allow
     orderable: true
 
@@ -54,7 +53,7 @@ attributes:
     validations:
     - $serviceports
 
-  - name: remoteResourceSelector
+  - name: selector
     description: |-
       Identifies the set of remote workloads that the rule relates to. The selector
       will identify both processing units as well as external networks that match the

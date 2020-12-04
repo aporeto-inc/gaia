@@ -15,9 +15,6 @@ const (
 	// NetworkRuleActionAllow represents the value Allow.
 	NetworkRuleActionAllow NetworkRuleActionValue = "Allow"
 
-	// NetworkRuleActionContinue represents the value Continue.
-	NetworkRuleActionContinue NetworkRuleActionValue = "Continue"
-
 	// NetworkRuleActionReject represents the value Reject.
 	NetworkRuleActionReject NetworkRuleActionValue = "Reject"
 )
@@ -45,7 +42,7 @@ type NetworkRule struct {
 	// Identifies the set of remote workloads that the rule relates to. The selector
 	// will identify both processing units as well as external networks that match the
 	// selector.
-	RemoteResourceSelector [][]string `json:"remoteResourceSelector" msgpack:"remoteResourceSelector" bson:"-" mapstructure:"remoteResourceSelector,omitempty"`
+	Selector [][]string `json:"selector" msgpack:"selector" bson:"-" mapstructure:"selector,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -54,12 +51,12 @@ type NetworkRule struct {
 func NewNetworkRule() *NetworkRule {
 
 	return &NetworkRule{
-		ModelVersion:           1,
-		Action:                 NetworkRuleActionAllow,
-		Networks:               []string{},
-		ObservationEnabled:     false,
-		ProtocolPorts:          []string{},
-		RemoteResourceSelector: [][]string{},
+		ModelVersion:       1,
+		Action:             NetworkRuleActionAllow,
+		Networks:           []string{},
+		ObservationEnabled: false,
+		ProtocolPorts:      []string{},
+		Selector:           [][]string{},
 	}
 }
 
@@ -132,7 +129,7 @@ func (o *NetworkRule) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Allow", "Reject", "Continue"}, false); err != nil {
+	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Allow", "Reject"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -140,7 +137,7 @@ func (o *NetworkRule) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateTagsExpression("remoteResourceSelector", o.RemoteResourceSelector); err != nil {
+	if err := ValidateTagsExpression("selector", o.Selector); err != nil {
 		errors = errors.Append(err)
 	}
 

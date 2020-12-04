@@ -86,14 +86,6 @@ type NetworkRuleSet struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Defines for how long the policy will be active according to the
-	// `activeSchedule`.
-	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
-
-	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `activeDuration`.
-	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
-
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
@@ -115,13 +107,10 @@ type NetworkRuleSet struct {
 	// The set of egress rules that comprise this rule set.
 	EgressRules []networkrule `json:"egressRules" msgpack:"egressRules" bson:"-" mapstructure:"egressRules,omitempty"`
 
-	// If set the policy will be automatically deleted after the given time.
-	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
-
-	// If set to `true`, this will be a fallback rule set that will only apply to the
-	// processing units in children namespaces if no other normal rule has been defined
-	// for these processing units in the namespace hierarchy.
-	Fallback bool `json:"fallback" msgpack:"fallback" bson:"-" mapstructure:"fallback,omitempty"`
+	// Indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
 	// The set of ingress rules that comprise this rule set.
 	IngressRules []networkrule `json:"ingressRules" msgpack:"ingressRules" bson:"-" mapstructure:"ingressRules,omitempty"`
@@ -136,12 +125,6 @@ type NetworkRuleSet struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Setting this to `true` will invert the object to find what is not matching.
-	NegateObject bool `json:"negateObject" msgpack:"negateObject" bson:"negateobject" mapstructure:"negateObject,omitempty"`
-
-	// Setting this to `true` will invert the subject to find what is not matching.
-	NegateSubject bool `json:"negateSubject" msgpack:"negateSubject" bson:"negatesubject" mapstructure:"negateSubject,omitempty"`
-
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
@@ -153,7 +136,7 @@ type NetworkRuleSet struct {
 
 	// A tag or tag expression identifying the set of workloads where this policy
 	// applies to.
-	ResourceSelector [][]string `json:"resourceSelector" msgpack:"resourceSelector" bson:"-" mapstructure:"resourceSelector,omitempty"`
+	Selector [][]string `json:"selector" msgpack:"selector" bson:"-" mapstructure:"selector,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -168,14 +151,14 @@ type NetworkRuleSet struct {
 func NewNetworkRuleSet() *NetworkRuleSet {
 
 	return &NetworkRuleSet{
-		ModelVersion:     1,
-		Annotations:      map[string][]string{},
-		AssociatedTags:   []string{},
-		EgressRules:      []networkrule{},
-		IngressRules:     []networkrule{},
-		Metadata:         []string{},
-		NormalizedTags:   []string{},
-		ResourceSelector: [][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		EgressRules:    []networkrule{},
+		IngressRules:   []networkrule{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
+		Selector:       [][]string{},
 	}
 }
 
@@ -207,20 +190,16 @@ func (o *NetworkRuleSet) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesNetworkRuleSet{}
 
-	s.ActiveDuration = o.ActiveDuration
-	s.ActiveSchedule = o.ActiveSchedule
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
 	s.Description = o.Description
 	s.Disabled = o.Disabled
-	s.ExpirationTime = o.ExpirationTime
+	s.Fallback = o.Fallback
 	s.Metadata = o.Metadata
 	s.Name = o.Name
 	s.Namespace = o.Namespace
-	s.NegateObject = o.NegateObject
-	s.NegateSubject = o.NegateSubject
 	s.NormalizedTags = o.NormalizedTags
 	s.Propagate = o.Propagate
 	s.Protected = o.Protected
@@ -243,20 +222,16 @@ func (o *NetworkRuleSet) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
-	o.ActiveDuration = s.ActiveDuration
-	o.ActiveSchedule = s.ActiveSchedule
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
 	o.Description = s.Description
 	o.Disabled = s.Disabled
-	o.ExpirationTime = s.ExpirationTime
+	o.Fallback = s.Fallback
 	o.Metadata = s.Metadata
 	o.Name = s.Name
 	o.Namespace = s.Namespace
-	o.NegateObject = s.NegateObject
-	o.NegateSubject = s.NegateSubject
 	o.NormalizedTags = s.NormalizedTags
 	o.Propagate = s.Propagate
 	o.Protected = s.Protected
@@ -297,30 +272,6 @@ identified by their tags to talk to other processing units or external networks
 func (o *NetworkRuleSet) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
-}
-
-// GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *NetworkRuleSet) GetActiveDuration() string {
-
-	return o.ActiveDuration
-}
-
-// SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
-func (o *NetworkRuleSet) SetActiveDuration(activeDuration string) {
-
-	o.ActiveDuration = activeDuration
-}
-
-// GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *NetworkRuleSet) GetActiveSchedule() string {
-
-	return o.ActiveSchedule
-}
-
-// SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
-func (o *NetworkRuleSet) SetActiveSchedule(activeSchedule string) {
-
-	o.ActiveSchedule = activeSchedule
 }
 
 // GetAnnotations returns the Annotations of the receiver.
@@ -395,16 +346,16 @@ func (o *NetworkRuleSet) SetDisabled(disabled bool) {
 	o.Disabled = disabled
 }
 
-// GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *NetworkRuleSet) GetExpirationTime() time.Time {
+// GetFallback returns the Fallback of the receiver.
+func (o *NetworkRuleSet) GetFallback() bool {
 
-	return o.ExpirationTime
+	return o.Fallback
 }
 
-// SetExpirationTime sets the property ExpirationTime of the receiver using the given value.
-func (o *NetworkRuleSet) SetExpirationTime(expirationTime time.Time) {
+// SetFallback sets the property Fallback of the receiver using the given value.
+func (o *NetworkRuleSet) SetFallback(fallback bool) {
 
-	o.ExpirationTime = expirationTime
+	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
@@ -441,30 +392,6 @@ func (o *NetworkRuleSet) GetNamespace() string {
 func (o *NetworkRuleSet) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
-}
-
-// GetNegateObject returns the NegateObject of the receiver.
-func (o *NetworkRuleSet) GetNegateObject() bool {
-
-	return o.NegateObject
-}
-
-// SetNegateObject sets the property NegateObject of the receiver using the given value.
-func (o *NetworkRuleSet) SetNegateObject(negateObject bool) {
-
-	o.NegateObject = negateObject
-}
-
-// GetNegateSubject returns the NegateSubject of the receiver.
-func (o *NetworkRuleSet) GetNegateSubject() bool {
-
-	return o.NegateSubject
-}
-
-// SetNegateSubject sets the property NegateSubject of the receiver using the given value.
-func (o *NetworkRuleSet) SetNegateSubject(negateSubject bool) {
-
-	o.NegateSubject = negateSubject
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
@@ -535,8 +462,6 @@ func (o *NetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentifiable
 		// nolint: goimports
 		return &SparseNetworkRuleSet{
 			ID:                   &o.ID,
-			ActiveDuration:       &o.ActiveDuration,
-			ActiveSchedule:       &o.ActiveSchedule,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
@@ -544,18 +469,15 @@ func (o *NetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentifiable
 			Description:          &o.Description,
 			Disabled:             &o.Disabled,
 			EgressRules:          &o.EgressRules,
-			ExpirationTime:       &o.ExpirationTime,
 			Fallback:             &o.Fallback,
 			IngressRules:         &o.IngressRules,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
-			NegateObject:         &o.NegateObject,
-			NegateSubject:        &o.NegateSubject,
 			NormalizedTags:       &o.NormalizedTags,
 			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
-			ResourceSelector:     &o.ResourceSelector,
+			Selector:             &o.Selector,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 		}
@@ -566,10 +488,6 @@ func (o *NetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentifiable
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
-		case "activeDuration":
-			sp.ActiveDuration = &(o.ActiveDuration)
-		case "activeSchedule":
-			sp.ActiveSchedule = &(o.ActiveSchedule)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
@@ -584,8 +502,6 @@ func (o *NetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Disabled = &(o.Disabled)
 		case "egressRules":
 			sp.EgressRules = &(o.EgressRules)
-		case "expirationTime":
-			sp.ExpirationTime = &(o.ExpirationTime)
 		case "fallback":
 			sp.Fallback = &(o.Fallback)
 		case "ingressRules":
@@ -596,18 +512,14 @@ func (o *NetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
-		case "negateObject":
-			sp.NegateObject = &(o.NegateObject)
-		case "negateSubject":
-			sp.NegateSubject = &(o.NegateSubject)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "resourceSelector":
-			sp.ResourceSelector = &(o.ResourceSelector)
+		case "selector":
+			sp.Selector = &(o.Selector)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -627,12 +539,6 @@ func (o *NetworkRuleSet) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseNetworkRuleSet)
 	if so.ID != nil {
 		o.ID = *so.ID
-	}
-	if so.ActiveDuration != nil {
-		o.ActiveDuration = *so.ActiveDuration
-	}
-	if so.ActiveSchedule != nil {
-		o.ActiveSchedule = *so.ActiveSchedule
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
@@ -655,9 +561,6 @@ func (o *NetworkRuleSet) Patch(sparse elemental.SparseIdentifiable) {
 	if so.EgressRules != nil {
 		o.EgressRules = *so.EgressRules
 	}
-	if so.ExpirationTime != nil {
-		o.ExpirationTime = *so.ExpirationTime
-	}
 	if so.Fallback != nil {
 		o.Fallback = *so.Fallback
 	}
@@ -673,12 +576,6 @@ func (o *NetworkRuleSet) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
-	if so.NegateObject != nil {
-		o.NegateObject = *so.NegateObject
-	}
-	if so.NegateSubject != nil {
-		o.NegateSubject = *so.NegateSubject
-	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
@@ -688,8 +585,8 @@ func (o *NetworkRuleSet) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
-	if so.ResourceSelector != nil {
-		o.ResourceSelector = *so.ResourceSelector
+	if so.Selector != nil {
+		o.Selector = *so.Selector
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -729,10 +626,6 @@ func (o *NetworkRuleSet) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
 		errors = errors.Append(err)
 	}
@@ -753,7 +646,7 @@ func (o *NetworkRuleSet) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateTagsExpression("resourceSelector", o.ResourceSelector); err != nil {
+	if err := ValidateTagsExpression("selector", o.Selector); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -793,10 +686,6 @@ func (o *NetworkRuleSet) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
-	case "activeDuration":
-		return o.ActiveDuration
-	case "activeSchedule":
-		return o.ActiveSchedule
 	case "annotations":
 		return o.Annotations
 	case "associatedTags":
@@ -811,8 +700,6 @@ func (o *NetworkRuleSet) ValueForAttribute(name string) interface{} {
 		return o.Disabled
 	case "egressRules":
 		return o.EgressRules
-	case "expirationTime":
-		return o.ExpirationTime
 	case "fallback":
 		return o.Fallback
 	case "ingressRules":
@@ -823,18 +710,14 @@ func (o *NetworkRuleSet) ValueForAttribute(name string) interface{} {
 		return o.Name
 	case "namespace":
 		return o.Namespace
-	case "negateObject":
-		return o.NegateObject
-	case "negateSubject":
-		return o.NegateSubject
 	case "normalizedTags":
 		return o.NormalizedTags
 	case "propagate":
 		return o.Propagate
 	case "protected":
 		return o.Protected
-	case "resourceSelector":
-		return o.ResourceSelector
+	case "selector":
+		return o.Selector
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -858,33 +741,6 @@ var NetworkRuleSetAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-	},
-	"ActiveDuration": {
-		AllowedChars:   `^[0-9]+[smh]$`,
-		AllowedChoices: []string{},
-		BSONFieldName:  "activeduration",
-		ConvertedName:  "ActiveDuration",
-		Description: `Defines for how long the policy will be active according to the
-` + "`" + `activeSchedule` + "`" + `.`,
-		Exposed: true,
-		Getter:  true,
-		Name:    "activeDuration",
-		Setter:  true,
-		Stored:  true,
-		Type:    "string",
-	},
-	"ActiveSchedule": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "activeschedule",
-		ConvertedName:  "ActiveSchedule",
-		Description: `Defines when the policy should be active using the cron notation.
-The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
-		Exposed: true,
-		Getter:  true,
-		Name:    "activeSchedule",
-		Setter:  true,
-		Stored:  true,
-		Type:    "string",
 	},
 	"Annotations": {
 		AllowedChoices: []string{},
@@ -976,27 +832,19 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		SubType:        "networkrule",
 		Type:           "list",
 	},
-	"ExpirationTime": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "expirationtime",
-		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be automatically deleted after the given time.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "expirationTime",
-		Setter:         true,
-		Stored:         true,
-		Type:           "time",
-	},
 	"Fallback": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "fallback",
 		ConvertedName:  "Fallback",
-		Description: `If set to ` + "`" + `true` + "`" + `, this will be a fallback rule set that will only apply to the
-processing units in children namespaces if no other normal rule has been defined
-for these processing units in the namespace hierarchy.`,
+		Description: `Indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
+		Getter:    true,
 		Name:      "fallback",
 		Orderable: true,
+		Setter:    true,
+		Stored:    true,
 		Type:      "boolean",
 	},
 	"IngressRules": {
@@ -1056,30 +904,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"NegateObject": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "negateobject",
-		ConvertedName:  "NegateObject",
-		Description:    `Setting this to ` + "`" + `true` + "`" + ` will invert the object to find what is not matching.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "negateObject",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"NegateSubject": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "negatesubject",
-		ConvertedName:  "NegateSubject",
-		Description:    `Setting this to ` + "`" + `true` + "`" + ` will invert the subject to find what is not matching.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "negateSubject",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"NormalizedTags": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1122,13 +946,13 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"ResourceSelector": {
+	"Selector": {
 		AllowedChoices: []string{},
-		ConvertedName:  "ResourceSelector",
+		ConvertedName:  "Selector",
 		Description: `A tag or tag expression identifying the set of workloads where this policy
 applies to.`,
 		Exposed:   true,
-		Name:      "resourceSelector",
+		Name:      "selector",
 		Orderable: true,
 		SubType:   "[][]string",
 		Type:      "external",
@@ -1177,33 +1001,6 @@ var NetworkRuleSetLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-	},
-	"activeduration": {
-		AllowedChars:   `^[0-9]+[smh]$`,
-		AllowedChoices: []string{},
-		BSONFieldName:  "activeduration",
-		ConvertedName:  "ActiveDuration",
-		Description: `Defines for how long the policy will be active according to the
-` + "`" + `activeSchedule` + "`" + `.`,
-		Exposed: true,
-		Getter:  true,
-		Name:    "activeDuration",
-		Setter:  true,
-		Stored:  true,
-		Type:    "string",
-	},
-	"activeschedule": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "activeschedule",
-		ConvertedName:  "ActiveSchedule",
-		Description: `Defines when the policy should be active using the cron notation.
-The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
-		Exposed: true,
-		Getter:  true,
-		Name:    "activeSchedule",
-		Setter:  true,
-		Stored:  true,
-		Type:    "string",
 	},
 	"annotations": {
 		AllowedChoices: []string{},
@@ -1295,27 +1092,19 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		SubType:        "networkrule",
 		Type:           "list",
 	},
-	"expirationtime": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "expirationtime",
-		ConvertedName:  "ExpirationTime",
-		Description:    `If set the policy will be automatically deleted after the given time.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "expirationTime",
-		Setter:         true,
-		Stored:         true,
-		Type:           "time",
-	},
 	"fallback": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "fallback",
 		ConvertedName:  "Fallback",
-		Description: `If set to ` + "`" + `true` + "`" + `, this will be a fallback rule set that will only apply to the
-processing units in children namespaces if no other normal rule has been defined
-for these processing units in the namespace hierarchy.`,
+		Description: `Indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
 		Exposed:   true,
+		Getter:    true,
 		Name:      "fallback",
 		Orderable: true,
+		Setter:    true,
+		Stored:    true,
 		Type:      "boolean",
 	},
 	"ingressrules": {
@@ -1375,30 +1164,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"negateobject": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "negateobject",
-		ConvertedName:  "NegateObject",
-		Description:    `Setting this to ` + "`" + `true` + "`" + ` will invert the object to find what is not matching.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "negateObject",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"negatesubject": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "negatesubject",
-		ConvertedName:  "NegateSubject",
-		Description:    `Setting this to ` + "`" + `true` + "`" + ` will invert the subject to find what is not matching.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "negateSubject",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"normalizedtags": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1441,13 +1206,13 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"resourceselector": {
+	"selector": {
 		AllowedChoices: []string{},
-		ConvertedName:  "ResourceSelector",
+		ConvertedName:  "Selector",
 		Description: `A tag or tag expression identifying the set of workloads where this policy
 applies to.`,
 		Exposed:   true,
-		Name:      "resourceSelector",
+		Name:      "selector",
 		Orderable: true,
 		SubType:   "[][]string",
 		Type:      "external",
@@ -1550,14 +1315,6 @@ type SparseNetworkRuleSet struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Defines for how long the policy will be active according to the
-	// `activeSchedule`.
-	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
-
-	// Defines when the policy should be active using the cron notation.
-	// The policy will be active for the given `activeDuration`.
-	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
-
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
@@ -1579,13 +1336,10 @@ type SparseNetworkRuleSet struct {
 	// The set of egress rules that comprise this rule set.
 	EgressRules *[]networkrule `json:"egressRules,omitempty" msgpack:"egressRules,omitempty" bson:"-" mapstructure:"egressRules,omitempty"`
 
-	// If set the policy will be automatically deleted after the given time.
-	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
-
-	// If set to `true`, this will be a fallback rule set that will only apply to the
-	// processing units in children namespaces if no other normal rule has been defined
-	// for these processing units in the namespace hierarchy.
-	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"-" mapstructure:"fallback,omitempty"`
+	// Indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
 	// The set of ingress rules that comprise this rule set.
 	IngressRules *[]networkrule `json:"ingressRules,omitempty" msgpack:"ingressRules,omitempty" bson:"-" mapstructure:"ingressRules,omitempty"`
@@ -1600,12 +1354,6 @@ type SparseNetworkRuleSet struct {
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// Setting this to `true` will invert the object to find what is not matching.
-	NegateObject *bool `json:"negateObject,omitempty" msgpack:"negateObject,omitempty" bson:"negateobject,omitempty" mapstructure:"negateObject,omitempty"`
-
-	// Setting this to `true` will invert the subject to find what is not matching.
-	NegateSubject *bool `json:"negateSubject,omitempty" msgpack:"negateSubject,omitempty" bson:"negatesubject,omitempty" mapstructure:"negateSubject,omitempty"`
-
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
@@ -1617,7 +1365,7 @@ type SparseNetworkRuleSet struct {
 
 	// A tag or tag expression identifying the set of workloads where this policy
 	// applies to.
-	ResourceSelector *[][]string `json:"resourceSelector,omitempty" msgpack:"resourceSelector,omitempty" bson:"-" mapstructure:"resourceSelector,omitempty"`
+	Selector *[][]string `json:"selector,omitempty" msgpack:"selector,omitempty" bson:"-" mapstructure:"selector,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1668,12 +1416,6 @@ func (o *SparseNetworkRuleSet) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseNetworkRuleSet{}
 
-	if o.ActiveDuration != nil {
-		s.ActiveDuration = o.ActiveDuration
-	}
-	if o.ActiveSchedule != nil {
-		s.ActiveSchedule = o.ActiveSchedule
-	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1692,8 +1434,8 @@ func (o *SparseNetworkRuleSet) GetBSON() (interface{}, error) {
 	if o.Disabled != nil {
 		s.Disabled = o.Disabled
 	}
-	if o.ExpirationTime != nil {
-		s.ExpirationTime = o.ExpirationTime
+	if o.Fallback != nil {
+		s.Fallback = o.Fallback
 	}
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
@@ -1703,12 +1445,6 @@ func (o *SparseNetworkRuleSet) GetBSON() (interface{}, error) {
 	}
 	if o.Namespace != nil {
 		s.Namespace = o.Namespace
-	}
-	if o.NegateObject != nil {
-		s.NegateObject = o.NegateObject
-	}
-	if o.NegateSubject != nil {
-		s.NegateSubject = o.NegateSubject
 	}
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
@@ -1742,12 +1478,6 @@ func (o *SparseNetworkRuleSet) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
-	if s.ActiveDuration != nil {
-		o.ActiveDuration = s.ActiveDuration
-	}
-	if s.ActiveSchedule != nil {
-		o.ActiveSchedule = s.ActiveSchedule
-	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
 	}
@@ -1766,8 +1496,8 @@ func (o *SparseNetworkRuleSet) SetBSON(raw bson.Raw) error {
 	if s.Disabled != nil {
 		o.Disabled = s.Disabled
 	}
-	if s.ExpirationTime != nil {
-		o.ExpirationTime = s.ExpirationTime
+	if s.Fallback != nil {
+		o.Fallback = s.Fallback
 	}
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
@@ -1777,12 +1507,6 @@ func (o *SparseNetworkRuleSet) SetBSON(raw bson.Raw) error {
 	}
 	if s.Namespace != nil {
 		o.Namespace = s.Namespace
-	}
-	if s.NegateObject != nil {
-		o.NegateObject = s.NegateObject
-	}
-	if s.NegateSubject != nil {
-		o.NegateSubject = s.NegateSubject
 	}
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
@@ -1816,12 +1540,6 @@ func (o *SparseNetworkRuleSet) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
-	if o.ActiveDuration != nil {
-		out.ActiveDuration = *o.ActiveDuration
-	}
-	if o.ActiveSchedule != nil {
-		out.ActiveSchedule = *o.ActiveSchedule
-	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
@@ -1843,9 +1561,6 @@ func (o *SparseNetworkRuleSet) ToPlain() elemental.PlainIdentifiable {
 	if o.EgressRules != nil {
 		out.EgressRules = *o.EgressRules
 	}
-	if o.ExpirationTime != nil {
-		out.ExpirationTime = *o.ExpirationTime
-	}
 	if o.Fallback != nil {
 		out.Fallback = *o.Fallback
 	}
@@ -1861,12 +1576,6 @@ func (o *SparseNetworkRuleSet) ToPlain() elemental.PlainIdentifiable {
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
-	if o.NegateObject != nil {
-		out.NegateObject = *o.NegateObject
-	}
-	if o.NegateSubject != nil {
-		out.NegateSubject = *o.NegateSubject
-	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
@@ -1876,8 +1585,8 @@ func (o *SparseNetworkRuleSet) ToPlain() elemental.PlainIdentifiable {
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
-	if o.ResourceSelector != nil {
-		out.ResourceSelector = *o.ResourceSelector
+	if o.Selector != nil {
+		out.Selector = *o.Selector
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -1887,38 +1596,6 @@ func (o *SparseNetworkRuleSet) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
-}
-
-// GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseNetworkRuleSet) GetActiveDuration() (out string) {
-
-	if o.ActiveDuration == nil {
-		return
-	}
-
-	return *o.ActiveDuration
-}
-
-// SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetActiveDuration(activeDuration string) {
-
-	o.ActiveDuration = &activeDuration
-}
-
-// GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseNetworkRuleSet) GetActiveSchedule() (out string) {
-
-	if o.ActiveSchedule == nil {
-		return
-	}
-
-	return *o.ActiveSchedule
-}
-
-// SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetActiveSchedule(activeSchedule string) {
-
-	o.ActiveSchedule = &activeSchedule
 }
 
 // GetAnnotations returns the Annotations of the receiver.
@@ -2017,20 +1694,20 @@ func (o *SparseNetworkRuleSet) SetDisabled(disabled bool) {
 	o.Disabled = &disabled
 }
 
-// GetExpirationTime returns the ExpirationTime of the receiver.
-func (o *SparseNetworkRuleSet) GetExpirationTime() (out time.Time) {
+// GetFallback returns the Fallback of the receiver.
+func (o *SparseNetworkRuleSet) GetFallback() (out bool) {
 
-	if o.ExpirationTime == nil {
+	if o.Fallback == nil {
 		return
 	}
 
-	return *o.ExpirationTime
+	return *o.Fallback
 }
 
-// SetExpirationTime sets the property ExpirationTime of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetExpirationTime(expirationTime time.Time) {
+// SetFallback sets the property Fallback of the receiver using the address of the given value.
+func (o *SparseNetworkRuleSet) SetFallback(fallback bool) {
 
-	o.ExpirationTime = &expirationTime
+	o.Fallback = &fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
@@ -2079,38 +1756,6 @@ func (o *SparseNetworkRuleSet) GetNamespace() (out string) {
 func (o *SparseNetworkRuleSet) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
-}
-
-// GetNegateObject returns the NegateObject of the receiver.
-func (o *SparseNetworkRuleSet) GetNegateObject() (out bool) {
-
-	if o.NegateObject == nil {
-		return
-	}
-
-	return *o.NegateObject
-}
-
-// SetNegateObject sets the property NegateObject of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetNegateObject(negateObject bool) {
-
-	o.NegateObject = &negateObject
-}
-
-// GetNegateSubject returns the NegateSubject of the receiver.
-func (o *SparseNetworkRuleSet) GetNegateSubject() (out bool) {
-
-	if o.NegateSubject == nil {
-		return
-	}
-
-	return *o.NegateSubject
-}
-
-// SetNegateSubject sets the property NegateSubject of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetNegateSubject(negateSubject bool) {
-
-	o.NegateSubject = &negateSubject
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
@@ -2218,20 +1863,16 @@ func (o *SparseNetworkRuleSet) DeepCopyInto(out *SparseNetworkRuleSet) {
 }
 
 type mongoAttributesNetworkRuleSet struct {
-	ActiveDuration       string              `bson:"activeduration"`
-	ActiveSchedule       string              `bson:"activeschedule"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
 	CreateTime           time.Time           `bson:"createtime"`
 	Description          string              `bson:"description"`
 	Disabled             bool                `bson:"disabled"`
-	ExpirationTime       time.Time           `bson:"expirationtime"`
+	Fallback             bool                `bson:"fallback"`
 	Metadata             []string            `bson:"metadata"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
-	NegateObject         bool                `bson:"negateobject"`
-	NegateSubject        bool                `bson:"negatesubject"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
 	Propagate            bool                `bson:"propagate"`
 	Protected            bool                `bson:"protected"`
@@ -2239,20 +1880,16 @@ type mongoAttributesNetworkRuleSet struct {
 	UpdateTime           time.Time           `bson:"updatetime"`
 }
 type mongoAttributesSparseNetworkRuleSet struct {
-	ActiveDuration       *string              `bson:"activeduration,omitempty"`
-	ActiveSchedule       *string              `bson:"activeschedule,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
 	CreateTime           *time.Time           `bson:"createtime,omitempty"`
 	Description          *string              `bson:"description,omitempty"`
 	Disabled             *bool                `bson:"disabled,omitempty"`
-	ExpirationTime       *time.Time           `bson:"expirationtime,omitempty"`
+	Fallback             *bool                `bson:"fallback,omitempty"`
 	Metadata             *[]string            `bson:"metadata,omitempty"`
 	Name                 *string              `bson:"name,omitempty"`
 	Namespace            *string              `bson:"namespace,omitempty"`
-	NegateObject         *bool                `bson:"negateobject,omitempty"`
-	NegateSubject        *bool                `bson:"negatesubject,omitempty"`
 	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
 	Propagate            *bool                `bson:"propagate,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
