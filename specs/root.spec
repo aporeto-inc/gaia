@@ -248,10 +248,11 @@ relations:
 
 - rest_name: discoverymode
   get:
-    description: Returns the list of discovery modes.
+    description: (Deprecated) Returns the list of discovery modes.
     deprecated: true
   create:
-    description: Deploy the discovery mode assets onto the specified namespace.
+    description: (Deprecated) Deploy the discovery mode assets onto the specified
+      namespace.
     deprecated: true
 
 - rest_name: dnslookupreport

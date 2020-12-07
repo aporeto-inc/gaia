@@ -32,9 +32,9 @@ The date of the comment.
 
 ### DiscoveryMode
 
-When discovery mode is enabled, all flows are accepted. Flows which do not match
-an existing network policy will be represented by a dotted line in your Platform
-view.
+(Deprecated) When discovery mode is enabled, all flows are accepted. Flows which
+do not match an existing network policy will be represented by a dotted line in
+your Platform view.
 
 #### Example
 
@@ -48,19 +48,19 @@ view.
 
 ##### `GET /discoverymode`
 
-Returns the list of discovery modes.
+(Deprecated) Returns the list of discovery modes.
 
 ##### `POST /discoverymode`
 
-Deploy the discovery mode assets onto the specified namespace.
+(Deprecated) Deploy the discovery mode assets onto the specified namespace.
 
 ##### `DELETE /discoverymode/:id`
 
-Remove the discovery mode assets with the given import reference ID.
+(Deprecated) Remove the discovery mode assets with the given import reference ID.
 
 ##### `GET /discoverymode/:id`
 
-Retrieve the discovery mode with the given import reference ID.
+(Deprecated) Retrieve the discovery mode with the given import reference ID.
 
 #### Attributes
 

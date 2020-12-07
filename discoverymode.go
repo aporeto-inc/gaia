@@ -174,9 +174,9 @@ func (o *DiscoveryMode) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *DiscoveryMode) Doc() string {
 
-	return `When discovery mode is enabled, all flows are accepted. Flows which do not match
-an existing network policy will be represented by a dotted line in your Platform
-view.`
+	return `(Deprecated) When discovery mode is enabled, all flows are accepted. Flows which
+do not match an existing network policy will be represented by a dotted line in
+your Platform view.`
 }
 
 func (o *DiscoveryMode) String() string {
