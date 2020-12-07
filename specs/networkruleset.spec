@@ -43,15 +43,19 @@ attributes:
   v1:
   - name: egressRules
     description: The set of egress rules that comprise this rule set.
-    type: list
+    type: refList
     exposed: true
     subtype: networkrule
+    extensions:
+      refMode: pointer
 
   - name: ingressRules
     description: The set of ingress rules that comprise this rule set.
-    type: list
+    type: refList
     exposed: true
     subtype: networkrule
+    extensions:
+      refMode: pointer
 
   - name: selector
     description: |-
@@ -60,6 +64,5 @@ attributes:
     type: external
     exposed: true
     subtype: '[][]string'
-    orderable: true
     validations:
     - $tagsExpression

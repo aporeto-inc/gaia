@@ -13281,7 +13281,7 @@ Defines if the property is disabled.
 
 ##### `egressRules`
 
-Type: `[]networkrule`
+Type: [`[]networkrule`](#networkrule)
 
 The set of egress rules that comprise this rule set.
 
@@ -13295,7 +13295,7 @@ propagated it will become a fallback for children namespaces.
 
 ##### `ingressRules`
 
-Type: `[]networkrule`
+Type: [`[]networkrule`](#networkrule)
 
 The set of ingress rules that comprise this rule set.
 

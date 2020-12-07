@@ -1,7 +1,7 @@
 # Model
 model:
   rest_name: networkrule
-  resource_name: networkrule
+  resource_name: networkrules
   entity_name: NetworkRule
   package: squall
   group: core/policy

@@ -105,7 +105,7 @@ type NetworkRuleSet struct {
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
 	// The set of egress rules that comprise this rule set.
-	EgressRules []networkrule `json:"egressRules" msgpack:"egressRules" bson:"-" mapstructure:"egressRules,omitempty"`
+	EgressRules []*NetworkRule `json:"egressRules" msgpack:"egressRules" bson:"-" mapstructure:"egressRules,omitempty"`
 
 	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
@@ -113,7 +113,7 @@ type NetworkRuleSet struct {
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
 	// The set of ingress rules that comprise this rule set.
-	IngressRules []networkrule `json:"ingressRules" msgpack:"ingressRules" bson:"-" mapstructure:"ingressRules,omitempty"`
+	IngressRules []*NetworkRule `json:"ingressRules" msgpack:"ingressRules" bson:"-" mapstructure:"ingressRules,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -154,8 +154,8 @@ func NewNetworkRuleSet() *NetworkRuleSet {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		EgressRules:    []networkrule{},
-		IngressRules:   []networkrule{},
+		EgressRules:    []*NetworkRule{},
+		IngressRules:   []*NetworkRule{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
 		Selector:       [][]string{},
@@ -634,6 +634,26 @@ func (o *NetworkRuleSet) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	for _, sub := range o.EgressRules {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	for _, sub := range o.IngressRules {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
@@ -830,7 +850,7 @@ var NetworkRuleSetAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "egressRules",
 		SubType:        "networkrule",
-		Type:           "list",
+		Type:           "refList",
 	},
 	"Fallback": {
 		AllowedChoices: []string{},
@@ -854,7 +874,7 @@ propagated it will become a fallback for children namespaces.`,
 		Exposed:        true,
 		Name:           "ingressRules",
 		SubType:        "networkrule",
-		Type:           "list",
+		Type:           "refList",
 	},
 	"Metadata": {
 		AllowedChoices: []string{},
@@ -951,11 +971,10 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Selector",
 		Description: `A tag or tag expression identifying the set of workloads where this policy
 applies to.`,
-		Exposed:   true,
-		Name:      "selector",
-		Orderable: true,
-		SubType:   "[][]string",
-		Type:      "external",
+		Exposed: true,
+		Name:    "selector",
+		SubType: "[][]string",
+		Type:    "external",
 	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -1090,7 +1109,7 @@ var NetworkRuleSetLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Exposed:        true,
 		Name:           "egressRules",
 		SubType:        "networkrule",
-		Type:           "list",
+		Type:           "refList",
 	},
 	"fallback": {
 		AllowedChoices: []string{},
@@ -1114,7 +1133,7 @@ propagated it will become a fallback for children namespaces.`,
 		Exposed:        true,
 		Name:           "ingressRules",
 		SubType:        "networkrule",
-		Type:           "list",
+		Type:           "refList",
 	},
 	"metadata": {
 		AllowedChoices: []string{},
@@ -1211,11 +1230,10 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Selector",
 		Description: `A tag or tag expression identifying the set of workloads where this policy
 applies to.`,
-		Exposed:   true,
-		Name:      "selector",
-		Orderable: true,
-		SubType:   "[][]string",
-		Type:      "external",
+		Exposed: true,
+		Name:    "selector",
+		SubType: "[][]string",
+		Type:    "external",
 	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
@@ -1334,7 +1352,7 @@ type SparseNetworkRuleSet struct {
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
 	// The set of egress rules that comprise this rule set.
-	EgressRules *[]networkrule `json:"egressRules,omitempty" msgpack:"egressRules,omitempty" bson:"-" mapstructure:"egressRules,omitempty"`
+	EgressRules *[]*NetworkRule `json:"egressRules,omitempty" msgpack:"egressRules,omitempty" bson:"-" mapstructure:"egressRules,omitempty"`
 
 	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
@@ -1342,7 +1360,7 @@ type SparseNetworkRuleSet struct {
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
 	// The set of ingress rules that comprise this rule set.
-	IngressRules *[]networkrule `json:"ingressRules,omitempty" msgpack:"ingressRules,omitempty" bson:"-" mapstructure:"ingressRules,omitempty"`
+	IngressRules *[]*NetworkRule `json:"ingressRules,omitempty" msgpack:"ingressRules,omitempty" bson:"-" mapstructure:"ingressRules,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
