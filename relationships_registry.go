@@ -984,19 +984,29 @@ func init() {
 
 	relationshipsRegistry[DiscoveryModeIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Deprecated: true,
+			},
 		},
 		Delete: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Deprecated: true,
+			},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Deprecated: true,
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Deprecated: true,
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Deprecated: true,
+			},
 		},
 	}
 
