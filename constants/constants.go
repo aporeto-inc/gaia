@@ -213,11 +213,11 @@ const (
 	// ActionAllowTagString is the system created action=allow tag.
 	ActionAllowTagString = "action=allow"
 
-	// ActionEgressTagString is the system created action=egress tag.
-	ActionEgressTagString = "action=egress"
+	// ActionOutgoingTagString is the system created action=outgoing tag.
+	ActionOutgoingTagString = "action=outgoing"
 
-	// ActionIngressTagString is the system created action=ingress tag.
-	ActionIngressTagString = "action=ingress"
+	// ActionIncomingTagString is the system created action=incoming tag.
+	ActionIncomingTagString = "action=incoming"
 
 	// ActionAllowedSubnetsTagString is the system created action=authorize-subnets tag.
 	ActionAllowedSubnetsTagString = "action=authorize-subnets"
