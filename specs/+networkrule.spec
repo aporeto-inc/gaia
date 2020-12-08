@@ -32,6 +32,19 @@ attributes:
     exposed: true
     subtype: string
     orderable: true
+    omit_empty: true
+
+  - name: object
+    description: |-
+      Identifies the set of remote workloads that the rule relates to. The selector
+      will identify both processing units as well as external networks that match the
+      selector.
+    type: external
+    exposed: true
+    subtype: '[][]string'
+    orderable: true
+    validations:
+    - $tagsExpression
 
   - name: observationEnabled
     description: If set to `true`, the flow will be in observation mode.
@@ -52,15 +65,3 @@ attributes:
     orderable: true
     validations:
     - $serviceports
-
-  - name: selector
-    description: |-
-      Identifies the set of remote workloads that the rule relates to. The selector
-      will identify both processing units as well as external networks that match the
-      selector.
-    type: external
-    exposed: true
-    subtype: '[][]string'
-    orderable: true
-    validations:
-    - $tagsExpression

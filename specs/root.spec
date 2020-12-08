@@ -665,7 +665,18 @@ relations:
     - $filtering
     - $propagatable
   create:
-    description: Creates a new network policy.
+    description: |-
+      Creates a new network policy. This is depreacted in favor of
+      networkrulesetpolicy.
+
+- rest_name: networkrulesetpolicy
+  get:
+    description: Retrieves the list of network rule set policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new network rule set policy policy.
 
 - rest_name: oidcprovider
   get:

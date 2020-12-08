@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: networkruleset
-  resource_name: networkrulesets
-  entity_name: NetworkRuleSet
+  rest_name: networkrulesetpolicy
+  resource_name: networkrulesetpolicies
+  entity_name: NetworkRuleSetPolicy
   package: squall
   group: policy/networking
   description: |-
@@ -57,7 +57,7 @@ attributes:
     extensions:
       refMode: pointer
 
-  - name: selector
+  - name: subject
     description: |-
       A tag or tag expression identifying the set of workloads where this policy
       applies to.

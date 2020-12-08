@@ -5438,6 +5438,14 @@ Type: `[]string`
 
 A list of IP CIDRS or FQDNS that identify remote endpoints.
 
+##### `object`
+
+Type: `[][]string`
+
+Identifies the set of remote workloads that the rule relates to. The selector
+will identify both processing units as well as external networks that match the
+selector.
+
 ##### `observationEnabled`
 
 Type: `boolean`
@@ -5458,14 +5466,6 @@ Represents the ports and protocols this policy applies to. Protocol/ports are
 defined as tcp/80, udp/22. For protocols that do not have ports, the port
 designation
 is not allowed.
-
-##### `selector`
-
-Type: `[][]string`
-
-Identifies the set of remote workloads that the rule relates to. The selector
-will identify both processing units as well as external networks that match the
-selector.
 
 ### Policy
 
@@ -5649,7 +5649,7 @@ include `AND` and `OR`.
 
 ##### `type` [`creation_only`]
 
-Type: `enum(APIAuthorization | AuditProfileMapping | EnforcerProfile | File | Hook | HostServiceMapping | Infrastructure | NamespaceMapping | Network | ProcessingUnit | Quota | Service | ServiceDependency | Syscall | TokenScope | SSHAuthorization | UserAccess)`
+Type: `enum(APIAuthorization | AuditProfileMapping | EnforcerProfile | File | Hook | HostServiceMapping | Infrastructure | NamespaceMapping | Network | NetworkRuleSet | ProcessingUnit | Quota | Service | ServiceDependency | Syscall | TokenScope | SSHAuthorization | UserAccess)`
 
 Type of the policy.
 
@@ -12933,7 +12933,8 @@ Parameters:
 
 ##### `POST /networkaccesspolicies`
 
-Creates a new network policy.
+Creates a new network policy. This is depreacted in favor of
+networkrulesetpolicy.
 
 ##### `DELETE /networkaccesspolicies/:id`
 
@@ -13201,7 +13202,7 @@ Type: `time`
 
 Last update date of the object.
 
-### NetworkRuleSet
+### NetworkRuleSetPolicy
 
 Allows you to define network rule sets to allow or prevent processing units
 identified by their tags to talk to other processing units or external networks
@@ -13221,7 +13222,20 @@ identified by their tags to talk to other processing units or external networks
 
 #### Relations
 
-##### `DELETE /networkrulesets/:id`
+##### `GET /networkrulesetpolicies`
+
+Retrieves the list of network rule set policies.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
+
+##### `POST /networkrulesetpolicies`
+
+Creates a new network rule set policy policy.
+
+##### `DELETE /networkrulesetpolicies/:id`
 
 Deletes the policy with the given ID.
 
@@ -13229,7 +13243,7 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
-##### `GET /networkrulesets/:id`
+##### `GET /networkrulesetpolicies/:id`
 
 Retrieves the policy with the given ID.
 
@@ -13237,7 +13251,7 @@ Parameters:
 
 - `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
-##### `PUT /networkrulesets/:id`
+##### `PUT /networkrulesetpolicies/:id`
 
 Updates the policy with the given ID.
 
@@ -13336,7 +13350,7 @@ Type: `boolean`
 
 Defines if the object is protected.
 
-##### `selector`
+##### `subject`
 
 Type: `[][]string`
 

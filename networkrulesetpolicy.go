@@ -9,43 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// NetworkRuleSetIdentity represents the Identity of the object.
-var NetworkRuleSetIdentity = elemental.Identity{
-	Name:     "networkruleset",
-	Category: "networkrulesets",
+// NetworkRuleSetPolicyIdentity represents the Identity of the object.
+var NetworkRuleSetPolicyIdentity = elemental.Identity{
+	Name:     "networkrulesetpolicy",
+	Category: "networkrulesetpolicies",
 	Package:  "squall",
 	Private:  false,
 }
 
-// NetworkRuleSetsList represents a list of NetworkRuleSets
-type NetworkRuleSetsList []*NetworkRuleSet
+// NetworkRuleSetPoliciesList represents a list of NetworkRuleSetPolicies
+type NetworkRuleSetPoliciesList []*NetworkRuleSetPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o NetworkRuleSetsList) Identity() elemental.Identity {
+func (o NetworkRuleSetPoliciesList) Identity() elemental.Identity {
 
-	return NetworkRuleSetIdentity
+	return NetworkRuleSetPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the NetworkRuleSetsList.
-func (o NetworkRuleSetsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the NetworkRuleSetPoliciesList.
+func (o NetworkRuleSetPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(NetworkRuleSetsList{}, o...)
+	copy := append(NetworkRuleSetPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the NetworkRuleSetsList.
-func (o NetworkRuleSetsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the NetworkRuleSetPoliciesList.
+func (o NetworkRuleSetPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(NetworkRuleSetsList{}, o...)
+	out := append(NetworkRuleSetPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*NetworkRuleSet))
+		out = append(out, obj.(*NetworkRuleSetPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o NetworkRuleSetsList) List() elemental.IdentifiablesList {
+func (o NetworkRuleSetPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -56,33 +56,33 @@ func (o NetworkRuleSetsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o NetworkRuleSetsList) DefaultOrder() []string {
+func (o NetworkRuleSetPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the NetworkRuleSetsList converted to SparseNetworkRuleSetsList.
+// ToSparse returns the NetworkRuleSetPoliciesList converted to SparseNetworkRuleSetPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o NetworkRuleSetsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o NetworkRuleSetPoliciesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseNetworkRuleSetsList, len(o))
+	out := make(SparseNetworkRuleSetPoliciesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseNetworkRuleSet)
+		out[i] = o[i].ToSparse(fields...).(*SparseNetworkRuleSetPolicy)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o NetworkRuleSetsList) Version() int {
+func (o NetworkRuleSetPoliciesList) Version() int {
 
 	return 1
 }
 
-// NetworkRuleSet represents the model of a networkruleset
-type NetworkRuleSet struct {
+// NetworkRuleSetPolicy represents the model of a networkrulesetpolicy
+type NetworkRuleSetPolicy struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -136,7 +136,7 @@ type NetworkRuleSet struct {
 
 	// A tag or tag expression identifying the set of workloads where this policy
 	// applies to.
-	Selector [][]string `json:"selector" msgpack:"selector" bson:"-" mapstructure:"selector,omitempty"`
+	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -147,10 +147,10 @@ type NetworkRuleSet struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewNetworkRuleSet returns a new *NetworkRuleSet
-func NewNetworkRuleSet() *NetworkRuleSet {
+// NewNetworkRuleSetPolicy returns a new *NetworkRuleSetPolicy
+func NewNetworkRuleSetPolicy() *NetworkRuleSetPolicy {
 
-	return &NetworkRuleSet{
+	return &NetworkRuleSetPolicy{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
@@ -158,37 +158,37 @@ func NewNetworkRuleSet() *NetworkRuleSet {
 		IngressRules:   []*NetworkRule{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Selector:       [][]string{},
+		Subject:        [][]string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *NetworkRuleSet) Identity() elemental.Identity {
+func (o *NetworkRuleSetPolicy) Identity() elemental.Identity {
 
-	return NetworkRuleSetIdentity
+	return NetworkRuleSetPolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *NetworkRuleSet) Identifier() string {
+func (o *NetworkRuleSetPolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *NetworkRuleSet) SetIdentifier(id string) {
+func (o *NetworkRuleSetPolicy) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *NetworkRuleSet) GetBSON() (interface{}, error) {
+func (o *NetworkRuleSetPolicy) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesNetworkRuleSet{}
+	s := &mongoAttributesNetworkRuleSetPolicy{}
 
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
@@ -211,13 +211,13 @@ func (o *NetworkRuleSet) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *NetworkRuleSet) SetBSON(raw bson.Raw) error {
+func (o *NetworkRuleSetPolicy) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesNetworkRuleSet{}
+	s := &mongoAttributesNetworkRuleSetPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -242,19 +242,19 @@ func (o *NetworkRuleSet) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *NetworkRuleSet) Version() int {
+func (o *NetworkRuleSetPolicy) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *NetworkRuleSet) BleveType() string {
+func (o *NetworkRuleSetPolicy) BleveType() string {
 
-	return "networkruleset"
+	return "networkrulesetpolicy"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *NetworkRuleSet) DefaultOrder() []string {
+func (o *NetworkRuleSetPolicy) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -262,205 +262,205 @@ func (o *NetworkRuleSet) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *NetworkRuleSet) Doc() string {
+func (o *NetworkRuleSetPolicy) Doc() string {
 
 	return `Allows you to define network rule sets to allow or prevent processing units
 identified by their tags to talk to other processing units or external networks
 (also identified by their tags).`
 }
 
-func (o *NetworkRuleSet) String() string {
+func (o *NetworkRuleSetPolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *NetworkRuleSet) GetAnnotations() map[string][]string {
+func (o *NetworkRuleSetPolicy) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *NetworkRuleSet) SetAnnotations(annotations map[string][]string) {
+func (o *NetworkRuleSetPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *NetworkRuleSet) GetAssociatedTags() []string {
+func (o *NetworkRuleSetPolicy) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *NetworkRuleSet) SetAssociatedTags(associatedTags []string) {
+func (o *NetworkRuleSetPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *NetworkRuleSet) GetCreateIdempotencyKey() string {
+func (o *NetworkRuleSetPolicy) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *NetworkRuleSet) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *NetworkRuleSetPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *NetworkRuleSet) GetCreateTime() time.Time {
+func (o *NetworkRuleSetPolicy) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *NetworkRuleSet) SetCreateTime(createTime time.Time) {
+func (o *NetworkRuleSetPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *NetworkRuleSet) GetDescription() string {
+func (o *NetworkRuleSetPolicy) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *NetworkRuleSet) SetDescription(description string) {
+func (o *NetworkRuleSetPolicy) SetDescription(description string) {
 
 	o.Description = description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *NetworkRuleSet) GetDisabled() bool {
+func (o *NetworkRuleSetPolicy) GetDisabled() bool {
 
 	return o.Disabled
 }
 
 // SetDisabled sets the property Disabled of the receiver using the given value.
-func (o *NetworkRuleSet) SetDisabled(disabled bool) {
+func (o *NetworkRuleSetPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *NetworkRuleSet) GetFallback() bool {
+func (o *NetworkRuleSetPolicy) GetFallback() bool {
 
 	return o.Fallback
 }
 
 // SetFallback sets the property Fallback of the receiver using the given value.
-func (o *NetworkRuleSet) SetFallback(fallback bool) {
+func (o *NetworkRuleSetPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *NetworkRuleSet) GetMetadata() []string {
+func (o *NetworkRuleSetPolicy) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *NetworkRuleSet) SetMetadata(metadata []string) {
+func (o *NetworkRuleSetPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *NetworkRuleSet) GetName() string {
+func (o *NetworkRuleSetPolicy) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *NetworkRuleSet) SetName(name string) {
+func (o *NetworkRuleSetPolicy) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *NetworkRuleSet) GetNamespace() string {
+func (o *NetworkRuleSetPolicy) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *NetworkRuleSet) SetNamespace(namespace string) {
+func (o *NetworkRuleSetPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *NetworkRuleSet) GetNormalizedTags() []string {
+func (o *NetworkRuleSetPolicy) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *NetworkRuleSet) SetNormalizedTags(normalizedTags []string) {
+func (o *NetworkRuleSetPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *NetworkRuleSet) GetPropagate() bool {
+func (o *NetworkRuleSetPolicy) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *NetworkRuleSet) SetPropagate(propagate bool) {
+func (o *NetworkRuleSetPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *NetworkRuleSet) GetProtected() bool {
+func (o *NetworkRuleSetPolicy) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *NetworkRuleSet) SetProtected(protected bool) {
+func (o *NetworkRuleSetPolicy) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *NetworkRuleSet) GetUpdateIdempotencyKey() string {
+func (o *NetworkRuleSetPolicy) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *NetworkRuleSet) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *NetworkRuleSetPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *NetworkRuleSet) GetUpdateTime() time.Time {
+func (o *NetworkRuleSetPolicy) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *NetworkRuleSet) SetUpdateTime(updateTime time.Time) {
+func (o *NetworkRuleSetPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *NetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *NetworkRuleSetPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseNetworkRuleSet{
+		return &SparseNetworkRuleSetPolicy{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
@@ -477,13 +477,13 @@ func (o *NetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentifiable
 			NormalizedTags:       &o.NormalizedTags,
 			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
-			Selector:             &o.Selector,
+			Subject:              &o.Subject,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 		}
 	}
 
-	sp := &SparseNetworkRuleSet{}
+	sp := &SparseNetworkRuleSetPolicy{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -518,8 +518,8 @@ func (o *NetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "selector":
-			sp.Selector = &(o.Selector)
+		case "subject":
+			sp.Subject = &(o.Subject)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -530,13 +530,13 @@ func (o *NetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentifiable
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseNetworkRuleSet to the object.
-func (o *NetworkRuleSet) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseNetworkRuleSetPolicy to the object.
+func (o *NetworkRuleSetPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseNetworkRuleSet)
+	so := sparse.(*SparseNetworkRuleSetPolicy)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -585,8 +585,8 @@ func (o *NetworkRuleSet) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
-	if so.Selector != nil {
-		o.Selector = *so.Selector
+	if so.Subject != nil {
+		o.Subject = *so.Subject
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -596,32 +596,32 @@ func (o *NetworkRuleSet) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the NetworkRuleSet.
-func (o *NetworkRuleSet) DeepCopy() *NetworkRuleSet {
+// DeepCopy returns a deep copy if the NetworkRuleSetPolicy.
+func (o *NetworkRuleSetPolicy) DeepCopy() *NetworkRuleSetPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &NetworkRuleSet{}
+	out := &NetworkRuleSetPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *NetworkRuleSet.
-func (o *NetworkRuleSet) DeepCopyInto(out *NetworkRuleSet) {
+// DeepCopyInto copies the receiver into the given *NetworkRuleSetPolicy.
+func (o *NetworkRuleSetPolicy) DeepCopyInto(out *NetworkRuleSetPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy NetworkRuleSet: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy NetworkRuleSetPolicy: %s", err))
 	}
 
-	*out = *target.(*NetworkRuleSet)
+	*out = *target.(*NetworkRuleSetPolicy)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *NetworkRuleSet) Validate() error {
+func (o *NetworkRuleSetPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -666,7 +666,7 @@ func (o *NetworkRuleSet) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateTagsExpression("selector", o.Selector); err != nil {
+	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -682,26 +682,26 @@ func (o *NetworkRuleSet) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*NetworkRuleSet) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*NetworkRuleSetPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := NetworkRuleSetAttributesMap[name]; ok {
+	if v, ok := NetworkRuleSetPolicyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return NetworkRuleSetLowerCaseAttributesMap[name]
+	return NetworkRuleSetPolicyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*NetworkRuleSet) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*NetworkRuleSetPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return NetworkRuleSetAttributesMap
+	return NetworkRuleSetPolicyAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *NetworkRuleSet) ValueForAttribute(name string) interface{} {
+func (o *NetworkRuleSetPolicy) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -736,8 +736,8 @@ func (o *NetworkRuleSet) ValueForAttribute(name string) interface{} {
 		return o.Propagate
 	case "protected":
 		return o.Protected
-	case "selector":
-		return o.Selector
+	case "subject":
+		return o.Subject
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -747,8 +747,8 @@ func (o *NetworkRuleSet) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// NetworkRuleSetAttributesMap represents the map of attribute for NetworkRuleSet.
-var NetworkRuleSetAttributesMap = map[string]elemental.AttributeSpecification{
+// NetworkRuleSetPolicyAttributesMap represents the map of attribute for NetworkRuleSetPolicy.
+var NetworkRuleSetPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -966,13 +966,13 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Selector": {
+	"Subject": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Selector",
+		ConvertedName:  "Subject",
 		Description: `A tag or tag expression identifying the set of workloads where this policy
 applies to.`,
 		Exposed: true,
-		Name:    "selector",
+		Name:    "subject",
 		SubType: "[][]string",
 		Type:    "external",
 	},
@@ -1006,8 +1006,8 @@ applies to.`,
 	},
 }
 
-// NetworkRuleSetLowerCaseAttributesMap represents the map of attribute for NetworkRuleSet.
-var NetworkRuleSetLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// NetworkRuleSetPolicyLowerCaseAttributesMap represents the map of attribute for NetworkRuleSetPolicy.
+var NetworkRuleSetPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1225,13 +1225,13 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"selector": {
+	"subject": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Selector",
+		ConvertedName:  "Subject",
 		Description: `A tag or tag expression identifying the set of workloads where this policy
 applies to.`,
 		Exposed: true,
-		Name:    "selector",
+		Name:    "subject",
 		SubType: "[][]string",
 		Type:    "external",
 	},
@@ -1265,35 +1265,35 @@ applies to.`,
 	},
 }
 
-// SparseNetworkRuleSetsList represents a list of SparseNetworkRuleSets
-type SparseNetworkRuleSetsList []*SparseNetworkRuleSet
+// SparseNetworkRuleSetPoliciesList represents a list of SparseNetworkRuleSetPolicies
+type SparseNetworkRuleSetPoliciesList []*SparseNetworkRuleSetPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o SparseNetworkRuleSetsList) Identity() elemental.Identity {
+func (o SparseNetworkRuleSetPoliciesList) Identity() elemental.Identity {
 
-	return NetworkRuleSetIdentity
+	return NetworkRuleSetPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the SparseNetworkRuleSetsList.
-func (o SparseNetworkRuleSetsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseNetworkRuleSetPoliciesList.
+func (o SparseNetworkRuleSetPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseNetworkRuleSetsList{}, o...)
+	copy := append(SparseNetworkRuleSetPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseNetworkRuleSetsList.
-func (o SparseNetworkRuleSetsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseNetworkRuleSetPoliciesList.
+func (o SparseNetworkRuleSetPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseNetworkRuleSetsList{}, o...)
+	out := append(SparseNetworkRuleSetPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseNetworkRuleSet))
+		out = append(out, obj.(*SparseNetworkRuleSetPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseNetworkRuleSetsList) List() elemental.IdentifiablesList {
+func (o SparseNetworkRuleSetPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1304,15 +1304,15 @@ func (o SparseNetworkRuleSetsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseNetworkRuleSetsList) DefaultOrder() []string {
+func (o SparseNetworkRuleSetPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparseNetworkRuleSetsList converted to NetworkRuleSetsList.
-func (o SparseNetworkRuleSetsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseNetworkRuleSetPoliciesList converted to NetworkRuleSetPoliciesList.
+func (o SparseNetworkRuleSetPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1323,13 +1323,13 @@ func (o SparseNetworkRuleSetsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseNetworkRuleSetsList) Version() int {
+func (o SparseNetworkRuleSetPoliciesList) Version() int {
 
 	return 1
 }
 
-// SparseNetworkRuleSet represents the sparse version of a networkruleset.
-type SparseNetworkRuleSet struct {
+// SparseNetworkRuleSetPolicy represents the sparse version of a networkrulesetpolicy.
+type SparseNetworkRuleSetPolicy struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1383,7 +1383,7 @@ type SparseNetworkRuleSet struct {
 
 	// A tag or tag expression identifying the set of workloads where this policy
 	// applies to.
-	Selector *[][]string `json:"selector,omitempty" msgpack:"selector,omitempty" bson:"-" mapstructure:"selector,omitempty"`
+	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1394,19 +1394,19 @@ type SparseNetworkRuleSet struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseNetworkRuleSet returns a new  SparseNetworkRuleSet.
-func NewSparseNetworkRuleSet() *SparseNetworkRuleSet {
-	return &SparseNetworkRuleSet{}
+// NewSparseNetworkRuleSetPolicy returns a new  SparseNetworkRuleSetPolicy.
+func NewSparseNetworkRuleSetPolicy() *SparseNetworkRuleSetPolicy {
+	return &SparseNetworkRuleSetPolicy{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseNetworkRuleSet) Identity() elemental.Identity {
+func (o *SparseNetworkRuleSetPolicy) Identity() elemental.Identity {
 
-	return NetworkRuleSetIdentity
+	return NetworkRuleSetPolicyIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseNetworkRuleSet) Identifier() string {
+func (o *SparseNetworkRuleSetPolicy) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1415,7 +1415,7 @@ func (o *SparseNetworkRuleSet) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseNetworkRuleSet) SetIdentifier(id string) {
+func (o *SparseNetworkRuleSetPolicy) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -1426,13 +1426,13 @@ func (o *SparseNetworkRuleSet) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseNetworkRuleSet) GetBSON() (interface{}, error) {
+func (o *SparseNetworkRuleSetPolicy) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseNetworkRuleSet{}
+	s := &mongoAttributesSparseNetworkRuleSetPolicy{}
 
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
@@ -1485,13 +1485,13 @@ func (o *SparseNetworkRuleSet) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseNetworkRuleSet) SetBSON(raw bson.Raw) error {
+func (o *SparseNetworkRuleSetPolicy) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseNetworkRuleSet{}
+	s := &mongoAttributesSparseNetworkRuleSetPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -1546,15 +1546,15 @@ func (o *SparseNetworkRuleSet) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseNetworkRuleSet) Version() int {
+func (o *SparseNetworkRuleSetPolicy) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseNetworkRuleSet) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseNetworkRuleSetPolicy) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewNetworkRuleSet()
+	out := NewNetworkRuleSetPolicy()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1603,8 +1603,8 @@ func (o *SparseNetworkRuleSet) ToPlain() elemental.PlainIdentifiable {
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
-	if o.Selector != nil {
-		out.Selector = *o.Selector
+	if o.Subject != nil {
+		out.Subject = *o.Subject
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -1617,7 +1617,7 @@ func (o *SparseNetworkRuleSet) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseNetworkRuleSet) GetAnnotations() (out map[string][]string) {
+func (o *SparseNetworkRuleSetPolicy) GetAnnotations() (out map[string][]string) {
 
 	if o.Annotations == nil {
 		return
@@ -1627,13 +1627,13 @@ func (o *SparseNetworkRuleSet) GetAnnotations() (out map[string][]string) {
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetAnnotations(annotations map[string][]string) {
+func (o *SparseNetworkRuleSetPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseNetworkRuleSet) GetAssociatedTags() (out []string) {
+func (o *SparseNetworkRuleSetPolicy) GetAssociatedTags() (out []string) {
 
 	if o.AssociatedTags == nil {
 		return
@@ -1643,13 +1643,13 @@ func (o *SparseNetworkRuleSet) GetAssociatedTags() (out []string) {
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetAssociatedTags(associatedTags []string) {
+func (o *SparseNetworkRuleSetPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseNetworkRuleSet) GetCreateIdempotencyKey() (out string) {
+func (o *SparseNetworkRuleSetPolicy) GetCreateIdempotencyKey() (out string) {
 
 	if o.CreateIdempotencyKey == nil {
 		return
@@ -1659,13 +1659,13 @@ func (o *SparseNetworkRuleSet) GetCreateIdempotencyKey() (out string) {
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseNetworkRuleSetPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseNetworkRuleSet) GetCreateTime() (out time.Time) {
+func (o *SparseNetworkRuleSetPolicy) GetCreateTime() (out time.Time) {
 
 	if o.CreateTime == nil {
 		return
@@ -1675,13 +1675,13 @@ func (o *SparseNetworkRuleSet) GetCreateTime() (out time.Time) {
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetCreateTime(createTime time.Time) {
+func (o *SparseNetworkRuleSetPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseNetworkRuleSet) GetDescription() (out string) {
+func (o *SparseNetworkRuleSetPolicy) GetDescription() (out string) {
 
 	if o.Description == nil {
 		return
@@ -1691,13 +1691,13 @@ func (o *SparseNetworkRuleSet) GetDescription() (out string) {
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetDescription(description string) {
+func (o *SparseNetworkRuleSetPolicy) SetDescription(description string) {
 
 	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseNetworkRuleSet) GetDisabled() (out bool) {
+func (o *SparseNetworkRuleSetPolicy) GetDisabled() (out bool) {
 
 	if o.Disabled == nil {
 		return
@@ -1707,13 +1707,13 @@ func (o *SparseNetworkRuleSet) GetDisabled() (out bool) {
 }
 
 // SetDisabled sets the property Disabled of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetDisabled(disabled bool) {
+func (o *SparseNetworkRuleSetPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseNetworkRuleSet) GetFallback() (out bool) {
+func (o *SparseNetworkRuleSetPolicy) GetFallback() (out bool) {
 
 	if o.Fallback == nil {
 		return
@@ -1723,13 +1723,13 @@ func (o *SparseNetworkRuleSet) GetFallback() (out bool) {
 }
 
 // SetFallback sets the property Fallback of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetFallback(fallback bool) {
+func (o *SparseNetworkRuleSetPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = &fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseNetworkRuleSet) GetMetadata() (out []string) {
+func (o *SparseNetworkRuleSetPolicy) GetMetadata() (out []string) {
 
 	if o.Metadata == nil {
 		return
@@ -1739,13 +1739,13 @@ func (o *SparseNetworkRuleSet) GetMetadata() (out []string) {
 }
 
 // SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetMetadata(metadata []string) {
+func (o *SparseNetworkRuleSetPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseNetworkRuleSet) GetName() (out string) {
+func (o *SparseNetworkRuleSetPolicy) GetName() (out string) {
 
 	if o.Name == nil {
 		return
@@ -1755,13 +1755,13 @@ func (o *SparseNetworkRuleSet) GetName() (out string) {
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetName(name string) {
+func (o *SparseNetworkRuleSetPolicy) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseNetworkRuleSet) GetNamespace() (out string) {
+func (o *SparseNetworkRuleSetPolicy) GetNamespace() (out string) {
 
 	if o.Namespace == nil {
 		return
@@ -1771,13 +1771,13 @@ func (o *SparseNetworkRuleSet) GetNamespace() (out string) {
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetNamespace(namespace string) {
+func (o *SparseNetworkRuleSetPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseNetworkRuleSet) GetNormalizedTags() (out []string) {
+func (o *SparseNetworkRuleSetPolicy) GetNormalizedTags() (out []string) {
 
 	if o.NormalizedTags == nil {
 		return
@@ -1787,13 +1787,13 @@ func (o *SparseNetworkRuleSet) GetNormalizedTags() (out []string) {
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseNetworkRuleSetPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseNetworkRuleSet) GetPropagate() (out bool) {
+func (o *SparseNetworkRuleSetPolicy) GetPropagate() (out bool) {
 
 	if o.Propagate == nil {
 		return
@@ -1803,13 +1803,13 @@ func (o *SparseNetworkRuleSet) GetPropagate() (out bool) {
 }
 
 // SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetPropagate(propagate bool) {
+func (o *SparseNetworkRuleSetPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseNetworkRuleSet) GetProtected() (out bool) {
+func (o *SparseNetworkRuleSetPolicy) GetProtected() (out bool) {
 
 	if o.Protected == nil {
 		return
@@ -1819,13 +1819,13 @@ func (o *SparseNetworkRuleSet) GetProtected() (out bool) {
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetProtected(protected bool) {
+func (o *SparseNetworkRuleSetPolicy) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseNetworkRuleSet) GetUpdateIdempotencyKey() (out string) {
+func (o *SparseNetworkRuleSetPolicy) GetUpdateIdempotencyKey() (out string) {
 
 	if o.UpdateIdempotencyKey == nil {
 		return
@@ -1835,13 +1835,13 @@ func (o *SparseNetworkRuleSet) GetUpdateIdempotencyKey() (out string) {
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseNetworkRuleSetPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseNetworkRuleSet) GetUpdateTime() (out time.Time) {
+func (o *SparseNetworkRuleSetPolicy) GetUpdateTime() (out time.Time) {
 
 	if o.UpdateTime == nil {
 		return
@@ -1851,36 +1851,36 @@ func (o *SparseNetworkRuleSet) GetUpdateTime() (out time.Time) {
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseNetworkRuleSet) SetUpdateTime(updateTime time.Time) {
+func (o *SparseNetworkRuleSetPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
-// DeepCopy returns a deep copy if the SparseNetworkRuleSet.
-func (o *SparseNetworkRuleSet) DeepCopy() *SparseNetworkRuleSet {
+// DeepCopy returns a deep copy if the SparseNetworkRuleSetPolicy.
+func (o *SparseNetworkRuleSetPolicy) DeepCopy() *SparseNetworkRuleSetPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseNetworkRuleSet{}
+	out := &SparseNetworkRuleSetPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseNetworkRuleSet.
-func (o *SparseNetworkRuleSet) DeepCopyInto(out *SparseNetworkRuleSet) {
+// DeepCopyInto copies the receiver into the given *SparseNetworkRuleSetPolicy.
+func (o *SparseNetworkRuleSetPolicy) DeepCopyInto(out *SparseNetworkRuleSetPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseNetworkRuleSet: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseNetworkRuleSetPolicy: %s", err))
 	}
 
-	*out = *target.(*SparseNetworkRuleSet)
+	*out = *target.(*SparseNetworkRuleSetPolicy)
 }
 
-type mongoAttributesNetworkRuleSet struct {
+type mongoAttributesNetworkRuleSetPolicy struct {
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
@@ -1897,7 +1897,7 @@ type mongoAttributesNetworkRuleSet struct {
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 }
-type mongoAttributesSparseNetworkRuleSet struct {
+type mongoAttributesSparseNetworkRuleSetPolicy struct {
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`

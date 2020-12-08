@@ -28,7 +28,12 @@ type NetworkRule struct {
 	Action NetworkRuleActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// A list of IP CIDRS or FQDNS that identify remote endpoints.
-	Networks []string `json:"networks" msgpack:"networks" bson:"-" mapstructure:"networks,omitempty"`
+	Networks []string `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"-" mapstructure:"networks,omitempty"`
+
+	// Identifies the set of remote workloads that the rule relates to. The selector
+	// will identify both processing units as well as external networks that match the
+	// selector.
+	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
 	// If set to `true`, the flow will be in observation mode.
 	ObservationEnabled bool `json:"observationEnabled" msgpack:"observationEnabled" bson:"-" mapstructure:"observationEnabled,omitempty"`
@@ -38,11 +43,6 @@ type NetworkRule struct {
 	// designation
 	// is not allowed.
 	ProtocolPorts []string `json:"protocolPorts" msgpack:"protocolPorts" bson:"-" mapstructure:"protocolPorts,omitempty"`
-
-	// Identifies the set of remote workloads that the rule relates to. The selector
-	// will identify both processing units as well as external networks that match the
-	// selector.
-	Selector [][]string `json:"selector" msgpack:"selector" bson:"-" mapstructure:"selector,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -54,9 +54,9 @@ func NewNetworkRule() *NetworkRule {
 		ModelVersion:       1,
 		Action:             NetworkRuleActionAllow,
 		Networks:           []string{},
+		Object:             [][]string{},
 		ObservationEnabled: false,
 		ProtocolPorts:      []string{},
-		Selector:           [][]string{},
 	}
 }
 
@@ -133,11 +133,11 @@ func (o *NetworkRule) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateServicePorts("protocolPorts", o.ProtocolPorts); err != nil {
+	if err := ValidateTagsExpression("object", o.Object); err != nil {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateTagsExpression("selector", o.Selector); err != nil {
+	if err := ValidateServicePorts("protocolPorts", o.ProtocolPorts); err != nil {
 		errors = errors.Append(err)
 	}
 
