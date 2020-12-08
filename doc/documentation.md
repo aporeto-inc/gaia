@@ -4721,7 +4721,8 @@ applications, services or any combination you like.
   "JWTCertificateType": "None",
   "SSHCAEnabled": false,
   "customZoning": false,
-  "enforcerDefaultBehavior": "Inherit",
+  "defaultPUIncomingTrafficAction": "Inherit",
+  "defaultPUOutgoingTrafficAction": "Inherit",
   "localCAEnabled": false,
   "name": "mynamespace",
   "protected": false,
@@ -4861,23 +4862,37 @@ Type: `string`
 
 Indicates the default enforcer version for this namespace.
 
-##### `description` [`max_length=1024`]
-
-Type: `string`
-
-Description of the object.
-
-##### `enforcerDefaultBehavior`
+##### `defaultPUIncomingTrafficAction`
 
 Type: `enum(Allow | Reject | Inherit)`
 
-Describes the default communication behavior of an enforcer for this namespace.
+Describes the default action a processing unit will take for incoming traffic
+for this namespace.
 
 Default value:
 
 ```json
 "Inherit"
 ```
+
+##### `defaultPUOutgoingTrafficAction`
+
+Type: `enum(Allow | Reject | Inherit)`
+
+Describes the default action a processing unit will take for outgoing traffic
+for this namespace.
+
+Default value:
+
+```json
+"Inherit"
+```
+
+##### `description` [`max_length=1024`]
+
+Type: `string`
+
+Description of the object.
 
 ##### `localCAEnabled`
 
@@ -5144,7 +5159,8 @@ Returns the policy info of the specified namespace.
 
 ```json
 {
-  "behavior": "Allow"
+  "PUIncomingTrafficAction": "Allow",
+  "PUOutgoingTrafficAction": "Allow"
 }
 ```
 
@@ -5156,11 +5172,17 @@ Returns the policy info of the specified namespace.
 
 #### Attributes
 
-##### `behavior` [`read_only`]
+##### `PUIncomingTrafficAction` [`read_only`]
 
 Type: `enum(Allow | Reject | Inherit)`
 
-The default enforcer behavior for the namespace.
+The processing unit action for incoming traffic for the namespace.
+
+##### `PUOutgoingTrafficAction` [`read_only`]
+
+Type: `enum(Allow | Reject | Inherit)`
+
+The processing unit action for outgoing traffic for the namespace.
 
 ##### `prefixes` [`read_only`]
 

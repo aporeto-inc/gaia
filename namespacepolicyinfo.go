@@ -8,18 +8,32 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// NamespacePolicyInfoBehaviorValue represents the possible values for attribute "behavior".
-type NamespacePolicyInfoBehaviorValue string
+// NamespacePolicyInfoPUIncomingTrafficActionValue represents the possible values for attribute "PUIncomingTrafficAction".
+type NamespacePolicyInfoPUIncomingTrafficActionValue string
 
 const (
-	// NamespacePolicyInfoBehaviorAllow represents the value Allow.
-	NamespacePolicyInfoBehaviorAllow NamespacePolicyInfoBehaviorValue = "Allow"
+	// NamespacePolicyInfoPUIncomingTrafficActionAllow represents the value Allow.
+	NamespacePolicyInfoPUIncomingTrafficActionAllow NamespacePolicyInfoPUIncomingTrafficActionValue = "Allow"
 
-	// NamespacePolicyInfoBehaviorInherit represents the value Inherit.
-	NamespacePolicyInfoBehaviorInherit NamespacePolicyInfoBehaviorValue = "Inherit"
+	// NamespacePolicyInfoPUIncomingTrafficActionInherit represents the value Inherit.
+	NamespacePolicyInfoPUIncomingTrafficActionInherit NamespacePolicyInfoPUIncomingTrafficActionValue = "Inherit"
 
-	// NamespacePolicyInfoBehaviorReject represents the value Reject.
-	NamespacePolicyInfoBehaviorReject NamespacePolicyInfoBehaviorValue = "Reject"
+	// NamespacePolicyInfoPUIncomingTrafficActionReject represents the value Reject.
+	NamespacePolicyInfoPUIncomingTrafficActionReject NamespacePolicyInfoPUIncomingTrafficActionValue = "Reject"
+)
+
+// NamespacePolicyInfoPUOutgoingTrafficActionValue represents the possible values for attribute "PUOutgoingTrafficAction".
+type NamespacePolicyInfoPUOutgoingTrafficActionValue string
+
+const (
+	// NamespacePolicyInfoPUOutgoingTrafficActionAllow represents the value Allow.
+	NamespacePolicyInfoPUOutgoingTrafficActionAllow NamespacePolicyInfoPUOutgoingTrafficActionValue = "Allow"
+
+	// NamespacePolicyInfoPUOutgoingTrafficActionInherit represents the value Inherit.
+	NamespacePolicyInfoPUOutgoingTrafficActionInherit NamespacePolicyInfoPUOutgoingTrafficActionValue = "Inherit"
+
+	// NamespacePolicyInfoPUOutgoingTrafficActionReject represents the value Reject.
+	NamespacePolicyInfoPUOutgoingTrafficActionReject NamespacePolicyInfoPUOutgoingTrafficActionValue = "Reject"
 )
 
 // NamespacePolicyInfoIdentity represents the Identity of the object.
@@ -94,8 +108,11 @@ func (o NamespacePolicyInfosList) Version() int {
 
 // NamespacePolicyInfo represents the model of a namespacepolicyinfo
 type NamespacePolicyInfo struct {
-	// The default enforcer behavior for the namespace.
-	Behavior NamespacePolicyInfoBehaviorValue `json:"behavior" msgpack:"behavior" bson:"-" mapstructure:"behavior,omitempty"`
+	// The processing unit action for incoming traffic for the namespace.
+	PUIncomingTrafficAction NamespacePolicyInfoPUIncomingTrafficActionValue `json:"PUIncomingTrafficAction" msgpack:"PUIncomingTrafficAction" bson:"-" mapstructure:"PUIncomingTrafficAction,omitempty"`
+
+	// The processing unit action for outgoing traffic for the namespace.
+	PUOutgoingTrafficAction NamespacePolicyInfoPUOutgoingTrafficActionValue `json:"PUOutgoingTrafficAction" msgpack:"PUOutgoingTrafficAction" bson:"-" mapstructure:"PUOutgoingTrafficAction,omitempty"`
 
 	// List of tag prefixes that will be used to suggest policies.
 	Prefixes []string `json:"prefixes" msgpack:"prefixes" bson:"-" mapstructure:"prefixes,omitempty"`
@@ -194,16 +211,19 @@ func (o *NamespacePolicyInfo) ToSparse(fields ...string) elemental.SparseIdentif
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseNamespacePolicyInfo{
-			Behavior: &o.Behavior,
-			Prefixes: &o.Prefixes,
+			PUIncomingTrafficAction: &o.PUIncomingTrafficAction,
+			PUOutgoingTrafficAction: &o.PUOutgoingTrafficAction,
+			Prefixes:                &o.Prefixes,
 		}
 	}
 
 	sp := &SparseNamespacePolicyInfo{}
 	for _, f := range fields {
 		switch f {
-		case "behavior":
-			sp.Behavior = &(o.Behavior)
+		case "PUIncomingTrafficAction":
+			sp.PUIncomingTrafficAction = &(o.PUIncomingTrafficAction)
+		case "PUOutgoingTrafficAction":
+			sp.PUOutgoingTrafficAction = &(o.PUOutgoingTrafficAction)
 		case "prefixes":
 			sp.Prefixes = &(o.Prefixes)
 		}
@@ -219,8 +239,11 @@ func (o *NamespacePolicyInfo) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseNamespacePolicyInfo)
-	if so.Behavior != nil {
-		o.Behavior = *so.Behavior
+	if so.PUIncomingTrafficAction != nil {
+		o.PUIncomingTrafficAction = *so.PUIncomingTrafficAction
+	}
+	if so.PUOutgoingTrafficAction != nil {
+		o.PUOutgoingTrafficAction = *so.PUOutgoingTrafficAction
 	}
 	if so.Prefixes != nil {
 		o.Prefixes = *so.Prefixes
@@ -257,7 +280,11 @@ func (o *NamespacePolicyInfo) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("behavior", string(o.Behavior), []string{"Allow", "Reject", "Inherit"}, false); err != nil {
+	if err := elemental.ValidateStringInList("PUIncomingTrafficAction", string(o.PUIncomingTrafficAction), []string{"Allow", "Reject", "Inherit"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("PUOutgoingTrafficAction", string(o.PUOutgoingTrafficAction), []string{"Allow", "Reject", "Inherit"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -295,8 +322,10 @@ func (*NamespacePolicyInfo) AttributeSpecifications() map[string]elemental.Attri
 func (o *NamespacePolicyInfo) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "behavior":
-		return o.Behavior
+	case "PUIncomingTrafficAction":
+		return o.PUIncomingTrafficAction
+	case "PUOutgoingTrafficAction":
+		return o.PUOutgoingTrafficAction
 	case "prefixes":
 		return o.Prefixes
 	}
@@ -306,12 +335,21 @@ func (o *NamespacePolicyInfo) ValueForAttribute(name string) interface{} {
 
 // NamespacePolicyInfoAttributesMap represents the map of attribute for NamespacePolicyInfo.
 var NamespacePolicyInfoAttributesMap = map[string]elemental.AttributeSpecification{
-	"Behavior": {
+	"PUIncomingTrafficAction": {
 		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
-		ConvertedName:  "Behavior",
-		Description:    `The default enforcer behavior for the namespace.`,
+		ConvertedName:  "PUIncomingTrafficAction",
+		Description:    `The processing unit action for incoming traffic for the namespace.`,
 		Exposed:        true,
-		Name:           "behavior",
+		Name:           "PUIncomingTrafficAction",
+		ReadOnly:       true,
+		Type:           "enum",
+	},
+	"PUOutgoingTrafficAction": {
+		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
+		ConvertedName:  "PUOutgoingTrafficAction",
+		Description:    `The processing unit action for outgoing traffic for the namespace.`,
+		Exposed:        true,
+		Name:           "PUOutgoingTrafficAction",
 		ReadOnly:       true,
 		Type:           "enum",
 	},
@@ -329,12 +367,21 @@ var NamespacePolicyInfoAttributesMap = map[string]elemental.AttributeSpecificati
 
 // NamespacePolicyInfoLowerCaseAttributesMap represents the map of attribute for NamespacePolicyInfo.
 var NamespacePolicyInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"behavior": {
+	"puincomingtrafficaction": {
 		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
-		ConvertedName:  "Behavior",
-		Description:    `The default enforcer behavior for the namespace.`,
+		ConvertedName:  "PUIncomingTrafficAction",
+		Description:    `The processing unit action for incoming traffic for the namespace.`,
 		Exposed:        true,
-		Name:           "behavior",
+		Name:           "PUIncomingTrafficAction",
+		ReadOnly:       true,
+		Type:           "enum",
+	},
+	"puoutgoingtrafficaction": {
+		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
+		ConvertedName:  "PUOutgoingTrafficAction",
+		Description:    `The processing unit action for outgoing traffic for the namespace.`,
+		Exposed:        true,
+		Name:           "PUOutgoingTrafficAction",
 		ReadOnly:       true,
 		Type:           "enum",
 	},
@@ -413,8 +460,11 @@ func (o SparseNamespacePolicyInfosList) Version() int {
 
 // SparseNamespacePolicyInfo represents the sparse version of a namespacepolicyinfo.
 type SparseNamespacePolicyInfo struct {
-	// The default enforcer behavior for the namespace.
-	Behavior *NamespacePolicyInfoBehaviorValue `json:"behavior,omitempty" msgpack:"behavior,omitempty" bson:"-" mapstructure:"behavior,omitempty"`
+	// The processing unit action for incoming traffic for the namespace.
+	PUIncomingTrafficAction *NamespacePolicyInfoPUIncomingTrafficActionValue `json:"PUIncomingTrafficAction,omitempty" msgpack:"PUIncomingTrafficAction,omitempty" bson:"-" mapstructure:"PUIncomingTrafficAction,omitempty"`
+
+	// The processing unit action for outgoing traffic for the namespace.
+	PUOutgoingTrafficAction *NamespacePolicyInfoPUOutgoingTrafficActionValue `json:"PUOutgoingTrafficAction,omitempty" msgpack:"PUOutgoingTrafficAction,omitempty" bson:"-" mapstructure:"PUOutgoingTrafficAction,omitempty"`
 
 	// List of tag prefixes that will be used to suggest policies.
 	Prefixes *[]string `json:"prefixes,omitempty" msgpack:"prefixes,omitempty" bson:"-" mapstructure:"prefixes,omitempty"`
@@ -483,8 +533,11 @@ func (o *SparseNamespacePolicyInfo) Version() int {
 func (o *SparseNamespacePolicyInfo) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewNamespacePolicyInfo()
-	if o.Behavior != nil {
-		out.Behavior = *o.Behavior
+	if o.PUIncomingTrafficAction != nil {
+		out.PUIncomingTrafficAction = *o.PUIncomingTrafficAction
+	}
+	if o.PUOutgoingTrafficAction != nil {
+		out.PUOutgoingTrafficAction = *o.PUOutgoingTrafficAction
 	}
 	if o.Prefixes != nil {
 		out.Prefixes = *o.Prefixes
