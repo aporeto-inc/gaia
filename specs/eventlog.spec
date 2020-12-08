@@ -8,7 +8,7 @@ model:
   description: Allows you to report various events on any object.
   extends:
   - '@identifiable-stored'
-  - '@zoned'
+  - '@zoned-monotonic'
   - '@migratable'
 
 # Ordering

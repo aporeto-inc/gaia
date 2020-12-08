@@ -12,7 +12,7 @@ model:
     indicate whether or not the lookup was successful.
   extends:
   - '@identifiable-stored'
-  - '@zoned'
+  - '@zoned-monotonic'
   - '@migratable'
 
 # Ordering

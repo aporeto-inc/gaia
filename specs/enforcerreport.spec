@@ -8,7 +8,7 @@ model:
   description: Post a new enforcer statistics report.
   extends:
   - '@identifiable-stored'
-  - '@zoned'
+  - '@zoned-monotonic'
   - '@migratable'
   validations:
   - $enforcerreport
