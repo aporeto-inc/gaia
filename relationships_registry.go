@@ -1315,6 +1315,19 @@ func init() {
 					},
 				},
 			},
+			"networkrulesetpolicy": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "object",
+						AllowedChoices: []string{
+							"subject",
+							"object",
+						},
+					},
+				},
+			},
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
 					{
@@ -1348,6 +1361,19 @@ func init() {
 				},
 			},
 			"networkaccesspolicy": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "object",
+						AllowedChoices: []string{
+							"subject",
+							"object",
+						},
+					},
+				},
+			},
+			"networkrulesetpolicy": {
 				Parameters: []elemental.ParameterDefinition{
 					{
 						Name:         "mode",
@@ -3683,6 +3709,19 @@ func init() {
 					},
 				},
 			},
+			"networkrulesetpolicy": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "object",
+						AllowedChoices: []string{
+							"subject",
+							"object",
+						},
+					},
+				},
+			},
 			"processingunitpolicy": {},
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
@@ -3717,6 +3756,19 @@ func init() {
 				},
 			},
 			"networkaccesspolicy": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "object",
+						AllowedChoices: []string{
+							"subject",
+							"object",
+						},
+					},
+				},
+			},
+			"networkrulesetpolicy": {
 				Parameters: []elemental.ParameterDefinition{
 					{
 						Name:         "mode",
@@ -4330,6 +4382,19 @@ func init() {
 					},
 				},
 			},
+			"networkrulesetpolicy": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "object",
+						AllowedChoices: []string{
+							"subject",
+							"object",
+						},
+					},
+				},
+			},
 			"processingunit": {},
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
@@ -4365,6 +4430,19 @@ func init() {
 				},
 			},
 			"networkaccesspolicy": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "object",
+						AllowedChoices: []string{
+							"subject",
+							"object",
+						},
+					},
+				},
+			},
+			"networkrulesetpolicy": {
 				Parameters: []elemental.ParameterDefinition{
 					{
 						Name:         "mode",

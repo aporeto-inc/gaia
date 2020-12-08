@@ -66,3 +66,46 @@ attributes:
     subtype: '[][]string'
     validations:
     - $tagsExpression
+
+# Relations
+relations:
+- rest_name: externalnetwork
+  get:
+    description: Returns the list of external networks affected by a network rule
+      set policy.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subject
+        - object
+        default_value: object
+
+- rest_name: processingunit
+  get:
+    description: Returns the list of processing units affected by a network rule set
+      policy.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subject
+        - object
+        default_value: object
+
+- rest_name: service
+  get:
+    description: Returns the list of services affected by a network rule set policy.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subject
+        - object
+        default_value: object
