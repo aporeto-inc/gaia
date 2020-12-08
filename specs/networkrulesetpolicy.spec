@@ -11,7 +11,11 @@ model:
     (also identified by their tags).
   aliases:
   - netruleset
+  - netrulesets
   - netset
+  - netsets
+  - networkruleset
+  - networkrulesets
   get:
     description: Retrieves the policy with the given ID.
     global_parameters:
@@ -41,16 +45,20 @@ indexes:
 # Attributes
 attributes:
   v1:
-  - name: egressRules
-    description: The set of egress rules that comprise this rule set.
+  - name: incomingRules
+    description: |-
+      The set of rules to apply to incoming traffic (traffic coming to the Processing
+      Unit matching the subject).
     type: refList
     exposed: true
     subtype: networkrule
     extensions:
       refMode: pointer
 
-  - name: ingressRules
-    description: The set of ingress rules that comprise this rule set.
+  - name: outgoingRules
+    description: |-
+      The set of rules to apply to outgoing traffic (traffic coming from the
+      Processing Unit matching the subject).
     type: refList
     exposed: true
     subtype: networkrule
@@ -59,7 +67,7 @@ attributes:
 
   - name: subject
     description: |-
-      A tag or tag expression identifying the set of workloads where this policy
+      A tag expression identifying used to match processing units to which this policy
       applies to.
     type: external
     exposed: true

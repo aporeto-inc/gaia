@@ -104,16 +104,14 @@ type NetworkRuleSetPolicy struct {
 	// Defines if the property is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// The set of egress rules that comprise this rule set.
-	EgressRules []*NetworkRule `json:"egressRules" msgpack:"egressRules" bson:"-" mapstructure:"egressRules,omitempty"`
-
 	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// The set of ingress rules that comprise this rule set.
-	IngressRules []*NetworkRule `json:"ingressRules" msgpack:"ingressRules" bson:"-" mapstructure:"ingressRules,omitempty"`
+	// The set of rules to apply to incoming traffic (traffic coming to the Processing
+	// Unit matching the subject).
+	IncomingRules []*NetworkRule `json:"incomingRules" msgpack:"incomingRules" bson:"-" mapstructure:"incomingRules,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -128,13 +126,17 @@ type NetworkRuleSetPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// The set of rules to apply to outgoing traffic (traffic coming from the
+	// Processing Unit matching the subject).
+	OutgoingRules []*NetworkRule `json:"outgoingRules" msgpack:"outgoingRules" bson:"-" mapstructure:"outgoingRules,omitempty"`
+
 	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// A tag or tag expression identifying the set of workloads where this policy
+	// A tag expression identifying used to match processing units to which this policy
 	// applies to.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -154,10 +156,10 @@ func NewNetworkRuleSetPolicy() *NetworkRuleSetPolicy {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		EgressRules:    []*NetworkRule{},
-		IngressRules:   []*NetworkRule{},
 		Metadata:       []string{},
+		IncomingRules:  []*NetworkRule{},
 		NormalizedTags: []string{},
+		OutgoingRules:  []*NetworkRule{},
 		Subject:        [][]string{},
 	}
 }
@@ -468,13 +470,13 @@ func (o *NetworkRuleSetPolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
 			Disabled:             &o.Disabled,
-			EgressRules:          &o.EgressRules,
 			Fallback:             &o.Fallback,
-			IngressRules:         &o.IngressRules,
+			IncomingRules:        &o.IncomingRules,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
+			OutgoingRules:        &o.OutgoingRules,
 			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
 			Subject:              &o.Subject,
@@ -500,12 +502,10 @@ func (o *NetworkRuleSetPolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.Description = &(o.Description)
 		case "disabled":
 			sp.Disabled = &(o.Disabled)
-		case "egressRules":
-			sp.EgressRules = &(o.EgressRules)
 		case "fallback":
 			sp.Fallback = &(o.Fallback)
-		case "ingressRules":
-			sp.IngressRules = &(o.IngressRules)
+		case "incomingRules":
+			sp.IncomingRules = &(o.IncomingRules)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -514,6 +514,8 @@ func (o *NetworkRuleSetPolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "outgoingRules":
+			sp.OutgoingRules = &(o.OutgoingRules)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
@@ -558,14 +560,11 @@ func (o *NetworkRuleSetPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Disabled != nil {
 		o.Disabled = *so.Disabled
 	}
-	if so.EgressRules != nil {
-		o.EgressRules = *so.EgressRules
-	}
 	if so.Fallback != nil {
 		o.Fallback = *so.Fallback
 	}
-	if so.IngressRules != nil {
-		o.IngressRules = *so.IngressRules
+	if so.IncomingRules != nil {
+		o.IncomingRules = *so.IncomingRules
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -578,6 +577,9 @@ func (o *NetworkRuleSetPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.OutgoingRules != nil {
+		o.OutgoingRules = *so.OutgoingRules
 	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
@@ -634,17 +636,7 @@ func (o *NetworkRuleSetPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	for _, sub := range o.EgressRules {
-		if sub == nil {
-			continue
-		}
-		elemental.ResetDefaultForZeroValues(sub)
-		if err := sub.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
-	}
-
-	for _, sub := range o.IngressRules {
+	for _, sub := range o.IncomingRules {
 		if sub == nil {
 			continue
 		}
@@ -664,6 +656,16 @@ func (o *NetworkRuleSetPolicy) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = errors.Append(err)
+	}
+
+	for _, sub := range o.OutgoingRules {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
@@ -718,12 +720,10 @@ func (o *NetworkRuleSetPolicy) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "disabled":
 		return o.Disabled
-	case "egressRules":
-		return o.EgressRules
 	case "fallback":
 		return o.Fallback
-	case "ingressRules":
-		return o.IngressRules
+	case "incomingRules":
+		return o.IncomingRules
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -732,6 +732,8 @@ func (o *NetworkRuleSetPolicy) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "outgoingRules":
+		return o.OutgoingRules
 	case "propagate":
 		return o.Propagate
 	case "protected":
@@ -843,15 +845,6 @@ var NetworkRuleSetPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"EgressRules": {
-		AllowedChoices: []string{},
-		ConvertedName:  "EgressRules",
-		Description:    `The set of egress rules that comprise this rule set.`,
-		Exposed:        true,
-		Name:           "egressRules",
-		SubType:        "networkrule",
-		Type:           "refList",
-	},
 	"Fallback": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "fallback",
@@ -867,14 +860,15 @@ propagated it will become a fallback for children namespaces.`,
 		Stored:    true,
 		Type:      "boolean",
 	},
-	"IngressRules": {
+	"IncomingRules": {
 		AllowedChoices: []string{},
-		ConvertedName:  "IngressRules",
-		Description:    `The set of ingress rules that comprise this rule set.`,
-		Exposed:        true,
-		Name:           "ingressRules",
-		SubType:        "networkrule",
-		Type:           "refList",
+		ConvertedName:  "IncomingRules",
+		Description: `The set of rules to apply to incoming traffic (traffic coming to the Processing
+Unit matching the subject).`,
+		Exposed: true,
+		Name:    "incomingRules",
+		SubType: "networkrule",
+		Type:    "refList",
 	},
 	"Metadata": {
 		AllowedChoices: []string{},
@@ -940,6 +934,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"OutgoingRules": {
+		AllowedChoices: []string{},
+		ConvertedName:  "OutgoingRules",
+		Description: `The set of rules to apply to outgoing traffic (traffic coming from the
+Processing Unit matching the subject).`,
+		Exposed: true,
+		Name:    "outgoingRules",
+		SubType: "networkrule",
+		Type:    "refList",
+	},
 	"Propagate": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "propagate",
@@ -969,7 +973,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Subject": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `A tag or tag expression identifying the set of workloads where this policy
+		Description: `A tag expression identifying used to match processing units to which this policy
 applies to.`,
 		Exposed: true,
 		Name:    "subject",
@@ -1102,15 +1106,6 @@ var NetworkRuleSetPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"egressrules": {
-		AllowedChoices: []string{},
-		ConvertedName:  "EgressRules",
-		Description:    `The set of egress rules that comprise this rule set.`,
-		Exposed:        true,
-		Name:           "egressRules",
-		SubType:        "networkrule",
-		Type:           "refList",
-	},
 	"fallback": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "fallback",
@@ -1126,14 +1121,15 @@ propagated it will become a fallback for children namespaces.`,
 		Stored:    true,
 		Type:      "boolean",
 	},
-	"ingressrules": {
+	"incomingrules": {
 		AllowedChoices: []string{},
-		ConvertedName:  "IngressRules",
-		Description:    `The set of ingress rules that comprise this rule set.`,
-		Exposed:        true,
-		Name:           "ingressRules",
-		SubType:        "networkrule",
-		Type:           "refList",
+		ConvertedName:  "IncomingRules",
+		Description: `The set of rules to apply to incoming traffic (traffic coming to the Processing
+Unit matching the subject).`,
+		Exposed: true,
+		Name:    "incomingRules",
+		SubType: "networkrule",
+		Type:    "refList",
 	},
 	"metadata": {
 		AllowedChoices: []string{},
@@ -1199,6 +1195,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"outgoingrules": {
+		AllowedChoices: []string{},
+		ConvertedName:  "OutgoingRules",
+		Description: `The set of rules to apply to outgoing traffic (traffic coming from the
+Processing Unit matching the subject).`,
+		Exposed: true,
+		Name:    "outgoingRules",
+		SubType: "networkrule",
+		Type:    "refList",
+	},
 	"propagate": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "propagate",
@@ -1228,7 +1234,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"subject": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `A tag or tag expression identifying the set of workloads where this policy
+		Description: `A tag expression identifying used to match processing units to which this policy
 applies to.`,
 		Exposed: true,
 		Name:    "subject",
@@ -1351,16 +1357,14 @@ type SparseNetworkRuleSetPolicy struct {
 	// Defines if the property is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// The set of egress rules that comprise this rule set.
-	EgressRules *[]*NetworkRule `json:"egressRules,omitempty" msgpack:"egressRules,omitempty" bson:"-" mapstructure:"egressRules,omitempty"`
-
 	// Indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
-	// The set of ingress rules that comprise this rule set.
-	IngressRules *[]*NetworkRule `json:"ingressRules,omitempty" msgpack:"ingressRules,omitempty" bson:"-" mapstructure:"ingressRules,omitempty"`
+	// The set of rules to apply to incoming traffic (traffic coming to the Processing
+	// Unit matching the subject).
+	IncomingRules *[]*NetworkRule `json:"incomingRules,omitempty" msgpack:"incomingRules,omitempty" bson:"-" mapstructure:"incomingRules,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -1375,13 +1379,17 @@ type SparseNetworkRuleSetPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
+	// The set of rules to apply to outgoing traffic (traffic coming from the
+	// Processing Unit matching the subject).
+	OutgoingRules *[]*NetworkRule `json:"outgoingRules,omitempty" msgpack:"outgoingRules,omitempty" bson:"-" mapstructure:"outgoingRules,omitempty"`
+
 	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// A tag or tag expression identifying the set of workloads where this policy
+	// A tag expression identifying used to match processing units to which this policy
 	// applies to.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -1576,14 +1584,11 @@ func (o *SparseNetworkRuleSetPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.Disabled != nil {
 		out.Disabled = *o.Disabled
 	}
-	if o.EgressRules != nil {
-		out.EgressRules = *o.EgressRules
-	}
 	if o.Fallback != nil {
 		out.Fallback = *o.Fallback
 	}
-	if o.IngressRules != nil {
-		out.IngressRules = *o.IngressRules
+	if o.IncomingRules != nil {
+		out.IncomingRules = *o.IncomingRules
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -1596,6 +1601,9 @@ func (o *SparseNetworkRuleSetPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.OutgoingRules != nil {
+		out.OutgoingRules = *o.OutgoingRules
 	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate

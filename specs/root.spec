@@ -666,8 +666,8 @@ relations:
     - $propagatable
   create:
     description: |-
-      Creates a new network policy. This is depreacted in favor of
-      networkrulesetpolicy.
+      Creates a new network policy. This is deprecated. in favor of
+      NetworkRuleSetPolicy.
 
 - rest_name: networkrulesetpolicy
   get:
