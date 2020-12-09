@@ -27,6 +27,12 @@ type NetworkRule struct {
 	// policy.
 	Action NetworkRuleActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
+	// If `true`, the relevant flows will not be reported to the Microsegmentation
+	// Console.
+	// Under some advanced scenarios you may wish to set this to `true`, such as to
+	// save space or improve performance.
+	LogsDisabled bool `json:"logsDisabled" msgpack:"logsDisabled" bson:"-" mapstructure:"logsDisabled,omitempty"`
+
 	// A list of IP CIDRS or FQDNS that identify remote endpoints.
 	Networks []string `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"-" mapstructure:"networks,omitempty"`
 

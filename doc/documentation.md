@@ -5433,6 +5433,7 @@ Represents an ingress or egress network rule.
 ```json
 {
   "action": "Allow",
+  "logsDisabled": false,
   "observationEnabled": false
 }
 ```
@@ -5453,6 +5454,15 @@ Default value:
 ```json
 "Allow"
 ```
+
+##### `logsDisabled`
+
+Type: `boolean`
+
+If `true`, the relevant flows will not be reported to the Microsegmentation
+Console.
+Under some advanced scenarios you may wish to set this to `true`, such as to
+save space or improve performance.
 
 ##### `networks`
 

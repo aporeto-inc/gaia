@@ -26,6 +26,16 @@ attributes:
     default_value: Allow
     orderable: true
 
+  - name: logsDisabled
+    description: |-
+      If `true`, the relevant flows will not be reported to the Microsegmentation
+      Console.
+      Under some advanced scenarios you may wish to set this to `true`, such as to
+      save space or improve performance.
+    type: boolean
+    exposed: true
+    orderable: true
+
   - name: networks
     description: A list of IP CIDRS or FQDNS that identify remote endpoints.
     type: list
