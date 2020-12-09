@@ -153,15 +153,6 @@ attributes:
     validations:
     - $serviceports
 
-  - name: protocolPorts
-    description: Represents the ports and protocols this policy applies to.
-    type: list
-    exposed: true
-    subtype: string
-    orderable: true
-    validations:
-    - $serviceports
-
   - name: subject
     description: A tag or tag expression identifying the subject of the policy.
     type: external

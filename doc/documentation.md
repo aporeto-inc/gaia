@@ -5717,6 +5717,12 @@ Type: `boolean`
 
 Indicates if the policy is propagated.
 
+##### `protocolPorts`
+
+Type: `[]string`
+
+Represents the ports and protocols this policy applies to.
+
 ##### `relation`
 
 Type: `[]string`
@@ -13149,12 +13155,6 @@ Propagates the policy to all of its children.
 Type: `boolean`
 
 Defines if the object is protected.
-
-##### `protocolPorts`
-
-Type: `[]string`
-
-Represents the ports and protocols this policy applies to.
 
 ##### `subject`
 

@@ -122,6 +122,9 @@ type PolicyRule struct {
 	// Indicates if the policy is propagated.
 	Propagated bool `json:"propagated" msgpack:"propagated" bson:"-" mapstructure:"propagated,omitempty"`
 
+	// Represents the ports and protocols this policy applies to.
+	ProtocolPorts []string `json:"protocolPorts" msgpack:"protocolPorts" bson:"-" mapstructure:"protocolPorts,omitempty"`
+
 	// Describes the required operation to be performed between subjects and objects.
 	Relation []string `json:"relation" msgpack:"relation" bson:"-" mapstructure:"relation,omitempty"`
 
@@ -141,6 +144,7 @@ func NewPolicyRule() *PolicyRule {
 		ModelVersion:  1,
 		HostServices:  HostServicesList{},
 		AuditProfiles: AuditProfilesList{},
+		ProtocolPorts: []string{},
 		Relation:      []string{},
 		TagClauses:    [][]string{},
 	}
@@ -260,6 +264,7 @@ func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			PolicyNamespace:   &o.PolicyNamespace,
 			PolicyUpdateTime:  &o.PolicyUpdateTime,
 			Propagated:        &o.Propagated,
+			ProtocolPorts:     &o.ProtocolPorts,
 			Relation:          &o.Relation,
 			Services:          &o.Services,
 			TagClauses:        &o.TagClauses,
@@ -295,6 +300,8 @@ func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.PolicyUpdateTime = &(o.PolicyUpdateTime)
 		case "propagated":
 			sp.Propagated = &(o.Propagated)
+		case "protocolPorts":
+			sp.ProtocolPorts = &(o.ProtocolPorts)
 		case "relation":
 			sp.Relation = &(o.Relation)
 		case "services":
@@ -352,6 +359,9 @@ func (o *PolicyRule) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Propagated != nil {
 		o.Propagated = *so.Propagated
+	}
+	if so.ProtocolPorts != nil {
+		o.ProtocolPorts = *so.ProtocolPorts
 	}
 	if so.Relation != nil {
 		o.Relation = *so.Relation
@@ -472,6 +482,10 @@ func (o *PolicyRule) Validate() error {
 		}
 	}
 
+	if err := ValidateServicePorts("protocolPorts", o.ProtocolPorts); err != nil {
+		errors = errors.Append(err)
+	}
+
 	for _, sub := range o.Services {
 		if sub == nil {
 			continue
@@ -546,6 +560,8 @@ func (o *PolicyRule) ValueForAttribute(name string) interface{} {
 		return o.PolicyUpdateTime
 	case "propagated":
 		return o.Propagated
+	case "protocolPorts":
+		return o.ProtocolPorts
 	case "relation":
 		return o.Relation
 	case "services":
@@ -683,6 +699,16 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "propagated",
 		Type:           "boolean",
+	},
+	"ProtocolPorts": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ProtocolPorts",
+		Description:    `Represents the ports and protocols this policy applies to.`,
+		Exposed:        true,
+		Name:           "protocolPorts",
+		Orderable:      true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Relation": {
 		AllowedChoices: []string{},
@@ -840,6 +866,16 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "propagated",
 		Type:           "boolean",
 	},
+	"protocolports": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ProtocolPorts",
+		Description:    `Represents the ports and protocols this policy applies to.`,
+		Exposed:        true,
+		Name:           "protocolPorts",
+		Orderable:      true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"relation": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Relation",
@@ -973,6 +1009,9 @@ type SparsePolicyRule struct {
 	// Indicates if the policy is propagated.
 	Propagated *bool `json:"propagated,omitempty" msgpack:"propagated,omitempty" bson:"-" mapstructure:"propagated,omitempty"`
 
+	// Represents the ports and protocols this policy applies to.
+	ProtocolPorts *[]string `json:"protocolPorts,omitempty" msgpack:"protocolPorts,omitempty" bson:"-" mapstructure:"protocolPorts,omitempty"`
+
 	// Describes the required operation to be performed between subjects and objects.
 	Relation *[]string `json:"relation,omitempty" msgpack:"relation,omitempty" bson:"-" mapstructure:"relation,omitempty"`
 
@@ -1100,6 +1139,9 @@ func (o *SparsePolicyRule) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Propagated != nil {
 		out.Propagated = *o.Propagated
+	}
+	if o.ProtocolPorts != nil {
+		out.ProtocolPorts = *o.ProtocolPorts
 	}
 	if o.Relation != nil {
 		out.Relation = *o.Relation

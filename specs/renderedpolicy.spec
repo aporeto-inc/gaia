@@ -147,4 +147,3 @@ attributes:
     - Allow
     default_value: Deny
     orderable: true
-
