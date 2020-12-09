@@ -24,7 +24,6 @@ attributes:
     - Allow
     - Reject
     default_value: Allow
-    orderable: true
 
   - name: logsDisabled
     description: |-
@@ -34,14 +33,12 @@ attributes:
       save space or improve performance.
     type: boolean
     exposed: true
-    orderable: true
 
   - name: networks
     description: A list of IP CIDRS or FQDNS that identify remote endpoints.
     type: list
     exposed: true
     subtype: string
-    orderable: true
     omit_empty: true
 
   - name: object
@@ -61,7 +58,6 @@ attributes:
     type: boolean
     exposed: true
     default_value: false
-    orderable: true
 
   - name: protocolPorts
     description: |-
@@ -72,6 +68,5 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    orderable: true
     validations:
     - $serviceports
