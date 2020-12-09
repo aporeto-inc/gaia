@@ -4012,8 +4012,12 @@ func init() {
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "csr",
-						Type: "string",
+						Name: "renderer",
+						Type: "enum",
+						AllowedChoices: []string{
+							"v1",
+							"v2",
+						},
 					},
 				},
 			},
@@ -4022,8 +4026,12 @@ func init() {
 			"processingunit": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "csr",
-						Type: "string",
+						Name: "renderer",
+						Type: "enum",
+						AllowedChoices: []string{
+							"v1",
+							"v2",
+						},
 					},
 				},
 			},
@@ -4032,8 +4040,12 @@ func init() {
 			"processingunit": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "csr",
-						Type: "string",
+						Name: "renderer",
+						Type: "enum",
+						AllowedChoices: []string{
+							"v1",
+							"v2",
+						},
 					},
 				},
 			},

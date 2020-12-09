@@ -6,7 +6,6 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/constants"
 )
 
 // RenderedPolicyDatapathTypeValue represents the possible values for attribute "datapathType".
@@ -21,6 +20,28 @@ const (
 
 	// RenderedPolicyDatapathTypeEnvoyAuthorizer represents the value EnvoyAuthorizer.
 	RenderedPolicyDatapathTypeEnvoyAuthorizer RenderedPolicyDatapathTypeValue = "EnvoyAuthorizer"
+)
+
+// RenderedPolicyDefaultPUIncomingTrafficActionValue represents the possible values for attribute "defaultPUIncomingTrafficAction".
+type RenderedPolicyDefaultPUIncomingTrafficActionValue string
+
+const (
+	// RenderedPolicyDefaultPUIncomingTrafficActionAllow represents the value Allow.
+	RenderedPolicyDefaultPUIncomingTrafficActionAllow RenderedPolicyDefaultPUIncomingTrafficActionValue = "Allow"
+
+	// RenderedPolicyDefaultPUIncomingTrafficActionReject represents the value Reject.
+	RenderedPolicyDefaultPUIncomingTrafficActionReject RenderedPolicyDefaultPUIncomingTrafficActionValue = "Reject"
+)
+
+// RenderedPolicyDefaultPUOutgoingTrafficActionValue represents the possible values for attribute "defaultPUOutgoingTrafficAction".
+type RenderedPolicyDefaultPUOutgoingTrafficActionValue string
+
+const (
+	// RenderedPolicyDefaultPUOutgoingTrafficActionAllow represents the value Allow.
+	RenderedPolicyDefaultPUOutgoingTrafficActionAllow RenderedPolicyDefaultPUOutgoingTrafficActionValue = "Allow"
+
+	// RenderedPolicyDefaultPUOutgoingTrafficActionReject represents the value Reject.
+	RenderedPolicyDefaultPUOutgoingTrafficActionReject RenderedPolicyDefaultPUOutgoingTrafficActionValue = "Reject"
 )
 
 // RenderedPolicyIdentity represents the Identity of the object.
@@ -107,13 +128,19 @@ type RenderedPolicy struct {
 	// that for example can be used by an Envoy proxy to use the Microsegmentation PKI
 	// and implement Microsegmentation network policies. NOTE: The enforcer is not
 	// owning the datapath in this case. It is merely providing an authorizer API.
-	DatapathType RenderedPolicyDatapathTypeValue `json:"datapathType" msgpack:"datapathType" bson:"-" mapstructure:"datapathType,omitempty"`
+	DatapathType RenderedPolicyDatapathTypeValue `json:"datapathType,omitempty" msgpack:"datapathType,omitempty" bson:"-" mapstructure:"datapathType,omitempty"`
+
+	// Describes the default for incoming traffic.
+	DefaultPUIncomingTrafficAction RenderedPolicyDefaultPUIncomingTrafficActionValue `json:"defaultPUIncomingTrafficAction" msgpack:"defaultPUIncomingTrafficAction" bson:"-" mapstructure:"defaultPUIncomingTrafficAction,omitempty"`
+
+	// Describes the default for outgoing traffic.
+	DefaultPUOutgoingTrafficAction RenderedPolicyDefaultPUOutgoingTrafficActionValue `json:"defaultPUOutgoingTrafficAction" msgpack:"defaultPUOutgoingTrafficAction" bson:"-" mapstructure:"defaultPUOutgoingTrafficAction,omitempty"`
 
 	// The list of services that this processing unit depends on.
 	DependendServices ServicesList `json:"dependendServices" msgpack:"dependendServices" bson:"-" mapstructure:"dependendServices,omitempty"`
 
 	// Lists all the egress policies attached to processing unit.
-	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" msgpack:"egressPolicies" bson:"-" mapstructure:"egressPolicies,omitempty"`
+	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies,omitempty" msgpack:"egressPolicies,omitempty" bson:"-" mapstructure:"egressPolicies,omitempty"`
 
 	// The list of services that this processing unit is implementing.
 	ExposedServices ServicesList `json:"exposedServices" msgpack:"exposedServices" bson:"-" mapstructure:"exposedServices,omitempty"`
@@ -122,7 +149,7 @@ type RenderedPolicy struct {
 	HashedTags map[string]string `json:"hashedTags" msgpack:"hashedTags" bson:"-" mapstructure:"hashedTags,omitempty"`
 
 	// Lists all the ingress policies attached to the processing unit.
-	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies" msgpack:"ingressPolicies" bson:"-" mapstructure:"ingressPolicies,omitempty"`
+	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies,omitempty" msgpack:"ingressPolicies,omitempty" bson:"-" mapstructure:"ingressPolicies,omitempty"`
 
 	// Contains the list of tags that matched the policies.
 	MatchingTags []string `json:"matchingTags" msgpack:"matchingTags" bson:"-" mapstructure:"matchingTags,omitempty"`
@@ -135,6 +162,9 @@ type RenderedPolicy struct {
 	// Identifier of the processing unit.
 	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
+	// Lists all the rule set policies attached to processing unit.
+	RuleSetPolicies PolicyRulesList `json:"ruleSetPolicies,omitempty" msgpack:"ruleSetPolicies,omitempty" bson:"-" mapstructure:"ruleSetPolicies,omitempty"`
+
 	// The set of scopes granted to this processing unit that has to be
 	// present in HTTP requests.
 	Scopes []string `json:"scopes" msgpack:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
@@ -146,20 +176,11 @@ type RenderedPolicy struct {
 func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
-		ModelVersion: 1,
-		EgressPolicies: map[string]PolicyRulesList{
-			string(constants.RenderedPolicyTypeNetwork):   {},
-			string(constants.RenderedPolicyTypeFile):      {},
-			string(constants.RenderedPolicyTypeIsolation): {},
-		},
-		HashedTags: map[string]string{},
-		IngressPolicies: map[string]PolicyRulesList{
-			string(constants.RenderedPolicyTypeNetwork):   {},
-			string(constants.RenderedPolicyTypeFile):      {},
-			string(constants.RenderedPolicyTypeIsolation): {},
-		},
-		MatchingTags: []string{},
-		Scopes:       []string{},
+		ModelVersion:    1,
+		HashedTags:      map[string]string{},
+		MatchingTags:    []string{},
+		RuleSetPolicies: PolicyRulesList{},
+		Scopes:          []string{},
 	}
 }
 
@@ -249,17 +270,20 @@ func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseRenderedPolicy{
-			Certificate:       &o.Certificate,
-			DatapathType:      &o.DatapathType,
-			DependendServices: &o.DependendServices,
-			EgressPolicies:    &o.EgressPolicies,
-			ExposedServices:   &o.ExposedServices,
-			HashedTags:        &o.HashedTags,
-			IngressPolicies:   &o.IngressPolicies,
-			MatchingTags:      &o.MatchingTags,
-			ProcessingUnit:    o.ProcessingUnit,
-			ProcessingUnitID:  &o.ProcessingUnitID,
-			Scopes:            &o.Scopes,
+			Certificate:                    &o.Certificate,
+			DatapathType:                   &o.DatapathType,
+			DefaultPUIncomingTrafficAction: &o.DefaultPUIncomingTrafficAction,
+			DefaultPUOutgoingTrafficAction: &o.DefaultPUOutgoingTrafficAction,
+			DependendServices:              &o.DependendServices,
+			EgressPolicies:                 &o.EgressPolicies,
+			ExposedServices:                &o.ExposedServices,
+			HashedTags:                     &o.HashedTags,
+			IngressPolicies:                &o.IngressPolicies,
+			MatchingTags:                   &o.MatchingTags,
+			ProcessingUnit:                 o.ProcessingUnit,
+			ProcessingUnitID:               &o.ProcessingUnitID,
+			RuleSetPolicies:                &o.RuleSetPolicies,
+			Scopes:                         &o.Scopes,
 		}
 	}
 
@@ -270,6 +294,10 @@ func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Certificate = &(o.Certificate)
 		case "datapathType":
 			sp.DatapathType = &(o.DatapathType)
+		case "defaultPUIncomingTrafficAction":
+			sp.DefaultPUIncomingTrafficAction = &(o.DefaultPUIncomingTrafficAction)
+		case "defaultPUOutgoingTrafficAction":
+			sp.DefaultPUOutgoingTrafficAction = &(o.DefaultPUOutgoingTrafficAction)
 		case "dependendServices":
 			sp.DependendServices = &(o.DependendServices)
 		case "egressPolicies":
@@ -286,6 +314,8 @@ func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.ProcessingUnit = o.ProcessingUnit
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
+		case "ruleSetPolicies":
+			sp.RuleSetPolicies = &(o.RuleSetPolicies)
 		case "scopes":
 			sp.Scopes = &(o.Scopes)
 		}
@@ -306,6 +336,12 @@ func (o *RenderedPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DatapathType != nil {
 		o.DatapathType = *so.DatapathType
+	}
+	if so.DefaultPUIncomingTrafficAction != nil {
+		o.DefaultPUIncomingTrafficAction = *so.DefaultPUIncomingTrafficAction
+	}
+	if so.DefaultPUOutgoingTrafficAction != nil {
+		o.DefaultPUOutgoingTrafficAction = *so.DefaultPUOutgoingTrafficAction
 	}
 	if so.DependendServices != nil {
 		o.DependendServices = *so.DependendServices
@@ -330,6 +366,9 @@ func (o *RenderedPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
+	}
+	if so.RuleSetPolicies != nil {
+		o.RuleSetPolicies = *so.RuleSetPolicies
 	}
 	if so.Scopes != nil {
 		o.Scopes = *so.Scopes
@@ -370,6 +409,14 @@ func (o *RenderedPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateStringInList("defaultPUIncomingTrafficAction", string(o.DefaultPUIncomingTrafficAction), []string{"Allow", "Reject"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("defaultPUOutgoingTrafficAction", string(o.DefaultPUOutgoingTrafficAction), []string{"Allow", "Reject"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	for _, sub := range o.DependendServices {
 		if sub == nil {
 			continue
@@ -393,6 +440,16 @@ func (o *RenderedPolicy) Validate() error {
 	if o.ProcessingUnit != nil {
 		elemental.ResetDefaultForZeroValues(o.ProcessingUnit)
 		if err := o.ProcessingUnit.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	for _, sub := range o.RuleSetPolicies {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
@@ -435,6 +492,10 @@ func (o *RenderedPolicy) ValueForAttribute(name string) interface{} {
 		return o.Certificate
 	case "datapathType":
 		return o.DatapathType
+	case "defaultPUIncomingTrafficAction":
+		return o.DefaultPUIncomingTrafficAction
+	case "defaultPUOutgoingTrafficAction":
+		return o.DefaultPUOutgoingTrafficAction
 	case "dependendServices":
 		return o.DependendServices
 	case "egressPolicies":
@@ -451,6 +512,8 @@ func (o *RenderedPolicy) ValueForAttribute(name string) interface{} {
 		return o.ProcessingUnit
 	case "processingUnitID":
 		return o.ProcessingUnitID
+	case "ruleSetPolicies":
+		return o.RuleSetPolicies
 	case "scopes":
 		return o.Scopes
 	}
@@ -486,6 +549,22 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		Name:     "datapathType",
 		ReadOnly: true,
 		Type:     "enum",
+	},
+	"DefaultPUIncomingTrafficAction": {
+		AllowedChoices: []string{"Allow", "Reject"},
+		ConvertedName:  "DefaultPUIncomingTrafficAction",
+		Description:    `Describes the default for incoming traffic.`,
+		Exposed:        true,
+		Name:           "defaultPUIncomingTrafficAction",
+		Type:           "enum",
+	},
+	"DefaultPUOutgoingTrafficAction": {
+		AllowedChoices: []string{"Allow", "Reject"},
+		ConvertedName:  "DefaultPUOutgoingTrafficAction",
+		Description:    `Describes the default for outgoing traffic.`,
+		Exposed:        true,
+		Name:           "defaultPUOutgoingTrafficAction",
+		Type:           "enum",
 	},
 	"DependendServices": {
 		AllowedChoices: []string{},
@@ -572,6 +651,17 @@ has not been created yet.`,
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"RuleSetPolicies": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "RuleSetPolicies",
+		Description:    `Lists all the rule set policies attached to processing unit.`,
+		Exposed:        true,
+		Name:           "ruleSetPolicies",
+		ReadOnly:       true,
+		SubType:        "policyrule",
+		Type:           "refList",
+	},
 	"Scopes": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "scopes",
@@ -614,6 +704,22 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		Name:     "datapathType",
 		ReadOnly: true,
 		Type:     "enum",
+	},
+	"defaultpuincomingtrafficaction": {
+		AllowedChoices: []string{"Allow", "Reject"},
+		ConvertedName:  "DefaultPUIncomingTrafficAction",
+		Description:    `Describes the default for incoming traffic.`,
+		Exposed:        true,
+		Name:           "defaultPUIncomingTrafficAction",
+		Type:           "enum",
+	},
+	"defaultpuoutgoingtrafficaction": {
+		AllowedChoices: []string{"Allow", "Reject"},
+		ConvertedName:  "DefaultPUOutgoingTrafficAction",
+		Description:    `Describes the default for outgoing traffic.`,
+		Exposed:        true,
+		Name:           "defaultPUOutgoingTrafficAction",
+		Type:           "enum",
 	},
 	"dependendservices": {
 		AllowedChoices: []string{},
@@ -699,6 +805,17 @@ has not been created yet.`,
 		Name:           "processingUnitID",
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"rulesetpolicies": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "RuleSetPolicies",
+		Description:    `Lists all the rule set policies attached to processing unit.`,
+		Exposed:        true,
+		Name:           "ruleSetPolicies",
+		ReadOnly:       true,
+		SubType:        "policyrule",
+		Type:           "refList",
 	},
 	"scopes": {
 		AllowedChoices: []string{},
@@ -791,6 +908,12 @@ type SparseRenderedPolicy struct {
 	// owning the datapath in this case. It is merely providing an authorizer API.
 	DatapathType *RenderedPolicyDatapathTypeValue `json:"datapathType,omitempty" msgpack:"datapathType,omitempty" bson:"-" mapstructure:"datapathType,omitempty"`
 
+	// Describes the default for incoming traffic.
+	DefaultPUIncomingTrafficAction *RenderedPolicyDefaultPUIncomingTrafficActionValue `json:"defaultPUIncomingTrafficAction,omitempty" msgpack:"defaultPUIncomingTrafficAction,omitempty" bson:"-" mapstructure:"defaultPUIncomingTrafficAction,omitempty"`
+
+	// Describes the default for outgoing traffic.
+	DefaultPUOutgoingTrafficAction *RenderedPolicyDefaultPUOutgoingTrafficActionValue `json:"defaultPUOutgoingTrafficAction,omitempty" msgpack:"defaultPUOutgoingTrafficAction,omitempty" bson:"-" mapstructure:"defaultPUOutgoingTrafficAction,omitempty"`
+
 	// The list of services that this processing unit depends on.
 	DependendServices *ServicesList `json:"dependendServices,omitempty" msgpack:"dependendServices,omitempty" bson:"-" mapstructure:"dependendServices,omitempty"`
 
@@ -816,6 +939,9 @@ type SparseRenderedPolicy struct {
 
 	// Identifier of the processing unit.
 	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+
+	// Lists all the rule set policies attached to processing unit.
+	RuleSetPolicies *PolicyRulesList `json:"ruleSetPolicies,omitempty" msgpack:"ruleSetPolicies,omitempty" bson:"-" mapstructure:"ruleSetPolicies,omitempty"`
 
 	// The set of scopes granted to this processing unit that has to be
 	// present in HTTP requests.
@@ -899,6 +1025,12 @@ func (o *SparseRenderedPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.DatapathType != nil {
 		out.DatapathType = *o.DatapathType
 	}
+	if o.DefaultPUIncomingTrafficAction != nil {
+		out.DefaultPUIncomingTrafficAction = *o.DefaultPUIncomingTrafficAction
+	}
+	if o.DefaultPUOutgoingTrafficAction != nil {
+		out.DefaultPUOutgoingTrafficAction = *o.DefaultPUOutgoingTrafficAction
+	}
 	if o.DependendServices != nil {
 		out.DependendServices = *o.DependendServices
 	}
@@ -922,6 +1054,9 @@ func (o *SparseRenderedPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID
+	}
+	if o.RuleSetPolicies != nil {
+		out.RuleSetPolicies = *o.RuleSetPolicies
 	}
 	if o.Scopes != nil {
 		out.Scopes = *o.Scopes

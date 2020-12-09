@@ -808,13 +808,12 @@ relations:
     description: Render a policy for a processing unit.
     parameters:
       entries:
-      - name: csr
-        description: CSR to sign.
-        type: string
-        example_value: |-
-          --- BEGIN CSR ---
-          xxx-xxx-xxx-xxx
-          --- END CSR ---
+      - name: renderer
+        description: Select the network policy renderer to use.
+        type: enum
+        allowed_choices:
+        - v1
+        - v2
 
 - rest_name: rendertemplate
   create:
