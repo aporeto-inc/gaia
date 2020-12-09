@@ -217,8 +217,7 @@ attributes:
   - name: type
     description: |-
       Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
-      `LinuxService`,
-      `RKT`, `User`, or `SSHSession`.
+      `LinuxService`, `WindowsService`, `RKT`, `User`, or `SSHSession`.
     type: enum
     exposed: true
     stored: true
@@ -229,6 +228,7 @@ attributes:
     - Host
     - HostService
     - LinuxService
+    - WindowsService
     - RKT
     - User
     - SSHSession
