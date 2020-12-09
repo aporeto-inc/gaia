@@ -179,6 +179,12 @@ _elemental_identifiable:
 _rendered_policy:
   elemental:
     type: map[string]PolicyRulesList
+    init: |-
+      map[string]PolicyRulesList{
+        string(constants.RenderedPolicyTypeNetwork): {},
+        string(constants.RenderedPolicyTypeFile): {},
+        string(constants.RenderedPolicyTypeIsolation): {},
+      }
     import: go.aporeto.io/gaia/constants
   jsonschema:
     type: |-

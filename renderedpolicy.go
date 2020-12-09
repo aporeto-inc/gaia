@@ -6,6 +6,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
+	"go.aporeto.io/gaia/constants"
 )
 
 // RenderedPolicyDatapathTypeValue represents the possible values for attribute "datapathType".
@@ -152,7 +153,7 @@ type RenderedPolicy struct {
 	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies,omitempty" msgpack:"ingressPolicies,omitempty" bson:"-" mapstructure:"ingressPolicies,omitempty"`
 
 	// Contains the list of tags that matched the policies.
-	MatchingTags []string `json:"matchingTags" msgpack:"matchingTags" bson:"-" mapstructure:"matchingTags,omitempty"`
+	MatchingTags []string `json:"matchingTags,omitempty" msgpack:"matchingTags,omitempty" bson:"-" mapstructure:"matchingTags,omitempty"`
 
 	// Can be set during a `POST` operation to render a policy on a processing unit
 	// that
@@ -176,8 +177,18 @@ type RenderedPolicy struct {
 func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
-		ModelVersion:    1,
-		HashedTags:      map[string]string{},
+		ModelVersion: 1,
+		HashedTags:   map[string]string{},
+		EgressPolicies: map[string]PolicyRulesList{
+			string(constants.RenderedPolicyTypeNetwork):   {},
+			string(constants.RenderedPolicyTypeFile):      {},
+			string(constants.RenderedPolicyTypeIsolation): {},
+		},
+		IngressPolicies: map[string]PolicyRulesList{
+			string(constants.RenderedPolicyTypeNetwork):   {},
+			string(constants.RenderedPolicyTypeFile):      {},
+			string(constants.RenderedPolicyTypeIsolation): {},
+		},
 		MatchingTags:    []string{},
 		RuleSetPolicies: PolicyRulesList{},
 		Scopes:          []string{},
