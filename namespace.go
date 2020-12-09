@@ -23,18 +23,32 @@ const (
 	NamespaceJWTCertificateTypeRSA NamespaceJWTCertificateTypeValue = "RSA"
 )
 
-// NamespaceEnforcerDefaultBehaviorValue represents the possible values for attribute "enforcerDefaultBehavior".
-type NamespaceEnforcerDefaultBehaviorValue string
+// NamespaceDefaultPUIncomingTrafficActionValue represents the possible values for attribute "defaultPUIncomingTrafficAction".
+type NamespaceDefaultPUIncomingTrafficActionValue string
 
 const (
-	// NamespaceEnforcerDefaultBehaviorAllow represents the value Allow.
-	NamespaceEnforcerDefaultBehaviorAllow NamespaceEnforcerDefaultBehaviorValue = "Allow"
+	// NamespaceDefaultPUIncomingTrafficActionAllow represents the value Allow.
+	NamespaceDefaultPUIncomingTrafficActionAllow NamespaceDefaultPUIncomingTrafficActionValue = "Allow"
 
-	// NamespaceEnforcerDefaultBehaviorInherit represents the value Inherit.
-	NamespaceEnforcerDefaultBehaviorInherit NamespaceEnforcerDefaultBehaviorValue = "Inherit"
+	// NamespaceDefaultPUIncomingTrafficActionInherit represents the value Inherit.
+	NamespaceDefaultPUIncomingTrafficActionInherit NamespaceDefaultPUIncomingTrafficActionValue = "Inherit"
 
-	// NamespaceEnforcerDefaultBehaviorReject represents the value Reject.
-	NamespaceEnforcerDefaultBehaviorReject NamespaceEnforcerDefaultBehaviorValue = "Reject"
+	// NamespaceDefaultPUIncomingTrafficActionReject represents the value Reject.
+	NamespaceDefaultPUIncomingTrafficActionReject NamespaceDefaultPUIncomingTrafficActionValue = "Reject"
+)
+
+// NamespaceDefaultPUOutgoingTrafficActionValue represents the possible values for attribute "defaultPUOutgoingTrafficAction".
+type NamespaceDefaultPUOutgoingTrafficActionValue string
+
+const (
+	// NamespaceDefaultPUOutgoingTrafficActionAllow represents the value Allow.
+	NamespaceDefaultPUOutgoingTrafficActionAllow NamespaceDefaultPUOutgoingTrafficActionValue = "Allow"
+
+	// NamespaceDefaultPUOutgoingTrafficActionInherit represents the value Inherit.
+	NamespaceDefaultPUOutgoingTrafficActionInherit NamespaceDefaultPUOutgoingTrafficActionValue = "Inherit"
+
+	// NamespaceDefaultPUOutgoingTrafficActionReject represents the value Reject.
+	NamespaceDefaultPUOutgoingTrafficActionReject NamespaceDefaultPUOutgoingTrafficActionValue = "Reject"
 )
 
 // NamespaceTypeValue represents the possible values for attribute "type".
@@ -179,11 +193,16 @@ type Namespace struct {
 	// Indicates the default enforcer version for this namespace.
 	DefaultEnforcerVersion string `json:"defaultEnforcerVersion" msgpack:"defaultEnforcerVersion" bson:"defaultenforcerversion" mapstructure:"defaultEnforcerVersion,omitempty"`
 
+	// Describes the default action a processing unit will take for incoming traffic
+	// for this namespace.
+	DefaultPUIncomingTrafficAction NamespaceDefaultPUIncomingTrafficActionValue `json:"defaultPUIncomingTrafficAction" msgpack:"defaultPUIncomingTrafficAction" bson:"defaultpuincomingtrafficaction" mapstructure:"defaultPUIncomingTrafficAction,omitempty"`
+
+	// Describes the default action a processing unit will take for outgoing traffic
+	// for this namespace.
+	DefaultPUOutgoingTrafficAction NamespaceDefaultPUOutgoingTrafficActionValue `json:"defaultPUOutgoingTrafficAction" msgpack:"defaultPUOutgoingTrafficAction" bson:"defaultpuoutgoingtrafficaction" mapstructure:"defaultPUOutgoingTrafficAction,omitempty"`
+
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// Describes the default communication behavior of an enforcer for this namespace.
-	EnforcerDefaultBehavior NamespaceEnforcerDefaultBehaviorValue `json:"enforcerDefaultBehavior" msgpack:"enforcerDefaultBehavior" bson:"enforcerdefaultbehavior" mapstructure:"enforcerDefaultBehavior,omitempty"`
 
 	// The certificate authority used by this namespace.
 	LocalCA string `json:"-" msgpack:"-" bson:"localca" mapstructure:"-,omitempty"`
@@ -263,20 +282,21 @@ type Namespace struct {
 func NewNamespace() *Namespace {
 
 	return &Namespace{
-		ModelVersion:               1,
-		AssociatedTags:             []string{},
-		Annotations:                map[string][]string{},
-		EnforcerDefaultBehavior:    NamespaceEnforcerDefaultBehaviorInherit,
-		NormalizedTags:             []string{},
-		OrganizationalMetadata:     []string{},
-		JWTCertificates:            map[string]string{},
-		ServiceCertificateValidity: "168h",
-		Metadata:                   []string{},
-		TagPrefixes:                []string{},
-		NetworkAccessPolicyTags:    []string{},
-		JWTCertificateType:         NamespaceJWTCertificateTypeNone,
-		MigrationsLog:              map[string]string{},
-		Type:                       NamespaceTypeDefault,
+		ModelVersion:                   1,
+		AssociatedTags:                 []string{},
+		Annotations:                    map[string][]string{},
+		DefaultPUOutgoingTrafficAction: NamespaceDefaultPUOutgoingTrafficActionInherit,
+		DefaultPUIncomingTrafficAction: NamespaceDefaultPUIncomingTrafficActionInherit,
+		NormalizedTags:                 []string{},
+		OrganizationalMetadata:         []string{},
+		JWTCertificates:                map[string]string{},
+		ServiceCertificateValidity:     "168h",
+		Metadata:                       []string{},
+		TagPrefixes:                    []string{},
+		NetworkAccessPolicyTags:        []string{},
+		JWTCertificateType:             NamespaceJWTCertificateTypeNone,
+		MigrationsLog:                  map[string]string{},
+		Type:                           NamespaceTypeDefault,
 	}
 }
 
@@ -323,8 +343,9 @@ func (o *Namespace) GetBSON() (interface{}, error) {
 	s.CreateTime = o.CreateTime
 	s.CustomZoning = o.CustomZoning
 	s.DefaultEnforcerVersion = o.DefaultEnforcerVersion
+	s.DefaultPUIncomingTrafficAction = o.DefaultPUIncomingTrafficAction
+	s.DefaultPUOutgoingTrafficAction = o.DefaultPUOutgoingTrafficAction
 	s.Description = o.Description
-	s.EnforcerDefaultBehavior = o.EnforcerDefaultBehavior
 	s.LocalCA = o.LocalCA
 	s.LocalCAEnabled = o.LocalCAEnabled
 	s.Metadata = o.Metadata
@@ -373,8 +394,9 @@ func (o *Namespace) SetBSON(raw bson.Raw) error {
 	o.CreateTime = s.CreateTime
 	o.CustomZoning = s.CustomZoning
 	o.DefaultEnforcerVersion = s.DefaultEnforcerVersion
+	o.DefaultPUIncomingTrafficAction = s.DefaultPUIncomingTrafficAction
+	o.DefaultPUOutgoingTrafficAction = s.DefaultPUOutgoingTrafficAction
 	o.Description = s.Description
-	o.EnforcerDefaultBehavior = s.EnforcerDefaultBehavior
 	o.LocalCA = s.LocalCA
 	o.LocalCAEnabled = s.LocalCAEnabled
 	o.Metadata = s.Metadata
@@ -630,39 +652,40 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseNamespace{
-			ID:                         &o.ID,
-			JWTCertificateType:         &o.JWTCertificateType,
-			JWTCertificates:            &o.JWTCertificates,
-			SSHCA:                      &o.SSHCA,
-			SSHCAEnabled:               &o.SSHCAEnabled,
-			Annotations:                &o.Annotations,
-			AssociatedLocalCAID:        &o.AssociatedLocalCAID,
-			AssociatedSSHCAID:          &o.AssociatedSSHCAID,
-			AssociatedTags:             &o.AssociatedTags,
-			CreateIdempotencyKey:       &o.CreateIdempotencyKey,
-			CreateTime:                 &o.CreateTime,
-			CustomZoning:               &o.CustomZoning,
-			DefaultEnforcerVersion:     &o.DefaultEnforcerVersion,
-			Description:                &o.Description,
-			EnforcerDefaultBehavior:    &o.EnforcerDefaultBehavior,
-			LocalCA:                    &o.LocalCA,
-			LocalCAEnabled:             &o.LocalCAEnabled,
-			Metadata:                   &o.Metadata,
-			MigrationsLog:              &o.MigrationsLog,
-			Name:                       &o.Name,
-			Namespace:                  &o.Namespace,
-			NetworkAccessPolicyTags:    &o.NetworkAccessPolicyTags,
-			NormalizedTags:             &o.NormalizedTags,
-			OrganizationalMetadata:     &o.OrganizationalMetadata,
-			Protected:                  &o.Protected,
-			ServiceCertificateValidity: &o.ServiceCertificateValidity,
-			TagPrefixes:                &o.TagPrefixes,
-			Type:                       &o.Type,
-			UpdateIdempotencyKey:       &o.UpdateIdempotencyKey,
-			UpdateTime:                 &o.UpdateTime,
-			ZHash:                      &o.ZHash,
-			Zone:                       &o.Zone,
-			Zoning:                     &o.Zoning,
+			ID:                             &o.ID,
+			JWTCertificateType:             &o.JWTCertificateType,
+			JWTCertificates:                &o.JWTCertificates,
+			SSHCA:                          &o.SSHCA,
+			SSHCAEnabled:                   &o.SSHCAEnabled,
+			Annotations:                    &o.Annotations,
+			AssociatedLocalCAID:            &o.AssociatedLocalCAID,
+			AssociatedSSHCAID:              &o.AssociatedSSHCAID,
+			AssociatedTags:                 &o.AssociatedTags,
+			CreateIdempotencyKey:           &o.CreateIdempotencyKey,
+			CreateTime:                     &o.CreateTime,
+			CustomZoning:                   &o.CustomZoning,
+			DefaultEnforcerVersion:         &o.DefaultEnforcerVersion,
+			DefaultPUIncomingTrafficAction: &o.DefaultPUIncomingTrafficAction,
+			DefaultPUOutgoingTrafficAction: &o.DefaultPUOutgoingTrafficAction,
+			Description:                    &o.Description,
+			LocalCA:                        &o.LocalCA,
+			LocalCAEnabled:                 &o.LocalCAEnabled,
+			Metadata:                       &o.Metadata,
+			MigrationsLog:                  &o.MigrationsLog,
+			Name:                           &o.Name,
+			Namespace:                      &o.Namespace,
+			NetworkAccessPolicyTags:        &o.NetworkAccessPolicyTags,
+			NormalizedTags:                 &o.NormalizedTags,
+			OrganizationalMetadata:         &o.OrganizationalMetadata,
+			Protected:                      &o.Protected,
+			ServiceCertificateValidity:     &o.ServiceCertificateValidity,
+			TagPrefixes:                    &o.TagPrefixes,
+			Type:                           &o.Type,
+			UpdateIdempotencyKey:           &o.UpdateIdempotencyKey,
+			UpdateTime:                     &o.UpdateTime,
+			ZHash:                          &o.ZHash,
+			Zone:                           &o.Zone,
+			Zoning:                         &o.Zoning,
 		}
 	}
 
@@ -695,10 +718,12 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CustomZoning = &(o.CustomZoning)
 		case "defaultEnforcerVersion":
 			sp.DefaultEnforcerVersion = &(o.DefaultEnforcerVersion)
+		case "defaultPUIncomingTrafficAction":
+			sp.DefaultPUIncomingTrafficAction = &(o.DefaultPUIncomingTrafficAction)
+		case "defaultPUOutgoingTrafficAction":
+			sp.DefaultPUOutgoingTrafficAction = &(o.DefaultPUOutgoingTrafficAction)
 		case "description":
 			sp.Description = &(o.Description)
-		case "enforcerDefaultBehavior":
-			sp.EnforcerDefaultBehavior = &(o.EnforcerDefaultBehavior)
 		case "localCA":
 			sp.LocalCA = &(o.LocalCA)
 		case "localCAEnabled":
@@ -787,11 +812,14 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	if so.DefaultEnforcerVersion != nil {
 		o.DefaultEnforcerVersion = *so.DefaultEnforcerVersion
 	}
+	if so.DefaultPUIncomingTrafficAction != nil {
+		o.DefaultPUIncomingTrafficAction = *so.DefaultPUIncomingTrafficAction
+	}
+	if so.DefaultPUOutgoingTrafficAction != nil {
+		o.DefaultPUOutgoingTrafficAction = *so.DefaultPUOutgoingTrafficAction
+	}
 	if so.Description != nil {
 		o.Description = *so.Description
-	}
-	if so.EnforcerDefaultBehavior != nil {
-		o.EnforcerDefaultBehavior = *so.EnforcerDefaultBehavior
 	}
 	if so.LocalCA != nil {
 		o.LocalCA = *so.LocalCA
@@ -891,11 +919,15 @@ func (o *Namespace) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+	if err := elemental.ValidateStringInList("defaultPUIncomingTrafficAction", string(o.DefaultPUIncomingTrafficAction), []string{"Allow", "Reject", "Inherit"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("enforcerDefaultBehavior", string(o.EnforcerDefaultBehavior), []string{"Allow", "Reject", "Inherit"}, false); err != nil {
+	if err := elemental.ValidateStringInList("defaultPUOutgoingTrafficAction", string(o.DefaultPUOutgoingTrafficAction), []string{"Allow", "Reject", "Inherit"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -987,10 +1019,12 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.CustomZoning
 	case "defaultEnforcerVersion":
 		return o.DefaultEnforcerVersion
+	case "defaultPUIncomingTrafficAction":
+		return o.DefaultPUIncomingTrafficAction
+	case "defaultPUOutgoingTrafficAction":
+		return o.DefaultPUOutgoingTrafficAction
 	case "description":
 		return o.Description
-	case "enforcerDefaultBehavior":
-		return o.EnforcerDefaultBehavior
 	case "localCA":
 		return o.LocalCA
 	case "localCAEnabled":
@@ -1198,6 +1232,30 @@ the same zone as its parent.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"DefaultPUIncomingTrafficAction": {
+		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
+		BSONFieldName:  "defaultpuincomingtrafficaction",
+		ConvertedName:  "DefaultPUIncomingTrafficAction",
+		DefaultValue:   NamespaceDefaultPUIncomingTrafficActionInherit,
+		Description: `Describes the default action a processing unit will take for incoming traffic
+for this namespace.`,
+		Exposed: true,
+		Name:    "defaultPUIncomingTrafficAction",
+		Stored:  true,
+		Type:    "enum",
+	},
+	"DefaultPUOutgoingTrafficAction": {
+		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
+		BSONFieldName:  "defaultpuoutgoingtrafficaction",
+		ConvertedName:  "DefaultPUOutgoingTrafficAction",
+		DefaultValue:   NamespaceDefaultPUOutgoingTrafficActionInherit,
+		Description: `Describes the default action a processing unit will take for outgoing traffic
+for this namespace.`,
+		Exposed: true,
+		Name:    "defaultPUOutgoingTrafficAction",
+		Stored:  true,
+		Type:    "enum",
+	},
 	"Description": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "description",
@@ -1211,17 +1269,6 @@ the same zone as its parent.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"EnforcerDefaultBehavior": {
-		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
-		BSONFieldName:  "enforcerdefaultbehavior",
-		ConvertedName:  "EnforcerDefaultBehavior",
-		DefaultValue:   NamespaceEnforcerDefaultBehaviorInherit,
-		Description:    `Describes the default communication behavior of an enforcer for this namespace.`,
-		Exposed:        true,
-		Name:           "enforcerDefaultBehavior",
-		Stored:         true,
-		Type:           "enum",
 	},
 	"LocalCA": {
 		AllowedChoices: []string{},
@@ -1645,6 +1692,30 @@ the same zone as its parent.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"defaultpuincomingtrafficaction": {
+		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
+		BSONFieldName:  "defaultpuincomingtrafficaction",
+		ConvertedName:  "DefaultPUIncomingTrafficAction",
+		DefaultValue:   NamespaceDefaultPUIncomingTrafficActionInherit,
+		Description: `Describes the default action a processing unit will take for incoming traffic
+for this namespace.`,
+		Exposed: true,
+		Name:    "defaultPUIncomingTrafficAction",
+		Stored:  true,
+		Type:    "enum",
+	},
+	"defaultpuoutgoingtrafficaction": {
+		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
+		BSONFieldName:  "defaultpuoutgoingtrafficaction",
+		ConvertedName:  "DefaultPUOutgoingTrafficAction",
+		DefaultValue:   NamespaceDefaultPUOutgoingTrafficActionInherit,
+		Description: `Describes the default action a processing unit will take for outgoing traffic
+for this namespace.`,
+		Exposed: true,
+		Name:    "defaultPUOutgoingTrafficAction",
+		Stored:  true,
+		Type:    "enum",
+	},
 	"description": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "description",
@@ -1658,17 +1729,6 @@ the same zone as its parent.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"enforcerdefaultbehavior": {
-		AllowedChoices: []string{"Allow", "Reject", "Inherit"},
-		BSONFieldName:  "enforcerdefaultbehavior",
-		ConvertedName:  "EnforcerDefaultBehavior",
-		DefaultValue:   NamespaceEnforcerDefaultBehaviorInherit,
-		Description:    `Describes the default communication behavior of an enforcer for this namespace.`,
-		Exposed:        true,
-		Name:           "enforcerDefaultBehavior",
-		Stored:         true,
-		Type:           "enum",
 	},
 	"localca": {
 		AllowedChoices: []string{},
@@ -2036,11 +2096,16 @@ type SparseNamespace struct {
 	// Indicates the default enforcer version for this namespace.
 	DefaultEnforcerVersion *string `json:"defaultEnforcerVersion,omitempty" msgpack:"defaultEnforcerVersion,omitempty" bson:"defaultenforcerversion,omitempty" mapstructure:"defaultEnforcerVersion,omitempty"`
 
+	// Describes the default action a processing unit will take for incoming traffic
+	// for this namespace.
+	DefaultPUIncomingTrafficAction *NamespaceDefaultPUIncomingTrafficActionValue `json:"defaultPUIncomingTrafficAction,omitempty" msgpack:"defaultPUIncomingTrafficAction,omitempty" bson:"defaultpuincomingtrafficaction,omitempty" mapstructure:"defaultPUIncomingTrafficAction,omitempty"`
+
+	// Describes the default action a processing unit will take for outgoing traffic
+	// for this namespace.
+	DefaultPUOutgoingTrafficAction *NamespaceDefaultPUOutgoingTrafficActionValue `json:"defaultPUOutgoingTrafficAction,omitempty" msgpack:"defaultPUOutgoingTrafficAction,omitempty" bson:"defaultpuoutgoingtrafficaction,omitempty" mapstructure:"defaultPUOutgoingTrafficAction,omitempty"`
+
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
-
-	// Describes the default communication behavior of an enforcer for this namespace.
-	EnforcerDefaultBehavior *NamespaceEnforcerDefaultBehaviorValue `json:"enforcerDefaultBehavior,omitempty" msgpack:"enforcerDefaultBehavior,omitempty" bson:"enforcerdefaultbehavior,omitempty" mapstructure:"enforcerDefaultBehavior,omitempty"`
 
 	// The certificate authority used by this namespace.
 	LocalCA *string `json:"-" msgpack:"-" bson:"localca,omitempty" mapstructure:"-,omitempty"`
@@ -2195,11 +2260,14 @@ func (o *SparseNamespace) GetBSON() (interface{}, error) {
 	if o.DefaultEnforcerVersion != nil {
 		s.DefaultEnforcerVersion = o.DefaultEnforcerVersion
 	}
+	if o.DefaultPUIncomingTrafficAction != nil {
+		s.DefaultPUIncomingTrafficAction = o.DefaultPUIncomingTrafficAction
+	}
+	if o.DefaultPUOutgoingTrafficAction != nil {
+		s.DefaultPUOutgoingTrafficAction = o.DefaultPUOutgoingTrafficAction
+	}
 	if o.Description != nil {
 		s.Description = o.Description
-	}
-	if o.EnforcerDefaultBehavior != nil {
-		s.EnforcerDefaultBehavior = o.EnforcerDefaultBehavior
 	}
 	if o.LocalCA != nil {
 		s.LocalCA = o.LocalCA
@@ -2310,11 +2378,14 @@ func (o *SparseNamespace) SetBSON(raw bson.Raw) error {
 	if s.DefaultEnforcerVersion != nil {
 		o.DefaultEnforcerVersion = s.DefaultEnforcerVersion
 	}
+	if s.DefaultPUIncomingTrafficAction != nil {
+		o.DefaultPUIncomingTrafficAction = s.DefaultPUIncomingTrafficAction
+	}
+	if s.DefaultPUOutgoingTrafficAction != nil {
+		o.DefaultPUOutgoingTrafficAction = s.DefaultPUOutgoingTrafficAction
+	}
 	if s.Description != nil {
 		o.Description = s.Description
-	}
-	if s.EnforcerDefaultBehavior != nil {
-		o.EnforcerDefaultBehavior = s.EnforcerDefaultBehavior
 	}
 	if s.LocalCA != nil {
 		o.LocalCA = s.LocalCA
@@ -2423,11 +2494,14 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	if o.DefaultEnforcerVersion != nil {
 		out.DefaultEnforcerVersion = *o.DefaultEnforcerVersion
 	}
+	if o.DefaultPUIncomingTrafficAction != nil {
+		out.DefaultPUIncomingTrafficAction = *o.DefaultPUIncomingTrafficAction
+	}
+	if o.DefaultPUOutgoingTrafficAction != nil {
+		out.DefaultPUOutgoingTrafficAction = *o.DefaultPUOutgoingTrafficAction
+	}
 	if o.Description != nil {
 		out.Description = *o.Description
-	}
-	if o.EnforcerDefaultBehavior != nil {
-		out.EnforcerDefaultBehavior = *o.EnforcerDefaultBehavior
 	}
 	if o.LocalCA != nil {
 		out.LocalCA = *o.LocalCA
@@ -2768,72 +2842,74 @@ func (o *SparseNamespace) DeepCopyInto(out *SparseNamespace) {
 }
 
 type mongoAttributesNamespace struct {
-	ID                         bson.ObjectId                         `bson:"_id,omitempty"`
-	JWTCertificateType         NamespaceJWTCertificateTypeValue      `bson:"jwtcertificatetype"`
-	JWTCertificates            map[string]string                     `bson:"jwtcertificates"`
-	SSHCA                      string                                `bson:"sshca"`
-	SSHCAEnabled               bool                                  `bson:"sshcaenabled"`
-	Annotations                map[string][]string                   `bson:"annotations"`
-	AssociatedLocalCAID        string                                `bson:"associatedlocalcaid"`
-	AssociatedSSHCAID          string                                `bson:"associatedsshcaid"`
-	AssociatedTags             []string                              `bson:"associatedtags"`
-	CreateIdempotencyKey       string                                `bson:"createidempotencykey"`
-	CreateTime                 time.Time                             `bson:"createtime"`
-	CustomZoning               bool                                  `bson:"customzoning"`
-	DefaultEnforcerVersion     string                                `bson:"defaultenforcerversion"`
-	Description                string                                `bson:"description"`
-	EnforcerDefaultBehavior    NamespaceEnforcerDefaultBehaviorValue `bson:"enforcerdefaultbehavior"`
-	LocalCA                    string                                `bson:"localca"`
-	LocalCAEnabled             bool                                  `bson:"localcaenabled"`
-	Metadata                   []string                              `bson:"metadata"`
-	MigrationsLog              map[string]string                     `bson:"migrationslog,omitempty"`
-	Name                       string                                `bson:"name"`
-	Namespace                  string                                `bson:"namespace"`
-	NetworkAccessPolicyTags    []string                              `bson:"networkaccesspolicytags"`
-	NormalizedTags             []string                              `bson:"normalizedtags"`
-	OrganizationalMetadata     []string                              `bson:"organizationalmetadata"`
-	Protected                  bool                                  `bson:"protected"`
-	ServiceCertificateValidity string                                `bson:"servicecertificatevalidity"`
-	TagPrefixes                []string                              `bson:"tagprefixes"`
-	Type                       NamespaceTypeValue                    `bson:"type"`
-	UpdateIdempotencyKey       string                                `bson:"updateidempotencykey"`
-	UpdateTime                 time.Time                             `bson:"updatetime"`
-	ZHash                      int                                   `bson:"zhash"`
-	Zone                       int                                   `bson:"zone"`
-	Zoning                     int                                   `bson:"zoning"`
+	ID                             bson.ObjectId                                `bson:"_id,omitempty"`
+	JWTCertificateType             NamespaceJWTCertificateTypeValue             `bson:"jwtcertificatetype"`
+	JWTCertificates                map[string]string                            `bson:"jwtcertificates"`
+	SSHCA                          string                                       `bson:"sshca"`
+	SSHCAEnabled                   bool                                         `bson:"sshcaenabled"`
+	Annotations                    map[string][]string                          `bson:"annotations"`
+	AssociatedLocalCAID            string                                       `bson:"associatedlocalcaid"`
+	AssociatedSSHCAID              string                                       `bson:"associatedsshcaid"`
+	AssociatedTags                 []string                                     `bson:"associatedtags"`
+	CreateIdempotencyKey           string                                       `bson:"createidempotencykey"`
+	CreateTime                     time.Time                                    `bson:"createtime"`
+	CustomZoning                   bool                                         `bson:"customzoning"`
+	DefaultEnforcerVersion         string                                       `bson:"defaultenforcerversion"`
+	DefaultPUIncomingTrafficAction NamespaceDefaultPUIncomingTrafficActionValue `bson:"defaultpuincomingtrafficaction"`
+	DefaultPUOutgoingTrafficAction NamespaceDefaultPUOutgoingTrafficActionValue `bson:"defaultpuoutgoingtrafficaction"`
+	Description                    string                                       `bson:"description"`
+	LocalCA                        string                                       `bson:"localca"`
+	LocalCAEnabled                 bool                                         `bson:"localcaenabled"`
+	Metadata                       []string                                     `bson:"metadata"`
+	MigrationsLog                  map[string]string                            `bson:"migrationslog,omitempty"`
+	Name                           string                                       `bson:"name"`
+	Namespace                      string                                       `bson:"namespace"`
+	NetworkAccessPolicyTags        []string                                     `bson:"networkaccesspolicytags"`
+	NormalizedTags                 []string                                     `bson:"normalizedtags"`
+	OrganizationalMetadata         []string                                     `bson:"organizationalmetadata"`
+	Protected                      bool                                         `bson:"protected"`
+	ServiceCertificateValidity     string                                       `bson:"servicecertificatevalidity"`
+	TagPrefixes                    []string                                     `bson:"tagprefixes"`
+	Type                           NamespaceTypeValue                           `bson:"type"`
+	UpdateIdempotencyKey           string                                       `bson:"updateidempotencykey"`
+	UpdateTime                     time.Time                                    `bson:"updatetime"`
+	ZHash                          int                                          `bson:"zhash"`
+	Zone                           int                                          `bson:"zone"`
+	Zoning                         int                                          `bson:"zoning"`
 }
 type mongoAttributesSparseNamespace struct {
-	ID                         bson.ObjectId                          `bson:"_id,omitempty"`
-	JWTCertificateType         *NamespaceJWTCertificateTypeValue      `bson:"jwtcertificatetype,omitempty"`
-	JWTCertificates            *map[string]string                     `bson:"jwtcertificates,omitempty"`
-	SSHCA                      *string                                `bson:"sshca,omitempty"`
-	SSHCAEnabled               *bool                                  `bson:"sshcaenabled,omitempty"`
-	Annotations                *map[string][]string                   `bson:"annotations,omitempty"`
-	AssociatedLocalCAID        *string                                `bson:"associatedlocalcaid,omitempty"`
-	AssociatedSSHCAID          *string                                `bson:"associatedsshcaid,omitempty"`
-	AssociatedTags             *[]string                              `bson:"associatedtags,omitempty"`
-	CreateIdempotencyKey       *string                                `bson:"createidempotencykey,omitempty"`
-	CreateTime                 *time.Time                             `bson:"createtime,omitempty"`
-	CustomZoning               *bool                                  `bson:"customzoning,omitempty"`
-	DefaultEnforcerVersion     *string                                `bson:"defaultenforcerversion,omitempty"`
-	Description                *string                                `bson:"description,omitempty"`
-	EnforcerDefaultBehavior    *NamespaceEnforcerDefaultBehaviorValue `bson:"enforcerdefaultbehavior,omitempty"`
-	LocalCA                    *string                                `bson:"localca,omitempty"`
-	LocalCAEnabled             *bool                                  `bson:"localcaenabled,omitempty"`
-	Metadata                   *[]string                              `bson:"metadata,omitempty"`
-	MigrationsLog              *map[string]string                     `bson:"migrationslog,omitempty"`
-	Name                       *string                                `bson:"name,omitempty"`
-	Namespace                  *string                                `bson:"namespace,omitempty"`
-	NetworkAccessPolicyTags    *[]string                              `bson:"networkaccesspolicytags,omitempty"`
-	NormalizedTags             *[]string                              `bson:"normalizedtags,omitempty"`
-	OrganizationalMetadata     *[]string                              `bson:"organizationalmetadata,omitempty"`
-	Protected                  *bool                                  `bson:"protected,omitempty"`
-	ServiceCertificateValidity *string                                `bson:"servicecertificatevalidity,omitempty"`
-	TagPrefixes                *[]string                              `bson:"tagprefixes,omitempty"`
-	Type                       *NamespaceTypeValue                    `bson:"type,omitempty"`
-	UpdateIdempotencyKey       *string                                `bson:"updateidempotencykey,omitempty"`
-	UpdateTime                 *time.Time                             `bson:"updatetime,omitempty"`
-	ZHash                      *int                                   `bson:"zhash,omitempty"`
-	Zone                       *int                                   `bson:"zone,omitempty"`
-	Zoning                     *int                                   `bson:"zoning,omitempty"`
+	ID                             bson.ObjectId                                 `bson:"_id,omitempty"`
+	JWTCertificateType             *NamespaceJWTCertificateTypeValue             `bson:"jwtcertificatetype,omitempty"`
+	JWTCertificates                *map[string]string                            `bson:"jwtcertificates,omitempty"`
+	SSHCA                          *string                                       `bson:"sshca,omitempty"`
+	SSHCAEnabled                   *bool                                         `bson:"sshcaenabled,omitempty"`
+	Annotations                    *map[string][]string                          `bson:"annotations,omitempty"`
+	AssociatedLocalCAID            *string                                       `bson:"associatedlocalcaid,omitempty"`
+	AssociatedSSHCAID              *string                                       `bson:"associatedsshcaid,omitempty"`
+	AssociatedTags                 *[]string                                     `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey           *string                                       `bson:"createidempotencykey,omitempty"`
+	CreateTime                     *time.Time                                    `bson:"createtime,omitempty"`
+	CustomZoning                   *bool                                         `bson:"customzoning,omitempty"`
+	DefaultEnforcerVersion         *string                                       `bson:"defaultenforcerversion,omitempty"`
+	DefaultPUIncomingTrafficAction *NamespaceDefaultPUIncomingTrafficActionValue `bson:"defaultpuincomingtrafficaction,omitempty"`
+	DefaultPUOutgoingTrafficAction *NamespaceDefaultPUOutgoingTrafficActionValue `bson:"defaultpuoutgoingtrafficaction,omitempty"`
+	Description                    *string                                       `bson:"description,omitempty"`
+	LocalCA                        *string                                       `bson:"localca,omitempty"`
+	LocalCAEnabled                 *bool                                         `bson:"localcaenabled,omitempty"`
+	Metadata                       *[]string                                     `bson:"metadata,omitempty"`
+	MigrationsLog                  *map[string]string                            `bson:"migrationslog,omitempty"`
+	Name                           *string                                       `bson:"name,omitempty"`
+	Namespace                      *string                                       `bson:"namespace,omitempty"`
+	NetworkAccessPolicyTags        *[]string                                     `bson:"networkaccesspolicytags,omitempty"`
+	NormalizedTags                 *[]string                                     `bson:"normalizedtags,omitempty"`
+	OrganizationalMetadata         *[]string                                     `bson:"organizationalmetadata,omitempty"`
+	Protected                      *bool                                         `bson:"protected,omitempty"`
+	ServiceCertificateValidity     *string                                       `bson:"servicecertificatevalidity,omitempty"`
+	TagPrefixes                    *[]string                                     `bson:"tagprefixes,omitempty"`
+	Type                           *NamespaceTypeValue                           `bson:"type,omitempty"`
+	UpdateIdempotencyKey           *string                                       `bson:"updateidempotencykey,omitempty"`
+	UpdateTime                     *time.Time                                    `bson:"updatetime,omitempty"`
+	ZHash                          *int                                          `bson:"zhash,omitempty"`
+	Zone                           *int                                          `bson:"zone,omitempty"`
+	Zoning                         *int                                          `bson:"zoning,omitempty"`
 }

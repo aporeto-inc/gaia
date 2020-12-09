@@ -117,9 +117,23 @@ attributes:
     validations:
     - $semver
 
-  - name: enforcerDefaultBehavior
-    description: Describes the default communication behavior of an enforcer for this
-      namespace.
+  - name: defaultPUIncomingTrafficAction
+    description: |-
+      Describes the default action a processing unit will take for incoming traffic
+      for this namespace.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Allow
+    - Reject
+    - Inherit
+    default_value: Inherit
+
+  - name: defaultPUOutgoingTrafficAction
+    description: |-
+      Describes the default action a processing unit will take for outgoing traffic
+      for this namespace.
     type: enum
     exposed: true
     stored: true

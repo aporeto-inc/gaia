@@ -10,8 +10,18 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: behavior
-    description: The default enforcer behavior for the namespace.
+  - name: PUIncomingTrafficAction
+    description: The processing unit action for incoming traffic for the namespace.
+    type: enum
+    exposed: true
+    read_only: true
+    allowed_choices:
+    - Allow
+    - Reject
+    - Inherit
+
+  - name: PUOutgoingTrafficAction
+    description: The processing unit action for outgoing traffic for the namespace.
     type: enum
     exposed: true
     read_only: true

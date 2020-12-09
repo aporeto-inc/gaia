@@ -19,6 +19,8 @@ AuhorizationEndpoint
 Auth0
 Authn
 Authorization_Endpoint
+NetworkRule
+NetworkRuleSetPolicy
 AutomationTemplate
 CA
 CAs
