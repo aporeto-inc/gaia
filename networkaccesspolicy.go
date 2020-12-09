@@ -235,6 +235,9 @@ type NetworkAccessPolicy struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// Represents the ports and protocols this policy applies to.
+	ProtocolPorts []string `json:"protocolPorts" msgpack:"protocolPorts" bson:"-" mapstructure:"protocolPorts,omitempty"`
+
 	// A tag or tag expression identifying the subject of the policy.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -258,9 +261,10 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 		ApplyPolicyMode:       NetworkAccessPolicyApplyPolicyModeBidirectional,
 		Metadata:              []string{},
 		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
+		Ports:                 []string{},
 		NormalizedTags:        []string{},
 		Object:                [][]string{},
-		Ports:                 []string{},
+		ProtocolPorts:         []string{},
 		Subject:               [][]string{},
 	}
 }
@@ -661,6 +665,7 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			Ports:                 &o.Ports,
 			Propagate:             &o.Propagate,
 			Protected:             &o.Protected,
+			ProtocolPorts:         &o.ProtocolPorts,
 			Subject:               &o.Subject,
 			UpdateIdempotencyKey:  &o.UpdateIdempotencyKey,
 			UpdateTime:            &o.UpdateTime,
@@ -724,6 +729,8 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "protocolPorts":
+			sp.ProtocolPorts = &(o.ProtocolPorts)
 		case "subject":
 			sp.Subject = &(o.Subject)
 		case "updateIdempotencyKey":
@@ -824,6 +831,9 @@ func (o *NetworkAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
+	if so.ProtocolPorts != nil {
+		o.ProtocolPorts = *so.ProtocolPorts
+	}
 	if so.Subject != nil {
 		o.Subject = *so.Subject
 	}
@@ -906,6 +916,10 @@ func (o *NetworkAccessPolicy) Validate() error {
 	}
 
 	if err := ValidateServicePorts("ports", o.Ports); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateServicePorts("protocolPorts", o.ProtocolPorts); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1001,6 +1015,8 @@ func (o *NetworkAccessPolicy) ValueForAttribute(name string) interface{} {
 		return o.Propagate
 	case "protected":
 		return o.Protected
+	case "protocolPorts":
+		return o.ProtocolPorts
 	case "subject":
 		return o.Subject
 	case "updateIdempotencyKey":
@@ -1380,6 +1396,16 @@ on the packets: ` + "`" + `Apply` + "`" + ` or ` + "`" + `Continue` + "`" + ` (d
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"ProtocolPorts": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ProtocolPorts",
+		Description:    `Represents the ports and protocols this policy applies to.`,
+		Exposed:        true,
+		Name:           "protocolPorts",
+		Orderable:      true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Subject": {
 		AllowedChoices: []string{},
@@ -1790,6 +1816,16 @@ on the packets: ` + "`" + `Apply` + "`" + ` or ` + "`" + `Continue` + "`" + ` (d
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"protocolports": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ProtocolPorts",
+		Description:    `Represents the ports and protocols this policy applies to.`,
+		Exposed:        true,
+		Name:           "protocolPorts",
+		Orderable:      true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"subject": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
@@ -2007,6 +2043,9 @@ type SparseNetworkAccessPolicy struct {
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+
+	// Represents the ports and protocols this policy applies to.
+	ProtocolPorts *[]string `json:"protocolPorts,omitempty" msgpack:"protocolPorts,omitempty" bson:"-" mapstructure:"protocolPorts,omitempty"`
 
 	// A tag or tag expression identifying the subject of the policy.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
@@ -2291,6 +2330,9 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.ProtocolPorts != nil {
+		out.ProtocolPorts = *o.ProtocolPorts
 	}
 	if o.Subject != nil {
 		out.Subject = *o.Subject
