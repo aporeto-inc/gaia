@@ -5455,6 +5455,12 @@ Default value:
 "Allow"
 ```
 
+##### `hint` [`max_length=32`]
+
+Type: `string`
+
+A user defined hint to keep track of the rule in the reporting.
+
 ##### `logsDisabled`
 
 Type: `boolean`

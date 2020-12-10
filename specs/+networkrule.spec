@@ -25,6 +25,13 @@ attributes:
     - Reject
     default_value: Allow
 
+  - name: hint
+    description: A user defined hint to keep track of the rule in the reporting.
+    type: string
+    exposed: true
+    max_length: 32
+    omit_empty: true
+
   - name: logsDisabled
     description: |-
       If `true`, the relevant flows will not be reported to the Microsegmentation

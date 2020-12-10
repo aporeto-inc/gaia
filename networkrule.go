@@ -27,6 +27,9 @@ type NetworkRule struct {
 	// policy.
 	Action NetworkRuleActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
+	// A user defined hint to keep track of the rule in the reporting.
+	Hint string `json:"hint,omitempty" msgpack:"hint,omitempty" bson:"-" mapstructure:"hint,omitempty"`
+
 	// If `true`, the relevant flows will not be reported to the Microsegmentation
 	// Console.
 	// Under some advanced scenarios you may wish to set this to `true`, such as to
@@ -136,6 +139,10 @@ func (o *NetworkRule) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Allow", "Reject"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateMaximumLength("hint", o.Hint, 32, false); err != nil {
 		errors = errors.Append(err)
 	}
 
