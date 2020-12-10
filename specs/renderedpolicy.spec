@@ -49,6 +49,7 @@ attributes:
     allowed_choices:
     - Allow
     - Reject
+    default_value: Reject
 
   - name: defaultPUOutgoingTrafficAction
     description: Describes the default for outgoing traffic.
@@ -57,6 +58,7 @@ attributes:
     allowed_choices:
     - Allow
     - Reject
+    default_value: Reject
 
   - name: dependendServices
     description: The list of services that this processing unit depends on.

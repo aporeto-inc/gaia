@@ -5978,8 +5978,8 @@ Retrieve the aggregated policies applied to a particular processing unit.
 
 ```json
 {
-  "defaultPUIncomingTrafficAction": "Allow",
-  "defaultPUOutgoingTrafficAction": "Allow",
+  "defaultPUIncomingTrafficAction": "Reject",
+  "defaultPUOutgoingTrafficAction": "Reject",
   "processingUnit": "{
   \"name\": \"pu\",
   \"type\": \"Docker\",
@@ -6037,11 +6037,23 @@ Type: `enum(Allow | Reject)`
 
 Describes the default for incoming traffic.
 
+Default value:
+
+```json
+"Reject"
+```
+
 ##### `defaultPUOutgoingTrafficAction`
 
 Type: `enum(Allow | Reject)`
 
 Describes the default for outgoing traffic.
+
+Default value:
+
+```json
+"Reject"
+```
 
 ##### `dependendServices`
 

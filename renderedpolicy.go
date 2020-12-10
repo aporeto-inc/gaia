@@ -177,8 +177,10 @@ type RenderedPolicy struct {
 func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
-		ModelVersion: 1,
-		HashedTags:   map[string]string{},
+		ModelVersion:                   1,
+		HashedTags:                     map[string]string{},
+		DefaultPUIncomingTrafficAction: RenderedPolicyDefaultPUIncomingTrafficActionReject,
+		DefaultPUOutgoingTrafficAction: RenderedPolicyDefaultPUOutgoingTrafficActionReject,
 		EgressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   {},
 			string(constants.RenderedPolicyTypeFile):      {},
@@ -564,6 +566,7 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 	"DefaultPUIncomingTrafficAction": {
 		AllowedChoices: []string{"Allow", "Reject"},
 		ConvertedName:  "DefaultPUIncomingTrafficAction",
+		DefaultValue:   RenderedPolicyDefaultPUIncomingTrafficActionReject,
 		Description:    `Describes the default for incoming traffic.`,
 		Exposed:        true,
 		Name:           "defaultPUIncomingTrafficAction",
@@ -572,6 +575,7 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 	"DefaultPUOutgoingTrafficAction": {
 		AllowedChoices: []string{"Allow", "Reject"},
 		ConvertedName:  "DefaultPUOutgoingTrafficAction",
+		DefaultValue:   RenderedPolicyDefaultPUOutgoingTrafficActionReject,
 		Description:    `Describes the default for outgoing traffic.`,
 		Exposed:        true,
 		Name:           "defaultPUOutgoingTrafficAction",
@@ -719,6 +723,7 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 	"defaultpuincomingtrafficaction": {
 		AllowedChoices: []string{"Allow", "Reject"},
 		ConvertedName:  "DefaultPUIncomingTrafficAction",
+		DefaultValue:   RenderedPolicyDefaultPUIncomingTrafficActionReject,
 		Description:    `Describes the default for incoming traffic.`,
 		Exposed:        true,
 		Name:           "defaultPUIncomingTrafficAction",
@@ -727,6 +732,7 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 	"defaultpuoutgoingtrafficaction": {
 		AllowedChoices: []string{"Allow", "Reject"},
 		ConvertedName:  "DefaultPUOutgoingTrafficAction",
+		DefaultValue:   RenderedPolicyDefaultPUOutgoingTrafficActionReject,
 		Description:    `Describes the default for outgoing traffic.`,
 		Exposed:        true,
 		Name:           "defaultPUOutgoingTrafficAction",
