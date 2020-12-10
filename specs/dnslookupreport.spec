@@ -15,6 +15,11 @@ model:
   - '@zoned'
   - '@migratable'
 
+# Ordering
+default_order:
+- :no-inherit
+- timestamp
+
 # Indexes
 indexes:
 - - namespace
@@ -117,6 +122,7 @@ attributes:
     type: time
     exposed: true
     stored: true
+    orderable: true
     omit_empty: true
     extensions:
       bson_name: i

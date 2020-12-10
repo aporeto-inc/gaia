@@ -128,7 +128,9 @@ func (o FlowReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o FlowReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToSparse returns the FlowReportsList converted to SparseFlowReportsList.
@@ -426,7 +428,9 @@ func (o *FlowReport) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *FlowReport) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -1311,6 +1315,7 @@ property does nothing.`,
 		Description:    `Time and date of the log.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -1729,6 +1734,7 @@ property does nothing.`,
 		Description:    `Time and date of the log.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -1814,7 +1820,9 @@ func (o SparseFlowReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseFlowReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToPlain returns the SparseFlowReportsList converted to FlowReportsList.

@@ -358,6 +358,7 @@ attributes:
     type: time
     exposed: true
     stored: true
+    orderable: true
     omit_empty: true
     extensions:
       bson_name: ag
