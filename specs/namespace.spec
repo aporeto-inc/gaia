@@ -224,11 +224,8 @@ attributes:
       - `Tenant`: A namespace that houses a tenant (e.g. ACME).
       - `CloudAccount`: A child namespace of a tenant that houses a cloud provider
       account.
-      - `HostGroup`: A child namespace of a cloud account that houses a managed
-      non-Kubernetes group.
-      - `KubernetesClusterGroup`: A child namespace of a cloud account that houses a
-      managed Kubernetes group.
-      - `Kubernetes`: A child namespace of a Kubernetes cluster group that houses a
+      - `Group`: A child namespace of a cloud account that houses a managed group.
+      - `Kubernetes`: A child namespace of a group that houses a
       Kubernetes cluster (automatically created by the enforcer).
     type: enum
     exposed: true
@@ -238,8 +235,7 @@ attributes:
     - Default
     - Tenant
     - CloudAccount
-    - HostGroup
-    - KubernetesClusterGroup
+    - Group
     - Kubernetes
     default_value: Default
 
