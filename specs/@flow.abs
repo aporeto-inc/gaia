@@ -234,6 +234,17 @@ attributes:
     extensions:
       bson_name: u
 
+  - name: ruleName
+    description: |-
+      Contains the eventual name assigned to the particular rule in the
+      NetworkRuleSetPolicy that acted on the flow.
+    type: string
+    exposed: true
+    stored: true
+    omit_empty: true
+    extensions:
+      bson_name: ai
+
   - name: serviceClaimHash
     description: Hash of the claims used to communicate.
     type: string

@@ -11970,6 +11970,13 @@ Type: `string`
 
 Namespace of the object at the other end of the flow.
 
+##### `ruleName`
+
+Type: `string`
+
+Contains the eventual name assigned to the particular rule in the
+NetworkRuleSetPolicy that acted on the flow.
+
 ##### `serviceClaimHash`
 
 Type: `string`
@@ -12636,6 +12643,13 @@ Protocol number.
 Type: `string`
 
 Namespace of the object at the other end of the flow.
+
+##### `ruleName`
+
+Type: `string`
+
+Contains the eventual name assigned to the particular rule in the
+NetworkRuleSetPolicy that acted on the flow.
 
 ##### `serviceClaimHash`
 
