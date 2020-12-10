@@ -204,6 +204,10 @@ relations:
   create:
     description: Performs a clause matching.
 
+- rest_name: cnssuggest
+  create:
+    description: Retrives rql suggestions from cns.
+
 - rest_name: connectionexceptionreport
   create:
     description: Create a connection exception report.

@@ -31,6 +31,7 @@ var (
 
 		"claims":       ClaimsIdentity,
 		"clausesmatch": ClauseMatchIdentity,
+		"cnssuggest":   CNSSuggestIdentity,
 
 		"connectionexceptionreport": ConnectionExceptionReportIdentity,
 		"counterreport":             CounterReportIdentity,
@@ -192,6 +193,7 @@ var (
 
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
+		"cnssuggests":    CNSSuggestIdentity,
 
 		"connectionexceptionreports": ConnectionExceptionReportIdentity,
 		"counterreports":             CounterReportIdentity,
@@ -542,6 +544,7 @@ var (
 			{"namespace", "normalizedTags"},
 		},
 		"clausesmatch": nil,
+		"cnssuggest":   nil,
 		"connectionexceptionreport": {
 			{"processingunitnamespace", "timestamp"},
 			{"enforcernamespace", "timestamp"},
@@ -1087,6 +1090,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewClaims()
 	case ClauseMatchIdentity:
 		return NewClauseMatch()
+	case CNSSuggestIdentity:
+		return NewCNSSuggest()
 	case ConnectionExceptionReportIdentity:
 		return NewConnectionExceptionReport()
 	case CounterReportIdentity:
@@ -1384,6 +1389,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
 		return NewSparseClauseMatch()
+	case CNSSuggestIdentity:
+		return NewSparseCNSSuggest()
 	case ConnectionExceptionReportIdentity:
 		return NewSparseConnectionExceptionReport()
 	case CounterReportIdentity:
@@ -1689,6 +1696,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
 		return &ClauseMatchesList{}
+	case CNSSuggestIdentity:
+		return &CNSSuggestsList{}
 	case ConnectionExceptionReportIdentity:
 		return &ConnectionExceptionReportsList{}
 	case CounterReportIdentity:
@@ -1984,6 +1993,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
 		return &SparseClauseMatchesList{}
+	case CNSSuggestIdentity:
+		return &SparseCNSSuggestsList{}
 	case ConnectionExceptionReportIdentity:
 		return &SparseConnectionExceptionReportsList{}
 	case CounterReportIdentity:
@@ -2268,6 +2279,7 @@ func AllIdentities() []elemental.Identity {
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
+		CNSSuggestIdentity,
 		ConnectionExceptionReportIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
@@ -2465,6 +2477,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ClaimsIdentity:
 		return []string{}
 	case ClauseMatchIdentity:
+		return []string{}
+	case CNSSuggestIdentity:
 		return []string{}
 	case ConnectionExceptionReportIdentity:
 		return []string{}

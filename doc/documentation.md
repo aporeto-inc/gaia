@@ -2214,6 +2214,96 @@ Type: `string`
 
 Contains the name of the plan.
 
+## core/cnssuggest
+
+### CNSSuggest
+
+Provide search suggestion query for Primsa Cloud's investigate page.
+
+#### Example
+
+```json
+{
+  "needsOffsetUpdate": true,
+  "offset": 0,
+  "query": "network from DNS where id == 1",
+  "suggestions": [
+    "id",
+    "action"
+  ],
+  "translate": false,
+  "valid": false
+}
+```
+
+#### Relations
+
+##### `POST /cnssuggests`
+
+Retrives rql suggestions from cns.
+
+#### Attributes
+
+##### `needsOffsetUpdate`
+
+Type: `boolean`
+
+Rquired by Prisma Cloud. Always set to true.
+
+Default value:
+
+```json
+true
+```
+
+##### `offset`
+
+Type: `integer`
+
+The length of the rql query part that is valid.
+
+Default value:
+
+```json
+0
+```
+
+##### `query` [`read_only`]
+
+Type: `string`
+
+Prisma Cloud's rql query.
+
+##### `suggestions`
+
+Type: `[]string`
+
+List of query suggestions.
+
+##### `translate`
+
+Type: `boolean`
+
+Rquired by Prisma Cloud. Always set to false.
+
+Default value:
+
+```json
+false
+```
+
+##### `valid`
+
+Type: `boolean`
+
+The validity of the rql query.
+
+Default value:
+
+```json
+false
+```
+
 ## core/enforcer
 
 ### CounterReport
