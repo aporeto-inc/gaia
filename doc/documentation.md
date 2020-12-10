@@ -5455,12 +5455,6 @@ Default value:
 "Allow"
 ```
 
-##### `hint` [`max_length=32`]
-
-Type: `string`
-
-A user defined hint to keep track of the rule in the reporting.
-
 ##### `logsDisabled`
 
 Type: `boolean`
@@ -5469,6 +5463,12 @@ If `true`, the relevant flows will not be reported to the Microsegmentation
 Console.
 Under some advanced scenarios you may wish to set this to `true`, such as to
 save space or improve performance.
+
+##### `name` [`max_length=32`]
+
+Type: `string`
+
+A user defined name to keep track of the rule in the reporting.
 
 ##### `networks`
 

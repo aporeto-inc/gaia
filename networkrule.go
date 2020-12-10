@@ -27,14 +27,14 @@ type NetworkRule struct {
 	// policy.
 	Action NetworkRuleActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
-	// A user defined hint to keep track of the rule in the reporting.
-	Hint string `json:"hint,omitempty" msgpack:"hint,omitempty" bson:"-" mapstructure:"hint,omitempty"`
-
 	// If `true`, the relevant flows will not be reported to the Microsegmentation
 	// Console.
 	// Under some advanced scenarios you may wish to set this to `true`, such as to
 	// save space or improve performance.
 	LogsDisabled bool `json:"logsDisabled" msgpack:"logsDisabled" bson:"-" mapstructure:"logsDisabled,omitempty"`
+
+	// A user defined name to keep track of the rule in the reporting.
+	Name string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// A list of IP CIDRS or FQDNS that identify remote endpoints.
 	Networks []string `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"-" mapstructure:"networks,omitempty"`
@@ -142,7 +142,7 @@ func (o *NetworkRule) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateMaximumLength("hint", o.Hint, 32, false); err != nil {
+	if err := elemental.ValidateMaximumLength("name", o.Name, 32, false); err != nil {
 		errors = errors.Append(err)
 	}
 
