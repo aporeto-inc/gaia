@@ -37,7 +37,7 @@ type NetworkRule struct {
 	Name string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// A list of IP CIDRS or FQDNS that identify remote endpoints.
-	Networks []string `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"-" mapstructure:"networks,omitempty"`
+	Networks []*NetworkRuleNet `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"-" mapstructure:"networks,omitempty"`
 
 	// Identifies the set of remote workloads that the rule relates to. The selector
 	// will identify both processing units as well as external networks that match the
@@ -62,7 +62,7 @@ func NewNetworkRule() *NetworkRule {
 	return &NetworkRule{
 		ModelVersion:       1,
 		Action:             NetworkRuleActionAllow,
-		Networks:           []string{},
+		Networks:           []*NetworkRuleNet{},
 		Object:             [][]string{},
 		ObservationEnabled: false,
 		ProtocolPorts:      []string{},
@@ -144,6 +144,16 @@ func (o *NetworkRule) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 32, false); err != nil {
 		errors = errors.Append(err)
+	}
+
+	for _, sub := range o.Networks {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if err := ValidateTagsExpression("object", o.Object); err != nil {

@@ -129,7 +129,7 @@ type PolicyRule struct {
 	Services ServicesList `json:"services,omitempty" msgpack:"services,omitempty" bson:"-" mapstructure:"services,omitempty"`
 
 	// Policy target tags.
-	TagClauses [][]string `json:"tagClauses" msgpack:"tagClauses" bson:"-" mapstructure:"tagClauses,omitempty"`
+	TagClauses [][]string `json:"tagClauses,omitempty" msgpack:"tagClauses,omitempty" bson:"-" mapstructure:"tagClauses,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -138,11 +138,9 @@ type PolicyRule struct {
 func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
-		ModelVersion:  1,
-		HostServices:  HostServicesList{},
-		AuditProfiles: AuditProfilesList{},
-		Relation:      []string{},
-		TagClauses:    [][]string{},
+		ModelVersion: 1,
+		Relation:     []string{},
+		TagClauses:   [][]string{},
 	}
 }
 
@@ -584,6 +582,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"AuditProfiles": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AuditProfiles",
+		Deprecated:     true,
 		Description:    `Provides the audit profiles that must be applied.`,
 		Exposed:        true,
 		Name:           "auditProfiles",
@@ -611,6 +610,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"FilePaths": {
 		AllowedChoices: []string{},
 		ConvertedName:  "FilePaths",
+		Deprecated:     true,
 		Description:    `Provides the file paths that the policy targets.`,
 		Exposed:        true,
 		Name:           "filePaths",
@@ -629,6 +629,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"IsolationProfiles": {
 		AllowedChoices: []string{},
 		ConvertedName:  "IsolationProfiles",
+		Deprecated:     true,
 		Description:    `Provides the isolation profiles of the rule.`,
 		Exposed:        true,
 		Name:           "isolationProfiles",
@@ -740,6 +741,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"auditprofiles": {
 		AllowedChoices: []string{},
 		ConvertedName:  "AuditProfiles",
+		Deprecated:     true,
 		Description:    `Provides the audit profiles that must be applied.`,
 		Exposed:        true,
 		Name:           "auditProfiles",
@@ -767,6 +769,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"filepaths": {
 		AllowedChoices: []string{},
 		ConvertedName:  "FilePaths",
+		Deprecated:     true,
 		Description:    `Provides the file paths that the policy targets.`,
 		Exposed:        true,
 		Name:           "filePaths",
@@ -785,6 +788,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"isolationprofiles": {
 		AllowedChoices: []string{},
 		ConvertedName:  "IsolationProfiles",
+		Deprecated:     true,
 		Description:    `Provides the isolation profiles of the rule.`,
 		Exposed:        true,
 		Name:           "isolationProfiles",

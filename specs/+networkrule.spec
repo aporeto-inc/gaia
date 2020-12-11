@@ -43,10 +43,13 @@ attributes:
 
   - name: networks
     description: A list of IP CIDRS or FQDNS that identify remote endpoints.
-    type: list
+    type: refList
     exposed: true
-    subtype: string
+    subtype: networkrulenet
+    read_only: true
     omit_empty: true
+    extensions:
+      refMode: pointer
 
   - name: object
     description: |-

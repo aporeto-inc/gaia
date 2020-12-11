@@ -119,7 +119,7 @@ func (o RenderedPoliciesList) Version() int {
 type RenderedPolicy struct {
 	// The certificate associated with this processing unit. It will identify the
 	// processing unit to any internal or external services.
-	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// The datapath type that this processing unit must implement according to
 	// the rendered policy:
@@ -156,12 +156,15 @@ type RenderedPolicy struct {
 	MatchingTags []string `json:"matchingTags,omitempty" msgpack:"matchingTags,omitempty" bson:"-" mapstructure:"matchingTags,omitempty"`
 
 	// Can be set during a `POST` operation to render a policy on a processing unit
-	// that
-	// has not been created yet.
-	ProcessingUnit *ProcessingUnit `json:"processingUnit" msgpack:"processingUnit" bson:"-" mapstructure:"processingUnit,omitempty"`
+	// that has not been created yet.
+	ProcessingUnit *ProcessingUnit `json:"processingUnit,omitempty" msgpack:"processingUnit,omitempty" bson:"-" mapstructure:"processingUnit,omitempty"`
 
 	// Identifier of the processing unit.
-	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+
+	// Can be set during a `POST` operation to render a policy on a processing unit
+	// tags.
+	ProcessingUnitTags []string `json:"processingUnitTags,omitempty" msgpack:"processingUnitTags,omitempty" bson:"-" mapstructure:"processingUnitTags,omitempty"`
 
 	// Lists all the rule set policies attached to processing unit.
 	RuleSetPolicies PolicyRulesList `json:"ruleSetPolicies,omitempty" msgpack:"ruleSetPolicies,omitempty" bson:"-" mapstructure:"ruleSetPolicies,omitempty"`
@@ -177,23 +180,24 @@ type RenderedPolicy struct {
 func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
-		ModelVersion:                   1,
-		HashedTags:                     map[string]string{},
-		DefaultPUIncomingTrafficAction: RenderedPolicyDefaultPUIncomingTrafficActionReject,
+		ModelVersion: 1,
+		HashedTags:   map[string]string{},
+		IngressPolicies: map[string]PolicyRulesList{
+			string(constants.RenderedPolicyTypeNetwork):   {},
+			string(constants.RenderedPolicyTypeFile):      {},
+			string(constants.RenderedPolicyTypeIsolation): {},
+		},
 		DefaultPUOutgoingTrafficAction: RenderedPolicyDefaultPUOutgoingTrafficActionReject,
 		EgressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   {},
 			string(constants.RenderedPolicyTypeFile):      {},
 			string(constants.RenderedPolicyTypeIsolation): {},
 		},
-		IngressPolicies: map[string]PolicyRulesList{
-			string(constants.RenderedPolicyTypeNetwork):   {},
-			string(constants.RenderedPolicyTypeFile):      {},
-			string(constants.RenderedPolicyTypeIsolation): {},
-		},
-		MatchingTags:    []string{},
-		RuleSetPolicies: PolicyRulesList{},
-		Scopes:          []string{},
+		DefaultPUIncomingTrafficAction: RenderedPolicyDefaultPUIncomingTrafficActionReject,
+		MatchingTags:                   []string{},
+		ProcessingUnitTags:             []string{},
+		RuleSetPolicies:                PolicyRulesList{},
+		Scopes:                         []string{},
 	}
 }
 
@@ -295,6 +299,7 @@ func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable
 			MatchingTags:                   &o.MatchingTags,
 			ProcessingUnit:                 o.ProcessingUnit,
 			ProcessingUnitID:               &o.ProcessingUnitID,
+			ProcessingUnitTags:             &o.ProcessingUnitTags,
 			RuleSetPolicies:                &o.RuleSetPolicies,
 			Scopes:                         &o.Scopes,
 		}
@@ -327,6 +332,8 @@ func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.ProcessingUnit = o.ProcessingUnit
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
+		case "processingUnitTags":
+			sp.ProcessingUnitTags = &(o.ProcessingUnitTags)
 		case "ruleSetPolicies":
 			sp.RuleSetPolicies = &(o.RuleSetPolicies)
 		case "scopes":
@@ -379,6 +386,9 @@ func (o *RenderedPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
+	}
+	if so.ProcessingUnitTags != nil {
+		o.ProcessingUnitTags = *so.ProcessingUnitTags
 	}
 	if so.RuleSetPolicies != nil {
 		o.RuleSetPolicies = *so.RuleSetPolicies
@@ -525,6 +535,8 @@ func (o *RenderedPolicy) ValueForAttribute(name string) interface{} {
 		return o.ProcessingUnit
 	case "processingUnitID":
 		return o.ProcessingUnitID
+	case "processingUnitTags":
+		return o.ProcessingUnitTags
 	case "ruleSetPolicies":
 		return o.RuleSetPolicies
 	case "scopes":
@@ -539,6 +551,7 @@ var RenderedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Certificate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
+		Deprecated:     true,
 		Description: `The certificate associated with this processing unit. It will identify the
 processing unit to any internal or external services.`,
 		Exposed:  true,
@@ -550,6 +563,7 @@ processing unit to any internal or external services.`,
 		AllowedChoices: []string{"Default", "Aporeto", "EnvoyAuthorizer"},
 		Autogenerated:  true,
 		ConvertedName:  "DatapathType",
+		Deprecated:     true,
 		Description: `The datapath type that this processing unit must implement according to
 the rendered policy:
 - ` + "`" + `Default` + "`" + `: This policy is not making a decision for the datapath.
@@ -594,6 +608,7 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "EgressPolicies",
+		Deprecated:     true,
 		Description:    `Lists all the egress policies attached to processing unit.`,
 		Exposed:        true,
 		Name:           "egressPolicies",
@@ -625,6 +640,7 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "IngressPolicies",
+		Deprecated:     true,
 		Description:    `Lists all the ingress policies attached to the processing unit.`,
 		Exposed:        true,
 		Name:           "ingressPolicies",
@@ -636,6 +652,7 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "MatchingTags",
+		Deprecated:     true,
 		Description:    `Contains the list of tags that matched the policies.`,
 		Exposed:        true,
 		Name:           "matchingTags",
@@ -647,24 +664,35 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnit",
 		CreationOnly:   true,
+		Deprecated:     true,
 		Description: `Can be set during a ` + "`" + `POST` + "`" + ` operation to render a policy on a processing unit
-that
-has not been created yet.`,
-		Exposed:  true,
-		Name:     "processingUnit",
-		Required: true,
-		SubType:  "processingunit",
-		Type:     "ref",
+that has not been created yet.`,
+		Exposed: true,
+		Name:    "processingUnit",
+		SubType: "processingunit",
+		Type:    "ref",
 	},
 	"ProcessingUnitID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ProcessingUnitID",
+		Deprecated:     true,
 		Description:    `Identifier of the processing unit.`,
 		Exposed:        true,
 		Name:           "processingUnitID",
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"ProcessingUnitTags": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ProcessingUnitTags",
+		CreationOnly:   true,
+		Description: `Can be set during a ` + "`" + `POST` + "`" + ` operation to render a policy on a processing unit
+tags.`,
+		Exposed: true,
+		Name:    "processingUnitTags",
+		SubType: "string",
+		Type:    "list",
 	},
 	"RuleSetPolicies": {
 		AllowedChoices: []string{},
@@ -696,6 +724,7 @@ var RenderedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"certificate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
+		Deprecated:     true,
 		Description: `The certificate associated with this processing unit. It will identify the
 processing unit to any internal or external services.`,
 		Exposed:  true,
@@ -707,6 +736,7 @@ processing unit to any internal or external services.`,
 		AllowedChoices: []string{"Default", "Aporeto", "EnvoyAuthorizer"},
 		Autogenerated:  true,
 		ConvertedName:  "DatapathType",
+		Deprecated:     true,
 		Description: `The datapath type that this processing unit must implement according to
 the rendered policy:
 - ` + "`" + `Default` + "`" + `: This policy is not making a decision for the datapath.
@@ -751,6 +781,7 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "EgressPolicies",
+		Deprecated:     true,
 		Description:    `Lists all the egress policies attached to processing unit.`,
 		Exposed:        true,
 		Name:           "egressPolicies",
@@ -782,6 +813,7 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "IngressPolicies",
+		Deprecated:     true,
 		Description:    `Lists all the ingress policies attached to the processing unit.`,
 		Exposed:        true,
 		Name:           "ingressPolicies",
@@ -793,6 +825,7 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "MatchingTags",
+		Deprecated:     true,
 		Description:    `Contains the list of tags that matched the policies.`,
 		Exposed:        true,
 		Name:           "matchingTags",
@@ -804,24 +837,35 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnit",
 		CreationOnly:   true,
+		Deprecated:     true,
 		Description: `Can be set during a ` + "`" + `POST` + "`" + ` operation to render a policy on a processing unit
-that
-has not been created yet.`,
-		Exposed:  true,
-		Name:     "processingUnit",
-		Required: true,
-		SubType:  "processingunit",
-		Type:     "ref",
+that has not been created yet.`,
+		Exposed: true,
+		Name:    "processingUnit",
+		SubType: "processingunit",
+		Type:    "ref",
 	},
 	"processingunitid": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ProcessingUnitID",
+		Deprecated:     true,
 		Description:    `Identifier of the processing unit.`,
 		Exposed:        true,
 		Name:           "processingUnitID",
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"processingunittags": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ProcessingUnitTags",
+		CreationOnly:   true,
+		Description: `Can be set during a ` + "`" + `POST` + "`" + ` operation to render a policy on a processing unit
+tags.`,
+		Exposed: true,
+		Name:    "processingUnitTags",
+		SubType: "string",
+		Type:    "list",
 	},
 	"rulesetpolicies": {
 		AllowedChoices: []string{},
@@ -950,12 +994,15 @@ type SparseRenderedPolicy struct {
 	MatchingTags *[]string `json:"matchingTags,omitempty" msgpack:"matchingTags,omitempty" bson:"-" mapstructure:"matchingTags,omitempty"`
 
 	// Can be set during a `POST` operation to render a policy on a processing unit
-	// that
-	// has not been created yet.
+	// that has not been created yet.
 	ProcessingUnit *ProcessingUnit `json:"processingUnit,omitempty" msgpack:"processingUnit,omitempty" bson:"-" mapstructure:"processingUnit,omitempty"`
 
 	// Identifier of the processing unit.
 	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+
+	// Can be set during a `POST` operation to render a policy on a processing unit
+	// tags.
+	ProcessingUnitTags *[]string `json:"processingUnitTags,omitempty" msgpack:"processingUnitTags,omitempty" bson:"-" mapstructure:"processingUnitTags,omitempty"`
 
 	// Lists all the rule set policies attached to processing unit.
 	RuleSetPolicies *PolicyRulesList `json:"ruleSetPolicies,omitempty" msgpack:"ruleSetPolicies,omitempty" bson:"-" mapstructure:"ruleSetPolicies,omitempty"`
@@ -1071,6 +1118,9 @@ func (o *SparseRenderedPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID
+	}
+	if o.ProcessingUnitTags != nil {
+		out.ProcessingUnitTags = *o.ProcessingUnitTags
 	}
 	if o.RuleSetPolicies != nil {
 		out.RuleSetPolicies = *o.RuleSetPolicies
