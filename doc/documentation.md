@@ -16015,24 +16015,6 @@ Mandatory Parameters
 
 #### Attributes
 
-##### `report`
-
-Type: `enum(Flows | Enforcers | EventLogs | Packets | Counters | DNSLookups)`
-
-Name of the report type to query.
-
-Default value:
-
-```json
-"Flows"
-```
-
-### ReportsQueryResults
-
-Represent the results of a reports query.
-
-#### Attributes
-
 ##### `DNSLookupReports`
 
 Type: [`[]dnslookupreport`](#dnslookupreport)
@@ -16068,6 +16050,18 @@ List of FlowReports.
 Type: [`[]packetreport`](#packetreport)
 
 List of PacketReports.
+
+##### `report`
+
+Type: `enum(Flows | Enforcers | EventLogs | Packets | Counters | DNSLookups)`
+
+Name of the report type to query.
+
+Default value:
+
+```json
+"Flows"
+```
 
 ## visualization/statsquery
 
