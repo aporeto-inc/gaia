@@ -122,7 +122,7 @@ type ProcessingUnitRefresh struct {
 	// Destination port to run ping.
 	PingPort int `json:"pingPort,omitempty" msgpack:"pingPort,omitempty" bson:"-" mapstructure:"pingPort,omitempty"`
 
-	// ID unique per purefresh event.
+	// ID unique per refresh event.
 	RefreshID string `json:"refreshID" msgpack:"refreshID" bson:"-" mapstructure:"refreshID,omitempty"`
 
 	// If set to true, the target processing unit will refresh its policy immediately.
@@ -545,7 +545,7 @@ unit.`,
 	"RefreshID": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RefreshID",
-		Description:    `ID unique per purefresh event.`,
+		Description:    `ID unique per refresh event.`,
 		Exposed:        true,
 		Name:           "refreshID",
 		ReadOnly:       true,
@@ -678,7 +678,7 @@ unit.`,
 	"refreshid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RefreshID",
-		Description:    `ID unique per purefresh event.`,
+		Description:    `ID unique per refresh event.`,
 		Exposed:        true,
 		Name:           "refreshID",
 		ReadOnly:       true,
@@ -820,7 +820,7 @@ type SparseProcessingUnitRefresh struct {
 	// Destination port to run ping.
 	PingPort *int `json:"pingPort,omitempty" msgpack:"pingPort,omitempty" bson:"-" mapstructure:"pingPort,omitempty"`
 
-	// ID unique per purefresh event.
+	// ID unique per refresh event.
 	RefreshID *string `json:"refreshID,omitempty" msgpack:"refreshID,omitempty" bson:"-" mapstructure:"refreshID,omitempty"`
 
 	// If set to true, the target processing unit will refresh its policy immediately.
