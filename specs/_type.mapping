@@ -176,6 +176,28 @@ _elemental_identifiable:
         "$ref": "elemental-types.json#/identifiable"
       }
 
+_pc_rql_table_data:
+  elemental:
+    type: types.PCRqlTableData
+    init: types.PCRqlTableData{}
+    import: go.aporeto.io/gaia/types
+  jsonschema:
+    type: |-
+      {
+        "$ref": "pc-types.json#/pcrqltabledata
+      }
+
+_pc_rql_timerage:
+  elemental:
+    type: types.PCRqlTimeRange
+    init: types.PCRqlTimeRange{}
+    import: go.aporeto.io/gaia/types
+  jsonschema:
+    type: |-
+      {
+        "$ref": "pc-types.json#/pcrqltimerange
+      }
+
 _rendered_policy:
   elemental:
     type: map[string]PolicyRulesList

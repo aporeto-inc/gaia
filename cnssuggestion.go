@@ -8,43 +8,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// CNSSuggestIdentity represents the Identity of the object.
-var CNSSuggestIdentity = elemental.Identity{
-	Name:     "cnssuggest",
-	Category: "cnssuggests",
+// CNSSuggestionIdentity represents the Identity of the object.
+var CNSSuggestionIdentity = elemental.Identity{
+	Name:     "cnssuggestion",
+	Category: "cnssuggestions",
 	Package:  "karl",
 	Private:  false,
 }
 
-// CNSSuggestsList represents a list of CNSSuggests
-type CNSSuggestsList []*CNSSuggest
+// CNSSuggestionsList represents a list of CNSSuggestions
+type CNSSuggestionsList []*CNSSuggestion
 
 // Identity returns the identity of the objects in the list.
-func (o CNSSuggestsList) Identity() elemental.Identity {
+func (o CNSSuggestionsList) Identity() elemental.Identity {
 
-	return CNSSuggestIdentity
+	return CNSSuggestionIdentity
 }
 
-// Copy returns a pointer to a copy the CNSSuggestsList.
-func (o CNSSuggestsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the CNSSuggestionsList.
+func (o CNSSuggestionsList) Copy() elemental.Identifiables {
 
-	copy := append(CNSSuggestsList{}, o...)
+	copy := append(CNSSuggestionsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the CNSSuggestsList.
-func (o CNSSuggestsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the CNSSuggestionsList.
+func (o CNSSuggestionsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(CNSSuggestsList{}, o...)
+	out := append(CNSSuggestionsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*CNSSuggest))
+		out = append(out, obj.(*CNSSuggestion))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o CNSSuggestsList) List() elemental.IdentifiablesList {
+func (o CNSSuggestionsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -55,31 +55,31 @@ func (o CNSSuggestsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o CNSSuggestsList) DefaultOrder() []string {
+func (o CNSSuggestionsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the CNSSuggestsList converted to SparseCNSSuggestsList.
+// ToSparse returns the CNSSuggestionsList converted to SparseCNSSuggestionsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o CNSSuggestsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o CNSSuggestionsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseCNSSuggestsList, len(o))
+	out := make(SparseCNSSuggestionsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseCNSSuggest)
+		out[i] = o[i].ToSparse(fields...).(*SparseCNSSuggestion)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o CNSSuggestsList) Version() int {
+func (o CNSSuggestionsList) Version() int {
 
 	return 1
 }
 
-// CNSSuggest represents the model of a cnssuggest
-type CNSSuggest struct {
+// CNSSuggestion represents the model of a cnssuggestion
+type CNSSuggestion struct {
 	// Rquired by Prisma Cloud. Always set to true.
 	NeedsOffsetUpdate bool `json:"needsOffsetUpdate" msgpack:"needsOffsetUpdate" bson:"-" mapstructure:"needsOffsetUpdate,omitempty"`
 
@@ -101,10 +101,10 @@ type CNSSuggest struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewCNSSuggest returns a new *CNSSuggest
-func NewCNSSuggest() *CNSSuggest {
+// NewCNSSuggestion returns a new *CNSSuggestion
+func NewCNSSuggestion() *CNSSuggestion {
 
-	return &CNSSuggest{
+	return &CNSSuggestion{
 		ModelVersion:      1,
 		NeedsOffsetUpdate: true,
 		Offset:            0,
@@ -115,44 +115,44 @@ func NewCNSSuggest() *CNSSuggest {
 }
 
 // Identity returns the Identity of the object.
-func (o *CNSSuggest) Identity() elemental.Identity {
+func (o *CNSSuggestion) Identity() elemental.Identity {
 
-	return CNSSuggestIdentity
+	return CNSSuggestionIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *CNSSuggest) Identifier() string {
+func (o *CNSSuggestion) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *CNSSuggest) SetIdentifier(id string) {
+func (o *CNSSuggestion) SetIdentifier(id string) {
 
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CNSSuggest) GetBSON() (interface{}, error) {
+func (o *CNSSuggestion) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesCNSSuggest{}
+	s := &mongoAttributesCNSSuggestion{}
 
 	return s, nil
 }
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CNSSuggest) SetBSON(raw bson.Raw) error {
+func (o *CNSSuggestion) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesCNSSuggest{}
+	s := &mongoAttributesCNSSuggestion{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -161,41 +161,41 @@ func (o *CNSSuggest) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *CNSSuggest) Version() int {
+func (o *CNSSuggestion) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *CNSSuggest) BleveType() string {
+func (o *CNSSuggestion) BleveType() string {
 
-	return "cnssuggest"
+	return "cnssuggestion"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *CNSSuggest) DefaultOrder() []string {
+func (o *CNSSuggestion) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *CNSSuggest) Doc() string {
+func (o *CNSSuggestion) Doc() string {
 
-	return `Provide search suggestion query for Primsa Cloud's investigate page.`
+	return `Provide query suggestions for Primsa Cloud's investigate page.`
 }
 
-func (o *CNSSuggest) String() string {
+func (o *CNSSuggestion) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *CNSSuggest) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *CNSSuggestion) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseCNSSuggest{
+		return &SparseCNSSuggestion{
 			NeedsOffsetUpdate: &o.NeedsOffsetUpdate,
 			Offset:            &o.Offset,
 			Query:             &o.Query,
@@ -205,7 +205,7 @@ func (o *CNSSuggest) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparseCNSSuggest{}
+	sp := &SparseCNSSuggestion{}
 	for _, f := range fields {
 		switch f {
 		case "needsOffsetUpdate":
@@ -226,13 +226,13 @@ func (o *CNSSuggest) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseCNSSuggest to the object.
-func (o *CNSSuggest) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseCNSSuggestion to the object.
+func (o *CNSSuggestion) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseCNSSuggest)
+	so := sparse.(*SparseCNSSuggestion)
 	if so.NeedsOffsetUpdate != nil {
 		o.NeedsOffsetUpdate = *so.NeedsOffsetUpdate
 	}
@@ -253,32 +253,32 @@ func (o *CNSSuggest) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the CNSSuggest.
-func (o *CNSSuggest) DeepCopy() *CNSSuggest {
+// DeepCopy returns a deep copy if the CNSSuggestion.
+func (o *CNSSuggestion) DeepCopy() *CNSSuggestion {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &CNSSuggest{}
+	out := &CNSSuggestion{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *CNSSuggest.
-func (o *CNSSuggest) DeepCopyInto(out *CNSSuggest) {
+// DeepCopyInto copies the receiver into the given *CNSSuggestion.
+func (o *CNSSuggestion) DeepCopyInto(out *CNSSuggestion) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy CNSSuggest: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CNSSuggestion: %s", err))
 	}
 
-	*out = *target.(*CNSSuggest)
+	*out = *target.(*CNSSuggestion)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *CNSSuggest) Validate() error {
+func (o *CNSSuggestion) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -295,26 +295,26 @@ func (o *CNSSuggest) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*CNSSuggest) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*CNSSuggestion) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := CNSSuggestAttributesMap[name]; ok {
+	if v, ok := CNSSuggestionAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return CNSSuggestLowerCaseAttributesMap[name]
+	return CNSSuggestionLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*CNSSuggest) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*CNSSuggestion) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return CNSSuggestAttributesMap
+	return CNSSuggestionAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *CNSSuggest) ValueForAttribute(name string) interface{} {
+func (o *CNSSuggestion) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "needsOffsetUpdate":
@@ -334,8 +334,8 @@ func (o *CNSSuggest) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// CNSSuggestAttributesMap represents the map of attribute for CNSSuggest.
-var CNSSuggestAttributesMap = map[string]elemental.AttributeSpecification{
+// CNSSuggestionAttributesMap represents the map of attribute for CNSSuggestion.
+var CNSSuggestionAttributesMap = map[string]elemental.AttributeSpecification{
 	"NeedsOffsetUpdate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "NeedsOffsetUpdate",
@@ -389,8 +389,8 @@ var CNSSuggestAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// CNSSuggestLowerCaseAttributesMap represents the map of attribute for CNSSuggest.
-var CNSSuggestLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// CNSSuggestionLowerCaseAttributesMap represents the map of attribute for CNSSuggestion.
+var CNSSuggestionLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"needsoffsetupdate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "NeedsOffsetUpdate",
@@ -444,35 +444,35 @@ var CNSSuggestLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	},
 }
 
-// SparseCNSSuggestsList represents a list of SparseCNSSuggests
-type SparseCNSSuggestsList []*SparseCNSSuggest
+// SparseCNSSuggestionsList represents a list of SparseCNSSuggestions
+type SparseCNSSuggestionsList []*SparseCNSSuggestion
 
 // Identity returns the identity of the objects in the list.
-func (o SparseCNSSuggestsList) Identity() elemental.Identity {
+func (o SparseCNSSuggestionsList) Identity() elemental.Identity {
 
-	return CNSSuggestIdentity
+	return CNSSuggestionIdentity
 }
 
-// Copy returns a pointer to a copy the SparseCNSSuggestsList.
-func (o SparseCNSSuggestsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseCNSSuggestionsList.
+func (o SparseCNSSuggestionsList) Copy() elemental.Identifiables {
 
-	copy := append(SparseCNSSuggestsList{}, o...)
+	copy := append(SparseCNSSuggestionsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseCNSSuggestsList.
-func (o SparseCNSSuggestsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseCNSSuggestionsList.
+func (o SparseCNSSuggestionsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseCNSSuggestsList{}, o...)
+	out := append(SparseCNSSuggestionsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseCNSSuggest))
+		out = append(out, obj.(*SparseCNSSuggestion))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseCNSSuggestsList) List() elemental.IdentifiablesList {
+func (o SparseCNSSuggestionsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -483,13 +483,13 @@ func (o SparseCNSSuggestsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseCNSSuggestsList) DefaultOrder() []string {
+func (o SparseCNSSuggestionsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparseCNSSuggestsList converted to CNSSuggestsList.
-func (o SparseCNSSuggestsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseCNSSuggestionsList converted to CNSSuggestionsList.
+func (o SparseCNSSuggestionsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -500,13 +500,13 @@ func (o SparseCNSSuggestsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseCNSSuggestsList) Version() int {
+func (o SparseCNSSuggestionsList) Version() int {
 
 	return 1
 }
 
-// SparseCNSSuggest represents the sparse version of a cnssuggest.
-type SparseCNSSuggest struct {
+// SparseCNSSuggestion represents the sparse version of a cnssuggestion.
+type SparseCNSSuggestion struct {
 	// Rquired by Prisma Cloud. Always set to true.
 	NeedsOffsetUpdate *bool `json:"needsOffsetUpdate,omitempty" msgpack:"needsOffsetUpdate,omitempty" bson:"-" mapstructure:"needsOffsetUpdate,omitempty"`
 
@@ -528,50 +528,50 @@ type SparseCNSSuggest struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseCNSSuggest returns a new  SparseCNSSuggest.
-func NewSparseCNSSuggest() *SparseCNSSuggest {
-	return &SparseCNSSuggest{}
+// NewSparseCNSSuggestion returns a new  SparseCNSSuggestion.
+func NewSparseCNSSuggestion() *SparseCNSSuggestion {
+	return &SparseCNSSuggestion{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseCNSSuggest) Identity() elemental.Identity {
+func (o *SparseCNSSuggestion) Identity() elemental.Identity {
 
-	return CNSSuggestIdentity
+	return CNSSuggestionIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseCNSSuggest) Identifier() string {
+func (o *SparseCNSSuggestion) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseCNSSuggest) SetIdentifier(id string) {
+func (o *SparseCNSSuggestion) SetIdentifier(id string) {
 
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseCNSSuggest) GetBSON() (interface{}, error) {
+func (o *SparseCNSSuggestion) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseCNSSuggest{}
+	s := &mongoAttributesSparseCNSSuggestion{}
 
 	return s, nil
 }
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseCNSSuggest) SetBSON(raw bson.Raw) error {
+func (o *SparseCNSSuggestion) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseCNSSuggest{}
+	s := &mongoAttributesSparseCNSSuggestion{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -580,15 +580,15 @@ func (o *SparseCNSSuggest) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseCNSSuggest) Version() int {
+func (o *SparseCNSSuggestion) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseCNSSuggest) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseCNSSuggestion) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewCNSSuggest()
+	out := NewCNSSuggestion()
 	if o.NeedsOffsetUpdate != nil {
 		out.NeedsOffsetUpdate = *o.NeedsOffsetUpdate
 	}
@@ -611,31 +611,31 @@ func (o *SparseCNSSuggest) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
-// DeepCopy returns a deep copy if the SparseCNSSuggest.
-func (o *SparseCNSSuggest) DeepCopy() *SparseCNSSuggest {
+// DeepCopy returns a deep copy if the SparseCNSSuggestion.
+func (o *SparseCNSSuggestion) DeepCopy() *SparseCNSSuggestion {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseCNSSuggest{}
+	out := &SparseCNSSuggestion{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseCNSSuggest.
-func (o *SparseCNSSuggest) DeepCopyInto(out *SparseCNSSuggest) {
+// DeepCopyInto copies the receiver into the given *SparseCNSSuggestion.
+func (o *SparseCNSSuggestion) DeepCopyInto(out *SparseCNSSuggestion) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseCNSSuggest: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseCNSSuggestion: %s", err))
 	}
 
-	*out = *target.(*SparseCNSSuggest)
+	*out = *target.(*SparseCNSSuggestion)
 }
 
-type mongoAttributesCNSSuggest struct {
+type mongoAttributesCNSSuggestion struct {
 }
-type mongoAttributesSparseCNSSuggest struct {
+type mongoAttributesSparseCNSSuggestion struct {
 }

@@ -204,7 +204,11 @@ relations:
   create:
     description: Performs a clause matching.
 
-- rest_name: cnssuggest
+- rest_name: cnssearch
+  create:
+    description: Retrieves rql search results.
+
+- rest_name: cnssuggestion
   create:
     description: Retrives rql suggestions from cns.
 

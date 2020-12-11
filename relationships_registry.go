@@ -707,7 +707,13 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[CNSSuggestIdentity] = &elemental.Relationship{
+	relationshipsRegistry[CNSSearchIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
+	relationshipsRegistry[CNSSuggestionIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},

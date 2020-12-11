@@ -2214,11 +2214,81 @@ Type: `string`
 
 Contains the name of the plan.
 
-## core/cnssuggest
+## core/cnsearch
 
-### CNSSuggest
+### CNSSearch
 
-Provide search suggestion query for Primsa Cloud's investigate page.
+Provide search results for Primsa Cloud's investigate page.
+
+#### Example
+
+```json
+{
+  "saved": false
+}
+```
+
+#### Relations
+
+##### `POST /cnssearches`
+
+Retrieves rql search results.
+
+#### Attributes
+
+##### `data`
+
+Type: `_pc_rql_table_data`
+
+The payload of the search results.
+
+##### `description`
+
+Type: `string`
+
+Description of the search.
+
+##### `id`
+
+Type: `string`
+
+ID of the search request.
+
+##### `limit`
+
+Type: `integer`
+
+The number of items to fetch.
+
+##### `query`
+
+Type: `string`
+
+The rql query.
+
+##### `saved`
+
+Type: `boolean`
+
+Indicates if the search has been saved.
+
+##### `searchType`
+
+Type: `string`
+
+Type of search request. Always set to be network.
+
+##### `timeRange`
+
+Type: `_pc_rql_timerage`
+
+Time range of the search.
+
+## core/cnssuggestion
+
+### CNSSuggestion
+
+Provide query suggestions for Primsa Cloud's investigate page.
 
 #### Example
 
@@ -2238,7 +2308,7 @@ Provide search suggestion query for Primsa Cloud's investigate page.
 
 #### Relations
 
-##### `POST /cnssuggests`
+##### `POST /cnssuggestions`
 
 Retrives rql suggestions from cns.
 

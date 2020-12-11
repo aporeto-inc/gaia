@@ -1,11 +1,11 @@
 # Model
 model:
-  rest_name: cnssuggest
-  resource_name: cnssuggests
-  entity_name: CNSSuggest
+  rest_name: cnssuggestion
+  resource_name: cnssuggestions
+  entity_name: CNSSuggestion
   package: karl
-  group: core/cnssuggest
-  description: Provide search suggestion query for Primsa Cloud's investigate page.
+  group: core/cnssuggestion
+  description: Provide query suggestions for Primsa Cloud's investigate page.
 
 # Attributes
 attributes:
