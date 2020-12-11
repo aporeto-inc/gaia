@@ -187,7 +187,7 @@ _pc_rql_table_data:
         "$ref": "pc-types.json#/pcrqltabledata
       }
 
-_pc_rql_timerage:
+_pc_rql_timerange:
   elemental:
     type: types.PCRqlTimeRange
     init: types.PCRqlTimeRange{}

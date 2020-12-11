@@ -31,6 +31,11 @@ attributes:
     type: integer
     exposed: true
 
+  - name: pageToken
+    description: Represents the token to fetch next page.
+    type: string
+    exposed: true
+
   - name: query
     description: The rql query.
     type: string
@@ -50,4 +55,4 @@ attributes:
     description: Time range of the search.
     type: external
     exposed: true
-    subtype: _pc_rql_timerage
+    subtype: _pc_rql_timerange

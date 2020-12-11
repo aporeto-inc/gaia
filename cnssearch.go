@@ -93,6 +93,9 @@ type CNSSearch struct {
 	// The number of items to fetch.
 	Limit int `json:"limit" msgpack:"limit" bson:"-" mapstructure:"limit,omitempty"`
 
+	// Represents the token to fetch next page.
+	PageToken string `json:"pageToken" msgpack:"pageToken" bson:"-" mapstructure:"pageToken,omitempty"`
+
 	// The rql query.
 	Query string `json:"query" msgpack:"query" bson:"-" mapstructure:"query,omitempty"`
 
@@ -204,6 +207,7 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Description: &o.Description,
 			Id:          &o.Id,
 			Limit:       &o.Limit,
+			PageToken:   &o.PageToken,
 			Query:       &o.Query,
 			Saved:       &o.Saved,
 			SearchType:  &o.SearchType,
@@ -222,6 +226,8 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Id = &(o.Id)
 		case "limit":
 			sp.Limit = &(o.Limit)
+		case "pageToken":
+			sp.PageToken = &(o.PageToken)
 		case "query":
 			sp.Query = &(o.Query)
 		case "saved":
@@ -254,6 +260,9 @@ func (o *CNSSearch) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Limit != nil {
 		o.Limit = *so.Limit
+	}
+	if so.PageToken != nil {
+		o.PageToken = *so.PageToken
 	}
 	if so.Query != nil {
 		o.Query = *so.Query
@@ -341,6 +350,8 @@ func (o *CNSSearch) ValueForAttribute(name string) interface{} {
 		return o.Id
 	case "limit":
 		return o.Limit
+	case "pageToken":
+		return o.PageToken
 	case "query":
 		return o.Query
 	case "saved":
@@ -389,6 +400,14 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "limit",
 		Type:           "integer",
 	},
+	"PageToken": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PageToken",
+		Description:    `Represents the token to fetch next page.`,
+		Exposed:        true,
+		Name:           "pageToken",
+		Type:           "string",
+	},
 	"Query": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Query",
@@ -419,7 +438,7 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Time range of the search.`,
 		Exposed:        true,
 		Name:           "timeRange",
-		SubType:        "_pc_rql_timerage",
+		SubType:        "_pc_rql_timerange",
 		Type:           "external",
 	},
 }
@@ -459,6 +478,14 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Name:           "limit",
 		Type:           "integer",
 	},
+	"pagetoken": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PageToken",
+		Description:    `Represents the token to fetch next page.`,
+		Exposed:        true,
+		Name:           "pageToken",
+		Type:           "string",
+	},
 	"query": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Query",
@@ -489,7 +516,7 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Time range of the search.`,
 		Exposed:        true,
 		Name:           "timeRange",
-		SubType:        "_pc_rql_timerage",
+		SubType:        "_pc_rql_timerange",
 		Type:           "external",
 	},
 }
@@ -568,6 +595,9 @@ type SparseCNSSearch struct {
 
 	// The number of items to fetch.
 	Limit *int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
+
+	// Represents the token to fetch next page.
+	PageToken *string `json:"pageToken,omitempty" msgpack:"pageToken,omitempty" bson:"-" mapstructure:"pageToken,omitempty"`
 
 	// The rql query.
 	Query *string `json:"query,omitempty" msgpack:"query,omitempty" bson:"-" mapstructure:"query,omitempty"`
@@ -656,6 +686,9 @@ func (o *SparseCNSSearch) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Limit != nil {
 		out.Limit = *o.Limit
+	}
+	if o.PageToken != nil {
+		out.PageToken = *o.PageToken
 	}
 	if o.Query != nil {
 		out.Query = *o.Query

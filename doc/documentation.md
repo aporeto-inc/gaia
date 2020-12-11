@@ -2260,6 +2260,12 @@ Type: `integer`
 
 The number of items to fetch.
 
+##### `pageToken`
+
+Type: `string`
+
+Represents the token to fetch next page.
+
 ##### `query`
 
 Type: `string`
@@ -2280,7 +2286,7 @@ Type of search request. Always set to be network.
 
 ##### `timeRange`
 
-Type: `_pc_rql_timerage`
+Type: `_pc_rql_timerange`
 
 Time range of the search.
 
