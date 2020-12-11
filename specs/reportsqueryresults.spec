@@ -18,20 +18,6 @@ attributes:
     subtype: dnslookupreport
     omit_empty: true
 
-  - name: accessReports
-    description: List of AccessReports.
-    type: refList
-    exposed: true
-    subtype: accessreport
-    omit_empty: true
-
-  - name: auditReports
-    description: List of AuditReports.
-    type: refList
-    exposed: true
-    subtype: auditreport
-    omit_empty: true
-
   - name: counterReports
     description: List of CounterReports.
     type: refList
@@ -51,13 +37,6 @@ attributes:
     type: refList
     exposed: true
     subtype: eventlog
-    omit_empty: true
-
-  - name: fileAccessReports
-    description: List of FileAccessReports.
-    type: refList
-    exposed: true
-    subtype: fileaccessreport
     omit_empty: true
 
   - name: flowReports

@@ -13,12 +13,6 @@ type ReportsQueryResults struct {
 	// List of DNSLookupReports.
 	DNSLookupReports DNSLookupReportsList `json:"DNSLookupReports,omitempty" msgpack:"DNSLookupReports,omitempty" bson:"-" mapstructure:"DNSLookupReports,omitempty"`
 
-	// List of AccessReports.
-	AccessReports AccessReportsList `json:"accessReports,omitempty" msgpack:"accessReports,omitempty" bson:"-" mapstructure:"accessReports,omitempty"`
-
-	// List of AuditReports.
-	AuditReports AuditReportsList `json:"auditReports,omitempty" msgpack:"auditReports,omitempty" bson:"-" mapstructure:"auditReports,omitempty"`
-
 	// List of CounterReports.
 	CounterReports CounterReportsList `json:"counterReports,omitempty" msgpack:"counterReports,omitempty" bson:"-" mapstructure:"counterReports,omitempty"`
 
@@ -27,9 +21,6 @@ type ReportsQueryResults struct {
 
 	// List of EventLogs.
 	EventLogs EventLogsList `json:"eventLogs,omitempty" msgpack:"eventLogs,omitempty" bson:"-" mapstructure:"eventLogs,omitempty"`
-
-	// List of FileAccessReports.
-	FileAccessReports FileAccessReportsList `json:"fileAccessReports,omitempty" msgpack:"fileAccessReports,omitempty" bson:"-" mapstructure:"fileAccessReports,omitempty"`
 
 	// List of FlowReports.
 	FlowReports FlowReportsList `json:"flowReports,omitempty" msgpack:"flowReports,omitempty" bson:"-" mapstructure:"flowReports,omitempty"`
@@ -44,16 +35,13 @@ type ReportsQueryResults struct {
 func NewReportsQueryResults() *ReportsQueryResults {
 
 	return &ReportsQueryResults{
-		ModelVersion:      1,
-		AccessReports:     AccessReportsList{},
-		DNSLookupReports:  DNSLookupReportsList{},
-		AuditReports:      AuditReportsList{},
-		CounterReports:    CounterReportsList{},
-		EnforcerReports:   EnforcerReportsList{},
-		EventLogs:         EventLogsList{},
-		FileAccessReports: FileAccessReportsList{},
-		FlowReports:       FlowReportsList{},
-		PacketReports:     PacketReportsList{},
+		ModelVersion:     1,
+		CounterReports:   CounterReportsList{},
+		DNSLookupReports: DNSLookupReportsList{},
+		EnforcerReports:  EnforcerReportsList{},
+		EventLogs:        EventLogsList{},
+		FlowReports:      FlowReportsList{},
+		PacketReports:    PacketReportsList{},
 	}
 }
 
@@ -132,26 +120,6 @@ func (o *ReportsQueryResults) Validate() error {
 		}
 	}
 
-	for _, sub := range o.AccessReports {
-		if sub == nil {
-			continue
-		}
-		elemental.ResetDefaultForZeroValues(sub)
-		if err := sub.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
-	}
-
-	for _, sub := range o.AuditReports {
-		if sub == nil {
-			continue
-		}
-		elemental.ResetDefaultForZeroValues(sub)
-		if err := sub.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
-	}
-
 	for _, sub := range o.CounterReports {
 		if sub == nil {
 			continue
@@ -173,16 +141,6 @@ func (o *ReportsQueryResults) Validate() error {
 	}
 
 	for _, sub := range o.EventLogs {
-		if sub == nil {
-			continue
-		}
-		elemental.ResetDefaultForZeroValues(sub)
-		if err := sub.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
-	}
-
-	for _, sub := range o.FileAccessReports {
 		if sub == nil {
 			continue
 		}
