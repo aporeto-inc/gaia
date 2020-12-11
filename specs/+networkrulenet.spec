@@ -5,7 +5,7 @@ model:
   entity_name: NetworkRuleNet
   package: squall
   group: core/policy
-  description: Represents an network contained in a networkrule.
+  description: Represents an network contained in a NetworkRule.
   detached: true
 
 # Attributes

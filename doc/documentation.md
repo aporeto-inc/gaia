@@ -5507,7 +5507,7 @@ is not allowed.
 
 ### NetworkRuleNet
 
-Represents an network contained in a networkrule.
+Represents an network contained in a NetworkRule.
 
 #### Attributes
 
