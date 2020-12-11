@@ -606,7 +606,9 @@ var (
 			{"createIdempotencyKey"},
 		},
 		"enforcerprofilemappingpolicy": nil,
-		"enforcerrefresh":              nil,
+		"enforcerrefresh": {
+			{"propagate"},
+		},
 		"enforcerreport": {
 			{"namespace", "timestamp"},
 			{"namespace", "enforcerID"},

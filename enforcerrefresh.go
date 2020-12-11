@@ -135,8 +135,8 @@ type EnforcerRefresh struct {
 	// Contains the original namespace of the enforcer.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// Indicates if the command should be done recursively in all namespaces.
-	Recursive bool `json:"recursive" msgpack:"recursive" bson:"-" mapstructure:"recursive,omitempty"`
+	// Propagates the policy to all of its children.
+	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Indicates the type of refresh.
 	RefreshType EnforcerRefreshRefreshTypeValue `json:"refreshType" msgpack:"refreshType" bson:"refreshtype" mapstructure:"refreshType,omitempty"`
@@ -186,6 +186,7 @@ func (o *EnforcerRefresh) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesEnforcerRefresh{}
 
+	s.Propagate = o.Propagate
 	s.RefreshType = o.RefreshType
 
 	return s, nil
@@ -204,6 +205,7 @@ func (o *EnforcerRefresh) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.Propagate = s.Propagate
 	o.RefreshType = s.RefreshType
 
 	return nil
@@ -252,6 +254,18 @@ func (o *EnforcerRefresh) SetID(ID string) {
 	o.ID = ID
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *EnforcerRefresh) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *EnforcerRefresh) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -266,7 +280,7 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			DebugProcessingUnitID: &o.DebugProcessingUnitID,
 			MigrationVersion:      &o.MigrationVersion,
 			Namespace:             &o.Namespace,
-			Recursive:             &o.Recursive,
+			Propagate:             &o.Propagate,
 			RefreshType:           &o.RefreshType,
 			Selector:              &o.Selector,
 		}
@@ -289,8 +303,8 @@ func (o *EnforcerRefresh) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.MigrationVersion = &(o.MigrationVersion)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
-		case "recursive":
-			sp.Recursive = &(o.Recursive)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "refreshType":
 			sp.RefreshType = &(o.RefreshType)
 		case "selector":
@@ -329,8 +343,8 @@ func (o *EnforcerRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
-	if so.Recursive != nil {
-		o.Recursive = *so.Recursive
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.RefreshType != nil {
 		o.RefreshType = *so.RefreshType
@@ -434,8 +448,8 @@ func (o *EnforcerRefresh) ValueForAttribute(name string) interface{} {
 		return o.MigrationVersion
 	case "namespace":
 		return o.Namespace
-	case "recursive":
-		return o.Recursive
+	case "propagate":
+		return o.Propagate
 	case "refreshType":
 		return o.RefreshType
 	case "selector":
@@ -510,12 +524,17 @@ var EnforcerRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"Recursive": {
+	"Propagate": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Recursive",
-		Description:    `Indicates if the command should be done recursively in all namespaces.`,
+		BSONFieldName:  "propagate",
+		ConvertedName:  "Propagate",
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
-		Name:           "recursive",
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"RefreshType": {
@@ -605,12 +624,17 @@ var EnforcerRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"recursive": {
+	"propagate": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Recursive",
-		Description:    `Indicates if the command should be done recursively in all namespaces.`,
+		BSONFieldName:  "propagate",
+		ConvertedName:  "Propagate",
+		Description:    `Propagates the policy to all of its children.`,
 		Exposed:        true,
-		Name:           "recursive",
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"refreshtype": {
@@ -719,8 +743,8 @@ type SparseEnforcerRefresh struct {
 	// Contains the original namespace of the enforcer.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// Indicates if the command should be done recursively in all namespaces.
-	Recursive *bool `json:"recursive,omitempty" msgpack:"recursive,omitempty" bson:"-" mapstructure:"recursive,omitempty"`
+	// Propagates the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Indicates the type of refresh.
 	RefreshType *EnforcerRefreshRefreshTypeValue `json:"refreshType,omitempty" msgpack:"refreshType,omitempty" bson:"refreshtype,omitempty" mapstructure:"refreshType,omitempty"`
@@ -771,6 +795,9 @@ func (o *SparseEnforcerRefresh) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseEnforcerRefresh{}
 
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
 	if o.RefreshType != nil {
 		s.RefreshType = o.RefreshType
 	}
@@ -791,6 +818,9 @@ func (o *SparseEnforcerRefresh) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
 	if s.RefreshType != nil {
 		o.RefreshType = s.RefreshType
 	}
@@ -829,8 +859,8 @@ func (o *SparseEnforcerRefresh) ToPlain() elemental.PlainIdentifiable {
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
-	if o.Recursive != nil {
-		out.Recursive = *o.Recursive
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.RefreshType != nil {
 		out.RefreshType = *o.RefreshType
@@ -858,6 +888,22 @@ func (o *SparseEnforcerRefresh) SetID(ID string) {
 	o.ID = &ID
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseEnforcerRefresh) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseEnforcerRefresh) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
 // DeepCopy returns a deep copy if the SparseEnforcerRefresh.
 func (o *SparseEnforcerRefresh) DeepCopy() *SparseEnforcerRefresh {
 
@@ -883,8 +929,10 @@ func (o *SparseEnforcerRefresh) DeepCopyInto(out *SparseEnforcerRefresh) {
 }
 
 type mongoAttributesEnforcerRefresh struct {
+	Propagate   bool                            `bson:"propagate"`
 	RefreshType EnforcerRefreshRefreshTypeValue `bson:"refreshtype"`
 }
 type mongoAttributesSparseEnforcerRefresh struct {
+	Propagate   *bool                            `bson:"propagate,omitempty"`
 	RefreshType *EnforcerRefreshRefreshTypeValue `bson:"refreshtype,omitempty"`
 }
