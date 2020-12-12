@@ -69,7 +69,9 @@ func (o DNSLookupReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o DNSLookupReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToSparse returns the DNSLookupReportsList converted to SparseDNSLookupReportsList.
@@ -242,7 +244,9 @@ func (o *DNSLookupReport) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *DNSLookupReport) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -659,6 +663,7 @@ failure.`,
 		Description:    `Time and date of the log.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -826,6 +831,7 @@ failure.`,
 		Description:    `Time and date of the log.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -911,7 +917,9 @@ func (o SparseDNSLookupReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseDNSLookupReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToPlain returns the SparseDNSLookupReportsList converted to DNSLookupReportsList.

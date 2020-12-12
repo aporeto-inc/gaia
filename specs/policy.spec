@@ -138,6 +138,7 @@ attributes:
     - Infrastructure
     - NamespaceMapping
     - Network
+    - NetworkRuleSet
     - ProcessingUnit
     - Quota
     - Service

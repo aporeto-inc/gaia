@@ -72,7 +72,9 @@ func (o FileAccessReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o FileAccessReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToSparse returns the FileAccessReportsList converted to SparseFileAccessReportsList.
@@ -232,7 +234,9 @@ func (o *FileAccessReport) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *FileAccessReport) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -604,6 +608,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Required:       true,
 		Stored:         true,
 		Type:           "time",
@@ -743,6 +748,7 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Required:       true,
 		Stored:         true,
 		Type:           "time",
@@ -818,7 +824,9 @@ func (o SparseFileAccessReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseFileAccessReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToPlain returns the SparseFileAccessReportsList converted to FileAccessReportsList.

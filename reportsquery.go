@@ -12,12 +12,6 @@ import (
 type ReportsQueryReportValue string
 
 const (
-	// ReportsQueryReportAccesses represents the value Accesses.
-	ReportsQueryReportAccesses ReportsQueryReportValue = "Accesses"
-
-	// ReportsQueryReportAudit represents the value Audit.
-	ReportsQueryReportAudit ReportsQueryReportValue = "Audit"
-
 	// ReportsQueryReportCounters represents the value Counters.
 	ReportsQueryReportCounters ReportsQueryReportValue = "Counters"
 
@@ -29,9 +23,6 @@ const (
 
 	// ReportsQueryReportEventLogs represents the value EventLogs.
 	ReportsQueryReportEventLogs ReportsQueryReportValue = "EventLogs"
-
-	// ReportsQueryReportFiles represents the value Files.
-	ReportsQueryReportFiles ReportsQueryReportValue = "Files"
 
 	// ReportsQueryReportFlows represents the value Flows.
 	ReportsQueryReportFlows ReportsQueryReportValue = "Flows"
@@ -112,31 +103,26 @@ func (o ReportsQueriesList) Version() int {
 
 // ReportsQuery represents the model of a reportsquery
 type ReportsQuery struct {
-	// If set, the results will be ordered by time from the most recent to the oldest.
-	Descending bool `json:"descending" msgpack:"descending" bson:"-" mapstructure:"descending,omitempty"`
+	// List of DNSLookupReports.
+	DNSLookupReports DNSLookupReportsList `json:"DNSLookupReports,omitempty" msgpack:"DNSLookupReports,omitempty" bson:"-" mapstructure:"DNSLookupReports,omitempty"`
 
-	// List of fields to extract. If you don't pass anything, all available fields will
-	// be selected.
-	Fields []string `json:"fields" msgpack:"fields" bson:"-" mapstructure:"fields,omitempty"`
+	// List of CounterReports.
+	CounterReports CounterReportsList `json:"counterReports,omitempty" msgpack:"counterReports,omitempty" bson:"-" mapstructure:"counterReports,omitempty"`
 
-	// Apply a filter to the query.
-	Filter string `json:"filter" msgpack:"filter" bson:"-" mapstructure:"filter,omitempty"`
+	// List of EnforcerReports.
+	EnforcerReports EnforcerReportsList `json:"enforcerReports,omitempty" msgpack:"enforcerReports,omitempty" bson:"-" mapstructure:"enforcerReports,omitempty"`
 
-	// Group results by the provided values. Note that not all fields can be used to
-	// group the results.
-	Groups []string `json:"groups" msgpack:"groups" bson:"-" mapstructure:"groups,omitempty"`
+	// List of EventLogs.
+	EventLogs EventLogsList `json:"eventLogs,omitempty" msgpack:"eventLogs,omitempty" bson:"-" mapstructure:"eventLogs,omitempty"`
 
-	// Limits the number of results. `-1` means no limit.
-	Limit int `json:"limit" msgpack:"limit" bson:"-" mapstructure:"limit,omitempty"`
+	// List of FlowReports.
+	FlowReports FlowReportsList `json:"flowReports,omitempty" msgpack:"flowReports,omitempty" bson:"-" mapstructure:"flowReports,omitempty"`
 
-	// Offsets the results. -1 means no offset.
-	Offset int `json:"offset" msgpack:"offset" bson:"-" mapstructure:"offset,omitempty"`
+	// List of PacketReports.
+	PacketReports PacketReportsList `json:"packetReports,omitempty" msgpack:"packetReports,omitempty" bson:"-" mapstructure:"packetReports,omitempty"`
 
 	// Name of the report type to query.
 	Report ReportsQueryReportValue `json:"report" msgpack:"report" bson:"-" mapstructure:"report,omitempty"`
-
-	// Contains the result of the query.
-	Results []*ReportsQueryResults `json:"results" msgpack:"results" bson:"-" mapstructure:"results,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -145,13 +131,14 @@ type ReportsQuery struct {
 func NewReportsQuery() *ReportsQuery {
 
 	return &ReportsQuery{
-		ModelVersion: 1,
-		Fields:       []string{},
-		Groups:       []string{},
-		Limit:        -1,
-		Offset:       -1,
-		Report:       ReportsQueryReportFlows,
-		Results:      []*ReportsQueryResults{},
+		ModelVersion:     1,
+		CounterReports:   CounterReportsList{},
+		DNSLookupReports: DNSLookupReportsList{},
+		EnforcerReports:  EnforcerReportsList{},
+		EventLogs:        EventLogsList{},
+		FlowReports:      FlowReportsList{},
+		PacketReports:    PacketReportsList{},
+		Report:           ReportsQueryReportFlows,
 	}
 }
 
@@ -238,36 +225,33 @@ func (o *ReportsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseReportsQuery{
-			Descending: &o.Descending,
-			Fields:     &o.Fields,
-			Filter:     &o.Filter,
-			Groups:     &o.Groups,
-			Limit:      &o.Limit,
-			Offset:     &o.Offset,
-			Report:     &o.Report,
-			Results:    &o.Results,
+			DNSLookupReports: &o.DNSLookupReports,
+			CounterReports:   &o.CounterReports,
+			EnforcerReports:  &o.EnforcerReports,
+			EventLogs:        &o.EventLogs,
+			FlowReports:      &o.FlowReports,
+			PacketReports:    &o.PacketReports,
+			Report:           &o.Report,
 		}
 	}
 
 	sp := &SparseReportsQuery{}
 	for _, f := range fields {
 		switch f {
-		case "descending":
-			sp.Descending = &(o.Descending)
-		case "fields":
-			sp.Fields = &(o.Fields)
-		case "filter":
-			sp.Filter = &(o.Filter)
-		case "groups":
-			sp.Groups = &(o.Groups)
-		case "limit":
-			sp.Limit = &(o.Limit)
-		case "offset":
-			sp.Offset = &(o.Offset)
+		case "DNSLookupReports":
+			sp.DNSLookupReports = &(o.DNSLookupReports)
+		case "counterReports":
+			sp.CounterReports = &(o.CounterReports)
+		case "enforcerReports":
+			sp.EnforcerReports = &(o.EnforcerReports)
+		case "eventLogs":
+			sp.EventLogs = &(o.EventLogs)
+		case "flowReports":
+			sp.FlowReports = &(o.FlowReports)
+		case "packetReports":
+			sp.PacketReports = &(o.PacketReports)
 		case "report":
 			sp.Report = &(o.Report)
-		case "results":
-			sp.Results = &(o.Results)
 		}
 	}
 
@@ -281,29 +265,26 @@ func (o *ReportsQuery) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseReportsQuery)
-	if so.Descending != nil {
-		o.Descending = *so.Descending
+	if so.DNSLookupReports != nil {
+		o.DNSLookupReports = *so.DNSLookupReports
 	}
-	if so.Fields != nil {
-		o.Fields = *so.Fields
+	if so.CounterReports != nil {
+		o.CounterReports = *so.CounterReports
 	}
-	if so.Filter != nil {
-		o.Filter = *so.Filter
+	if so.EnforcerReports != nil {
+		o.EnforcerReports = *so.EnforcerReports
 	}
-	if so.Groups != nil {
-		o.Groups = *so.Groups
+	if so.EventLogs != nil {
+		o.EventLogs = *so.EventLogs
 	}
-	if so.Limit != nil {
-		o.Limit = *so.Limit
+	if so.FlowReports != nil {
+		o.FlowReports = *so.FlowReports
 	}
-	if so.Offset != nil {
-		o.Offset = *so.Offset
+	if so.PacketReports != nil {
+		o.PacketReports = *so.PacketReports
 	}
 	if so.Report != nil {
 		o.Report = *so.Report
-	}
-	if so.Results != nil {
-		o.Results = *so.Results
 	}
 }
 
@@ -337,11 +318,7 @@ func (o *ReportsQuery) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("report", string(o.Report), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "Counters", "Accesses", "DNSLookups"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	for _, sub := range o.Results {
+	for _, sub := range o.DNSLookupReports {
 		if sub == nil {
 			continue
 		}
@@ -349,6 +326,60 @@ func (o *ReportsQuery) Validate() error {
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
+	}
+
+	for _, sub := range o.CounterReports {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	for _, sub := range o.EnforcerReports {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	for _, sub := range o.EventLogs {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	for _, sub := range o.FlowReports {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	for _, sub := range o.PacketReports {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	if err := elemental.ValidateStringInList("report", string(o.Report), []string{"Flows", "Enforcers", "EventLogs", "Packets", "Counters", "DNSLookups"}, false); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -385,22 +416,20 @@ func (*ReportsQuery) AttributeSpecifications() map[string]elemental.AttributeSpe
 func (o *ReportsQuery) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "descending":
-		return o.Descending
-	case "fields":
-		return o.Fields
-	case "filter":
-		return o.Filter
-	case "groups":
-		return o.Groups
-	case "limit":
-		return o.Limit
-	case "offset":
-		return o.Offset
+	case "DNSLookupReports":
+		return o.DNSLookupReports
+	case "counterReports":
+		return o.CounterReports
+	case "enforcerReports":
+		return o.EnforcerReports
+	case "eventLogs":
+		return o.EventLogs
+	case "flowReports":
+		return o.FlowReports
+	case "packetReports":
+		return o.PacketReports
 	case "report":
 		return o.Report
-	case "results":
-		return o.Results
 	}
 
 	return nil
@@ -408,157 +437,135 @@ func (o *ReportsQuery) ValueForAttribute(name string) interface{} {
 
 // ReportsQueryAttributesMap represents the map of attribute for ReportsQuery.
 var ReportsQueryAttributesMap = map[string]elemental.AttributeSpecification{
-	"Descending": {
+	"DNSLookupReports": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Descending",
-		Description:    `If set, the results will be ordered by time from the most recent to the oldest.`,
+		ConvertedName:  "DNSLookupReports",
+		Description:    `List of DNSLookupReports.`,
 		Exposed:        true,
-		Name:           "descending",
-		Type:           "boolean",
+		Name:           "DNSLookupReports",
+		SubType:        "dnslookupreport",
+		Type:           "refList",
 	},
-	"Fields": {
+	"CounterReports": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Fields",
-		Description: `List of fields to extract. If you don't pass anything, all available fields will
-be selected.`,
-		Exposed: true,
-		Name:    "fields",
-		SubType: "string",
-		Type:    "list",
-	},
-	"Filter": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Filter",
-		Description:    `Apply a filter to the query.`,
+		ConvertedName:  "CounterReports",
+		Description:    `List of CounterReports.`,
 		Exposed:        true,
-		Name:           "filter",
-		Type:           "string",
+		Name:           "counterReports",
+		SubType:        "counterreport",
+		Type:           "refList",
 	},
-	"Groups": {
+	"EnforcerReports": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Groups",
-		Description: `Group results by the provided values. Note that not all fields can be used to
-group the results.`,
-		Exposed: true,
-		Name:    "groups",
-		SubType: "string",
-		Type:    "list",
-	},
-	"Limit": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Limit",
-		DefaultValue:   -1,
-		Description:    `Limits the number of results. ` + "`" + `-1` + "`" + ` means no limit.`,
+		ConvertedName:  "EnforcerReports",
+		Description:    `List of EnforcerReports.`,
 		Exposed:        true,
-		Name:           "limit",
-		Type:           "integer",
+		Name:           "enforcerReports",
+		SubType:        "enforcerreport",
+		Type:           "refList",
 	},
-	"Offset": {
+	"EventLogs": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Offset",
-		DefaultValue:   -1,
-		Description:    `Offsets the results. -1 means no offset.`,
+		ConvertedName:  "EventLogs",
+		Description:    `List of EventLogs.`,
 		Exposed:        true,
-		Name:           "offset",
-		Type:           "integer",
+		Name:           "eventLogs",
+		SubType:        "eventlog",
+		Type:           "refList",
+	},
+	"FlowReports": {
+		AllowedChoices: []string{},
+		ConvertedName:  "FlowReports",
+		Description:    `List of FlowReports.`,
+		Exposed:        true,
+		Name:           "flowReports",
+		SubType:        "flowreport",
+		Type:           "refList",
+	},
+	"PacketReports": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PacketReports",
+		Description:    `List of PacketReports.`,
+		Exposed:        true,
+		Name:           "packetReports",
+		SubType:        "packetreport",
+		Type:           "refList",
 	},
 	"Report": {
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "Counters", "Accesses", "DNSLookups"},
+		AllowedChoices: []string{"Flows", "Enforcers", "EventLogs", "Packets", "Counters", "DNSLookups"},
 		ConvertedName:  "Report",
 		DefaultValue:   ReportsQueryReportFlows,
 		Description:    `Name of the report type to query.`,
 		Exposed:        true,
 		Name:           "report",
 		Type:           "enum",
-	},
-	"Results": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Results",
-		Description:    `Contains the result of the query.`,
-		Exposed:        true,
-		Name:           "results",
-		ReadOnly:       true,
-		SubType:        "reportsqueryresults",
-		Type:           "refList",
 	},
 }
 
 // ReportsQueryLowerCaseAttributesMap represents the map of attribute for ReportsQuery.
 var ReportsQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"descending": {
+	"dnslookupreports": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Descending",
-		Description:    `If set, the results will be ordered by time from the most recent to the oldest.`,
+		ConvertedName:  "DNSLookupReports",
+		Description:    `List of DNSLookupReports.`,
 		Exposed:        true,
-		Name:           "descending",
-		Type:           "boolean",
+		Name:           "DNSLookupReports",
+		SubType:        "dnslookupreport",
+		Type:           "refList",
 	},
-	"fields": {
+	"counterreports": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Fields",
-		Description: `List of fields to extract. If you don't pass anything, all available fields will
-be selected.`,
-		Exposed: true,
-		Name:    "fields",
-		SubType: "string",
-		Type:    "list",
-	},
-	"filter": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Filter",
-		Description:    `Apply a filter to the query.`,
+		ConvertedName:  "CounterReports",
+		Description:    `List of CounterReports.`,
 		Exposed:        true,
-		Name:           "filter",
-		Type:           "string",
+		Name:           "counterReports",
+		SubType:        "counterreport",
+		Type:           "refList",
 	},
-	"groups": {
+	"enforcerreports": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Groups",
-		Description: `Group results by the provided values. Note that not all fields can be used to
-group the results.`,
-		Exposed: true,
-		Name:    "groups",
-		SubType: "string",
-		Type:    "list",
-	},
-	"limit": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Limit",
-		DefaultValue:   -1,
-		Description:    `Limits the number of results. ` + "`" + `-1` + "`" + ` means no limit.`,
+		ConvertedName:  "EnforcerReports",
+		Description:    `List of EnforcerReports.`,
 		Exposed:        true,
-		Name:           "limit",
-		Type:           "integer",
+		Name:           "enforcerReports",
+		SubType:        "enforcerreport",
+		Type:           "refList",
 	},
-	"offset": {
+	"eventlogs": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Offset",
-		DefaultValue:   -1,
-		Description:    `Offsets the results. -1 means no offset.`,
+		ConvertedName:  "EventLogs",
+		Description:    `List of EventLogs.`,
 		Exposed:        true,
-		Name:           "offset",
-		Type:           "integer",
+		Name:           "eventLogs",
+		SubType:        "eventlog",
+		Type:           "refList",
+	},
+	"flowreports": {
+		AllowedChoices: []string{},
+		ConvertedName:  "FlowReports",
+		Description:    `List of FlowReports.`,
+		Exposed:        true,
+		Name:           "flowReports",
+		SubType:        "flowreport",
+		Type:           "refList",
+	},
+	"packetreports": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PacketReports",
+		Description:    `List of PacketReports.`,
+		Exposed:        true,
+		Name:           "packetReports",
+		SubType:        "packetreport",
+		Type:           "refList",
 	},
 	"report": {
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "Counters", "Accesses", "DNSLookups"},
+		AllowedChoices: []string{"Flows", "Enforcers", "EventLogs", "Packets", "Counters", "DNSLookups"},
 		ConvertedName:  "Report",
 		DefaultValue:   ReportsQueryReportFlows,
 		Description:    `Name of the report type to query.`,
 		Exposed:        true,
 		Name:           "report",
 		Type:           "enum",
-	},
-	"results": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Results",
-		Description:    `Contains the result of the query.`,
-		Exposed:        true,
-		Name:           "results",
-		ReadOnly:       true,
-		SubType:        "reportsqueryresults",
-		Type:           "refList",
 	},
 }
 
@@ -625,31 +632,26 @@ func (o SparseReportsQueriesList) Version() int {
 
 // SparseReportsQuery represents the sparse version of a reportsquery.
 type SparseReportsQuery struct {
-	// If set, the results will be ordered by time from the most recent to the oldest.
-	Descending *bool `json:"descending,omitempty" msgpack:"descending,omitempty" bson:"-" mapstructure:"descending,omitempty"`
+	// List of DNSLookupReports.
+	DNSLookupReports *DNSLookupReportsList `json:"DNSLookupReports,omitempty" msgpack:"DNSLookupReports,omitempty" bson:"-" mapstructure:"DNSLookupReports,omitempty"`
 
-	// List of fields to extract. If you don't pass anything, all available fields will
-	// be selected.
-	Fields *[]string `json:"fields,omitempty" msgpack:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
+	// List of CounterReports.
+	CounterReports *CounterReportsList `json:"counterReports,omitempty" msgpack:"counterReports,omitempty" bson:"-" mapstructure:"counterReports,omitempty"`
 
-	// Apply a filter to the query.
-	Filter *string `json:"filter,omitempty" msgpack:"filter,omitempty" bson:"-" mapstructure:"filter,omitempty"`
+	// List of EnforcerReports.
+	EnforcerReports *EnforcerReportsList `json:"enforcerReports,omitempty" msgpack:"enforcerReports,omitempty" bson:"-" mapstructure:"enforcerReports,omitempty"`
 
-	// Group results by the provided values. Note that not all fields can be used to
-	// group the results.
-	Groups *[]string `json:"groups,omitempty" msgpack:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
+	// List of EventLogs.
+	EventLogs *EventLogsList `json:"eventLogs,omitempty" msgpack:"eventLogs,omitempty" bson:"-" mapstructure:"eventLogs,omitempty"`
 
-	// Limits the number of results. `-1` means no limit.
-	Limit *int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
+	// List of FlowReports.
+	FlowReports *FlowReportsList `json:"flowReports,omitempty" msgpack:"flowReports,omitempty" bson:"-" mapstructure:"flowReports,omitempty"`
 
-	// Offsets the results. -1 means no offset.
-	Offset *int `json:"offset,omitempty" msgpack:"offset,omitempty" bson:"-" mapstructure:"offset,omitempty"`
+	// List of PacketReports.
+	PacketReports *PacketReportsList `json:"packetReports,omitempty" msgpack:"packetReports,omitempty" bson:"-" mapstructure:"packetReports,omitempty"`
 
 	// Name of the report type to query.
 	Report *ReportsQueryReportValue `json:"report,omitempty" msgpack:"report,omitempty" bson:"-" mapstructure:"report,omitempty"`
-
-	// Contains the result of the query.
-	Results *[]*ReportsQueryResults `json:"results,omitempty" msgpack:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -715,29 +717,26 @@ func (o *SparseReportsQuery) Version() int {
 func (o *SparseReportsQuery) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewReportsQuery()
-	if o.Descending != nil {
-		out.Descending = *o.Descending
+	if o.DNSLookupReports != nil {
+		out.DNSLookupReports = *o.DNSLookupReports
 	}
-	if o.Fields != nil {
-		out.Fields = *o.Fields
+	if o.CounterReports != nil {
+		out.CounterReports = *o.CounterReports
 	}
-	if o.Filter != nil {
-		out.Filter = *o.Filter
+	if o.EnforcerReports != nil {
+		out.EnforcerReports = *o.EnforcerReports
 	}
-	if o.Groups != nil {
-		out.Groups = *o.Groups
+	if o.EventLogs != nil {
+		out.EventLogs = *o.EventLogs
 	}
-	if o.Limit != nil {
-		out.Limit = *o.Limit
+	if o.FlowReports != nil {
+		out.FlowReports = *o.FlowReports
 	}
-	if o.Offset != nil {
-		out.Offset = *o.Offset
+	if o.PacketReports != nil {
+		out.PacketReports = *o.PacketReports
 	}
 	if o.Report != nil {
 		out.Report = *o.Report
-	}
-	if o.Results != nil {
-		out.Results = *o.Results
 	}
 
 	return out

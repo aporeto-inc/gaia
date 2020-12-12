@@ -117,9 +117,23 @@ attributes:
     validations:
     - $semver
 
-  - name: enforcerDefaultBehavior
-    description: Describes the default communication behavior of an enforcer for this
-      namespace.
+  - name: defaultPUIncomingTrafficAction
+    description: |-
+      Describes the default action a processing unit will take for incoming traffic
+      for this namespace.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Allow
+    - Reject
+    - Inherit
+    default_value: Inherit
+
+  - name: defaultPUOutgoingTrafficAction
+    description: |-
+      Describes the default action a processing unit will take for outgoing traffic
+      for this namespace.
     type: enum
     exposed: true
     stored: true
@@ -210,11 +224,8 @@ attributes:
       - `Tenant`: A namespace that houses a tenant (e.g. ACME).
       - `CloudAccount`: A child namespace of a tenant that houses a cloud provider
       account.
-      - `HostGroup`: A child namespace of a cloud account that houses a managed
-      non-Kubernetes group.
-      - `KubernetesClusterGroup`: A child namespace of a cloud account that houses a
-      managed Kubernetes group.
-      - `Kubernetes`: A child namespace of a Kubernetes cluster group that houses a
+      - `Group`: A child namespace of a cloud account that houses a managed group.
+      - `Kubernetes`: A child namespace of a group that houses a
       Kubernetes cluster (automatically created by the enforcer).
     type: enum
     exposed: true
@@ -224,8 +235,7 @@ attributes:
     - Default
     - Tenant
     - CloudAccount
-    - HostGroup
-    - KubernetesClusterGroup
+    - Group
     - Kubernetes
     default_value: Default
 

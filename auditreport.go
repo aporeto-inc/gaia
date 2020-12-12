@@ -58,7 +58,9 @@ func (o AuditReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o AuditReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToSparse returns the AuditReportsList converted to SparseAuditReportsList.
@@ -351,7 +353,9 @@ func (o *AuditReport) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *AuditReport) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -1208,6 +1212,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Required:       true,
 		Stored:         true,
 		Type:           "time",
@@ -1616,6 +1621,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Required:       true,
 		Stored:         true,
 		Type:           "time",
@@ -1691,7 +1697,9 @@ func (o SparseAuditReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseAuditReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToPlain returns the SparseAuditReportsList converted to AuditReportsList.

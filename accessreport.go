@@ -86,7 +86,9 @@ func (o AccessReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o AccessReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToSparse returns the AccessReportsList converted to SparseAccessReportsList.
@@ -259,7 +261,9 @@ func (o *AccessReport) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *AccessReport) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -662,6 +666,7 @@ for the rejection.`,
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -826,6 +831,7 @@ for the rejection.`,
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -911,7 +917,9 @@ func (o SparseAccessReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseAccessReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToPlain returns the SparseAccessReportsList converted to AccessReportsList.

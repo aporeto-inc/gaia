@@ -32,9 +32,9 @@ The date of the comment.
 
 ### DiscoveryMode
 
-When discovery mode is enabled, all flows are accepted. Flows which do not match
-an existing network policy will be represented by a dotted line in your Platform
-view.
+(Deprecated) When discovery mode is enabled, all flows are accepted. Flows which
+do not match an existing network policy will be represented by a dotted line in
+your Platform view.
 
 #### Example
 
@@ -48,19 +48,19 @@ view.
 
 ##### `GET /discoverymode`
 
-Returns the list of discovery modes.
+(Deprecated) Returns the list of discovery modes.
 
 ##### `POST /discoverymode`
 
-Deploy the discovery mode assets onto the specified namespace.
+(Deprecated) Deploy the discovery mode assets onto the specified namespace.
 
 ##### `DELETE /discoverymode/:id`
 
-Remove the discovery mode assets with the given import reference ID.
+(Deprecated) Remove the discovery mode assets with the given import reference ID.
 
 ##### `GET /discoverymode/:id`
 
-Retrieve the discovery mode with the given import reference ID.
+(Deprecated) Retrieve the discovery mode with the given import reference ID.
 
 #### Attributes
 
@@ -4887,7 +4887,8 @@ applications, services or any combination you like.
   "JWTCertificateType": "None",
   "SSHCAEnabled": false,
   "customZoning": false,
-  "enforcerDefaultBehavior": "Inherit",
+  "defaultPUIncomingTrafficAction": "Inherit",
+  "defaultPUOutgoingTrafficAction": "Inherit",
   "localCAEnabled": false,
   "name": "mynamespace",
   "protected": false,
@@ -5027,23 +5028,37 @@ Type: `string`
 
 Indicates the default enforcer version for this namespace.
 
-##### `description` [`max_length=1024`]
-
-Type: `string`
-
-Description of the object.
-
-##### `enforcerDefaultBehavior`
+##### `defaultPUIncomingTrafficAction`
 
 Type: `enum(Allow | Reject | Inherit)`
 
-Describes the default communication behavior of an enforcer for this namespace.
+Describes the default action a processing unit will take for incoming traffic
+for this namespace.
 
 Default value:
 
 ```json
 "Inherit"
 ```
+
+##### `defaultPUOutgoingTrafficAction`
+
+Type: `enum(Allow | Reject | Inherit)`
+
+Describes the default action a processing unit will take for outgoing traffic
+for this namespace.
+
+Default value:
+
+```json
+"Inherit"
+```
+
+##### `description` [`max_length=1024`]
+
+Type: `string`
+
+Description of the object.
 
 ##### `localCAEnabled`
 
@@ -5123,18 +5138,15 @@ be transmitted on the wire.
 
 ##### `type` [`creation_only`]
 
-Type: `enum(Default | Tenant | CloudAccount | HostGroup | KubernetesClusterGroup | Kubernetes)`
+Type: `enum(Default | Tenant | CloudAccount | Group | Kubernetes)`
 
 The type defines the purpose of the namespace:
 - `Default`: A universal namespace that is capable of all actions and views.
 - `Tenant`: A namespace that houses a tenant (e.g. ACME).
 - `CloudAccount`: A child namespace of a tenant that houses a cloud provider
 account.
-- `HostGroup`: A child namespace of a cloud account that houses a managed
-non-Kubernetes group.
-- `KubernetesClusterGroup`: A child namespace of a cloud account that houses a
-managed Kubernetes group.
-- `Kubernetes`: A child namespace of a Kubernetes cluster group that houses a
+- `Group`: A child namespace of a cloud account that houses a managed group.
+- `Kubernetes`: A child namespace of a group that houses a
 Kubernetes cluster (automatically created by the enforcer).
 
 Default value:
@@ -5310,7 +5322,8 @@ Returns the policy info of the specified namespace.
 
 ```json
 {
-  "behavior": "Allow"
+  "PUIncomingTrafficAction": "Allow",
+  "PUOutgoingTrafficAction": "Allow"
 }
 ```
 
@@ -5322,11 +5335,17 @@ Returns the policy info of the specified namespace.
 
 #### Attributes
 
-##### `behavior` [`read_only`]
+##### `PUIncomingTrafficAction` [`read_only`]
 
 Type: `enum(Allow | Reject | Inherit)`
 
-The default enforcer behavior for the namespace.
+The processing unit action for incoming traffic for the namespace.
+
+##### `PUOutgoingTrafficAction` [`read_only`]
+
+Type: `enum(Allow | Reject | Inherit)`
+
+The processing unit action for outgoing traffic for the namespace.
 
 ##### `prefixes` [`read_only`]
 
@@ -5568,6 +5587,71 @@ Type: `[][]string`
 
 Request a command for the enforcers matching the following tag expression.
 
+### NetworkRule
+
+Represents an ingress or egress network rule.
+
+#### Example
+
+```json
+{
+  "action": "Allow",
+  "observationEnabled": false
+}
+```
+
+#### Attributes
+
+##### `action` [`required`]
+
+Type: `enum(Allow | Reject)`
+
+Defines the action to apply to a flow.
+- `Allow`: allows the defined traffic.
+- `Reject`: rejects the defined traffic; useful in conjunction with an allow all
+policy.
+
+Default value:
+
+```json
+"Allow"
+```
+
+##### `networks`
+
+Type: `[]string`
+
+A list of IP CIDRS or FQDNS that identify remote endpoints.
+
+##### `object`
+
+Type: `[][]string`
+
+Identifies the set of remote workloads that the rule relates to. The selector
+will identify both processing units as well as external networks that match the
+selector.
+
+##### `observationEnabled`
+
+Type: `boolean`
+
+If set to `true`, the flow will be in observation mode.
+
+Default value:
+
+```json
+false
+```
+
+##### `protocolPorts`
+
+Type: `[]string`
+
+Represents the ports and protocols this policy applies to. Protocol/ports are
+defined as tcp/80, udp/22. For protocols that do not have ports, the port
+designation
+is not allowed.
+
 ### Policy
 
 Represents the policy primitive used by all Microsegmentation policies.
@@ -5750,7 +5834,7 @@ include `AND` and `OR`.
 
 ##### `type` [`creation_only`]
 
-Type: `enum(APIAuthorization | AuditProfileMapping | EnforcerProfile | File | Hook | HostServiceMapping | Infrastructure | NamespaceMapping | Network | ProcessingUnit | Quota | Service | ServiceDependency | Syscall | TokenScope | SSHAuthorization | UserAccess)`
+Type: `enum(APIAuthorization | AuditProfileMapping | EnforcerProfile | File | Hook | HostServiceMapping | Infrastructure | NamespaceMapping | Network | NetworkRuleSet | ProcessingUnit | Quota | Service | ServiceDependency | Syscall | TokenScope | SSHAuthorization | UserAccess)`
 
 Type of the policy.
 
@@ -6488,6 +6572,14 @@ Parameters:
 
 - `mode` (`enum(subject | object)`): Matching mode.
 
+##### `GET /networkrulesetpolicies/:id/processingunits`
+
+Returns the list of processing units affected by a network rule set policy.
+
+Parameters:
+
+- `mode` (`enum(subject | object)`): Matching mode.
+
 ##### `GET /processingunitpolicies/:id/processingunits`
 
 Returns the list of processing units referenced by the mapping.
@@ -6754,11 +6846,10 @@ Indicates if this processing unit must be placed in tracing mode.
 
 ##### `type` [`creation_only`]
 
-Type: `enum(APIGateway | Docker | Host | HostService | LinuxService | RKT | User | SSHSession)`
+Type: `enum(APIGateway | Docker | Host | HostService | LinuxService | WindowsService | RKT | User | SSHSession)`
 
 Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
-`LinuxService`,
-`RKT`, `User`, or `SSHSession`.
+`LinuxService`, `WindowsService`, `RKT`, `User`, or `SSHSession`.
 
 ##### `updateTime` [`autogenerated`,`read_only`]
 
@@ -12042,6 +12133,13 @@ Type: `string`
 
 Namespace of the object at the other end of the flow.
 
+##### `ruleName`
+
+Type: `string`
+
+Contains the eventual name assigned to the particular rule in the
+NetworkRuleSetPolicy that acted on the flow.
+
 ##### `serviceClaimHash`
 
 Type: `string`
@@ -12415,6 +12513,14 @@ Parameters:
 
 - `mode` (`enum(subject | object)`): Matching mode.
 
+##### `GET /networkrulesetpolicies/:id/externalnetworks`
+
+Returns the list of external networks affected by a network rule set policy.
+
+Parameters:
+
+- `mode` (`enum(subject | object)`): Matching mode.
+
 #### Attributes
 
 ##### `ID` [`identifier`,`autogenerated`,`read_only`]
@@ -12700,6 +12806,13 @@ Protocol number.
 Type: `string`
 
 Namespace of the object at the other end of the flow.
+
+##### `ruleName`
+
+Type: `string`
+
+Contains the eventual name assigned to the particular rule in the
+NetworkRuleSetPolicy that acted on the flow.
 
 ##### `serviceClaimHash`
 
@@ -13034,7 +13147,8 @@ Parameters:
 
 ##### `POST /networkaccesspolicies`
 
-Creates a new network policy.
+Creates a new network policy. This is deprecated. in favor of
+NetworkRuleSetPolicy.
 
 ##### `DELETE /networkaccesspolicies/:id`
 
@@ -13295,6 +13409,193 @@ Defines if the object is protected.
 Type: `[][]string`
 
 A tag or tag expression identifying the subject of the policy.
+
+##### `updateTime` [`autogenerated`,`read_only`]
+
+Type: `time`
+
+Last update date of the object.
+
+### NetworkRuleSetPolicy
+
+Allows you to define network rule sets to allow or prevent processing units
+identified by their tags to talk to other processing units or external networks
+(also identified by their tags).
+
+#### Example
+
+```json
+{
+  "disabled": false,
+  "fallback": false,
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
+```
+
+#### Relations
+
+##### `GET /networkrulesetpolicies`
+
+Retrieves the list of network rule set policies.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
+
+##### `POST /networkrulesetpolicies`
+
+Creates a new network rule set policy policy.
+
+##### `DELETE /networkrulesetpolicies/:id`
+
+Deletes the policy with the given ID.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+
+##### `GET /networkrulesetpolicies/:id`
+
+Retrieves the policy with the given ID.
+
+Parameters:
+
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
+
+##### `PUT /networkrulesetpolicies/:id`
+
+Updates the policy with the given ID.
+
+##### `GET /networkrulesetpolicies/:id/externalnetworks`
+
+Returns the list of external networks affected by a network rule set policy.
+
+Parameters:
+
+- `mode` (`enum(subject | object)`): Matching mode.
+
+##### `GET /networkrulesetpolicies/:id/processingunits`
+
+Returns the list of processing units affected by a network rule set policy.
+
+Parameters:
+
+- `mode` (`enum(subject | object)`): Matching mode.
+
+##### `GET /networkrulesetpolicies/:id/services`
+
+Returns the list of services affected by a network rule set policy.
+
+Parameters:
+
+- `mode` (`enum(subject | object)`): Matching mode.
+
+#### Attributes
+
+##### `ID` [`identifier`,`autogenerated`,`read_only`]
+
+Type: `string`
+
+Identifier of the object.
+
+##### `annotations`
+
+Type: `map[string][]string`
+
+Stores additional information about an entity.
+
+##### `associatedTags`
+
+Type: `[]string`
+
+List of tags attached to an entity.
+
+##### `createTime` [`autogenerated`,`read_only`]
+
+Type: `time`
+
+Creation date of the object.
+
+##### `description` [`max_length=1024`]
+
+Type: `string`
+
+Description of the object.
+
+##### `disabled`
+
+Type: `boolean`
+
+Defines if the property is disabled.
+
+##### `fallback`
+
+Type: `boolean`
+
+Indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+##### `incomingRules`
+
+Type: [`[]networkrule`](#networkrule)
+
+The set of rules to apply to incoming traffic (traffic coming to the Processing
+Unit matching the subject).
+
+##### `metadata` [`creation_only`]
+
+Type: `[]string`
+
+Contains tags that can only be set during creation, must all start
+with the '@' prefix, and should only be used by external systems.
+
+##### `name` [`required`,`max_length=256`]
+
+Type: `string`
+
+Name of the entity.
+
+##### `namespace` [`autogenerated`,`read_only`]
+
+Type: `string`
+
+Namespace tag attached to an entity.
+
+##### `normalizedTags` [`autogenerated`,`read_only`]
+
+Type: `[]string`
+
+Contains the list of normalized tags of the entities.
+
+##### `outgoingRules`
+
+Type: [`[]networkrule`](#networkrule)
+
+The set of rules to apply to outgoing traffic (traffic coming from the
+Processing Unit matching the subject).
+
+##### `propagate`
+
+Type: `boolean`
+
+Propagates the policy to all of its children.
+
+##### `protected`
+
+Type: `boolean`
+
+Defines if the object is protected.
+
+##### `subject`
+
+Type: `[][]string`
+
+A tag expression identifying used to match processing units to which this policy
+applies to.
 
 ##### `updateTime` [`autogenerated`,`read_only`]
 
@@ -14227,6 +14528,14 @@ Parameters:
 ##### `GET /networkaccesspolicies/:id/services`
 
 Returns the list of services affected by a network policy.
+
+Parameters:
+
+- `mode` (`enum(subject | object)`): Matching mode.
+
+##### `GET /networkrulesetpolicies/:id/services`
+
+Returns the list of services affected by a network rule set policy.
 
 Parameters:
 
@@ -15859,9 +16168,6 @@ namespace of the user.
 
 ```json
 {
-  "descending": false,
-  "limit": -1,
-  "offset": -1,
   "report": "Flows"
 }
 ```
@@ -15874,6 +16180,7 @@ Sends a query on report data.
 
 Parameters:
 
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 - `endAbsolute` (`time`): Set the absolute end of the time window.
 - `endRelative` (`duration`): Set the relative end of the time window.
 - `startAbsolute` (`time`): Set the absolute start of the time window.
@@ -15885,59 +16192,45 @@ Mandatory Parameters
 
 #### Attributes
 
-##### `descending`
+##### `DNSLookupReports`
 
-Type: `boolean`
+Type: [`[]dnslookupreport`](#dnslookupreport)
 
-If set, the results will be ordered by time from the most recent to the oldest.
+List of DNSLookupReports.
 
-##### `fields`
+##### `counterReports`
 
-Type: `[]string`
+Type: [`[]counterreport`](#counterreport)
 
-List of fields to extract. If you don't pass anything, all available fields will
-be selected.
+List of CounterReports.
 
-##### `filter`
+##### `enforcerReports`
 
-Type: `string`
+Type: [`[]enforcerreport`](#enforcerreport)
 
-Apply a filter to the query.
+List of EnforcerReports.
 
-##### `groups`
+##### `eventLogs`
 
-Type: `[]string`
+Type: [`[]eventlog`](#eventlog)
 
-Group results by the provided values. Note that not all fields can be used to
-group the results.
+List of EventLogs.
 
-##### `limit`
+##### `flowReports`
 
-Type: `integer`
+Type: [`[]flowreport`](#flowreport)
 
-Limits the number of results. `-1` means no limit.
+List of FlowReports.
 
-Default value:
+##### `packetReports`
 
-```json
--1
-```
+Type: [`[]packetreport`](#packetreport)
 
-##### `offset`
-
-Type: `integer`
-
-Offsets the results. -1 means no offset.
-
-Default value:
-
-```json
--1
-```
+List of PacketReports.
 
 ##### `report`
 
-Type: `enum(Flows | Audit | Enforcers | Files | EventLogs | Packets | Counters | Accesses | DNSLookups)`
+Type: `enum(Flows | Enforcers | EventLogs | Packets | Counters | DNSLookups)`
 
 Name of the report type to query.
 
@@ -15946,36 +16239,6 @@ Default value:
 ```json
 "Flows"
 ```
-
-##### `results` [`autogenerated`,`read_only`]
-
-Type: [`[]reportsqueryresults`](#reportsqueryresults)
-
-Contains the result of the query.
-
-### ReportsQueryResults
-
-Represent the results of a reports query.
-
-#### Attributes
-
-##### `fields`
-
-Type: `[]string`
-
-List of projected fields.
-
-##### `groups`
-
-Type: `map[string]interface{}`
-
-List of projected fields.
-
-##### `values`
-
-Type: `[][]interface{}`
-
-List of values associated with the projected fields.
 
 ## visualization/statsquery
 
