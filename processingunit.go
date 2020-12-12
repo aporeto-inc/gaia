@@ -81,6 +81,9 @@ const (
 
 	// ProcessingUnitTypeUser represents the value User.
 	ProcessingUnitTypeUser ProcessingUnitTypeValue = "User"
+
+	// ProcessingUnitTypeWindowsService represents the value WindowsService.
+	ProcessingUnitTypeWindowsService ProcessingUnitTypeValue = "WindowsService"
 )
 
 // ProcessingUnitIdentity represents the Identity of the object.
@@ -270,8 +273,7 @@ type ProcessingUnit struct {
 	Tracing *TraceMode `json:"tracing" msgpack:"tracing" bson:"-" mapstructure:"tracing,omitempty"`
 
 	// Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
-	// `LinuxService`,
-	// `RKT`, `User`, or `SSHSession`.
+	// `LinuxService`, `WindowsService`, `RKT`, `User`, or `SSHSession`.
 	Type ProcessingUnitTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.
@@ -1010,7 +1012,7 @@ func (o *ProcessingUnit) Validate() error {
 		}
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "RKT", "User", "SSHSession"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "WindowsService", "RKT", "User", "SSHSession"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1523,13 +1525,12 @@ manifest.`,
 		Type:           "ref",
 	},
 	"Type": {
-		AllowedChoices: []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "RKT", "User", "SSHSession"},
+		AllowedChoices: []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "WindowsService", "RKT", "User", "SSHSession"},
 		BSONFieldName:  "type",
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description: `Type of processing unit: ` + "`" + `APIGateway` + "`" + `, ` + "`" + `Docker` + "`" + `, ` + "`" + `Host` + "`" + `, ` + "`" + `HostService` + "`" + `,
-` + "`" + `LinuxService` + "`" + `,
-` + "`" + `RKT` + "`" + `, ` + "`" + `User` + "`" + `, or ` + "`" + `SSHSession` + "`" + `.`,
+` + "`" + `LinuxService` + "`" + `, ` + "`" + `WindowsService` + "`" + `, ` + "`" + `RKT` + "`" + `, ` + "`" + `User` + "`" + `, or ` + "`" + `SSHSession` + "`" + `.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "type",
@@ -2015,13 +2016,12 @@ manifest.`,
 		Type:           "ref",
 	},
 	"type": {
-		AllowedChoices: []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "RKT", "User", "SSHSession"},
+		AllowedChoices: []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "WindowsService", "RKT", "User", "SSHSession"},
 		BSONFieldName:  "type",
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description: `Type of processing unit: ` + "`" + `APIGateway` + "`" + `, ` + "`" + `Docker` + "`" + `, ` + "`" + `Host` + "`" + `, ` + "`" + `HostService` + "`" + `,
-` + "`" + `LinuxService` + "`" + `,
-` + "`" + `RKT` + "`" + `, ` + "`" + `User` + "`" + `, or ` + "`" + `SSHSession` + "`" + `.`,
+` + "`" + `LinuxService` + "`" + `, ` + "`" + `WindowsService` + "`" + `, ` + "`" + `RKT` + "`" + `, ` + "`" + `User` + "`" + `, or ` + "`" + `SSHSession` + "`" + `.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "type",
@@ -2289,8 +2289,7 @@ type SparseProcessingUnit struct {
 	Tracing *TraceMode `json:"tracing,omitempty" msgpack:"tracing,omitempty" bson:"-" mapstructure:"tracing,omitempty"`
 
 	// Type of processing unit: `APIGateway`, `Docker`, `Host`, `HostService`,
-	// `LinuxService`,
-	// `RKT`, `User`, or `SSHSession`.
+	// `LinuxService`, `WindowsService`, `RKT`, `User`, or `SSHSession`.
 	Type *ProcessingUnitTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.

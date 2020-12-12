@@ -12,6 +12,11 @@ model:
   - '@migratable'
   - '@flow'
 
+# Ordering
+default_order:
+- :no-inherit
+- timestamp
+
 # Indexes
 indexes:
 - - remotenamespace

@@ -143,8 +143,7 @@ relations:
 
 - rest_name: authn
   get:
-    description: Verify the validity of a token. This is deprecated. You should use
-      Create.
+    description: Verify the validity of a token. This is deprecated. You should use Create.
     parameters:
       entries:
       - name: token
@@ -248,9 +247,11 @@ relations:
 
 - rest_name: discoverymode
   get:
-    description: Returns the list of discovery modes.
+    description: (Deprecated) Returns the list of discovery modes.
+    deprecated: true
   create:
-    description: Deploy the discovery mode assets onto the specified namespace.
+    description: (Deprecated) Deploy the discovery mode assets onto the specified namespace.
+    deprecated: true
 
 - rest_name: dnslookupreport
   create:
@@ -374,10 +375,7 @@ relations:
     parameters:
       entries:
       - name: quiet
-        description: If set to true, the health check endpoint will not return data
-          but will return 200 OK if everything is fine or 218 if the controller is
-          not operational. This is useful when you want to use the health check endpoint
-          as a load balancer health check.
+        description: If set to true, the health check endpoint will not return data but will return 200 OK if everything is fine or 218 if the controller is not operational. This is useful when you want to use the health check endpoint as a load balancer health check.
         type: boolean
 
 - rest_name: hit
@@ -546,8 +544,7 @@ relations:
     parameters:
       entries:
       - name: asCookie
-        description: If set to true, the token will be delivered in a secure cookie,
-          and not in the response body.
+        description: If set to true, the token will be delivered in a secure cookie, and not in the response body.
         type: boolean
 
       - name: token
@@ -611,8 +608,7 @@ relations:
         example_value: "2015-07-01T20:10:30.781Z"
 
       - name: step
-        description: Query resolution step width in duration format or float number
-          of seconds.
+        description: Query resolution step width in duration format or float number of seconds.
         type: string
         example_value: 15s
   create:
@@ -632,8 +628,7 @@ relations:
     parameters:
       entries:
       - name: authorized
-        description: Returns all namespaces the token bearer has the right to read.
-          If set, other parameters like `recursive` or `q` will have no effect.
+        description: Returns all namespaces the token bearer has the right to read. If set, other parameters like `recursive` or `q` will have no effect.
         type: boolean
   create:
     description: Creates a new namespace.
@@ -777,8 +772,7 @@ relations:
     parameters:
       entries:
       - name: remaining
-        description: Makes the system count how many object are left available in
-          the quota.
+        description: Makes the system count how many object are left available in the quota.
         type: boolean
 
 - rest_name: quotapolicy
@@ -827,6 +821,7 @@ relations:
   create:
     description: Sends a query on report data.
     global_parameters:
+    - $filtering
     - $timewindow
 
 - rest_name: revocation
