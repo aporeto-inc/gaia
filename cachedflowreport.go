@@ -231,7 +231,7 @@ type CachedFlowReport struct {
 
 	// Contains the eventual name assigned to the particular rule in the
 	// NetworkRuleSetPolicy that acted on the flow.
-	RuleName string `json:"ruleName,omitempty" msgpack:"ruleName,omitempty" bson:"ai,omitempty" mapstructure:"ruleName,omitempty"`
+	RuleName string `json:"ruleName,omitempty" msgpack:"ruleName,omitempty" bson:"ba,omitempty" mapstructure:"ruleName,omitempty"`
 
 	// Hash of the claims used to communicate.
 	ServiceClaimHash string `json:"serviceClaimHash,omitempty" msgpack:"serviceClaimHash,omitempty" bson:"v,omitempty" mapstructure:"serviceClaimHash,omitempty"`
@@ -1256,7 +1256,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	},
 	"RuleName": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "ai",
+		BSONFieldName:  "ba",
 		ConvertedName:  "RuleName",
 		Description: `Contains the eventual name assigned to the particular rule in the
 NetworkRuleSetPolicy that acted on the flow.`,
@@ -1706,7 +1706,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	},
 	"rulename": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "ai",
+		BSONFieldName:  "ba",
 		ConvertedName:  "RuleName",
 		Description: `Contains the eventual name assigned to the particular rule in the
 NetworkRuleSetPolicy that acted on the flow.`,
@@ -2025,7 +2025,7 @@ type SparseCachedFlowReport struct {
 
 	// Contains the eventual name assigned to the particular rule in the
 	// NetworkRuleSetPolicy that acted on the flow.
-	RuleName *string `json:"ruleName,omitempty" msgpack:"ruleName,omitempty" bson:"ai,omitempty" mapstructure:"ruleName,omitempty"`
+	RuleName *string `json:"ruleName,omitempty" msgpack:"ruleName,omitempty" bson:"ba,omitempty" mapstructure:"ruleName,omitempty"`
 
 	// Hash of the claims used to communicate.
 	ServiceClaimHash *string `json:"serviceClaimHash,omitempty" msgpack:"serviceClaimHash,omitempty" bson:"v,omitempty" mapstructure:"serviceClaimHash,omitempty"`
@@ -2618,7 +2618,7 @@ type mongoAttributesCachedFlowReport struct {
 	PolicyNamespace         string                               `bson:"s,omitempty"`
 	Protocol                int                                  `bson:"t,omitempty"`
 	RemoteNamespace         string                               `bson:"u,omitempty"`
-	RuleName                string                               `bson:"ai,omitempty"`
+	RuleName                string                               `bson:"ba,omitempty"`
 	ServiceClaimHash        string                               `bson:"v,omitempty"`
 	ServiceID               string                               `bson:"w,omitempty"`
 	ServiceNamespace        string                               `bson:"x,omitempty"`
@@ -2661,7 +2661,7 @@ type mongoAttributesSparseCachedFlowReport struct {
 	PolicyNamespace         *string                               `bson:"s,omitempty"`
 	Protocol                *int                                  `bson:"t,omitempty"`
 	RemoteNamespace         *string                               `bson:"u,omitempty"`
-	RuleName                *string                               `bson:"ai,omitempty"`
+	RuleName                *string                               `bson:"ba,omitempty"`
 	ServiceClaimHash        *string                               `bson:"v,omitempty"`
 	ServiceID               *string                               `bson:"w,omitempty"`
 	ServiceNamespace        *string                               `bson:"x,omitempty"`

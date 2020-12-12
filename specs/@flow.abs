@@ -243,7 +243,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: ai
+      bson_name: ba
 
   - name: serviceClaimHash
     description: Hash of the claims used to communicate.
