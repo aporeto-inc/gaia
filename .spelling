@@ -62,16 +62,13 @@ CounterReports
 ContextID
 CoreOS
 CounterReport
-<<<<<<< HEAD
 CRD
 CRDs
 CRI-O
 cron
 daemonset
-=======
 DNSLookupReport
 DNSLookupReports
->>>>>>> acfca3035ba6fb9e127e43c411351bba7ac6875b
 DaemonSet
 datapath
 DataPathCertificate
@@ -223,14 +220,11 @@ PasswordReset
 PCC
 PCCProvider
 PEM-encoded
-<<<<<<< HEAD
-=======
 PKI-based
 PKIXName
 PacketReport
 PacketReports
 PasswordReset
->>>>>>> acfca3035ba6fb9e127e43c411351bba7ac6875b
 PingConfig
 PingID
 PingPair
@@ -339,8 +333,6 @@ UDP
 UIParameter
 UIParameterVisibility
 UIStep
-<<<<<<< HEAD
-=======
 URIs
 Ubuntu
 UserAccessPolicy
@@ -454,7 +446,6 @@ tcp
 templated
 templating
 udp
->>>>>>> acfca3035ba6fb9e127e43c411351bba7ac6875b
 unencrypted
 unlogged
 URIs
