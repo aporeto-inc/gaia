@@ -6,7 +6,6 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // CNSSearchIdentity represents the Identity of the object.
@@ -82,31 +81,34 @@ func (o CNSSearchesList) Version() int {
 // CNSSearch represents the model of a cnssearch
 type CNSSearch struct {
 	// The payload of the search results.
-	Data types.PCRqlTableData `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
+	Data *PCSearchResults `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	// Description of the search.
-	Description string `json:"description" msgpack:"description" bson:"-" mapstructure:"description,omitempty"`
+	Description string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
 
 	// ID of the search request.
-	Id string `json:"id" msgpack:"id" bson:"-" mapstructure:"id,omitempty"`
+	Id string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
 
 	// The number of items to fetch.
-	Limit int `json:"limit" msgpack:"limit" bson:"-" mapstructure:"limit,omitempty"`
+	Limit int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
+
+	// Name of the rql search request. Should set to be empty.
+	Name string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// Represents the token to fetch next page.
-	PageToken string `json:"pageToken" msgpack:"pageToken" bson:"-" mapstructure:"pageToken,omitempty"`
+	PageToken string `json:"pageToken,omitempty" msgpack:"pageToken,omitempty" bson:"-" mapstructure:"pageToken,omitempty"`
 
 	// The rql query.
-	Query string `json:"query" msgpack:"query" bson:"-" mapstructure:"query,omitempty"`
+	Query string `json:"query,omitempty" msgpack:"query,omitempty" bson:"-" mapstructure:"query,omitempty"`
 
 	// Indicates if the search has been saved.
-	Saved bool `json:"saved" msgpack:"saved" bson:"-" mapstructure:"saved,omitempty"`
+	Saved bool `json:"saved,omitempty" msgpack:"saved,omitempty" bson:"-" mapstructure:"saved,omitempty"`
 
-	// Type of search request. Always set to be network.
-	SearchType string `json:"searchType" msgpack:"searchType" bson:"-" mapstructure:"searchType,omitempty"`
+	// Type of search request. Should set to be network.
+	SearchType string `json:"searchType,omitempty" msgpack:"searchType,omitempty" bson:"-" mapstructure:"searchType,omitempty"`
 
 	// Time range of the search.
-	TimeRange types.PCRqlTimeRange `json:"timeRange" msgpack:"timeRange" bson:"-" mapstructure:"timeRange,omitempty"`
+	TimeRange *PCTimeRange `json:"timeRange,omitempty" msgpack:"timeRange,omitempty" bson:"-" mapstructure:"timeRange,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -116,8 +118,7 @@ func NewCNSSearch() *CNSSearch {
 
 	return &CNSSearch{
 		ModelVersion: 1,
-		Data:         types.PCRqlTableData{},
-		TimeRange:    types.PCRqlTimeRange{},
+		Data:         NewPCSearchResults(),
 	}
 }
 
@@ -203,15 +204,16 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCNSSearch{
-			Data:        &o.Data,
+			Data:        o.Data,
 			Description: &o.Description,
 			Id:          &o.Id,
 			Limit:       &o.Limit,
+			Name:        &o.Name,
 			PageToken:   &o.PageToken,
 			Query:       &o.Query,
 			Saved:       &o.Saved,
 			SearchType:  &o.SearchType,
-			TimeRange:   &o.TimeRange,
+			TimeRange:   o.TimeRange,
 		}
 	}
 
@@ -219,13 +221,15 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	for _, f := range fields {
 		switch f {
 		case "data":
-			sp.Data = &(o.Data)
+			sp.Data = o.Data
 		case "description":
 			sp.Description = &(o.Description)
 		case "id":
 			sp.Id = &(o.Id)
 		case "limit":
 			sp.Limit = &(o.Limit)
+		case "name":
+			sp.Name = &(o.Name)
 		case "pageToken":
 			sp.PageToken = &(o.PageToken)
 		case "query":
@@ -235,7 +239,7 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		case "searchType":
 			sp.SearchType = &(o.SearchType)
 		case "timeRange":
-			sp.TimeRange = &(o.TimeRange)
+			sp.TimeRange = o.TimeRange
 		}
 	}
 
@@ -250,7 +254,7 @@ func (o *CNSSearch) Patch(sparse elemental.SparseIdentifiable) {
 
 	so := sparse.(*SparseCNSSearch)
 	if so.Data != nil {
-		o.Data = *so.Data
+		o.Data = so.Data
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -260,6 +264,9 @@ func (o *CNSSearch) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Limit != nil {
 		o.Limit = *so.Limit
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
 	}
 	if so.PageToken != nil {
 		o.PageToken = *so.PageToken
@@ -274,7 +281,7 @@ func (o *CNSSearch) Patch(sparse elemental.SparseIdentifiable) {
 		o.SearchType = *so.SearchType
 	}
 	if so.TimeRange != nil {
-		o.TimeRange = *so.TimeRange
+		o.TimeRange = so.TimeRange
 	}
 }
 
@@ -307,6 +314,20 @@ func (o *CNSSearch) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if o.Data != nil {
+		elemental.ResetDefaultForZeroValues(o.Data)
+		if err := o.Data.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	if o.TimeRange != nil {
+		elemental.ResetDefaultForZeroValues(o.TimeRange)
+		if err := o.TimeRange.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
 
 	if len(requiredErrors) > 0 {
 		return requiredErrors
@@ -350,6 +371,8 @@ func (o *CNSSearch) ValueForAttribute(name string) interface{} {
 		return o.Id
 	case "limit":
 		return o.Limit
+	case "name":
+		return o.Name
 	case "pageToken":
 		return o.PageToken
 	case "query":
@@ -373,8 +396,8 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The payload of the search results.`,
 		Exposed:        true,
 		Name:           "data",
-		SubType:        "_pc_rql_table_data",
-		Type:           "external",
+		SubType:        "pcsearchresult",
+		Type:           "ref",
 	},
 	"Description": {
 		AllowedChoices: []string{},
@@ -399,6 +422,14 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "limit",
 		Type:           "integer",
+	},
+	"Name": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Name",
+		Description:    `Name of the rql search request. Should set to be empty.`,
+		Exposed:        true,
+		Name:           "name",
+		Type:           "string",
 	},
 	"PageToken": {
 		AllowedChoices: []string{},
@@ -427,7 +458,7 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 	"SearchType": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SearchType",
-		Description:    `Type of search request. Always set to be network.`,
+		Description:    `Type of search request. Should set to be network.`,
 		Exposed:        true,
 		Name:           "searchType",
 		Type:           "string",
@@ -438,8 +469,8 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Time range of the search.`,
 		Exposed:        true,
 		Name:           "timeRange",
-		SubType:        "_pc_rql_timerange",
-		Type:           "external",
+		SubType:        "pctimerange",
+		Type:           "ref",
 	},
 }
 
@@ -451,8 +482,8 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `The payload of the search results.`,
 		Exposed:        true,
 		Name:           "data",
-		SubType:        "_pc_rql_table_data",
-		Type:           "external",
+		SubType:        "pcsearchresult",
+		Type:           "ref",
 	},
 	"description": {
 		AllowedChoices: []string{},
@@ -477,6 +508,14 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "limit",
 		Type:           "integer",
+	},
+	"name": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Name",
+		Description:    `Name of the rql search request. Should set to be empty.`,
+		Exposed:        true,
+		Name:           "name",
+		Type:           "string",
 	},
 	"pagetoken": {
 		AllowedChoices: []string{},
@@ -505,7 +544,7 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"searchtype": {
 		AllowedChoices: []string{},
 		ConvertedName:  "SearchType",
-		Description:    `Type of search request. Always set to be network.`,
+		Description:    `Type of search request. Should set to be network.`,
 		Exposed:        true,
 		Name:           "searchType",
 		Type:           "string",
@@ -516,8 +555,8 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Time range of the search.`,
 		Exposed:        true,
 		Name:           "timeRange",
-		SubType:        "_pc_rql_timerange",
-		Type:           "external",
+		SubType:        "pctimerange",
+		Type:           "ref",
 	},
 }
 
@@ -585,7 +624,7 @@ func (o SparseCNSSearchesList) Version() int {
 // SparseCNSSearch represents the sparse version of a cnssearch.
 type SparseCNSSearch struct {
 	// The payload of the search results.
-	Data *types.PCRqlTableData `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data *PCSearchResults `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// Description of the search.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
@@ -596,6 +635,9 @@ type SparseCNSSearch struct {
 	// The number of items to fetch.
 	Limit *int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
 
+	// Name of the rql search request. Should set to be empty.
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
+
 	// Represents the token to fetch next page.
 	PageToken *string `json:"pageToken,omitempty" msgpack:"pageToken,omitempty" bson:"-" mapstructure:"pageToken,omitempty"`
 
@@ -605,11 +647,11 @@ type SparseCNSSearch struct {
 	// Indicates if the search has been saved.
 	Saved *bool `json:"saved,omitempty" msgpack:"saved,omitempty" bson:"-" mapstructure:"saved,omitempty"`
 
-	// Type of search request. Always set to be network.
+	// Type of search request. Should set to be network.
 	SearchType *string `json:"searchType,omitempty" msgpack:"searchType,omitempty" bson:"-" mapstructure:"searchType,omitempty"`
 
 	// Time range of the search.
-	TimeRange *types.PCRqlTimeRange `json:"timeRange,omitempty" msgpack:"timeRange,omitempty" bson:"-" mapstructure:"timeRange,omitempty"`
+	TimeRange *PCTimeRange `json:"timeRange,omitempty" msgpack:"timeRange,omitempty" bson:"-" mapstructure:"timeRange,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -676,7 +718,7 @@ func (o *SparseCNSSearch) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCNSSearch()
 	if o.Data != nil {
-		out.Data = *o.Data
+		out.Data = o.Data
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
@@ -686,6 +728,9 @@ func (o *SparseCNSSearch) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Limit != nil {
 		out.Limit = *o.Limit
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
 	}
 	if o.PageToken != nil {
 		out.PageToken = *o.PageToken
@@ -700,7 +745,7 @@ func (o *SparseCNSSearch) ToPlain() elemental.PlainIdentifiable {
 		out.SearchType = *o.SearchType
 	}
 	if o.TimeRange != nil {
-		out.TimeRange = *o.TimeRange
+		out.TimeRange = o.TimeRange
 	}
 
 	return out

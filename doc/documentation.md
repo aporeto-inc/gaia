@@ -2214,172 +2214,6 @@ Type: `string`
 
 Contains the name of the plan.
 
-## core/cnsearch
-
-### CNSSearch
-
-Provide search results for Primsa Cloud's investigate page.
-
-#### Example
-
-```json
-{
-  "saved": false
-}
-```
-
-#### Relations
-
-##### `POST /cnssearches`
-
-Retrieves rql search results.
-
-#### Attributes
-
-##### `data`
-
-Type: `_pc_rql_table_data`
-
-The payload of the search results.
-
-##### `description`
-
-Type: `string`
-
-Description of the search.
-
-##### `id`
-
-Type: `string`
-
-ID of the search request.
-
-##### `limit`
-
-Type: `integer`
-
-The number of items to fetch.
-
-##### `pageToken`
-
-Type: `string`
-
-Represents the token to fetch next page.
-
-##### `query`
-
-Type: `string`
-
-The rql query.
-
-##### `saved`
-
-Type: `boolean`
-
-Indicates if the search has been saved.
-
-##### `searchType`
-
-Type: `string`
-
-Type of search request. Always set to be network.
-
-##### `timeRange`
-
-Type: `_pc_rql_timerange`
-
-Time range of the search.
-
-## core/cnssuggestion
-
-### CNSSuggestion
-
-Provide query suggestions for Primsa Cloud's investigate page.
-
-#### Example
-
-```json
-{
-  "needsOffsetUpdate": true,
-  "offset": 0,
-  "query": "network from DNS where id == 1",
-  "suggestions": [
-    "id",
-    "action"
-  ],
-  "translate": false,
-  "valid": false
-}
-```
-
-#### Relations
-
-##### `POST /cnssuggestions`
-
-Retrives rql suggestions from cns.
-
-#### Attributes
-
-##### `needsOffsetUpdate`
-
-Type: `boolean`
-
-Rquired by Prisma Cloud. Always set to true.
-
-Default value:
-
-```json
-true
-```
-
-##### `offset`
-
-Type: `integer`
-
-The length of the rql query part that is valid.
-
-Default value:
-
-```json
-0
-```
-
-##### `query` [`read_only`]
-
-Type: `string`
-
-Prisma Cloud's rql query.
-
-##### `suggestions`
-
-Type: `[]string`
-
-List of query suggestions.
-
-##### `translate`
-
-Type: `boolean`
-
-Rquired by Prisma Cloud. Always set to false.
-
-Default value:
-
-```json
-false
-```
-
-##### `valid`
-
-Type: `boolean`
-
-The validity of the rql query.
-
-Default value:
-
-```json
-false
-```
-
 ## core/enforcer
 
 ### CounterReport
@@ -6984,6 +6818,248 @@ Defines if the object is protected.
 Type: `_vulnerability_level`
 
 Refers to the security vulnerability level.
+
+## core/rql
+
+### CNSSearch
+
+Provide search results for Primsa Cloud's investigate page.
+
+#### Example
+
+```json
+{
+  "saved": false
+}
+```
+
+#### Relations
+
+##### `POST /cnssearches`
+
+Retrieves rql search results.
+
+#### Attributes
+
+##### `data`
+
+Type: [`pcsearchresult`](#pcsearchresult)
+
+The payload of the search results.
+
+##### `description`
+
+Type: `string`
+
+Description of the search.
+
+##### `id`
+
+Type: `string`
+
+ID of the search request.
+
+##### `limit`
+
+Type: `integer`
+
+The number of items to fetch.
+
+##### `name`
+
+Type: `string`
+
+Name of the rql search request. Should set to be empty.
+
+##### `pageToken`
+
+Type: `string`
+
+Represents the token to fetch next page.
+
+##### `query`
+
+Type: `string`
+
+The rql query.
+
+##### `saved`
+
+Type: `boolean`
+
+Indicates if the search has been saved.
+
+##### `searchType`
+
+Type: `string`
+
+Type of search request. Should set to be network.
+
+##### `timeRange`
+
+Type: [`pctimerange`](#pctimerange)
+
+Time range of the search.
+
+### CNSSuggestion
+
+Provides query suggestions for Primsa Cloud's investigate page.
+
+#### Example
+
+```json
+{
+  "needsOffsetUpdate": true,
+  "offset": 0,
+  "query": "network from DNS where id == 1",
+  "suggestions": [
+    "id",
+    "action"
+  ],
+  "translate": false,
+  "valid": false
+}
+```
+
+#### Relations
+
+##### `POST /cnssuggestions`
+
+Retrives rql suggestions from cns.
+
+#### Attributes
+
+##### `needsOffsetUpdate`
+
+Type: `boolean`
+
+Rquired by Prisma Cloud. Always set to true.
+
+Default value:
+
+```json
+true
+```
+
+##### `offset`
+
+Type: `integer`
+
+The length of the rql query part that is valid.
+
+Default value:
+
+```json
+0
+```
+
+##### `query` [`read_only`]
+
+Type: `string`
+
+Prisma Cloud's rql query.
+
+##### `suggestions`
+
+Type: `[]string`
+
+List of query suggestions.
+
+##### `translate`
+
+Type: `boolean`
+
+Rquired by Prisma Cloud. Always set to false.
+
+Default value:
+
+```json
+false
+```
+
+##### `valid`
+
+Type: `boolean`
+
+The validity of the rql query.
+
+Default value:
+
+```json
+false
+```
+
+### PCSearchResults
+
+Represents the result data of rql search.
+
+#### Attributes
+
+##### `items`
+
+Type: [`reportsquery`](#reportsquery)
+
+The payload of the search result.
+
+##### `nextPageToken`
+
+Type: `string`
+
+The pagination token for next page.
+
+##### `totalRows`
+
+Type: `integer`
+
+The total number of result items.
+
+### PCTimeRange
+
+Represents the time range option of rql search request.
+
+#### Attributes
+
+##### `type`
+
+Type: `string`
+
+Type of the time range.
+
+##### `value`
+
+Type: [`pctimerangevalue`](#pctimerangevalue)
+
+Value of the time range.
+
+### PCTimeRangeValue
+
+Represents the time range value of rql search request.
+
+#### Attributes
+
+##### `amount`
+
+Type: `integer`
+
+The count of time durations.
+
+##### `endTime`
+
+Type: `integer`
+
+the end time of the search, in Unix time format.
+
+##### `startTime`
+
+Type: `integer`
+
+The start time of the search, in Unix time format.
+
+##### `unit`
+
+Type: `string`
+
+The unit of the time durations.
 
 ## core/tag
 

@@ -4,8 +4,8 @@ model:
   resource_name: cnssuggestions
   entity_name: CNSSuggestion
   package: karl
-  group: core/cnssuggestion
-  description: Provide query suggestions for Primsa Cloud's investigate page.
+  group: core/rql
+  description: Provides query suggestions for Primsa Cloud's investigate page.
 
 # Attributes
 attributes:
@@ -28,6 +28,7 @@ attributes:
     exposed: true
     read_only: true
     example_value: network from DNS where id == 1
+    omit_empty: true
 
   - name: suggestions
     description: List of query suggestions.

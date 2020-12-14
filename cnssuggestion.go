@@ -87,7 +87,7 @@ type CNSSuggestion struct {
 	Offset int `json:"offset" msgpack:"offset" bson:"-" mapstructure:"offset,omitempty"`
 
 	// Prisma Cloud's rql query.
-	Query string `json:"query" msgpack:"query" bson:"-" mapstructure:"query,omitempty"`
+	Query string `json:"query,omitempty" msgpack:"query,omitempty" bson:"-" mapstructure:"query,omitempty"`
 
 	// List of query suggestions.
 	Suggestions []string `json:"suggestions" msgpack:"suggestions" bson:"-" mapstructure:"suggestions,omitempty"`
@@ -181,7 +181,7 @@ func (o *CNSSuggestion) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *CNSSuggestion) Doc() string {
 
-	return `Provide query suggestions for Primsa Cloud's investigate page.`
+	return `Provides query suggestions for Primsa Cloud's investigate page.`
 }
 
 func (o *CNSSuggestion) String() string {
