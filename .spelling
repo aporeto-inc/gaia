@@ -36,7 +36,8 @@ CentOS
 ClaimMapping
 ClaimsSupported
 ClauseMatch
-CNSSuggest
+CNSSuggestion
+CNSSearch
 CollectionID
 ComplianceIssue
 ConnectionExceptionReport
