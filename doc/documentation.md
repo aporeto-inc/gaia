@@ -5327,7 +5327,7 @@ external change on the processing unit that must be processed.
 ```json
 {
   "debug": "Counters",
-  "recursive": false,
+  "propagate": false,
   "refreshType": "Debug",
   "selector": [
     [
@@ -5397,11 +5397,11 @@ Type: `string`
 
 Contains the original namespace of the enforcer.
 
-##### `recursive`
+##### `propagate`
 
 Type: `boolean`
 
-Indicates if the command should be done recursively in all namespaces.
+Propagates the policy to all of its children.
 
 ##### `refreshType`
 
