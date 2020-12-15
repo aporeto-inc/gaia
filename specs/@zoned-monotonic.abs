@@ -2,16 +2,16 @@
 indexes:
 - - :shard
   - zone
-  - spread
+  - zHash
   - _id
 
 # Attributes
 attributes:
   v1:
-  - name: spread
+  - name: zHash
     description: |-
-      Random value used to increase the cardinality of the shard key to prevent
-      hot-spotting. Used for sharding.
+      geographical hash of the data. This is used for sharding and
+      georedundancy.
     type: integer
     stored: true
     read_only: true
