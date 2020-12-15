@@ -8,7 +8,7 @@ model:
   description: Post a new audit report.
   extends:
   - '@identifiable-stored'
-  - '@zoned-monotonic'
+  - '@zoned'
   - '@migratable'
 
 # Ordering

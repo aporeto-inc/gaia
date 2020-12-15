@@ -434,7 +434,7 @@ var (
 	indexesMap = map[string][][]string{
 		"accessreport": {
 			{"namespace", "timestamp"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"account": {
 			{"resetPasswordToken"},
@@ -507,7 +507,7 @@ var (
 		"auditprofilemappingpolicy": nil,
 		"auditreport": {
 			{"namespace", "timestamp"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"authn": nil,
 		"authority": {
@@ -539,7 +539,7 @@ var (
 			{"sourceID"},
 			{"namespace", "timestamp"},
 			{"destinationID"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"call":     nil,
 		"category": nil,
@@ -553,11 +553,11 @@ var (
 		"connectionexceptionreport": {
 			{"processingunitnamespace", "timestamp"},
 			{"enforcernamespace", "timestamp"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"counterreport": {
 			{"namespace", "timestamp"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"customer": {
 			{"providerCustomerID"},
@@ -573,7 +573,7 @@ var (
 		},
 		"dnslookupreport": {
 			{"namespace", "timestamp"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"email": nil,
 		"enforcer": {
@@ -616,7 +616,7 @@ var (
 			{"namespace", "timestamp"},
 			{"namespace", "enforcerID"},
 			{"enforcerID"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"enforcertracereport": {
 			{"namespace", "timestamp"},
@@ -625,7 +625,7 @@ var (
 		},
 		"eventlog": {
 			{"namespace", "timestamp"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"export": nil,
 		"externalnetwork": {
@@ -645,7 +645,7 @@ var (
 		"fileaccesspolicy": nil,
 		"fileaccessreport": {
 			{"namespace", "timestamp"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"filepath": {
 			{":shard", ":unique", "zone", "zHash"},
@@ -660,11 +660,9 @@ var (
 			{"archived"},
 		},
 		"flowreport": {
-			{"sourceID"},
 			{"remotenamespace", "timestamp"},
 			{"namespace", "timestamp"},
-			{"destinationID"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"graphedge": {
 			{":shard", ":unique", "zone", "zHash"},
@@ -822,7 +820,7 @@ var (
 		},
 		"packetreport": {
 			{"namespace", "timestamp"},
-			{":shard", "zone", "spread", "_id"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"passwordreset": nil,
 		"pccprovider": {

@@ -8,7 +8,7 @@ model:
   description: Post a new packet tracing report.
   extends:
   - '@identifiable-stored'
-  - '@zoned-monotonic'
+  - '@zoned'
   - '@migratable'
 
 # Ordering

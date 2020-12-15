@@ -8,7 +8,7 @@ model:
   description: Post a new flow log.
   extends:
   - '@identifiable-stored'
-  - '@zoned-monotonic'
+  - '@zoned'
   - '@migratable'
   - '@flow'
 
@@ -21,5 +21,3 @@ default_order:
 indexes:
 - - remotenamespace
   - timestamp
-- - sourceID
-- - destinationID
