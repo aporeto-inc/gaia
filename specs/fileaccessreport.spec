@@ -8,7 +8,7 @@ model:
   description: Post a new file access report.
   extends:
   - '@identifiable-stored'
-  - '@zoned'
+  - '@zoned-monotonic'
   - '@migratable'
 
 # Ordering

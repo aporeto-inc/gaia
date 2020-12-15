@@ -8,7 +8,7 @@ model:
   description: Post a new counter tracing report.
   extends:
   - '@identifiable-stored'
-  - '@zoned'
+  - '@zoned-monotonic'
   - '@migratable'
 
 # Ordering

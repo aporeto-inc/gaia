@@ -8,7 +8,7 @@ model:
   description: Represents any access made by the user.
   extends:
   - '@identifiable-stored'
-  - '@zoned'
+  - '@zoned-monotonic'
   - '@migratable'
 
 # Ordering
