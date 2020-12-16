@@ -76,7 +76,7 @@ func ValidatePortString(attribute string, portExp string) error {
 	}
 
 	if p1 >= p2 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' left bound is greater or equal to left bound", attribute))
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' left bound is greater than or equal to right bound", attribute))
 	}
 
 	return nil
