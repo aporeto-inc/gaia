@@ -7043,6 +7043,12 @@ Type: `integer`
 
 The count of time durations.
 
+##### `data`
+
+Type: `string`
+
+Sometimes other value information will be passed in the request.
+
 ##### `endTime`
 
 Type: `integer`

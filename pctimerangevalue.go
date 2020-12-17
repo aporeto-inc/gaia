@@ -81,16 +81,19 @@ func (o PCTimeRangeValuesList) Version() int {
 // PCTimeRangeValue represents the model of a pctimerangevalue
 type PCTimeRangeValue struct {
 	// The count of time durations.
-	Amount int `json:"amount" msgpack:"amount" bson:"-" mapstructure:"amount,omitempty"`
+	Amount int `json:"amount,omitempty" msgpack:"amount,omitempty" bson:"-" mapstructure:"amount,omitempty"`
+
+	// Sometimes other value information will be passed in the request.
+	Data string `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// the end time of the search, in Unix time format.
-	EndTime int `json:"endTime" msgpack:"endTime" bson:"-" mapstructure:"endTime,omitempty"`
+	EndTime int `json:"endTime,omitempty" msgpack:"endTime,omitempty" bson:"-" mapstructure:"endTime,omitempty"`
 
 	// The start time of the search, in Unix time format.
-	StartTime int `json:"startTime" msgpack:"startTime" bson:"-" mapstructure:"startTime,omitempty"`
+	StartTime int `json:"startTime,omitempty" msgpack:"startTime,omitempty" bson:"-" mapstructure:"startTime,omitempty"`
 
 	// The unit of the time durations.
-	Unit string `json:"unit" msgpack:"unit" bson:"-" mapstructure:"unit,omitempty"`
+	Unit string `json:"unit,omitempty" msgpack:"unit,omitempty" bson:"-" mapstructure:"unit,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -186,6 +189,7 @@ func (o *PCTimeRangeValue) ToSparse(fields ...string) elemental.SparseIdentifiab
 		// nolint: goimports
 		return &SparsePCTimeRangeValue{
 			Amount:    &o.Amount,
+			Data:      &o.Data,
 			EndTime:   &o.EndTime,
 			StartTime: &o.StartTime,
 			Unit:      &o.Unit,
@@ -197,6 +201,8 @@ func (o *PCTimeRangeValue) ToSparse(fields ...string) elemental.SparseIdentifiab
 		switch f {
 		case "amount":
 			sp.Amount = &(o.Amount)
+		case "data":
+			sp.Data = &(o.Data)
 		case "endTime":
 			sp.EndTime = &(o.EndTime)
 		case "startTime":
@@ -218,6 +224,9 @@ func (o *PCTimeRangeValue) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparsePCTimeRangeValue)
 	if so.Amount != nil {
 		o.Amount = *so.Amount
+	}
+	if so.Data != nil {
+		o.Data = *so.Data
 	}
 	if so.EndTime != nil {
 		o.EndTime = *so.EndTime
@@ -296,6 +305,8 @@ func (o *PCTimeRangeValue) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "amount":
 		return o.Amount
+	case "data":
+		return o.Data
 	case "endTime":
 		return o.EndTime
 	case "startTime":
@@ -316,6 +327,14 @@ var PCTimeRangeValueAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "amount",
 		Type:           "integer",
+	},
+	"Data": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Sometimes other value information will be passed in the request.`,
+		Exposed:        true,
+		Name:           "data",
+		Type:           "string",
 	},
 	"EndTime": {
 		AllowedChoices: []string{},
@@ -352,6 +371,14 @@ var PCTimeRangeValueLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Exposed:        true,
 		Name:           "amount",
 		Type:           "integer",
+	},
+	"data": {
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Sometimes other value information will be passed in the request.`,
+		Exposed:        true,
+		Name:           "data",
+		Type:           "string",
 	},
 	"endtime": {
 		AllowedChoices: []string{},
@@ -445,6 +472,9 @@ type SparsePCTimeRangeValue struct {
 	// The count of time durations.
 	Amount *int `json:"amount,omitempty" msgpack:"amount,omitempty" bson:"-" mapstructure:"amount,omitempty"`
 
+	// Sometimes other value information will be passed in the request.
+	Data *string `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+
 	// the end time of the search, in Unix time format.
 	EndTime *int `json:"endTime,omitempty" msgpack:"endTime,omitempty" bson:"-" mapstructure:"endTime,omitempty"`
 
@@ -520,6 +550,9 @@ func (o *SparsePCTimeRangeValue) ToPlain() elemental.PlainIdentifiable {
 	out := NewPCTimeRangeValue()
 	if o.Amount != nil {
 		out.Amount = *o.Amount
+	}
+	if o.Data != nil {
+		out.Data = *o.Data
 	}
 	if o.EndTime != nil {
 		out.EndTime = *o.EndTime

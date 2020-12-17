@@ -14,18 +14,28 @@ attributes:
     description: The count of time durations.
     type: integer
     exposed: true
+    omit_empty: true
+
+  - name: data
+    description: Sometimes other value information will be passed in the request.
+    type: string
+    exposed: true
+    omit_empty: true
 
   - name: endTime
     description: the end time of the search, in Unix time format.
     type: integer
     exposed: true
+    omit_empty: true
 
   - name: startTime
     description: The start time of the search, in Unix time format.
     type: integer
     exposed: true
+    omit_empty: true
 
   - name: unit
     description: The unit of the time durations.
     type: string
     exposed: true
+    omit_empty: true
