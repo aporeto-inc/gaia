@@ -27,8 +27,17 @@ type NetworkRule struct {
 	// policy.
 	Action NetworkRuleActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
+	// If `true`, the relevant flows will not be reported to the Microsegmentation
+	// Console.
+	// Under some advanced scenarios you may wish to set this to `true`, such as to
+	// save space or improve performance.
+	LogsDisabled bool `json:"logsDisabled" msgpack:"logsDisabled" bson:"-" mapstructure:"logsDisabled,omitempty"`
+
+	// A user defined name to keep track of the rule in the reporting.
+	Name string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
+
 	// A list of IP CIDRS or FQDNS that identify remote endpoints.
-	Networks []string `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"-" mapstructure:"networks,omitempty"`
+	Networks []*NetworkRuleNet `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"-" mapstructure:"networks,omitempty"`
 
 	// Identifies the set of remote workloads that the rule relates to. The selector
 	// will identify both processing units as well as external networks that match the
@@ -53,7 +62,7 @@ func NewNetworkRule() *NetworkRule {
 	return &NetworkRule{
 		ModelVersion:       1,
 		Action:             NetworkRuleActionAllow,
-		Networks:           []string{},
+		Networks:           []*NetworkRuleNet{},
 		Object:             [][]string{},
 		ObservationEnabled: false,
 		ProtocolPorts:      []string{},
@@ -131,6 +140,20 @@ func (o *NetworkRule) Validate() error {
 
 	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Allow", "Reject"}, false); err != nil {
 		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 32, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	for _, sub := range o.Networks {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if err := ValidateTagsExpression("object", o.Object); err != nil {

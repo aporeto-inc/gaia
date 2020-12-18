@@ -8,7 +8,7 @@ model:
   description: Post a new flow log.
   extends:
   - '@identifiable-stored'
-  - '@zoned'
+  - '@zoned-monotonic'
   - '@migratable'
 
 # Indexes

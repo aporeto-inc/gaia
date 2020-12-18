@@ -4040,8 +4040,12 @@ func init() {
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "csr",
-						Type: "string",
+						Name: "renderer",
+						Type: "enum",
+						AllowedChoices: []string{
+							"v1",
+							"v2",
+						},
 					},
 				},
 			},
@@ -4050,8 +4054,12 @@ func init() {
 			"processingunit": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "csr",
-						Type: "string",
+						Name: "renderer",
+						Type: "enum",
+						AllowedChoices: []string{
+							"v1",
+							"v2",
+						},
 					},
 				},
 			},
@@ -4060,8 +4068,12 @@ func init() {
 			"processingunit": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "csr",
-						Type: "string",
+						Name: "renderer",
+						Type: "enum",
+						AllowedChoices: []string{
+							"v1",
+							"v2",
+						},
 					},
 				},
 			},
@@ -4816,10 +4828,34 @@ func init() {
 
 	relationshipsRegistry[TagIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "onlyPolicyTags",
+						Type: "boolean",
+					},
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "onlyPolicyTags",
+						Type: "boolean",
+					},
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 

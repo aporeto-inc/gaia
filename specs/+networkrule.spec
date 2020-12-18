@@ -24,15 +24,32 @@ attributes:
     - Allow
     - Reject
     default_value: Allow
-    orderable: true
+
+  - name: logsDisabled
+    description: |-
+      If `true`, the relevant flows will not be reported to the Microsegmentation
+      Console.
+      Under some advanced scenarios you may wish to set this to `true`, such as to
+      save space or improve performance.
+    type: boolean
+    exposed: true
+
+  - name: name
+    description: A user defined name to keep track of the rule in the reporting.
+    type: string
+    exposed: true
+    max_length: 32
+    omit_empty: true
 
   - name: networks
     description: A list of IP CIDRS or FQDNS that identify remote endpoints.
-    type: list
+    type: refList
     exposed: true
-    subtype: string
-    orderable: true
+    subtype: networkrulenet
+    read_only: true
     omit_empty: true
+    extensions:
+      refMode: pointer
 
   - name: object
     description: |-
@@ -51,7 +68,6 @@ attributes:
     type: boolean
     exposed: true
     default_value: false
-    orderable: true
 
   - name: protocolPorts
     description: |-
@@ -62,6 +78,5 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    orderable: true
     validations:
     - $serviceports
