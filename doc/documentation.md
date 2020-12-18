@@ -6933,8 +6933,11 @@ Provide search results for Primsa Cloud's investigate page.
 
 ```json
 {
+  "endAbsolute": 0,
   "limit": 100,
-  "saved": false
+  "query": "network dns where id == 1",
+  "saved": false,
+  "startAbsolute": 0
 }
 ```
 
@@ -6958,6 +6961,18 @@ Type: `string`
 
 Description of the search.
 
+##### `endAbsolute`
+
+Type: `integer`
+
+Absolute end time of search, in unix time.
+
+Default value:
+
+```json
+0
+```
+
 ##### `id`
 
 Type: `string`
@@ -6980,7 +6995,7 @@ Default value:
 
 Type: `string`
 
-Name of the rql search request. Should set to be empty.
+Name of the RQL search request. Should set to be empty.
 
 ##### `pageToken`
 
@@ -6992,7 +7007,7 @@ Represents the token to fetch next page.
 
 Type: `string`
 
-The rql query.
+The RQL query.
 
 ##### `saved`
 
@@ -7006,11 +7021,17 @@ Type: `string`
 
 Type of search request. Should set to be network.
 
-##### `timeRange`
+##### `startAbsolute`
 
-Type: [`pctimerange`](#pctimerange)
+Type: `integer`
 
-Time range of the search.
+Absolute start time of search, in unix time.
+
+Default value:
+
+```json
+0
+```
 
 ### CNSSuggestion
 
@@ -7123,60 +7144,6 @@ The pagination token for next page.
 Type: `integer`
 
 The total number of result items.
-
-### PCTimeRange
-
-Represents the time range option of rql search request.
-
-#### Attributes
-
-##### `type`
-
-Type: `string`
-
-Type of the time range.
-
-##### `value`
-
-Type: [`pctimerangevalue`](#pctimerangevalue)
-
-Value of the time range.
-
-### PCTimeRangeValue
-
-Represents the time range value of rql search request.
-
-#### Attributes
-
-##### `amount`
-
-Type: `integer`
-
-The count of time durations.
-
-##### `data`
-
-Type: `string`
-
-Sometimes other value information will be passed in the request.
-
-##### `endTime`
-
-Type: `integer`
-
-the end time of the search, in Unix time format.
-
-##### `startTime`
-
-Type: `integer`
-
-The start time of the search, in Unix time format.
-
-##### `unit`
-
-Type: `string`
-
-The unit of the time durations.
 
 ## core/tag
 

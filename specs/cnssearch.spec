@@ -24,6 +24,13 @@ attributes:
     exposed: true
     omit_empty: true
 
+  - name: endAbsolute
+    description: Absolute end time of search, in unix time.
+    type: integer
+    exposed: true
+    default_value: 0
+    omit_empty: true
+
   - name: id
     description: ID of the search request.
     type: string
@@ -38,7 +45,7 @@ attributes:
     omit_empty: true
 
   - name: name
-    description: Name of the rql search request. Should set to be empty.
+    description: Name of the RQL search request. Should set to be empty.
     type: string
     exposed: true
     omit_empty: true
@@ -50,9 +57,10 @@ attributes:
     omit_empty: true
 
   - name: query
-    description: The rql query.
+    description: The RQL query.
     type: string
     exposed: true
+    example_value: network dns where id == 1
     omit_empty: true
 
   - name: saved
@@ -67,12 +75,9 @@ attributes:
     exposed: true
     omit_empty: true
 
-  - name: timeRange
-    description: Time range of the search.
-    type: ref
+  - name: startAbsolute
+    description: Absolute start time of search, in unix time.
+    type: integer
     exposed: true
-    subtype: pctimerange
+    default_value: 0
     omit_empty: true
-    extensions:
-      noInit: true
-      refMode: pointer

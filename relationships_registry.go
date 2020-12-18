@@ -3295,10 +3295,6 @@ func init() {
 
 	relationshipsRegistry[PCSearchResultsIdentity] = &elemental.Relationship{}
 
-	relationshipsRegistry[PCTimeRangeIdentity] = &elemental.Relationship{}
-
-	relationshipsRegistry[PCTimeRangeValueIdentity] = &elemental.Relationship{}
-
 	relationshipsRegistry[PacketReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},

@@ -86,19 +86,22 @@ type CNSSearch struct {
 	// Description of the search.
 	Description string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
 
+	// Absolute end time of search, in unix time.
+	EndAbsolute int `json:"endAbsolute,omitempty" msgpack:"endAbsolute,omitempty" bson:"-" mapstructure:"endAbsolute,omitempty"`
+
 	// ID of the search request.
 	Id string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
 
 	// The number of items to fetch.
 	Limit int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
 
-	// Name of the rql search request. Should set to be empty.
+	// Name of the RQL search request. Should set to be empty.
 	Name string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// Represents the token to fetch next page.
 	PageToken string `json:"pageToken,omitempty" msgpack:"pageToken,omitempty" bson:"-" mapstructure:"pageToken,omitempty"`
 
-	// The rql query.
+	// The RQL query.
 	Query string `json:"query,omitempty" msgpack:"query,omitempty" bson:"-" mapstructure:"query,omitempty"`
 
 	// Indicates if the search has been saved.
@@ -107,8 +110,8 @@ type CNSSearch struct {
 	// Type of search request. Should set to be network.
 	SearchType string `json:"searchType,omitempty" msgpack:"searchType,omitempty" bson:"-" mapstructure:"searchType,omitempty"`
 
-	// Time range of the search.
-	TimeRange *PCTimeRange `json:"timeRange,omitempty" msgpack:"timeRange,omitempty" bson:"-" mapstructure:"timeRange,omitempty"`
+	// Absolute start time of search, in unix time.
+	StartAbsolute int `json:"startAbsolute,omitempty" msgpack:"startAbsolute,omitempty" bson:"-" mapstructure:"startAbsolute,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -117,9 +120,11 @@ type CNSSearch struct {
 func NewCNSSearch() *CNSSearch {
 
 	return &CNSSearch{
-		ModelVersion: 1,
-		Data:         NewPCSearchResults(),
-		Limit:        100,
+		ModelVersion:  1,
+		Data:          NewPCSearchResults(),
+		EndAbsolute:   0,
+		Limit:         100,
+		StartAbsolute: 0,
 	}
 }
 
@@ -205,16 +210,17 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCNSSearch{
-			Data:        o.Data,
-			Description: &o.Description,
-			Id:          &o.Id,
-			Limit:       &o.Limit,
-			Name:        &o.Name,
-			PageToken:   &o.PageToken,
-			Query:       &o.Query,
-			Saved:       &o.Saved,
-			SearchType:  &o.SearchType,
-			TimeRange:   o.TimeRange,
+			Data:          o.Data,
+			Description:   &o.Description,
+			EndAbsolute:   &o.EndAbsolute,
+			Id:            &o.Id,
+			Limit:         &o.Limit,
+			Name:          &o.Name,
+			PageToken:     &o.PageToken,
+			Query:         &o.Query,
+			Saved:         &o.Saved,
+			SearchType:    &o.SearchType,
+			StartAbsolute: &o.StartAbsolute,
 		}
 	}
 
@@ -225,6 +231,8 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Data = o.Data
 		case "description":
 			sp.Description = &(o.Description)
+		case "endAbsolute":
+			sp.EndAbsolute = &(o.EndAbsolute)
 		case "id":
 			sp.Id = &(o.Id)
 		case "limit":
@@ -239,8 +247,8 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Saved = &(o.Saved)
 		case "searchType":
 			sp.SearchType = &(o.SearchType)
-		case "timeRange":
-			sp.TimeRange = o.TimeRange
+		case "startAbsolute":
+			sp.StartAbsolute = &(o.StartAbsolute)
 		}
 	}
 
@@ -259,6 +267,9 @@ func (o *CNSSearch) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
+	}
+	if so.EndAbsolute != nil {
+		o.EndAbsolute = *so.EndAbsolute
 	}
 	if so.Id != nil {
 		o.Id = *so.Id
@@ -281,8 +292,8 @@ func (o *CNSSearch) Patch(sparse elemental.SparseIdentifiable) {
 	if so.SearchType != nil {
 		o.SearchType = *so.SearchType
 	}
-	if so.TimeRange != nil {
-		o.TimeRange = so.TimeRange
+	if so.StartAbsolute != nil {
+		o.StartAbsolute = *so.StartAbsolute
 	}
 }
 
@@ -319,13 +330,6 @@ func (o *CNSSearch) Validate() error {
 	if o.Data != nil {
 		elemental.ResetDefaultForZeroValues(o.Data)
 		if err := o.Data.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
-	}
-
-	if o.TimeRange != nil {
-		elemental.ResetDefaultForZeroValues(o.TimeRange)
-		if err := o.TimeRange.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
@@ -368,6 +372,8 @@ func (o *CNSSearch) ValueForAttribute(name string) interface{} {
 		return o.Data
 	case "description":
 		return o.Description
+	case "endAbsolute":
+		return o.EndAbsolute
 	case "id":
 		return o.Id
 	case "limit":
@@ -382,8 +388,8 @@ func (o *CNSSearch) ValueForAttribute(name string) interface{} {
 		return o.Saved
 	case "searchType":
 		return o.SearchType
-	case "timeRange":
-		return o.TimeRange
+	case "startAbsolute":
+		return o.StartAbsolute
 	}
 
 	return nil
@@ -408,6 +414,14 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "description",
 		Type:           "string",
 	},
+	"EndAbsolute": {
+		AllowedChoices: []string{},
+		ConvertedName:  "EndAbsolute",
+		Description:    `Absolute end time of search, in unix time.`,
+		Exposed:        true,
+		Name:           "endAbsolute",
+		Type:           "integer",
+	},
 	"Id": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Id",
@@ -428,7 +442,7 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 	"Name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `Name of the rql search request. Should set to be empty.`,
+		Description:    `Name of the RQL search request. Should set to be empty.`,
 		Exposed:        true,
 		Name:           "name",
 		Type:           "string",
@@ -444,7 +458,7 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 	"Query": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Query",
-		Description:    `The rql query.`,
+		Description:    `The RQL query.`,
 		Exposed:        true,
 		Name:           "query",
 		Type:           "string",
@@ -465,14 +479,13 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "searchType",
 		Type:           "string",
 	},
-	"TimeRange": {
+	"StartAbsolute": {
 		AllowedChoices: []string{},
-		ConvertedName:  "TimeRange",
-		Description:    `Time range of the search.`,
+		ConvertedName:  "StartAbsolute",
+		Description:    `Absolute start time of search, in unix time.`,
 		Exposed:        true,
-		Name:           "timeRange",
-		SubType:        "pctimerange",
-		Type:           "ref",
+		Name:           "startAbsolute",
+		Type:           "integer",
 	},
 }
 
@@ -495,6 +508,14 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Name:           "description",
 		Type:           "string",
 	},
+	"endabsolute": {
+		AllowedChoices: []string{},
+		ConvertedName:  "EndAbsolute",
+		Description:    `Absolute end time of search, in unix time.`,
+		Exposed:        true,
+		Name:           "endAbsolute",
+		Type:           "integer",
+	},
 	"id": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Id",
@@ -515,7 +536,7 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `Name of the rql search request. Should set to be empty.`,
+		Description:    `Name of the RQL search request. Should set to be empty.`,
 		Exposed:        true,
 		Name:           "name",
 		Type:           "string",
@@ -531,7 +552,7 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"query": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Query",
-		Description:    `The rql query.`,
+		Description:    `The RQL query.`,
 		Exposed:        true,
 		Name:           "query",
 		Type:           "string",
@@ -552,14 +573,13 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Name:           "searchType",
 		Type:           "string",
 	},
-	"timerange": {
+	"startabsolute": {
 		AllowedChoices: []string{},
-		ConvertedName:  "TimeRange",
-		Description:    `Time range of the search.`,
+		ConvertedName:  "StartAbsolute",
+		Description:    `Absolute start time of search, in unix time.`,
 		Exposed:        true,
-		Name:           "timeRange",
-		SubType:        "pctimerange",
-		Type:           "ref",
+		Name:           "startAbsolute",
+		Type:           "integer",
 	},
 }
 
@@ -632,19 +652,22 @@ type SparseCNSSearch struct {
 	// Description of the search.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
 
+	// Absolute end time of search, in unix time.
+	EndAbsolute *int `json:"endAbsolute,omitempty" msgpack:"endAbsolute,omitempty" bson:"-" mapstructure:"endAbsolute,omitempty"`
+
 	// ID of the search request.
 	Id *string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
 
 	// The number of items to fetch.
 	Limit *int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
 
-	// Name of the rql search request. Should set to be empty.
+	// Name of the RQL search request. Should set to be empty.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// Represents the token to fetch next page.
 	PageToken *string `json:"pageToken,omitempty" msgpack:"pageToken,omitempty" bson:"-" mapstructure:"pageToken,omitempty"`
 
-	// The rql query.
+	// The RQL query.
 	Query *string `json:"query,omitempty" msgpack:"query,omitempty" bson:"-" mapstructure:"query,omitempty"`
 
 	// Indicates if the search has been saved.
@@ -653,8 +676,8 @@ type SparseCNSSearch struct {
 	// Type of search request. Should set to be network.
 	SearchType *string `json:"searchType,omitempty" msgpack:"searchType,omitempty" bson:"-" mapstructure:"searchType,omitempty"`
 
-	// Time range of the search.
-	TimeRange *PCTimeRange `json:"timeRange,omitempty" msgpack:"timeRange,omitempty" bson:"-" mapstructure:"timeRange,omitempty"`
+	// Absolute start time of search, in unix time.
+	StartAbsolute *int `json:"startAbsolute,omitempty" msgpack:"startAbsolute,omitempty" bson:"-" mapstructure:"startAbsolute,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -726,6 +749,9 @@ func (o *SparseCNSSearch) ToPlain() elemental.PlainIdentifiable {
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
+	if o.EndAbsolute != nil {
+		out.EndAbsolute = *o.EndAbsolute
+	}
 	if o.Id != nil {
 		out.Id = *o.Id
 	}
@@ -747,8 +773,8 @@ func (o *SparseCNSSearch) ToPlain() elemental.PlainIdentifiable {
 	if o.SearchType != nil {
 		out.SearchType = *o.SearchType
 	}
-	if o.TimeRange != nil {
-		out.TimeRange = o.TimeRange
+	if o.StartAbsolute != nil {
+		out.StartAbsolute = *o.StartAbsolute
 	}
 
 	return out
