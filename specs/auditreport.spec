@@ -8,8 +8,13 @@ model:
   description: Post a new audit report.
   extends:
   - '@identifiable-stored'
-  - '@zoned'
+  - '@zoned-monotonic'
   - '@migratable'
+
+# Ordering
+default_order:
+- :no-inherit
+- timestamp
 
 # Indexes
 indexes:
@@ -348,6 +353,7 @@ attributes:
     stored: true
     required: true
     example_value: "2018-06-14T23:10:46.420397985Z"
+    orderable: true
     omit_empty: true
     extensions:
       bson_name: ah

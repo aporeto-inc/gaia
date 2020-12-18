@@ -4022,8 +4022,12 @@ func init() {
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "csr",
-						Type: "string",
+						Name: "renderer",
+						Type: "enum",
+						AllowedChoices: []string{
+							"v1",
+							"v2",
+						},
 					},
 				},
 			},
@@ -4032,8 +4036,12 @@ func init() {
 			"processingunit": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "csr",
-						Type: "string",
+						Name: "renderer",
+						Type: "enum",
+						AllowedChoices: []string{
+							"v1",
+							"v2",
+						},
 					},
 				},
 			},
@@ -4042,8 +4050,12 @@ func init() {
 			"processingunit": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "csr",
-						Type: "string",
+						Name: "renderer",
+						Type: "enum",
+						AllowedChoices: []string{
+							"v1",
+							"v2",
+						},
 					},
 				},
 			},
@@ -4053,6 +4065,64 @@ func init() {
 	relationshipsRegistry[ReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
+		},
+	}
+
+	relationshipsRegistry[ReportsQueryIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						{
+							{
+								"endRelative",
+							},
+							{
+								"startRelative",
+							},
+							{
+								"startRelative",
+								"endRelative",
+							},
+							{
+								"startRelative",
+								"endAbsolute",
+							},
+							{
+								"startAbsolute",
+								"endRelative",
+							},
+							{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					{
+						Name: "startRelative",
+						Type: "duration",
+					},
+				},
+			},
 		},
 	}
 
@@ -4740,10 +4810,34 @@ func init() {
 
 	relationshipsRegistry[TagIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "onlyPolicyTags",
+						Type: "boolean",
+					},
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "onlyPolicyTags",
+						Type: "boolean",
+					},
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 

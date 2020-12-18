@@ -78,7 +78,9 @@ func (o EventLogsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o EventLogsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToSparse returns the EventLogsList converted to SparseEventLogsList.
@@ -251,7 +253,9 @@ func (o *EventLog) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *EventLog) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -685,6 +689,7 @@ namespace than the event log.`,
 		Description:    `Creation date of the event log.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -869,6 +874,7 @@ namespace than the event log.`,
 		Description:    `Creation date of the event log.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -955,7 +961,9 @@ func (o SparseEventLogsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseEventLogsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToPlain returns the SparseEventLogsList converted to EventLogsList.

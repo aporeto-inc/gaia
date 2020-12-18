@@ -58,7 +58,9 @@ func (o EnforcerReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o EnforcerReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToSparse returns the EnforcerReportsList converted to SparseEnforcerReportsList.
@@ -215,7 +217,9 @@ func (o *EnforcerReport) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *EnforcerReport) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -565,6 +569,7 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Required:       true,
 		Stored:         true,
 		Type:           "time",
@@ -697,6 +702,7 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Required:       true,
 		Stored:         true,
 		Type:           "time",
@@ -772,7 +778,9 @@ func (o SparseEnforcerReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseEnforcerReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToPlain returns the SparseEnforcerReportsList converted to EnforcerReportsList.

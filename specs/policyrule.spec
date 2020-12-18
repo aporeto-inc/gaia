@@ -5,8 +5,7 @@ model:
   entity_name: PolicyRule
   package: squall
   group: core/policy
-  description: |-
-    Allows services to retrieve a policy resolution (internal).
+  description: Allows services to retrieve a policy resolution (internal).
   get:
     description: Retrieves the object with the given ID.
   extends:
@@ -21,8 +20,8 @@ indexes:
 attributes:
   v1:
   - name: action
-    description: Defines set of actions that must be enforced when a dependency
-      is met.
+    description: Defines set of actions that must be enforced when a dependency is
+      met.
     type: external
     exposed: true
     subtype: map[string]map[string]interface{}
@@ -32,7 +31,10 @@ attributes:
     type: refList
     exposed: true
     subtype: auditprofile
+    deprecated: true
     omit_empty: true
+    extensions:
+      noInit: true
 
   - name: enforcerProfiles
     description: Provides information about the enforcer profile.
@@ -57,6 +59,7 @@ attributes:
     type: refList
     exposed: true
     subtype: filepath
+    deprecated: true
     omit_empty: true
     extensions:
       noInit: true
@@ -67,12 +70,15 @@ attributes:
     exposed: true
     subtype: hostservice
     omit_empty: true
+    extensions:
+      noInit: true
 
   - name: isolationProfiles
     description: Provides the isolation profiles of the rule.
     type: refList
     exposed: true
     subtype: isolationprofile
+    deprecated: true
     omit_empty: true
     extensions:
       noInit: true
@@ -102,8 +108,8 @@ attributes:
     exposed: true
 
   - name: relation
-    description: |-
-      Describes the required operation to be performed between subjects and objects.
+    description: Describes the required operation to be performed between subjects
+      and objects.
     type: list
     exposed: true
     subtype: string
@@ -122,5 +128,6 @@ attributes:
     type: external
     exposed: true
     subtype: '[][]string'
+    omit_empty: true
     validations:
     - $tagsExpression

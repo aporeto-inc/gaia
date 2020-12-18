@@ -8,7 +8,7 @@ model:
   description: Post a new cached flow report.
   extends:
   - '@identifiable-stored'
-  - '@zoned'
+  - '@zoned-monotonic'
   - '@migratable'
   - '@flow'
   validations:

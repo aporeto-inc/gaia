@@ -213,6 +213,9 @@ const (
 	// ActionAllowTagString is the system created action=allow tag.
 	ActionAllowTagString = "action=allow"
 
+	// ActionRulesTagString is the system created rules tag.
+	ActionRulesTagString = "rules"
+
 	// ActionOutgoingTagString is the system created action=outgoing tag.
 	ActionOutgoingTagString = "action=outgoing"
 

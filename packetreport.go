@@ -72,7 +72,9 @@ func (o PacketReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o PacketReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToSparse returns the PacketReportsList converted to SparsePacketReportsList.
@@ -298,7 +300,9 @@ func (o *PacketReport) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *PacketReport) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -901,6 +905,7 @@ Otherwise empty.`,
 		Description:    `The time-date stamp of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Required:       true,
 		Stored:         true,
 		Type:           "time",
@@ -1174,6 +1179,7 @@ Otherwise empty.`,
 		Description:    `The time-date stamp of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Required:       true,
 		Stored:         true,
 		Type:           "time",
@@ -1260,7 +1266,9 @@ func (o SparsePacketReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparsePacketReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToPlain returns the SparsePacketReportsList converted to PacketReportsList.

@@ -58,7 +58,9 @@ func (o CounterReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o CounterReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToSparse returns the CounterReportsList converted to SparseCounterReportsList.
@@ -538,7 +540,9 @@ func (o *CounterReport) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *CounterReport) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -2012,6 +2016,7 @@ These may be drops or allowed counters.`,
 		Description:    `Timestamp is the date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -2783,6 +2788,7 @@ These may be drops or allowed counters.`,
 		Description:    `Timestamp is the date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -2868,7 +2874,9 @@ func (o SparseCounterReportsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseCounterReportsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"timestamp",
+	}
 }
 
 // ToPlain returns the SparseCounterReportsList converted to CounterReportsList.

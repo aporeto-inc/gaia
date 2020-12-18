@@ -8,8 +8,13 @@ model:
   description: Allows you to report various events on any object.
   extends:
   - '@identifiable-stored'
-  - '@zoned'
+  - '@zoned-monotonic'
   - '@migratable'
+
+# Ordering
+default_order:
+- :no-inherit
+- timestamp
 
 # Indexes
 indexes:
@@ -132,6 +137,7 @@ attributes:
     type: time
     exposed: true
     stored: true
+    orderable: true
     omit_empty: true
     extensions:
       bson_name: i
