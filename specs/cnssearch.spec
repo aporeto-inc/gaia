@@ -34,6 +34,7 @@ attributes:
     description: The number of items to fetch.
     type: integer
     exposed: true
+    default_value: 100
     omit_empty: true
 
   - name: name

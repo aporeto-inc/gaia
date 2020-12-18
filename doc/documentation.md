@@ -6829,6 +6829,7 @@ Provide search results for Primsa Cloud's investigate page.
 
 ```json
 {
+  "limit": 100,
   "saved": false
 }
 ```
@@ -6864,6 +6865,12 @@ ID of the search request.
 Type: `integer`
 
 The number of items to fetch.
+
+Default value:
+
+```json
+100
+```
 
 ##### `name`
 

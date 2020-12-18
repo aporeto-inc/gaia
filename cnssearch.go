@@ -119,6 +119,7 @@ func NewCNSSearch() *CNSSearch {
 	return &CNSSearch{
 		ModelVersion: 1,
 		Data:         NewPCSearchResults(),
+		Limit:        100,
 	}
 }
 
@@ -418,6 +419,7 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 	"Limit": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Limit",
+		DefaultValue:   100,
 		Description:    `The number of items to fetch.`,
 		Exposed:        true,
 		Name:           "limit",
@@ -504,6 +506,7 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"limit": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Limit",
+		DefaultValue:   100,
 		Description:    `The number of items to fetch.`,
 		Exposed:        true,
 		Name:           "limit",
