@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: metrics
-  resource_name: metrics
-  entity_name: Metrics
+  rest_name: metricsqueryrange
+  resource_name: metricsqueryrange
+  entity_name: MetricsQueryRange
   package: jenova
   group: visualization/metrics
   description: |-
@@ -10,7 +10,7 @@ model:
     time. This can be used to retrieve back Aporeto specific metrics for a given
     namespace. All queries are protected within the namespace of the caller.
   aliases:
-  - mq
+  - mqr
 
 # Attributes
 attributes:
@@ -22,7 +22,7 @@ attributes:
     example_value: "2015-07-01T20:11:00.781Z"
 
   - name: query
-    description: Contains the remote `POST` payload.
+    description: Prometheus expression query string.
     type: string
     exposed: true
     required: true
@@ -35,8 +35,7 @@ attributes:
     example_value: "2015-07-01T20:11:00.781Z"
 
   - name: step
-    description: Query resolution step width in duration format or float number of
-      seconds.
+    description: Query resolution step width in duration format or float number of seconds.
     type: string
     exposed: true
     example_value: 15s

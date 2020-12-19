@@ -88,7 +88,8 @@ var (
 		"log":                    LogIdentity,
 		"logout":                 LogoutIdentity,
 		"message":                MessageIdentity,
-		"metrics":                MetricsIdentity,
+		"metricsquery":           MetricsQueryIdentity,
+		"metricsqueryrange":      MetricsQueryRangeIdentity,
 		"namespace":              NamespaceIdentity,
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
 		"namespacepolicyinfo":    NamespacePolicyInfoIdentity,
@@ -253,7 +254,8 @@ var (
 		"logs":                     LogIdentity,
 		"logout":                   LogoutIdentity,
 		"messages":                 MessageIdentity,
-		"metrics":                  MetricsIdentity,
+		"metricsquery":             MetricsQueryIdentity,
+		"metricsqueryrange":        MetricsQueryRangeIdentity,
 		"namespaces":               NamespaceIdentity,
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
 		"namespacepolicyinfo":      NamespacePolicyInfoIdentity,
@@ -382,7 +384,8 @@ var (
 		"iapp":            InstalledAppIdentity,
 		"ip":              IsolationProfileIdentity,
 		"mess":            MessageIdentity,
-		"mq":              MetricsIdentity,
+		"mq":              MetricsQueryIdentity,
+		"mqr":             MetricsQueryRangeIdentity,
 		"ns":              NamespaceIdentity,
 		"nspolicy":        NamespaceMappingPolicyIdentity,
 		"nspolicies":      NamespaceMappingPolicyIdentity,
@@ -799,7 +802,8 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"metrics": nil,
+		"metricsquery":      nil,
+		"metricsqueryrange": nil,
 		"namespace": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1215,8 +1219,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewLogout()
 	case MessageIdentity:
 		return NewMessage()
-	case MetricsIdentity:
-		return NewMetrics()
+	case MetricsQueryIdentity:
+		return NewMetricsQuery()
+	case MetricsQueryRangeIdentity:
+		return NewMetricsQueryRange()
 	case NamespaceIdentity:
 		return NewNamespace()
 	case NamespaceMappingPolicyIdentity:
@@ -1520,8 +1526,10 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseLogout()
 	case MessageIdentity:
 		return NewSparseMessage()
-	case MetricsIdentity:
-		return NewSparseMetrics()
+	case MetricsQueryIdentity:
+		return NewSparseMetricsQuery()
+	case MetricsQueryRangeIdentity:
+		return NewSparseMetricsQueryRange()
 	case NamespaceIdentity:
 		return NewSparseNamespace()
 	case NamespaceMappingPolicyIdentity:
@@ -1833,8 +1841,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &LogoutsList{}
 	case MessageIdentity:
 		return &MessagesList{}
-	case MetricsIdentity:
-		return &MetricsList{}
+	case MetricsQueryIdentity:
+		return &MetricsQueriesList{}
+	case MetricsQueryRangeIdentity:
+		return &MetricsQueryRangesList{}
 	case NamespaceIdentity:
 		return &NamespacesList{}
 	case NamespaceMappingPolicyIdentity:
@@ -2136,8 +2146,10 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseLogoutsList{}
 	case MessageIdentity:
 		return &SparseMessagesList{}
-	case MetricsIdentity:
-		return &SparseMetricsList{}
+	case MetricsQueryIdentity:
+		return &SparseMetricsQueriesList{}
+	case MetricsQueryRangeIdentity:
+		return &SparseMetricsQueryRangesList{}
 	case NamespaceIdentity:
 		return &SparseNamespacesList{}
 	case NamespaceMappingPolicyIdentity:
@@ -2380,7 +2392,8 @@ func AllIdentities() []elemental.Identity {
 		LogIdentity,
 		LogoutIdentity,
 		MessageIdentity,
-		MetricsIdentity,
+		MetricsQueryIdentity,
+		MetricsQueryRangeIdentity,
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
 		NamespacePolicyInfoIdentity,
@@ -2685,9 +2698,13 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"mess",
 		}
-	case MetricsIdentity:
+	case MetricsQueryIdentity:
 		return []string{
 			"mq",
+		}
+	case MetricsQueryRangeIdentity:
+		return []string{
+			"mqr",
 		}
 	case NamespaceIdentity:
 		return []string{

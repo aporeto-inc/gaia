@@ -16273,7 +16273,63 @@ List of suggested network policies.
 
 ## visualization/metrics
 
-### Metrics
+### MetricsQuery
+
+Prometheus compatible endpoint to evaluate a Prometheus query expression at a
+single instant or over a range of time. This can be used to retrieve back
+Aporeto specific metrics for a given namespace. All queries are protected within
+the namespace of the caller.
+
+#### Example
+
+```json
+{
+  "query": "flows{namespace=~\"/mycompany.*\"}",
+  "time": "2015-07-01T20:11:00.781Z"
+}
+```
+
+#### Relations
+
+##### `GET /metricsquery`
+
+Prometheus compatible endpoint to evaluate a Prometheus query expression at a
+single instant or over a range of time.
+
+Parameters:
+
+- `query` (`string`): Prometheus expression query string.
+- `time` (`string`): Evaluation timestamp <rfc3339 | unix_timestamp>.
+
+Mandatory Parameters
+
+`query`
+
+##### `POST /metricsquery`
+
+Prometheus compatible endpoint to evaluate a Prometheus query expression at a
+single instant or over a range of time.
+This has the same behavior as the GET request, however it is useful when
+specifying a large query that may breach server-side URL character limits. In
+such a case, you can URL-encode the parameters that would be used for a GET
+request directly in the request body by using the POST method and Content-Type:
+application/x-www-form-urlencoded header.
+
+#### Attributes
+
+##### `query` [`required`]
+
+Type: `string`
+
+Prometheus expression query string.
+
+##### `time`
+
+Type: `string`
+
+Evaluation timestamp <rfc3339 | unix_timestamp>.
+
+### MetricsQueryRange
 
 Prometheus compatible endpoint to evaluate an expression query over a range of
 time. This can be used to retrieve back Aporeto specific metrics for a given
@@ -16292,7 +16348,7 @@ namespace. All queries are protected within the namespace of the caller.
 
 #### Relations
 
-##### `GET /metrics`
+##### `GET /metricsqueryrange`
 
 Evaluates an expression query over a range of time returning a "matrix" result
 type.
@@ -16308,7 +16364,7 @@ Mandatory Parameters
 
 `query`
 
-##### `POST /metrics`
+##### `POST /metricsqueryrange`
 
 Evaluates an expression query over a range of time returning a "matrix" result.
 This has the same behavior as the GET request, however it is useful when
@@ -16329,7 +16385,7 @@ End timestamp <rfc3339 | unix_timestamp>.
 
 Type: `string`
 
-Contains the remote `POST` payload.
+Prometheus expression query string.
 
 ##### `start`
 
