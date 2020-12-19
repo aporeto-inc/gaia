@@ -403,6 +403,8 @@ localhost
 loopback
 macOS
 metadata
+MetricsQuery
+MetricsQueryRange
 misconfigured
 multipart
 namespace
