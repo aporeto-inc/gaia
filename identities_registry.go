@@ -29,8 +29,15 @@ var (
 		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
 
-		"claims":       ClaimsIdentity,
-		"clausesmatch": ClauseMatchIdentity,
+		"claims":                ClaimsIdentity,
+		"clausesmatch":          ClauseMatchIdentity,
+		"cloudaddress":          CloudAddressIdentity,
+		"cloudendpoint":         CloudEndpointIdentity,
+		"cloudnetworkinterface": CloudNetworkInterfaceIdentity,
+		"cloudroute":            CloudRouteIdentity,
+		"cloudroutetable":       CloudRouteTableIdentity,
+		"cloudsubnet":           CloudSubnetIdentity,
+		"cloudvpc":              CloudVPCIdentity,
 
 		"connectionexceptionreport": ConnectionExceptionReportIdentity,
 		"counterreport":             CounterReportIdentity,
@@ -191,8 +198,15 @@ var (
 		"calls":                       CallIdentity,
 		"categories":                  CategoryIdentity,
 
-		"claims":         ClaimsIdentity,
-		"clausesmatches": ClauseMatchIdentity,
+		"claims":                 ClaimsIdentity,
+		"clausesmatches":         ClauseMatchIdentity,
+		"cloudaddresses":         CloudAddressIdentity,
+		"cloudendpoints":         CloudEndpointIdentity,
+		"cloudnetworkinterfaces": CloudNetworkInterfaceIdentity,
+		"cloudroutes":            CloudRouteIdentity,
+		"cloudroutetables":       CloudRouteTableIdentity,
+		"cloudsubnets":           CloudSubnetIdentity,
+		"cloudvpcs":              CloudVPCIdentity,
 
 		"connectionexceptionreports": ConnectionExceptionReportIdentity,
 		"counterreports":             CounterReportIdentity,
@@ -341,6 +355,8 @@ var (
 		"autos":           AutomationIdentity,
 		"auto":            AutomationIdentity,
 		"autotmpl":        AutomationTemplateIdentity,
+		"vpc":             CloudVPCIdentity,
+		"vpcs":            CloudVPCIdentity,
 		"depmaps":         DependencyMapIdentity,
 		"depmap":          DependencyMapIdentity,
 		"defender":        EnforcerIdentity,
@@ -550,6 +566,64 @@ var (
 			{"namespace", "normalizedTags"},
 		},
 		"clausesmatch": nil,
+		"cloudaddress": nil,
+		"cloudendpoint": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"vpcid"},
+			{"updateIdempotencyKey"},
+			{"nativeID"},
+			{"namespace", "normalizedTags"},
+			{"namespace"},
+			{"namespace", "nativeID"},
+			{"namespace", "name"},
+			{"name"},
+			{"createIdempotencyKey"},
+		},
+		"cloudnetworkinterface": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"nativeID"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "nativeID"},
+			{"name"},
+			{"createIdempotencyKey"},
+		},
+		"cloudroute": nil,
+		"cloudroutetable": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"nativeID"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "nativeID"},
+			{"name"},
+			{"createIdempotencyKey"},
+		},
+		"cloudsubnet": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"nativeID"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "nativeID"},
+			{"name"},
+			{"createIdempotencyKey"},
+		},
+		"cloudvpc": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"nativeID"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "nativeID"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
+		},
 		"connectionexceptionreport": {
 			{"processingunitnamespace", "timestamp"},
 			{"enforcernamespace", "timestamp"},
@@ -1100,6 +1174,20 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewClaims()
 	case ClauseMatchIdentity:
 		return NewClauseMatch()
+	case CloudAddressIdentity:
+		return NewCloudAddress()
+	case CloudEndpointIdentity:
+		return NewCloudEndpoint()
+	case CloudNetworkInterfaceIdentity:
+		return NewCloudNetworkInterface()
+	case CloudRouteIdentity:
+		return NewCloudRoute()
+	case CloudRouteTableIdentity:
+		return NewCloudRouteTable()
+	case CloudSubnetIdentity:
+		return NewCloudSubnet()
+	case CloudVPCIdentity:
+		return NewCloudVPC()
 	case ConnectionExceptionReportIdentity:
 		return NewConnectionExceptionReport()
 	case CounterReportIdentity:
@@ -1399,6 +1487,20 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
 		return NewSparseClauseMatch()
+	case CloudAddressIdentity:
+		return NewSparseCloudAddress()
+	case CloudEndpointIdentity:
+		return NewSparseCloudEndpoint()
+	case CloudNetworkInterfaceIdentity:
+		return NewSparseCloudNetworkInterface()
+	case CloudRouteIdentity:
+		return NewSparseCloudRoute()
+	case CloudRouteTableIdentity:
+		return NewSparseCloudRouteTable()
+	case CloudSubnetIdentity:
+		return NewSparseCloudSubnet()
+	case CloudVPCIdentity:
+		return NewSparseCloudVPC()
 	case ConnectionExceptionReportIdentity:
 		return NewSparseConnectionExceptionReport()
 	case CounterReportIdentity:
@@ -1706,6 +1808,20 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
 		return &ClauseMatchesList{}
+	case CloudAddressIdentity:
+		return &CloudAddressList{}
+	case CloudEndpointIdentity:
+		return &CloudEndpointsList{}
+	case CloudNetworkInterfaceIdentity:
+		return &CloudNetworkInterfacesList{}
+	case CloudRouteIdentity:
+		return &CloudRoutesList{}
+	case CloudRouteTableIdentity:
+		return &CloudRouteTablesList{}
+	case CloudSubnetIdentity:
+		return &CloudSubnetsList{}
+	case CloudVPCIdentity:
+		return &CloudVPCsList{}
 	case ConnectionExceptionReportIdentity:
 		return &ConnectionExceptionReportsList{}
 	case CounterReportIdentity:
@@ -2003,6 +2119,20 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
 		return &SparseClauseMatchesList{}
+	case CloudAddressIdentity:
+		return &SparseCloudAddressList{}
+	case CloudEndpointIdentity:
+		return &SparseCloudEndpointsList{}
+	case CloudNetworkInterfaceIdentity:
+		return &SparseCloudNetworkInterfacesList{}
+	case CloudRouteIdentity:
+		return &SparseCloudRoutesList{}
+	case CloudRouteTableIdentity:
+		return &SparseCloudRouteTablesList{}
+	case CloudSubnetIdentity:
+		return &SparseCloudSubnetsList{}
+	case CloudVPCIdentity:
+		return &SparseCloudVPCsList{}
 	case ConnectionExceptionReportIdentity:
 		return &SparseConnectionExceptionReportsList{}
 	case CounterReportIdentity:
@@ -2293,6 +2423,13 @@ func AllIdentities() []elemental.Identity {
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
+		CloudAddressIdentity,
+		CloudEndpointIdentity,
+		CloudNetworkInterfaceIdentity,
+		CloudRouteIdentity,
+		CloudRouteTableIdentity,
+		CloudSubnetIdentity,
+		CloudVPCIdentity,
 		ConnectionExceptionReportIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
@@ -2492,6 +2629,23 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case ClauseMatchIdentity:
 		return []string{}
+	case CloudAddressIdentity:
+		return []string{}
+	case CloudEndpointIdentity:
+		return []string{}
+	case CloudNetworkInterfaceIdentity:
+		return []string{}
+	case CloudRouteIdentity:
+		return []string{}
+	case CloudRouteTableIdentity:
+		return []string{}
+	case CloudSubnetIdentity:
+		return []string{}
+	case CloudVPCIdentity:
+		return []string{
+			"vpc",
+			"vpcs",
+		}
 	case ConnectionExceptionReportIdentity:
 		return []string{}
 	case CounterReportIdentity:

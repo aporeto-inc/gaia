@@ -204,6 +204,86 @@ relations:
   create:
     description: Performs a clause matching.
 
+- rest_name: cloudendpoint
+  get:
+    description: List of endpoints associated with the deployment.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new endpoint.
+    global_parameters:
+    - $filtering
+  update:
+    description: Updates an endpoint.
+  delete:
+    description: Deletes and endpoint.
+    global_parameters:
+    - $filtering
+
+- rest_name: cloudnetworkinterface
+  get:
+    description: Retrieve the list of network interfaces associated with the deployment.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new network interface.
+    global_parameters:
+    - $filtering
+  update:
+    description: Updates a network interface.
+  delete:
+    description: Deletes a network interface.
+    global_parameters:
+    - $filtering
+
+- rest_name: cloudroutetable
+  get:
+    description: Retrieves the list of routing tables.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new routing table.
+    global_parameters:
+    - $filtering
+  update:
+    description: Updates a routing table.
+  delete:
+    description: Deletes a routing table.
+    global_parameters:
+    - $filtering
+
+- rest_name: cloudsubnet
+  get:
+    description: Retrieves the list of subnets.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new subnet object.
+    global_parameters:
+    - $filtering
+  update:
+    description: Updates a subnet object.
+  delete:
+    description: Deletes a subnet object.
+    global_parameters:
+    - $filtering
+
+- rest_name: cloudvpc
+  get:
+    description: Retrieves the list of VPCs.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new VPC object representing a cloud VPC structure.
+    global_parameters:
+    - $filtering
+  update:
+    description: Updates a VPC.
+  delete:
+    description: Deletes a VPC object.
+    global_parameters:
+    - $filtering
+
 - rest_name: connectionexceptionreport
   create:
     description: Create a connection exception report.
