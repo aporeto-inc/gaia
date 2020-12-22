@@ -14,6 +14,8 @@ model:
   - '@identifiable-stored'
   - '@zoned-monotonic'
   - '@migratable'
+  validations:
+  - $dnslookupreport
 
 # Ordering
 default_order:
@@ -62,6 +64,16 @@ attributes:
     extensions:
       bson_name: c
 
+  - name: namespace
+    description: Namespace of the report.
+    type: string
+    exposed: true
+    stored: true
+    example_value: /my/namespace
+    omit_empty: true
+    extensions:
+      bson_name: k
+
   - name: processingUnitID
     description: ID of the PU.
     type: string
@@ -74,11 +86,11 @@ attributes:
       bson_name: d
 
   - name: processingUnitNamespace
-    description: Namespace of the PU.
+    description: Namespace of the PU. This is deprecated. Use `namespace` instead.
     type: string
     exposed: true
     stored: true
-    required: true
+    deprecated: true
     example_value: /my/namespace
     omit_empty: true
     extensions:

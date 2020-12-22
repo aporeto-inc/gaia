@@ -109,10 +109,13 @@ type DNSLookupReport struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
+	// Namespace of the report.
+	Namespace string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"k,omitempty" mapstructure:"namespace,omitempty"`
+
 	// ID of the PU.
 	ProcessingUnitID string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"d,omitempty" mapstructure:"processingUnitID,omitempty"`
 
-	// Namespace of the PU.
+	// Namespace of the PU. This is deprecated. Use `namespace` instead.
 	ProcessingUnitNamespace string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"e,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// This field is only set when the lookup fails. It specifies the reason for the
@@ -185,6 +188,7 @@ func (o *DNSLookupReport) GetBSON() (interface{}, error) {
 	s.EnforcerID = o.EnforcerID
 	s.EnforcerNamespace = o.EnforcerNamespace
 	s.MigrationsLog = o.MigrationsLog
+	s.Namespace = o.Namespace
 	s.ProcessingUnitID = o.ProcessingUnitID
 	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
 	s.Reason = o.Reason
@@ -216,6 +220,7 @@ func (o *DNSLookupReport) SetBSON(raw bson.Raw) error {
 	o.EnforcerID = s.EnforcerID
 	o.EnforcerNamespace = s.EnforcerNamespace
 	o.MigrationsLog = s.MigrationsLog
+	o.Namespace = s.Namespace
 	o.ProcessingUnitID = s.ProcessingUnitID
 	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
 	o.Reason = s.Reason
@@ -311,6 +316,7 @@ func (o *DNSLookupReport) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			EnforcerID:              &o.EnforcerID,
 			EnforcerNamespace:       &o.EnforcerNamespace,
 			MigrationsLog:           &o.MigrationsLog,
+			Namespace:               &o.Namespace,
 			ProcessingUnitID:        &o.ProcessingUnitID,
 			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
 			Reason:                  &o.Reason,
@@ -336,6 +342,8 @@ func (o *DNSLookupReport) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
 		case "processingUnitNamespace":
@@ -381,6 +389,9 @@ func (o *DNSLookupReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
 	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
@@ -457,10 +468,6 @@ func (o *DNSLookupReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("processingUnitNamespace", o.ProcessingUnitNamespace); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("resolvedName", o.ResolvedName); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -471,6 +478,11 @@ func (o *DNSLookupReport) Validate() error {
 
 	if err := elemental.ValidateRequiredInt("value", o.Value); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	// Custom object validation.
+	if err := ValidateDNSLookupReport(o); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -517,6 +529,8 @@ func (o *DNSLookupReport) ValueForAttribute(name string) interface{} {
 		return o.EnforcerNamespace
 	case "migrationsLog":
 		return o.MigrationsLog
+	case "namespace":
+		return o.Namespace
 	case "processingUnitID":
 		return o.ProcessingUnitID
 	case "processingUnitNamespace":
@@ -601,6 +615,16 @@ var DNSLookupReportAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "map[string]string",
 		Type:           "external",
 	},
+	"Namespace": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "k",
+		ConvertedName:  "Namespace",
+		Description:    `Namespace of the report.`,
+		Exposed:        true,
+		Name:           "namespace",
+		Stored:         true,
+		Type:           "string",
+	},
 	"ProcessingUnitID": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "d",
@@ -616,10 +640,10 @@ var DNSLookupReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		BSONFieldName:  "e",
 		ConvertedName:  "ProcessingUnitNamespace",
-		Description:    `Namespace of the PU.`,
+		Deprecated:     true,
+		Description:    `Namespace of the PU. This is deprecated. Use ` + "`" + `namespace` + "`" + ` instead.`,
 		Exposed:        true,
 		Name:           "processingUnitNamespace",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -769,6 +793,16 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		SubType:        "map[string]string",
 		Type:           "external",
 	},
+	"namespace": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "k",
+		ConvertedName:  "Namespace",
+		Description:    `Namespace of the report.`,
+		Exposed:        true,
+		Name:           "namespace",
+		Stored:         true,
+		Type:           "string",
+	},
 	"processingunitid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "d",
@@ -784,10 +818,10 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		BSONFieldName:  "e",
 		ConvertedName:  "ProcessingUnitNamespace",
-		Description:    `Namespace of the PU.`,
+		Deprecated:     true,
+		Description:    `Namespace of the PU. This is deprecated. Use ` + "`" + `namespace` + "`" + ` instead.`,
 		Exposed:        true,
 		Name:           "processingUnitNamespace",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -956,10 +990,13 @@ type SparseDNSLookupReport struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
+	// Namespace of the report.
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"k,omitempty" mapstructure:"namespace,omitempty"`
+
 	// ID of the PU.
 	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"d,omitempty" mapstructure:"processingUnitID,omitempty"`
 
-	// Namespace of the PU.
+	// Namespace of the PU. This is deprecated. Use `namespace` instead.
 	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"e,omitempty" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// This field is only set when the lookup fails. It specifies the reason for the
@@ -1043,6 +1080,9 @@ func (o *SparseDNSLookupReport) GetBSON() (interface{}, error) {
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
 	if o.ProcessingUnitID != nil {
 		s.ProcessingUnitID = o.ProcessingUnitID
 	}
@@ -1101,6 +1141,9 @@ func (o *SparseDNSLookupReport) SetBSON(raw bson.Raw) error {
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
 	if s.ProcessingUnitID != nil {
 		o.ProcessingUnitID = s.ProcessingUnitID
 	}
@@ -1156,6 +1199,9 @@ func (o *SparseDNSLookupReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
 	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID
@@ -1266,6 +1312,7 @@ type mongoAttributesDNSLookupReport struct {
 	EnforcerID              string                     `bson:"b,omitempty"`
 	EnforcerNamespace       string                     `bson:"c,omitempty"`
 	MigrationsLog           map[string]string          `bson:"migrationslog,omitempty"`
+	Namespace               string                     `bson:"k,omitempty"`
 	ProcessingUnitID        string                     `bson:"d,omitempty"`
 	ProcessingUnitNamespace string                     `bson:"e,omitempty"`
 	Reason                  string                     `bson:"f,omitempty"`
@@ -1282,6 +1329,7 @@ type mongoAttributesSparseDNSLookupReport struct {
 	EnforcerID              *string                     `bson:"b,omitempty"`
 	EnforcerNamespace       *string                     `bson:"c,omitempty"`
 	MigrationsLog           *map[string]string          `bson:"migrationslog,omitempty"`
+	Namespace               *string                     `bson:"k,omitempty"`
 	ProcessingUnitID        *string                     `bson:"d,omitempty"`
 	ProcessingUnitNamespace *string                     `bson:"e,omitempty"`
 	Reason                  *string                     `bson:"f,omitempty"`

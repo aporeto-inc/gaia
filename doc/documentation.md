@@ -10242,6 +10242,7 @@ indicate whether or not the lookup was successful.
 {
   "action": "Accept",
   "enforcerNamespace": "/my/namespace",
+  "namespace": "/my/namespace",
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
   "resolvedName": "www.google.com",
@@ -10282,17 +10283,25 @@ Type: `string`
 
 Namespace of the enforcer.
 
+##### `namespace`
+
+Type: `string`
+
+Namespace of the report.
+
 ##### `processingUnitID` [`required`]
 
 Type: `string`
 
 ID of the PU.
 
-##### `processingUnitNamespace` [`required`]
+##### `processingUnitNamespace`
+
+_This attribute is deprecated_.
 
 Type: `string`
 
-Namespace of the PU.
+Namespace of the PU. This is deprecated. Use `namespace` instead.
 
 ##### `reason`
 

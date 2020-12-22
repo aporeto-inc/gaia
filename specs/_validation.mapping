@@ -14,13 +14,13 @@ $automations:
   elemental:
     name: ValidateAutomation
 
-$capem:
-  elemental:
-    name: ValidateCA
-
 $cachedflowreport:
   elemental:
     name: ValidateCachedFlowReport
+
+$capem:
+  elemental:
+    name: ValidateCA
 
 $cidr:
   elemental:
@@ -29,6 +29,10 @@ $cidr:
 $cidrs:
   elemental:
     name: ValidateCIDRList
+
+$dnslookupreport:
+  elemental:
+    name: ValidateDNSLookupReport
 
 $enforcerprofile:
   elemental:

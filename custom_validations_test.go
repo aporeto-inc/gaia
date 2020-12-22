@@ -3292,3 +3292,59 @@ func TestValidateCachedFlowReport(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateDNSLookupReport(t *testing.T) {
+
+	tests := map[string]struct {
+		report  *DNSLookupReport
+		wantErr bool
+	}{
+		"only the 'namespace' field is specified": {
+			report: &DNSLookupReport{
+				Namespace: "my/namespace",
+			},
+			wantErr: false,
+		},
+		"only the 'processingUnitNamespace' field is specified": {
+			report: &DNSLookupReport{
+				ProcessingUnitNamespace: "my/namespace",
+			},
+			wantErr: false,
+		},
+		"both the 'processingUnitNamespace' and 'namespace' fields have been left omitted": {
+			report: &DNSLookupReport{
+				Namespace:               "",
+				ProcessingUnitNamespace: "",
+			},
+			wantErr: true,
+		},
+		"both the 'processingUnitNamespace' and 'namespace' fields have been provided": {
+			report: &DNSLookupReport{
+				Namespace:               "my/namespace",
+				ProcessingUnitNamespace: "my/namespace",
+			},
+			wantErr: true,
+		},
+	}
+
+	for description, scenario := range tests {
+		t.Run(description, func(t *testing.T) {
+			var err error
+			if err = ValidateDNSLookupReport(scenario.report); (err != nil) != scenario.wantErr {
+				t.Errorf("TestValidateDNSLookupReport() error = %s, expected an error? %t", err, scenario.wantErr)
+			}
+
+			// verify that ONLY the `namespace` field is populated so the backend processors do not need to worry about
+			// dealing with the 'processingUnitNamespace' field being set
+			if err == nil {
+				if scenario.report.ProcessingUnitNamespace != "" {
+					t.Errorf("Validation passed, but the report's 'processingUnitNamespace' field was NOT reset. It contained the value: %s", scenario.report.ID)
+				}
+
+				if scenario.report.Namespace == "" {
+					t.Error("Validation passed, but the report's 'namespace' field was empty")
+				}
+			}
+		})
+	}
+}

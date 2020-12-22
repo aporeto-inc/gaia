@@ -1145,3 +1145,19 @@ func ValidateCachedFlowReport(cachedFlowReport *CachedFlowReport) error {
 
 	return nil
 }
+
+// ValidateDNSLookupReport validates a DNSLookupReport.
+func ValidateDNSLookupReport(report *DNSLookupReport) error {
+
+	switch {
+	case report.Namespace == "" && report.ProcessingUnitNamespace != "":
+		report.Namespace = report.ProcessingUnitNamespace
+		report.ProcessingUnitNamespace = ""
+	case report.Namespace != "" && report.ProcessingUnitNamespace != "":
+		return makeValidationError("namespace", "Both 'namespace' and 'processingUnitNamespace' cannot be set")
+	case report.Namespace == "" && report.ProcessingUnitNamespace == "":
+		return makeValidationError("namespace", "Attribute 'namespace' is required")
+	}
+
+	return nil
+}
