@@ -16,12 +16,17 @@ attributes:
     exposed: true
     stored: true
     example_value: 10.1.1.32/24
+    validations:
+    - $optionalcidr
 
   - name: destinationIPv6CIDR
     description: The destination IPV6 CIDR for the route.
     type: string
     exposed: true
     stored: true
+    example_value: 2001:db8::/32
+    validations:
+    - $optionalcidr
 
   - name: nextHopID
     description: The ID of the next hop object.

@@ -12,8 +12,14 @@ import (
 type CloudVPCCloudTypeValue string
 
 const (
+	// CloudVPCCloudTypeALIBABA represents the value ALIBABA.
+	CloudVPCCloudTypeALIBABA CloudVPCCloudTypeValue = "ALIBABA"
+
 	// CloudVPCCloudTypeAWS represents the value AWS.
 	CloudVPCCloudTypeAWS CloudVPCCloudTypeValue = "AWS"
+
+	// CloudVPCCloudTypeAZURE represents the value AZURE.
+	CloudVPCCloudTypeAZURE CloudVPCCloudTypeValue = "AZURE"
 
 	// CloudVPCCloudTypeGCP represents the value GCP.
 	CloudVPCCloudTypeGCP CloudVPCCloudTypeValue = "GCP"
@@ -99,17 +105,17 @@ type CloudVPC struct {
 	// Restricted Resource Name.
 	RRN string `json:"rrn" msgpack:"rrn" bson:"rrn" mapstructure:"rrn,omitempty"`
 
-	// Cloud account ID associated with the entity.
+	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
-
-	// Cloud account name associated with the entity.
-	AccountName string `json:"accountName" msgpack:"accountName" bson:"accountname" mapstructure:"accountName,omitempty"`
 
 	// The IP CIDR associated with the VPC.
 	Address string `json:"address" msgpack:"address" bson:"address" mapstructure:"address,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	ApiID int `json:"apiID" msgpack:"apiID" bson:"apiid" mapstructure:"apiID,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -119,6 +125,9 @@ type CloudVPC struct {
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Customer ID as identified by Prisma Cloud.
+	CustomerID int `json:"customerID" msgpack:"customerID" bson:"customerid" mapstructure:"customerID,omitempty"`
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
@@ -154,6 +163,9 @@ type CloudVPC struct {
 	// Region name associated with the entity.
 	RegionName string `json:"regionName" msgpack:"regionName" bson:"regionname" mapstructure:"regionName,omitempty"`
 
+	// Prisma Cloud Resource ID.
+	ResourceID int `json:"resourceID" msgpack:"resourceID" bson:"resourceid" mapstructure:"resourceID,omitempty"`
+
 	// Internal representation of object tags.
 	Tags map[string]string `json:"tags" msgpack:"tags" bson:"tags" mapstructure:"tags,omitempty"`
 
@@ -186,10 +198,10 @@ func NewCloudVPC() *CloudVPC {
 		ModelVersion:   1,
 		AssociatedTags: []string{},
 		Annotations:    map[string][]string{},
-		Metadata:       []string{},
+		MigrationsLog:  map[string]string{},
 		Tags:           map[string]string{},
 		NormalizedTags: []string{},
-		MigrationsLog:  map[string]string{},
+		Metadata:       []string{},
 	}
 }
 
@@ -226,12 +238,13 @@ func (o *CloudVPC) GetBSON() (interface{}, error) {
 	}
 	s.RRN = o.RRN
 	s.AccountID = o.AccountID
-	s.AccountName = o.AccountName
 	s.Address = o.Address
 	s.Annotations = o.Annotations
+	s.ApiID = o.ApiID
 	s.AssociatedTags = o.AssociatedTags
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CustomerID = o.CustomerID
 	s.Description = o.Description
 	s.InsertTS = o.InsertTS
 	s.Metadata = o.Metadata
@@ -243,6 +256,7 @@ func (o *CloudVPC) GetBSON() (interface{}, error) {
 	s.Protected = o.Protected
 	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
+	s.ResourceID = o.ResourceID
 	s.Tags = o.Tags
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.Url = o.Url
@@ -270,12 +284,13 @@ func (o *CloudVPC) SetBSON(raw bson.Raw) error {
 	o.ID = s.ID.Hex()
 	o.RRN = s.RRN
 	o.AccountID = s.AccountID
-	o.AccountName = s.AccountName
 	o.Address = s.Address
 	o.Annotations = s.Annotations
+	o.ApiID = s.ApiID
 	o.AssociatedTags = s.AssociatedTags
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CustomerID = s.CustomerID
 	o.Description = s.Description
 	o.InsertTS = s.InsertTS
 	o.Metadata = s.Metadata
@@ -287,6 +302,7 @@ func (o *CloudVPC) SetBSON(raw bson.Raw) error {
 	o.Protected = s.Protected
 	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
+	o.ResourceID = s.ResourceID
 	o.Tags = s.Tags
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.Url = s.Url
@@ -355,18 +371,6 @@ func (o *CloudVPC) SetAccountID(accountID string) {
 	o.AccountID = accountID
 }
 
-// GetAccountName returns the AccountName of the receiver.
-func (o *CloudVPC) GetAccountName() string {
-
-	return o.AccountName
-}
-
-// SetAccountName sets the property AccountName of the receiver using the given value.
-func (o *CloudVPC) SetAccountName(accountName string) {
-
-	o.AccountName = accountName
-}
-
 // GetAnnotations returns the Annotations of the receiver.
 func (o *CloudVPC) GetAnnotations() map[string][]string {
 
@@ -377,6 +381,18 @@ func (o *CloudVPC) GetAnnotations() map[string][]string {
 func (o *CloudVPC) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
+}
+
+// GetApiID returns the ApiID of the receiver.
+func (o *CloudVPC) GetApiID() int {
+
+	return o.ApiID
+}
+
+// SetApiID sets the property ApiID of the receiver using the given value.
+func (o *CloudVPC) SetApiID(apiID int) {
+
+	o.ApiID = apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -413,6 +429,18 @@ func (o *CloudVPC) GetCreateIdempotencyKey() string {
 func (o *CloudVPC) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
+// GetCustomerID returns the CustomerID of the receiver.
+func (o *CloudVPC) GetCustomerID() int {
+
+	return o.CustomerID
+}
+
+// SetCustomerID sets the property CustomerID of the receiver using the given value.
+func (o *CloudVPC) SetCustomerID(customerID int) {
+
+	o.CustomerID = customerID
 }
 
 // GetDescription returns the Description of the receiver.
@@ -547,6 +575,18 @@ func (o *CloudVPC) SetRegionName(regionName string) {
 	o.RegionName = regionName
 }
 
+// GetResourceID returns the ResourceID of the receiver.
+func (o *CloudVPC) GetResourceID() int {
+
+	return o.ResourceID
+}
+
+// SetResourceID sets the property ResourceID of the receiver using the given value.
+func (o *CloudVPC) SetResourceID(resourceID int) {
+
+	o.ResourceID = resourceID
+}
+
 // GetTags returns the Tags of the receiver.
 func (o *CloudVPC) GetTags() map[string]string {
 
@@ -641,12 +681,13 @@ func (o *CloudVPC) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ID:                   &o.ID,
 			RRN:                  &o.RRN,
 			AccountID:            &o.AccountID,
-			AccountName:          &o.AccountName,
 			Address:              &o.Address,
 			Annotations:          &o.Annotations,
+			ApiID:                &o.ApiID,
 			AssociatedTags:       &o.AssociatedTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CustomerID:           &o.CustomerID,
 			Description:          &o.Description,
 			InsertTS:             &o.InsertTS,
 			Metadata:             &o.Metadata,
@@ -658,6 +699,7 @@ func (o *CloudVPC) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Protected:            &o.Protected,
 			RegionID:             &o.RegionID,
 			RegionName:           &o.RegionName,
+			ResourceID:           &o.ResourceID,
 			Tags:                 &o.Tags,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			Url:                  &o.Url,
@@ -677,18 +719,20 @@ func (o *CloudVPC) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.RRN = &(o.RRN)
 		case "accountID":
 			sp.AccountID = &(o.AccountID)
-		case "accountName":
-			sp.AccountName = &(o.AccountName)
 		case "address":
 			sp.Address = &(o.Address)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
+		case "apiID":
+			sp.ApiID = &(o.ApiID)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "cloudType":
 			sp.CloudType = &(o.CloudType)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
+		case "customerID":
+			sp.CustomerID = &(o.CustomerID)
 		case "description":
 			sp.Description = &(o.Description)
 		case "insertTS":
@@ -711,6 +755,8 @@ func (o *CloudVPC) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.RegionID = &(o.RegionID)
 		case "regionName":
 			sp.RegionName = &(o.RegionName)
+		case "resourceID":
+			sp.ResourceID = &(o.ResourceID)
 		case "tags":
 			sp.Tags = &(o.Tags)
 		case "updateIdempotencyKey":
@@ -747,14 +793,14 @@ func (o *CloudVPC) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AccountID != nil {
 		o.AccountID = *so.AccountID
 	}
-	if so.AccountName != nil {
-		o.AccountName = *so.AccountName
-	}
 	if so.Address != nil {
 		o.Address = *so.Address
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
+	}
+	if so.ApiID != nil {
+		o.ApiID = *so.ApiID
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -764,6 +810,9 @@ func (o *CloudVPC) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
+	if so.CustomerID != nil {
+		o.CustomerID = *so.CustomerID
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -797,6 +846,9 @@ func (o *CloudVPC) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.RegionName != nil {
 		o.RegionName = *so.RegionName
+	}
+	if so.ResourceID != nil {
+		o.ResourceID = *so.ResourceID
 	}
 	if so.Tags != nil {
 		o.Tags = *so.Tags
@@ -851,11 +903,15 @@ func (o *CloudVPC) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateCIDR("address", o.Address); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("cloudType", string(o.CloudType), []string{"AWS", "GCP"}, false); err != nil {
+	if err := elemental.ValidateStringInList("cloudType", string(o.CloudType), []string{"AWS", "GCP", "AZURE", "ALIBABA"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -935,18 +991,20 @@ func (o *CloudVPC) ValueForAttribute(name string) interface{} {
 		return o.RRN
 	case "accountID":
 		return o.AccountID
-	case "accountName":
-		return o.AccountName
 	case "address":
 		return o.Address
 	case "annotations":
 		return o.Annotations
+	case "apiID":
+		return o.ApiID
 	case "associatedTags":
 		return o.AssociatedTags
 	case "cloudType":
 		return o.CloudType
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
+	case "customerID":
+		return o.CustomerID
 	case "description":
 		return o.Description
 	case "insertTS":
@@ -969,6 +1027,8 @@ func (o *CloudVPC) ValueForAttribute(name string) interface{} {
 		return o.RegionID
 	case "regionName":
 		return o.RegionName
+	case "resourceID":
+		return o.ResourceID
 	case "tags":
 		return o.Tags
 	case "updateIdempotencyKey":
@@ -1022,26 +1082,11 @@ var CloudVPCAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		BSONFieldName:  "accountid",
 		ConvertedName:  "AccountID",
-		Description:    `Cloud account ID associated with the entity.`,
+		Description:    `Cloud account ID associated with the entity (matches Prisma Cloud accountID).`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
 		Name:           "accountID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"AccountName": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "accountname",
-		ConvertedName:  "AccountName",
-		Description:    `Cloud account name associated with the entity.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "accountName",
-		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1069,6 +1114,18 @@ var CloudVPCAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
+	"ApiID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "ApiID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "apiID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"AssociatedTags": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "associatedtags",
@@ -1083,7 +1140,7 @@ var CloudVPCAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "list",
 	},
 	"CloudType": {
-		AllowedChoices: []string{"AWS", "GCP"},
+		AllowedChoices: []string{"AWS", "GCP", "AZURE", "ALIBABA"},
 		BSONFieldName:  "cloudtype",
 		ConvertedName:  "CloudType",
 		Description:    `Cloud type of the entity.`,
@@ -1108,6 +1165,19 @@ var CloudVPCAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"CustomerID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "customerid",
+		ConvertedName:  "CustomerID",
+		Description:    `Customer ID as identified by Prisma Cloud.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "customerID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"Description": {
 		AllowedChoices: []string{},
@@ -1272,6 +1342,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"ResourceID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "resourceid",
+		ConvertedName:  "ResourceID",
+		Description:    `Prisma Cloud Resource ID.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "resourceID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"Tags": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "tags",
@@ -1401,26 +1483,11 @@ var CloudVPCLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		BSONFieldName:  "accountid",
 		ConvertedName:  "AccountID",
-		Description:    `Cloud account ID associated with the entity.`,
+		Description:    `Cloud account ID associated with the entity (matches Prisma Cloud accountID).`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
 		Name:           "accountID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"accountname": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "accountname",
-		ConvertedName:  "AccountName",
-		Description:    `Cloud account name associated with the entity.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "accountName",
-		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1448,6 +1515,18 @@ var CloudVPCLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
+	"apiid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "ApiID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "apiID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"associatedtags": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "associatedtags",
@@ -1462,7 +1541,7 @@ var CloudVPCLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Type:           "list",
 	},
 	"cloudtype": {
-		AllowedChoices: []string{"AWS", "GCP"},
+		AllowedChoices: []string{"AWS", "GCP", "AZURE", "ALIBABA"},
 		BSONFieldName:  "cloudtype",
 		ConvertedName:  "CloudType",
 		Description:    `Cloud type of the entity.`,
@@ -1487,6 +1566,19 @@ var CloudVPCLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"customerid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "customerid",
+		ConvertedName:  "CustomerID",
+		Description:    `Customer ID as identified by Prisma Cloud.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "customerID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"description": {
 		AllowedChoices: []string{},
@@ -1650,6 +1742,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"resourceid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "resourceid",
+		ConvertedName:  "ResourceID",
+		Description:    `Prisma Cloud Resource ID.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "resourceID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"tags": {
 		AllowedChoices: []string{},
@@ -1817,17 +1921,17 @@ type SparseCloudVPC struct {
 	// Restricted Resource Name.
 	RRN *string `json:"rrn,omitempty" msgpack:"rrn,omitempty" bson:"rrn,omitempty" mapstructure:"rrn,omitempty"`
 
-	// Cloud account ID associated with the entity.
+	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
-
-	// Cloud account name associated with the entity.
-	AccountName *string `json:"accountName,omitempty" msgpack:"accountName,omitempty" bson:"accountname,omitempty" mapstructure:"accountName,omitempty"`
 
 	// The IP CIDR associated with the VPC.
 	Address *string `json:"address,omitempty" msgpack:"address,omitempty" bson:"address,omitempty" mapstructure:"address,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	ApiID *int `json:"apiID,omitempty" msgpack:"apiID,omitempty" bson:"apiid,omitempty" mapstructure:"apiID,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
@@ -1837,6 +1941,9 @@ type SparseCloudVPC struct {
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Customer ID as identified by Prisma Cloud.
+	CustomerID *int `json:"customerID,omitempty" msgpack:"customerID,omitempty" bson:"customerid,omitempty" mapstructure:"customerID,omitempty"`
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -1871,6 +1978,9 @@ type SparseCloudVPC struct {
 
 	// Region name associated with the entity.
 	RegionName *string `json:"regionName,omitempty" msgpack:"regionName,omitempty" bson:"regionname,omitempty" mapstructure:"regionName,omitempty"`
+
+	// Prisma Cloud Resource ID.
+	ResourceID *int `json:"resourceID,omitempty" msgpack:"resourceID,omitempty" bson:"resourceid,omitempty" mapstructure:"resourceID,omitempty"`
 
 	// Internal representation of object tags.
 	Tags *map[string]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"tags,omitempty" mapstructure:"tags,omitempty"`
@@ -1946,14 +2056,14 @@ func (o *SparseCloudVPC) GetBSON() (interface{}, error) {
 	if o.AccountID != nil {
 		s.AccountID = o.AccountID
 	}
-	if o.AccountName != nil {
-		s.AccountName = o.AccountName
-	}
 	if o.Address != nil {
 		s.Address = o.Address
 	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
+	}
+	if o.ApiID != nil {
+		s.ApiID = o.ApiID
 	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
@@ -1963,6 +2073,9 @@ func (o *SparseCloudVPC) GetBSON() (interface{}, error) {
 	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CustomerID != nil {
+		s.CustomerID = o.CustomerID
 	}
 	if o.Description != nil {
 		s.Description = o.Description
@@ -1996,6 +2109,9 @@ func (o *SparseCloudVPC) GetBSON() (interface{}, error) {
 	}
 	if o.RegionName != nil {
 		s.RegionName = o.RegionName
+	}
+	if o.ResourceID != nil {
+		s.ResourceID = o.ResourceID
 	}
 	if o.Tags != nil {
 		s.Tags = o.Tags
@@ -2043,14 +2159,14 @@ func (o *SparseCloudVPC) SetBSON(raw bson.Raw) error {
 	if s.AccountID != nil {
 		o.AccountID = s.AccountID
 	}
-	if s.AccountName != nil {
-		o.AccountName = s.AccountName
-	}
 	if s.Address != nil {
 		o.Address = s.Address
 	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
+	}
+	if s.ApiID != nil {
+		o.ApiID = s.ApiID
 	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
@@ -2060,6 +2176,9 @@ func (o *SparseCloudVPC) SetBSON(raw bson.Raw) error {
 	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CustomerID != nil {
+		o.CustomerID = s.CustomerID
 	}
 	if s.Description != nil {
 		o.Description = s.Description
@@ -2093,6 +2212,9 @@ func (o *SparseCloudVPC) SetBSON(raw bson.Raw) error {
 	}
 	if s.RegionName != nil {
 		o.RegionName = s.RegionName
+	}
+	if s.ResourceID != nil {
+		o.ResourceID = s.ResourceID
 	}
 	if s.Tags != nil {
 		o.Tags = s.Tags
@@ -2138,14 +2260,14 @@ func (o *SparseCloudVPC) ToPlain() elemental.PlainIdentifiable {
 	if o.AccountID != nil {
 		out.AccountID = *o.AccountID
 	}
-	if o.AccountName != nil {
-		out.AccountName = *o.AccountName
-	}
 	if o.Address != nil {
 		out.Address = *o.Address
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
+	}
+	if o.ApiID != nil {
+		out.ApiID = *o.ApiID
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
@@ -2155,6 +2277,9 @@ func (o *SparseCloudVPC) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
+	if o.CustomerID != nil {
+		out.CustomerID = *o.CustomerID
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
@@ -2188,6 +2313,9 @@ func (o *SparseCloudVPC) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.RegionName != nil {
 		out.RegionName = *o.RegionName
+	}
+	if o.ResourceID != nil {
+		out.ResourceID = *o.ResourceID
 	}
 	if o.Tags != nil {
 		out.Tags = *o.Tags
@@ -2246,22 +2374,6 @@ func (o *SparseCloudVPC) SetAccountID(accountID string) {
 	o.AccountID = &accountID
 }
 
-// GetAccountName returns the AccountName of the receiver.
-func (o *SparseCloudVPC) GetAccountName() (out string) {
-
-	if o.AccountName == nil {
-		return
-	}
-
-	return *o.AccountName
-}
-
-// SetAccountName sets the property AccountName of the receiver using the address of the given value.
-func (o *SparseCloudVPC) SetAccountName(accountName string) {
-
-	o.AccountName = &accountName
-}
-
 // GetAnnotations returns the Annotations of the receiver.
 func (o *SparseCloudVPC) GetAnnotations() (out map[string][]string) {
 
@@ -2276,6 +2388,22 @@ func (o *SparseCloudVPC) GetAnnotations() (out map[string][]string) {
 func (o *SparseCloudVPC) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
+}
+
+// GetApiID returns the ApiID of the receiver.
+func (o *SparseCloudVPC) GetApiID() (out int) {
+
+	if o.ApiID == nil {
+		return
+	}
+
+	return *o.ApiID
+}
+
+// SetApiID sets the property ApiID of the receiver using the address of the given value.
+func (o *SparseCloudVPC) SetApiID(apiID int) {
+
+	o.ApiID = &apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -2324,6 +2452,22 @@ func (o *SparseCloudVPC) GetCreateIdempotencyKey() (out string) {
 func (o *SparseCloudVPC) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
+}
+
+// GetCustomerID returns the CustomerID of the receiver.
+func (o *SparseCloudVPC) GetCustomerID() (out int) {
+
+	if o.CustomerID == nil {
+		return
+	}
+
+	return *o.CustomerID
+}
+
+// SetCustomerID sets the property CustomerID of the receiver using the address of the given value.
+func (o *SparseCloudVPC) SetCustomerID(customerID int) {
+
+	o.CustomerID = &customerID
 }
 
 // GetDescription returns the Description of the receiver.
@@ -2502,6 +2646,22 @@ func (o *SparseCloudVPC) SetRegionName(regionName string) {
 	o.RegionName = &regionName
 }
 
+// GetResourceID returns the ResourceID of the receiver.
+func (o *SparseCloudVPC) GetResourceID() (out int) {
+
+	if o.ResourceID == nil {
+		return
+	}
+
+	return *o.ResourceID
+}
+
+// SetResourceID sets the property ResourceID of the receiver using the address of the given value.
+func (o *SparseCloudVPC) SetResourceID(resourceID int) {
+
+	o.ResourceID = &resourceID
+}
+
 // GetTags returns the Tags of the receiver.
 func (o *SparseCloudVPC) GetTags() (out map[string]string) {
 
@@ -2642,12 +2802,13 @@ type mongoAttributesCloudVPC struct {
 	ID                   bson.ObjectId          `bson:"_id,omitempty"`
 	RRN                  string                 `bson:"rrn"`
 	AccountID            string                 `bson:"accountid"`
-	AccountName          string                 `bson:"accountname"`
 	Address              string                 `bson:"address"`
 	Annotations          map[string][]string    `bson:"annotations"`
+	ApiID                int                    `bson:"apiid"`
 	AssociatedTags       []string               `bson:"associatedtags"`
 	CloudType            CloudVPCCloudTypeValue `bson:"cloudtype"`
 	CreateIdempotencyKey string                 `bson:"createidempotencykey"`
+	CustomerID           int                    `bson:"customerid"`
 	Description          string                 `bson:"description"`
 	InsertTS             int                    `bson:"insertts,omitempty"`
 	Metadata             []string               `bson:"metadata"`
@@ -2659,6 +2820,7 @@ type mongoAttributesCloudVPC struct {
 	Protected            bool                   `bson:"protected"`
 	RegionID             string                 `bson:"regionid"`
 	RegionName           string                 `bson:"regionname"`
+	ResourceID           int                    `bson:"resourceid"`
 	Tags                 map[string]string      `bson:"tags"`
 	UpdateIdempotencyKey string                 `bson:"updateidempotencykey"`
 	Url                  string                 `bson:"url"`
@@ -2671,12 +2833,13 @@ type mongoAttributesSparseCloudVPC struct {
 	ID                   bson.ObjectId           `bson:"_id,omitempty"`
 	RRN                  *string                 `bson:"rrn,omitempty"`
 	AccountID            *string                 `bson:"accountid,omitempty"`
-	AccountName          *string                 `bson:"accountname,omitempty"`
 	Address              *string                 `bson:"address,omitempty"`
 	Annotations          *map[string][]string    `bson:"annotations,omitempty"`
+	ApiID                *int                    `bson:"apiid,omitempty"`
 	AssociatedTags       *[]string               `bson:"associatedtags,omitempty"`
 	CloudType            *CloudVPCCloudTypeValue `bson:"cloudtype,omitempty"`
 	CreateIdempotencyKey *string                 `bson:"createidempotencykey,omitempty"`
+	CustomerID           *int                    `bson:"customerid,omitempty"`
 	Description          *string                 `bson:"description,omitempty"`
 	InsertTS             *int                    `bson:"insertts,omitempty"`
 	Metadata             *[]string               `bson:"metadata,omitempty"`
@@ -2688,6 +2851,7 @@ type mongoAttributesSparseCloudVPC struct {
 	Protected            *bool                   `bson:"protected,omitempty"`
 	RegionID             *string                 `bson:"regionid,omitempty"`
 	RegionName           *string                 `bson:"regionname,omitempty"`
+	ResourceID           *int                    `bson:"resourceid,omitempty"`
 	Tags                 *map[string]string      `bson:"tags,omitempty"`
 	UpdateIdempotencyKey *string                 `bson:"updateidempotencykey,omitempty"`
 	Url                  *string                 `bson:"url,omitempty"`

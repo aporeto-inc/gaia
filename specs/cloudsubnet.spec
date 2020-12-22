@@ -42,6 +42,8 @@ attributes:
     exposed: true
     stored: true
     example_value: 10.1.1.0/24
+    validations:
+    - $cidr
 
   - name: zoneId
     description: The availability zone of the subnet.

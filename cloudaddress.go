@@ -308,6 +308,14 @@ func (o *CloudAddress) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateIPAddress("privateIP", o.PrivateIP); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateOptionalIPAddress("publicIP", o.PublicIP); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}

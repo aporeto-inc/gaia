@@ -15615,12 +15615,13 @@ Manages the list of endpoints available in a cloud deployment.
   "RRN": "vpc-023419c5956174917",
   "VPCAttached": false,
   "accountID": 9123450055,
-  "accountName": "my-acount",
+  "apiID": 12344555,
   "attachedInterfaces": [
     "eni-12344",
     "eni-33333"
   ],
   "cloudType": "AWS",
+  "customerID": 1234455,
   "forwardingEnabled": false,
   "insertTS": 1576055398557,
   "name": "the name",
@@ -15628,6 +15629,7 @@ Manages the list of endpoints available in a cloud deployment.
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
+  "resourceID": 12344555,
   "type": "Instance",
   "url": "https://console.aws.amazon.com/vpc/home?region=ap-northeast-1#subnets:filter=subnet-123434434343",
   "vpcID": "vpc-023419c5952374917",
@@ -15701,19 +15703,19 @@ The list of VPCs that this endpoint is directly attached to.
 
 Type: `string`
 
-Cloud account ID associated with the entity.
-
-##### `accountName`
-
-Type: `string`
-
-Cloud account name associated with the entity.
+Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 
 ##### `annotations`
 
 Type: `map[string][]string`
 
 Stores additional information about an entity.
+
+##### `apiID`
+
+Type: `integer`
+
+Prisma Cloud API ID (matches Prisma Cloud API ID).
 
 ##### `associatedRouteTables`
 
@@ -15736,9 +15738,15 @@ have more than one interface.
 
 ##### `cloudType`
 
-Type: `enum(AWS | GCP)`
+Type: `enum(AWS | GCP | AZURE | ALIBABA)`
 
 Cloud type of the entity.
+
+##### `customerID`
+
+Type: `integer`
+
+Customer ID as identified by Prisma Cloud.
 
 ##### `description` [`max_length=1024`]
 
@@ -15814,6 +15822,12 @@ Type: `string`
 
 Region name associated with the entity.
 
+##### `resourceID`
+
+Type: `integer`
+
+Prisma Cloud Resource ID.
+
 ##### `tags`
 
 Type: `map[string]string`
@@ -15854,14 +15868,16 @@ Manages the set of network interfaces that are associated with endpoints.
 {
   "RRN": "vpc-023419c5956174917",
   "accountID": 9123450055,
-  "accountName": "my-acount",
+  "apiID": 12344555,
   "cloudType": "AWS",
+  "customerID": 1234455,
   "insertTS": 1576055398557,
   "name": "the name",
   "nativeID": "subnet-0ae4a90153dfb642c",
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
+  "resourceID": 12344555,
   "subnets": "subnet-074c152ae45ea0c73",
   "type": "Instance",
   "url": "https://console.aws.amazon.com/vpc/home?region=ap-northeast-1#subnets:filter=subnet-123434434343",
@@ -15926,13 +15942,7 @@ Restricted Resource Name.
 
 Type: `string`
 
-Cloud account ID associated with the entity.
-
-##### `accountName`
-
-Type: `string`
-
-Cloud account name associated with the entity.
+Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 
 ##### `addresses`
 
@@ -15947,6 +15957,12 @@ Type: `map[string][]string`
 
 Stores additional information about an entity.
 
+##### `apiID`
+
+Type: `integer`
+
+Prisma Cloud API ID (matches Prisma Cloud API ID).
+
 ##### `associatedTags`
 
 Type: `[]string`
@@ -15955,9 +15971,15 @@ List of tags attached to an entity.
 
 ##### `cloudType`
 
-Type: `enum(AWS | GCP)`
+Type: `enum(AWS | GCP | AZURE | ALIBABA)`
 
 Cloud type of the entity.
+
+##### `customerID`
+
+Type: `integer`
+
+Customer ID as identified by Prisma Cloud.
 
 ##### `description` [`max_length=1024`]
 
@@ -16027,6 +16049,12 @@ Type: `string`
 If the interface is of type or external, the relatedObjectID identifies the
 related service or gateway.
 
+##### `resourceID`
+
+Type: `integer`
+
+Prisma Cloud Resource ID.
+
 ##### `securityTags`
 
 Type: `[]string`
@@ -16078,6 +16106,7 @@ Describes a route in a route table.
 ```json
 {
   "destinationIPv4CIDR": "10.1.1.32/24",
+  "destinationIPv6CIDR": "2001:db8::/32",
   "nextHopID": "gw_123444444",
   "nextHopType": "LocalGateway"
 }
@@ -16119,8 +16148,9 @@ Manages the list of route tables available in a cloud deployment.
 {
   "RRN": "vpc-023419c5956174917",
   "accountID": 9123450055,
-  "accountName": "my-acount",
+  "apiID": 12344555,
   "cloudType": "AWS",
+  "customerID": 1234455,
   "gatewayID": "tgw-009251c49cf46d940",
   "insertTS": 1576055398557,
   "mainTable": true,
@@ -16129,6 +16159,7 @@ Manages the list of route tables available in a cloud deployment.
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
+  "resourceID": 12344555,
   "subnetAssociations": "[subnet-096bb677ed112475d]",
   "url": "https://console.aws.amazon.com/vpc/home?region=ap-northeast-1#subnets:filter=subnet-123434434343",
   "vpcID": "vpc-023419c5952374917",
@@ -16188,19 +16219,19 @@ Restricted Resource Name.
 
 Type: `string`
 
-Cloud account ID associated with the entity.
-
-##### `accountName`
-
-Type: `string`
-
-Cloud account name associated with the entity.
+Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 
 ##### `annotations`
 
 Type: `map[string][]string`
 
 Stores additional information about an entity.
+
+##### `apiID`
+
+Type: `integer`
+
+Prisma Cloud API ID (matches Prisma Cloud API ID).
 
 ##### `associatedTags`
 
@@ -16210,9 +16241,15 @@ List of tags attached to an entity.
 
 ##### `cloudType`
 
-Type: `enum(AWS | GCP)`
+Type: `enum(AWS | GCP | AZURE | ALIBABA)`
 
 Cloud type of the entity.
+
+##### `customerID`
+
+Type: `integer`
+
+Customer ID as identified by Prisma Cloud.
 
 ##### `description` [`max_length=1024`]
 
@@ -16287,6 +16324,12 @@ Type: `string`
 
 Region name associated with the entity.
 
+##### `resourceID`
+
+Type: `integer`
+
+Prisma Cloud Resource ID.
+
 ##### `routelist`
 
 Type: [`[]cloudroute`](#cloudroute)
@@ -16333,15 +16376,17 @@ Manages the list of subnets associated with a deployment.
 {
   "RRN": "vpc-023419c5956174917",
   "accountID": 9123450055,
-  "accountName": "my-acount",
   "address": "10.1.1.0/24",
+  "apiID": 12344555,
   "cloudType": "AWS",
+  "customerID": 1234455,
   "insertTS": 1576055398557,
   "name": "the name",
   "nativeID": "subnet-0ae4a90153dfb642c",
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
+  "resourceID": 12344555,
   "url": "https://console.aws.amazon.com/vpc/home?region=ap-northeast-1#subnets:filter=subnet-123434434343",
   "vpcID": "vpc-023419c5952374917",
   "vpcName": "test-vpc",
@@ -16406,13 +16451,7 @@ Restricted Resource Name.
 
 Type: `string`
 
-Cloud account ID associated with the entity.
-
-##### `accountName`
-
-Type: `string`
-
-Cloud account name associated with the entity.
+Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 
 ##### `address`
 
@@ -16426,6 +16465,12 @@ Type: `map[string][]string`
 
 Stores additional information about an entity.
 
+##### `apiID`
+
+Type: `integer`
+
+Prisma Cloud API ID (matches Prisma Cloud API ID).
+
 ##### `associatedTags`
 
 Type: `[]string`
@@ -16434,9 +16479,15 @@ List of tags attached to an entity.
 
 ##### `cloudType`
 
-Type: `enum(AWS | GCP)`
+Type: `enum(AWS | GCP | AZURE | ALIBABA)`
 
 Cloud type of the entity.
+
+##### `customerID`
+
+Type: `integer`
+
+Customer ID as identified by Prisma Cloud.
 
 ##### `description` [`max_length=1024`]
 
@@ -16499,6 +16550,12 @@ Type: `string`
 
 Region name associated with the entity.
 
+##### `resourceID`
+
+Type: `integer`
+
+Prisma Cloud Resource ID.
+
 ##### `tags`
 
 Type: `map[string]string`
@@ -16547,15 +16604,17 @@ and it defines an isolated network.
 {
   "RRN": "vpc-023419c5956174917",
   "accountID": 9123450055,
-  "accountName": "my-acount",
   "address": "10.0.0.0/16",
+  "apiID": 12344555,
   "cloudType": "AWS",
+  "customerID": 1234455,
   "insertTS": 1576055398557,
   "name": "the name",
   "nativeID": "subnet-0ae4a90153dfb642c",
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
+  "resourceID": 12344555,
   "url": "https://console.aws.amazon.com/vpc/home?region=ap-northeast-1#subnets:filter=subnet-123434434343",
   "vpcID": "vpc-023419c5952374917",
   "vpcName": "test-vpc"
@@ -16614,13 +16673,7 @@ Restricted Resource Name.
 
 Type: `string`
 
-Cloud account ID associated with the entity.
-
-##### `accountName`
-
-Type: `string`
-
-Cloud account name associated with the entity.
+Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 
 ##### `address`
 
@@ -16634,6 +16687,12 @@ Type: `map[string][]string`
 
 Stores additional information about an entity.
 
+##### `apiID`
+
+Type: `integer`
+
+Prisma Cloud API ID (matches Prisma Cloud API ID).
+
 ##### `associatedTags`
 
 Type: `[]string`
@@ -16642,9 +16701,15 @@ List of tags attached to an entity.
 
 ##### `cloudType`
 
-Type: `enum(AWS | GCP)`
+Type: `enum(AWS | GCP | AZURE | ALIBABA)`
 
 Cloud type of the entity.
+
+##### `customerID`
+
+Type: `integer`
+
+Customer ID as identified by Prisma Cloud.
 
 ##### `description` [`max_length=1024`]
 
@@ -16706,6 +16771,12 @@ ID of the region associated with the entity.
 Type: `string`
 
 Region name associated with the entity.
+
+##### `resourceID`
+
+Type: `integer`
+
+Prisma Cloud Resource ID.
 
 ##### `tags`
 

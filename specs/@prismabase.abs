@@ -14,7 +14,8 @@ attributes:
 
   - name: accountID
     exposed_name: accountId
-    description: Cloud account ID associated with the entity.
+    description: Cloud account ID associated with the entity (matches Prisma Cloud
+      accountID).
     type: string
     exposed: true
     stored: true
@@ -22,18 +23,15 @@ attributes:
     filterable: true
     getter: true
     setter: true
-    orderable: true
 
-  - name: accountName
-    description: Cloud account name associated with the entity.
-    type: string
+  - name: apiID
+    description: Prisma Cloud API ID (matches Prisma Cloud API ID).
+    type: integer
     exposed: true
     stored: true
-    example_value: my-acount
-    filterable: true
+    example_value: 12344555
     getter: true
     setter: true
-    orderable: true
 
   - name: cloudType
     description: Cloud type of the entity.
@@ -43,11 +41,23 @@ attributes:
     allowed_choices:
     - AWS
     - GCP
+    - AZURE
+    - ALIBABA
     example_value: AWS
     filterable: true
     getter: true
     setter: true
     orderable: true
+
+  - name: customerID
+    description: Customer ID as identified by Prisma Cloud.
+    type: integer
+    exposed: true
+    stored: true
+    example_value: 1234455
+    filterable: true
+    getter: true
+    setter: true
 
   - name: insertTS
     exposed_name: insertTs
@@ -101,6 +111,15 @@ attributes:
     setter: true
     max_length: 256
     orderable: true
+
+  - name: resourceID
+    description: Prisma Cloud Resource ID.
+    type: integer
+    exposed: true
+    stored: true
+    example_value: 12344555
+    getter: true
+    setter: true
 
   - name: tags
     description: Internal representation of object tags.

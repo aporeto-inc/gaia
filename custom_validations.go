@@ -130,6 +130,34 @@ func ValidateOptionalNetworkOrHostnameList(attribute string, networks []string) 
 	return nil
 }
 
+// ValidateIPAddress validates that this is a valid IP address (not a CIDR).
+func ValidateIPAddress(attribute string, network string) error {
+	if ip := net.ParseIP(network); ip != nil {
+		return nil
+	}
+
+	return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be an IP address", attribute))
+}
+
+// ValidateOptionalIPAddress validates that this is a valid IP address (not a CIDR) if it not empty.
+func ValidateOptionalIPAddress(attribute string, network string) error {
+
+	if len(network) == 0 {
+		return nil
+	}
+
+	return ValidateIPAddress(attribute, network)
+}
+
+// ValidateOptionalCIDR validates an optional CIDR. It can be empty.
+func ValidateOptionalCIDR(attribute string, network string) error {
+	if len(network) == 0 {
+		return nil
+	}
+
+	return ValidateCIDR(attribute, network)
+}
+
 // ValidateCIDR validates a CIDR.
 func ValidateCIDR(attribute string, network string) error {
 

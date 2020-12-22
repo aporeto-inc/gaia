@@ -12,8 +12,14 @@ import (
 type CloudNetworkInterfaceCloudTypeValue string
 
 const (
+	// CloudNetworkInterfaceCloudTypeALIBABA represents the value ALIBABA.
+	CloudNetworkInterfaceCloudTypeALIBABA CloudNetworkInterfaceCloudTypeValue = "ALIBABA"
+
 	// CloudNetworkInterfaceCloudTypeAWS represents the value AWS.
 	CloudNetworkInterfaceCloudTypeAWS CloudNetworkInterfaceCloudTypeValue = "AWS"
+
+	// CloudNetworkInterfaceCloudTypeAZURE represents the value AZURE.
+	CloudNetworkInterfaceCloudTypeAZURE CloudNetworkInterfaceCloudTypeValue = "AZURE"
 
 	// CloudNetworkInterfaceCloudTypeGCP represents the value GCP.
 	CloudNetworkInterfaceCloudTypeGCP CloudNetworkInterfaceCloudTypeValue = "GCP"
@@ -119,11 +125,8 @@ type CloudNetworkInterface struct {
 	// Restricted Resource Name.
 	RRN string `json:"rrn" msgpack:"rrn" bson:"rrn" mapstructure:"rrn,omitempty"`
 
-	// Cloud account ID associated with the entity.
+	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
-
-	// Cloud account name associated with the entity.
-	AccountName string `json:"accountName" msgpack:"accountName" bson:"accountname" mapstructure:"accountName,omitempty"`
 
 	// List of IP addresses/subnets (ipv4 or ipv6) associated with the
 	// interface.
@@ -131,6 +134,9 @@ type CloudNetworkInterface struct {
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	ApiID int `json:"apiID" msgpack:"apiID" bson:"apiid" mapstructure:"apiID,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -140,6 +146,9 @@ type CloudNetworkInterface struct {
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Customer ID as identified by Prisma Cloud.
+	CustomerID int `json:"customerID" msgpack:"customerID" bson:"customerid" mapstructure:"customerID,omitempty"`
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
@@ -178,6 +187,9 @@ type CloudNetworkInterface struct {
 	// If the interface is of type or external, the relatedObjectID identifies the
 	// related service or gateway.
 	RelatedObjectID string `json:"relatedObjectID" msgpack:"relatedObjectID" bson:"relatedobjectid" mapstructure:"relatedObjectID,omitempty"`
+
+	// Prisma Cloud Resource ID.
+	ResourceID int `json:"resourceID" msgpack:"resourceID" bson:"resourceid" mapstructure:"resourceID,omitempty"`
 
 	// Security tags associated with the instance.
 	SecurityTags []string `json:"securityTags" msgpack:"securityTags" bson:"securitytags" mapstructure:"securityTags,omitempty"`
@@ -222,11 +234,11 @@ func NewCloudNetworkInterface() *CloudNetworkInterface {
 		Addresses:      CloudAddressList{},
 		Annotations:    map[string][]string{},
 		SecurityTags:   []string{},
-		Metadata:       []string{},
+		MigrationsLog:  map[string]string{},
 		Subnets:        []string{},
 		Tags:           map[string]string{},
-		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
+		Metadata:       []string{},
 	}
 }
 
@@ -263,12 +275,13 @@ func (o *CloudNetworkInterface) GetBSON() (interface{}, error) {
 	}
 	s.RRN = o.RRN
 	s.AccountID = o.AccountID
-	s.AccountName = o.AccountName
 	s.Addresses = o.Addresses
 	s.Annotations = o.Annotations
+	s.ApiID = o.ApiID
 	s.AssociatedTags = o.AssociatedTags
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CustomerID = o.CustomerID
 	s.Description = o.Description
 	s.InsertTS = o.InsertTS
 	s.Metadata = o.Metadata
@@ -281,6 +294,7 @@ func (o *CloudNetworkInterface) GetBSON() (interface{}, error) {
 	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
 	s.RelatedObjectID = o.RelatedObjectID
+	s.ResourceID = o.ResourceID
 	s.SecurityTags = o.SecurityTags
 	s.Subnets = o.Subnets
 	s.Tags = o.Tags
@@ -311,12 +325,13 @@ func (o *CloudNetworkInterface) SetBSON(raw bson.Raw) error {
 	o.ID = s.ID.Hex()
 	o.RRN = s.RRN
 	o.AccountID = s.AccountID
-	o.AccountName = s.AccountName
 	o.Addresses = s.Addresses
 	o.Annotations = s.Annotations
+	o.ApiID = s.ApiID
 	o.AssociatedTags = s.AssociatedTags
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CustomerID = s.CustomerID
 	o.Description = s.Description
 	o.InsertTS = s.InsertTS
 	o.Metadata = s.Metadata
@@ -329,6 +344,7 @@ func (o *CloudNetworkInterface) SetBSON(raw bson.Raw) error {
 	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
 	o.RelatedObjectID = s.RelatedObjectID
+	o.ResourceID = s.ResourceID
 	o.SecurityTags = s.SecurityTags
 	o.Subnets = s.Subnets
 	o.Tags = s.Tags
@@ -398,18 +414,6 @@ func (o *CloudNetworkInterface) SetAccountID(accountID string) {
 	o.AccountID = accountID
 }
 
-// GetAccountName returns the AccountName of the receiver.
-func (o *CloudNetworkInterface) GetAccountName() string {
-
-	return o.AccountName
-}
-
-// SetAccountName sets the property AccountName of the receiver using the given value.
-func (o *CloudNetworkInterface) SetAccountName(accountName string) {
-
-	o.AccountName = accountName
-}
-
 // GetAnnotations returns the Annotations of the receiver.
 func (o *CloudNetworkInterface) GetAnnotations() map[string][]string {
 
@@ -420,6 +424,18 @@ func (o *CloudNetworkInterface) GetAnnotations() map[string][]string {
 func (o *CloudNetworkInterface) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
+}
+
+// GetApiID returns the ApiID of the receiver.
+func (o *CloudNetworkInterface) GetApiID() int {
+
+	return o.ApiID
+}
+
+// SetApiID sets the property ApiID of the receiver using the given value.
+func (o *CloudNetworkInterface) SetApiID(apiID int) {
+
+	o.ApiID = apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -456,6 +472,18 @@ func (o *CloudNetworkInterface) GetCreateIdempotencyKey() string {
 func (o *CloudNetworkInterface) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
+// GetCustomerID returns the CustomerID of the receiver.
+func (o *CloudNetworkInterface) GetCustomerID() int {
+
+	return o.CustomerID
+}
+
+// SetCustomerID sets the property CustomerID of the receiver using the given value.
+func (o *CloudNetworkInterface) SetCustomerID(customerID int) {
+
+	o.CustomerID = customerID
 }
 
 // GetDescription returns the Description of the receiver.
@@ -590,6 +618,18 @@ func (o *CloudNetworkInterface) SetRegionName(regionName string) {
 	o.RegionName = regionName
 }
 
+// GetResourceID returns the ResourceID of the receiver.
+func (o *CloudNetworkInterface) GetResourceID() int {
+
+	return o.ResourceID
+}
+
+// SetResourceID sets the property ResourceID of the receiver using the given value.
+func (o *CloudNetworkInterface) SetResourceID(resourceID int) {
+
+	o.ResourceID = resourceID
+}
+
 // GetTags returns the Tags of the receiver.
 func (o *CloudNetworkInterface) GetTags() map[string]string {
 
@@ -684,12 +724,13 @@ func (o *CloudNetworkInterface) ToSparse(fields ...string) elemental.SparseIdent
 			ID:                   &o.ID,
 			RRN:                  &o.RRN,
 			AccountID:            &o.AccountID,
-			AccountName:          &o.AccountName,
 			Addresses:            &o.Addresses,
 			Annotations:          &o.Annotations,
+			ApiID:                &o.ApiID,
 			AssociatedTags:       &o.AssociatedTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CustomerID:           &o.CustomerID,
 			Description:          &o.Description,
 			InsertTS:             &o.InsertTS,
 			Metadata:             &o.Metadata,
@@ -702,6 +743,7 @@ func (o *CloudNetworkInterface) ToSparse(fields ...string) elemental.SparseIdent
 			RegionID:             &o.RegionID,
 			RegionName:           &o.RegionName,
 			RelatedObjectID:      &o.RelatedObjectID,
+			ResourceID:           &o.ResourceID,
 			SecurityTags:         &o.SecurityTags,
 			Subnets:              &o.Subnets,
 			Tags:                 &o.Tags,
@@ -724,18 +766,20 @@ func (o *CloudNetworkInterface) ToSparse(fields ...string) elemental.SparseIdent
 			sp.RRN = &(o.RRN)
 		case "accountID":
 			sp.AccountID = &(o.AccountID)
-		case "accountName":
-			sp.AccountName = &(o.AccountName)
 		case "addresses":
 			sp.Addresses = &(o.Addresses)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
+		case "apiID":
+			sp.ApiID = &(o.ApiID)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "cloudType":
 			sp.CloudType = &(o.CloudType)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
+		case "customerID":
+			sp.CustomerID = &(o.CustomerID)
 		case "description":
 			sp.Description = &(o.Description)
 		case "insertTS":
@@ -760,6 +804,8 @@ func (o *CloudNetworkInterface) ToSparse(fields ...string) elemental.SparseIdent
 			sp.RegionName = &(o.RegionName)
 		case "relatedObjectID":
 			sp.RelatedObjectID = &(o.RelatedObjectID)
+		case "resourceID":
+			sp.ResourceID = &(o.ResourceID)
 		case "securityTags":
 			sp.SecurityTags = &(o.SecurityTags)
 		case "subnets":
@@ -802,14 +848,14 @@ func (o *CloudNetworkInterface) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AccountID != nil {
 		o.AccountID = *so.AccountID
 	}
-	if so.AccountName != nil {
-		o.AccountName = *so.AccountName
-	}
 	if so.Addresses != nil {
 		o.Addresses = *so.Addresses
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
+	}
+	if so.ApiID != nil {
+		o.ApiID = *so.ApiID
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -819,6 +865,9 @@ func (o *CloudNetworkInterface) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
+	if so.CustomerID != nil {
+		o.CustomerID = *so.CustomerID
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -855,6 +904,9 @@ func (o *CloudNetworkInterface) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.RelatedObjectID != nil {
 		o.RelatedObjectID = *so.RelatedObjectID
+	}
+	if so.ResourceID != nil {
+		o.ResourceID = *so.ResourceID
 	}
 	if so.SecurityTags != nil {
 		o.SecurityTags = *so.SecurityTags
@@ -932,7 +984,7 @@ func (o *CloudNetworkInterface) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("cloudType", string(o.CloudType), []string{"AWS", "GCP"}, false); err != nil {
+	if err := elemental.ValidateStringInList("cloudType", string(o.CloudType), []string{"AWS", "GCP", "AZURE", "ALIBABA"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1016,18 +1068,20 @@ func (o *CloudNetworkInterface) ValueForAttribute(name string) interface{} {
 		return o.RRN
 	case "accountID":
 		return o.AccountID
-	case "accountName":
-		return o.AccountName
 	case "addresses":
 		return o.Addresses
 	case "annotations":
 		return o.Annotations
+	case "apiID":
+		return o.ApiID
 	case "associatedTags":
 		return o.AssociatedTags
 	case "cloudType":
 		return o.CloudType
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
+	case "customerID":
+		return o.CustomerID
 	case "description":
 		return o.Description
 	case "insertTS":
@@ -1052,6 +1106,8 @@ func (o *CloudNetworkInterface) ValueForAttribute(name string) interface{} {
 		return o.RegionName
 	case "relatedObjectID":
 		return o.RelatedObjectID
+	case "resourceID":
+		return o.ResourceID
 	case "securityTags":
 		return o.SecurityTags
 	case "subnets":
@@ -1111,26 +1167,11 @@ var CloudNetworkInterfaceAttributesMap = map[string]elemental.AttributeSpecifica
 		AllowedChoices: []string{},
 		BSONFieldName:  "accountid",
 		ConvertedName:  "AccountID",
-		Description:    `Cloud account ID associated with the entity.`,
+		Description:    `Cloud account ID associated with the entity (matches Prisma Cloud accountID).`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
 		Name:           "accountID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"AccountName": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "accountname",
-		ConvertedName:  "AccountName",
-		Description:    `Cloud account name associated with the entity.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "accountName",
-		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1160,6 +1201,18 @@ interface.`,
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
+	"ApiID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "ApiID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "apiID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"AssociatedTags": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "associatedtags",
@@ -1174,7 +1227,7 @@ interface.`,
 		Type:           "list",
 	},
 	"CloudType": {
-		AllowedChoices: []string{"AWS", "GCP"},
+		AllowedChoices: []string{"AWS", "GCP", "AZURE", "ALIBABA"},
 		BSONFieldName:  "cloudtype",
 		ConvertedName:  "CloudType",
 		Description:    `Cloud type of the entity.`,
@@ -1199,6 +1252,19 @@ interface.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"CustomerID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "customerid",
+		ConvertedName:  "CustomerID",
+		Description:    `Customer ID as identified by Prisma Cloud.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "customerID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"Description": {
 		AllowedChoices: []string{},
@@ -1374,6 +1440,18 @@ related service or gateway.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"ResourceID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "resourceid",
+		ConvertedName:  "ResourceID",
+		Description:    `Prisma Cloud Resource ID.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "resourceID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"SecurityTags": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "securitytags",
@@ -1535,26 +1613,11 @@ var CloudNetworkInterfaceLowerCaseAttributesMap = map[string]elemental.Attribute
 		AllowedChoices: []string{},
 		BSONFieldName:  "accountid",
 		ConvertedName:  "AccountID",
-		Description:    `Cloud account ID associated with the entity.`,
+		Description:    `Cloud account ID associated with the entity (matches Prisma Cloud accountID).`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
 		Name:           "accountID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"accountname": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "accountname",
-		ConvertedName:  "AccountName",
-		Description:    `Cloud account name associated with the entity.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "accountName",
-		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1584,6 +1647,18 @@ interface.`,
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
+	"apiid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "ApiID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "apiID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"associatedtags": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "associatedtags",
@@ -1598,7 +1673,7 @@ interface.`,
 		Type:           "list",
 	},
 	"cloudtype": {
-		AllowedChoices: []string{"AWS", "GCP"},
+		AllowedChoices: []string{"AWS", "GCP", "AZURE", "ALIBABA"},
 		BSONFieldName:  "cloudtype",
 		ConvertedName:  "CloudType",
 		Description:    `Cloud type of the entity.`,
@@ -1623,6 +1698,19 @@ interface.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"customerid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "customerid",
+		ConvertedName:  "CustomerID",
+		Description:    `Customer ID as identified by Prisma Cloud.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "customerID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"description": {
 		AllowedChoices: []string{},
@@ -1797,6 +1885,18 @@ related service or gateway.`,
 		Name:    "relatedObjectID",
 		Stored:  true,
 		Type:    "string",
+	},
+	"resourceid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "resourceid",
+		ConvertedName:  "ResourceID",
+		Description:    `Prisma Cloud Resource ID.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "resourceID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"securitytags": {
 		AllowedChoices: []string{},
@@ -1996,11 +2096,8 @@ type SparseCloudNetworkInterface struct {
 	// Restricted Resource Name.
 	RRN *string `json:"rrn,omitempty" msgpack:"rrn,omitempty" bson:"rrn,omitempty" mapstructure:"rrn,omitempty"`
 
-	// Cloud account ID associated with the entity.
+	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
-
-	// Cloud account name associated with the entity.
-	AccountName *string `json:"accountName,omitempty" msgpack:"accountName,omitempty" bson:"accountname,omitempty" mapstructure:"accountName,omitempty"`
 
 	// List of IP addresses/subnets (ipv4 or ipv6) associated with the
 	// interface.
@@ -2008,6 +2105,9 @@ type SparseCloudNetworkInterface struct {
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	ApiID *int `json:"apiID,omitempty" msgpack:"apiID,omitempty" bson:"apiid,omitempty" mapstructure:"apiID,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
@@ -2017,6 +2117,9 @@ type SparseCloudNetworkInterface struct {
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Customer ID as identified by Prisma Cloud.
+	CustomerID *int `json:"customerID,omitempty" msgpack:"customerID,omitempty" bson:"customerid,omitempty" mapstructure:"customerID,omitempty"`
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -2055,6 +2158,9 @@ type SparseCloudNetworkInterface struct {
 	// If the interface is of type or external, the relatedObjectID identifies the
 	// related service or gateway.
 	RelatedObjectID *string `json:"relatedObjectID,omitempty" msgpack:"relatedObjectID,omitempty" bson:"relatedobjectid,omitempty" mapstructure:"relatedObjectID,omitempty"`
+
+	// Prisma Cloud Resource ID.
+	ResourceID *int `json:"resourceID,omitempty" msgpack:"resourceID,omitempty" bson:"resourceid,omitempty" mapstructure:"resourceID,omitempty"`
 
 	// Security tags associated with the instance.
 	SecurityTags *[]string `json:"securityTags,omitempty" msgpack:"securityTags,omitempty" bson:"securitytags,omitempty" mapstructure:"securityTags,omitempty"`
@@ -2139,14 +2245,14 @@ func (o *SparseCloudNetworkInterface) GetBSON() (interface{}, error) {
 	if o.AccountID != nil {
 		s.AccountID = o.AccountID
 	}
-	if o.AccountName != nil {
-		s.AccountName = o.AccountName
-	}
 	if o.Addresses != nil {
 		s.Addresses = o.Addresses
 	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
+	}
+	if o.ApiID != nil {
+		s.ApiID = o.ApiID
 	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
@@ -2156,6 +2262,9 @@ func (o *SparseCloudNetworkInterface) GetBSON() (interface{}, error) {
 	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CustomerID != nil {
+		s.CustomerID = o.CustomerID
 	}
 	if o.Description != nil {
 		s.Description = o.Description
@@ -2192,6 +2301,9 @@ func (o *SparseCloudNetworkInterface) GetBSON() (interface{}, error) {
 	}
 	if o.RelatedObjectID != nil {
 		s.RelatedObjectID = o.RelatedObjectID
+	}
+	if o.ResourceID != nil {
+		s.ResourceID = o.ResourceID
 	}
 	if o.SecurityTags != nil {
 		s.SecurityTags = o.SecurityTags
@@ -2248,14 +2360,14 @@ func (o *SparseCloudNetworkInterface) SetBSON(raw bson.Raw) error {
 	if s.AccountID != nil {
 		o.AccountID = s.AccountID
 	}
-	if s.AccountName != nil {
-		o.AccountName = s.AccountName
-	}
 	if s.Addresses != nil {
 		o.Addresses = s.Addresses
 	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
+	}
+	if s.ApiID != nil {
+		o.ApiID = s.ApiID
 	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
@@ -2265,6 +2377,9 @@ func (o *SparseCloudNetworkInterface) SetBSON(raw bson.Raw) error {
 	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CustomerID != nil {
+		o.CustomerID = s.CustomerID
 	}
 	if s.Description != nil {
 		o.Description = s.Description
@@ -2301,6 +2416,9 @@ func (o *SparseCloudNetworkInterface) SetBSON(raw bson.Raw) error {
 	}
 	if s.RelatedObjectID != nil {
 		o.RelatedObjectID = s.RelatedObjectID
+	}
+	if s.ResourceID != nil {
+		o.ResourceID = s.ResourceID
 	}
 	if s.SecurityTags != nil {
 		o.SecurityTags = s.SecurityTags
@@ -2355,14 +2473,14 @@ func (o *SparseCloudNetworkInterface) ToPlain() elemental.PlainIdentifiable {
 	if o.AccountID != nil {
 		out.AccountID = *o.AccountID
 	}
-	if o.AccountName != nil {
-		out.AccountName = *o.AccountName
-	}
 	if o.Addresses != nil {
 		out.Addresses = *o.Addresses
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
+	}
+	if o.ApiID != nil {
+		out.ApiID = *o.ApiID
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
@@ -2372,6 +2490,9 @@ func (o *SparseCloudNetworkInterface) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
+	if o.CustomerID != nil {
+		out.CustomerID = *o.CustomerID
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
@@ -2408,6 +2529,9 @@ func (o *SparseCloudNetworkInterface) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.RelatedObjectID != nil {
 		out.RelatedObjectID = *o.RelatedObjectID
+	}
+	if o.ResourceID != nil {
+		out.ResourceID = *o.ResourceID
 	}
 	if o.SecurityTags != nil {
 		out.SecurityTags = *o.SecurityTags
@@ -2475,22 +2599,6 @@ func (o *SparseCloudNetworkInterface) SetAccountID(accountID string) {
 	o.AccountID = &accountID
 }
 
-// GetAccountName returns the AccountName of the receiver.
-func (o *SparseCloudNetworkInterface) GetAccountName() (out string) {
-
-	if o.AccountName == nil {
-		return
-	}
-
-	return *o.AccountName
-}
-
-// SetAccountName sets the property AccountName of the receiver using the address of the given value.
-func (o *SparseCloudNetworkInterface) SetAccountName(accountName string) {
-
-	o.AccountName = &accountName
-}
-
 // GetAnnotations returns the Annotations of the receiver.
 func (o *SparseCloudNetworkInterface) GetAnnotations() (out map[string][]string) {
 
@@ -2505,6 +2613,22 @@ func (o *SparseCloudNetworkInterface) GetAnnotations() (out map[string][]string)
 func (o *SparseCloudNetworkInterface) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
+}
+
+// GetApiID returns the ApiID of the receiver.
+func (o *SparseCloudNetworkInterface) GetApiID() (out int) {
+
+	if o.ApiID == nil {
+		return
+	}
+
+	return *o.ApiID
+}
+
+// SetApiID sets the property ApiID of the receiver using the address of the given value.
+func (o *SparseCloudNetworkInterface) SetApiID(apiID int) {
+
+	o.ApiID = &apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -2553,6 +2677,22 @@ func (o *SparseCloudNetworkInterface) GetCreateIdempotencyKey() (out string) {
 func (o *SparseCloudNetworkInterface) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
+}
+
+// GetCustomerID returns the CustomerID of the receiver.
+func (o *SparseCloudNetworkInterface) GetCustomerID() (out int) {
+
+	if o.CustomerID == nil {
+		return
+	}
+
+	return *o.CustomerID
+}
+
+// SetCustomerID sets the property CustomerID of the receiver using the address of the given value.
+func (o *SparseCloudNetworkInterface) SetCustomerID(customerID int) {
+
+	o.CustomerID = &customerID
 }
 
 // GetDescription returns the Description of the receiver.
@@ -2731,6 +2871,22 @@ func (o *SparseCloudNetworkInterface) SetRegionName(regionName string) {
 	o.RegionName = &regionName
 }
 
+// GetResourceID returns the ResourceID of the receiver.
+func (o *SparseCloudNetworkInterface) GetResourceID() (out int) {
+
+	if o.ResourceID == nil {
+		return
+	}
+
+	return *o.ResourceID
+}
+
+// SetResourceID sets the property ResourceID of the receiver using the address of the given value.
+func (o *SparseCloudNetworkInterface) SetResourceID(resourceID int) {
+
+	o.ResourceID = &resourceID
+}
+
 // GetTags returns the Tags of the receiver.
 func (o *SparseCloudNetworkInterface) GetTags() (out map[string]string) {
 
@@ -2871,12 +3027,13 @@ type mongoAttributesCloudNetworkInterface struct {
 	ID                   bson.ObjectId                       `bson:"_id,omitempty"`
 	RRN                  string                              `bson:"rrn"`
 	AccountID            string                              `bson:"accountid"`
-	AccountName          string                              `bson:"accountname"`
 	Addresses            CloudAddressList                    `bson:"addresses"`
 	Annotations          map[string][]string                 `bson:"annotations"`
+	ApiID                int                                 `bson:"apiid"`
 	AssociatedTags       []string                            `bson:"associatedtags"`
 	CloudType            CloudNetworkInterfaceCloudTypeValue `bson:"cloudtype"`
 	CreateIdempotencyKey string                              `bson:"createidempotencykey"`
+	CustomerID           int                                 `bson:"customerid"`
 	Description          string                              `bson:"description"`
 	InsertTS             int                                 `bson:"insertts,omitempty"`
 	Metadata             []string                            `bson:"metadata"`
@@ -2889,6 +3046,7 @@ type mongoAttributesCloudNetworkInterface struct {
 	RegionID             string                              `bson:"regionid"`
 	RegionName           string                              `bson:"regionname"`
 	RelatedObjectID      string                              `bson:"relatedobjectid"`
+	ResourceID           int                                 `bson:"resourceid"`
 	SecurityTags         []string                            `bson:"securitytags"`
 	Subnets              []string                            `bson:"subnets"`
 	Tags                 map[string]string                   `bson:"tags"`
@@ -2904,12 +3062,13 @@ type mongoAttributesSparseCloudNetworkInterface struct {
 	ID                   bson.ObjectId                        `bson:"_id,omitempty"`
 	RRN                  *string                              `bson:"rrn,omitempty"`
 	AccountID            *string                              `bson:"accountid,omitempty"`
-	AccountName          *string                              `bson:"accountname,omitempty"`
 	Addresses            *CloudAddressList                    `bson:"addresses,omitempty"`
 	Annotations          *map[string][]string                 `bson:"annotations,omitempty"`
+	ApiID                *int                                 `bson:"apiid,omitempty"`
 	AssociatedTags       *[]string                            `bson:"associatedtags,omitempty"`
 	CloudType            *CloudNetworkInterfaceCloudTypeValue `bson:"cloudtype,omitempty"`
 	CreateIdempotencyKey *string                              `bson:"createidempotencykey,omitempty"`
+	CustomerID           *int                                 `bson:"customerid,omitempty"`
 	Description          *string                              `bson:"description,omitempty"`
 	InsertTS             *int                                 `bson:"insertts,omitempty"`
 	Metadata             *[]string                            `bson:"metadata,omitempty"`
@@ -2922,6 +3081,7 @@ type mongoAttributesSparseCloudNetworkInterface struct {
 	RegionID             *string                              `bson:"regionid,omitempty"`
 	RegionName           *string                              `bson:"regionname,omitempty"`
 	RelatedObjectID      *string                              `bson:"relatedobjectid,omitempty"`
+	ResourceID           *int                                 `bson:"resourceid,omitempty"`
 	SecurityTags         *[]string                            `bson:"securitytags,omitempty"`
 	Subnets              *[]string                            `bson:"subnets,omitempty"`
 	Tags                 *map[string]string                   `bson:"tags,omitempty"`

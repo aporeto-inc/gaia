@@ -12,8 +12,14 @@ import (
 type CloudEndpointCloudTypeValue string
 
 const (
+	// CloudEndpointCloudTypeALIBABA represents the value ALIBABA.
+	CloudEndpointCloudTypeALIBABA CloudEndpointCloudTypeValue = "ALIBABA"
+
 	// CloudEndpointCloudTypeAWS represents the value AWS.
 	CloudEndpointCloudTypeAWS CloudEndpointCloudTypeValue = "AWS"
+
+	// CloudEndpointCloudTypeAZURE represents the value AZURE.
+	CloudEndpointCloudTypeAZURE CloudEndpointCloudTypeValue = "AZURE"
 
 	// CloudEndpointCloudTypeGCP represents the value GCP.
 	CloudEndpointCloudTypeGCP CloudEndpointCloudTypeValue = "GCP"
@@ -130,14 +136,14 @@ type CloudEndpoint struct {
 	// The list of VPCs that this endpoint is directly attached to.
 	VPCAttachments []string `json:"VPCAttachments" msgpack:"VPCAttachments" bson:"vpcattachments" mapstructure:"VPCAttachments,omitempty"`
 
-	// Cloud account ID associated with the entity.
+	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
-
-	// Cloud account name associated with the entity.
-	AccountName string `json:"accountName" msgpack:"accountName" bson:"accountname" mapstructure:"accountName,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	ApiID int `json:"apiID" msgpack:"apiID" bson:"apiid" mapstructure:"apiID,omitempty"`
 
 	// List of route tables associated with this endpoint if it is a transit gateway.
 	AssociatedRouteTables []string `json:"associatedRouteTables" msgpack:"associatedRouteTables" bson:"associatedroutetables" mapstructure:"associatedRouteTables,omitempty"`
@@ -154,6 +160,9 @@ type CloudEndpoint struct {
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Customer ID as identified by Prisma Cloud.
+	CustomerID int `json:"customerID" msgpack:"customerID" bson:"customerid" mapstructure:"customerID,omitempty"`
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
@@ -193,6 +202,9 @@ type CloudEndpoint struct {
 	// Region name associated with the entity.
 	RegionName string `json:"regionName" msgpack:"regionName" bson:"regionname" mapstructure:"regionName,omitempty"`
 
+	// Prisma Cloud Resource ID.
+	ResourceID int `json:"resourceID" msgpack:"resourceID" bson:"resourceid" mapstructure:"resourceID,omitempty"`
+
 	// Internal representation of object tags.
 	Tags map[string]string `json:"tags" msgpack:"tags" bson:"tags" mapstructure:"tags,omitempty"`
 
@@ -226,16 +238,16 @@ func NewCloudEndpoint() *CloudEndpoint {
 
 	return &CloudEndpoint{
 		ModelVersion:          1,
-		Annotations:           map[string][]string{},
 		AssociatedRouteTables: []string{},
 		AssociatedTags:        []string{},
 		AttachedInterfaces:    []string{},
+		Annotations:           map[string][]string{},
 		ForwardingEnabled:     true,
 		MigrationsLog:         map[string]string{},
-		Tags:                  map[string]string{},
-		NormalizedTags:        []string{},
 		VPCAttachments:        []string{},
 		Metadata:              []string{},
+		Tags:                  map[string]string{},
+		NormalizedTags:        []string{},
 	}
 }
 
@@ -274,13 +286,14 @@ func (o *CloudEndpoint) GetBSON() (interface{}, error) {
 	s.VPCAttached = o.VPCAttached
 	s.VPCAttachments = o.VPCAttachments
 	s.AccountID = o.AccountID
-	s.AccountName = o.AccountName
 	s.Annotations = o.Annotations
+	s.ApiID = o.ApiID
 	s.AssociatedRouteTables = o.AssociatedRouteTables
 	s.AssociatedTags = o.AssociatedTags
 	s.AttachedInterfaces = o.AttachedInterfaces
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CustomerID = o.CustomerID
 	s.Description = o.Description
 	s.ForwardingEnabled = o.ForwardingEnabled
 	s.InsertTS = o.InsertTS
@@ -293,6 +306,7 @@ func (o *CloudEndpoint) GetBSON() (interface{}, error) {
 	s.Protected = o.Protected
 	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
+	s.ResourceID = o.ResourceID
 	s.Tags = o.Tags
 	s.Type = o.Type
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -323,13 +337,14 @@ func (o *CloudEndpoint) SetBSON(raw bson.Raw) error {
 	o.VPCAttached = s.VPCAttached
 	o.VPCAttachments = s.VPCAttachments
 	o.AccountID = s.AccountID
-	o.AccountName = s.AccountName
 	o.Annotations = s.Annotations
+	o.ApiID = s.ApiID
 	o.AssociatedRouteTables = s.AssociatedRouteTables
 	o.AssociatedTags = s.AssociatedTags
 	o.AttachedInterfaces = s.AttachedInterfaces
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CustomerID = s.CustomerID
 	o.Description = s.Description
 	o.ForwardingEnabled = s.ForwardingEnabled
 	o.InsertTS = s.InsertTS
@@ -342,6 +357,7 @@ func (o *CloudEndpoint) SetBSON(raw bson.Raw) error {
 	o.Protected = s.Protected
 	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
+	o.ResourceID = s.ResourceID
 	o.Tags = s.Tags
 	o.Type = s.Type
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -409,18 +425,6 @@ func (o *CloudEndpoint) SetAccountID(accountID string) {
 	o.AccountID = accountID
 }
 
-// GetAccountName returns the AccountName of the receiver.
-func (o *CloudEndpoint) GetAccountName() string {
-
-	return o.AccountName
-}
-
-// SetAccountName sets the property AccountName of the receiver using the given value.
-func (o *CloudEndpoint) SetAccountName(accountName string) {
-
-	o.AccountName = accountName
-}
-
 // GetAnnotations returns the Annotations of the receiver.
 func (o *CloudEndpoint) GetAnnotations() map[string][]string {
 
@@ -431,6 +435,18 @@ func (o *CloudEndpoint) GetAnnotations() map[string][]string {
 func (o *CloudEndpoint) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
+}
+
+// GetApiID returns the ApiID of the receiver.
+func (o *CloudEndpoint) GetApiID() int {
+
+	return o.ApiID
+}
+
+// SetApiID sets the property ApiID of the receiver using the given value.
+func (o *CloudEndpoint) SetApiID(apiID int) {
+
+	o.ApiID = apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -467,6 +483,18 @@ func (o *CloudEndpoint) GetCreateIdempotencyKey() string {
 func (o *CloudEndpoint) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
+// GetCustomerID returns the CustomerID of the receiver.
+func (o *CloudEndpoint) GetCustomerID() int {
+
+	return o.CustomerID
+}
+
+// SetCustomerID sets the property CustomerID of the receiver using the given value.
+func (o *CloudEndpoint) SetCustomerID(customerID int) {
+
+	o.CustomerID = customerID
 }
 
 // GetDescription returns the Description of the receiver.
@@ -601,6 +629,18 @@ func (o *CloudEndpoint) SetRegionName(regionName string) {
 	o.RegionName = regionName
 }
 
+// GetResourceID returns the ResourceID of the receiver.
+func (o *CloudEndpoint) GetResourceID() int {
+
+	return o.ResourceID
+}
+
+// SetResourceID sets the property ResourceID of the receiver using the given value.
+func (o *CloudEndpoint) SetResourceID(resourceID int) {
+
+	o.ResourceID = resourceID
+}
+
 // GetTags returns the Tags of the receiver.
 func (o *CloudEndpoint) GetTags() map[string]string {
 
@@ -697,13 +737,14 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			VPCAttached:           &o.VPCAttached,
 			VPCAttachments:        &o.VPCAttachments,
 			AccountID:             &o.AccountID,
-			AccountName:           &o.AccountName,
 			Annotations:           &o.Annotations,
+			ApiID:                 &o.ApiID,
 			AssociatedRouteTables: &o.AssociatedRouteTables,
 			AssociatedTags:        &o.AssociatedTags,
 			AttachedInterfaces:    &o.AttachedInterfaces,
 			CloudType:             &o.CloudType,
 			CreateIdempotencyKey:  &o.CreateIdempotencyKey,
+			CustomerID:            &o.CustomerID,
 			Description:           &o.Description,
 			ForwardingEnabled:     &o.ForwardingEnabled,
 			InsertTS:              &o.InsertTS,
@@ -716,6 +757,7 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			Protected:             &o.Protected,
 			RegionID:              &o.RegionID,
 			RegionName:            &o.RegionName,
+			ResourceID:            &o.ResourceID,
 			Tags:                  &o.Tags,
 			Type:                  &o.Type,
 			UpdateIdempotencyKey:  &o.UpdateIdempotencyKey,
@@ -740,10 +782,10 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.VPCAttachments = &(o.VPCAttachments)
 		case "accountID":
 			sp.AccountID = &(o.AccountID)
-		case "accountName":
-			sp.AccountName = &(o.AccountName)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
+		case "apiID":
+			sp.ApiID = &(o.ApiID)
 		case "associatedRouteTables":
 			sp.AssociatedRouteTables = &(o.AssociatedRouteTables)
 		case "associatedTags":
@@ -754,6 +796,8 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.CloudType = &(o.CloudType)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
+		case "customerID":
+			sp.CustomerID = &(o.CustomerID)
 		case "description":
 			sp.Description = &(o.Description)
 		case "forwardingEnabled":
@@ -778,6 +822,8 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.RegionID = &(o.RegionID)
 		case "regionName":
 			sp.RegionName = &(o.RegionName)
+		case "resourceID":
+			sp.ResourceID = &(o.ResourceID)
 		case "tags":
 			sp.Tags = &(o.Tags)
 		case "type":
@@ -822,11 +868,11 @@ func (o *CloudEndpoint) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AccountID != nil {
 		o.AccountID = *so.AccountID
 	}
-	if so.AccountName != nil {
-		o.AccountName = *so.AccountName
-	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
+	}
+	if so.ApiID != nil {
+		o.ApiID = *so.ApiID
 	}
 	if so.AssociatedRouteTables != nil {
 		o.AssociatedRouteTables = *so.AssociatedRouteTables
@@ -842,6 +888,9 @@ func (o *CloudEndpoint) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
+	if so.CustomerID != nil {
+		o.CustomerID = *so.CustomerID
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -878,6 +927,9 @@ func (o *CloudEndpoint) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.RegionName != nil {
 		o.RegionName = *so.RegionName
+	}
+	if so.ResourceID != nil {
+		o.ResourceID = *so.ResourceID
 	}
 	if so.Tags != nil {
 		o.Tags = *so.Tags
@@ -939,7 +991,7 @@ func (o *CloudEndpoint) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("cloudType", string(o.CloudType), []string{"AWS", "GCP"}, false); err != nil {
+	if err := elemental.ValidateStringInList("cloudType", string(o.CloudType), []string{"AWS", "GCP", "AZURE", "ALIBABA"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1027,10 +1079,10 @@ func (o *CloudEndpoint) ValueForAttribute(name string) interface{} {
 		return o.VPCAttachments
 	case "accountID":
 		return o.AccountID
-	case "accountName":
-		return o.AccountName
 	case "annotations":
 		return o.Annotations
+	case "apiID":
+		return o.ApiID
 	case "associatedRouteTables":
 		return o.AssociatedRouteTables
 	case "associatedTags":
@@ -1041,6 +1093,8 @@ func (o *CloudEndpoint) ValueForAttribute(name string) interface{} {
 		return o.CloudType
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
+	case "customerID":
+		return o.CustomerID
 	case "description":
 		return o.Description
 	case "forwardingEnabled":
@@ -1065,6 +1119,8 @@ func (o *CloudEndpoint) ValueForAttribute(name string) interface{} {
 		return o.RegionID
 	case "regionName":
 		return o.RegionName
+	case "resourceID":
+		return o.ResourceID
 	case "tags":
 		return o.Tags
 	case "type":
@@ -1143,26 +1199,11 @@ Gateway and Peering Connection.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "accountid",
 		ConvertedName:  "AccountID",
-		Description:    `Cloud account ID associated with the entity.`,
+		Description:    `Cloud account ID associated with the entity (matches Prisma Cloud accountID).`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
 		Name:           "accountID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"AccountName": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "accountname",
-		ConvertedName:  "AccountName",
-		Description:    `Cloud account name associated with the entity.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "accountName",
-		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1179,6 +1220,18 @@ Gateway and Peering Connection.`,
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
+	},
+	"ApiID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "ApiID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "apiID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"AssociatedRouteTables": {
 		AllowedChoices: []string{},
@@ -1217,7 +1270,7 @@ have more than one interface.`,
 		Type:    "list",
 	},
 	"CloudType": {
-		AllowedChoices: []string{"AWS", "GCP"},
+		AllowedChoices: []string{"AWS", "GCP", "AZURE", "ALIBABA"},
 		BSONFieldName:  "cloudtype",
 		ConvertedName:  "CloudType",
 		Description:    `Cloud type of the entity.`,
@@ -1242,6 +1295,19 @@ have more than one interface.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"CustomerID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "customerid",
+		ConvertedName:  "CustomerID",
+		Description:    `Customer ID as identified by Prisma Cloud.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "customerID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"Description": {
 		AllowedChoices: []string{},
@@ -1418,6 +1484,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"ResourceID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "resourceid",
+		ConvertedName:  "ResourceID",
+		Description:    `Prisma Cloud Resource ID.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "resourceID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"Tags": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "tags",
@@ -1580,26 +1658,11 @@ Gateway and Peering Connection.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "accountid",
 		ConvertedName:  "AccountID",
-		Description:    `Cloud account ID associated with the entity.`,
+		Description:    `Cloud account ID associated with the entity (matches Prisma Cloud accountID).`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
 		Name:           "accountID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"accountname": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "accountname",
-		ConvertedName:  "AccountName",
-		Description:    `Cloud account name associated with the entity.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "accountName",
-		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1616,6 +1679,18 @@ Gateway and Peering Connection.`,
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
+	},
+	"apiid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "ApiID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "apiID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"associatedroutetables": {
 		AllowedChoices: []string{},
@@ -1654,7 +1729,7 @@ have more than one interface.`,
 		Type:    "list",
 	},
 	"cloudtype": {
-		AllowedChoices: []string{"AWS", "GCP"},
+		AllowedChoices: []string{"AWS", "GCP", "AZURE", "ALIBABA"},
 		BSONFieldName:  "cloudtype",
 		ConvertedName:  "CloudType",
 		Description:    `Cloud type of the entity.`,
@@ -1679,6 +1754,19 @@ have more than one interface.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"customerid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "customerid",
+		ConvertedName:  "CustomerID",
+		Description:    `Customer ID as identified by Prisma Cloud.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "customerID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"description": {
 		AllowedChoices: []string{},
@@ -1854,6 +1942,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"resourceid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "resourceid",
+		ConvertedName:  "ResourceID",
+		Description:    `Prisma Cloud Resource ID.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "resourceID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"tags": {
 		AllowedChoices: []string{},
@@ -2039,14 +2139,14 @@ type SparseCloudEndpoint struct {
 	// The list of VPCs that this endpoint is directly attached to.
 	VPCAttachments *[]string `json:"VPCAttachments,omitempty" msgpack:"VPCAttachments,omitempty" bson:"vpcattachments,omitempty" mapstructure:"VPCAttachments,omitempty"`
 
-	// Cloud account ID associated with the entity.
+	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
-
-	// Cloud account name associated with the entity.
-	AccountName *string `json:"accountName,omitempty" msgpack:"accountName,omitempty" bson:"accountname,omitempty" mapstructure:"accountName,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	ApiID *int `json:"apiID,omitempty" msgpack:"apiID,omitempty" bson:"apiid,omitempty" mapstructure:"apiID,omitempty"`
 
 	// List of route tables associated with this endpoint if it is a transit gateway.
 	AssociatedRouteTables *[]string `json:"associatedRouteTables,omitempty" msgpack:"associatedRouteTables,omitempty" bson:"associatedroutetables,omitempty" mapstructure:"associatedRouteTables,omitempty"`
@@ -2063,6 +2163,9 @@ type SparseCloudEndpoint struct {
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Customer ID as identified by Prisma Cloud.
+	CustomerID *int `json:"customerID,omitempty" msgpack:"customerID,omitempty" bson:"customerid,omitempty" mapstructure:"customerID,omitempty"`
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -2101,6 +2204,9 @@ type SparseCloudEndpoint struct {
 
 	// Region name associated with the entity.
 	RegionName *string `json:"regionName,omitempty" msgpack:"regionName,omitempty" bson:"regionname,omitempty" mapstructure:"regionName,omitempty"`
+
+	// Prisma Cloud Resource ID.
+	ResourceID *int `json:"resourceID,omitempty" msgpack:"resourceID,omitempty" bson:"resourceid,omitempty" mapstructure:"resourceID,omitempty"`
 
 	// Internal representation of object tags.
 	Tags *map[string]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"tags,omitempty" mapstructure:"tags,omitempty"`
@@ -2185,11 +2291,11 @@ func (o *SparseCloudEndpoint) GetBSON() (interface{}, error) {
 	if o.AccountID != nil {
 		s.AccountID = o.AccountID
 	}
-	if o.AccountName != nil {
-		s.AccountName = o.AccountName
-	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
+	}
+	if o.ApiID != nil {
+		s.ApiID = o.ApiID
 	}
 	if o.AssociatedRouteTables != nil {
 		s.AssociatedRouteTables = o.AssociatedRouteTables
@@ -2205,6 +2311,9 @@ func (o *SparseCloudEndpoint) GetBSON() (interface{}, error) {
 	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CustomerID != nil {
+		s.CustomerID = o.CustomerID
 	}
 	if o.Description != nil {
 		s.Description = o.Description
@@ -2241,6 +2350,9 @@ func (o *SparseCloudEndpoint) GetBSON() (interface{}, error) {
 	}
 	if o.RegionName != nil {
 		s.RegionName = o.RegionName
+	}
+	if o.ResourceID != nil {
+		s.ResourceID = o.ResourceID
 	}
 	if o.Tags != nil {
 		s.Tags = o.Tags
@@ -2297,11 +2409,11 @@ func (o *SparseCloudEndpoint) SetBSON(raw bson.Raw) error {
 	if s.AccountID != nil {
 		o.AccountID = s.AccountID
 	}
-	if s.AccountName != nil {
-		o.AccountName = s.AccountName
-	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
+	}
+	if s.ApiID != nil {
+		o.ApiID = s.ApiID
 	}
 	if s.AssociatedRouteTables != nil {
 		o.AssociatedRouteTables = s.AssociatedRouteTables
@@ -2317,6 +2429,9 @@ func (o *SparseCloudEndpoint) SetBSON(raw bson.Raw) error {
 	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CustomerID != nil {
+		o.CustomerID = s.CustomerID
 	}
 	if s.Description != nil {
 		o.Description = s.Description
@@ -2353,6 +2468,9 @@ func (o *SparseCloudEndpoint) SetBSON(raw bson.Raw) error {
 	}
 	if s.RegionName != nil {
 		o.RegionName = s.RegionName
+	}
+	if s.ResourceID != nil {
+		o.ResourceID = s.ResourceID
 	}
 	if s.Tags != nil {
 		o.Tags = s.Tags
@@ -2407,11 +2525,11 @@ func (o *SparseCloudEndpoint) ToPlain() elemental.PlainIdentifiable {
 	if o.AccountID != nil {
 		out.AccountID = *o.AccountID
 	}
-	if o.AccountName != nil {
-		out.AccountName = *o.AccountName
-	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
+	}
+	if o.ApiID != nil {
+		out.ApiID = *o.ApiID
 	}
 	if o.AssociatedRouteTables != nil {
 		out.AssociatedRouteTables = *o.AssociatedRouteTables
@@ -2427,6 +2545,9 @@ func (o *SparseCloudEndpoint) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
+	if o.CustomerID != nil {
+		out.CustomerID = *o.CustomerID
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
@@ -2463,6 +2584,9 @@ func (o *SparseCloudEndpoint) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.RegionName != nil {
 		out.RegionName = *o.RegionName
+	}
+	if o.ResourceID != nil {
+		out.ResourceID = *o.ResourceID
 	}
 	if o.Tags != nil {
 		out.Tags = *o.Tags
@@ -2524,22 +2648,6 @@ func (o *SparseCloudEndpoint) SetAccountID(accountID string) {
 	o.AccountID = &accountID
 }
 
-// GetAccountName returns the AccountName of the receiver.
-func (o *SparseCloudEndpoint) GetAccountName() (out string) {
-
-	if o.AccountName == nil {
-		return
-	}
-
-	return *o.AccountName
-}
-
-// SetAccountName sets the property AccountName of the receiver using the address of the given value.
-func (o *SparseCloudEndpoint) SetAccountName(accountName string) {
-
-	o.AccountName = &accountName
-}
-
 // GetAnnotations returns the Annotations of the receiver.
 func (o *SparseCloudEndpoint) GetAnnotations() (out map[string][]string) {
 
@@ -2554,6 +2662,22 @@ func (o *SparseCloudEndpoint) GetAnnotations() (out map[string][]string) {
 func (o *SparseCloudEndpoint) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
+}
+
+// GetApiID returns the ApiID of the receiver.
+func (o *SparseCloudEndpoint) GetApiID() (out int) {
+
+	if o.ApiID == nil {
+		return
+	}
+
+	return *o.ApiID
+}
+
+// SetApiID sets the property ApiID of the receiver using the address of the given value.
+func (o *SparseCloudEndpoint) SetApiID(apiID int) {
+
+	o.ApiID = &apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -2602,6 +2726,22 @@ func (o *SparseCloudEndpoint) GetCreateIdempotencyKey() (out string) {
 func (o *SparseCloudEndpoint) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
+}
+
+// GetCustomerID returns the CustomerID of the receiver.
+func (o *SparseCloudEndpoint) GetCustomerID() (out int) {
+
+	if o.CustomerID == nil {
+		return
+	}
+
+	return *o.CustomerID
+}
+
+// SetCustomerID sets the property CustomerID of the receiver using the address of the given value.
+func (o *SparseCloudEndpoint) SetCustomerID(customerID int) {
+
+	o.CustomerID = &customerID
 }
 
 // GetDescription returns the Description of the receiver.
@@ -2780,6 +2920,22 @@ func (o *SparseCloudEndpoint) SetRegionName(regionName string) {
 	o.RegionName = &regionName
 }
 
+// GetResourceID returns the ResourceID of the receiver.
+func (o *SparseCloudEndpoint) GetResourceID() (out int) {
+
+	if o.ResourceID == nil {
+		return
+	}
+
+	return *o.ResourceID
+}
+
+// SetResourceID sets the property ResourceID of the receiver using the address of the given value.
+func (o *SparseCloudEndpoint) SetResourceID(resourceID int) {
+
+	o.ResourceID = &resourceID
+}
+
 // GetTags returns the Tags of the receiver.
 func (o *SparseCloudEndpoint) GetTags() (out map[string]string) {
 
@@ -2922,13 +3078,14 @@ type mongoAttributesCloudEndpoint struct {
 	VPCAttached           bool                        `bson:"vpcattached"`
 	VPCAttachments        []string                    `bson:"vpcattachments"`
 	AccountID             string                      `bson:"accountid"`
-	AccountName           string                      `bson:"accountname"`
 	Annotations           map[string][]string         `bson:"annotations"`
+	ApiID                 int                         `bson:"apiid"`
 	AssociatedRouteTables []string                    `bson:"associatedroutetables"`
 	AssociatedTags        []string                    `bson:"associatedtags"`
 	AttachedInterfaces    []string                    `bson:"attachedinterfaces"`
 	CloudType             CloudEndpointCloudTypeValue `bson:"cloudtype"`
 	CreateIdempotencyKey  string                      `bson:"createidempotencykey"`
+	CustomerID            int                         `bson:"customerid"`
 	Description           string                      `bson:"description"`
 	ForwardingEnabled     bool                        `bson:"forwardingenabled"`
 	InsertTS              int                         `bson:"insertts,omitempty"`
@@ -2941,6 +3098,7 @@ type mongoAttributesCloudEndpoint struct {
 	Protected             bool                        `bson:"protected"`
 	RegionID              string                      `bson:"regionid"`
 	RegionName            string                      `bson:"regionname"`
+	ResourceID            int                         `bson:"resourceid"`
 	Tags                  map[string]string           `bson:"tags"`
 	Type                  CloudEndpointTypeValue      `bson:"type"`
 	UpdateIdempotencyKey  string                      `bson:"updateidempotencykey"`
@@ -2956,13 +3114,14 @@ type mongoAttributesSparseCloudEndpoint struct {
 	VPCAttached           *bool                        `bson:"vpcattached,omitempty"`
 	VPCAttachments        *[]string                    `bson:"vpcattachments,omitempty"`
 	AccountID             *string                      `bson:"accountid,omitempty"`
-	AccountName           *string                      `bson:"accountname,omitempty"`
 	Annotations           *map[string][]string         `bson:"annotations,omitempty"`
+	ApiID                 *int                         `bson:"apiid,omitempty"`
 	AssociatedRouteTables *[]string                    `bson:"associatedroutetables,omitempty"`
 	AssociatedTags        *[]string                    `bson:"associatedtags,omitempty"`
 	AttachedInterfaces    *[]string                    `bson:"attachedinterfaces,omitempty"`
 	CloudType             *CloudEndpointCloudTypeValue `bson:"cloudtype,omitempty"`
 	CreateIdempotencyKey  *string                      `bson:"createidempotencykey,omitempty"`
+	CustomerID            *int                         `bson:"customerid,omitempty"`
 	Description           *string                      `bson:"description,omitempty"`
 	ForwardingEnabled     *bool                        `bson:"forwardingenabled,omitempty"`
 	InsertTS              *int                         `bson:"insertts,omitempty"`
@@ -2975,6 +3134,7 @@ type mongoAttributesSparseCloudEndpoint struct {
 	Protected             *bool                        `bson:"protected,omitempty"`
 	RegionID              *string                      `bson:"regionid,omitempty"`
 	RegionName            *string                      `bson:"regionname,omitempty"`
+	ResourceID            *int                         `bson:"resourceid,omitempty"`
 	Tags                  *map[string]string           `bson:"tags,omitempty"`
 	Type                  *CloudEndpointTypeValue      `bson:"type,omitempty"`
 	UpdateIdempotencyKey  *string                      `bson:"updateidempotencykey,omitempty"`

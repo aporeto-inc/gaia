@@ -302,6 +302,14 @@ func (o *CloudRoute) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateOptionalCIDR("destinationIPv4CIDR", o.DestinationIPv4CIDR); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateOptionalCIDR("destinationIPv6CIDR", o.DestinationIPv6CIDR); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateStringInList("nextHopType", string(o.NextHopType), []string{"EgressOnlyGateway", "Gateway", "Instance", "LocalGateway", "NATGateway", "NetworkInterface", "TransitGateway", "VPCPeeringConnection", "TransitGatewayAttachment"}, false); err != nil {
 		errors = errors.Append(err)
 	}

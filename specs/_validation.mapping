@@ -14,13 +14,13 @@ $automations:
   elemental:
     name: ValidateAutomation
 
-$capem:
-  elemental:
-    name: ValidateCA
-
 $cachedflowreport:
   elemental:
     name: ValidateCachedFlowReport
+
+$capem:
+  elemental:
+    name: ValidateCA
 
 $cidr:
   elemental:
@@ -58,6 +58,10 @@ $identity:
   elemental:
     name: ValidateIdentity
 
+$ipaddress:
+  elemental:
+    name: ValidateIPAddress
+
 $metadata:
   elemental:
     name: ValidateMetadata
@@ -70,9 +74,17 @@ $optionalTimeDuration:
   elemental:
     name: ValidateOptionalTimeDuration
 
+$optionalcidr:
+  elemental:
+    name: ValidateOptionalCIDR
+
 $optionalcidrs:
   elemental:
     name: ValidateOptionalCIDRList
+
+$optionalipaddress:
+  elemental:
+    name: ValidateOptionalIPAddress
 
 $optionalnetworksorhostnames:
   elemental:

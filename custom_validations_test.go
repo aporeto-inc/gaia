@@ -692,6 +692,166 @@ func TestValidateNetworkOrHostnameList(t *testing.T) {
 	}
 }
 
+func TestValidateOptionalCIDR(t *testing.T) {
+	type args struct {
+		attribute string
+		cidr      string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"cidr",
+				"10.0.0.0/8",
+			},
+			false,
+		},
+
+		// valid empty
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"",
+			},
+			false,
+		},
+
+		// invalid
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"foo",
+			},
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateOptionalCIDR(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateOptionalCIDR() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateIPAddress(t *testing.T) {
+	type args struct {
+		attribute string
+		network   string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"ip address",
+				"10.0.0.1",
+			},
+			false,
+		},
+
+		// invalid
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"foo",
+			},
+			true,
+		},
+
+		// invalid
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"10.1.1.0/24",
+			},
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateIPAddress(tt.args.attribute, tt.args.network); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateIPAddress() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateOptionalIPAddress(t *testing.T) {
+	type args struct {
+		attribute string
+		network   string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"ip address",
+				"10.0.0.1",
+			},
+			false,
+		},
+
+		// valid empty
+		{
+			"valid CIDR",
+			args{
+				"ip address",
+				"",
+			},
+			false,
+		},
+
+		// invalid
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"foo",
+			},
+			true,
+		},
+
+		// invalid
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"10.1.1.0/24",
+			},
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateOptionalIPAddress(tt.args.attribute, tt.args.network); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateIPAddress() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func TestValidateCIDR(t *testing.T) {
 	type args struct {
 		attribute string
