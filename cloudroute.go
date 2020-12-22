@@ -112,7 +112,7 @@ func (o CloudRoutesList) Version() int {
 
 // CloudRoute represents the model of a cloudroute
 type CloudRoute struct {
-	// The Desination CIDR for the route.
+	// The Destination CIDR for the route.
 	DestinationIPv4CIDR string `json:"destinationIPv4CIDR" msgpack:"destinationIPv4CIDR" bson:"destinationipv4cidr" mapstructure:"destinationIPv4CIDR,omitempty"`
 
 	// The destination IPV6 CIDR for the route.
@@ -367,7 +367,7 @@ var CloudRouteAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		BSONFieldName:  "destinationipv4cidr",
 		ConvertedName:  "DestinationIPv4CIDR",
-		Description:    `The Desination CIDR for the route.`,
+		Description:    `The Destination CIDR for the route.`,
 		Exposed:        true,
 		Name:           "destinationIPv4CIDR",
 		Stored:         true,
@@ -411,7 +411,7 @@ var CloudRouteLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		BSONFieldName:  "destinationipv4cidr",
 		ConvertedName:  "DestinationIPv4CIDR",
-		Description:    `The Desination CIDR for the route.`,
+		Description:    `The Destination CIDR for the route.`,
 		Exposed:        true,
 		Name:           "destinationIPv4CIDR",
 		Stored:         true,
@@ -512,7 +512,7 @@ func (o SparseCloudRoutesList) Version() int {
 
 // SparseCloudRoute represents the sparse version of a cloudroute.
 type SparseCloudRoute struct {
-	// The Desination CIDR for the route.
+	// The Destination CIDR for the route.
 	DestinationIPv4CIDR *string `json:"destinationIPv4CIDR,omitempty" msgpack:"destinationIPv4CIDR,omitempty" bson:"destinationipv4cidr,omitempty" mapstructure:"destinationIPv4CIDR,omitempty"`
 
 	// The destination IPV6 CIDR for the route.

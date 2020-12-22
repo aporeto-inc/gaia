@@ -11,9 +11,9 @@ model:
     global_parameters:
     - $filtering
   update:
-    description: Updates the networkinterface with the given ID.
+    description: Updates the network interface with the given ID.
   delete:
-    description: Deletes the networkinterface with the given ID.
+    description: Deletes the network interface with the given ID.
     global_parameters:
     - $filtering
   extends:
@@ -38,7 +38,7 @@ attributes:
   v1:
   - name: addresses
     description: |-
-      List of IP addresses/subnets (ipv4 or ipv6) associated with the
+      List of IP addresses/subnets (IPv4 or IPv6) associated with the
       interface.
     type: refList
     exposed: true

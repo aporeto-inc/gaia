@@ -128,7 +128,7 @@ type CloudNetworkInterface struct {
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
 
-	// List of IP addresses/subnets (ipv4 or ipv6) associated with the
+	// List of IP addresses/subnets (IPv4 or IPv6) associated with the
 	// interface.
 	Addresses CloudAddressList `json:"addresses" msgpack:"addresses" bson:"addresses" mapstructure:"addresses,omitempty"`
 
@@ -1180,7 +1180,7 @@ var CloudNetworkInterfaceAttributesMap = map[string]elemental.AttributeSpecifica
 		AllowedChoices: []string{},
 		BSONFieldName:  "addresses",
 		ConvertedName:  "Addresses",
-		Description: `List of IP addresses/subnets (ipv4 or ipv6) associated with the
+		Description: `List of IP addresses/subnets (IPv4 or IPv6) associated with the
 interface.`,
 		Exposed: true,
 		Name:    "addresses",
@@ -1626,7 +1626,7 @@ var CloudNetworkInterfaceLowerCaseAttributesMap = map[string]elemental.Attribute
 		AllowedChoices: []string{},
 		BSONFieldName:  "addresses",
 		ConvertedName:  "Addresses",
-		Description: `List of IP addresses/subnets (ipv4 or ipv6) associated with the
+		Description: `List of IP addresses/subnets (IPv4 or IPv6) associated with the
 interface.`,
 		Exposed: true,
 		Name:    "addresses",
@@ -2099,7 +2099,7 @@ type SparseCloudNetworkInterface struct {
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
 
-	// List of IP addresses/subnets (ipv4 or ipv6) associated with the
+	// List of IP addresses/subnets (IPv4 or IPv6) associated with the
 	// interface.
 	Addresses *CloudAddressList `json:"addresses,omitempty" msgpack:"addresses,omitempty" bson:"addresses,omitempty" mapstructure:"addresses,omitempty"`
 

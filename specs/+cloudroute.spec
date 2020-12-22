@@ -11,7 +11,7 @@ model:
 attributes:
   v1:
   - name: destinationIPv4CIDR
-    description: The Desination CIDR for the route.
+    description: The Destination CIDR for the route.
     type: string
     exposed: true
     stored: true

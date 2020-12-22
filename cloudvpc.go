@@ -29,7 +29,7 @@ const (
 var CloudVPCIdentity = elemental.Identity{
 	Name:     "cloudvpc",
 	Category: "cloudvpcs",
-	Package:  "yeul",
+	Package:  "pcn",
 	Private:  false,
 }
 

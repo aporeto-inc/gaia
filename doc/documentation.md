@@ -15906,7 +15906,7 @@ Parameters:
 
 ##### `DELETE /cloudnetworkinterfaces/:id`
 
-Deletes the networkinterface with the given ID.
+Deletes the network interface with the given ID.
 
 Parameters:
 
@@ -15922,7 +15922,7 @@ Parameters:
 
 ##### `PUT /cloudnetworkinterfaces/:id`
 
-Updates the networkinterface with the given ID.
+Updates the network interface with the given ID.
 
 #### Attributes
 
@@ -15948,7 +15948,7 @@ Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 
 Type: [`[]cloudaddress`](#cloudaddress)
 
-List of IP addresses/subnets (ipv4 or ipv6) associated with the
+List of IP addresses/subnets (IPv4 or IPv6) associated with the
 interface.
 
 ##### `annotations`
@@ -16118,7 +16118,7 @@ Describes a route in a route table.
 
 Type: `string`
 
-The Desination CIDR for the route.
+The Destination CIDR for the route.
 
 ##### `destinationIPv6CIDR`
 
