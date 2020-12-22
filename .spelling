@@ -480,4 +480,5 @@ CloudEndpoint
 CloudVPC
 VPCs 
 VPC
-prisma/infrastructure
+prisma
+infrastructure
