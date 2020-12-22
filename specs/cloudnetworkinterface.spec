@@ -7,7 +7,7 @@ model:
   group: prisma/infrastructure
   description: Manages the set of network interfaces that are associated with endpoints.
   get:
-    description: Retrieves the networkinterface with the given ID.
+    description: Retrieves the network interface with the given ID.
     global_parameters:
     - $filtering
   update:

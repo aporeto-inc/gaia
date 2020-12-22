@@ -15914,7 +15914,7 @@ Parameters:
 
 ##### `GET /cloudnetworkinterfaces/:id`
 
-Retrieves the networkinterface with the given ID.
+Retrieves the network interface with the given ID.
 
 Parameters:
 
