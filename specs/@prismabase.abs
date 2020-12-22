@@ -69,6 +69,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    required: true
     example_value: subnet-0ae4a90153dfb642c
     getter: true
     setter: true

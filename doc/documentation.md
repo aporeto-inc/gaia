@@ -15784,7 +15784,7 @@ Type: `string`
 
 Namespace tag attached to an entity.
 
-##### `nativeID` [`max_length=256`]
+##### `nativeID` [`required`,`max_length=256`]
 
 Type: `string`
 
@@ -15990,7 +15990,7 @@ Type: `string`
 
 Namespace tag attached to an entity.
 
-##### `nativeID` [`max_length=256`]
+##### `nativeID` [`required`,`max_length=256`]
 
 Type: `string`
 
@@ -16257,7 +16257,7 @@ Type: `string`
 
 Namespace tag attached to an entity.
 
-##### `nativeID` [`max_length=256`]
+##### `nativeID` [`required`,`max_length=256`]
 
 Type: `string`
 
@@ -16469,7 +16469,7 @@ Type: `string`
 
 Namespace tag attached to an entity.
 
-##### `nativeID` [`max_length=256`]
+##### `nativeID` [`required`,`max_length=256`]
 
 Type: `string`
 
@@ -16677,7 +16677,7 @@ Type: `string`
 
 Namespace tag attached to an entity.
 
-##### `nativeID` [`max_length=256`]
+##### `nativeID` [`required`,`max_length=256`]
 
 Type: `string`
 

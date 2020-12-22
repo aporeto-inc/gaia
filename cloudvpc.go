@@ -875,6 +875,10 @@ func (o *CloudVPC) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("nativeID", o.NativeID); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateMaximumLength("nativeID", o.NativeID, 256, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -1204,6 +1208,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		MaxLength:      256,
 		Name:           "nativeID",
 		Orderable:      true,
+		Required:       true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1582,6 +1587,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		MaxLength:      256,
 		Name:           "nativeID",
 		Orderable:      true,
+		Required:       true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
