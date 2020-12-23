@@ -99,11 +99,17 @@ func (o CloudSubnetsList) Version() int {
 
 // CloudSubnet represents the model of a cloudsubnet
 type CloudSubnet struct {
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	APIID int `json:"APIID" msgpack:"APIID" bson:"apiid" mapstructure:"APIID,omitempty"`
+
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Restricted Resource Name.
 	RRN string `json:"rrn" msgpack:"rrn" bson:"rrn" mapstructure:"rrn,omitempty"`
+
+	// Object resource URL access.
+	URL string `json:"URL" msgpack:"URL" bson:"url" mapstructure:"URL,omitempty"`
 
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
@@ -113,9 +119,6 @@ type CloudSubnet struct {
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// Prisma Cloud API ID (matches Prisma Cloud API ID).
-	ApiID int `json:"apiID" msgpack:"apiID" bson:"apiid" mapstructure:"apiID,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -172,9 +175,6 @@ type CloudSubnet struct {
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
-	// Object resource URL access.
-	Url string `json:"url" msgpack:"url" bson:"url" mapstructure:"url,omitempty"`
-
 	// ID of the host VPC.
 	VpcID string `json:"vpcId" msgpack:"vpcId" bson:"vpcid" mapstructure:"vpcId,omitempty"`
 
@@ -188,8 +188,8 @@ type CloudSubnet struct {
 	// Logical storage zone. Used for sharding.
 	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
-	// The availability zone of the subnet.
-	ZoneId string `json:"zoneId" msgpack:"zoneId" bson:"zoneid" mapstructure:"zoneId,omitempty"`
+	// The availability zone ID of the subnet.
+	ZoneID string `json:"zoneID" msgpack:"zoneID" bson:"zoneid" mapstructure:"zoneID,omitempty"`
 
 	// The availability zone of the subnet.
 	ZoneName string `json:"zoneName" msgpack:"zoneName" bson:"zonename" mapstructure:"zoneName,omitempty"`
@@ -204,10 +204,10 @@ func NewCloudSubnet() *CloudSubnet {
 		ModelVersion:   1,
 		AssociatedTags: []string{},
 		Annotations:    map[string][]string{},
+		Metadata:       []string{},
 		Tags:           map[string]string{},
 		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
-		Metadata:       []string{},
 	}
 }
 
@@ -239,14 +239,15 @@ func (o *CloudSubnet) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCloudSubnet{}
 
+	s.APIID = o.APIID
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.RRN = o.RRN
+	s.URL = o.URL
 	s.AccountID = o.AccountID
 	s.Address = o.Address
 	s.Annotations = o.Annotations
-	s.ApiID = o.ApiID
 	s.AssociatedTags = o.AssociatedTags
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -265,12 +266,11 @@ func (o *CloudSubnet) GetBSON() (interface{}, error) {
 	s.ResourceID = o.ResourceID
 	s.Tags = o.Tags
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
-	s.Url = o.Url
 	s.VpcID = o.VpcID
 	s.VpcName = o.VpcName
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
-	s.ZoneId = o.ZoneId
+	s.ZoneID = o.ZoneID
 	s.ZoneName = o.ZoneName
 
 	return s, nil
@@ -289,12 +289,13 @@ func (o *CloudSubnet) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.APIID = s.APIID
 	o.ID = s.ID.Hex()
 	o.RRN = s.RRN
+	o.URL = s.URL
 	o.AccountID = s.AccountID
 	o.Address = s.Address
 	o.Annotations = s.Annotations
-	o.ApiID = s.ApiID
 	o.AssociatedTags = s.AssociatedTags
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
@@ -313,12 +314,11 @@ func (o *CloudSubnet) SetBSON(raw bson.Raw) error {
 	o.ResourceID = s.ResourceID
 	o.Tags = s.Tags
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
-	o.Url = s.Url
 	o.VpcID = s.VpcID
 	o.VpcName = s.VpcName
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
-	o.ZoneId = s.ZoneId
+	o.ZoneID = s.ZoneID
 	o.ZoneName = s.ZoneName
 
 	return nil
@@ -355,6 +355,18 @@ func (o *CloudSubnet) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetAPIID returns the APIID of the receiver.
+func (o *CloudSubnet) GetAPIID() int {
+
+	return o.APIID
+}
+
+// SetAPIID sets the property APIID of the receiver using the given value.
+func (o *CloudSubnet) SetAPIID(APIID int) {
+
+	o.APIID = APIID
+}
+
 // GetRRN returns the RRN of the receiver.
 func (o *CloudSubnet) GetRRN() string {
 
@@ -365,6 +377,18 @@ func (o *CloudSubnet) GetRRN() string {
 func (o *CloudSubnet) SetRRN(RRN string) {
 
 	o.RRN = RRN
+}
+
+// GetURL returns the URL of the receiver.
+func (o *CloudSubnet) GetURL() string {
+
+	return o.URL
+}
+
+// SetURL sets the property URL of the receiver using the given value.
+func (o *CloudSubnet) SetURL(URL string) {
+
+	o.URL = URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -389,18 +413,6 @@ func (o *CloudSubnet) GetAnnotations() map[string][]string {
 func (o *CloudSubnet) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
-}
-
-// GetApiID returns the ApiID of the receiver.
-func (o *CloudSubnet) GetApiID() int {
-
-	return o.ApiID
-}
-
-// SetApiID sets the property ApiID of the receiver using the given value.
-func (o *CloudSubnet) SetApiID(apiID int) {
-
-	o.ApiID = apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -619,18 +631,6 @@ func (o *CloudSubnet) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
-// GetUrl returns the Url of the receiver.
-func (o *CloudSubnet) GetUrl() string {
-
-	return o.Url
-}
-
-// SetUrl sets the property Url of the receiver using the given value.
-func (o *CloudSubnet) SetUrl(url string) {
-
-	o.Url = url
-}
-
 // GetVpcID returns the VpcID of the receiver.
 func (o *CloudSubnet) GetVpcID() string {
 
@@ -686,12 +686,13 @@ func (o *CloudSubnet) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCloudSubnet{
+			APIID:                &o.APIID,
 			ID:                   &o.ID,
 			RRN:                  &o.RRN,
+			URL:                  &o.URL,
 			AccountID:            &o.AccountID,
 			Address:              &o.Address,
 			Annotations:          &o.Annotations,
-			ApiID:                &o.ApiID,
 			AssociatedTags:       &o.AssociatedTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
@@ -710,12 +711,11 @@ func (o *CloudSubnet) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ResourceID:           &o.ResourceID,
 			Tags:                 &o.Tags,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
-			Url:                  &o.Url,
 			VpcID:                &o.VpcID,
 			VpcName:              &o.VpcName,
 			ZHash:                &o.ZHash,
 			Zone:                 &o.Zone,
-			ZoneId:               &o.ZoneId,
+			ZoneID:               &o.ZoneID,
 			ZoneName:             &o.ZoneName,
 		}
 	}
@@ -723,18 +723,20 @@ func (o *CloudSubnet) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	sp := &SparseCloudSubnet{}
 	for _, f := range fields {
 		switch f {
+		case "APIID":
+			sp.APIID = &(o.APIID)
 		case "ID":
 			sp.ID = &(o.ID)
 		case "RRN":
 			sp.RRN = &(o.RRN)
+		case "URL":
+			sp.URL = &(o.URL)
 		case "accountID":
 			sp.AccountID = &(o.AccountID)
 		case "address":
 			sp.Address = &(o.Address)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "apiID":
-			sp.ApiID = &(o.ApiID)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "cloudType":
@@ -771,8 +773,6 @@ func (o *CloudSubnet) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Tags = &(o.Tags)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
-		case "url":
-			sp.Url = &(o.Url)
 		case "vpcID":
 			sp.VpcID = &(o.VpcID)
 		case "vpcName":
@@ -781,8 +781,8 @@ func (o *CloudSubnet) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ZHash = &(o.ZHash)
 		case "zone":
 			sp.Zone = &(o.Zone)
-		case "zoneId":
-			sp.ZoneId = &(o.ZoneId)
+		case "zoneID":
+			sp.ZoneID = &(o.ZoneID)
 		case "zoneName":
 			sp.ZoneName = &(o.ZoneName)
 		}
@@ -798,11 +798,17 @@ func (o *CloudSubnet) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseCloudSubnet)
+	if so.APIID != nil {
+		o.APIID = *so.APIID
+	}
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
 	if so.RRN != nil {
 		o.RRN = *so.RRN
+	}
+	if so.URL != nil {
+		o.URL = *so.URL
 	}
 	if so.AccountID != nil {
 		o.AccountID = *so.AccountID
@@ -812,9 +818,6 @@ func (o *CloudSubnet) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
-	}
-	if so.ApiID != nil {
-		o.ApiID = *so.ApiID
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -870,9 +873,6 @@ func (o *CloudSubnet) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
-	if so.Url != nil {
-		o.Url = *so.Url
-	}
 	if so.VpcID != nil {
 		o.VpcID = *so.VpcID
 	}
@@ -885,8 +885,8 @@ func (o *CloudSubnet) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Zone != nil {
 		o.Zone = *so.Zone
 	}
-	if so.ZoneId != nil {
-		o.ZoneId = *so.ZoneId
+	if so.ZoneID != nil {
+		o.ZoneID = *so.ZoneID
 	}
 	if so.ZoneName != nil {
 		o.ZoneName = *so.ZoneName
@@ -922,6 +922,10 @@ func (o *CloudSubnet) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateMaximumLength("URL", o.URL, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
 
 	if err := ValidateCIDR("address", o.Address); err != nil {
 		errors = errors.Append(err)
@@ -967,10 +971,6 @@ func (o *CloudSubnet) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateMaximumLength("url", o.Url, 256, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -1005,18 +1005,20 @@ func (*CloudSubnet) AttributeSpecifications() map[string]elemental.AttributeSpec
 func (o *CloudSubnet) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "APIID":
+		return o.APIID
 	case "ID":
 		return o.ID
 	case "RRN":
 		return o.RRN
+	case "URL":
+		return o.URL
 	case "accountID":
 		return o.AccountID
 	case "address":
 		return o.Address
 	case "annotations":
 		return o.Annotations
-	case "apiID":
-		return o.ApiID
 	case "associatedTags":
 		return o.AssociatedTags
 	case "cloudType":
@@ -1053,8 +1055,6 @@ func (o *CloudSubnet) ValueForAttribute(name string) interface{} {
 		return o.Tags
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
-	case "url":
-		return o.Url
 	case "vpcID":
 		return o.VpcID
 	case "vpcName":
@@ -1063,8 +1063,8 @@ func (o *CloudSubnet) ValueForAttribute(name string) interface{} {
 		return o.ZHash
 	case "zone":
 		return o.Zone
-	case "zoneId":
-		return o.ZoneId
+	case "zoneID":
+		return o.ZoneID
 	case "zoneName":
 		return o.ZoneName
 	}
@@ -1074,6 +1074,18 @@ func (o *CloudSubnet) ValueForAttribute(name string) interface{} {
 
 // CloudSubnetAttributesMap represents the map of attribute for CloudSubnet.
 var CloudSubnetAttributesMap = map[string]elemental.AttributeSpecification{
+	"APIID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "APIID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "APIID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1098,6 +1110,19 @@ var CloudSubnetAttributesMap = map[string]elemental.AttributeSpecification{
 		Getter:         true,
 		Name:           "RRN",
 		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"URL": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "url",
+		ConvertedName:  "URL",
+		Description:    `Object resource URL access.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      256,
+		Name:           "URL",
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1137,18 +1162,6 @@ var CloudSubnetAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
-	},
-	"ApiID": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "apiid",
-		ConvertedName:  "ApiID",
-		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "apiID",
-		Setter:         true,
-		Stored:         true,
-		Type:           "integer",
 	},
 	"AssociatedTags": {
 		AllowedChoices: []string{},
@@ -1404,19 +1417,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"Url": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "url",
-		ConvertedName:  "Url",
-		Description:    `Object resource URL access.`,
-		Exposed:        true,
-		Getter:         true,
-		MaxLength:      256,
-		Name:           "url",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"VpcID": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "vpcid",
@@ -1471,13 +1471,13 @@ georedundancy.`,
 		Transient:      true,
 		Type:           "integer",
 	},
-	"ZoneId": {
+	"ZoneID": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "zoneid",
-		ConvertedName:  "ZoneId",
-		Description:    `The availability zone of the subnet.`,
+		ConvertedName:  "ZoneID",
+		Description:    `The availability zone ID of the subnet.`,
 		Exposed:        true,
-		Name:           "zoneId",
+		Name:           "zoneID",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1495,6 +1495,18 @@ georedundancy.`,
 
 // CloudSubnetLowerCaseAttributesMap represents the map of attribute for CloudSubnet.
 var CloudSubnetLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"apiid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "APIID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "APIID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1519,6 +1531,19 @@ var CloudSubnetLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Getter:         true,
 		Name:           "RRN",
 		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"url": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "url",
+		ConvertedName:  "URL",
+		Description:    `Object resource URL access.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      256,
+		Name:           "URL",
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1558,18 +1583,6 @@ var CloudSubnetLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
-	},
-	"apiid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "apiid",
-		ConvertedName:  "ApiID",
-		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "apiID",
-		Setter:         true,
-		Stored:         true,
-		Type:           "integer",
 	},
 	"associatedtags": {
 		AllowedChoices: []string{},
@@ -1825,19 +1838,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"url": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "url",
-		ConvertedName:  "Url",
-		Description:    `Object resource URL access.`,
-		Exposed:        true,
-		Getter:         true,
-		MaxLength:      256,
-		Name:           "url",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"vpcid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "vpcid",
@@ -1895,10 +1895,10 @@ georedundancy.`,
 	"zoneid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "zoneid",
-		ConvertedName:  "ZoneId",
-		Description:    `The availability zone of the subnet.`,
+		ConvertedName:  "ZoneID",
+		Description:    `The availability zone ID of the subnet.`,
 		Exposed:        true,
-		Name:           "zoneId",
+		Name:           "zoneID",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1979,11 +1979,17 @@ func (o SparseCloudSubnetsList) Version() int {
 
 // SparseCloudSubnet represents the sparse version of a cloudsubnet.
 type SparseCloudSubnet struct {
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	APIID *int `json:"APIID,omitempty" msgpack:"APIID,omitempty" bson:"apiid,omitempty" mapstructure:"APIID,omitempty"`
+
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Restricted Resource Name.
 	RRN *string `json:"rrn,omitempty" msgpack:"rrn,omitempty" bson:"rrn,omitempty" mapstructure:"rrn,omitempty"`
+
+	// Object resource URL access.
+	URL *string `json:"URL,omitempty" msgpack:"URL,omitempty" bson:"url,omitempty" mapstructure:"URL,omitempty"`
 
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
@@ -1993,9 +1999,6 @@ type SparseCloudSubnet struct {
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
-
-	// Prisma Cloud API ID (matches Prisma Cloud API ID).
-	ApiID *int `json:"apiID,omitempty" msgpack:"apiID,omitempty" bson:"apiid,omitempty" mapstructure:"apiID,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
@@ -2052,9 +2055,6 @@ type SparseCloudSubnet struct {
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
-	// Object resource URL access.
-	Url *string `json:"url,omitempty" msgpack:"url,omitempty" bson:"url,omitempty" mapstructure:"url,omitempty"`
-
 	// ID of the host VPC.
 	VpcID *string `json:"vpcId,omitempty" msgpack:"vpcId,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcId,omitempty"`
 
@@ -2068,8 +2068,8 @@ type SparseCloudSubnet struct {
 	// Logical storage zone. Used for sharding.
 	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
-	// The availability zone of the subnet.
-	ZoneId *string `json:"zoneId,omitempty" msgpack:"zoneId,omitempty" bson:"zoneid,omitempty" mapstructure:"zoneId,omitempty"`
+	// The availability zone ID of the subnet.
+	ZoneID *string `json:"zoneID,omitempty" msgpack:"zoneID,omitempty" bson:"zoneid,omitempty" mapstructure:"zoneID,omitempty"`
 
 	// The availability zone of the subnet.
 	ZoneName *string `json:"zoneName,omitempty" msgpack:"zoneName,omitempty" bson:"zonename,omitempty" mapstructure:"zoneName,omitempty"`
@@ -2117,11 +2117,17 @@ func (o *SparseCloudSubnet) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseCloudSubnet{}
 
+	if o.APIID != nil {
+		s.APIID = o.APIID
+	}
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
 	if o.RRN != nil {
 		s.RRN = o.RRN
+	}
+	if o.URL != nil {
+		s.URL = o.URL
 	}
 	if o.AccountID != nil {
 		s.AccountID = o.AccountID
@@ -2131,9 +2137,6 @@ func (o *SparseCloudSubnet) GetBSON() (interface{}, error) {
 	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
-	}
-	if o.ApiID != nil {
-		s.ApiID = o.ApiID
 	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
@@ -2189,9 +2192,6 @@ func (o *SparseCloudSubnet) GetBSON() (interface{}, error) {
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	}
-	if o.Url != nil {
-		s.Url = o.Url
-	}
 	if o.VpcID != nil {
 		s.VpcID = o.VpcID
 	}
@@ -2204,8 +2204,8 @@ func (o *SparseCloudSubnet) GetBSON() (interface{}, error) {
 	if o.Zone != nil {
 		s.Zone = o.Zone
 	}
-	if o.ZoneId != nil {
-		s.ZoneId = o.ZoneId
+	if o.ZoneID != nil {
+		s.ZoneID = o.ZoneID
 	}
 	if o.ZoneName != nil {
 		s.ZoneName = o.ZoneName
@@ -2227,10 +2227,16 @@ func (o *SparseCloudSubnet) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	if s.APIID != nil {
+		o.APIID = s.APIID
+	}
 	id := s.ID.Hex()
 	o.ID = &id
 	if s.RRN != nil {
 		o.RRN = s.RRN
+	}
+	if s.URL != nil {
+		o.URL = s.URL
 	}
 	if s.AccountID != nil {
 		o.AccountID = s.AccountID
@@ -2240,9 +2246,6 @@ func (o *SparseCloudSubnet) SetBSON(raw bson.Raw) error {
 	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
-	}
-	if s.ApiID != nil {
-		o.ApiID = s.ApiID
 	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
@@ -2298,9 +2301,6 @@ func (o *SparseCloudSubnet) SetBSON(raw bson.Raw) error {
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	}
-	if s.Url != nil {
-		o.Url = s.Url
-	}
 	if s.VpcID != nil {
 		o.VpcID = s.VpcID
 	}
@@ -2313,8 +2313,8 @@ func (o *SparseCloudSubnet) SetBSON(raw bson.Raw) error {
 	if s.Zone != nil {
 		o.Zone = s.Zone
 	}
-	if s.ZoneId != nil {
-		o.ZoneId = s.ZoneId
+	if s.ZoneID != nil {
+		o.ZoneID = s.ZoneID
 	}
 	if s.ZoneName != nil {
 		o.ZoneName = s.ZoneName
@@ -2333,11 +2333,17 @@ func (o *SparseCloudSubnet) Version() int {
 func (o *SparseCloudSubnet) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCloudSubnet()
+	if o.APIID != nil {
+		out.APIID = *o.APIID
+	}
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
 	if o.RRN != nil {
 		out.RRN = *o.RRN
+	}
+	if o.URL != nil {
+		out.URL = *o.URL
 	}
 	if o.AccountID != nil {
 		out.AccountID = *o.AccountID
@@ -2347,9 +2353,6 @@ func (o *SparseCloudSubnet) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
-	}
-	if o.ApiID != nil {
-		out.ApiID = *o.ApiID
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
@@ -2405,9 +2408,6 @@ func (o *SparseCloudSubnet) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
-	if o.Url != nil {
-		out.Url = *o.Url
-	}
 	if o.VpcID != nil {
 		out.VpcID = *o.VpcID
 	}
@@ -2420,14 +2420,30 @@ func (o *SparseCloudSubnet) ToPlain() elemental.PlainIdentifiable {
 	if o.Zone != nil {
 		out.Zone = *o.Zone
 	}
-	if o.ZoneId != nil {
-		out.ZoneId = *o.ZoneId
+	if o.ZoneID != nil {
+		out.ZoneID = *o.ZoneID
 	}
 	if o.ZoneName != nil {
 		out.ZoneName = *o.ZoneName
 	}
 
 	return out
+}
+
+// GetAPIID returns the APIID of the receiver.
+func (o *SparseCloudSubnet) GetAPIID() (out int) {
+
+	if o.APIID == nil {
+		return
+	}
+
+	return *o.APIID
+}
+
+// SetAPIID sets the property APIID of the receiver using the address of the given value.
+func (o *SparseCloudSubnet) SetAPIID(APIID int) {
+
+	o.APIID = &APIID
 }
 
 // GetRRN returns the RRN of the receiver.
@@ -2444,6 +2460,22 @@ func (o *SparseCloudSubnet) GetRRN() (out string) {
 func (o *SparseCloudSubnet) SetRRN(RRN string) {
 
 	o.RRN = &RRN
+}
+
+// GetURL returns the URL of the receiver.
+func (o *SparseCloudSubnet) GetURL() (out string) {
+
+	if o.URL == nil {
+		return
+	}
+
+	return *o.URL
+}
+
+// SetURL sets the property URL of the receiver using the address of the given value.
+func (o *SparseCloudSubnet) SetURL(URL string) {
+
+	o.URL = &URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -2476,22 +2508,6 @@ func (o *SparseCloudSubnet) GetAnnotations() (out map[string][]string) {
 func (o *SparseCloudSubnet) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
-}
-
-// GetApiID returns the ApiID of the receiver.
-func (o *SparseCloudSubnet) GetApiID() (out int) {
-
-	if o.ApiID == nil {
-		return
-	}
-
-	return *o.ApiID
-}
-
-// SetApiID sets the property ApiID of the receiver using the address of the given value.
-func (o *SparseCloudSubnet) SetApiID(apiID int) {
-
-	o.ApiID = &apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -2782,22 +2798,6 @@ func (o *SparseCloudSubnet) SetUpdateIdempotencyKey(updateIdempotencyKey string)
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
-// GetUrl returns the Url of the receiver.
-func (o *SparseCloudSubnet) GetUrl() (out string) {
-
-	if o.Url == nil {
-		return
-	}
-
-	return *o.Url
-}
-
-// SetUrl sets the property Url of the receiver using the address of the given value.
-func (o *SparseCloudSubnet) SetUrl(url string) {
-
-	o.Url = &url
-}
-
 // GetVpcID returns the VpcID of the receiver.
 func (o *SparseCloudSubnet) GetVpcID() (out string) {
 
@@ -2887,12 +2887,13 @@ func (o *SparseCloudSubnet) DeepCopyInto(out *SparseCloudSubnet) {
 }
 
 type mongoAttributesCloudSubnet struct {
+	APIID                int                       `bson:"apiid"`
 	ID                   bson.ObjectId             `bson:"_id,omitempty"`
 	RRN                  string                    `bson:"rrn"`
+	URL                  string                    `bson:"url"`
 	AccountID            string                    `bson:"accountid"`
 	Address              string                    `bson:"address"`
 	Annotations          map[string][]string       `bson:"annotations"`
-	ApiID                int                       `bson:"apiid"`
 	AssociatedTags       []string                  `bson:"associatedtags"`
 	CloudType            CloudSubnetCloudTypeValue `bson:"cloudtype"`
 	CreateIdempotencyKey string                    `bson:"createidempotencykey"`
@@ -2911,21 +2912,21 @@ type mongoAttributesCloudSubnet struct {
 	ResourceID           int                       `bson:"resourceid"`
 	Tags                 map[string]string         `bson:"tags"`
 	UpdateIdempotencyKey string                    `bson:"updateidempotencykey"`
-	Url                  string                    `bson:"url"`
 	VpcID                string                    `bson:"vpcid"`
 	VpcName              string                    `bson:"vpcname"`
 	ZHash                int                       `bson:"zhash"`
 	Zone                 int                       `bson:"zone"`
-	ZoneId               string                    `bson:"zoneid"`
+	ZoneID               string                    `bson:"zoneid"`
 	ZoneName             string                    `bson:"zonename"`
 }
 type mongoAttributesSparseCloudSubnet struct {
+	APIID                *int                       `bson:"apiid,omitempty"`
 	ID                   bson.ObjectId              `bson:"_id,omitempty"`
 	RRN                  *string                    `bson:"rrn,omitempty"`
+	URL                  *string                    `bson:"url,omitempty"`
 	AccountID            *string                    `bson:"accountid,omitempty"`
 	Address              *string                    `bson:"address,omitempty"`
 	Annotations          *map[string][]string       `bson:"annotations,omitempty"`
-	ApiID                *int                       `bson:"apiid,omitempty"`
 	AssociatedTags       *[]string                  `bson:"associatedtags,omitempty"`
 	CloudType            *CloudSubnetCloudTypeValue `bson:"cloudtype,omitempty"`
 	CreateIdempotencyKey *string                    `bson:"createidempotencykey,omitempty"`
@@ -2944,11 +2945,10 @@ type mongoAttributesSparseCloudSubnet struct {
 	ResourceID           *int                       `bson:"resourceid,omitempty"`
 	Tags                 *map[string]string         `bson:"tags,omitempty"`
 	UpdateIdempotencyKey *string                    `bson:"updateidempotencykey,omitempty"`
-	Url                  *string                    `bson:"url,omitempty"`
 	VpcID                *string                    `bson:"vpcid,omitempty"`
 	VpcName              *string                    `bson:"vpcname,omitempty"`
 	ZHash                *int                       `bson:"zhash,omitempty"`
 	Zone                 *int                       `bson:"zone,omitempty"`
-	ZoneId               *string                    `bson:"zoneid,omitempty"`
+	ZoneID               *string                    `bson:"zoneid,omitempty"`
 	ZoneName             *string                    `bson:"zonename,omitempty"`
 }

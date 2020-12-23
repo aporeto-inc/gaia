@@ -99,11 +99,17 @@ func (o CloudVPCsList) Version() int {
 
 // CloudVPC represents the model of a cloudvpc
 type CloudVPC struct {
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	APIID int `json:"APIID" msgpack:"APIID" bson:"apiid" mapstructure:"APIID,omitempty"`
+
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Restricted Resource Name.
 	RRN string `json:"rrn" msgpack:"rrn" bson:"rrn" mapstructure:"rrn,omitempty"`
+
+	// Object resource URL access.
+	URL string `json:"URL" msgpack:"URL" bson:"url" mapstructure:"URL,omitempty"`
 
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
@@ -113,9 +119,6 @@ type CloudVPC struct {
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// Prisma Cloud API ID (matches Prisma Cloud API ID).
-	ApiID int `json:"apiID" msgpack:"apiID" bson:"apiid" mapstructure:"apiID,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -172,9 +175,6 @@ type CloudVPC struct {
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
-	// Object resource URL access.
-	Url string `json:"url" msgpack:"url" bson:"url" mapstructure:"url,omitempty"`
-
 	// ID of the host VPC.
 	VpcID string `json:"vpcId" msgpack:"vpcId" bson:"vpcid" mapstructure:"vpcId,omitempty"`
 
@@ -196,12 +196,12 @@ func NewCloudVPC() *CloudVPC {
 
 	return &CloudVPC{
 		ModelVersion:   1,
+		MigrationsLog:  map[string]string{},
 		AssociatedTags: []string{},
 		Annotations:    map[string][]string{},
-		MigrationsLog:  map[string]string{},
-		Tags:           map[string]string{},
-		NormalizedTags: []string{},
 		Metadata:       []string{},
+		NormalizedTags: []string{},
+		Tags:           map[string]string{},
 	}
 }
 
@@ -233,14 +233,15 @@ func (o *CloudVPC) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCloudVPC{}
 
+	s.APIID = o.APIID
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.RRN = o.RRN
+	s.URL = o.URL
 	s.AccountID = o.AccountID
 	s.Address = o.Address
 	s.Annotations = o.Annotations
-	s.ApiID = o.ApiID
 	s.AssociatedTags = o.AssociatedTags
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -259,7 +260,6 @@ func (o *CloudVPC) GetBSON() (interface{}, error) {
 	s.ResourceID = o.ResourceID
 	s.Tags = o.Tags
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
-	s.Url = o.Url
 	s.VpcID = o.VpcID
 	s.VpcName = o.VpcName
 	s.ZHash = o.ZHash
@@ -281,12 +281,13 @@ func (o *CloudVPC) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.APIID = s.APIID
 	o.ID = s.ID.Hex()
 	o.RRN = s.RRN
+	o.URL = s.URL
 	o.AccountID = s.AccountID
 	o.Address = s.Address
 	o.Annotations = s.Annotations
-	o.ApiID = s.ApiID
 	o.AssociatedTags = s.AssociatedTags
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
@@ -305,7 +306,6 @@ func (o *CloudVPC) SetBSON(raw bson.Raw) error {
 	o.ResourceID = s.ResourceID
 	o.Tags = s.Tags
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
-	o.Url = s.Url
 	o.VpcID = s.VpcID
 	o.VpcName = s.VpcName
 	o.ZHash = s.ZHash
@@ -347,6 +347,18 @@ func (o *CloudVPC) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetAPIID returns the APIID of the receiver.
+func (o *CloudVPC) GetAPIID() int {
+
+	return o.APIID
+}
+
+// SetAPIID sets the property APIID of the receiver using the given value.
+func (o *CloudVPC) SetAPIID(APIID int) {
+
+	o.APIID = APIID
+}
+
 // GetRRN returns the RRN of the receiver.
 func (o *CloudVPC) GetRRN() string {
 
@@ -357,6 +369,18 @@ func (o *CloudVPC) GetRRN() string {
 func (o *CloudVPC) SetRRN(RRN string) {
 
 	o.RRN = RRN
+}
+
+// GetURL returns the URL of the receiver.
+func (o *CloudVPC) GetURL() string {
+
+	return o.URL
+}
+
+// SetURL sets the property URL of the receiver using the given value.
+func (o *CloudVPC) SetURL(URL string) {
+
+	o.URL = URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -381,18 +405,6 @@ func (o *CloudVPC) GetAnnotations() map[string][]string {
 func (o *CloudVPC) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
-}
-
-// GetApiID returns the ApiID of the receiver.
-func (o *CloudVPC) GetApiID() int {
-
-	return o.ApiID
-}
-
-// SetApiID sets the property ApiID of the receiver using the given value.
-func (o *CloudVPC) SetApiID(apiID int) {
-
-	o.ApiID = apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -611,18 +623,6 @@ func (o *CloudVPC) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
-// GetUrl returns the Url of the receiver.
-func (o *CloudVPC) GetUrl() string {
-
-	return o.Url
-}
-
-// SetUrl sets the property Url of the receiver using the given value.
-func (o *CloudVPC) SetUrl(url string) {
-
-	o.Url = url
-}
-
 // GetVpcID returns the VpcID of the receiver.
 func (o *CloudVPC) GetVpcID() string {
 
@@ -678,12 +678,13 @@ func (o *CloudVPC) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCloudVPC{
+			APIID:                &o.APIID,
 			ID:                   &o.ID,
 			RRN:                  &o.RRN,
+			URL:                  &o.URL,
 			AccountID:            &o.AccountID,
 			Address:              &o.Address,
 			Annotations:          &o.Annotations,
-			ApiID:                &o.ApiID,
 			AssociatedTags:       &o.AssociatedTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
@@ -702,7 +703,6 @@ func (o *CloudVPC) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ResourceID:           &o.ResourceID,
 			Tags:                 &o.Tags,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
-			Url:                  &o.Url,
 			VpcID:                &o.VpcID,
 			VpcName:              &o.VpcName,
 			ZHash:                &o.ZHash,
@@ -713,18 +713,20 @@ func (o *CloudVPC) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	sp := &SparseCloudVPC{}
 	for _, f := range fields {
 		switch f {
+		case "APIID":
+			sp.APIID = &(o.APIID)
 		case "ID":
 			sp.ID = &(o.ID)
 		case "RRN":
 			sp.RRN = &(o.RRN)
+		case "URL":
+			sp.URL = &(o.URL)
 		case "accountID":
 			sp.AccountID = &(o.AccountID)
 		case "address":
 			sp.Address = &(o.Address)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "apiID":
-			sp.ApiID = &(o.ApiID)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "cloudType":
@@ -761,8 +763,6 @@ func (o *CloudVPC) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Tags = &(o.Tags)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
-		case "url":
-			sp.Url = &(o.Url)
 		case "vpcID":
 			sp.VpcID = &(o.VpcID)
 		case "vpcName":
@@ -784,11 +784,17 @@ func (o *CloudVPC) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseCloudVPC)
+	if so.APIID != nil {
+		o.APIID = *so.APIID
+	}
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
 	if so.RRN != nil {
 		o.RRN = *so.RRN
+	}
+	if so.URL != nil {
+		o.URL = *so.URL
 	}
 	if so.AccountID != nil {
 		o.AccountID = *so.AccountID
@@ -798,9 +804,6 @@ func (o *CloudVPC) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
-	}
-	if so.ApiID != nil {
-		o.ApiID = *so.ApiID
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -856,9 +859,6 @@ func (o *CloudVPC) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
-	if so.Url != nil {
-		o.Url = *so.Url
-	}
 	if so.VpcID != nil {
 		o.VpcID = *so.VpcID
 	}
@@ -902,6 +902,10 @@ func (o *CloudVPC) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateMaximumLength("URL", o.URL, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
 
 	if err := ValidateCIDR("address", o.Address); err != nil {
 		errors = errors.Append(err)
@@ -947,10 +951,6 @@ func (o *CloudVPC) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateMaximumLength("url", o.Url, 256, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -985,18 +985,20 @@ func (*CloudVPC) AttributeSpecifications() map[string]elemental.AttributeSpecifi
 func (o *CloudVPC) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "APIID":
+		return o.APIID
 	case "ID":
 		return o.ID
 	case "RRN":
 		return o.RRN
+	case "URL":
+		return o.URL
 	case "accountID":
 		return o.AccountID
 	case "address":
 		return o.Address
 	case "annotations":
 		return o.Annotations
-	case "apiID":
-		return o.ApiID
 	case "associatedTags":
 		return o.AssociatedTags
 	case "cloudType":
@@ -1033,8 +1035,6 @@ func (o *CloudVPC) ValueForAttribute(name string) interface{} {
 		return o.Tags
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
-	case "url":
-		return o.Url
 	case "vpcID":
 		return o.VpcID
 	case "vpcName":
@@ -1050,6 +1050,18 @@ func (o *CloudVPC) ValueForAttribute(name string) interface{} {
 
 // CloudVPCAttributesMap represents the map of attribute for CloudVPC.
 var CloudVPCAttributesMap = map[string]elemental.AttributeSpecification{
+	"APIID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "APIID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "APIID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1074,6 +1086,19 @@ var CloudVPCAttributesMap = map[string]elemental.AttributeSpecification{
 		Getter:         true,
 		Name:           "RRN",
 		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"URL": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "url",
+		ConvertedName:  "URL",
+		Description:    `Object resource URL access.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      256,
+		Name:           "URL",
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1113,18 +1138,6 @@ var CloudVPCAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
-	},
-	"ApiID": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "apiid",
-		ConvertedName:  "ApiID",
-		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "apiID",
-		Setter:         true,
-		Stored:         true,
-		Type:           "integer",
 	},
 	"AssociatedTags": {
 		AllowedChoices: []string{},
@@ -1380,19 +1393,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"Url": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "url",
-		ConvertedName:  "Url",
-		Description:    `Object resource URL access.`,
-		Exposed:        true,
-		Getter:         true,
-		MaxLength:      256,
-		Name:           "url",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"VpcID": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "vpcid",
@@ -1451,6 +1451,18 @@ georedundancy.`,
 
 // CloudVPCLowerCaseAttributesMap represents the map of attribute for CloudVPC.
 var CloudVPCLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"apiid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "APIID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "APIID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1475,6 +1487,19 @@ var CloudVPCLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Getter:         true,
 		Name:           "RRN",
 		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"url": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "url",
+		ConvertedName:  "URL",
+		Description:    `Object resource URL access.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      256,
+		Name:           "URL",
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1514,18 +1539,6 @@ var CloudVPCLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
-	},
-	"apiid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "apiid",
-		ConvertedName:  "ApiID",
-		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "apiID",
-		Setter:         true,
-		Stored:         true,
-		Type:           "integer",
 	},
 	"associatedtags": {
 		AllowedChoices: []string{},
@@ -1781,19 +1794,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"url": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "url",
-		ConvertedName:  "Url",
-		Description:    `Object resource URL access.`,
-		Exposed:        true,
-		Getter:         true,
-		MaxLength:      256,
-		Name:           "url",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"vpcid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "vpcid",
@@ -1915,11 +1915,17 @@ func (o SparseCloudVPCsList) Version() int {
 
 // SparseCloudVPC represents the sparse version of a cloudvpc.
 type SparseCloudVPC struct {
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	APIID *int `json:"APIID,omitempty" msgpack:"APIID,omitempty" bson:"apiid,omitempty" mapstructure:"APIID,omitempty"`
+
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Restricted Resource Name.
 	RRN *string `json:"rrn,omitempty" msgpack:"rrn,omitempty" bson:"rrn,omitempty" mapstructure:"rrn,omitempty"`
+
+	// Object resource URL access.
+	URL *string `json:"URL,omitempty" msgpack:"URL,omitempty" bson:"url,omitempty" mapstructure:"URL,omitempty"`
 
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
@@ -1929,9 +1935,6 @@ type SparseCloudVPC struct {
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
-
-	// Prisma Cloud API ID (matches Prisma Cloud API ID).
-	ApiID *int `json:"apiID,omitempty" msgpack:"apiID,omitempty" bson:"apiid,omitempty" mapstructure:"apiID,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
@@ -1987,9 +1990,6 @@ type SparseCloudVPC struct {
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
-
-	// Object resource URL access.
-	Url *string `json:"url,omitempty" msgpack:"url,omitempty" bson:"url,omitempty" mapstructure:"url,omitempty"`
 
 	// ID of the host VPC.
 	VpcID *string `json:"vpcId,omitempty" msgpack:"vpcId,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcId,omitempty"`
@@ -2047,11 +2047,17 @@ func (o *SparseCloudVPC) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseCloudVPC{}
 
+	if o.APIID != nil {
+		s.APIID = o.APIID
+	}
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
 	if o.RRN != nil {
 		s.RRN = o.RRN
+	}
+	if o.URL != nil {
+		s.URL = o.URL
 	}
 	if o.AccountID != nil {
 		s.AccountID = o.AccountID
@@ -2061,9 +2067,6 @@ func (o *SparseCloudVPC) GetBSON() (interface{}, error) {
 	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
-	}
-	if o.ApiID != nil {
-		s.ApiID = o.ApiID
 	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
@@ -2119,9 +2122,6 @@ func (o *SparseCloudVPC) GetBSON() (interface{}, error) {
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	}
-	if o.Url != nil {
-		s.Url = o.Url
-	}
 	if o.VpcID != nil {
 		s.VpcID = o.VpcID
 	}
@@ -2151,10 +2151,16 @@ func (o *SparseCloudVPC) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	if s.APIID != nil {
+		o.APIID = s.APIID
+	}
 	id := s.ID.Hex()
 	o.ID = &id
 	if s.RRN != nil {
 		o.RRN = s.RRN
+	}
+	if s.URL != nil {
+		o.URL = s.URL
 	}
 	if s.AccountID != nil {
 		o.AccountID = s.AccountID
@@ -2164,9 +2170,6 @@ func (o *SparseCloudVPC) SetBSON(raw bson.Raw) error {
 	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
-	}
-	if s.ApiID != nil {
-		o.ApiID = s.ApiID
 	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
@@ -2222,9 +2225,6 @@ func (o *SparseCloudVPC) SetBSON(raw bson.Raw) error {
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	}
-	if s.Url != nil {
-		o.Url = s.Url
-	}
 	if s.VpcID != nil {
 		o.VpcID = s.VpcID
 	}
@@ -2251,11 +2251,17 @@ func (o *SparseCloudVPC) Version() int {
 func (o *SparseCloudVPC) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCloudVPC()
+	if o.APIID != nil {
+		out.APIID = *o.APIID
+	}
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
 	if o.RRN != nil {
 		out.RRN = *o.RRN
+	}
+	if o.URL != nil {
+		out.URL = *o.URL
 	}
 	if o.AccountID != nil {
 		out.AccountID = *o.AccountID
@@ -2265,9 +2271,6 @@ func (o *SparseCloudVPC) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
-	}
-	if o.ApiID != nil {
-		out.ApiID = *o.ApiID
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
@@ -2323,9 +2326,6 @@ func (o *SparseCloudVPC) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
-	if o.Url != nil {
-		out.Url = *o.Url
-	}
 	if o.VpcID != nil {
 		out.VpcID = *o.VpcID
 	}
@@ -2342,6 +2342,22 @@ func (o *SparseCloudVPC) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
+// GetAPIID returns the APIID of the receiver.
+func (o *SparseCloudVPC) GetAPIID() (out int) {
+
+	if o.APIID == nil {
+		return
+	}
+
+	return *o.APIID
+}
+
+// SetAPIID sets the property APIID of the receiver using the address of the given value.
+func (o *SparseCloudVPC) SetAPIID(APIID int) {
+
+	o.APIID = &APIID
+}
+
 // GetRRN returns the RRN of the receiver.
 func (o *SparseCloudVPC) GetRRN() (out string) {
 
@@ -2356,6 +2372,22 @@ func (o *SparseCloudVPC) GetRRN() (out string) {
 func (o *SparseCloudVPC) SetRRN(RRN string) {
 
 	o.RRN = &RRN
+}
+
+// GetURL returns the URL of the receiver.
+func (o *SparseCloudVPC) GetURL() (out string) {
+
+	if o.URL == nil {
+		return
+	}
+
+	return *o.URL
+}
+
+// SetURL sets the property URL of the receiver using the address of the given value.
+func (o *SparseCloudVPC) SetURL(URL string) {
+
+	o.URL = &URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -2388,22 +2420,6 @@ func (o *SparseCloudVPC) GetAnnotations() (out map[string][]string) {
 func (o *SparseCloudVPC) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
-}
-
-// GetApiID returns the ApiID of the receiver.
-func (o *SparseCloudVPC) GetApiID() (out int) {
-
-	if o.ApiID == nil {
-		return
-	}
-
-	return *o.ApiID
-}
-
-// SetApiID sets the property ApiID of the receiver using the address of the given value.
-func (o *SparseCloudVPC) SetApiID(apiID int) {
-
-	o.ApiID = &apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -2694,22 +2710,6 @@ func (o *SparseCloudVPC) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
-// GetUrl returns the Url of the receiver.
-func (o *SparseCloudVPC) GetUrl() (out string) {
-
-	if o.Url == nil {
-		return
-	}
-
-	return *o.Url
-}
-
-// SetUrl sets the property Url of the receiver using the address of the given value.
-func (o *SparseCloudVPC) SetUrl(url string) {
-
-	o.Url = &url
-}
-
 // GetVpcID returns the VpcID of the receiver.
 func (o *SparseCloudVPC) GetVpcID() (out string) {
 
@@ -2799,12 +2799,13 @@ func (o *SparseCloudVPC) DeepCopyInto(out *SparseCloudVPC) {
 }
 
 type mongoAttributesCloudVPC struct {
+	APIID                int                    `bson:"apiid"`
 	ID                   bson.ObjectId          `bson:"_id,omitempty"`
 	RRN                  string                 `bson:"rrn"`
+	URL                  string                 `bson:"url"`
 	AccountID            string                 `bson:"accountid"`
 	Address              string                 `bson:"address"`
 	Annotations          map[string][]string    `bson:"annotations"`
-	ApiID                int                    `bson:"apiid"`
 	AssociatedTags       []string               `bson:"associatedtags"`
 	CloudType            CloudVPCCloudTypeValue `bson:"cloudtype"`
 	CreateIdempotencyKey string                 `bson:"createidempotencykey"`
@@ -2823,19 +2824,19 @@ type mongoAttributesCloudVPC struct {
 	ResourceID           int                    `bson:"resourceid"`
 	Tags                 map[string]string      `bson:"tags"`
 	UpdateIdempotencyKey string                 `bson:"updateidempotencykey"`
-	Url                  string                 `bson:"url"`
 	VpcID                string                 `bson:"vpcid"`
 	VpcName              string                 `bson:"vpcname"`
 	ZHash                int                    `bson:"zhash"`
 	Zone                 int                    `bson:"zone"`
 }
 type mongoAttributesSparseCloudVPC struct {
+	APIID                *int                    `bson:"apiid,omitempty"`
 	ID                   bson.ObjectId           `bson:"_id,omitempty"`
 	RRN                  *string                 `bson:"rrn,omitempty"`
+	URL                  *string                 `bson:"url,omitempty"`
 	AccountID            *string                 `bson:"accountid,omitempty"`
 	Address              *string                 `bson:"address,omitempty"`
 	Annotations          *map[string][]string    `bson:"annotations,omitempty"`
-	ApiID                *int                    `bson:"apiid,omitempty"`
 	AssociatedTags       *[]string               `bson:"associatedtags,omitempty"`
 	CloudType            *CloudVPCCloudTypeValue `bson:"cloudtype,omitempty"`
 	CreateIdempotencyKey *string                 `bson:"createidempotencykey,omitempty"`
@@ -2854,7 +2855,6 @@ type mongoAttributesSparseCloudVPC struct {
 	ResourceID           *int                    `bson:"resourceid,omitempty"`
 	Tags                 *map[string]string      `bson:"tags,omitempty"`
 	UpdateIdempotencyKey *string                 `bson:"updateidempotencykey,omitempty"`
-	Url                  *string                 `bson:"url,omitempty"`
 	VpcID                *string                 `bson:"vpcid,omitempty"`
 	VpcName              *string                 `bson:"vpcname,omitempty"`
 	ZHash                *int                    `bson:"zhash,omitempty"`

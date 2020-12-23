@@ -45,8 +45,8 @@ attributes:
     validations:
     - $cidr
 
-  - name: zoneId
-    description: The availability zone of the subnet.
+  - name: zoneID
+    description: The availability zone ID of the subnet.
     type: string
     exposed: true
     stored: true

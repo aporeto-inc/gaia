@@ -99,20 +99,23 @@ func (o CloudRouteTablesList) Version() int {
 
 // CloudRouteTable represents the model of a cloudroutetable
 type CloudRouteTable struct {
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	APIID int `json:"APIID" msgpack:"APIID" bson:"apiid" mapstructure:"APIID,omitempty"`
+
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Restricted Resource Name.
 	RRN string `json:"rrn" msgpack:"rrn" bson:"rrn" mapstructure:"rrn,omitempty"`
 
+	// Object resource URL access.
+	URL string `json:"URL" msgpack:"URL" bson:"url" mapstructure:"URL,omitempty"`
+
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// Prisma Cloud API ID (matches Prisma Cloud API ID).
-	ApiID int `json:"apiID" msgpack:"apiID" bson:"apiid" mapstructure:"apiID,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -181,9 +184,6 @@ type CloudRouteTable struct {
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
-	// Object resource URL access.
-	Url string `json:"url" msgpack:"url" bson:"url" mapstructure:"url,omitempty"`
-
 	// ID of the host VPC.
 	VpcID string `json:"vpcId" msgpack:"vpcId" bson:"vpcid" mapstructure:"vpcId,omitempty"`
 
@@ -207,12 +207,12 @@ func NewCloudRouteTable() *CloudRouteTable {
 		ModelVersion:       1,
 		Annotations:        map[string][]string{},
 		AssociatedTags:     []string{},
-		Routelist:          CloudRoutesList{},
-		MigrationsLog:      map[string]string{},
-		SubnetAssociations: []string{},
-		Tags:               map[string]string{},
-		NormalizedTags:     []string{},
 		Metadata:           []string{},
+		Routelist:          CloudRoutesList{},
+		SubnetAssociations: []string{},
+		MigrationsLog:      map[string]string{},
+		NormalizedTags:     []string{},
+		Tags:               map[string]string{},
 	}
 }
 
@@ -244,13 +244,14 @@ func (o *CloudRouteTable) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCloudRouteTable{}
 
+	s.APIID = o.APIID
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.RRN = o.RRN
+	s.URL = o.URL
 	s.AccountID = o.AccountID
 	s.Annotations = o.Annotations
-	s.ApiID = o.ApiID
 	s.AssociatedTags = o.AssociatedTags
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -273,7 +274,6 @@ func (o *CloudRouteTable) GetBSON() (interface{}, error) {
 	s.SubnetAssociations = o.SubnetAssociations
 	s.Tags = o.Tags
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
-	s.Url = o.Url
 	s.VpcID = o.VpcID
 	s.VpcName = o.VpcName
 	s.ZHash = o.ZHash
@@ -295,11 +295,12 @@ func (o *CloudRouteTable) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.APIID = s.APIID
 	o.ID = s.ID.Hex()
 	o.RRN = s.RRN
+	o.URL = s.URL
 	o.AccountID = s.AccountID
 	o.Annotations = s.Annotations
-	o.ApiID = s.ApiID
 	o.AssociatedTags = s.AssociatedTags
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
@@ -322,7 +323,6 @@ func (o *CloudRouteTable) SetBSON(raw bson.Raw) error {
 	o.SubnetAssociations = s.SubnetAssociations
 	o.Tags = s.Tags
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
-	o.Url = s.Url
 	o.VpcID = s.VpcID
 	o.VpcName = s.VpcName
 	o.ZHash = s.ZHash
@@ -362,6 +362,18 @@ func (o *CloudRouteTable) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetAPIID returns the APIID of the receiver.
+func (o *CloudRouteTable) GetAPIID() int {
+
+	return o.APIID
+}
+
+// SetAPIID sets the property APIID of the receiver using the given value.
+func (o *CloudRouteTable) SetAPIID(APIID int) {
+
+	o.APIID = APIID
+}
+
 // GetRRN returns the RRN of the receiver.
 func (o *CloudRouteTable) GetRRN() string {
 
@@ -372,6 +384,18 @@ func (o *CloudRouteTable) GetRRN() string {
 func (o *CloudRouteTable) SetRRN(RRN string) {
 
 	o.RRN = RRN
+}
+
+// GetURL returns the URL of the receiver.
+func (o *CloudRouteTable) GetURL() string {
+
+	return o.URL
+}
+
+// SetURL sets the property URL of the receiver using the given value.
+func (o *CloudRouteTable) SetURL(URL string) {
+
+	o.URL = URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -396,18 +420,6 @@ func (o *CloudRouteTable) GetAnnotations() map[string][]string {
 func (o *CloudRouteTable) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
-}
-
-// GetApiID returns the ApiID of the receiver.
-func (o *CloudRouteTable) GetApiID() int {
-
-	return o.ApiID
-}
-
-// SetApiID sets the property ApiID of the receiver using the given value.
-func (o *CloudRouteTable) SetApiID(apiID int) {
-
-	o.ApiID = apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -626,18 +638,6 @@ func (o *CloudRouteTable) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
-// GetUrl returns the Url of the receiver.
-func (o *CloudRouteTable) GetUrl() string {
-
-	return o.Url
-}
-
-// SetUrl sets the property Url of the receiver using the given value.
-func (o *CloudRouteTable) SetUrl(url string) {
-
-	o.Url = url
-}
-
 // GetVpcID returns the VpcID of the receiver.
 func (o *CloudRouteTable) GetVpcID() string {
 
@@ -693,11 +693,12 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCloudRouteTable{
+			APIID:                &o.APIID,
 			ID:                   &o.ID,
 			RRN:                  &o.RRN,
+			URL:                  &o.URL,
 			AccountID:            &o.AccountID,
 			Annotations:          &o.Annotations,
-			ApiID:                &o.ApiID,
 			AssociatedTags:       &o.AssociatedTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
@@ -720,7 +721,6 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			SubnetAssociations:   &o.SubnetAssociations,
 			Tags:                 &o.Tags,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
-			Url:                  &o.Url,
 			VpcID:                &o.VpcID,
 			VpcName:              &o.VpcName,
 			ZHash:                &o.ZHash,
@@ -731,16 +731,18 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	sp := &SparseCloudRouteTable{}
 	for _, f := range fields {
 		switch f {
+		case "APIID":
+			sp.APIID = &(o.APIID)
 		case "ID":
 			sp.ID = &(o.ID)
 		case "RRN":
 			sp.RRN = &(o.RRN)
+		case "URL":
+			sp.URL = &(o.URL)
 		case "accountID":
 			sp.AccountID = &(o.AccountID)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "apiID":
-			sp.ApiID = &(o.ApiID)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "cloudType":
@@ -785,8 +787,6 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Tags = &(o.Tags)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
-		case "url":
-			sp.Url = &(o.Url)
 		case "vpcID":
 			sp.VpcID = &(o.VpcID)
 		case "vpcName":
@@ -808,20 +808,23 @@ func (o *CloudRouteTable) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseCloudRouteTable)
+	if so.APIID != nil {
+		o.APIID = *so.APIID
+	}
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
 	if so.RRN != nil {
 		o.RRN = *so.RRN
 	}
+	if so.URL != nil {
+		o.URL = *so.URL
+	}
 	if so.AccountID != nil {
 		o.AccountID = *so.AccountID
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
-	}
-	if so.ApiID != nil {
-		o.ApiID = *so.ApiID
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -889,9 +892,6 @@ func (o *CloudRouteTable) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
-	if so.Url != nil {
-		o.Url = *so.Url
-	}
 	if so.VpcID != nil {
 		o.VpcID = *so.VpcID
 	}
@@ -935,6 +935,10 @@ func (o *CloudRouteTable) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateMaximumLength("URL", o.URL, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
 		errors = errors.Append(err)
@@ -986,10 +990,6 @@ func (o *CloudRouteTable) Validate() error {
 		}
 	}
 
-	if err := elemental.ValidateMaximumLength("url", o.Url, 256, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -1024,16 +1024,18 @@ func (*CloudRouteTable) AttributeSpecifications() map[string]elemental.Attribute
 func (o *CloudRouteTable) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "APIID":
+		return o.APIID
 	case "ID":
 		return o.ID
 	case "RRN":
 		return o.RRN
+	case "URL":
+		return o.URL
 	case "accountID":
 		return o.AccountID
 	case "annotations":
 		return o.Annotations
-	case "apiID":
-		return o.ApiID
 	case "associatedTags":
 		return o.AssociatedTags
 	case "cloudType":
@@ -1078,8 +1080,6 @@ func (o *CloudRouteTable) ValueForAttribute(name string) interface{} {
 		return o.Tags
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
-	case "url":
-		return o.Url
 	case "vpcID":
 		return o.VpcID
 	case "vpcName":
@@ -1095,6 +1095,18 @@ func (o *CloudRouteTable) ValueForAttribute(name string) interface{} {
 
 // CloudRouteTableAttributesMap represents the map of attribute for CloudRouteTable.
 var CloudRouteTableAttributesMap = map[string]elemental.AttributeSpecification{
+	"APIID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "APIID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "APIID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1119,6 +1131,19 @@ var CloudRouteTableAttributesMap = map[string]elemental.AttributeSpecification{
 		Getter:         true,
 		Name:           "RRN",
 		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"URL": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "url",
+		ConvertedName:  "URL",
+		Description:    `Object resource URL access.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      256,
+		Name:           "URL",
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1148,18 +1173,6 @@ var CloudRouteTableAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
-	},
-	"ApiID": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "apiid",
-		ConvertedName:  "ApiID",
-		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "apiID",
-		Setter:         true,
-		Stored:         true,
-		Type:           "integer",
 	},
 	"AssociatedTags": {
 		AllowedChoices: []string{},
@@ -1457,19 +1470,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"Url": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "url",
-		ConvertedName:  "Url",
-		Description:    `Object resource URL access.`,
-		Exposed:        true,
-		Getter:         true,
-		MaxLength:      256,
-		Name:           "url",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"VpcID": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "vpcid",
@@ -1528,6 +1528,18 @@ georedundancy.`,
 
 // CloudRouteTableLowerCaseAttributesMap represents the map of attribute for CloudRouteTable.
 var CloudRouteTableLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"apiid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "apiid",
+		ConvertedName:  "APIID",
+		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "APIID",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1552,6 +1564,19 @@ var CloudRouteTableLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Getter:         true,
 		Name:           "RRN",
 		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"url": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "url",
+		ConvertedName:  "URL",
+		Description:    `Object resource URL access.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      256,
+		Name:           "URL",
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1581,18 +1606,6 @@ var CloudRouteTableLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		SubType:        "map[string][]string",
 		Type:           "external",
-	},
-	"apiid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "apiid",
-		ConvertedName:  "ApiID",
-		Description:    `Prisma Cloud API ID (matches Prisma Cloud API ID).`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "apiID",
-		Setter:         true,
-		Stored:         true,
-		Type:           "integer",
 	},
 	"associatedtags": {
 		AllowedChoices: []string{},
@@ -1890,19 +1903,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"url": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "url",
-		ConvertedName:  "Url",
-		Description:    `Object resource URL access.`,
-		Exposed:        true,
-		Getter:         true,
-		MaxLength:      256,
-		Name:           "url",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"vpcid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "vpcid",
@@ -2024,20 +2024,23 @@ func (o SparseCloudRouteTablesList) Version() int {
 
 // SparseCloudRouteTable represents the sparse version of a cloudroutetable.
 type SparseCloudRouteTable struct {
+	// Prisma Cloud API ID (matches Prisma Cloud API ID).
+	APIID *int `json:"APIID,omitempty" msgpack:"APIID,omitempty" bson:"apiid,omitempty" mapstructure:"APIID,omitempty"`
+
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Restricted Resource Name.
 	RRN *string `json:"rrn,omitempty" msgpack:"rrn,omitempty" bson:"rrn,omitempty" mapstructure:"rrn,omitempty"`
 
+	// Object resource URL access.
+	URL *string `json:"URL,omitempty" msgpack:"URL,omitempty" bson:"url,omitempty" mapstructure:"URL,omitempty"`
+
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
-
-	// Prisma Cloud API ID (matches Prisma Cloud API ID).
-	ApiID *int `json:"apiID,omitempty" msgpack:"apiID,omitempty" bson:"apiid,omitempty" mapstructure:"apiID,omitempty"`
 
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
@@ -2106,9 +2109,6 @@ type SparseCloudRouteTable struct {
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
-	// Object resource URL access.
-	Url *string `json:"url,omitempty" msgpack:"url,omitempty" bson:"url,omitempty" mapstructure:"url,omitempty"`
-
 	// ID of the host VPC.
 	VpcID *string `json:"vpcId,omitempty" msgpack:"vpcId,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcId,omitempty"`
 
@@ -2165,20 +2165,23 @@ func (o *SparseCloudRouteTable) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseCloudRouteTable{}
 
+	if o.APIID != nil {
+		s.APIID = o.APIID
+	}
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
 	if o.RRN != nil {
 		s.RRN = o.RRN
 	}
+	if o.URL != nil {
+		s.URL = o.URL
+	}
 	if o.AccountID != nil {
 		s.AccountID = o.AccountID
 	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
-	}
-	if o.ApiID != nil {
-		s.ApiID = o.ApiID
 	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
@@ -2246,9 +2249,6 @@ func (o *SparseCloudRouteTable) GetBSON() (interface{}, error) {
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	}
-	if o.Url != nil {
-		s.Url = o.Url
-	}
 	if o.VpcID != nil {
 		s.VpcID = o.VpcID
 	}
@@ -2278,19 +2278,22 @@ func (o *SparseCloudRouteTable) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	if s.APIID != nil {
+		o.APIID = s.APIID
+	}
 	id := s.ID.Hex()
 	o.ID = &id
 	if s.RRN != nil {
 		o.RRN = s.RRN
+	}
+	if s.URL != nil {
+		o.URL = s.URL
 	}
 	if s.AccountID != nil {
 		o.AccountID = s.AccountID
 	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
-	}
-	if s.ApiID != nil {
-		o.ApiID = s.ApiID
 	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
@@ -2358,9 +2361,6 @@ func (o *SparseCloudRouteTable) SetBSON(raw bson.Raw) error {
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	}
-	if s.Url != nil {
-		o.Url = s.Url
-	}
 	if s.VpcID != nil {
 		o.VpcID = s.VpcID
 	}
@@ -2387,20 +2387,23 @@ func (o *SparseCloudRouteTable) Version() int {
 func (o *SparseCloudRouteTable) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCloudRouteTable()
+	if o.APIID != nil {
+		out.APIID = *o.APIID
+	}
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
 	if o.RRN != nil {
 		out.RRN = *o.RRN
 	}
+	if o.URL != nil {
+		out.URL = *o.URL
+	}
 	if o.AccountID != nil {
 		out.AccountID = *o.AccountID
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
-	}
-	if o.ApiID != nil {
-		out.ApiID = *o.ApiID
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
@@ -2468,9 +2471,6 @@ func (o *SparseCloudRouteTable) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
-	if o.Url != nil {
-		out.Url = *o.Url
-	}
 	if o.VpcID != nil {
 		out.VpcID = *o.VpcID
 	}
@@ -2487,6 +2487,22 @@ func (o *SparseCloudRouteTable) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
+// GetAPIID returns the APIID of the receiver.
+func (o *SparseCloudRouteTable) GetAPIID() (out int) {
+
+	if o.APIID == nil {
+		return
+	}
+
+	return *o.APIID
+}
+
+// SetAPIID sets the property APIID of the receiver using the address of the given value.
+func (o *SparseCloudRouteTable) SetAPIID(APIID int) {
+
+	o.APIID = &APIID
+}
+
 // GetRRN returns the RRN of the receiver.
 func (o *SparseCloudRouteTable) GetRRN() (out string) {
 
@@ -2501,6 +2517,22 @@ func (o *SparseCloudRouteTable) GetRRN() (out string) {
 func (o *SparseCloudRouteTable) SetRRN(RRN string) {
 
 	o.RRN = &RRN
+}
+
+// GetURL returns the URL of the receiver.
+func (o *SparseCloudRouteTable) GetURL() (out string) {
+
+	if o.URL == nil {
+		return
+	}
+
+	return *o.URL
+}
+
+// SetURL sets the property URL of the receiver using the address of the given value.
+func (o *SparseCloudRouteTable) SetURL(URL string) {
+
+	o.URL = &URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -2533,22 +2565,6 @@ func (o *SparseCloudRouteTable) GetAnnotations() (out map[string][]string) {
 func (o *SparseCloudRouteTable) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
-}
-
-// GetApiID returns the ApiID of the receiver.
-func (o *SparseCloudRouteTable) GetApiID() (out int) {
-
-	if o.ApiID == nil {
-		return
-	}
-
-	return *o.ApiID
-}
-
-// SetApiID sets the property ApiID of the receiver using the address of the given value.
-func (o *SparseCloudRouteTable) SetApiID(apiID int) {
-
-	o.ApiID = &apiID
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -2839,22 +2855,6 @@ func (o *SparseCloudRouteTable) SetUpdateIdempotencyKey(updateIdempotencyKey str
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
-// GetUrl returns the Url of the receiver.
-func (o *SparseCloudRouteTable) GetUrl() (out string) {
-
-	if o.Url == nil {
-		return
-	}
-
-	return *o.Url
-}
-
-// SetUrl sets the property Url of the receiver using the address of the given value.
-func (o *SparseCloudRouteTable) SetUrl(url string) {
-
-	o.Url = &url
-}
-
 // GetVpcID returns the VpcID of the receiver.
 func (o *SparseCloudRouteTable) GetVpcID() (out string) {
 
@@ -2944,11 +2944,12 @@ func (o *SparseCloudRouteTable) DeepCopyInto(out *SparseCloudRouteTable) {
 }
 
 type mongoAttributesCloudRouteTable struct {
+	APIID                int                           `bson:"apiid"`
 	ID                   bson.ObjectId                 `bson:"_id,omitempty"`
 	RRN                  string                        `bson:"rrn"`
+	URL                  string                        `bson:"url"`
 	AccountID            string                        `bson:"accountid"`
 	Annotations          map[string][]string           `bson:"annotations"`
-	ApiID                int                           `bson:"apiid"`
 	AssociatedTags       []string                      `bson:"associatedtags"`
 	CloudType            CloudRouteTableCloudTypeValue `bson:"cloudtype"`
 	CreateIdempotencyKey string                        `bson:"createidempotencykey"`
@@ -2971,18 +2972,18 @@ type mongoAttributesCloudRouteTable struct {
 	SubnetAssociations   []string                      `bson:"subnetassociations"`
 	Tags                 map[string]string             `bson:"tags"`
 	UpdateIdempotencyKey string                        `bson:"updateidempotencykey"`
-	Url                  string                        `bson:"url"`
 	VpcID                string                        `bson:"vpcid"`
 	VpcName              string                        `bson:"vpcname"`
 	ZHash                int                           `bson:"zhash"`
 	Zone                 int                           `bson:"zone"`
 }
 type mongoAttributesSparseCloudRouteTable struct {
+	APIID                *int                           `bson:"apiid,omitempty"`
 	ID                   bson.ObjectId                  `bson:"_id,omitempty"`
 	RRN                  *string                        `bson:"rrn,omitempty"`
+	URL                  *string                        `bson:"url,omitempty"`
 	AccountID            *string                        `bson:"accountid,omitempty"`
 	Annotations          *map[string][]string           `bson:"annotations,omitempty"`
-	ApiID                *int                           `bson:"apiid,omitempty"`
 	AssociatedTags       *[]string                      `bson:"associatedtags,omitempty"`
 	CloudType            *CloudRouteTableCloudTypeValue `bson:"cloudtype,omitempty"`
 	CreateIdempotencyKey *string                        `bson:"createidempotencykey,omitempty"`
@@ -3005,7 +3006,6 @@ type mongoAttributesSparseCloudRouteTable struct {
 	SubnetAssociations   *[]string                      `bson:"subnetassociations,omitempty"`
 	Tags                 *map[string]string             `bson:"tags,omitempty"`
 	UpdateIdempotencyKey *string                        `bson:"updateidempotencykey,omitempty"`
-	Url                  *string                        `bson:"url,omitempty"`
 	VpcID                *string                        `bson:"vpcid,omitempty"`
 	VpcName              *string                        `bson:"vpcname,omitempty"`
 	ZHash                *int                           `bson:"zhash,omitempty"`
