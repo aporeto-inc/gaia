@@ -6927,7 +6927,7 @@ Refers to the security vulnerability level.
 
 ### CNSSearch
 
-Provide search results for Primsa Cloud's investigate page.
+Provide search results for Prisma Cloud's investigate page.
 
 #### Example
 
@@ -6948,6 +6948,12 @@ Provide search results for Primsa Cloud's investigate page.
 Retrieves rql search results.
 
 #### Attributes
+
+##### `ID`
+
+Type: `string`
+
+ID of the search request.
 
 ##### `data`
 
@@ -6972,12 +6978,6 @@ Default value:
 ```json
 0
 ```
-
-##### `id`
-
-Type: `string`
-
-ID of the search request.
 
 ##### `limit`
 
@@ -7035,7 +7035,7 @@ Default value:
 
 ### CNSSuggestion
 
-Provides query suggestions for Primsa Cloud's investigate page.
+Provides query suggestions for Prisma Cloud's investigate page.
 
 #### Example
 
@@ -7057,7 +7057,7 @@ Provides query suggestions for Primsa Cloud's investigate page.
 
 ##### `POST /cnssuggestions`
 
-Retrives rql suggestions from cns.
+Retrieves rql suggestions from cns.
 
 #### Attributes
 
@@ -7065,7 +7065,7 @@ Retrives rql suggestions from cns.
 
 Type: `boolean`
 
-Rquired by Prisma Cloud. Always set to true.
+Required by Prisma Cloud. Always set to true.
 
 Default value:
 
@@ -7101,7 +7101,7 @@ List of query suggestions.
 
 Type: `boolean`
 
-Rquired by Prisma Cloud. Always set to false.
+Required by Prisma Cloud. Always set to false.
 
 Default value:
 

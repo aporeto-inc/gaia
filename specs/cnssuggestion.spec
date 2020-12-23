@@ -5,13 +5,13 @@ model:
   entity_name: CNSSuggestion
   package: karl
   group: core/rql
-  description: Provides query suggestions for Primsa Cloud's investigate page.
+  description: Provides query suggestions for Prisma Cloud's investigate page.
 
 # Attributes
 attributes:
   v1:
   - name: needsOffsetUpdate
-    description: Rquired by Prisma Cloud. Always set to true.
+    description: Required by Prisma Cloud. Always set to true.
     type: boolean
     exposed: true
     default_value: true
@@ -40,7 +40,7 @@ attributes:
     - action
 
   - name: translate
-    description: Rquired by Prisma Cloud. Always set to false.
+    description: Required by Prisma Cloud. Always set to false.
     type: boolean
     exposed: true
     default_value: false

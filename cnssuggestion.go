@@ -80,7 +80,7 @@ func (o CNSSuggestionsList) Version() int {
 
 // CNSSuggestion represents the model of a cnssuggestion
 type CNSSuggestion struct {
-	// Rquired by Prisma Cloud. Always set to true.
+	// Required by Prisma Cloud. Always set to true.
 	NeedsOffsetUpdate bool `json:"needsOffsetUpdate" msgpack:"needsOffsetUpdate" bson:"-" mapstructure:"needsOffsetUpdate,omitempty"`
 
 	// The length of the rql query part that is valid.
@@ -92,7 +92,7 @@ type CNSSuggestion struct {
 	// List of query suggestions.
 	Suggestions []string `json:"suggestions" msgpack:"suggestions" bson:"-" mapstructure:"suggestions,omitempty"`
 
-	// Rquired by Prisma Cloud. Always set to false.
+	// Required by Prisma Cloud. Always set to false.
 	Translate bool `json:"translate" msgpack:"translate" bson:"-" mapstructure:"translate,omitempty"`
 
 	// The validity of the rql query.
@@ -181,7 +181,7 @@ func (o *CNSSuggestion) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *CNSSuggestion) Doc() string {
 
-	return `Provides query suggestions for Primsa Cloud's investigate page.`
+	return `Provides query suggestions for Prisma Cloud's investigate page.`
 }
 
 func (o *CNSSuggestion) String() string {
@@ -340,7 +340,7 @@ var CNSSuggestionAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NeedsOffsetUpdate",
 		DefaultValue:   true,
-		Description:    `Rquired by Prisma Cloud. Always set to true.`,
+		Description:    `Required by Prisma Cloud. Always set to true.`,
 		Exposed:        true,
 		Name:           "needsOffsetUpdate",
 		Type:           "boolean",
@@ -374,7 +374,7 @@ var CNSSuggestionAttributesMap = map[string]elemental.AttributeSpecification{
 	"Translate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Translate",
-		Description:    `Rquired by Prisma Cloud. Always set to false.`,
+		Description:    `Required by Prisma Cloud. Always set to false.`,
 		Exposed:        true,
 		Name:           "translate",
 		Type:           "boolean",
@@ -395,7 +395,7 @@ var CNSSuggestionLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChoices: []string{},
 		ConvertedName:  "NeedsOffsetUpdate",
 		DefaultValue:   true,
-		Description:    `Rquired by Prisma Cloud. Always set to true.`,
+		Description:    `Required by Prisma Cloud. Always set to true.`,
 		Exposed:        true,
 		Name:           "needsOffsetUpdate",
 		Type:           "boolean",
@@ -429,7 +429,7 @@ var CNSSuggestionLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"translate": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Translate",
-		Description:    `Rquired by Prisma Cloud. Always set to false.`,
+		Description:    `Required by Prisma Cloud. Always set to false.`,
 		Exposed:        true,
 		Name:           "translate",
 		Type:           "boolean",
@@ -507,7 +507,7 @@ func (o SparseCNSSuggestionsList) Version() int {
 
 // SparseCNSSuggestion represents the sparse version of a cnssuggestion.
 type SparseCNSSuggestion struct {
-	// Rquired by Prisma Cloud. Always set to true.
+	// Required by Prisma Cloud. Always set to true.
 	NeedsOffsetUpdate *bool `json:"needsOffsetUpdate,omitempty" msgpack:"needsOffsetUpdate,omitempty" bson:"-" mapstructure:"needsOffsetUpdate,omitempty"`
 
 	// The length of the rql query part that is valid.
@@ -519,7 +519,7 @@ type SparseCNSSuggestion struct {
 	// List of query suggestions.
 	Suggestions *[]string `json:"suggestions,omitempty" msgpack:"suggestions,omitempty" bson:"-" mapstructure:"suggestions,omitempty"`
 
-	// Rquired by Prisma Cloud. Always set to false.
+	// Required by Prisma Cloud. Always set to false.
 	Translate *bool `json:"translate,omitempty" msgpack:"translate,omitempty" bson:"-" mapstructure:"translate,omitempty"`
 
 	// The validity of the rql query.

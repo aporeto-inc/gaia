@@ -80,6 +80,9 @@ func (o CNSSearchesList) Version() int {
 
 // CNSSearch represents the model of a cnssearch
 type CNSSearch struct {
+	// ID of the search request.
+	ID string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
+
 	// The payload of the search results.
 	Data *PCSearchResults `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
@@ -88,9 +91,6 @@ type CNSSearch struct {
 
 	// Absolute end time of search, in unix time.
 	EndAbsolute int `json:"endAbsolute,omitempty" msgpack:"endAbsolute,omitempty" bson:"-" mapstructure:"endAbsolute,omitempty"`
-
-	// ID of the search request.
-	Id string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
 
 	// The number of items to fetch.
 	Limit int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
@@ -195,7 +195,7 @@ func (o *CNSSearch) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *CNSSearch) Doc() string {
 
-	return `Provide search results for Primsa Cloud's investigate page.`
+	return `Provide search results for Prisma Cloud's investigate page.`
 }
 
 func (o *CNSSearch) String() string {
@@ -210,10 +210,10 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCNSSearch{
+			ID:            &o.ID,
 			Data:          o.Data,
 			Description:   &o.Description,
 			EndAbsolute:   &o.EndAbsolute,
-			Id:            &o.Id,
 			Limit:         &o.Limit,
 			Name:          &o.Name,
 			PageToken:     &o.PageToken,
@@ -227,14 +227,14 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	sp := &SparseCNSSearch{}
 	for _, f := range fields {
 		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
 		case "data":
 			sp.Data = o.Data
 		case "description":
 			sp.Description = &(o.Description)
 		case "endAbsolute":
 			sp.EndAbsolute = &(o.EndAbsolute)
-		case "id":
-			sp.Id = &(o.Id)
 		case "limit":
 			sp.Limit = &(o.Limit)
 		case "name":
@@ -262,6 +262,9 @@ func (o *CNSSearch) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseCNSSearch)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
 	if so.Data != nil {
 		o.Data = so.Data
 	}
@@ -270,9 +273,6 @@ func (o *CNSSearch) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EndAbsolute != nil {
 		o.EndAbsolute = *so.EndAbsolute
-	}
-	if so.Id != nil {
-		o.Id = *so.Id
 	}
 	if so.Limit != nil {
 		o.Limit = *so.Limit
@@ -368,14 +368,14 @@ func (*CNSSearch) AttributeSpecifications() map[string]elemental.AttributeSpecif
 func (o *CNSSearch) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "ID":
+		return o.ID
 	case "data":
 		return o.Data
 	case "description":
 		return o.Description
 	case "endAbsolute":
 		return o.EndAbsolute
-	case "id":
-		return o.Id
 	case "limit":
 		return o.Limit
 	case "name":
@@ -397,6 +397,14 @@ func (o *CNSSearch) ValueForAttribute(name string) interface{} {
 
 // CNSSearchAttributesMap represents the map of attribute for CNSSearch.
 var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
+	"ID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ID",
+		Description:    `ID of the search request.`,
+		Exposed:        true,
+		Name:           "ID",
+		Type:           "string",
+	},
 	"Data": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
@@ -421,14 +429,6 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "endAbsolute",
 		Type:           "integer",
-	},
-	"Id": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Id",
-		Description:    `ID of the search request.`,
-		Exposed:        true,
-		Name:           "id",
-		Type:           "string",
 	},
 	"Limit": {
 		AllowedChoices: []string{},
@@ -491,6 +491,14 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 
 // CNSSearchLowerCaseAttributesMap represents the map of attribute for CNSSearch.
 var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"id": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ID",
+		Description:    `ID of the search request.`,
+		Exposed:        true,
+		Name:           "ID",
+		Type:           "string",
+	},
 	"data": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
@@ -515,14 +523,6 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "endAbsolute",
 		Type:           "integer",
-	},
-	"id": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Id",
-		Description:    `ID of the search request.`,
-		Exposed:        true,
-		Name:           "id",
-		Type:           "string",
 	},
 	"limit": {
 		AllowedChoices: []string{},
@@ -646,6 +646,9 @@ func (o SparseCNSSearchesList) Version() int {
 
 // SparseCNSSearch represents the sparse version of a cnssearch.
 type SparseCNSSearch struct {
+	// ID of the search request.
+	ID *string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
+
 	// The payload of the search results.
 	Data *PCSearchResults `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
@@ -654,9 +657,6 @@ type SparseCNSSearch struct {
 
 	// Absolute end time of search, in unix time.
 	EndAbsolute *int `json:"endAbsolute,omitempty" msgpack:"endAbsolute,omitempty" bson:"-" mapstructure:"endAbsolute,omitempty"`
-
-	// ID of the search request.
-	Id *string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
 
 	// The number of items to fetch.
 	Limit *int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
@@ -743,6 +743,9 @@ func (o *SparseCNSSearch) Version() int {
 func (o *SparseCNSSearch) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCNSSearch()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
 	if o.Data != nil {
 		out.Data = o.Data
 	}
@@ -751,9 +754,6 @@ func (o *SparseCNSSearch) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EndAbsolute != nil {
 		out.EndAbsolute = *o.EndAbsolute
-	}
-	if o.Id != nil {
-		out.Id = *o.Id
 	}
 	if o.Limit != nil {
 		out.Limit = *o.Limit

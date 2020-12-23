@@ -5,11 +5,18 @@ model:
   entity_name: CNSSearch
   package: karl
   group: core/rql
-  description: Provide search results for Primsa Cloud's investigate page.
+  description: Provide search results for Prisma Cloud's investigate page.
 
 # Attributes
 attributes:
   v1:
+  - name: ID
+    exposed_name: id
+    description: ID of the search request.
+    type: string
+    exposed: true
+    omit_empty: true
+
   - name: data
     description: The payload of the search results.
     type: ref
@@ -29,12 +36,6 @@ attributes:
     type: integer
     exposed: true
     default_value: 0
-    omit_empty: true
-
-  - name: id
-    description: ID of the search request.
-    type: string
-    exposed: true
     omit_empty: true
 
   - name: limit

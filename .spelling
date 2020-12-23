@@ -54,6 +54,7 @@ CNSSearch
 clientLocalID
 clob
 CNs
+cns
 collectionID
 CollectionID
 ComplianceIssue
@@ -221,6 +222,7 @@ Palo
 PasswordReset
 PCC
 PCCProvider
+PCSearchResults
 PEM-encoded
 PKI-based
 PKIXName
@@ -429,6 +431,7 @@ requestee
 reportsquery
 ReportsQuery
 ReportsQueryResults
+rql
 runtime
 runtimes
 searchable
@@ -449,6 +452,7 @@ templated
 templating
 udp
 unencrypted
+unix
 unlogged
 URIs
 UserAccessPolicy

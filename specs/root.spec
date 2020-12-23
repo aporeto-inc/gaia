@@ -210,7 +210,7 @@ relations:
 
 - rest_name: cnssuggestion
   create:
-    description: Retrives rql suggestions from cns.
+    description: Retrieves rql suggestions from cns.
 
 - rest_name: connectionexceptionreport
   create:
