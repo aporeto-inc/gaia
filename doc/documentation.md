@@ -5960,7 +5960,7 @@ Destination port to run ping.
 
 Type: `string`
 
-ID unique per purefresh event.
+ID unique per ProcessingUnitRefresh event.
 
 ##### `refreshPolicy`
 
