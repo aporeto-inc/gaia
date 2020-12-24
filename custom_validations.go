@@ -1149,13 +1149,13 @@ func ValidateCachedFlowReport(cachedFlowReport *CachedFlowReport) error {
 // ValidateDNSLookupReport validates a DNSLookupReport.
 func ValidateDNSLookupReport(report *DNSLookupReport) error {
 
-	switch {
-	case report.Namespace == "" && report.ProcessingUnitNamespace != "":
+	// Temporarily assign the namespace from the PUNamespace until the enforcer is reporting the correct namespace.
+	if report.Namespace == "" && report.ProcessingUnitNamespace != "" {
 		report.Namespace = report.ProcessingUnitNamespace
 		report.ProcessingUnitNamespace = ""
-	case report.Namespace != "" && report.ProcessingUnitNamespace != "":
+	} else if report.Namespace != "" && report.ProcessingUnitNamespace != "" {
 		return makeValidationError("namespace", "Both 'namespace' and 'processingUnitNamespace' cannot be set")
-	case report.Namespace == "" && report.ProcessingUnitNamespace == "":
+	} else if report.Namespace == "" && report.ProcessingUnitNamespace == "" {
 		return makeValidationError("namespace", "Attribute 'namespace' is required")
 	}
 
