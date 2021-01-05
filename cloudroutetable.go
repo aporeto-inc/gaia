@@ -132,14 +132,8 @@ type CloudRouteTable struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// The gateway that this route table is associated with.
-	GatewayID string `json:"gatewayID" msgpack:"gatewayID" bson:"gatewayid" mapstructure:"gatewayID,omitempty"`
-
 	// Timestamp of when object was created.
 	InsertTS int `json:"insertTs,omitempty" msgpack:"insertTs,omitempty" bson:"insertts,omitempty" mapstructure:"insertTs,omitempty"`
-
-	// Indicates that this is the default route table for the VPC.
-	MainTable bool `json:"mainTable" msgpack:"mainTable" bson:"maintable" mapstructure:"mainTable,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -160,6 +154,9 @@ type CloudRouteTable struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Route table related parameters.
+	Parameters *RouteData `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -172,12 +169,6 @@ type CloudRouteTable struct {
 	// Prisma Cloud Resource ID.
 	ResourceID int `json:"resourceID" msgpack:"resourceID" bson:"resourceid" mapstructure:"resourceID,omitempty"`
 
-	// Routes associated with this route table.
-	Routelist CloudRoutesList `json:"routelist" msgpack:"routelist" bson:"routelist" mapstructure:"routelist,omitempty"`
-
-	// The list of subnets that this route table is associated with.
-	SubnetAssociations []string `json:"subnetAssociations" msgpack:"subnetAssociations" bson:"subnetassociations" mapstructure:"subnetAssociations,omitempty"`
-
 	// Internal representation of object tags.
 	Tags map[string]string `json:"tags" msgpack:"tags" bson:"tags" mapstructure:"tags,omitempty"`
 
@@ -185,7 +176,7 @@ type CloudRouteTable struct {
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// ID of the host VPC.
-	VpcID string `json:"vpcId" msgpack:"vpcId" bson:"vpcid" mapstructure:"vpcId,omitempty"`
+	VpcID string `json:"vpcID" msgpack:"vpcID" bson:"vpcid" mapstructure:"vpcID,omitempty"`
 
 	// Name of the host VPC.
 	VpcName string `json:"vpcName" msgpack:"vpcName" bson:"vpcname" mapstructure:"vpcName,omitempty"`
@@ -204,15 +195,14 @@ type CloudRouteTable struct {
 func NewCloudRouteTable() *CloudRouteTable {
 
 	return &CloudRouteTable{
-		ModelVersion:       1,
-		Annotations:        map[string][]string{},
-		AssociatedTags:     []string{},
-		Metadata:           []string{},
-		Routelist:          CloudRoutesList{},
-		SubnetAssociations: []string{},
-		MigrationsLog:      map[string]string{},
-		NormalizedTags:     []string{},
-		Tags:               map[string]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		MigrationsLog:  map[string]string{},
+		NormalizedTags: []string{},
+		Parameters:     NewRouteData(),
+		Metadata:       []string{},
+		Tags:           map[string]string{},
 	}
 }
 
@@ -257,21 +247,18 @@ func (o *CloudRouteTable) GetBSON() (interface{}, error) {
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CustomerID = o.CustomerID
 	s.Description = o.Description
-	s.GatewayID = o.GatewayID
 	s.InsertTS = o.InsertTS
-	s.MainTable = o.MainTable
 	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NativeID = o.NativeID
 	s.NormalizedTags = o.NormalizedTags
+	s.Parameters = o.Parameters
 	s.Protected = o.Protected
 	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
 	s.ResourceID = o.ResourceID
-	s.Routelist = o.Routelist
-	s.SubnetAssociations = o.SubnetAssociations
 	s.Tags = o.Tags
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.VpcID = o.VpcID
@@ -306,21 +293,18 @@ func (o *CloudRouteTable) SetBSON(raw bson.Raw) error {
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CustomerID = s.CustomerID
 	o.Description = s.Description
-	o.GatewayID = s.GatewayID
 	o.InsertTS = s.InsertTS
-	o.MainTable = s.MainTable
 	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NativeID = s.NativeID
 	o.NormalizedTags = s.NormalizedTags
+	o.Parameters = s.Parameters
 	o.Protected = s.Protected
 	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
 	o.ResourceID = s.ResourceID
-	o.Routelist = s.Routelist
-	o.SubnetAssociations = s.SubnetAssociations
 	o.Tags = s.Tags
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.VpcID = s.VpcID
@@ -704,21 +688,18 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CustomerID:           &o.CustomerID,
 			Description:          &o.Description,
-			GatewayID:            &o.GatewayID,
 			InsertTS:             &o.InsertTS,
-			MainTable:            &o.MainTable,
 			Metadata:             &o.Metadata,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NativeID:             &o.NativeID,
 			NormalizedTags:       &o.NormalizedTags,
+			Parameters:           o.Parameters,
 			Protected:            &o.Protected,
 			RegionID:             &o.RegionID,
 			RegionName:           &o.RegionName,
 			ResourceID:           &o.ResourceID,
-			Routelist:            &o.Routelist,
-			SubnetAssociations:   &o.SubnetAssociations,
 			Tags:                 &o.Tags,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			VpcID:                &o.VpcID,
@@ -753,12 +734,8 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.CustomerID = &(o.CustomerID)
 		case "description":
 			sp.Description = &(o.Description)
-		case "gatewayID":
-			sp.GatewayID = &(o.GatewayID)
 		case "insertTS":
 			sp.InsertTS = &(o.InsertTS)
-		case "mainTable":
-			sp.MainTable = &(o.MainTable)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "migrationsLog":
@@ -771,6 +748,8 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.NativeID = &(o.NativeID)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "parameters":
+			sp.Parameters = o.Parameters
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "regionID":
@@ -779,10 +758,6 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.RegionName = &(o.RegionName)
 		case "resourceID":
 			sp.ResourceID = &(o.ResourceID)
-		case "routelist":
-			sp.Routelist = &(o.Routelist)
-		case "subnetAssociations":
-			sp.SubnetAssociations = &(o.SubnetAssociations)
 		case "tags":
 			sp.Tags = &(o.Tags)
 		case "updateIdempotencyKey":
@@ -841,14 +816,8 @@ func (o *CloudRouteTable) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Description != nil {
 		o.Description = *so.Description
 	}
-	if so.GatewayID != nil {
-		o.GatewayID = *so.GatewayID
-	}
 	if so.InsertTS != nil {
 		o.InsertTS = *so.InsertTS
-	}
-	if so.MainTable != nil {
-		o.MainTable = *so.MainTable
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -868,6 +837,9 @@ func (o *CloudRouteTable) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
+	if so.Parameters != nil {
+		o.Parameters = so.Parameters
+	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
@@ -879,12 +851,6 @@ func (o *CloudRouteTable) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ResourceID != nil {
 		o.ResourceID = *so.ResourceID
-	}
-	if so.Routelist != nil {
-		o.Routelist = *so.Routelist
-	}
-	if so.SubnetAssociations != nil {
-		o.SubnetAssociations = *so.SubnetAssociations
 	}
 	if so.Tags != nil {
 		o.Tags = *so.Tags
@@ -972,22 +938,19 @@ func (o *CloudRouteTable) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if o.Parameters != nil {
+		elemental.ResetDefaultForZeroValues(o.Parameters)
+		if err := o.Parameters.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
 	if err := elemental.ValidateMaximumLength("regionID", o.RegionID, 256, false); err != nil {
 		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("regionName", o.RegionName, 256, false); err != nil {
 		errors = errors.Append(err)
-	}
-
-	for _, sub := range o.Routelist {
-		if sub == nil {
-			continue
-		}
-		elemental.ResetDefaultForZeroValues(sub)
-		if err := sub.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1046,12 +1009,8 @@ func (o *CloudRouteTable) ValueForAttribute(name string) interface{} {
 		return o.CustomerID
 	case "description":
 		return o.Description
-	case "gatewayID":
-		return o.GatewayID
 	case "insertTS":
 		return o.InsertTS
-	case "mainTable":
-		return o.MainTable
 	case "metadata":
 		return o.Metadata
 	case "migrationsLog":
@@ -1064,6 +1023,8 @@ func (o *CloudRouteTable) ValueForAttribute(name string) interface{} {
 		return o.NativeID
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "parameters":
+		return o.Parameters
 	case "protected":
 		return o.Protected
 	case "regionID":
@@ -1072,10 +1033,6 @@ func (o *CloudRouteTable) ValueForAttribute(name string) interface{} {
 		return o.RegionName
 	case "resourceID":
 		return o.ResourceID
-	case "routelist":
-		return o.Routelist
-	case "subnetAssociations":
-		return o.SubnetAssociations
 	case "tags":
 		return o.Tags
 	case "updateIdempotencyKey":
@@ -1241,16 +1198,6 @@ var CloudRouteTableAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"GatewayID": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "gatewayid",
-		ConvertedName:  "GatewayID",
-		Description:    `The gateway that this route table is associated with.`,
-		Exposed:        true,
-		Name:           "gatewayID",
-		Stored:         true,
-		Type:           "string",
-	},
 	"InsertTS": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1265,16 +1212,6 @@ var CloudRouteTableAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "integer",
-	},
-	"MainTable": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "maintable",
-		ConvertedName:  "MainTable",
-		Description:    `Indicates that this is the default route table for the VPC.`,
-		Exposed:        true,
-		Name:           "mainTable",
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"Metadata": {
 		AllowedChoices: []string{},
@@ -1367,6 +1304,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"Parameters": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "parameters",
+		ConvertedName:  "Parameters",
+		Description:    `Route table related parameters.`,
+		Exposed:        true,
+		Name:           "parameters",
+		Stored:         true,
+		SubType:        "routedata",
+		Type:           "ref",
+	},
 	"Protected": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "protected",
@@ -1421,28 +1369,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "integer",
-	},
-	"Routelist": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "routelist",
-		ConvertedName:  "Routelist",
-		Description:    `Routes associated with this route table.`,
-		Exposed:        true,
-		Name:           "routelist",
-		Stored:         true,
-		SubType:        "cloudroute",
-		Type:           "refList",
-	},
-	"SubnetAssociations": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "subnetassociations",
-		ConvertedName:  "SubnetAssociations",
-		Description:    `The list of subnets that this route table is associated with.`,
-		Exposed:        true,
-		Name:           "subnetAssociations",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
 	},
 	"Tags": {
 		AllowedChoices: []string{},
@@ -1674,16 +1600,6 @@ var CloudRouteTableLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
-	"gatewayid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "gatewayid",
-		ConvertedName:  "GatewayID",
-		Description:    `The gateway that this route table is associated with.`,
-		Exposed:        true,
-		Name:           "gatewayID",
-		Stored:         true,
-		Type:           "string",
-	},
 	"insertts": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1698,16 +1614,6 @@ var CloudRouteTableLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Setter:         true,
 		Stored:         true,
 		Type:           "integer",
-	},
-	"maintable": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "maintable",
-		ConvertedName:  "MainTable",
-		Description:    `Indicates that this is the default route table for the VPC.`,
-		Exposed:        true,
-		Name:           "mainTable",
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"metadata": {
 		AllowedChoices: []string{},
@@ -1800,6 +1706,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"parameters": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "parameters",
+		ConvertedName:  "Parameters",
+		Description:    `Route table related parameters.`,
+		Exposed:        true,
+		Name:           "parameters",
+		Stored:         true,
+		SubType:        "routedata",
+		Type:           "ref",
+	},
 	"protected": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "protected",
@@ -1854,28 +1771,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "integer",
-	},
-	"routelist": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "routelist",
-		ConvertedName:  "Routelist",
-		Description:    `Routes associated with this route table.`,
-		Exposed:        true,
-		Name:           "routelist",
-		Stored:         true,
-		SubType:        "cloudroute",
-		Type:           "refList",
-	},
-	"subnetassociations": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "subnetassociations",
-		ConvertedName:  "SubnetAssociations",
-		Description:    `The list of subnets that this route table is associated with.`,
-		Exposed:        true,
-		Name:           "subnetAssociations",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
 	},
 	"tags": {
 		AllowedChoices: []string{},
@@ -2057,14 +1952,8 @@ type SparseCloudRouteTable struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// The gateway that this route table is associated with.
-	GatewayID *string `json:"gatewayID,omitempty" msgpack:"gatewayID,omitempty" bson:"gatewayid,omitempty" mapstructure:"gatewayID,omitempty"`
-
 	// Timestamp of when object was created.
 	InsertTS *int `json:"insertTs,omitempty" msgpack:"insertTs,omitempty" bson:"insertts,omitempty" mapstructure:"insertTs,omitempty"`
-
-	// Indicates that this is the default route table for the VPC.
-	MainTable *bool `json:"mainTable,omitempty" msgpack:"mainTable,omitempty" bson:"maintable,omitempty" mapstructure:"mainTable,omitempty"`
 
 	// Contains tags that can only be set during creation, must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -2085,6 +1974,9 @@ type SparseCloudRouteTable struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
+	// Route table related parameters.
+	Parameters *RouteData `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
+
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
@@ -2097,12 +1989,6 @@ type SparseCloudRouteTable struct {
 	// Prisma Cloud Resource ID.
 	ResourceID *int `json:"resourceID,omitempty" msgpack:"resourceID,omitempty" bson:"resourceid,omitempty" mapstructure:"resourceID,omitempty"`
 
-	// Routes associated with this route table.
-	Routelist *CloudRoutesList `json:"routelist,omitempty" msgpack:"routelist,omitempty" bson:"routelist,omitempty" mapstructure:"routelist,omitempty"`
-
-	// The list of subnets that this route table is associated with.
-	SubnetAssociations *[]string `json:"subnetAssociations,omitempty" msgpack:"subnetAssociations,omitempty" bson:"subnetassociations,omitempty" mapstructure:"subnetAssociations,omitempty"`
-
 	// Internal representation of object tags.
 	Tags *map[string]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"tags,omitempty" mapstructure:"tags,omitempty"`
 
@@ -2110,7 +1996,7 @@ type SparseCloudRouteTable struct {
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the host VPC.
-	VpcID *string `json:"vpcId,omitempty" msgpack:"vpcId,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcId,omitempty"`
+	VpcID *string `json:"vpcID,omitempty" msgpack:"vpcID,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcID,omitempty"`
 
 	// Name of the host VPC.
 	VpcName *string `json:"vpcName,omitempty" msgpack:"vpcName,omitempty" bson:"vpcname,omitempty" mapstructure:"vpcName,omitempty"`
@@ -2198,14 +2084,8 @@ func (o *SparseCloudRouteTable) GetBSON() (interface{}, error) {
 	if o.Description != nil {
 		s.Description = o.Description
 	}
-	if o.GatewayID != nil {
-		s.GatewayID = o.GatewayID
-	}
 	if o.InsertTS != nil {
 		s.InsertTS = o.InsertTS
-	}
-	if o.MainTable != nil {
-		s.MainTable = o.MainTable
 	}
 	if o.Metadata != nil {
 		s.Metadata = o.Metadata
@@ -2225,6 +2105,9 @@ func (o *SparseCloudRouteTable) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
+	if o.Parameters != nil {
+		s.Parameters = o.Parameters
+	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
@@ -2236,12 +2119,6 @@ func (o *SparseCloudRouteTable) GetBSON() (interface{}, error) {
 	}
 	if o.ResourceID != nil {
 		s.ResourceID = o.ResourceID
-	}
-	if o.Routelist != nil {
-		s.Routelist = o.Routelist
-	}
-	if o.SubnetAssociations != nil {
-		s.SubnetAssociations = o.SubnetAssociations
 	}
 	if o.Tags != nil {
 		s.Tags = o.Tags
@@ -2310,14 +2187,8 @@ func (o *SparseCloudRouteTable) SetBSON(raw bson.Raw) error {
 	if s.Description != nil {
 		o.Description = s.Description
 	}
-	if s.GatewayID != nil {
-		o.GatewayID = s.GatewayID
-	}
 	if s.InsertTS != nil {
 		o.InsertTS = s.InsertTS
-	}
-	if s.MainTable != nil {
-		o.MainTable = s.MainTable
 	}
 	if s.Metadata != nil {
 		o.Metadata = s.Metadata
@@ -2337,6 +2208,9 @@ func (o *SparseCloudRouteTable) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
+	if s.Parameters != nil {
+		o.Parameters = s.Parameters
+	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
@@ -2348,12 +2222,6 @@ func (o *SparseCloudRouteTable) SetBSON(raw bson.Raw) error {
 	}
 	if s.ResourceID != nil {
 		o.ResourceID = s.ResourceID
-	}
-	if s.Routelist != nil {
-		o.Routelist = s.Routelist
-	}
-	if s.SubnetAssociations != nil {
-		o.SubnetAssociations = s.SubnetAssociations
 	}
 	if s.Tags != nil {
 		o.Tags = s.Tags
@@ -2420,14 +2288,8 @@ func (o *SparseCloudRouteTable) ToPlain() elemental.PlainIdentifiable {
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
-	if o.GatewayID != nil {
-		out.GatewayID = *o.GatewayID
-	}
 	if o.InsertTS != nil {
 		out.InsertTS = *o.InsertTS
-	}
-	if o.MainTable != nil {
-		out.MainTable = *o.MainTable
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -2447,6 +2309,9 @@ func (o *SparseCloudRouteTable) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
+	if o.Parameters != nil {
+		out.Parameters = o.Parameters
+	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
@@ -2458,12 +2323,6 @@ func (o *SparseCloudRouteTable) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ResourceID != nil {
 		out.ResourceID = *o.ResourceID
-	}
-	if o.Routelist != nil {
-		out.Routelist = *o.Routelist
-	}
-	if o.SubnetAssociations != nil {
-		out.SubnetAssociations = *o.SubnetAssociations
 	}
 	if o.Tags != nil {
 		out.Tags = *o.Tags
@@ -2955,21 +2814,18 @@ type mongoAttributesCloudRouteTable struct {
 	CreateIdempotencyKey string                        `bson:"createidempotencykey"`
 	CustomerID           int                           `bson:"customerid"`
 	Description          string                        `bson:"description"`
-	GatewayID            string                        `bson:"gatewayid"`
 	InsertTS             int                           `bson:"insertts,omitempty"`
-	MainTable            bool                          `bson:"maintable"`
 	Metadata             []string                      `bson:"metadata"`
 	MigrationsLog        map[string]string             `bson:"migrationslog,omitempty"`
 	Name                 string                        `bson:"name"`
 	Namespace            string                        `bson:"namespace"`
 	NativeID             string                        `bson:"nativeid"`
 	NormalizedTags       []string                      `bson:"normalizedtags"`
+	Parameters           *RouteData                    `bson:"parameters"`
 	Protected            bool                          `bson:"protected"`
 	RegionID             string                        `bson:"regionid"`
 	RegionName           string                        `bson:"regionname"`
 	ResourceID           int                           `bson:"resourceid"`
-	Routelist            CloudRoutesList               `bson:"routelist"`
-	SubnetAssociations   []string                      `bson:"subnetassociations"`
 	Tags                 map[string]string             `bson:"tags"`
 	UpdateIdempotencyKey string                        `bson:"updateidempotencykey"`
 	VpcID                string                        `bson:"vpcid"`
@@ -2989,21 +2845,18 @@ type mongoAttributesSparseCloudRouteTable struct {
 	CreateIdempotencyKey *string                        `bson:"createidempotencykey,omitempty"`
 	CustomerID           *int                           `bson:"customerid,omitempty"`
 	Description          *string                        `bson:"description,omitempty"`
-	GatewayID            *string                        `bson:"gatewayid,omitempty"`
 	InsertTS             *int                           `bson:"insertts,omitempty"`
-	MainTable            *bool                          `bson:"maintable,omitempty"`
 	Metadata             *[]string                      `bson:"metadata,omitempty"`
 	MigrationsLog        *map[string]string             `bson:"migrationslog,omitempty"`
 	Name                 *string                        `bson:"name,omitempty"`
 	Namespace            *string                        `bson:"namespace,omitempty"`
 	NativeID             *string                        `bson:"nativeid,omitempty"`
 	NormalizedTags       *[]string                      `bson:"normalizedtags,omitempty"`
+	Parameters           *RouteData                     `bson:"parameters,omitempty"`
 	Protected            *bool                          `bson:"protected,omitempty"`
 	RegionID             *string                        `bson:"regionid,omitempty"`
 	RegionName           *string                        `bson:"regionname,omitempty"`
 	ResourceID           *int                           `bson:"resourceid,omitempty"`
-	Routelist            *CloudRoutesList               `bson:"routelist,omitempty"`
-	SubnetAssociations   *[]string                      `bson:"subnetassociations,omitempty"`
 	Tags                 *map[string]string             `bson:"tags,omitempty"`
 	UpdateIdempotencyKey *string                        `bson:"updateidempotencykey,omitempty"`
 	VpcID                *string                        `bson:"vpcid,omitempty"`

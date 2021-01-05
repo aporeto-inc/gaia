@@ -141,7 +141,6 @@ attributes:
     setter: true
 
   - name: vpcID
-    exposed_name: vpcId
     description: ID of the host VPC.
     type: string
     exposed: true

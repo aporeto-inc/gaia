@@ -40,11 +40,11 @@ indexes:
 # Attributes
 attributes:
   v1:
-  - name: address
-    description: The IP CIDR associated with the VPC.
-    type: string
+  - name: parameters
+    description: VPC related parameters.
+    type: ref
     exposed: true
+    subtype: vpcdata
     stored: true
-    example_value: 10.0.0.0/16
-    validations:
-    - $cidr
+    extensions:
+      refMode: pointer

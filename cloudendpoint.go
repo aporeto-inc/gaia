@@ -25,29 +25,6 @@ const (
 	CloudEndpointCloudTypeGCP CloudEndpointCloudTypeValue = "GCP"
 )
 
-// CloudEndpointTypeValue represents the possible values for attribute "type".
-type CloudEndpointTypeValue string
-
-const (
-	// CloudEndpointTypeGateway represents the value Gateway.
-	CloudEndpointTypeGateway CloudEndpointTypeValue = "Gateway"
-
-	// CloudEndpointTypeInstance represents the value Instance.
-	CloudEndpointTypeInstance CloudEndpointTypeValue = "Instance"
-
-	// CloudEndpointTypeLoadBalancer represents the value LoadBalancer.
-	CloudEndpointTypeLoadBalancer CloudEndpointTypeValue = "LoadBalancer"
-
-	// CloudEndpointTypePeeringConnection represents the value PeeringConnection.
-	CloudEndpointTypePeeringConnection CloudEndpointTypeValue = "PeeringConnection"
-
-	// CloudEndpointTypeService represents the value Service.
-	CloudEndpointTypeService CloudEndpointTypeValue = "Service"
-
-	// CloudEndpointTypeTransitGateway represents the value TransitGateway.
-	CloudEndpointTypeTransitGateway CloudEndpointTypeValue = "TransitGateway"
-)
-
 // CloudEndpointIdentity represents the Identity of the object.
 var CloudEndpointIdentity = elemental.Identity{
 	Name:     "cloudendpoint",
@@ -134,29 +111,14 @@ type CloudEndpoint struct {
 	// Object resource URL access.
 	URL string `json:"URL" msgpack:"URL" bson:"url" mapstructure:"URL,omitempty"`
 
-	// Indicates that the endpoint is directly attached to the VPC. In this case the
-	// attachedInterfaces is empty. In general this is only valid for endpoint type
-	// Gateway and Peering Connection.
-	VPCAttached bool `json:"VPCAttached" msgpack:"VPCAttached" bson:"vpcattached" mapstructure:"VPCAttached,omitempty"`
-
-	// The list of VPCs that this endpoint is directly attached to.
-	VPCAttachments []string `json:"VPCAttachments" msgpack:"VPCAttachments" bson:"vpcattachments" mapstructure:"VPCAttachments,omitempty"`
-
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// List of route tables associated with this endpoint if it is a transit gateway.
-	AssociatedRouteTables []string `json:"associatedRouteTables" msgpack:"associatedRouteTables" bson:"associatedroutetables" mapstructure:"associatedRouteTables,omitempty"`
-
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// A list of interfaces attached with the endpoint. In some cases endpoints can
-	// have more than one interface.
-	AttachedInterfaces []string `json:"attachedInterfaces" msgpack:"attachedInterfaces" bson:"attachedinterfaces" mapstructure:"attachedInterfaces,omitempty"`
 
 	// Cloud type of the entity.
 	CloudType CloudEndpointCloudTypeValue `json:"cloudType" msgpack:"cloudType" bson:"cloudtype" mapstructure:"cloudType,omitempty"`
@@ -169,10 +131,6 @@ type CloudEndpoint struct {
 
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// If the endpoint has multiple connections and forwarding can be enabled between
-	// them.
-	ForwardingEnabled bool `json:"forwardingEnabled" msgpack:"forwardingEnabled" bson:"forwardingenabled" mapstructure:"forwardingEnabled,omitempty"`
 
 	// Timestamp of when object was created.
 	InsertTS int `json:"insertTs,omitempty" msgpack:"insertTs,omitempty" bson:"insertts,omitempty" mapstructure:"insertTs,omitempty"`
@@ -196,6 +154,9 @@ type CloudEndpoint struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Endpoint related parameters.
+	Parameters *EndpointData `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -211,14 +172,11 @@ type CloudEndpoint struct {
 	// Internal representation of object tags.
 	Tags map[string]string `json:"tags" msgpack:"tags" bson:"tags" mapstructure:"tags,omitempty"`
 
-	// Type of the endpoint.
-	Type CloudEndpointTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
-
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// ID of the host VPC.
-	VpcID string `json:"vpcId" msgpack:"vpcId" bson:"vpcid" mapstructure:"vpcId,omitempty"`
+	VpcID string `json:"vpcID" msgpack:"vpcID" bson:"vpcid" mapstructure:"vpcID,omitempty"`
 
 	// Name of the host VPC.
 	VpcName string `json:"vpcName" msgpack:"vpcName" bson:"vpcname" mapstructure:"vpcName,omitempty"`
@@ -237,17 +195,14 @@ type CloudEndpoint struct {
 func NewCloudEndpoint() *CloudEndpoint {
 
 	return &CloudEndpoint{
-		ModelVersion:          1,
-		Metadata:              []string{},
-		Annotations:           map[string][]string{},
-		AssociatedRouteTables: []string{},
-		AssociatedTags:        []string{},
-		AttachedInterfaces:    []string{},
-		ForwardingEnabled:     true,
-		VPCAttachments:        []string{},
-		MigrationsLog:         map[string]string{},
-		Tags:                  map[string]string{},
-		NormalizedTags:        []string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		MigrationsLog:  map[string]string{},
+		NormalizedTags: []string{},
+		Parameters:     NewEndpointData(),
+		Metadata:       []string{},
+		Tags:           map[string]string{},
 	}
 }
 
@@ -285,18 +240,13 @@ func (o *CloudEndpoint) GetBSON() (interface{}, error) {
 	}
 	s.RRN = o.RRN
 	s.URL = o.URL
-	s.VPCAttached = o.VPCAttached
-	s.VPCAttachments = o.VPCAttachments
 	s.AccountID = o.AccountID
 	s.Annotations = o.Annotations
-	s.AssociatedRouteTables = o.AssociatedRouteTables
 	s.AssociatedTags = o.AssociatedTags
-	s.AttachedInterfaces = o.AttachedInterfaces
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CustomerID = o.CustomerID
 	s.Description = o.Description
-	s.ForwardingEnabled = o.ForwardingEnabled
 	s.InsertTS = o.InsertTS
 	s.Metadata = o.Metadata
 	s.MigrationsLog = o.MigrationsLog
@@ -304,12 +254,12 @@ func (o *CloudEndpoint) GetBSON() (interface{}, error) {
 	s.Namespace = o.Namespace
 	s.NativeID = o.NativeID
 	s.NormalizedTags = o.NormalizedTags
+	s.Parameters = o.Parameters
 	s.Protected = o.Protected
 	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
 	s.ResourceID = o.ResourceID
 	s.Tags = o.Tags
-	s.Type = o.Type
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.VpcID = o.VpcID
 	s.VpcName = o.VpcName
@@ -336,18 +286,13 @@ func (o *CloudEndpoint) SetBSON(raw bson.Raw) error {
 	o.ID = s.ID.Hex()
 	o.RRN = s.RRN
 	o.URL = s.URL
-	o.VPCAttached = s.VPCAttached
-	o.VPCAttachments = s.VPCAttachments
 	o.AccountID = s.AccountID
 	o.Annotations = s.Annotations
-	o.AssociatedRouteTables = s.AssociatedRouteTables
 	o.AssociatedTags = s.AssociatedTags
-	o.AttachedInterfaces = s.AttachedInterfaces
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CustomerID = s.CustomerID
 	o.Description = s.Description
-	o.ForwardingEnabled = s.ForwardingEnabled
 	o.InsertTS = s.InsertTS
 	o.Metadata = s.Metadata
 	o.MigrationsLog = s.MigrationsLog
@@ -355,12 +300,12 @@ func (o *CloudEndpoint) SetBSON(raw bson.Raw) error {
 	o.Namespace = s.Namespace
 	o.NativeID = s.NativeID
 	o.NormalizedTags = s.NormalizedTags
+	o.Parameters = s.Parameters
 	o.Protected = s.Protected
 	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
 	o.ResourceID = s.ResourceID
 	o.Tags = s.Tags
-	o.Type = s.Type
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.VpcID = s.VpcID
 	o.VpcName = s.VpcName
@@ -732,40 +677,35 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCloudEndpoint{
-			APIID:                 &o.APIID,
-			ID:                    &o.ID,
-			RRN:                   &o.RRN,
-			URL:                   &o.URL,
-			VPCAttached:           &o.VPCAttached,
-			VPCAttachments:        &o.VPCAttachments,
-			AccountID:             &o.AccountID,
-			Annotations:           &o.Annotations,
-			AssociatedRouteTables: &o.AssociatedRouteTables,
-			AssociatedTags:        &o.AssociatedTags,
-			AttachedInterfaces:    &o.AttachedInterfaces,
-			CloudType:             &o.CloudType,
-			CreateIdempotencyKey:  &o.CreateIdempotencyKey,
-			CustomerID:            &o.CustomerID,
-			Description:           &o.Description,
-			ForwardingEnabled:     &o.ForwardingEnabled,
-			InsertTS:              &o.InsertTS,
-			Metadata:              &o.Metadata,
-			MigrationsLog:         &o.MigrationsLog,
-			Name:                  &o.Name,
-			Namespace:             &o.Namespace,
-			NativeID:              &o.NativeID,
-			NormalizedTags:        &o.NormalizedTags,
-			Protected:             &o.Protected,
-			RegionID:              &o.RegionID,
-			RegionName:            &o.RegionName,
-			ResourceID:            &o.ResourceID,
-			Tags:                  &o.Tags,
-			Type:                  &o.Type,
-			UpdateIdempotencyKey:  &o.UpdateIdempotencyKey,
-			VpcID:                 &o.VpcID,
-			VpcName:               &o.VpcName,
-			ZHash:                 &o.ZHash,
-			Zone:                  &o.Zone,
+			APIID:                &o.APIID,
+			ID:                   &o.ID,
+			RRN:                  &o.RRN,
+			URL:                  &o.URL,
+			AccountID:            &o.AccountID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			CloudType:            &o.CloudType,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CustomerID:           &o.CustomerID,
+			Description:          &o.Description,
+			InsertTS:             &o.InsertTS,
+			Metadata:             &o.Metadata,
+			MigrationsLog:        &o.MigrationsLog,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NativeID:             &o.NativeID,
+			NormalizedTags:       &o.NormalizedTags,
+			Parameters:           o.Parameters,
+			Protected:            &o.Protected,
+			RegionID:             &o.RegionID,
+			RegionName:           &o.RegionName,
+			ResourceID:           &o.ResourceID,
+			Tags:                 &o.Tags,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			VpcID:                &o.VpcID,
+			VpcName:              &o.VpcName,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -780,20 +720,12 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.RRN = &(o.RRN)
 		case "URL":
 			sp.URL = &(o.URL)
-		case "VPCAttached":
-			sp.VPCAttached = &(o.VPCAttached)
-		case "VPCAttachments":
-			sp.VPCAttachments = &(o.VPCAttachments)
 		case "accountID":
 			sp.AccountID = &(o.AccountID)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "associatedRouteTables":
-			sp.AssociatedRouteTables = &(o.AssociatedRouteTables)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "attachedInterfaces":
-			sp.AttachedInterfaces = &(o.AttachedInterfaces)
 		case "cloudType":
 			sp.CloudType = &(o.CloudType)
 		case "createIdempotencyKey":
@@ -802,8 +734,6 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.CustomerID = &(o.CustomerID)
 		case "description":
 			sp.Description = &(o.Description)
-		case "forwardingEnabled":
-			sp.ForwardingEnabled = &(o.ForwardingEnabled)
 		case "insertTS":
 			sp.InsertTS = &(o.InsertTS)
 		case "metadata":
@@ -818,6 +748,8 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.NativeID = &(o.NativeID)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "parameters":
+			sp.Parameters = o.Parameters
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "regionID":
@@ -828,8 +760,6 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.ResourceID = &(o.ResourceID)
 		case "tags":
 			sp.Tags = &(o.Tags)
-		case "type":
-			sp.Type = &(o.Type)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "vpcID":
@@ -865,26 +795,14 @@ func (o *CloudEndpoint) Patch(sparse elemental.SparseIdentifiable) {
 	if so.URL != nil {
 		o.URL = *so.URL
 	}
-	if so.VPCAttached != nil {
-		o.VPCAttached = *so.VPCAttached
-	}
-	if so.VPCAttachments != nil {
-		o.VPCAttachments = *so.VPCAttachments
-	}
 	if so.AccountID != nil {
 		o.AccountID = *so.AccountID
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
-	if so.AssociatedRouteTables != nil {
-		o.AssociatedRouteTables = *so.AssociatedRouteTables
-	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
-	}
-	if so.AttachedInterfaces != nil {
-		o.AttachedInterfaces = *so.AttachedInterfaces
 	}
 	if so.CloudType != nil {
 		o.CloudType = *so.CloudType
@@ -897,9 +815,6 @@ func (o *CloudEndpoint) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
-	}
-	if so.ForwardingEnabled != nil {
-		o.ForwardingEnabled = *so.ForwardingEnabled
 	}
 	if so.InsertTS != nil {
 		o.InsertTS = *so.InsertTS
@@ -922,6 +837,9 @@ func (o *CloudEndpoint) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
+	if so.Parameters != nil {
+		o.Parameters = so.Parameters
+	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
@@ -936,9 +854,6 @@ func (o *CloudEndpoint) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Tags != nil {
 		o.Tags = *so.Tags
-	}
-	if so.Type != nil {
-		o.Type = *so.Type
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -1023,15 +938,18 @@ func (o *CloudEndpoint) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if o.Parameters != nil {
+		elemental.ResetDefaultForZeroValues(o.Parameters)
+		if err := o.Parameters.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
 	if err := elemental.ValidateMaximumLength("regionID", o.RegionID, 256, false); err != nil {
 		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("regionName", o.RegionName, 256, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Instance", "LoadBalancer", "PeeringConnection", "Service", "Gateway", "TransitGateway"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1077,20 +995,12 @@ func (o *CloudEndpoint) ValueForAttribute(name string) interface{} {
 		return o.RRN
 	case "URL":
 		return o.URL
-	case "VPCAttached":
-		return o.VPCAttached
-	case "VPCAttachments":
-		return o.VPCAttachments
 	case "accountID":
 		return o.AccountID
 	case "annotations":
 		return o.Annotations
-	case "associatedRouteTables":
-		return o.AssociatedRouteTables
 	case "associatedTags":
 		return o.AssociatedTags
-	case "attachedInterfaces":
-		return o.AttachedInterfaces
 	case "cloudType":
 		return o.CloudType
 	case "createIdempotencyKey":
@@ -1099,8 +1009,6 @@ func (o *CloudEndpoint) ValueForAttribute(name string) interface{} {
 		return o.CustomerID
 	case "description":
 		return o.Description
-	case "forwardingEnabled":
-		return o.ForwardingEnabled
 	case "insertTS":
 		return o.InsertTS
 	case "metadata":
@@ -1115,6 +1023,8 @@ func (o *CloudEndpoint) ValueForAttribute(name string) interface{} {
 		return o.NativeID
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "parameters":
+		return o.Parameters
 	case "protected":
 		return o.Protected
 	case "regionID":
@@ -1125,8 +1035,6 @@ func (o *CloudEndpoint) ValueForAttribute(name string) interface{} {
 		return o.ResourceID
 	case "tags":
 		return o.Tags
-	case "type":
-		return o.Type
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "vpcID":
@@ -1197,29 +1105,6 @@ var CloudEndpointAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"VPCAttached": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "vpcattached",
-		ConvertedName:  "VPCAttached",
-		Description: `Indicates that the endpoint is directly attached to the VPC. In this case the
-attachedInterfaces is empty. In general this is only valid for endpoint type
-Gateway and Peering Connection.`,
-		Exposed: true,
-		Name:    "VPCAttached",
-		Stored:  true,
-		Type:    "boolean",
-	},
-	"VPCAttachments": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "vpcattachments",
-		ConvertedName:  "VPCAttachments",
-		Description:    `The list of VPCs that this endpoint is directly attached to.`,
-		Exposed:        true,
-		Name:           "VPCAttachments",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"AccountID": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "accountid",
@@ -1246,17 +1131,6 @@ Gateway and Peering Connection.`,
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
-	"AssociatedRouteTables": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "associatedroutetables",
-		ConvertedName:  "AssociatedRouteTables",
-		Description:    `List of route tables associated with this endpoint if it is a transit gateway.`,
-		Exposed:        true,
-		Name:           "associatedRouteTables",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"AssociatedTags": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "associatedtags",
@@ -1269,18 +1143,6 @@ Gateway and Peering Connection.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
-	},
-	"AttachedInterfaces": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "attachedinterfaces",
-		ConvertedName:  "AttachedInterfaces",
-		Description: `A list of interfaces attached with the endpoint. In some cases endpoints can
-have more than one interface.`,
-		Exposed: true,
-		Name:    "attachedInterfaces",
-		Stored:  true,
-		SubType: "string",
-		Type:    "list",
 	},
 	"CloudType": {
 		AllowedChoices: []string{"AWS", "GCP", "AZURE", "ALIBABA"},
@@ -1335,18 +1197,6 @@ have more than one interface.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"ForwardingEnabled": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "forwardingenabled",
-		ConvertedName:  "ForwardingEnabled",
-		DefaultValue:   true,
-		Description: `If the endpoint has multiple connections and forwarding can be enabled between
-them.`,
-		Exposed: true,
-		Name:    "forwardingEnabled",
-		Stored:  true,
-		Type:    "boolean",
 	},
 	"InsertTS": {
 		AllowedChoices: []string{},
@@ -1454,6 +1304,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"Parameters": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "parameters",
+		ConvertedName:  "Parameters",
+		Description:    `Endpoint related parameters.`,
+		Exposed:        true,
+		Name:           "parameters",
+		Stored:         true,
+		SubType:        "endpointdata",
+		Type:           "ref",
+	},
 	"Protected": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "protected",
@@ -1521,16 +1382,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
-	},
-	"Type": {
-		AllowedChoices: []string{"Instance", "LoadBalancer", "PeeringConnection", "Service", "Gateway", "TransitGateway"},
-		BSONFieldName:  "type",
-		ConvertedName:  "Type",
-		Description:    `Type of the endpoint.`,
-		Exposed:        true,
-		Name:           "type",
-		Stored:         true,
-		Type:           "enum",
 	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -1656,29 +1507,6 @@ var CloudEndpointLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		Type:           "string",
 	},
-	"vpcattached": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "vpcattached",
-		ConvertedName:  "VPCAttached",
-		Description: `Indicates that the endpoint is directly attached to the VPC. In this case the
-attachedInterfaces is empty. In general this is only valid for endpoint type
-Gateway and Peering Connection.`,
-		Exposed: true,
-		Name:    "VPCAttached",
-		Stored:  true,
-		Type:    "boolean",
-	},
-	"vpcattachments": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "vpcattachments",
-		ConvertedName:  "VPCAttachments",
-		Description:    `The list of VPCs that this endpoint is directly attached to.`,
-		Exposed:        true,
-		Name:           "VPCAttachments",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"accountid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "accountid",
@@ -1705,17 +1533,6 @@ Gateway and Peering Connection.`,
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
-	"associatedroutetables": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "associatedroutetables",
-		ConvertedName:  "AssociatedRouteTables",
-		Description:    `List of route tables associated with this endpoint if it is a transit gateway.`,
-		Exposed:        true,
-		Name:           "associatedRouteTables",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"associatedtags": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "associatedtags",
@@ -1728,18 +1545,6 @@ Gateway and Peering Connection.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
-	},
-	"attachedinterfaces": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "attachedinterfaces",
-		ConvertedName:  "AttachedInterfaces",
-		Description: `A list of interfaces attached with the endpoint. In some cases endpoints can
-have more than one interface.`,
-		Exposed: true,
-		Name:    "attachedInterfaces",
-		Stored:  true,
-		SubType: "string",
-		Type:    "list",
 	},
 	"cloudtype": {
 		AllowedChoices: []string{"AWS", "GCP", "AZURE", "ALIBABA"},
@@ -1794,18 +1599,6 @@ have more than one interface.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"forwardingenabled": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "forwardingenabled",
-		ConvertedName:  "ForwardingEnabled",
-		DefaultValue:   true,
-		Description: `If the endpoint has multiple connections and forwarding can be enabled between
-them.`,
-		Exposed: true,
-		Name:    "forwardingEnabled",
-		Stored:  true,
-		Type:    "boolean",
 	},
 	"insertts": {
 		AllowedChoices: []string{},
@@ -1913,6 +1706,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"parameters": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "parameters",
+		ConvertedName:  "Parameters",
+		Description:    `Endpoint related parameters.`,
+		Exposed:        true,
+		Name:           "parameters",
+		Stored:         true,
+		SubType:        "endpointdata",
+		Type:           "ref",
+	},
 	"protected": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "protected",
@@ -1980,16 +1784,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
-	},
-	"type": {
-		AllowedChoices: []string{"Instance", "LoadBalancer", "PeeringConnection", "Service", "Gateway", "TransitGateway"},
-		BSONFieldName:  "type",
-		ConvertedName:  "Type",
-		Description:    `Type of the endpoint.`,
-		Exposed:        true,
-		Name:           "type",
-		Stored:         true,
-		Type:           "enum",
 	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
@@ -2137,29 +1931,14 @@ type SparseCloudEndpoint struct {
 	// Object resource URL access.
 	URL *string `json:"URL,omitempty" msgpack:"URL,omitempty" bson:"url,omitempty" mapstructure:"URL,omitempty"`
 
-	// Indicates that the endpoint is directly attached to the VPC. In this case the
-	// attachedInterfaces is empty. In general this is only valid for endpoint type
-	// Gateway and Peering Connection.
-	VPCAttached *bool `json:"VPCAttached,omitempty" msgpack:"VPCAttached,omitempty" bson:"vpcattached,omitempty" mapstructure:"VPCAttached,omitempty"`
-
-	// The list of VPCs that this endpoint is directly attached to.
-	VPCAttachments *[]string `json:"VPCAttachments,omitempty" msgpack:"VPCAttachments,omitempty" bson:"vpcattachments,omitempty" mapstructure:"VPCAttachments,omitempty"`
-
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// List of route tables associated with this endpoint if it is a transit gateway.
-	AssociatedRouteTables *[]string `json:"associatedRouteTables,omitempty" msgpack:"associatedRouteTables,omitempty" bson:"associatedroutetables,omitempty" mapstructure:"associatedRouteTables,omitempty"`
-
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
-
-	// A list of interfaces attached with the endpoint. In some cases endpoints can
-	// have more than one interface.
-	AttachedInterfaces *[]string `json:"attachedInterfaces,omitempty" msgpack:"attachedInterfaces,omitempty" bson:"attachedinterfaces,omitempty" mapstructure:"attachedInterfaces,omitempty"`
 
 	// Cloud type of the entity.
 	CloudType *CloudEndpointCloudTypeValue `json:"cloudType,omitempty" msgpack:"cloudType,omitempty" bson:"cloudtype,omitempty" mapstructure:"cloudType,omitempty"`
@@ -2172,10 +1951,6 @@ type SparseCloudEndpoint struct {
 
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
-
-	// If the endpoint has multiple connections and forwarding can be enabled between
-	// them.
-	ForwardingEnabled *bool `json:"forwardingEnabled,omitempty" msgpack:"forwardingEnabled,omitempty" bson:"forwardingenabled,omitempty" mapstructure:"forwardingEnabled,omitempty"`
 
 	// Timestamp of when object was created.
 	InsertTS *int `json:"insertTs,omitempty" msgpack:"insertTs,omitempty" bson:"insertts,omitempty" mapstructure:"insertTs,omitempty"`
@@ -2199,6 +1974,9 @@ type SparseCloudEndpoint struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
+	// Endpoint related parameters.
+	Parameters *EndpointData `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
+
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
@@ -2214,14 +1992,11 @@ type SparseCloudEndpoint struct {
 	// Internal representation of object tags.
 	Tags *map[string]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"tags,omitempty" mapstructure:"tags,omitempty"`
 
-	// Type of the endpoint.
-	Type *CloudEndpointTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
-
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// ID of the host VPC.
-	VpcID *string `json:"vpcId,omitempty" msgpack:"vpcId,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcId,omitempty"`
+	VpcID *string `json:"vpcID,omitempty" msgpack:"vpcID,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcID,omitempty"`
 
 	// Name of the host VPC.
 	VpcName *string `json:"vpcName,omitempty" msgpack:"vpcName,omitempty" bson:"vpcname,omitempty" mapstructure:"vpcName,omitempty"`
@@ -2288,26 +2063,14 @@ func (o *SparseCloudEndpoint) GetBSON() (interface{}, error) {
 	if o.URL != nil {
 		s.URL = o.URL
 	}
-	if o.VPCAttached != nil {
-		s.VPCAttached = o.VPCAttached
-	}
-	if o.VPCAttachments != nil {
-		s.VPCAttachments = o.VPCAttachments
-	}
 	if o.AccountID != nil {
 		s.AccountID = o.AccountID
 	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
-	if o.AssociatedRouteTables != nil {
-		s.AssociatedRouteTables = o.AssociatedRouteTables
-	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
-	}
-	if o.AttachedInterfaces != nil {
-		s.AttachedInterfaces = o.AttachedInterfaces
 	}
 	if o.CloudType != nil {
 		s.CloudType = o.CloudType
@@ -2320,9 +2083,6 @@ func (o *SparseCloudEndpoint) GetBSON() (interface{}, error) {
 	}
 	if o.Description != nil {
 		s.Description = o.Description
-	}
-	if o.ForwardingEnabled != nil {
-		s.ForwardingEnabled = o.ForwardingEnabled
 	}
 	if o.InsertTS != nil {
 		s.InsertTS = o.InsertTS
@@ -2345,6 +2105,9 @@ func (o *SparseCloudEndpoint) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
+	if o.Parameters != nil {
+		s.Parameters = o.Parameters
+	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
@@ -2359,9 +2122,6 @@ func (o *SparseCloudEndpoint) GetBSON() (interface{}, error) {
 	}
 	if o.Tags != nil {
 		s.Tags = o.Tags
-	}
-	if o.Type != nil {
-		s.Type = o.Type
 	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -2406,26 +2166,14 @@ func (o *SparseCloudEndpoint) SetBSON(raw bson.Raw) error {
 	if s.URL != nil {
 		o.URL = s.URL
 	}
-	if s.VPCAttached != nil {
-		o.VPCAttached = s.VPCAttached
-	}
-	if s.VPCAttachments != nil {
-		o.VPCAttachments = s.VPCAttachments
-	}
 	if s.AccountID != nil {
 		o.AccountID = s.AccountID
 	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
 	}
-	if s.AssociatedRouteTables != nil {
-		o.AssociatedRouteTables = s.AssociatedRouteTables
-	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
-	}
-	if s.AttachedInterfaces != nil {
-		o.AttachedInterfaces = s.AttachedInterfaces
 	}
 	if s.CloudType != nil {
 		o.CloudType = s.CloudType
@@ -2438,9 +2186,6 @@ func (o *SparseCloudEndpoint) SetBSON(raw bson.Raw) error {
 	}
 	if s.Description != nil {
 		o.Description = s.Description
-	}
-	if s.ForwardingEnabled != nil {
-		o.ForwardingEnabled = s.ForwardingEnabled
 	}
 	if s.InsertTS != nil {
 		o.InsertTS = s.InsertTS
@@ -2463,6 +2208,9 @@ func (o *SparseCloudEndpoint) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
+	if s.Parameters != nil {
+		o.Parameters = s.Parameters
+	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
@@ -2477,9 +2225,6 @@ func (o *SparseCloudEndpoint) SetBSON(raw bson.Raw) error {
 	}
 	if s.Tags != nil {
 		o.Tags = s.Tags
-	}
-	if s.Type != nil {
-		o.Type = s.Type
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -2522,26 +2267,14 @@ func (o *SparseCloudEndpoint) ToPlain() elemental.PlainIdentifiable {
 	if o.URL != nil {
 		out.URL = *o.URL
 	}
-	if o.VPCAttached != nil {
-		out.VPCAttached = *o.VPCAttached
-	}
-	if o.VPCAttachments != nil {
-		out.VPCAttachments = *o.VPCAttachments
-	}
 	if o.AccountID != nil {
 		out.AccountID = *o.AccountID
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
-	if o.AssociatedRouteTables != nil {
-		out.AssociatedRouteTables = *o.AssociatedRouteTables
-	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
-	}
-	if o.AttachedInterfaces != nil {
-		out.AttachedInterfaces = *o.AttachedInterfaces
 	}
 	if o.CloudType != nil {
 		out.CloudType = *o.CloudType
@@ -2554,9 +2287,6 @@ func (o *SparseCloudEndpoint) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
-	}
-	if o.ForwardingEnabled != nil {
-		out.ForwardingEnabled = *o.ForwardingEnabled
 	}
 	if o.InsertTS != nil {
 		out.InsertTS = *o.InsertTS
@@ -2579,6 +2309,9 @@ func (o *SparseCloudEndpoint) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
+	if o.Parameters != nil {
+		out.Parameters = o.Parameters
+	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
@@ -2593,9 +2326,6 @@ func (o *SparseCloudEndpoint) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Tags != nil {
 		out.Tags = *o.Tags
-	}
-	if o.Type != nil {
-		out.Type = *o.Type
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -3073,74 +2803,64 @@ func (o *SparseCloudEndpoint) DeepCopyInto(out *SparseCloudEndpoint) {
 }
 
 type mongoAttributesCloudEndpoint struct {
-	APIID                 int                         `bson:"apiid"`
-	ID                    bson.ObjectId               `bson:"_id,omitempty"`
-	RRN                   string                      `bson:"rrn"`
-	URL                   string                      `bson:"url"`
-	VPCAttached           bool                        `bson:"vpcattached"`
-	VPCAttachments        []string                    `bson:"vpcattachments"`
-	AccountID             string                      `bson:"accountid"`
-	Annotations           map[string][]string         `bson:"annotations"`
-	AssociatedRouteTables []string                    `bson:"associatedroutetables"`
-	AssociatedTags        []string                    `bson:"associatedtags"`
-	AttachedInterfaces    []string                    `bson:"attachedinterfaces"`
-	CloudType             CloudEndpointCloudTypeValue `bson:"cloudtype"`
-	CreateIdempotencyKey  string                      `bson:"createidempotencykey"`
-	CustomerID            int                         `bson:"customerid"`
-	Description           string                      `bson:"description"`
-	ForwardingEnabled     bool                        `bson:"forwardingenabled"`
-	InsertTS              int                         `bson:"insertts,omitempty"`
-	Metadata              []string                    `bson:"metadata"`
-	MigrationsLog         map[string]string           `bson:"migrationslog,omitempty"`
-	Name                  string                      `bson:"name"`
-	Namespace             string                      `bson:"namespace"`
-	NativeID              string                      `bson:"nativeid"`
-	NormalizedTags        []string                    `bson:"normalizedtags"`
-	Protected             bool                        `bson:"protected"`
-	RegionID              string                      `bson:"regionid"`
-	RegionName            string                      `bson:"regionname"`
-	ResourceID            int                         `bson:"resourceid"`
-	Tags                  map[string]string           `bson:"tags"`
-	Type                  CloudEndpointTypeValue      `bson:"type"`
-	UpdateIdempotencyKey  string                      `bson:"updateidempotencykey"`
-	VpcID                 string                      `bson:"vpcid"`
-	VpcName               string                      `bson:"vpcname"`
-	ZHash                 int                         `bson:"zhash"`
-	Zone                  int                         `bson:"zone"`
+	APIID                int                         `bson:"apiid"`
+	ID                   bson.ObjectId               `bson:"_id,omitempty"`
+	RRN                  string                      `bson:"rrn"`
+	URL                  string                      `bson:"url"`
+	AccountID            string                      `bson:"accountid"`
+	Annotations          map[string][]string         `bson:"annotations"`
+	AssociatedTags       []string                    `bson:"associatedtags"`
+	CloudType            CloudEndpointCloudTypeValue `bson:"cloudtype"`
+	CreateIdempotencyKey string                      `bson:"createidempotencykey"`
+	CustomerID           int                         `bson:"customerid"`
+	Description          string                      `bson:"description"`
+	InsertTS             int                         `bson:"insertts,omitempty"`
+	Metadata             []string                    `bson:"metadata"`
+	MigrationsLog        map[string]string           `bson:"migrationslog,omitempty"`
+	Name                 string                      `bson:"name"`
+	Namespace            string                      `bson:"namespace"`
+	NativeID             string                      `bson:"nativeid"`
+	NormalizedTags       []string                    `bson:"normalizedtags"`
+	Parameters           *EndpointData               `bson:"parameters"`
+	Protected            bool                        `bson:"protected"`
+	RegionID             string                      `bson:"regionid"`
+	RegionName           string                      `bson:"regionname"`
+	ResourceID           int                         `bson:"resourceid"`
+	Tags                 map[string]string           `bson:"tags"`
+	UpdateIdempotencyKey string                      `bson:"updateidempotencykey"`
+	VpcID                string                      `bson:"vpcid"`
+	VpcName              string                      `bson:"vpcname"`
+	ZHash                int                         `bson:"zhash"`
+	Zone                 int                         `bson:"zone"`
 }
 type mongoAttributesSparseCloudEndpoint struct {
-	APIID                 *int                         `bson:"apiid,omitempty"`
-	ID                    bson.ObjectId                `bson:"_id,omitempty"`
-	RRN                   *string                      `bson:"rrn,omitempty"`
-	URL                   *string                      `bson:"url,omitempty"`
-	VPCAttached           *bool                        `bson:"vpcattached,omitempty"`
-	VPCAttachments        *[]string                    `bson:"vpcattachments,omitempty"`
-	AccountID             *string                      `bson:"accountid,omitempty"`
-	Annotations           *map[string][]string         `bson:"annotations,omitempty"`
-	AssociatedRouteTables *[]string                    `bson:"associatedroutetables,omitempty"`
-	AssociatedTags        *[]string                    `bson:"associatedtags,omitempty"`
-	AttachedInterfaces    *[]string                    `bson:"attachedinterfaces,omitempty"`
-	CloudType             *CloudEndpointCloudTypeValue `bson:"cloudtype,omitempty"`
-	CreateIdempotencyKey  *string                      `bson:"createidempotencykey,omitempty"`
-	CustomerID            *int                         `bson:"customerid,omitempty"`
-	Description           *string                      `bson:"description,omitempty"`
-	ForwardingEnabled     *bool                        `bson:"forwardingenabled,omitempty"`
-	InsertTS              *int                         `bson:"insertts,omitempty"`
-	Metadata              *[]string                    `bson:"metadata,omitempty"`
-	MigrationsLog         *map[string]string           `bson:"migrationslog,omitempty"`
-	Name                  *string                      `bson:"name,omitempty"`
-	Namespace             *string                      `bson:"namespace,omitempty"`
-	NativeID              *string                      `bson:"nativeid,omitempty"`
-	NormalizedTags        *[]string                    `bson:"normalizedtags,omitempty"`
-	Protected             *bool                        `bson:"protected,omitempty"`
-	RegionID              *string                      `bson:"regionid,omitempty"`
-	RegionName            *string                      `bson:"regionname,omitempty"`
-	ResourceID            *int                         `bson:"resourceid,omitempty"`
-	Tags                  *map[string]string           `bson:"tags,omitempty"`
-	Type                  *CloudEndpointTypeValue      `bson:"type,omitempty"`
-	UpdateIdempotencyKey  *string                      `bson:"updateidempotencykey,omitempty"`
-	VpcID                 *string                      `bson:"vpcid,omitempty"`
-	VpcName               *string                      `bson:"vpcname,omitempty"`
-	ZHash                 *int                         `bson:"zhash,omitempty"`
-	Zone                  *int                         `bson:"zone,omitempty"`
+	APIID                *int                         `bson:"apiid,omitempty"`
+	ID                   bson.ObjectId                `bson:"_id,omitempty"`
+	RRN                  *string                      `bson:"rrn,omitempty"`
+	URL                  *string                      `bson:"url,omitempty"`
+	AccountID            *string                      `bson:"accountid,omitempty"`
+	Annotations          *map[string][]string         `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                    `bson:"associatedtags,omitempty"`
+	CloudType            *CloudEndpointCloudTypeValue `bson:"cloudtype,omitempty"`
+	CreateIdempotencyKey *string                      `bson:"createidempotencykey,omitempty"`
+	CustomerID           *int                         `bson:"customerid,omitempty"`
+	Description          *string                      `bson:"description,omitempty"`
+	InsertTS             *int                         `bson:"insertts,omitempty"`
+	Metadata             *[]string                    `bson:"metadata,omitempty"`
+	MigrationsLog        *map[string]string           `bson:"migrationslog,omitempty"`
+	Name                 *string                      `bson:"name,omitempty"`
+	Namespace            *string                      `bson:"namespace,omitempty"`
+	NativeID             *string                      `bson:"nativeid,omitempty"`
+	NormalizedTags       *[]string                    `bson:"normalizedtags,omitempty"`
+	Parameters           *EndpointData                `bson:"parameters,omitempty"`
+	Protected            *bool                        `bson:"protected,omitempty"`
+	RegionID             *string                      `bson:"regionid,omitempty"`
+	RegionName           *string                      `bson:"regionname,omitempty"`
+	ResourceID           *int                         `bson:"resourceid,omitempty"`
+	Tags                 *map[string]string           `bson:"tags,omitempty"`
+	UpdateIdempotencyKey *string                      `bson:"updateidempotencykey,omitempty"`
+	VpcID                *string                      `bson:"vpcid,omitempty"`
+	VpcName              *string                      `bson:"vpcname,omitempty"`
+	ZHash                *int                         `bson:"zhash,omitempty"`
+	Zone                 *int                         `bson:"zone,omitempty"`
 }

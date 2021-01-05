@@ -36,46 +36,11 @@ indexes:
 # Attributes
 attributes:
   v1:
-  - name: addresses
-    description: |-
-      List of IP addresses/subnets (IPv4 or IPv6) associated with the
-      interface.
-    type: refList
+  - name: parameters
+    description: Cloud network interface related parameters.
+    type: ref
     exposed: true
-    subtype: cloudaddress
+    subtype: interfacedata
     stored: true
-
-  - name: relatedObjectID
-    description: |-
-      If the interface is of type or external, the relatedObjectID identifies the
-      related service or gateway.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: securityTags
-    description: Security tags associated with the instance.
-    type: list
-    exposed: true
-    subtype: string
-    stored: true
-
-  - name: subnets
-    description: ID of subnet associated with this interface.
-    type: list
-    exposed: true
-    subtype: string
-    stored: true
-    example_value: subnet-074c152ae45ea0c73
-
-  - name: type
-    description: Interface type (Instance, Load Balancer, Gateway, etc).
-    type: enum
-    exposed: true
-    stored: true
-    allowed_choices:
-    - Instance
-    - LoadBalancer
-    - Gateway
-    - Service
-    - TransitGateway
+    extensions:
+      refMode: pointer

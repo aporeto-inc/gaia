@@ -36,25 +36,11 @@ indexes:
 # Attributes
 attributes:
   v1:
-  - name: address
-    description: The IP subnet address.
-    type: string
+  - name: parameters
+    description: Subnet related parameters.
+    type: ref
     exposed: true
+    subtype: subnetdata
     stored: true
-    example_value: 10.1.1.0/24
-    validations:
-    - $cidr
-
-  - name: zoneID
-    description: The availability zone ID of the subnet.
-    type: string
-    exposed: true
-    stored: true
-    example_value: aws-east
-
-  - name: zoneName
-    description: The availability zone of the subnet.
-    type: string
-    exposed: true
-    stored: true
-    example_value: aws-east
+    extensions:
+      refMode: pointer

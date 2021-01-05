@@ -886,6 +886,29 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[CloudNodeIdentity] = &elemental.Relationship{
+		Update: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Patch: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
 	relationshipsRegistry[CloudRouteIdentity] = &elemental.Relationship{}
 
 	relationshipsRegistry[CloudRouteTableIdentity] = &elemental.Relationship{
