@@ -90,7 +90,7 @@ type CNSSearch struct {
 	Description string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
 
 	// Absolute end time of search, in unix time.
-	EndAbsolute int `json:"endAbsolute,omitempty" msgpack:"endAbsolute,omitempty" bson:"-" mapstructure:"endAbsolute,omitempty"`
+	EndAbsolute int `json:"endAbsolute" msgpack:"endAbsolute" bson:"-" mapstructure:"endAbsolute,omitempty"`
 
 	// The number of items to fetch.
 	Limit int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
@@ -102,7 +102,7 @@ type CNSSearch struct {
 	PageToken string `json:"pageToken,omitempty" msgpack:"pageToken,omitempty" bson:"-" mapstructure:"pageToken,omitempty"`
 
 	// The RQL query.
-	Query string `json:"query,omitempty" msgpack:"query,omitempty" bson:"-" mapstructure:"query,omitempty"`
+	Query string `json:"query" msgpack:"query" bson:"-" mapstructure:"query,omitempty"`
 
 	// Indicates if the search has been saved.
 	Saved bool `json:"saved,omitempty" msgpack:"saved,omitempty" bson:"-" mapstructure:"saved,omitempty"`
@@ -111,7 +111,7 @@ type CNSSearch struct {
 	SearchType string `json:"searchType,omitempty" msgpack:"searchType,omitempty" bson:"-" mapstructure:"searchType,omitempty"`
 
 	// Absolute start time of search, in unix time.
-	StartAbsolute int `json:"startAbsolute,omitempty" msgpack:"startAbsolute,omitempty" bson:"-" mapstructure:"startAbsolute,omitempty"`
+	StartAbsolute int `json:"startAbsolute" msgpack:"startAbsolute" bson:"-" mapstructure:"startAbsolute,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -334,6 +334,18 @@ func (o *CNSSearch) Validate() error {
 		}
 	}
 
+	if err := elemental.ValidateRequiredInt("endAbsolute", o.EndAbsolute); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("query", o.Query); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredInt("startAbsolute", o.StartAbsolute); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -428,6 +440,7 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Absolute end time of search, in unix time.`,
 		Exposed:        true,
 		Name:           "endAbsolute",
+		Required:       true,
 		Type:           "integer",
 	},
 	"Limit": {
@@ -461,6 +474,7 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The RQL query.`,
 		Exposed:        true,
 		Name:           "query",
+		Required:       true,
 		Type:           "string",
 	},
 	"Saved": {
@@ -485,6 +499,7 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Absolute start time of search, in unix time.`,
 		Exposed:        true,
 		Name:           "startAbsolute",
+		Required:       true,
 		Type:           "integer",
 	},
 }
@@ -522,6 +537,7 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Absolute end time of search, in unix time.`,
 		Exposed:        true,
 		Name:           "endAbsolute",
+		Required:       true,
 		Type:           "integer",
 	},
 	"limit": {
@@ -555,6 +571,7 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `The RQL query.`,
 		Exposed:        true,
 		Name:           "query",
+		Required:       true,
 		Type:           "string",
 	},
 	"saved": {
@@ -579,6 +596,7 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Absolute start time of search, in unix time.`,
 		Exposed:        true,
 		Name:           "startAbsolute",
+		Required:       true,
 		Type:           "integer",
 	},
 }

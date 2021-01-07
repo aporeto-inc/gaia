@@ -35,8 +35,8 @@ attributes:
     description: Absolute end time of search, in unix time.
     type: integer
     exposed: true
+    required: true
     default_value: 0
-    omit_empty: true
 
   - name: limit
     description: The number of items to fetch.
@@ -61,8 +61,8 @@ attributes:
     description: The RQL query.
     type: string
     exposed: true
+    required: true
     example_value: network dns where id == 1
-    omit_empty: true
 
   - name: saved
     description: Indicates if the search has been saved.
@@ -80,5 +80,5 @@ attributes:
     description: Absolute start time of search, in unix time.
     type: integer
     exposed: true
+    required: true
     default_value: 0
-    omit_empty: true

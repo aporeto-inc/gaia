@@ -6967,7 +6967,7 @@ Type: `string`
 
 Description of the search.
 
-##### `endAbsolute`
+##### `endAbsolute` [`required`]
 
 Type: `integer`
 
@@ -7003,7 +7003,7 @@ Type: `string`
 
 Represents the token to fetch next page.
 
-##### `query`
+##### `query` [`required`]
 
 Type: `string`
 
@@ -7021,7 +7021,7 @@ Type: `string`
 
 Type of search request. Should set to be network.
 
-##### `startAbsolute`
+##### `startAbsolute` [`required`]
 
 Type: `integer`
 
