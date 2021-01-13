@@ -49,6 +49,21 @@ attributes:
     extensions:
       bson_name: b
 
+  - name: enforcerType
+    description: Type of enforcer that depends on its PU protection.
+    type: enum
+    exposed: true
+    stored: true
+    required: true
+    allowed_choices:
+    - Host
+    - Container
+    default_value: Host
+    orderable: true
+    omit_empty: true
+    extensions:
+      bson_name: h
+
   - name: memory
     description: Total resident memory used by the enforcer in bytes.
     type: integer

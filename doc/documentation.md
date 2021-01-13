@@ -3188,6 +3188,7 @@ Post a new enforcer statistics report.
 {
   "CPULoad": 10,
   "enforcerID": "xxx-xxx-xxx-xxx",
+  "enforcerType": "Host",
   "memory": 10000,
   "name": "aporeto-enforcerd-xxx",
   "namespace": "/my/ns",
@@ -3221,6 +3222,18 @@ Identifier of the object.
 Type: `string`
 
 ID of the enforcer.
+
+##### `enforcerType` [`required`]
+
+Type: `enum(Host | Container)`
+
+Type of enforcer that depends on its PU protection.
+
+Default value:
+
+```json
+"Host"
+```
 
 ##### `memory`
 
