@@ -9,15 +9,15 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// EnforcerReportEnforcerTypeValue represents the possible values for attribute "enforcerType".
-type EnforcerReportEnforcerTypeValue string
+// EnforcerReportLicenseTypeValue represents the possible values for attribute "licenseType".
+type EnforcerReportLicenseTypeValue string
 
 const (
-	// EnforcerReportEnforcerTypeContainer represents the value Container.
-	EnforcerReportEnforcerTypeContainer EnforcerReportEnforcerTypeValue = "Container"
+	// EnforcerReportLicenseTypeContainer represents the value Container.
+	EnforcerReportLicenseTypeContainer EnforcerReportLicenseTypeValue = "Container"
 
-	// EnforcerReportEnforcerTypeHost represents the value Host.
-	EnforcerReportEnforcerTypeHost EnforcerReportEnforcerTypeValue = "Host"
+	// EnforcerReportLicenseTypeHost represents the value Host.
+	EnforcerReportLicenseTypeHost EnforcerReportLicenseTypeValue = "Host"
 )
 
 // EnforcerReportIdentity represents the Identity of the object.
@@ -103,8 +103,8 @@ type EnforcerReport struct {
 	// ID of the enforcer.
 	EnforcerID string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"b,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Type of enforcer that depends on its PU protection.
-	EnforcerType EnforcerReportEnforcerTypeValue `json:"enforcerType,omitempty" msgpack:"enforcerType,omitempty" bson:"h,omitempty" mapstructure:"enforcerType,omitempty"`
+	// Type of license for this enforcer.
+	LicenseType EnforcerReportLicenseTypeValue `json:"licenseType,omitempty" msgpack:"licenseType,omitempty" bson:"h,omitempty" mapstructure:"licenseType,omitempty"`
 
 	// Total resident memory used by the enforcer in bytes.
 	Memory int `json:"memory,omitempty" msgpack:"memory,omitempty" bson:"c,omitempty" mapstructure:"memory,omitempty"`
@@ -139,7 +139,7 @@ func NewEnforcerReport() *EnforcerReport {
 
 	return &EnforcerReport{
 		ModelVersion:  1,
-		EnforcerType:  EnforcerReportEnforcerTypeHost,
+		LicenseType:   EnforcerReportLicenseTypeHost,
 		MigrationsLog: map[string]string{},
 	}
 }
@@ -177,7 +177,7 @@ func (o *EnforcerReport) GetBSON() (interface{}, error) {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.EnforcerID = o.EnforcerID
-	s.EnforcerType = o.EnforcerType
+	s.LicenseType = o.LicenseType
 	s.Memory = o.Memory
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
@@ -206,7 +206,7 @@ func (o *EnforcerReport) SetBSON(raw bson.Raw) error {
 	o.CPULoad = s.CPULoad
 	o.ID = s.ID.Hex()
 	o.EnforcerID = s.EnforcerID
-	o.EnforcerType = s.EnforcerType
+	o.LicenseType = s.LicenseType
 	o.Memory = s.Memory
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
@@ -296,7 +296,7 @@ func (o *EnforcerReport) ToSparse(fields ...string) elemental.SparseIdentifiable
 			CPULoad:       &o.CPULoad,
 			ID:            &o.ID,
 			EnforcerID:    &o.EnforcerID,
-			EnforcerType:  &o.EnforcerType,
+			LicenseType:   &o.LicenseType,
 			Memory:        &o.Memory,
 			MigrationsLog: &o.MigrationsLog,
 			Name:          &o.Name,
@@ -317,8 +317,8 @@ func (o *EnforcerReport) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.ID = &(o.ID)
 		case "enforcerID":
 			sp.EnforcerID = &(o.EnforcerID)
-		case "enforcerType":
-			sp.EnforcerType = &(o.EnforcerType)
+		case "licenseType":
+			sp.LicenseType = &(o.LicenseType)
 		case "memory":
 			sp.Memory = &(o.Memory)
 		case "migrationsLog":
@@ -357,8 +357,8 @@ func (o *EnforcerReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.EnforcerID != nil {
 		o.EnforcerID = *so.EnforcerID
 	}
-	if so.EnforcerType != nil {
-		o.EnforcerType = *so.EnforcerType
+	if so.LicenseType != nil {
+		o.LicenseType = *so.LicenseType
 	}
 	if so.Memory != nil {
 		o.Memory = *so.Memory
@@ -416,11 +416,11 @@ func (o *EnforcerReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("enforcerType", string(o.EnforcerType)); err != nil {
+	if err := elemental.ValidateRequiredString("licenseType", string(o.LicenseType)); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("enforcerType", string(o.EnforcerType), []string{"Host", "Container"}, false); err != nil {
+	if err := elemental.ValidateStringInList("licenseType", string(o.LicenseType), []string{"Host", "Container"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -481,8 +481,8 @@ func (o *EnforcerReport) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "enforcerID":
 		return o.EnforcerID
-	case "enforcerType":
-		return o.EnforcerType
+	case "licenseType":
+		return o.LicenseType
 	case "memory":
 		return o.Memory
 	case "migrationsLog":
@@ -541,14 +541,14 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"EnforcerType": {
+	"LicenseType": {
 		AllowedChoices: []string{"Host", "Container"},
 		BSONFieldName:  "h",
-		ConvertedName:  "EnforcerType",
-		DefaultValue:   EnforcerReportEnforcerTypeHost,
-		Description:    `Type of enforcer that depends on its PU protection.`,
+		ConvertedName:  "LicenseType",
+		DefaultValue:   EnforcerReportLicenseTypeHost,
+		Description:    `Type of license for this enforcer.`,
 		Exposed:        true,
-		Name:           "enforcerType",
+		Name:           "licenseType",
 		Orderable:      true,
 		Required:       true,
 		Stored:         true,
@@ -687,14 +687,14 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Stored:         true,
 		Type:           "string",
 	},
-	"enforcertype": {
+	"licensetype": {
 		AllowedChoices: []string{"Host", "Container"},
 		BSONFieldName:  "h",
-		ConvertedName:  "EnforcerType",
-		DefaultValue:   EnforcerReportEnforcerTypeHost,
-		Description:    `Type of enforcer that depends on its PU protection.`,
+		ConvertedName:  "LicenseType",
+		DefaultValue:   EnforcerReportLicenseTypeHost,
+		Description:    `Type of license for this enforcer.`,
 		Exposed:        true,
-		Name:           "enforcerType",
+		Name:           "licenseType",
 		Orderable:      true,
 		Required:       true,
 		Stored:         true,
@@ -870,8 +870,8 @@ type SparseEnforcerReport struct {
 	// ID of the enforcer.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"b,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Type of enforcer that depends on its PU protection.
-	EnforcerType *EnforcerReportEnforcerTypeValue `json:"enforcerType,omitempty" msgpack:"enforcerType,omitempty" bson:"h,omitempty" mapstructure:"enforcerType,omitempty"`
+	// Type of license for this enforcer.
+	LicenseType *EnforcerReportLicenseTypeValue `json:"licenseType,omitempty" msgpack:"licenseType,omitempty" bson:"h,omitempty" mapstructure:"licenseType,omitempty"`
 
 	// Total resident memory used by the enforcer in bytes.
 	Memory *int `json:"memory,omitempty" msgpack:"memory,omitempty" bson:"c,omitempty" mapstructure:"memory,omitempty"`
@@ -950,8 +950,8 @@ func (o *SparseEnforcerReport) GetBSON() (interface{}, error) {
 	if o.EnforcerID != nil {
 		s.EnforcerID = o.EnforcerID
 	}
-	if o.EnforcerType != nil {
-		s.EnforcerType = o.EnforcerType
+	if o.LicenseType != nil {
+		s.LicenseType = o.LicenseType
 	}
 	if o.Memory != nil {
 		s.Memory = o.Memory
@@ -1002,8 +1002,8 @@ func (o *SparseEnforcerReport) SetBSON(raw bson.Raw) error {
 	if s.EnforcerID != nil {
 		o.EnforcerID = s.EnforcerID
 	}
-	if s.EnforcerType != nil {
-		o.EnforcerType = s.EnforcerType
+	if s.LicenseType != nil {
+		o.LicenseType = s.LicenseType
 	}
 	if s.Memory != nil {
 		o.Memory = s.Memory
@@ -1052,8 +1052,8 @@ func (o *SparseEnforcerReport) ToPlain() elemental.PlainIdentifiable {
 	if o.EnforcerID != nil {
 		out.EnforcerID = *o.EnforcerID
 	}
-	if o.EnforcerType != nil {
-		out.EnforcerType = *o.EnforcerType
+	if o.LicenseType != nil {
+		out.LicenseType = *o.LicenseType
 	}
 	if o.Memory != nil {
 		out.Memory = *o.Memory
@@ -1156,30 +1156,30 @@ func (o *SparseEnforcerReport) DeepCopyInto(out *SparseEnforcerReport) {
 }
 
 type mongoAttributesEnforcerReport struct {
-	CPULoad       float64                         `bson:"a,omitempty"`
-	ID            bson.ObjectId                   `bson:"_id,omitempty"`
-	EnforcerID    string                          `bson:"b,omitempty"`
-	EnforcerType  EnforcerReportEnforcerTypeValue `bson:"h,omitempty"`
-	Memory        int                             `bson:"c,omitempty"`
-	MigrationsLog map[string]string               `bson:"migrationslog,omitempty"`
-	Name          string                          `bson:"d,omitempty"`
-	Namespace     string                          `bson:"e,omitempty"`
-	Processes     int                             `bson:"f,omitempty"`
-	Timestamp     time.Time                       `bson:"g,omitempty"`
-	ZHash         int                             `bson:"zhash"`
-	Zone          int                             `bson:"zone"`
+	CPULoad       float64                        `bson:"a,omitempty"`
+	ID            bson.ObjectId                  `bson:"_id,omitempty"`
+	EnforcerID    string                         `bson:"b,omitempty"`
+	LicenseType   EnforcerReportLicenseTypeValue `bson:"h,omitempty"`
+	Memory        int                            `bson:"c,omitempty"`
+	MigrationsLog map[string]string              `bson:"migrationslog,omitempty"`
+	Name          string                         `bson:"d,omitempty"`
+	Namespace     string                         `bson:"e,omitempty"`
+	Processes     int                            `bson:"f,omitempty"`
+	Timestamp     time.Time                      `bson:"g,omitempty"`
+	ZHash         int                            `bson:"zhash"`
+	Zone          int                            `bson:"zone"`
 }
 type mongoAttributesSparseEnforcerReport struct {
-	CPULoad       *float64                         `bson:"a,omitempty"`
-	ID            bson.ObjectId                    `bson:"_id,omitempty"`
-	EnforcerID    *string                          `bson:"b,omitempty"`
-	EnforcerType  *EnforcerReportEnforcerTypeValue `bson:"h,omitempty"`
-	Memory        *int                             `bson:"c,omitempty"`
-	MigrationsLog *map[string]string               `bson:"migrationslog,omitempty"`
-	Name          *string                          `bson:"d,omitempty"`
-	Namespace     *string                          `bson:"e,omitempty"`
-	Processes     *int                             `bson:"f,omitempty"`
-	Timestamp     *time.Time                       `bson:"g,omitempty"`
-	ZHash         *int                             `bson:"zhash,omitempty"`
-	Zone          *int                             `bson:"zone,omitempty"`
+	CPULoad       *float64                        `bson:"a,omitempty"`
+	ID            bson.ObjectId                   `bson:"_id,omitempty"`
+	EnforcerID    *string                         `bson:"b,omitempty"`
+	LicenseType   *EnforcerReportLicenseTypeValue `bson:"h,omitempty"`
+	Memory        *int                            `bson:"c,omitempty"`
+	MigrationsLog *map[string]string              `bson:"migrationslog,omitempty"`
+	Name          *string                         `bson:"d,omitempty"`
+	Namespace     *string                         `bson:"e,omitempty"`
+	Processes     *int                            `bson:"f,omitempty"`
+	Timestamp     *time.Time                      `bson:"g,omitempty"`
+	ZHash         *int                            `bson:"zhash,omitempty"`
+	Zone          *int                            `bson:"zone,omitempty"`
 }

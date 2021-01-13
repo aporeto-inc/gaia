@@ -3188,7 +3188,7 @@ Post a new enforcer statistics report.
 {
   "CPULoad": 10,
   "enforcerID": "xxx-xxx-xxx-xxx",
-  "enforcerType": "Host",
+  "licenseType": "Host",
   "memory": 10000,
   "name": "aporeto-enforcerd-xxx",
   "namespace": "/my/ns",
@@ -3223,11 +3223,11 @@ Type: `string`
 
 ID of the enforcer.
 
-##### `enforcerType` [`required`]
+##### `licenseType` [`required`]
 
 Type: `enum(Host | Container)`
 
-Type of enforcer that depends on its PU protection.
+Type of license for this enforcer.
 
 Default value:
 

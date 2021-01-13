@@ -49,8 +49,8 @@ attributes:
     extensions:
       bson_name: b
 
-  - name: enforcerType
-    description: Type of enforcer that depends on its PU protection.
+  - name: licenseType
+    description: Type of license for this enforcer.
     type: enum
     exposed: true
     stored: true
