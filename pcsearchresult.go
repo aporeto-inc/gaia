@@ -312,6 +312,7 @@ var PCSearchResultsAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The payload of the search result.`,
 		Exposed:        true,
 		Name:           "items",
+		ReadOnly:       true,
 		SubType:        "reportsquery",
 		Type:           "ref",
 	},
@@ -321,6 +322,7 @@ var PCSearchResultsAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The pagination token for next page.`,
 		Exposed:        true,
 		Name:           "nextPageToken",
+		ReadOnly:       true,
 		Type:           "string",
 	},
 	"TotalRows": {
@@ -329,6 +331,7 @@ var PCSearchResultsAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The total number of result items.`,
 		Exposed:        true,
 		Name:           "totalRows",
+		ReadOnly:       true,
 		Type:           "integer",
 	},
 }
@@ -341,6 +344,7 @@ var PCSearchResultsLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Description:    `The payload of the search result.`,
 		Exposed:        true,
 		Name:           "items",
+		ReadOnly:       true,
 		SubType:        "reportsquery",
 		Type:           "ref",
 	},
@@ -350,6 +354,7 @@ var PCSearchResultsLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Description:    `The pagination token for next page.`,
 		Exposed:        true,
 		Name:           "nextPageToken",
+		ReadOnly:       true,
 		Type:           "string",
 	},
 	"totalrows": {
@@ -358,6 +363,7 @@ var PCSearchResultsLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Description:    `The total number of result items.`,
 		Exposed:        true,
 		Name:           "totalRows",
+		ReadOnly:       true,
 		Type:           "integer",
 	},
 }

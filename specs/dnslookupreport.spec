@@ -14,6 +14,7 @@ model:
   - '@identifiable-stored'
   - '@zoned-monotonic'
   - '@migratable'
+  - '@namespaced'
   validations:
   - $dnslookupreport
 
@@ -63,16 +64,6 @@ attributes:
     omit_empty: true
     extensions:
       bson_name: c
-
-  - name: namespace
-    description: Namespace of the report.
-    type: string
-    exposed: true
-    stored: true
-    example_value: /my/namespace
-    omit_empty: true
-    extensions:
-      bson_name: k
 
   - name: processingUnitID
     description: ID of the PU.

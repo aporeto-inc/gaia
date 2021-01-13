@@ -582,6 +582,8 @@ var (
 		"dnslookupreport": {
 			{"namespace", "timestamp"},
 			{":shard", "zone", "zHash", "_id"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
 		},
 		"email": nil,
 		"enforcer": {

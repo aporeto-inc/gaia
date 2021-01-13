@@ -15,6 +15,7 @@ attributes:
     type: ref
     exposed: true
     subtype: reportsquery
+    read_only: true
     extensions:
       refMode: pointer
 
@@ -22,8 +23,10 @@ attributes:
     description: The pagination token for next page.
     type: string
     exposed: true
+    read_only: true
 
   - name: totalRows
     description: The total number of result items.
     type: integer
     exposed: true
+    read_only: true
