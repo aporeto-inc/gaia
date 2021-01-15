@@ -8,8 +8,8 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// SubnetData represents the model of a subnetdata
-type SubnetData struct {
+// CloudSubnetData represents the model of a cloudsubnetdata
+type CloudSubnetData struct {
 	// Address CIDR of the Subnet.
 	Address string `json:"address" msgpack:"address" bson:"address" mapstructure:"address,omitempty"`
 
@@ -22,23 +22,23 @@ type SubnetData struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSubnetData returns a new *SubnetData
-func NewSubnetData() *SubnetData {
+// NewCloudSubnetData returns a new *CloudSubnetData
+func NewCloudSubnetData() *CloudSubnetData {
 
-	return &SubnetData{
+	return &CloudSubnetData{
 		ModelVersion: 1,
 	}
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SubnetData) GetBSON() (interface{}, error) {
+func (o *CloudSubnetData) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSubnetData{}
+	s := &mongoAttributesCloudSubnetData{}
 
 	s.Address = o.Address
 	s.ZoneID = o.ZoneID
@@ -49,13 +49,13 @@ func (o *SubnetData) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SubnetData) SetBSON(raw bson.Raw) error {
+func (o *CloudSubnetData) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSubnetData{}
+	s := &mongoAttributesCloudSubnetData{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -68,37 +68,37 @@ func (o *SubnetData) SetBSON(raw bson.Raw) error {
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *SubnetData) BleveType() string {
+func (o *CloudSubnetData) BleveType() string {
 
-	return "subnetdata"
+	return "cloudsubnetdata"
 }
 
-// DeepCopy returns a deep copy if the SubnetData.
-func (o *SubnetData) DeepCopy() *SubnetData {
+// DeepCopy returns a deep copy if the CloudSubnetData.
+func (o *CloudSubnetData) DeepCopy() *CloudSubnetData {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SubnetData{}
+	out := &CloudSubnetData{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SubnetData.
-func (o *SubnetData) DeepCopyInto(out *SubnetData) {
+// DeepCopyInto copies the receiver into the given *CloudSubnetData.
+func (o *CloudSubnetData) DeepCopyInto(out *CloudSubnetData) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SubnetData: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CloudSubnetData: %s", err))
 	}
 
-	*out = *target.(*SubnetData)
+	*out = *target.(*CloudSubnetData)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *SubnetData) Validate() error {
+func (o *CloudSubnetData) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -118,7 +118,7 @@ func (o *SubnetData) Validate() error {
 	return nil
 }
 
-type mongoAttributesSubnetData struct {
+type mongoAttributesCloudSubnetData struct {
 	Address  string `bson:"address"`
 	ZoneID   string `bson:"zoneid"`
 	ZoneName string `bson:"zonename"`

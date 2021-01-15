@@ -9,66 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// CloudNodeTypeValue represents the possible values for attribute "type".
-type CloudNodeTypeValue string
-
-const (
-	// CloudNodeTypeEndpoint represents the value Endpoint.
-	CloudNodeTypeEndpoint CloudNodeTypeValue = "Endpoint"
-
-	// CloudNodeTypeInterface represents the value Interface.
-	CloudNodeTypeInterface CloudNodeTypeValue = "Interface"
-
-	// CloudNodeTypeNetworkRuleSet represents the value NetworkRuleSet.
-	CloudNodeTypeNetworkRuleSet CloudNodeTypeValue = "NetworkRuleSet"
-
-	// CloudNodeTypeRouteTable represents the value RouteTable.
-	CloudNodeTypeRouteTable CloudNodeTypeValue = "RouteTable"
-
-	// CloudNodeTypeSubnet represents the value Subnet.
-	CloudNodeTypeSubnet CloudNodeTypeValue = "Subnet"
-
-	// CloudNodeTypeVPC represents the value VPC.
-	CloudNodeTypeVPC CloudNodeTypeValue = "VPC"
-)
-
-// CloudNodeIdentity represents the Identity of the object.
-var CloudNodeIdentity = elemental.Identity{
-	Name:     "cloudnode",
-	Category: "cloudnodes",
+// CloudNetworkRuleSetIdentity represents the Identity of the object.
+var CloudNetworkRuleSetIdentity = elemental.Identity{
+	Name:     "cloudnetworkruleset",
+	Category: "cloudnetworkrulesets",
 	Package:  "pcn",
 	Private:  false,
 }
 
-// CloudNodesList represents a list of CloudNodes
-type CloudNodesList []*CloudNode
+// CloudNetworkRuleSetsList represents a list of CloudNetworkRuleSets
+type CloudNetworkRuleSetsList []*CloudNetworkRuleSet
 
 // Identity returns the identity of the objects in the list.
-func (o CloudNodesList) Identity() elemental.Identity {
+func (o CloudNetworkRuleSetsList) Identity() elemental.Identity {
 
-	return CloudNodeIdentity
+	return CloudNetworkRuleSetIdentity
 }
 
-// Copy returns a pointer to a copy the CloudNodesList.
-func (o CloudNodesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the CloudNetworkRuleSetsList.
+func (o CloudNetworkRuleSetsList) Copy() elemental.Identifiables {
 
-	copy := append(CloudNodesList{}, o...)
+	copy := append(CloudNetworkRuleSetsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the CloudNodesList.
-func (o CloudNodesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the CloudNetworkRuleSetsList.
+func (o CloudNetworkRuleSetsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(CloudNodesList{}, o...)
+	out := append(CloudNetworkRuleSetsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*CloudNode))
+		out = append(out, obj.(*CloudNetworkRuleSet))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o CloudNodesList) List() elemental.IdentifiablesList {
+func (o CloudNetworkRuleSetsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -79,31 +56,31 @@ func (o CloudNodesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o CloudNodesList) DefaultOrder() []string {
+func (o CloudNetworkRuleSetsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the CloudNodesList converted to SparseCloudNodesList.
+// ToSparse returns the CloudNetworkRuleSetsList converted to SparseCloudNetworkRuleSetsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o CloudNodesList) ToSparse(fields ...string) elemental.Identifiables {
+func (o CloudNetworkRuleSetsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseCloudNodesList, len(o))
+	out := make(SparseCloudNetworkRuleSetsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseCloudNode)
+		out[i] = o[i].ToSparse(fields...).(*SparseCloudNetworkRuleSet)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o CloudNodesList) Version() int {
+func (o CloudNetworkRuleSetsList) Version() int {
 
 	return 1
 }
 
-// CloudNode represents the model of a cloudnode
-type CloudNode struct {
+// CloudNetworkRuleSet represents the model of a cloudnetworkruleset
+type CloudNetworkRuleSet struct {
 	// Prisma Cloud API ID (matches Prisma Cloud API ID).
 	APIID int `json:"APIID" msgpack:"APIID" bson:"apiid" mapstructure:"APIID,omitempty"`
 
@@ -124,9 +101,6 @@ type CloudNode struct {
 
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// The list of attachments for this node.
-	Attachments []string `json:"attachments" msgpack:"attachments" bson:"attachments" mapstructure:"attachments,omitempty"`
 
 	// Internal representation of object tags retrieved from the cloud provider.
 	CloudTags []string `json:"cloudTags" msgpack:"cloudTags" bson:"cloudtags" mapstructure:"cloudTags,omitempty"`
@@ -158,8 +132,8 @@ type CloudNode struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// The cloud attributes of the object.
-	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	// Cloud network ruleset data.
+	Parameters *CloudNetworkRuleSetData `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -172,9 +146,6 @@ type CloudNode struct {
 
 	// Prisma Cloud Resource ID.
 	ResourceID int `json:"resourceID" msgpack:"resourceID" bson:"resourceid" mapstructure:"resourceID,omitempty"`
-
-	// Type of the endpoint.
-	Type CloudNodeTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -198,48 +169,47 @@ type CloudNode struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewCloudNode returns a new *CloudNode
-func NewCloudNode() *CloudNode {
+// NewCloudNetworkRuleSet returns a new *CloudNetworkRuleSet
+func NewCloudNetworkRuleSet() *CloudNetworkRuleSet {
 
-	return &CloudNode{
+	return &CloudNetworkRuleSet{
 		ModelVersion:   1,
-		Attachments:    []string{},
 		CloudTags:      []string{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Parameters:     map[string]interface{}{},
 		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
+		Parameters:     NewCloudNetworkRuleSetData(),
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *CloudNode) Identity() elemental.Identity {
+func (o *CloudNetworkRuleSet) Identity() elemental.Identity {
 
-	return CloudNodeIdentity
+	return CloudNetworkRuleSetIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *CloudNode) Identifier() string {
+func (o *CloudNetworkRuleSet) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *CloudNode) SetIdentifier(id string) {
+func (o *CloudNetworkRuleSet) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CloudNode) GetBSON() (interface{}, error) {
+func (o *CloudNetworkRuleSet) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesCloudNode{}
+	s := &mongoAttributesCloudNetworkRuleSet{}
 
 	s.APIID = o.APIID
 	if o.ID != "" {
@@ -250,7 +220,6 @@ func (o *CloudNode) GetBSON() (interface{}, error) {
 	s.AccountID = o.AccountID
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
-	s.Attachments = o.Attachments
 	s.CloudTags = o.CloudTags
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
@@ -266,7 +235,6 @@ func (o *CloudNode) GetBSON() (interface{}, error) {
 	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
 	s.ResourceID = o.ResourceID
-	s.Type = o.Type
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdatedTime = o.UpdatedTime
 	s.VpcID = o.VpcID
@@ -279,13 +247,13 @@ func (o *CloudNode) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CloudNode) SetBSON(raw bson.Raw) error {
+func (o *CloudNetworkRuleSet) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesCloudNode{}
+	s := &mongoAttributesCloudNetworkRuleSet{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -297,7 +265,6 @@ func (o *CloudNode) SetBSON(raw bson.Raw) error {
 	o.AccountID = s.AccountID
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
-	o.Attachments = s.Attachments
 	o.CloudTags = s.CloudTags
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
@@ -313,7 +280,6 @@ func (o *CloudNode) SetBSON(raw bson.Raw) error {
 	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
 	o.ResourceID = s.ResourceID
-	o.Type = s.Type
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdatedTime = s.UpdatedTime
 	o.VpcID = s.VpcID
@@ -325,377 +291,354 @@ func (o *CloudNode) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *CloudNode) Version() int {
+func (o *CloudNetworkRuleSet) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *CloudNode) BleveType() string {
+func (o *CloudNetworkRuleSet) BleveType() string {
 
-	return "cloudnode"
+	return "cloudnetworkruleset"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *CloudNode) DefaultOrder() []string {
+func (o *CloudNetworkRuleSet) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *CloudNode) Doc() string {
+func (o *CloudNetworkRuleSet) Doc() string {
 
-	return `Manages the list of cloud nodes available in a cloud deployment.`
+	return `A CloudNetworkRuleSet represents a set of cloud network security groups or
+firewall rules as they apply to the infrastructure.`
 }
 
-func (o *CloudNode) String() string {
+func (o *CloudNetworkRuleSet) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAPIID returns the APIID of the receiver.
-func (o *CloudNode) GetAPIID() int {
+func (o *CloudNetworkRuleSet) GetAPIID() int {
 
 	return o.APIID
 }
 
 // SetAPIID sets the property APIID of the receiver using the given value.
-func (o *CloudNode) SetAPIID(APIID int) {
+func (o *CloudNetworkRuleSet) SetAPIID(APIID int) {
 
 	o.APIID = APIID
 }
 
 // GetRRN returns the RRN of the receiver.
-func (o *CloudNode) GetRRN() string {
+func (o *CloudNetworkRuleSet) GetRRN() string {
 
 	return o.RRN
 }
 
 // SetRRN sets the property RRN of the receiver using the given value.
-func (o *CloudNode) SetRRN(RRN string) {
+func (o *CloudNetworkRuleSet) SetRRN(RRN string) {
 
 	o.RRN = RRN
 }
 
 // GetURL returns the URL of the receiver.
-func (o *CloudNode) GetURL() string {
+func (o *CloudNetworkRuleSet) GetURL() string {
 
 	return o.URL
 }
 
 // SetURL sets the property URL of the receiver using the given value.
-func (o *CloudNode) SetURL(URL string) {
+func (o *CloudNetworkRuleSet) SetURL(URL string) {
 
 	o.URL = URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
-func (o *CloudNode) GetAccountID() string {
+func (o *CloudNetworkRuleSet) GetAccountID() string {
 
 	return o.AccountID
 }
 
 // SetAccountID sets the property AccountID of the receiver using the given value.
-func (o *CloudNode) SetAccountID(accountID string) {
+func (o *CloudNetworkRuleSet) SetAccountID(accountID string) {
 
 	o.AccountID = accountID
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *CloudNode) GetAnnotations() map[string][]string {
+func (o *CloudNetworkRuleSet) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *CloudNode) SetAnnotations(annotations map[string][]string) {
+func (o *CloudNetworkRuleSet) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *CloudNode) GetAssociatedTags() []string {
+func (o *CloudNetworkRuleSet) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *CloudNode) SetAssociatedTags(associatedTags []string) {
+func (o *CloudNetworkRuleSet) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
-// GetAttachments returns the Attachments of the receiver.
-func (o *CloudNode) GetAttachments() []string {
-
-	return o.Attachments
-}
-
-// SetAttachments sets the property Attachments of the receiver using the given value.
-func (o *CloudNode) SetAttachments(attachments []string) {
-
-	o.Attachments = attachments
-}
-
 // GetCloudTags returns the CloudTags of the receiver.
-func (o *CloudNode) GetCloudTags() []string {
+func (o *CloudNetworkRuleSet) GetCloudTags() []string {
 
 	return o.CloudTags
 }
 
 // SetCloudTags sets the property CloudTags of the receiver using the given value.
-func (o *CloudNode) SetCloudTags(cloudTags []string) {
+func (o *CloudNetworkRuleSet) SetCloudTags(cloudTags []string) {
 
 	o.CloudTags = cloudTags
 }
 
 // GetCloudType returns the CloudType of the receiver.
-func (o *CloudNode) GetCloudType() string {
+func (o *CloudNetworkRuleSet) GetCloudType() string {
 
 	return o.CloudType
 }
 
 // SetCloudType sets the property CloudType of the receiver using the given value.
-func (o *CloudNode) SetCloudType(cloudType string) {
+func (o *CloudNetworkRuleSet) SetCloudType(cloudType string) {
 
 	o.CloudType = cloudType
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *CloudNode) GetCreateIdempotencyKey() string {
+func (o *CloudNetworkRuleSet) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *CloudNode) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *CloudNetworkRuleSet) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCustomerID returns the CustomerID of the receiver.
-func (o *CloudNode) GetCustomerID() int {
+func (o *CloudNetworkRuleSet) GetCustomerID() int {
 
 	return o.CustomerID
 }
 
 // SetCustomerID sets the property CustomerID of the receiver using the given value.
-func (o *CloudNode) SetCustomerID(customerID int) {
+func (o *CloudNetworkRuleSet) SetCustomerID(customerID int) {
 
 	o.CustomerID = customerID
 }
 
 // GetIngestionTime returns the IngestionTime of the receiver.
-func (o *CloudNode) GetIngestionTime() time.Time {
+func (o *CloudNetworkRuleSet) GetIngestionTime() time.Time {
 
 	return o.IngestionTime
 }
 
 // SetIngestionTime sets the property IngestionTime of the receiver using the given value.
-func (o *CloudNode) SetIngestionTime(ingestionTime time.Time) {
+func (o *CloudNetworkRuleSet) SetIngestionTime(ingestionTime time.Time) {
 
 	o.IngestionTime = ingestionTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *CloudNode) GetMigrationsLog() map[string]string {
+func (o *CloudNetworkRuleSet) GetMigrationsLog() map[string]string {
 
 	return o.MigrationsLog
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
-func (o *CloudNode) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *CloudNetworkRuleSet) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *CloudNode) GetName() string {
+func (o *CloudNetworkRuleSet) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *CloudNode) SetName(name string) {
+func (o *CloudNetworkRuleSet) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *CloudNode) GetNamespace() string {
+func (o *CloudNetworkRuleSet) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *CloudNode) SetNamespace(namespace string) {
+func (o *CloudNetworkRuleSet) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNativeID returns the NativeID of the receiver.
-func (o *CloudNode) GetNativeID() string {
+func (o *CloudNetworkRuleSet) GetNativeID() string {
 
 	return o.NativeID
 }
 
 // SetNativeID sets the property NativeID of the receiver using the given value.
-func (o *CloudNode) SetNativeID(nativeID string) {
+func (o *CloudNetworkRuleSet) SetNativeID(nativeID string) {
 
 	o.NativeID = nativeID
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *CloudNode) GetNormalizedTags() []string {
+func (o *CloudNetworkRuleSet) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *CloudNode) SetNormalizedTags(normalizedTags []string) {
+func (o *CloudNetworkRuleSet) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
-// GetParameters returns the Parameters of the receiver.
-func (o *CloudNode) GetParameters() map[string]interface{} {
-
-	return o.Parameters
-}
-
-// SetParameters sets the property Parameters of the receiver using the given value.
-func (o *CloudNode) SetParameters(parameters map[string]interface{}) {
-
-	o.Parameters = parameters
-}
-
 // GetProtected returns the Protected of the receiver.
-func (o *CloudNode) GetProtected() bool {
+func (o *CloudNetworkRuleSet) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *CloudNode) SetProtected(protected bool) {
+func (o *CloudNetworkRuleSet) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetRegionID returns the RegionID of the receiver.
-func (o *CloudNode) GetRegionID() string {
+func (o *CloudNetworkRuleSet) GetRegionID() string {
 
 	return o.RegionID
 }
 
 // SetRegionID sets the property RegionID of the receiver using the given value.
-func (o *CloudNode) SetRegionID(regionID string) {
+func (o *CloudNetworkRuleSet) SetRegionID(regionID string) {
 
 	o.RegionID = regionID
 }
 
 // GetRegionName returns the RegionName of the receiver.
-func (o *CloudNode) GetRegionName() string {
+func (o *CloudNetworkRuleSet) GetRegionName() string {
 
 	return o.RegionName
 }
 
 // SetRegionName sets the property RegionName of the receiver using the given value.
-func (o *CloudNode) SetRegionName(regionName string) {
+func (o *CloudNetworkRuleSet) SetRegionName(regionName string) {
 
 	o.RegionName = regionName
 }
 
 // GetResourceID returns the ResourceID of the receiver.
-func (o *CloudNode) GetResourceID() int {
+func (o *CloudNetworkRuleSet) GetResourceID() int {
 
 	return o.ResourceID
 }
 
 // SetResourceID sets the property ResourceID of the receiver using the given value.
-func (o *CloudNode) SetResourceID(resourceID int) {
+func (o *CloudNetworkRuleSet) SetResourceID(resourceID int) {
 
 	o.ResourceID = resourceID
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *CloudNode) GetUpdateIdempotencyKey() string {
+func (o *CloudNetworkRuleSet) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *CloudNode) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *CloudNetworkRuleSet) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdatedTime returns the UpdatedTime of the receiver.
-func (o *CloudNode) GetUpdatedTime() time.Time {
+func (o *CloudNetworkRuleSet) GetUpdatedTime() time.Time {
 
 	return o.UpdatedTime
 }
 
 // SetUpdatedTime sets the property UpdatedTime of the receiver using the given value.
-func (o *CloudNode) SetUpdatedTime(updatedTime time.Time) {
+func (o *CloudNetworkRuleSet) SetUpdatedTime(updatedTime time.Time) {
 
 	o.UpdatedTime = updatedTime
 }
 
 // GetVpcID returns the VpcID of the receiver.
-func (o *CloudNode) GetVpcID() string {
+func (o *CloudNetworkRuleSet) GetVpcID() string {
 
 	return o.VpcID
 }
 
 // SetVpcID sets the property VpcID of the receiver using the given value.
-func (o *CloudNode) SetVpcID(vpcID string) {
+func (o *CloudNetworkRuleSet) SetVpcID(vpcID string) {
 
 	o.VpcID = vpcID
 }
 
 // GetVpcName returns the VpcName of the receiver.
-func (o *CloudNode) GetVpcName() string {
+func (o *CloudNetworkRuleSet) GetVpcName() string {
 
 	return o.VpcName
 }
 
 // SetVpcName sets the property VpcName of the receiver using the given value.
-func (o *CloudNode) SetVpcName(vpcName string) {
+func (o *CloudNetworkRuleSet) SetVpcName(vpcName string) {
 
 	o.VpcName = vpcName
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *CloudNode) GetZHash() int {
+func (o *CloudNetworkRuleSet) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *CloudNode) SetZHash(zHash int) {
+func (o *CloudNetworkRuleSet) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *CloudNode) GetZone() int {
+func (o *CloudNetworkRuleSet) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *CloudNode) SetZone(zone int) {
+func (o *CloudNetworkRuleSet) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *CloudNetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseCloudNode{
+		return &SparseCloudNetworkRuleSet{
 			APIID:                &o.APIID,
 			ID:                   &o.ID,
 			RRN:                  &o.RRN,
@@ -703,7 +646,6 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AccountID:            &o.AccountID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
-			Attachments:          &o.Attachments,
 			CloudTags:            &o.CloudTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
@@ -714,12 +656,11 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Namespace:            &o.Namespace,
 			NativeID:             &o.NativeID,
 			NormalizedTags:       &o.NormalizedTags,
-			Parameters:           &o.Parameters,
+			Parameters:           o.Parameters,
 			Protected:            &o.Protected,
 			RegionID:             &o.RegionID,
 			RegionName:           &o.RegionName,
 			ResourceID:           &o.ResourceID,
-			Type:                 &o.Type,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdatedTime:          &o.UpdatedTime,
 			VpcID:                &o.VpcID,
@@ -729,7 +670,7 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparseCloudNode{}
+	sp := &SparseCloudNetworkRuleSet{}
 	for _, f := range fields {
 		switch f {
 		case "APIID":
@@ -746,8 +687,6 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "attachments":
-			sp.Attachments = &(o.Attachments)
 		case "cloudTags":
 			sp.CloudTags = &(o.CloudTags)
 		case "cloudType":
@@ -769,7 +708,7 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "parameters":
-			sp.Parameters = &(o.Parameters)
+			sp.Parameters = o.Parameters
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "regionID":
@@ -778,8 +717,6 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.RegionName = &(o.RegionName)
 		case "resourceID":
 			sp.ResourceID = &(o.ResourceID)
-		case "type":
-			sp.Type = &(o.Type)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updatedTime":
@@ -798,13 +735,13 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseCloudNode to the object.
-func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseCloudNetworkRuleSet to the object.
+func (o *CloudNetworkRuleSet) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseCloudNode)
+	so := sparse.(*SparseCloudNetworkRuleSet)
 	if so.APIID != nil {
 		o.APIID = *so.APIID
 	}
@@ -825,9 +762,6 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
-	}
-	if so.Attachments != nil {
-		o.Attachments = *so.Attachments
 	}
 	if so.CloudTags != nil {
 		o.CloudTags = *so.CloudTags
@@ -860,7 +794,7 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 		o.NormalizedTags = *so.NormalizedTags
 	}
 	if so.Parameters != nil {
-		o.Parameters = *so.Parameters
+		o.Parameters = so.Parameters
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -873,9 +807,6 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ResourceID != nil {
 		o.ResourceID = *so.ResourceID
-	}
-	if so.Type != nil {
-		o.Type = *so.Type
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -897,32 +828,32 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the CloudNode.
-func (o *CloudNode) DeepCopy() *CloudNode {
+// DeepCopy returns a deep copy if the CloudNetworkRuleSet.
+func (o *CloudNetworkRuleSet) DeepCopy() *CloudNetworkRuleSet {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &CloudNode{}
+	out := &CloudNetworkRuleSet{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *CloudNode.
-func (o *CloudNode) DeepCopyInto(out *CloudNode) {
+// DeepCopyInto copies the receiver into the given *CloudNetworkRuleSet.
+func (o *CloudNetworkRuleSet) DeepCopyInto(out *CloudNetworkRuleSet) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy CloudNode: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CloudNetworkRuleSet: %s", err))
 	}
 
-	*out = *target.(*CloudNode)
+	*out = *target.(*CloudNetworkRuleSet)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *CloudNode) Validate() error {
+func (o *CloudNetworkRuleSet) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -943,15 +874,18 @@ func (o *CloudNode) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if o.Parameters != nil {
+		elemental.ResetDefaultForZeroValues(o.Parameters)
+		if err := o.Parameters.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
 	if err := elemental.ValidateMaximumLength("regionID", o.RegionID, 256, false); err != nil {
 		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("regionName", o.RegionName, 256, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Endpoint", "Subnet", "VPC", "Interface", "RouteTable", "NetworkRuleSet"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -967,26 +901,26 @@ func (o *CloudNode) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*CloudNode) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*CloudNetworkRuleSet) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := CloudNodeAttributesMap[name]; ok {
+	if v, ok := CloudNetworkRuleSetAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return CloudNodeLowerCaseAttributesMap[name]
+	return CloudNetworkRuleSetLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*CloudNode) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*CloudNetworkRuleSet) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return CloudNodeAttributesMap
+	return CloudNetworkRuleSetAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *CloudNode) ValueForAttribute(name string) interface{} {
+func (o *CloudNetworkRuleSet) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "APIID":
@@ -1003,8 +937,6 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
-	case "attachments":
-		return o.Attachments
 	case "cloudTags":
 		return o.CloudTags
 	case "cloudType":
@@ -1035,8 +967,6 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 		return o.RegionName
 	case "resourceID":
 		return o.ResourceID
-	case "type":
-		return o.Type
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updatedTime":
@@ -1054,8 +984,8 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// CloudNodeAttributesMap represents the map of attribute for CloudNode.
-var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
+// CloudNetworkRuleSetAttributesMap represents the map of attribute for CloudNetworkRuleSet.
+var CloudNetworkRuleSetAttributesMap = map[string]elemental.AttributeSpecification{
 	"APIID": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "apiid",
@@ -1143,19 +1073,6 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
-	"Attachments": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "attachments",
-		ConvertedName:  "Attachments",
-		Description:    `The list of attachments for this node.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "attachments",
 		Setter:         true,
 		Stored:         true,
 		SubType:        "string",
@@ -1303,14 +1220,12 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		BSONFieldName:  "parameters",
 		ConvertedName:  "Parameters",
-		Description:    `The cloud attributes of the object.`,
+		Description:    `Cloud network ruleset data.`,
 		Exposed:        true,
-		Getter:         true,
 		Name:           "parameters",
-		Setter:         true,
 		Stored:         true,
-		SubType:        "map[string]interface{}",
-		Type:           "external",
+		SubType:        "cloudnetworkrulesetdata",
+		Type:           "ref",
 	},
 	"Protected": {
 		AllowedChoices: []string{},
@@ -1366,16 +1281,6 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "integer",
-	},
-	"Type": {
-		AllowedChoices: []string{"Endpoint", "Subnet", "VPC", "Interface", "RouteTable", "NetworkRuleSet"},
-		BSONFieldName:  "type",
-		ConvertedName:  "Type",
-		Description:    `Type of the endpoint.`,
-		Exposed:        true,
-		Name:           "type",
-		Stored:         true,
-		Type:           "enum",
 	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -1459,8 +1364,8 @@ georedundancy.`,
 	},
 }
 
-// CloudNodeLowerCaseAttributesMap represents the map of attribute for CloudNode.
-var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// CloudNetworkRuleSetLowerCaseAttributesMap represents the map of attribute for CloudNetworkRuleSet.
+var CloudNetworkRuleSetLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"apiid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "apiid",
@@ -1548,19 +1453,6 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Getter:         true,
 		Name:           "associatedTags",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
-	"attachments": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "attachments",
-		ConvertedName:  "Attachments",
-		Description:    `The list of attachments for this node.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "attachments",
 		Setter:         true,
 		Stored:         true,
 		SubType:        "string",
@@ -1708,14 +1600,12 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		BSONFieldName:  "parameters",
 		ConvertedName:  "Parameters",
-		Description:    `The cloud attributes of the object.`,
+		Description:    `Cloud network ruleset data.`,
 		Exposed:        true,
-		Getter:         true,
 		Name:           "parameters",
-		Setter:         true,
 		Stored:         true,
-		SubType:        "map[string]interface{}",
-		Type:           "external",
+		SubType:        "cloudnetworkrulesetdata",
+		Type:           "ref",
 	},
 	"protected": {
 		AllowedChoices: []string{},
@@ -1771,16 +1661,6 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Setter:         true,
 		Stored:         true,
 		Type:           "integer",
-	},
-	"type": {
-		AllowedChoices: []string{"Endpoint", "Subnet", "VPC", "Interface", "RouteTable", "NetworkRuleSet"},
-		BSONFieldName:  "type",
-		ConvertedName:  "Type",
-		Description:    `Type of the endpoint.`,
-		Exposed:        true,
-		Name:           "type",
-		Stored:         true,
-		Type:           "enum",
 	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
@@ -1864,35 +1744,35 @@ georedundancy.`,
 	},
 }
 
-// SparseCloudNodesList represents a list of SparseCloudNodes
-type SparseCloudNodesList []*SparseCloudNode
+// SparseCloudNetworkRuleSetsList represents a list of SparseCloudNetworkRuleSets
+type SparseCloudNetworkRuleSetsList []*SparseCloudNetworkRuleSet
 
 // Identity returns the identity of the objects in the list.
-func (o SparseCloudNodesList) Identity() elemental.Identity {
+func (o SparseCloudNetworkRuleSetsList) Identity() elemental.Identity {
 
-	return CloudNodeIdentity
+	return CloudNetworkRuleSetIdentity
 }
 
-// Copy returns a pointer to a copy the SparseCloudNodesList.
-func (o SparseCloudNodesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseCloudNetworkRuleSetsList.
+func (o SparseCloudNetworkRuleSetsList) Copy() elemental.Identifiables {
 
-	copy := append(SparseCloudNodesList{}, o...)
+	copy := append(SparseCloudNetworkRuleSetsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseCloudNodesList.
-func (o SparseCloudNodesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseCloudNetworkRuleSetsList.
+func (o SparseCloudNetworkRuleSetsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseCloudNodesList{}, o...)
+	out := append(SparseCloudNetworkRuleSetsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseCloudNode))
+		out = append(out, obj.(*SparseCloudNetworkRuleSet))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseCloudNodesList) List() elemental.IdentifiablesList {
+func (o SparseCloudNetworkRuleSetsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1903,13 +1783,13 @@ func (o SparseCloudNodesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseCloudNodesList) DefaultOrder() []string {
+func (o SparseCloudNetworkRuleSetsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparseCloudNodesList converted to CloudNodesList.
-func (o SparseCloudNodesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseCloudNetworkRuleSetsList converted to CloudNetworkRuleSetsList.
+func (o SparseCloudNetworkRuleSetsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1920,13 +1800,13 @@ func (o SparseCloudNodesList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseCloudNodesList) Version() int {
+func (o SparseCloudNetworkRuleSetsList) Version() int {
 
 	return 1
 }
 
-// SparseCloudNode represents the sparse version of a cloudnode.
-type SparseCloudNode struct {
+// SparseCloudNetworkRuleSet represents the sparse version of a cloudnetworkruleset.
+type SparseCloudNetworkRuleSet struct {
 	// Prisma Cloud API ID (matches Prisma Cloud API ID).
 	APIID *int `json:"APIID,omitempty" msgpack:"APIID,omitempty" bson:"apiid,omitempty" mapstructure:"APIID,omitempty"`
 
@@ -1947,9 +1827,6 @@ type SparseCloudNode struct {
 
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
-
-	// The list of attachments for this node.
-	Attachments *[]string `json:"attachments,omitempty" msgpack:"attachments,omitempty" bson:"attachments,omitempty" mapstructure:"attachments,omitempty"`
 
 	// Internal representation of object tags retrieved from the cloud provider.
 	CloudTags *[]string `json:"cloudTags,omitempty" msgpack:"cloudTags,omitempty" bson:"cloudtags,omitempty" mapstructure:"cloudTags,omitempty"`
@@ -1981,8 +1858,8 @@ type SparseCloudNode struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// The cloud attributes of the object.
-	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
+	// Cloud network ruleset data.
+	Parameters *CloudNetworkRuleSetData `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
@@ -1995,9 +1872,6 @@ type SparseCloudNode struct {
 
 	// Prisma Cloud Resource ID.
 	ResourceID *int `json:"resourceID,omitempty" msgpack:"resourceID,omitempty" bson:"resourceid,omitempty" mapstructure:"resourceID,omitempty"`
-
-	// Type of the endpoint.
-	Type *CloudNodeTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -2021,19 +1895,19 @@ type SparseCloudNode struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseCloudNode returns a new  SparseCloudNode.
-func NewSparseCloudNode() *SparseCloudNode {
-	return &SparseCloudNode{}
+// NewSparseCloudNetworkRuleSet returns a new  SparseCloudNetworkRuleSet.
+func NewSparseCloudNetworkRuleSet() *SparseCloudNetworkRuleSet {
+	return &SparseCloudNetworkRuleSet{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseCloudNode) Identity() elemental.Identity {
+func (o *SparseCloudNetworkRuleSet) Identity() elemental.Identity {
 
-	return CloudNodeIdentity
+	return CloudNetworkRuleSetIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseCloudNode) Identifier() string {
+func (o *SparseCloudNetworkRuleSet) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -2042,7 +1916,7 @@ func (o *SparseCloudNode) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseCloudNode) SetIdentifier(id string) {
+func (o *SparseCloudNetworkRuleSet) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -2053,13 +1927,13 @@ func (o *SparseCloudNode) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseCloudNode) GetBSON() (interface{}, error) {
+func (o *SparseCloudNetworkRuleSet) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseCloudNode{}
+	s := &mongoAttributesSparseCloudNetworkRuleSet{}
 
 	if o.APIID != nil {
 		s.APIID = o.APIID
@@ -2081,9 +1955,6 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 	}
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
-	}
-	if o.Attachments != nil {
-		s.Attachments = o.Attachments
 	}
 	if o.CloudTags != nil {
 		s.CloudTags = o.CloudTags
@@ -2130,9 +2001,6 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 	if o.ResourceID != nil {
 		s.ResourceID = o.ResourceID
 	}
-	if o.Type != nil {
-		s.Type = o.Type
-	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	}
@@ -2157,13 +2025,13 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
+func (o *SparseCloudNetworkRuleSet) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseCloudNode{}
+	s := &mongoAttributesSparseCloudNetworkRuleSet{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -2187,9 +2055,6 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
-	}
-	if s.Attachments != nil {
-		o.Attachments = s.Attachments
 	}
 	if s.CloudTags != nil {
 		o.CloudTags = s.CloudTags
@@ -2236,9 +2101,6 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 	if s.ResourceID != nil {
 		o.ResourceID = s.ResourceID
 	}
-	if s.Type != nil {
-		o.Type = s.Type
-	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	}
@@ -2262,15 +2124,15 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseCloudNode) Version() int {
+func (o *SparseCloudNetworkRuleSet) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseCloudNetworkRuleSet) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewCloudNode()
+	out := NewCloudNetworkRuleSet()
 	if o.APIID != nil {
 		out.APIID = *o.APIID
 	}
@@ -2291,9 +2153,6 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
-	}
-	if o.Attachments != nil {
-		out.Attachments = *o.Attachments
 	}
 	if o.CloudTags != nil {
 		out.CloudTags = *o.CloudTags
@@ -2326,7 +2185,7 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 		out.NormalizedTags = *o.NormalizedTags
 	}
 	if o.Parameters != nil {
-		out.Parameters = *o.Parameters
+		out.Parameters = o.Parameters
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -2339,9 +2198,6 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ResourceID != nil {
 		out.ResourceID = *o.ResourceID
-	}
-	if o.Type != nil {
-		out.Type = *o.Type
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -2366,7 +2222,7 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAPIID returns the APIID of the receiver.
-func (o *SparseCloudNode) GetAPIID() (out int) {
+func (o *SparseCloudNetworkRuleSet) GetAPIID() (out int) {
 
 	if o.APIID == nil {
 		return
@@ -2376,13 +2232,13 @@ func (o *SparseCloudNode) GetAPIID() (out int) {
 }
 
 // SetAPIID sets the property APIID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetAPIID(APIID int) {
+func (o *SparseCloudNetworkRuleSet) SetAPIID(APIID int) {
 
 	o.APIID = &APIID
 }
 
 // GetRRN returns the RRN of the receiver.
-func (o *SparseCloudNode) GetRRN() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetRRN() (out string) {
 
 	if o.RRN == nil {
 		return
@@ -2392,13 +2248,13 @@ func (o *SparseCloudNode) GetRRN() (out string) {
 }
 
 // SetRRN sets the property RRN of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetRRN(RRN string) {
+func (o *SparseCloudNetworkRuleSet) SetRRN(RRN string) {
 
 	o.RRN = &RRN
 }
 
 // GetURL returns the URL of the receiver.
-func (o *SparseCloudNode) GetURL() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetURL() (out string) {
 
 	if o.URL == nil {
 		return
@@ -2408,13 +2264,13 @@ func (o *SparseCloudNode) GetURL() (out string) {
 }
 
 // SetURL sets the property URL of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetURL(URL string) {
+func (o *SparseCloudNetworkRuleSet) SetURL(URL string) {
 
 	o.URL = &URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
-func (o *SparseCloudNode) GetAccountID() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetAccountID() (out string) {
 
 	if o.AccountID == nil {
 		return
@@ -2424,13 +2280,13 @@ func (o *SparseCloudNode) GetAccountID() (out string) {
 }
 
 // SetAccountID sets the property AccountID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetAccountID(accountID string) {
+func (o *SparseCloudNetworkRuleSet) SetAccountID(accountID string) {
 
 	o.AccountID = &accountID
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseCloudNode) GetAnnotations() (out map[string][]string) {
+func (o *SparseCloudNetworkRuleSet) GetAnnotations() (out map[string][]string) {
 
 	if o.Annotations == nil {
 		return
@@ -2440,13 +2296,13 @@ func (o *SparseCloudNode) GetAnnotations() (out map[string][]string) {
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetAnnotations(annotations map[string][]string) {
+func (o *SparseCloudNetworkRuleSet) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseCloudNode) GetAssociatedTags() (out []string) {
+func (o *SparseCloudNetworkRuleSet) GetAssociatedTags() (out []string) {
 
 	if o.AssociatedTags == nil {
 		return
@@ -2456,29 +2312,13 @@ func (o *SparseCloudNode) GetAssociatedTags() (out []string) {
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetAssociatedTags(associatedTags []string) {
+func (o *SparseCloudNetworkRuleSet) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
-// GetAttachments returns the Attachments of the receiver.
-func (o *SparseCloudNode) GetAttachments() (out []string) {
-
-	if o.Attachments == nil {
-		return
-	}
-
-	return *o.Attachments
-}
-
-// SetAttachments sets the property Attachments of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetAttachments(attachments []string) {
-
-	o.Attachments = &attachments
-}
-
 // GetCloudTags returns the CloudTags of the receiver.
-func (o *SparseCloudNode) GetCloudTags() (out []string) {
+func (o *SparseCloudNetworkRuleSet) GetCloudTags() (out []string) {
 
 	if o.CloudTags == nil {
 		return
@@ -2488,13 +2328,13 @@ func (o *SparseCloudNode) GetCloudTags() (out []string) {
 }
 
 // SetCloudTags sets the property CloudTags of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetCloudTags(cloudTags []string) {
+func (o *SparseCloudNetworkRuleSet) SetCloudTags(cloudTags []string) {
 
 	o.CloudTags = &cloudTags
 }
 
 // GetCloudType returns the CloudType of the receiver.
-func (o *SparseCloudNode) GetCloudType() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetCloudType() (out string) {
 
 	if o.CloudType == nil {
 		return
@@ -2504,13 +2344,13 @@ func (o *SparseCloudNode) GetCloudType() (out string) {
 }
 
 // SetCloudType sets the property CloudType of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetCloudType(cloudType string) {
+func (o *SparseCloudNetworkRuleSet) SetCloudType(cloudType string) {
 
 	o.CloudType = &cloudType
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseCloudNode) GetCreateIdempotencyKey() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetCreateIdempotencyKey() (out string) {
 
 	if o.CreateIdempotencyKey == nil {
 		return
@@ -2520,13 +2360,13 @@ func (o *SparseCloudNode) GetCreateIdempotencyKey() (out string) {
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseCloudNetworkRuleSet) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCustomerID returns the CustomerID of the receiver.
-func (o *SparseCloudNode) GetCustomerID() (out int) {
+func (o *SparseCloudNetworkRuleSet) GetCustomerID() (out int) {
 
 	if o.CustomerID == nil {
 		return
@@ -2536,13 +2376,13 @@ func (o *SparseCloudNode) GetCustomerID() (out int) {
 }
 
 // SetCustomerID sets the property CustomerID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetCustomerID(customerID int) {
+func (o *SparseCloudNetworkRuleSet) SetCustomerID(customerID int) {
 
 	o.CustomerID = &customerID
 }
 
 // GetIngestionTime returns the IngestionTime of the receiver.
-func (o *SparseCloudNode) GetIngestionTime() (out time.Time) {
+func (o *SparseCloudNetworkRuleSet) GetIngestionTime() (out time.Time) {
 
 	if o.IngestionTime == nil {
 		return
@@ -2552,13 +2392,13 @@ func (o *SparseCloudNode) GetIngestionTime() (out time.Time) {
 }
 
 // SetIngestionTime sets the property IngestionTime of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetIngestionTime(ingestionTime time.Time) {
+func (o *SparseCloudNetworkRuleSet) SetIngestionTime(ingestionTime time.Time) {
 
 	o.IngestionTime = &ingestionTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseCloudNode) GetMigrationsLog() (out map[string]string) {
+func (o *SparseCloudNetworkRuleSet) GetMigrationsLog() (out map[string]string) {
 
 	if o.MigrationsLog == nil {
 		return
@@ -2568,13 +2408,13 @@ func (o *SparseCloudNode) GetMigrationsLog() (out map[string]string) {
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *SparseCloudNetworkRuleSet) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseCloudNode) GetName() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetName() (out string) {
 
 	if o.Name == nil {
 		return
@@ -2584,13 +2424,13 @@ func (o *SparseCloudNode) GetName() (out string) {
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetName(name string) {
+func (o *SparseCloudNetworkRuleSet) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseCloudNode) GetNamespace() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetNamespace() (out string) {
 
 	if o.Namespace == nil {
 		return
@@ -2600,13 +2440,13 @@ func (o *SparseCloudNode) GetNamespace() (out string) {
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetNamespace(namespace string) {
+func (o *SparseCloudNetworkRuleSet) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNativeID returns the NativeID of the receiver.
-func (o *SparseCloudNode) GetNativeID() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetNativeID() (out string) {
 
 	if o.NativeID == nil {
 		return
@@ -2616,13 +2456,13 @@ func (o *SparseCloudNode) GetNativeID() (out string) {
 }
 
 // SetNativeID sets the property NativeID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetNativeID(nativeID string) {
+func (o *SparseCloudNetworkRuleSet) SetNativeID(nativeID string) {
 
 	o.NativeID = &nativeID
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseCloudNode) GetNormalizedTags() (out []string) {
+func (o *SparseCloudNetworkRuleSet) GetNormalizedTags() (out []string) {
 
 	if o.NormalizedTags == nil {
 		return
@@ -2632,29 +2472,13 @@ func (o *SparseCloudNode) GetNormalizedTags() (out []string) {
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseCloudNetworkRuleSet) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
-// GetParameters returns the Parameters of the receiver.
-func (o *SparseCloudNode) GetParameters() (out map[string]interface{}) {
-
-	if o.Parameters == nil {
-		return
-	}
-
-	return *o.Parameters
-}
-
-// SetParameters sets the property Parameters of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetParameters(parameters map[string]interface{}) {
-
-	o.Parameters = &parameters
-}
-
 // GetProtected returns the Protected of the receiver.
-func (o *SparseCloudNode) GetProtected() (out bool) {
+func (o *SparseCloudNetworkRuleSet) GetProtected() (out bool) {
 
 	if o.Protected == nil {
 		return
@@ -2664,13 +2488,13 @@ func (o *SparseCloudNode) GetProtected() (out bool) {
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetProtected(protected bool) {
+func (o *SparseCloudNetworkRuleSet) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetRegionID returns the RegionID of the receiver.
-func (o *SparseCloudNode) GetRegionID() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetRegionID() (out string) {
 
 	if o.RegionID == nil {
 		return
@@ -2680,13 +2504,13 @@ func (o *SparseCloudNode) GetRegionID() (out string) {
 }
 
 // SetRegionID sets the property RegionID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetRegionID(regionID string) {
+func (o *SparseCloudNetworkRuleSet) SetRegionID(regionID string) {
 
 	o.RegionID = &regionID
 }
 
 // GetRegionName returns the RegionName of the receiver.
-func (o *SparseCloudNode) GetRegionName() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetRegionName() (out string) {
 
 	if o.RegionName == nil {
 		return
@@ -2696,13 +2520,13 @@ func (o *SparseCloudNode) GetRegionName() (out string) {
 }
 
 // SetRegionName sets the property RegionName of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetRegionName(regionName string) {
+func (o *SparseCloudNetworkRuleSet) SetRegionName(regionName string) {
 
 	o.RegionName = &regionName
 }
 
 // GetResourceID returns the ResourceID of the receiver.
-func (o *SparseCloudNode) GetResourceID() (out int) {
+func (o *SparseCloudNetworkRuleSet) GetResourceID() (out int) {
 
 	if o.ResourceID == nil {
 		return
@@ -2712,13 +2536,13 @@ func (o *SparseCloudNode) GetResourceID() (out int) {
 }
 
 // SetResourceID sets the property ResourceID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetResourceID(resourceID int) {
+func (o *SparseCloudNetworkRuleSet) SetResourceID(resourceID int) {
 
 	o.ResourceID = &resourceID
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseCloudNode) GetUpdateIdempotencyKey() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetUpdateIdempotencyKey() (out string) {
 
 	if o.UpdateIdempotencyKey == nil {
 		return
@@ -2728,13 +2552,13 @@ func (o *SparseCloudNode) GetUpdateIdempotencyKey() (out string) {
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseCloudNetworkRuleSet) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdatedTime returns the UpdatedTime of the receiver.
-func (o *SparseCloudNode) GetUpdatedTime() (out time.Time) {
+func (o *SparseCloudNetworkRuleSet) GetUpdatedTime() (out time.Time) {
 
 	if o.UpdatedTime == nil {
 		return
@@ -2744,13 +2568,13 @@ func (o *SparseCloudNode) GetUpdatedTime() (out time.Time) {
 }
 
 // SetUpdatedTime sets the property UpdatedTime of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetUpdatedTime(updatedTime time.Time) {
+func (o *SparseCloudNetworkRuleSet) SetUpdatedTime(updatedTime time.Time) {
 
 	o.UpdatedTime = &updatedTime
 }
 
 // GetVpcID returns the VpcID of the receiver.
-func (o *SparseCloudNode) GetVpcID() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetVpcID() (out string) {
 
 	if o.VpcID == nil {
 		return
@@ -2760,13 +2584,13 @@ func (o *SparseCloudNode) GetVpcID() (out string) {
 }
 
 // SetVpcID sets the property VpcID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetVpcID(vpcID string) {
+func (o *SparseCloudNetworkRuleSet) SetVpcID(vpcID string) {
 
 	o.VpcID = &vpcID
 }
 
 // GetVpcName returns the VpcName of the receiver.
-func (o *SparseCloudNode) GetVpcName() (out string) {
+func (o *SparseCloudNetworkRuleSet) GetVpcName() (out string) {
 
 	if o.VpcName == nil {
 		return
@@ -2776,13 +2600,13 @@ func (o *SparseCloudNode) GetVpcName() (out string) {
 }
 
 // SetVpcName sets the property VpcName of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetVpcName(vpcName string) {
+func (o *SparseCloudNetworkRuleSet) SetVpcName(vpcName string) {
 
 	o.VpcName = &vpcName
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseCloudNode) GetZHash() (out int) {
+func (o *SparseCloudNetworkRuleSet) GetZHash() (out int) {
 
 	if o.ZHash == nil {
 		return
@@ -2792,13 +2616,13 @@ func (o *SparseCloudNode) GetZHash() (out int) {
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetZHash(zHash int) {
+func (o *SparseCloudNetworkRuleSet) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseCloudNode) GetZone() (out int) {
+func (o *SparseCloudNetworkRuleSet) GetZone() (out int) {
 
 	if o.Zone == nil {
 		return
@@ -2808,96 +2632,92 @@ func (o *SparseCloudNode) GetZone() (out int) {
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetZone(zone int) {
+func (o *SparseCloudNetworkRuleSet) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseCloudNode.
-func (o *SparseCloudNode) DeepCopy() *SparseCloudNode {
+// DeepCopy returns a deep copy if the SparseCloudNetworkRuleSet.
+func (o *SparseCloudNetworkRuleSet) DeepCopy() *SparseCloudNetworkRuleSet {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseCloudNode{}
+	out := &SparseCloudNetworkRuleSet{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseCloudNode.
-func (o *SparseCloudNode) DeepCopyInto(out *SparseCloudNode) {
+// DeepCopyInto copies the receiver into the given *SparseCloudNetworkRuleSet.
+func (o *SparseCloudNetworkRuleSet) DeepCopyInto(out *SparseCloudNetworkRuleSet) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseCloudNode: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseCloudNetworkRuleSet: %s", err))
 	}
 
-	*out = *target.(*SparseCloudNode)
+	*out = *target.(*SparseCloudNetworkRuleSet)
 }
 
-type mongoAttributesCloudNode struct {
-	APIID                int                    `bson:"apiid"`
-	ID                   bson.ObjectId          `bson:"_id,omitempty"`
-	RRN                  string                 `bson:"rrn"`
-	URL                  string                 `bson:"url"`
-	AccountID            string                 `bson:"accountid"`
-	Annotations          map[string][]string    `bson:"annotations"`
-	AssociatedTags       []string               `bson:"associatedtags"`
-	Attachments          []string               `bson:"attachments"`
-	CloudTags            []string               `bson:"cloudtags"`
-	CloudType            string                 `bson:"cloudtype"`
-	CreateIdempotencyKey string                 `bson:"createidempotencykey"`
-	CustomerID           int                    `bson:"customerid"`
-	IngestionTime        time.Time              `bson:"ingestiontime"`
-	MigrationsLog        map[string]string      `bson:"migrationslog,omitempty"`
-	Name                 string                 `bson:"name"`
-	Namespace            string                 `bson:"namespace"`
-	NativeID             string                 `bson:"nativeid"`
-	NormalizedTags       []string               `bson:"normalizedtags"`
-	Parameters           map[string]interface{} `bson:"parameters"`
-	Protected            bool                   `bson:"protected"`
-	RegionID             string                 `bson:"regionid"`
-	RegionName           string                 `bson:"regionname"`
-	ResourceID           int                    `bson:"resourceid"`
-	Type                 CloudNodeTypeValue     `bson:"type"`
-	UpdateIdempotencyKey string                 `bson:"updateidempotencykey"`
-	UpdatedTime          time.Time              `bson:"updatedtime"`
-	VpcID                string                 `bson:"vpcid"`
-	VpcName              string                 `bson:"vpcname"`
-	ZHash                int                    `bson:"zhash"`
-	Zone                 int                    `bson:"zone"`
+type mongoAttributesCloudNetworkRuleSet struct {
+	APIID                int                      `bson:"apiid"`
+	ID                   bson.ObjectId            `bson:"_id,omitempty"`
+	RRN                  string                   `bson:"rrn"`
+	URL                  string                   `bson:"url"`
+	AccountID            string                   `bson:"accountid"`
+	Annotations          map[string][]string      `bson:"annotations"`
+	AssociatedTags       []string                 `bson:"associatedtags"`
+	CloudTags            []string                 `bson:"cloudtags"`
+	CloudType            string                   `bson:"cloudtype"`
+	CreateIdempotencyKey string                   `bson:"createidempotencykey"`
+	CustomerID           int                      `bson:"customerid"`
+	IngestionTime        time.Time                `bson:"ingestiontime"`
+	MigrationsLog        map[string]string        `bson:"migrationslog,omitempty"`
+	Name                 string                   `bson:"name"`
+	Namespace            string                   `bson:"namespace"`
+	NativeID             string                   `bson:"nativeid"`
+	NormalizedTags       []string                 `bson:"normalizedtags"`
+	Parameters           *CloudNetworkRuleSetData `bson:"parameters"`
+	Protected            bool                     `bson:"protected"`
+	RegionID             string                   `bson:"regionid"`
+	RegionName           string                   `bson:"regionname"`
+	ResourceID           int                      `bson:"resourceid"`
+	UpdateIdempotencyKey string                   `bson:"updateidempotencykey"`
+	UpdatedTime          time.Time                `bson:"updatedtime"`
+	VpcID                string                   `bson:"vpcid"`
+	VpcName              string                   `bson:"vpcname"`
+	ZHash                int                      `bson:"zhash"`
+	Zone                 int                      `bson:"zone"`
 }
-type mongoAttributesSparseCloudNode struct {
-	APIID                *int                    `bson:"apiid,omitempty"`
-	ID                   bson.ObjectId           `bson:"_id,omitempty"`
-	RRN                  *string                 `bson:"rrn,omitempty"`
-	URL                  *string                 `bson:"url,omitempty"`
-	AccountID            *string                 `bson:"accountid,omitempty"`
-	Annotations          *map[string][]string    `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string               `bson:"associatedtags,omitempty"`
-	Attachments          *[]string               `bson:"attachments,omitempty"`
-	CloudTags            *[]string               `bson:"cloudtags,omitempty"`
-	CloudType            *string                 `bson:"cloudtype,omitempty"`
-	CreateIdempotencyKey *string                 `bson:"createidempotencykey,omitempty"`
-	CustomerID           *int                    `bson:"customerid,omitempty"`
-	IngestionTime        *time.Time              `bson:"ingestiontime,omitempty"`
-	MigrationsLog        *map[string]string      `bson:"migrationslog,omitempty"`
-	Name                 *string                 `bson:"name,omitempty"`
-	Namespace            *string                 `bson:"namespace,omitempty"`
-	NativeID             *string                 `bson:"nativeid,omitempty"`
-	NormalizedTags       *[]string               `bson:"normalizedtags,omitempty"`
-	Parameters           *map[string]interface{} `bson:"parameters,omitempty"`
-	Protected            *bool                   `bson:"protected,omitempty"`
-	RegionID             *string                 `bson:"regionid,omitempty"`
-	RegionName           *string                 `bson:"regionname,omitempty"`
-	ResourceID           *int                    `bson:"resourceid,omitempty"`
-	Type                 *CloudNodeTypeValue     `bson:"type,omitempty"`
-	UpdateIdempotencyKey *string                 `bson:"updateidempotencykey,omitempty"`
-	UpdatedTime          *time.Time              `bson:"updatedtime,omitempty"`
-	VpcID                *string                 `bson:"vpcid,omitempty"`
-	VpcName              *string                 `bson:"vpcname,omitempty"`
-	ZHash                *int                    `bson:"zhash,omitempty"`
-	Zone                 *int                    `bson:"zone,omitempty"`
+type mongoAttributesSparseCloudNetworkRuleSet struct {
+	APIID                *int                     `bson:"apiid,omitempty"`
+	ID                   bson.ObjectId            `bson:"_id,omitempty"`
+	RRN                  *string                  `bson:"rrn,omitempty"`
+	URL                  *string                  `bson:"url,omitempty"`
+	AccountID            *string                  `bson:"accountid,omitempty"`
+	Annotations          *map[string][]string     `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                `bson:"associatedtags,omitempty"`
+	CloudTags            *[]string                `bson:"cloudtags,omitempty"`
+	CloudType            *string                  `bson:"cloudtype,omitempty"`
+	CreateIdempotencyKey *string                  `bson:"createidempotencykey,omitempty"`
+	CustomerID           *int                     `bson:"customerid,omitempty"`
+	IngestionTime        *time.Time               `bson:"ingestiontime,omitempty"`
+	MigrationsLog        *map[string]string       `bson:"migrationslog,omitempty"`
+	Name                 *string                  `bson:"name,omitempty"`
+	Namespace            *string                  `bson:"namespace,omitempty"`
+	NativeID             *string                  `bson:"nativeid,omitempty"`
+	NormalizedTags       *[]string                `bson:"normalizedtags,omitempty"`
+	Parameters           *CloudNetworkRuleSetData `bson:"parameters,omitempty"`
+	Protected            *bool                    `bson:"protected,omitempty"`
+	RegionID             *string                  `bson:"regionid,omitempty"`
+	RegionName           *string                  `bson:"regionname,omitempty"`
+	ResourceID           *int                     `bson:"resourceid,omitempty"`
+	UpdateIdempotencyKey *string                  `bson:"updateidempotencykey,omitempty"`
+	UpdatedTime          *time.Time               `bson:"updatedtime,omitempty"`
+	VpcID                *string                  `bson:"vpcid,omitempty"`
+	VpcName              *string                  `bson:"vpcname,omitempty"`
+	ZHash                *int                     `bson:"zhash,omitempty"`
+	Zone                 *int                     `bson:"zone,omitempty"`
 }

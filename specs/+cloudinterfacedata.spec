@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: interfacedata
-  resource_name: interfacedata
-  entity_name: InterfaceData
+  rest_name: cloudinterfacedata
+  resource_name: cloudinterfacedata
+  entity_name: CloudInterfaceData
   package: pcn
   group: prisma/infrastructure
   description: Parameters associated with a cloud interface.
@@ -20,6 +20,20 @@ attributes:
     subtype: cloudaddress
     stored: true
 
+  - name: attachmentType
+    description: |-
+      Attachment type describes where this interface is attached to (Instance, Load
+      Balancer, Gateway, etc).
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Instance
+    - LoadBalancer
+    - Gateway
+    - Service
+    - TransitGateway
+
   - name: relatedObjectID
     description: |-
       If the interface is of type or external, the relatedObjectID identifies the
@@ -35,22 +49,11 @@ attributes:
     subtype: string
     stored: true
 
-  - name: subnet
+  - name: subnets
     description: ID of subnet associated with this interface.
     type: list
     exposed: true
     subtype: string
     stored: true
-    example_value: subnet-074c152ae45ea0c73
-
-  - name: type
-    description: Interface type (Instance, Load Balancer, Gateway, etc).
-    type: enum
-    exposed: true
-    stored: true
-    allowed_choices:
-    - Instance
-    - LoadBalancer
-    - Gateway
-    - Service
-    - TransitGateway
+    example_value:
+    - subnet-074c152ae45ea0c73

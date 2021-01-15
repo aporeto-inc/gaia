@@ -1,17 +1,15 @@
 # Model
 model:
-  rest_name: cloudvpc
-  resource_name: cloudvpcs
-  entity_name: CloudVPC
+  rest_name: cloudnetworkruleset
+  resource_name: cloudnetworkrulesets
+  entity_name: CloudNetworkRuleSet
   package: pcn
   group: prisma/infrastructure
   description: |-
-    A CloudVPC represents a VPC as defined in an cloud provider (AWS/Azure/GCP etc).
-    The VPC is essentially an L3 routing domain with at least one subnet attached
-    and it defines an isolated network.
+    A CloudNetworkRuleSet represents a set of cloud network security groups or
+    firewall rules as they apply to the infrastructure.
   aliases:
-  - vpc
-  - vpcs
+  - crules
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -28,20 +26,14 @@ model:
   - '@identifiable-stored'
   - '@prismabase'
 
-# Indexes
-indexes:
-- - namespace
-  - nativeID
-- - nativeID
-
 # Attributes
 attributes:
   v1:
   - name: parameters
-    description: VPC related parameters.
+    description: Cloud network ruleset data.
     type: ref
     exposed: true
-    subtype: cloudvpcdata
+    subtype: cloudnetworkrulesetdata
     stored: true
     extensions:
       refMode: pointer

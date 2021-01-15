@@ -2,27 +2,11 @@ package gaia
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-)
-
-// CloudSubnetCloudTypeValue represents the possible values for attribute "cloudType".
-type CloudSubnetCloudTypeValue string
-
-const (
-	// CloudSubnetCloudTypeALIBABA represents the value ALIBABA.
-	CloudSubnetCloudTypeALIBABA CloudSubnetCloudTypeValue = "ALIBABA"
-
-	// CloudSubnetCloudTypeAWS represents the value AWS.
-	CloudSubnetCloudTypeAWS CloudSubnetCloudTypeValue = "AWS"
-
-	// CloudSubnetCloudTypeAZURE represents the value AZURE.
-	CloudSubnetCloudTypeAZURE CloudSubnetCloudTypeValue = "AZURE"
-
-	// CloudSubnetCloudTypeGCP represents the value GCP.
-	CloudSubnetCloudTypeGCP CloudSubnetCloudTypeValue = "GCP"
 )
 
 // CloudSubnetIdentity represents the Identity of the object.
@@ -74,9 +58,7 @@ func (o CloudSubnetsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o CloudSubnetsList) DefaultOrder() []string {
 
-	return []string{
-		"name",
-	}
+	return []string{}
 }
 
 // ToSparse returns the CloudSubnetsList converted to SparseCloudSubnetsList.
@@ -120,8 +102,11 @@ type CloudSubnet struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// Internal representation of object tags retrieved from the cloud provider.
+	CloudTags []string `json:"cloudTags" msgpack:"cloudTags" bson:"cloudtags" mapstructure:"cloudTags,omitempty"`
+
 	// Cloud type of the entity.
-	CloudType CloudSubnetCloudTypeValue `json:"cloudType" msgpack:"cloudType" bson:"cloudtype" mapstructure:"cloudType,omitempty"`
+	CloudType string `json:"cloudType" msgpack:"cloudType" bson:"cloudtype" mapstructure:"cloudType,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
@@ -129,20 +114,13 @@ type CloudSubnet struct {
 	// Customer ID as identified by Prisma Cloud.
 	CustomerID int `json:"customerID" msgpack:"customerID" bson:"customerid" mapstructure:"customerID,omitempty"`
 
-	// Description of the object.
-	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// Timestamp of when object was created.
-	InsertTS int `json:"insertTs,omitempty" msgpack:"insertTs,omitempty" bson:"insertts,omitempty" mapstructure:"insertTs,omitempty"`
-
-	// Contains tags that can only be set during creation, must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+	// The time that the object was first ingested.
+	IngestionTime time.Time `json:"ingestionTime" msgpack:"ingestionTime" bson:"ingestiontime" mapstructure:"ingestionTime,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
-	// Name of the entity.
+	// Name of the object (optional).
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -155,7 +133,7 @@ type CloudSubnet struct {
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Subnet related parameters.
-	Parameters *SubnetData `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters *CloudSubnetData `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -169,11 +147,11 @@ type CloudSubnet struct {
 	// Prisma Cloud Resource ID.
 	ResourceID int `json:"resourceID" msgpack:"resourceID" bson:"resourceid" mapstructure:"resourceID,omitempty"`
 
-	// Internal representation of object tags.
-	Tags map[string]string `json:"tags" msgpack:"tags" bson:"tags" mapstructure:"tags,omitempty"`
-
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
+	// The time that the object was updated.
+	UpdatedTime time.Time `json:"updatedTime" msgpack:"updatedTime" bson:"updatedtime" mapstructure:"updatedTime,omitempty"`
 
 	// ID of the host VPC.
 	VpcID string `json:"vpcID" msgpack:"vpcID" bson:"vpcid" mapstructure:"vpcID,omitempty"`
@@ -196,13 +174,12 @@ func NewCloudSubnet() *CloudSubnet {
 
 	return &CloudSubnet{
 		ModelVersion:   1,
+		CloudTags:      []string{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
-		Parameters:     NewSubnetData(),
-		Metadata:       []string{},
-		Tags:           map[string]string{},
+		Parameters:     NewCloudSubnetData(),
 	}
 }
 
@@ -243,12 +220,11 @@ func (o *CloudSubnet) GetBSON() (interface{}, error) {
 	s.AccountID = o.AccountID
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
+	s.CloudTags = o.CloudTags
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CustomerID = o.CustomerID
-	s.Description = o.Description
-	s.InsertTS = o.InsertTS
-	s.Metadata = o.Metadata
+	s.IngestionTime = o.IngestionTime
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
@@ -259,8 +235,8 @@ func (o *CloudSubnet) GetBSON() (interface{}, error) {
 	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
 	s.ResourceID = o.ResourceID
-	s.Tags = o.Tags
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdatedTime = o.UpdatedTime
 	s.VpcID = o.VpcID
 	s.VpcName = o.VpcName
 	s.ZHash = o.ZHash
@@ -289,12 +265,11 @@ func (o *CloudSubnet) SetBSON(raw bson.Raw) error {
 	o.AccountID = s.AccountID
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
+	o.CloudTags = s.CloudTags
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CustomerID = s.CustomerID
-	o.Description = s.Description
-	o.InsertTS = s.InsertTS
-	o.Metadata = s.Metadata
+	o.IngestionTime = s.IngestionTime
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
@@ -305,8 +280,8 @@ func (o *CloudSubnet) SetBSON(raw bson.Raw) error {
 	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
 	o.ResourceID = s.ResourceID
-	o.Tags = s.Tags
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdatedTime = s.UpdatedTime
 	o.VpcID = s.VpcID
 	o.VpcName = s.VpcName
 	o.ZHash = s.ZHash
@@ -330,9 +305,7 @@ func (o *CloudSubnet) BleveType() string {
 // DefaultOrder returns the list of default ordering fields.
 func (o *CloudSubnet) DefaultOrder() []string {
 
-	return []string{
-		"name",
-	}
+	return []string{}
 }
 
 // Doc returns the documentation for the object
@@ -418,14 +391,26 @@ func (o *CloudSubnet) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
+// GetCloudTags returns the CloudTags of the receiver.
+func (o *CloudSubnet) GetCloudTags() []string {
+
+	return o.CloudTags
+}
+
+// SetCloudTags sets the property CloudTags of the receiver using the given value.
+func (o *CloudSubnet) SetCloudTags(cloudTags []string) {
+
+	o.CloudTags = cloudTags
+}
+
 // GetCloudType returns the CloudType of the receiver.
-func (o *CloudSubnet) GetCloudType() CloudSubnetCloudTypeValue {
+func (o *CloudSubnet) GetCloudType() string {
 
 	return o.CloudType
 }
 
 // SetCloudType sets the property CloudType of the receiver using the given value.
-func (o *CloudSubnet) SetCloudType(cloudType CloudSubnetCloudTypeValue) {
+func (o *CloudSubnet) SetCloudType(cloudType string) {
 
 	o.CloudType = cloudType
 }
@@ -454,40 +439,16 @@ func (o *CloudSubnet) SetCustomerID(customerID int) {
 	o.CustomerID = customerID
 }
 
-// GetDescription returns the Description of the receiver.
-func (o *CloudSubnet) GetDescription() string {
+// GetIngestionTime returns the IngestionTime of the receiver.
+func (o *CloudSubnet) GetIngestionTime() time.Time {
 
-	return o.Description
+	return o.IngestionTime
 }
 
-// SetDescription sets the property Description of the receiver using the given value.
-func (o *CloudSubnet) SetDescription(description string) {
+// SetIngestionTime sets the property IngestionTime of the receiver using the given value.
+func (o *CloudSubnet) SetIngestionTime(ingestionTime time.Time) {
 
-	o.Description = description
-}
-
-// GetInsertTS returns the InsertTS of the receiver.
-func (o *CloudSubnet) GetInsertTS() int {
-
-	return o.InsertTS
-}
-
-// SetInsertTS sets the property InsertTS of the receiver using the given value.
-func (o *CloudSubnet) SetInsertTS(insertTS int) {
-
-	o.InsertTS = insertTS
-}
-
-// GetMetadata returns the Metadata of the receiver.
-func (o *CloudSubnet) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *CloudSubnet) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
+	o.IngestionTime = ingestionTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -598,18 +559,6 @@ func (o *CloudSubnet) SetResourceID(resourceID int) {
 	o.ResourceID = resourceID
 }
 
-// GetTags returns the Tags of the receiver.
-func (o *CloudSubnet) GetTags() map[string]string {
-
-	return o.Tags
-}
-
-// SetTags sets the property Tags of the receiver using the given value.
-func (o *CloudSubnet) SetTags(tags map[string]string) {
-
-	o.Tags = tags
-}
-
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
 func (o *CloudSubnet) GetUpdateIdempotencyKey() string {
 
@@ -620,6 +569,18 @@ func (o *CloudSubnet) GetUpdateIdempotencyKey() string {
 func (o *CloudSubnet) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
+// GetUpdatedTime returns the UpdatedTime of the receiver.
+func (o *CloudSubnet) GetUpdatedTime() time.Time {
+
+	return o.UpdatedTime
+}
+
+// SetUpdatedTime sets the property UpdatedTime of the receiver using the given value.
+func (o *CloudSubnet) SetUpdatedTime(updatedTime time.Time) {
+
+	o.UpdatedTime = updatedTime
 }
 
 // GetVpcID returns the VpcID of the receiver.
@@ -684,12 +645,11 @@ func (o *CloudSubnet) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AccountID:            &o.AccountID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
+			CloudTags:            &o.CloudTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CustomerID:           &o.CustomerID,
-			Description:          &o.Description,
-			InsertTS:             &o.InsertTS,
-			Metadata:             &o.Metadata,
+			IngestionTime:        &o.IngestionTime,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -700,8 +660,8 @@ func (o *CloudSubnet) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			RegionID:             &o.RegionID,
 			RegionName:           &o.RegionName,
 			ResourceID:           &o.ResourceID,
-			Tags:                 &o.Tags,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdatedTime:          &o.UpdatedTime,
 			VpcID:                &o.VpcID,
 			VpcName:              &o.VpcName,
 			ZHash:                &o.ZHash,
@@ -726,18 +686,16 @@ func (o *CloudSubnet) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "cloudTags":
+			sp.CloudTags = &(o.CloudTags)
 		case "cloudType":
 			sp.CloudType = &(o.CloudType)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "customerID":
 			sp.CustomerID = &(o.CustomerID)
-		case "description":
-			sp.Description = &(o.Description)
-		case "insertTS":
-			sp.InsertTS = &(o.InsertTS)
-		case "metadata":
-			sp.Metadata = &(o.Metadata)
+		case "ingestionTime":
+			sp.IngestionTime = &(o.IngestionTime)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -758,10 +716,10 @@ func (o *CloudSubnet) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.RegionName = &(o.RegionName)
 		case "resourceID":
 			sp.ResourceID = &(o.ResourceID)
-		case "tags":
-			sp.Tags = &(o.Tags)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
+		case "updatedTime":
+			sp.UpdatedTime = &(o.UpdatedTime)
 		case "vpcID":
 			sp.VpcID = &(o.VpcID)
 		case "vpcName":
@@ -804,6 +762,9 @@ func (o *CloudSubnet) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
+	if so.CloudTags != nil {
+		o.CloudTags = *so.CloudTags
+	}
 	if so.CloudType != nil {
 		o.CloudType = *so.CloudType
 	}
@@ -813,14 +774,8 @@ func (o *CloudSubnet) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CustomerID != nil {
 		o.CustomerID = *so.CustomerID
 	}
-	if so.Description != nil {
-		o.Description = *so.Description
-	}
-	if so.InsertTS != nil {
-		o.InsertTS = *so.InsertTS
-	}
-	if so.Metadata != nil {
-		o.Metadata = *so.Metadata
+	if so.IngestionTime != nil {
+		o.IngestionTime = *so.IngestionTime
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -852,11 +807,11 @@ func (o *CloudSubnet) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ResourceID != nil {
 		o.ResourceID = *so.ResourceID
 	}
-	if so.Tags != nil {
-		o.Tags = *so.Tags
-	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
+	}
+	if so.UpdatedTime != nil {
+		o.UpdatedTime = *so.UpdatedTime
 	}
 	if so.VpcID != nil {
 		o.VpcID = *so.VpcID
@@ -907,26 +862,6 @@ func (o *CloudSubnet) Validate() error {
 	}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateStringInList("cloudType", string(o.CloudType), []string{"AWS", "GCP", "AZURE", "ALIBABA"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1001,18 +936,16 @@ func (o *CloudSubnet) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
+	case "cloudTags":
+		return o.CloudTags
 	case "cloudType":
 		return o.CloudType
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "customerID":
 		return o.CustomerID
-	case "description":
-		return o.Description
-	case "insertTS":
-		return o.InsertTS
-	case "metadata":
-		return o.Metadata
+	case "ingestionTime":
+		return o.IngestionTime
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -1033,10 +966,10 @@ func (o *CloudSubnet) ValueForAttribute(name string) interface{} {
 		return o.RegionName
 	case "resourceID":
 		return o.ResourceID
-	case "tags":
-		return o.Tags
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
+	case "updatedTime":
+		return o.UpdatedTime
 	case "vpcID":
 		return o.VpcID
 	case "vpcName":
@@ -1144,8 +1077,21 @@ var CloudSubnetAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
+	"CloudTags": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "cloudtags",
+		ConvertedName:  "CloudTags",
+		Description:    `Internal representation of object tags retrieved from the cloud provider.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "cloudTags",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"CloudType": {
-		AllowedChoices: []string{"AWS", "GCP", "AZURE", "ALIBABA"},
+		AllowedChoices: []string{},
 		BSONFieldName:  "cloudtype",
 		ConvertedName:  "CloudType",
 		Description:    `Cloud type of the entity.`,
@@ -1156,7 +1102,7 @@ var CloudSubnetAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
-		Type:           "enum",
+		Type:           "string",
 	},
 	"CreateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -1184,50 +1130,18 @@ var CloudSubnetAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "integer",
 	},
-	"Description": {
+	"IngestionTime": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "description",
-		ConvertedName:  "Description",
-		Description:    `Description of the object.`,
+		BSONFieldName:  "ingestiontime",
+		ConvertedName:  "IngestionTime",
+		Description:    `The time that the object was first ingested.`,
 		Exposed:        true,
 		Getter:         true,
-		MaxLength:      1024,
-		Name:           "description",
+		Name:           "ingestionTime",
 		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
-		Type:           "string",
-	},
-	"InsertTS": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "insertts",
-		ConvertedName:  "InsertTS",
-		Description:    `Timestamp of when object was created.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "insertTS",
-		Orderable:      true,
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "integer",
-	},
-	"Metadata": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "metadata",
-		ConvertedName:  "Metadata",
-		CreationOnly:   true,
-		Description: `Contains tags that can only be set during creation, must all start
-with the '@' prefix, and should only be used by external systems.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "metadata",
-		Setter:     true,
-		Stored:     true,
-		SubType:    "string",
-		Type:       "list",
+		Type:           "time",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -1245,14 +1159,11 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "name",
 		ConvertedName:  "Name",
-		Description:    `Name of the entity.`,
+		Description:    `Name of the object (optional).`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
-		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
-		Required:       true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1312,7 +1223,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "subnetdata",
+		SubType:        "cloudsubnetdata",
 		Type:           "ref",
 	},
 	"Protected": {
@@ -1370,19 +1281,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"Tags": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "tags",
-		ConvertedName:  "Tags",
-		Description:    `Internal representation of object tags.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "tags",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "map[string]string",
-		Type:           "external",
-	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1395,6 +1293,19 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"UpdatedTime": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "updatedtime",
+		ConvertedName:  "UpdatedTime",
+		Description:    `The time that the object was updated.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updatedTime",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"VpcID": {
 		AllowedChoices: []string{},
@@ -1546,8 +1457,21 @@ var CloudSubnetLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		SubType:        "string",
 		Type:           "list",
 	},
+	"cloudtags": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "cloudtags",
+		ConvertedName:  "CloudTags",
+		Description:    `Internal representation of object tags retrieved from the cloud provider.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "cloudTags",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"cloudtype": {
-		AllowedChoices: []string{"AWS", "GCP", "AZURE", "ALIBABA"},
+		AllowedChoices: []string{},
 		BSONFieldName:  "cloudtype",
 		ConvertedName:  "CloudType",
 		Description:    `Cloud type of the entity.`,
@@ -1558,7 +1482,7 @@ var CloudSubnetLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
-		Type:           "enum",
+		Type:           "string",
 	},
 	"createidempotencykey": {
 		AllowedChoices: []string{},
@@ -1586,50 +1510,18 @@ var CloudSubnetLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Stored:         true,
 		Type:           "integer",
 	},
-	"description": {
+	"ingestiontime": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "description",
-		ConvertedName:  "Description",
-		Description:    `Description of the object.`,
+		BSONFieldName:  "ingestiontime",
+		ConvertedName:  "IngestionTime",
+		Description:    `The time that the object was first ingested.`,
 		Exposed:        true,
 		Getter:         true,
-		MaxLength:      1024,
-		Name:           "description",
+		Name:           "ingestionTime",
 		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
-		Type:           "string",
-	},
-	"insertts": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "insertts",
-		ConvertedName:  "InsertTS",
-		Description:    `Timestamp of when object was created.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "insertTS",
-		Orderable:      true,
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "integer",
-	},
-	"metadata": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "metadata",
-		ConvertedName:  "Metadata",
-		CreationOnly:   true,
-		Description: `Contains tags that can only be set during creation, must all start
-with the '@' prefix, and should only be used by external systems.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "metadata",
-		Setter:     true,
-		Stored:     true,
-		SubType:    "string",
-		Type:       "list",
+		Type:           "time",
 	},
 	"migrationslog": {
 		AllowedChoices: []string{},
@@ -1647,14 +1539,11 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "name",
 		ConvertedName:  "Name",
-		Description:    `Name of the entity.`,
+		Description:    `Name of the object (optional).`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
-		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
-		Required:       true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
@@ -1714,7 +1603,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "subnetdata",
+		SubType:        "cloudsubnetdata",
 		Type:           "ref",
 	},
 	"protected": {
@@ -1772,19 +1661,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "integer",
 	},
-	"tags": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "tags",
-		ConvertedName:  "Tags",
-		Description:    `Internal representation of object tags.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "tags",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "map[string]string",
-		Type:           "external",
-	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1797,6 +1673,19 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"updatedtime": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "updatedtime",
+		ConvertedName:  "UpdatedTime",
+		Description:    `The time that the object was updated.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updatedTime",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"vpcid": {
 		AllowedChoices: []string{},
@@ -1895,9 +1784,7 @@ func (o SparseCloudSubnetsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseCloudSubnetsList) DefaultOrder() []string {
 
-	return []string{
-		"name",
-	}
+	return []string{}
 }
 
 // ToPlain returns the SparseCloudSubnetsList converted to CloudSubnetsList.
@@ -1940,8 +1827,11 @@ type SparseCloudSubnet struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
+	// Internal representation of object tags retrieved from the cloud provider.
+	CloudTags *[]string `json:"cloudTags,omitempty" msgpack:"cloudTags,omitempty" bson:"cloudtags,omitempty" mapstructure:"cloudTags,omitempty"`
+
 	// Cloud type of the entity.
-	CloudType *CloudSubnetCloudTypeValue `json:"cloudType,omitempty" msgpack:"cloudType,omitempty" bson:"cloudtype,omitempty" mapstructure:"cloudType,omitempty"`
+	CloudType *string `json:"cloudType,omitempty" msgpack:"cloudType,omitempty" bson:"cloudtype,omitempty" mapstructure:"cloudType,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1949,20 +1839,13 @@ type SparseCloudSubnet struct {
 	// Customer ID as identified by Prisma Cloud.
 	CustomerID *int `json:"customerID,omitempty" msgpack:"customerID,omitempty" bson:"customerid,omitempty" mapstructure:"customerID,omitempty"`
 
-	// Description of the object.
-	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
-
-	// Timestamp of when object was created.
-	InsertTS *int `json:"insertTs,omitempty" msgpack:"insertTs,omitempty" bson:"insertts,omitempty" mapstructure:"insertTs,omitempty"`
-
-	// Contains tags that can only be set during creation, must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+	// The time that the object was first ingested.
+	IngestionTime *time.Time `json:"ingestionTime,omitempty" msgpack:"ingestionTime,omitempty" bson:"ingestiontime,omitempty" mapstructure:"ingestionTime,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
-	// Name of the entity.
+	// Name of the object (optional).
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -1975,7 +1858,7 @@ type SparseCloudSubnet struct {
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Subnet related parameters.
-	Parameters *SubnetData `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
+	Parameters *CloudSubnetData `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
@@ -1989,11 +1872,11 @@ type SparseCloudSubnet struct {
 	// Prisma Cloud Resource ID.
 	ResourceID *int `json:"resourceID,omitempty" msgpack:"resourceID,omitempty" bson:"resourceid,omitempty" mapstructure:"resourceID,omitempty"`
 
-	// Internal representation of object tags.
-	Tags *map[string]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"tags,omitempty" mapstructure:"tags,omitempty"`
-
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// The time that the object was updated.
+	UpdatedTime *time.Time `json:"updatedTime,omitempty" msgpack:"updatedTime,omitempty" bson:"updatedtime,omitempty" mapstructure:"updatedTime,omitempty"`
 
 	// ID of the host VPC.
 	VpcID *string `json:"vpcID,omitempty" msgpack:"vpcID,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcID,omitempty"`
@@ -2072,6 +1955,9 @@ func (o *SparseCloudSubnet) GetBSON() (interface{}, error) {
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
 	}
+	if o.CloudTags != nil {
+		s.CloudTags = o.CloudTags
+	}
 	if o.CloudType != nil {
 		s.CloudType = o.CloudType
 	}
@@ -2081,14 +1967,8 @@ func (o *SparseCloudSubnet) GetBSON() (interface{}, error) {
 	if o.CustomerID != nil {
 		s.CustomerID = o.CustomerID
 	}
-	if o.Description != nil {
-		s.Description = o.Description
-	}
-	if o.InsertTS != nil {
-		s.InsertTS = o.InsertTS
-	}
-	if o.Metadata != nil {
-		s.Metadata = o.Metadata
+	if o.IngestionTime != nil {
+		s.IngestionTime = o.IngestionTime
 	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
@@ -2120,11 +2000,11 @@ func (o *SparseCloudSubnet) GetBSON() (interface{}, error) {
 	if o.ResourceID != nil {
 		s.ResourceID = o.ResourceID
 	}
-	if o.Tags != nil {
-		s.Tags = o.Tags
-	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdatedTime != nil {
+		s.UpdatedTime = o.UpdatedTime
 	}
 	if o.VpcID != nil {
 		s.VpcID = o.VpcID
@@ -2175,6 +2055,9 @@ func (o *SparseCloudSubnet) SetBSON(raw bson.Raw) error {
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
 	}
+	if s.CloudTags != nil {
+		o.CloudTags = s.CloudTags
+	}
 	if s.CloudType != nil {
 		o.CloudType = s.CloudType
 	}
@@ -2184,14 +2067,8 @@ func (o *SparseCloudSubnet) SetBSON(raw bson.Raw) error {
 	if s.CustomerID != nil {
 		o.CustomerID = s.CustomerID
 	}
-	if s.Description != nil {
-		o.Description = s.Description
-	}
-	if s.InsertTS != nil {
-		o.InsertTS = s.InsertTS
-	}
-	if s.Metadata != nil {
-		o.Metadata = s.Metadata
+	if s.IngestionTime != nil {
+		o.IngestionTime = s.IngestionTime
 	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
@@ -2223,11 +2100,11 @@ func (o *SparseCloudSubnet) SetBSON(raw bson.Raw) error {
 	if s.ResourceID != nil {
 		o.ResourceID = s.ResourceID
 	}
-	if s.Tags != nil {
-		o.Tags = s.Tags
-	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdatedTime != nil {
+		o.UpdatedTime = s.UpdatedTime
 	}
 	if s.VpcID != nil {
 		o.VpcID = s.VpcID
@@ -2276,6 +2153,9 @@ func (o *SparseCloudSubnet) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
+	if o.CloudTags != nil {
+		out.CloudTags = *o.CloudTags
+	}
 	if o.CloudType != nil {
 		out.CloudType = *o.CloudType
 	}
@@ -2285,14 +2165,8 @@ func (o *SparseCloudSubnet) ToPlain() elemental.PlainIdentifiable {
 	if o.CustomerID != nil {
 		out.CustomerID = *o.CustomerID
 	}
-	if o.Description != nil {
-		out.Description = *o.Description
-	}
-	if o.InsertTS != nil {
-		out.InsertTS = *o.InsertTS
-	}
-	if o.Metadata != nil {
-		out.Metadata = *o.Metadata
+	if o.IngestionTime != nil {
+		out.IngestionTime = *o.IngestionTime
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -2324,11 +2198,11 @@ func (o *SparseCloudSubnet) ToPlain() elemental.PlainIdentifiable {
 	if o.ResourceID != nil {
 		out.ResourceID = *o.ResourceID
 	}
-	if o.Tags != nil {
-		out.Tags = *o.Tags
-	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
+	if o.UpdatedTime != nil {
+		out.UpdatedTime = *o.UpdatedTime
 	}
 	if o.VpcID != nil {
 		out.VpcID = *o.VpcID
@@ -2442,8 +2316,24 @@ func (o *SparseCloudSubnet) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = &associatedTags
 }
 
+// GetCloudTags returns the CloudTags of the receiver.
+func (o *SparseCloudSubnet) GetCloudTags() (out []string) {
+
+	if o.CloudTags == nil {
+		return
+	}
+
+	return *o.CloudTags
+}
+
+// SetCloudTags sets the property CloudTags of the receiver using the address of the given value.
+func (o *SparseCloudSubnet) SetCloudTags(cloudTags []string) {
+
+	o.CloudTags = &cloudTags
+}
+
 // GetCloudType returns the CloudType of the receiver.
-func (o *SparseCloudSubnet) GetCloudType() (out CloudSubnetCloudTypeValue) {
+func (o *SparseCloudSubnet) GetCloudType() (out string) {
 
 	if o.CloudType == nil {
 		return
@@ -2453,7 +2343,7 @@ func (o *SparseCloudSubnet) GetCloudType() (out CloudSubnetCloudTypeValue) {
 }
 
 // SetCloudType sets the property CloudType of the receiver using the address of the given value.
-func (o *SparseCloudSubnet) SetCloudType(cloudType CloudSubnetCloudTypeValue) {
+func (o *SparseCloudSubnet) SetCloudType(cloudType string) {
 
 	o.CloudType = &cloudType
 }
@@ -2490,52 +2380,20 @@ func (o *SparseCloudSubnet) SetCustomerID(customerID int) {
 	o.CustomerID = &customerID
 }
 
-// GetDescription returns the Description of the receiver.
-func (o *SparseCloudSubnet) GetDescription() (out string) {
+// GetIngestionTime returns the IngestionTime of the receiver.
+func (o *SparseCloudSubnet) GetIngestionTime() (out time.Time) {
 
-	if o.Description == nil {
+	if o.IngestionTime == nil {
 		return
 	}
 
-	return *o.Description
+	return *o.IngestionTime
 }
 
-// SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseCloudSubnet) SetDescription(description string) {
+// SetIngestionTime sets the property IngestionTime of the receiver using the address of the given value.
+func (o *SparseCloudSubnet) SetIngestionTime(ingestionTime time.Time) {
 
-	o.Description = &description
-}
-
-// GetInsertTS returns the InsertTS of the receiver.
-func (o *SparseCloudSubnet) GetInsertTS() (out int) {
-
-	if o.InsertTS == nil {
-		return
-	}
-
-	return *o.InsertTS
-}
-
-// SetInsertTS sets the property InsertTS of the receiver using the address of the given value.
-func (o *SparseCloudSubnet) SetInsertTS(insertTS int) {
-
-	o.InsertTS = &insertTS
-}
-
-// GetMetadata returns the Metadata of the receiver.
-func (o *SparseCloudSubnet) GetMetadata() (out []string) {
-
-	if o.Metadata == nil {
-		return
-	}
-
-	return *o.Metadata
-}
-
-// SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseCloudSubnet) SetMetadata(metadata []string) {
-
-	o.Metadata = &metadata
+	o.IngestionTime = &ingestionTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -2682,22 +2540,6 @@ func (o *SparseCloudSubnet) SetResourceID(resourceID int) {
 	o.ResourceID = &resourceID
 }
 
-// GetTags returns the Tags of the receiver.
-func (o *SparseCloudSubnet) GetTags() (out map[string]string) {
-
-	if o.Tags == nil {
-		return
-	}
-
-	return *o.Tags
-}
-
-// SetTags sets the property Tags of the receiver using the address of the given value.
-func (o *SparseCloudSubnet) SetTags(tags map[string]string) {
-
-	o.Tags = &tags
-}
-
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
 func (o *SparseCloudSubnet) GetUpdateIdempotencyKey() (out string) {
 
@@ -2712,6 +2554,22 @@ func (o *SparseCloudSubnet) GetUpdateIdempotencyKey() (out string) {
 func (o *SparseCloudSubnet) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
+}
+
+// GetUpdatedTime returns the UpdatedTime of the receiver.
+func (o *SparseCloudSubnet) GetUpdatedTime() (out time.Time) {
+
+	if o.UpdatedTime == nil {
+		return
+	}
+
+	return *o.UpdatedTime
+}
+
+// SetUpdatedTime sets the property UpdatedTime of the receiver using the address of the given value.
+func (o *SparseCloudSubnet) SetUpdatedTime(updatedTime time.Time) {
+
+	o.UpdatedTime = &updatedTime
 }
 
 // GetVpcID returns the VpcID of the receiver.
@@ -2803,64 +2661,62 @@ func (o *SparseCloudSubnet) DeepCopyInto(out *SparseCloudSubnet) {
 }
 
 type mongoAttributesCloudSubnet struct {
-	APIID                int                       `bson:"apiid"`
-	ID                   bson.ObjectId             `bson:"_id,omitempty"`
-	RRN                  string                    `bson:"rrn"`
-	URL                  string                    `bson:"url"`
-	AccountID            string                    `bson:"accountid"`
-	Annotations          map[string][]string       `bson:"annotations"`
-	AssociatedTags       []string                  `bson:"associatedtags"`
-	CloudType            CloudSubnetCloudTypeValue `bson:"cloudtype"`
-	CreateIdempotencyKey string                    `bson:"createidempotencykey"`
-	CustomerID           int                       `bson:"customerid"`
-	Description          string                    `bson:"description"`
-	InsertTS             int                       `bson:"insertts,omitempty"`
-	Metadata             []string                  `bson:"metadata"`
-	MigrationsLog        map[string]string         `bson:"migrationslog,omitempty"`
-	Name                 string                    `bson:"name"`
-	Namespace            string                    `bson:"namespace"`
-	NativeID             string                    `bson:"nativeid"`
-	NormalizedTags       []string                  `bson:"normalizedtags"`
-	Parameters           *SubnetData               `bson:"parameters"`
-	Protected            bool                      `bson:"protected"`
-	RegionID             string                    `bson:"regionid"`
-	RegionName           string                    `bson:"regionname"`
-	ResourceID           int                       `bson:"resourceid"`
-	Tags                 map[string]string         `bson:"tags"`
-	UpdateIdempotencyKey string                    `bson:"updateidempotencykey"`
-	VpcID                string                    `bson:"vpcid"`
-	VpcName              string                    `bson:"vpcname"`
-	ZHash                int                       `bson:"zhash"`
-	Zone                 int                       `bson:"zone"`
+	APIID                int                 `bson:"apiid"`
+	ID                   bson.ObjectId       `bson:"_id,omitempty"`
+	RRN                  string              `bson:"rrn"`
+	URL                  string              `bson:"url"`
+	AccountID            string              `bson:"accountid"`
+	Annotations          map[string][]string `bson:"annotations"`
+	AssociatedTags       []string            `bson:"associatedtags"`
+	CloudTags            []string            `bson:"cloudtags"`
+	CloudType            string              `bson:"cloudtype"`
+	CreateIdempotencyKey string              `bson:"createidempotencykey"`
+	CustomerID           int                 `bson:"customerid"`
+	IngestionTime        time.Time           `bson:"ingestiontime"`
+	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
+	Name                 string              `bson:"name"`
+	Namespace            string              `bson:"namespace"`
+	NativeID             string              `bson:"nativeid"`
+	NormalizedTags       []string            `bson:"normalizedtags"`
+	Parameters           *CloudSubnetData    `bson:"parameters"`
+	Protected            bool                `bson:"protected"`
+	RegionID             string              `bson:"regionid"`
+	RegionName           string              `bson:"regionname"`
+	ResourceID           int                 `bson:"resourceid"`
+	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
+	UpdatedTime          time.Time           `bson:"updatedtime"`
+	VpcID                string              `bson:"vpcid"`
+	VpcName              string              `bson:"vpcname"`
+	ZHash                int                 `bson:"zhash"`
+	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseCloudSubnet struct {
-	APIID                *int                       `bson:"apiid,omitempty"`
-	ID                   bson.ObjectId              `bson:"_id,omitempty"`
-	RRN                  *string                    `bson:"rrn,omitempty"`
-	URL                  *string                    `bson:"url,omitempty"`
-	AccountID            *string                    `bson:"accountid,omitempty"`
-	Annotations          *map[string][]string       `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string                  `bson:"associatedtags,omitempty"`
-	CloudType            *CloudSubnetCloudTypeValue `bson:"cloudtype,omitempty"`
-	CreateIdempotencyKey *string                    `bson:"createidempotencykey,omitempty"`
-	CustomerID           *int                       `bson:"customerid,omitempty"`
-	Description          *string                    `bson:"description,omitempty"`
-	InsertTS             *int                       `bson:"insertts,omitempty"`
-	Metadata             *[]string                  `bson:"metadata,omitempty"`
-	MigrationsLog        *map[string]string         `bson:"migrationslog,omitempty"`
-	Name                 *string                    `bson:"name,omitempty"`
-	Namespace            *string                    `bson:"namespace,omitempty"`
-	NativeID             *string                    `bson:"nativeid,omitempty"`
-	NormalizedTags       *[]string                  `bson:"normalizedtags,omitempty"`
-	Parameters           *SubnetData                `bson:"parameters,omitempty"`
-	Protected            *bool                      `bson:"protected,omitempty"`
-	RegionID             *string                    `bson:"regionid,omitempty"`
-	RegionName           *string                    `bson:"regionname,omitempty"`
-	ResourceID           *int                       `bson:"resourceid,omitempty"`
-	Tags                 *map[string]string         `bson:"tags,omitempty"`
-	UpdateIdempotencyKey *string                    `bson:"updateidempotencykey,omitempty"`
-	VpcID                *string                    `bson:"vpcid,omitempty"`
-	VpcName              *string                    `bson:"vpcname,omitempty"`
-	ZHash                *int                       `bson:"zhash,omitempty"`
-	Zone                 *int                       `bson:"zone,omitempty"`
+	APIID                *int                 `bson:"apiid,omitempty"`
+	ID                   bson.ObjectId        `bson:"_id,omitempty"`
+	RRN                  *string              `bson:"rrn,omitempty"`
+	URL                  *string              `bson:"url,omitempty"`
+	AccountID            *string              `bson:"accountid,omitempty"`
+	Annotations          *map[string][]string `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
+	CloudTags            *[]string            `bson:"cloudtags,omitempty"`
+	CloudType            *string              `bson:"cloudtype,omitempty"`
+	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
+	CustomerID           *int                 `bson:"customerid,omitempty"`
+	IngestionTime        *time.Time           `bson:"ingestiontime,omitempty"`
+	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
+	Name                 *string              `bson:"name,omitempty"`
+	Namespace            *string              `bson:"namespace,omitempty"`
+	NativeID             *string              `bson:"nativeid,omitempty"`
+	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Parameters           *CloudSubnetData     `bson:"parameters,omitempty"`
+	Protected            *bool                `bson:"protected,omitempty"`
+	RegionID             *string              `bson:"regionid,omitempty"`
+	RegionName           *string              `bson:"regionname,omitempty"`
+	ResourceID           *int                 `bson:"resourceid,omitempty"`
+	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
+	UpdatedTime          *time.Time           `bson:"updatedtime,omitempty"`
+	VpcID                *string              `bson:"vpcid,omitempty"`
+	VpcName              *string              `bson:"vpcname,omitempty"`
+	ZHash                *int                 `bson:"zhash,omitempty"`
+	Zone                 *int                 `bson:"zone,omitempty"`
 }

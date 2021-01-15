@@ -8,8 +8,8 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// RouteData represents the model of a routedata
-type RouteData struct {
+// CloudRouteData represents the model of a cloudroutedata
+type CloudRouteData struct {
 	// The gateway that this route table is associated with.
 	GatewayID string `json:"gatewayID" msgpack:"gatewayID" bson:"gatewayid" mapstructure:"gatewayID,omitempty"`
 
@@ -25,10 +25,10 @@ type RouteData struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewRouteData returns a new *RouteData
-func NewRouteData() *RouteData {
+// NewCloudRouteData returns a new *CloudRouteData
+func NewCloudRouteData() *CloudRouteData {
 
-	return &RouteData{
+	return &CloudRouteData{
 		ModelVersion:       1,
 		Routelist:          CloudRoutesList{},
 		SubnetAssociations: []string{},
@@ -37,13 +37,13 @@ func NewRouteData() *RouteData {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *RouteData) GetBSON() (interface{}, error) {
+func (o *CloudRouteData) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesRouteData{}
+	s := &mongoAttributesCloudRouteData{}
 
 	s.GatewayID = o.GatewayID
 	s.MainTable = o.MainTable
@@ -55,13 +55,13 @@ func (o *RouteData) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *RouteData) SetBSON(raw bson.Raw) error {
+func (o *CloudRouteData) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesRouteData{}
+	s := &mongoAttributesCloudRouteData{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -75,37 +75,37 @@ func (o *RouteData) SetBSON(raw bson.Raw) error {
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *RouteData) BleveType() string {
+func (o *CloudRouteData) BleveType() string {
 
-	return "routedata"
+	return "cloudroutedata"
 }
 
-// DeepCopy returns a deep copy if the RouteData.
-func (o *RouteData) DeepCopy() *RouteData {
+// DeepCopy returns a deep copy if the CloudRouteData.
+func (o *CloudRouteData) DeepCopy() *CloudRouteData {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &RouteData{}
+	out := &CloudRouteData{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *RouteData.
-func (o *RouteData) DeepCopyInto(out *RouteData) {
+// DeepCopyInto copies the receiver into the given *CloudRouteData.
+func (o *CloudRouteData) DeepCopyInto(out *CloudRouteData) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy RouteData: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CloudRouteData: %s", err))
 	}
 
-	*out = *target.(*RouteData)
+	*out = *target.(*CloudRouteData)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *RouteData) Validate() error {
+func (o *CloudRouteData) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -131,7 +131,7 @@ func (o *RouteData) Validate() error {
 	return nil
 }
 
-type mongoAttributesRouteData struct {
+type mongoAttributesCloudRouteData struct {
 	GatewayID          string          `bson:"gatewayid"`
 	MainTable          bool            `bson:"maintable"`
 	Routelist          CloudRoutesList `bson:"routelist"`

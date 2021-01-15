@@ -8,31 +8,31 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// EndpointDataTypeValue represents the possible values for attribute "type".
-type EndpointDataTypeValue string
+// CloudEndpointDataTypeValue represents the possible values for attribute "type".
+type CloudEndpointDataTypeValue string
 
 const (
-	// EndpointDataTypeGateway represents the value Gateway.
-	EndpointDataTypeGateway EndpointDataTypeValue = "Gateway"
+	// CloudEndpointDataTypeGateway represents the value Gateway.
+	CloudEndpointDataTypeGateway CloudEndpointDataTypeValue = "Gateway"
 
-	// EndpointDataTypeInstance represents the value Instance.
-	EndpointDataTypeInstance EndpointDataTypeValue = "Instance"
+	// CloudEndpointDataTypeInstance represents the value Instance.
+	CloudEndpointDataTypeInstance CloudEndpointDataTypeValue = "Instance"
 
-	// EndpointDataTypeLoadBalancer represents the value LoadBalancer.
-	EndpointDataTypeLoadBalancer EndpointDataTypeValue = "LoadBalancer"
+	// CloudEndpointDataTypeLoadBalancer represents the value LoadBalancer.
+	CloudEndpointDataTypeLoadBalancer CloudEndpointDataTypeValue = "LoadBalancer"
 
-	// EndpointDataTypePeeringConnection represents the value PeeringConnection.
-	EndpointDataTypePeeringConnection EndpointDataTypeValue = "PeeringConnection"
+	// CloudEndpointDataTypePeeringConnection represents the value PeeringConnection.
+	CloudEndpointDataTypePeeringConnection CloudEndpointDataTypeValue = "PeeringConnection"
 
-	// EndpointDataTypeService represents the value Service.
-	EndpointDataTypeService EndpointDataTypeValue = "Service"
+	// CloudEndpointDataTypeService represents the value Service.
+	CloudEndpointDataTypeService CloudEndpointDataTypeValue = "Service"
 
-	// EndpointDataTypeTransitGateway represents the value TransitGateway.
-	EndpointDataTypeTransitGateway EndpointDataTypeValue = "TransitGateway"
+	// CloudEndpointDataTypeTransitGateway represents the value TransitGateway.
+	CloudEndpointDataTypeTransitGateway CloudEndpointDataTypeValue = "TransitGateway"
 )
 
-// EndpointData represents the model of a endpointdata
-type EndpointData struct {
+// CloudEndpointData represents the model of a cloudendpointdata
+type CloudEndpointData struct {
 	// Indicates that the endpoint is directly attached to the VPC. In this case the
 	// attachedInterfaces is empty. In general this is only valid for endpoint type
 	// Gateway and Peering Connection.
@@ -54,15 +54,15 @@ type EndpointData struct {
 	ForwardingEnabled bool `json:"forwardingEnabled" msgpack:"forwardingEnabled" bson:"forwardingenabled" mapstructure:"forwardingEnabled,omitempty"`
 
 	// Type of the endpoint.
-	Type EndpointDataTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
+	Type CloudEndpointDataTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewEndpointData returns a new *EndpointData
-func NewEndpointData() *EndpointData {
+// NewCloudEndpointData returns a new *CloudEndpointData
+func NewCloudEndpointData() *CloudEndpointData {
 
-	return &EndpointData{
+	return &CloudEndpointData{
 		ModelVersion:          1,
 		AssociatedRouteTables: []string{},
 		VPCAttachments:        []string{},
@@ -73,13 +73,13 @@ func NewEndpointData() *EndpointData {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *EndpointData) GetBSON() (interface{}, error) {
+func (o *CloudEndpointData) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesEndpointData{}
+	s := &mongoAttributesCloudEndpointData{}
 
 	s.VPCAttached = o.VPCAttached
 	s.VPCAttachments = o.VPCAttachments
@@ -93,13 +93,13 @@ func (o *EndpointData) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *EndpointData) SetBSON(raw bson.Raw) error {
+func (o *CloudEndpointData) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesEndpointData{}
+	s := &mongoAttributesCloudEndpointData{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -115,37 +115,37 @@ func (o *EndpointData) SetBSON(raw bson.Raw) error {
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *EndpointData) BleveType() string {
+func (o *CloudEndpointData) BleveType() string {
 
-	return "endpointdata"
+	return "cloudendpointdata"
 }
 
-// DeepCopy returns a deep copy if the EndpointData.
-func (o *EndpointData) DeepCopy() *EndpointData {
+// DeepCopy returns a deep copy if the CloudEndpointData.
+func (o *CloudEndpointData) DeepCopy() *CloudEndpointData {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &EndpointData{}
+	out := &CloudEndpointData{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *EndpointData.
-func (o *EndpointData) DeepCopyInto(out *EndpointData) {
+// DeepCopyInto copies the receiver into the given *CloudEndpointData.
+func (o *CloudEndpointData) DeepCopyInto(out *CloudEndpointData) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy EndpointData: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CloudEndpointData: %s", err))
 	}
 
-	*out = *target.(*EndpointData)
+	*out = *target.(*CloudEndpointData)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *EndpointData) Validate() error {
+func (o *CloudEndpointData) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -165,11 +165,11 @@ func (o *EndpointData) Validate() error {
 	return nil
 }
 
-type mongoAttributesEndpointData struct {
-	VPCAttached           bool                  `bson:"vpcattached"`
-	VPCAttachments        []string              `bson:"vpcattachments"`
-	AssociatedRouteTables []string              `bson:"associatedroutetables"`
-	AttachedInterfaces    []string              `bson:"attachedinterfaces"`
-	ForwardingEnabled     bool                  `bson:"forwardingenabled"`
-	Type                  EndpointDataTypeValue `bson:"type"`
+type mongoAttributesCloudEndpointData struct {
+	VPCAttached           bool                       `bson:"vpcattached"`
+	VPCAttachments        []string                   `bson:"vpcattachments"`
+	AssociatedRouteTables []string                   `bson:"associatedroutetables"`
+	AttachedInterfaces    []string                   `bson:"attachedinterfaces"`
+	ForwardingEnabled     bool                       `bson:"forwardingenabled"`
+	Type                  CloudEndpointDataTypeValue `bson:"type"`
 }

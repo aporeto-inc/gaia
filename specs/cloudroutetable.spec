@@ -19,11 +19,9 @@ model:
   - '@zoned'
   - '@migratable'
   - '@namespaced'
-  - '@described'
   - '@identifiable-stored'
-  - '@metadatable'
-  - '@named'
   - '@prismabase'
+  - '@timeable'
 
 # Indexes
 indexes:
@@ -38,7 +36,7 @@ attributes:
     description: Route table related parameters.
     type: ref
     exposed: true
-    subtype: routedata
+    subtype: cloudroutedata
     stored: true
     extensions:
       refMode: pointer

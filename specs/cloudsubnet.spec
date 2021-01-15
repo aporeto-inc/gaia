@@ -21,10 +21,7 @@ model:
   - '@zoned'
   - '@migratable'
   - '@namespaced'
-  - '@described'
   - '@identifiable-stored'
-  - '@metadatable'
-  - '@named'
   - '@prismabase'
 
 # Indexes
@@ -40,7 +37,7 @@ attributes:
     description: Subnet related parameters.
     type: ref
     exposed: true
-    subtype: subnetdata
+    subtype: cloudsubnetdata
     stored: true
     extensions:
       refMode: pointer

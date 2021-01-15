@@ -29,16 +29,22 @@ var (
 		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
 
-		"claims":                ClaimsIdentity,
-		"clausesmatch":          ClauseMatchIdentity,
-		"cloudaddress":          CloudAddressIdentity,
-		"cloudendpoint":         CloudEndpointIdentity,
+		"claims":        ClaimsIdentity,
+		"clausesmatch":  ClauseMatchIdentity,
+		"cloudaddress":  CloudAddressIdentity,
+		"cloudendpoint": CloudEndpointIdentity,
+
 		"cloudnetworkinterface": CloudNetworkInterfaceIdentity,
-		"cloudnode":             CloudNodeIdentity,
-		"cloudroute":            CloudRouteIdentity,
-		"cloudroutetable":       CloudRouteTableIdentity,
-		"cloudsubnet":           CloudSubnetIdentity,
-		"cloudvpc":              CloudVPCIdentity,
+
+		"cloudnetworkruleset": CloudNetworkRuleSetIdentity,
+
+		"cloudnode":  CloudNodeIdentity,
+		"cloudroute": CloudRouteIdentity,
+
+		"cloudroutetable": CloudRouteTableIdentity,
+		"cloudsubnet":     CloudSubnetIdentity,
+
+		"cloudvpc": CloudVPCIdentity,
 
 		"connectionexceptionreport": ConnectionExceptionReportIdentity,
 		"counterreport":             CounterReportIdentity,
@@ -82,13 +88,12 @@ var (
 		"importrequest":            ImportRequestIdentity,
 		"infrastructurepolicy":     InfrastructurePolicyIdentity,
 		"installedapp":             InstalledAppIdentity,
-
-		"invoice":           InvoiceIdentity,
-		"invoicerecord":     InvoiceRecordIdentity,
-		"ipinfo":            IPInfoIdentity,
-		"isolationprofile":  IsolationProfileIdentity,
-		"issue":             IssueIdentity,
-		"issueservicetoken": IssueServiceTokenIdentity,
+		"invoice":                  InvoiceIdentity,
+		"invoicerecord":            InvoiceRecordIdentity,
+		"ipinfo":                   IPInfoIdentity,
+		"isolationprofile":         IsolationProfileIdentity,
+		"issue":                    IssueIdentity,
+		"issueservicetoken":        IssueServiceTokenIdentity,
 
 		"ldapprovider":           LDAPProviderIdentity,
 		"localca":                LocalCAIdentity,
@@ -124,6 +129,7 @@ var (
 		"policyrenderer":        PolicyRendererIdentity,
 		"policyrule":            PolicyRuleIdentity,
 		"policyttl":             PolicyTTLIdentity,
+		"pollaccount":           PollAccountIdentity,
 		"processingunit":        ProcessingUnitIdentity,
 		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
 		"processingunitrefresh": ProcessingUnitRefreshIdentity,
@@ -132,15 +138,14 @@ var (
 		"quotapolicy": QuotaPolicyIdentity,
 		"recipe":      RecipeIdentity,
 
-		"remoteprocessor": RemoteProcessorIdentity,
-		"renderedpolicy":  RenderedPolicyIdentity,
-		"rendertemplate":  RenderTemplateIdentity,
-		"report":          ReportIdentity,
-		"reportsquery":    ReportsQueryIdentity,
-		"revocation":      RevocationIdentity,
-		"role":            RoleIdentity,
-		"root":            RootIdentity,
-
+		"remoteprocessor":        RemoteProcessorIdentity,
+		"renderedpolicy":         RenderedPolicyIdentity,
+		"rendertemplate":         RenderTemplateIdentity,
+		"report":                 ReportIdentity,
+		"reportsquery":           ReportsQueryIdentity,
+		"revocation":             RevocationIdentity,
+		"role":                   RoleIdentity,
+		"root":                   RootIdentity,
 		"samlprovider":           SAMLProviderIdentity,
 		"sandbox":                SandboxIdentity,
 		"search":                 SearchIdentity,
@@ -154,13 +159,12 @@ var (
 		"sshidentity":            SSHIdentityIdentity,
 		"statsinfo":              StatsInfoIdentity,
 		"statsquery":             StatsQueryIdentity,
-
-		"suggestedpolicy": SuggestedPolicyIdentity,
-		"tag":             TagIdentity,
-		"taginject":       TagInjectIdentity,
-		"tagvalue":        TagValueIdentity,
-		"tenant":          TenantIdentity,
-		"textindex":       TextIndexIdentity,
+		"suggestedpolicy":        SuggestedPolicyIdentity,
+		"tag":                    TagIdentity,
+		"taginject":              TagInjectIdentity,
+		"tagvalue":               TagValueIdentity,
+		"tenant":                 TenantIdentity,
+		"textindex":              TextIndexIdentity,
 
 		"token":            TokenIdentity,
 		"tokenscopepolicy": TokenScopePolicyIdentity,
@@ -169,9 +173,8 @@ var (
 		"trustedca":        TrustedCAIdentity,
 		"trustednamespace": TrustedNamespaceIdentity,
 
-		"useraccesspolicy":    UserAccessPolicyIdentity,
-		"validateuiparameter": ValidateUIParameterIdentity,
-
+		"useraccesspolicy":     UserAccessPolicyIdentity,
+		"validateuiparameter":  ValidateUIParameterIdentity,
 		"vulnerability":        VulnerabilityIdentity,
 		"x509certificate":      X509CertificateIdentity,
 		"x509certificatecheck": X509CertificateCheckIdentity,
@@ -203,16 +206,22 @@ var (
 		"calls":                       CallIdentity,
 		"categories":                  CategoryIdentity,
 
-		"claims":                 ClaimsIdentity,
-		"clausesmatches":         ClauseMatchIdentity,
-		"cloudaddresses":         CloudAddressIdentity,
-		"cloudendpoints":         CloudEndpointIdentity,
+		"claims":         ClaimsIdentity,
+		"clausesmatches": ClauseMatchIdentity,
+		"cloudaddresses": CloudAddressIdentity,
+		"cloudendpoints": CloudEndpointIdentity,
+
 		"cloudnetworkinterfaces": CloudNetworkInterfaceIdentity,
-		"cloudnodes":             CloudNodeIdentity,
-		"cloudroutes":            CloudRouteIdentity,
-		"cloudroutetables":       CloudRouteTableIdentity,
-		"cloudsubnets":           CloudSubnetIdentity,
-		"cloudvpcs":              CloudVPCIdentity,
+
+		"cloudnetworkrulesets": CloudNetworkRuleSetIdentity,
+
+		"cloudnodes":  CloudNodeIdentity,
+		"cloudroutes": CloudRouteIdentity,
+
+		"cloudroutetables": CloudRouteTableIdentity,
+		"cloudsubnets":     CloudSubnetIdentity,
+
+		"cloudvpcs": CloudVPCIdentity,
 
 		"connectionexceptionreports": ConnectionExceptionReportIdentity,
 		"counterreports":             CounterReportIdentity,
@@ -256,13 +265,12 @@ var (
 		"importrequests":             ImportRequestIdentity,
 		"infrastructurepolicies":     InfrastructurePolicyIdentity,
 		"installedapps":              InstalledAppIdentity,
-
-		"invoices":           InvoiceIdentity,
-		"invoicerecords":     InvoiceRecordIdentity,
-		"ipinfos":            IPInfoIdentity,
-		"isolationprofiles":  IsolationProfileIdentity,
-		"issue":              IssueIdentity,
-		"issueservicetokens": IssueServiceTokenIdentity,
+		"invoices":                   InvoiceIdentity,
+		"invoicerecords":             InvoiceRecordIdentity,
+		"ipinfos":                    IPInfoIdentity,
+		"isolationprofiles":          IsolationProfileIdentity,
+		"issue":                      IssueIdentity,
+		"issueservicetokens":         IssueServiceTokenIdentity,
 
 		"ldapproviders":            LDAPProviderIdentity,
 		"localcas":                 LocalCAIdentity,
@@ -298,6 +306,7 @@ var (
 		"policyrenderers":         PolicyRendererIdentity,
 		"policyrules":             PolicyRuleIdentity,
 		"policyttls":              PolicyTTLIdentity,
+		"pollaccounts":            PollAccountIdentity,
 		"processingunits":         ProcessingUnitIdentity,
 		"processingunitpolicies":  ProcessingUnitPolicyIdentity,
 		"processingunitrefreshes": ProcessingUnitRefreshIdentity,
@@ -306,15 +315,14 @@ var (
 		"quotapolicies": QuotaPolicyIdentity,
 		"recipes":       RecipeIdentity,
 
-		"remoteprocessors": RemoteProcessorIdentity,
-		"renderedpolicies": RenderedPolicyIdentity,
-		"rendertemplates":  RenderTemplateIdentity,
-		"reports":          ReportIdentity,
-		"reportsqueries":   ReportsQueryIdentity,
-		"revocations":      RevocationIdentity,
-		"roles":            RoleIdentity,
-		"root":             RootIdentity,
-
+		"remoteprocessors":         RemoteProcessorIdentity,
+		"renderedpolicies":         RenderedPolicyIdentity,
+		"rendertemplates":          RenderTemplateIdentity,
+		"reports":                  ReportIdentity,
+		"reportsqueries":           ReportsQueryIdentity,
+		"revocations":              RevocationIdentity,
+		"roles":                    RoleIdentity,
+		"root":                     RootIdentity,
 		"samlproviders":            SAMLProviderIdentity,
 		"sandboxes":                SandboxIdentity,
 		"search":                   SearchIdentity,
@@ -328,13 +336,12 @@ var (
 		"sshidentities":            SSHIdentityIdentity,
 		"statsinfo":                StatsInfoIdentity,
 		"statsqueries":             StatsQueryIdentity,
-
-		"suggestedpolicies": SuggestedPolicyIdentity,
-		"tags":              TagIdentity,
-		"taginjects":        TagInjectIdentity,
-		"tagvalues":         TagValueIdentity,
-		"tenants":           TenantIdentity,
-		"textindexes":       TextIndexIdentity,
+		"suggestedpolicies":        SuggestedPolicyIdentity,
+		"tags":                     TagIdentity,
+		"taginjects":               TagInjectIdentity,
+		"tagvalues":                TagValueIdentity,
+		"tenants":                  TenantIdentity,
+		"textindexes":              TextIndexIdentity,
 
 		"tokens":             TokenIdentity,
 		"tokenscopepolicies": TokenScopePolicyIdentity,
@@ -343,9 +350,8 @@ var (
 		"trustedcas":        TrustedCAIdentity,
 		"trustednamespaces": TrustedNamespaceIdentity,
 
-		"useraccesspolicies":   UserAccessPolicyIdentity,
-		"validateuiparameters": ValidateUIParameterIdentity,
-
+		"useraccesspolicies":    UserAccessPolicyIdentity,
+		"validateuiparameters":  ValidateUIParameterIdentity,
 		"vulnerabilities":       VulnerabilityIdentity,
 		"x509certificates":      X509CertificateIdentity,
 		"x509certificatechecks": X509CertificateCheckIdentity,
@@ -365,6 +371,7 @@ var (
 		"autos":           AutomationIdentity,
 		"auto":            AutomationIdentity,
 		"autotmpl":        AutomationTemplateIdentity,
+		"crules":          CloudNetworkRuleSetIdentity,
 		"vpc":             CloudVPCIdentity,
 		"vpcs":            CloudVPCIdentity,
 		"depmaps":         DependencyMapIdentity,
@@ -582,34 +589,35 @@ var (
 			{"vpcid"},
 			{"updateIdempotencyKey"},
 			{"nativeID"},
-			{"namespace", "normalizedTags"},
 			{"namespace"},
 			{"namespace", "nativeID"},
-			{"namespace", "name"},
-			{"name"},
+			{"namespace", "normalizedTags"},
 			{"createIdempotencyKey"},
 		},
 		"cloudnetworkinterface": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
 			{"nativeID"},
-			{"namespace", "name"},
+			{"namespace", "nativeID"},
 			{"namespace"},
 			{"namespace", "normalizedTags"},
-			{"namespace", "nativeID"},
-			{"name"},
 			{"createIdempotencyKey"},
+		},
+		"cloudnetworkruleset": {
+			{"updateIdempotencyKey"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"createIdempotencyKey"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"cloudnode": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"vpcID"},
 			{"updateIdempotencyKey"},
 			{"nativeID"},
-			{"namespace", "normalizedTags"},
 			{"namespace"},
 			{"namespace", "nativeID"},
-			{"namespace", "name"},
-			{"name"},
+			{"namespace", "normalizedTags"},
 			{"createIdempotencyKey"},
 		},
 		"cloudroute": nil,
@@ -617,33 +625,27 @@ var (
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
 			{"nativeID"},
-			{"namespace", "name"},
+			{"namespace", "nativeID"},
 			{"namespace"},
 			{"namespace", "normalizedTags"},
-			{"namespace", "nativeID"},
-			{"name"},
 			{"createIdempotencyKey"},
 		},
 		"cloudsubnet": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
 			{"nativeID"},
-			{"namespace", "name"},
+			{"namespace", "nativeID"},
 			{"namespace"},
 			{"namespace", "normalizedTags"},
-			{"namespace", "nativeID"},
-			{"name"},
 			{"createIdempotencyKey"},
 		},
 		"cloudvpc": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
 			{"nativeID"},
-			{"namespace", "name"},
+			{"namespace", "normalizedTags"},
 			{"namespace"},
 			{"namespace", "nativeID"},
-			{"namespace", "normalizedTags"},
-			{"name"},
 			{"createIdempotencyKey"},
 		},
 		"connectionexceptionreport": {
@@ -974,6 +976,7 @@ var (
 		"policyrenderer": nil,
 		"policyrule":     nil,
 		"policyttl":      nil,
+		"pollaccount":    nil,
 		"processingunit": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1202,6 +1205,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudEndpoint()
 	case CloudNetworkInterfaceIdentity:
 		return NewCloudNetworkInterface()
+	case CloudNetworkRuleSetIdentity:
+		return NewCloudNetworkRuleSet()
 	case CloudNodeIdentity:
 		return NewCloudNode()
 	case CloudRouteIdentity:
@@ -1364,6 +1369,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPolicyRule()
 	case PolicyTTLIdentity:
 		return NewPolicyTTL()
+	case PollAccountIdentity:
+		return NewPollAccount()
 	case ProcessingUnitIdentity:
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
@@ -1517,6 +1524,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudEndpoint()
 	case CloudNetworkInterfaceIdentity:
 		return NewSparseCloudNetworkInterface()
+	case CloudNetworkRuleSetIdentity:
+		return NewSparseCloudNetworkRuleSet()
 	case CloudNodeIdentity:
 		return NewSparseCloudNode()
 	case CloudRouteIdentity:
@@ -1679,6 +1688,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePolicyRule()
 	case PolicyTTLIdentity:
 		return NewSparsePolicyTTL()
+	case PollAccountIdentity:
+		return NewSparsePollAccount()
 	case ProcessingUnitIdentity:
 		return NewSparseProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
@@ -1840,6 +1851,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudEndpointsList{}
 	case CloudNetworkInterfaceIdentity:
 		return &CloudNetworkInterfacesList{}
+	case CloudNetworkRuleSetIdentity:
+		return &CloudNetworkRuleSetsList{}
 	case CloudNodeIdentity:
 		return &CloudNodesList{}
 	case CloudRouteIdentity:
@@ -2002,6 +2015,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PolicyRulesList{}
 	case PolicyTTLIdentity:
 		return &PolicyTTLsList{}
+	case PollAccountIdentity:
+		return &PollAccountsList{}
 	case ProcessingUnitIdentity:
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
@@ -2153,6 +2168,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudEndpointsList{}
 	case CloudNetworkInterfaceIdentity:
 		return &SparseCloudNetworkInterfacesList{}
+	case CloudNetworkRuleSetIdentity:
+		return &SparseCloudNetworkRuleSetsList{}
 	case CloudNodeIdentity:
 		return &SparseCloudNodesList{}
 	case CloudRouteIdentity:
@@ -2315,6 +2332,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePolicyRulesList{}
 	case PolicyTTLIdentity:
 		return &SparsePolicyTTLsList{}
+	case PollAccountIdentity:
+		return &SparsePollAccountsList{}
 	case ProcessingUnitIdentity:
 		return &SparseProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
@@ -2456,6 +2475,7 @@ func AllIdentities() []elemental.Identity {
 		CloudAddressIdentity,
 		CloudEndpointIdentity,
 		CloudNetworkInterfaceIdentity,
+		CloudNetworkRuleSetIdentity,
 		CloudNodeIdentity,
 		CloudRouteIdentity,
 		CloudRouteTableIdentity,
@@ -2537,6 +2557,7 @@ func AllIdentities() []elemental.Identity {
 		PolicyRendererIdentity,
 		PolicyRuleIdentity,
 		PolicyTTLIdentity,
+		PollAccountIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
 		ProcessingUnitRefreshIdentity,
@@ -2666,6 +2687,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case CloudNetworkInterfaceIdentity:
 		return []string{}
+	case CloudNetworkRuleSetIdentity:
+		return []string{
+			"crules",
+		}
 	case CloudNodeIdentity:
 		return []string{}
 	case CloudRouteIdentity:
@@ -2906,6 +2931,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PolicyRuleIdentity:
 		return []string{}
 	case PolicyTTLIdentity:
+		return []string{}
+	case PollAccountIdentity:
 		return []string{}
 	case ProcessingUnitIdentity:
 		return []string{

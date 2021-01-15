@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: endpointdata
-  resource_name: endpointdata
-  entity_name: EndpointData
+  rest_name: cloudendpointdata
+  resource_name: cloudendpointdata
+  entity_name: CloudEndpointData
   package: pcn
   group: prisma/infrastructure
   description: Parameters associated with a cloud endpoint.

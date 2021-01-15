@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: networkrule
-  resource_name: networkrules
-  entity_name: NetworkRule
+  rest_name: cloudnetworkrule
+  resource_name: cloudnetworkrules
+  entity_name: CloudNetworkRule
   package: squall
   group: core/policy
   description: Represents an ingress or egress network rule.
@@ -26,34 +26,14 @@ attributes:
     - Reject
     default_value: Allow
 
-  - name: logsDisabled
-    description: |-
-      If `true`, the relevant flows will not be reported to the Microsegmentation
-      Console.
-      Under some advanced scenarios you may wish to set this to `true`, such as to
-      save space or improve performance.
-    type: boolean
-    exposed: true
-    stored: true
-
-  - name: name
-    description: A user defined name to keep track of the rule in the reporting.
-    type: string
-    exposed: true
-    stored: true
-    max_length: 32
-    omit_empty: true
-
   - name: networks
     description: A list of IP CIDRS or FQDNS that identify remote endpoints.
-    type: refList
+    type: list
     exposed: true
-    subtype: networkrulenet
+    subtype: string
     stored: true
     read_only: true
     omit_empty: true
-    extensions:
-      refMode: pointer
 
   - name: object
     description: |-
@@ -67,13 +47,6 @@ attributes:
     orderable: true
     validations:
     - $tagsExpression
-
-  - name: observationEnabled
-    description: If set to `true`, the flow will be in observation mode.
-    type: boolean
-    exposed: true
-    stored: true
-    default_value: false
 
   - name: priority
     description: Priority of the rule. Available only for cloud ACLs.

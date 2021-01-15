@@ -15,6 +15,7 @@ attributes:
     description: The ID of the external network.
     type: string
     exposed: true
+    stored: true
     read_only: true
     omit_empty: true
 
@@ -23,6 +24,7 @@ attributes:
     type: list
     exposed: true
     subtype: string
+    stored: true
     read_only: true
     omit_empty: true
 
@@ -30,5 +32,6 @@ attributes:
     description: The namespace of the external network.
     type: string
     exposed: true
+    stored: true
     read_only: true
     omit_empty: true

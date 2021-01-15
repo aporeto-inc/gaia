@@ -19,10 +19,7 @@ model:
   - '@zoned'
   - '@migratable'
   - '@namespaced'
-  - '@described'
   - '@identifiable-stored'
-  - '@metadatable'
-  - '@named'
   - '@prismabase'
 
 # Indexes
@@ -64,4 +61,5 @@ attributes:
     - VPC
     - Interface
     - RouteTable
+    - NetworkRuleSet
     example_value: Interface

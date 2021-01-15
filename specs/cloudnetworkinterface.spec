@@ -21,10 +21,7 @@ model:
   - '@zoned'
   - '@migratable'
   - '@namespaced'
-  - '@described'
   - '@identifiable-stored'
-  - '@metadatable'
-  - '@named'
   - '@prismabase'
 
 # Indexes
@@ -40,7 +37,7 @@ attributes:
     description: Cloud network interface related parameters.
     type: ref
     exposed: true
-    subtype: interfacedata
+    subtype: cloudinterfacedata
     stored: true
     extensions:
       refMode: pointer

@@ -19,10 +19,7 @@ model:
   - '@zoned'
   - '@migratable'
   - '@namespaced'
-  - '@described'
   - '@identifiable-stored'
-  - '@metadatable'
-  - '@named'
   - '@prismabase'
 
 # Indexes
@@ -39,7 +36,7 @@ attributes:
     description: Endpoint related parameters.
     type: ref
     exposed: true
-    subtype: endpointdata
+    subtype: cloudendpointdata
     stored: true
     extensions:
       refMode: pointer

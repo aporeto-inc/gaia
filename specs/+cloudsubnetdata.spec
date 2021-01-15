@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: subnetdata
-  resource_name: subnetdata
-  entity_name: SubnetData
+  rest_name: cloudsubnetdata
+  resource_name: cloudsubnetdata
+  entity_name: CloudSubnetData
   package: pcn
   group: prisma/infrastructure
   description: Parameters associated with a subnet.

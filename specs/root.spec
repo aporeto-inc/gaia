@@ -236,6 +236,27 @@ relations:
     global_parameters:
     - $filtering
 
+- rest_name: cloudnetworkruleset
+  get:
+    description: Retrieves the list of cloud network rule set policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new cloud network rule set policy policy.
+  update:
+    description: Updates a cloud network rule set policy.
+  delete:
+    description: Deletes a cloud network rule set policy.
+    global_parameters:
+    - $filtering
+
+- rest_name: cloudnode
+  get:
+    description: Retrieves the list of cloud nodes.
+    global_parameters:
+    - $filtering
+
 - rest_name: cloudroutetable
   get:
     description: Retrieves the list of routing tables.
@@ -835,6 +856,10 @@ relations:
 - rest_name: policyrenderer
   create:
     description: Render a policy of a given type for a given set of tags.
+
+- rest_name: pollaccount
+  create:
+    description: Initiates a poll to a new account.
 
 - rest_name: processingunit
   get:

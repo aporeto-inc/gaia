@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: vpcdata
-  resource_name: vpcdata
-  entity_name: VPCData
+  rest_name: cloudvpcdata
+  resource_name: cloudvpcdata
+  entity_name: CloudVPCData
   package: pcn
   group: prisma/infrastructure
   description: Managed the list of IP addresses associated with an interface.

@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: routedata
-  resource_name: routedata
-  entity_name: RouteData
+  rest_name: cloudroutedata
+  resource_name: cloudroutedata
+  entity_name: CloudRouteData
   package: pcn
   group: prisma/infrastructure
   description: Parameters associated with a cloud route table.

@@ -8,31 +8,31 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// VPCData represents the model of a vpcdata
-type VPCData struct {
+// CloudVPCData represents the model of a cloudvpcdata
+type CloudVPCData struct {
 	// Address CIDR of the VPC.
 	Address string `json:"address" msgpack:"address" bson:"address" mapstructure:"address,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewVPCData returns a new *VPCData
-func NewVPCData() *VPCData {
+// NewCloudVPCData returns a new *CloudVPCData
+func NewCloudVPCData() *CloudVPCData {
 
-	return &VPCData{
+	return &CloudVPCData{
 		ModelVersion: 1,
 	}
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *VPCData) GetBSON() (interface{}, error) {
+func (o *CloudVPCData) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesVPCData{}
+	s := &mongoAttributesCloudVPCData{}
 
 	s.Address = o.Address
 
@@ -41,13 +41,13 @@ func (o *VPCData) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *VPCData) SetBSON(raw bson.Raw) error {
+func (o *CloudVPCData) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesVPCData{}
+	s := &mongoAttributesCloudVPCData{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -58,37 +58,37 @@ func (o *VPCData) SetBSON(raw bson.Raw) error {
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *VPCData) BleveType() string {
+func (o *CloudVPCData) BleveType() string {
 
-	return "vpcdata"
+	return "cloudvpcdata"
 }
 
-// DeepCopy returns a deep copy if the VPCData.
-func (o *VPCData) DeepCopy() *VPCData {
+// DeepCopy returns a deep copy if the CloudVPCData.
+func (o *CloudVPCData) DeepCopy() *CloudVPCData {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &VPCData{}
+	out := &CloudVPCData{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *VPCData.
-func (o *VPCData) DeepCopyInto(out *VPCData) {
+// DeepCopyInto copies the receiver into the given *CloudVPCData.
+func (o *CloudVPCData) DeepCopyInto(out *CloudVPCData) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy VPCData: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CloudVPCData: %s", err))
 	}
 
-	*out = *target.(*VPCData)
+	*out = *target.(*CloudVPCData)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *VPCData) Validate() error {
+func (o *CloudVPCData) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -108,6 +108,6 @@ func (o *VPCData) Validate() error {
 	return nil
 }
 
-type mongoAttributesVPCData struct {
+type mongoAttributesCloudVPCData struct {
 	Address string `bson:"address"`
 }
