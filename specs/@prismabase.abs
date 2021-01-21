@@ -105,6 +105,18 @@ attributes:
     max_length: 256
     orderable: true
 
+  - name: policyReferences
+    description: A list of policy references associated with this cloud node.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    example_value:
+    - sg-123
+    getter: true
+    setter: true
+    orderable: true
+
   - name: regionID
     exposed_name: regionId
     description: ID of the region associated with the entity.

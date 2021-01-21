@@ -138,6 +138,9 @@ type CloudRouteTable struct {
 	// Route table related parameters.
 	Parameters *CloudRouteData `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
+	// A list of policy references associated with this cloud node.
+	PolicyReferences []string `json:"policyReferences" msgpack:"policyReferences" bson:"policyreferences" mapstructure:"policyReferences,omitempty"`
+
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -179,13 +182,14 @@ type CloudRouteTable struct {
 func NewCloudRouteTable() *CloudRouteTable {
 
 	return &CloudRouteTable{
-		ModelVersion:   1,
-		CloudTags:      []string{},
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Parameters:     NewCloudRouteData(),
-		MigrationsLog:  map[string]string{},
-		NormalizedTags: []string{},
+		ModelVersion:     1,
+		CloudTags:        []string{},
+		Annotations:      map[string][]string{},
+		AssociatedTags:   []string{},
+		MigrationsLog:    map[string]string{},
+		PolicyReferences: []string{},
+		Parameters:       NewCloudRouteData(),
+		NormalizedTags:   []string{},
 	}
 }
 
@@ -238,6 +242,7 @@ func (o *CloudRouteTable) GetBSON() (interface{}, error) {
 	s.NativeID = o.NativeID
 	s.NormalizedTags = o.NormalizedTags
 	s.Parameters = o.Parameters
+	s.PolicyReferences = o.PolicyReferences
 	s.Protected = o.Protected
 	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
@@ -285,6 +290,7 @@ func (o *CloudRouteTable) SetBSON(raw bson.Raw) error {
 	o.NativeID = s.NativeID
 	o.NormalizedTags = s.NormalizedTags
 	o.Parameters = s.Parameters
+	o.PolicyReferences = s.PolicyReferences
 	o.Protected = s.Protected
 	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
@@ -533,6 +539,18 @@ func (o *CloudRouteTable) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPolicyReferences returns the PolicyReferences of the receiver.
+func (o *CloudRouteTable) GetPolicyReferences() []string {
+
+	return o.PolicyReferences
+}
+
+// SetPolicyReferences sets the property PolicyReferences of the receiver using the given value.
+func (o *CloudRouteTable) SetPolicyReferences(policyReferences []string) {
+
+	o.PolicyReferences = policyReferences
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *CloudRouteTable) GetProtected() bool {
 
@@ -691,6 +709,7 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			NativeID:             &o.NativeID,
 			NormalizedTags:       &o.NormalizedTags,
 			Parameters:           o.Parameters,
+			PolicyReferences:     &o.PolicyReferences,
 			Protected:            &o.Protected,
 			RegionID:             &o.RegionID,
 			RegionName:           &o.RegionName,
@@ -746,6 +765,8 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "parameters":
 			sp.Parameters = o.Parameters
+		case "policyReferences":
+			sp.PolicyReferences = &(o.PolicyReferences)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "regionID":
@@ -837,6 +858,9 @@ func (o *CloudRouteTable) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Parameters != nil {
 		o.Parameters = so.Parameters
+	}
+	if so.PolicyReferences != nil {
+		o.PolicyReferences = *so.PolicyReferences
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -1006,6 +1030,8 @@ func (o *CloudRouteTable) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "parameters":
 		return o.Parameters
+	case "policyReferences":
+		return o.PolicyReferences
 	case "protected":
 		return o.Protected
 	case "regionID":
@@ -1290,6 +1316,20 @@ var CloudRouteTableAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "cloudroutedata",
 		Type:           "ref",
+	},
+	"PolicyReferences": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "policyreferences",
+		ConvertedName:  "PolicyReferences",
+		Description:    `A list of policy references associated with this cloud node.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "policyReferences",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Protected": {
 		AllowedChoices: []string{},
@@ -1701,6 +1741,20 @@ var CloudRouteTableLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		SubType:        "cloudroutedata",
 		Type:           "ref",
 	},
+	"policyreferences": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "policyreferences",
+		ConvertedName:  "PolicyReferences",
+		Description:    `A list of policy references associated with this cloud node.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "policyReferences",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"protected": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "protected",
@@ -1973,6 +2027,9 @@ type SparseCloudRouteTable struct {
 	// Route table related parameters.
 	Parameters *CloudRouteData `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
+	// A list of policy references associated with this cloud node.
+	PolicyReferences *[]string `json:"policyReferences,omitempty" msgpack:"policyReferences,omitempty" bson:"policyreferences,omitempty" mapstructure:"policyReferences,omitempty"`
+
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
@@ -2107,6 +2164,9 @@ func (o *SparseCloudRouteTable) GetBSON() (interface{}, error) {
 	if o.Parameters != nil {
 		s.Parameters = o.Parameters
 	}
+	if o.PolicyReferences != nil {
+		s.PolicyReferences = o.PolicyReferences
+	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
@@ -2213,6 +2273,9 @@ func (o *SparseCloudRouteTable) SetBSON(raw bson.Raw) error {
 	if s.Parameters != nil {
 		o.Parameters = s.Parameters
 	}
+	if s.PolicyReferences != nil {
+		o.PolicyReferences = s.PolicyReferences
+	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
@@ -2316,6 +2379,9 @@ func (o *SparseCloudRouteTable) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Parameters != nil {
 		out.Parameters = o.Parameters
+	}
+	if o.PolicyReferences != nil {
+		out.PolicyReferences = *o.PolicyReferences
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -2626,6 +2692,22 @@ func (o *SparseCloudRouteTable) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = &normalizedTags
 }
 
+// GetPolicyReferences returns the PolicyReferences of the receiver.
+func (o *SparseCloudRouteTable) GetPolicyReferences() (out []string) {
+
+	if o.PolicyReferences == nil {
+		return
+	}
+
+	return *o.PolicyReferences
+}
+
+// SetPolicyReferences sets the property PolicyReferences of the receiver using the address of the given value.
+func (o *SparseCloudRouteTable) SetPolicyReferences(policyReferences []string) {
+
+	o.PolicyReferences = &policyReferences
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *SparseCloudRouteTable) GetProtected() (out bool) {
 
@@ -2846,6 +2928,7 @@ type mongoAttributesCloudRouteTable struct {
 	NativeID             string              `bson:"nativeid"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
 	Parameters           *CloudRouteData     `bson:"parameters"`
+	PolicyReferences     []string            `bson:"policyreferences"`
 	Protected            bool                `bson:"protected"`
 	RegionID             string              `bson:"regionid"`
 	RegionName           string              `bson:"regionname"`
@@ -2878,6 +2961,7 @@ type mongoAttributesSparseCloudRouteTable struct {
 	NativeID             *string              `bson:"nativeid,omitempty"`
 	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
 	Parameters           *CloudRouteData      `bson:"parameters,omitempty"`
+	PolicyReferences     *[]string            `bson:"policyreferences,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
 	RegionID             *string              `bson:"regionid,omitempty"`
 	RegionName           *string              `bson:"regionname,omitempty"`

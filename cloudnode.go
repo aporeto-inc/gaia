@@ -161,6 +161,9 @@ type CloudNode struct {
 	// The cloud attributes of the object.
 	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
+	// A list of policy references associated with this cloud node.
+	PolicyReferences []string `json:"policyReferences" msgpack:"policyReferences" bson:"policyreferences" mapstructure:"policyReferences,omitempty"`
+
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -202,14 +205,15 @@ type CloudNode struct {
 func NewCloudNode() *CloudNode {
 
 	return &CloudNode{
-		ModelVersion:   1,
-		Attachments:    []string{},
-		CloudTags:      []string{},
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Parameters:     map[string]interface{}{},
-		MigrationsLog:  map[string]string{},
-		NormalizedTags: []string{},
+		ModelVersion:     1,
+		Attachments:      []string{},
+		CloudTags:        []string{},
+		Annotations:      map[string][]string{},
+		AssociatedTags:   []string{},
+		MigrationsLog:    map[string]string{},
+		PolicyReferences: []string{},
+		Parameters:       map[string]interface{}{},
+		NormalizedTags:   []string{},
 	}
 }
 
@@ -262,6 +266,7 @@ func (o *CloudNode) GetBSON() (interface{}, error) {
 	s.NativeID = o.NativeID
 	s.NormalizedTags = o.NormalizedTags
 	s.Parameters = o.Parameters
+	s.PolicyReferences = o.PolicyReferences
 	s.Protected = o.Protected
 	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
@@ -309,6 +314,7 @@ func (o *CloudNode) SetBSON(raw bson.Raw) error {
 	o.NativeID = s.NativeID
 	o.NormalizedTags = s.NormalizedTags
 	o.Parameters = s.Parameters
+	o.PolicyReferences = s.PolicyReferences
 	o.Protected = s.Protected
 	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
@@ -569,6 +575,18 @@ func (o *CloudNode) SetParameters(parameters map[string]interface{}) {
 	o.Parameters = parameters
 }
 
+// GetPolicyReferences returns the PolicyReferences of the receiver.
+func (o *CloudNode) GetPolicyReferences() []string {
+
+	return o.PolicyReferences
+}
+
+// SetPolicyReferences sets the property PolicyReferences of the receiver using the given value.
+func (o *CloudNode) SetPolicyReferences(policyReferences []string) {
+
+	o.PolicyReferences = policyReferences
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *CloudNode) GetProtected() bool {
 
@@ -715,6 +733,7 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			NativeID:             &o.NativeID,
 			NormalizedTags:       &o.NormalizedTags,
 			Parameters:           &o.Parameters,
+			PolicyReferences:     &o.PolicyReferences,
 			Protected:            &o.Protected,
 			RegionID:             &o.RegionID,
 			RegionName:           &o.RegionName,
@@ -770,6 +789,8 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "parameters":
 			sp.Parameters = &(o.Parameters)
+		case "policyReferences":
+			sp.PolicyReferences = &(o.PolicyReferences)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "regionID":
@@ -861,6 +882,9 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Parameters != nil {
 		o.Parameters = *so.Parameters
+	}
+	if so.PolicyReferences != nil {
+		o.PolicyReferences = *so.PolicyReferences
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -1027,6 +1051,8 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "parameters":
 		return o.Parameters
+	case "policyReferences":
+		return o.PolicyReferences
 	case "protected":
 		return o.Protected
 	case "regionID":
@@ -1311,6 +1337,20 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string]interface{}",
 		Type:           "external",
+	},
+	"PolicyReferences": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "policyreferences",
+		ConvertedName:  "PolicyReferences",
+		Description:    `A list of policy references associated with this cloud node.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "policyReferences",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Protected": {
 		AllowedChoices: []string{},
@@ -1717,6 +1757,20 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		SubType:        "map[string]interface{}",
 		Type:           "external",
 	},
+	"policyreferences": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "policyreferences",
+		ConvertedName:  "PolicyReferences",
+		Description:    `A list of policy references associated with this cloud node.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "policyReferences",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"protected": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "protected",
@@ -1984,6 +2038,9 @@ type SparseCloudNode struct {
 	// The cloud attributes of the object.
 	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
+	// A list of policy references associated with this cloud node.
+	PolicyReferences *[]string `json:"policyReferences,omitempty" msgpack:"policyReferences,omitempty" bson:"policyreferences,omitempty" mapstructure:"policyReferences,omitempty"`
+
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
@@ -2118,6 +2175,9 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 	if o.Parameters != nil {
 		s.Parameters = o.Parameters
 	}
+	if o.PolicyReferences != nil {
+		s.PolicyReferences = o.PolicyReferences
+	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
@@ -2224,6 +2284,9 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 	if s.Parameters != nil {
 		o.Parameters = s.Parameters
 	}
+	if s.PolicyReferences != nil {
+		o.PolicyReferences = s.PolicyReferences
+	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
@@ -2327,6 +2390,9 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Parameters != nil {
 		out.Parameters = *o.Parameters
+	}
+	if o.PolicyReferences != nil {
+		out.PolicyReferences = *o.PolicyReferences
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -2653,6 +2719,22 @@ func (o *SparseCloudNode) SetParameters(parameters map[string]interface{}) {
 	o.Parameters = &parameters
 }
 
+// GetPolicyReferences returns the PolicyReferences of the receiver.
+func (o *SparseCloudNode) GetPolicyReferences() (out []string) {
+
+	if o.PolicyReferences == nil {
+		return
+	}
+
+	return *o.PolicyReferences
+}
+
+// SetPolicyReferences sets the property PolicyReferences of the receiver using the address of the given value.
+func (o *SparseCloudNode) SetPolicyReferences(policyReferences []string) {
+
+	o.PolicyReferences = &policyReferences
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *SparseCloudNode) GetProtected() (out bool) {
 
@@ -2857,6 +2939,7 @@ type mongoAttributesCloudNode struct {
 	NativeID             string                 `bson:"nativeid"`
 	NormalizedTags       []string               `bson:"normalizedtags"`
 	Parameters           map[string]interface{} `bson:"parameters"`
+	PolicyReferences     []string               `bson:"policyreferences"`
 	Protected            bool                   `bson:"protected"`
 	RegionID             string                 `bson:"regionid"`
 	RegionName           string                 `bson:"regionname"`
@@ -2889,6 +2972,7 @@ type mongoAttributesSparseCloudNode struct {
 	NativeID             *string                 `bson:"nativeid,omitempty"`
 	NormalizedTags       *[]string               `bson:"normalizedtags,omitempty"`
 	Parameters           *map[string]interface{} `bson:"parameters,omitempty"`
+	PolicyReferences     *[]string               `bson:"policyreferences,omitempty"`
 	Protected            *bool                   `bson:"protected,omitempty"`
 	RegionID             *string                 `bson:"regionid,omitempty"`
 	RegionName           *string                 `bson:"regionname,omitempty"`

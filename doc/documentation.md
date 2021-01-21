@@ -15771,6 +15771,9 @@ Manages the list of endpoints available in a cloud deployment.
   "customerID": 1234455,
   "name": "myobject",
   "nativeID": "subnet-0ae4a90153dfb642c",
+  "policyReferences": [
+    "sg-123"
+  ],
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
@@ -15911,6 +15914,12 @@ Contains the list of normalized tags of the entities.
 Type: [`cloudendpointdata`](#cloudendpointdata)
 
 Endpoint related parameters.
+
+##### `policyReferences`
+
+Type: `[]string`
+
+A list of policy references associated with this cloud node.
 
 ##### `protected`
 
@@ -16087,6 +16096,9 @@ Manages the set of network interfaces that are associated with endpoints.
   "customerID": 1234455,
   "name": "myobject",
   "nativeID": "subnet-0ae4a90153dfb642c",
+  "policyReferences": [
+    "sg-123"
+  ],
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
@@ -16232,6 +16244,12 @@ Type: [`cloudinterfacedata`](#cloudinterfacedata)
 
 Cloud network interface related parameters.
 
+##### `policyReferences`
+
+Type: `[]string`
+
+A list of policy references associated with this cloud node.
+
 ##### `protected`
 
 Type: `boolean`
@@ -16291,6 +16309,9 @@ firewall rules as they apply to the infrastructure.
   "customerID": 1234455,
   "name": "myobject",
   "nativeID": "subnet-0ae4a90153dfb642c",
+  "policyReferences": [
+    "sg-123"
+  ],
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
@@ -16429,6 +16450,12 @@ Type: [`cloudnetworkrulesetdata`](#cloudnetworkrulesetdata)
 
 Cloud network ruleset data.
 
+##### `policyReferences`
+
+Type: `[]string`
+
+A list of policy references associated with this cloud node.
+
 ##### `protected`
 
 Type: `boolean`
@@ -16528,6 +16555,9 @@ Manages the list of cloud nodes available in a cloud deployment.
   "customerID": 1234455,
   "name": "myobject",
   "nativeID": "subnet-0ae4a90153dfb642c",
+  "policyReferences": [
+    "sg-123"
+  ],
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
@@ -16667,6 +16697,12 @@ Contains the list of normalized tags of the entities.
 Type: `map[string]interface{}`
 
 The cloud attributes of the object.
+
+##### `policyReferences`
+
+Type: `[]string`
+
+A list of policy references associated with this cloud node.
 
 ##### `protected`
 
@@ -16813,6 +16849,9 @@ Manages the list of route tables available in a cloud deployment.
   "customerID": 1234455,
   "name": "myobject",
   "nativeID": "subnet-0ae4a90153dfb642c",
+  "policyReferences": [
+    "sg-123"
+  ],
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
@@ -16960,6 +16999,12 @@ Type: [`cloudroutedata`](#cloudroutedata)
 
 Route table related parameters.
 
+##### `policyReferences`
+
+Type: `[]string`
+
+A list of policy references associated with this cloud node.
+
 ##### `protected`
 
 Type: `boolean`
@@ -17024,6 +17069,9 @@ Manages the list of subnets associated with a deployment.
   "customerID": 1234455,
   "name": "myobject",
   "nativeID": "subnet-0ae4a90153dfb642c",
+  "policyReferences": [
+    "sg-123"
+  ],
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
@@ -17169,6 +17217,12 @@ Type: [`cloudsubnetdata`](#cloudsubnetdata)
 
 Subnet related parameters.
 
+##### `policyReferences`
+
+Type: `[]string`
+
+A list of policy references associated with this cloud node.
+
 ##### `protected`
 
 Type: `boolean`
@@ -17263,6 +17317,9 @@ and it defines an isolated network.
   "customerID": 1234455,
   "name": "myobject",
   "nativeID": "subnet-0ae4a90153dfb642c",
+  "policyReferences": [
+    "sg-123"
+  ],
   "protected": false,
   "regionID": "ap-northeast-1",
   "regionName": "AWS Tokyo",
@@ -17403,6 +17460,12 @@ Contains the list of normalized tags of the entities.
 Type: [`cloudvpcdata`](#cloudvpcdata)
 
 VPC related parameters.
+
+##### `policyReferences`
+
+Type: `[]string`
+
+A list of policy references associated with this cloud node.
 
 ##### `protected`
 
