@@ -38,7 +38,7 @@ attributes:
     description: A user defined name to keep track of the rule in the reporting.
     type: string
     exposed: true
-    max_length: 32
+    max_length: 16
     omit_empty: true
 
   - name: networks
