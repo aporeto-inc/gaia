@@ -14,6 +14,12 @@ model:
 
 # Relations
 relations:
+- rest_name: accessiblenamespace
+  get:
+    description: Retrieves the list of accessible namespaces.
+    global_parameters:
+    - $filtering
+
 - rest_name: accessreport
   create:
     description: Create an access report.
@@ -668,12 +674,6 @@ relations:
     description: Retrieves the list of namespaces.
     global_parameters:
     - $filtering
-    parameters:
-      entries:
-      - name: authorized
-        description: Returns all namespaces the token bearer has the right to read.
-          If set, other parameters like `recursive` or `q` will have no effect.
-        type: boolean
   create:
     description: Creates a new namespace.
 

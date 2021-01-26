@@ -170,6 +170,31 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[AccessibleNamespaceIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+	}
+
 	relationshipsRegistry[AccountIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
@@ -2950,10 +2975,6 @@ func init() {
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "authorized",
-						Type: "boolean",
-					},
-					{
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
@@ -2964,10 +2985,6 @@ func init() {
 		Info: map[string]*elemental.RelationshipInfo{
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
-					{
-						Name: "authorized",
-						Type: "boolean",
-					},
 					{
 						Name:     "q",
 						Type:     "string",

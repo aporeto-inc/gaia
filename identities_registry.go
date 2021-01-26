@@ -4,6 +4,7 @@ import "go.aporeto.io/elemental"
 
 var (
 	identityNamesMap = map[string]elemental.Identity{
+		"accessiblenamespace":       AccessibleNamespaceIdentity,
 		"accessreport":              AccessReportIdentity,
 		"account":                   AccountIdentity,
 		"accountcheck":              AccountCheckIdentity,
@@ -170,6 +171,7 @@ var (
 	}
 
 	identitycategoriesMap = map[string]elemental.Identity{
+		"accessiblenamespaces":        AccessibleNamespaceIdentity,
 		"accessreports":               AccessReportIdentity,
 		"accounts":                    AccountIdentity,
 		"accountchecks":               AccountCheckIdentity,
@@ -336,6 +338,7 @@ var (
 	}
 
 	aliasesMap = map[string]elemental.Identity{
+		"accns":           AccessibleNamespaceIdentity,
 		"apiauth":         APIAuthorizationPolicyIdentity,
 		"apiauths":        APIAuthorizationPolicyIdentity,
 		"apiprox":         APIProxyIdentity,
@@ -441,6 +444,12 @@ var (
 	}
 
 	indexesMap = map[string][][]string{
+		"accessiblenamespace": {
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+		},
 		"accessreport": {
 			{"namespace", "timestamp"},
 			{":shard", "zone", "zHash", "_id"},
@@ -1063,6 +1072,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 
 	switch identity {
 
+	case AccessibleNamespaceIdentity:
+		return NewAccessibleNamespace()
 	case AccessReportIdentity:
 		return NewAccessReport()
 	case AccountIdentity:
@@ -1370,6 +1381,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 
 	switch identity {
 
+	case AccessibleNamespaceIdentity:
+		return NewSparseAccessibleNamespace()
 	case AccessReportIdentity:
 		return NewSparseAccessReport()
 	case AccountIdentity:
@@ -1685,6 +1698,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 
 	switch identity {
 
+	case AccessibleNamespaceIdentity:
+		return &AccessibleNamespacesList{}
 	case AccessReportIdentity:
 		return &AccessReportsList{}
 	case AccountIdentity:
@@ -1990,6 +2005,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 
 	switch identity {
 
+	case AccessibleNamespaceIdentity:
+		return &SparseAccessibleNamespacesList{}
 	case AccessReportIdentity:
 		return &SparseAccessReportsList{}
 	case AccountIdentity:
@@ -2314,6 +2331,7 @@ func Manager() elemental.ModelManager { return manager }
 func AllIdentities() []elemental.Identity {
 
 	return []elemental.Identity{
+		AccessibleNamespaceIdentity,
 		AccessReportIdentity,
 		AccountIdentity,
 		AccountCheckIdentity,
@@ -2470,6 +2488,10 @@ func AllIdentities() []elemental.Identity {
 func AliasesForIdentity(identity elemental.Identity) []string {
 
 	switch identity {
+	case AccessibleNamespaceIdentity:
+		return []string{
+			"accns",
+		}
 	case AccessReportIdentity:
 		return []string{}
 	case AccountIdentity:
