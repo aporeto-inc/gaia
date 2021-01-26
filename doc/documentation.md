@@ -5474,7 +5474,7 @@ Console.
 Under some advanced scenarios you may wish to set this to `true`, such as to
 save space or improve performance.
 
-##### `name` [`max_length=32`]
+##### `name` [`max_length=16`]
 
 Type: `string`
 

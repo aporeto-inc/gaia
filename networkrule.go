@@ -142,7 +142,7 @@ func (o *NetworkRule) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateMaximumLength("name", o.Name, 32, false); err != nil {
+	if err := elemental.ValidateMaximumLength("name", o.Name, 16, false); err != nil {
 		errors = errors.Append(err)
 	}
 
