@@ -6491,7 +6491,7 @@ List of vulnerabilities associated to the images.
 ### ProcessingUnit
 
 A processing unit represents anything that can compute. It can be a Docker
-container or a simple Unix process. Processing units are created, updated, and
+container or a simple UNIX process. Processing units are created, updated, and
 deleted by
 the system as they come and go. You can only modify their tags. Processing units
 use network policies to define which other processing units or external
@@ -7028,7 +7028,7 @@ Description of the search.
 
 Type: `integer`
 
-Absolute end time of search, in unix time.
+Absolute end time of search, in UNIX time.
 
 Default value:
 
@@ -7082,7 +7082,7 @@ Type of search request. Should set to be network.
 
 Type: `integer`
 
-Absolute start time of search, in unix time.
+Absolute start time of search, in UNIX time.
 
 Default value:
 

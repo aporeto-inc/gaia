@@ -32,7 +32,7 @@ attributes:
     omit_empty: true
 
   - name: endAbsolute
-    description: Absolute end time of search, in unix time.
+    description: Absolute end time of search, in UNIX time.
     type: integer
     exposed: true
     required: true
@@ -77,7 +77,7 @@ attributes:
     omit_empty: true
 
   - name: startAbsolute
-    description: Absolute start time of search, in unix time.
+    description: Absolute start time of search, in UNIX time.
     type: integer
     exposed: true
     required: true

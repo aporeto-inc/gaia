@@ -89,7 +89,7 @@ type CNSSearch struct {
 	// Description of the search.
 	Description string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
 
-	// Absolute end time of search, in unix time.
+	// Absolute end time of search, in UNIX time.
 	EndAbsolute int `json:"endAbsolute" msgpack:"endAbsolute" bson:"-" mapstructure:"endAbsolute,omitempty"`
 
 	// The number of items to fetch.
@@ -110,7 +110,7 @@ type CNSSearch struct {
 	// Type of search request. Should set to be network.
 	SearchType string `json:"searchType,omitempty" msgpack:"searchType,omitempty" bson:"-" mapstructure:"searchType,omitempty"`
 
-	// Absolute start time of search, in unix time.
+	// Absolute start time of search, in UNIX time.
 	StartAbsolute int `json:"startAbsolute" msgpack:"startAbsolute" bson:"-" mapstructure:"startAbsolute,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -437,7 +437,7 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 	"EndAbsolute": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EndAbsolute",
-		Description:    `Absolute end time of search, in unix time.`,
+		Description:    `Absolute end time of search, in UNIX time.`,
 		Exposed:        true,
 		Name:           "endAbsolute",
 		Required:       true,
@@ -496,7 +496,7 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 	"StartAbsolute": {
 		AllowedChoices: []string{},
 		ConvertedName:  "StartAbsolute",
-		Description:    `Absolute start time of search, in unix time.`,
+		Description:    `Absolute start time of search, in UNIX time.`,
 		Exposed:        true,
 		Name:           "startAbsolute",
 		Required:       true,
@@ -534,7 +534,7 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"endabsolute": {
 		AllowedChoices: []string{},
 		ConvertedName:  "EndAbsolute",
-		Description:    `Absolute end time of search, in unix time.`,
+		Description:    `Absolute end time of search, in UNIX time.`,
 		Exposed:        true,
 		Name:           "endAbsolute",
 		Required:       true,
@@ -593,7 +593,7 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"startabsolute": {
 		AllowedChoices: []string{},
 		ConvertedName:  "StartAbsolute",
-		Description:    `Absolute start time of search, in unix time.`,
+		Description:    `Absolute start time of search, in UNIX time.`,
 		Exposed:        true,
 		Name:           "startAbsolute",
 		Required:       true,
@@ -673,7 +673,7 @@ type SparseCNSSearch struct {
 	// Description of the search.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
 
-	// Absolute end time of search, in unix time.
+	// Absolute end time of search, in UNIX time.
 	EndAbsolute *int `json:"endAbsolute,omitempty" msgpack:"endAbsolute,omitempty" bson:"-" mapstructure:"endAbsolute,omitempty"`
 
 	// The number of items to fetch.
@@ -694,7 +694,7 @@ type SparseCNSSearch struct {
 	// Type of search request. Should set to be network.
 	SearchType *string `json:"searchType,omitempty" msgpack:"searchType,omitempty" bson:"-" mapstructure:"searchType,omitempty"`
 
-	// Absolute start time of search, in unix time.
+	// Absolute start time of search, in UNIX time.
 	StartAbsolute *int `json:"startAbsolute,omitempty" msgpack:"startAbsolute,omitempty" bson:"-" mapstructure:"startAbsolute,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
