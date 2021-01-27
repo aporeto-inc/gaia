@@ -8722,6 +8722,57 @@ Represents the Street Address field.
 
 ## pcn/infrastructure
 
+### CloudGraph
+
+Returns a data structure representing the graph of all cloud nodes
+and their connections in a particular namespace.
+
+#### Example
+
+```json
+{
+  "requestType": "Topology"
+}
+```
+
+#### Relations
+
+##### `POST /cloudgraphs`
+
+Creates a cloud graph based on ingested data and the required parameters.
+
+#### Attributes
+
+##### `edges` [`read_only`]
+
+Type: [`map[string]cloudedge`](#cloudedge)
+
+The edges of the map.
+
+##### `nodes` [`read_only`]
+
+Type: [`map[string]cloudnode`](#cloudnode)
+
+Refers to the nodes of the map.
+
+##### `requestType`
+
+Type: `enum(Topology | TraceRoute)`
+
+The type of request/calculation that must be performedn.
+
+Default value:
+
+```json
+"Topology"
+```
+
+##### `targetVPCs`
+
+Type: `[]string`
+
+The VPCs that should be captured in the map.
+
 ### PollAccount
 
 Initiates a poll for a particular account. Data are stored in the current

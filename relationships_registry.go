@@ -822,6 +822,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[CloudGraphIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
 	relationshipsRegistry[CloudNetworkInterfaceIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {

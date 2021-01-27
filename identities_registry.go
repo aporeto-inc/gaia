@@ -29,10 +29,13 @@ var (
 		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
 
-		"claims":        ClaimsIdentity,
-		"clausesmatch":  ClauseMatchIdentity,
-		"cloudaddress":  CloudAddressIdentity,
+		"claims":       ClaimsIdentity,
+		"clausesmatch": ClauseMatchIdentity,
+		"cloudaddress": CloudAddressIdentity,
+
 		"cloudendpoint": CloudEndpointIdentity,
+
+		"cloudgraph": CloudGraphIdentity,
 
 		"cloudnetworkinterface": CloudNetworkInterfaceIdentity,
 
@@ -209,7 +212,10 @@ var (
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
 		"cloudaddresses": CloudAddressIdentity,
+
 		"cloudendpoints": CloudEndpointIdentity,
+
+		"cloudgraphs": CloudGraphIdentity,
 
 		"cloudnetworkinterfaces": CloudNetworkInterfaceIdentity,
 
@@ -594,6 +600,7 @@ var (
 			{"namespace", "normalizedTags"},
 			{"createIdempotencyKey"},
 		},
+		"cloudgraph": nil,
 		"cloudnetworkinterface": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1203,6 +1210,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudAddress()
 	case CloudEndpointIdentity:
 		return NewCloudEndpoint()
+	case CloudGraphIdentity:
+		return NewCloudGraph()
 	case CloudNetworkInterfaceIdentity:
 		return NewCloudNetworkInterface()
 	case CloudNetworkRuleSetIdentity:
@@ -1522,6 +1531,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudAddress()
 	case CloudEndpointIdentity:
 		return NewSparseCloudEndpoint()
+	case CloudGraphIdentity:
+		return NewSparseCloudGraph()
 	case CloudNetworkInterfaceIdentity:
 		return NewSparseCloudNetworkInterface()
 	case CloudNetworkRuleSetIdentity:
@@ -1849,6 +1860,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudAddressList{}
 	case CloudEndpointIdentity:
 		return &CloudEndpointsList{}
+	case CloudGraphIdentity:
+		return &CloudGraphsList{}
 	case CloudNetworkInterfaceIdentity:
 		return &CloudNetworkInterfacesList{}
 	case CloudNetworkRuleSetIdentity:
@@ -2166,6 +2179,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudAddressList{}
 	case CloudEndpointIdentity:
 		return &SparseCloudEndpointsList{}
+	case CloudGraphIdentity:
+		return &SparseCloudGraphsList{}
 	case CloudNetworkInterfaceIdentity:
 		return &SparseCloudNetworkInterfacesList{}
 	case CloudNetworkRuleSetIdentity:
@@ -2474,6 +2489,7 @@ func AllIdentities() []elemental.Identity {
 		ClauseMatchIdentity,
 		CloudAddressIdentity,
 		CloudEndpointIdentity,
+		CloudGraphIdentity,
 		CloudNetworkInterfaceIdentity,
 		CloudNetworkRuleSetIdentity,
 		CloudNodeIdentity,
@@ -2684,6 +2700,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CloudAddressIdentity:
 		return []string{}
 	case CloudEndpointIdentity:
+		return []string{}
+	case CloudGraphIdentity:
 		return []string{}
 	case CloudNetworkInterfaceIdentity:
 		return []string{}

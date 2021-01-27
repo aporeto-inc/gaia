@@ -220,6 +220,10 @@ relations:
     global_parameters:
     - $filtering
 
+- rest_name: cloudgraph
+  create:
+    description: Creates a cloud graph based on ingested data and the required parameters.
+
 - rest_name: cloudnetworkinterface
   get:
     description: Retrieve the list of network interfaces associated with the deployment.
