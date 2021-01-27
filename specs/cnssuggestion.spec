@@ -17,13 +17,13 @@ attributes:
     default_value: true
 
   - name: offset
-    description: The length of the rql query part that is valid.
+    description: The length of the RQL query part that is valid.
     type: integer
     exposed: true
     default_value: 0
 
   - name: query
-    description: Prisma Cloud's rql query.
+    description: Prisma Cloud's RQL query.
     type: string
     exposed: true
     read_only: true
@@ -46,7 +46,7 @@ attributes:
     default_value: false
 
   - name: valid
-    description: The validity of the rql query.
+    description: The validity of the RQL query.
     type: boolean
     exposed: true
     default_value: false

@@ -5,7 +5,7 @@ model:
   entity_name: PCSearchResults
   package: karl
   group: core/rql
-  description: Represents the result data of rql search.
+  description: Represents the result data of RQL search.
 
 # Attributes
 attributes:

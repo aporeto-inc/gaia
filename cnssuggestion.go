@@ -83,10 +83,10 @@ type CNSSuggestion struct {
 	// Required by Prisma Cloud. Always set to true.
 	NeedsOffsetUpdate bool `json:"needsOffsetUpdate" msgpack:"needsOffsetUpdate" bson:"-" mapstructure:"needsOffsetUpdate,omitempty"`
 
-	// The length of the rql query part that is valid.
+	// The length of the RQL query part that is valid.
 	Offset int `json:"offset" msgpack:"offset" bson:"-" mapstructure:"offset,omitempty"`
 
-	// Prisma Cloud's rql query.
+	// Prisma Cloud's RQL query.
 	Query string `json:"query,omitempty" msgpack:"query,omitempty" bson:"-" mapstructure:"query,omitempty"`
 
 	// List of query suggestions.
@@ -95,7 +95,7 @@ type CNSSuggestion struct {
 	// Required by Prisma Cloud. Always set to false.
 	Translate bool `json:"translate" msgpack:"translate" bson:"-" mapstructure:"translate,omitempty"`
 
-	// The validity of the rql query.
+	// The validity of the RQL query.
 	Valid bool `json:"valid" msgpack:"valid" bson:"-" mapstructure:"valid,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -348,7 +348,7 @@ var CNSSuggestionAttributesMap = map[string]elemental.AttributeSpecification{
 	"Offset": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Offset",
-		Description:    `The length of the rql query part that is valid.`,
+		Description:    `The length of the RQL query part that is valid.`,
 		Exposed:        true,
 		Name:           "offset",
 		Type:           "integer",
@@ -356,7 +356,7 @@ var CNSSuggestionAttributesMap = map[string]elemental.AttributeSpecification{
 	"Query": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Query",
-		Description:    `Prisma Cloud's rql query.`,
+		Description:    `Prisma Cloud's RQL query.`,
 		Exposed:        true,
 		Name:           "query",
 		ReadOnly:       true,
@@ -382,7 +382,7 @@ var CNSSuggestionAttributesMap = map[string]elemental.AttributeSpecification{
 	"Valid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Valid",
-		Description:    `The validity of the rql query.`,
+		Description:    `The validity of the RQL query.`,
 		Exposed:        true,
 		Name:           "valid",
 		Type:           "boolean",
@@ -403,7 +403,7 @@ var CNSSuggestionLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"offset": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Offset",
-		Description:    `The length of the rql query part that is valid.`,
+		Description:    `The length of the RQL query part that is valid.`,
 		Exposed:        true,
 		Name:           "offset",
 		Type:           "integer",
@@ -411,7 +411,7 @@ var CNSSuggestionLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"query": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Query",
-		Description:    `Prisma Cloud's rql query.`,
+		Description:    `Prisma Cloud's RQL query.`,
 		Exposed:        true,
 		Name:           "query",
 		ReadOnly:       true,
@@ -437,7 +437,7 @@ var CNSSuggestionLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"valid": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Valid",
-		Description:    `The validity of the rql query.`,
+		Description:    `The validity of the RQL query.`,
 		Exposed:        true,
 		Name:           "valid",
 		Type:           "boolean",
@@ -510,10 +510,10 @@ type SparseCNSSuggestion struct {
 	// Required by Prisma Cloud. Always set to true.
 	NeedsOffsetUpdate *bool `json:"needsOffsetUpdate,omitempty" msgpack:"needsOffsetUpdate,omitempty" bson:"-" mapstructure:"needsOffsetUpdate,omitempty"`
 
-	// The length of the rql query part that is valid.
+	// The length of the RQL query part that is valid.
 	Offset *int `json:"offset,omitempty" msgpack:"offset,omitempty" bson:"-" mapstructure:"offset,omitempty"`
 
-	// Prisma Cloud's rql query.
+	// Prisma Cloud's RQL query.
 	Query *string `json:"query,omitempty" msgpack:"query,omitempty" bson:"-" mapstructure:"query,omitempty"`
 
 	// List of query suggestions.
@@ -522,7 +522,7 @@ type SparseCNSSuggestion struct {
 	// Required by Prisma Cloud. Always set to false.
 	Translate *bool `json:"translate,omitempty" msgpack:"translate,omitempty" bson:"-" mapstructure:"translate,omitempty"`
 
-	// The validity of the rql query.
+	// The validity of the RQL query.
 	Valid *bool `json:"valid,omitempty" msgpack:"valid,omitempty" bson:"-" mapstructure:"valid,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

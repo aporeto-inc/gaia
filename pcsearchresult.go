@@ -168,7 +168,7 @@ func (o *PCSearchResults) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PCSearchResults) Doc() string {
 
-	return `Represents the result data of rql search.`
+	return `Represents the result data of RQL search.`
 }
 
 func (o *PCSearchResults) String() string {

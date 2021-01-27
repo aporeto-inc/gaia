@@ -212,11 +212,11 @@ relations:
 
 - rest_name: cnssearch
   create:
-    description: Retrieves rql search results.
+    description: Retrieves RQL search results.
 
 - rest_name: cnssuggestion
   create:
-    description: Retrieves rql suggestions from cns.
+    description: Retrieves RQL suggestions from Microsegmentation.
 
 - rest_name: connectionexceptionreport
   create:
