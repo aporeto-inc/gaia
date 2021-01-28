@@ -65,7 +65,6 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    required: true
     example_value:
     - tcp/80
     - udp/80:100

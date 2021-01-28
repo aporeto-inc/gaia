@@ -12826,7 +12826,7 @@ Type: `boolean`
 
 Defines if the object is protected.
 
-##### `servicePorts` [`required`]
+##### `servicePorts`
 
 Type: `[]string`
 
