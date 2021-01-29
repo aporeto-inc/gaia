@@ -117,6 +117,16 @@ attributes:
     extensions:
       bson_name: j
 
+  - name: enforcerID
+    description: ID of the enforcer where the report was collected.
+    type: string
+    exposed: true
+    stored: true
+    example_value: 5c6cce207ddf1fc159a104bf
+    omit_empty: true
+    extensions:
+      bson_name: ak
+
   - name: namespace
     description: This is here for backward compatibility.
     type: string

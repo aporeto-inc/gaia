@@ -12177,6 +12177,7 @@ Post a new cached flow report.
   "destinationPlatform": "api.east.acme.com",
   "destinationType": "ProcessingUnit",
   "encrypted": false,
+  "enforcerID": "5c6cce207ddf1fc159a104bf",
   "isLocalDestinationID": false,
   "isLocalSourceID": false,
   "namespace": "/my/namespace",
@@ -12275,6 +12276,12 @@ for the rejection.
 Type: `boolean`
 
 If `true`, the flow was encrypted.
+
+##### `enforcerID`
+
+Type: `string`
+
+ID of the enforcer where the report was collected.
 
 ##### `isLocalDestinationID`
 
@@ -12865,6 +12872,7 @@ Post a new flow log.
   "destinationPlatform": "api.east.acme.com",
   "destinationType": "ProcessingUnit",
   "encrypted": false,
+  "enforcerID": "5c6cce207ddf1fc159a104bf",
   "namespace": "/my/namespace",
   "observed": false,
   "observedAction": "NotApplicable",
@@ -12961,6 +12969,12 @@ for the rejection.
 Type: `boolean`
 
 If `true`, the flow was encrypted.
+
+##### `enforcerID`
+
+Type: `string`
+
+ID of the enforcer where the report was collected.
 
 ##### `namespace` [`required`]
 

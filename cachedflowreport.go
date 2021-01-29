@@ -186,6 +186,9 @@ type CachedFlowReport struct {
 	// If `true`, the flow was encrypted.
 	Encrypted bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"j,omitempty" mapstructure:"encrypted,omitempty"`
 
+	// ID of the enforcer where the report was collected.
+	EnforcerID string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"ak,omitempty" mapstructure:"enforcerID,omitempty"`
+
 	// Indicates if the destination endpoint is an enforcer-local processing unit.
 	IsLocalDestinationID bool `json:"isLocalDestinationID,omitempty" msgpack:"isLocalDestinationID,omitempty" bson:"ai,omitempty" mapstructure:"isLocalDestinationID,omitempty"`
 
@@ -335,6 +338,7 @@ func (o *CachedFlowReport) GetBSON() (interface{}, error) {
 	s.DestinationType = o.DestinationType
 	s.DropReason = o.DropReason
 	s.Encrypted = o.Encrypted
+	s.EnforcerID = o.EnforcerID
 	s.IsLocalDestinationID = o.IsLocalDestinationID
 	s.IsLocalSourceID = o.IsLocalSourceID
 	s.MigrationsLog = o.MigrationsLog
@@ -393,6 +397,7 @@ func (o *CachedFlowReport) SetBSON(raw bson.Raw) error {
 	o.DestinationType = s.DestinationType
 	o.DropReason = s.DropReason
 	o.Encrypted = s.Encrypted
+	o.EnforcerID = s.EnforcerID
 	o.IsLocalDestinationID = s.IsLocalDestinationID
 	o.IsLocalSourceID = s.IsLocalSourceID
 	o.MigrationsLog = s.MigrationsLog
@@ -510,6 +515,7 @@ func (o *CachedFlowReport) ToSparse(fields ...string) elemental.SparseIdentifiab
 			DestinationType:         &o.DestinationType,
 			DropReason:              &o.DropReason,
 			Encrypted:               &o.Encrypted,
+			EnforcerID:              &o.EnforcerID,
 			IsLocalDestinationID:    &o.IsLocalDestinationID,
 			IsLocalSourceID:         &o.IsLocalSourceID,
 			MigrationsLog:           &o.MigrationsLog,
@@ -568,6 +574,8 @@ func (o *CachedFlowReport) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.DropReason = &(o.DropReason)
 		case "encrypted":
 			sp.Encrypted = &(o.Encrypted)
+		case "enforcerID":
+			sp.EnforcerID = &(o.EnforcerID)
 		case "isLocalDestinationID":
 			sp.IsLocalDestinationID = &(o.IsLocalDestinationID)
 		case "isLocalSourceID":
@@ -673,6 +681,9 @@ func (o *CachedFlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Encrypted != nil {
 		o.Encrypted = *so.Encrypted
+	}
+	if so.EnforcerID != nil {
+		o.EnforcerID = *so.EnforcerID
 	}
 	if so.IsLocalDestinationID != nil {
 		o.IsLocalDestinationID = *so.IsLocalDestinationID
@@ -917,6 +928,8 @@ func (o *CachedFlowReport) ValueForAttribute(name string) interface{} {
 		return o.DropReason
 	case "encrypted":
 		return o.Encrypted
+	case "enforcerID":
+		return o.EnforcerID
 	case "isLocalDestinationID":
 		return o.IsLocalDestinationID
 	case "isLocalSourceID":
@@ -1104,6 +1117,16 @@ for the rejection.`,
 		Name:           "encrypted",
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"EnforcerID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "ak",
+		ConvertedName:  "EnforcerID",
+		Description:    `ID of the enforcer where the report was collected.`,
+		Exposed:        true,
+		Name:           "enforcerID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"IsLocalDestinationID": {
 		AllowedChoices: []string{},
@@ -1555,6 +1578,16 @@ for the rejection.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"enforcerid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "ak",
+		ConvertedName:  "EnforcerID",
+		Description:    `ID of the enforcer where the report was collected.`,
+		Exposed:        true,
+		Name:           "enforcerID",
+		Stored:         true,
+		Type:           "string",
+	},
 	"islocaldestinationid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "ai",
@@ -1980,6 +2013,9 @@ type SparseCachedFlowReport struct {
 	// If `true`, the flow was encrypted.
 	Encrypted *bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"j,omitempty" mapstructure:"encrypted,omitempty"`
 
+	// ID of the enforcer where the report was collected.
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"ak,omitempty" mapstructure:"enforcerID,omitempty"`
+
 	// Indicates if the destination endpoint is an enforcer-local processing unit.
 	IsLocalDestinationID *bool `json:"isLocalDestinationID,omitempty" msgpack:"isLocalDestinationID,omitempty" bson:"ai,omitempty" mapstructure:"isLocalDestinationID,omitempty"`
 
@@ -2150,6 +2186,9 @@ func (o *SparseCachedFlowReport) GetBSON() (interface{}, error) {
 	if o.Encrypted != nil {
 		s.Encrypted = o.Encrypted
 	}
+	if o.EnforcerID != nil {
+		s.EnforcerID = o.EnforcerID
+	}
 	if o.IsLocalDestinationID != nil {
 		s.IsLocalDestinationID = o.IsLocalDestinationID
 	}
@@ -2289,6 +2328,9 @@ func (o *SparseCachedFlowReport) SetBSON(raw bson.Raw) error {
 	if s.Encrypted != nil {
 		o.Encrypted = s.Encrypted
 	}
+	if s.EnforcerID != nil {
+		o.EnforcerID = s.EnforcerID
+	}
 	if s.IsLocalDestinationID != nil {
 		o.IsLocalDestinationID = s.IsLocalDestinationID
 	}
@@ -2425,6 +2467,9 @@ func (o *SparseCachedFlowReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Encrypted != nil {
 		out.Encrypted = *o.Encrypted
+	}
+	if o.EnforcerID != nil {
+		out.EnforcerID = *o.EnforcerID
 	}
 	if o.IsLocalDestinationID != nil {
 		out.IsLocalDestinationID = *o.IsLocalDestinationID
@@ -2604,6 +2649,7 @@ type mongoAttributesCachedFlowReport struct {
 	DestinationType         CachedFlowReportDestinationTypeValue `bson:"h,omitempty"`
 	DropReason              string                               `bson:"i,omitempty"`
 	Encrypted               bool                                 `bson:"j,omitempty"`
+	EnforcerID              string                               `bson:"ak,omitempty"`
 	IsLocalDestinationID    bool                                 `bson:"ai,omitempty"`
 	IsLocalSourceID         bool                                 `bson:"aj,omitempty"`
 	MigrationsLog           map[string]string                    `bson:"migrationslog,omitempty"`
@@ -2647,6 +2693,7 @@ type mongoAttributesSparseCachedFlowReport struct {
 	DestinationType         *CachedFlowReportDestinationTypeValue `bson:"h,omitempty"`
 	DropReason              *string                               `bson:"i,omitempty"`
 	Encrypted               *bool                                 `bson:"j,omitempty"`
+	EnforcerID              *string                               `bson:"ak,omitempty"`
 	IsLocalDestinationID    *bool                                 `bson:"ai,omitempty"`
 	IsLocalSourceID         *bool                                 `bson:"aj,omitempty"`
 	MigrationsLog           *map[string]string                    `bson:"migrationslog,omitempty"`
