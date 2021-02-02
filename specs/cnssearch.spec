@@ -82,3 +82,11 @@ attributes:
     exposed: true
     required: true
     default_value: 0
+
+  - name: timeRange
+    description: |-
+      Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
+      to PC backend.
+    type: external
+    exposed: true
+    subtype: map[string]interface{}

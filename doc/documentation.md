@@ -7090,6 +7090,13 @@ Default value:
 0
 ```
 
+##### `timeRange`
+
+Type: `map[string]interface{}`
+
+Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
+to PC backend.
+
 ### CNSSuggestion
 
 Provides query suggestions for Prisma Cloud's investigate page.
