@@ -21,7 +21,7 @@ attributes:
     description: The payload of the search results.
     type: ref
     exposed: true
-    subtype: pcsearchresults
+    subtype: pcsearchresult
     extensions:
       refMode: pointer
 

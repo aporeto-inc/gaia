@@ -84,7 +84,7 @@ type CNSSearch struct {
 	ID string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
 
 	// The payload of the search results.
-	Data *PCSearchResults `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
+	Data *PCSearchResult `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	// Description of the search.
 	Description string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
@@ -121,7 +121,7 @@ func NewCNSSearch() *CNSSearch {
 
 	return &CNSSearch{
 		ModelVersion:  1,
-		Data:          NewPCSearchResults(),
+		Data:          NewPCSearchResult(),
 		EndAbsolute:   0,
 		Limit:         100,
 		StartAbsolute: 0,
@@ -668,7 +668,7 @@ type SparseCNSSearch struct {
 	ID *string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
 
 	// The payload of the search results.
-	Data *PCSearchResults `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data *PCSearchResult `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// Description of the search.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`

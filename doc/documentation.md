@@ -7178,7 +7178,7 @@ Default value:
 false
 ```
 
-### PCSearchResults
+### PCSearchResult
 
 Represents the result data of RQL search.
 

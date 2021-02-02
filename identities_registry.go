@@ -106,7 +106,7 @@ var (
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
 		"pccprovider":            PCCProviderIdentity,
-		"pcsearchresult":         PCSearchResultsIdentity,
+		"pcsearchresult":         PCSearchResultIdentity,
 
 		"pingprobe":   PingProbeIdentity,
 		"pingrequest": PingRequestIdentity,
@@ -273,7 +273,7 @@ var (
 		"packetreports":          PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
 		"pccproviders":           PCCProviderIdentity,
-		"pcsearchresults":        PCSearchResultsIdentity,
+		"pcsearchresults":        PCSearchResultIdentity,
 
 		"pingprobes":   PingProbeIdentity,
 		"pingrequests": PingRequestIdentity,
@@ -1262,8 +1262,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPasswordReset()
 	case PCCProviderIdentity:
 		return NewPCCProvider()
-	case PCSearchResultsIdentity:
-		return NewPCSearchResults()
+	case PCSearchResultIdentity:
+		return NewPCSearchResult()
 	case PingProbeIdentity:
 		return NewPingProbe()
 	case PingRequestIdentity:
@@ -1571,8 +1571,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePasswordReset()
 	case PCCProviderIdentity:
 		return NewSparsePCCProvider()
-	case PCSearchResultsIdentity:
-		return NewSparsePCSearchResults()
+	case PCSearchResultIdentity:
+		return NewSparsePCSearchResult()
 	case PingProbeIdentity:
 		return NewSparsePingProbe()
 	case PingRequestIdentity:
@@ -1888,7 +1888,7 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PasswordResetsList{}
 	case PCCProviderIdentity:
 		return &PCCProvidersList{}
-	case PCSearchResultsIdentity:
+	case PCSearchResultIdentity:
 		return &PCSearchResultsList{}
 	case PingProbeIdentity:
 		return &PingProbesList{}
@@ -2195,7 +2195,7 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePasswordResetsList{}
 	case PCCProviderIdentity:
 		return &SparsePCCProvidersList{}
-	case PCSearchResultsIdentity:
+	case PCSearchResultIdentity:
 		return &SparsePCSearchResultsList{}
 	case PingProbeIdentity:
 		return &SparsePingProbesList{}
@@ -2426,7 +2426,7 @@ func AllIdentities() []elemental.Identity {
 		PacketReportIdentity,
 		PasswordResetIdentity,
 		PCCProviderIdentity,
-		PCSearchResultsIdentity,
+		PCSearchResultIdentity,
 		PingProbeIdentity,
 		PingRequestIdentity,
 		PingResultIdentity,
@@ -2777,7 +2777,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PCCProviderIdentity:
 		return []string{}
-	case PCSearchResultsIdentity:
+	case PCSearchResultIdentity:
 		return []string{}
 	case PingProbeIdentity:
 		return []string{}
