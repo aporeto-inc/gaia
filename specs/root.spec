@@ -204,6 +204,22 @@ relations:
   create:
     description: Performs a clause matching.
 
+- rest_name: cloudattachment
+  get:
+    description: Retrieves the list of cloud attachments.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new cloud attachment.
+    global_parameters:
+    - $filtering
+  update:
+    description: Updates a cloud attachment.
+  delete:
+    description: Deletes a cloud attachment.
+    global_parameters:
+    - $filtering
+
 - rest_name: cloudendpoint
   get:
     description: List of endpoints associated with the deployment.

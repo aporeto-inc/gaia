@@ -32,7 +32,7 @@ attributes:
     - LoadBalancer
     - Gateway
     - Service
-    - TransitGateway
+    - TransitGatewayVPCAttachment
 
   - name: relatedObjectID
     description: |-

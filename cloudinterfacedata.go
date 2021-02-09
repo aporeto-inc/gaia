@@ -24,8 +24,8 @@ const (
 	// CloudInterfaceDataAttachmentTypeService represents the value Service.
 	CloudInterfaceDataAttachmentTypeService CloudInterfaceDataAttachmentTypeValue = "Service"
 
-	// CloudInterfaceDataAttachmentTypeTransitGateway represents the value TransitGateway.
-	CloudInterfaceDataAttachmentTypeTransitGateway CloudInterfaceDataAttachmentTypeValue = "TransitGateway"
+	// CloudInterfaceDataAttachmentTypeTransitGatewayVPCAttachment represents the value TransitGatewayVPCAttachment.
+	CloudInterfaceDataAttachmentTypeTransitGatewayVPCAttachment CloudInterfaceDataAttachmentTypeValue = "TransitGatewayVPCAttachment"
 )
 
 // CloudInterfaceData represents the model of a cloudinterfacedata
@@ -149,7 +149,7 @@ func (o *CloudInterfaceData) Validate() error {
 		}
 	}
 
-	if err := elemental.ValidateStringInList("attachmentType", string(o.AttachmentType), []string{"Instance", "LoadBalancer", "Gateway", "Service", "TransitGateway"}, false); err != nil {
+	if err := elemental.ValidateStringInList("attachmentType", string(o.AttachmentType), []string{"Instance", "LoadBalancer", "Gateway", "Service", "TransitGatewayVPCAttachment"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 

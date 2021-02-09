@@ -29,18 +29,12 @@ attributes:
     extensions:
       refMode: pointer
 
-  - name: requestType
-    description: The type of request/calculation that must be performedn.
-    type: enum
+  - name: query
+    description: |-
+      The cloud network query that should be used. This requires a POST operation on
+      the object.
+    type: ref
     exposed: true
-    allowed_choices:
-    - Topology
-    - TraceRoute
-    default_value: Topology
-
-  - name: targetVPCs
-    description: The VPCs that should be captured in the map.
-    type: list
-    exposed: true
-    subtype: string
-    stored: true
+    subtype: cloudnetworkquery
+    extensions:
+      refMode: pointer

@@ -21,6 +21,9 @@ const (
 	// CloudEndpointDataTypeLoadBalancer represents the value LoadBalancer.
 	CloudEndpointDataTypeLoadBalancer CloudEndpointDataTypeValue = "LoadBalancer"
 
+	// CloudEndpointDataTypeNATGateway represents the value NATGateway.
+	CloudEndpointDataTypeNATGateway CloudEndpointDataTypeValue = "NATGateway"
+
 	// CloudEndpointDataTypePeeringConnection represents the value PeeringConnection.
 	CloudEndpointDataTypePeeringConnection CloudEndpointDataTypeValue = "PeeringConnection"
 
@@ -150,7 +153,7 @@ func (o *CloudEndpointData) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Instance", "LoadBalancer", "PeeringConnection", "Service", "Gateway", "TransitGateway"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Instance", "LoadBalancer", "PeeringConnection", "Service", "Gateway", "TransitGateway", "NATGateway"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 

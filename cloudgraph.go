@@ -8,17 +8,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// CloudGraphRequestTypeValue represents the possible values for attribute "requestType".
-type CloudGraphRequestTypeValue string
-
-const (
-	// CloudGraphRequestTypeTopology represents the value Topology.
-	CloudGraphRequestTypeTopology CloudGraphRequestTypeValue = "Topology"
-
-	// CloudGraphRequestTypeTraceRoute represents the value TraceRoute.
-	CloudGraphRequestTypeTraceRoute CloudGraphRequestTypeValue = "TraceRoute"
-)
-
 // CloudGraphIdentity represents the Identity of the object.
 var CloudGraphIdentity = elemental.Identity{
 	Name:     "cloudgraph",
@@ -97,11 +86,9 @@ type CloudGraph struct {
 	// Refers to the nodes of the map.
 	Nodes map[string]*CloudNode `json:"nodes" msgpack:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
 
-	// The type of request/calculation that must be performedn.
-	RequestType CloudGraphRequestTypeValue `json:"requestType" msgpack:"requestType" bson:"-" mapstructure:"requestType,omitempty"`
-
-	// The VPCs that should be captured in the map.
-	TargetVPCs []string `json:"targetVPCs" msgpack:"targetVPCs" bson:"targetvpcs" mapstructure:"targetVPCs,omitempty"`
+	// The cloud network query that should be used. This requires a POST operation on
+	// the object.
+	Query *CloudNetworkQuery `json:"query" msgpack:"query" bson:"-" mapstructure:"query,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -113,8 +100,7 @@ func NewCloudGraph() *CloudGraph {
 		ModelVersion: 1,
 		Edges:        map[string]*CloudEdge{},
 		Nodes:        map[string]*CloudNode{},
-		RequestType:  CloudGraphRequestTypeTopology,
-		TargetVPCs:   []string{},
+		Query:        NewCloudNetworkQuery(),
 	}
 }
 
@@ -145,8 +131,6 @@ func (o *CloudGraph) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCloudGraph{}
 
-	s.TargetVPCs = o.TargetVPCs
-
 	return s, nil
 }
 
@@ -162,8 +146,6 @@ func (o *CloudGraph) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
-
-	o.TargetVPCs = s.TargetVPCs
 
 	return nil
 }
@@ -205,10 +187,9 @@ func (o *CloudGraph) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCloudGraph{
-			Edges:       &o.Edges,
-			Nodes:       &o.Nodes,
-			RequestType: &o.RequestType,
-			TargetVPCs:  &o.TargetVPCs,
+			Edges: &o.Edges,
+			Nodes: &o.Nodes,
+			Query: o.Query,
 		}
 	}
 
@@ -219,10 +200,8 @@ func (o *CloudGraph) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Edges = &(o.Edges)
 		case "nodes":
 			sp.Nodes = &(o.Nodes)
-		case "requestType":
-			sp.RequestType = &(o.RequestType)
-		case "targetVPCs":
-			sp.TargetVPCs = &(o.TargetVPCs)
+		case "query":
+			sp.Query = o.Query
 		}
 	}
 
@@ -242,11 +221,8 @@ func (o *CloudGraph) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Nodes != nil {
 		o.Nodes = *so.Nodes
 	}
-	if so.RequestType != nil {
-		o.RequestType = *so.RequestType
-	}
-	if so.TargetVPCs != nil {
-		o.TargetVPCs = *so.TargetVPCs
+	if so.Query != nil {
+		o.Query = so.Query
 	}
 }
 
@@ -300,8 +276,11 @@ func (o *CloudGraph) Validate() error {
 		}
 	}
 
-	if err := elemental.ValidateStringInList("requestType", string(o.RequestType), []string{"Topology", "TraceRoute"}, false); err != nil {
-		errors = errors.Append(err)
+	if o.Query != nil {
+		elemental.ResetDefaultForZeroValues(o.Query)
+		if err := o.Query.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -342,10 +321,8 @@ func (o *CloudGraph) ValueForAttribute(name string) interface{} {
 		return o.Edges
 	case "nodes":
 		return o.Nodes
-	case "requestType":
-		return o.RequestType
-	case "targetVPCs":
-		return o.TargetVPCs
+	case "query":
+		return o.Query
 	}
 
 	return nil
@@ -373,25 +350,15 @@ var CloudGraphAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "cloudnode",
 		Type:           "refMap",
 	},
-	"RequestType": {
-		AllowedChoices: []string{"Topology", "TraceRoute"},
-		ConvertedName:  "RequestType",
-		DefaultValue:   CloudGraphRequestTypeTopology,
-		Description:    `The type of request/calculation that must be performedn.`,
-		Exposed:        true,
-		Name:           "requestType",
-		Type:           "enum",
-	},
-	"TargetVPCs": {
+	"Query": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "targetvpcs",
-		ConvertedName:  "TargetVPCs",
-		Description:    `The VPCs that should be captured in the map.`,
-		Exposed:        true,
-		Name:           "targetVPCs",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		ConvertedName:  "Query",
+		Description: `The cloud network query that should be used. This requires a POST operation on
+the object.`,
+		Exposed: true,
+		Name:    "query",
+		SubType: "cloudnetworkquery",
+		Type:    "ref",
 	},
 }
 
@@ -417,25 +384,15 @@ var CloudGraphLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		SubType:        "cloudnode",
 		Type:           "refMap",
 	},
-	"requesttype": {
-		AllowedChoices: []string{"Topology", "TraceRoute"},
-		ConvertedName:  "RequestType",
-		DefaultValue:   CloudGraphRequestTypeTopology,
-		Description:    `The type of request/calculation that must be performedn.`,
-		Exposed:        true,
-		Name:           "requestType",
-		Type:           "enum",
-	},
-	"targetvpcs": {
+	"query": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "targetvpcs",
-		ConvertedName:  "TargetVPCs",
-		Description:    `The VPCs that should be captured in the map.`,
-		Exposed:        true,
-		Name:           "targetVPCs",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		ConvertedName:  "Query",
+		Description: `The cloud network query that should be used. This requires a POST operation on
+the object.`,
+		Exposed: true,
+		Name:    "query",
+		SubType: "cloudnetworkquery",
+		Type:    "ref",
 	},
 }
 
@@ -508,11 +465,9 @@ type SparseCloudGraph struct {
 	// Refers to the nodes of the map.
 	Nodes *map[string]*CloudNode `json:"nodes,omitempty" msgpack:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
 
-	// The type of request/calculation that must be performedn.
-	RequestType *CloudGraphRequestTypeValue `json:"requestType,omitempty" msgpack:"requestType,omitempty" bson:"-" mapstructure:"requestType,omitempty"`
-
-	// The VPCs that should be captured in the map.
-	TargetVPCs *[]string `json:"targetVPCs,omitempty" msgpack:"targetVPCs,omitempty" bson:"targetvpcs,omitempty" mapstructure:"targetVPCs,omitempty"`
+	// The cloud network query that should be used. This requires a POST operation on
+	// the object.
+	Query *CloudNetworkQuery `json:"query,omitempty" msgpack:"query,omitempty" bson:"-" mapstructure:"query,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -549,10 +504,6 @@ func (o *SparseCloudGraph) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseCloudGraph{}
 
-	if o.TargetVPCs != nil {
-		s.TargetVPCs = o.TargetVPCs
-	}
-
 	return s, nil
 }
 
@@ -567,10 +518,6 @@ func (o *SparseCloudGraph) SetBSON(raw bson.Raw) error {
 	s := &mongoAttributesSparseCloudGraph{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
-	}
-
-	if s.TargetVPCs != nil {
-		o.TargetVPCs = s.TargetVPCs
 	}
 
 	return nil
@@ -592,11 +539,8 @@ func (o *SparseCloudGraph) ToPlain() elemental.PlainIdentifiable {
 	if o.Nodes != nil {
 		out.Nodes = *o.Nodes
 	}
-	if o.RequestType != nil {
-		out.RequestType = *o.RequestType
-	}
-	if o.TargetVPCs != nil {
-		out.TargetVPCs = *o.TargetVPCs
+	if o.Query != nil {
+		out.Query = o.Query
 	}
 
 	return out
@@ -627,8 +571,6 @@ func (o *SparseCloudGraph) DeepCopyInto(out *SparseCloudGraph) {
 }
 
 type mongoAttributesCloudGraph struct {
-	TargetVPCs []string `bson:"targetvpcs"`
 }
 type mongoAttributesSparseCloudGraph struct {
-	TargetVPCs *[]string `bson:"targetvpcs,omitempty"`
 }

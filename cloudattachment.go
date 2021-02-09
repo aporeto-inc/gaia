@@ -9,66 +9,54 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// CloudNodeTypeValue represents the possible values for attribute "type".
-type CloudNodeTypeValue string
+// CloudAttachmentTypeValue represents the possible values for attribute "type".
+type CloudAttachmentTypeValue string
 
 const (
-	// CloudNodeTypeEndpoint represents the value Endpoint.
-	CloudNodeTypeEndpoint CloudNodeTypeValue = "Endpoint"
+	// CloudAttachmentTypeTransitGatewayAttachment represents the value TransitGatewayAttachment.
+	CloudAttachmentTypeTransitGatewayAttachment CloudAttachmentTypeValue = "TransitGatewayAttachment"
 
-	// CloudNodeTypeInterface represents the value Interface.
-	CloudNodeTypeInterface CloudNodeTypeValue = "Interface"
-
-	// CloudNodeTypeNetworkRuleSet represents the value NetworkRuleSet.
-	CloudNodeTypeNetworkRuleSet CloudNodeTypeValue = "NetworkRuleSet"
-
-	// CloudNodeTypeRouteTable represents the value RouteTable.
-	CloudNodeTypeRouteTable CloudNodeTypeValue = "RouteTable"
-
-	// CloudNodeTypeSubnet represents the value Subnet.
-	CloudNodeTypeSubnet CloudNodeTypeValue = "Subnet"
-
-	// CloudNodeTypeVPC represents the value VPC.
-	CloudNodeTypeVPC CloudNodeTypeValue = "VPC"
+	// CloudAttachmentTypeTransitGatewayVPCAttachment represents the value TransitGatewayVPCAttachment.
+	CloudAttachmentTypeTransitGatewayVPCAttachment CloudAttachmentTypeValue = "TransitGatewayVPCAttachment"
 )
 
-// CloudNodeIdentity represents the Identity of the object.
-var CloudNodeIdentity = elemental.Identity{
-	Name:     "cloudnode",
-	Category: "cloudnodes",
+// CloudAttachmentIdentity represents the Identity of the object.
+var CloudAttachmentIdentity = elemental.Identity{
+	Name:     "cloudattachment",
+	Category: "cloudattachments",
 	Package:  "pcn",
 	Private:  false,
 }
 
-// CloudNodesList represents a list of CloudNodes
-type CloudNodesList []*CloudNode
+// CloudAttachmentsList represents a list of CloudAttachments
+type CloudAttachmentsList []*CloudAttachment
 
 // Identity returns the identity of the objects in the list.
-func (o CloudNodesList) Identity() elemental.Identity {
+func (o CloudAttachmentsList) Identity() elemental.Identity {
 
-	return CloudNodeIdentity
+	return CloudAttachmentIdentity
 }
 
-// Copy returns a pointer to a copy the CloudNodesList.
-func (o CloudNodesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the CloudAttachmentsList.
+func (o CloudAttachmentsList) Copy() elemental.Identifiables {
 
-	copy := append(CloudNodesList{}, o...)
+	copy := append(CloudAttachmentsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the CloudNodesList.
-func (o CloudNodesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the CloudAttachmentsList.
+func (o CloudAttachmentsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(CloudNodesList{}, o...)
+	out := append(CloudAttachmentsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*CloudNode))
+		out = append(out, obj.(*CloudAttachment))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o CloudNodesList) List() elemental.IdentifiablesList {
+func (o CloudAttachmentsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -79,31 +67,31 @@ func (o CloudNodesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o CloudNodesList) DefaultOrder() []string {
+func (o CloudAttachmentsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the CloudNodesList converted to SparseCloudNodesList.
+// ToSparse returns the CloudAttachmentsList converted to SparseCloudAttachmentsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o CloudNodesList) ToSparse(fields ...string) elemental.Identifiables {
+func (o CloudAttachmentsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseCloudNodesList, len(o))
+	out := make(SparseCloudAttachmentsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseCloudNode)
+		out[i] = o[i].ToSparse(fields...).(*SparseCloudAttachment)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o CloudNodesList) Version() int {
+func (o CloudAttachmentsList) Version() int {
 
 	return 1
 }
 
-// CloudNode represents the model of a cloudnode
-type CloudNode struct {
+// CloudAttachment represents the model of a cloudattachment
+type CloudAttachment struct {
 	// Prisma Cloud API ID (matches Prisma Cloud API ID).
 	APIID int `json:"APIID" msgpack:"APIID" bson:"apiid" mapstructure:"APIID,omitempty"`
 
@@ -125,7 +113,7 @@ type CloudNode struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// The list of attachments for this node.
+	// List of attached objects.
 	Attachments []string `json:"attachments" msgpack:"attachments" bson:"attachments" mapstructure:"attachments,omitempty"`
 
 	// Internal representation of object tags retrieved from the cloud provider.
@@ -136,6 +124,9 @@ type CloudNode struct {
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Customer ID as identified by Prisma Cloud.
 	CustomerID int `json:"customerID" msgpack:"customerID" bson:"customerid" mapstructure:"customerID,omitempty"`
@@ -155,11 +146,11 @@ type CloudNode struct {
 	// ID of the cloud provider object.
 	NativeID string `json:"nativeID" msgpack:"nativeID" bson:"nativeid" mapstructure:"nativeID,omitempty"`
 
+	// The node that the attachments are connected to.
+	NodeID string `json:"nodeID" msgpack:"nodeID" bson:"nodeid" mapstructure:"nodeID,omitempty"`
+
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// The cloud attributes of the object.
-	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// A list of policy references associated with this cloud node.
 	PolicyReferences []string `json:"policyReferences" msgpack:"policyReferences" bson:"policyreferences" mapstructure:"policyReferences,omitempty"`
@@ -173,20 +164,17 @@ type CloudNode struct {
 	// Region name associated with the entity.
 	RegionName string `json:"regionName" msgpack:"regionName" bson:"regionname" mapstructure:"regionName,omitempty"`
 
-	// Reference to a related object. Usefull in some operations.
-	RelatedObjectID string `json:"relatedObjectID" msgpack:"relatedObjectID" bson:"relatedobjectid" mapstructure:"relatedObjectID,omitempty"`
-
 	// Prisma Cloud Resource ID.
 	ResourceID int `json:"resourceID" msgpack:"resourceID" bson:"resourceid" mapstructure:"resourceID,omitempty"`
 
-	// The sub-type of the object as found in the parameters. Used for indexing.
-	SubType string `json:"subType" msgpack:"subType" bson:"subtype" mapstructure:"subType,omitempty"`
-
-	// Type of the endpoint.
-	Type CloudNodeTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
+	// Type of attachment.
+	Type CloudAttachmentTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// The time that the object was updated.
 	UpdatedTime time.Time `json:"updatedTime" msgpack:"updatedTime" bson:"updatedtime" mapstructure:"updatedTime,omitempty"`
@@ -207,10 +195,10 @@ type CloudNode struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewCloudNode returns a new *CloudNode
-func NewCloudNode() *CloudNode {
+// NewCloudAttachment returns a new *CloudAttachment
+func NewCloudAttachment() *CloudAttachment {
 
-	return &CloudNode{
+	return &CloudAttachment{
 		ModelVersion:     1,
 		Attachments:      []string{},
 		CloudTags:        []string{},
@@ -218,38 +206,37 @@ func NewCloudNode() *CloudNode {
 		AssociatedTags:   []string{},
 		NormalizedTags:   []string{},
 		MigrationsLog:    map[string]string{},
-		Parameters:       map[string]interface{}{},
 		PolicyReferences: []string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *CloudNode) Identity() elemental.Identity {
+func (o *CloudAttachment) Identity() elemental.Identity {
 
-	return CloudNodeIdentity
+	return CloudAttachmentIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *CloudNode) Identifier() string {
+func (o *CloudAttachment) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *CloudNode) SetIdentifier(id string) {
+func (o *CloudAttachment) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CloudNode) GetBSON() (interface{}, error) {
+func (o *CloudAttachment) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesCloudNode{}
+	s := &mongoAttributesCloudAttachment{}
 
 	s.APIID = o.APIID
 	if o.ID != "" {
@@ -264,23 +251,23 @@ func (o *CloudNode) GetBSON() (interface{}, error) {
 	s.CloudTags = o.CloudTags
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
 	s.CustomerID = o.CustomerID
 	s.IngestionTime = o.IngestionTime
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NativeID = o.NativeID
+	s.NodeID = o.NodeID
 	s.NormalizedTags = o.NormalizedTags
-	s.Parameters = o.Parameters
 	s.PolicyReferences = o.PolicyReferences
 	s.Protected = o.Protected
 	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
-	s.RelatedObjectID = o.RelatedObjectID
 	s.ResourceID = o.ResourceID
-	s.SubType = o.SubType
 	s.Type = o.Type
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	s.UpdateTime = o.UpdateTime
 	s.UpdatedTime = o.UpdatedTime
 	s.VpcID = o.VpcID
 	s.VpcName = o.VpcName
@@ -292,13 +279,13 @@ func (o *CloudNode) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CloudNode) SetBSON(raw bson.Raw) error {
+func (o *CloudAttachment) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesCloudNode{}
+	s := &mongoAttributesCloudAttachment{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -314,23 +301,23 @@ func (o *CloudNode) SetBSON(raw bson.Raw) error {
 	o.CloudTags = s.CloudTags
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
 	o.CustomerID = s.CustomerID
 	o.IngestionTime = s.IngestionTime
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NativeID = s.NativeID
+	o.NodeID = s.NodeID
 	o.NormalizedTags = s.NormalizedTags
-	o.Parameters = s.Parameters
 	o.PolicyReferences = s.PolicyReferences
 	o.Protected = s.Protected
 	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
-	o.RelatedObjectID = s.RelatedObjectID
 	o.ResourceID = s.ResourceID
-	o.SubType = s.SubType
 	o.Type = s.Type
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	o.UpdateTime = s.UpdateTime
 	o.UpdatedTime = s.UpdatedTime
 	o.VpcID = s.VpcID
 	o.VpcName = s.VpcName
@@ -341,389 +328,391 @@ func (o *CloudNode) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *CloudNode) Version() int {
+func (o *CloudAttachment) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *CloudNode) BleveType() string {
+func (o *CloudAttachment) BleveType() string {
 
-	return "cloudnode"
+	return "cloudattachment"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *CloudNode) DefaultOrder() []string {
+func (o *CloudAttachment) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *CloudNode) Doc() string {
+func (o *CloudAttachment) Doc() string {
 
-	return `Manages the list of cloud nodes available in a cloud deployment.`
+	return `Cloud attachments provides a means to model relationsips between cloud objects.
+For example relationships between Transit Gateways and Transit Gateway
+Attachments.`
 }
 
-func (o *CloudNode) String() string {
+func (o *CloudAttachment) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAPIID returns the APIID of the receiver.
-func (o *CloudNode) GetAPIID() int {
+func (o *CloudAttachment) GetAPIID() int {
 
 	return o.APIID
 }
 
 // SetAPIID sets the property APIID of the receiver using the given value.
-func (o *CloudNode) SetAPIID(APIID int) {
+func (o *CloudAttachment) SetAPIID(APIID int) {
 
 	o.APIID = APIID
 }
 
 // GetRRN returns the RRN of the receiver.
-func (o *CloudNode) GetRRN() string {
+func (o *CloudAttachment) GetRRN() string {
 
 	return o.RRN
 }
 
 // SetRRN sets the property RRN of the receiver using the given value.
-func (o *CloudNode) SetRRN(RRN string) {
+func (o *CloudAttachment) SetRRN(RRN string) {
 
 	o.RRN = RRN
 }
 
 // GetURL returns the URL of the receiver.
-func (o *CloudNode) GetURL() string {
+func (o *CloudAttachment) GetURL() string {
 
 	return o.URL
 }
 
 // SetURL sets the property URL of the receiver using the given value.
-func (o *CloudNode) SetURL(URL string) {
+func (o *CloudAttachment) SetURL(URL string) {
 
 	o.URL = URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
-func (o *CloudNode) GetAccountID() string {
+func (o *CloudAttachment) GetAccountID() string {
 
 	return o.AccountID
 }
 
 // SetAccountID sets the property AccountID of the receiver using the given value.
-func (o *CloudNode) SetAccountID(accountID string) {
+func (o *CloudAttachment) SetAccountID(accountID string) {
 
 	o.AccountID = accountID
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *CloudNode) GetAnnotations() map[string][]string {
+func (o *CloudAttachment) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *CloudNode) SetAnnotations(annotations map[string][]string) {
+func (o *CloudAttachment) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *CloudNode) GetAssociatedTags() []string {
+func (o *CloudAttachment) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *CloudNode) SetAssociatedTags(associatedTags []string) {
+func (o *CloudAttachment) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
-// GetAttachments returns the Attachments of the receiver.
-func (o *CloudNode) GetAttachments() []string {
-
-	return o.Attachments
-}
-
-// SetAttachments sets the property Attachments of the receiver using the given value.
-func (o *CloudNode) SetAttachments(attachments []string) {
-
-	o.Attachments = attachments
-}
-
 // GetCloudTags returns the CloudTags of the receiver.
-func (o *CloudNode) GetCloudTags() []string {
+func (o *CloudAttachment) GetCloudTags() []string {
 
 	return o.CloudTags
 }
 
 // SetCloudTags sets the property CloudTags of the receiver using the given value.
-func (o *CloudNode) SetCloudTags(cloudTags []string) {
+func (o *CloudAttachment) SetCloudTags(cloudTags []string) {
 
 	o.CloudTags = cloudTags
 }
 
 // GetCloudType returns the CloudType of the receiver.
-func (o *CloudNode) GetCloudType() string {
+func (o *CloudAttachment) GetCloudType() string {
 
 	return o.CloudType
 }
 
 // SetCloudType sets the property CloudType of the receiver using the given value.
-func (o *CloudNode) SetCloudType(cloudType string) {
+func (o *CloudAttachment) SetCloudType(cloudType string) {
 
 	o.CloudType = cloudType
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *CloudNode) GetCreateIdempotencyKey() string {
+func (o *CloudAttachment) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *CloudNode) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *CloudAttachment) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *CloudAttachment) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
+func (o *CloudAttachment) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
+}
+
 // GetCustomerID returns the CustomerID of the receiver.
-func (o *CloudNode) GetCustomerID() int {
+func (o *CloudAttachment) GetCustomerID() int {
 
 	return o.CustomerID
 }
 
 // SetCustomerID sets the property CustomerID of the receiver using the given value.
-func (o *CloudNode) SetCustomerID(customerID int) {
+func (o *CloudAttachment) SetCustomerID(customerID int) {
 
 	o.CustomerID = customerID
 }
 
 // GetIngestionTime returns the IngestionTime of the receiver.
-func (o *CloudNode) GetIngestionTime() time.Time {
+func (o *CloudAttachment) GetIngestionTime() time.Time {
 
 	return o.IngestionTime
 }
 
 // SetIngestionTime sets the property IngestionTime of the receiver using the given value.
-func (o *CloudNode) SetIngestionTime(ingestionTime time.Time) {
+func (o *CloudAttachment) SetIngestionTime(ingestionTime time.Time) {
 
 	o.IngestionTime = ingestionTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *CloudNode) GetMigrationsLog() map[string]string {
+func (o *CloudAttachment) GetMigrationsLog() map[string]string {
 
 	return o.MigrationsLog
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
-func (o *CloudNode) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *CloudAttachment) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *CloudNode) GetName() string {
+func (o *CloudAttachment) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *CloudNode) SetName(name string) {
+func (o *CloudAttachment) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *CloudNode) GetNamespace() string {
+func (o *CloudAttachment) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *CloudNode) SetNamespace(namespace string) {
+func (o *CloudAttachment) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNativeID returns the NativeID of the receiver.
-func (o *CloudNode) GetNativeID() string {
+func (o *CloudAttachment) GetNativeID() string {
 
 	return o.NativeID
 }
 
 // SetNativeID sets the property NativeID of the receiver using the given value.
-func (o *CloudNode) SetNativeID(nativeID string) {
+func (o *CloudAttachment) SetNativeID(nativeID string) {
 
 	o.NativeID = nativeID
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *CloudNode) GetNormalizedTags() []string {
+func (o *CloudAttachment) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *CloudNode) SetNormalizedTags(normalizedTags []string) {
+func (o *CloudAttachment) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
-// GetParameters returns the Parameters of the receiver.
-func (o *CloudNode) GetParameters() map[string]interface{} {
-
-	return o.Parameters
-}
-
-// SetParameters sets the property Parameters of the receiver using the given value.
-func (o *CloudNode) SetParameters(parameters map[string]interface{}) {
-
-	o.Parameters = parameters
-}
-
 // GetPolicyReferences returns the PolicyReferences of the receiver.
-func (o *CloudNode) GetPolicyReferences() []string {
+func (o *CloudAttachment) GetPolicyReferences() []string {
 
 	return o.PolicyReferences
 }
 
 // SetPolicyReferences sets the property PolicyReferences of the receiver using the given value.
-func (o *CloudNode) SetPolicyReferences(policyReferences []string) {
+func (o *CloudAttachment) SetPolicyReferences(policyReferences []string) {
 
 	o.PolicyReferences = policyReferences
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *CloudNode) GetProtected() bool {
+func (o *CloudAttachment) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *CloudNode) SetProtected(protected bool) {
+func (o *CloudAttachment) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetRegionID returns the RegionID of the receiver.
-func (o *CloudNode) GetRegionID() string {
+func (o *CloudAttachment) GetRegionID() string {
 
 	return o.RegionID
 }
 
 // SetRegionID sets the property RegionID of the receiver using the given value.
-func (o *CloudNode) SetRegionID(regionID string) {
+func (o *CloudAttachment) SetRegionID(regionID string) {
 
 	o.RegionID = regionID
 }
 
 // GetRegionName returns the RegionName of the receiver.
-func (o *CloudNode) GetRegionName() string {
+func (o *CloudAttachment) GetRegionName() string {
 
 	return o.RegionName
 }
 
 // SetRegionName sets the property RegionName of the receiver using the given value.
-func (o *CloudNode) SetRegionName(regionName string) {
+func (o *CloudAttachment) SetRegionName(regionName string) {
 
 	o.RegionName = regionName
 }
 
 // GetResourceID returns the ResourceID of the receiver.
-func (o *CloudNode) GetResourceID() int {
+func (o *CloudAttachment) GetResourceID() int {
 
 	return o.ResourceID
 }
 
 // SetResourceID sets the property ResourceID of the receiver using the given value.
-func (o *CloudNode) SetResourceID(resourceID int) {
+func (o *CloudAttachment) SetResourceID(resourceID int) {
 
 	o.ResourceID = resourceID
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *CloudNode) GetUpdateIdempotencyKey() string {
+func (o *CloudAttachment) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *CloudNode) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *CloudAttachment) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *CloudAttachment) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
+func (o *CloudAttachment) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
+}
+
 // GetUpdatedTime returns the UpdatedTime of the receiver.
-func (o *CloudNode) GetUpdatedTime() time.Time {
+func (o *CloudAttachment) GetUpdatedTime() time.Time {
 
 	return o.UpdatedTime
 }
 
 // SetUpdatedTime sets the property UpdatedTime of the receiver using the given value.
-func (o *CloudNode) SetUpdatedTime(updatedTime time.Time) {
+func (o *CloudAttachment) SetUpdatedTime(updatedTime time.Time) {
 
 	o.UpdatedTime = updatedTime
 }
 
 // GetVpcID returns the VpcID of the receiver.
-func (o *CloudNode) GetVpcID() string {
+func (o *CloudAttachment) GetVpcID() string {
 
 	return o.VpcID
 }
 
 // SetVpcID sets the property VpcID of the receiver using the given value.
-func (o *CloudNode) SetVpcID(vpcID string) {
+func (o *CloudAttachment) SetVpcID(vpcID string) {
 
 	o.VpcID = vpcID
 }
 
 // GetVpcName returns the VpcName of the receiver.
-func (o *CloudNode) GetVpcName() string {
+func (o *CloudAttachment) GetVpcName() string {
 
 	return o.VpcName
 }
 
 // SetVpcName sets the property VpcName of the receiver using the given value.
-func (o *CloudNode) SetVpcName(vpcName string) {
+func (o *CloudAttachment) SetVpcName(vpcName string) {
 
 	o.VpcName = vpcName
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *CloudNode) GetZHash() int {
+func (o *CloudAttachment) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *CloudNode) SetZHash(zHash int) {
+func (o *CloudAttachment) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *CloudNode) GetZone() int {
+func (o *CloudAttachment) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *CloudNode) SetZone(zone int) {
+func (o *CloudAttachment) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *CloudAttachment) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseCloudNode{
+		return &SparseCloudAttachment{
 			APIID:                &o.APIID,
 			ID:                   &o.ID,
 			RRN:                  &o.RRN,
@@ -735,23 +724,23 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CloudTags:            &o.CloudTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
 			CustomerID:           &o.CustomerID,
 			IngestionTime:        &o.IngestionTime,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NativeID:             &o.NativeID,
+			NodeID:               &o.NodeID,
 			NormalizedTags:       &o.NormalizedTags,
-			Parameters:           &o.Parameters,
 			PolicyReferences:     &o.PolicyReferences,
 			Protected:            &o.Protected,
 			RegionID:             &o.RegionID,
 			RegionName:           &o.RegionName,
-			RelatedObjectID:      &o.RelatedObjectID,
 			ResourceID:           &o.ResourceID,
-			SubType:              &o.SubType,
 			Type:                 &o.Type,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
 			UpdatedTime:          &o.UpdatedTime,
 			VpcID:                &o.VpcID,
 			VpcName:              &o.VpcName,
@@ -760,7 +749,7 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparseCloudNode{}
+	sp := &SparseCloudAttachment{}
 	for _, f := range fields {
 		switch f {
 		case "APIID":
@@ -785,6 +774,8 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CloudType = &(o.CloudType)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
 		case "customerID":
 			sp.CustomerID = &(o.CustomerID)
 		case "ingestionTime":
@@ -797,10 +788,10 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespace = &(o.Namespace)
 		case "nativeID":
 			sp.NativeID = &(o.NativeID)
+		case "nodeID":
+			sp.NodeID = &(o.NodeID)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "parameters":
-			sp.Parameters = &(o.Parameters)
 		case "policyReferences":
 			sp.PolicyReferences = &(o.PolicyReferences)
 		case "protected":
@@ -809,16 +800,14 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.RegionID = &(o.RegionID)
 		case "regionName":
 			sp.RegionName = &(o.RegionName)
-		case "relatedObjectID":
-			sp.RelatedObjectID = &(o.RelatedObjectID)
 		case "resourceID":
 			sp.ResourceID = &(o.ResourceID)
-		case "subType":
-			sp.SubType = &(o.SubType)
 		case "type":
 			sp.Type = &(o.Type)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
 		case "updatedTime":
 			sp.UpdatedTime = &(o.UpdatedTime)
 		case "vpcID":
@@ -835,13 +824,13 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseCloudNode to the object.
-func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseCloudAttachment to the object.
+func (o *CloudAttachment) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseCloudNode)
+	so := sparse.(*SparseCloudAttachment)
 	if so.APIID != nil {
 		o.APIID = *so.APIID
 	}
@@ -875,6 +864,9 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
 	if so.CustomerID != nil {
 		o.CustomerID = *so.CustomerID
 	}
@@ -893,11 +885,11 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NativeID != nil {
 		o.NativeID = *so.NativeID
 	}
+	if so.NodeID != nil {
+		o.NodeID = *so.NodeID
+	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
-	}
-	if so.Parameters != nil {
-		o.Parameters = *so.Parameters
 	}
 	if so.PolicyReferences != nil {
 		o.PolicyReferences = *so.PolicyReferences
@@ -911,20 +903,17 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	if so.RegionName != nil {
 		o.RegionName = *so.RegionName
 	}
-	if so.RelatedObjectID != nil {
-		o.RelatedObjectID = *so.RelatedObjectID
-	}
 	if so.ResourceID != nil {
 		o.ResourceID = *so.ResourceID
-	}
-	if so.SubType != nil {
-		o.SubType = *so.SubType
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
 	}
 	if so.UpdatedTime != nil {
 		o.UpdatedTime = *so.UpdatedTime
@@ -943,32 +932,32 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the CloudNode.
-func (o *CloudNode) DeepCopy() *CloudNode {
+// DeepCopy returns a deep copy if the CloudAttachment.
+func (o *CloudAttachment) DeepCopy() *CloudAttachment {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &CloudNode{}
+	out := &CloudAttachment{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *CloudNode.
-func (o *CloudNode) DeepCopyInto(out *CloudNode) {
+// DeepCopyInto copies the receiver into the given *CloudAttachment.
+func (o *CloudAttachment) DeepCopyInto(out *CloudAttachment) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy CloudNode: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CloudAttachment: %s", err))
 	}
 
-	*out = *target.(*CloudNode)
+	*out = *target.(*CloudAttachment)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *CloudNode) Validate() error {
+func (o *CloudAttachment) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -997,7 +986,7 @@ func (o *CloudNode) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Endpoint", "Subnet", "VPC", "Interface", "RouteTable", "NetworkRuleSet"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"TransitGatewayVPCAttachment", "TransitGatewayAttachment"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1013,26 +1002,26 @@ func (o *CloudNode) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*CloudNode) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*CloudAttachment) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := CloudNodeAttributesMap[name]; ok {
+	if v, ok := CloudAttachmentAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return CloudNodeLowerCaseAttributesMap[name]
+	return CloudAttachmentLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*CloudNode) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*CloudAttachment) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return CloudNodeAttributesMap
+	return CloudAttachmentAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *CloudNode) ValueForAttribute(name string) interface{} {
+func (o *CloudAttachment) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "APIID":
@@ -1057,6 +1046,8 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 		return o.CloudType
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
+	case "createTime":
+		return o.CreateTime
 	case "customerID":
 		return o.CustomerID
 	case "ingestionTime":
@@ -1069,10 +1060,10 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "nativeID":
 		return o.NativeID
+	case "nodeID":
+		return o.NodeID
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "parameters":
-		return o.Parameters
 	case "policyReferences":
 		return o.PolicyReferences
 	case "protected":
@@ -1081,16 +1072,14 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 		return o.RegionID
 	case "regionName":
 		return o.RegionName
-	case "relatedObjectID":
-		return o.RelatedObjectID
 	case "resourceID":
 		return o.ResourceID
-	case "subType":
-		return o.SubType
 	case "type":
 		return o.Type
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
+	case "updateTime":
+		return o.UpdateTime
 	case "updatedTime":
 		return o.UpdatedTime
 	case "vpcID":
@@ -1106,8 +1095,8 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// CloudNodeAttributesMap represents the map of attribute for CloudNode.
-var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
+// CloudAttachmentAttributesMap represents the map of attribute for CloudAttachment.
+var CloudAttachmentAttributesMap = map[string]elemental.AttributeSpecification{
 	"APIID": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "apiid",
@@ -1204,11 +1193,9 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		BSONFieldName:  "attachments",
 		ConvertedName:  "Attachments",
-		Description:    `The list of attachments for this node.`,
+		Description:    `List of attached objects.`,
 		Exposed:        true,
-		Getter:         true,
 		Name:           "attachments",
-		Setter:         true,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
@@ -1252,6 +1239,21 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"CreateTime": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "createtime",
+		ConvertedName:  "CreateTime",
+		Description:    `Creation date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"CustomerID": {
 		AllowedChoices: []string{},
@@ -1335,6 +1337,16 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"NodeID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "nodeid",
+		ConvertedName:  "NodeID",
+		Description:    `The node that the attachments are connected to.`,
+		Exposed:        true,
+		Name:           "nodeID",
+		Stored:         true,
+		Type:           "string",
+	},
 	"NormalizedTags": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1350,19 +1362,6 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
-	},
-	"Parameters": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "parameters",
-		ConvertedName:  "Parameters",
-		Description:    `The cloud attributes of the object.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "parameters",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "map[string]interface{}",
-		Type:           "external",
 	},
 	"PolicyReferences": {
 		AllowedChoices: []string{},
@@ -1421,16 +1420,6 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"RelatedObjectID": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "relatedobjectid",
-		ConvertedName:  "RelatedObjectID",
-		Description:    `Reference to a related object. Usefull in some operations.`,
-		Exposed:        true,
-		Name:           "relatedObjectID",
-		Stored:         true,
-		Type:           "string",
-	},
 	"ResourceID": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "resourceid",
@@ -1443,22 +1432,11 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "integer",
 	},
-	"SubType": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "subtype",
-		ConvertedName:  "SubType",
-		Description:    `The sub-type of the object as found in the parameters. Used for indexing.`,
-		Exposed:        true,
-		Name:           "subType",
-		Stored:         true,
-		Type:           "string",
-	},
 	"Type": {
-		AllowedChoices: []string{"Endpoint", "Subnet", "VPC", "Interface", "RouteTable", "NetworkRuleSet"},
+		AllowedChoices: []string{"TransitGatewayVPCAttachment", "TransitGatewayAttachment"},
 		BSONFieldName:  "type",
 		ConvertedName:  "Type",
-		Description:    `Type of the endpoint.`,
+		Description:    `Type of attachment.`,
 		Exposed:        true,
 		Name:           "type",
 		Stored:         true,
@@ -1476,6 +1454,21 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"UpdateTime": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "updatetime",
+		ConvertedName:  "UpdateTime",
+		Description:    `Last update date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updateTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"UpdatedTime": {
 		AllowedChoices: []string{},
@@ -1546,8 +1539,8 @@ georedundancy.`,
 	},
 }
 
-// CloudNodeLowerCaseAttributesMap represents the map of attribute for CloudNode.
-var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// CloudAttachmentLowerCaseAttributesMap represents the map of attribute for CloudAttachment.
+var CloudAttachmentLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"apiid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "apiid",
@@ -1644,11 +1637,9 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		BSONFieldName:  "attachments",
 		ConvertedName:  "Attachments",
-		Description:    `The list of attachments for this node.`,
+		Description:    `List of attached objects.`,
 		Exposed:        true,
-		Getter:         true,
 		Name:           "attachments",
-		Setter:         true,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
@@ -1692,6 +1683,21 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"createtime": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "createtime",
+		ConvertedName:  "CreateTime",
+		Description:    `Creation date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"customerid": {
 		AllowedChoices: []string{},
@@ -1775,6 +1781,16 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
+	"nodeid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "nodeid",
+		ConvertedName:  "NodeID",
+		Description:    `The node that the attachments are connected to.`,
+		Exposed:        true,
+		Name:           "nodeID",
+		Stored:         true,
+		Type:           "string",
+	},
 	"normalizedtags": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1790,19 +1806,6 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
-	},
-	"parameters": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "parameters",
-		ConvertedName:  "Parameters",
-		Description:    `The cloud attributes of the object.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "parameters",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "map[string]interface{}",
-		Type:           "external",
 	},
 	"policyreferences": {
 		AllowedChoices: []string{},
@@ -1861,16 +1864,6 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
-	"relatedobjectid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "relatedobjectid",
-		ConvertedName:  "RelatedObjectID",
-		Description:    `Reference to a related object. Usefull in some operations.`,
-		Exposed:        true,
-		Name:           "relatedObjectID",
-		Stored:         true,
-		Type:           "string",
-	},
 	"resourceid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "resourceid",
@@ -1883,22 +1876,11 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "integer",
 	},
-	"subtype": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "subtype",
-		ConvertedName:  "SubType",
-		Description:    `The sub-type of the object as found in the parameters. Used for indexing.`,
-		Exposed:        true,
-		Name:           "subType",
-		Stored:         true,
-		Type:           "string",
-	},
 	"type": {
-		AllowedChoices: []string{"Endpoint", "Subnet", "VPC", "Interface", "RouteTable", "NetworkRuleSet"},
+		AllowedChoices: []string{"TransitGatewayVPCAttachment", "TransitGatewayAttachment"},
 		BSONFieldName:  "type",
 		ConvertedName:  "Type",
-		Description:    `Type of the endpoint.`,
+		Description:    `Type of attachment.`,
 		Exposed:        true,
 		Name:           "type",
 		Stored:         true,
@@ -1916,6 +1898,21 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"updatetime": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "updatetime",
+		ConvertedName:  "UpdateTime",
+		Description:    `Last update date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updateTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"updatedtime": {
 		AllowedChoices: []string{},
@@ -1986,35 +1983,35 @@ georedundancy.`,
 	},
 }
 
-// SparseCloudNodesList represents a list of SparseCloudNodes
-type SparseCloudNodesList []*SparseCloudNode
+// SparseCloudAttachmentsList represents a list of SparseCloudAttachments
+type SparseCloudAttachmentsList []*SparseCloudAttachment
 
 // Identity returns the identity of the objects in the list.
-func (o SparseCloudNodesList) Identity() elemental.Identity {
+func (o SparseCloudAttachmentsList) Identity() elemental.Identity {
 
-	return CloudNodeIdentity
+	return CloudAttachmentIdentity
 }
 
-// Copy returns a pointer to a copy the SparseCloudNodesList.
-func (o SparseCloudNodesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseCloudAttachmentsList.
+func (o SparseCloudAttachmentsList) Copy() elemental.Identifiables {
 
-	copy := append(SparseCloudNodesList{}, o...)
+	copy := append(SparseCloudAttachmentsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseCloudNodesList.
-func (o SparseCloudNodesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseCloudAttachmentsList.
+func (o SparseCloudAttachmentsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseCloudNodesList{}, o...)
+	out := append(SparseCloudAttachmentsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseCloudNode))
+		out = append(out, obj.(*SparseCloudAttachment))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseCloudNodesList) List() elemental.IdentifiablesList {
+func (o SparseCloudAttachmentsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -2025,13 +2022,13 @@ func (o SparseCloudNodesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseCloudNodesList) DefaultOrder() []string {
+func (o SparseCloudAttachmentsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparseCloudNodesList converted to CloudNodesList.
-func (o SparseCloudNodesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseCloudAttachmentsList converted to CloudAttachmentsList.
+func (o SparseCloudAttachmentsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -2042,13 +2039,13 @@ func (o SparseCloudNodesList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseCloudNodesList) Version() int {
+func (o SparseCloudAttachmentsList) Version() int {
 
 	return 1
 }
 
-// SparseCloudNode represents the sparse version of a cloudnode.
-type SparseCloudNode struct {
+// SparseCloudAttachment represents the sparse version of a cloudattachment.
+type SparseCloudAttachment struct {
 	// Prisma Cloud API ID (matches Prisma Cloud API ID).
 	APIID *int `json:"APIID,omitempty" msgpack:"APIID,omitempty" bson:"apiid,omitempty" mapstructure:"APIID,omitempty"`
 
@@ -2070,7 +2067,7 @@ type SparseCloudNode struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// The list of attachments for this node.
+	// List of attached objects.
 	Attachments *[]string `json:"attachments,omitempty" msgpack:"attachments,omitempty" bson:"attachments,omitempty" mapstructure:"attachments,omitempty"`
 
 	// Internal representation of object tags retrieved from the cloud provider.
@@ -2081,6 +2078,9 @@ type SparseCloudNode struct {
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Customer ID as identified by Prisma Cloud.
 	CustomerID *int `json:"customerID,omitempty" msgpack:"customerID,omitempty" bson:"customerid,omitempty" mapstructure:"customerID,omitempty"`
@@ -2100,11 +2100,11 @@ type SparseCloudNode struct {
 	// ID of the cloud provider object.
 	NativeID *string `json:"nativeID,omitempty" msgpack:"nativeID,omitempty" bson:"nativeid,omitempty" mapstructure:"nativeID,omitempty"`
 
+	// The node that the attachments are connected to.
+	NodeID *string `json:"nodeID,omitempty" msgpack:"nodeID,omitempty" bson:"nodeid,omitempty" mapstructure:"nodeID,omitempty"`
+
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
-
-	// The cloud attributes of the object.
-	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// A list of policy references associated with this cloud node.
 	PolicyReferences *[]string `json:"policyReferences,omitempty" msgpack:"policyReferences,omitempty" bson:"policyreferences,omitempty" mapstructure:"policyReferences,omitempty"`
@@ -2118,20 +2118,17 @@ type SparseCloudNode struct {
 	// Region name associated with the entity.
 	RegionName *string `json:"regionName,omitempty" msgpack:"regionName,omitempty" bson:"regionname,omitempty" mapstructure:"regionName,omitempty"`
 
-	// Reference to a related object. Usefull in some operations.
-	RelatedObjectID *string `json:"relatedObjectID,omitempty" msgpack:"relatedObjectID,omitempty" bson:"relatedobjectid,omitempty" mapstructure:"relatedObjectID,omitempty"`
-
 	// Prisma Cloud Resource ID.
 	ResourceID *int `json:"resourceID,omitempty" msgpack:"resourceID,omitempty" bson:"resourceid,omitempty" mapstructure:"resourceID,omitempty"`
 
-	// The sub-type of the object as found in the parameters. Used for indexing.
-	SubType *string `json:"subType,omitempty" msgpack:"subType,omitempty" bson:"subtype,omitempty" mapstructure:"subType,omitempty"`
-
-	// Type of the endpoint.
-	Type *CloudNodeTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+	// Type of attachment.
+	Type *CloudAttachmentTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// The time that the object was updated.
 	UpdatedTime *time.Time `json:"updatedTime,omitempty" msgpack:"updatedTime,omitempty" bson:"updatedtime,omitempty" mapstructure:"updatedTime,omitempty"`
@@ -2152,19 +2149,19 @@ type SparseCloudNode struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseCloudNode returns a new  SparseCloudNode.
-func NewSparseCloudNode() *SparseCloudNode {
-	return &SparseCloudNode{}
+// NewSparseCloudAttachment returns a new  SparseCloudAttachment.
+func NewSparseCloudAttachment() *SparseCloudAttachment {
+	return &SparseCloudAttachment{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseCloudNode) Identity() elemental.Identity {
+func (o *SparseCloudAttachment) Identity() elemental.Identity {
 
-	return CloudNodeIdentity
+	return CloudAttachmentIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseCloudNode) Identifier() string {
+func (o *SparseCloudAttachment) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -2173,7 +2170,7 @@ func (o *SparseCloudNode) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseCloudNode) SetIdentifier(id string) {
+func (o *SparseCloudAttachment) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -2184,13 +2181,13 @@ func (o *SparseCloudNode) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseCloudNode) GetBSON() (interface{}, error) {
+func (o *SparseCloudAttachment) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseCloudNode{}
+	s := &mongoAttributesSparseCloudAttachment{}
 
 	if o.APIID != nil {
 		s.APIID = o.APIID
@@ -2225,6 +2222,9 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
 	if o.CustomerID != nil {
 		s.CustomerID = o.CustomerID
 	}
@@ -2243,11 +2243,11 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 	if o.NativeID != nil {
 		s.NativeID = o.NativeID
 	}
+	if o.NodeID != nil {
+		s.NodeID = o.NodeID
+	}
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
-	}
-	if o.Parameters != nil {
-		s.Parameters = o.Parameters
 	}
 	if o.PolicyReferences != nil {
 		s.PolicyReferences = o.PolicyReferences
@@ -2261,20 +2261,17 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 	if o.RegionName != nil {
 		s.RegionName = o.RegionName
 	}
-	if o.RelatedObjectID != nil {
-		s.RelatedObjectID = o.RelatedObjectID
-	}
 	if o.ResourceID != nil {
 		s.ResourceID = o.ResourceID
-	}
-	if o.SubType != nil {
-		s.SubType = o.SubType
 	}
 	if o.Type != nil {
 		s.Type = o.Type
 	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
 	}
 	if o.UpdatedTime != nil {
 		s.UpdatedTime = o.UpdatedTime
@@ -2297,13 +2294,13 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
+func (o *SparseCloudAttachment) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseCloudNode{}
+	s := &mongoAttributesSparseCloudAttachment{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -2340,6 +2337,9 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
 	if s.CustomerID != nil {
 		o.CustomerID = s.CustomerID
 	}
@@ -2358,11 +2358,11 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 	if s.NativeID != nil {
 		o.NativeID = s.NativeID
 	}
+	if s.NodeID != nil {
+		o.NodeID = s.NodeID
+	}
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
-	}
-	if s.Parameters != nil {
-		o.Parameters = s.Parameters
 	}
 	if s.PolicyReferences != nil {
 		o.PolicyReferences = s.PolicyReferences
@@ -2376,20 +2376,17 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 	if s.RegionName != nil {
 		o.RegionName = s.RegionName
 	}
-	if s.RelatedObjectID != nil {
-		o.RelatedObjectID = s.RelatedObjectID
-	}
 	if s.ResourceID != nil {
 		o.ResourceID = s.ResourceID
-	}
-	if s.SubType != nil {
-		o.SubType = s.SubType
 	}
 	if s.Type != nil {
 		o.Type = s.Type
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
 	}
 	if s.UpdatedTime != nil {
 		o.UpdatedTime = s.UpdatedTime
@@ -2411,15 +2408,15 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseCloudNode) Version() int {
+func (o *SparseCloudAttachment) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseCloudAttachment) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewCloudNode()
+	out := NewCloudAttachment()
 	if o.APIID != nil {
 		out.APIID = *o.APIID
 	}
@@ -2453,6 +2450,9 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
 	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
 	if o.CustomerID != nil {
 		out.CustomerID = *o.CustomerID
 	}
@@ -2471,11 +2471,11 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 	if o.NativeID != nil {
 		out.NativeID = *o.NativeID
 	}
+	if o.NodeID != nil {
+		out.NodeID = *o.NodeID
+	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
-	}
-	if o.Parameters != nil {
-		out.Parameters = *o.Parameters
 	}
 	if o.PolicyReferences != nil {
 		out.PolicyReferences = *o.PolicyReferences
@@ -2489,20 +2489,17 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 	if o.RegionName != nil {
 		out.RegionName = *o.RegionName
 	}
-	if o.RelatedObjectID != nil {
-		out.RelatedObjectID = *o.RelatedObjectID
-	}
 	if o.ResourceID != nil {
 		out.ResourceID = *o.ResourceID
-	}
-	if o.SubType != nil {
-		out.SubType = *o.SubType
 	}
 	if o.Type != nil {
 		out.Type = *o.Type
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
 	}
 	if o.UpdatedTime != nil {
 		out.UpdatedTime = *o.UpdatedTime
@@ -2524,7 +2521,7 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAPIID returns the APIID of the receiver.
-func (o *SparseCloudNode) GetAPIID() (out int) {
+func (o *SparseCloudAttachment) GetAPIID() (out int) {
 
 	if o.APIID == nil {
 		return
@@ -2534,13 +2531,13 @@ func (o *SparseCloudNode) GetAPIID() (out int) {
 }
 
 // SetAPIID sets the property APIID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetAPIID(APIID int) {
+func (o *SparseCloudAttachment) SetAPIID(APIID int) {
 
 	o.APIID = &APIID
 }
 
 // GetRRN returns the RRN of the receiver.
-func (o *SparseCloudNode) GetRRN() (out string) {
+func (o *SparseCloudAttachment) GetRRN() (out string) {
 
 	if o.RRN == nil {
 		return
@@ -2550,13 +2547,13 @@ func (o *SparseCloudNode) GetRRN() (out string) {
 }
 
 // SetRRN sets the property RRN of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetRRN(RRN string) {
+func (o *SparseCloudAttachment) SetRRN(RRN string) {
 
 	o.RRN = &RRN
 }
 
 // GetURL returns the URL of the receiver.
-func (o *SparseCloudNode) GetURL() (out string) {
+func (o *SparseCloudAttachment) GetURL() (out string) {
 
 	if o.URL == nil {
 		return
@@ -2566,13 +2563,13 @@ func (o *SparseCloudNode) GetURL() (out string) {
 }
 
 // SetURL sets the property URL of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetURL(URL string) {
+func (o *SparseCloudAttachment) SetURL(URL string) {
 
 	o.URL = &URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
-func (o *SparseCloudNode) GetAccountID() (out string) {
+func (o *SparseCloudAttachment) GetAccountID() (out string) {
 
 	if o.AccountID == nil {
 		return
@@ -2582,13 +2579,13 @@ func (o *SparseCloudNode) GetAccountID() (out string) {
 }
 
 // SetAccountID sets the property AccountID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetAccountID(accountID string) {
+func (o *SparseCloudAttachment) SetAccountID(accountID string) {
 
 	o.AccountID = &accountID
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseCloudNode) GetAnnotations() (out map[string][]string) {
+func (o *SparseCloudAttachment) GetAnnotations() (out map[string][]string) {
 
 	if o.Annotations == nil {
 		return
@@ -2598,13 +2595,13 @@ func (o *SparseCloudNode) GetAnnotations() (out map[string][]string) {
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetAnnotations(annotations map[string][]string) {
+func (o *SparseCloudAttachment) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseCloudNode) GetAssociatedTags() (out []string) {
+func (o *SparseCloudAttachment) GetAssociatedTags() (out []string) {
 
 	if o.AssociatedTags == nil {
 		return
@@ -2614,29 +2611,13 @@ func (o *SparseCloudNode) GetAssociatedTags() (out []string) {
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetAssociatedTags(associatedTags []string) {
+func (o *SparseCloudAttachment) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
-// GetAttachments returns the Attachments of the receiver.
-func (o *SparseCloudNode) GetAttachments() (out []string) {
-
-	if o.Attachments == nil {
-		return
-	}
-
-	return *o.Attachments
-}
-
-// SetAttachments sets the property Attachments of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetAttachments(attachments []string) {
-
-	o.Attachments = &attachments
-}
-
 // GetCloudTags returns the CloudTags of the receiver.
-func (o *SparseCloudNode) GetCloudTags() (out []string) {
+func (o *SparseCloudAttachment) GetCloudTags() (out []string) {
 
 	if o.CloudTags == nil {
 		return
@@ -2646,13 +2627,13 @@ func (o *SparseCloudNode) GetCloudTags() (out []string) {
 }
 
 // SetCloudTags sets the property CloudTags of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetCloudTags(cloudTags []string) {
+func (o *SparseCloudAttachment) SetCloudTags(cloudTags []string) {
 
 	o.CloudTags = &cloudTags
 }
 
 // GetCloudType returns the CloudType of the receiver.
-func (o *SparseCloudNode) GetCloudType() (out string) {
+func (o *SparseCloudAttachment) GetCloudType() (out string) {
 
 	if o.CloudType == nil {
 		return
@@ -2662,13 +2643,13 @@ func (o *SparseCloudNode) GetCloudType() (out string) {
 }
 
 // SetCloudType sets the property CloudType of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetCloudType(cloudType string) {
+func (o *SparseCloudAttachment) SetCloudType(cloudType string) {
 
 	o.CloudType = &cloudType
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseCloudNode) GetCreateIdempotencyKey() (out string) {
+func (o *SparseCloudAttachment) GetCreateIdempotencyKey() (out string) {
 
 	if o.CreateIdempotencyKey == nil {
 		return
@@ -2678,13 +2659,29 @@ func (o *SparseCloudNode) GetCreateIdempotencyKey() (out string) {
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseCloudAttachment) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseCloudAttachment) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseCloudAttachment) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
 // GetCustomerID returns the CustomerID of the receiver.
-func (o *SparseCloudNode) GetCustomerID() (out int) {
+func (o *SparseCloudAttachment) GetCustomerID() (out int) {
 
 	if o.CustomerID == nil {
 		return
@@ -2694,13 +2691,13 @@ func (o *SparseCloudNode) GetCustomerID() (out int) {
 }
 
 // SetCustomerID sets the property CustomerID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetCustomerID(customerID int) {
+func (o *SparseCloudAttachment) SetCustomerID(customerID int) {
 
 	o.CustomerID = &customerID
 }
 
 // GetIngestionTime returns the IngestionTime of the receiver.
-func (o *SparseCloudNode) GetIngestionTime() (out time.Time) {
+func (o *SparseCloudAttachment) GetIngestionTime() (out time.Time) {
 
 	if o.IngestionTime == nil {
 		return
@@ -2710,13 +2707,13 @@ func (o *SparseCloudNode) GetIngestionTime() (out time.Time) {
 }
 
 // SetIngestionTime sets the property IngestionTime of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetIngestionTime(ingestionTime time.Time) {
+func (o *SparseCloudAttachment) SetIngestionTime(ingestionTime time.Time) {
 
 	o.IngestionTime = &ingestionTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseCloudNode) GetMigrationsLog() (out map[string]string) {
+func (o *SparseCloudAttachment) GetMigrationsLog() (out map[string]string) {
 
 	if o.MigrationsLog == nil {
 		return
@@ -2726,13 +2723,13 @@ func (o *SparseCloudNode) GetMigrationsLog() (out map[string]string) {
 }
 
 // SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetMigrationsLog(migrationsLog map[string]string) {
+func (o *SparseCloudAttachment) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseCloudNode) GetName() (out string) {
+func (o *SparseCloudAttachment) GetName() (out string) {
 
 	if o.Name == nil {
 		return
@@ -2742,13 +2739,13 @@ func (o *SparseCloudNode) GetName() (out string) {
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetName(name string) {
+func (o *SparseCloudAttachment) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseCloudNode) GetNamespace() (out string) {
+func (o *SparseCloudAttachment) GetNamespace() (out string) {
 
 	if o.Namespace == nil {
 		return
@@ -2758,13 +2755,13 @@ func (o *SparseCloudNode) GetNamespace() (out string) {
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetNamespace(namespace string) {
+func (o *SparseCloudAttachment) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNativeID returns the NativeID of the receiver.
-func (o *SparseCloudNode) GetNativeID() (out string) {
+func (o *SparseCloudAttachment) GetNativeID() (out string) {
 
 	if o.NativeID == nil {
 		return
@@ -2774,13 +2771,13 @@ func (o *SparseCloudNode) GetNativeID() (out string) {
 }
 
 // SetNativeID sets the property NativeID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetNativeID(nativeID string) {
+func (o *SparseCloudAttachment) SetNativeID(nativeID string) {
 
 	o.NativeID = &nativeID
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseCloudNode) GetNormalizedTags() (out []string) {
+func (o *SparseCloudAttachment) GetNormalizedTags() (out []string) {
 
 	if o.NormalizedTags == nil {
 		return
@@ -2790,29 +2787,13 @@ func (o *SparseCloudNode) GetNormalizedTags() (out []string) {
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseCloudAttachment) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
-// GetParameters returns the Parameters of the receiver.
-func (o *SparseCloudNode) GetParameters() (out map[string]interface{}) {
-
-	if o.Parameters == nil {
-		return
-	}
-
-	return *o.Parameters
-}
-
-// SetParameters sets the property Parameters of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetParameters(parameters map[string]interface{}) {
-
-	o.Parameters = &parameters
-}
-
 // GetPolicyReferences returns the PolicyReferences of the receiver.
-func (o *SparseCloudNode) GetPolicyReferences() (out []string) {
+func (o *SparseCloudAttachment) GetPolicyReferences() (out []string) {
 
 	if o.PolicyReferences == nil {
 		return
@@ -2822,13 +2803,13 @@ func (o *SparseCloudNode) GetPolicyReferences() (out []string) {
 }
 
 // SetPolicyReferences sets the property PolicyReferences of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetPolicyReferences(policyReferences []string) {
+func (o *SparseCloudAttachment) SetPolicyReferences(policyReferences []string) {
 
 	o.PolicyReferences = &policyReferences
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseCloudNode) GetProtected() (out bool) {
+func (o *SparseCloudAttachment) GetProtected() (out bool) {
 
 	if o.Protected == nil {
 		return
@@ -2838,13 +2819,13 @@ func (o *SparseCloudNode) GetProtected() (out bool) {
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetProtected(protected bool) {
+func (o *SparseCloudAttachment) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetRegionID returns the RegionID of the receiver.
-func (o *SparseCloudNode) GetRegionID() (out string) {
+func (o *SparseCloudAttachment) GetRegionID() (out string) {
 
 	if o.RegionID == nil {
 		return
@@ -2854,13 +2835,13 @@ func (o *SparseCloudNode) GetRegionID() (out string) {
 }
 
 // SetRegionID sets the property RegionID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetRegionID(regionID string) {
+func (o *SparseCloudAttachment) SetRegionID(regionID string) {
 
 	o.RegionID = &regionID
 }
 
 // GetRegionName returns the RegionName of the receiver.
-func (o *SparseCloudNode) GetRegionName() (out string) {
+func (o *SparseCloudAttachment) GetRegionName() (out string) {
 
 	if o.RegionName == nil {
 		return
@@ -2870,13 +2851,13 @@ func (o *SparseCloudNode) GetRegionName() (out string) {
 }
 
 // SetRegionName sets the property RegionName of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetRegionName(regionName string) {
+func (o *SparseCloudAttachment) SetRegionName(regionName string) {
 
 	o.RegionName = &regionName
 }
 
 // GetResourceID returns the ResourceID of the receiver.
-func (o *SparseCloudNode) GetResourceID() (out int) {
+func (o *SparseCloudAttachment) GetResourceID() (out int) {
 
 	if o.ResourceID == nil {
 		return
@@ -2886,13 +2867,13 @@ func (o *SparseCloudNode) GetResourceID() (out int) {
 }
 
 // SetResourceID sets the property ResourceID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetResourceID(resourceID int) {
+func (o *SparseCloudAttachment) SetResourceID(resourceID int) {
 
 	o.ResourceID = &resourceID
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseCloudNode) GetUpdateIdempotencyKey() (out string) {
+func (o *SparseCloudAttachment) GetUpdateIdempotencyKey() (out string) {
 
 	if o.UpdateIdempotencyKey == nil {
 		return
@@ -2902,13 +2883,29 @@ func (o *SparseCloudNode) GetUpdateIdempotencyKey() (out string) {
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseCloudAttachment) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseCloudAttachment) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseCloudAttachment) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
 // GetUpdatedTime returns the UpdatedTime of the receiver.
-func (o *SparseCloudNode) GetUpdatedTime() (out time.Time) {
+func (o *SparseCloudAttachment) GetUpdatedTime() (out time.Time) {
 
 	if o.UpdatedTime == nil {
 		return
@@ -2918,13 +2915,13 @@ func (o *SparseCloudNode) GetUpdatedTime() (out time.Time) {
 }
 
 // SetUpdatedTime sets the property UpdatedTime of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetUpdatedTime(updatedTime time.Time) {
+func (o *SparseCloudAttachment) SetUpdatedTime(updatedTime time.Time) {
 
 	o.UpdatedTime = &updatedTime
 }
 
 // GetVpcID returns the VpcID of the receiver.
-func (o *SparseCloudNode) GetVpcID() (out string) {
+func (o *SparseCloudAttachment) GetVpcID() (out string) {
 
 	if o.VpcID == nil {
 		return
@@ -2934,13 +2931,13 @@ func (o *SparseCloudNode) GetVpcID() (out string) {
 }
 
 // SetVpcID sets the property VpcID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetVpcID(vpcID string) {
+func (o *SparseCloudAttachment) SetVpcID(vpcID string) {
 
 	o.VpcID = &vpcID
 }
 
 // GetVpcName returns the VpcName of the receiver.
-func (o *SparseCloudNode) GetVpcName() (out string) {
+func (o *SparseCloudAttachment) GetVpcName() (out string) {
 
 	if o.VpcName == nil {
 		return
@@ -2950,13 +2947,13 @@ func (o *SparseCloudNode) GetVpcName() (out string) {
 }
 
 // SetVpcName sets the property VpcName of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetVpcName(vpcName string) {
+func (o *SparseCloudAttachment) SetVpcName(vpcName string) {
 
 	o.VpcName = &vpcName
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseCloudNode) GetZHash() (out int) {
+func (o *SparseCloudAttachment) GetZHash() (out int) {
 
 	if o.ZHash == nil {
 		return
@@ -2966,13 +2963,13 @@ func (o *SparseCloudNode) GetZHash() (out int) {
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetZHash(zHash int) {
+func (o *SparseCloudAttachment) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseCloudNode) GetZone() (out int) {
+func (o *SparseCloudAttachment) GetZone() (out int) {
 
 	if o.Zone == nil {
 		return
@@ -2982,102 +2979,102 @@ func (o *SparseCloudNode) GetZone() (out int) {
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetZone(zone int) {
+func (o *SparseCloudAttachment) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseCloudNode.
-func (o *SparseCloudNode) DeepCopy() *SparseCloudNode {
+// DeepCopy returns a deep copy if the SparseCloudAttachment.
+func (o *SparseCloudAttachment) DeepCopy() *SparseCloudAttachment {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseCloudNode{}
+	out := &SparseCloudAttachment{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseCloudNode.
-func (o *SparseCloudNode) DeepCopyInto(out *SparseCloudNode) {
+// DeepCopyInto copies the receiver into the given *SparseCloudAttachment.
+func (o *SparseCloudAttachment) DeepCopyInto(out *SparseCloudAttachment) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseCloudNode: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseCloudAttachment: %s", err))
 	}
 
-	*out = *target.(*SparseCloudNode)
+	*out = *target.(*SparseCloudAttachment)
 }
 
-type mongoAttributesCloudNode struct {
-	APIID                int                    `bson:"apiid"`
-	ID                   bson.ObjectId          `bson:"_id,omitempty"`
-	RRN                  string                 `bson:"rrn"`
-	URL                  string                 `bson:"url"`
-	AccountID            string                 `bson:"accountid"`
-	Annotations          map[string][]string    `bson:"annotations"`
-	AssociatedTags       []string               `bson:"associatedtags"`
-	Attachments          []string               `bson:"attachments"`
-	CloudTags            []string               `bson:"cloudtags"`
-	CloudType            string                 `bson:"cloudtype"`
-	CreateIdempotencyKey string                 `bson:"createidempotencykey"`
-	CustomerID           int                    `bson:"customerid"`
-	IngestionTime        time.Time              `bson:"ingestiontime"`
-	MigrationsLog        map[string]string      `bson:"migrationslog,omitempty"`
-	Name                 string                 `bson:"name"`
-	Namespace            string                 `bson:"namespace"`
-	NativeID             string                 `bson:"nativeid"`
-	NormalizedTags       []string               `bson:"normalizedtags"`
-	Parameters           map[string]interface{} `bson:"parameters"`
-	PolicyReferences     []string               `bson:"policyreferences"`
-	Protected            bool                   `bson:"protected"`
-	RegionID             string                 `bson:"regionid"`
-	RegionName           string                 `bson:"regionname"`
-	RelatedObjectID      string                 `bson:"relatedobjectid"`
-	ResourceID           int                    `bson:"resourceid"`
-	SubType              string                 `bson:"subtype"`
-	Type                 CloudNodeTypeValue     `bson:"type"`
-	UpdateIdempotencyKey string                 `bson:"updateidempotencykey"`
-	UpdatedTime          time.Time              `bson:"updatedtime"`
-	VpcID                string                 `bson:"vpcid"`
-	VpcName              string                 `bson:"vpcname"`
-	ZHash                int                    `bson:"zhash"`
-	Zone                 int                    `bson:"zone"`
+type mongoAttributesCloudAttachment struct {
+	APIID                int                      `bson:"apiid"`
+	ID                   bson.ObjectId            `bson:"_id,omitempty"`
+	RRN                  string                   `bson:"rrn"`
+	URL                  string                   `bson:"url"`
+	AccountID            string                   `bson:"accountid"`
+	Annotations          map[string][]string      `bson:"annotations"`
+	AssociatedTags       []string                 `bson:"associatedtags"`
+	Attachments          []string                 `bson:"attachments"`
+	CloudTags            []string                 `bson:"cloudtags"`
+	CloudType            string                   `bson:"cloudtype"`
+	CreateIdempotencyKey string                   `bson:"createidempotencykey"`
+	CreateTime           time.Time                `bson:"createtime"`
+	CustomerID           int                      `bson:"customerid"`
+	IngestionTime        time.Time                `bson:"ingestiontime"`
+	MigrationsLog        map[string]string        `bson:"migrationslog,omitempty"`
+	Name                 string                   `bson:"name"`
+	Namespace            string                   `bson:"namespace"`
+	NativeID             string                   `bson:"nativeid"`
+	NodeID               string                   `bson:"nodeid"`
+	NormalizedTags       []string                 `bson:"normalizedtags"`
+	PolicyReferences     []string                 `bson:"policyreferences"`
+	Protected            bool                     `bson:"protected"`
+	RegionID             string                   `bson:"regionid"`
+	RegionName           string                   `bson:"regionname"`
+	ResourceID           int                      `bson:"resourceid"`
+	Type                 CloudAttachmentTypeValue `bson:"type"`
+	UpdateIdempotencyKey string                   `bson:"updateidempotencykey"`
+	UpdateTime           time.Time                `bson:"updatetime"`
+	UpdatedTime          time.Time                `bson:"updatedtime"`
+	VpcID                string                   `bson:"vpcid"`
+	VpcName              string                   `bson:"vpcname"`
+	ZHash                int                      `bson:"zhash"`
+	Zone                 int                      `bson:"zone"`
 }
-type mongoAttributesSparseCloudNode struct {
-	APIID                *int                    `bson:"apiid,omitempty"`
-	ID                   bson.ObjectId           `bson:"_id,omitempty"`
-	RRN                  *string                 `bson:"rrn,omitempty"`
-	URL                  *string                 `bson:"url,omitempty"`
-	AccountID            *string                 `bson:"accountid,omitempty"`
-	Annotations          *map[string][]string    `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string               `bson:"associatedtags,omitempty"`
-	Attachments          *[]string               `bson:"attachments,omitempty"`
-	CloudTags            *[]string               `bson:"cloudtags,omitempty"`
-	CloudType            *string                 `bson:"cloudtype,omitempty"`
-	CreateIdempotencyKey *string                 `bson:"createidempotencykey,omitempty"`
-	CustomerID           *int                    `bson:"customerid,omitempty"`
-	IngestionTime        *time.Time              `bson:"ingestiontime,omitempty"`
-	MigrationsLog        *map[string]string      `bson:"migrationslog,omitempty"`
-	Name                 *string                 `bson:"name,omitempty"`
-	Namespace            *string                 `bson:"namespace,omitempty"`
-	NativeID             *string                 `bson:"nativeid,omitempty"`
-	NormalizedTags       *[]string               `bson:"normalizedtags,omitempty"`
-	Parameters           *map[string]interface{} `bson:"parameters,omitempty"`
-	PolicyReferences     *[]string               `bson:"policyreferences,omitempty"`
-	Protected            *bool                   `bson:"protected,omitempty"`
-	RegionID             *string                 `bson:"regionid,omitempty"`
-	RegionName           *string                 `bson:"regionname,omitempty"`
-	RelatedObjectID      *string                 `bson:"relatedobjectid,omitempty"`
-	ResourceID           *int                    `bson:"resourceid,omitempty"`
-	SubType              *string                 `bson:"subtype,omitempty"`
-	Type                 *CloudNodeTypeValue     `bson:"type,omitempty"`
-	UpdateIdempotencyKey *string                 `bson:"updateidempotencykey,omitempty"`
-	UpdatedTime          *time.Time              `bson:"updatedtime,omitempty"`
-	VpcID                *string                 `bson:"vpcid,omitempty"`
-	VpcName              *string                 `bson:"vpcname,omitempty"`
-	ZHash                *int                    `bson:"zhash,omitempty"`
-	Zone                 *int                    `bson:"zone,omitempty"`
+type mongoAttributesSparseCloudAttachment struct {
+	APIID                *int                      `bson:"apiid,omitempty"`
+	ID                   bson.ObjectId             `bson:"_id,omitempty"`
+	RRN                  *string                   `bson:"rrn,omitempty"`
+	URL                  *string                   `bson:"url,omitempty"`
+	AccountID            *string                   `bson:"accountid,omitempty"`
+	Annotations          *map[string][]string      `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                 `bson:"associatedtags,omitempty"`
+	Attachments          *[]string                 `bson:"attachments,omitempty"`
+	CloudTags            *[]string                 `bson:"cloudtags,omitempty"`
+	CloudType            *string                   `bson:"cloudtype,omitempty"`
+	CreateIdempotencyKey *string                   `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time                `bson:"createtime,omitempty"`
+	CustomerID           *int                      `bson:"customerid,omitempty"`
+	IngestionTime        *time.Time                `bson:"ingestiontime,omitempty"`
+	MigrationsLog        *map[string]string        `bson:"migrationslog,omitempty"`
+	Name                 *string                   `bson:"name,omitempty"`
+	Namespace            *string                   `bson:"namespace,omitempty"`
+	NativeID             *string                   `bson:"nativeid,omitempty"`
+	NodeID               *string                   `bson:"nodeid,omitempty"`
+	NormalizedTags       *[]string                 `bson:"normalizedtags,omitempty"`
+	PolicyReferences     *[]string                 `bson:"policyreferences,omitempty"`
+	Protected            *bool                     `bson:"protected,omitempty"`
+	RegionID             *string                   `bson:"regionid,omitempty"`
+	RegionName           *string                   `bson:"regionname,omitempty"`
+	ResourceID           *int                      `bson:"resourceid,omitempty"`
+	Type                 *CloudAttachmentTypeValue `bson:"type,omitempty"`
+	UpdateIdempotencyKey *string                   `bson:"updateidempotencykey,omitempty"`
+	UpdateTime           *time.Time                `bson:"updatetime,omitempty"`
+	UpdatedTime          *time.Time                `bson:"updatedtime,omitempty"`
+	VpcID                *string                   `bson:"vpcid,omitempty"`
+	VpcName              *string                   `bson:"vpcname,omitempty"`
+	ZHash                *int                      `bson:"zhash,omitempty"`
+	Zone                 *int                      `bson:"zone,omitempty"`
 }

@@ -70,4 +70,5 @@ attributes:
     - Service
     - Gateway
     - TransitGateway
+    - NATGateway
     example_value: Instance
