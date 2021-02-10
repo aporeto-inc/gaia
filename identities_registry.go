@@ -444,12 +444,7 @@ var (
 	}
 
 	indexesMap = map[string][][]string{
-		"accessiblenamespace": {
-			{"namespace", "name"},
-			{"namespace"},
-			{"namespace", "normalizedTags"},
-			{"name"},
-		},
+		"accessiblenamespace": nil,
 		"accessreport": {
 			{"namespace", "timestamp"},
 			{":shard", "zone", "zHash", "_id"},

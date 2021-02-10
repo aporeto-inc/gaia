@@ -19,9 +19,7 @@ default_order:
 
 # Indexes
 indexes:
-- - name
-- - namespace
-  - name
+- - :no-inherit
 
 # Attributes
 attributes:
