@@ -921,6 +921,8 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[CloudGraphNodeIdentity] = &elemental.Relationship{}
+
 	relationshipsRegistry[CloudNetworkInterfaceIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {
@@ -1276,6 +1278,12 @@ func init() {
 					},
 				},
 			},
+		},
+	}
+
+	relationshipsRegistry[CloudTopologyIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
 		},
 	}
 

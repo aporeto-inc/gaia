@@ -34,10 +34,11 @@ var (
 		"cloudaddress":    CloudAddressIdentity,
 		"cloudalert":      CloudAlertIdentity,
 		"cloudattachment": CloudAttachmentIdentity,
-
-		"cloudendpoint": CloudEndpointIdentity,
+		"cloudendpoint":   CloudEndpointIdentity,
 
 		"cloudgraph": CloudGraphIdentity,
+
+		"cloudgraphnode": CloudGraphNodeIdentity,
 
 		"cloudnetworkinterface": CloudNetworkInterfaceIdentity,
 		"cloudnetworkquery":     CloudNetworkQueryIdentity,
@@ -51,7 +52,8 @@ var (
 		"cloudroutetable": CloudRouteTableIdentity,
 		"cloudsubnet":     CloudSubnetIdentity,
 
-		"cloudvpc": CloudVPCIdentity,
+		"cloudtopology": CloudTopologyIdentity,
+		"cloudvpc":      CloudVPCIdentity,
 
 		"connectionexceptionreport": ConnectionExceptionReportIdentity,
 		"counterreport":             CounterReportIdentity,
@@ -218,10 +220,11 @@ var (
 		"cloudaddresses":   CloudAddressIdentity,
 		"cloudalerts":      CloudAlertIdentity,
 		"cloudattachments": CloudAttachmentIdentity,
-
-		"cloudendpoints": CloudEndpointIdentity,
+		"cloudendpoints":   CloudEndpointIdentity,
 
 		"cloudgraphs": CloudGraphIdentity,
+
+		"cloudgraphnodes": CloudGraphNodeIdentity,
 
 		"cloudnetworkinterfaces": CloudNetworkInterfaceIdentity,
 		"cloudnetworkqueries":    CloudNetworkQueryIdentity,
@@ -235,7 +238,8 @@ var (
 		"cloudroutetables": CloudRouteTableIdentity,
 		"cloudsubnets":     CloudSubnetIdentity,
 
-		"cloudvpcs": CloudVPCIdentity,
+		"cloudtopologies": CloudTopologyIdentity,
+		"cloudvpcs":       CloudVPCIdentity,
 
 		"connectionexceptionreports": ConnectionExceptionReportIdentity,
 		"counterreports":             CounterReportIdentity,
@@ -626,7 +630,8 @@ var (
 			{"namespace", "normalizedTags"},
 			{"createIdempotencyKey"},
 		},
-		"cloudgraph": nil,
+		"cloudgraph":     nil,
+		"cloudgraphnode": nil,
 		"cloudnetworkinterface": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -690,6 +695,7 @@ var (
 			{"namespace", "normalizedTags"},
 			{"createIdempotencyKey"},
 		},
+		"cloudtopology": nil,
 		"cloudvpc": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1260,6 +1266,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudEndpoint()
 	case CloudGraphIdentity:
 		return NewCloudGraph()
+	case CloudGraphNodeIdentity:
+		return NewCloudGraphNode()
 	case CloudNetworkInterfaceIdentity:
 		return NewCloudNetworkInterface()
 	case CloudNetworkQueryIdentity:
@@ -1276,6 +1284,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudRouteTable()
 	case CloudSubnetIdentity:
 		return NewCloudSubnet()
+	case CloudTopologyIdentity:
+		return NewCloudTopology()
 	case CloudVPCIdentity:
 		return NewCloudVPC()
 	case ConnectionExceptionReportIdentity:
@@ -1589,6 +1599,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudEndpoint()
 	case CloudGraphIdentity:
 		return NewSparseCloudGraph()
+	case CloudGraphNodeIdentity:
+		return NewSparseCloudGraphNode()
 	case CloudNetworkInterfaceIdentity:
 		return NewSparseCloudNetworkInterface()
 	case CloudNetworkQueryIdentity:
@@ -1605,6 +1617,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudRouteTable()
 	case CloudSubnetIdentity:
 		return NewSparseCloudSubnet()
+	case CloudTopologyIdentity:
+		return NewSparseCloudTopology()
 	case CloudVPCIdentity:
 		return NewSparseCloudVPC()
 	case ConnectionExceptionReportIdentity:
@@ -1926,6 +1940,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudEndpointsList{}
 	case CloudGraphIdentity:
 		return &CloudGraphsList{}
+	case CloudGraphNodeIdentity:
+		return &CloudGraphNodesList{}
 	case CloudNetworkInterfaceIdentity:
 		return &CloudNetworkInterfacesList{}
 	case CloudNetworkQueryIdentity:
@@ -1942,6 +1958,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudRouteTablesList{}
 	case CloudSubnetIdentity:
 		return &CloudSubnetsList{}
+	case CloudTopologyIdentity:
+		return &CloudTopologiesList{}
 	case CloudVPCIdentity:
 		return &CloudVPCsList{}
 	case ConnectionExceptionReportIdentity:
@@ -2253,6 +2271,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudEndpointsList{}
 	case CloudGraphIdentity:
 		return &SparseCloudGraphsList{}
+	case CloudGraphNodeIdentity:
+		return &SparseCloudGraphNodesList{}
 	case CloudNetworkInterfaceIdentity:
 		return &SparseCloudNetworkInterfacesList{}
 	case CloudNetworkQueryIdentity:
@@ -2269,6 +2289,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudRouteTablesList{}
 	case CloudSubnetIdentity:
 		return &SparseCloudSubnetsList{}
+	case CloudTopologyIdentity:
+		return &SparseCloudTopologiesList{}
 	case CloudVPCIdentity:
 		return &SparseCloudVPCsList{}
 	case ConnectionExceptionReportIdentity:
@@ -2568,6 +2590,7 @@ func AllIdentities() []elemental.Identity {
 		CloudAttachmentIdentity,
 		CloudEndpointIdentity,
 		CloudGraphIdentity,
+		CloudGraphNodeIdentity,
 		CloudNetworkInterfaceIdentity,
 		CloudNetworkQueryIdentity,
 		CloudNetworkRuleSetIdentity,
@@ -2576,6 +2599,7 @@ func AllIdentities() []elemental.Identity {
 		CloudRouteIdentity,
 		CloudRouteTableIdentity,
 		CloudSubnetIdentity,
+		CloudTopologyIdentity,
 		CloudVPCIdentity,
 		ConnectionExceptionReportIdentity,
 		CounterReportIdentity,
@@ -2787,6 +2811,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case CloudGraphIdentity:
 		return []string{}
+	case CloudGraphNodeIdentity:
+		return []string{}
 	case CloudNetworkInterfaceIdentity:
 		return []string{}
 	case CloudNetworkQueryIdentity:
@@ -2804,6 +2830,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CloudRouteTableIdentity:
 		return []string{}
 	case CloudSubnetIdentity:
+		return []string{}
+	case CloudTopologyIdentity:
 		return []string{}
 	case CloudVPCIdentity:
 		return []string{

@@ -106,8 +106,8 @@ type CloudNetworkQuery struct {
 	// The destination protocol that should be used for the trace route commands.
 	DestinationProtocol int `json:"destinationProtocol" msgpack:"destinationProtocol" bson:"destinationprotocol" mapstructure:"destinationProtocol,omitempty"`
 
-	// The native ID of the destination endpoint for a trace route request.
-	DestinationSelector [][]string `json:"destinationSelector" msgpack:"destinationSelector" bson:"destinationselector" mapstructure:"destinationSelector,omitempty"`
+	// A filter for selecting destinations for the query.
+	DestinationSelector *CloudNetworkQueryFilter `json:"destinationSelector" msgpack:"destinationSelector" bson:"destinationselector" mapstructure:"destinationSelector,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -130,8 +130,8 @@ type CloudNetworkQuery struct {
 	// The source IP of a trace route request. Might not be always and endpoint.
 	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"sourceip" mapstructure:"sourceIP,omitempty"`
 
-	// The native ID of the source endpoint for a trace route request.
-	SourceSelector [][]string `json:"sourceSelector" msgpack:"sourceSelector" bson:"sourceselector" mapstructure:"sourceSelector,omitempty"`
+	// A filter for selecting the sources of the request.
+	SourceSelector *CloudNetworkQueryFilter `json:"sourceSelector" msgpack:"sourceSelector" bson:"sourceselector" mapstructure:"sourceSelector,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -154,11 +154,11 @@ func NewCloudNetworkQuery() *CloudNetworkQuery {
 		Annotations:         map[string][]string{},
 		DestinationPort:     0,
 		AssociatedTags:      []string{},
-		DestinationSelector: [][]string{},
+		DestinationSelector: NewCloudNetworkQueryFilter(),
 		DestinationProtocol: -1,
 		MigrationsLog:       map[string]string{},
 		NormalizedTags:      []string{},
-		SourceSelector:      [][]string{},
+		SourceSelector:      NewCloudNetworkQueryFilter(),
 	}
 }
 
@@ -443,7 +443,7 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			DestinationIP:        &o.DestinationIP,
 			DestinationPort:      &o.DestinationPort,
 			DestinationProtocol:  &o.DestinationProtocol,
-			DestinationSelector:  &o.DestinationSelector,
+			DestinationSelector:  o.DestinationSelector,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -451,7 +451,7 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			Protected:            &o.Protected,
 			RawRQL:               &o.RawRQL,
 			SourceIP:             &o.SourceIP,
-			SourceSelector:       &o.SourceSelector,
+			SourceSelector:       o.SourceSelector,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			ZHash:                &o.ZHash,
 			Zone:                 &o.Zone,
@@ -478,7 +478,7 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 		case "destinationProtocol":
 			sp.DestinationProtocol = &(o.DestinationProtocol)
 		case "destinationSelector":
-			sp.DestinationSelector = &(o.DestinationSelector)
+			sp.DestinationSelector = o.DestinationSelector
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -494,7 +494,7 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 		case "sourceIP":
 			sp.SourceIP = &(o.SourceIP)
 		case "sourceSelector":
-			sp.SourceSelector = &(o.SourceSelector)
+			sp.SourceSelector = o.SourceSelector
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "zHash":
@@ -539,7 +539,7 @@ func (o *CloudNetworkQuery) Patch(sparse elemental.SparseIdentifiable) {
 		o.DestinationProtocol = *so.DestinationProtocol
 	}
 	if so.DestinationSelector != nil {
-		o.DestinationSelector = *so.DestinationSelector
+		o.DestinationSelector = so.DestinationSelector
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -563,7 +563,7 @@ func (o *CloudNetworkQuery) Patch(sparse elemental.SparseIdentifiable) {
 		o.SourceIP = *so.SourceIP
 	}
 	if so.SourceSelector != nil {
-		o.SourceSelector = *so.SourceSelector
+		o.SourceSelector = so.SourceSelector
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -622,12 +622,26 @@ func (o *CloudNetworkQuery) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if o.DestinationSelector != nil {
+		elemental.ResetDefaultForZeroValues(o.DestinationSelector)
+		if err := o.DestinationSelector.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = errors.Append(err)
+	}
+
+	if o.SourceSelector != nil {
+		elemental.ResetDefaultForZeroValues(o.SourceSelector)
+		if err := o.SourceSelector.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -817,12 +831,12 @@ var CloudNetworkQueryAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		BSONFieldName:  "destinationselector",
 		ConvertedName:  "DestinationSelector",
-		Description:    `The native ID of the destination endpoint for a trace route request.`,
+		Description:    `A filter for selecting destinations for the query.`,
 		Exposed:        true,
 		Name:           "destinationSelector",
 		Stored:         true,
-		SubType:        "[][]string",
-		Type:           "external",
+		SubType:        "cloudnetworkqueryfilter",
+		Type:           "ref",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -920,12 +934,12 @@ var CloudNetworkQueryAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		BSONFieldName:  "sourceselector",
 		ConvertedName:  "SourceSelector",
-		Description:    `The native ID of the source endpoint for a trace route request.`,
+		Description:    `A filter for selecting the sources of the request.`,
 		Exposed:        true,
 		Name:           "sourceSelector",
 		Stored:         true,
-		SubType:        "[][]string",
-		Type:           "external",
+		SubType:        "cloudnetworkqueryfilter",
+		Type:           "ref",
 	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -1078,12 +1092,12 @@ var CloudNetworkQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		AllowedChoices: []string{},
 		BSONFieldName:  "destinationselector",
 		ConvertedName:  "DestinationSelector",
-		Description:    `The native ID of the destination endpoint for a trace route request.`,
+		Description:    `A filter for selecting destinations for the query.`,
 		Exposed:        true,
 		Name:           "destinationSelector",
 		Stored:         true,
-		SubType:        "[][]string",
-		Type:           "external",
+		SubType:        "cloudnetworkqueryfilter",
+		Type:           "ref",
 	},
 	"migrationslog": {
 		AllowedChoices: []string{},
@@ -1181,12 +1195,12 @@ var CloudNetworkQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		AllowedChoices: []string{},
 		BSONFieldName:  "sourceselector",
 		ConvertedName:  "SourceSelector",
-		Description:    `The native ID of the source endpoint for a trace route request.`,
+		Description:    `A filter for selecting the sources of the request.`,
 		Exposed:        true,
 		Name:           "sourceSelector",
 		Stored:         true,
-		SubType:        "[][]string",
-		Type:           "external",
+		SubType:        "cloudnetworkqueryfilter",
+		Type:           "ref",
 	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
@@ -1320,8 +1334,8 @@ type SparseCloudNetworkQuery struct {
 	// The destination protocol that should be used for the trace route commands.
 	DestinationProtocol *int `json:"destinationProtocol,omitempty" msgpack:"destinationProtocol,omitempty" bson:"destinationprotocol,omitempty" mapstructure:"destinationProtocol,omitempty"`
 
-	// The native ID of the destination endpoint for a trace route request.
-	DestinationSelector *[][]string `json:"destinationSelector,omitempty" msgpack:"destinationSelector,omitempty" bson:"destinationselector,omitempty" mapstructure:"destinationSelector,omitempty"`
+	// A filter for selecting destinations for the query.
+	DestinationSelector *CloudNetworkQueryFilter `json:"destinationSelector,omitempty" msgpack:"destinationSelector,omitempty" bson:"destinationselector,omitempty" mapstructure:"destinationSelector,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1344,8 +1358,8 @@ type SparseCloudNetworkQuery struct {
 	// The source IP of a trace route request. Might not be always and endpoint.
 	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"sourceip,omitempty" mapstructure:"sourceIP,omitempty"`
 
-	// The native ID of the source endpoint for a trace route request.
-	SourceSelector *[][]string `json:"sourceSelector,omitempty" msgpack:"sourceSelector,omitempty" bson:"sourceselector,omitempty" mapstructure:"sourceSelector,omitempty"`
+	// A filter for selecting the sources of the request.
+	SourceSelector *CloudNetworkQueryFilter `json:"sourceSelector,omitempty" msgpack:"sourceSelector,omitempty" bson:"sourceselector,omitempty" mapstructure:"sourceSelector,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1575,7 +1589,7 @@ func (o *SparseCloudNetworkQuery) ToPlain() elemental.PlainIdentifiable {
 		out.DestinationProtocol = *o.DestinationProtocol
 	}
 	if o.DestinationSelector != nil {
-		out.DestinationSelector = *o.DestinationSelector
+		out.DestinationSelector = o.DestinationSelector
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1599,7 +1613,7 @@ func (o *SparseCloudNetworkQuery) ToPlain() elemental.PlainIdentifiable {
 		out.SourceIP = *o.SourceIP
 	}
 	if o.SourceSelector != nil {
-		out.SourceSelector = *o.SourceSelector
+		out.SourceSelector = o.SourceSelector
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -1831,46 +1845,46 @@ func (o *SparseCloudNetworkQuery) DeepCopyInto(out *SparseCloudNetworkQuery) {
 }
 
 type mongoAttributesCloudNetworkQuery struct {
-	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	Annotations          map[string][]string `bson:"annotations"`
-	AssociatedTags       []string            `bson:"associatedtags"`
-	CreateIdempotencyKey string              `bson:"createidempotencykey"`
-	Description          string              `bson:"description"`
-	DestinationIP        string              `bson:"destinationip"`
-	DestinationPort      int                 `bson:"destinationport"`
-	DestinationProtocol  int                 `bson:"destinationprotocol"`
-	DestinationSelector  [][]string          `bson:"destinationselector"`
-	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 string              `bson:"name"`
-	Namespace            string              `bson:"namespace"`
-	NormalizedTags       []string            `bson:"normalizedtags"`
-	Protected            bool                `bson:"protected"`
-	RawRQL               string              `bson:"rawrql"`
-	SourceIP             string              `bson:"sourceip"`
-	SourceSelector       [][]string          `bson:"sourceselector"`
-	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
-	ZHash                int                 `bson:"zhash"`
-	Zone                 int                 `bson:"zone"`
+	ID                   bson.ObjectId            `bson:"_id,omitempty"`
+	Annotations          map[string][]string      `bson:"annotations"`
+	AssociatedTags       []string                 `bson:"associatedtags"`
+	CreateIdempotencyKey string                   `bson:"createidempotencykey"`
+	Description          string                   `bson:"description"`
+	DestinationIP        string                   `bson:"destinationip"`
+	DestinationPort      int                      `bson:"destinationport"`
+	DestinationProtocol  int                      `bson:"destinationprotocol"`
+	DestinationSelector  *CloudNetworkQueryFilter `bson:"destinationselector"`
+	MigrationsLog        map[string]string        `bson:"migrationslog,omitempty"`
+	Name                 string                   `bson:"name"`
+	Namespace            string                   `bson:"namespace"`
+	NormalizedTags       []string                 `bson:"normalizedtags"`
+	Protected            bool                     `bson:"protected"`
+	RawRQL               string                   `bson:"rawrql"`
+	SourceIP             string                   `bson:"sourceip"`
+	SourceSelector       *CloudNetworkQueryFilter `bson:"sourceselector"`
+	UpdateIdempotencyKey string                   `bson:"updateidempotencykey"`
+	ZHash                int                      `bson:"zhash"`
+	Zone                 int                      `bson:"zone"`
 }
 type mongoAttributesSparseCloudNetworkQuery struct {
-	ID                   bson.ObjectId        `bson:"_id,omitempty"`
-	Annotations          *map[string][]string `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
-	Description          *string              `bson:"description,omitempty"`
-	DestinationIP        *string              `bson:"destinationip,omitempty"`
-	DestinationPort      *int                 `bson:"destinationport,omitempty"`
-	DestinationProtocol  *int                 `bson:"destinationprotocol,omitempty"`
-	DestinationSelector  *[][]string          `bson:"destinationselector,omitempty"`
-	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 *string              `bson:"name,omitempty"`
-	Namespace            *string              `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	Protected            *bool                `bson:"protected,omitempty"`
-	RawRQL               *string              `bson:"rawrql,omitempty"`
-	SourceIP             *string              `bson:"sourceip,omitempty"`
-	SourceSelector       *[][]string          `bson:"sourceselector,omitempty"`
-	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
-	ZHash                *int                 `bson:"zhash,omitempty"`
-	Zone                 *int                 `bson:"zone,omitempty"`
+	ID                   bson.ObjectId            `bson:"_id,omitempty"`
+	Annotations          *map[string][]string     `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string                  `bson:"createidempotencykey,omitempty"`
+	Description          *string                  `bson:"description,omitempty"`
+	DestinationIP        *string                  `bson:"destinationip,omitempty"`
+	DestinationPort      *int                     `bson:"destinationport,omitempty"`
+	DestinationProtocol  *int                     `bson:"destinationprotocol,omitempty"`
+	DestinationSelector  *CloudNetworkQueryFilter `bson:"destinationselector,omitempty"`
+	MigrationsLog        *map[string]string       `bson:"migrationslog,omitempty"`
+	Name                 *string                  `bson:"name,omitempty"`
+	Namespace            *string                  `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                `bson:"normalizedtags,omitempty"`
+	Protected            *bool                    `bson:"protected,omitempty"`
+	RawRQL               *string                  `bson:"rawrql,omitempty"`
+	SourceIP             *string                  `bson:"sourceip,omitempty"`
+	SourceSelector       *CloudNetworkQueryFilter `bson:"sourceselector,omitempty"`
+	UpdateIdempotencyKey *string                  `bson:"updateidempotencykey,omitempty"`
+	ZHash                *int                     `bson:"zhash,omitempty"`
+	Zone                 *int                     `bson:"zone,omitempty"`
 }

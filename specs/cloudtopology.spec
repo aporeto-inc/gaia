@@ -1,12 +1,11 @@
 # Model
 model:
-  rest_name: cloudgraph
-  resource_name: cloudgraphs
-  entity_name: CloudGraph
+  rest_name: cloudtopology
+  resource_name: cloudtopologies
+  entity_name: CloudTopology
   package: pcn/infrastructure
   group: pcn/infrastructure
-  description: "Returns a data structure representing the graph of all cloud nodes
-    \nand their connections in a particular namespace."
+  description: Returns the full topology of all nodes and their relationships.
 
 # Attributes
 attributes:
@@ -24,17 +23,15 @@ attributes:
     description: Refers to the nodes of the map.
     type: refMap
     exposed: true
-    subtype: cloudgraphnode
+    subtype: cloudnode
     read_only: true
     extensions:
       refMode: pointer
 
-  - name: query
+  - name: targetVPCs
     description: |-
-      The cloud network query that should be used. This requires a POST operation on
-      the object.
-    type: ref
+      The target VPCs for the topology. If empty, it will return the topology for all
+      VPCs.
+    type: list
     exposed: true
-    subtype: cloudnetworkquery
-    extensions:
-      refMode: pointer
+    subtype: string

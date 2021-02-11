@@ -38,5 +38,6 @@ attributes:
     exposed: true
     subtype: cloudendpointdata
     stored: true
+    filterable: true
     extensions:
       refMode: pointer

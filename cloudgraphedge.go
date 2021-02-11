@@ -8,8 +8,8 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// CloudEdge represents the model of a cloudedge
-type CloudEdge struct {
+// CloudGraphEdge represents the model of a cloudgraphedge
+type CloudGraphEdge struct {
 	// ID of the destination `cloud node` of the edge.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"destinationid" mapstructure:"destinationID,omitempty"`
 
@@ -19,23 +19,23 @@ type CloudEdge struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewCloudEdge returns a new *CloudEdge
-func NewCloudEdge() *CloudEdge {
+// NewCloudGraphEdge returns a new *CloudGraphEdge
+func NewCloudGraphEdge() *CloudGraphEdge {
 
-	return &CloudEdge{
+	return &CloudGraphEdge{
 		ModelVersion: 1,
 	}
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CloudEdge) GetBSON() (interface{}, error) {
+func (o *CloudGraphEdge) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesCloudEdge{}
+	s := &mongoAttributesCloudGraphEdge{}
 
 	s.DestinationID = o.DestinationID
 	s.SourceID = o.SourceID
@@ -45,13 +45,13 @@ func (o *CloudEdge) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CloudEdge) SetBSON(raw bson.Raw) error {
+func (o *CloudGraphEdge) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesCloudEdge{}
+	s := &mongoAttributesCloudGraphEdge{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -63,37 +63,37 @@ func (o *CloudEdge) SetBSON(raw bson.Raw) error {
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *CloudEdge) BleveType() string {
+func (o *CloudGraphEdge) BleveType() string {
 
-	return "cloudedge"
+	return "cloudgraphedge"
 }
 
-// DeepCopy returns a deep copy if the CloudEdge.
-func (o *CloudEdge) DeepCopy() *CloudEdge {
+// DeepCopy returns a deep copy if the CloudGraphEdge.
+func (o *CloudGraphEdge) DeepCopy() *CloudGraphEdge {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &CloudEdge{}
+	out := &CloudGraphEdge{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *CloudEdge.
-func (o *CloudEdge) DeepCopyInto(out *CloudEdge) {
+// DeepCopyInto copies the receiver into the given *CloudGraphEdge.
+func (o *CloudGraphEdge) DeepCopyInto(out *CloudGraphEdge) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy CloudEdge: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CloudGraphEdge: %s", err))
 	}
 
-	*out = *target.(*CloudEdge)
+	*out = *target.(*CloudGraphEdge)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *CloudEdge) Validate() error {
+func (o *CloudGraphEdge) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -109,7 +109,7 @@ func (o *CloudEdge) Validate() error {
 	return nil
 }
 
-type mongoAttributesCloudEdge struct {
+type mongoAttributesCloudGraphEdge struct {
 	DestinationID string `bson:"destinationid"`
 	SourceID      string `bson:"sourceid"`
 }

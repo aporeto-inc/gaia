@@ -238,7 +238,9 @@ relations:
 
 - rest_name: cloudgraph
   create:
-    description: Creates a cloud graph based on ingested data and the required parameters.
+    description: |-
+      Creates a cloud dependency graph based on ingested data and the required
+      parameters.
 
 - rest_name: cloudnetworkinterface
   get:
@@ -308,6 +310,10 @@ relations:
     description: Deletes a subnet object.
     global_parameters:
     - $filtering
+
+- rest_name: cloudtopology
+  create:
+    description: Creates a cloud toplogy based on ingested data and the required parameters.
 
 - rest_name: cloudvpc
   get:

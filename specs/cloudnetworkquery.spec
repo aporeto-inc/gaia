@@ -55,11 +55,13 @@ attributes:
     min_value: -1
 
   - name: destinationSelector
-    description: The native ID of the destination endpoint for a trace route request.
-    type: external
+    description: A filter for selecting destinations for the query.
+    type: ref
     exposed: true
-    subtype: '[][]string'
+    subtype: cloudnetworkqueryfilter
     stored: true
+    extensions:
+      refMode: pointer
 
   - name: rawRQL
     description: The RQL string for this query as a reference.
@@ -73,11 +75,13 @@ attributes:
     stored: true
 
   - name: sourceSelector
-    description: The native ID of the source endpoint for a trace route request.
-    type: external
+    description: A filter for selecting the sources of the request.
+    type: ref
     exposed: true
-    subtype: '[][]string'
+    subtype: cloudnetworkqueryfilter
     stored: true
+    extensions:
+      refMode: pointer
 
 # Relations
 relations:

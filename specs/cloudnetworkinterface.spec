@@ -39,5 +39,6 @@ attributes:
     exposed: true
     subtype: cloudinterfacedata
     stored: true
+    filterable: true
     extensions:
       refMode: pointer

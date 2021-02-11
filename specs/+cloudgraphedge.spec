@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: cloudedge
-  resource_name: cloudedges
-  entity_name: CloudEdge
+  rest_name: cloudgraphedge
+  resource_name: cloudgraphedges
+  entity_name: CloudGraphEdge
   package: yeul
   group: pcn/infrastructure
   description: Represents an edge in the configuration map.

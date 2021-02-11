@@ -81,10 +81,10 @@ func (o CloudGraphsList) Version() int {
 // CloudGraph represents the model of a cloudgraph
 type CloudGraph struct {
 	// The edges of the map.
-	Edges map[string]*CloudEdge `json:"edges" msgpack:"edges" bson:"-" mapstructure:"edges,omitempty"`
+	Edges map[string]*CloudGraphEdge `json:"edges" msgpack:"edges" bson:"-" mapstructure:"edges,omitempty"`
 
 	// Refers to the nodes of the map.
-	Nodes map[string]*CloudNode `json:"nodes" msgpack:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
+	Nodes map[string]*CloudGraphNode `json:"nodes" msgpack:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
 
 	// The cloud network query that should be used. This requires a POST operation on
 	// the object.
@@ -98,8 +98,8 @@ func NewCloudGraph() *CloudGraph {
 
 	return &CloudGraph{
 		ModelVersion: 1,
-		Edges:        map[string]*CloudEdge{},
-		Nodes:        map[string]*CloudNode{},
+		Edges:        map[string]*CloudGraphEdge{},
+		Nodes:        map[string]*CloudGraphNode{},
 		Query:        NewCloudNetworkQuery(),
 	}
 }
@@ -337,7 +337,7 @@ var CloudGraphAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "edges",
 		ReadOnly:       true,
-		SubType:        "cloudedge",
+		SubType:        "cloudgraphedge",
 		Type:           "refMap",
 	},
 	"Nodes": {
@@ -347,7 +347,7 @@ var CloudGraphAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "nodes",
 		ReadOnly:       true,
-		SubType:        "cloudnode",
+		SubType:        "cloudgraphnode",
 		Type:           "refMap",
 	},
 	"Query": {
@@ -371,7 +371,7 @@ var CloudGraphLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "edges",
 		ReadOnly:       true,
-		SubType:        "cloudedge",
+		SubType:        "cloudgraphedge",
 		Type:           "refMap",
 	},
 	"nodes": {
@@ -381,7 +381,7 @@ var CloudGraphLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "nodes",
 		ReadOnly:       true,
-		SubType:        "cloudnode",
+		SubType:        "cloudgraphnode",
 		Type:           "refMap",
 	},
 	"query": {
@@ -460,10 +460,10 @@ func (o SparseCloudGraphsList) Version() int {
 // SparseCloudGraph represents the sparse version of a cloudgraph.
 type SparseCloudGraph struct {
 	// The edges of the map.
-	Edges *map[string]*CloudEdge `json:"edges,omitempty" msgpack:"edges,omitempty" bson:"-" mapstructure:"edges,omitempty"`
+	Edges *map[string]*CloudGraphEdge `json:"edges,omitempty" msgpack:"edges,omitempty" bson:"-" mapstructure:"edges,omitempty"`
 
 	// Refers to the nodes of the map.
-	Nodes *map[string]*CloudNode `json:"nodes,omitempty" msgpack:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
+	Nodes *map[string]*CloudGraphNode `json:"nodes,omitempty" msgpack:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
 
 	// The cloud network query that should be used. This requires a POST operation on
 	// the object.
