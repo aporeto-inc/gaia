@@ -13,6 +13,9 @@ type CloudGraphEdge struct {
 	// ID of the destination `cloud node` of the edge.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"destinationid" mapstructure:"destinationID,omitempty"`
 
+	// Indicates that this edge is part of a path routed from the public Internet.
+	PublicPath bool `json:"publicPath" msgpack:"publicPath" bson:"publicpath" mapstructure:"publicPath,omitempty"`
+
 	// ID of the source `cloud node` of the edge.
 	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
 
@@ -38,6 +41,7 @@ func (o *CloudGraphEdge) GetBSON() (interface{}, error) {
 	s := &mongoAttributesCloudGraphEdge{}
 
 	s.DestinationID = o.DestinationID
+	s.PublicPath = o.PublicPath
 	s.SourceID = o.SourceID
 
 	return s, nil
@@ -57,6 +61,7 @@ func (o *CloudGraphEdge) SetBSON(raw bson.Raw) error {
 	}
 
 	o.DestinationID = s.DestinationID
+	o.PublicPath = s.PublicPath
 	o.SourceID = s.SourceID
 
 	return nil
@@ -111,5 +116,6 @@ func (o *CloudGraphEdge) Validate() error {
 
 type mongoAttributesCloudGraphEdge struct {
 	DestinationID string `bson:"destinationid"`
+	PublicPath    bool   `bson:"publicpath"`
 	SourceID      string `bson:"sourceid"`
 }
