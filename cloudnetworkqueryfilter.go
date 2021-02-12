@@ -27,29 +27,36 @@ const (
 
 // CloudNetworkQueryFilter represents the model of a cloudnetworkqueryfilter
 type CloudNetworkQueryFilter struct {
-	// The accounts that the search must apply to.
+	// The accounts that the search must apply to. These are the actually IDs of the
+	// account as provided by the cloud provider. One or more IDs can be included.
 	AccountIDs []string `json:"AccountIDs" msgpack:"AccountIDs" bson:"accountids" mapstructure:"AccountIDs,omitempty"`
 
 	// The cloud types that the search must apply to.
 	CloudTypes []string `json:"CloudTypes" msgpack:"CloudTypes" bson:"cloudtypes" mapstructure:"CloudTypes,omitempty"`
 
 	// The exact object that the search applies. If ObjectIDs are defined, the rest of
-	// the fields are ignored.
+	// the fields are ignored. An object ID can refer to an instance, VPC endpoint, or
+	// network interface.
 	ObjectIDs []string `json:"ObjectIDs" msgpack:"ObjectIDs" bson:"objectids" mapstructure:"ObjectIDs,omitempty"`
 
 	// The region that the search must apply to.
 	Regions []string `json:"Regions" msgpack:"Regions" bson:"regions" mapstructure:"Regions,omitempty"`
 
-	// The type of endpoint resource.
+	// The type of endpoint resource. The resource type is a mandatory field and a
+	// query cannot span multiple resource types.
 	ResourceType CloudNetworkQueryFilterResourceTypeValue `json:"ResourceType" msgpack:"ResourceType" bson:"resourcetype" mapstructure:"ResourceType,omitempty"`
 
-	// The list of security tags associated with the targets of the query.
+	// The list of security tags associated with the targets of the query. Security
+	// tags refer to security groups in AWS or network tags in GCP. So they can have
+	// different meaning depending on the target cloud.
 	SecurityTags []string `json:"SecurityTags" msgpack:"SecurityTags" bson:"securitytags" mapstructure:"SecurityTags,omitempty"`
 
-	// The subnets where the resources must reside.
+	// The subnets where the resources must reside. A subnet parameter can only be
+	// provided for a network interface resource type.
 	Subnets []string `json:"Subnets" msgpack:"Subnets" bson:"subnets" mapstructure:"Subnets,omitempty"`
 
-	// A list of tags that select the same of endpoints for the query.
+	// A list of tags that select the same of endpoints for the query. These tags refer
+	// to the tags attached to the resources in the cloud provider definitions.
 	Tags []string `json:"Tags" msgpack:"Tags" bson:"tags" mapstructure:"Tags,omitempty"`
 
 	// The VPC ID of the target resources.
@@ -159,6 +166,10 @@ func (o *CloudNetworkQueryFilter) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("ResourceType", string(o.ResourceType)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
 
 	if err := elemental.ValidateStringInList("ResourceType", string(o.ResourceType), []string{"Instance", "Interface", "Service", "ProcessingUnit"}, false); err != nil {
 		errors = errors.Append(err)

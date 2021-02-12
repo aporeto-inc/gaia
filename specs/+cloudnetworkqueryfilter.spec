@@ -5,14 +5,18 @@ model:
   entity_name: CloudNetworkQueryFilter
   package: pcn
   group: prisma/infrastructure
-  description: Parameters associated with a cloud endpoint.
+  description: |-
+    Captures the parameters allowed in a query filter for a net effective
+    permissions request.
   detached: true
 
 # Attributes
 attributes:
   v1:
   - name: AccountIDs
-    description: The accounts that the search must apply to.
+    description: |-
+      The accounts that the search must apply to. These are the actually IDs of the
+      account as provided by the cloud provider. One or more IDs can be included.
     type: list
     exposed: true
     subtype: string
@@ -28,7 +32,8 @@ attributes:
   - name: ObjectIDs
     description: |-
       The exact object that the search applies. If ObjectIDs are defined, the rest of
-      the fields are ignored.
+      the fields are ignored. An object ID can refer to an instance, VPC endpoint, or
+      network interface.
     type: list
     exposed: true
     subtype: string
@@ -42,10 +47,13 @@ attributes:
     stored: true
 
   - name: ResourceType
-    description: The type of endpoint resource.
+    description: |-
+      The type of endpoint resource. The resource type is a mandatory field and a
+      query cannot span multiple resource types.
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - Instance
     - Interface
@@ -54,21 +62,28 @@ attributes:
     default_value: Instance
 
   - name: SecurityTags
-    description: The list of security tags associated with the targets of the query.
+    description: |-
+      The list of security tags associated with the targets of the query. Security
+      tags refer to security groups in AWS or network tags in GCP. So they can have
+      different meaning depending on the target cloud.
     type: list
     exposed: true
     subtype: string
     stored: true
 
   - name: Subnets
-    description: The subnets where the resources must reside.
+    description: |-
+      The subnets where the resources must reside. A subnet parameter can only be
+      provided for a network interface resource type.
     type: list
     exposed: true
     subtype: string
     stored: true
 
   - name: Tags
-    description: A list of tags that select the same of endpoints for the query.
+    description: |-
+      A list of tags that select the same of endpoints for the query. These tags refer
+      to the tags attached to the resources in the cloud provider definitions.
     type: list
     exposed: true
     subtype: string

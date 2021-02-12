@@ -16992,7 +16992,8 @@ Name of the host VPC.
 
 ### CloudNetworkQueryFilter
 
-Parameters associated with a cloud endpoint.
+Captures the parameters allowed in a query filter for a net effective
+permissions request.
 
 #### Example
 
@@ -17008,7 +17009,8 @@ Parameters associated with a cloud endpoint.
 
 Type: `[]string`
 
-The accounts that the search must apply to.
+The accounts that the search must apply to. These are the actually IDs of the
+account as provided by the cloud provider. One or more IDs can be included.
 
 ##### `CloudTypes`
 
@@ -17021,7 +17023,8 @@ The cloud types that the search must apply to.
 Type: `[]string`
 
 The exact object that the search applies. If ObjectIDs are defined, the rest of
-the fields are ignored.
+the fields are ignored. An object ID can refer to an instance, VPC endpoint, or
+network interface.
 
 ##### `Regions`
 
@@ -17029,11 +17032,12 @@ Type: `[]string`
 
 The region that the search must apply to.
 
-##### `ResourceType`
+##### `ResourceType` [`required`]
 
 Type: `enum(Instance | Interface | Service | ProcessingUnit)`
 
-The type of endpoint resource.
+The type of endpoint resource. The resource type is a mandatory field and a
+query cannot span multiple resource types.
 
 Default value:
 
@@ -17045,19 +17049,23 @@ Default value:
 
 Type: `[]string`
 
-The list of security tags associated with the targets of the query.
+The list of security tags associated with the targets of the query. Security
+tags refer to security groups in AWS or network tags in GCP. So they can have
+different meaning depending on the target cloud.
 
 ##### `Subnets`
 
 Type: `[]string`
 
-The subnets where the resources must reside.
+The subnets where the resources must reside. A subnet parameter can only be
+provided for a network interface resource type.
 
 ##### `Tags`
 
 Type: `[]string`
 
-A list of tags that select the same of endpoints for the query.
+A list of tags that select the same of endpoints for the query. These tags refer
+to the tags attached to the resources in the cloud provider definitions.
 
 ##### `VPCIDs`
 
