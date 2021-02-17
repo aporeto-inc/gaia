@@ -81,10 +81,13 @@ func (o CloudGraphsList) Version() int {
 // CloudGraph represents the model of a cloudgraph
 type CloudGraph struct {
 	// The edges of the map.
-	Edges map[string]*CloudGraphEdge `json:"edges" msgpack:"edges" bson:"-" mapstructure:"edges,omitempty"`
+	InternalEdges map[string]*CloudGraphEdge `json:"internalEdges" msgpack:"internalEdges" bson:"-" mapstructure:"internalEdges,omitempty"`
 
 	// Refers to the nodes of the map.
 	Nodes map[string]*CloudGraphNode `json:"nodes" msgpack:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
+
+	// The edges of the map.
+	PublicEdges map[string]*CloudGraphEdge `json:"publicEdges" msgpack:"publicEdges" bson:"-" mapstructure:"publicEdges,omitempty"`
 
 	// The cloud network query that should be used. This requires a POST operation on
 	// the object.
@@ -97,10 +100,11 @@ type CloudGraph struct {
 func NewCloudGraph() *CloudGraph {
 
 	return &CloudGraph{
-		ModelVersion: 1,
-		Edges:        map[string]*CloudGraphEdge{},
-		Nodes:        map[string]*CloudGraphNode{},
-		Query:        NewCloudNetworkQuery(),
+		ModelVersion:  1,
+		InternalEdges: map[string]*CloudGraphEdge{},
+		Nodes:         map[string]*CloudGraphNode{},
+		PublicEdges:   map[string]*CloudGraphEdge{},
+		Query:         NewCloudNetworkQuery(),
 	}
 }
 
@@ -187,19 +191,22 @@ func (o *CloudGraph) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCloudGraph{
-			Edges: &o.Edges,
-			Nodes: &o.Nodes,
-			Query: o.Query,
+			InternalEdges: &o.InternalEdges,
+			Nodes:         &o.Nodes,
+			PublicEdges:   &o.PublicEdges,
+			Query:         o.Query,
 		}
 	}
 
 	sp := &SparseCloudGraph{}
 	for _, f := range fields {
 		switch f {
-		case "edges":
-			sp.Edges = &(o.Edges)
+		case "internalEdges":
+			sp.InternalEdges = &(o.InternalEdges)
 		case "nodes":
 			sp.Nodes = &(o.Nodes)
+		case "publicEdges":
+			sp.PublicEdges = &(o.PublicEdges)
 		case "query":
 			sp.Query = o.Query
 		}
@@ -215,11 +222,14 @@ func (o *CloudGraph) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseCloudGraph)
-	if so.Edges != nil {
-		o.Edges = *so.Edges
+	if so.InternalEdges != nil {
+		o.InternalEdges = *so.InternalEdges
 	}
 	if so.Nodes != nil {
 		o.Nodes = *so.Nodes
+	}
+	if so.PublicEdges != nil {
+		o.PublicEdges = *so.PublicEdges
 	}
 	if so.Query != nil {
 		o.Query = so.Query
@@ -256,7 +266,7 @@ func (o *CloudGraph) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	for _, sub := range o.Edges {
+	for _, sub := range o.InternalEdges {
 		if sub == nil {
 			continue
 		}
@@ -267,6 +277,16 @@ func (o *CloudGraph) Validate() error {
 	}
 
 	for _, sub := range o.Nodes {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	for _, sub := range o.PublicEdges {
 		if sub == nil {
 			continue
 		}
@@ -317,10 +337,12 @@ func (*CloudGraph) AttributeSpecifications() map[string]elemental.AttributeSpeci
 func (o *CloudGraph) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "edges":
-		return o.Edges
+	case "internalEdges":
+		return o.InternalEdges
 	case "nodes":
 		return o.Nodes
+	case "publicEdges":
+		return o.PublicEdges
 	case "query":
 		return o.Query
 	}
@@ -330,12 +352,12 @@ func (o *CloudGraph) ValueForAttribute(name string) interface{} {
 
 // CloudGraphAttributesMap represents the map of attribute for CloudGraph.
 var CloudGraphAttributesMap = map[string]elemental.AttributeSpecification{
-	"Edges": {
+	"InternalEdges": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Edges",
+		ConvertedName:  "InternalEdges",
 		Description:    `The edges of the map.`,
 		Exposed:        true,
-		Name:           "edges",
+		Name:           "internalEdges",
 		ReadOnly:       true,
 		SubType:        "cloudgraphedge",
 		Type:           "refMap",
@@ -348,6 +370,16 @@ var CloudGraphAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "nodes",
 		ReadOnly:       true,
 		SubType:        "cloudgraphnode",
+		Type:           "refMap",
+	},
+	"PublicEdges": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PublicEdges",
+		Description:    `The edges of the map.`,
+		Exposed:        true,
+		Name:           "publicEdges",
+		ReadOnly:       true,
+		SubType:        "cloudgraphedge",
 		Type:           "refMap",
 	},
 	"Query": {
@@ -364,12 +396,12 @@ the object.`,
 
 // CloudGraphLowerCaseAttributesMap represents the map of attribute for CloudGraph.
 var CloudGraphLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"edges": {
+	"internaledges": {
 		AllowedChoices: []string{},
-		ConvertedName:  "Edges",
+		ConvertedName:  "InternalEdges",
 		Description:    `The edges of the map.`,
 		Exposed:        true,
-		Name:           "edges",
+		Name:           "internalEdges",
 		ReadOnly:       true,
 		SubType:        "cloudgraphedge",
 		Type:           "refMap",
@@ -382,6 +414,16 @@ var CloudGraphLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "nodes",
 		ReadOnly:       true,
 		SubType:        "cloudgraphnode",
+		Type:           "refMap",
+	},
+	"publicedges": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PublicEdges",
+		Description:    `The edges of the map.`,
+		Exposed:        true,
+		Name:           "publicEdges",
+		ReadOnly:       true,
+		SubType:        "cloudgraphedge",
 		Type:           "refMap",
 	},
 	"query": {
@@ -460,10 +502,13 @@ func (o SparseCloudGraphsList) Version() int {
 // SparseCloudGraph represents the sparse version of a cloudgraph.
 type SparseCloudGraph struct {
 	// The edges of the map.
-	Edges *map[string]*CloudGraphEdge `json:"edges,omitempty" msgpack:"edges,omitempty" bson:"-" mapstructure:"edges,omitempty"`
+	InternalEdges *map[string]*CloudGraphEdge `json:"internalEdges,omitempty" msgpack:"internalEdges,omitempty" bson:"-" mapstructure:"internalEdges,omitempty"`
 
 	// Refers to the nodes of the map.
 	Nodes *map[string]*CloudGraphNode `json:"nodes,omitempty" msgpack:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
+
+	// The edges of the map.
+	PublicEdges *map[string]*CloudGraphEdge `json:"publicEdges,omitempty" msgpack:"publicEdges,omitempty" bson:"-" mapstructure:"publicEdges,omitempty"`
 
 	// The cloud network query that should be used. This requires a POST operation on
 	// the object.
@@ -533,11 +578,14 @@ func (o *SparseCloudGraph) Version() int {
 func (o *SparseCloudGraph) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCloudGraph()
-	if o.Edges != nil {
-		out.Edges = *o.Edges
+	if o.InternalEdges != nil {
+		out.InternalEdges = *o.InternalEdges
 	}
 	if o.Nodes != nil {
 		out.Nodes = *o.Nodes
+	}
+	if o.PublicEdges != nil {
+		out.PublicEdges = *o.PublicEdges
 	}
 	if o.Query != nil {
 		out.Query = o.Query

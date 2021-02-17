@@ -8844,7 +8844,7 @@ Initiates a calculation of the query and retrieves the results in cloudgraph.
 
 #### Attributes
 
-##### `edges` [`read_only`]
+##### `internalEdges` [`read_only`]
 
 Type: [`map[string]cloudgraphedge`](#cloudgraphedge)
 
@@ -8855,6 +8855,12 @@ The edges of the map.
 Type: [`map[string]cloudgraphnode`](#cloudgraphnode)
 
 Refers to the nodes of the map.
+
+##### `publicEdges` [`read_only`]
+
+Type: [`map[string]cloudgraphedge`](#cloudgraphedge)
+
+The edges of the map.
 
 ##### `query`
 

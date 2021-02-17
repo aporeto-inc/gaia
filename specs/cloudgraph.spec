@@ -11,7 +11,7 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: edges
+  - name: internalEdges
     description: The edges of the map.
     type: refMap
     exposed: true
@@ -25,6 +25,15 @@ attributes:
     type: refMap
     exposed: true
     subtype: cloudgraphnode
+    read_only: true
+    extensions:
+      refMode: pointer
+
+  - name: publicEdges
+    description: The edges of the map.
+    type: refMap
+    exposed: true
+    subtype: cloudgraphedge
     read_only: true
     extensions:
       refMode: pointer

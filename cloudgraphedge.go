@@ -13,6 +13,10 @@ type CloudGraphEdge struct {
 	// ID of the destination `cloud node` of the edge.
 	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"destinationid" mapstructure:"destinationID,omitempty"`
 
+	// Provides the level of the tree that this edge belongs in order to assist with
+	// ordering.
+	Level int `json:"level" msgpack:"level" bson:"level" mapstructure:"level,omitempty"`
+
 	// Indicates that this edge is part of a path routed from the public Internet.
 	PublicPath bool `json:"publicPath" msgpack:"publicPath" bson:"publicpath" mapstructure:"publicPath,omitempty"`
 
@@ -41,6 +45,7 @@ func (o *CloudGraphEdge) GetBSON() (interface{}, error) {
 	s := &mongoAttributesCloudGraphEdge{}
 
 	s.DestinationID = o.DestinationID
+	s.Level = o.Level
 	s.PublicPath = o.PublicPath
 	s.SourceID = o.SourceID
 
@@ -61,6 +66,7 @@ func (o *CloudGraphEdge) SetBSON(raw bson.Raw) error {
 	}
 
 	o.DestinationID = s.DestinationID
+	o.Level = s.Level
 	o.PublicPath = s.PublicPath
 	o.SourceID = s.SourceID
 
@@ -116,6 +122,7 @@ func (o *CloudGraphEdge) Validate() error {
 
 type mongoAttributesCloudGraphEdge struct {
 	DestinationID string `bson:"destinationid"`
+	Level         int    `bson:"level"`
 	PublicPath    bool   `bson:"publicpath"`
 	SourceID      string `bson:"sourceid"`
 }
