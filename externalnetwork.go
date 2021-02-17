@@ -730,10 +730,6 @@ func (o *ExternalNetwork) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("servicePorts", o.ServicePorts); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := ValidateServicePorts("servicePorts", o.ServicePorts); err != nil {
 		errors = errors.Append(err)
 	}
@@ -1039,7 +1035,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `List of protocol/ports ` + "`" + `(tcp/80)` + "`" + ` or ` + "`" + `(udp/80:100)` + "`" + `.`,
 		Exposed:        true,
 		Name:           "servicePorts",
-		Required:       true,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
@@ -1330,7 +1325,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `List of protocol/ports ` + "`" + `(tcp/80)` + "`" + ` or ` + "`" + `(udp/80:100)` + "`" + `.`,
 		Exposed:        true,
 		Name:           "servicePorts",
-		Required:       true,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",

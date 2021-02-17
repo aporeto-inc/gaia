@@ -188,6 +188,9 @@ type FlowReport struct {
 	// If `true`, the flow was encrypted.
 	Encrypted bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"j,omitempty" mapstructure:"encrypted,omitempty"`
 
+	// ID of the enforcer where the report was collected.
+	EnforcerID string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"ak,omitempty" mapstructure:"enforcerID,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -331,6 +334,7 @@ func (o *FlowReport) GetBSON() (interface{}, error) {
 	s.DestinationType = o.DestinationType
 	s.DropReason = o.DropReason
 	s.Encrypted = o.Encrypted
+	s.EnforcerID = o.EnforcerID
 	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
 	s.Observed = o.Observed
@@ -387,6 +391,7 @@ func (o *FlowReport) SetBSON(raw bson.Raw) error {
 	o.DestinationType = s.DestinationType
 	o.DropReason = s.DropReason
 	o.Encrypted = s.Encrypted
+	o.EnforcerID = s.EnforcerID
 	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
 	o.Observed = s.Observed
@@ -504,6 +509,7 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			DestinationType:         &o.DestinationType,
 			DropReason:              &o.DropReason,
 			Encrypted:               &o.Encrypted,
+			EnforcerID:              &o.EnforcerID,
 			MigrationsLog:           &o.MigrationsLog,
 			Namespace:               &o.Namespace,
 			Observed:                &o.Observed,
@@ -560,6 +566,8 @@ func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.DropReason = &(o.DropReason)
 		case "encrypted":
 			sp.Encrypted = &(o.Encrypted)
+		case "enforcerID":
+			sp.EnforcerID = &(o.EnforcerID)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
@@ -661,6 +669,9 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Encrypted != nil {
 		o.Encrypted = *so.Encrypted
+	}
+	if so.EnforcerID != nil {
+		o.EnforcerID = *so.EnforcerID
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -894,6 +905,8 @@ func (o *FlowReport) ValueForAttribute(name string) interface{} {
 		return o.DropReason
 	case "encrypted":
 		return o.Encrypted
+	case "enforcerID":
+		return o.EnforcerID
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "namespace":
@@ -1077,6 +1090,16 @@ for the rejection.`,
 		Name:           "encrypted",
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"EnforcerID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "ak",
+		ConvertedName:  "EnforcerID",
+		Description:    `ID of the enforcer where the report was collected.`,
+		Exposed:        true,
+		Name:           "enforcerID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -1508,6 +1531,16 @@ for the rejection.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"enforcerid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "ak",
+		ConvertedName:  "EnforcerID",
+		Description:    `ID of the enforcer where the report was collected.`,
+		Exposed:        true,
+		Name:           "enforcerID",
+		Stored:         true,
+		Type:           "string",
+	},
 	"migrationslog": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "migrationslog",
@@ -1915,6 +1948,9 @@ type SparseFlowReport struct {
 	// If `true`, the flow was encrypted.
 	Encrypted *bool `json:"encrypted,omitempty" msgpack:"encrypted,omitempty" bson:"j,omitempty" mapstructure:"encrypted,omitempty"`
 
+	// ID of the enforcer where the report was collected.
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"ak,omitempty" mapstructure:"enforcerID,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -2079,6 +2115,9 @@ func (o *SparseFlowReport) GetBSON() (interface{}, error) {
 	if o.Encrypted != nil {
 		s.Encrypted = o.Encrypted
 	}
+	if o.EnforcerID != nil {
+		s.EnforcerID = o.EnforcerID
+	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -2212,6 +2251,9 @@ func (o *SparseFlowReport) SetBSON(raw bson.Raw) error {
 	if s.Encrypted != nil {
 		o.Encrypted = s.Encrypted
 	}
+	if s.EnforcerID != nil {
+		o.EnforcerID = s.EnforcerID
+	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
@@ -2342,6 +2384,9 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Encrypted != nil {
 		out.Encrypted = *o.Encrypted
+	}
+	if o.EnforcerID != nil {
+		out.EnforcerID = *o.EnforcerID
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -2515,6 +2560,7 @@ type mongoAttributesFlowReport struct {
 	DestinationType         FlowReportDestinationTypeValue `bson:"h,omitempty"`
 	DropReason              string                         `bson:"i,omitempty"`
 	Encrypted               bool                           `bson:"j,omitempty"`
+	EnforcerID              string                         `bson:"ak,omitempty"`
 	MigrationsLog           map[string]string              `bson:"migrationslog,omitempty"`
 	Namespace               string                         `bson:"k,omitempty"`
 	Observed                bool                           `bson:"l,omitempty"`
@@ -2556,6 +2602,7 @@ type mongoAttributesSparseFlowReport struct {
 	DestinationType         *FlowReportDestinationTypeValue `bson:"h,omitempty"`
 	DropReason              *string                         `bson:"i,omitempty"`
 	Encrypted               *bool                           `bson:"j,omitempty"`
+	EnforcerID              *string                         `bson:"ak,omitempty"`
 	MigrationsLog           *map[string]string              `bson:"migrationslog,omitempty"`
 	Namespace               *string                         `bson:"k,omitempty"`
 	Observed                *bool                           `bson:"l,omitempty"`

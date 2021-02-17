@@ -170,6 +170,31 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[AccessibleNamespaceIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+	}
+
 	relationshipsRegistry[AccountIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
@@ -703,6 +728,18 @@ func init() {
 			"root": {},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
+	relationshipsRegistry[CNSSearchIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
+	relationshipsRegistry[CNSSuggestionIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
 	}
@@ -3369,7 +3406,59 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[MetricsIdentity] = &elemental.Relationship{
+	relationshipsRegistry[MetricsQueryIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						{
+							{
+								"query",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "query",
+						Type: "string",
+					},
+					{
+						Name: "time",
+						Type: "string",
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						{
+							{
+								"query",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name: "query",
+						Type: "string",
+					},
+					{
+						Name: "time",
+						Type: "string",
+					},
+				},
+			},
+		},
+	}
+
+	relationshipsRegistry[MetricsQueryRangeIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -3465,10 +3554,6 @@ func init() {
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "authorized",
-						Type: "boolean",
-					},
-					{
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
@@ -3479,10 +3564,6 @@ func init() {
 		Info: map[string]*elemental.RelationshipInfo{
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
-					{
-						Name: "authorized",
-						Type: "boolean",
-					},
 					{
 						Name:     "q",
 						Type:     "string",
@@ -3859,6 +3940,8 @@ func init() {
 			},
 		},
 	}
+
+	relationshipsRegistry[PCSearchResultsIdentity] = &elemental.Relationship{}
 
 	relationshipsRegistry[PacketReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{

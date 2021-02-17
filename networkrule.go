@@ -34,7 +34,7 @@ type NetworkRule struct {
 	LogsDisabled bool `json:"logsDisabled" msgpack:"logsDisabled" bson:"logsdisabled" mapstructure:"logsDisabled,omitempty"`
 
 	// A user defined name to keep track of the rule in the reporting.
-	Name string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// A list of IP CIDRS or FQDNS that identify remote endpoints.
 	Networks []*NetworkRuleNet `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"networks,omitempty" mapstructure:"networks,omitempty"`
@@ -85,7 +85,6 @@ func (o *NetworkRule) GetBSON() (interface{}, error) {
 
 	s.Action = o.Action
 	s.LogsDisabled = o.LogsDisabled
-	s.Name = o.Name
 	s.Networks = o.Networks
 	s.Object = o.Object
 	s.ObservationEnabled = o.ObservationEnabled
@@ -110,7 +109,6 @@ func (o *NetworkRule) SetBSON(raw bson.Raw) error {
 
 	o.Action = s.Action
 	o.LogsDisabled = s.LogsDisabled
-	o.Name = s.Name
 	o.Networks = s.Networks
 	o.Object = s.Object
 	o.ObservationEnabled = s.ObservationEnabled
@@ -164,7 +162,7 @@ func (o *NetworkRule) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateMaximumLength("name", o.Name, 32, false); err != nil {
+	if err := elemental.ValidateMaximumLength("name", o.Name, 16, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -200,7 +198,6 @@ func (o *NetworkRule) Validate() error {
 type mongoAttributesNetworkRule struct {
 	Action             NetworkRuleActionValue `bson:"action"`
 	LogsDisabled       bool                   `bson:"logsdisabled"`
-	Name               string                 `bson:"name,omitempty"`
 	Networks           []*NetworkRuleNet      `bson:"networks,omitempty"`
 	Object             [][]string             `bson:"object"`
 	ObservationEnabled bool                   `bson:"observationenabled"`

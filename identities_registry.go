@@ -4,6 +4,7 @@ import "go.aporeto.io/elemental"
 
 var (
 	identityNamesMap = map[string]elemental.Identity{
+		"accessiblenamespace":       AccessibleNamespaceIdentity,
 		"accessreport":              AccessReportIdentity,
 		"account":                   AccountIdentity,
 		"accountcheck":              AccountCheckIdentity,
@@ -54,6 +55,9 @@ var (
 
 		"cloudtopology": CloudTopologyIdentity,
 		"cloudvpc":      CloudVPCIdentity,
+
+		"cnssearch":     CNSSearchIdentity,
+		"cnssuggestion": CNSSuggestionIdentity,
 
 		"connectionexceptionreport": ConnectionExceptionReportIdentity,
 		"counterreport":             CounterReportIdentity,
@@ -109,7 +113,8 @@ var (
 		"log":                    LogIdentity,
 		"logout":                 LogoutIdentity,
 		"message":                MessageIdentity,
-		"metrics":                MetricsIdentity,
+		"metricsquery":           MetricsQueryIdentity,
+		"metricsqueryrange":      MetricsQueryRangeIdentity,
 		"namespace":              NamespaceIdentity,
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
 		"namespacepolicyinfo":    NamespacePolicyInfoIdentity,
@@ -125,6 +130,7 @@ var (
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
 		"pccprovider":            PCCProviderIdentity,
+		"pcsearchresult":         PCSearchResultsIdentity,
 
 		"pingprobe":   PingProbeIdentity,
 		"pingrequest": PingRequestIdentity,
@@ -190,6 +196,7 @@ var (
 	}
 
 	identitycategoriesMap = map[string]elemental.Identity{
+		"accessiblenamespaces":        AccessibleNamespaceIdentity,
 		"accessreports":               AccessReportIdentity,
 		"accounts":                    AccountIdentity,
 		"accountchecks":               AccountCheckIdentity,
@@ -240,6 +247,9 @@ var (
 
 		"cloudtopologies": CloudTopologyIdentity,
 		"cloudvpcs":       CloudVPCIdentity,
+
+		"cnssearches":    CNSSearchIdentity,
+		"cnssuggestions": CNSSuggestionIdentity,
 
 		"connectionexceptionreports": ConnectionExceptionReportIdentity,
 		"counterreports":             CounterReportIdentity,
@@ -295,7 +305,8 @@ var (
 		"logs":                     LogIdentity,
 		"logout":                   LogoutIdentity,
 		"messages":                 MessageIdentity,
-		"metrics":                  MetricsIdentity,
+		"metricsquery":             MetricsQueryIdentity,
+		"metricsqueryrange":        MetricsQueryRangeIdentity,
 		"namespaces":               NamespaceIdentity,
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
 		"namespacepolicyinfo":      NamespacePolicyInfoIdentity,
@@ -311,6 +322,7 @@ var (
 		"packetreports":          PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
 		"pccproviders":           PCCProviderIdentity,
+		"pcsearchresults":        PCSearchResultsIdentity,
 
 		"pingprobes":   PingProbeIdentity,
 		"pingrequests": PingRequestIdentity,
@@ -376,6 +388,7 @@ var (
 	}
 
 	aliasesMap = map[string]elemental.Identity{
+		"accns":           AccessibleNamespaceIdentity,
 		"apiauth":         APIAuthorizationPolicyIdentity,
 		"apiauths":        APIAuthorizationPolicyIdentity,
 		"apiprox":         APIProxyIdentity,
@@ -427,7 +440,8 @@ var (
 		"iapp":            InstalledAppIdentity,
 		"ip":              IsolationProfileIdentity,
 		"mess":            MessageIdentity,
-		"mq":              MetricsIdentity,
+		"mq":              MetricsQueryIdentity,
+		"mqr":             MetricsQueryRangeIdentity,
 		"ns":              NamespaceIdentity,
 		"nspolicy":        NamespaceMappingPolicyIdentity,
 		"nspolicies":      NamespaceMappingPolicyIdentity,
@@ -483,6 +497,7 @@ var (
 	}
 
 	indexesMap = map[string][][]string{
+		"accessiblenamespace": nil,
 		"accessreport": {
 			{"namespace", "timestamp"},
 			{":shard", "zone", "zHash", "_id"},
@@ -705,6 +720,8 @@ var (
 			{"namespace", "nativeID"},
 			{"createIdempotencyKey"},
 		},
+		"cnssearch":     nil,
+		"cnssuggestion": nil,
 		"connectionexceptionreport": {
 			{"processingunitnamespace", "timestamp"},
 			{"enforcernamespace", "timestamp"},
@@ -729,6 +746,8 @@ var (
 		"dnslookupreport": {
 			{"namespace", "timestamp"},
 			{":shard", "zone", "zHash", "_id"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
 		},
 		"email": nil,
 		"enforcer": {
@@ -944,7 +963,8 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"metrics": nil,
+		"metricsquery":      nil,
+		"metricsqueryrange": nil,
 		"namespace": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -989,6 +1009,7 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
+		"pcsearchresult": nil,
 		"pingprobe": {
 			{"pingID"},
 			{"namespace", "pingID"},
@@ -1204,6 +1225,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 
 	switch identity {
 
+	case AccessibleNamespaceIdentity:
+		return NewAccessibleNamespace()
 	case AccessReportIdentity:
 		return NewAccessReport()
 	case AccountIdentity:
@@ -1288,6 +1311,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudTopology()
 	case CloudVPCIdentity:
 		return NewCloudVPC()
+	case CNSSearchIdentity:
+		return NewCNSSearch()
+	case CNSSuggestionIdentity:
+		return NewCNSSuggestion()
 	case ConnectionExceptionReportIdentity:
 		return NewConnectionExceptionReport()
 	case CounterReportIdentity:
@@ -1388,8 +1415,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewLogout()
 	case MessageIdentity:
 		return NewMessage()
-	case MetricsIdentity:
-		return NewMetrics()
+	case MetricsQueryIdentity:
+		return NewMetricsQuery()
+	case MetricsQueryRangeIdentity:
+		return NewMetricsQueryRange()
 	case NamespaceIdentity:
 		return NewNamespace()
 	case NamespaceMappingPolicyIdentity:
@@ -1418,6 +1447,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPasswordReset()
 	case PCCProviderIdentity:
 		return NewPCCProvider()
+	case PCSearchResultsIdentity:
+		return NewPCSearchResults()
 	case PingProbeIdentity:
 		return NewPingProbe()
 	case PingRequestIdentity:
@@ -1537,6 +1568,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 
 	switch identity {
 
+	case AccessibleNamespaceIdentity:
+		return NewSparseAccessibleNamespace()
 	case AccessReportIdentity:
 		return NewSparseAccessReport()
 	case AccountIdentity:
@@ -1621,6 +1654,10 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudTopology()
 	case CloudVPCIdentity:
 		return NewSparseCloudVPC()
+	case CNSSearchIdentity:
+		return NewSparseCNSSearch()
+	case CNSSuggestionIdentity:
+		return NewSparseCNSSuggestion()
 	case ConnectionExceptionReportIdentity:
 		return NewSparseConnectionExceptionReport()
 	case CounterReportIdentity:
@@ -1721,8 +1758,10 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseLogout()
 	case MessageIdentity:
 		return NewSparseMessage()
-	case MetricsIdentity:
-		return NewSparseMetrics()
+	case MetricsQueryIdentity:
+		return NewSparseMetricsQuery()
+	case MetricsQueryRangeIdentity:
+		return NewSparseMetricsQueryRange()
 	case NamespaceIdentity:
 		return NewSparseNamespace()
 	case NamespaceMappingPolicyIdentity:
@@ -1751,6 +1790,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePasswordReset()
 	case PCCProviderIdentity:
 		return NewSparsePCCProvider()
+	case PCSearchResultsIdentity:
+		return NewSparsePCSearchResults()
 	case PingProbeIdentity:
 		return NewSparsePingProbe()
 	case PingRequestIdentity:
@@ -1878,6 +1919,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 
 	switch identity {
 
+	case AccessibleNamespaceIdentity:
+		return &AccessibleNamespacesList{}
 	case AccessReportIdentity:
 		return &AccessReportsList{}
 	case AccountIdentity:
@@ -1962,6 +2005,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudTopologiesList{}
 	case CloudVPCIdentity:
 		return &CloudVPCsList{}
+	case CNSSearchIdentity:
+		return &CNSSearchesList{}
+	case CNSSuggestionIdentity:
+		return &CNSSuggestionsList{}
 	case ConnectionExceptionReportIdentity:
 		return &ConnectionExceptionReportsList{}
 	case CounterReportIdentity:
@@ -2062,8 +2109,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &LogoutsList{}
 	case MessageIdentity:
 		return &MessagesList{}
-	case MetricsIdentity:
-		return &MetricsList{}
+	case MetricsQueryIdentity:
+		return &MetricsQueriesList{}
+	case MetricsQueryRangeIdentity:
+		return &MetricsQueryRangesList{}
 	case NamespaceIdentity:
 		return &NamespacesList{}
 	case NamespaceMappingPolicyIdentity:
@@ -2092,6 +2141,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PasswordResetsList{}
 	case PCCProviderIdentity:
 		return &PCCProvidersList{}
+	case PCSearchResultsIdentity:
+		return &PCSearchResultsList{}
 	case PingProbeIdentity:
 		return &PingProbesList{}
 	case PingRequestIdentity:
@@ -2209,6 +2260,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 
 	switch identity {
 
+	case AccessibleNamespaceIdentity:
+		return &SparseAccessibleNamespacesList{}
 	case AccessReportIdentity:
 		return &SparseAccessReportsList{}
 	case AccountIdentity:
@@ -2293,6 +2346,10 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudTopologiesList{}
 	case CloudVPCIdentity:
 		return &SparseCloudVPCsList{}
+	case CNSSearchIdentity:
+		return &SparseCNSSearchesList{}
+	case CNSSuggestionIdentity:
+		return &SparseCNSSuggestionsList{}
 	case ConnectionExceptionReportIdentity:
 		return &SparseConnectionExceptionReportsList{}
 	case CounterReportIdentity:
@@ -2393,8 +2450,10 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseLogoutsList{}
 	case MessageIdentity:
 		return &SparseMessagesList{}
-	case MetricsIdentity:
-		return &SparseMetricsList{}
+	case MetricsQueryIdentity:
+		return &SparseMetricsQueriesList{}
+	case MetricsQueryRangeIdentity:
+		return &SparseMetricsQueryRangesList{}
 	case NamespaceIdentity:
 		return &SparseNamespacesList{}
 	case NamespaceMappingPolicyIdentity:
@@ -2423,6 +2482,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePasswordResetsList{}
 	case PCCProviderIdentity:
 		return &SparsePCCProvidersList{}
+	case PCSearchResultsIdentity:
+		return &SparsePCSearchResultsList{}
 	case PingProbeIdentity:
 		return &SparsePingProbesList{}
 	case PingRequestIdentity:
@@ -2559,6 +2620,7 @@ func Manager() elemental.ModelManager { return manager }
 func AllIdentities() []elemental.Identity {
 
 	return []elemental.Identity{
+		AccessibleNamespaceIdentity,
 		AccessReportIdentity,
 		AccountIdentity,
 		AccountCheckIdentity,
@@ -2601,6 +2663,8 @@ func AllIdentities() []elemental.Identity {
 		CloudSubnetIdentity,
 		CloudTopologyIdentity,
 		CloudVPCIdentity,
+		CNSSearchIdentity,
+		CNSSuggestionIdentity,
 		ConnectionExceptionReportIdentity,
 		CounterReportIdentity,
 		CustomerIdentity,
@@ -2651,7 +2715,8 @@ func AllIdentities() []elemental.Identity {
 		LogIdentity,
 		LogoutIdentity,
 		MessageIdentity,
-		MetricsIdentity,
+		MetricsQueryIdentity,
+		MetricsQueryRangeIdentity,
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
 		NamespacePolicyInfoIdentity,
@@ -2666,6 +2731,7 @@ func AllIdentities() []elemental.Identity {
 		PacketReportIdentity,
 		PasswordResetIdentity,
 		PCCProviderIdentity,
+		PCSearchResultsIdentity,
 		PingProbeIdentity,
 		PingRequestIdentity,
 		PingResultIdentity,
@@ -2728,6 +2794,10 @@ func AllIdentities() []elemental.Identity {
 func AliasesForIdentity(identity elemental.Identity) []string {
 
 	switch identity {
+	case AccessibleNamespaceIdentity:
+		return []string{
+			"accns",
+		}
 	case AccessReportIdentity:
 		return []string{}
 	case AccountIdentity:
@@ -2838,6 +2908,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"vpc",
 			"vpcs",
 		}
+	case CNSSearchIdentity:
+		return []string{}
+	case CNSSuggestionIdentity:
+		return []string{}
 	case ConnectionExceptionReportIdentity:
 		return []string{}
 	case CounterReportIdentity:
@@ -2989,9 +3063,13 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"mess",
 		}
-	case MetricsIdentity:
+	case MetricsQueryIdentity:
 		return []string{
 			"mq",
+		}
+	case MetricsQueryRangeIdentity:
+		return []string{
+			"mqr",
 		}
 	case NamespaceIdentity:
 		return []string{
@@ -3041,6 +3119,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PasswordResetIdentity:
 		return []string{}
 	case PCCProviderIdentity:
+		return []string{}
+	case PCSearchResultsIdentity:
 		return []string{}
 	case PingProbeIdentity:
 		return []string{}

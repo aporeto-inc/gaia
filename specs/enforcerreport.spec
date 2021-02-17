@@ -49,6 +49,21 @@ attributes:
     extensions:
       bson_name: b
 
+  - name: licenseType
+    description: Type of license for this enforcer.
+    type: enum
+    exposed: true
+    stored: true
+    required: true
+    allowed_choices:
+    - Host
+    - Container
+    default_value: Host
+    orderable: true
+    omit_empty: true
+    extensions:
+      bson_name: h
+
   - name: memory
     description: Total resident memory used by the enforcer in bytes.
     type: integer

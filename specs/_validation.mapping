@@ -30,6 +30,10 @@ $cidrs:
   elemental:
     name: ValidateCIDRList
 
+$dnslookupreport:
+  elemental:
+    name: ValidateDNSLookupReport
+
 $enforcerprofile:
   elemental:
     name: ValidateEnforcerProfile

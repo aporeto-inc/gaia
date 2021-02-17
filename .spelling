@@ -1,6 +1,8 @@
 256-bit
 521-bit
 7.4p1
+accessiblenamespace
+AccessibleNamespace
 AccessReport
 ack
 AccessReports
@@ -11,6 +13,8 @@ addressers
 aki
 Alto
 api
+accessiblenamespace
+AccessibleNamespace
 APIAuthorizationPolicy
 APICheck
 apiproxy
@@ -49,9 +53,12 @@ ClaimMapping
 claims_supported
 ClaimsSupported
 ClauseMatch
+CNSSuggestion
+CNSSearch
 clientLocalID
 clob
 CNs
+cns
 collectionID
 CollectionID
 ComplianceIssue
@@ -219,6 +226,7 @@ Palo
 PasswordReset
 PCC
 PCCProvider
+PCSearchResults
 PEM-encoded
 PKI-based
 PKIXName
@@ -399,6 +407,8 @@ localhost
 loopback
 macOS
 metadata
+MetricsQuery
+MetricsQueryRange
 misconfigured
 multipart
 namespace
@@ -426,6 +436,7 @@ requestee
 reportsquery
 ReportsQuery
 ReportsQueryResults
+rql
 runtime
 runtimes
 searchable

@@ -8,43 +8,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// MetricsIdentity represents the Identity of the object.
-var MetricsIdentity = elemental.Identity{
-	Name:     "metrics",
-	Category: "metrics",
+// MetricsQueryRangeIdentity represents the Identity of the object.
+var MetricsQueryRangeIdentity = elemental.Identity{
+	Name:     "metricsqueryrange",
+	Category: "metricsqueryrange",
 	Package:  "jenova",
 	Private:  false,
 }
 
-// MetricsList represents a list of Metrics
-type MetricsList []*Metrics
+// MetricsQueryRangesList represents a list of MetricsQueryRanges
+type MetricsQueryRangesList []*MetricsQueryRange
 
 // Identity returns the identity of the objects in the list.
-func (o MetricsList) Identity() elemental.Identity {
+func (o MetricsQueryRangesList) Identity() elemental.Identity {
 
-	return MetricsIdentity
+	return MetricsQueryRangeIdentity
 }
 
-// Copy returns a pointer to a copy the MetricsList.
-func (o MetricsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the MetricsQueryRangesList.
+func (o MetricsQueryRangesList) Copy() elemental.Identifiables {
 
-	copy := append(MetricsList{}, o...)
+	copy := append(MetricsQueryRangesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the MetricsList.
-func (o MetricsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the MetricsQueryRangesList.
+func (o MetricsQueryRangesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(MetricsList{}, o...)
+	out := append(MetricsQueryRangesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*Metrics))
+		out = append(out, obj.(*MetricsQueryRange))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o MetricsList) List() elemental.IdentifiablesList {
+func (o MetricsQueryRangesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -55,35 +55,35 @@ func (o MetricsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o MetricsList) DefaultOrder() []string {
+func (o MetricsQueryRangesList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the MetricsList converted to SparseMetricsList.
+// ToSparse returns the MetricsQueryRangesList converted to SparseMetricsQueryRangesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o MetricsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o MetricsQueryRangesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseMetricsList, len(o))
+	out := make(SparseMetricsQueryRangesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseMetrics)
+		out[i] = o[i].ToSparse(fields...).(*SparseMetricsQueryRange)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o MetricsList) Version() int {
+func (o MetricsQueryRangesList) Version() int {
 
 	return 1
 }
 
-// Metrics represents the model of a metrics
-type Metrics struct {
+// MetricsQueryRange represents the model of a metricsqueryrange
+type MetricsQueryRange struct {
 	// End timestamp <rfc3339 | unix_timestamp>.
 	End string `json:"end" msgpack:"end" bson:"-" mapstructure:"end,omitempty"`
 
-	// Contains the remote `POST` payload.
+	// Prometheus expression query string.
 	Query string `json:"query" msgpack:"query" bson:"-" mapstructure:"query,omitempty"`
 
 	// Start timestamp <rfc3339 | unix_timestamp>.
@@ -95,53 +95,53 @@ type Metrics struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewMetrics returns a new *Metrics
-func NewMetrics() *Metrics {
+// NewMetricsQueryRange returns a new *MetricsQueryRange
+func NewMetricsQueryRange() *MetricsQueryRange {
 
-	return &Metrics{
+	return &MetricsQueryRange{
 		ModelVersion: 1,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Metrics) Identity() elemental.Identity {
+func (o *MetricsQueryRange) Identity() elemental.Identity {
 
-	return MetricsIdentity
+	return MetricsQueryRangeIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Metrics) Identifier() string {
+func (o *MetricsQueryRange) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Metrics) SetIdentifier(id string) {
+func (o *MetricsQueryRange) SetIdentifier(id string) {
 
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *Metrics) GetBSON() (interface{}, error) {
+func (o *MetricsQueryRange) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesMetrics{}
+	s := &mongoAttributesMetricsQueryRange{}
 
 	return s, nil
 }
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *Metrics) SetBSON(raw bson.Raw) error {
+func (o *MetricsQueryRange) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesMetrics{}
+	s := &mongoAttributesMetricsQueryRange{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -150,43 +150,43 @@ func (o *Metrics) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *Metrics) Version() int {
+func (o *MetricsQueryRange) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *Metrics) BleveType() string {
+func (o *MetricsQueryRange) BleveType() string {
 
-	return "metrics"
+	return "metricsqueryrange"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Metrics) DefaultOrder() []string {
+func (o *MetricsQueryRange) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *Metrics) Doc() string {
+func (o *MetricsQueryRange) Doc() string {
 
 	return `Prometheus compatible endpoint to evaluate an expression query over a range of
 time. This can be used to retrieve back Aporeto specific metrics for a given
 namespace. All queries are protected within the namespace of the caller.`
 }
 
-func (o *Metrics) String() string {
+func (o *MetricsQueryRange) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *Metrics) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *MetricsQueryRange) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseMetrics{
+		return &SparseMetricsQueryRange{
 			End:   &o.End,
 			Query: &o.Query,
 			Start: &o.Start,
@@ -194,7 +194,7 @@ func (o *Metrics) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparseMetrics{}
+	sp := &SparseMetricsQueryRange{}
 	for _, f := range fields {
 		switch f {
 		case "end":
@@ -211,13 +211,13 @@ func (o *Metrics) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseMetrics to the object.
-func (o *Metrics) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseMetricsQueryRange to the object.
+func (o *MetricsQueryRange) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseMetrics)
+	so := sparse.(*SparseMetricsQueryRange)
 	if so.End != nil {
 		o.End = *so.End
 	}
@@ -232,32 +232,32 @@ func (o *Metrics) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the Metrics.
-func (o *Metrics) DeepCopy() *Metrics {
+// DeepCopy returns a deep copy if the MetricsQueryRange.
+func (o *MetricsQueryRange) DeepCopy() *MetricsQueryRange {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &Metrics{}
+	out := &MetricsQueryRange{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *Metrics.
-func (o *Metrics) DeepCopyInto(out *Metrics) {
+// DeepCopyInto copies the receiver into the given *MetricsQueryRange.
+func (o *MetricsQueryRange) DeepCopyInto(out *MetricsQueryRange) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy Metrics: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy MetricsQueryRange: %s", err))
 	}
 
-	*out = *target.(*Metrics)
+	*out = *target.(*MetricsQueryRange)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Metrics) Validate() error {
+func (o *MetricsQueryRange) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -278,26 +278,26 @@ func (o *Metrics) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Metrics) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*MetricsQueryRange) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := MetricsAttributesMap[name]; ok {
+	if v, ok := MetricsQueryRangeAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return MetricsLowerCaseAttributesMap[name]
+	return MetricsQueryRangeLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Metrics) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*MetricsQueryRange) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return MetricsAttributesMap
+	return MetricsQueryRangeAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *Metrics) ValueForAttribute(name string) interface{} {
+func (o *MetricsQueryRange) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "end":
@@ -313,8 +313,8 @@ func (o *Metrics) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// MetricsAttributesMap represents the map of attribute for Metrics.
-var MetricsAttributesMap = map[string]elemental.AttributeSpecification{
+// MetricsQueryRangeAttributesMap represents the map of attribute for MetricsQueryRange.
+var MetricsQueryRangeAttributesMap = map[string]elemental.AttributeSpecification{
 	"End": {
 		AllowedChoices: []string{},
 		ConvertedName:  "End",
@@ -326,7 +326,7 @@ var MetricsAttributesMap = map[string]elemental.AttributeSpecification{
 	"Query": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Query",
-		Description:    `Contains the remote ` + "`" + `POST` + "`" + ` payload.`,
+		Description:    `Prometheus expression query string.`,
 		Exposed:        true,
 		Name:           "query",
 		Required:       true,
@@ -350,8 +350,8 @@ var MetricsAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// MetricsLowerCaseAttributesMap represents the map of attribute for Metrics.
-var MetricsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// MetricsQueryRangeLowerCaseAttributesMap represents the map of attribute for MetricsQueryRange.
+var MetricsQueryRangeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"end": {
 		AllowedChoices: []string{},
 		ConvertedName:  "End",
@@ -363,7 +363,7 @@ var MetricsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"query": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Query",
-		Description:    `Contains the remote ` + "`" + `POST` + "`" + ` payload.`,
+		Description:    `Prometheus expression query string.`,
 		Exposed:        true,
 		Name:           "query",
 		Required:       true,
@@ -387,35 +387,35 @@ var MetricsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// SparseMetricsList represents a list of SparseMetrics
-type SparseMetricsList []*SparseMetrics
+// SparseMetricsQueryRangesList represents a list of SparseMetricsQueryRanges
+type SparseMetricsQueryRangesList []*SparseMetricsQueryRange
 
 // Identity returns the identity of the objects in the list.
-func (o SparseMetricsList) Identity() elemental.Identity {
+func (o SparseMetricsQueryRangesList) Identity() elemental.Identity {
 
-	return MetricsIdentity
+	return MetricsQueryRangeIdentity
 }
 
-// Copy returns a pointer to a copy the SparseMetricsList.
-func (o SparseMetricsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseMetricsQueryRangesList.
+func (o SparseMetricsQueryRangesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseMetricsList{}, o...)
+	copy := append(SparseMetricsQueryRangesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseMetricsList.
-func (o SparseMetricsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseMetricsQueryRangesList.
+func (o SparseMetricsQueryRangesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseMetricsList{}, o...)
+	out := append(SparseMetricsQueryRangesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseMetrics))
+		out = append(out, obj.(*SparseMetricsQueryRange))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseMetricsList) List() elemental.IdentifiablesList {
+func (o SparseMetricsQueryRangesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -426,13 +426,13 @@ func (o SparseMetricsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseMetricsList) DefaultOrder() []string {
+func (o SparseMetricsQueryRangesList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparseMetricsList converted to MetricsList.
-func (o SparseMetricsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseMetricsQueryRangesList converted to MetricsQueryRangesList.
+func (o SparseMetricsQueryRangesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -443,17 +443,17 @@ func (o SparseMetricsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseMetricsList) Version() int {
+func (o SparseMetricsQueryRangesList) Version() int {
 
 	return 1
 }
 
-// SparseMetrics represents the sparse version of a metrics.
-type SparseMetrics struct {
+// SparseMetricsQueryRange represents the sparse version of a metricsqueryrange.
+type SparseMetricsQueryRange struct {
 	// End timestamp <rfc3339 | unix_timestamp>.
 	End *string `json:"end,omitempty" msgpack:"end,omitempty" bson:"-" mapstructure:"end,omitempty"`
 
-	// Contains the remote `POST` payload.
+	// Prometheus expression query string.
 	Query *string `json:"query,omitempty" msgpack:"query,omitempty" bson:"-" mapstructure:"query,omitempty"`
 
 	// Start timestamp <rfc3339 | unix_timestamp>.
@@ -465,50 +465,50 @@ type SparseMetrics struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseMetrics returns a new  SparseMetrics.
-func NewSparseMetrics() *SparseMetrics {
-	return &SparseMetrics{}
+// NewSparseMetricsQueryRange returns a new  SparseMetricsQueryRange.
+func NewSparseMetricsQueryRange() *SparseMetricsQueryRange {
+	return &SparseMetricsQueryRange{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseMetrics) Identity() elemental.Identity {
+func (o *SparseMetricsQueryRange) Identity() elemental.Identity {
 
-	return MetricsIdentity
+	return MetricsQueryRangeIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseMetrics) Identifier() string {
+func (o *SparseMetricsQueryRange) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseMetrics) SetIdentifier(id string) {
+func (o *SparseMetricsQueryRange) SetIdentifier(id string) {
 
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseMetrics) GetBSON() (interface{}, error) {
+func (o *SparseMetricsQueryRange) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseMetrics{}
+	s := &mongoAttributesSparseMetricsQueryRange{}
 
 	return s, nil
 }
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseMetrics) SetBSON(raw bson.Raw) error {
+func (o *SparseMetricsQueryRange) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseMetrics{}
+	s := &mongoAttributesSparseMetricsQueryRange{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -517,15 +517,15 @@ func (o *SparseMetrics) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseMetrics) Version() int {
+func (o *SparseMetricsQueryRange) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseMetrics) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseMetricsQueryRange) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewMetrics()
+	out := NewMetricsQueryRange()
 	if o.End != nil {
 		out.End = *o.End
 	}
@@ -542,31 +542,31 @@ func (o *SparseMetrics) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
-// DeepCopy returns a deep copy if the SparseMetrics.
-func (o *SparseMetrics) DeepCopy() *SparseMetrics {
+// DeepCopy returns a deep copy if the SparseMetricsQueryRange.
+func (o *SparseMetricsQueryRange) DeepCopy() *SparseMetricsQueryRange {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseMetrics{}
+	out := &SparseMetricsQueryRange{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseMetrics.
-func (o *SparseMetrics) DeepCopyInto(out *SparseMetrics) {
+// DeepCopyInto copies the receiver into the given *SparseMetricsQueryRange.
+func (o *SparseMetricsQueryRange) DeepCopyInto(out *SparseMetricsQueryRange) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseMetrics: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseMetricsQueryRange: %s", err))
 	}
 
-	*out = *target.(*SparseMetrics)
+	*out = *target.(*SparseMetricsQueryRange)
 }
 
-type mongoAttributesMetrics struct {
+type mongoAttributesMetricsQueryRange struct {
 }
-type mongoAttributesSparseMetrics struct {
+type mongoAttributesSparseMetricsQueryRange struct {
 }

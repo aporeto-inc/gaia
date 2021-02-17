@@ -14,6 +14,12 @@ model:
 
 # Relations
 relations:
+- rest_name: accessiblenamespace
+  get:
+    description: Retrieves the list of accessible namespaces.
+    global_parameters:
+    - $filtering
+
 - rest_name: accessreport
   create:
     description: Create an access report.
@@ -330,6 +336,14 @@ relations:
     description: Deletes a VPC object.
     global_parameters:
     - $filtering
+
+- rest_name: cnssearch
+  create:
+    description: Retrieves RQL search results.
+
+- rest_name: cnssuggestion
+  create:
+    description: Retrieves RQL suggestions from Microsegmentation.
 
 - rest_name: connectionexceptionreport
   create:
@@ -716,7 +730,35 @@ relations:
   create:
     description: Creates a new message.
 
-- rest_name: metrics
+- rest_name: metricsquery
+  get:
+    description: |-
+      Prometheus compatible endpoint to evaluate a Prometheus query expression at a
+      single instant or over a range of time.
+    parameters:
+      required:
+      - - - query
+      entries:
+      - name: query
+        description: Prometheus expression query string.
+        type: string
+        example_value: flows{namespace=~"/mycompany.*"}
+
+      - name: time
+        description: Evaluation timestamp <rfc3339 | unix_timestamp>.
+        type: string
+        example_value: "2015-07-01T20:10:30.781Z"
+  create:
+    description: |-
+      Prometheus compatible endpoint to evaluate a Prometheus query expression at a
+      single instant or over a range of time.
+      This has the same behavior as the GET request, however it is useful when
+      specifying a large query that may breach server-side URL character limits. In
+      such a case, you can URL-encode the parameters that would be used for a GET
+      request directly in the request body by using the POST method and Content-Type:
+      application/x-www-form-urlencoded header.
+
+- rest_name: metricsqueryrange
   get:
     description: |-
       Evaluates an expression query over a range of time returning a "matrix" result
@@ -759,12 +801,6 @@ relations:
     description: Retrieves the list of namespaces.
     global_parameters:
     - $filtering
-    parameters:
-      entries:
-      - name: authorized
-        description: Returns all namespaces the token bearer has the right to read.
-          If set, other parameters like `recursive` or `q` will have no effect.
-        type: boolean
   create:
     description: Creates a new namespace.
 

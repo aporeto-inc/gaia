@@ -462,7 +462,7 @@ func (o *ProcessingUnit) DefaultOrder() []string {
 func (o *ProcessingUnit) Doc() string {
 
 	return `A processing unit represents anything that can compute. It can be a Docker
-container or a simple Unix process. Processing units are created, updated, and
+container or a simple UNIX process. Processing units are created, updated, and
 deleted by
 the system as they come and go. You can only modify their tags. Processing units
 use network policies to define which other processing units or external
