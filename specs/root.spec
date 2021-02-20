@@ -264,6 +264,22 @@ relations:
     global_parameters:
     - $filtering
 
+- rest_name: cloudnetworkquery
+  get:
+    description: Retrieves the list of cloud network queries.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new cloud network query.
+    global_parameters:
+    - $filtering
+  update:
+    description: Updates a cloud network query.
+  delete:
+    description: Deletes a cloud network query.
+    global_parameters:
+    - $filtering
+
 - rest_name: cloudnetworkruleset
   get:
     description: Retrieves the list of cloud network rule set policies.

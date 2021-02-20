@@ -960,6 +960,8 @@ func init() {
 
 	relationshipsRegistry[CloudGraphNodeIdentity] = &elemental.Relationship{}
 
+	relationshipsRegistry[CloudGraphNodeActionIdentity] = &elemental.Relationship{}
+
 	relationshipsRegistry[CloudNetworkInterfaceIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {
@@ -1025,6 +1027,17 @@ func init() {
 	}
 
 	relationshipsRegistry[CloudNetworkQueryIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -1043,6 +1056,28 @@ func init() {
 			},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
 					{

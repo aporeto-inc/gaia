@@ -39,7 +39,8 @@ var (
 
 		"cloudgraph": CloudGraphIdentity,
 
-		"cloudgraphnode": CloudGraphNodeIdentity,
+		"cloudgraphnode":       CloudGraphNodeIdentity,
+		"cloudgraphnodeaction": CloudGraphNodeActionIdentity,
 
 		"cloudnetworkinterface": CloudNetworkInterfaceIdentity,
 		"cloudnetworkquery":     CloudNetworkQueryIdentity,
@@ -231,7 +232,8 @@ var (
 
 		"cloudgraphs": CloudGraphIdentity,
 
-		"cloudgraphnodes": CloudGraphNodeIdentity,
+		"cloudgraphnodes":   CloudGraphNodeIdentity,
+		"cloudgraphactions": CloudGraphNodeActionIdentity,
 
 		"cloudnetworkinterfaces": CloudNetworkInterfaceIdentity,
 		"cloudnetworkqueries":    CloudNetworkQueryIdentity,
@@ -645,8 +647,9 @@ var (
 			{"namespace", "normalizedTags"},
 			{"createIdempotencyKey"},
 		},
-		"cloudgraph":     nil,
-		"cloudgraphnode": nil,
+		"cloudgraph":           nil,
+		"cloudgraphnode":       nil,
+		"cloudgraphnodeaction": nil,
 		"cloudnetworkinterface": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1291,6 +1294,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudGraph()
 	case CloudGraphNodeIdentity:
 		return NewCloudGraphNode()
+	case CloudGraphNodeActionIdentity:
+		return NewCloudGraphNodeAction()
 	case CloudNetworkInterfaceIdentity:
 		return NewCloudNetworkInterface()
 	case CloudNetworkQueryIdentity:
@@ -1634,6 +1639,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudGraph()
 	case CloudGraphNodeIdentity:
 		return NewSparseCloudGraphNode()
+	case CloudGraphNodeActionIdentity:
+		return NewSparseCloudGraphNodeAction()
 	case CloudNetworkInterfaceIdentity:
 		return NewSparseCloudNetworkInterface()
 	case CloudNetworkQueryIdentity:
@@ -1985,6 +1992,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudGraphsList{}
 	case CloudGraphNodeIdentity:
 		return &CloudGraphNodesList{}
+	case CloudGraphNodeActionIdentity:
+		return &CloudGraphNodeActionsList{}
 	case CloudNetworkInterfaceIdentity:
 		return &CloudNetworkInterfacesList{}
 	case CloudNetworkQueryIdentity:
@@ -2326,6 +2335,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudGraphsList{}
 	case CloudGraphNodeIdentity:
 		return &SparseCloudGraphNodesList{}
+	case CloudGraphNodeActionIdentity:
+		return &SparseCloudGraphNodeActionsList{}
 	case CloudNetworkInterfaceIdentity:
 		return &SparseCloudNetworkInterfacesList{}
 	case CloudNetworkQueryIdentity:
@@ -2653,6 +2664,7 @@ func AllIdentities() []elemental.Identity {
 		CloudEndpointIdentity,
 		CloudGraphIdentity,
 		CloudGraphNodeIdentity,
+		CloudGraphNodeActionIdentity,
 		CloudNetworkInterfaceIdentity,
 		CloudNetworkQueryIdentity,
 		CloudNetworkRuleSetIdentity,
@@ -2882,6 +2894,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CloudGraphIdentity:
 		return []string{}
 	case CloudGraphNodeIdentity:
+		return []string{}
+	case CloudGraphNodeActionIdentity:
 		return []string{}
 	case CloudNetworkInterfaceIdentity:
 		return []string{}

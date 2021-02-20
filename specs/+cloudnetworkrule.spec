@@ -45,8 +45,6 @@ attributes:
     subtype: '[][]string'
     stored: true
     orderable: true
-    validations:
-    - $tagsExpression
 
   - name: priority
     description: Priority of the rule. Available only for cloud ACLs.

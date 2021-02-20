@@ -21,6 +21,9 @@ const (
 
 // CloudNetworkRuleSetData represents the model of a cloudnetworkrulesetdata
 type CloudNetworkRuleSetData struct {
+	// Internal field storing all the subject tags.
+	AllSubjectTags []string `json:"allSubjectTags" msgpack:"allSubjectTags" bson:"allsubjecttags" mapstructure:"allSubjectTags,omitempty"`
+
 	// The set of rules to apply to incoming traffic (traffic coming to the Processing
 	// Unit matching the subject).
 	IncomingRules []*CloudNetworkRule `json:"incomingRules" msgpack:"incomingRules" bson:"incomingrules" mapstructure:"incomingRules,omitempty"`
@@ -43,10 +46,11 @@ type CloudNetworkRuleSetData struct {
 func NewCloudNetworkRuleSetData() *CloudNetworkRuleSetData {
 
 	return &CloudNetworkRuleSetData{
-		ModelVersion:  1,
-		IncomingRules: []*CloudNetworkRule{},
-		OutgoingRules: []*CloudNetworkRule{},
-		Subject:       [][]string{},
+		ModelVersion:   1,
+		AllSubjectTags: []string{},
+		IncomingRules:  []*CloudNetworkRule{},
+		OutgoingRules:  []*CloudNetworkRule{},
+		Subject:        [][]string{},
 	}
 }
 
@@ -60,6 +64,7 @@ func (o *CloudNetworkRuleSetData) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCloudNetworkRuleSetData{}
 
+	s.AllSubjectTags = o.AllSubjectTags
 	s.IncomingRules = o.IncomingRules
 	s.OutgoingRules = o.OutgoingRules
 	s.Subject = o.Subject
@@ -81,6 +86,7 @@ func (o *CloudNetworkRuleSetData) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.AllSubjectTags = s.AllSubjectTags
 	o.IncomingRules = s.IncomingRules
 	o.OutgoingRules = s.OutgoingRules
 	o.Subject = s.Subject
@@ -145,10 +151,6 @@ func (o *CloudNetworkRuleSetData) Validate() error {
 		}
 	}
 
-	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -169,8 +171,9 @@ func (o *CloudNetworkRuleSetData) Validate() error {
 }
 
 type mongoAttributesCloudNetworkRuleSetData struct {
-	IncomingRules []*CloudNetworkRule              `bson:"incomingrules"`
-	OutgoingRules []*CloudNetworkRule              `bson:"outgoingrules"`
-	Subject       [][]string                       `bson:"subject"`
-	Type          CloudNetworkRuleSetDataTypeValue `bson:"type"`
+	AllSubjectTags []string                         `bson:"allsubjecttags"`
+	IncomingRules  []*CloudNetworkRule              `bson:"incomingrules"`
+	OutgoingRules  []*CloudNetworkRule              `bson:"outgoingrules"`
+	Subject        [][]string                       `bson:"subject"`
+	Type           CloudNetworkRuleSetDataTypeValue `bson:"type"`
 }

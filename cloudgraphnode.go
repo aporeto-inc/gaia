@@ -8,23 +8,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// CloudGraphNodePolicyTypeValue represents the possible values for attribute "policyType".
-type CloudGraphNodePolicyTypeValue string
-
-const (
-	// CloudGraphNodePolicyTypeACL represents the value ACL.
-	CloudGraphNodePolicyTypeACL CloudGraphNodePolicyTypeValue = "ACL"
-
-	// CloudGraphNodePolicyTypeIdentity represents the value Identity.
-	CloudGraphNodePolicyTypeIdentity CloudGraphNodePolicyTypeValue = "Identity"
-
-	// CloudGraphNodePolicyTypeRoute represents the value Route.
-	CloudGraphNodePolicyTypeRoute CloudGraphNodePolicyTypeValue = "Route"
-
-	// CloudGraphNodePolicyTypeSG represents the value SG.
-	CloudGraphNodePolicyTypeSG CloudGraphNodePolicyTypeValue = "SG"
-)
-
 // CloudGraphNodeIdentity represents the Identity of the object.
 var CloudGraphNodeIdentity = elemental.Identity{
 	Name:     "cloudgraphnode",
@@ -97,22 +80,19 @@ func (o CloudGraphNodesList) Version() int {
 
 // CloudGraphNode represents the model of a cloudgraphnode
 type CloudGraphNode struct {
-	// Refers to the nodes of the map.
-	Node *CloudNode `json:"node" msgpack:"node" bson:"-" mapstructure:"node,omitempty"`
+	// The native ID of the node.
+	NativeID string `json:"nativeID" msgpack:"nativeID" bson:"-" mapstructure:"nativeID,omitempty"`
 
-	// The ID of the policies that were used in the path.
-	PolicyIDs map[string]string `json:"policyIDs" msgpack:"policyIDs" bson:"-" mapstructure:"policyIDs,omitempty"`
-
-	// The namespace of the policy.
-	PolicyNamespace string `json:"policyNamespace" msgpack:"policyNamespace" bson:"-" mapstructure:"policyNamespace,omitempty"`
-
-	// The type of policy that determined forwarding from this node.
-	PolicyType CloudGraphNodePolicyTypeValue `json:"policyType" msgpack:"policyType" bson:"-" mapstructure:"policyType,omitempty"`
+	// The policies that were applied to this node for each destination.
+	Policies map[string]*CloudGraphNodeAction `json:"policies" msgpack:"policies" bson:"-" mapstructure:"policies,omitempty"`
 
 	// The list of route tables IDs that forwarding was based on for the internal path,
 	// if routing was
 	// performed.
 	RouteTableIDs map[string]string `json:"routeTableIDs" msgpack:"routeTableIDs" bson:"-" mapstructure:"routeTableIDs,omitempty"`
+
+	// The type of the node as a string.
+	Type string `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -122,8 +102,7 @@ func NewCloudGraphNode() *CloudGraphNode {
 
 	return &CloudGraphNode{
 		ModelVersion:  1,
-		Node:          NewCloudNode(),
-		PolicyIDs:     map[string]string{},
+		Policies:      map[string]*CloudGraphNodeAction{},
 		RouteTableIDs: map[string]string{},
 	}
 }
@@ -211,27 +190,24 @@ func (o *CloudGraphNode) ToSparse(fields ...string) elemental.SparseIdentifiable
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCloudGraphNode{
-			Node:            o.Node,
-			PolicyIDs:       &o.PolicyIDs,
-			PolicyNamespace: &o.PolicyNamespace,
-			PolicyType:      &o.PolicyType,
-			RouteTableIDs:   &o.RouteTableIDs,
+			NativeID:      &o.NativeID,
+			Policies:      &o.Policies,
+			RouteTableIDs: &o.RouteTableIDs,
+			Type:          &o.Type,
 		}
 	}
 
 	sp := &SparseCloudGraphNode{}
 	for _, f := range fields {
 		switch f {
-		case "node":
-			sp.Node = o.Node
-		case "policyIDs":
-			sp.PolicyIDs = &(o.PolicyIDs)
-		case "policyNamespace":
-			sp.PolicyNamespace = &(o.PolicyNamespace)
-		case "policyType":
-			sp.PolicyType = &(o.PolicyType)
+		case "nativeID":
+			sp.NativeID = &(o.NativeID)
+		case "policies":
+			sp.Policies = &(o.Policies)
 		case "routeTableIDs":
 			sp.RouteTableIDs = &(o.RouteTableIDs)
+		case "type":
+			sp.Type = &(o.Type)
 		}
 	}
 
@@ -245,20 +221,17 @@ func (o *CloudGraphNode) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseCloudGraphNode)
-	if so.Node != nil {
-		o.Node = so.Node
+	if so.NativeID != nil {
+		o.NativeID = *so.NativeID
 	}
-	if so.PolicyIDs != nil {
-		o.PolicyIDs = *so.PolicyIDs
-	}
-	if so.PolicyNamespace != nil {
-		o.PolicyNamespace = *so.PolicyNamespace
-	}
-	if so.PolicyType != nil {
-		o.PolicyType = *so.PolicyType
+	if so.Policies != nil {
+		o.Policies = *so.Policies
 	}
 	if so.RouteTableIDs != nil {
 		o.RouteTableIDs = *so.RouteTableIDs
+	}
+	if so.Type != nil {
+		o.Type = *so.Type
 	}
 }
 
@@ -292,15 +265,14 @@ func (o *CloudGraphNode) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if o.Node != nil {
-		elemental.ResetDefaultForZeroValues(o.Node)
-		if err := o.Node.Validate(); err != nil {
+	for _, sub := range o.Policies {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
-	}
-
-	if err := elemental.ValidateStringInList("policyType", string(o.PolicyType), []string{"Route", "ACL", "SG", "Identity"}, true); err != nil {
-		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -337,16 +309,14 @@ func (*CloudGraphNode) AttributeSpecifications() map[string]elemental.AttributeS
 func (o *CloudGraphNode) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "node":
-		return o.Node
-	case "policyIDs":
-		return o.PolicyIDs
-	case "policyNamespace":
-		return o.PolicyNamespace
-	case "policyType":
-		return o.PolicyType
+	case "nativeID":
+		return o.NativeID
+	case "policies":
+		return o.Policies
 	case "routeTableIDs":
 		return o.RouteTableIDs
+	case "type":
+		return o.Type
 	}
 
 	return nil
@@ -354,43 +324,24 @@ func (o *CloudGraphNode) ValueForAttribute(name string) interface{} {
 
 // CloudGraphNodeAttributesMap represents the map of attribute for CloudGraphNode.
 var CloudGraphNodeAttributesMap = map[string]elemental.AttributeSpecification{
-	"Node": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Node",
-		Description:    `Refers to the nodes of the map.`,
-		Exposed:        true,
-		Name:           "node",
-		ReadOnly:       true,
-		SubType:        "cloudnode",
-		Type:           "ref",
-	},
-	"PolicyIDs": {
+	"NativeID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "PolicyIDs",
-		Description:    `The ID of the policies that were used in the path.`,
+		ConvertedName:  "NativeID",
+		Description:    `The native ID of the node.`,
 		Exposed:        true,
-		Name:           "policyIDs",
-		SubType:        "map[string]string",
-		Type:           "external",
-	},
-	"PolicyNamespace": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "PolicyNamespace",
-		Description:    `The namespace of the policy.`,
-		Exposed:        true,
-		Name:           "policyNamespace",
+		Name:           "nativeID",
 		Type:           "string",
 	},
-	"PolicyType": {
-		AllowedChoices: []string{"Route", "ACL", "SG", "Identity"},
+	"Policies": {
+		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "PolicyType",
-		Description:    `The type of policy that determined forwarding from this node.`,
+		ConvertedName:  "Policies",
+		Description:    `The policies that were applied to this node for each destination.`,
 		Exposed:        true,
-		Name:           "policyType",
-		Type:           "enum",
+		Name:           "policies",
+		SubType:        "cloudgraphnodeaction",
+		Type:           "refMap",
 	},
 	"RouteTableIDs": {
 		AllowedChoices: []string{},
@@ -404,47 +355,37 @@ performed.`,
 		SubType: "map[string]string",
 		Type:    "external",
 	},
+	"Type": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Type",
+		Description:    `The type of the node as a string.`,
+		Exposed:        true,
+		Name:           "type",
+		Type:           "string",
+	},
 }
 
 // CloudGraphNodeLowerCaseAttributesMap represents the map of attribute for CloudGraphNode.
 var CloudGraphNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"node": {
-		AllowedChoices: []string{},
-		ConvertedName:  "Node",
-		Description:    `Refers to the nodes of the map.`,
-		Exposed:        true,
-		Name:           "node",
-		ReadOnly:       true,
-		SubType:        "cloudnode",
-		Type:           "ref",
-	},
-	"policyids": {
+	"nativeid": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "PolicyIDs",
-		Description:    `The ID of the policies that were used in the path.`,
+		ConvertedName:  "NativeID",
+		Description:    `The native ID of the node.`,
 		Exposed:        true,
-		Name:           "policyIDs",
-		SubType:        "map[string]string",
-		Type:           "external",
-	},
-	"policynamespace": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "PolicyNamespace",
-		Description:    `The namespace of the policy.`,
-		Exposed:        true,
-		Name:           "policyNamespace",
+		Name:           "nativeID",
 		Type:           "string",
 	},
-	"policytype": {
-		AllowedChoices: []string{"Route", "ACL", "SG", "Identity"},
+	"policies": {
+		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "PolicyType",
-		Description:    `The type of policy that determined forwarding from this node.`,
+		ConvertedName:  "Policies",
+		Description:    `The policies that were applied to this node for each destination.`,
 		Exposed:        true,
-		Name:           "policyType",
-		Type:           "enum",
+		Name:           "policies",
+		SubType:        "cloudgraphnodeaction",
+		Type:           "refMap",
 	},
 	"routetableids": {
 		AllowedChoices: []string{},
@@ -457,6 +398,15 @@ performed.`,
 		Name:    "routeTableIDs",
 		SubType: "map[string]string",
 		Type:    "external",
+	},
+	"type": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Type",
+		Description:    `The type of the node as a string.`,
+		Exposed:        true,
+		Name:           "type",
+		Type:           "string",
 	},
 }
 
@@ -523,22 +473,19 @@ func (o SparseCloudGraphNodesList) Version() int {
 
 // SparseCloudGraphNode represents the sparse version of a cloudgraphnode.
 type SparseCloudGraphNode struct {
-	// Refers to the nodes of the map.
-	Node *CloudNode `json:"node,omitempty" msgpack:"node,omitempty" bson:"-" mapstructure:"node,omitempty"`
+	// The native ID of the node.
+	NativeID *string `json:"nativeID,omitempty" msgpack:"nativeID,omitempty" bson:"-" mapstructure:"nativeID,omitempty"`
 
-	// The ID of the policies that were used in the path.
-	PolicyIDs *map[string]string `json:"policyIDs,omitempty" msgpack:"policyIDs,omitempty" bson:"-" mapstructure:"policyIDs,omitempty"`
-
-	// The namespace of the policy.
-	PolicyNamespace *string `json:"policyNamespace,omitempty" msgpack:"policyNamespace,omitempty" bson:"-" mapstructure:"policyNamespace,omitempty"`
-
-	// The type of policy that determined forwarding from this node.
-	PolicyType *CloudGraphNodePolicyTypeValue `json:"policyType,omitempty" msgpack:"policyType,omitempty" bson:"-" mapstructure:"policyType,omitempty"`
+	// The policies that were applied to this node for each destination.
+	Policies *map[string]*CloudGraphNodeAction `json:"policies,omitempty" msgpack:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
 
 	// The list of route tables IDs that forwarding was based on for the internal path,
 	// if routing was
 	// performed.
 	RouteTableIDs *map[string]string `json:"routeTableIDs,omitempty" msgpack:"routeTableIDs,omitempty" bson:"-" mapstructure:"routeTableIDs,omitempty"`
+
+	// The type of the node as a string.
+	Type *string `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -604,20 +551,17 @@ func (o *SparseCloudGraphNode) Version() int {
 func (o *SparseCloudGraphNode) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCloudGraphNode()
-	if o.Node != nil {
-		out.Node = o.Node
+	if o.NativeID != nil {
+		out.NativeID = *o.NativeID
 	}
-	if o.PolicyIDs != nil {
-		out.PolicyIDs = *o.PolicyIDs
-	}
-	if o.PolicyNamespace != nil {
-		out.PolicyNamespace = *o.PolicyNamespace
-	}
-	if o.PolicyType != nil {
-		out.PolicyType = *o.PolicyType
+	if o.Policies != nil {
+		out.Policies = *o.Policies
 	}
 	if o.RouteTableIDs != nil {
 		out.RouteTableIDs = *o.RouteTableIDs
+	}
+	if o.Type != nil {
+		out.Type = *o.Type
 	}
 
 	return out
