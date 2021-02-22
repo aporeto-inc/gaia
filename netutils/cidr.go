@@ -156,14 +156,12 @@ func ValidateUDPCIDRs(ss []string) error {
 	for _, entry := range multicastEntries {
 		cidr := entry.(*cidr)
 		if cidr.op == opExclude {
-			fmt.Println(" EXC CIDR: ", cidr)
 			multicastSubnetExc = true
 			break
 		}
 		wrongEntry = cidr
 	}
 	if len(multicastEntries) > 0 && !multicastSubnetExc {
-		fmt.Println("multicast exc flag: ", multicastSubnetExc)
 		return fmt.Errorf("The CIDR %s contains the multicast subnet", wrongEntry.str)
 	}
 	return nil

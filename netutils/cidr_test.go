@@ -1,7 +1,6 @@
 package netutils
 
 import (
-	"fmt"
 	"net"
 	"testing"
 
@@ -369,7 +368,6 @@ func Test_ValidateCIDRs(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			fmt.Println("Starting test: ", tt.name)
 			if err := ValidateCIDRs(tt.args.cidrs); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateCIDRs() error = %v, wantErr %v", err, tt.wantErr)
 			}
@@ -592,7 +590,6 @@ func Test_ValidateUDPCIDRs(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			fmt.Println("Starting test: ", tt.name)
 			if err := ValidateUDPCIDRs(tt.args.cidrs); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateUDPCIDRs() error = %v, wantErr %v", err, tt.wantErr)
 			}
