@@ -1052,6 +1052,22 @@ func TestValidateEnforcerProfile(t *testing.T) {
 			false,
 		},
 		{
+			"valid target UDP networks with implicitly ignoring multicast range",
+			&EnforcerProfile{
+				Name:              "Valid target UDP network",
+				TargetUDPNetworks: []string{"0.0.0.0/0", "!128.0.0.0/1"},
+			},
+			false,
+		},
+		{
+			"Invalid target UDP networks with a list CIDR containing multicast range",
+			&EnforcerProfile{
+				Name:              "Valid target UDP network",
+				TargetUDPNetworks: []string{"0.0.0.0/0", "128.0.0.0/1"},
+			},
+			true,
+		},
+		{
 			"invalid target UDP network",
 			&EnforcerProfile{
 				Name:              "Invalid target UDP network",
