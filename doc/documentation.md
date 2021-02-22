@@ -1614,7 +1614,8 @@ Performs a logout operation.
 
 ### OIDCProvider
 
-Allows you to declare a generic OpenID Connect (OIDC) provider that can be used in
+Allows you to declare a generic OpenID Connect (OIDC) provider that can be used
+in
 exchange for a Midgard token.
 
 #### Example
@@ -1731,6 +1732,12 @@ Type: `boolean`
 If set, this will be the default OIDC provider. There can be only one default
 provider in your account. When logging in with OIDC, if no provider name is
 given, the default will be used.
+
+##### `description` [`max_length=1024`]
+
+Type: `string`
+
+Description of the object.
 
 ##### `endpoint` [`required`]
 
@@ -2052,6 +2059,12 @@ Type: `boolean`
 If set, this will be the default SAML provider. There can be only one default
 provider in your account. When logging in with SAML, if no provider name is
 given, the default will be used.
+
+##### `description` [`max_length=1024`]
+
+Type: `string`
+
+Description of the object.
 
 ##### `name` [`required`,`max_length=256`]
 

@@ -114,6 +114,9 @@ type OIDCProvider struct {
 	// given, the default will be used.
 	Default bool `json:"default" msgpack:"default" bson:"default" mapstructure:"default,omitempty"`
 
+	// Description of the object.
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
+
 	// OIDC [discovery
 	// endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
 	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
@@ -214,6 +217,7 @@ func (o *OIDCProvider) GetBSON() (interface{}, error) {
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
 	s.Default = o.Default
+	s.Description = o.Description
 	s.Endpoint = o.Endpoint
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
@@ -254,6 +258,7 @@ func (o *OIDCProvider) SetBSON(raw bson.Raw) error {
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
 	o.Default = s.Default
+	o.Description = s.Description
 	o.Endpoint = s.Endpoint
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
@@ -295,7 +300,8 @@ func (o *OIDCProvider) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *OIDCProvider) Doc() string {
 
-	return `Allows you to declare a generic OpenID Connect (OIDC) provider that can be used in
+	return `Allows you to declare a generic OpenID Connect (OIDC) provider that can be used
+in
 exchange for a Midgard token.`
 }
 
@@ -350,6 +356,18 @@ func (o *OIDCProvider) GetCreateTime() time.Time {
 func (o *OIDCProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *OIDCProvider) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *OIDCProvider) SetDescription(description string) {
+
+	o.Description = description
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -476,6 +494,7 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			Default:              &o.Default,
+			Description:          &o.Description,
 			Endpoint:             &o.Endpoint,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
@@ -514,6 +533,8 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateTime = &(o.CreateTime)
 		case "default":
 			sp.Default = &(o.Default)
+		case "description":
+			sp.Description = &(o.Description)
 		case "endpoint":
 			sp.Endpoint = &(o.Endpoint)
 		case "migrationsLog":
@@ -601,6 +622,9 @@ func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Default != nil {
 		o.Default = *so.Default
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
 	}
 	if so.Endpoint != nil {
 		o.Endpoint = *so.Endpoint
@@ -692,6 +716,10 @@ func (o *OIDCProvider) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("endpoint", o.Endpoint); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -756,6 +784,8 @@ func (o *OIDCProvider) ValueForAttribute(name string) interface{} {
 		return o.CreateTime
 	case "default":
 		return o.Default
+	case "description":
+		return o.Description
 	case "endpoint":
 		return o.Endpoint
 	case "migrationsLog":
@@ -906,6 +936,20 @@ given, the default will be used.`,
 		Name:    "default",
 		Stored:  true,
 		Type:    "boolean",
+	},
+	"Description": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "description",
+		ConvertedName:  "Description",
+		Description:    `Description of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"Endpoint": {
 		AllowedChoices: []string{},
@@ -1216,6 +1260,20 @@ given, the default will be used.`,
 		Stored:  true,
 		Type:    "boolean",
 	},
+	"description": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "description",
+		ConvertedName:  "Description",
+		Description:    `Description of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"endpoint": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "endpoint",
@@ -1503,6 +1561,9 @@ type SparseOIDCProvider struct {
 	// given, the default will be used.
 	Default *bool `json:"default,omitempty" msgpack:"default,omitempty" bson:"default,omitempty" mapstructure:"default,omitempty"`
 
+	// Description of the object.
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+
 	// OIDC [discovery
 	// endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
 	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
@@ -1617,6 +1678,9 @@ func (o *SparseOIDCProvider) GetBSON() (interface{}, error) {
 	if o.Default != nil {
 		s.Default = o.Default
 	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
 	if o.Endpoint != nil {
 		s.Endpoint = o.Endpoint
 	}
@@ -1702,6 +1766,9 @@ func (o *SparseOIDCProvider) SetBSON(raw bson.Raw) error {
 	if s.Default != nil {
 		o.Default = s.Default
 	}
+	if s.Description != nil {
+		o.Description = s.Description
+	}
 	if s.Endpoint != nil {
 		o.Endpoint = s.Endpoint
 	}
@@ -1784,6 +1851,9 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Default != nil {
 		out.Default = *o.Default
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
 	}
 	if o.Endpoint != nil {
 		out.Endpoint = *o.Endpoint
@@ -1913,6 +1983,22 @@ func (o *SparseOIDCProvider) GetCreateTime() (out time.Time) {
 func (o *SparseOIDCProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseOIDCProvider) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -2093,6 +2179,7 @@ type mongoAttributesOIDCProvider struct {
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
 	CreateTime           time.Time           `bson:"createtime"`
 	Default              bool                `bson:"default"`
+	Description          string              `bson:"description"`
 	Endpoint             string              `bson:"endpoint"`
 	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
@@ -2118,6 +2205,7 @@ type mongoAttributesSparseOIDCProvider struct {
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
 	CreateTime           *time.Time           `bson:"createtime,omitempty"`
 	Default              *bool                `bson:"default,omitempty"`
+	Description          *string              `bson:"description,omitempty"`
 	Endpoint             *string              `bson:"endpoint,omitempty"`
 	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 *string              `bson:"name,omitempty"`

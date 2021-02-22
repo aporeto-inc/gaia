@@ -21,6 +21,7 @@ model:
   - '@migratable'
   - '@base'
   - '@namespaced'
+  - '@described'
   - '@identifiable-stored'
   - '@timeable'
   - '@named'
