@@ -84,7 +84,7 @@ func (b *cidr) Network() net.IPNet {
 	return b.ipNet
 }
 
-// create customRangerEntry object using net and asn
+// create customRangerEntry object using net and cidr
 func newCustomRangerEntry(c *cidr) cidranger.RangerEntry {
 	return c
 }
