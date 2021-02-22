@@ -1031,15 +1031,23 @@ func TestValidateEnforcerProfile(t *testing.T) {
 			"valid target UDP network",
 			&EnforcerProfile{
 				Name:              "Valid target UDP network",
-				TargetUDPNetworks: []string{"0.0.0.0/0"},
+				TargetUDPNetworks: []string{"0.0.0.0/0", "!224.0.0.0/4"},
 			},
 			false,
+		},
+		{
+			"Invalid target UDP network, 0.0.0.0/0",
+			&EnforcerProfile{
+				Name:              "Valid target UDP network",
+				TargetUDPNetworks: []string{"0.0.0.0/0"},
+			},
+			true,
 		},
 		{
 			"valid target UDP networks with except condition operator",
 			&EnforcerProfile{
 				Name:              "Valid target UDP network",
-				TargetUDPNetworks: []string{"0.0.0.0/0", "!10.0.0.0/8"},
+				TargetUDPNetworks: []string{"0.0.0.0/0", "!10.0.0.0/8", "!224.0.0.0/4"},
 			},
 			false,
 		},
@@ -1136,6 +1144,7 @@ AiEA0epxATHNzheAa8ZuiPeNQL6DhoKYz3B+41J2vgVlGZY=
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			fmt.Println("\n *** START test: ", tt.name)
 			if err := ValidateEnforcerProfile(tt.enforcerprofile); (err != nil) != tt.wantErr {
 				t.Errorf("TestVValidateEnforcerProfile() error = %v, wantErr %v", err, tt.wantErr)
 			}

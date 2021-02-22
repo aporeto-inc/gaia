@@ -151,14 +151,21 @@ func ValidateUDPCIDRs(ss []string) error {
 		return fmt.Errorf("%s is not a valid CIDR", network)
 	}
 	multicastEntries, _ := ranger.ContainingNetworks(network.IP)
+	multicastSubnetExc := false
+	wrongEntry := &cidr{}
 	for _, entry := range multicastEntries {
 		cidr := entry.(*cidr)
 		if cidr.op == opExclude {
-			continue
+			fmt.Println(" EXC CIDR: ", cidr)
+			multicastSubnetExc = true
+			break
 		}
-		return fmt.Errorf("The CIDR %s contains the multicast subnet", cidr.str)
+		wrongEntry = cidr
 	}
-
+	if len(multicastEntries) > 0 && !multicastSubnetExc {
+		fmt.Println("multicast exc flag: ", multicastSubnetExc)
+		return fmt.Errorf("The CIDR %s contains the multicast subnet", wrongEntry.str)
+	}
 	return nil
 }
 
