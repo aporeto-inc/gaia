@@ -324,7 +324,7 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 		return makeValidationError("targetNetworks", err.Error())
 	}
 
-	if err := netutils.ValidateCIDRs(enforcerProfile.TargetUDPNetworks); err != nil {
+	if err := netutils.ValidateUDPCIDRs(enforcerProfile.TargetUDPNetworks); err != nil {
 		return makeValidationError("targetUDPNetworks", err.Error())
 	}
 

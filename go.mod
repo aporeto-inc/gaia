@@ -14,5 +14,6 @@ require (
 	github.com/mitchellh/reflectwalk v1.0.1 // indirect
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4
+	github.com/yl2chen/cidranger v1.0.2
 	gopkg.in/yaml.v2 v2.3.0
 )
