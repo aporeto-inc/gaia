@@ -132,7 +132,9 @@ func Test_checkExcPfxContainedInc(t *testing.T) {
 					t.Errorf("err in test: %v", err)
 				}
 
-				ranger.Insert(newCustomRangerEntry(cidr))
+				if err := ranger.Insert(newCustomRangerEntry(cidr)); err != nil {
+					t.Errorf("Error adding CIDR %s", cidr.str)
+				}
 			}
 			_, network, err := net.ParseCIDR(tt.args.ip)
 			if err != nil {

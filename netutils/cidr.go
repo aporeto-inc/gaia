@@ -31,7 +31,7 @@ func checkExcPfxContainedInc(entries []cidranger.RangerEntry, mask net.IPMask, i
 	for _, e := range entries {
 		cidr := e.(*cidr)
 
-		// we only are interested if the exculded pfx is present in the included.
+		// we only are interested if the excluded pfx is present in the included.
 		if cidr.op == opExclude {
 			continue
 		}
@@ -106,7 +106,9 @@ func ValidateUDPCIDRs(ss []string) error {
 		} else {
 			return fmt.Errorf("CIDR subnet parsed from %s is duplicated", cidr.str)
 		}
-		ranger.Insert(newCustomRangerEntry(cidr))
+		if err := ranger.Insert(newCustomRangerEntry(cidr)); err != nil {
+			return fmt.Errorf("Error adding CIDR %s", cidr.str)
+		}
 	}
 
 	// Parse and validate all not CIDRs are included in regular CIDRs
@@ -148,7 +150,7 @@ func ValidateUDPCIDRs(ss []string) error {
 	if err != nil {
 		return fmt.Errorf("%s is not a valid CIDR", network)
 	}
-	multicastEntries, err := ranger.ContainingNetworks(network.IP)
+	multicastEntries, _ := ranger.ContainingNetworks(network.IP)
 	for _, entry := range multicastEntries {
 		cidr := entry.(*cidr)
 		if cidr.op == opExclude {
@@ -177,7 +179,9 @@ func ValidateCIDRs(ss []string) error {
 		} else {
 			return fmt.Errorf("CIDR subnet parsed from %s is duplicated", cidr.str)
 		}
-		ranger.Insert(newCustomRangerEntry(cidr))
+		if err := ranger.Insert(newCustomRangerEntry(cidr)); err != nil {
+			return fmt.Errorf("Error adding CIDR %s", cidr.str)
+		}
 	}
 
 	// Parse and validate all not CIDRs are included in regular CIDRs
