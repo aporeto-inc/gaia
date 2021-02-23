@@ -12358,7 +12358,7 @@ Type: `string`
 
 Namespace of the network policy that accepted the flow.
 
-##### `protocol` [`required`]
+##### `protocol`
 
 Type: `integer`
 
@@ -13039,7 +13039,7 @@ Type: `string`
 
 Namespace of the network policy that accepted the flow.
 
-##### `protocol` [`required`]
+##### `protocol`
 
 Type: `integer`
 
