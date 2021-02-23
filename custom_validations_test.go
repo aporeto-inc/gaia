@@ -1039,7 +1039,7 @@ func TestValidateEnforcerProfile(t *testing.T) {
 			"Invalid target UDP network, 0.0.0.0/0",
 			&EnforcerProfile{
 				Name:              "Valid target UDP network",
-				TargetUDPNetworks: []string{"0.0.0.0/0"},
+				TargetUDPNetworks: []string{"0.0.0.0/0", "224.0.0.0/4"},
 			},
 			true,
 		},
