@@ -518,6 +518,13 @@ func Test_ValidateUDPCIDRs(t *testing.T) {
 			wantErr: true,
 		},
 		{
+			name: "Invalid UDP test IPv6",
+			args: args{
+				[]string{"::/0"},
+			},
+			wantErr: true,
+		},
+		{
 			name: "duplication test in inclusion IPv6",
 			args: args{
 				[]string{"::/0", "2001:db8::/64", "2001:db8::/64"},
@@ -548,7 +555,7 @@ func Test_ValidateUDPCIDRs(t *testing.T) {
 		{
 			name: "recursive test IPv6",
 			args: args{
-				[]string{"2001:db8::/128", "2001:db8::/64", "2001:db8::/32", "2001:db8::/16", "::/0"},
+				[]string{"2001:db8::/128", "2001:db8::/64", "2001:db8::/32", "2001:db8::/16", "::/0", "!ff00::/8"},
 			},
 			wantErr: false,
 		},
@@ -562,7 +569,7 @@ func Test_ValidateUDPCIDRs(t *testing.T) {
 		{
 			name: "recursive multiple not test IPv6",
 			args: args{
-				[]string{"!2001:db8::/128", "!2001:db8::/64", "!2001:db8::/32", "!2001:db8::/16", "::/0"},
+				[]string{"!2001:db8::/128", "!2001:db8::/64", "!2001:db8::/32", "!2001:db8::/16", "::/0", "!ff00::/8"},
 			},
 			wantErr: false,
 		},

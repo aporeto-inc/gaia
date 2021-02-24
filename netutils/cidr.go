@@ -9,9 +9,10 @@ import (
 )
 
 var (
-	opInclude       = "include" // default operation to include cidr in networks
-	opExclude       = "exclude" // not include cidr when cidr string has the ! prefix
-	multicastSubnet = "224.0.0.0/4"
+	opInclude         = "include" // default operation to include cidr in networks
+	opExclude         = "exclude" // not include cidr when cidr string has the ! prefix
+	multicastv4Subnet = "224.0.0.0/4"
+	multicastv6Subnet = "ff00::/8"
 )
 
 // cidr represents the cidr network to be included or excluded
@@ -151,25 +152,47 @@ func ValidateUDPCIDRs(ss []string) error {
 	//  check if we have a 224/4 subnet in the pfx tree,
 	// if yes then return error
 
-	_, network, err := net.ParseCIDR(multicastSubnet)
+	_, v4network, err := net.ParseCIDR(multicastv4Subnet)
 	if err != nil {
-		return fmt.Errorf("%s is not a valid CIDR", network)
+		return fmt.Errorf("%s is not a valid CIDR", v4network)
+	}
+	_, v6network, err := net.ParseCIDR(multicastv6Subnet)
+	if err != nil {
+		return fmt.Errorf("%s is not a valid CIDR", v6network)
 	}
 	// get all the networks that have 224/4 and if anyone has a NOT(!) then we are good.
 	// else we report ERROR.
-	multicastEntries, _ := ranger.ContainingNetworks(network.IP)
-	multicastSubnetExc := false
-	wrongEntryCIDR := make([]string, 0, len(multicastEntries))
-	for _, entry := range multicastEntries {
+	multicastv4Entries, _ := ranger.ContainingNetworks(v4network.IP)
+	multicastv6Entries, _ := ranger.ContainingNetworks(v6network.IP)
+
+	multicastv4SubnetExc := false
+	wrongEntryv4CIDR := make([]string, 0, len(multicastv4Entries))
+
+	for _, entry := range multicastv4Entries {
 		cidr := entry.(*cidr)
 		if cidr.op == opExclude {
-			multicastSubnetExc = true
+			multicastv4SubnetExc = true
 			break
 		}
-		wrongEntryCIDR = append(wrongEntryCIDR, cidr.str)
+		wrongEntryv4CIDR = append(wrongEntryv4CIDR, cidr.str)
 	}
-	if len(multicastEntries) > 0 && !multicastSubnetExc {
-		return fmt.Errorf("The CIDR %s contains the multicast subnet", wrongEntryCIDR)
+	if len(multicastv4Entries) > 0 && !multicastv4SubnetExc {
+		return fmt.Errorf("The CIDR %s contains the multicast subnet", wrongEntryv4CIDR)
+	}
+
+	multicastv6SubnetExc := false
+	wrongEntryv6CIDR := make([]string, 0, len(multicastv6Entries))
+
+	for _, entry := range multicastv6Entries {
+		cidr := entry.(*cidr)
+		if cidr.op == opExclude {
+			multicastv6SubnetExc = true
+			break
+		}
+		wrongEntryv6CIDR = append(wrongEntryv6CIDR, cidr.str)
+	}
+	if len(multicastv6Entries) > 0 && !multicastv6SubnetExc {
+		return fmt.Errorf("The CIDR %s contains the multicast subnet", wrongEntryv6CIDR)
 	}
 	return nil
 }
