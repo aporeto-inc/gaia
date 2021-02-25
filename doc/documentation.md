@@ -1615,8 +1615,7 @@ Performs a logout operation.
 ### OIDCProvider
 
 Allows you to declare a generic OpenID Connect (OIDC) provider that can be used
-in
-exchange for a Midgard token.
+in exchange for a Midgard token.
 
 #### Example
 
