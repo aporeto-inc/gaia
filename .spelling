@@ -227,6 +227,7 @@ PasswordReset
 PCC
 PCCProvider
 PCSearchResult
+PCTimeRange
 PEM-encoded
 PKI-based
 PKIXName
