@@ -87,6 +87,8 @@ attributes:
     description: |-
       Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
       to PC backend.
-    type: external
+    type: ref
     exposed: true
-    subtype: map[string]interface{}
+    subtype: pctimerange
+    extensions:
+      refMode: pointer

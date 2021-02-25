@@ -7092,7 +7092,7 @@ Default value:
 
 ##### `timeRange`
 
-Type: `map[string]interface{}`
+Type: [`pctimerange`](#pctimerange)
 
 Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
 to PC backend.
@@ -7208,6 +7208,30 @@ The pagination token for next page.
 Type: `integer`
 
 The total number of result items.
+
+### PCTimeRange
+
+Represents the time range parameter of PC.
+
+#### Attributes
+
+##### `relativeTimeType` [`read_only`]
+
+Type: `string`
+
+The type of relative time.
+
+##### `type` [`read_only`]
+
+Type: `string`
+
+The type of time range.
+
+##### `value` [`read_only`]
+
+Type: `pctimevalue`
+
+The value of time range.
 
 ## core/tag
 

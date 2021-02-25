@@ -115,7 +115,7 @@ type CNSSearch struct {
 
 	// Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
 	// to PC backend.
-	TimeRange map[string]interface{} `json:"timeRange" msgpack:"timeRange" bson:"-" mapstructure:"timeRange,omitempty"`
+	TimeRange *PCTimeRange `json:"timeRange" msgpack:"timeRange" bson:"-" mapstructure:"timeRange,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -129,7 +129,7 @@ func NewCNSSearch() *CNSSearch {
 		EndAbsolute:   0,
 		Limit:         100,
 		StartAbsolute: 0,
-		TimeRange:     map[string]interface{}{},
+		TimeRange:     NewPCTimeRange(),
 	}
 }
 
@@ -226,7 +226,7 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Saved:         &o.Saved,
 			SearchType:    &o.SearchType,
 			StartAbsolute: &o.StartAbsolute,
-			TimeRange:     &o.TimeRange,
+			TimeRange:     o.TimeRange,
 		}
 	}
 
@@ -256,7 +256,7 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		case "startAbsolute":
 			sp.StartAbsolute = &(o.StartAbsolute)
 		case "timeRange":
-			sp.TimeRange = &(o.TimeRange)
+			sp.TimeRange = o.TimeRange
 		}
 	}
 
@@ -304,7 +304,7 @@ func (o *CNSSearch) Patch(sparse elemental.SparseIdentifiable) {
 		o.StartAbsolute = *so.StartAbsolute
 	}
 	if so.TimeRange != nil {
-		o.TimeRange = *so.TimeRange
+		o.TimeRange = so.TimeRange
 	}
 }
 
@@ -355,6 +355,13 @@ func (o *CNSSearch) Validate() error {
 
 	if err := elemental.ValidateRequiredInt("startAbsolute", o.StartAbsolute); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if o.TimeRange != nil {
+		elemental.ResetDefaultForZeroValues(o.TimeRange)
+		if err := o.TimeRange.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -522,8 +529,8 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 to PC backend.`,
 		Exposed: true,
 		Name:    "timeRange",
-		SubType: "map[string]interface{}",
-		Type:    "external",
+		SubType: "pctimerange",
+		Type:    "ref",
 	},
 }
 
@@ -629,8 +636,8 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 to PC backend.`,
 		Exposed: true,
 		Name:    "timeRange",
-		SubType: "map[string]interface{}",
-		Type:    "external",
+		SubType: "pctimerange",
+		Type:    "ref",
 	},
 }
 
@@ -732,7 +739,7 @@ type SparseCNSSearch struct {
 
 	// Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
 	// to PC backend.
-	TimeRange *map[string]interface{} `json:"timeRange,omitempty" msgpack:"timeRange,omitempty" bson:"-" mapstructure:"timeRange,omitempty"`
+	TimeRange *PCTimeRange `json:"timeRange,omitempty" msgpack:"timeRange,omitempty" bson:"-" mapstructure:"timeRange,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -832,7 +839,7 @@ func (o *SparseCNSSearch) ToPlain() elemental.PlainIdentifiable {
 		out.StartAbsolute = *o.StartAbsolute
 	}
 	if o.TimeRange != nil {
-		out.TimeRange = *o.TimeRange
+		out.TimeRange = o.TimeRange
 	}
 
 	return out

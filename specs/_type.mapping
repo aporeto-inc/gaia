@@ -357,6 +357,16 @@ map[string]string:
         }
       }
 
+pctimevalue:
+  elemental:
+    type: interface{}
+    init: nil
+  jsonschema:
+    type: |-
+      {
+        "type": ["string", "object"],
+      }
+
 uiparametersexpression:
   elemental:
     type: '[][]*UIParameterVisibility'
