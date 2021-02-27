@@ -53,17 +53,6 @@ func checkExcPfxContainedInc(entries []cidranger.RangerEntry, mask net.IPMask, i
 	return false
 }
 
-// checkIncPfxContainedInEx checks if there are any included pfxs in the excluded pfx
-func checkIncPfxContainedInExc(entries []cidranger.RangerEntry, ip net.IPNet) (net.IPNet, bool) {
-	for _, e := range entries {
-		cidr := e.(*cidr)
-		if cidr.op == opInclude {
-			return cidr.ipNet, true
-		}
-	}
-	return net.IPNet{}, false
-}
-
 // parseCIDR converts the given string to cidr. Returns an error if it wasnt able to parse a CIDR
 func parseCIDR(s string) (*cidr, error) {
 
