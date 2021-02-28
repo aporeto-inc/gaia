@@ -157,7 +157,7 @@ func ValidateUDPCIDRs(ss []string) error {
 			multicastv4SubnetInc = true
 			wrongEntryv4CIDR = append(wrongEntryv4CIDR, cidr.str)
 		}
-		ranger.Remove(cidr.ipNet)
+		ranger.Remove(cidr.ipNet) //nolint
 	}
 	if len(multicastv4Entries) > 0 && multicastv4SubnetInc {
 		return fmt.Errorf("The CIDR %s are multicast subnets, should not be included in UDP target networks", wrongEntryv4CIDR)
@@ -175,7 +175,7 @@ func ValidateUDPCIDRs(ss []string) error {
 	// 1. When the pfx tree has 224/4, and itself and its network under them are excluded,
 	// 		so nothing to worry, continue
 	// 2. When there is no 224/4 network in tree, so get the last contained subnet and if
-	// 		the last subnet is exlcuded then we are good else return error.
+	// 		the last subnet is excluded then we are good else return error.
 	if lastMultiContainedv4CIDR != nil && !multicastv4SubnetPresent {
 		if lastMultiContainedv4CIDR.op == opInclude {
 			return fmt.Errorf("The CIDR %s includes multicast subnets, should not be included in UDP target networks", lastMultiContainedv4CIDR.str)
@@ -190,7 +190,7 @@ func ValidateUDPCIDRs(ss []string) error {
 			multicastv6SubnetInc = true
 			wrongEntryv6CIDR = append(wrongEntryv6CIDR, cidr.str)
 		}
-		ranger.Remove(cidr.ipNet)
+		ranger.Remove(cidr.ipNet) //nolint
 	}
 	if len(multicastv6Entries) > 0 && multicastv6SubnetInc {
 		return fmt.Errorf("The CIDR %s are multicast subnets, should not be included in UDP target networks", wrongEntryv6CIDR)
