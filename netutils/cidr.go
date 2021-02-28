@@ -85,6 +85,8 @@ func ValidateUDPCIDRs(ss []string) error {
 	cidrmap := make(map[string]*cidr)
 	// instantiate NewPCTrieRanger
 	ranger := cidranger.NewPCTrieRanger()
+	multicastv4SubnetPresent := false
+	multicastv6SubnetPresent := false
 
 	for _, s := range ss {
 		cidr, err := parseCIDR(s)
@@ -96,11 +98,16 @@ func ValidateUDPCIDRs(ss []string) error {
 		} else {
 			return fmt.Errorf("CIDR subnet parsed from %s is duplicated", cidr.str)
 		}
+		if cidr.ipNet.String() == multicastv4Subnet {
+			multicastv4SubnetPresent = true
+		}
+		if cidr.ipNet.String() == multicastv6Subnet {
+			multicastv6SubnetPresent = true
+		}
 		if err := ranger.Insert(newCustomRangerEntry(cidr)); err != nil {
 			return fmt.Errorf("Error adding CIDR %s", cidr.str)
 		}
 	}
-
 	// Parse and validate all not CIDRs are included in regular CIDRs
 	for _, c := range cidrmap {
 
@@ -124,7 +131,7 @@ func ValidateUDPCIDRs(ss []string) error {
 	}
 
 	// now if all the CIDR make sense, check for multicast subnet,
-	//  check if we have a 224/4 subnet in the pfx tree,
+	//  check if we have a 224/4 subnet in the pfx tree and if its not excluded,
 	// if yes then return error
 
 	_, v4network, err := net.ParseCIDR(multicastv4Subnet)
@@ -135,6 +142,7 @@ func ValidateUDPCIDRs(ss []string) error {
 	if err != nil {
 		return fmt.Errorf("%s is not a valid CIDR", v6network)
 	}
+
 	// get all the networks that have 224/4 and if anyone is included in the 224/4 subnet
 	// then we report error.
 	multicastv4Entries, _ := ranger.CoveredNetworks(*v4network)
@@ -142,35 +150,63 @@ func ValidateUDPCIDRs(ss []string) error {
 
 	multicastv4SubnetInc := false
 	wrongEntryv4CIDR := make([]string, 0, len(multicastv4Entries))
-	fmt.Println("no of entries: ", len(multicastv4Entries))
-	for _, entry := range multicastv4Entries {
-		cidr := entry.(*cidr)
-		fmt.Println("multicastv4 entries:", cidr)
-	}
+
 	for _, entry := range multicastv4Entries {
 		cidr := entry.(*cidr)
 		if cidr.op == opInclude {
 			multicastv4SubnetInc = true
 			wrongEntryv4CIDR = append(wrongEntryv4CIDR, cidr.str)
 		}
+		ranger.Remove(cidr.ipNet)
 	}
 	if len(multicastv4Entries) > 0 && multicastv4SubnetInc {
 		return fmt.Errorf("The CIDR %s are multicast subnets, should not be included in UDP target networks", wrongEntryv4CIDR)
 	}
 
+	var lastMultiContainedv4CIDR, lastMultiContainedv6CIDR *cidr
+	// now check here if multicast subnet is contained in the pfx-tree
+
+	MulticastContainedv4Subnets, _ := ranger.ContainingNetworks(v4network.IP)
+	if len(MulticastContainedv4Subnets) > 0 {
+		lastMultiContainedv4CIDR = MulticastContainedv4Subnets[len(MulticastContainedv4Subnets)-1].(*cidr)
+	}
+
+	// now we come only in 2 cases:
+	// 1. When the pfx tree has 224/4, and itself and its network under them are excluded,
+	// 		so nothing to worry, continue
+	// 2. When there is no 224/4 network in tree, so get the last contained subnet and if
+	// 		the last subnet is exlcuded then we are good else return error.
+	if lastMultiContainedv4CIDR != nil && !multicastv4SubnetPresent {
+		if lastMultiContainedv4CIDR.op == opInclude {
+			return fmt.Errorf("The CIDR %s includes multicast subnets, should not be included in UDP target networks", lastMultiContainedv4CIDR.str)
+		}
+	}
+
 	multicastv6SubnetInc := false
 	wrongEntryv6CIDR := make([]string, 0, len(multicastv6Entries))
-
 	for _, entry := range multicastv6Entries {
 		cidr := entry.(*cidr)
 		if cidr.op == opInclude {
 			multicastv6SubnetInc = true
 			wrongEntryv6CIDR = append(wrongEntryv6CIDR, cidr.str)
 		}
+		ranger.Remove(cidr.ipNet)
 	}
 	if len(multicastv6Entries) > 0 && multicastv6SubnetInc {
 		return fmt.Errorf("The CIDR %s are multicast subnets, should not be included in UDP target networks", wrongEntryv6CIDR)
 	}
+
+	MulticastContainedv6Subnets, _ := ranger.ContainingNetworks(v6network.IP)
+	if len(MulticastContainedv6Subnets) > 0 {
+		lastMultiContainedv6CIDR = MulticastContainedv6Subnets[len(MulticastContainedv6Subnets)-1].(*cidr)
+	}
+
+	if lastMultiContainedv6CIDR != nil && !multicastv6SubnetPresent {
+		if lastMultiContainedv6CIDR.op == opInclude {
+			return fmt.Errorf("The CIDR %s includes multicast subnets, should not be included in UDP target networks", lastMultiContainedv6CIDR.str)
+		}
+	}
+
 	return nil
 }
 
