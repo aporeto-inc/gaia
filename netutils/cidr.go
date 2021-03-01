@@ -79,6 +79,11 @@ func newCustomRangerEntry(c *cidr) cidranger.RangerEntry {
 	return c
 }
 
+func addressRangeCount(ip net.IPNet) uint64 {
+	ones, bits := ip.Mask.Size()
+	return 1 << (uint64(bits) - uint64(ones))
+}
+
 // ValidateUDPCIDRs validates that the list of string provided as a set is a valid CIDR set
 func ValidateUDPCIDRs(ss []string) error {
 
@@ -148,6 +153,11 @@ func ValidateUDPCIDRs(ss []string) error {
 	multicastv4Entries, _ := ranger.CoveredNetworks(*v4network)
 	multicastv6Entries, _ := ranger.CoveredNetworks(*v6network)
 
+	expectedmulticastv4AddrRange := addressRangeCount(*v4network)
+	actualmulticastv4AddrRange := uint64(0)
+	expectedmulticastv6AddrRange := addressRangeCount(*v6network)
+	actualmulticastv6AddrRange := uint64(0)
+
 	multicastv4SubnetInc := false
 	wrongEntryv4CIDR := make([]string, 0, len(multicastv4Entries))
 
@@ -157,12 +167,12 @@ func ValidateUDPCIDRs(ss []string) error {
 			multicastv4SubnetInc = true
 			wrongEntryv4CIDR = append(wrongEntryv4CIDR, cidr.str)
 		}
+		actualmulticastv4AddrRange += addressRangeCount(entry.Network())
 		ranger.Remove(cidr.ipNet) //nolint
 	}
 	if len(multicastv4Entries) > 0 && multicastv4SubnetInc {
 		return fmt.Errorf("The CIDR %s are multicast subnets, should not be included in UDP target networks", wrongEntryv4CIDR)
 	}
-
 	var lastMultiContainedv4CIDR, lastMultiContainedv6CIDR *cidr
 	// now check here if multicast subnet is contained in the pfx-tree
 
@@ -176,7 +186,7 @@ func ValidateUDPCIDRs(ss []string) error {
 	// 		so nothing to worry, continue
 	// 2. When there is no 224/4 network in tree, so get the last contained subnet and if
 	// 		the last subnet is excluded then we are good else return error.
-	if lastMultiContainedv4CIDR != nil && !multicastv4SubnetPresent {
+	if lastMultiContainedv4CIDR != nil && !multicastv4SubnetPresent && actualmulticastv4AddrRange != expectedmulticastv4AddrRange {
 		if lastMultiContainedv4CIDR.op == opInclude {
 			return fmt.Errorf("The CIDR %s includes multicast subnets, should not be included in UDP target networks", lastMultiContainedv4CIDR.str)
 		}
@@ -190,6 +200,7 @@ func ValidateUDPCIDRs(ss []string) error {
 			multicastv6SubnetInc = true
 			wrongEntryv6CIDR = append(wrongEntryv6CIDR, cidr.str)
 		}
+		actualmulticastv6AddrRange += addressRangeCount(entry.Network())
 		ranger.Remove(cidr.ipNet) //nolint
 	}
 	if len(multicastv6Entries) > 0 && multicastv6SubnetInc {
@@ -201,7 +212,7 @@ func ValidateUDPCIDRs(ss []string) error {
 		lastMultiContainedv6CIDR = MulticastContainedv6Subnets[len(MulticastContainedv6Subnets)-1].(*cidr)
 	}
 
-	if lastMultiContainedv6CIDR != nil && !multicastv6SubnetPresent {
+	if lastMultiContainedv6CIDR != nil && !multicastv6SubnetPresent && actualmulticastv6AddrRange != expectedmulticastv6AddrRange {
 		if lastMultiContainedv6CIDR.op == opInclude {
 			return fmt.Errorf("The CIDR %s includes multicast subnets, should not be included in UDP target networks", lastMultiContainedv6CIDR.str)
 		}

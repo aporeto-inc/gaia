@@ -415,14 +415,14 @@ func Test_ValidateUDPCIDRs(t *testing.T) {
 		{
 			name: "multicast 224/5 excluded but 224/4(232.x.x.x/4) and 128/1 included",
 			args: args{
-				[]string{"0.0.0.0/0", "128.0.0.1/1", "!224.0.0.0/5", "!238.10.2.3/32"},
+				[]string{"0.0.0.0/0", "128.0.0.1/1", "!224.0.0.0/5", "!232.10.2.3/5"},
 			},
-			wantErr: true,
+			wantErr: false,
 		},
 		{
 			name: "multicast 224/4 excluded but 238.x.x.x/32 included",
 			args: args{
-				[]string{"0.0.0.0/0", "128.0.0.1/1", "!224.0.0.0/4", "238.10.2.3/32"},
+				[]string{"0.0.0.0/0", "128.0.0.1/1", "!224.0.0.0/4", "232.10.2.3/5"},
 			},
 			wantErr: true,
 		},
