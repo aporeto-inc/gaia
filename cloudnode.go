@@ -173,7 +173,7 @@ type CloudNode struct {
 	// Region name associated with the entity.
 	RegionName string `json:"regionName" msgpack:"regionName" bson:"regionname" mapstructure:"regionName,omitempty"`
 
-	// Reference to a related object. Usefull in some operations.
+	// A reference to a related object.
 	RelatedObjectID string `json:"relatedObjectID" msgpack:"relatedObjectID" bson:"relatedobjectid" mapstructure:"relatedObjectID,omitempty"`
 
 	// Prisma Cloud Resource ID.
@@ -1442,7 +1442,7 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		BSONFieldName:  "relatedobjectid",
 		ConvertedName:  "RelatedObjectID",
-		Description:    `Reference to a related object. Usefull in some operations.`,
+		Description:    `A reference to a related object.`,
 		Exposed:        true,
 		Name:           "relatedObjectID",
 		Stored:         true,
@@ -1899,7 +1899,7 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		BSONFieldName:  "relatedobjectid",
 		ConvertedName:  "RelatedObjectID",
-		Description:    `Reference to a related object. Usefull in some operations.`,
+		Description:    `A reference to a related object.`,
 		Exposed:        true,
 		Name:           "relatedObjectID",
 		Stored:         true,
@@ -2166,7 +2166,7 @@ type SparseCloudNode struct {
 	// Region name associated with the entity.
 	RegionName *string `json:"regionName,omitempty" msgpack:"regionName,omitempty" bson:"regionname,omitempty" mapstructure:"regionName,omitempty"`
 
-	// Reference to a related object. Usefull in some operations.
+	// A reference to a related object.
 	RelatedObjectID *string `json:"relatedObjectID,omitempty" msgpack:"relatedObjectID,omitempty" bson:"relatedobjectid,omitempty" mapstructure:"relatedObjectID,omitempty"`
 
 	// Prisma Cloud Resource ID.

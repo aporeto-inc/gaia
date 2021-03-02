@@ -16,7 +16,7 @@ type CloudNetworkQueryDestination struct {
 	// Returns true of this is just a public IP destination.
 	IsPublicIP bool `json:"isPublicIP" msgpack:"isPublicIP" bson:"-" mapstructure:"isPublicIP,omitempty"`
 
-	// The nativeID of the destination if it is a cloud node.
+	// The nativeID of the destination (applies to cloud nodes only).
 	NativeID string `json:"nativeID" msgpack:"nativeID" bson:"-" mapstructure:"nativeID,omitempty"`
 
 	// Returns true if the destination is reachable through routing.

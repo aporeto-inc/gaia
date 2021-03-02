@@ -88,7 +88,7 @@ relations:
 - rest_name: cloudgraph
   get:
     description: Initiates a calculation of the query and retrieves the results in
-      cloudgraph.
+      CloudGraph.
 
 - rest_name: cloudpolicy
   get:

@@ -335,7 +335,8 @@ relations:
 
 - rest_name: cloudtopology
   create:
-    description: Creates a cloud toplogy based on ingested data and the required parameters.
+    description: Creates a cloud topology based on ingested data and the required
+      parameters.
 
 - rest_name: cloudvpc
   get:

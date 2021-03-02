@@ -6,7 +6,7 @@ model:
   package: pcn
   group: prisma/infrastructure
   description: |-
-    Cloud attachments provides a means to model relationsips between cloud objects.
+    Cloud attachments provide a means to model relationships between cloud objects.
     For example relationships between Transit Gateways and Transit Gateway
     Attachments.
   get:

@@ -348,7 +348,7 @@ func (o *CloudAttachment) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *CloudAttachment) Doc() string {
 
-	return `Cloud attachments provides a means to model relationsips between cloud objects.
+	return `Cloud attachments provide a means to model relationships between cloud objects.
 For example relationships between Transit Gateways and Transit Gateway
 Attachments.`
 }

@@ -51,7 +51,7 @@ attributes:
     setter: true
 
   - name: relatedObjectID
-    description: Reference to a related object. Usefull in some operations.
+    description: A reference to a related object.
     type: string
     exposed: true
     stored: true
