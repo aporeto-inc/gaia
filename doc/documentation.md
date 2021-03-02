@@ -9099,7 +9099,7 @@ Type: `[]string`
 
 List of tags attached to an entity.
 
-##### `cloudpolicies` [`read_only`]
+##### `cloudpolicies`
 
 Type: `string`
 
@@ -9133,7 +9133,7 @@ Contains the list of normalized tags of the entities.
 
 Type: `string`
 
-TBD.
+Type of notifications.
 
 ##### `protected`
 

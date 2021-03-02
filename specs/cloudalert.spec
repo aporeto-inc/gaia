@@ -32,17 +32,13 @@ attributes:
     description: The list of policies that apply to this alert.
     type: string
     exposed: true
-    read_only: true
+    stored: true
 
   - name: notifications
-    description: TBD.
+    description: Type of notifications.
     type: string
     exposed: true
     stored: true
-    allowed_choices:
-    - Low
-    - Medium
-    - High
 
   - name: targetSelector
     description: |-

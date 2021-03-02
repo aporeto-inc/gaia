@@ -92,7 +92,7 @@ type CloudAlert struct {
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// The list of policies that apply to this alert.
-	Cloudpolicies string `json:"cloudpolicies" msgpack:"cloudpolicies" bson:"-" mapstructure:"cloudpolicies,omitempty"`
+	Cloudpolicies string `json:"cloudpolicies" msgpack:"cloudpolicies" bson:"cloudpolicies" mapstructure:"cloudpolicies,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
@@ -112,7 +112,7 @@ type CloudAlert struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// TBD.
+	// Type of notifications.
 	Notifications string `json:"notifications" msgpack:"notifications" bson:"notifications" mapstructure:"notifications,omitempty"`
 
 	// Defines if the object is protected.
@@ -181,6 +181,7 @@ func (o *CloudAlert) GetBSON() (interface{}, error) {
 	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
+	s.Cloudpolicies = o.Cloudpolicies
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.Description = o.Description
 	s.MigrationsLog = o.MigrationsLog
@@ -213,6 +214,7 @@ func (o *CloudAlert) SetBSON(raw bson.Raw) error {
 	o.ID = s.ID.Hex()
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
+	o.Cloudpolicies = s.Cloudpolicies
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.Description = s.Description
 	o.MigrationsLog = s.MigrationsLog
@@ -574,10 +576,6 @@ func (o *CloudAlert) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("notifications", string(o.Notifications), []string{"Low", "Medium", "High"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := ValidateTagsExpression("targetSelector", o.TargetSelector); err != nil {
 		errors = errors.Append(err)
 	}
@@ -698,11 +696,12 @@ var CloudAlertAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Cloudpolicies": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "cloudpolicies",
 		ConvertedName:  "Cloudpolicies",
 		Description:    `The list of policies that apply to this alert.`,
 		Exposed:        true,
 		Name:           "cloudpolicies",
-		ReadOnly:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"CreateIdempotencyKey": {
@@ -793,10 +792,10 @@ var CloudAlertAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "list",
 	},
 	"Notifications": {
-		AllowedChoices: []string{"Low", "Medium", "High"},
+		AllowedChoices: []string{},
 		BSONFieldName:  "notifications",
 		ConvertedName:  "Notifications",
-		Description:    `TBD.`,
+		Description:    `Type of notifications.`,
 		Exposed:        true,
 		Name:           "notifications",
 		Stored:         true,
@@ -915,11 +914,12 @@ var CloudAlertLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	},
 	"cloudpolicies": {
 		AllowedChoices: []string{},
+		BSONFieldName:  "cloudpolicies",
 		ConvertedName:  "Cloudpolicies",
 		Description:    `The list of policies that apply to this alert.`,
 		Exposed:        true,
 		Name:           "cloudpolicies",
-		ReadOnly:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"createidempotencykey": {
@@ -1010,10 +1010,10 @@ var CloudAlertLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Type:           "list",
 	},
 	"notifications": {
-		AllowedChoices: []string{"Low", "Medium", "High"},
+		AllowedChoices: []string{},
 		BSONFieldName:  "notifications",
 		ConvertedName:  "Notifications",
-		Description:    `TBD.`,
+		Description:    `Type of notifications.`,
 		Exposed:        true,
 		Name:           "notifications",
 		Stored:         true,
@@ -1162,7 +1162,7 @@ type SparseCloudAlert struct {
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// The list of policies that apply to this alert.
-	Cloudpolicies *string `json:"cloudpolicies,omitempty" msgpack:"cloudpolicies,omitempty" bson:"-" mapstructure:"cloudpolicies,omitempty"`
+	Cloudpolicies *string `json:"cloudpolicies,omitempty" msgpack:"cloudpolicies,omitempty" bson:"cloudpolicies,omitempty" mapstructure:"cloudpolicies,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1182,7 +1182,7 @@ type SparseCloudAlert struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// TBD.
+	// Type of notifications.
 	Notifications *string `json:"notifications,omitempty" msgpack:"notifications,omitempty" bson:"notifications,omitempty" mapstructure:"notifications,omitempty"`
 
 	// Defines if the object is protected.
@@ -1254,6 +1254,9 @@ func (o *SparseCloudAlert) GetBSON() (interface{}, error) {
 	if o.AssociatedTags != nil {
 		s.AssociatedTags = o.AssociatedTags
 	}
+	if o.Cloudpolicies != nil {
+		s.Cloudpolicies = o.Cloudpolicies
+	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	}
@@ -1314,6 +1317,9 @@ func (o *SparseCloudAlert) SetBSON(raw bson.Raw) error {
 	}
 	if s.AssociatedTags != nil {
 		o.AssociatedTags = s.AssociatedTags
+	}
+	if s.Cloudpolicies != nil {
+		o.Cloudpolicies = s.Cloudpolicies
 	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
@@ -1637,6 +1643,7 @@ type mongoAttributesCloudAlert struct {
 	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
+	Cloudpolicies        string              `bson:"cloudpolicies"`
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
 	Description          string              `bson:"description"`
 	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
@@ -1654,6 +1661,7 @@ type mongoAttributesSparseCloudAlert struct {
 	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
+	Cloudpolicies        *string              `bson:"cloudpolicies,omitempty"`
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
 	Description          *string              `bson:"description,omitempty"`
 	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
