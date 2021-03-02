@@ -226,7 +226,8 @@ Palo
 PasswordReset
 PCC
 PCCProvider
-PCSearchResults
+PCSearchResult
+PCTimeRange
 PEM-encoded
 PKI-based
 PKIXName

@@ -8,8 +8,8 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PCSearchResultsIdentity represents the Identity of the object.
-var PCSearchResultsIdentity = elemental.Identity{
+// PCSearchResultIdentity represents the Identity of the object.
+var PCSearchResultIdentity = elemental.Identity{
 	Name:     "pcsearchresult",
 	Category: "pcsearchresults",
 	Package:  "karl",
@@ -17,12 +17,12 @@ var PCSearchResultsIdentity = elemental.Identity{
 }
 
 // PCSearchResultsList represents a list of PCSearchResults
-type PCSearchResultsList []*PCSearchResults
+type PCSearchResultsList []*PCSearchResult
 
 // Identity returns the identity of the objects in the list.
 func (o PCSearchResultsList) Identity() elemental.Identity {
 
-	return PCSearchResultsIdentity
+	return PCSearchResultIdentity
 }
 
 // Copy returns a pointer to a copy the PCSearchResultsList.
@@ -37,7 +37,7 @@ func (o PCSearchResultsList) Append(objects ...elemental.Identifiable) elemental
 
 	out := append(PCSearchResultsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*PCSearchResults))
+		out = append(out, obj.(*PCSearchResult))
 	}
 
 	return out
@@ -66,7 +66,7 @@ func (o PCSearchResultsList) ToSparse(fields ...string) elemental.Identifiables 
 
 	out := make(SparsePCSearchResultsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparsePCSearchResults)
+		out[i] = o[i].ToSparse(fields...).(*SparsePCSearchResult)
 	}
 
 	return out
@@ -78,8 +78,8 @@ func (o PCSearchResultsList) Version() int {
 	return 1
 }
 
-// PCSearchResults represents the model of a pcsearchresult
-type PCSearchResults struct {
+// PCSearchResult represents the model of a pcsearchresult
+type PCSearchResult struct {
 	// The payload of the search result.
 	Items *ReportsQuery `json:"items" msgpack:"items" bson:"-" mapstructure:"items,omitempty"`
 
@@ -92,54 +92,54 @@ type PCSearchResults struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewPCSearchResults returns a new *PCSearchResults
-func NewPCSearchResults() *PCSearchResults {
+// NewPCSearchResult returns a new *PCSearchResult
+func NewPCSearchResult() *PCSearchResult {
 
-	return &PCSearchResults{
+	return &PCSearchResult{
 		ModelVersion: 1,
 		Items:        NewReportsQuery(),
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *PCSearchResults) Identity() elemental.Identity {
+func (o *PCSearchResult) Identity() elemental.Identity {
 
-	return PCSearchResultsIdentity
+	return PCSearchResultIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *PCSearchResults) Identifier() string {
+func (o *PCSearchResult) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *PCSearchResults) SetIdentifier(id string) {
+func (o *PCSearchResult) SetIdentifier(id string) {
 
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *PCSearchResults) GetBSON() (interface{}, error) {
+func (o *PCSearchResult) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesPCSearchResults{}
+	s := &mongoAttributesPCSearchResult{}
 
 	return s, nil
 }
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *PCSearchResults) SetBSON(raw bson.Raw) error {
+func (o *PCSearchResult) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesPCSearchResults{}
+	s := &mongoAttributesPCSearchResult{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -148,48 +148,48 @@ func (o *PCSearchResults) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *PCSearchResults) Version() int {
+func (o *PCSearchResult) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *PCSearchResults) BleveType() string {
+func (o *PCSearchResult) BleveType() string {
 
 	return "pcsearchresult"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *PCSearchResults) DefaultOrder() []string {
+func (o *PCSearchResult) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *PCSearchResults) Doc() string {
+func (o *PCSearchResult) Doc() string {
 
 	return `Represents the result data of RQL search.`
 }
 
-func (o *PCSearchResults) String() string {
+func (o *PCSearchResult) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *PCSearchResults) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *PCSearchResult) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparsePCSearchResults{
+		return &SparsePCSearchResult{
 			Items:         o.Items,
 			NextPageToken: &o.NextPageToken,
 			TotalRows:     &o.TotalRows,
 		}
 	}
 
-	sp := &SparsePCSearchResults{}
+	sp := &SparsePCSearchResult{}
 	for _, f := range fields {
 		switch f {
 		case "items":
@@ -204,13 +204,13 @@ func (o *PCSearchResults) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	return sp
 }
 
-// Patch apply the non nil value of a *SparsePCSearchResults to the object.
-func (o *PCSearchResults) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparsePCSearchResult to the object.
+func (o *PCSearchResult) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparsePCSearchResults)
+	so := sparse.(*SparsePCSearchResult)
 	if so.Items != nil {
 		o.Items = so.Items
 	}
@@ -222,32 +222,32 @@ func (o *PCSearchResults) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the PCSearchResults.
-func (o *PCSearchResults) DeepCopy() *PCSearchResults {
+// DeepCopy returns a deep copy if the PCSearchResult.
+func (o *PCSearchResult) DeepCopy() *PCSearchResult {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &PCSearchResults{}
+	out := &PCSearchResult{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *PCSearchResults.
-func (o *PCSearchResults) DeepCopyInto(out *PCSearchResults) {
+// DeepCopyInto copies the receiver into the given *PCSearchResult.
+func (o *PCSearchResult) DeepCopyInto(out *PCSearchResult) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy PCSearchResults: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy PCSearchResult: %s", err))
 	}
 
-	*out = *target.(*PCSearchResults)
+	*out = *target.(*PCSearchResult)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *PCSearchResults) Validate() error {
+func (o *PCSearchResult) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -271,26 +271,26 @@ func (o *PCSearchResults) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*PCSearchResults) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*PCSearchResult) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := PCSearchResultsAttributesMap[name]; ok {
+	if v, ok := PCSearchResultAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return PCSearchResultsLowerCaseAttributesMap[name]
+	return PCSearchResultLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*PCSearchResults) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*PCSearchResult) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return PCSearchResultsAttributesMap
+	return PCSearchResultAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *PCSearchResults) ValueForAttribute(name string) interface{} {
+func (o *PCSearchResult) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "items":
@@ -304,8 +304,8 @@ func (o *PCSearchResults) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// PCSearchResultsAttributesMap represents the map of attribute for PCSearchResults.
-var PCSearchResultsAttributesMap = map[string]elemental.AttributeSpecification{
+// PCSearchResultAttributesMap represents the map of attribute for PCSearchResult.
+var PCSearchResultAttributesMap = map[string]elemental.AttributeSpecification{
 	"Items": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Items",
@@ -336,8 +336,8 @@ var PCSearchResultsAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// PCSearchResultsLowerCaseAttributesMap represents the map of attribute for PCSearchResults.
-var PCSearchResultsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// PCSearchResultLowerCaseAttributesMap represents the map of attribute for PCSearchResult.
+var PCSearchResultLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"items": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Items",
@@ -369,12 +369,12 @@ var PCSearchResultsLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 }
 
 // SparsePCSearchResultsList represents a list of SparsePCSearchResults
-type SparsePCSearchResultsList []*SparsePCSearchResults
+type SparsePCSearchResultsList []*SparsePCSearchResult
 
 // Identity returns the identity of the objects in the list.
 func (o SparsePCSearchResultsList) Identity() elemental.Identity {
 
-	return PCSearchResultsIdentity
+	return PCSearchResultIdentity
 }
 
 // Copy returns a pointer to a copy the SparsePCSearchResultsList.
@@ -389,7 +389,7 @@ func (o SparsePCSearchResultsList) Append(objects ...elemental.Identifiable) ele
 
 	out := append(SparsePCSearchResultsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparsePCSearchResults))
+		out = append(out, obj.(*SparsePCSearchResult))
 	}
 
 	return out
@@ -429,8 +429,8 @@ func (o SparsePCSearchResultsList) Version() int {
 	return 1
 }
 
-// SparsePCSearchResults represents the sparse version of a pcsearchresult.
-type SparsePCSearchResults struct {
+// SparsePCSearchResult represents the sparse version of a pcsearchresult.
+type SparsePCSearchResult struct {
 	// The payload of the search result.
 	Items *ReportsQuery `json:"items,omitempty" msgpack:"items,omitempty" bson:"-" mapstructure:"items,omitempty"`
 
@@ -443,50 +443,50 @@ type SparsePCSearchResults struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparsePCSearchResults returns a new  SparsePCSearchResults.
-func NewSparsePCSearchResults() *SparsePCSearchResults {
-	return &SparsePCSearchResults{}
+// NewSparsePCSearchResult returns a new  SparsePCSearchResult.
+func NewSparsePCSearchResult() *SparsePCSearchResult {
+	return &SparsePCSearchResult{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparsePCSearchResults) Identity() elemental.Identity {
+func (o *SparsePCSearchResult) Identity() elemental.Identity {
 
-	return PCSearchResultsIdentity
+	return PCSearchResultIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparsePCSearchResults) Identifier() string {
+func (o *SparsePCSearchResult) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparsePCSearchResults) SetIdentifier(id string) {
+func (o *SparsePCSearchResult) SetIdentifier(id string) {
 
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparsePCSearchResults) GetBSON() (interface{}, error) {
+func (o *SparsePCSearchResult) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparsePCSearchResults{}
+	s := &mongoAttributesSparsePCSearchResult{}
 
 	return s, nil
 }
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparsePCSearchResults) SetBSON(raw bson.Raw) error {
+func (o *SparsePCSearchResult) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparsePCSearchResults{}
+	s := &mongoAttributesSparsePCSearchResult{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -495,15 +495,15 @@ func (o *SparsePCSearchResults) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparsePCSearchResults) Version() int {
+func (o *SparsePCSearchResult) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparsePCSearchResults) ToPlain() elemental.PlainIdentifiable {
+func (o *SparsePCSearchResult) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewPCSearchResults()
+	out := NewPCSearchResult()
 	if o.Items != nil {
 		out.Items = o.Items
 	}
@@ -517,31 +517,31 @@ func (o *SparsePCSearchResults) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
-// DeepCopy returns a deep copy if the SparsePCSearchResults.
-func (o *SparsePCSearchResults) DeepCopy() *SparsePCSearchResults {
+// DeepCopy returns a deep copy if the SparsePCSearchResult.
+func (o *SparsePCSearchResult) DeepCopy() *SparsePCSearchResult {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparsePCSearchResults{}
+	out := &SparsePCSearchResult{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparsePCSearchResults.
-func (o *SparsePCSearchResults) DeepCopyInto(out *SparsePCSearchResults) {
+// DeepCopyInto copies the receiver into the given *SparsePCSearchResult.
+func (o *SparsePCSearchResult) DeepCopyInto(out *SparsePCSearchResult) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparsePCSearchResults: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparsePCSearchResult: %s", err))
 	}
 
-	*out = *target.(*SparsePCSearchResults)
+	*out = *target.(*SparsePCSearchResult)
 }
 
-type mongoAttributesPCSearchResults struct {
+type mongoAttributesPCSearchResult struct {
 }
-type mongoAttributesSparsePCSearchResults struct {
+type mongoAttributesSparsePCSearchResult struct {
 }

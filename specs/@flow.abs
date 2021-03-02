@@ -229,7 +229,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    required: true
+    required: false
     example_value: 6
     omit_empty: true
     extensions:

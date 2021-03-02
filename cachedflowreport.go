@@ -843,10 +843,6 @@ func (o *CachedFlowReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredInt("protocol", o.Protocol); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateStringInList("serviceType", string(o.ServiceType), []string{"L3", "HTTP", "TCP", "NotApplicable"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -1263,7 +1259,6 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Description:    `Protocol number.`,
 		Exposed:        true,
 		Name:           "protocol",
-		Required:       true,
 		Stored:         true,
 		Type:           "integer",
 	},
@@ -1723,7 +1718,6 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Description:    `Protocol number.`,
 		Exposed:        true,
 		Name:           "protocol",
-		Required:       true,
 		Stored:         true,
 		Type:           "integer",
 	},

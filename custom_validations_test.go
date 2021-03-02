@@ -1191,17 +1191,41 @@ func TestValidateEnforcerProfile(t *testing.T) {
 			"valid target UDP network",
 			&EnforcerProfile{
 				Name:              "Valid target UDP network",
-				TargetUDPNetworks: []string{"0.0.0.0/0"},
+				TargetUDPNetworks: []string{"0.0.0.0/0", "!224.0.0.0/4"},
 			},
 			false,
+		},
+		{
+			"Invalid target UDP network, 0.0.0.0/0",
+			&EnforcerProfile{
+				Name:              "Valid target UDP network",
+				TargetUDPNetworks: []string{"0.0.0.0/0", "224.0.0.0/4"},
+			},
+			true,
 		},
 		{
 			"valid target UDP networks with except condition operator",
 			&EnforcerProfile{
 				Name:              "Valid target UDP network",
-				TargetUDPNetworks: []string{"0.0.0.0/0", "!10.0.0.0/8"},
+				TargetUDPNetworks: []string{"0.0.0.0/0", "!10.0.0.0/8", "!224.0.0.0/4"},
 			},
 			false,
+		},
+		{
+			"valid target UDP networks with implicitly ignoring multicast range",
+			&EnforcerProfile{
+				Name:              "Valid target UDP network",
+				TargetUDPNetworks: []string{"0.0.0.0/0", "!128.0.0.0/1"},
+			},
+			false,
+		},
+		{
+			"Invalid target UDP networks with a list CIDR containing multicast range",
+			&EnforcerProfile{
+				Name:              "Valid target UDP network",
+				TargetUDPNetworks: []string{"0.0.0.0/0", "128.0.0.0/1"},
+			},
+			true,
 		},
 		{
 			"invalid target UDP network",

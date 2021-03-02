@@ -84,7 +84,7 @@ type CNSSearch struct {
 	ID string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
 
 	// The payload of the search results.
-	Data *PCSearchResults `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
+	Data *PCSearchResult `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	// Description of the search.
 	Description string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
@@ -113,6 +113,10 @@ type CNSSearch struct {
 	// Absolute start time of search, in UNIX time.
 	StartAbsolute int `json:"startAbsolute" msgpack:"startAbsolute" bson:"-" mapstructure:"startAbsolute,omitempty"`
 
+	// Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
+	// to PC backend.
+	TimeRange *PCTimeRange `json:"timeRange" msgpack:"timeRange" bson:"-" mapstructure:"timeRange,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -121,10 +125,11 @@ func NewCNSSearch() *CNSSearch {
 
 	return &CNSSearch{
 		ModelVersion:  1,
-		Data:          NewPCSearchResults(),
+		Data:          NewPCSearchResult(),
 		EndAbsolute:   0,
 		Limit:         100,
 		StartAbsolute: 0,
+		TimeRange:     NewPCTimeRange(),
 	}
 }
 
@@ -221,6 +226,7 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Saved:         &o.Saved,
 			SearchType:    &o.SearchType,
 			StartAbsolute: &o.StartAbsolute,
+			TimeRange:     o.TimeRange,
 		}
 	}
 
@@ -249,6 +255,8 @@ func (o *CNSSearch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.SearchType = &(o.SearchType)
 		case "startAbsolute":
 			sp.StartAbsolute = &(o.StartAbsolute)
+		case "timeRange":
+			sp.TimeRange = o.TimeRange
 		}
 	}
 
@@ -294,6 +302,9 @@ func (o *CNSSearch) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.StartAbsolute != nil {
 		o.StartAbsolute = *so.StartAbsolute
+	}
+	if so.TimeRange != nil {
+		o.TimeRange = so.TimeRange
 	}
 }
 
@@ -344,6 +355,13 @@ func (o *CNSSearch) Validate() error {
 
 	if err := elemental.ValidateRequiredInt("startAbsolute", o.StartAbsolute); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if o.TimeRange != nil {
+		elemental.ResetDefaultForZeroValues(o.TimeRange)
+		if err := o.TimeRange.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -402,6 +420,8 @@ func (o *CNSSearch) ValueForAttribute(name string) interface{} {
 		return o.SearchType
 	case "startAbsolute":
 		return o.StartAbsolute
+	case "timeRange":
+		return o.TimeRange
 	}
 
 	return nil
@@ -502,6 +522,16 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "integer",
 	},
+	"TimeRange": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TimeRange",
+		Description: `Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
+to PC backend.`,
+		Exposed: true,
+		Name:    "timeRange",
+		SubType: "pctimerange",
+		Type:    "ref",
+	},
 }
 
 // CNSSearchLowerCaseAttributesMap represents the map of attribute for CNSSearch.
@@ -599,6 +629,16 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Required:       true,
 		Type:           "integer",
 	},
+	"timerange": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TimeRange",
+		Description: `Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
+to PC backend.`,
+		Exposed: true,
+		Name:    "timeRange",
+		SubType: "pctimerange",
+		Type:    "ref",
+	},
 }
 
 // SparseCNSSearchesList represents a list of SparseCNSSearches
@@ -668,7 +708,7 @@ type SparseCNSSearch struct {
 	ID *string `json:"id,omitempty" msgpack:"id,omitempty" bson:"-" mapstructure:"id,omitempty"`
 
 	// The payload of the search results.
-	Data *PCSearchResults `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data *PCSearchResult `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// Description of the search.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
@@ -696,6 +736,10 @@ type SparseCNSSearch struct {
 
 	// Absolute start time of search, in UNIX time.
 	StartAbsolute *int `json:"startAbsolute,omitempty" msgpack:"startAbsolute,omitempty" bson:"-" mapstructure:"startAbsolute,omitempty"`
+
+	// Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
+	// to PC backend.
+	TimeRange *PCTimeRange `json:"timeRange,omitempty" msgpack:"timeRange,omitempty" bson:"-" mapstructure:"timeRange,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -793,6 +837,9 @@ func (o *SparseCNSSearch) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.StartAbsolute != nil {
 		out.StartAbsolute = *o.StartAbsolute
+	}
+	if o.TimeRange != nil {
+		out.TimeRange = o.TimeRange
 	}
 
 	return out

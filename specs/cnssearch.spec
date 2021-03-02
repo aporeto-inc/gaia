@@ -82,3 +82,13 @@ attributes:
     exposed: true
     required: true
     default_value: 0
+
+  - name: timeRange
+    description: |-
+      Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
+      to PC backend.
+    type: ref
+    exposed: true
+    subtype: pctimerange
+    extensions:
+      refMode: pointer

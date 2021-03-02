@@ -117,6 +117,9 @@ type SAMLProvider struct {
 	// given, the default will be used.
 	Default bool `json:"default" msgpack:"default" bson:"default" mapstructure:"default,omitempty"`
 
+	// Description of the object.
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -156,10 +159,10 @@ func NewSAMLProvider() *SAMLProvider {
 
 	return &SAMLProvider{
 		ModelVersion:   1,
-		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		MigrationsLog:  map[string]string{},
+		Annotations:    map[string][]string{},
 		NormalizedTags: []string{},
+		MigrationsLog:  map[string]string{},
 		Subjects:       []string{},
 	}
 }
@@ -203,6 +206,7 @@ func (o *SAMLProvider) GetBSON() (interface{}, error) {
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CreateTime = o.CreateTime
 	s.Default = o.Default
+	s.Description = o.Description
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
@@ -239,6 +243,7 @@ func (o *SAMLProvider) SetBSON(raw bson.Raw) error {
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CreateTime = s.CreateTime
 	o.Default = s.Default
+	o.Description = s.Description
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
@@ -331,6 +336,18 @@ func (o *SAMLProvider) GetCreateTime() time.Time {
 func (o *SAMLProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SAMLProvider) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *SAMLProvider) SetDescription(description string) {
+
+	o.Description = description
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -458,6 +475,7 @@ func (o *SAMLProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			Default:              &o.Default,
+			Description:          &o.Description,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -494,6 +512,8 @@ func (o *SAMLProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateTime = &(o.CreateTime)
 		case "default":
 			sp.Default = &(o.Default)
+		case "description":
+			sp.Description = &(o.Description)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -556,6 +576,9 @@ func (o *SAMLProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Default != nil {
 		o.Default = *so.Default
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -620,6 +643,10 @@ func (o *SAMLProvider) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -690,6 +717,8 @@ func (o *SAMLProvider) ValueForAttribute(name string) interface{} {
 		return o.CreateTime
 	case "default":
 		return o.Default
+	case "description":
+		return o.Description
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -837,6 +866,20 @@ given, the default will be used.`,
 		Name:    "default",
 		Stored:  true,
 		Type:    "boolean",
+	},
+	"Description": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "description",
+		ConvertedName:  "Description",
+		Description:    `Description of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -1103,6 +1146,20 @@ given, the default will be used.`,
 		Stored:  true,
 		Type:    "boolean",
 	},
+	"description": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "description",
+		ConvertedName:  "Description",
+		Description:    `Description of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"migrationslog": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "migrationslog",
@@ -1344,6 +1401,9 @@ type SparseSAMLProvider struct {
 	// given, the default will be used.
 	Default *bool `json:"default,omitempty" msgpack:"default,omitempty" bson:"default,omitempty" mapstructure:"default,omitempty"`
 
+	// Description of the object.
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -1445,6 +1505,9 @@ func (o *SparseSAMLProvider) GetBSON() (interface{}, error) {
 	if o.Default != nil {
 		s.Default = o.Default
 	}
+	if o.Description != nil {
+		s.Description = o.Description
+	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -1517,6 +1580,9 @@ func (o *SparseSAMLProvider) SetBSON(raw bson.Raw) error {
 	}
 	if s.Default != nil {
 		o.Default = s.Default
+	}
+	if s.Description != nil {
+		o.Description = s.Description
 	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
@@ -1591,6 +1657,9 @@ func (o *SparseSAMLProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Default != nil {
 		out.Default = *o.Default
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1688,6 +1757,22 @@ func (o *SparseSAMLProvider) GetCreateTime() (out time.Time) {
 func (o *SparseSAMLProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseSAMLProvider) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseSAMLProvider) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -1868,6 +1953,7 @@ type mongoAttributesSAMLProvider struct {
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
 	CreateTime           time.Time           `bson:"createtime"`
 	Default              bool                `bson:"default"`
+	Description          string              `bson:"description"`
 	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
@@ -1889,6 +1975,7 @@ type mongoAttributesSparseSAMLProvider struct {
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
 	CreateTime           *time.Time           `bson:"createtime,omitempty"`
 	Default              *bool                `bson:"default,omitempty"`
+	Description          *string              `bson:"description,omitempty"`
 	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 *string              `bson:"name,omitempty"`
 	Namespace            *string              `bson:"namespace,omitempty"`

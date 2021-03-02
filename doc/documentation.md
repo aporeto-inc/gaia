@@ -1614,8 +1614,8 @@ Performs a logout operation.
 
 ### OIDCProvider
 
-Allows you to declare a generic OpenID Connect (OIDC) provider that can be used in
-exchange for a Midgard token.
+Allows you to declare a generic OpenID Connect (OIDC) provider that can be used
+in exchange for a Midgard token.
 
 #### Example
 
@@ -1731,6 +1731,12 @@ Type: `boolean`
 If set, this will be the default OIDC provider. There can be only one default
 provider in your account. When logging in with OIDC, if no provider name is
 given, the default will be used.
+
+##### `description` [`max_length=1024`]
+
+Type: `string`
+
+Description of the object.
 
 ##### `endpoint` [`required`]
 
@@ -2052,6 +2058,12 @@ Type: `boolean`
 If set, this will be the default SAML provider. There can be only one default
 provider in your account. When logging in with SAML, if no provider name is
 given, the default will be used.
+
+##### `description` [`max_length=1024`]
+
+Type: `string`
+
+Description of the object.
 
 ##### `name` [`required`,`max_length=256`]
 
@@ -7168,6 +7180,13 @@ Default value:
 0
 ```
 
+##### `timeRange`
+
+Type: [`pctimerange`](#pctimerange)
+
+Time range used by PC APIs. Its type is dynamic. Aporeto needs to pass this data
+to PC backend.
+
 ### CNSSuggestion
 
 Provides query suggestions for Prisma Cloud's investigate page.
@@ -7256,7 +7275,7 @@ Default value:
 false
 ```
 
-### PCSearchResults
+### PCSearchResult
 
 Represents the result data of RQL search.
 
@@ -7279,6 +7298,30 @@ The pagination token for next page.
 Type: `integer`
 
 The total number of result items.
+
+### PCTimeRange
+
+Represents the time range parameter of PC.
+
+#### Attributes
+
+##### `relativeTimeType` [`read_only`]
+
+Type: `string`
+
+The type of relative time.
+
+##### `type` [`read_only`]
+
+Type: `string`
+
+The type of time range.
+
+##### `value` [`read_only`]
+
+Type: `pctimevalue`
+
+The value of time range.
 
 ## core/tag
 
@@ -13021,7 +13064,7 @@ Type: `string`
 
 Namespace of the network policy that accepted the flow.
 
-##### `protocol` [`required`]
+##### `protocol`
 
 Type: `integer`
 
@@ -13702,7 +13745,7 @@ Type: `string`
 
 Namespace of the network policy that accepted the flow.
 
-##### `protocol` [`required`]
+##### `protocol`
 
 Type: `integer`
 

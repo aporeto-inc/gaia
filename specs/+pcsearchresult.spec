@@ -2,7 +2,7 @@
 model:
   rest_name: pcsearchresult
   resource_name: pcsearchresults
-  entity_name: PCSearchResults
+  entity_name: PCSearchResult
   package: karl
   group: core/rql
   description: Represents the result data of RQL search.

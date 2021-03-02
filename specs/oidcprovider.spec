@@ -6,8 +6,8 @@ model:
   package: cactuar
   group: core/authentication
   description: |-
-    Allows you to declare a generic OpenID Connect (OIDC) provider that can be used in
-    exchange for a Midgard token.
+    Allows you to declare a generic OpenID Connect (OIDC) provider that can be used
+    in exchange for a Midgard token.
   get:
     description: Retrieves the provider with the given ID.
   update:
@@ -21,6 +21,7 @@ model:
   - '@migratable'
   - '@base'
   - '@namespaced'
+  - '@described'
   - '@identifiable-stored'
   - '@timeable'
   - '@named'
