@@ -5335,6 +5335,29 @@ Type: `string`
 
 Namespace tag attached to an entity.
 
+### TagPrefix
+
+Returns the tagprefixes of the specified namespace.
+
+#### Relations
+
+##### `GET /tagprefixes`
+
+Returns the tag prefixes of the specified namespace.
+
+##### `POST /tagprefixes`
+
+Modify the tag prefixes of the specified namespace.
+
+#### Attributes
+
+##### `prefixes`
+
+Type: `[]string`
+
+List of tag prefixes that will be used to suggest policies. Only these tags will
+be transmitted on the wire.
+
 ## core/policy
 
 ### ClauseMatch
