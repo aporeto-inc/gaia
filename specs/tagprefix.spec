@@ -5,7 +5,7 @@ model:
   entity_name: TagPrefix
   package: squall
   group: core/namespace
-  description: Returns the tagprefixes of the specified namespace.
+  description: Returns the tag prefixes of the specified namespace.
 
 # Attributes
 attributes:

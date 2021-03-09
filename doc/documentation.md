@@ -5337,7 +5337,7 @@ Namespace tag attached to an entity.
 
 ### TagPrefix
 
-Returns the tagprefixes of the specified namespace.
+Returns the tag prefixes of the specified namespace.
 
 #### Relations
 

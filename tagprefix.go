@@ -167,7 +167,7 @@ func (o *TagPrefix) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *TagPrefix) Doc() string {
 
-	return `Returns the tagprefixes of the specified namespace.`
+	return `Returns the tag prefixes of the specified namespace.`
 }
 
 func (o *TagPrefix) String() string {
