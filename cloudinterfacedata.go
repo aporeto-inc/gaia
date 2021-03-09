@@ -12,20 +12,41 @@ import (
 type CloudInterfaceDataAttachmentTypeValue string
 
 const (
+	// CloudInterfaceDataAttachmentTypeAPIGatewayManaged represents the value APIGatewayManaged.
+	CloudInterfaceDataAttachmentTypeAPIGatewayManaged CloudInterfaceDataAttachmentTypeValue = "APIGatewayManaged"
+
+	// CloudInterfaceDataAttachmentTypeEFA represents the value EFA.
+	CloudInterfaceDataAttachmentTypeEFA CloudInterfaceDataAttachmentTypeValue = "EFA"
+
 	// CloudInterfaceDataAttachmentTypeGateway represents the value Gateway.
 	CloudInterfaceDataAttachmentTypeGateway CloudInterfaceDataAttachmentTypeValue = "Gateway"
+
+	// CloudInterfaceDataAttachmentTypeGatewayLoadBalancer represents the value GatewayLoadBalancer.
+	CloudInterfaceDataAttachmentTypeGatewayLoadBalancer CloudInterfaceDataAttachmentTypeValue = "GatewayLoadBalancer"
+
+	// CloudInterfaceDataAttachmentTypeGatewayLoadBalancerEndpoint represents the value GatewayLoadBalancerEndpoint.
+	CloudInterfaceDataAttachmentTypeGatewayLoadBalancerEndpoint CloudInterfaceDataAttachmentTypeValue = "GatewayLoadBalancerEndpoint"
 
 	// CloudInterfaceDataAttachmentTypeInstance represents the value Instance.
 	CloudInterfaceDataAttachmentTypeInstance CloudInterfaceDataAttachmentTypeValue = "Instance"
 
+	// CloudInterfaceDataAttachmentTypeLambda represents the value Lambda.
+	CloudInterfaceDataAttachmentTypeLambda CloudInterfaceDataAttachmentTypeValue = "Lambda"
+
 	// CloudInterfaceDataAttachmentTypeLoadBalancer represents the value LoadBalancer.
 	CloudInterfaceDataAttachmentTypeLoadBalancer CloudInterfaceDataAttachmentTypeValue = "LoadBalancer"
+
+	// CloudInterfaceDataAttachmentTypeNetworkLoadBalancer represents the value NetworkLoadBalancer.
+	CloudInterfaceDataAttachmentTypeNetworkLoadBalancer CloudInterfaceDataAttachmentTypeValue = "NetworkLoadBalancer"
 
 	// CloudInterfaceDataAttachmentTypeService represents the value Service.
 	CloudInterfaceDataAttachmentTypeService CloudInterfaceDataAttachmentTypeValue = "Service"
 
 	// CloudInterfaceDataAttachmentTypeTransitGatewayVPCAttachment represents the value TransitGatewayVPCAttachment.
 	CloudInterfaceDataAttachmentTypeTransitGatewayVPCAttachment CloudInterfaceDataAttachmentTypeValue = "TransitGatewayVPCAttachment"
+
+	// CloudInterfaceDataAttachmentTypeVPCEndpoint represents the value VPCEndpoint.
+	CloudInterfaceDataAttachmentTypeVPCEndpoint CloudInterfaceDataAttachmentTypeValue = "VPCEndpoint"
 )
 
 // CloudInterfaceData represents the model of a cloudinterfacedata
@@ -149,7 +170,7 @@ func (o *CloudInterfaceData) Validate() error {
 		}
 	}
 
-	if err := elemental.ValidateStringInList("attachmentType", string(o.AttachmentType), []string{"Instance", "LoadBalancer", "Gateway", "Service", "TransitGatewayVPCAttachment"}, false); err != nil {
+	if err := elemental.ValidateStringInList("attachmentType", string(o.AttachmentType), []string{"Instance", "LoadBalancer", "Gateway", "Service", "TransitGatewayVPCAttachment", "NetworkLoadBalancer", "Lambda", "GatewayLoadBalancer", "GatewayLoadBalancerEndpoint", "VPCEndpoint", "APIGatewayManaged", "EFA"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 

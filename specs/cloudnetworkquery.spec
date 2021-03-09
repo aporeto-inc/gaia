@@ -63,6 +63,14 @@ attributes:
     extensions:
       refMode: pointer
 
+  - name: excludeEnterpriseIPs
+    description: |-
+      If set, the evaluation will exclude enterprise IPs from the effective
+      permissions.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: rawRQL
     description: The RQL string for this query as a reference.
     type: string

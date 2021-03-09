@@ -51,6 +51,17 @@ type CloudNetworkQueryFilter struct {
 	// different meaning depending on the target cloud.
 	SecurityTags []string `json:"SecurityTags" msgpack:"SecurityTags" bson:"securitytags" mapstructure:"SecurityTags,omitempty"`
 
+	// For interface objects, ServiceOwners can identify the owner of the service that
+	// the
+	// interface is attached to. Field is not valid if the resource type is not an
+	// interface.
+	ServiceOwners []string `json:"ServiceOwners" msgpack:"ServiceOwners" bson:"serviceowners" mapstructure:"ServiceOwners,omitempty"`
+
+	// For interface objects, ServiceTypes can identify the type of service that the
+	// interface is attached to. Field is not valid if the resource type is not an
+	// interface.
+	ServiceTypes []string `json:"ServiceTypes" msgpack:"ServiceTypes" bson:"servicetypes" mapstructure:"ServiceTypes,omitempty"`
+
 	// The subnets where the resources must reside. A subnet parameter can only be
 	// provided for a network interface resource type.
 	Subnets []string `json:"Subnets" msgpack:"Subnets" bson:"subnets" mapstructure:"Subnets,omitempty"`
@@ -69,16 +80,18 @@ type CloudNetworkQueryFilter struct {
 func NewCloudNetworkQueryFilter() *CloudNetworkQueryFilter {
 
 	return &CloudNetworkQueryFilter{
-		ModelVersion: 1,
-		AccountIDs:   []string{},
-		CloudTypes:   []string{},
-		ObjectIDs:    []string{},
-		Regions:      []string{},
-		ResourceType: CloudNetworkQueryFilterResourceTypeInstance,
-		SecurityTags: []string{},
-		Subnets:      []string{},
-		Tags:         []string{},
-		VPCIDs:       []string{},
+		ModelVersion:  1,
+		AccountIDs:    []string{},
+		CloudTypes:    []string{},
+		ObjectIDs:     []string{},
+		Regions:       []string{},
+		ResourceType:  CloudNetworkQueryFilterResourceTypeInstance,
+		SecurityTags:  []string{},
+		ServiceOwners: []string{},
+		ServiceTypes:  []string{},
+		Subnets:       []string{},
+		Tags:          []string{},
+		VPCIDs:        []string{},
 	}
 }
 
@@ -98,6 +111,8 @@ func (o *CloudNetworkQueryFilter) GetBSON() (interface{}, error) {
 	s.Regions = o.Regions
 	s.ResourceType = o.ResourceType
 	s.SecurityTags = o.SecurityTags
+	s.ServiceOwners = o.ServiceOwners
+	s.ServiceTypes = o.ServiceTypes
 	s.Subnets = o.Subnets
 	s.Tags = o.Tags
 	s.VPCIDs = o.VPCIDs
@@ -124,6 +139,8 @@ func (o *CloudNetworkQueryFilter) SetBSON(raw bson.Raw) error {
 	o.Regions = s.Regions
 	o.ResourceType = s.ResourceType
 	o.SecurityTags = s.SecurityTags
+	o.ServiceOwners = s.ServiceOwners
+	o.ServiceTypes = s.ServiceTypes
 	o.Subnets = s.Subnets
 	o.Tags = s.Tags
 	o.VPCIDs = s.VPCIDs
@@ -187,13 +204,15 @@ func (o *CloudNetworkQueryFilter) Validate() error {
 }
 
 type mongoAttributesCloudNetworkQueryFilter struct {
-	AccountIDs   []string                                 `bson:"accountids"`
-	CloudTypes   []string                                 `bson:"cloudtypes"`
-	ObjectIDs    []string                                 `bson:"objectids"`
-	Regions      []string                                 `bson:"regions"`
-	ResourceType CloudNetworkQueryFilterResourceTypeValue `bson:"resourcetype"`
-	SecurityTags []string                                 `bson:"securitytags"`
-	Subnets      []string                                 `bson:"subnets"`
-	Tags         []string                                 `bson:"tags"`
-	VPCIDs       []string                                 `bson:"vpcids"`
+	AccountIDs    []string                                 `bson:"accountids"`
+	CloudTypes    []string                                 `bson:"cloudtypes"`
+	ObjectIDs     []string                                 `bson:"objectids"`
+	Regions       []string                                 `bson:"regions"`
+	ResourceType  CloudNetworkQueryFilterResourceTypeValue `bson:"resourcetype"`
+	SecurityTags  []string                                 `bson:"securitytags"`
+	ServiceOwners []string                                 `bson:"serviceowners"`
+	ServiceTypes  []string                                 `bson:"servicetypes"`
+	Subnets       []string                                 `bson:"subnets"`
+	Tags          []string                                 `bson:"tags"`
+	VPCIDs        []string                                 `bson:"vpcids"`
 }

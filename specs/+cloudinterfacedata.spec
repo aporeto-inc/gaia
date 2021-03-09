@@ -33,6 +33,13 @@ attributes:
     - Gateway
     - Service
     - TransitGatewayVPCAttachment
+    - NetworkLoadBalancer
+    - Lambda
+    - GatewayLoadBalancer
+    - GatewayLoadBalancerEndpoint
+    - VPCEndpoint
+    - APIGatewayManaged
+    - EFA
 
   - name: relatedObjectID
     description: |-

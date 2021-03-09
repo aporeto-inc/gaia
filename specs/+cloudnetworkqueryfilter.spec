@@ -71,6 +71,27 @@ attributes:
     subtype: string
     stored: true
 
+  - name: ServiceOwners
+    description: |-
+      For interface objects, ServiceOwners can identify the owner of the service that
+      the
+      interface is attached to. Field is not valid if the resource type is not an
+      interface.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+
+  - name: ServiceTypes
+    description: |-
+      For interface objects, ServiceTypes can identify the type of service that the
+      interface is attached to. Field is not valid if the resource type is not an
+      interface.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+
   - name: Subnets
     description: |-
       The subnets where the resources must reside. A subnet parameter can only be

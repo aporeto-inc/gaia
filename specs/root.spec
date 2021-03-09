@@ -248,6 +248,22 @@ relations:
       Creates a cloud dependency graph based on ingested data and the required
       parameters.
 
+- rest_name: cloudmanagednetwork
+  get:
+    description: Retrieves the list of cloud attachments.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new cloud attachment.
+    global_parameters:
+    - $filtering
+  update:
+    description: Updates a cloud attachment.
+  delete:
+    description: Deletes a cloud attachment.
+    global_parameters:
+    - $filtering
+
 - rest_name: cloudnetworkinterface
   get:
     description: Retrieve the list of network interfaces associated with the deployment.
