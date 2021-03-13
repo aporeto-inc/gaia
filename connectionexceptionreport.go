@@ -138,6 +138,9 @@ type ConnectionExceptionReport struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
+	// Namespace of the processing unit encountered this exception.
+	Namespace string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"p,omitempty" mapstructure:"namespace,omitempty"`
+
 	// ID of the processing unit encountered this exception.
 	ProcessingUnitID string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"g,omitempty" mapstructure:"processingUnitID,omitempty"`
 
@@ -180,8 +183,8 @@ func NewConnectionExceptionReport() *ConnectionExceptionReport {
 
 	return &ConnectionExceptionReport{
 		ModelVersion:  1,
-		MigrationsLog: map[string]string{},
 		ServiceType:   ConnectionExceptionReportServiceTypeL3,
+		MigrationsLog: map[string]string{},
 	}
 }
 
@@ -223,6 +226,7 @@ func (o *ConnectionExceptionReport) GetBSON() (interface{}, error) {
 	s.EnforcerID = o.EnforcerID
 	s.EnforcerNamespace = o.EnforcerNamespace
 	s.MigrationsLog = o.MigrationsLog
+	s.Namespace = o.Namespace
 	s.ProcessingUnitID = o.ProcessingUnitID
 	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
 	s.Protocol = o.Protocol
@@ -259,6 +263,7 @@ func (o *ConnectionExceptionReport) SetBSON(raw bson.Raw) error {
 	o.EnforcerID = s.EnforcerID
 	o.EnforcerNamespace = s.EnforcerNamespace
 	o.MigrationsLog = s.MigrationsLog
+	o.Namespace = s.Namespace
 	o.ProcessingUnitID = s.ProcessingUnitID
 	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
 	o.Protocol = s.Protocol
@@ -315,6 +320,18 @@ func (o *ConnectionExceptionReport) SetMigrationsLog(migrationsLog map[string]st
 	o.MigrationsLog = migrationsLog
 }
 
+// GetNamespace returns the Namespace of the receiver.
+func (o *ConnectionExceptionReport) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the given value.
+func (o *ConnectionExceptionReport) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
 // GetZHash returns the ZHash of the receiver.
 func (o *ConnectionExceptionReport) GetZHash() int {
 
@@ -354,6 +371,7 @@ func (o *ConnectionExceptionReport) ToSparse(fields ...string) elemental.SparseI
 			EnforcerID:                  &o.EnforcerID,
 			EnforcerNamespace:           &o.EnforcerNamespace,
 			MigrationsLog:               &o.MigrationsLog,
+			Namespace:                   &o.Namespace,
 			ProcessingUnitID:            &o.ProcessingUnitID,
 			ProcessingUnitNamespace:     &o.ProcessingUnitNamespace,
 			Protocol:                    &o.Protocol,
@@ -387,6 +405,8 @@ func (o *ConnectionExceptionReport) ToSparse(fields ...string) elemental.SparseI
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
 		case "processingUnitID":
 			sp.ProcessingUnitID = &(o.ProcessingUnitID)
 		case "processingUnitNamespace":
@@ -445,6 +465,9 @@ func (o *ConnectionExceptionReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
 	}
 	if so.ProcessingUnitID != nil {
 		o.ProcessingUnitID = *so.ProcessingUnitID
@@ -589,6 +612,8 @@ func (o *ConnectionExceptionReport) ValueForAttribute(name string) interface{} {
 		return o.EnforcerNamespace
 	case "migrationsLog":
 		return o.MigrationsLog
+	case "namespace":
+		return o.Namespace
 	case "processingUnitID":
 		return o.ProcessingUnitID
 	case "processingUnitNamespace":
@@ -709,6 +734,20 @@ state.`,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"Namespace": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "p",
+		ConvertedName:  "Namespace",
+		Description:    `Namespace of the processing unit encountered this exception.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "namespace",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"ProcessingUnitID": {
 		AllowedChoices: []string{},
@@ -931,6 +970,20 @@ state.`,
 		SubType:        "map[string]string",
 		Type:           "external",
 	},
+	"namespace": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "p",
+		ConvertedName:  "Namespace",
+		Description:    `Namespace of the processing unit encountered this exception.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "namespace",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"processingunitid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "g",
@@ -1147,6 +1200,9 @@ type SparseConnectionExceptionReport struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
+	// Namespace of the processing unit encountered this exception.
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"p,omitempty" mapstructure:"namespace,omitempty"`
+
 	// ID of the processing unit encountered this exception.
 	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"g,omitempty" mapstructure:"processingUnitID,omitempty"`
 
@@ -1248,6 +1304,9 @@ func (o *SparseConnectionExceptionReport) GetBSON() (interface{}, error) {
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
 	if o.ProcessingUnitID != nil {
 		s.ProcessingUnitID = o.ProcessingUnitID
 	}
@@ -1321,6 +1380,9 @@ func (o *SparseConnectionExceptionReport) SetBSON(raw bson.Raw) error {
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
 	if s.ProcessingUnitID != nil {
 		o.ProcessingUnitID = s.ProcessingUnitID
 	}
@@ -1392,6 +1454,9 @@ func (o *SparseConnectionExceptionReport) ToPlain() elemental.PlainIdentifiable 
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
 	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
 	if o.ProcessingUnitID != nil {
 		out.ProcessingUnitID = *o.ProcessingUnitID
 	}
@@ -1443,6 +1508,22 @@ func (o *SparseConnectionExceptionReport) GetMigrationsLog() (out map[string]str
 func (o *SparseConnectionExceptionReport) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseConnectionExceptionReport) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseConnectionExceptionReport) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
 }
 
 // GetZHash returns the ZHash of the receiver.
@@ -1510,6 +1591,7 @@ type mongoAttributesConnectionExceptionReport struct {
 	EnforcerID                  string                                    `bson:"e,omitempty"`
 	EnforcerNamespace           string                                    `bson:"f,omitempty"`
 	MigrationsLog               map[string]string                         `bson:"migrationslog,omitempty"`
+	Namespace                   string                                    `bson:"p,omitempty"`
 	ProcessingUnitID            string                                    `bson:"g,omitempty"`
 	ProcessingUnitNamespace     string                                    `bson:"h,omitempty"`
 	Protocol                    int                                       `bson:"i,omitempty"`
@@ -1531,6 +1613,7 @@ type mongoAttributesSparseConnectionExceptionReport struct {
 	EnforcerID                  *string                                    `bson:"e,omitempty"`
 	EnforcerNamespace           *string                                    `bson:"f,omitempty"`
 	MigrationsLog               *map[string]string                         `bson:"migrationslog,omitempty"`
+	Namespace                   *string                                    `bson:"p,omitempty"`
 	ProcessingUnitID            *string                                    `bson:"g,omitempty"`
 	ProcessingUnitNamespace     *string                                    `bson:"h,omitempty"`
 	Protocol                    *int                                       `bson:"i,omitempty"`

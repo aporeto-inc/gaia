@@ -2283,6 +2283,7 @@ Post a new counter tracing report.
 {
   "enforcerID": "xxxx-xxx-xxxx",
   "enforcerNamespace": "/my/namespace",
+  "namespace": "/my/namespace",
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
   "timestamp": "2018-06-14T23:10:46.420397985Z"
@@ -2699,6 +2700,12 @@ Type: `integer`
 
 Non-zero counter indicates connections going to and from external networks.
 These may be drops or allowed counters.
+
+##### `namespace` [`read_only`]
+
+Type: `string`
+
+Namespace of the enforcer sending the report.
 
 ##### `policyDrops`
 
@@ -12608,6 +12615,7 @@ Post a new flow log.
   "destinationProcessingUnitID": "xxx-xxx-xxx",
   "enforcerID": "xxx-xxx-xxx",
   "enforcerNamespace": "/my/namespace",
+  "namespace": "/my/namespace",
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
   "protocol": 6,
@@ -12674,6 +12682,12 @@ _This attribute is deprecated_.
 Type: `string`
 
 Namespace of the enforcer.
+
+##### `namespace` [`read_only`]
+
+Type: `string`
+
+Namespace of the processing unit encountered this exception.
 
 ##### `processingUnitID` [`required`]
 
@@ -16563,6 +16577,12 @@ Mandatory Parameters
 Type: [`[]dnslookupreport`](#dnslookupreport)
 
 List of DNSLookupReports.
+
+##### `connectionExceptionReports`
+
+Type: [`[]connectionexceptionreport`](#connectionexceptionreport)
+
+List of ConnectionExceptionReports.
 
 ##### `counterReports`
 

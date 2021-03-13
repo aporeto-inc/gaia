@@ -106,6 +106,9 @@ type ReportsQuery struct {
 	// List of DNSLookupReports.
 	DNSLookupReports DNSLookupReportsList `json:"DNSLookupReports,omitempty" msgpack:"DNSLookupReports,omitempty" bson:"-" mapstructure:"DNSLookupReports,omitempty"`
 
+	// List of ConnectionExceptionReports.
+	ConnectionExceptionReports ConnectionExceptionReportsList `json:"connectionExceptionReports,omitempty" msgpack:"connectionExceptionReports,omitempty" bson:"-" mapstructure:"connectionExceptionReports,omitempty"`
+
 	// List of CounterReports.
 	CounterReports CounterReportsList `json:"counterReports,omitempty" msgpack:"counterReports,omitempty" bson:"-" mapstructure:"counterReports,omitempty"`
 
@@ -131,14 +134,15 @@ type ReportsQuery struct {
 func NewReportsQuery() *ReportsQuery {
 
 	return &ReportsQuery{
-		ModelVersion:     1,
-		CounterReports:   CounterReportsList{},
-		DNSLookupReports: DNSLookupReportsList{},
-		EnforcerReports:  EnforcerReportsList{},
-		EventLogs:        EventLogsList{},
-		FlowReports:      FlowReportsList{},
-		PacketReports:    PacketReportsList{},
-		Report:           ReportsQueryReportFlows,
+		ModelVersion:               1,
+		ConnectionExceptionReports: ConnectionExceptionReportsList{},
+		DNSLookupReports:           DNSLookupReportsList{},
+		CounterReports:             CounterReportsList{},
+		EnforcerReports:            EnforcerReportsList{},
+		EventLogs:                  EventLogsList{},
+		FlowReports:                FlowReportsList{},
+		PacketReports:              PacketReportsList{},
+		Report:                     ReportsQueryReportFlows,
 	}
 }
 
@@ -225,13 +229,14 @@ func (o *ReportsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseReportsQuery{
-			DNSLookupReports: &o.DNSLookupReports,
-			CounterReports:   &o.CounterReports,
-			EnforcerReports:  &o.EnforcerReports,
-			EventLogs:        &o.EventLogs,
-			FlowReports:      &o.FlowReports,
-			PacketReports:    &o.PacketReports,
-			Report:           &o.Report,
+			DNSLookupReports:           &o.DNSLookupReports,
+			ConnectionExceptionReports: &o.ConnectionExceptionReports,
+			CounterReports:             &o.CounterReports,
+			EnforcerReports:            &o.EnforcerReports,
+			EventLogs:                  &o.EventLogs,
+			FlowReports:                &o.FlowReports,
+			PacketReports:              &o.PacketReports,
+			Report:                     &o.Report,
 		}
 	}
 
@@ -240,6 +245,8 @@ func (o *ReportsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "DNSLookupReports":
 			sp.DNSLookupReports = &(o.DNSLookupReports)
+		case "connectionExceptionReports":
+			sp.ConnectionExceptionReports = &(o.ConnectionExceptionReports)
 		case "counterReports":
 			sp.CounterReports = &(o.CounterReports)
 		case "enforcerReports":
@@ -267,6 +274,9 @@ func (o *ReportsQuery) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseReportsQuery)
 	if so.DNSLookupReports != nil {
 		o.DNSLookupReports = *so.DNSLookupReports
+	}
+	if so.ConnectionExceptionReports != nil {
+		o.ConnectionExceptionReports = *so.ConnectionExceptionReports
 	}
 	if so.CounterReports != nil {
 		o.CounterReports = *so.CounterReports
@@ -319,6 +329,16 @@ func (o *ReportsQuery) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	for _, sub := range o.DNSLookupReports {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	for _, sub := range o.ConnectionExceptionReports {
 		if sub == nil {
 			continue
 		}
@@ -418,6 +438,8 @@ func (o *ReportsQuery) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "DNSLookupReports":
 		return o.DNSLookupReports
+	case "connectionExceptionReports":
+		return o.ConnectionExceptionReports
 	case "counterReports":
 		return o.CounterReports
 	case "enforcerReports":
@@ -444,6 +466,15 @@ var ReportsQueryAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "DNSLookupReports",
 		SubType:        "dnslookupreport",
+		Type:           "refList",
+	},
+	"ConnectionExceptionReports": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionExceptionReports",
+		Description:    `List of ConnectionExceptionReports.`,
+		Exposed:        true,
+		Name:           "connectionExceptionReports",
+		SubType:        "connectionexceptionreport",
 		Type:           "refList",
 	},
 	"CounterReports": {
@@ -511,6 +542,15 @@ var ReportsQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Exposed:        true,
 		Name:           "DNSLookupReports",
 		SubType:        "dnslookupreport",
+		Type:           "refList",
+	},
+	"connectionexceptionreports": {
+		AllowedChoices: []string{},
+		ConvertedName:  "ConnectionExceptionReports",
+		Description:    `List of ConnectionExceptionReports.`,
+		Exposed:        true,
+		Name:           "connectionExceptionReports",
+		SubType:        "connectionexceptionreport",
 		Type:           "refList",
 	},
 	"counterreports": {
@@ -635,6 +675,9 @@ type SparseReportsQuery struct {
 	// List of DNSLookupReports.
 	DNSLookupReports *DNSLookupReportsList `json:"DNSLookupReports,omitempty" msgpack:"DNSLookupReports,omitempty" bson:"-" mapstructure:"DNSLookupReports,omitempty"`
 
+	// List of ConnectionExceptionReports.
+	ConnectionExceptionReports *ConnectionExceptionReportsList `json:"connectionExceptionReports,omitempty" msgpack:"connectionExceptionReports,omitempty" bson:"-" mapstructure:"connectionExceptionReports,omitempty"`
+
 	// List of CounterReports.
 	CounterReports *CounterReportsList `json:"counterReports,omitempty" msgpack:"counterReports,omitempty" bson:"-" mapstructure:"counterReports,omitempty"`
 
@@ -719,6 +762,9 @@ func (o *SparseReportsQuery) ToPlain() elemental.PlainIdentifiable {
 	out := NewReportsQuery()
 	if o.DNSLookupReports != nil {
 		out.DNSLookupReports = *o.DNSLookupReports
+	}
+	if o.ConnectionExceptionReports != nil {
+		out.ConnectionExceptionReports = *o.ConnectionExceptionReports
 	}
 	if o.CounterReports != nil {
 		out.CounterReports = *o.CounterReports

@@ -63,6 +63,7 @@ collectionID
 CollectionID
 ComplianceIssue
 ConnectionExceptionReport
+ConnectionExceptionReports
 containerd
 ContainerImage
 CounterReports
