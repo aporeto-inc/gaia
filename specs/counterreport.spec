@@ -10,6 +10,8 @@ model:
   - '@identifiable-stored'
   - '@zoned-monotonic'
   - '@migratable'
+  validations:
+  - $counterreport
 
 # Ordering
 default_order:
@@ -604,11 +606,14 @@ attributes:
       bson_name: bl
 
   - name: enforcerNamespace
-    description: Namespace of the enforcer sending the report.
+    description: |-
+      Namespace of the enforcer sending the report. This field is deprecated. Use the
+      'namespace' field instead.
+      field instead.
     type: string
     exposed: true
     stored: true
-    required: true
+    deprecated: true
     example_value: /my/namespace
     omit_empty: true
     extensions:

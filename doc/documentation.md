@@ -2688,11 +2688,15 @@ Type: `string`
 
 Identifier of the enforcer sending the report.
 
-##### `enforcerNamespace` [`required`]
+##### `enforcerNamespace`
+
+_This attribute is deprecated_.
 
 Type: `string`
 
-Namespace of the enforcer sending the report.
+Namespace of the enforcer sending the report. This field is deprecated. Use the
+'namespace' field instead.
+field instead.
 
 ##### `externalNetworkConnections`
 
@@ -12687,7 +12691,7 @@ Namespace of the enforcer.
 
 Type: `string`
 
-Namespace of the processing unit encountered this exception.
+Namespace of the processing unit that encountered this exception.
 
 ##### `processingUnitID` [`required`]
 
@@ -16616,7 +16620,7 @@ List of PacketReports.
 
 ##### `report`
 
-Type: `enum(Flows | Enforcers | EventLogs | Packets | Counters | DNSLookups)`
+Type: `enum(Flows | Enforcers | EventLogs | Packets | Counters | DNSLookups | ConnectionExceptions)`
 
 Name of the report type to query.
 

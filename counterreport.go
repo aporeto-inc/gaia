@@ -281,7 +281,9 @@ type CounterReport struct {
 	// Identifier of the enforcer sending the report.
 	EnforcerID string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"bl,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the enforcer sending the report.
+	// Namespace of the enforcer sending the report. This field is deprecated. Use the
+	// 'namespace' field instead.
+	// field instead.
 	EnforcerNamespace string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"bm,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Non-zero counter indicates connections going to and from external networks.
@@ -1121,8 +1123,9 @@ func (o *CounterReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("enforcerNamespace", o.EnforcerNamespace); err != nil {
-		requiredErrors = requiredErrors.Append(err)
+	// Custom object validation.
+	if err := ValidateCounterReport(o); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1972,12 +1975,14 @@ rules and queue drops.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "bm",
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the enforcer sending the report.`,
-		Exposed:        true,
-		Name:           "enforcerNamespace",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Deprecated:     true,
+		Description: `Namespace of the enforcer sending the report. This field is deprecated. Use the
+'namespace' field instead.
+field instead.`,
+		Exposed: true,
+		Name:    "enforcerNamespace",
+		Stored:  true,
+		Type:    "string",
 	},
 	"ExternalNetworkConnections": {
 		AllowedChoices: []string{},
@@ -2758,12 +2763,14 @@ rules and queue drops.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "bm",
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the enforcer sending the report.`,
-		Exposed:        true,
-		Name:           "enforcerNamespace",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Deprecated:     true,
+		Description: `Namespace of the enforcer sending the report. This field is deprecated. Use the
+'namespace' field instead.
+field instead.`,
+		Exposed: true,
+		Name:    "enforcerNamespace",
+		Stored:  true,
+		Type:    "string",
 	},
 	"externalnetworkconnections": {
 		AllowedChoices: []string{},
@@ -3149,7 +3156,9 @@ type SparseCounterReport struct {
 	// Identifier of the enforcer sending the report.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"bl,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the enforcer sending the report.
+	// Namespace of the enforcer sending the report. This field is deprecated. Use the
+	// 'namespace' field instead.
+	// field instead.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"bm,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Non-zero counter indicates connections going to and from external networks.

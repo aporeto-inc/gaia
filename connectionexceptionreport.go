@@ -138,7 +138,7 @@ type ConnectionExceptionReport struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
-	// Namespace of the processing unit encountered this exception.
+	// Namespace of the processing unit that encountered this exception.
 	Namespace string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"p,omitempty" mapstructure:"namespace,omitempty"`
 
 	// ID of the processing unit encountered this exception.
@@ -562,6 +562,11 @@ func (o *ConnectionExceptionReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	// Custom object validation.
+	if err := ValidateConnectionExceptionReport(o); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -739,7 +744,7 @@ state.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "p",
 		ConvertedName:  "Namespace",
-		Description:    `Namespace of the processing unit encountered this exception.`,
+		Description:    `Namespace of the processing unit that encountered this exception.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -974,7 +979,7 @@ state.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "p",
 		ConvertedName:  "Namespace",
-		Description:    `Namespace of the processing unit encountered this exception.`,
+		Description:    `Namespace of the processing unit that encountered this exception.`,
 		Exposed:        true,
 		Filterable:     true,
 		Getter:         true,
@@ -1200,7 +1205,7 @@ type SparseConnectionExceptionReport struct {
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
-	// Namespace of the processing unit encountered this exception.
+	// Namespace of the processing unit that encountered this exception.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"p,omitempty" mapstructure:"namespace,omitempty"`
 
 	// ID of the processing unit encountered this exception.

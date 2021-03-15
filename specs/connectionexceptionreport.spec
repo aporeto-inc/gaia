@@ -10,6 +10,8 @@ model:
   - '@identifiable-stored'
   - '@zoned-monotonic'
   - '@migratable'
+  validations:
+  - $connectionexceptionreport
 
 # Indexes
 indexes:
@@ -89,7 +91,7 @@ attributes:
       bson_name: f
 
   - name: namespace
-    description: Namespace of the processing unit encountered this exception.
+    description: Namespace of the processing unit that encountered this exception.
     type: string
     exposed: true
     stored: true

@@ -74,4 +74,5 @@ attributes:
     - Packets
     - Counters
     - DNSLookups
+    - ConnectionExceptions
     default_value: Flows

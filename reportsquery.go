@@ -12,6 +12,9 @@ import (
 type ReportsQueryReportValue string
 
 const (
+	// ReportsQueryReportConnectionExceptions represents the value ConnectionExceptions.
+	ReportsQueryReportConnectionExceptions ReportsQueryReportValue = "ConnectionExceptions"
+
 	// ReportsQueryReportCounters represents the value Counters.
 	ReportsQueryReportCounters ReportsQueryReportValue = "Counters"
 
@@ -398,7 +401,7 @@ func (o *ReportsQuery) Validate() error {
 		}
 	}
 
-	if err := elemental.ValidateStringInList("report", string(o.Report), []string{"Flows", "Enforcers", "EventLogs", "Packets", "Counters", "DNSLookups"}, false); err != nil {
+	if err := elemental.ValidateStringInList("report", string(o.Report), []string{"Flows", "Enforcers", "EventLogs", "Packets", "Counters", "DNSLookups", "ConnectionExceptions"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -523,7 +526,7 @@ var ReportsQueryAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "refList",
 	},
 	"Report": {
-		AllowedChoices: []string{"Flows", "Enforcers", "EventLogs", "Packets", "Counters", "DNSLookups"},
+		AllowedChoices: []string{"Flows", "Enforcers", "EventLogs", "Packets", "Counters", "DNSLookups", "ConnectionExceptions"},
 		ConvertedName:  "Report",
 		DefaultValue:   ReportsQueryReportFlows,
 		Description:    `Name of the report type to query.`,
@@ -599,7 +602,7 @@ var ReportsQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Type:           "refList",
 	},
 	"report": {
-		AllowedChoices: []string{"Flows", "Enforcers", "EventLogs", "Packets", "Counters", "DNSLookups"},
+		AllowedChoices: []string{"Flows", "Enforcers", "EventLogs", "Packets", "Counters", "DNSLookups", "ConnectionExceptions"},
 		ConvertedName:  "Report",
 		DefaultValue:   ReportsQueryReportFlows,
 		Description:    `Name of the report type to query.`,
