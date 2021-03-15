@@ -3449,14 +3449,14 @@ func TestValidateCounterReport(t *testing.T) {
 		},
 		"both the 'enforcerNamespace' and 'namespace' fields have been left omitted": {
 			report: &CounterReport{
-				Namespace:               "",
+				Namespace:         "",
 				EnforcerNamespace: "",
 			},
 			wantErr: true,
 		},
 		"both the 'enforcerNamespace' and 'namespace' fields have been provided": {
 			report: &CounterReport{
-				Namespace:               "my/namespace",
+				Namespace:         "my/namespace",
 				EnforcerNamespace: "my/namespace",
 			},
 			wantErr: true,

@@ -1180,7 +1180,6 @@ func ValidateConnectionExceptionReport(report *ConnectionExceptionReport) error 
 	return nil
 }
 
-
 // ValidateCounterReport validates a CounterReport.
 func ValidateCounterReport(report *CounterReport) error {
 
