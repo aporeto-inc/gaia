@@ -21,6 +21,13 @@ attributes:
     subtype: dnslookupreport
     omit_empty: true
 
+  - name: connectionExceptionReports
+    description: List of ConnectionExceptionReports.
+    type: refList
+    exposed: true
+    subtype: connectionexceptionreport
+    omit_empty: true
+
   - name: counterReports
     description: List of CounterReports.
     type: refList
@@ -67,4 +74,5 @@ attributes:
     - Packets
     - Counters
     - DNSLookups
+    - ConnectionExceptions
     default_value: Flows

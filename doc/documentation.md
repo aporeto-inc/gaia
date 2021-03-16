@@ -2283,6 +2283,7 @@ Post a new counter tracing report.
 {
   "enforcerID": "xxxx-xxx-xxxx",
   "enforcerNamespace": "/my/namespace",
+  "namespace": "/my/namespace",
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
   "timestamp": "2018-06-14T23:10:46.420397985Z"
@@ -2687,11 +2688,15 @@ Type: `string`
 
 Identifier of the enforcer sending the report.
 
-##### `enforcerNamespace` [`required`]
+##### `enforcerNamespace`
+
+_This attribute is deprecated_.
 
 Type: `string`
 
-Namespace of the enforcer sending the report.
+Namespace of the enforcer sending the report. This field is deprecated. Use the
+'namespace' field instead.
+field instead.
 
 ##### `externalNetworkConnections`
 
@@ -2699,6 +2704,12 @@ Type: `integer`
 
 Non-zero counter indicates connections going to and from external networks.
 These may be drops or allowed counters.
+
+##### `namespace` [`read_only`]
+
+Type: `string`
+
+Namespace of the enforcer sending the report.
 
 ##### `policyDrops`
 
@@ -12608,6 +12619,7 @@ Post a new flow log.
   "destinationProcessingUnitID": "xxx-xxx-xxx",
   "enforcerID": "xxx-xxx-xxx",
   "enforcerNamespace": "/my/namespace",
+  "namespace": "/my/namespace",
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
   "protocol": 6,
@@ -12674,6 +12686,12 @@ _This attribute is deprecated_.
 Type: `string`
 
 Namespace of the enforcer.
+
+##### `namespace` [`read_only`]
+
+Type: `string`
+
+Namespace of the processing unit that encountered this exception.
 
 ##### `processingUnitID` [`required`]
 
@@ -16564,6 +16582,12 @@ Type: [`[]dnslookupreport`](#dnslookupreport)
 
 List of DNSLookupReports.
 
+##### `connectionExceptionReports`
+
+Type: [`[]connectionexceptionreport`](#connectionexceptionreport)
+
+List of ConnectionExceptionReports.
+
 ##### `counterReports`
 
 Type: [`[]counterreport`](#counterreport)
@@ -16596,7 +16620,7 @@ List of PacketReports.
 
 ##### `report`
 
-Type: `enum(Flows | Enforcers | EventLogs | Packets | Counters | DNSLookups)`
+Type: `enum(Flows | Enforcers | EventLogs | Packets | Counters | DNSLookups | ConnectionExceptions)`
 
 Name of the report type to query.
 

@@ -3372,3 +3372,115 @@ func TestValidateDNSLookupReport(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateConnectionExceptionReport(t *testing.T) {
+
+	tests := map[string]struct {
+		report  *ConnectionExceptionReport
+		wantErr bool
+	}{
+		"only the 'namespace' field is specified": {
+			report: &ConnectionExceptionReport{
+				Namespace: "my/namespace",
+			},
+			wantErr: false,
+		},
+		"only the 'processingUnitNamespace' field is specified": {
+			report: &ConnectionExceptionReport{
+				ProcessingUnitNamespace: "my/namespace",
+			},
+			wantErr: false,
+		},
+		"both the 'processingUnitNamespace' and 'namespace' fields have been left omitted": {
+			report: &ConnectionExceptionReport{
+				Namespace:               "",
+				ProcessingUnitNamespace: "",
+			},
+			wantErr: true,
+		},
+		"both the 'processingUnitNamespace' and 'namespace' fields have been provided": {
+			report: &ConnectionExceptionReport{
+				Namespace:               "my/namespace",
+				ProcessingUnitNamespace: "my/namespace",
+			},
+			wantErr: true,
+		},
+	}
+
+	for description, scenario := range tests {
+		t.Run(description, func(t *testing.T) {
+			var err error
+			if err = ValidateConnectionExceptionReport(scenario.report); (err != nil) != scenario.wantErr {
+				t.Errorf("TestValidateConnectionExceptionReport() error = %s, expected an error? %t", err, scenario.wantErr)
+			}
+
+			// verify that ONLY the `namespace` field is populated so the backend processors do not need to worry about
+			// dealing with the 'processingUnitNamespace' field being set
+			if err == nil {
+				if scenario.report.ProcessingUnitNamespace != "" {
+					t.Errorf("Validation passed, but the report's 'processingUnitNamespace' field was NOT reset. It contained the value: %s", scenario.report.ID)
+				}
+
+				if scenario.report.Namespace == "" {
+					t.Error("Validation passed, but the report's 'namespace' field was empty")
+				}
+			}
+		})
+	}
+}
+
+func TestValidateCounterReport(t *testing.T) {
+
+	tests := map[string]struct {
+		report  *CounterReport
+		wantErr bool
+	}{
+		"only the 'namespace' field is specified": {
+			report: &CounterReport{
+				Namespace: "my/namespace",
+			},
+			wantErr: false,
+		},
+		"only the 'enforcerNamespace' field is specified": {
+			report: &CounterReport{
+				EnforcerNamespace: "my/namespace",
+			},
+			wantErr: false,
+		},
+		"both the 'enforcerNamespace' and 'namespace' fields have been left omitted": {
+			report: &CounterReport{
+				Namespace:         "",
+				EnforcerNamespace: "",
+			},
+			wantErr: true,
+		},
+		"both the 'enforcerNamespace' and 'namespace' fields have been provided": {
+			report: &CounterReport{
+				Namespace:         "my/namespace",
+				EnforcerNamespace: "my/namespace",
+			},
+			wantErr: true,
+		},
+	}
+
+	for description, scenario := range tests {
+		t.Run(description, func(t *testing.T) {
+			var err error
+			if err = ValidateCounterReport(scenario.report); (err != nil) != scenario.wantErr {
+				t.Errorf("TestValidateCounterReport() error = %s, expected an error? %t", err, scenario.wantErr)
+			}
+
+			// verify that ONLY the `namespace` field is populated so the backend processors do not need to worry about
+			// dealing with the 'enforcerNamespace' field being set
+			if err == nil {
+				if scenario.report.EnforcerNamespace != "" {
+					t.Errorf("Validation passed, but the report's 'enforcerNamespace' field was NOT reset. It contained the value: %s", scenario.report.ID)
+				}
+
+				if scenario.report.Namespace == "" {
+					t.Error("Validation passed, but the report's 'namespace' field was empty")
+				}
+			}
+		})
+	}
+}

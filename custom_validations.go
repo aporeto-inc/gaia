@@ -1161,3 +1161,39 @@ func ValidateDNSLookupReport(report *DNSLookupReport) error {
 
 	return nil
 }
+
+// ValidateConnectionExceptionReport validates a ConnectionExceptionReport.
+func ValidateConnectionExceptionReport(report *ConnectionExceptionReport) error {
+
+	// remain backwards compatible with old enforcers that are still only reporting the 'ProcessingUnitNamespace' field
+	// by taking the value they supply for the 'ProcessingUnitNamespace' field and using that to populate the 'Namespace'
+	// field.
+	if report.Namespace == "" && report.ProcessingUnitNamespace != "" {
+		report.Namespace = report.ProcessingUnitNamespace
+		report.ProcessingUnitNamespace = ""
+	} else if report.Namespace != "" && report.ProcessingUnitNamespace != "" {
+		return makeValidationError("namespace", "Both 'namespace' and 'processingUnitNamespace' cannot be set")
+	} else if report.Namespace == "" && report.ProcessingUnitNamespace == "" {
+		return makeValidationError("namespace", "Attribute 'namespace' is required")
+	}
+
+	return nil
+}
+
+// ValidateCounterReport validates a CounterReport.
+func ValidateCounterReport(report *CounterReport) error {
+
+	// remain backwards compatible with old enforcers that are still only reporting the 'EnforcerNamespace' field
+	// by taking the value they supply for the 'EnforcerNamespace' field and using that to populate the 'Namespace'
+	// field.
+	if report.Namespace == "" && report.EnforcerNamespace != "" {
+		report.Namespace = report.EnforcerNamespace
+		report.EnforcerNamespace = ""
+	} else if report.Namespace != "" && report.EnforcerNamespace != "" {
+		return makeValidationError("namespace", "Both 'namespace' and 'enforcerNamespace' cannot be set")
+	} else if report.Namespace == "" && report.EnforcerNamespace == "" {
+		return makeValidationError("namespace", "Attribute 'namespace' is required")
+	}
+
+	return nil
+}
