@@ -1172,6 +1172,12 @@ relations:
   create:
     description: Internal API to inject tags.
 
+- rest_name: tagprefix
+  get:
+    description: Returns the tag prefixes of the specified namespace.
+  create:
+    description: Modify the tag prefixes of the specified namespace.
+
 - rest_name: tagvalue
   get:
     description: Retrieves the list of existing values for the given tag keys.

@@ -362,10 +362,7 @@ pctimevalue:
     type: interface{}
     init: nil
   jsonschema:
-    type: |-
-      {
-        "type": ["string", "object"],
-      }
+    type: '{}'
 
 uiparametersexpression:
   elemental:
