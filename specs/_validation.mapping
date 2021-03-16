@@ -30,6 +30,14 @@ $cidrs:
   elemental:
     name: ValidateCIDRList
 
+$connectionexceptionreport:
+  elemental:
+    name: ValidateConnectionExceptionReport
+
+$counterreport:
+  elemental:
+    name: ValidateCounterReport
+
 $dnslookupreport:
   elemental:
     name: ValidateDNSLookupReport

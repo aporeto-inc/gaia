@@ -281,7 +281,9 @@ type CounterReport struct {
 	// Identifier of the enforcer sending the report.
 	EnforcerID string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"bl,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the enforcer sending the report.
+	// Namespace of the enforcer sending the report. This field is deprecated. Use the
+	// 'namespace' field instead.
+	// field instead.
 	EnforcerNamespace string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"bm,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Non-zero counter indicates connections going to and from external networks.
@@ -290,6 +292,9 @@ type CounterReport struct {
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
+	// Namespace of the enforcer sending the report.
+	Namespace string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"bt,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Non-zero counter indicates packets dropped due to a reject policy.
 	PolicyDrops int `json:"policyDrops,omitempty" msgpack:"policyDrops,omitempty" bson:"bo,omitempty" mapstructure:"policyDrops,omitempty"`
@@ -423,6 +428,7 @@ func (o *CounterReport) GetBSON() (interface{}, error) {
 	s.EnforcerNamespace = o.EnforcerNamespace
 	s.ExternalNetworkConnections = o.ExternalNetworkConnections
 	s.MigrationsLog = o.MigrationsLog
+	s.Namespace = o.Namespace
 	s.PolicyDrops = o.PolicyDrops
 	s.ProcessingUnitID = o.ProcessingUnitID
 	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
@@ -514,6 +520,7 @@ func (o *CounterReport) SetBSON(raw bson.Raw) error {
 	o.EnforcerNamespace = s.EnforcerNamespace
 	o.ExternalNetworkConnections = s.ExternalNetworkConnections
 	o.MigrationsLog = s.MigrationsLog
+	o.Namespace = s.Namespace
 	o.PolicyDrops = s.PolicyDrops
 	o.ProcessingUnitID = s.ProcessingUnitID
 	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
@@ -566,6 +573,18 @@ func (o *CounterReport) GetMigrationsLog() map[string]string {
 func (o *CounterReport) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = migrationsLog
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *CounterReport) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the given value.
+func (o *CounterReport) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
 }
 
 // GetZHash returns the ZHash of the receiver.
@@ -666,6 +685,7 @@ func (o *CounterReport) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			EnforcerNamespace:            &o.EnforcerNamespace,
 			ExternalNetworkConnections:   &o.ExternalNetworkConnections,
 			MigrationsLog:                &o.MigrationsLog,
+			Namespace:                    &o.Namespace,
 			PolicyDrops:                  &o.PolicyDrops,
 			ProcessingUnitID:             &o.ProcessingUnitID,
 			ProcessingUnitNamespace:      &o.ProcessingUnitNamespace,
@@ -813,6 +833,8 @@ func (o *CounterReport) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.ExternalNetworkConnections = &(o.ExternalNetworkConnections)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
 		case "policyDrops":
 			sp.PolicyDrops = &(o.PolicyDrops)
 		case "processingUnitID":
@@ -1041,6 +1063,9 @@ func (o *CounterReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
 	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
 	if so.PolicyDrops != nil {
 		o.PolicyDrops = *so.PolicyDrops
 	}
@@ -1098,8 +1123,9 @@ func (o *CounterReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("enforcerNamespace", o.EnforcerNamespace); err != nil {
-		requiredErrors = requiredErrors.Append(err)
+	// Custom object validation.
+	if err := ValidateCounterReport(o); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1270,6 +1296,8 @@ func (o *CounterReport) ValueForAttribute(name string) interface{} {
 		return o.ExternalNetworkConnections
 	case "migrationsLog":
 		return o.MigrationsLog
+	case "namespace":
+		return o.Namespace
 	case "policyDrops":
 		return o.PolicyDrops
 	case "processingUnitID":
@@ -1947,12 +1975,14 @@ rules and queue drops.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "bm",
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the enforcer sending the report.`,
-		Exposed:        true,
-		Name:           "enforcerNamespace",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Deprecated:     true,
+		Description: `Namespace of the enforcer sending the report. This field is deprecated. Use the
+'namespace' field instead.
+field instead.`,
+		Exposed: true,
+		Name:    "enforcerNamespace",
+		Stored:  true,
+		Type:    "string",
 	},
 	"ExternalNetworkConnections": {
 		AllowedChoices: []string{},
@@ -1976,6 +2006,20 @@ These may be drops or allowed counters.`,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"Namespace": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "bt",
+		ConvertedName:  "Namespace",
+		Description:    `Namespace of the enforcer sending the report.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "namespace",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"PolicyDrops": {
 		AllowedChoices: []string{},
@@ -2719,12 +2763,14 @@ rules and queue drops.`,
 		AllowedChoices: []string{},
 		BSONFieldName:  "bm",
 		ConvertedName:  "EnforcerNamespace",
-		Description:    `Namespace of the enforcer sending the report.`,
-		Exposed:        true,
-		Name:           "enforcerNamespace",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Deprecated:     true,
+		Description: `Namespace of the enforcer sending the report. This field is deprecated. Use the
+'namespace' field instead.
+field instead.`,
+		Exposed: true,
+		Name:    "enforcerNamespace",
+		Stored:  true,
+		Type:    "string",
 	},
 	"externalnetworkconnections": {
 		AllowedChoices: []string{},
@@ -2748,6 +2794,20 @@ These may be drops or allowed counters.`,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"namespace": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "bt",
+		ConvertedName:  "Namespace",
+		Description:    `Namespace of the enforcer sending the report.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "namespace",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"policydrops": {
 		AllowedChoices: []string{},
@@ -3096,7 +3156,9 @@ type SparseCounterReport struct {
 	// Identifier of the enforcer sending the report.
 	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"bl,omitempty" mapstructure:"enforcerID,omitempty"`
 
-	// Namespace of the enforcer sending the report.
+	// Namespace of the enforcer sending the report. This field is deprecated. Use the
+	// 'namespace' field instead.
+	// field instead.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"bm,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Non-zero counter indicates connections going to and from external networks.
@@ -3105,6 +3167,9 @@ type SparseCounterReport struct {
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
+
+	// Namespace of the enforcer sending the report.
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"bt,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Non-zero counter indicates packets dropped due to a reject policy.
 	PolicyDrops *int `json:"policyDrops,omitempty" msgpack:"policyDrops,omitempty" bson:"bo,omitempty" mapstructure:"policyDrops,omitempty"`
@@ -3373,6 +3438,9 @@ func (o *SparseCounterReport) GetBSON() (interface{}, error) {
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
+	if o.Namespace != nil {
+		s.Namespace = o.Namespace
+	}
 	if o.PolicyDrops != nil {
 		s.PolicyDrops = o.PolicyDrops
 	}
@@ -3611,6 +3679,9 @@ func (o *SparseCounterReport) SetBSON(raw bson.Raw) error {
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
+	if s.Namespace != nil {
+		o.Namespace = s.Namespace
+	}
 	if s.PolicyDrops != nil {
 		o.PolicyDrops = s.PolicyDrops
 	}
@@ -3847,6 +3918,9 @@ func (o *SparseCounterReport) ToPlain() elemental.PlainIdentifiable {
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
 	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
 	if o.PolicyDrops != nil {
 		out.PolicyDrops = *o.PolicyDrops
 	}
@@ -3886,6 +3960,22 @@ func (o *SparseCounterReport) GetMigrationsLog() (out map[string]string) {
 func (o *SparseCounterReport) SetMigrationsLog(migrationsLog map[string]string) {
 
 	o.MigrationsLog = &migrationsLog
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseCounterReport) GetNamespace() (out string) {
+
+	if o.Namespace == nil {
+		return
+	}
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseCounterReport) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
 }
 
 // GetZHash returns the ZHash of the receiver.
@@ -4012,6 +4102,7 @@ type mongoAttributesCounterReport struct {
 	EnforcerNamespace            string            `bson:"bm,omitempty"`
 	ExternalNetworkConnections   int               `bson:"bn,omitempty"`
 	MigrationsLog                map[string]string `bson:"migrationslog,omitempty"`
+	Namespace                    string            `bson:"bt,omitempty"`
 	PolicyDrops                  int               `bson:"bo,omitempty"`
 	ProcessingUnitID             string            `bson:"bp,omitempty"`
 	ProcessingUnitNamespace      string            `bson:"bq,omitempty"`
@@ -4088,6 +4179,7 @@ type mongoAttributesSparseCounterReport struct {
 	EnforcerNamespace            *string            `bson:"bm,omitempty"`
 	ExternalNetworkConnections   *int               `bson:"bn,omitempty"`
 	MigrationsLog                *map[string]string `bson:"migrationslog,omitempty"`
+	Namespace                    *string            `bson:"bt,omitempty"`
 	PolicyDrops                  *int               `bson:"bo,omitempty"`
 	ProcessingUnitID             *string            `bson:"bp,omitempty"`
 	ProcessingUnitNamespace      *string            `bson:"bq,omitempty"`

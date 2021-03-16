@@ -571,6 +571,7 @@ var (
 		"cnssuggestion": nil,
 		"connectionexceptionreport": {
 			{"processingunitnamespace", "timestamp"},
+			{"namespace", "timestamp"},
 			{"enforcernamespace", "timestamp"},
 			{":shard", "zone", "zHash", "_id"},
 		},
