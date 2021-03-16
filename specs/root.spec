@@ -333,6 +333,10 @@ relations:
     global_parameters:
     - $filtering
 
+- rest_name: cloudsnapshotaccount
+  create:
+    description: Initiates a cloud account for snapshot data ingestion.
+
 - rest_name: cloudsubnet
   get:
     description: Retrieves the list of subnets.

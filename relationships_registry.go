@@ -1356,6 +1356,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[CloudSnapshotAccountIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
 	relationshipsRegistry[CloudSubnetIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {

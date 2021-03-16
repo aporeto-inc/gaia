@@ -52,8 +52,9 @@ var (
 		"cloudpolicy": CloudPolicyIdentity,
 		"cloudroute":  CloudRouteIdentity,
 
-		"cloudroutetable": CloudRouteTableIdentity,
-		"cloudsubnet":     CloudSubnetIdentity,
+		"cloudroutetable":      CloudRouteTableIdentity,
+		"cloudsnapshotaccount": CloudSnapshotAccountIdentity,
+		"cloudsubnet":          CloudSubnetIdentity,
 
 		"cloudtopology": CloudTopologyIdentity,
 		"cloudvpc":      CloudVPCIdentity,
@@ -248,8 +249,9 @@ var (
 		"cloudpolicies": CloudPolicyIdentity,
 		"cloudroutes":   CloudRouteIdentity,
 
-		"cloudroutetables": CloudRouteTableIdentity,
-		"cloudsubnets":     CloudSubnetIdentity,
+		"cloudroutetables":      CloudRouteTableIdentity,
+		"cloudsnapshotaccounts": CloudSnapshotAccountIdentity,
+		"cloudsubnets":          CloudSubnetIdentity,
 
 		"cloudtopologies": CloudTopologyIdentity,
 		"cloudvpcs":       CloudVPCIdentity,
@@ -718,6 +720,13 @@ var (
 			{"namespace"},
 			{"namespace", "normalizedTags"},
 			{"createIdempotencyKey"},
+		},
+		"cloudsnapshotaccount": {
+			{"updateIdempotencyKey"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"createIdempotencyKey"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"cloudsubnet": {
 			{":shard", ":unique", "zone", "zHash"},
@@ -1329,6 +1338,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudRoute()
 	case CloudRouteTableIdentity:
 		return NewCloudRouteTable()
+	case CloudSnapshotAccountIdentity:
+		return NewCloudSnapshotAccount()
 	case CloudSubnetIdentity:
 		return NewCloudSubnet()
 	case CloudTopologyIdentity:
@@ -1680,6 +1691,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudRoute()
 	case CloudRouteTableIdentity:
 		return NewSparseCloudRouteTable()
+	case CloudSnapshotAccountIdentity:
+		return NewSparseCloudSnapshotAccount()
 	case CloudSubnetIdentity:
 		return NewSparseCloudSubnet()
 	case CloudTopologyIdentity:
@@ -2039,6 +2052,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudRoutesList{}
 	case CloudRouteTableIdentity:
 		return &CloudRouteTablesList{}
+	case CloudSnapshotAccountIdentity:
+		return &CloudSnapshotAccountsList{}
 	case CloudSubnetIdentity:
 		return &CloudSubnetsList{}
 	case CloudTopologyIdentity:
@@ -2388,6 +2403,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudRoutesList{}
 	case CloudRouteTableIdentity:
 		return &SparseCloudRouteTablesList{}
+	case CloudSnapshotAccountIdentity:
+		return &SparseCloudSnapshotAccountsList{}
 	case CloudSubnetIdentity:
 		return &SparseCloudSubnetsList{}
 	case CloudTopologyIdentity:
@@ -2714,6 +2731,7 @@ func AllIdentities() []elemental.Identity {
 		CloudPolicyIdentity,
 		CloudRouteIdentity,
 		CloudRouteTableIdentity,
+		CloudSnapshotAccountIdentity,
 		CloudSubnetIdentity,
 		CloudTopologyIdentity,
 		CloudVPCIdentity,
@@ -2958,6 +2976,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CloudRouteIdentity:
 		return []string{}
 	case CloudRouteTableIdentity:
+		return []string{}
+	case CloudSnapshotAccountIdentity:
 		return []string{}
 	case CloudSubnetIdentity:
 		return []string{}
