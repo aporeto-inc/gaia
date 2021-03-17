@@ -30,12 +30,11 @@ var (
 		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
 
-		"claims":          ClaimsIdentity,
-		"clausesmatch":    ClauseMatchIdentity,
-		"cloudaddress":    CloudAddressIdentity,
-		"cloudalert":      CloudAlertIdentity,
-		"cloudattachment": CloudAttachmentIdentity,
-		"cloudendpoint":   CloudEndpointIdentity,
+		"claims":        ClaimsIdentity,
+		"clausesmatch":  ClauseMatchIdentity,
+		"cloudaddress":  CloudAddressIdentity,
+		"cloudalert":    CloudAlertIdentity,
+		"cloudendpoint": CloudEndpointIdentity,
 
 		"cloudgraph": CloudGraphIdentity,
 
@@ -227,12 +226,11 @@ var (
 		"calls":                       CallIdentity,
 		"categories":                  CategoryIdentity,
 
-		"claims":           ClaimsIdentity,
-		"clausesmatches":   ClauseMatchIdentity,
-		"cloudaddresses":   CloudAddressIdentity,
-		"cloudalerts":      CloudAlertIdentity,
-		"cloudattachments": CloudAttachmentIdentity,
-		"cloudendpoints":   CloudEndpointIdentity,
+		"claims":         ClaimsIdentity,
+		"clausesmatches": ClauseMatchIdentity,
+		"cloudaddresses": CloudAddressIdentity,
+		"cloudalerts":    CloudAlertIdentity,
+		"cloudendpoints": CloudEndpointIdentity,
 
 		"cloudgraphs": CloudGraphIdentity,
 
@@ -634,15 +632,6 @@ var (
 			{"namespace"},
 			{"namespace", "normalizedTags"},
 			{"name"},
-			{"createIdempotencyKey"},
-		},
-		"cloudattachment": {
-			{":shard", ":unique", "zone", "zHash"},
-			{"updateIdempotencyKey"},
-			{"nativeID"},
-			{"namespace", "nativeID"},
-			{"namespace"},
-			{"namespace", "normalizedTags"},
 			{"createIdempotencyKey"},
 		},
 		"cloudendpoint": {
@@ -1312,8 +1301,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudAddress()
 	case CloudAlertIdentity:
 		return NewCloudAlert()
-	case CloudAttachmentIdentity:
-		return NewCloudAttachment()
 	case CloudEndpointIdentity:
 		return NewCloudEndpoint()
 	case CloudGraphIdentity:
@@ -1665,8 +1652,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudAddress()
 	case CloudAlertIdentity:
 		return NewSparseCloudAlert()
-	case CloudAttachmentIdentity:
-		return NewSparseCloudAttachment()
 	case CloudEndpointIdentity:
 		return NewSparseCloudEndpoint()
 	case CloudGraphIdentity:
@@ -2026,8 +2011,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudAddressList{}
 	case CloudAlertIdentity:
 		return &CloudAlertsList{}
-	case CloudAttachmentIdentity:
-		return &CloudAttachmentsList{}
 	case CloudEndpointIdentity:
 		return &CloudEndpointsList{}
 	case CloudGraphIdentity:
@@ -2377,8 +2360,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudAddressList{}
 	case CloudAlertIdentity:
 		return &SparseCloudAlertsList{}
-	case CloudAttachmentIdentity:
-		return &SparseCloudAttachmentsList{}
 	case CloudEndpointIdentity:
 		return &SparseCloudEndpointsList{}
 	case CloudGraphIdentity:
@@ -2718,7 +2699,6 @@ func AllIdentities() []elemental.Identity {
 		ClauseMatchIdentity,
 		CloudAddressIdentity,
 		CloudAlertIdentity,
-		CloudAttachmentIdentity,
 		CloudEndpointIdentity,
 		CloudGraphIdentity,
 		CloudGraphNodeIdentity,
@@ -2948,8 +2928,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CloudAddressIdentity:
 		return []string{}
 	case CloudAlertIdentity:
-		return []string{}
-	case CloudAttachmentIdentity:
 		return []string{}
 	case CloudEndpointIdentity:
 		return []string{}

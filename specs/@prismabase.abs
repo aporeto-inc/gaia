@@ -10,27 +10,6 @@ attributes:
     getter: true
     setter: true
 
-  - name: RRN
-    exposed_name: rrn
-    description: Restricted Resource Name.
-    type: string
-    exposed: true
-    stored: true
-    example_value: vpc-023419c5956174917
-    getter: true
-    setter: true
-    orderable: true
-
-  - name: URL
-    description: Object resource URL access.
-    type: string
-    exposed: true
-    stored: true
-    example_value: https://console.aws.amazon.com/vpc/home?region=ap-northeast-1#subnets:filter=subnet-123434434343
-    getter: true
-    setter: true
-    max_length: 256
-
   - name: accountID
     exposed_name: accountId
     description: Cloud account ID associated with the entity (matches Prisma Cloud
@@ -120,19 +99,6 @@ attributes:
     setter: true
     orderable: true
 
-  - name: regionID
-    exposed_name: regionId
-    description: ID of the region associated with the entity.
-    type: string
-    exposed: true
-    stored: true
-    example_value: ap-northeast-1
-    filterable: true
-    getter: true
-    setter: true
-    max_length: 256
-    orderable: true
-
   - name: regionName
     exposed_name: regionName
     description: Region name associated with the entity.
@@ -170,17 +136,6 @@ attributes:
     exposed: true
     stored: true
     example_value: vpc-023419c5952374917
-    filterable: true
-    getter: true
-    setter: true
-    orderable: true
-
-  - name: vpcName
-    description: Name of the host VPC.
-    type: string
-    exposed: true
-    stored: true
-    example_value: test-vpc
     filterable: true
     getter: true
     setter: true

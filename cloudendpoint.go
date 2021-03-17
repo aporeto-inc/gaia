@@ -87,12 +87,6 @@ type CloudEndpoint struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Restricted Resource Name.
-	RRN string `json:"rrn" msgpack:"rrn" bson:"rrn" mapstructure:"rrn,omitempty"`
-
-	// Object resource URL access.
-	URL string `json:"URL" msgpack:"URL" bson:"url" mapstructure:"URL,omitempty"`
-
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
 
@@ -141,9 +135,6 @@ type CloudEndpoint struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// ID of the region associated with the entity.
-	RegionID string `json:"regionId" msgpack:"regionId" bson:"regionid" mapstructure:"regionId,omitempty"`
-
 	// Region name associated with the entity.
 	RegionName string `json:"regionName" msgpack:"regionName" bson:"regionname" mapstructure:"regionName,omitempty"`
 
@@ -158,9 +149,6 @@ type CloudEndpoint struct {
 
 	// ID of the host VPC.
 	VpcID string `json:"vpcID" msgpack:"vpcID" bson:"vpcid" mapstructure:"vpcID,omitempty"`
-
-	// Name of the host VPC.
-	VpcName string `json:"vpcName" msgpack:"vpcName" bson:"vpcname" mapstructure:"vpcName,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -177,13 +165,13 @@ func NewCloudEndpoint() *CloudEndpoint {
 
 	return &CloudEndpoint{
 		ModelVersion:     1,
-		CloudTags:        []string{},
 		Annotations:      map[string][]string{},
 		AssociatedTags:   []string{},
+		CloudTags:        []string{},
+		NormalizedTags:   []string{},
 		Parameters:       NewCloudEndpointData(),
 		PolicyReferences: []string{},
 		MigrationsLog:    map[string]string{},
-		NormalizedTags:   []string{},
 	}
 }
 
@@ -219,8 +207,6 @@ func (o *CloudEndpoint) GetBSON() (interface{}, error) {
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
-	s.RRN = o.RRN
-	s.URL = o.URL
 	s.AccountID = o.AccountID
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
@@ -237,13 +223,11 @@ func (o *CloudEndpoint) GetBSON() (interface{}, error) {
 	s.Parameters = o.Parameters
 	s.PolicyReferences = o.PolicyReferences
 	s.Protected = o.Protected
-	s.RegionID = o.RegionID
 	s.RegionName = o.RegionName
 	s.ResourceID = o.ResourceID
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdatedTime = o.UpdatedTime
 	s.VpcID = o.VpcID
-	s.VpcName = o.VpcName
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
 
@@ -265,8 +249,6 @@ func (o *CloudEndpoint) SetBSON(raw bson.Raw) error {
 
 	o.APIID = s.APIID
 	o.ID = s.ID.Hex()
-	o.RRN = s.RRN
-	o.URL = s.URL
 	o.AccountID = s.AccountID
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
@@ -283,13 +265,11 @@ func (o *CloudEndpoint) SetBSON(raw bson.Raw) error {
 	o.Parameters = s.Parameters
 	o.PolicyReferences = s.PolicyReferences
 	o.Protected = s.Protected
-	o.RegionID = s.RegionID
 	o.RegionName = s.RegionName
 	o.ResourceID = s.ResourceID
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdatedTime = s.UpdatedTime
 	o.VpcID = s.VpcID
-	o.VpcName = s.VpcName
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
 
@@ -335,30 +315,6 @@ func (o *CloudEndpoint) GetAPIID() int {
 func (o *CloudEndpoint) SetAPIID(APIID int) {
 
 	o.APIID = APIID
-}
-
-// GetRRN returns the RRN of the receiver.
-func (o *CloudEndpoint) GetRRN() string {
-
-	return o.RRN
-}
-
-// SetRRN sets the property RRN of the receiver using the given value.
-func (o *CloudEndpoint) SetRRN(RRN string) {
-
-	o.RRN = RRN
-}
-
-// GetURL returns the URL of the receiver.
-func (o *CloudEndpoint) GetURL() string {
-
-	return o.URL
-}
-
-// SetURL sets the property URL of the receiver using the given value.
-func (o *CloudEndpoint) SetURL(URL string) {
-
-	o.URL = URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -541,18 +497,6 @@ func (o *CloudEndpoint) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
-// GetRegionID returns the RegionID of the receiver.
-func (o *CloudEndpoint) GetRegionID() string {
-
-	return o.RegionID
-}
-
-// SetRegionID sets the property RegionID of the receiver using the given value.
-func (o *CloudEndpoint) SetRegionID(regionID string) {
-
-	o.RegionID = regionID
-}
-
 // GetRegionName returns the RegionName of the receiver.
 func (o *CloudEndpoint) GetRegionName() string {
 
@@ -613,18 +557,6 @@ func (o *CloudEndpoint) SetVpcID(vpcID string) {
 	o.VpcID = vpcID
 }
 
-// GetVpcName returns the VpcName of the receiver.
-func (o *CloudEndpoint) GetVpcName() string {
-
-	return o.VpcName
-}
-
-// SetVpcName sets the property VpcName of the receiver using the given value.
-func (o *CloudEndpoint) SetVpcName(vpcName string) {
-
-	o.VpcName = vpcName
-}
-
 // GetZHash returns the ZHash of the receiver.
 func (o *CloudEndpoint) GetZHash() int {
 
@@ -658,8 +590,6 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 		return &SparseCloudEndpoint{
 			APIID:                &o.APIID,
 			ID:                   &o.ID,
-			RRN:                  &o.RRN,
-			URL:                  &o.URL,
 			AccountID:            &o.AccountID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
@@ -676,13 +606,11 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			Parameters:           o.Parameters,
 			PolicyReferences:     &o.PolicyReferences,
 			Protected:            &o.Protected,
-			RegionID:             &o.RegionID,
 			RegionName:           &o.RegionName,
 			ResourceID:           &o.ResourceID,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdatedTime:          &o.UpdatedTime,
 			VpcID:                &o.VpcID,
-			VpcName:              &o.VpcName,
 			ZHash:                &o.ZHash,
 			Zone:                 &o.Zone,
 		}
@@ -695,10 +623,6 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.APIID = &(o.APIID)
 		case "ID":
 			sp.ID = &(o.ID)
-		case "RRN":
-			sp.RRN = &(o.RRN)
-		case "URL":
-			sp.URL = &(o.URL)
 		case "accountID":
 			sp.AccountID = &(o.AccountID)
 		case "annotations":
@@ -731,8 +655,6 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.PolicyReferences = &(o.PolicyReferences)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "regionID":
-			sp.RegionID = &(o.RegionID)
 		case "regionName":
 			sp.RegionName = &(o.RegionName)
 		case "resourceID":
@@ -743,8 +665,6 @@ func (o *CloudEndpoint) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.UpdatedTime = &(o.UpdatedTime)
 		case "vpcID":
 			sp.VpcID = &(o.VpcID)
-		case "vpcName":
-			sp.VpcName = &(o.VpcName)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -767,12 +687,6 @@ func (o *CloudEndpoint) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ID != nil {
 		o.ID = *so.ID
-	}
-	if so.RRN != nil {
-		o.RRN = *so.RRN
-	}
-	if so.URL != nil {
-		o.URL = *so.URL
 	}
 	if so.AccountID != nil {
 		o.AccountID = *so.AccountID
@@ -822,9 +736,6 @@ func (o *CloudEndpoint) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
-	if so.RegionID != nil {
-		o.RegionID = *so.RegionID
-	}
 	if so.RegionName != nil {
 		o.RegionName = *so.RegionName
 	}
@@ -839,9 +750,6 @@ func (o *CloudEndpoint) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.VpcID != nil {
 		o.VpcID = *so.VpcID
-	}
-	if so.VpcName != nil {
-		o.VpcName = *so.VpcName
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -881,10 +789,6 @@ func (o *CloudEndpoint) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateMaximumLength("URL", o.URL, 256, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
 		errors = errors.Append(err)
 	}
@@ -902,10 +806,6 @@ func (o *CloudEndpoint) Validate() error {
 		if err := o.Parameters.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
-	}
-
-	if err := elemental.ValidateMaximumLength("regionID", o.RegionID, 256, false); err != nil {
-		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("regionName", o.RegionName, 256, false); err != nil {
@@ -950,10 +850,6 @@ func (o *CloudEndpoint) ValueForAttribute(name string) interface{} {
 		return o.APIID
 	case "ID":
 		return o.ID
-	case "RRN":
-		return o.RRN
-	case "URL":
-		return o.URL
 	case "accountID":
 		return o.AccountID
 	case "annotations":
@@ -986,8 +882,6 @@ func (o *CloudEndpoint) ValueForAttribute(name string) interface{} {
 		return o.PolicyReferences
 	case "protected":
 		return o.Protected
-	case "regionID":
-		return o.RegionID
 	case "regionName":
 		return o.RegionName
 	case "resourceID":
@@ -998,8 +892,6 @@ func (o *CloudEndpoint) ValueForAttribute(name string) interface{} {
 		return o.UpdatedTime
 	case "vpcID":
 		return o.VpcID
-	case "vpcName":
-		return o.VpcName
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -1035,32 +927,6 @@ var CloudEndpointAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"RRN": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "rrn",
-		ConvertedName:  "RRN",
-		Description:    `Restricted Resource Name.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "RRN",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"URL": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "url",
-		ConvertedName:  "URL",
-		Description:    `Object resource URL access.`,
-		Exposed:        true,
-		Getter:         true,
-		MaxLength:      256,
-		Name:           "URL",
-		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1283,21 +1149,6 @@ var CloudEndpointAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"RegionID": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "regionid",
-		ConvertedName:  "RegionID",
-		Description:    `ID of the region associated with the entity.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		MaxLength:      256,
-		Name:           "regionID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"RegionName": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "regionname",
@@ -1365,20 +1216,6 @@ var CloudEndpointAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"VpcName": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "vpcname",
-		ConvertedName:  "VpcName",
-		Description:    `Name of the host VPC.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "vpcName",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"ZHash": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1435,32 +1272,6 @@ var CloudEndpointLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"rrn": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "rrn",
-		ConvertedName:  "RRN",
-		Description:    `Restricted Resource Name.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "RRN",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"url": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "url",
-		ConvertedName:  "URL",
-		Description:    `Object resource URL access.`,
-		Exposed:        true,
-		Getter:         true,
-		MaxLength:      256,
-		Name:           "URL",
-		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1683,21 +1494,6 @@ var CloudEndpointLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"regionid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "regionid",
-		ConvertedName:  "RegionID",
-		Description:    `ID of the region associated with the entity.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		MaxLength:      256,
-		Name:           "regionID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"regionname": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "regionname",
@@ -1760,20 +1556,6 @@ var CloudEndpointLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Filterable:     true,
 		Getter:         true,
 		Name:           "vpcID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"vpcname": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "vpcname",
-		ConvertedName:  "VpcName",
-		Description:    `Name of the host VPC.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "vpcName",
 		Orderable:      true,
 		Setter:         true,
 		Stored:         true,
@@ -1878,12 +1660,6 @@ type SparseCloudEndpoint struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Restricted Resource Name.
-	RRN *string `json:"rrn,omitempty" msgpack:"rrn,omitempty" bson:"rrn,omitempty" mapstructure:"rrn,omitempty"`
-
-	// Object resource URL access.
-	URL *string `json:"URL,omitempty" msgpack:"URL,omitempty" bson:"url,omitempty" mapstructure:"URL,omitempty"`
-
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
 
@@ -1932,9 +1708,6 @@ type SparseCloudEndpoint struct {
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// ID of the region associated with the entity.
-	RegionID *string `json:"regionId,omitempty" msgpack:"regionId,omitempty" bson:"regionid,omitempty" mapstructure:"regionId,omitempty"`
-
 	// Region name associated with the entity.
 	RegionName *string `json:"regionName,omitempty" msgpack:"regionName,omitempty" bson:"regionname,omitempty" mapstructure:"regionName,omitempty"`
 
@@ -1949,9 +1722,6 @@ type SparseCloudEndpoint struct {
 
 	// ID of the host VPC.
 	VpcID *string `json:"vpcID,omitempty" msgpack:"vpcID,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcID,omitempty"`
-
-	// Name of the host VPC.
-	VpcName *string `json:"vpcName,omitempty" msgpack:"vpcName,omitempty" bson:"vpcname,omitempty" mapstructure:"vpcName,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -2009,12 +1779,6 @@ func (o *SparseCloudEndpoint) GetBSON() (interface{}, error) {
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
-	if o.RRN != nil {
-		s.RRN = o.RRN
-	}
-	if o.URL != nil {
-		s.URL = o.URL
-	}
 	if o.AccountID != nil {
 		s.AccountID = o.AccountID
 	}
@@ -2063,9 +1827,6 @@ func (o *SparseCloudEndpoint) GetBSON() (interface{}, error) {
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
-	if o.RegionID != nil {
-		s.RegionID = o.RegionID
-	}
 	if o.RegionName != nil {
 		s.RegionName = o.RegionName
 	}
@@ -2080,9 +1841,6 @@ func (o *SparseCloudEndpoint) GetBSON() (interface{}, error) {
 	}
 	if o.VpcID != nil {
 		s.VpcID = o.VpcID
-	}
-	if o.VpcName != nil {
-		s.VpcName = o.VpcName
 	}
 	if o.ZHash != nil {
 		s.ZHash = o.ZHash
@@ -2112,12 +1870,6 @@ func (o *SparseCloudEndpoint) SetBSON(raw bson.Raw) error {
 	}
 	id := s.ID.Hex()
 	o.ID = &id
-	if s.RRN != nil {
-		o.RRN = s.RRN
-	}
-	if s.URL != nil {
-		o.URL = s.URL
-	}
 	if s.AccountID != nil {
 		o.AccountID = s.AccountID
 	}
@@ -2166,9 +1918,6 @@ func (o *SparseCloudEndpoint) SetBSON(raw bson.Raw) error {
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
-	if s.RegionID != nil {
-		o.RegionID = s.RegionID
-	}
 	if s.RegionName != nil {
 		o.RegionName = s.RegionName
 	}
@@ -2183,9 +1932,6 @@ func (o *SparseCloudEndpoint) SetBSON(raw bson.Raw) error {
 	}
 	if s.VpcID != nil {
 		o.VpcID = s.VpcID
-	}
-	if s.VpcName != nil {
-		o.VpcName = s.VpcName
 	}
 	if s.ZHash != nil {
 		o.ZHash = s.ZHash
@@ -2212,12 +1958,6 @@ func (o *SparseCloudEndpoint) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ID != nil {
 		out.ID = *o.ID
-	}
-	if o.RRN != nil {
-		out.RRN = *o.RRN
-	}
-	if o.URL != nil {
-		out.URL = *o.URL
 	}
 	if o.AccountID != nil {
 		out.AccountID = *o.AccountID
@@ -2267,9 +2007,6 @@ func (o *SparseCloudEndpoint) ToPlain() elemental.PlainIdentifiable {
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
-	if o.RegionID != nil {
-		out.RegionID = *o.RegionID
-	}
 	if o.RegionName != nil {
 		out.RegionName = *o.RegionName
 	}
@@ -2284,9 +2021,6 @@ func (o *SparseCloudEndpoint) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.VpcID != nil {
 		out.VpcID = *o.VpcID
-	}
-	if o.VpcName != nil {
-		out.VpcName = *o.VpcName
 	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
@@ -2312,38 +2046,6 @@ func (o *SparseCloudEndpoint) GetAPIID() (out int) {
 func (o *SparseCloudEndpoint) SetAPIID(APIID int) {
 
 	o.APIID = &APIID
-}
-
-// GetRRN returns the RRN of the receiver.
-func (o *SparseCloudEndpoint) GetRRN() (out string) {
-
-	if o.RRN == nil {
-		return
-	}
-
-	return *o.RRN
-}
-
-// SetRRN sets the property RRN of the receiver using the address of the given value.
-func (o *SparseCloudEndpoint) SetRRN(RRN string) {
-
-	o.RRN = &RRN
-}
-
-// GetURL returns the URL of the receiver.
-func (o *SparseCloudEndpoint) GetURL() (out string) {
-
-	if o.URL == nil {
-		return
-	}
-
-	return *o.URL
-}
-
-// SetURL sets the property URL of the receiver using the address of the given value.
-func (o *SparseCloudEndpoint) SetURL(URL string) {
-
-	o.URL = &URL
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -2586,22 +2288,6 @@ func (o *SparseCloudEndpoint) SetProtected(protected bool) {
 	o.Protected = &protected
 }
 
-// GetRegionID returns the RegionID of the receiver.
-func (o *SparseCloudEndpoint) GetRegionID() (out string) {
-
-	if o.RegionID == nil {
-		return
-	}
-
-	return *o.RegionID
-}
-
-// SetRegionID sets the property RegionID of the receiver using the address of the given value.
-func (o *SparseCloudEndpoint) SetRegionID(regionID string) {
-
-	o.RegionID = &regionID
-}
-
 // GetRegionName returns the RegionName of the receiver.
 func (o *SparseCloudEndpoint) GetRegionName() (out string) {
 
@@ -2682,22 +2368,6 @@ func (o *SparseCloudEndpoint) SetVpcID(vpcID string) {
 	o.VpcID = &vpcID
 }
 
-// GetVpcName returns the VpcName of the receiver.
-func (o *SparseCloudEndpoint) GetVpcName() (out string) {
-
-	if o.VpcName == nil {
-		return
-	}
-
-	return *o.VpcName
-}
-
-// SetVpcName sets the property VpcName of the receiver using the address of the given value.
-func (o *SparseCloudEndpoint) SetVpcName(vpcName string) {
-
-	o.VpcName = &vpcName
-}
-
 // GetZHash returns the ZHash of the receiver.
 func (o *SparseCloudEndpoint) GetZHash() (out int) {
 
@@ -2757,8 +2427,6 @@ func (o *SparseCloudEndpoint) DeepCopyInto(out *SparseCloudEndpoint) {
 type mongoAttributesCloudEndpoint struct {
 	APIID                int                 `bson:"apiid"`
 	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	RRN                  string              `bson:"rrn"`
-	URL                  string              `bson:"url"`
 	AccountID            string              `bson:"accountid"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
@@ -2775,21 +2443,17 @@ type mongoAttributesCloudEndpoint struct {
 	Parameters           *CloudEndpointData  `bson:"parameters"`
 	PolicyReferences     []string            `bson:"policyreferences"`
 	Protected            bool                `bson:"protected"`
-	RegionID             string              `bson:"regionid"`
 	RegionName           string              `bson:"regionname"`
 	ResourceID           int                 `bson:"resourceid"`
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdatedTime          time.Time           `bson:"updatedtime"`
 	VpcID                string              `bson:"vpcid"`
-	VpcName              string              `bson:"vpcname"`
 	ZHash                int                 `bson:"zhash"`
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseCloudEndpoint struct {
 	APIID                *int                 `bson:"apiid,omitempty"`
 	ID                   bson.ObjectId        `bson:"_id,omitempty"`
-	RRN                  *string              `bson:"rrn,omitempty"`
-	URL                  *string              `bson:"url,omitempty"`
 	AccountID            *string              `bson:"accountid,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
@@ -2806,13 +2470,11 @@ type mongoAttributesSparseCloudEndpoint struct {
 	Parameters           *CloudEndpointData   `bson:"parameters,omitempty"`
 	PolicyReferences     *[]string            `bson:"policyreferences,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
-	RegionID             *string              `bson:"regionid,omitempty"`
 	RegionName           *string              `bson:"regionname,omitempty"`
 	ResourceID           *int                 `bson:"resourceid,omitempty"`
 	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
 	UpdatedTime          *time.Time           `bson:"updatedtime,omitempty"`
 	VpcID                *string              `bson:"vpcid,omitempty"`
-	VpcName              *string              `bson:"vpcname,omitempty"`
 	ZHash                *int                 `bson:"zhash,omitempty"`
 	Zone                 *int                 `bson:"zone,omitempty"`
 }

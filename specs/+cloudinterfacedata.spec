@@ -49,6 +49,16 @@ attributes:
     exposed: true
     stored: true
 
+  - name: routeTableID
+    description: |-
+      The route table that must be used for this interface. Applies to TransitGateways
+      and other special types.
+    type: string
+    exposed: true
+    stored: true
+    example_value:
+    - rt1233
+
   - name: securityTags
     description: Security tags associated with the instance.
     type: list

@@ -63,6 +63,10 @@ type CloudInterfaceData struct {
 	// related service or gateway.
 	RelatedObjectID string `json:"relatedObjectID" msgpack:"relatedObjectID" bson:"relatedobjectid" mapstructure:"relatedObjectID,omitempty"`
 
+	// The route table that must be used for this interface. Applies to TransitGateways
+	// and other special types.
+	RouteTableID string `json:"routeTableID" msgpack:"routeTableID" bson:"routetableid" mapstructure:"routeTableID,omitempty"`
+
 	// Security tags associated with the instance.
 	SecurityTags []string `json:"securityTags" msgpack:"securityTags" bson:"securitytags" mapstructure:"securityTags,omitempty"`
 
@@ -96,6 +100,7 @@ func (o *CloudInterfaceData) GetBSON() (interface{}, error) {
 	s.Addresses = o.Addresses
 	s.AttachmentType = o.AttachmentType
 	s.RelatedObjectID = o.RelatedObjectID
+	s.RouteTableID = o.RouteTableID
 	s.SecurityTags = o.SecurityTags
 	s.Subnets = o.Subnets
 
@@ -118,6 +123,7 @@ func (o *CloudInterfaceData) SetBSON(raw bson.Raw) error {
 	o.Addresses = s.Addresses
 	o.AttachmentType = s.AttachmentType
 	o.RelatedObjectID = s.RelatedObjectID
+	o.RouteTableID = s.RouteTableID
 	o.SecurityTags = s.SecurityTags
 	o.Subnets = s.Subnets
 
@@ -189,6 +195,7 @@ type mongoAttributesCloudInterfaceData struct {
 	Addresses       CloudAddressList                      `bson:"addresses"`
 	AttachmentType  CloudInterfaceDataAttachmentTypeValue `bson:"attachmenttype"`
 	RelatedObjectID string                                `bson:"relatedobjectid"`
+	RouteTableID    string                                `bson:"routetableid"`
 	SecurityTags    []string                              `bson:"securitytags"`
 	Subnets         []string                              `bson:"subnets"`
 }
