@@ -97,14 +97,6 @@ relations:
   create:
     description: Verifies the authorizations on various identities for a given token.
 
-- rest_name: apiproxy
-  get:
-    description: Retrieves the list of API proxies.
-    global_parameters:
-    - $filtering
-  create:
-    description: Creates a new API proxy.
-
 - rest_name: app
   get:
     description: Retrieves the list of apps.
@@ -181,18 +173,6 @@ relations:
 - rest_name: automationtemplate
   get:
     description: Retrieves the list of automation templates.
-
-- rest_name: awsapigateway
-  get:
-    description: create an AWS API gateway.
-    global_parameters:
-    - $filtering
-  create:
-    description: Manages the AWS API gateway.
-
-- rest_name: awsregister
-  create:
-    description: Creates a new AWS registration for billing.
 
 - rest_name: cachedflowreport
   create:
@@ -467,30 +447,6 @@ relations:
     - $archivable
   create:
     description: Creates a new HTTP resource specification.
-
-- rest_name: image
-  get:
-    description: Retrieves the list of container images.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new container image.
-
-- rest_name: imagevulnerability
-  get:
-    description: Retrieves the list of vulnerabilities for a bunch of container images.
-    parameters:
-      required:
-      - - - image
-      entries:
-      - name: image
-        description: Image to analyze.
-        type: string
-        multiple: true
-        example_value: nginx:1.12
-  create:
-    description: Creates a new vulnerability.
 
 - rest_name: import
   create:
