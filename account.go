@@ -131,9 +131,6 @@ type Account struct {
 	// Contains a map of associated AWS enforcer policies.
 	AssociatedAWSPolicies map[string]string `json:"-" msgpack:"-" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
 
-	// Holds the ID of the associated billing customer.
-	AssociatedBillingID string `json:"associatedBillingID" msgpack:"associatedBillingID" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
-
 	// Contains the ID of the associated namespace.
 	AssociatedNamespaceID string `json:"-" msgpack:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
 
@@ -259,7 +256,6 @@ func (o *Account) GetBSON() (interface{}, error) {
 	s.ActivationToken = o.ActivationToken
 	s.AssociatedAPIAuthPolicyID = o.AssociatedAPIAuthPolicyID
 	s.AssociatedAWSPolicies = o.AssociatedAWSPolicies
-	s.AssociatedBillingID = o.AssociatedBillingID
 	s.AssociatedNamespaceID = o.AssociatedNamespaceID
 	s.AssociatedPlanKey = o.AssociatedPlanKey
 	s.AssociatedQuotaPolicies = o.AssociatedQuotaPolicies
@@ -304,7 +300,6 @@ func (o *Account) SetBSON(raw bson.Raw) error {
 	o.ActivationToken = s.ActivationToken
 	o.AssociatedAPIAuthPolicyID = s.AssociatedAPIAuthPolicyID
 	o.AssociatedAWSPolicies = s.AssociatedAWSPolicies
-	o.AssociatedBillingID = s.AssociatedBillingID
 	o.AssociatedNamespaceID = s.AssociatedNamespaceID
 	o.AssociatedPlanKey = s.AssociatedPlanKey
 	o.AssociatedQuotaPolicies = s.AssociatedQuotaPolicies
@@ -436,7 +431,6 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ActivationToken:           &o.ActivationToken,
 			AssociatedAPIAuthPolicyID: &o.AssociatedAPIAuthPolicyID,
 			AssociatedAWSPolicies:     &o.AssociatedAWSPolicies,
-			AssociatedBillingID:       &o.AssociatedBillingID,
 			AssociatedNamespaceID:     &o.AssociatedNamespaceID,
 			AssociatedPlanKey:         &o.AssociatedPlanKey,
 			AssociatedQuotaPolicies:   &o.AssociatedQuotaPolicies,
@@ -488,8 +482,6 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AssociatedAPIAuthPolicyID = &(o.AssociatedAPIAuthPolicyID)
 		case "associatedAWSPolicies":
 			sp.AssociatedAWSPolicies = &(o.AssociatedAWSPolicies)
-		case "associatedBillingID":
-			sp.AssociatedBillingID = &(o.AssociatedBillingID)
 		case "associatedNamespaceID":
 			sp.AssociatedNamespaceID = &(o.AssociatedNamespaceID)
 		case "associatedPlanKey":
@@ -581,9 +573,6 @@ func (o *Account) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AssociatedAWSPolicies != nil {
 		o.AssociatedAWSPolicies = *so.AssociatedAWSPolicies
-	}
-	if so.AssociatedBillingID != nil {
-		o.AssociatedBillingID = *so.AssociatedBillingID
 	}
 	if so.AssociatedNamespaceID != nil {
 		o.AssociatedNamespaceID = *so.AssociatedNamespaceID
@@ -758,8 +747,6 @@ func (o *Account) ValueForAttribute(name string) interface{} {
 		return o.AssociatedAPIAuthPolicyID
 	case "associatedAWSPolicies":
 		return o.AssociatedAWSPolicies
-	case "associatedBillingID":
-		return o.AssociatedBillingID
 	case "associatedNamespaceID":
 		return o.AssociatedNamespaceID
 	case "associatedPlanKey":
@@ -927,16 +914,6 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
-	},
-	"AssociatedBillingID": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "associatedbillingid",
-		ConvertedName:  "AssociatedBillingID",
-		Description:    `Holds the ID of the associated billing customer.`,
-		Exposed:        true,
-		Name:           "associatedBillingID",
-		Stored:         true,
-		Type:           "string",
 	},
 	"AssociatedNamespaceID": {
 		AllowedChoices: []string{},
@@ -1322,16 +1299,6 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "map[string]string",
 		Type:           "external",
 	},
-	"associatedbillingid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "associatedbillingid",
-		ConvertedName:  "AssociatedBillingID",
-		Description:    `Holds the ID of the associated billing customer.`,
-		Exposed:        true,
-		Name:           "associatedBillingID",
-		Stored:         true,
-		Type:           "string",
-	},
 	"associatednamespaceid": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "associatednamespaceid",
@@ -1695,9 +1662,6 @@ type SparseAccount struct {
 	// Contains a map of associated AWS enforcer policies.
 	AssociatedAWSPolicies *map[string]string `json:"-" msgpack:"-" bson:"associatedawspolicies,omitempty" mapstructure:"-,omitempty"`
 
-	// Holds the ID of the associated billing customer.
-	AssociatedBillingID *string `json:"associatedBillingID,omitempty" msgpack:"associatedBillingID,omitempty" bson:"associatedbillingid,omitempty" mapstructure:"associatedBillingID,omitempty"`
-
 	// Contains the ID of the associated namespace.
 	AssociatedNamespaceID *string `json:"-" msgpack:"-" bson:"associatednamespaceid,omitempty" mapstructure:"-,omitempty"`
 
@@ -1837,9 +1801,6 @@ func (o *SparseAccount) GetBSON() (interface{}, error) {
 	if o.AssociatedAWSPolicies != nil {
 		s.AssociatedAWSPolicies = o.AssociatedAWSPolicies
 	}
-	if o.AssociatedBillingID != nil {
-		s.AssociatedBillingID = o.AssociatedBillingID
-	}
 	if o.AssociatedNamespaceID != nil {
 		s.AssociatedNamespaceID = o.AssociatedNamespaceID
 	}
@@ -1936,9 +1897,6 @@ func (o *SparseAccount) SetBSON(raw bson.Raw) error {
 	}
 	if s.AssociatedAWSPolicies != nil {
 		o.AssociatedAWSPolicies = s.AssociatedAWSPolicies
-	}
-	if s.AssociatedBillingID != nil {
-		o.AssociatedBillingID = s.AssociatedBillingID
 	}
 	if s.AssociatedNamespaceID != nil {
 		o.AssociatedNamespaceID = s.AssociatedNamespaceID
@@ -2043,9 +2001,6 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.AssociatedAWSPolicies != nil {
 		out.AssociatedAWSPolicies = *o.AssociatedAWSPolicies
-	}
-	if o.AssociatedBillingID != nil {
-		out.AssociatedBillingID = *o.AssociatedBillingID
 	}
 	if o.AssociatedNamespaceID != nil {
 		out.AssociatedNamespaceID = *o.AssociatedNamespaceID
@@ -2233,7 +2188,6 @@ type mongoAttributesAccount struct {
 	ActivationToken           string             `bson:"activationtoken,omitempty"`
 	AssociatedAPIAuthPolicyID string             `bson:"associatedapiauthpolicyid"`
 	AssociatedAWSPolicies     map[string]string  `bson:"associatedawspolicies"`
-	AssociatedBillingID       string             `bson:"associatedbillingid"`
 	AssociatedNamespaceID     string             `bson:"associatednamespaceid"`
 	AssociatedPlanKey         string             `bson:"associatedplankey"`
 	AssociatedQuotaPolicies   map[string]string  `bson:"associatedquotapolicies"`
@@ -2263,7 +2217,6 @@ type mongoAttributesSparseAccount struct {
 	ActivationToken           *string             `bson:"activationtoken,omitempty"`
 	AssociatedAPIAuthPolicyID *string             `bson:"associatedapiauthpolicyid,omitempty"`
 	AssociatedAWSPolicies     *map[string]string  `bson:"associatedawspolicies,omitempty"`
-	AssociatedBillingID       *string             `bson:"associatedbillingid,omitempty"`
 	AssociatedNamespaceID     *string             `bson:"associatednamespaceid,omitempty"`
 	AssociatedPlanKey         *string             `bson:"associatedplankey,omitempty"`
 	AssociatedQuotaPolicies   *map[string]string  `bson:"associatedquotapolicies,omitempty"`

@@ -33,11 +33,6 @@ relations:
     - $filtering
     parameters:
       entries:
-      - name: associatedBillingID
-        description: internal parameters.
-        type: string
-        example_value: billingID
-
       - name: name
         description: internal parameters.
         type: string

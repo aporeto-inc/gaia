@@ -129,10 +129,6 @@ func init() {
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
 					{
-						Name: "associatedBillingID",
-						Type: "string",
-					},
-					{
 						Name: "name",
 						Type: "string",
 					},
@@ -151,10 +147,6 @@ func init() {
 		Info: map[string]*elemental.RelationshipInfo{
 			"root": {
 				Parameters: []elemental.ParameterDefinition{
-					{
-						Name: "associatedBillingID",
-						Type: "string",
-					},
 					{
 						Name: "name",
 						Type: "string",
