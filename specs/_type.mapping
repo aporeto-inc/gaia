@@ -331,6 +331,20 @@ map[string]map[string]bool:
         }
       }
 
+map[string]map[string]cloudnetworkquerydestination:
+  elemental:
+    type: map[string]map[string]*CloudNetworkQueryDestination
+    init: map[string]map[string]*CloudNetworkQueryDestination{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+
 map[string]map[string]interface{}:
   elemental:
     type: map[string]map[string]interface{}

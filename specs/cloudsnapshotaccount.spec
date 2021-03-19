@@ -31,19 +31,11 @@ attributes:
     description: The Customer name of the tenant where the account is onboarded.
     type: string
     exposed: true
-    required: false
+    required: true
     example_value: customer-name
 
   - name: name
     description: The name of the account as onboarded in Prisma Cloud.
     type: string
     exposed: true
-    required: true
     example_value: account-foo
-
-  - name: tenantID
-    description: The Prisma ID of the tenant where the account is onboarded.
-    type: string
-    exposed: true
-    required: true
-    example_value: tenant-foo

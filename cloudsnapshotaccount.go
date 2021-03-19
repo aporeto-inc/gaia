@@ -124,9 +124,6 @@ type CloudSnapshotAccount struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// The Prisma ID of the tenant where the account is onboarded.
-	TenantID string `json:"tenantID" msgpack:"tenantID" bson:"-" mapstructure:"tenantID,omitempty"`
-
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
@@ -394,7 +391,6 @@ func (o *CloudSnapshotAccount) ToSparse(fields ...string) elemental.SparseIdenti
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
 			Protected:            &o.Protected,
-			TenantID:             &o.TenantID,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			ZHash:                &o.ZHash,
 			Zone:                 &o.Zone,
@@ -426,8 +422,6 @@ func (o *CloudSnapshotAccount) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "tenantID":
-			sp.TenantID = &(o.TenantID)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "zHash":
@@ -480,9 +474,6 @@ func (o *CloudSnapshotAccount) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
-	if so.TenantID != nil {
-		o.TenantID = *so.TenantID
-	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
@@ -532,11 +523,7 @@ func (o *CloudSnapshotAccount) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("tenantID", o.TenantID); err != nil {
+	if err := elemental.ValidateRequiredString("customerName", o.CustomerName); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -596,8 +583,6 @@ func (o *CloudSnapshotAccount) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "protected":
 		return o.Protected
-	case "tenantID":
-		return o.TenantID
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "zHash":
@@ -680,6 +665,7 @@ var CloudSnapshotAccountAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `The Customer name of the tenant where the account is onboarded.`,
 		Exposed:        true,
 		Name:           "customerName",
+		Required:       true,
 		Type:           "string",
 	},
 	"MigrationsLog": {
@@ -700,7 +686,6 @@ var CloudSnapshotAccountAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `The name of the account as onboarded in Prisma Cloud.`,
 		Exposed:        true,
 		Name:           "name",
-		Required:       true,
 		Type:           "string",
 	},
 	"Namespace": {
@@ -747,15 +732,6 @@ var CloudSnapshotAccountAttributesMap = map[string]elemental.AttributeSpecificat
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"TenantID": {
-		AllowedChoices: []string{},
-		ConvertedName:  "TenantID",
-		Description:    `The Prisma ID of the tenant where the account is onboarded.`,
-		Exposed:        true,
-		Name:           "tenantID",
-		Required:       true,
-		Type:           "string",
 	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -871,6 +847,7 @@ var CloudSnapshotAccountLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Description:    `The Customer name of the tenant where the account is onboarded.`,
 		Exposed:        true,
 		Name:           "customerName",
+		Required:       true,
 		Type:           "string",
 	},
 	"migrationslog": {
@@ -891,7 +868,6 @@ var CloudSnapshotAccountLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Description:    `The name of the account as onboarded in Prisma Cloud.`,
 		Exposed:        true,
 		Name:           "name",
-		Required:       true,
 		Type:           "string",
 	},
 	"namespace": {
@@ -938,15 +914,6 @@ var CloudSnapshotAccountLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"tenantid": {
-		AllowedChoices: []string{},
-		ConvertedName:  "TenantID",
-		Description:    `The Prisma ID of the tenant where the account is onboarded.`,
-		Exposed:        true,
-		Name:           "tenantID",
-		Required:       true,
-		Type:           "string",
 	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
@@ -1086,9 +1053,6 @@ type SparseCloudSnapshotAccount struct {
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
-
-	// The Prisma ID of the tenant where the account is onboarded.
-	TenantID *string `json:"tenantID,omitempty" msgpack:"tenantID,omitempty" bson:"-" mapstructure:"tenantID,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1271,9 +1235,6 @@ func (o *SparseCloudSnapshotAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
-	}
-	if o.TenantID != nil {
-		out.TenantID = *o.TenantID
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey

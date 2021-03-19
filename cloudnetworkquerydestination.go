@@ -8,19 +8,30 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// CloudNetworkQueryDestinationTypeValue represents the possible values for attribute "type".
+type CloudNetworkQueryDestinationTypeValue string
+
+const (
+	// CloudNetworkQueryDestinationTypeInstance represents the value Instance.
+	CloudNetworkQueryDestinationTypeInstance CloudNetworkQueryDestinationTypeValue = "Instance"
+
+	// CloudNetworkQueryDestinationTypeInterface represents the value Interface.
+	CloudNetworkQueryDestinationTypeInterface CloudNetworkQueryDestinationTypeValue = "Interface"
+
+	// CloudNetworkQueryDestinationTypeLoadBalancer represents the value LoadBalancer.
+	CloudNetworkQueryDestinationTypeLoadBalancer CloudNetworkQueryDestinationTypeValue = "LoadBalancer"
+
+	// CloudNetworkQueryDestinationTypePublicIP represents the value PublicIP.
+	CloudNetworkQueryDestinationTypePublicIP CloudNetworkQueryDestinationTypeValue = "PublicIP"
+)
+
 // CloudNetworkQueryDestination represents the model of a cloudnetworkquerydestination
 type CloudNetworkQueryDestination struct {
-	// The IP address of the destination if it is a public address.
-	IP string `json:"IP" msgpack:"IP" bson:"-" mapstructure:"IP,omitempty"`
-
-	// Returns true of this is just a public IP destination.
-	IsPublicIP bool `json:"isPublicIP" msgpack:"isPublicIP" bson:"-" mapstructure:"isPublicIP,omitempty"`
-
-	// The nativeID of the destination (applies to cloud nodes only).
-	NativeID string `json:"nativeID" msgpack:"nativeID" bson:"-" mapstructure:"nativeID,omitempty"`
-
 	// Returns true if the destination is reachable through routing.
 	Reachable bool `json:"reachable" msgpack:"reachable" bson:"-" mapstructure:"reachable,omitempty"`
+
+	// Returns the type of the destination.
+	Type CloudNetworkQueryDestinationTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	// Returns the network security verdict for the destination.
 	Verdict string `json:"verdict" msgpack:"verdict" bson:"-" mapstructure:"verdict,omitempty"`
@@ -100,6 +111,10 @@ func (o *CloudNetworkQueryDestination) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Interface", "Instance", "LoadBalancer", "PublicIP"}, true); err != nil {
+		errors = errors.Append(err)
+	}
 
 	if len(requiredErrors) > 0 {
 		return requiredErrors

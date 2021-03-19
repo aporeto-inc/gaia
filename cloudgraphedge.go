@@ -10,18 +10,9 @@ import (
 
 // CloudGraphEdge represents the model of a cloudgraphedge
 type CloudGraphEdge struct {
-	// ID of the destination `cloud node` of the edge.
-	DestinationID string `json:"destinationID" msgpack:"destinationID" bson:"destinationid" mapstructure:"destinationID,omitempty"`
-
 	// Provides the level of the tree that this edge belongs in order to assist with
 	// ordering.
 	Level int `json:"level" msgpack:"level" bson:"level" mapstructure:"level,omitempty"`
-
-	// Indicates that this edge is part of a path routed from the public Internet.
-	PublicPath bool `json:"publicPath" msgpack:"publicPath" bson:"publicpath" mapstructure:"publicPath,omitempty"`
-
-	// ID of the source `cloud node` of the edge.
-	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -44,10 +35,7 @@ func (o *CloudGraphEdge) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCloudGraphEdge{}
 
-	s.DestinationID = o.DestinationID
 	s.Level = o.Level
-	s.PublicPath = o.PublicPath
-	s.SourceID = o.SourceID
 
 	return s, nil
 }
@@ -65,10 +53,7 @@ func (o *CloudGraphEdge) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
-	o.DestinationID = s.DestinationID
 	o.Level = s.Level
-	o.PublicPath = s.PublicPath
-	o.SourceID = s.SourceID
 
 	return nil
 }
@@ -121,8 +106,5 @@ func (o *CloudGraphEdge) Validate() error {
 }
 
 type mongoAttributesCloudGraphEdge struct {
-	DestinationID string `bson:"destinationid"`
-	Level         int    `bson:"level"`
-	PublicPath    bool   `bson:"publicpath"`
-	SourceID      string `bson:"sourceid"`
+	Level int `bson:"level"`
 }

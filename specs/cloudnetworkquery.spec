@@ -91,6 +91,17 @@ attributes:
     extensions:
       refMode: pointer
 
+  - name: type
+    description: Indicates the type of results that should be provided by the query.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Summary
+    - CompressedGraph
+    - FullGraph
+    default_value: Summary
+
 # Relations
 relations:
 - rest_name: cloudgraph
