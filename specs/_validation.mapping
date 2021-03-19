@@ -2,10 +2,6 @@ $apiauthsubject:
   elemental:
     name: ValidateAPIAuthorizationPolicySubject
 
-$apiproxyEntity:
-  elemental:
-    name: ValidateAPIProxyEntity
-
 $audience:
   elemental:
     name: ValidateAudience
@@ -29,6 +25,14 @@ $cidr:
 $cidrs:
   elemental:
     name: ValidateCIDRList
+
+$connectionexceptionreport:
+  elemental:
+    name: ValidateConnectionExceptionReport
+
+$counterreport:
+  elemental:
+    name: ValidateCounterReport
 
 $dnslookupreport:
   elemental:

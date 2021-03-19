@@ -21,28 +21,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// ValidateAPIProxyEntity validates an APIProxy.
-func ValidateAPIProxyEntity(apiProxy *APIProxy) error {
-
-	var errs elemental.Errors
-
-	// We only want to check if there is a key on creation as it is a secret which
-	// means it will never be exposed outside of the service
-	if apiProxy.ID == "" && apiProxy.ClientCertificate != "" && apiProxy.ClientCertificateKey == "" {
-		errs = errs.Append(makeValidationError("ClientCertificateKey", "Client certificate private key was not provided"))
-	}
-
-	if apiProxy.ClientCertificate == "" && apiProxy.ClientCertificateKey != "" {
-		errs = errs.Append(makeValidationError("ClientCertificate", "Client certificate was not provided"))
-	}
-
-	if len(errs) > 0 {
-		return errs
-	}
-
-	return nil
-}
-
 // ValidatePortString validates a string represents a port or a range of port.
 // valid: 443, 443:555
 func ValidatePortString(attribute string, portExp string) error {
@@ -1184,6 +1162,42 @@ func ValidateDNSLookupReport(report *DNSLookupReport) error {
 	} else if report.Namespace != "" && report.ProcessingUnitNamespace != "" {
 		return makeValidationError("namespace", "Both 'namespace' and 'processingUnitNamespace' cannot be set")
 	} else if report.Namespace == "" && report.ProcessingUnitNamespace == "" {
+		return makeValidationError("namespace", "Attribute 'namespace' is required")
+	}
+
+	return nil
+}
+
+// ValidateConnectionExceptionReport validates a ConnectionExceptionReport.
+func ValidateConnectionExceptionReport(report *ConnectionExceptionReport) error {
+
+	// remain backwards compatible with old enforcers that are still only reporting the 'ProcessingUnitNamespace' field
+	// by taking the value they supply for the 'ProcessingUnitNamespace' field and using that to populate the 'Namespace'
+	// field.
+	if report.Namespace == "" && report.ProcessingUnitNamespace != "" {
+		report.Namespace = report.ProcessingUnitNamespace
+		report.ProcessingUnitNamespace = ""
+	} else if report.Namespace != "" && report.ProcessingUnitNamespace != "" {
+		return makeValidationError("namespace", "Both 'namespace' and 'processingUnitNamespace' cannot be set")
+	} else if report.Namespace == "" && report.ProcessingUnitNamespace == "" {
+		return makeValidationError("namespace", "Attribute 'namespace' is required")
+	}
+
+	return nil
+}
+
+// ValidateCounterReport validates a CounterReport.
+func ValidateCounterReport(report *CounterReport) error {
+
+	// remain backwards compatible with old enforcers that are still only reporting the 'EnforcerNamespace' field
+	// by taking the value they supply for the 'EnforcerNamespace' field and using that to populate the 'Namespace'
+	// field.
+	if report.Namespace == "" && report.EnforcerNamespace != "" {
+		report.Namespace = report.EnforcerNamespace
+		report.EnforcerNamespace = ""
+	} else if report.Namespace != "" && report.EnforcerNamespace != "" {
+		return makeValidationError("namespace", "Both 'namespace' and 'enforcerNamespace' cannot be set")
+	} else if report.Namespace == "" && report.EnforcerNamespace == "" {
 		return makeValidationError("namespace", "Attribute 'namespace' is required")
 	}
 

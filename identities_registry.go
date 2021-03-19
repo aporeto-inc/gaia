@@ -13,7 +13,6 @@ var (
 		"alarm":                     AlarmIdentity,
 		"apiauthorizationpolicy":    APIAuthorizationPolicyIdentity,
 		"apicheck":                  APICheckIdentity,
-		"apiproxy":                  APIProxyIdentity,
 		"app":                       AppIdentity,
 		"appcredential":             AppCredentialIdentity,
 		"auditprofile":              AuditProfileIdentity,
@@ -24,10 +23,7 @@ var (
 		"authz":                     AuthzIdentity,
 		"automation":                AutomationIdentity,
 		"automationtemplate":        AutomationTemplateIdentity,
-		"awsapigateway":             AWSAPIGatewayIdentity,
-		"awsregister":               AWSRegisterIdentity,
 		"cachedflowreport":          CachedFlowReportIdentity,
-		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
 
 		"claims":        ClaimsIdentity,
@@ -64,7 +60,6 @@ var (
 		"connectionexceptionreport": ConnectionExceptionReportIdentity,
 		"counterreport":             CounterReportIdentity,
 
-		"customer":               CustomerIdentity,
 		"datapathcertificate":    DataPathCertificateIdentity,
 		"debugbundle":            DebugBundleIdentity,
 		"defaultenforcerversion": DefaultEnforcerVersionIdentity,
@@ -96,15 +91,11 @@ var (
 		"hostservice":              HostServiceIdentity,
 		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
 		"httpresourcespec":         HTTPResourceSpecIdentity,
-		"image":                    ImageIdentity,
-		"imagevulnerability":       ImageVulnerabilityIdentity,
 		"import":                   ImportIdentity,
 		"importreference":          ImportReferenceIdentity,
 		"importrequest":            ImportRequestIdentity,
 		"infrastructurepolicy":     InfrastructurePolicyIdentity,
 		"installedapp":             InstalledAppIdentity,
-		"invoice":                  InvoiceIdentity,
-		"invoicerecord":            InvoiceRecordIdentity,
 		"ipinfo":                   IPInfoIdentity,
 		"isolationprofile":         IsolationProfileIdentity,
 		"issue":                    IssueIdentity,
@@ -209,7 +200,6 @@ var (
 		"alarms":                      AlarmIdentity,
 		"apiauthorizationpolicies":    APIAuthorizationPolicyIdentity,
 		"apichecks":                   APICheckIdentity,
-		"apiproxies":                  APIProxyIdentity,
 		"apps":                        AppIdentity,
 		"appcredentials":              AppCredentialIdentity,
 		"auditprofiles":               AuditProfileIdentity,
@@ -220,10 +210,7 @@ var (
 		"authz":                       AuthzIdentity,
 		"automations":                 AutomationIdentity,
 		"automationtemplates":         AutomationTemplateIdentity,
-		"awsapigateways":              AWSAPIGatewayIdentity,
-		"awsregister":                 AWSRegisterIdentity,
 		"cachedflowreports":           CachedFlowReportIdentity,
-		"calls":                       CallIdentity,
 		"categories":                  CategoryIdentity,
 
 		"claims":         ClaimsIdentity,
@@ -260,7 +247,6 @@ var (
 		"connectionexceptionreports": ConnectionExceptionReportIdentity,
 		"counterreports":             CounterReportIdentity,
 
-		"customers":              CustomerIdentity,
 		"datapathcertificates":   DataPathCertificateIdentity,
 		"debugbundles":           DebugBundleIdentity,
 		"defaultenforcerversion": DefaultEnforcerVersionIdentity,
@@ -292,15 +278,11 @@ var (
 		"hostservices":               HostServiceIdentity,
 		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
 		"httpresourcespecs":          HTTPResourceSpecIdentity,
-		"images":                     ImageIdentity,
-		"imagevulnerabilities":       ImageVulnerabilityIdentity,
 		"import":                     ImportIdentity,
 		"importreferences":           ImportReferenceIdentity,
 		"importrequests":             ImportRequestIdentity,
 		"infrastructurepolicies":     InfrastructurePolicyIdentity,
 		"installedapps":              InstalledAppIdentity,
-		"invoices":                   InvoiceIdentity,
-		"invoicerecords":             InvoiceRecordIdentity,
 		"ipinfos":                    IPInfoIdentity,
 		"isolationprofiles":          IsolationProfileIdentity,
 		"issue":                      IssueIdentity,
@@ -399,8 +381,6 @@ var (
 		"accns":           AccessibleNamespaceIdentity,
 		"apiauth":         APIAuthorizationPolicyIdentity,
 		"apiauths":        APIAuthorizationPolicyIdentity,
-		"apiprox":         APIProxyIdentity,
-		"apiproxs":        APIProxyIdentity,
 		"appcred":         AppCredentialIdentity,
 		"appcreds":        AppCredentialIdentity,
 		"ap":              AuditProfileIdentity,
@@ -545,18 +525,7 @@ var (
 		},
 		"apiauthorizationpolicy": nil,
 		"apicheck":               nil,
-		"apiproxy": {
-			{":shard", ":unique", "zone", "zHash"},
-			{"updateIdempotencyKey"},
-			{"namespace", "disabled"},
-			{"namespace"},
-			{"namespace", "normalizedTags"},
-			{"namespace", "name"},
-			{"name"},
-			{"disabled"},
-			{"createIdempotencyKey"},
-		},
-		"app": nil,
+		"app":                    nil,
 		"appcredential": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -601,21 +570,12 @@ var (
 			{"createIdempotencyKey"},
 		},
 		"automationtemplate": nil,
-		"awsapigateway": {
-			{"updateIdempotencyKey"},
-			{"namespace", "name"},
-			{"name"},
-			{"createIdempotencyKey"},
-			{":shard", ":unique", "zone", "zHash"},
-		},
-		"awsregister": nil,
 		"cachedflowreport": {
 			{"sourceID"},
 			{"namespace", "timestamp"},
 			{"destinationID"},
 			{":shard", "zone", "zHash", "_id"},
 		},
-		"call":     nil,
 		"category": nil,
 		"claims": {
 			{"namespace", "hash"},
@@ -740,15 +700,13 @@ var (
 		"cnssuggestion": nil,
 		"connectionexceptionreport": {
 			{"processingunitnamespace", "timestamp"},
+			{"namespace", "timestamp"},
 			{"enforcernamespace", "timestamp"},
 			{":shard", "zone", "zHash", "_id"},
 		},
 		"counterreport": {
 			{"namespace", "timestamp"},
 			{":shard", "zone", "zHash", "_id"},
-		},
-		"customer": {
-			{"providerCustomerID"},
 		},
 		"datapathcertificate":    nil,
 		"debugbundle":            nil,
@@ -899,22 +857,7 @@ var (
 			{"createIdempotencyKey"},
 			{"archived"},
 		},
-		"image": {
-			{":shard", ":unique", "zone", "zHash"},
-			{"updateIdempotencyKey"},
-			{"severity"},
-			{"propagate"},
-			{"namespace"},
-			{"namespace", "severity"},
-			{"namespace", "hash"},
-			{"namespace", "normalizedTags"},
-			{"namespace", "name"},
-			{"name"},
-			{"hash"},
-			{"createIdempotencyKey"},
-		},
-		"imagevulnerability": nil,
-		"import":             nil,
+		"import": nil,
 		"importreference": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -942,9 +885,7 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"invoice":       nil,
-		"invoicerecord": nil,
-		"ipinfo":        nil,
+		"ipinfo": nil,
 		"isolationprofile": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1261,8 +1202,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity:
 		return NewAPICheck()
-	case APIProxyIdentity:
-		return NewAPIProxy()
 	case AppIdentity:
 		return NewApp()
 	case AppCredentialIdentity:
@@ -1283,14 +1222,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAutomation()
 	case AutomationTemplateIdentity:
 		return NewAutomationTemplate()
-	case AWSAPIGatewayIdentity:
-		return NewAWSAPIGateway()
-	case AWSRegisterIdentity:
-		return NewAWSRegister()
 	case CachedFlowReportIdentity:
 		return NewCachedFlowReport()
-	case CallIdentity:
-		return NewCall()
 	case CategoryIdentity:
 		return NewCategory()
 	case ClaimsIdentity:
@@ -1341,8 +1274,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewConnectionExceptionReport()
 	case CounterReportIdentity:
 		return NewCounterReport()
-	case CustomerIdentity:
-		return NewCustomer()
 	case DataPathCertificateIdentity:
 		return NewDataPathCertificate()
 	case DebugBundleIdentity:
@@ -1401,10 +1332,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewHTTPResourceSpec()
-	case ImageIdentity:
-		return NewImage()
-	case ImageVulnerabilityIdentity:
-		return NewImageVulnerability()
 	case ImportIdentity:
 		return NewImport()
 	case ImportReferenceIdentity:
@@ -1415,10 +1342,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewInfrastructurePolicy()
 	case InstalledAppIdentity:
 		return NewInstalledApp()
-	case InvoiceIdentity:
-		return NewInvoice()
-	case InvoiceRecordIdentity:
-		return NewInvoiceRecord()
 	case IPInfoIdentity:
 		return NewIPInfo()
 	case IsolationProfileIdentity:
@@ -1612,8 +1535,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAPIAuthorizationPolicy()
 	case APICheckIdentity:
 		return NewSparseAPICheck()
-	case APIProxyIdentity:
-		return NewSparseAPIProxy()
 	case AppIdentity:
 		return NewSparseApp()
 	case AppCredentialIdentity:
@@ -1634,14 +1555,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAutomation()
 	case AutomationTemplateIdentity:
 		return NewSparseAutomationTemplate()
-	case AWSAPIGatewayIdentity:
-		return NewSparseAWSAPIGateway()
-	case AWSRegisterIdentity:
-		return NewSparseAWSRegister()
 	case CachedFlowReportIdentity:
 		return NewSparseCachedFlowReport()
-	case CallIdentity:
-		return NewSparseCall()
 	case CategoryIdentity:
 		return NewSparseCategory()
 	case ClaimsIdentity:
@@ -1692,8 +1607,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseConnectionExceptionReport()
 	case CounterReportIdentity:
 		return NewSparseCounterReport()
-	case CustomerIdentity:
-		return NewSparseCustomer()
 	case DataPathCertificateIdentity:
 		return NewSparseDataPathCertificate()
 	case DebugBundleIdentity:
@@ -1752,10 +1665,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewSparseHTTPResourceSpec()
-	case ImageIdentity:
-		return NewSparseImage()
-	case ImageVulnerabilityIdentity:
-		return NewSparseImageVulnerability()
 	case ImportIdentity:
 		return NewSparseImport()
 	case ImportReferenceIdentity:
@@ -1766,10 +1675,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseInfrastructurePolicy()
 	case InstalledAppIdentity:
 		return NewSparseInstalledApp()
-	case InvoiceIdentity:
-		return NewSparseInvoice()
-	case InvoiceRecordIdentity:
-		return NewSparseInvoiceRecord()
 	case IPInfoIdentity:
 		return NewSparseIPInfo()
 	case IsolationProfileIdentity:
@@ -1971,8 +1876,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity:
 		return &APIChecksList{}
-	case APIProxyIdentity:
-		return &APIProxiesList{}
 	case AppIdentity:
 		return &AppsList{}
 	case AppCredentialIdentity:
@@ -1993,14 +1896,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AutomationsList{}
 	case AutomationTemplateIdentity:
 		return &AutomationTemplatesList{}
-	case AWSAPIGatewayIdentity:
-		return &AWSAPIGatewaysList{}
-	case AWSRegisterIdentity:
-		return &AWSRegistersList{}
 	case CachedFlowReportIdentity:
 		return &CachedFlowReportsList{}
-	case CallIdentity:
-		return &CallsList{}
 	case CategoryIdentity:
 		return &CategoriesList{}
 	case ClaimsIdentity:
@@ -2051,8 +1948,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ConnectionExceptionReportsList{}
 	case CounterReportIdentity:
 		return &CounterReportsList{}
-	case CustomerIdentity:
-		return &CustomersList{}
 	case DataPathCertificateIdentity:
 		return &DataPathCertificatesList{}
 	case DebugBundleIdentity:
@@ -2111,10 +2006,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &HostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &HTTPResourceSpecsList{}
-	case ImageIdentity:
-		return &ImagesList{}
-	case ImageVulnerabilityIdentity:
-		return &ImageVulnerabilitiesList{}
 	case ImportIdentity:
 		return &ImportsList{}
 	case ImportReferenceIdentity:
@@ -2125,10 +2016,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &InfrastructurePoliciesList{}
 	case InstalledAppIdentity:
 		return &InstalledAppsList{}
-	case InvoiceIdentity:
-		return &InvoicesList{}
-	case InvoiceRecordIdentity:
-		return &InvoiceRecordsList{}
 	case IPInfoIdentity:
 		return &IPInfosList{}
 	case IsolationProfileIdentity:
@@ -2320,8 +2207,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAPIAuthorizationPoliciesList{}
 	case APICheckIdentity:
 		return &SparseAPIChecksList{}
-	case APIProxyIdentity:
-		return &SparseAPIProxiesList{}
 	case AppIdentity:
 		return &SparseAppsList{}
 	case AppCredentialIdentity:
@@ -2342,14 +2227,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAutomationsList{}
 	case AutomationTemplateIdentity:
 		return &SparseAutomationTemplatesList{}
-	case AWSAPIGatewayIdentity:
-		return &SparseAWSAPIGatewaysList{}
-	case AWSRegisterIdentity:
-		return &SparseAWSRegistersList{}
 	case CachedFlowReportIdentity:
 		return &SparseCachedFlowReportsList{}
-	case CallIdentity:
-		return &SparseCallsList{}
 	case CategoryIdentity:
 		return &SparseCategoriesList{}
 	case ClaimsIdentity:
@@ -2400,8 +2279,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseConnectionExceptionReportsList{}
 	case CounterReportIdentity:
 		return &SparseCounterReportsList{}
-	case CustomerIdentity:
-		return &SparseCustomersList{}
 	case DataPathCertificateIdentity:
 		return &SparseDataPathCertificatesList{}
 	case DebugBundleIdentity:
@@ -2460,10 +2337,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseHostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &SparseHTTPResourceSpecsList{}
-	case ImageIdentity:
-		return &SparseImagesList{}
-	case ImageVulnerabilityIdentity:
-		return &SparseImageVulnerabilitiesList{}
 	case ImportIdentity:
 		return &SparseImportsList{}
 	case ImportReferenceIdentity:
@@ -2474,10 +2347,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseInfrastructurePoliciesList{}
 	case InstalledAppIdentity:
 		return &SparseInstalledAppsList{}
-	case InvoiceIdentity:
-		return &SparseInvoicesList{}
-	case InvoiceRecordIdentity:
-		return &SparseInvoiceRecordsList{}
 	case IPInfoIdentity:
 		return &SparseIPInfosList{}
 	case IsolationProfileIdentity:
@@ -2679,7 +2548,6 @@ func AllIdentities() []elemental.Identity {
 		AlarmIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
-		APIProxyIdentity,
 		AppIdentity,
 		AppCredentialIdentity,
 		AuditProfileIdentity,
@@ -2690,10 +2558,7 @@ func AllIdentities() []elemental.Identity {
 		AuthzIdentity,
 		AutomationIdentity,
 		AutomationTemplateIdentity,
-		AWSAPIGatewayIdentity,
-		AWSRegisterIdentity,
 		CachedFlowReportIdentity,
-		CallIdentity,
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
@@ -2719,7 +2584,6 @@ func AllIdentities() []elemental.Identity {
 		CNSSuggestionIdentity,
 		ConnectionExceptionReportIdentity,
 		CounterReportIdentity,
-		CustomerIdentity,
 		DataPathCertificateIdentity,
 		DebugBundleIdentity,
 		DefaultEnforcerVersionIdentity,
@@ -2749,15 +2613,11 @@ func AllIdentities() []elemental.Identity {
 		HostServiceIdentity,
 		HostServiceMappingPolicyIdentity,
 		HTTPResourceSpecIdentity,
-		ImageIdentity,
-		ImageVulnerabilityIdentity,
 		ImportIdentity,
 		ImportReferenceIdentity,
 		ImportRequestIdentity,
 		InfrastructurePolicyIdentity,
 		InstalledAppIdentity,
-		InvoiceIdentity,
-		InvoiceRecordIdentity,
 		IPInfoIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
@@ -2871,11 +2731,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case APICheckIdentity:
 		return []string{}
-	case APIProxyIdentity:
-		return []string{
-			"apiprox",
-			"apiproxs",
-		}
 	case AppIdentity:
 		return []string{}
 	case AppCredentialIdentity:
@@ -2911,13 +2766,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"autotmpl",
 		}
-	case AWSAPIGatewayIdentity:
-		return []string{}
-	case AWSRegisterIdentity:
-		return []string{}
 	case CachedFlowReportIdentity:
-		return []string{}
-	case CallIdentity:
 		return []string{}
 	case CategoryIdentity:
 		return []string{}
@@ -2973,8 +2822,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ConnectionExceptionReportIdentity:
 		return []string{}
 	case CounterReportIdentity:
-		return []string{}
-	case CustomerIdentity:
 		return []string{}
 	case DataPathCertificateIdentity:
 		return []string{}
@@ -3067,10 +2914,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"resource",
 			"httpspec",
 		}
-	case ImageIdentity:
-		return []string{}
-	case ImageVulnerabilityIdentity:
-		return []string{}
 	case ImportIdentity:
 		return []string{}
 	case ImportReferenceIdentity:
@@ -3095,10 +2938,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"iapps",
 			"iapp",
 		}
-	case InvoiceIdentity:
-		return []string{}
-	case InvoiceRecordIdentity:
-		return []string{}
 	case IPInfoIdentity:
 		return []string{}
 	case IsolationProfileIdentity:

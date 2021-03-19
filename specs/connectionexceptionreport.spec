@@ -10,12 +10,16 @@ model:
   - '@identifiable-stored'
   - '@zoned-monotonic'
   - '@migratable'
+  validations:
+  - $connectionexceptionreport
 
 # Indexes
 indexes:
 - - processingunitnamespace
   - timestamp
 - - enforcernamespace
+  - timestamp
+- - namespace
   - timestamp
 
 # Attributes
@@ -85,6 +89,20 @@ attributes:
     omit_empty: true
     extensions:
       bson_name: f
+
+  - name: namespace
+    description: Namespace of the processing unit that encountered this exception.
+    type: string
+    exposed: true
+    stored: true
+    read_only: true
+    example_value: /my/namespace
+    filterable: true
+    getter: true
+    setter: true
+    omit_empty: true
+    extensions:
+      bson_name: p
 
   - name: processingUnitID
     description: ID of the processing unit encountered this exception.

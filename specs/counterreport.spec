@@ -10,6 +10,8 @@ model:
   - '@identifiable-stored'
   - '@zoned-monotonic'
   - '@migratable'
+  validations:
+  - $counterreport
 
 # Ordering
 default_order:
@@ -540,7 +542,9 @@ attributes:
       bson_name: bf
 
   - name: connectionsAnalyzed
-    description: "Non-zero counter indicates analyzed connections for unencrypted, encrypted, and\npackets from endpoint applications with the TCP Fast Open option set. These are \nnot dropped counter."
+    description: "Non-zero counter indicates analyzed connections for unencrypted,
+      encrypted, and\npackets from endpoint applications with the TCP Fast Open option
+      set. These are \nnot dropped counter."
     type: integer
     exposed: true
     stored: true
@@ -549,7 +553,8 @@ attributes:
       bson_name: bg
 
   - name: connectionsDropped
-    description: "Non-zero counter indicates dropped connections because of invalid state, \nnon-processing unit traffic, or out of order packets."
+    description: "Non-zero counter indicates dropped connections because of invalid
+      state, \nnon-processing unit traffic, or out of order packets."
     type: integer
     exposed: true
     stored: true
@@ -580,7 +585,8 @@ attributes:
       bson_name: bj
 
   - name: encryptionFailures
-    description: Non-zero counter indicates encryption processing failures of data packets.
+    description: Non-zero counter indicates encryption processing failures of data
+      packets.
     type: integer
     exposed: true
     stored: true
@@ -600,11 +606,14 @@ attributes:
       bson_name: bl
 
   - name: enforcerNamespace
-    description: Namespace of the enforcer sending the report.
+    description: |-
+      Namespace of the enforcer sending the report. This field is deprecated. Use the
+      'namespace' field instead.
+      field instead.
     type: string
     exposed: true
     stored: true
-    required: true
+    deprecated: true
     example_value: /my/namespace
     omit_empty: true
     extensions:
@@ -620,6 +629,20 @@ attributes:
     omit_empty: true
     extensions:
       bson_name: bn
+
+  - name: namespace
+    description: Namespace of the enforcer sending the report.
+    type: string
+    exposed: true
+    stored: true
+    read_only: true
+    example_value: /my/namespace
+    filterable: true
+    getter: true
+    setter: true
+    omit_empty: true
+    extensions:
+      bson_name: bt
 
   - name: policyDrops
     description: Non-zero counter indicates packets dropped due to a reject policy.
