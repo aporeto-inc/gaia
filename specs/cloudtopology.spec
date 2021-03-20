@@ -3,7 +3,7 @@ model:
   rest_name: cloudtopology
   resource_name: cloudtopologies
   entity_name: CloudTopology
-  package: pcn/infrastructure
+  package: yeul
   group: pcn/infrastructure
   description: Returns the full topology of all nodes and their relationships.
 

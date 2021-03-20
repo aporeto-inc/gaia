@@ -3,7 +3,7 @@ model:
   rest_name: cloudvpc
   resource_name: cloudvpcs
   entity_name: CloudVPC
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: |-
     A CloudVPC represents a VPC as defined in an cloud provider (AWS/Azure/GCP etc).
@@ -27,12 +27,6 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@prismabase'
-
-# Indexes
-indexes:
-- - namespace
-  - nativeID
-- - nativeID
 
 # Attributes
 attributes:

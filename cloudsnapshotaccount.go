@@ -91,9 +91,6 @@ func (o CloudSnapshotAccountsList) Version() int {
 
 // CloudSnapshotAccount represents the model of a cloudsnapshotaccount
 type CloudSnapshotAccount struct {
-	// Identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
-
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
@@ -108,9 +105,6 @@ type CloudSnapshotAccount struct {
 
 	// The Customer name of the tenant where the account is onboarded.
 	CustomerName string `json:"customerName" msgpack:"customerName" bson:"-" mapstructure:"customerName,omitempty"`
-
-	// Internal property maintaining migrations information.
-	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// The name of the account as onboarded in Prisma Cloud.
 	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
@@ -127,13 +121,6 @@ type CloudSnapshotAccount struct {
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
-	// geographical hash of the data. This is used for sharding and
-	// georedundancy.
-	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
-
-	// Logical storage zone. Used for sharding.
-	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
-
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -145,7 +132,6 @@ func NewCloudSnapshotAccount() *CloudSnapshotAccount {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		CloudType:      CloudSnapshotAccountCloudTypeAWS,
-		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
 	}
 }
@@ -159,13 +145,12 @@ func (o *CloudSnapshotAccount) Identity() elemental.Identity {
 // Identifier returns the value of the object's unique identifier.
 func (o *CloudSnapshotAccount) Identifier() string {
 
-	return o.ID
+	return ""
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *CloudSnapshotAccount) SetIdentifier(id string) {
 
-	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -178,19 +163,13 @@ func (o *CloudSnapshotAccount) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCloudSnapshotAccount{}
 
-	if o.ID != "" {
-		s.ID = bson.ObjectIdHex(o.ID)
-	}
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
-	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
 	s.Protected = o.Protected
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
-	s.ZHash = o.ZHash
-	s.Zone = o.Zone
 
 	return s, nil
 }
@@ -208,17 +187,13 @@ func (o *CloudSnapshotAccount) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
-	o.ID = s.ID.Hex()
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
-	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
 	o.Protected = s.Protected
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
-	o.ZHash = s.ZHash
-	o.Zone = s.Zone
 
 	return nil
 }
@@ -289,18 +264,6 @@ func (o *CloudSnapshotAccount) SetCreateIdempotencyKey(createIdempotencyKey stri
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
-// GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *CloudSnapshotAccount) GetMigrationsLog() map[string]string {
-
-	return o.MigrationsLog
-}
-
-// SetMigrationsLog sets the property MigrationsLog of the receiver using the given value.
-func (o *CloudSnapshotAccount) SetMigrationsLog(migrationsLog map[string]string) {
-
-	o.MigrationsLog = migrationsLog
-}
-
 // GetNamespace returns the Namespace of the receiver.
 func (o *CloudSnapshotAccount) GetNamespace() string {
 
@@ -349,30 +312,6 @@ func (o *CloudSnapshotAccount) SetUpdateIdempotencyKey(updateIdempotencyKey stri
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
-// GetZHash returns the ZHash of the receiver.
-func (o *CloudSnapshotAccount) GetZHash() int {
-
-	return o.ZHash
-}
-
-// SetZHash sets the property ZHash of the receiver using the given value.
-func (o *CloudSnapshotAccount) SetZHash(zHash int) {
-
-	o.ZHash = zHash
-}
-
-// GetZone returns the Zone of the receiver.
-func (o *CloudSnapshotAccount) GetZone() int {
-
-	return o.Zone
-}
-
-// SetZone sets the property Zone of the receiver using the given value.
-func (o *CloudSnapshotAccount) SetZone(zone int) {
-
-	o.Zone = zone
-}
-
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *CloudSnapshotAccount) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -380,28 +319,22 @@ func (o *CloudSnapshotAccount) ToSparse(fields ...string) elemental.SparseIdenti
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseCloudSnapshotAccount{
-			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CustomerName:         &o.CustomerName,
-			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
 			Protected:            &o.Protected,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
-			ZHash:                &o.ZHash,
-			Zone:                 &o.Zone,
 		}
 	}
 
 	sp := &SparseCloudSnapshotAccount{}
 	for _, f := range fields {
 		switch f {
-		case "ID":
-			sp.ID = &(o.ID)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
@@ -412,8 +345,6 @@ func (o *CloudSnapshotAccount) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "customerName":
 			sp.CustomerName = &(o.CustomerName)
-		case "migrationsLog":
-			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -424,10 +355,6 @@ func (o *CloudSnapshotAccount) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.Protected = &(o.Protected)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
-		case "zHash":
-			sp.ZHash = &(o.ZHash)
-		case "zone":
-			sp.Zone = &(o.Zone)
 		}
 	}
 
@@ -441,9 +368,6 @@ func (o *CloudSnapshotAccount) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseCloudSnapshotAccount)
-	if so.ID != nil {
-		o.ID = *so.ID
-	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
@@ -459,9 +383,6 @@ func (o *CloudSnapshotAccount) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CustomerName != nil {
 		o.CustomerName = *so.CustomerName
 	}
-	if so.MigrationsLog != nil {
-		o.MigrationsLog = *so.MigrationsLog
-	}
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
@@ -476,12 +397,6 @@ func (o *CloudSnapshotAccount) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
-	}
-	if so.ZHash != nil {
-		o.ZHash = *so.ZHash
-	}
-	if so.Zone != nil {
-		o.Zone = *so.Zone
 	}
 }
 
@@ -561,8 +476,6 @@ func (*CloudSnapshotAccount) AttributeSpecifications() map[string]elemental.Attr
 func (o *CloudSnapshotAccount) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "ID":
-		return o.ID
 	case "annotations":
 		return o.Annotations
 	case "associatedTags":
@@ -573,8 +486,6 @@ func (o *CloudSnapshotAccount) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "customerName":
 		return o.CustomerName
-	case "migrationsLog":
-		return o.MigrationsLog
 	case "name":
 		return o.Name
 	case "namespace":
@@ -585,10 +496,6 @@ func (o *CloudSnapshotAccount) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
-	case "zHash":
-		return o.ZHash
-	case "zone":
-		return o.Zone
 	}
 
 	return nil
@@ -596,21 +503,6 @@ func (o *CloudSnapshotAccount) ValueForAttribute(name string) interface{} {
 
 // CloudSnapshotAccountAttributesMap represents the map of attribute for CloudSnapshotAccount.
 var CloudSnapshotAccountAttributesMap = map[string]elemental.AttributeSpecification{
-	"ID": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "_id",
-		ConvertedName:  "ID",
-		Description:    `Identifier of the object.`,
-		Exposed:        true,
-		Filterable:     true,
-		Identifier:     true,
-		Name:           "ID",
-		Orderable:      true,
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"Annotations": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "annotations",
@@ -667,18 +559,6 @@ var CloudSnapshotAccountAttributesMap = map[string]elemental.AttributeSpecificat
 		Name:           "customerName",
 		Required:       true,
 		Type:           "string",
-	},
-	"MigrationsLog": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "migrationslog",
-		ConvertedName:  "MigrationsLog",
-		Description:    `Internal property maintaining migrations information.`,
-		Getter:         true,
-		Name:           "migrationsLog",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "map[string]string",
-		Type:           "external",
 	},
 	"Name": {
 		AllowedChoices: []string{},
@@ -746,53 +626,10 @@ var CloudSnapshotAccountAttributesMap = map[string]elemental.AttributeSpecificat
 		Stored:         true,
 		Type:           "string",
 	},
-	"ZHash": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "zhash",
-		ConvertedName:  "ZHash",
-		Description: `geographical hash of the data. This is used for sharding and
-georedundancy.`,
-		Getter:   true,
-		Name:     "zHash",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
-	},
-	"Zone": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "zone",
-		ConvertedName:  "Zone",
-		Description:    `Logical storage zone. Used for sharding.`,
-		Getter:         true,
-		Name:           "zone",
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		Transient:      true,
-		Type:           "integer",
-	},
 }
 
 // CloudSnapshotAccountLowerCaseAttributesMap represents the map of attribute for CloudSnapshotAccount.
 var CloudSnapshotAccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"id": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "_id",
-		ConvertedName:  "ID",
-		Description:    `Identifier of the object.`,
-		Exposed:        true,
-		Filterable:     true,
-		Identifier:     true,
-		Name:           "ID",
-		Orderable:      true,
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"annotations": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "annotations",
@@ -849,18 +686,6 @@ var CloudSnapshotAccountLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Name:           "customerName",
 		Required:       true,
 		Type:           "string",
-	},
-	"migrationslog": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "migrationslog",
-		ConvertedName:  "MigrationsLog",
-		Description:    `Internal property maintaining migrations information.`,
-		Getter:         true,
-		Name:           "migrationsLog",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "map[string]string",
-		Type:           "external",
 	},
 	"name": {
 		AllowedChoices: []string{},
@@ -928,34 +753,6 @@ var CloudSnapshotAccountLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Stored:         true,
 		Type:           "string",
 	},
-	"zhash": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "zhash",
-		ConvertedName:  "ZHash",
-		Description: `geographical hash of the data. This is used for sharding and
-georedundancy.`,
-		Getter:   true,
-		Name:     "zHash",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
-	},
-	"zone": {
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "zone",
-		ConvertedName:  "Zone",
-		Description:    `Logical storage zone. Used for sharding.`,
-		Getter:         true,
-		Name:           "zone",
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		Transient:      true,
-		Type:           "integer",
-	},
 }
 
 // SparseCloudSnapshotAccountsList represents a list of SparseCloudSnapshotAccounts
@@ -1021,9 +818,6 @@ func (o SparseCloudSnapshotAccountsList) Version() int {
 
 // SparseCloudSnapshotAccount represents the sparse version of a cloudsnapshotaccount.
 type SparseCloudSnapshotAccount struct {
-	// Identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
-
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
@@ -1039,9 +833,6 @@ type SparseCloudSnapshotAccount struct {
 	// The Customer name of the tenant where the account is onboarded.
 	CustomerName *string `json:"customerName,omitempty" msgpack:"customerName,omitempty" bson:"-" mapstructure:"customerName,omitempty"`
 
-	// Internal property maintaining migrations information.
-	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
-
 	// The name of the account as onboarded in Prisma Cloud.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
@@ -1056,13 +847,6 @@ type SparseCloudSnapshotAccount struct {
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
-
-	// geographical hash of the data. This is used for sharding and
-	// georedundancy.
-	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
-
-	// Logical storage zone. Used for sharding.
-	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -1081,20 +865,12 @@ func (o *SparseCloudSnapshotAccount) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseCloudSnapshotAccount) Identifier() string {
 
-	if o.ID == nil {
-		return ""
-	}
-	return *o.ID
+	return ""
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
 func (o *SparseCloudSnapshotAccount) SetIdentifier(id string) {
 
-	if id != "" {
-		o.ID = &id
-	} else {
-		o.ID = nil
-	}
 }
 
 // GetBSON implements the bson marshaling interface.
@@ -1107,9 +883,6 @@ func (o *SparseCloudSnapshotAccount) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseCloudSnapshotAccount{}
 
-	if o.ID != nil {
-		s.ID = bson.ObjectIdHex(*o.ID)
-	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
 	}
@@ -1118,9 +891,6 @@ func (o *SparseCloudSnapshotAccount) GetBSON() (interface{}, error) {
 	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
-	}
-	if o.MigrationsLog != nil {
-		s.MigrationsLog = o.MigrationsLog
 	}
 	if o.Namespace != nil {
 		s.Namespace = o.Namespace
@@ -1133,12 +903,6 @@ func (o *SparseCloudSnapshotAccount) GetBSON() (interface{}, error) {
 	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
-	}
-	if o.ZHash != nil {
-		s.ZHash = o.ZHash
-	}
-	if o.Zone != nil {
-		s.Zone = o.Zone
 	}
 
 	return s, nil
@@ -1157,8 +921,6 @@ func (o *SparseCloudSnapshotAccount) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
-	id := s.ID.Hex()
-	o.ID = &id
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
 	}
@@ -1167,9 +929,6 @@ func (o *SparseCloudSnapshotAccount) SetBSON(raw bson.Raw) error {
 	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
-	}
-	if s.MigrationsLog != nil {
-		o.MigrationsLog = s.MigrationsLog
 	}
 	if s.Namespace != nil {
 		o.Namespace = s.Namespace
@@ -1182,12 +941,6 @@ func (o *SparseCloudSnapshotAccount) SetBSON(raw bson.Raw) error {
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
-	}
-	if s.ZHash != nil {
-		o.ZHash = s.ZHash
-	}
-	if s.Zone != nil {
-		o.Zone = s.Zone
 	}
 
 	return nil
@@ -1203,9 +956,6 @@ func (o *SparseCloudSnapshotAccount) Version() int {
 func (o *SparseCloudSnapshotAccount) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCloudSnapshotAccount()
-	if o.ID != nil {
-		out.ID = *o.ID
-	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
@@ -1221,9 +971,6 @@ func (o *SparseCloudSnapshotAccount) ToPlain() elemental.PlainIdentifiable {
 	if o.CustomerName != nil {
 		out.CustomerName = *o.CustomerName
 	}
-	if o.MigrationsLog != nil {
-		out.MigrationsLog = *o.MigrationsLog
-	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1238,12 +985,6 @@ func (o *SparseCloudSnapshotAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
-	}
-	if o.ZHash != nil {
-		out.ZHash = *o.ZHash
-	}
-	if o.Zone != nil {
-		out.Zone = *o.Zone
 	}
 
 	return out
@@ -1295,22 +1036,6 @@ func (o *SparseCloudSnapshotAccount) GetCreateIdempotencyKey() (out string) {
 func (o *SparseCloudSnapshotAccount) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
-}
-
-// GetMigrationsLog returns the MigrationsLog of the receiver.
-func (o *SparseCloudSnapshotAccount) GetMigrationsLog() (out map[string]string) {
-
-	if o.MigrationsLog == nil {
-		return
-	}
-
-	return *o.MigrationsLog
-}
-
-// SetMigrationsLog sets the property MigrationsLog of the receiver using the address of the given value.
-func (o *SparseCloudSnapshotAccount) SetMigrationsLog(migrationsLog map[string]string) {
-
-	o.MigrationsLog = &migrationsLog
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -1377,38 +1102,6 @@ func (o *SparseCloudSnapshotAccount) SetUpdateIdempotencyKey(updateIdempotencyKe
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
-// GetZHash returns the ZHash of the receiver.
-func (o *SparseCloudSnapshotAccount) GetZHash() (out int) {
-
-	if o.ZHash == nil {
-		return
-	}
-
-	return *o.ZHash
-}
-
-// SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseCloudSnapshotAccount) SetZHash(zHash int) {
-
-	o.ZHash = &zHash
-}
-
-// GetZone returns the Zone of the receiver.
-func (o *SparseCloudSnapshotAccount) GetZone() (out int) {
-
-	if o.Zone == nil {
-		return
-	}
-
-	return *o.Zone
-}
-
-// SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseCloudSnapshotAccount) SetZone(zone int) {
-
-	o.Zone = &zone
-}
-
 // DeepCopy returns a deep copy if the SparseCloudSnapshotAccount.
 func (o *SparseCloudSnapshotAccount) DeepCopy() *SparseCloudSnapshotAccount {
 
@@ -1434,28 +1127,20 @@ func (o *SparseCloudSnapshotAccount) DeepCopyInto(out *SparseCloudSnapshotAccoun
 }
 
 type mongoAttributesCloudSnapshotAccount struct {
-	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
-	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
 	Protected            bool                `bson:"protected"`
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
-	ZHash                int                 `bson:"zhash"`
-	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseCloudSnapshotAccount struct {
-	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
-	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
 	Namespace            *string              `bson:"namespace,omitempty"`
 	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
 	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
-	ZHash                *int                 `bson:"zhash,omitempty"`
-	Zone                 *int                 `bson:"zone,omitempty"`
 }

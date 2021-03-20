@@ -3,7 +3,7 @@ model:
   rest_name: cloudinterfacedata
   resource_name: cloudinterfacedata
   entity_name: CloudInterfaceData
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Parameters associated with a cloud interface.
   detached: true

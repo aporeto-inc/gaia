@@ -13,7 +13,7 @@ import (
 var CloudNetworkRuleSetIdentity = elemental.Identity{
 	Name:     "cloudnetworkruleset",
 	Category: "cloudnetworkrulesets",
-	Package:  "pcn",
+	Package:  "yeul",
 	Private:  false,
 }
 

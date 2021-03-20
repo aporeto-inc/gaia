@@ -677,7 +677,7 @@ func ValidateServicePort(attribute string, servicePort string) error {
 		ports := parts[1]
 		return ValidatePortString(attribute, ports)
 
-	case protocols.L4ProtocolICMP, protocols.L4ProtocolICMP6:
+	case protocols.L4ProtocolICMP, protocols.L4ProtocolICMP6, protocols.L4ProtocolIPv6ICMP:
 		typeCode := parts[1]
 		return ValidateICMPTypeCodeNotation(attribute, upperProto, typeCode)
 	}

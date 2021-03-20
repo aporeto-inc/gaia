@@ -23,7 +23,7 @@ const (
 var CloudAddressIdentity = elemental.Identity{
 	Name:     "cloudaddress",
 	Category: "cloudaddresses",
-	Package:  "pcn",
+	Package:  "yeul",
 	Private:  false,
 }
 

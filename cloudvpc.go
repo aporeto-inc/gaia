@@ -13,7 +13,7 @@ import (
 var CloudVPCIdentity = elemental.Identity{
 	Name:     "cloudvpc",
 	Category: "cloudvpcs",
-	Package:  "pcn",
+	Package:  "yeul",
 	Private:  false,
 }
 

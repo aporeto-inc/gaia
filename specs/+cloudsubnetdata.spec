@@ -3,7 +3,7 @@ model:
   rest_name: cloudsubnetdata
   resource_name: cloudsubnetdata
   entity_name: CloudSubnetData
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Parameters associated with a subnet.
   detached: true

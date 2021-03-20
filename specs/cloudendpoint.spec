@@ -3,7 +3,7 @@ model:
   rest_name: cloudendpoint
   resource_name: cloudendpoints
   entity_name: CloudEndpoint
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Manages the list of endpoints available in a cloud deployment.
   get:
@@ -21,13 +21,6 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@prismabase'
-
-# Indexes
-indexes:
-- - nativeID
-- - namespace
-  - nativeID
-- - vpcid
 
 # Attributes
 attributes:

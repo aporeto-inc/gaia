@@ -3,7 +3,7 @@ model:
   rest_name: cloudnetworkruleset
   resource_name: cloudnetworkrulesets
   entity_name: CloudNetworkRuleSet
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: |-
     A CloudNetworkRuleSet represents a set of cloud network security groups or

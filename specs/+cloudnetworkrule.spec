@@ -3,8 +3,8 @@ model:
   rest_name: cloudnetworkrule
   resource_name: cloudnetworkrules
   entity_name: CloudNetworkRule
-  package: squall
-  group: core/policy
+  package: yeul
+  group: pcn/infrastructure
   description: Represents an ingress or egress network rule.
   detached: true
 

@@ -3,7 +3,7 @@ model:
   rest_name: cloudpolicy
   resource_name: cloudpolicies
   entity_name: CloudPolicy
-  package: pcn/infrastructure
+  package: yeul
   group: pcn/infrastructure
   description: Creates a Prisma Cloud policy and corresponding alert rules.
   get:

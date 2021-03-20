@@ -3,7 +3,7 @@ model:
   rest_name: cloudnetworkquerydestination
   resource_name: cloudnetworkquerydestinations
   entity_name: CloudNetworkQueryDestination
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Returns the set of discovered destinations and the associated verdicts.
   detached: true

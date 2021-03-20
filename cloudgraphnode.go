@@ -12,7 +12,7 @@ import (
 var CloudGraphNodeIdentity = elemental.Identity{
 	Name:     "cloudgraphnode",
 	Category: "cloudgraphnodes",
-	Package:  "pcn/infrastructure",
+	Package:  "yeul",
 	Private:  false,
 }
 

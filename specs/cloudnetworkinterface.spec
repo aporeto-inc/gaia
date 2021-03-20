@@ -3,7 +3,7 @@ model:
   rest_name: cloudnetworkinterface
   resource_name: cloudnetworkinterfaces
   entity_name: CloudNetworkInterface
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Manages the set of network interfaces that are associated with endpoints.
   get:
@@ -23,12 +23,6 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@prismabase'
-
-# Indexes
-indexes:
-- - nativeID
-- - namespace
-  - nativeID
 
 # Attributes
 attributes:

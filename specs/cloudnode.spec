@@ -3,7 +3,7 @@ model:
   rest_name: cloudnode
   resource_name: cloudnodes
   entity_name: CloudNode
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Manages the list of cloud nodes available in a cloud deployment.
   get:

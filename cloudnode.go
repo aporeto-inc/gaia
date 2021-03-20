@@ -36,7 +36,7 @@ const (
 var CloudNodeIdentity = elemental.Identity{
 	Name:     "cloudnode",
 	Category: "cloudnodes",
-	Package:  "pcn",
+	Package:  "yeul",
 	Private:  false,
 }
 

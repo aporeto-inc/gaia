@@ -12,7 +12,7 @@ import (
 var CloudTopologyIdentity = elemental.Identity{
 	Name:     "cloudtopology",
 	Category: "cloudtopologies",
-	Package:  "pcn/infrastructure",
+	Package:  "yeul",
 	Private:  false,
 }
 

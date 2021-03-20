@@ -3,7 +3,7 @@ model:
   rest_name: cloudgraphnodeaction
   resource_name: cloudgraphactions
   entity_name: CloudGraphNodeAction
-  package: pcn/infrastructure
+  package: yeul
   group: pcn/infrastructure
   description: Describes the action and corresponding policy that resulted in this
     decision.

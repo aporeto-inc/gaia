@@ -3,7 +3,7 @@ model:
   rest_name: cloudendpointdata
   resource_name: cloudendpointdata
   entity_name: CloudEndpointData
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Parameters associated with a cloud endpoint.
   detached: true

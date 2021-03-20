@@ -13,7 +13,7 @@ import (
 var CloudNetworkInterfaceIdentity = elemental.Identity{
 	Name:     "cloudnetworkinterface",
 	Category: "cloudnetworkinterfaces",
-	Package:  "pcn",
+	Package:  "yeul",
 	Private:  false,
 }
 

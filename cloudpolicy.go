@@ -26,7 +26,7 @@ const (
 var CloudPolicyIdentity = elemental.Identity{
 	Name:     "cloudpolicy",
 	Category: "cloudpolicies",
-	Package:  "pcn/infrastructure",
+	Package:  "yeul",
 	Private:  false,
 }
 

@@ -3,7 +3,7 @@ model:
   rest_name: cloudroute
   resource_name: cloudroutes
   entity_name: CloudRoute
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Describes a route in a route table.
 

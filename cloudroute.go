@@ -44,7 +44,7 @@ const (
 var CloudRouteIdentity = elemental.Identity{
 	Name:     "cloudroute",
 	Category: "cloudroutes",
-	Package:  "pcn",
+	Package:  "yeul",
 	Private:  false,
 }
 

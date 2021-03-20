@@ -3,7 +3,7 @@ model:
   rest_name: cloudnetworkqueryfilter
   resource_name: cloudnetworkqueryfilters
   entity_name: CloudNetworkQueryFilter
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: |-
     Captures the parameters allowed in a query filter for a net effective

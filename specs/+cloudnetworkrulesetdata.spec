@@ -3,7 +3,7 @@ model:
   rest_name: cloudnetworkrulesetdata
   resource_name: cloudnetworkrulesetdata
   entity_name: CloudNetworkRuleSetData
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Parameters associated with a cloud network rule set.
   detached: true

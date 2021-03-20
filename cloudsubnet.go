@@ -13,7 +13,7 @@ import (
 var CloudSubnetIdentity = elemental.Identity{
 	Name:     "cloudsubnet",
 	Category: "cloudsubnets",
-	Package:  "pcn",
+	Package:  "yeul",
 	Private:  false,
 }
 

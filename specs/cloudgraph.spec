@@ -3,7 +3,7 @@ model:
   rest_name: cloudgraph
   resource_name: cloudgraphs
   entity_name: CloudGraph
-  package: pcn/infrastructure
+  package: yeul
   group: pcn/infrastructure
   description: "Returns a data structure representing the graph of all cloud nodes
     \nand their connections in a particular namespace."

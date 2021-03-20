@@ -3,7 +3,7 @@ model:
   rest_name: cloudalert
   resource_name: cloudalerts
   entity_name: CloudAlert
-  package: pcn/infrastructure
+  package: yeul
   group: pcn/infrastructure
   description: Creates a Prisma Cloud policy and corresponding alert rules.
   get:

@@ -26,7 +26,7 @@ const (
 var CloudNetworkQueryIdentity = elemental.Identity{
 	Name:     "cloudnetworkquery",
 	Category: "cloudnetworkqueries",
-	Package:  "pcn/infrastructure",
+	Package:  "yeul",
 	Private:  false,
 }
 

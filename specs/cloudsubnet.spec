@@ -3,7 +3,7 @@ model:
   rest_name: cloudsubnet
   resource_name: cloudsubnets
   entity_name: CloudSubnet
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Manages the list of subnets associated with a deployment.
   get:
@@ -23,12 +23,6 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@prismabase'
-
-# Indexes
-indexes:
-- - nativeID
-- - namespace
-  - nativeID
 
 # Attributes
 attributes:

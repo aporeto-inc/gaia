@@ -3,7 +3,7 @@ model:
   rest_name: cloudnetworkquery
   resource_name: cloudnetworkqueries
   entity_name: CloudNetworkQuery
-  package: pcn/infrastructure
+  package: yeul
   group: pcn/infrastructure
   description: Provides the parameters for an effective network permissions query.
   get:

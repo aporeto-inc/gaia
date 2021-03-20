@@ -11,9 +11,6 @@ model:
   extends:
   - '@base'
   - '@namespaced'
-  - '@zoned'
-  - '@migratable'
-  - '@identifiable-stored'
 
 # Attributes
 attributes:

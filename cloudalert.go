@@ -12,7 +12,7 @@ import (
 var CloudAlertIdentity = elemental.Identity{
 	Name:     "cloudalert",
 	Category: "cloudalerts",
-	Package:  "pcn/infrastructure",
+	Package:  "yeul",
 	Private:  false,
 }
 

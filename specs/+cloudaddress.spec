@@ -3,7 +3,7 @@ model:
   rest_name: cloudaddress
   resource_name: cloudaddresses
   entity_name: CloudAddress
-  package: pcn
+  package: yeul
   group: prisma/infrastructure
   description: Managed the list of IP addresses associated with an interface.
 

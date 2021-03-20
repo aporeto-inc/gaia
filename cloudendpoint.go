@@ -13,7 +13,7 @@ import (
 var CloudEndpointIdentity = elemental.Identity{
 	Name:     "cloudendpoint",
 	Category: "cloudendpoints",
-	Package:  "pcn",
+	Package:  "yeul",
 	Private:  false,
 }
 
