@@ -51,14 +51,12 @@ type CloudNetworkQueryFilter struct {
 	// different meaning depending on the target cloud.
 	SecurityTags []string `json:"SecurityTags" msgpack:"SecurityTags" bson:"securitytags" mapstructure:"SecurityTags,omitempty"`
 
-	// For interface objects, ServiceOwners can identify the owner of the service that
-	// the
-	// interface is attached to. Field is not valid if the resource type is not an
-	// interface.
+	// Identifies the owner of the service that the resource is attached to. Field is
+	// not valid if the resource type is not an interface.
 	ServiceOwners []string `json:"ServiceOwners" msgpack:"ServiceOwners" bson:"serviceowners" mapstructure:"ServiceOwners,omitempty"`
 
-	// For interface objects, ServiceTypes can identify the type of service that the
-	// interface is attached to. Field is not valid if the resource type is not an
+	// Identifies the type of service that the interface is attached to. Field is not
+	// valid if the resource type is not an
 	// interface.
 	ServiceTypes []string `json:"ServiceTypes" msgpack:"ServiceTypes" bson:"servicetypes" mapstructure:"ServiceTypes,omitempty"`
 

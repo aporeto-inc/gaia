@@ -103,10 +103,10 @@ type CloudSnapshotAccount struct {
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
-	// The Customer name of the tenant where the account is onboarded.
+	// The customer name of the tenant.
 	CustomerName string `json:"customerName" msgpack:"customerName" bson:"-" mapstructure:"customerName,omitempty"`
 
-	// The name of the account as onboarded in Prisma Cloud.
+	// The name of the account.
 	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -554,7 +554,7 @@ var CloudSnapshotAccountAttributesMap = map[string]elemental.AttributeSpecificat
 	"CustomerName": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CustomerName",
-		Description:    `The Customer name of the tenant where the account is onboarded.`,
+		Description:    `The customer name of the tenant.`,
 		Exposed:        true,
 		Name:           "customerName",
 		Required:       true,
@@ -563,7 +563,7 @@ var CloudSnapshotAccountAttributesMap = map[string]elemental.AttributeSpecificat
 	"Name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `The name of the account as onboarded in Prisma Cloud.`,
+		Description:    `The name of the account.`,
 		Exposed:        true,
 		Name:           "name",
 		Type:           "string",
@@ -681,7 +681,7 @@ var CloudSnapshotAccountLowerCaseAttributesMap = map[string]elemental.AttributeS
 	"customername": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CustomerName",
-		Description:    `The Customer name of the tenant where the account is onboarded.`,
+		Description:    `The customer name of the tenant.`,
 		Exposed:        true,
 		Name:           "customerName",
 		Required:       true,
@@ -690,7 +690,7 @@ var CloudSnapshotAccountLowerCaseAttributesMap = map[string]elemental.AttributeS
 	"name": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `The name of the account as onboarded in Prisma Cloud.`,
+		Description:    `The name of the account.`,
 		Exposed:        true,
 		Name:           "name",
 		Type:           "string",
@@ -830,10 +830,10 @@ type SparseCloudSnapshotAccount struct {
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
-	// The Customer name of the tenant where the account is onboarded.
+	// The customer name of the tenant.
 	CustomerName *string `json:"customerName,omitempty" msgpack:"customerName,omitempty" bson:"-" mapstructure:"customerName,omitempty"`
 
-	// The name of the account as onboarded in Prisma Cloud.
+	// The name of the account.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.

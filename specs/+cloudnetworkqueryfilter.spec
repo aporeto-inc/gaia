@@ -73,10 +73,8 @@ attributes:
 
   - name: ServiceOwners
     description: |-
-      For interface objects, ServiceOwners can identify the owner of the service that
-      the
-      interface is attached to. Field is not valid if the resource type is not an
-      interface.
+      Identifies the owner of the service that the resource is attached to. Field is
+      not valid if the resource type is not an interface.
     type: list
     exposed: true
     subtype: string
@@ -84,8 +82,8 @@ attributes:
 
   - name: ServiceTypes
     description: |-
-      For interface objects, ServiceTypes can identify the type of service that the
-      interface is attached to. Field is not valid if the resource type is not an
+      Identifies the type of service that the interface is attached to. Field is not
+      valid if the resource type is not an
       interface.
     type: list
     exposed: true

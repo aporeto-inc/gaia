@@ -25,14 +25,14 @@ attributes:
     default_value: AWS
 
   - name: customerName
-    description: The Customer name of the tenant where the account is onboarded.
+    description: The customer name of the tenant.
     type: string
     exposed: true
     required: true
     example_value: customer-name
 
   - name: name
-    description: The name of the account as onboarded in Prisma Cloud.
+    description: The name of the account.
     type: string
     exposed: true
     example_value: account-foo

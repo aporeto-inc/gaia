@@ -63,8 +63,8 @@ type CloudInterfaceData struct {
 	// related service or gateway.
 	RelatedObjectID string `json:"relatedObjectID" msgpack:"relatedObjectID" bson:"relatedobjectid" mapstructure:"relatedObjectID,omitempty"`
 
-	// The route table that must be used for this interface. Applies to TransitGateways
-	// and other special types.
+	// The route table that must be used for this interface. Applies to Transit
+	// Gateways and other special types.
 	RouteTableID string `json:"routeTableID" msgpack:"routeTableID" bson:"routetableid" mapstructure:"routeTableID,omitempty"`
 
 	// Security tags associated with the instance.

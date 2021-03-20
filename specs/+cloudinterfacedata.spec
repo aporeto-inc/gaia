@@ -51,8 +51,8 @@ attributes:
 
   - name: routeTableID
     description: |-
-      The route table that must be used for this interface. Applies to TransitGateways
-      and other special types.
+      The route table that must be used for this interface. Applies to Transit
+      Gateways and other special types.
     type: string
     exposed: true
     stored: true
