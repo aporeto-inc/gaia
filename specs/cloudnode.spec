@@ -27,7 +27,26 @@ indexes:
 - - nativeID
 - - namespace
   - nativeID
-- - vpcID
+- - vpcid
+- - namespace
+  - type
+- - namespace
+  - type
+  - subtype
+- - namespace
+  - relatedObjectID
+- - namespace
+  - securitytags
+  - type
+  - vpcid
+- - namespace
+  - securitytags
+  - type
+  - vpcid
+  - zone
+- - namespace
+  - vpcid
+  - type
 
 # Attributes
 attributes:
