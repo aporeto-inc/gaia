@@ -199,8 +199,8 @@ type Enforcer struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// This field indicate whether the enforcer has detected host mode containers.
-	DetectedHostModeContainer bool `json:"detectedHostModeContainer" msgpack:"detectedHostModeContainer" bson:"detectedhostmodecontainer" mapstructure:"detectedHostModeContainer,omitempty"`
+	// This field indicates whether the enforcer has detected host mode containers.
+	DetectedHostModeContainers bool `json:"detectedHostModeContainers" msgpack:"detectedHostModeContainers" bson:"detectedhostmodecontainers" mapstructure:"detectedHostModeContainers,omitempty"`
 
 	// Status of the enforcement for host services.
 	EnforcementStatus EnforcerEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
@@ -364,7 +364,7 @@ func (o *Enforcer) GetBSON() (interface{}, error) {
 	s.CreateTime = o.CreateTime
 	s.CurrentVersion = o.CurrentVersion
 	s.Description = o.Description
-	s.DetectedHostModeContainer = o.DetectedHostModeContainer
+	s.DetectedHostModeContainers = o.DetectedHostModeContainers
 	s.EnforcementStatus = o.EnforcementStatus
 	s.LastCollectionID = o.LastCollectionID
 	s.LastCollectionTime = o.LastCollectionTime
@@ -421,7 +421,7 @@ func (o *Enforcer) SetBSON(raw bson.Raw) error {
 	o.CreateTime = s.CreateTime
 	o.CurrentVersion = s.CurrentVersion
 	o.Description = s.Description
-	o.DetectedHostModeContainer = s.DetectedHostModeContainer
+	o.DetectedHostModeContainers = s.DetectedHostModeContainers
 	o.EnforcementStatus = s.EnforcementStatus
 	o.LastCollectionID = s.LastCollectionID
 	o.LastCollectionTime = s.LastCollectionTime
@@ -685,50 +685,50 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseEnforcer{
-			FQDN:                      &o.FQDN,
-			ID:                        &o.ID,
-			Annotations:               &o.Annotations,
-			AssociatedTags:            &o.AssociatedTags,
-			Certificate:               &o.Certificate,
-			CertificateExpirationDate: &o.CertificateExpirationDate,
-			CertificateKey:            &o.CertificateKey,
-			CertificateRequest:        &o.CertificateRequest,
-			CollectInfo:               &o.CollectInfo,
-			CollectedInfo:             &o.CollectedInfo,
-			Controller:                &o.Controller,
-			CreateIdempotencyKey:      &o.CreateIdempotencyKey,
-			CreateTime:                &o.CreateTime,
-			CurrentVersion:            &o.CurrentVersion,
-			Description:               &o.Description,
-			DetectedHostModeContainer: &o.DetectedHostModeContainer,
-			EnforcementStatus:         &o.EnforcementStatus,
-			LastCollectionID:          &o.LastCollectionID,
-			LastCollectionTime:        &o.LastCollectionTime,
-			LastMigrationTime:         &o.LastMigrationTime,
-			LastPokeTime:              &o.LastPokeTime,
-			LastSyncTime:              &o.LastSyncTime,
-			LastValidHostServices:     &o.LastValidHostServices,
-			LocalCA:                   &o.LocalCA,
-			LogLevel:                  &o.LogLevel,
-			LogLevelDuration:          &o.LogLevelDuration,
-			MachineID:                 &o.MachineID,
-			Metadata:                  &o.Metadata,
-			MigrationStatus:           &o.MigrationStatus,
-			MigrationsLog:             &o.MigrationsLog,
-			Name:                      &o.Name,
-			Namespace:                 &o.Namespace,
-			NextAvailableVersion:      &o.NextAvailableVersion,
-			NormalizedTags:            &o.NormalizedTags,
-			OperationalStatus:         &o.OperationalStatus,
-			Protected:                 &o.Protected,
-			PublicToken:               &o.PublicToken,
-			StartTime:                 &o.StartTime,
-			Subnets:                   &o.Subnets,
-			Unreachable:               &o.Unreachable,
-			UpdateIdempotencyKey:      &o.UpdateIdempotencyKey,
-			UpdateTime:                &o.UpdateTime,
-			ZHash:                     &o.ZHash,
-			Zone:                      &o.Zone,
+			FQDN:                       &o.FQDN,
+			ID:                         &o.ID,
+			Annotations:                &o.Annotations,
+			AssociatedTags:             &o.AssociatedTags,
+			Certificate:                &o.Certificate,
+			CertificateExpirationDate:  &o.CertificateExpirationDate,
+			CertificateKey:             &o.CertificateKey,
+			CertificateRequest:         &o.CertificateRequest,
+			CollectInfo:                &o.CollectInfo,
+			CollectedInfo:              &o.CollectedInfo,
+			Controller:                 &o.Controller,
+			CreateIdempotencyKey:       &o.CreateIdempotencyKey,
+			CreateTime:                 &o.CreateTime,
+			CurrentVersion:             &o.CurrentVersion,
+			Description:                &o.Description,
+			DetectedHostModeContainers: &o.DetectedHostModeContainers,
+			EnforcementStatus:          &o.EnforcementStatus,
+			LastCollectionID:           &o.LastCollectionID,
+			LastCollectionTime:         &o.LastCollectionTime,
+			LastMigrationTime:          &o.LastMigrationTime,
+			LastPokeTime:               &o.LastPokeTime,
+			LastSyncTime:               &o.LastSyncTime,
+			LastValidHostServices:      &o.LastValidHostServices,
+			LocalCA:                    &o.LocalCA,
+			LogLevel:                   &o.LogLevel,
+			LogLevelDuration:           &o.LogLevelDuration,
+			MachineID:                  &o.MachineID,
+			Metadata:                   &o.Metadata,
+			MigrationStatus:            &o.MigrationStatus,
+			MigrationsLog:              &o.MigrationsLog,
+			Name:                       &o.Name,
+			Namespace:                  &o.Namespace,
+			NextAvailableVersion:       &o.NextAvailableVersion,
+			NormalizedTags:             &o.NormalizedTags,
+			OperationalStatus:          &o.OperationalStatus,
+			Protected:                  &o.Protected,
+			PublicToken:                &o.PublicToken,
+			StartTime:                  &o.StartTime,
+			Subnets:                    &o.Subnets,
+			Unreachable:                &o.Unreachable,
+			UpdateIdempotencyKey:       &o.UpdateIdempotencyKey,
+			UpdateTime:                 &o.UpdateTime,
+			ZHash:                      &o.ZHash,
+			Zone:                       &o.Zone,
 		}
 	}
 
@@ -765,8 +765,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CurrentVersion = &(o.CurrentVersion)
 		case "description":
 			sp.Description = &(o.Description)
-		case "detectedHostModeContainer":
-			sp.DetectedHostModeContainer = &(o.DetectedHostModeContainer)
+		case "detectedHostModeContainers":
+			sp.DetectedHostModeContainers = &(o.DetectedHostModeContainers)
 		case "enforcementStatus":
 			sp.EnforcementStatus = &(o.EnforcementStatus)
 		case "lastCollectionID":
@@ -881,8 +881,8 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Description != nil {
 		o.Description = *so.Description
 	}
-	if so.DetectedHostModeContainer != nil {
-		o.DetectedHostModeContainer = *so.DetectedHostModeContainer
+	if so.DetectedHostModeContainers != nil {
+		o.DetectedHostModeContainers = *so.DetectedHostModeContainers
 	}
 	if so.EnforcementStatus != nil {
 		o.EnforcementStatus = *so.EnforcementStatus
@@ -1112,8 +1112,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.CurrentVersion
 	case "description":
 		return o.Description
-	case "detectedHostModeContainer":
-		return o.DetectedHostModeContainer
+	case "detectedHostModeContainers":
+		return o.DetectedHostModeContainers
 	case "enforcementStatus":
 		return o.EnforcementStatus
 	case "lastCollectionID":
@@ -1370,16 +1370,14 @@ useful when federating multiple Microsegmentation Consoles.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"DetectedHostModeContainer": {
+	"DetectedHostModeContainers": {
 		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "detectedhostmodecontainer",
-		ConvertedName:  "DetectedHostModeContainer",
-		Description:    `This field indicate whether the enforcer has detected host mode containers.`,
+		BSONFieldName:  "detectedhostmodecontainers",
+		ConvertedName:  "DetectedHostModeContainers",
+		Description:    `This field indicates whether the enforcer has detected host mode containers.`,
 		Exposed:        true,
-		Name:           "detectedHostModeContainer",
+		Name:           "detectedHostModeContainers",
 		Stored:         true,
-		Transient:      true,
 		Type:           "boolean",
 	},
 	"EnforcementStatus": {
@@ -1935,16 +1933,14 @@ useful when federating multiple Microsegmentation Consoles.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"detectedhostmodecontainer": {
+	"detectedhostmodecontainers": {
 		AllowedChoices: []string{},
-		Autogenerated:  true,
-		BSONFieldName:  "detectedhostmodecontainer",
-		ConvertedName:  "DetectedHostModeContainer",
-		Description:    `This field indicate whether the enforcer has detected host mode containers.`,
+		BSONFieldName:  "detectedhostmodecontainers",
+		ConvertedName:  "DetectedHostModeContainers",
+		Description:    `This field indicates whether the enforcer has detected host mode containers.`,
 		Exposed:        true,
-		Name:           "detectedHostModeContainer",
+		Name:           "detectedHostModeContainers",
 		Stored:         true,
-		Transient:      true,
 		Type:           "boolean",
 	},
 	"enforcementstatus": {
@@ -2421,8 +2417,8 @@ type SparseEnforcer struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// This field indicate whether the enforcer has detected host mode containers.
-	DetectedHostModeContainer *bool `json:"detectedHostModeContainer,omitempty" msgpack:"detectedHostModeContainer,omitempty" bson:"detectedhostmodecontainer,omitempty" mapstructure:"detectedHostModeContainer,omitempty"`
+	// This field indicates whether the enforcer has detected host mode containers.
+	DetectedHostModeContainers *bool `json:"detectedHostModeContainers,omitempty" msgpack:"detectedHostModeContainers,omitempty" bson:"detectedhostmodecontainers,omitempty" mapstructure:"detectedHostModeContainers,omitempty"`
 
 	// Status of the enforcement for host services.
 	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
@@ -2599,8 +2595,8 @@ func (o *SparseEnforcer) GetBSON() (interface{}, error) {
 	if o.Description != nil {
 		s.Description = o.Description
 	}
-	if o.DetectedHostModeContainer != nil {
-		s.DetectedHostModeContainer = o.DetectedHostModeContainer
+	if o.DetectedHostModeContainers != nil {
+		s.DetectedHostModeContainers = o.DetectedHostModeContainers
 	}
 	if o.EnforcementStatus != nil {
 		s.EnforcementStatus = o.EnforcementStatus
@@ -2735,8 +2731,8 @@ func (o *SparseEnforcer) SetBSON(raw bson.Raw) error {
 	if s.Description != nil {
 		o.Description = s.Description
 	}
-	if s.DetectedHostModeContainer != nil {
-		o.DetectedHostModeContainer = s.DetectedHostModeContainer
+	if s.DetectedHostModeContainers != nil {
+		o.DetectedHostModeContainers = s.DetectedHostModeContainers
 	}
 	if s.EnforcementStatus != nil {
 		o.EnforcementStatus = s.EnforcementStatus
@@ -2878,8 +2874,8 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
-	if o.DetectedHostModeContainer != nil {
-		out.DetectedHostModeContainer = *o.DetectedHostModeContainer
+	if o.DetectedHostModeContainers != nil {
+		out.DetectedHostModeContainers = *o.DetectedHostModeContainers
 	}
 	if o.EnforcementStatus != nil {
 		out.EnforcementStatus = *o.EnforcementStatus
@@ -3250,86 +3246,86 @@ func (o *SparseEnforcer) DeepCopyInto(out *SparseEnforcer) {
 }
 
 type mongoAttributesEnforcer struct {
-	FQDN                      string                         `bson:"fqdn"`
-	ID                        bson.ObjectId                  `bson:"_id,omitempty"`
-	Annotations               map[string][]string            `bson:"annotations"`
-	AssociatedTags            []string                       `bson:"associatedtags"`
-	Certificate               string                         `bson:"certificate"`
-	CollectInfo               bool                           `bson:"collectinfo"`
-	CollectedInfo             map[string]string              `bson:"collectedinfo"`
-	Controller                string                         `bson:"controller"`
-	CreateIdempotencyKey      string                         `bson:"createidempotencykey"`
-	CreateTime                time.Time                      `bson:"createtime"`
-	CurrentVersion            string                         `bson:"currentversion"`
-	Description               string                         `bson:"description"`
-	DetectedHostModeContainer bool                           `bson:"detectedhostmodecontainer"`
-	EnforcementStatus         EnforcerEnforcementStatusValue `bson:"enforcementstatus"`
-	LastCollectionID          string                         `bson:"lastcollectionid"`
-	LastCollectionTime        time.Time                      `bson:"lastcollectiontime"`
-	LastMigrationTime         time.Time                      `bson:"lastmigrationtime"`
-	LastPokeTime              time.Time                      `bson:"lastpoketime"`
-	LastSyncTime              time.Time                      `bson:"lastsynctime"`
-	LastValidHostServices     HostServicesList               `bson:"lastvalidhostservices"`
-	LogLevel                  EnforcerLogLevelValue          `bson:"loglevel"`
-	LogLevelDuration          string                         `bson:"loglevelduration"`
-	MachineID                 string                         `bson:"machineid"`
-	Metadata                  []string                       `bson:"metadata"`
-	MigrationStatus           EnforcerMigrationStatusValue   `bson:"migrationstatus"`
-	MigrationsLog             map[string]string              `bson:"migrationslog,omitempty"`
-	Name                      string                         `bson:"name"`
-	Namespace                 string                         `bson:"namespace"`
-	NextAvailableVersion      string                         `bson:"nextavailableversion"`
-	NormalizedTags            []string                       `bson:"normalizedtags"`
-	OperationalStatus         EnforcerOperationalStatusValue `bson:"operationalstatus"`
-	Protected                 bool                           `bson:"protected"`
-	PublicToken               string                         `bson:"publictoken"`
-	StartTime                 time.Time                      `bson:"starttime"`
-	Subnets                   []string                       `bson:"subnets"`
-	Unreachable               bool                           `bson:"unreachable"`
-	UpdateIdempotencyKey      string                         `bson:"updateidempotencykey"`
-	UpdateTime                time.Time                      `bson:"updatetime"`
-	ZHash                     int                            `bson:"zhash"`
-	Zone                      int                            `bson:"zone"`
+	FQDN                       string                         `bson:"fqdn"`
+	ID                         bson.ObjectId                  `bson:"_id,omitempty"`
+	Annotations                map[string][]string            `bson:"annotations"`
+	AssociatedTags             []string                       `bson:"associatedtags"`
+	Certificate                string                         `bson:"certificate"`
+	CollectInfo                bool                           `bson:"collectinfo"`
+	CollectedInfo              map[string]string              `bson:"collectedinfo"`
+	Controller                 string                         `bson:"controller"`
+	CreateIdempotencyKey       string                         `bson:"createidempotencykey"`
+	CreateTime                 time.Time                      `bson:"createtime"`
+	CurrentVersion             string                         `bson:"currentversion"`
+	Description                string                         `bson:"description"`
+	DetectedHostModeContainers bool                           `bson:"detectedhostmodecontainers"`
+	EnforcementStatus          EnforcerEnforcementStatusValue `bson:"enforcementstatus"`
+	LastCollectionID           string                         `bson:"lastcollectionid"`
+	LastCollectionTime         time.Time                      `bson:"lastcollectiontime"`
+	LastMigrationTime          time.Time                      `bson:"lastmigrationtime"`
+	LastPokeTime               time.Time                      `bson:"lastpoketime"`
+	LastSyncTime               time.Time                      `bson:"lastsynctime"`
+	LastValidHostServices      HostServicesList               `bson:"lastvalidhostservices"`
+	LogLevel                   EnforcerLogLevelValue          `bson:"loglevel"`
+	LogLevelDuration           string                         `bson:"loglevelduration"`
+	MachineID                  string                         `bson:"machineid"`
+	Metadata                   []string                       `bson:"metadata"`
+	MigrationStatus            EnforcerMigrationStatusValue   `bson:"migrationstatus"`
+	MigrationsLog              map[string]string              `bson:"migrationslog,omitempty"`
+	Name                       string                         `bson:"name"`
+	Namespace                  string                         `bson:"namespace"`
+	NextAvailableVersion       string                         `bson:"nextavailableversion"`
+	NormalizedTags             []string                       `bson:"normalizedtags"`
+	OperationalStatus          EnforcerOperationalStatusValue `bson:"operationalstatus"`
+	Protected                  bool                           `bson:"protected"`
+	PublicToken                string                         `bson:"publictoken"`
+	StartTime                  time.Time                      `bson:"starttime"`
+	Subnets                    []string                       `bson:"subnets"`
+	Unreachable                bool                           `bson:"unreachable"`
+	UpdateIdempotencyKey       string                         `bson:"updateidempotencykey"`
+	UpdateTime                 time.Time                      `bson:"updatetime"`
+	ZHash                      int                            `bson:"zhash"`
+	Zone                       int                            `bson:"zone"`
 }
 type mongoAttributesSparseEnforcer struct {
-	FQDN                      *string                         `bson:"fqdn,omitempty"`
-	ID                        bson.ObjectId                   `bson:"_id,omitempty"`
-	Annotations               *map[string][]string            `bson:"annotations,omitempty"`
-	AssociatedTags            *[]string                       `bson:"associatedtags,omitempty"`
-	Certificate               *string                         `bson:"certificate,omitempty"`
-	CollectInfo               *bool                           `bson:"collectinfo,omitempty"`
-	CollectedInfo             *map[string]string              `bson:"collectedinfo,omitempty"`
-	Controller                *string                         `bson:"controller,omitempty"`
-	CreateIdempotencyKey      *string                         `bson:"createidempotencykey,omitempty"`
-	CreateTime                *time.Time                      `bson:"createtime,omitempty"`
-	CurrentVersion            *string                         `bson:"currentversion,omitempty"`
-	Description               *string                         `bson:"description,omitempty"`
-	DetectedHostModeContainer *bool                           `bson:"detectedhostmodecontainer,omitempty"`
-	EnforcementStatus         *EnforcerEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
-	LastCollectionID          *string                         `bson:"lastcollectionid,omitempty"`
-	LastCollectionTime        *time.Time                      `bson:"lastcollectiontime,omitempty"`
-	LastMigrationTime         *time.Time                      `bson:"lastmigrationtime,omitempty"`
-	LastPokeTime              *time.Time                      `bson:"lastpoketime,omitempty"`
-	LastSyncTime              *time.Time                      `bson:"lastsynctime,omitempty"`
-	LastValidHostServices     *HostServicesList               `bson:"lastvalidhostservices,omitempty"`
-	LogLevel                  *EnforcerLogLevelValue          `bson:"loglevel,omitempty"`
-	LogLevelDuration          *string                         `bson:"loglevelduration,omitempty"`
-	MachineID                 *string                         `bson:"machineid,omitempty"`
-	Metadata                  *[]string                       `bson:"metadata,omitempty"`
-	MigrationStatus           *EnforcerMigrationStatusValue   `bson:"migrationstatus,omitempty"`
-	MigrationsLog             *map[string]string              `bson:"migrationslog,omitempty"`
-	Name                      *string                         `bson:"name,omitempty"`
-	Namespace                 *string                         `bson:"namespace,omitempty"`
-	NextAvailableVersion      *string                         `bson:"nextavailableversion,omitempty"`
-	NormalizedTags            *[]string                       `bson:"normalizedtags,omitempty"`
-	OperationalStatus         *EnforcerOperationalStatusValue `bson:"operationalstatus,omitempty"`
-	Protected                 *bool                           `bson:"protected,omitempty"`
-	PublicToken               *string                         `bson:"publictoken,omitempty"`
-	StartTime                 *time.Time                      `bson:"starttime,omitempty"`
-	Subnets                   *[]string                       `bson:"subnets,omitempty"`
-	Unreachable               *bool                           `bson:"unreachable,omitempty"`
-	UpdateIdempotencyKey      *string                         `bson:"updateidempotencykey,omitempty"`
-	UpdateTime                *time.Time                      `bson:"updatetime,omitempty"`
-	ZHash                     *int                            `bson:"zhash,omitempty"`
-	Zone                      *int                            `bson:"zone,omitempty"`
+	FQDN                       *string                         `bson:"fqdn,omitempty"`
+	ID                         bson.ObjectId                   `bson:"_id,omitempty"`
+	Annotations                *map[string][]string            `bson:"annotations,omitempty"`
+	AssociatedTags             *[]string                       `bson:"associatedtags,omitempty"`
+	Certificate                *string                         `bson:"certificate,omitempty"`
+	CollectInfo                *bool                           `bson:"collectinfo,omitempty"`
+	CollectedInfo              *map[string]string              `bson:"collectedinfo,omitempty"`
+	Controller                 *string                         `bson:"controller,omitempty"`
+	CreateIdempotencyKey       *string                         `bson:"createidempotencykey,omitempty"`
+	CreateTime                 *time.Time                      `bson:"createtime,omitempty"`
+	CurrentVersion             *string                         `bson:"currentversion,omitempty"`
+	Description                *string                         `bson:"description,omitempty"`
+	DetectedHostModeContainers *bool                           `bson:"detectedhostmodecontainers,omitempty"`
+	EnforcementStatus          *EnforcerEnforcementStatusValue `bson:"enforcementstatus,omitempty"`
+	LastCollectionID           *string                         `bson:"lastcollectionid,omitempty"`
+	LastCollectionTime         *time.Time                      `bson:"lastcollectiontime,omitempty"`
+	LastMigrationTime          *time.Time                      `bson:"lastmigrationtime,omitempty"`
+	LastPokeTime               *time.Time                      `bson:"lastpoketime,omitempty"`
+	LastSyncTime               *time.Time                      `bson:"lastsynctime,omitempty"`
+	LastValidHostServices      *HostServicesList               `bson:"lastvalidhostservices,omitempty"`
+	LogLevel                   *EnforcerLogLevelValue          `bson:"loglevel,omitempty"`
+	LogLevelDuration           *string                         `bson:"loglevelduration,omitempty"`
+	MachineID                  *string                         `bson:"machineid,omitempty"`
+	Metadata                   *[]string                       `bson:"metadata,omitempty"`
+	MigrationStatus            *EnforcerMigrationStatusValue   `bson:"migrationstatus,omitempty"`
+	MigrationsLog              *map[string]string              `bson:"migrationslog,omitempty"`
+	Name                       *string                         `bson:"name,omitempty"`
+	Namespace                  *string                         `bson:"namespace,omitempty"`
+	NextAvailableVersion       *string                         `bson:"nextavailableversion,omitempty"`
+	NormalizedTags             *[]string                       `bson:"normalizedtags,omitempty"`
+	OperationalStatus          *EnforcerOperationalStatusValue `bson:"operationalstatus,omitempty"`
+	Protected                  *bool                           `bson:"protected,omitempty"`
+	PublicToken                *string                         `bson:"publictoken,omitempty"`
+	StartTime                  *time.Time                      `bson:"starttime,omitempty"`
+	Subnets                    *[]string                       `bson:"subnets,omitempty"`
+	Unreachable                *bool                           `bson:"unreachable,omitempty"`
+	UpdateIdempotencyKey       *string                         `bson:"updateidempotencykey,omitempty"`
+	UpdateTime                 *time.Time                      `bson:"updatetime,omitempty"`
+	ZHash                      *int                            `bson:"zhash,omitempty"`
+	Zone                       *int                            `bson:"zone,omitempty"`
 }
