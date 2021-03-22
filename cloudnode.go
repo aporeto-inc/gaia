@@ -137,6 +137,9 @@ type CloudNode struct {
 	// The time that the object was first ingested.
 	IngestionTime time.Time `json:"ingestionTime" msgpack:"ingestionTime" bson:"ingestiontime" mapstructure:"ingestionTime,omitempty"`
 
+	// Internal unique key for a resource to guarantee no overlaps at write.
+	Key string `json:"-" msgpack:"-" bson:"key" mapstructure:"-,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -203,15 +206,15 @@ func NewCloudNode() *CloudNode {
 
 	return &CloudNode{
 		ModelVersion:     1,
-		NormalizedTags:   []string{},
 		Annotations:      map[string][]string{},
 		AssociatedTags:   []string{},
 		Attachments:      []string{},
 		CloudTags:        []string{},
+		NormalizedTags:   []string{},
 		SecurityTags:     []string{},
-		Parameters:       map[string]interface{}{},
 		MigrationsLog:    map[string]string{},
 		PolicyReferences: []string{},
+		Parameters:       map[string]interface{}{},
 	}
 }
 
@@ -256,6 +259,7 @@ func (o *CloudNode) GetBSON() (interface{}, error) {
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.CustomerID = o.CustomerID
 	s.IngestionTime = o.IngestionTime
+	s.Key = o.Key
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
@@ -303,6 +307,7 @@ func (o *CloudNode) SetBSON(raw bson.Raw) error {
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.CustomerID = s.CustomerID
 	o.IngestionTime = s.IngestionTime
+	o.Key = s.Key
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
@@ -673,6 +678,7 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CustomerID:           &o.CustomerID,
 			IngestionTime:        &o.IngestionTime,
+			Key:                  &o.Key,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -720,6 +726,8 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CustomerID = &(o.CustomerID)
 		case "ingestionTime":
 			sp.IngestionTime = &(o.IngestionTime)
+		case "key":
+			sp.Key = &(o.Key)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -803,6 +811,9 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.IngestionTime != nil {
 		o.IngestionTime = *so.IngestionTime
+	}
+	if so.Key != nil {
+		o.Key = *so.Key
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -969,6 +980,8 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 		return o.CustomerID
 	case "ingestionTime":
 		return o.IngestionTime
+	case "key":
+		return o.Key
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -1159,6 +1172,15 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"Key": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "key",
+		ConvertedName:  "Key",
+		Description:    `Internal unique key for a resource to guarantee no overlaps at write.`,
+		Name:           "key",
+		Stored:         true,
+		Type:           "string",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -1562,6 +1584,15 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "time",
 	},
+	"key": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "key",
+		ConvertedName:  "Key",
+		Description:    `Internal unique key for a resource to guarantee no overlaps at write.`,
+		Name:           "key",
+		Stored:         true,
+		Type:           "string",
+	},
 	"migrationslog": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "migrationslog",
@@ -1912,6 +1943,9 @@ type SparseCloudNode struct {
 	// The time that the object was first ingested.
 	IngestionTime *time.Time `json:"ingestionTime,omitempty" msgpack:"ingestionTime,omitempty" bson:"ingestiontime,omitempty" mapstructure:"ingestionTime,omitempty"`
 
+	// Internal unique key for a resource to guarantee no overlaps at write.
+	Key *string `json:"-" msgpack:"-" bson:"key,omitempty" mapstructure:"-,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -2046,6 +2080,9 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 	if o.IngestionTime != nil {
 		s.IngestionTime = o.IngestionTime
 	}
+	if o.Key != nil {
+		s.Key = o.Key
+	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -2152,6 +2189,9 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 	if s.IngestionTime != nil {
 		o.IngestionTime = s.IngestionTime
 	}
+	if s.Key != nil {
+		o.Key = s.Key
+	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
@@ -2255,6 +2295,9 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.IngestionTime != nil {
 		out.IngestionTime = *o.IngestionTime
+	}
+	if o.Key != nil {
+		out.Key = *o.Key
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -2753,6 +2796,7 @@ type mongoAttributesCloudNode struct {
 	CreateIdempotencyKey string                 `bson:"createidempotencykey"`
 	CustomerID           int                    `bson:"customerid"`
 	IngestionTime        time.Time              `bson:"ingestiontime"`
+	Key                  string                 `bson:"key"`
 	MigrationsLog        map[string]string      `bson:"migrationslog,omitempty"`
 	Name                 string                 `bson:"name"`
 	Namespace            string                 `bson:"namespace"`
@@ -2785,6 +2829,7 @@ type mongoAttributesSparseCloudNode struct {
 	CreateIdempotencyKey *string                 `bson:"createidempotencykey,omitempty"`
 	CustomerID           *int                    `bson:"customerid,omitempty"`
 	IngestionTime        *time.Time              `bson:"ingestiontime,omitempty"`
+	Key                  *string                 `bson:"key,omitempty"`
 	MigrationsLog        *map[string]string      `bson:"migrationslog,omitempty"`
 	Name                 *string                 `bson:"name,omitempty"`
 	Namespace            *string                 `bson:"namespace,omitempty"`

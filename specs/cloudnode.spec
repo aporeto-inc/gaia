@@ -40,13 +40,9 @@ indexes:
   - type
   - vpcid
 - - namespace
-  - securitytags
-  - type
-  - vpcid
-  - zone
-- - namespace
   - vpcid
   - type
+- - key
 
 # Attributes
 attributes:
@@ -59,6 +55,11 @@ attributes:
     stored: true
     getter: true
     setter: true
+
+  - name: key
+    description: Internal unique key for a resource to guarantee no overlaps at write.
+    type: string
+    stored: true
 
   - name: parameters
     description: The cloud attributes of the object.
