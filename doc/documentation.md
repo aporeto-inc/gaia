@@ -8905,7 +8905,6 @@ Provides the parameters for an effective network permissions query.
 
 ```json
 {
-  "destinationPort": 0,
   "destinationProtocol": -1,
   "excludeEnterpriseIPs": false,
   "name": "the name",
@@ -8996,17 +8995,11 @@ Type: `string`
 
 The destination IP of a trace route request. Might not always be an endpoint.
 
-##### `destinationPort` [`max_value=65536.000000`]
+##### `destinationPorts`
 
-Type: `integer`
+Type: `_portlist`
 
-The destination protocol port that should be used for the trace route command.
-
-Default value:
-
-```json
-0
-```
+The destination port or ports that should be used for the trace route command.
 
 ##### `destinationProtocol` [`max_value=255.000000`]
 
@@ -9080,6 +9073,24 @@ Default value:
 ```json
 "Summary"
 ```
+
+### CloudNetworkQueryPort
+
+Represents a port or port pair.
+
+#### Attributes
+
+##### `from`
+
+Type: `integer`
+
+Starting port.
+
+##### `to`
+
+Type: `integer`
+
+Starting port.
 
 ### CloudNetworkRule
 

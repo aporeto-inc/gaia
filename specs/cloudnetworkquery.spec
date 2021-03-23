@@ -35,14 +35,13 @@ attributes:
     exposed: true
     stored: true
 
-  - name: destinationPort
-    description: The destination protocol port that should be used for the trace route
+  - name: destinationPorts
+    description: The destination port or ports that should be used for the trace route
       command.
-    type: integer
+    type: external
     exposed: true
+    subtype: _portlist
     stored: true
-    default_value: 0
-    max_value: 65536
 
   - name: destinationProtocol
     description: The destination protocol that should be used for the trace route

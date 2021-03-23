@@ -6,6 +6,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
+	"go.aporeto.io/gaia/portutils"
 )
 
 // CloudNetworkQueryTypeValue represents the possible values for attribute "type".
@@ -114,8 +115,8 @@ type CloudNetworkQuery struct {
 	// The destination IP of a trace route request. Might not always be an endpoint.
 	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"destinationip" mapstructure:"destinationIP,omitempty"`
 
-	// The destination protocol port that should be used for the trace route command.
-	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"destinationport" mapstructure:"destinationPort,omitempty"`
+	// The destination port or ports that should be used for the trace route command.
+	DestinationPorts []*portutils.PortsRange `json:"destinationPorts" msgpack:"destinationPorts" bson:"destinationports" mapstructure:"destinationPorts,omitempty"`
 
 	// The destination protocol that should be used for the trace route commands.
 	DestinationProtocol int `json:"destinationProtocol" msgpack:"destinationProtocol" bson:"destinationprotocol" mapstructure:"destinationProtocol,omitempty"`
@@ -173,7 +174,7 @@ func NewCloudNetworkQuery() *CloudNetworkQuery {
 	return &CloudNetworkQuery{
 		ModelVersion:        1,
 		Annotations:         map[string][]string{},
-		DestinationPort:     0,
+		DestinationPorts:    []*portutils.PortsRange{},
 		AssociatedTags:      []string{},
 		DestinationProtocol: -1,
 		DestinationSelector: NewCloudNetworkQueryFilter(),
@@ -220,7 +221,7 @@ func (o *CloudNetworkQuery) GetBSON() (interface{}, error) {
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.Description = o.Description
 	s.DestinationIP = o.DestinationIP
-	s.DestinationPort = o.DestinationPort
+	s.DestinationPorts = o.DestinationPorts
 	s.DestinationProtocol = o.DestinationProtocol
 	s.DestinationSelector = o.DestinationSelector
 	s.ExcludeEnterpriseIPs = o.ExcludeEnterpriseIPs
@@ -259,7 +260,7 @@ func (o *CloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.Description = s.Description
 	o.DestinationIP = s.DestinationIP
-	o.DestinationPort = s.DestinationPort
+	o.DestinationPorts = s.DestinationPorts
 	o.DestinationProtocol = s.DestinationProtocol
 	o.DestinationSelector = s.DestinationSelector
 	o.ExcludeEnterpriseIPs = s.ExcludeEnterpriseIPs
@@ -467,7 +468,7 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			Description:          &o.Description,
 			DestinationIP:        &o.DestinationIP,
-			DestinationPort:      &o.DestinationPort,
+			DestinationPorts:     &o.DestinationPorts,
 			DestinationProtocol:  &o.DestinationProtocol,
 			DestinationSelector:  o.DestinationSelector,
 			ExcludeEnterpriseIPs: &o.ExcludeEnterpriseIPs,
@@ -501,8 +502,8 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			sp.Description = &(o.Description)
 		case "destinationIP":
 			sp.DestinationIP = &(o.DestinationIP)
-		case "destinationPort":
-			sp.DestinationPort = &(o.DestinationPort)
+		case "destinationPorts":
+			sp.DestinationPorts = &(o.DestinationPorts)
 		case "destinationProtocol":
 			sp.DestinationProtocol = &(o.DestinationProtocol)
 		case "destinationSelector":
@@ -564,8 +565,8 @@ func (o *CloudNetworkQuery) Patch(sparse elemental.SparseIdentifiable) {
 	if so.DestinationIP != nil {
 		o.DestinationIP = *so.DestinationIP
 	}
-	if so.DestinationPort != nil {
-		o.DestinationPort = *so.DestinationPort
+	if so.DestinationPorts != nil {
+		o.DestinationPorts = *so.DestinationPorts
 	}
 	if so.DestinationProtocol != nil {
 		o.DestinationProtocol = *so.DestinationProtocol
@@ -652,10 +653,6 @@ func (o *CloudNetworkQuery) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateMaximumInt("destinationPort", o.DestinationPort, int(65536), false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := elemental.ValidateMaximumInt("destinationProtocol", o.DestinationProtocol, int(255), false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -732,8 +729,8 @@ func (o *CloudNetworkQuery) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "destinationIP":
 		return o.DestinationIP
-	case "destinationPort":
-		return o.DestinationPort
+	case "destinationPorts":
+		return o.DestinationPorts
 	case "destinationProtocol":
 		return o.DestinationProtocol
 	case "destinationSelector":
@@ -849,16 +846,16 @@ var CloudNetworkQueryAttributesMap = map[string]elemental.AttributeSpecification
 		Stored:         true,
 		Type:           "string",
 	},
-	"DestinationPort": {
+	"DestinationPorts": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "destinationport",
-		ConvertedName:  "DestinationPort",
-		Description:    `The destination protocol port that should be used for the trace route command.`,
+		BSONFieldName:  "destinationports",
+		ConvertedName:  "DestinationPorts",
+		Description:    `The destination port or ports that should be used for the trace route command.`,
 		Exposed:        true,
-		MaxValue:       65536,
-		Name:           "destinationPort",
+		Name:           "destinationPorts",
 		Stored:         true,
-		Type:           "integer",
+		SubType:        "_portlist",
+		Type:           "external",
 	},
 	"DestinationProtocol": {
 		AllowedChoices: []string{},
@@ -1132,16 +1129,16 @@ var CloudNetworkQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		Stored:         true,
 		Type:           "string",
 	},
-	"destinationport": {
+	"destinationports": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "destinationport",
-		ConvertedName:  "DestinationPort",
-		Description:    `The destination protocol port that should be used for the trace route command.`,
+		BSONFieldName:  "destinationports",
+		ConvertedName:  "DestinationPorts",
+		Description:    `The destination port or ports that should be used for the trace route command.`,
 		Exposed:        true,
-		MaxValue:       65536,
-		Name:           "destinationPort",
+		Name:           "destinationPorts",
 		Stored:         true,
-		Type:           "integer",
+		SubType:        "_portlist",
+		Type:           "external",
 	},
 	"destinationprotocol": {
 		AllowedChoices: []string{},
@@ -1418,8 +1415,8 @@ type SparseCloudNetworkQuery struct {
 	// The destination IP of a trace route request. Might not always be an endpoint.
 	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"destinationip,omitempty" mapstructure:"destinationIP,omitempty"`
 
-	// The destination protocol port that should be used for the trace route command.
-	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"destinationport,omitempty" mapstructure:"destinationPort,omitempty"`
+	// The destination port or ports that should be used for the trace route command.
+	DestinationPorts *[]*portutils.PortsRange `json:"destinationPorts,omitempty" msgpack:"destinationPorts,omitempty" bson:"destinationports,omitempty" mapstructure:"destinationPorts,omitempty"`
 
 	// The destination protocol that should be used for the trace route commands.
 	DestinationProtocol *int `json:"destinationProtocol,omitempty" msgpack:"destinationProtocol,omitempty" bson:"destinationprotocol,omitempty" mapstructure:"destinationProtocol,omitempty"`
@@ -1529,8 +1526,8 @@ func (o *SparseCloudNetworkQuery) GetBSON() (interface{}, error) {
 	if o.DestinationIP != nil {
 		s.DestinationIP = o.DestinationIP
 	}
-	if o.DestinationPort != nil {
-		s.DestinationPort = o.DestinationPort
+	if o.DestinationPorts != nil {
+		s.DestinationPorts = o.DestinationPorts
 	}
 	if o.DestinationProtocol != nil {
 		s.DestinationProtocol = o.DestinationProtocol
@@ -1611,8 +1608,8 @@ func (o *SparseCloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	if s.DestinationIP != nil {
 		o.DestinationIP = s.DestinationIP
 	}
-	if s.DestinationPort != nil {
-		o.DestinationPort = s.DestinationPort
+	if s.DestinationPorts != nil {
+		o.DestinationPorts = s.DestinationPorts
 	}
 	if s.DestinationProtocol != nil {
 		o.DestinationProtocol = s.DestinationProtocol
@@ -1691,8 +1688,8 @@ func (o *SparseCloudNetworkQuery) ToPlain() elemental.PlainIdentifiable {
 	if o.DestinationIP != nil {
 		out.DestinationIP = *o.DestinationIP
 	}
-	if o.DestinationPort != nil {
-		out.DestinationPort = *o.DestinationPort
+	if o.DestinationPorts != nil {
+		out.DestinationPorts = *o.DestinationPorts
 	}
 	if o.DestinationProtocol != nil {
 		out.DestinationProtocol = *o.DestinationProtocol
@@ -1966,7 +1963,7 @@ type mongoAttributesCloudNetworkQuery struct {
 	CreateIdempotencyKey string                     `bson:"createidempotencykey"`
 	Description          string                     `bson:"description"`
 	DestinationIP        string                     `bson:"destinationip"`
-	DestinationPort      int                        `bson:"destinationport"`
+	DestinationPorts     []*portutils.PortsRange    `bson:"destinationports"`
 	DestinationProtocol  int                        `bson:"destinationprotocol"`
 	DestinationSelector  *CloudNetworkQueryFilter   `bson:"destinationselector"`
 	ExcludeEnterpriseIPs bool                       `bson:"excludeenterpriseips"`
@@ -1990,7 +1987,7 @@ type mongoAttributesSparseCloudNetworkQuery struct {
 	CreateIdempotencyKey *string                     `bson:"createidempotencykey,omitempty"`
 	Description          *string                     `bson:"description,omitempty"`
 	DestinationIP        *string                     `bson:"destinationip,omitempty"`
-	DestinationPort      *int                        `bson:"destinationport,omitempty"`
+	DestinationPorts     *[]*portutils.PortsRange    `bson:"destinationports,omitempty"`
 	DestinationProtocol  *int                        `bson:"destinationprotocol,omitempty"`
 	DestinationSelector  *CloudNetworkQueryFilter    `bson:"destinationselector,omitempty"`
 	ExcludeEnterpriseIPs *bool                       `bson:"excludeenterpriseips,omitempty"`

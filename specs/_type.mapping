@@ -176,6 +176,24 @@ _elemental_identifiable:
         "$ref": "elemental-types.json#/identifiable"
       }
 
+_portlist:
+  elemental:
+    type: '[]*portutils.PortsRange'
+    init: '[]*portutils.PortsRange{}'
+    import: go.aporeto.io/gaia/portutils
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+
 _rendered_policy:
   elemental:
     type: map[string]PolicyRulesList
