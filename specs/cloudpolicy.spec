@@ -14,8 +14,6 @@ model:
     description: Updates the Prisma Cloud policy with the given ID.
   delete:
     description: Deletes the the Prisma Cloud policy with the given ID.
-    global_parameters:
-    - $filtering
   extends:
   - '@zoned'
   - '@migratable'
@@ -47,7 +45,9 @@ attributes:
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - Low
     - Medium
     - High
+    example_value: Low

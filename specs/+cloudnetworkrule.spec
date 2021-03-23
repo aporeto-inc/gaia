@@ -34,6 +34,8 @@ attributes:
     stored: true
     read_only: true
     omit_empty: true
+    validations:
+    - $optionalnetworksorhostnames
 
   - name: object
     description: |-
@@ -51,7 +53,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: 0
+    omit_empty: true
 
   - name: protocolPorts
     description: |-

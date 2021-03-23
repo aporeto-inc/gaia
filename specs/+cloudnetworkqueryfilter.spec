@@ -4,7 +4,7 @@ model:
   resource_name: cloudnetworkqueryfilters
   entity_name: CloudNetworkQueryFilter
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: |-
     Captures the parameters allowed in a query filter for a net effective
     permissions request.
@@ -13,7 +13,15 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: AccountIDs
+  - name: VPCIDs
+    description: The VPC ID of the target resources.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    omit_empty: true
+
+  - name: accountIDs
     description: |-
       The accounts that the search must apply to. These are the actually IDs of the
       account as provided by the cloud provider. One or more IDs can be included.
@@ -21,15 +29,21 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    example_value:
+    - account1
+    omit_empty: true
 
-  - name: CloudTypes
+  - name: cloudTypes
     description: The cloud types that the search must apply to.
     type: list
     exposed: true
     subtype: string
     stored: true
+    required: true
+    example_value:
+    - AWS
 
-  - name: ObjectIDs
+  - name: objectIDs
     description: |-
       The exact object that the search applies. If ObjectIDs are defined, the rest of
       the fields are ignored. An object ID can refer to an instance, VPC endpoint, or
@@ -38,15 +52,19 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    omit_empty: true
 
-  - name: Regions
+  - name: regions
     description: The region that the search must apply to.
     type: list
     exposed: true
     subtype: string
     stored: true
+    example_value:
+    - us-west-1
+    omit_empty: true
 
-  - name: ResourceType
+  - name: resourceType
     description: |-
       The type of endpoint resource. The resource type is a mandatory field and a
       query cannot span multiple resource types.
@@ -61,7 +79,7 @@ attributes:
     - ProcessingUnit
     default_value: Instance
 
-  - name: SecurityTags
+  - name: securityTags
     description: |-
       The list of security tags associated with the targets of the query. Security
       tags refer to security groups in AWS or network tags in GCP. So they can have
@@ -70,8 +88,9 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    omit_empty: true
 
-  - name: ServiceOwners
+  - name: serviceOwners
     description: |-
       Identifies the owner of the service that the resource is attached to. Field is
       not valid if the resource type is not an interface.
@@ -79,8 +98,9 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    omit_empty: true
 
-  - name: ServiceTypes
+  - name: serviceTypes
     description: |-
       Identifies the type of service that the interface is attached to. Field is not
       valid if the resource type is not an
@@ -89,8 +109,9 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    omit_empty: true
 
-  - name: Subnets
+  - name: subnets
     description: |-
       The subnets where the resources must reside. A subnet parameter can only be
       provided for a network interface resource type.
@@ -98,8 +119,11 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    omit_empty: true
+    validations:
+    - $optionalcidrs
 
-  - name: Tags
+  - name: tags
     description: |-
       A list of tags that select the same of endpoints for the query. These tags refer
       to the tags attached to the resources in the cloud provider definitions.
@@ -107,10 +131,4 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-
-  - name: VPCIDs
-    description: The VPC ID of the target resources.
-    type: list
-    exposed: true
-    subtype: string
-    stored: true
+    omit_empty: true

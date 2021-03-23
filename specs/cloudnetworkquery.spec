@@ -14,8 +14,6 @@ model:
     description: Updates the cloud query with the given ID.
   delete:
     description: Deletes the the cloud query with the given ID.
-    global_parameters:
-    - $filtering
   extends:
   - '@zoned'
   - '@migratable'
@@ -34,6 +32,8 @@ attributes:
     type: string
     exposed: true
     stored: true
+    validations:
+    - $optionalcidr
 
   - name: destinationPorts
     description: The destination port or ports that should be used for the trace route
@@ -80,6 +80,8 @@ attributes:
     type: string
     exposed: true
     stored: true
+    validations:
+    - $optionalcidr
 
   - name: sourceSelector
     description: A filter for selecting the sources of the request.

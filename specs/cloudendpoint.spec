@@ -4,16 +4,14 @@ model:
   resource_name: cloudendpoints
   entity_name: CloudEndpoint
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Manages the list of endpoints available in a cloud deployment.
   get:
     description: Retrieves the endpoint with the given ID.
   update:
     description: Updates the endpoint with the given ID.
   delete:
-    description: Deletes the endpoint with the given ID.
-    global_parameters:
-    - $filtering
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@zoned'
@@ -21,6 +19,7 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@prismabase'
+  - '@timeable'
 
 # Attributes
 attributes:

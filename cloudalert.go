@@ -92,7 +92,7 @@ type CloudAlert struct {
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// The list of policies that apply to this alert.
-	Cloudpolicies string `json:"cloudpolicies" msgpack:"cloudpolicies" bson:"cloudpolicies" mapstructure:"cloudpolicies,omitempty"`
+	Cloudpolicies []string `json:"cloudpolicies" msgpack:"cloudpolicies" bson:"cloudpolicies" mapstructure:"cloudpolicies,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
@@ -113,7 +113,7 @@ type CloudAlert struct {
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Type of notifications.
-	Notifications string `json:"notifications" msgpack:"notifications" bson:"notifications" mapstructure:"notifications,omitempty"`
+	Notifications []string `json:"notifications" msgpack:"notifications" bson:"notifications" mapstructure:"notifications,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -142,8 +142,10 @@ func NewCloudAlert() *CloudAlert {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
+		Cloudpolicies:  []string{},
 		MigrationsLog:  map[string]string{},
 		NormalizedTags: []string{},
+		Notifications:  []string{},
 		TargetSelector: [][]string{},
 	}
 }
@@ -702,7 +704,8 @@ var CloudAlertAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "cloudpolicies",
 		Stored:         true,
-		Type:           "string",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CreateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -799,7 +802,8 @@ var CloudAlertAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "notifications",
 		Stored:         true,
-		Type:           "string",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Protected": {
 		AllowedChoices: []string{},
@@ -920,7 +924,8 @@ var CloudAlertLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "cloudpolicies",
 		Stored:         true,
-		Type:           "string",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"createidempotencykey": {
 		AllowedChoices: []string{},
@@ -1017,7 +1022,8 @@ var CloudAlertLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "notifications",
 		Stored:         true,
-		Type:           "string",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"protected": {
 		AllowedChoices: []string{},
@@ -1162,7 +1168,7 @@ type SparseCloudAlert struct {
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// The list of policies that apply to this alert.
-	Cloudpolicies *string `json:"cloudpolicies,omitempty" msgpack:"cloudpolicies,omitempty" bson:"cloudpolicies,omitempty" mapstructure:"cloudpolicies,omitempty"`
+	Cloudpolicies *[]string `json:"cloudpolicies,omitempty" msgpack:"cloudpolicies,omitempty" bson:"cloudpolicies,omitempty" mapstructure:"cloudpolicies,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1183,7 +1189,7 @@ type SparseCloudAlert struct {
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Type of notifications.
-	Notifications *string `json:"notifications,omitempty" msgpack:"notifications,omitempty" bson:"notifications,omitempty" mapstructure:"notifications,omitempty"`
+	Notifications *[]string `json:"notifications,omitempty" msgpack:"notifications,omitempty" bson:"notifications,omitempty" mapstructure:"notifications,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
@@ -1643,14 +1649,14 @@ type mongoAttributesCloudAlert struct {
 	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
-	Cloudpolicies        string              `bson:"cloudpolicies"`
+	Cloudpolicies        []string            `bson:"cloudpolicies"`
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
 	Description          string              `bson:"description"`
 	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
-	Notifications        string              `bson:"notifications"`
+	Notifications        []string            `bson:"notifications"`
 	Protected            bool                `bson:"protected"`
 	TargetSelector       [][]string          `bson:"targetselector"`
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
@@ -1661,14 +1667,14 @@ type mongoAttributesSparseCloudAlert struct {
 	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
-	Cloudpolicies        *string              `bson:"cloudpolicies,omitempty"`
+	Cloudpolicies        *[]string            `bson:"cloudpolicies,omitempty"`
 	CreateIdempotencyKey *string              `bson:"createidempotencykey,omitempty"`
 	Description          *string              `bson:"description,omitempty"`
 	MigrationsLog        *map[string]string   `bson:"migrationslog,omitempty"`
 	Name                 *string              `bson:"name,omitempty"`
 	Namespace            *string              `bson:"namespace,omitempty"`
 	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
-	Notifications        *string              `bson:"notifications,omitempty"`
+	Notifications        *[]string            `bson:"notifications,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
 	TargetSelector       *[][]string          `bson:"targetselector,omitempty"`
 	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`

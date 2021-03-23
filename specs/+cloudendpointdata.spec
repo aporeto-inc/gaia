@@ -4,7 +4,7 @@ model:
   resource_name: cloudendpointdata
   entity_name: CloudEndpointData
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Parameters associated with a cloud endpoint.
   detached: true
 
@@ -55,14 +55,13 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: true
-    example_value: false
 
   - name: type
     description: Type of the endpoint.
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - Instance
     - LoadBalancer

@@ -17,8 +17,6 @@ model:
     description: Updates the object with the given ID.
   delete:
     description: Deletes the object with the given ID.
-    global_parameters:
-    - $filtering
   extends:
   - '@base'
   - '@zoned'
@@ -26,6 +24,7 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@prismabase'
+  - '@timeable'
 
 # Indexes
 indexes:
@@ -50,6 +49,7 @@ attributes:
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - Enterprise
     - AWS

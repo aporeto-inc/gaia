@@ -4,7 +4,7 @@ model:
   resource_name: cloudroutedata
   entity_name: CloudRouteData
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Parameters associated with a cloud route table.
   detached: true
 
@@ -31,6 +31,8 @@ attributes:
     exposed: true
     subtype: cloudroute
     stored: true
+    extensions:
+      refMode: pointer
 
   - name: subnetAssociations
     description: The list of subnets that this route table is associated with.
@@ -38,4 +40,5 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    example_value: '[subnet-096bb677ed112475d]'
+    example_value:
+    - subnet-096bb677ed112475d

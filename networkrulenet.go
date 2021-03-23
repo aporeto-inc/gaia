@@ -11,13 +11,13 @@ import (
 // NetworkRuleNet represents the model of a networkrulenet
 type NetworkRuleNet struct {
 	// The ID of the external network.
-	ID string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
+	ID string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// List of CIDRs or domain name.
-	Entries []string `json:"entries,omitempty" msgpack:"entries,omitempty" bson:"entries,omitempty" mapstructure:"entries,omitempty"`
+	Entries []string `json:"entries,omitempty" msgpack:"entries,omitempty" bson:"-" mapstructure:"entries,omitempty"`
 
 	// The namespace of the external network.
-	Namespace string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -41,10 +41,6 @@ func (o *NetworkRuleNet) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesNetworkRuleNet{}
 
-	s.ID = o.ID
-	s.Entries = o.Entries
-	s.Namespace = o.Namespace
-
 	return s, nil
 }
 
@@ -60,10 +56,6 @@ func (o *NetworkRuleNet) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
-
-	o.ID = s.ID
-	o.Entries = s.Entries
-	o.Namespace = s.Namespace
 
 	return nil
 }
@@ -116,7 +108,4 @@ func (o *NetworkRuleNet) Validate() error {
 }
 
 type mongoAttributesNetworkRuleNet struct {
-	ID        string   `bson:"id,omitempty"`
-	Entries   []string `bson:"entries,omitempty"`
-	Namespace string   `bson:"namespace,omitempty"`
 }

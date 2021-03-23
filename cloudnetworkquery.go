@@ -653,6 +653,10 @@ func (o *CloudNetworkQuery) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateOptionalCIDR("destinationIP", o.DestinationIP); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateMaximumInt("destinationProtocol", o.DestinationProtocol, int(255), false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -669,6 +673,10 @@ func (o *CloudNetworkQuery) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateOptionalCIDR("sourceIP", o.SourceIP); err != nil {
 		errors = errors.Append(err)
 	}
 

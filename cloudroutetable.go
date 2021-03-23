@@ -87,6 +87,9 @@ type CloudRouteTable struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
+	// ID of the host VPC.
+	VPCID string `json:"VPCID" msgpack:"VPCID" bson:"vpcid" mapstructure:"VPCID,omitempty"`
+
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
 
@@ -150,12 +153,6 @@ type CloudRouteTable struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	// The time that the object was updated.
-	UpdatedTime time.Time `json:"updatedTime" msgpack:"updatedTime" bson:"updatedtime" mapstructure:"updatedTime,omitempty"`
-
-	// ID of the host VPC.
-	VpcID string `json:"vpcID" msgpack:"vpcID" bson:"vpcid" mapstructure:"vpcID,omitempty"`
-
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
 	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
@@ -174,10 +171,10 @@ func NewCloudRouteTable() *CloudRouteTable {
 		Annotations:      map[string][]string{},
 		AssociatedTags:   []string{},
 		CloudTags:        []string{},
+		PolicyReferences: []string{},
 		MigrationsLog:    map[string]string{},
 		NormalizedTags:   []string{},
 		Parameters:       NewCloudRouteData(),
-		PolicyReferences: []string{},
 	}
 }
 
@@ -213,6 +210,7 @@ func (o *CloudRouteTable) GetBSON() (interface{}, error) {
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
+	s.VPCID = o.VPCID
 	s.AccountID = o.AccountID
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
@@ -234,8 +232,6 @@ func (o *CloudRouteTable) GetBSON() (interface{}, error) {
 	s.ResourceID = o.ResourceID
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
-	s.UpdatedTime = o.UpdatedTime
-	s.VpcID = o.VpcID
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
 
@@ -257,6 +253,7 @@ func (o *CloudRouteTable) SetBSON(raw bson.Raw) error {
 
 	o.APIID = s.APIID
 	o.ID = s.ID.Hex()
+	o.VPCID = s.VPCID
 	o.AccountID = s.AccountID
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
@@ -278,8 +275,6 @@ func (o *CloudRouteTable) SetBSON(raw bson.Raw) error {
 	o.ResourceID = s.ResourceID
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
-	o.UpdatedTime = s.UpdatedTime
-	o.VpcID = s.VpcID
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
 
@@ -325,6 +320,18 @@ func (o *CloudRouteTable) GetAPIID() int {
 func (o *CloudRouteTable) SetAPIID(APIID int) {
 
 	o.APIID = APIID
+}
+
+// GetVPCID returns the VPCID of the receiver.
+func (o *CloudRouteTable) GetVPCID() string {
+
+	return o.VPCID
+}
+
+// SetVPCID sets the property VPCID of the receiver using the given value.
+func (o *CloudRouteTable) SetVPCID(VPCID string) {
+
+	o.VPCID = VPCID
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -567,30 +574,6 @@ func (o *CloudRouteTable) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
-// GetUpdatedTime returns the UpdatedTime of the receiver.
-func (o *CloudRouteTable) GetUpdatedTime() time.Time {
-
-	return o.UpdatedTime
-}
-
-// SetUpdatedTime sets the property UpdatedTime of the receiver using the given value.
-func (o *CloudRouteTable) SetUpdatedTime(updatedTime time.Time) {
-
-	o.UpdatedTime = updatedTime
-}
-
-// GetVpcID returns the VpcID of the receiver.
-func (o *CloudRouteTable) GetVpcID() string {
-
-	return o.VpcID
-}
-
-// SetVpcID sets the property VpcID of the receiver using the given value.
-func (o *CloudRouteTable) SetVpcID(vpcID string) {
-
-	o.VpcID = vpcID
-}
-
 // GetZHash returns the ZHash of the receiver.
 func (o *CloudRouteTable) GetZHash() int {
 
@@ -624,6 +607,7 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 		return &SparseCloudRouteTable{
 			APIID:                &o.APIID,
 			ID:                   &o.ID,
+			VPCID:                &o.VPCID,
 			AccountID:            &o.AccountID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
@@ -645,8 +629,6 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			ResourceID:           &o.ResourceID,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
-			UpdatedTime:          &o.UpdatedTime,
-			VpcID:                &o.VpcID,
 			ZHash:                &o.ZHash,
 			Zone:                 &o.Zone,
 		}
@@ -659,6 +641,8 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.APIID = &(o.APIID)
 		case "ID":
 			sp.ID = &(o.ID)
+		case "VPCID":
+			sp.VPCID = &(o.VPCID)
 		case "accountID":
 			sp.AccountID = &(o.AccountID)
 		case "annotations":
@@ -701,10 +685,6 @@ func (o *CloudRouteTable) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
-		case "updatedTime":
-			sp.UpdatedTime = &(o.UpdatedTime)
-		case "vpcID":
-			sp.VpcID = &(o.VpcID)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -727,6 +707,9 @@ func (o *CloudRouteTable) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ID != nil {
 		o.ID = *so.ID
+	}
+	if so.VPCID != nil {
+		o.VPCID = *so.VPCID
 	}
 	if so.AccountID != nil {
 		o.AccountID = *so.AccountID
@@ -790,12 +773,6 @@ func (o *CloudRouteTable) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
-	}
-	if so.UpdatedTime != nil {
-		o.UpdatedTime = *so.UpdatedTime
-	}
-	if so.VpcID != nil {
-		o.VpcID = *so.VpcID
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -896,6 +873,8 @@ func (o *CloudRouteTable) ValueForAttribute(name string) interface{} {
 		return o.APIID
 	case "ID":
 		return o.ID
+	case "VPCID":
+		return o.VPCID
 	case "accountID":
 		return o.AccountID
 	case "annotations":
@@ -938,10 +917,6 @@ func (o *CloudRouteTable) ValueForAttribute(name string) interface{} {
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
-	case "updatedTime":
-		return o.UpdatedTime
-	case "vpcID":
-		return o.VpcID
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -977,6 +952,20 @@ var CloudRouteTableAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"VPCID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "vpcid",
+		ConvertedName:  "VPCID",
+		Description:    `ID of the host VPC.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "VPCID",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1268,33 +1257,6 @@ var CloudRouteTableAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
-	"UpdatedTime": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "updatedtime",
-		ConvertedName:  "UpdatedTime",
-		Description:    `The time that the object was updated.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "updatedTime",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "time",
-	},
-	"VpcID": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "vpcid",
-		ConvertedName:  "VpcID",
-		Description:    `ID of the host VPC.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "vpcID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"ZHash": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1351,6 +1313,20 @@ var CloudRouteTableLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"vpcid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "vpcid",
+		ConvertedName:  "VPCID",
+		Description:    `ID of the host VPC.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "VPCID",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1642,33 +1618,6 @@ var CloudRouteTableLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "time",
 	},
-	"updatedtime": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "updatedtime",
-		ConvertedName:  "UpdatedTime",
-		Description:    `The time that the object was updated.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "updatedTime",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "time",
-	},
-	"vpcid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "vpcid",
-		ConvertedName:  "VpcID",
-		Description:    `ID of the host VPC.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "vpcID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"zhash": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1768,6 +1717,9 @@ type SparseCloudRouteTable struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
+	// ID of the host VPC.
+	VPCID *string `json:"VPCID,omitempty" msgpack:"VPCID,omitempty" bson:"vpcid,omitempty" mapstructure:"VPCID,omitempty"`
+
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
 
@@ -1831,12 +1783,6 @@ type SparseCloudRouteTable struct {
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	// The time that the object was updated.
-	UpdatedTime *time.Time `json:"updatedTime,omitempty" msgpack:"updatedTime,omitempty" bson:"updatedtime,omitempty" mapstructure:"updatedTime,omitempty"`
-
-	// ID of the host VPC.
-	VpcID *string `json:"vpcID,omitempty" msgpack:"vpcID,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcID,omitempty"`
-
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
 	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
@@ -1892,6 +1838,9 @@ func (o *SparseCloudRouteTable) GetBSON() (interface{}, error) {
 	}
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
+	}
+	if o.VPCID != nil {
+		s.VPCID = o.VPCID
 	}
 	if o.AccountID != nil {
 		s.AccountID = o.AccountID
@@ -1956,12 +1905,6 @@ func (o *SparseCloudRouteTable) GetBSON() (interface{}, error) {
 	if o.UpdateTime != nil {
 		s.UpdateTime = o.UpdateTime
 	}
-	if o.UpdatedTime != nil {
-		s.UpdatedTime = o.UpdatedTime
-	}
-	if o.VpcID != nil {
-		s.VpcID = o.VpcID
-	}
 	if o.ZHash != nil {
 		s.ZHash = o.ZHash
 	}
@@ -1990,6 +1933,9 @@ func (o *SparseCloudRouteTable) SetBSON(raw bson.Raw) error {
 	}
 	id := s.ID.Hex()
 	o.ID = &id
+	if s.VPCID != nil {
+		o.VPCID = s.VPCID
+	}
 	if s.AccountID != nil {
 		o.AccountID = s.AccountID
 	}
@@ -2053,12 +1999,6 @@ func (o *SparseCloudRouteTable) SetBSON(raw bson.Raw) error {
 	if s.UpdateTime != nil {
 		o.UpdateTime = s.UpdateTime
 	}
-	if s.UpdatedTime != nil {
-		o.UpdatedTime = s.UpdatedTime
-	}
-	if s.VpcID != nil {
-		o.VpcID = s.VpcID
-	}
 	if s.ZHash != nil {
 		o.ZHash = s.ZHash
 	}
@@ -2084,6 +2024,9 @@ func (o *SparseCloudRouteTable) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ID != nil {
 		out.ID = *o.ID
+	}
+	if o.VPCID != nil {
+		out.VPCID = *o.VPCID
 	}
 	if o.AccountID != nil {
 		out.AccountID = *o.AccountID
@@ -2148,12 +2091,6 @@ func (o *SparseCloudRouteTable) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
-	if o.UpdatedTime != nil {
-		out.UpdatedTime = *o.UpdatedTime
-	}
-	if o.VpcID != nil {
-		out.VpcID = *o.VpcID
-	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
 	}
@@ -2178,6 +2115,22 @@ func (o *SparseCloudRouteTable) GetAPIID() (out int) {
 func (o *SparseCloudRouteTable) SetAPIID(APIID int) {
 
 	o.APIID = &APIID
+}
+
+// GetVPCID returns the VPCID of the receiver.
+func (o *SparseCloudRouteTable) GetVPCID() (out string) {
+
+	if o.VPCID == nil {
+		return
+	}
+
+	return *o.VPCID
+}
+
+// SetVPCID sets the property VPCID of the receiver using the address of the given value.
+func (o *SparseCloudRouteTable) SetVPCID(VPCID string) {
+
+	o.VPCID = &VPCID
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -2500,38 +2453,6 @@ func (o *SparseCloudRouteTable) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = &updateTime
 }
 
-// GetUpdatedTime returns the UpdatedTime of the receiver.
-func (o *SparseCloudRouteTable) GetUpdatedTime() (out time.Time) {
-
-	if o.UpdatedTime == nil {
-		return
-	}
-
-	return *o.UpdatedTime
-}
-
-// SetUpdatedTime sets the property UpdatedTime of the receiver using the address of the given value.
-func (o *SparseCloudRouteTable) SetUpdatedTime(updatedTime time.Time) {
-
-	o.UpdatedTime = &updatedTime
-}
-
-// GetVpcID returns the VpcID of the receiver.
-func (o *SparseCloudRouteTable) GetVpcID() (out string) {
-
-	if o.VpcID == nil {
-		return
-	}
-
-	return *o.VpcID
-}
-
-// SetVpcID sets the property VpcID of the receiver using the address of the given value.
-func (o *SparseCloudRouteTable) SetVpcID(vpcID string) {
-
-	o.VpcID = &vpcID
-}
-
 // GetZHash returns the ZHash of the receiver.
 func (o *SparseCloudRouteTable) GetZHash() (out int) {
 
@@ -2591,6 +2512,7 @@ func (o *SparseCloudRouteTable) DeepCopyInto(out *SparseCloudRouteTable) {
 type mongoAttributesCloudRouteTable struct {
 	APIID                int                 `bson:"apiid"`
 	ID                   bson.ObjectId       `bson:"_id,omitempty"`
+	VPCID                string              `bson:"vpcid"`
 	AccountID            string              `bson:"accountid"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
@@ -2612,14 +2534,13 @@ type mongoAttributesCloudRouteTable struct {
 	ResourceID           int                 `bson:"resourceid"`
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
-	UpdatedTime          time.Time           `bson:"updatedtime"`
-	VpcID                string              `bson:"vpcid"`
 	ZHash                int                 `bson:"zhash"`
 	Zone                 int                 `bson:"zone"`
 }
 type mongoAttributesSparseCloudRouteTable struct {
 	APIID                *int                 `bson:"apiid,omitempty"`
 	ID                   bson.ObjectId        `bson:"_id,omitempty"`
+	VPCID                *string              `bson:"vpcid,omitempty"`
 	AccountID            *string              `bson:"accountid,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
@@ -2641,8 +2562,6 @@ type mongoAttributesSparseCloudRouteTable struct {
 	ResourceID           *int                 `bson:"resourceid,omitempty"`
 	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
 	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
-	UpdatedTime          *time.Time           `bson:"updatedtime,omitempty"`
-	VpcID                *string              `bson:"vpcid,omitempty"`
 	ZHash                *int                 `bson:"zhash,omitempty"`
 	Zone                 *int                 `bson:"zone,omitempty"`
 }

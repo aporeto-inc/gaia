@@ -4,8 +4,9 @@ model:
   resource_name: cloudaddresses
   entity_name: CloudAddress
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Managed the list of IP addresses associated with an interface.
+  detached: true
 
 # Attributes
 attributes:
@@ -15,16 +16,17 @@ attributes:
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - IPv4
     - IPv6
+    example_value: IPv4
 
   - name: primary
     description: Designates the IP address as the primary IP address.
     type: boolean
     exposed: true
     stored: true
-    default_value: false
     example_value: true
 
   - name: privateDNSName

@@ -70,7 +70,6 @@ func NewCloudEndpointData() *CloudEndpointData {
 		AssociatedRouteTables: []string{},
 		VPCAttachments:        []string{},
 		AttachedInterfaces:    []string{},
-		ForwardingEnabled:     true,
 	}
 }
 
@@ -152,6 +151,10 @@ func (o *CloudEndpointData) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Instance", "LoadBalancer", "PeeringConnection", "Service", "Gateway", "TransitGateway", "NATGateway"}, false); err != nil {
 		errors = errors.Append(err)

@@ -22,7 +22,7 @@ const (
 // CloudNetworkRuleSetData represents the model of a cloudnetworkrulesetdata
 type CloudNetworkRuleSetData struct {
 	// Internal field storing all the subject tags.
-	AllSubjectTags []string `json:"allSubjectTags" msgpack:"allSubjectTags" bson:"allsubjecttags" mapstructure:"allSubjectTags,omitempty"`
+	AllSubjectTags []string `json:"-" msgpack:"-" bson:"allsubjecttags" mapstructure:"-,omitempty"`
 
 	// The set of rules to apply to incoming traffic (traffic coming to the Processing
 	// Unit matching the subject).

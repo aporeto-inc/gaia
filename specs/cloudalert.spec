@@ -14,8 +14,6 @@ model:
     description: Updates the Prisma Cloud policy with the given ID.
   delete:
     description: Deletes the the Prisma Cloud policy with the given ID.
-    global_parameters:
-    - $filtering
   extends:
   - '@zoned'
   - '@migratable'
@@ -30,14 +28,16 @@ attributes:
   v1:
   - name: cloudpolicies
     description: The list of policies that apply to this alert.
-    type: string
+    type: list
     exposed: true
+    subtype: string
     stored: true
 
   - name: notifications
     description: Type of notifications.
-    type: string
+    type: list
     exposed: true
+    subtype: string
     stored: true
 
   - name: targetSelector

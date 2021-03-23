@@ -25,36 +25,33 @@ type NetworkRule struct {
 	// - `Allow`: allows the defined traffic.
 	// - `Reject`: rejects the defined traffic; useful in conjunction with an allow all
 	// policy.
-	Action NetworkRuleActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
+	Action NetworkRuleActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// If `true`, the relevant flows will not be reported to the Microsegmentation
 	// Console.
 	// Under some advanced scenarios you may wish to set this to `true`, such as to
 	// save space or improve performance.
-	LogsDisabled bool `json:"logsDisabled" msgpack:"logsDisabled" bson:"logsdisabled" mapstructure:"logsDisabled,omitempty"`
+	LogsDisabled bool `json:"logsDisabled" msgpack:"logsDisabled" bson:"-" mapstructure:"logsDisabled,omitempty"`
 
 	// A user defined name to keep track of the rule in the reporting.
 	Name string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// A list of IP CIDRS or FQDNS that identify remote endpoints.
-	Networks []*NetworkRuleNet `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"networks,omitempty" mapstructure:"networks,omitempty"`
+	Networks []*NetworkRuleNet `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"-" mapstructure:"networks,omitempty"`
 
 	// Identifies the set of remote workloads that the rule relates to. The selector
 	// will identify both processing units as well as external networks that match the
 	// selector.
-	Object [][]string `json:"object" msgpack:"object" bson:"object" mapstructure:"object,omitempty"`
+	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
 	// If set to `true`, the flow will be in observation mode.
-	ObservationEnabled bool `json:"observationEnabled" msgpack:"observationEnabled" bson:"observationenabled" mapstructure:"observationEnabled,omitempty"`
-
-	// Priority of the rule. Available only for cloud ACLs.
-	Priority int `json:"priority" msgpack:"priority" bson:"priority" mapstructure:"priority,omitempty"`
+	ObservationEnabled bool `json:"observationEnabled" msgpack:"observationEnabled" bson:"-" mapstructure:"observationEnabled,omitempty"`
 
 	// Represents the ports and protocols this policy applies to. Protocol/ports are
 	// defined as tcp/80, udp/22. For protocols that do not have ports, the port
 	// designation
 	// is not allowed.
-	ProtocolPorts []string `json:"protocolPorts" msgpack:"protocolPorts" bson:"protocolports" mapstructure:"protocolPorts,omitempty"`
+	ProtocolPorts []string `json:"protocolPorts" msgpack:"protocolPorts" bson:"-" mapstructure:"protocolPorts,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -68,7 +65,6 @@ func NewNetworkRule() *NetworkRule {
 		Networks:           []*NetworkRuleNet{},
 		Object:             [][]string{},
 		ObservationEnabled: false,
-		Priority:           0,
 		ProtocolPorts:      []string{},
 	}
 }
@@ -82,14 +78,6 @@ func (o *NetworkRule) GetBSON() (interface{}, error) {
 	}
 
 	s := &mongoAttributesNetworkRule{}
-
-	s.Action = o.Action
-	s.LogsDisabled = o.LogsDisabled
-	s.Networks = o.Networks
-	s.Object = o.Object
-	s.ObservationEnabled = o.ObservationEnabled
-	s.Priority = o.Priority
-	s.ProtocolPorts = o.ProtocolPorts
 
 	return s, nil
 }
@@ -106,14 +94,6 @@ func (o *NetworkRule) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
-
-	o.Action = s.Action
-	o.LogsDisabled = s.LogsDisabled
-	o.Networks = s.Networks
-	o.Object = s.Object
-	o.ObservationEnabled = s.ObservationEnabled
-	o.Priority = s.Priority
-	o.ProtocolPorts = s.ProtocolPorts
 
 	return nil
 }
@@ -196,11 +176,4 @@ func (o *NetworkRule) Validate() error {
 }
 
 type mongoAttributesNetworkRule struct {
-	Action             NetworkRuleActionValue `bson:"action"`
-	LogsDisabled       bool                   `bson:"logsdisabled"`
-	Networks           []*NetworkRuleNet      `bson:"networks,omitempty"`
-	Object             [][]string             `bson:"object"`
-	ObservationEnabled bool                   `bson:"observationenabled"`
-	Priority           int                    `bson:"priority"`
-	ProtocolPorts      []string               `bson:"protocolports"`
 }

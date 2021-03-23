@@ -10,6 +10,17 @@ attributes:
     getter: true
     setter: true
 
+  - name: VPCID
+    description: ID of the host VPC.
+    type: string
+    exposed: true
+    stored: true
+    example_value: vpc-023419c5952374917
+    filterable: true
+    getter: true
+    setter: true
+    orderable: true
+
   - name: accountID
     exposed_name: accountId
     description: Cloud account ID associated with the entity (matches Prisma Cloud
@@ -120,23 +131,3 @@ attributes:
     example_value: 12344555
     getter: true
     setter: true
-
-  - name: updatedTime
-    description: The time that the object was updated.
-    type: time
-    exposed: true
-    stored: true
-    getter: true
-    setter: true
-    orderable: true
-
-  - name: vpcID
-    description: ID of the host VPC.
-    type: string
-    exposed: true
-    stored: true
-    example_value: vpc-023419c5952374917
-    filterable: true
-    getter: true
-    setter: true
-    orderable: true

@@ -192,14 +192,10 @@ relations:
     - $filtering
   create:
     description: Creates a new endpoint.
-    global_parameters:
-    - $filtering
   update:
     description: Updates an endpoint.
   delete:
     description: Deletes and endpoint.
-    global_parameters:
-    - $filtering
 
 - rest_name: cloudgraph
   create:
@@ -214,14 +210,10 @@ relations:
     - $filtering
   create:
     description: Creates a new cloud attachment.
-    global_parameters:
-    - $filtering
   update:
     description: Updates a cloud attachment.
   delete:
     description: Deletes a cloud attachment.
-    global_parameters:
-    - $filtering
 
 - rest_name: cloudnetworkinterface
   get:
@@ -230,14 +222,10 @@ relations:
     - $filtering
   create:
     description: Creates a new network interface.
-    global_parameters:
-    - $filtering
   update:
     description: Updates a network interface.
   delete:
     description: Deletes a network interface.
-    global_parameters:
-    - $filtering
 
 - rest_name: cloudnetworkquery
   get:
@@ -246,14 +234,10 @@ relations:
     - $filtering
   create:
     description: Creates a new cloud network query.
-    global_parameters:
-    - $filtering
   update:
     description: Updates a cloud network query.
   delete:
     description: Deletes a cloud network query.
-    global_parameters:
-    - $filtering
 
 - rest_name: cloudnetworkruleset
   get:
@@ -267,8 +251,6 @@ relations:
     description: Updates a cloud network rule set policy.
   delete:
     description: Deletes a cloud network rule set policy.
-    global_parameters:
-    - $filtering
 
 - rest_name: cloudnode
   get:
@@ -283,14 +265,10 @@ relations:
     - $filtering
   create:
     description: Creates a new routing table.
-    global_parameters:
-    - $filtering
   update:
     description: Updates a routing table.
   delete:
     description: Deletes a routing table.
-    global_parameters:
-    - $filtering
 
 - rest_name: cloudsnapshotaccount
   create:
@@ -303,14 +281,10 @@ relations:
     - $filtering
   create:
     description: Creates a new subnet object.
-    global_parameters:
-    - $filtering
   update:
     description: Updates a subnet object.
   delete:
     description: Deletes a subnet object.
-    global_parameters:
-    - $filtering
 
 - rest_name: cloudtopology
   create:
@@ -324,14 +298,10 @@ relations:
     - $filtering
   create:
     description: Creates a new VPC object representing a cloud VPC structure.
-    global_parameters:
-    - $filtering
   update:
     description: Updates a VPC.
   delete:
     description: Deletes a VPC object.
-    global_parameters:
-    - $filtering
 
 - rest_name: cnssearch
   create:

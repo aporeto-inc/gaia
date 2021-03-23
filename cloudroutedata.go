@@ -17,7 +17,7 @@ type CloudRouteData struct {
 	MainTable bool `json:"mainTable" msgpack:"mainTable" bson:"maintable" mapstructure:"mainTable,omitempty"`
 
 	// Routes associated with this route table.
-	Routelist CloudRoutesList `json:"routelist" msgpack:"routelist" bson:"routelist" mapstructure:"routelist,omitempty"`
+	Routelist []*CloudRoute `json:"routelist" msgpack:"routelist" bson:"routelist" mapstructure:"routelist,omitempty"`
 
 	// The list of subnets that this route table is associated with.
 	SubnetAssociations []string `json:"subnetAssociations" msgpack:"subnetAssociations" bson:"subnetassociations" mapstructure:"subnetAssociations,omitempty"`
@@ -30,7 +30,7 @@ func NewCloudRouteData() *CloudRouteData {
 
 	return &CloudRouteData{
 		ModelVersion:       1,
-		Routelist:          CloudRoutesList{},
+		Routelist:          []*CloudRoute{},
 		SubnetAssociations: []string{},
 	}
 }
@@ -132,8 +132,8 @@ func (o *CloudRouteData) Validate() error {
 }
 
 type mongoAttributesCloudRouteData struct {
-	GatewayID          string          `bson:"gatewayid"`
-	MainTable          bool            `bson:"maintable"`
-	Routelist          CloudRoutesList `bson:"routelist"`
-	SubnetAssociations []string        `bson:"subnetassociations"`
+	GatewayID          string        `bson:"gatewayid"`
+	MainTable          bool          `bson:"maintable"`
+	Routelist          []*CloudRoute `bson:"routelist"`
+	SubnetAssociations []string      `bson:"subnetassociations"`
 }

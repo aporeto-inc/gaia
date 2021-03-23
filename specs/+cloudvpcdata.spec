@@ -4,7 +4,7 @@ model:
   resource_name: cloudvpcdata
   entity_name: CloudVPCData
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Managed the list of IP addresses associated with an interface.
   detached: true
 
@@ -16,6 +16,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    required: true
     example_value: 10.0.0.0/8
     validations:
     - $cidr

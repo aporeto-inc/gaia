@@ -4,7 +4,7 @@ model:
   resource_name: cloudinterfacedata
   entity_name: CloudInterfaceData
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Parameters associated with a cloud interface.
   detached: true
 
@@ -27,6 +27,7 @@ attributes:
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - Instance
     - LoadBalancer
@@ -40,6 +41,7 @@ attributes:
     - VPCEndpoint
     - APIGatewayManaged
     - EFA
+    example_value: Instance
 
   - name: relatedObjectID
     description: |-

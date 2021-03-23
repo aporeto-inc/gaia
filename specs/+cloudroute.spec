@@ -4,8 +4,9 @@ model:
   resource_name: cloudroutes
   entity_name: CloudRoute
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Describes a route in a route table.
+  detached: true
 
 # Attributes
 attributes:
@@ -40,6 +41,7 @@ attributes:
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - EgressOnlyGateway
     - Gateway

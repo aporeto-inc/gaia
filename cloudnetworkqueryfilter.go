@@ -8,7 +8,7 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// CloudNetworkQueryFilterResourceTypeValue represents the possible values for attribute "ResourceType".
+// CloudNetworkQueryFilterResourceTypeValue represents the possible values for attribute "resourceType".
 type CloudNetworkQueryFilterResourceTypeValue string
 
 const (
@@ -27,49 +27,49 @@ const (
 
 // CloudNetworkQueryFilter represents the model of a cloudnetworkqueryfilter
 type CloudNetworkQueryFilter struct {
+	// The VPC ID of the target resources.
+	VPCIDs []string `json:"VPCIDs,omitempty" msgpack:"VPCIDs,omitempty" bson:"vpcids,omitempty" mapstructure:"VPCIDs,omitempty"`
+
 	// The accounts that the search must apply to. These are the actually IDs of the
 	// account as provided by the cloud provider. One or more IDs can be included.
-	AccountIDs []string `json:"AccountIDs" msgpack:"AccountIDs" bson:"accountids" mapstructure:"AccountIDs,omitempty"`
+	AccountIDs []string `json:"accountIDs,omitempty" msgpack:"accountIDs,omitempty" bson:"accountids,omitempty" mapstructure:"accountIDs,omitempty"`
 
 	// The cloud types that the search must apply to.
-	CloudTypes []string `json:"CloudTypes" msgpack:"CloudTypes" bson:"cloudtypes" mapstructure:"CloudTypes,omitempty"`
+	CloudTypes []string `json:"cloudTypes" msgpack:"cloudTypes" bson:"cloudtypes" mapstructure:"cloudTypes,omitempty"`
 
 	// The exact object that the search applies. If ObjectIDs are defined, the rest of
 	// the fields are ignored. An object ID can refer to an instance, VPC endpoint, or
 	// network interface.
-	ObjectIDs []string `json:"ObjectIDs" msgpack:"ObjectIDs" bson:"objectids" mapstructure:"ObjectIDs,omitempty"`
+	ObjectIDs []string `json:"objectIDs,omitempty" msgpack:"objectIDs,omitempty" bson:"objectids,omitempty" mapstructure:"objectIDs,omitempty"`
 
 	// The region that the search must apply to.
-	Regions []string `json:"Regions" msgpack:"Regions" bson:"regions" mapstructure:"Regions,omitempty"`
+	Regions []string `json:"regions,omitempty" msgpack:"regions,omitempty" bson:"regions,omitempty" mapstructure:"regions,omitempty"`
 
 	// The type of endpoint resource. The resource type is a mandatory field and a
 	// query cannot span multiple resource types.
-	ResourceType CloudNetworkQueryFilterResourceTypeValue `json:"ResourceType" msgpack:"ResourceType" bson:"resourcetype" mapstructure:"ResourceType,omitempty"`
+	ResourceType CloudNetworkQueryFilterResourceTypeValue `json:"resourceType" msgpack:"resourceType" bson:"resourcetype" mapstructure:"resourceType,omitempty"`
 
 	// The list of security tags associated with the targets of the query. Security
 	// tags refer to security groups in AWS or network tags in GCP. So they can have
 	// different meaning depending on the target cloud.
-	SecurityTags []string `json:"SecurityTags" msgpack:"SecurityTags" bson:"securitytags" mapstructure:"SecurityTags,omitempty"`
+	SecurityTags []string `json:"securityTags,omitempty" msgpack:"securityTags,omitempty" bson:"securitytags,omitempty" mapstructure:"securityTags,omitempty"`
 
 	// Identifies the owner of the service that the resource is attached to. Field is
 	// not valid if the resource type is not an interface.
-	ServiceOwners []string `json:"ServiceOwners" msgpack:"ServiceOwners" bson:"serviceowners" mapstructure:"ServiceOwners,omitempty"`
+	ServiceOwners []string `json:"serviceOwners,omitempty" msgpack:"serviceOwners,omitempty" bson:"serviceowners,omitempty" mapstructure:"serviceOwners,omitempty"`
 
 	// Identifies the type of service that the interface is attached to. Field is not
 	// valid if the resource type is not an
 	// interface.
-	ServiceTypes []string `json:"ServiceTypes" msgpack:"ServiceTypes" bson:"servicetypes" mapstructure:"ServiceTypes,omitempty"`
+	ServiceTypes []string `json:"serviceTypes,omitempty" msgpack:"serviceTypes,omitempty" bson:"servicetypes,omitempty" mapstructure:"serviceTypes,omitempty"`
 
 	// The subnets where the resources must reside. A subnet parameter can only be
 	// provided for a network interface resource type.
-	Subnets []string `json:"Subnets" msgpack:"Subnets" bson:"subnets" mapstructure:"Subnets,omitempty"`
+	Subnets []string `json:"subnets,omitempty" msgpack:"subnets,omitempty" bson:"subnets,omitempty" mapstructure:"subnets,omitempty"`
 
 	// A list of tags that select the same of endpoints for the query. These tags refer
 	// to the tags attached to the resources in the cloud provider definitions.
-	Tags []string `json:"Tags" msgpack:"Tags" bson:"tags" mapstructure:"Tags,omitempty"`
-
-	// The VPC ID of the target resources.
-	VPCIDs []string `json:"VPCIDs" msgpack:"VPCIDs" bson:"vpcids" mapstructure:"VPCIDs,omitempty"`
+	Tags []string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"tags,omitempty" mapstructure:"tags,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -80,16 +80,16 @@ func NewCloudNetworkQueryFilter() *CloudNetworkQueryFilter {
 	return &CloudNetworkQueryFilter{
 		ModelVersion:  1,
 		AccountIDs:    []string{},
+		SecurityTags:  []string{},
 		CloudTypes:    []string{},
 		ObjectIDs:     []string{},
 		Regions:       []string{},
 		ResourceType:  CloudNetworkQueryFilterResourceTypeInstance,
-		SecurityTags:  []string{},
+		VPCIDs:        []string{},
 		ServiceOwners: []string{},
 		ServiceTypes:  []string{},
 		Subnets:       []string{},
 		Tags:          []string{},
-		VPCIDs:        []string{},
 	}
 }
 
@@ -103,6 +103,7 @@ func (o *CloudNetworkQueryFilter) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesCloudNetworkQueryFilter{}
 
+	s.VPCIDs = o.VPCIDs
 	s.AccountIDs = o.AccountIDs
 	s.CloudTypes = o.CloudTypes
 	s.ObjectIDs = o.ObjectIDs
@@ -113,7 +114,6 @@ func (o *CloudNetworkQueryFilter) GetBSON() (interface{}, error) {
 	s.ServiceTypes = o.ServiceTypes
 	s.Subnets = o.Subnets
 	s.Tags = o.Tags
-	s.VPCIDs = o.VPCIDs
 
 	return s, nil
 }
@@ -131,6 +131,7 @@ func (o *CloudNetworkQueryFilter) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
+	o.VPCIDs = s.VPCIDs
 	o.AccountIDs = s.AccountIDs
 	o.CloudTypes = s.CloudTypes
 	o.ObjectIDs = s.ObjectIDs
@@ -141,7 +142,6 @@ func (o *CloudNetworkQueryFilter) SetBSON(raw bson.Raw) error {
 	o.ServiceTypes = s.ServiceTypes
 	o.Subnets = s.Subnets
 	o.Tags = s.Tags
-	o.VPCIDs = s.VPCIDs
 
 	return nil
 }
@@ -182,11 +182,19 @@ func (o *CloudNetworkQueryFilter) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("ResourceType", string(o.ResourceType)); err != nil {
+	if err := elemental.ValidateRequiredExternal("cloudTypes", o.CloudTypes); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("ResourceType", string(o.ResourceType), []string{"Instance", "Interface", "Service", "ProcessingUnit"}, false); err != nil {
+	if err := elemental.ValidateRequiredString("resourceType", string(o.ResourceType)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("resourceType", string(o.ResourceType), []string{"Instance", "Interface", "Service", "ProcessingUnit"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateOptionalCIDRList("subnets", o.Subnets); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -202,15 +210,15 @@ func (o *CloudNetworkQueryFilter) Validate() error {
 }
 
 type mongoAttributesCloudNetworkQueryFilter struct {
-	AccountIDs    []string                                 `bson:"accountids"`
+	VPCIDs        []string                                 `bson:"vpcids,omitempty"`
+	AccountIDs    []string                                 `bson:"accountids,omitempty"`
 	CloudTypes    []string                                 `bson:"cloudtypes"`
-	ObjectIDs     []string                                 `bson:"objectids"`
-	Regions       []string                                 `bson:"regions"`
+	ObjectIDs     []string                                 `bson:"objectids,omitempty"`
+	Regions       []string                                 `bson:"regions,omitempty"`
 	ResourceType  CloudNetworkQueryFilterResourceTypeValue `bson:"resourcetype"`
-	SecurityTags  []string                                 `bson:"securitytags"`
-	ServiceOwners []string                                 `bson:"serviceowners"`
-	ServiceTypes  []string                                 `bson:"servicetypes"`
-	Subnets       []string                                 `bson:"subnets"`
-	Tags          []string                                 `bson:"tags"`
-	VPCIDs        []string                                 `bson:"vpcids"`
+	SecurityTags  []string                                 `bson:"securitytags,omitempty"`
+	ServiceOwners []string                                 `bson:"serviceowners,omitempty"`
+	ServiceTypes  []string                                 `bson:"servicetypes,omitempty"`
+	Subnets       []string                                 `bson:"subnets,omitempty"`
+	Tags          []string                                 `bson:"tags,omitempty"`
 }

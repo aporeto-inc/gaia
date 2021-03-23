@@ -26,16 +26,13 @@ var (
 		"cachedflowreport":          CachedFlowReportIdentity,
 		"category":                  CategoryIdentity,
 
-		"claims":        ClaimsIdentity,
-		"clausesmatch":  ClauseMatchIdentity,
-		"cloudaddress":  CloudAddressIdentity,
+		"claims":       ClaimsIdentity,
+		"clausesmatch": ClauseMatchIdentity,
+
 		"cloudalert":    CloudAlertIdentity,
 		"cloudendpoint": CloudEndpointIdentity,
 
 		"cloudgraph": CloudGraphIdentity,
-
-		"cloudgraphnode":       CloudGraphNodeIdentity,
-		"cloudgraphnodeaction": CloudGraphNodeActionIdentity,
 
 		"cloudmanagednetwork":   CloudManagedNetworkIdentity,
 		"cloudnetworkinterface": CloudNetworkInterfaceIdentity,
@@ -45,7 +42,6 @@ var (
 
 		"cloudnode":   CloudNodeIdentity,
 		"cloudpolicy": CloudPolicyIdentity,
-		"cloudroute":  CloudRouteIdentity,
 
 		"cloudroutetable":      CloudRouteTableIdentity,
 		"cloudsnapshotaccount": CloudSnapshotAccountIdentity,
@@ -215,14 +211,11 @@ var (
 
 		"claims":         ClaimsIdentity,
 		"clausesmatches": ClauseMatchIdentity,
-		"cloudaddresses": CloudAddressIdentity,
+
 		"cloudalerts":    CloudAlertIdentity,
 		"cloudendpoints": CloudEndpointIdentity,
 
 		"cloudgraphs": CloudGraphIdentity,
-
-		"cloudgraphnodes":   CloudGraphNodeIdentity,
-		"cloudgraphactions": CloudGraphNodeActionIdentity,
 
 		"cloudmanagednetworks":   CloudManagedNetworkIdentity,
 		"cloudnetworkinterfaces": CloudNetworkInterfaceIdentity,
@@ -232,7 +225,6 @@ var (
 
 		"cloudnodes":    CloudNodeIdentity,
 		"cloudpolicies": CloudPolicyIdentity,
-		"cloudroutes":   CloudRouteIdentity,
 
 		"cloudroutetables":      CloudRouteTableIdentity,
 		"cloudsnapshotaccounts": CloudSnapshotAccountIdentity,
@@ -584,7 +576,6 @@ var (
 			{"namespace", "normalizedTags"},
 		},
 		"clausesmatch": nil,
-		"cloudaddress": nil,
 		"cloudalert": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -601,9 +592,7 @@ var (
 			{"createIdempotencyKey"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
-		"cloudgraph":           nil,
-		"cloudgraphnode":       nil,
-		"cloudgraphnodeaction": nil,
+		"cloudgraph": nil,
 		"cloudmanagednetwork": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -641,14 +630,12 @@ var (
 			{"vpcid"},
 			{"updateIdempotencyKey"},
 			{"nativeID"},
-			{"namespace", "securitytags", "type", "vpcid"},
 			{"namespace", "nativeID"},
+			{"namespace"},
 			{"namespace", "normalizedTags"},
 			{"namespace", "relatedObjectID"},
-			{"namespace"},
-			{"namespace", "vpcid", "type"},
+			{"namespace", "securitytags", "type", "vpcid"},
 			{"namespace", "type", "subtype"},
-			{"namespace", "type"},
 			{"key"},
 			{"createIdempotencyKey"},
 		},
@@ -661,7 +648,6 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"cloudroute": nil,
 		"cloudroutetable": {
 			{"updateIdempotencyKey"},
 			{"namespace"},
@@ -1224,18 +1210,12 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewClaims()
 	case ClauseMatchIdentity:
 		return NewClauseMatch()
-	case CloudAddressIdentity:
-		return NewCloudAddress()
 	case CloudAlertIdentity:
 		return NewCloudAlert()
 	case CloudEndpointIdentity:
 		return NewCloudEndpoint()
 	case CloudGraphIdentity:
 		return NewCloudGraph()
-	case CloudGraphNodeIdentity:
-		return NewCloudGraphNode()
-	case CloudGraphNodeActionIdentity:
-		return NewCloudGraphNodeAction()
 	case CloudManagedNetworkIdentity:
 		return NewCloudManagedNetwork()
 	case CloudNetworkInterfaceIdentity:
@@ -1248,8 +1228,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudNode()
 	case CloudPolicyIdentity:
 		return NewCloudPolicy()
-	case CloudRouteIdentity:
-		return NewCloudRoute()
 	case CloudRouteTableIdentity:
 		return NewCloudRouteTable()
 	case CloudSnapshotAccountIdentity:
@@ -1557,18 +1535,12 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
 		return NewSparseClauseMatch()
-	case CloudAddressIdentity:
-		return NewSparseCloudAddress()
 	case CloudAlertIdentity:
 		return NewSparseCloudAlert()
 	case CloudEndpointIdentity:
 		return NewSparseCloudEndpoint()
 	case CloudGraphIdentity:
 		return NewSparseCloudGraph()
-	case CloudGraphNodeIdentity:
-		return NewSparseCloudGraphNode()
-	case CloudGraphNodeActionIdentity:
-		return NewSparseCloudGraphNodeAction()
 	case CloudManagedNetworkIdentity:
 		return NewSparseCloudManagedNetwork()
 	case CloudNetworkInterfaceIdentity:
@@ -1581,8 +1553,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudNode()
 	case CloudPolicyIdentity:
 		return NewSparseCloudPolicy()
-	case CloudRouteIdentity:
-		return NewSparseCloudRoute()
 	case CloudRouteTableIdentity:
 		return NewSparseCloudRouteTable()
 	case CloudSnapshotAccountIdentity:
@@ -1898,18 +1868,12 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
 		return &ClauseMatchesList{}
-	case CloudAddressIdentity:
-		return &CloudAddressList{}
 	case CloudAlertIdentity:
 		return &CloudAlertsList{}
 	case CloudEndpointIdentity:
 		return &CloudEndpointsList{}
 	case CloudGraphIdentity:
 		return &CloudGraphsList{}
-	case CloudGraphNodeIdentity:
-		return &CloudGraphNodesList{}
-	case CloudGraphNodeActionIdentity:
-		return &CloudGraphNodeActionsList{}
 	case CloudManagedNetworkIdentity:
 		return &CloudManagedNetworksList{}
 	case CloudNetworkInterfaceIdentity:
@@ -1922,8 +1886,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudNodesList{}
 	case CloudPolicyIdentity:
 		return &CloudPoliciesList{}
-	case CloudRouteIdentity:
-		return &CloudRoutesList{}
 	case CloudRouteTableIdentity:
 		return &CloudRouteTablesList{}
 	case CloudSnapshotAccountIdentity:
@@ -2229,18 +2191,12 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
 		return &SparseClauseMatchesList{}
-	case CloudAddressIdentity:
-		return &SparseCloudAddressList{}
 	case CloudAlertIdentity:
 		return &SparseCloudAlertsList{}
 	case CloudEndpointIdentity:
 		return &SparseCloudEndpointsList{}
 	case CloudGraphIdentity:
 		return &SparseCloudGraphsList{}
-	case CloudGraphNodeIdentity:
-		return &SparseCloudGraphNodesList{}
-	case CloudGraphNodeActionIdentity:
-		return &SparseCloudGraphNodeActionsList{}
 	case CloudManagedNetworkIdentity:
 		return &SparseCloudManagedNetworksList{}
 	case CloudNetworkInterfaceIdentity:
@@ -2253,8 +2209,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudNodesList{}
 	case CloudPolicyIdentity:
 		return &SparseCloudPoliciesList{}
-	case CloudRouteIdentity:
-		return &SparseCloudRoutesList{}
 	case CloudRouteTableIdentity:
 		return &SparseCloudRouteTablesList{}
 	case CloudSnapshotAccountIdentity:
@@ -2556,19 +2510,15 @@ func AllIdentities() []elemental.Identity {
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
-		CloudAddressIdentity,
 		CloudAlertIdentity,
 		CloudEndpointIdentity,
 		CloudGraphIdentity,
-		CloudGraphNodeIdentity,
-		CloudGraphNodeActionIdentity,
 		CloudManagedNetworkIdentity,
 		CloudNetworkInterfaceIdentity,
 		CloudNetworkQueryIdentity,
 		CloudNetworkRuleSetIdentity,
 		CloudNodeIdentity,
 		CloudPolicyIdentity,
-		CloudRouteIdentity,
 		CloudRouteTableIdentity,
 		CloudSnapshotAccountIdentity,
 		CloudSubnetIdentity,
@@ -2768,17 +2718,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case ClauseMatchIdentity:
 		return []string{}
-	case CloudAddressIdentity:
-		return []string{}
 	case CloudAlertIdentity:
 		return []string{}
 	case CloudEndpointIdentity:
 		return []string{}
 	case CloudGraphIdentity:
-		return []string{}
-	case CloudGraphNodeIdentity:
-		return []string{}
-	case CloudGraphNodeActionIdentity:
 		return []string{}
 	case CloudManagedNetworkIdentity:
 		return []string{}
@@ -2793,8 +2737,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CloudNodeIdentity:
 		return []string{}
 	case CloudPolicyIdentity:
-		return []string{}
-	case CloudRouteIdentity:
 		return []string{}
 	case CloudRouteTableIdentity:
 		return []string{}

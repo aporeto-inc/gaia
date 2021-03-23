@@ -4,7 +4,7 @@ model:
   resource_name: cloudsubnets
   entity_name: CloudSubnet
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Manages the list of subnets associated with a deployment.
   get:
     description: Retrieves the subnet with the given ID.
@@ -14,8 +14,6 @@ model:
     description: Updates the subnet with the given ID.
   delete:
     description: Deletes the subnet with the given ID.
-    global_parameters:
-    - $filtering
   extends:
   - '@base'
   - '@zoned'
@@ -23,6 +21,7 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@prismabase'
+  - '@timeable'
 
 # Attributes
 attributes:

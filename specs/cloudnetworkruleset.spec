@@ -4,7 +4,7 @@ model:
   resource_name: cloudnetworkrulesets
   entity_name: CloudNetworkRuleSet
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: |-
     A CloudNetworkRuleSet represents a set of cloud network security groups or
     firewall rules as they apply to the infrastructure.
@@ -16,8 +16,6 @@ model:
     description: Updates the object with the given ID.
   delete:
     description: Deletes the object with the given ID.
-    global_parameters:
-    - $filtering
   extends:
   - '@base'
   - '@zoned'
@@ -25,6 +23,7 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@prismabase'
+  - '@timeable'
 
 # Attributes
 attributes:

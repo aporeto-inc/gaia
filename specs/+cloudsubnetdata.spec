@@ -4,7 +4,7 @@ model:
   resource_name: cloudsubnetdata
   entity_name: CloudSubnetData
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Parameters associated with a subnet.
   detached: true
 
@@ -16,6 +16,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    required: true
     example_value: 10.0.0.0/8
     validations:
     - $cidr

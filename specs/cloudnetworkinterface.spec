@@ -4,7 +4,7 @@ model:
   resource_name: cloudnetworkinterfaces
   entity_name: CloudNetworkInterface
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Manages the set of network interfaces that are associated with endpoints.
   get:
     description: Retrieves the network interface with the given ID.
@@ -14,8 +14,6 @@ model:
     description: Updates the network interface with the given ID.
   delete:
     description: Deletes the network interface with the given ID.
-    global_parameters:
-    - $filtering
   extends:
   - '@base'
   - '@zoned'
@@ -23,6 +21,7 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@prismabase'
+  - '@timeable'
 
 # Attributes
 attributes:

@@ -36,7 +36,7 @@ type CloudNetworkRule struct {
 	Object [][]string `json:"object" msgpack:"object" bson:"object" mapstructure:"object,omitempty"`
 
 	// Priority of the rule. Available only for cloud ACLs.
-	Priority int `json:"priority" msgpack:"priority" bson:"priority" mapstructure:"priority,omitempty"`
+	Priority int `json:"priority,omitempty" msgpack:"priority,omitempty" bson:"priority,omitempty" mapstructure:"priority,omitempty"`
 
 	// Represents the ports and protocols this policy applies to. Protocol/ports are
 	// defined as tcp/80, udp/22. For protocols that do not have ports, the port
@@ -55,7 +55,6 @@ func NewCloudNetworkRule() *CloudNetworkRule {
 		Action:        CloudNetworkRuleActionAllow,
 		Networks:      []string{},
 		Object:        [][]string{},
-		Priority:      0,
 		ProtocolPorts: []string{},
 	}
 }
@@ -145,6 +144,10 @@ func (o *CloudNetworkRule) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateOptionalNetworkOrHostnameList("networks", o.Networks); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateServicePorts("protocolPorts", o.ProtocolPorts); err != nil {
 		errors = errors.Append(err)
 	}
@@ -164,6 +167,6 @@ type mongoAttributesCloudNetworkRule struct {
 	Action        CloudNetworkRuleActionValue `bson:"action"`
 	Networks      []string                    `bson:"networks,omitempty"`
 	Object        [][]string                  `bson:"object"`
-	Priority      int                         `bson:"priority"`
+	Priority      int                         `bson:"priority,omitempty"`
 	ProtocolPorts []string                    `bson:"protocolports"`
 }

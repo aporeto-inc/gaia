@@ -110,6 +110,9 @@ type CloudNode struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
+	// ID of the host VPC.
+	VPCID string `json:"VPCID" msgpack:"VPCID" bson:"vpcid" mapstructure:"VPCID,omitempty"`
+
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
 
@@ -130,6 +133,9 @@ type CloudNode struct {
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Customer ID as identified by Prisma Cloud.
 	CustomerID int `json:"customerID" msgpack:"customerID" bson:"customerid" mapstructure:"customerID,omitempty"`
@@ -185,11 +191,8 @@ type CloudNode struct {
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
-	// The time that the object was updated.
-	UpdatedTime time.Time `json:"updatedTime" msgpack:"updatedTime" bson:"updatedtime" mapstructure:"updatedTime,omitempty"`
-
-	// ID of the host VPC.
-	VpcID string `json:"vpcID" msgpack:"vpcID" bson:"vpcid" mapstructure:"vpcID,omitempty"`
+	// Last update date of the object.
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -206,13 +209,13 @@ func NewCloudNode() *CloudNode {
 
 	return &CloudNode{
 		ModelVersion:     1,
+		CloudTags:        []string{},
 		Annotations:      map[string][]string{},
 		AssociatedTags:   []string{},
 		Attachments:      []string{},
-		CloudTags:        []string{},
-		NormalizedTags:   []string{},
-		SecurityTags:     []string{},
 		MigrationsLog:    map[string]string{},
+		SecurityTags:     []string{},
+		NormalizedTags:   []string{},
 		PolicyReferences: []string{},
 		Parameters:       map[string]interface{}{},
 	}
@@ -250,6 +253,7 @@ func (o *CloudNode) GetBSON() (interface{}, error) {
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
+	s.VPCID = o.VPCID
 	s.AccountID = o.AccountID
 	s.Annotations = o.Annotations
 	s.AssociatedTags = o.AssociatedTags
@@ -257,6 +261,7 @@ func (o *CloudNode) GetBSON() (interface{}, error) {
 	s.CloudTags = o.CloudTags
 	s.CloudType = o.CloudType
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	s.CreateTime = o.CreateTime
 	s.CustomerID = o.CustomerID
 	s.IngestionTime = o.IngestionTime
 	s.Key = o.Key
@@ -275,8 +280,7 @@ func (o *CloudNode) GetBSON() (interface{}, error) {
 	s.SubType = o.SubType
 	s.Type = o.Type
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
-	s.UpdatedTime = o.UpdatedTime
-	s.VpcID = o.VpcID
+	s.UpdateTime = o.UpdateTime
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
 
@@ -298,6 +302,7 @@ func (o *CloudNode) SetBSON(raw bson.Raw) error {
 
 	o.APIID = s.APIID
 	o.ID = s.ID.Hex()
+	o.VPCID = s.VPCID
 	o.AccountID = s.AccountID
 	o.Annotations = s.Annotations
 	o.AssociatedTags = s.AssociatedTags
@@ -305,6 +310,7 @@ func (o *CloudNode) SetBSON(raw bson.Raw) error {
 	o.CloudTags = s.CloudTags
 	o.CloudType = s.CloudType
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	o.CreateTime = s.CreateTime
 	o.CustomerID = s.CustomerID
 	o.IngestionTime = s.IngestionTime
 	o.Key = s.Key
@@ -323,8 +329,7 @@ func (o *CloudNode) SetBSON(raw bson.Raw) error {
 	o.SubType = s.SubType
 	o.Type = s.Type
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
-	o.UpdatedTime = s.UpdatedTime
-	o.VpcID = s.VpcID
+	o.UpdateTime = s.UpdateTime
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
 
@@ -370,6 +375,18 @@ func (o *CloudNode) GetAPIID() int {
 func (o *CloudNode) SetAPIID(APIID int) {
 
 	o.APIID = APIID
+}
+
+// GetVPCID returns the VPCID of the receiver.
+func (o *CloudNode) GetVPCID() string {
+
+	return o.VPCID
+}
+
+// SetVPCID sets the property VPCID of the receiver using the given value.
+func (o *CloudNode) SetVPCID(VPCID string) {
+
+	o.VPCID = VPCID
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -454,6 +471,18 @@ func (o *CloudNode) GetCreateIdempotencyKey() string {
 func (o *CloudNode) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *CloudNode) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
+func (o *CloudNode) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
 }
 
 // GetCustomerID returns the CustomerID of the receiver.
@@ -612,28 +641,16 @@ func (o *CloudNode) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
-// GetUpdatedTime returns the UpdatedTime of the receiver.
-func (o *CloudNode) GetUpdatedTime() time.Time {
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *CloudNode) GetUpdateTime() time.Time {
 
-	return o.UpdatedTime
+	return o.UpdateTime
 }
 
-// SetUpdatedTime sets the property UpdatedTime of the receiver using the given value.
-func (o *CloudNode) SetUpdatedTime(updatedTime time.Time) {
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
+func (o *CloudNode) SetUpdateTime(updateTime time.Time) {
 
-	o.UpdatedTime = updatedTime
-}
-
-// GetVpcID returns the VpcID of the receiver.
-func (o *CloudNode) GetVpcID() string {
-
-	return o.VpcID
-}
-
-// SetVpcID sets the property VpcID of the receiver using the given value.
-func (o *CloudNode) SetVpcID(vpcID string) {
-
-	o.VpcID = vpcID
+	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
@@ -669,6 +686,7 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparseCloudNode{
 			APIID:                &o.APIID,
 			ID:                   &o.ID,
+			VPCID:                &o.VPCID,
 			AccountID:            &o.AccountID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
@@ -676,6 +694,7 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CloudTags:            &o.CloudTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
 			CustomerID:           &o.CustomerID,
 			IngestionTime:        &o.IngestionTime,
 			Key:                  &o.Key,
@@ -694,8 +713,7 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			SubType:              &o.SubType,
 			Type:                 &o.Type,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
-			UpdatedTime:          &o.UpdatedTime,
-			VpcID:                &o.VpcID,
+			UpdateTime:           &o.UpdateTime,
 			ZHash:                &o.ZHash,
 			Zone:                 &o.Zone,
 		}
@@ -708,6 +726,8 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.APIID = &(o.APIID)
 		case "ID":
 			sp.ID = &(o.ID)
+		case "VPCID":
+			sp.VPCID = &(o.VPCID)
 		case "accountID":
 			sp.AccountID = &(o.AccountID)
 		case "annotations":
@@ -722,6 +742,8 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CloudType = &(o.CloudType)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
 		case "customerID":
 			sp.CustomerID = &(o.CustomerID)
 		case "ingestionTime":
@@ -758,10 +780,8 @@ func (o *CloudNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Type = &(o.Type)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
-		case "updatedTime":
-			sp.UpdatedTime = &(o.UpdatedTime)
-		case "vpcID":
-			sp.VpcID = &(o.VpcID)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -785,6 +805,9 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
+	if so.VPCID != nil {
+		o.VPCID = *so.VPCID
+	}
 	if so.AccountID != nil {
 		o.AccountID = *so.AccountID
 	}
@@ -805,6 +828,9 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
 	}
 	if so.CustomerID != nil {
 		o.CustomerID = *so.CustomerID
@@ -860,11 +886,8 @@ func (o *CloudNode) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
-	if so.UpdatedTime != nil {
-		o.UpdatedTime = *so.UpdatedTime
-	}
-	if so.VpcID != nil {
-		o.VpcID = *so.VpcID
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -920,6 +943,10 @@ func (o *CloudNode) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Endpoint", "Subnet", "VPC", "Interface", "RouteTable", "NetworkRuleSet"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -962,6 +989,8 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 		return o.APIID
 	case "ID":
 		return o.ID
+	case "VPCID":
+		return o.VPCID
 	case "accountID":
 		return o.AccountID
 	case "annotations":
@@ -976,6 +1005,8 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 		return o.CloudType
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
+	case "createTime":
+		return o.CreateTime
 	case "customerID":
 		return o.CustomerID
 	case "ingestionTime":
@@ -1012,10 +1043,8 @@ func (o *CloudNode) ValueForAttribute(name string) interface{} {
 		return o.Type
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
-	case "updatedTime":
-		return o.UpdatedTime
-	case "vpcID":
-		return o.VpcID
+	case "updateTime":
+		return o.UpdateTime
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -1051,6 +1080,20 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"VPCID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "vpcid",
+		ConvertedName:  "VPCID",
+		Description:    `ID of the host VPC.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "VPCID",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1146,6 +1189,21 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"CreateTime": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "createtime",
+		ConvertedName:  "CreateTime",
+		Description:    `Creation date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"CustomerID": {
 		AllowedChoices: []string{},
@@ -1335,7 +1393,6 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"SecurityTags": {
 		AllowedChoices: []string{},
-		Autogenerated:  true,
 		BSONFieldName:  "securitytags",
 		ConvertedName:  "SecurityTags",
 		Description:    `List of security tags associated with the node.`,
@@ -1347,7 +1404,6 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"SubType": {
 		AllowedChoices: []string{},
-		Autogenerated:  true,
 		BSONFieldName:  "subtype",
 		ConvertedName:  "SubType",
 		Description:    `The sub-type of the object as found in the parameters. Used for indexing.`,
@@ -1363,6 +1419,7 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Type of the endpoint.`,
 		Exposed:        true,
 		Name:           "type",
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -1379,32 +1436,20 @@ var CloudNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"UpdatedTime": {
+	"UpdateTime": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "updatedtime",
-		ConvertedName:  "UpdatedTime",
-		Description:    `The time that the object was updated.`,
+		Autogenerated:  true,
+		BSONFieldName:  "updatetime",
+		ConvertedName:  "UpdateTime",
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
-		Name:           "updatedTime",
+		Name:           "updateTime",
 		Orderable:      true,
+		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"VpcID": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "vpcid",
-		ConvertedName:  "VpcID",
-		Description:    `ID of the host VPC.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "vpcID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"ZHash": {
 		AllowedChoices: []string{},
@@ -1462,6 +1507,20 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"vpcid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "vpcid",
+		ConvertedName:  "VPCID",
+		Description:    `ID of the host VPC.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "VPCID",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1557,6 +1616,21 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"createtime": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "createtime",
+		ConvertedName:  "CreateTime",
+		Description:    `Creation date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"customerid": {
 		AllowedChoices: []string{},
@@ -1746,7 +1820,6 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"securitytags": {
 		AllowedChoices: []string{},
-		Autogenerated:  true,
 		BSONFieldName:  "securitytags",
 		ConvertedName:  "SecurityTags",
 		Description:    `List of security tags associated with the node.`,
@@ -1758,7 +1831,6 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	},
 	"subtype": {
 		AllowedChoices: []string{},
-		Autogenerated:  true,
 		BSONFieldName:  "subtype",
 		ConvertedName:  "SubType",
 		Description:    `The sub-type of the object as found in the parameters. Used for indexing.`,
@@ -1774,6 +1846,7 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Type of the endpoint.`,
 		Exposed:        true,
 		Name:           "type",
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -1790,32 +1863,20 @@ var CloudNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
-	"updatedtime": {
+	"updatetime": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "updatedtime",
-		ConvertedName:  "UpdatedTime",
-		Description:    `The time that the object was updated.`,
+		Autogenerated:  true,
+		BSONFieldName:  "updatetime",
+		ConvertedName:  "UpdateTime",
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
-		Name:           "updatedTime",
+		Name:           "updateTime",
 		Orderable:      true,
+		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"vpcid": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "vpcid",
-		ConvertedName:  "VpcID",
-		Description:    `ID of the host VPC.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "vpcID",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"zhash": {
 		AllowedChoices: []string{},
@@ -1916,6 +1977,9 @@ type SparseCloudNode struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
+	// ID of the host VPC.
+	VPCID *string `json:"VPCID,omitempty" msgpack:"VPCID,omitempty" bson:"vpcid,omitempty" mapstructure:"VPCID,omitempty"`
+
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
 	AccountID *string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
 
@@ -1936,6 +2000,9 @@ type SparseCloudNode struct {
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Customer ID as identified by Prisma Cloud.
 	CustomerID *int `json:"customerID,omitempty" msgpack:"customerID,omitempty" bson:"customerid,omitempty" mapstructure:"customerID,omitempty"`
@@ -1991,11 +2058,8 @@ type SparseCloudNode struct {
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
-	// The time that the object was updated.
-	UpdatedTime *time.Time `json:"updatedTime,omitempty" msgpack:"updatedTime,omitempty" bson:"updatedtime,omitempty" mapstructure:"updatedTime,omitempty"`
-
-	// ID of the host VPC.
-	VpcID *string `json:"vpcID,omitempty" msgpack:"vpcID,omitempty" bson:"vpcid,omitempty" mapstructure:"vpcID,omitempty"`
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -2053,6 +2117,9 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
 	}
+	if o.VPCID != nil {
+		s.VPCID = o.VPCID
+	}
 	if o.AccountID != nil {
 		s.AccountID = o.AccountID
 	}
@@ -2073,6 +2140,9 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 	}
 	if o.CreateIdempotencyKey != nil {
 		s.CreateIdempotencyKey = o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
 	}
 	if o.CustomerID != nil {
 		s.CustomerID = o.CustomerID
@@ -2128,11 +2198,8 @@ func (o *SparseCloudNode) GetBSON() (interface{}, error) {
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	}
-	if o.UpdatedTime != nil {
-		s.UpdatedTime = o.UpdatedTime
-	}
-	if o.VpcID != nil {
-		s.VpcID = o.VpcID
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
 	}
 	if o.ZHash != nil {
 		s.ZHash = o.ZHash
@@ -2162,6 +2229,9 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 	}
 	id := s.ID.Hex()
 	o.ID = &id
+	if s.VPCID != nil {
+		o.VPCID = s.VPCID
+	}
 	if s.AccountID != nil {
 		o.AccountID = s.AccountID
 	}
@@ -2182,6 +2252,9 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 	}
 	if s.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = s.CreateIdempotencyKey
+	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
 	}
 	if s.CustomerID != nil {
 		o.CustomerID = s.CustomerID
@@ -2237,11 +2310,8 @@ func (o *SparseCloudNode) SetBSON(raw bson.Raw) error {
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	}
-	if s.UpdatedTime != nil {
-		o.UpdatedTime = s.UpdatedTime
-	}
-	if s.VpcID != nil {
-		o.VpcID = s.VpcID
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
 	}
 	if s.ZHash != nil {
 		o.ZHash = s.ZHash
@@ -2269,6 +2339,9 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
+	if o.VPCID != nil {
+		out.VPCID = *o.VPCID
+	}
 	if o.AccountID != nil {
 		out.AccountID = *o.AccountID
 	}
@@ -2289,6 +2362,9 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
 	}
 	if o.CustomerID != nil {
 		out.CustomerID = *o.CustomerID
@@ -2344,11 +2420,8 @@ func (o *SparseCloudNode) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
-	if o.UpdatedTime != nil {
-		out.UpdatedTime = *o.UpdatedTime
-	}
-	if o.VpcID != nil {
-		out.VpcID = *o.VpcID
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
 	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
@@ -2374,6 +2447,22 @@ func (o *SparseCloudNode) GetAPIID() (out int) {
 func (o *SparseCloudNode) SetAPIID(APIID int) {
 
 	o.APIID = &APIID
+}
+
+// GetVPCID returns the VPCID of the receiver.
+func (o *SparseCloudNode) GetVPCID() (out string) {
+
+	if o.VPCID == nil {
+		return
+	}
+
+	return *o.VPCID
+}
+
+// SetVPCID sets the property VPCID of the receiver using the address of the given value.
+func (o *SparseCloudNode) SetVPCID(VPCID string) {
+
+	o.VPCID = &VPCID
 }
 
 // GetAccountID returns the AccountID of the receiver.
@@ -2486,6 +2575,22 @@ func (o *SparseCloudNode) GetCreateIdempotencyKey() (out string) {
 func (o *SparseCloudNode) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseCloudNode) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseCloudNode) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
 }
 
 // GetCustomerID returns the CustomerID of the receiver.
@@ -2696,36 +2801,20 @@ func (o *SparseCloudNode) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
-// GetUpdatedTime returns the UpdatedTime of the receiver.
-func (o *SparseCloudNode) GetUpdatedTime() (out time.Time) {
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseCloudNode) GetUpdateTime() (out time.Time) {
 
-	if o.UpdatedTime == nil {
+	if o.UpdateTime == nil {
 		return
 	}
 
-	return *o.UpdatedTime
+	return *o.UpdateTime
 }
 
-// SetUpdatedTime sets the property UpdatedTime of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetUpdatedTime(updatedTime time.Time) {
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseCloudNode) SetUpdateTime(updateTime time.Time) {
 
-	o.UpdatedTime = &updatedTime
-}
-
-// GetVpcID returns the VpcID of the receiver.
-func (o *SparseCloudNode) GetVpcID() (out string) {
-
-	if o.VpcID == nil {
-		return
-	}
-
-	return *o.VpcID
-}
-
-// SetVpcID sets the property VpcID of the receiver using the address of the given value.
-func (o *SparseCloudNode) SetVpcID(vpcID string) {
-
-	o.VpcID = &vpcID
+	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
@@ -2787,6 +2876,7 @@ func (o *SparseCloudNode) DeepCopyInto(out *SparseCloudNode) {
 type mongoAttributesCloudNode struct {
 	APIID                int                    `bson:"apiid"`
 	ID                   bson.ObjectId          `bson:"_id,omitempty"`
+	VPCID                string                 `bson:"vpcid"`
 	AccountID            string                 `bson:"accountid"`
 	Annotations          map[string][]string    `bson:"annotations"`
 	AssociatedTags       []string               `bson:"associatedtags"`
@@ -2794,6 +2884,7 @@ type mongoAttributesCloudNode struct {
 	CloudTags            []string               `bson:"cloudtags"`
 	CloudType            string                 `bson:"cloudtype"`
 	CreateIdempotencyKey string                 `bson:"createidempotencykey"`
+	CreateTime           time.Time              `bson:"createtime"`
 	CustomerID           int                    `bson:"customerid"`
 	IngestionTime        time.Time              `bson:"ingestiontime"`
 	Key                  string                 `bson:"key"`
@@ -2812,14 +2903,14 @@ type mongoAttributesCloudNode struct {
 	SubType              string                 `bson:"subtype"`
 	Type                 CloudNodeTypeValue     `bson:"type"`
 	UpdateIdempotencyKey string                 `bson:"updateidempotencykey"`
-	UpdatedTime          time.Time              `bson:"updatedtime"`
-	VpcID                string                 `bson:"vpcid"`
+	UpdateTime           time.Time              `bson:"updatetime"`
 	ZHash                int                    `bson:"zhash"`
 	Zone                 int                    `bson:"zone"`
 }
 type mongoAttributesSparseCloudNode struct {
 	APIID                *int                    `bson:"apiid,omitempty"`
 	ID                   bson.ObjectId           `bson:"_id,omitempty"`
+	VPCID                *string                 `bson:"vpcid,omitempty"`
 	AccountID            *string                 `bson:"accountid,omitempty"`
 	Annotations          *map[string][]string    `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string               `bson:"associatedtags,omitempty"`
@@ -2827,6 +2918,7 @@ type mongoAttributesSparseCloudNode struct {
 	CloudTags            *[]string               `bson:"cloudtags,omitempty"`
 	CloudType            *string                 `bson:"cloudtype,omitempty"`
 	CreateIdempotencyKey *string                 `bson:"createidempotencykey,omitempty"`
+	CreateTime           *time.Time              `bson:"createtime,omitempty"`
 	CustomerID           *int                    `bson:"customerid,omitempty"`
 	IngestionTime        *time.Time              `bson:"ingestiontime,omitempty"`
 	Key                  *string                 `bson:"key,omitempty"`
@@ -2845,8 +2937,7 @@ type mongoAttributesSparseCloudNode struct {
 	SubType              *string                 `bson:"subtype,omitempty"`
 	Type                 *CloudNodeTypeValue     `bson:"type,omitempty"`
 	UpdateIdempotencyKey *string                 `bson:"updateidempotencykey,omitempty"`
-	UpdatedTime          *time.Time              `bson:"updatedtime,omitempty"`
-	VpcID                *string                 `bson:"vpcid,omitempty"`
+	UpdateTime           *time.Time              `bson:"updatetime,omitempty"`
 	ZHash                *int                    `bson:"zhash,omitempty"`
 	Zone                 *int                    `bson:"zone,omitempty"`
 }

@@ -4,7 +4,7 @@ model:
   resource_name: cloudroutetables
   entity_name: CloudRouteTable
   package: yeul
-  group: prisma/infrastructure
+  group: pcn/infrastructure
   description: Manages the list of route tables available in a cloud deployment.
   get:
     description: Retrieves the route table with the given ID.
@@ -21,6 +21,7 @@ model:
   - '@namespaced'
   - '@identifiable-stored'
   - '@prismabase'
+  - '@timeable'
   - '@timeable'
 
 # Attributes

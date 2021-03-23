@@ -587,6 +587,10 @@ func (o *CloudPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("severity", string(o.Severity)); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := elemental.ValidateStringInList("severity", string(o.Severity), []string{"Low", "Medium", "High"}, false); err != nil {
 		errors = errors.Append(err)
 	}
@@ -832,6 +836,7 @@ derived from the parent.`,
 		Description:    `The severity of a policy violation.`,
 		Exposed:        true,
 		Name:           "severity",
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -1048,6 +1053,7 @@ derived from the parent.`,
 		Description:    `The severity of a policy violation.`,
 		Exposed:        true,
 		Name:           "severity",
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},

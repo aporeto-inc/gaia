@@ -19,7 +19,6 @@ attributes:
       policy.
     type: enum
     exposed: true
-    stored: true
     required: true
     allowed_choices:
     - Allow
@@ -34,7 +33,6 @@ attributes:
       save space or improve performance.
     type: boolean
     exposed: true
-    stored: true
 
   - name: name
     description: A user defined name to keep track of the rule in the reporting.
@@ -48,7 +46,6 @@ attributes:
     type: refList
     exposed: true
     subtype: networkrulenet
-    stored: true
     read_only: true
     omit_empty: true
     extensions:
@@ -62,7 +59,6 @@ attributes:
     type: external
     exposed: true
     subtype: '[][]string'
-    stored: true
     orderable: true
     validations:
     - $tagsExpression
@@ -71,15 +67,7 @@ attributes:
     description: If set to `true`, the flow will be in observation mode.
     type: boolean
     exposed: true
-    stored: true
     default_value: false
-
-  - name: priority
-    description: Priority of the rule. Available only for cloud ACLs.
-    type: integer
-    exposed: true
-    stored: true
-    default_value: 0
 
   - name: protocolPorts
     description: |-
@@ -90,6 +78,5 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    stored: true
     validations:
     - $serviceports

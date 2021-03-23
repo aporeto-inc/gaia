@@ -93,6 +93,10 @@ func (o *CloudVPCData) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredString("address", o.Address); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := ValidateCIDR("address", o.Address); err != nil {
 		errors = errors.Append(err)
 	}

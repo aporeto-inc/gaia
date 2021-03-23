@@ -9,10 +9,6 @@ model:
   private: true
   detached: true
 
-# Indexes
-indexes:
-- - namespace
-
 # Attributes
 attributes:
   v1:
