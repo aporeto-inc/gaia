@@ -42,6 +42,8 @@ attributes:
     exposed: true
     stored: true
     example_value: 10.1.1.2
+    validations:
+    - $optionalcidrorip
 
   - name: publicDNSName
     description: The private DNS name associated with the address.
@@ -56,3 +58,5 @@ attributes:
     exposed: true
     stored: true
     example_value: 10.1.1.2
+    validations:
+    - $optionalcidrorip

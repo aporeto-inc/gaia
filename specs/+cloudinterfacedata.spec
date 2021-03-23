@@ -19,6 +19,8 @@ attributes:
     exposed: true
     subtype: cloudaddress
     stored: true
+    extensions:
+      refMode: pointer
 
   - name: attachmentType
     description: |-

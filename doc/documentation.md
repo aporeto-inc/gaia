@@ -9158,7 +9158,7 @@ Customer ID as identified by Prisma Cloud.
 
 Type: `[]string`
 
-List of CIDRs or domain name.
+List of CIDRs.
 
 ##### `ingestionTime`
 
@@ -9644,7 +9644,7 @@ Type: `[]string`
 The accounts that the search must apply to. These are the actually IDs of the
 account as provided by the cloud provider. One or more IDs can be included.
 
-##### `cloudTypes` [`required`]
+##### `cloudTypes`
 
 Type: `[]string`
 
@@ -9747,7 +9747,7 @@ Default value:
 
 Type: `[]string`
 
-A list of IP CIDRS or FQDNS that identify remote endpoints.
+A list of IP CIDRS that identify remote endpoints.
 
 ##### `object`
 

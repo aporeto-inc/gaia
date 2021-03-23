@@ -131,7 +131,7 @@ type CloudManagedNetwork struct {
 	// Customer ID as identified by Prisma Cloud.
 	CustomerID int `json:"customerID" msgpack:"customerID" bson:"customerid" mapstructure:"customerID,omitempty"`
 
-	// List of CIDRs or domain name.
+	// List of CIDRs.
 	Entries []string `json:"entries" msgpack:"entries" bson:"entries" mapstructure:"entries,omitempty"`
 
 	// The time that the object was first ingested.
@@ -846,7 +846,7 @@ func (o *CloudManagedNetwork) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateCIDRList("entries", o.Entries); err != nil {
+	if err := ValidateOptionalCIDRList("entries", o.Entries); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1118,7 +1118,7 @@ var CloudManagedNetworkAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		BSONFieldName:  "entries",
 		ConvertedName:  "Entries",
-		Description:    `List of CIDRs or domain name.`,
+		Description:    `List of CIDRs.`,
 		Exposed:        true,
 		Name:           "entries",
 		Stored:         true,
@@ -1491,7 +1491,7 @@ var CloudManagedNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		AllowedChoices: []string{},
 		BSONFieldName:  "entries",
 		ConvertedName:  "Entries",
-		Description:    `List of CIDRs or domain name.`,
+		Description:    `List of CIDRs.`,
 		Exposed:        true,
 		Name:           "entries",
 		Stored:         true,
@@ -1805,7 +1805,7 @@ type SparseCloudManagedNetwork struct {
 	// Customer ID as identified by Prisma Cloud.
 	CustomerID *int `json:"customerID,omitempty" msgpack:"customerID,omitempty" bson:"customerid,omitempty" mapstructure:"customerID,omitempty"`
 
-	// List of CIDRs or domain name.
+	// List of CIDRs.
 	Entries *[]string `json:"entries,omitempty" msgpack:"entries,omitempty" bson:"entries,omitempty" mapstructure:"entries,omitempty"`
 
 	// The time that the object was first ingested.

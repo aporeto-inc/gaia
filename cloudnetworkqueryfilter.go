@@ -35,7 +35,7 @@ type CloudNetworkQueryFilter struct {
 	AccountIDs []string `json:"accountIDs,omitempty" msgpack:"accountIDs,omitempty" bson:"accountids,omitempty" mapstructure:"accountIDs,omitempty"`
 
 	// The cloud types that the search must apply to.
-	CloudTypes []string `json:"cloudTypes" msgpack:"cloudTypes" bson:"cloudtypes" mapstructure:"cloudTypes,omitempty"`
+	CloudTypes []string `json:"cloudTypes,omitempty" msgpack:"cloudTypes,omitempty" bson:"cloudtypes,omitempty" mapstructure:"cloudTypes,omitempty"`
 
 	// The exact object that the search applies. If ObjectIDs are defined, the rest of
 	// the fields are ignored. An object ID can refer to an instance, VPC endpoint, or
@@ -182,19 +182,11 @@ func (o *CloudNetworkQueryFilter) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredExternal("cloudTypes", o.CloudTypes); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("resourceType", string(o.ResourceType)); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("resourceType", string(o.ResourceType), []string{"Instance", "Interface", "Service", "ProcessingUnit"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := ValidateOptionalCIDRList("subnets", o.Subnets); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -212,7 +204,7 @@ func (o *CloudNetworkQueryFilter) Validate() error {
 type mongoAttributesCloudNetworkQueryFilter struct {
 	VPCIDs        []string                                 `bson:"vpcids,omitempty"`
 	AccountIDs    []string                                 `bson:"accountids,omitempty"`
-	CloudTypes    []string                                 `bson:"cloudtypes"`
+	CloudTypes    []string                                 `bson:"cloudtypes,omitempty"`
 	ObjectIDs     []string                                 `bson:"objectids,omitempty"`
 	Regions       []string                                 `bson:"regions,omitempty"`
 	ResourceType  CloudNetworkQueryFilterResourceTypeValue `bson:"resourcetype"`

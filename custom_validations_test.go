@@ -1915,7 +1915,7 @@ func TestValidateOptionalNetworkOrHostnameList(t *testing.T) {
 			"valid list",
 			args{
 				"nets",
-				[]string{"10.0.0.0/8", "google.com"},
+				[]string{"10.0.0.0/8", "google.com", "10.1.1.2"},
 			},
 			false,
 		},
@@ -3586,6 +3586,222 @@ func TestValidateCounterReport(t *testing.T) {
 				if scenario.report.Namespace == "" {
 					t.Error("Validation passed, but the report's 'namespace' field was empty")
 				}
+			}
+		})
+	}
+}
+
+func TestValidateCIDRorIP(t *testing.T) {
+	type args struct {
+		attribute string
+		cidr      string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"cidr",
+				"10.0.0.0/8",
+			},
+			false,
+		},
+		{
+			"valid IP",
+			args{
+				"cidr",
+				"10.1.1.2",
+			},
+			false,
+		},
+
+		// invalid CIDR
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"",
+			},
+			true,
+		},
+
+		// invalid DNn
+		{
+			"invalid DNS Name",
+			args{
+				"cidr",
+				"google@com",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCIDRorIP(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateCIDR() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateOptionalCIDRorIP(t *testing.T) {
+	type args struct {
+		attribute string
+		cidr      string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"cidr",
+				"10.0.0.0/8",
+			},
+			false,
+		},
+		{
+			"valid IP",
+			args{
+				"cidr",
+				"10.1.1.2",
+			},
+			false,
+		},
+		{
+			"valid IP",
+			args{
+				"cidr",
+				"",
+			},
+			false,
+		},
+
+		// invalid CIDR
+		{
+			"invalid DNS Name",
+			args{
+				"cidr",
+				"google@com",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateOptionalCIDRorIP(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateCIDR() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateCIDRLorIPList(t *testing.T) {
+	type args struct {
+		attribute string
+		networks  []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"valid mixed list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8", "10.1.1.1"},
+			},
+			false,
+		},
+		{
+			"invalid list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8", "google.com"},
+			},
+			true,
+		},
+		{
+			"empty list",
+			args{
+				"nets",
+				[]string{},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCIDRorIPList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCIDRList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateOptionalCIDRLorIPList(t *testing.T) {
+	type args struct {
+		attribute string
+		networks  []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"valid mixed list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8", "10.1.1.1"},
+			},
+			false,
+		},
+		{
+			"empty list",
+			args{
+				"nets",
+				[]string{},
+			},
+			false,
+		},
+		{
+			"invalid list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8", "google.com"},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateOptionalCIDRorIPList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCIDRList() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

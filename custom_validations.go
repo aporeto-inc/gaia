@@ -108,6 +108,50 @@ func ValidateOptionalNetworkOrHostnameList(attribute string, networks []string) 
 	return nil
 }
 
+// ValidateCIDRorIP validates that this is a valid IP address or CIDR.
+func ValidateCIDRorIP(attribute string, network string) error {
+	ipErr := ValidateIPAddress(attribute, network)
+	cidrErr := ValidateCIDR(attribute, network)
+
+	if ipErr != nil && cidrErr != nil {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a valid IP address or a CIDR", attribute))
+	}
+
+	return nil
+}
+
+// ValidateOptionalCIDRorIP returns no error if the network is empty.
+func ValidateOptionalCIDRorIP(attribute string, network string) error {
+	if network == "" {
+		return nil
+	}
+
+	return ValidateCIDRorIP(attribute, network)
+}
+
+// ValidateCIDRorIPList validates a list of CIDRs or IPs.
+func ValidateCIDRorIPList(attribute string, networks []string) error {
+
+	if len(networks) == 0 {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' cannot be an empty list", attribute))
+	}
+
+	for _, network := range networks {
+		if err := ValidateOptionalCIDRorIP(attribute, network); err != nil {
+			return makeValidationError(attribute, fmt.Sprintf("Value '%s' of attribute '%s' must be an IP address", network, attribute))
+		}
+	}
+	return nil
+}
+
+// ValidateOptionaCIDRorIPList validates an optional list of CIDRs or IPs.
+func ValidateOptionalCIDRorIPList(attribute string, networks []string) error {
+	if len(networks) == 0 {
+		return nil
+	}
+	return ValidateCIDRorIPList(attribute, networks)
+}
+
 // ValidateIPAddress validates that this is a valid IP address (not a CIDR).
 func ValidateIPAddress(attribute string, network string) error {
 	if ip := net.ParseIP(network); ip != nil {
@@ -146,7 +190,7 @@ func ValidateCIDR(attribute string, network string) error {
 	return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a CIDR", attribute))
 }
 
-// ValidateCIDRList validates a list of CIDS.
+// ValidateCIDRList validates a list of CIDRS.
 // The list cannot be empty
 func ValidateCIDRList(attribute string, networks []string) error {
 

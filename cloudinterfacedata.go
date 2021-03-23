@@ -53,7 +53,7 @@ const (
 type CloudInterfaceData struct {
 	// List of IP addresses/subnets (IPv4 or IPv6) associated with the
 	// interface.
-	Addresses []CloudAddress `json:"addresses" msgpack:"addresses" bson:"addresses" mapstructure:"addresses,omitempty"`
+	Addresses []*CloudAddress `json:"addresses" msgpack:"addresses" bson:"addresses" mapstructure:"addresses,omitempty"`
 
 	// Attachment type describes where this interface is attached to (Instance, Load
 	// Balancer, Gateway, etc).
@@ -81,7 +81,7 @@ func NewCloudInterfaceData() *CloudInterfaceData {
 
 	return &CloudInterfaceData{
 		ModelVersion: 1,
-		Addresses:    []CloudAddress{},
+		Addresses:    []*CloudAddress{},
 		SecurityTags: []string{},
 		Subnets:      []string{},
 	}
@@ -196,7 +196,7 @@ func (o *CloudInterfaceData) Validate() error {
 }
 
 type mongoAttributesCloudInterfaceData struct {
-	Addresses       []CloudAddress                        `bson:"addresses"`
+	Addresses       []*CloudAddress                       `bson:"addresses"`
 	AttachmentType  CloudInterfaceDataAttachmentTypeValue `bson:"attachmenttype"`
 	RelatedObjectID string                                `bson:"relatedobjectid"`
 	RouteTableID    string                                `bson:"routetableid"`

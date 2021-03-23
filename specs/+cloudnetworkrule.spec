@@ -27,7 +27,7 @@ attributes:
     default_value: Allow
 
   - name: networks
-    description: A list of IP CIDRS or FQDNS that identify remote endpoints.
+    description: A list of IP CIDRS that identify remote endpoints.
     type: list
     exposed: true
     subtype: string
@@ -35,7 +35,7 @@ attributes:
     read_only: true
     omit_empty: true
     validations:
-    - $optionalnetworksorhostnames
+    - $optionalcidroriplist
 
   - name: object
     description: |-

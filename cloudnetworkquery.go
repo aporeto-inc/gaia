@@ -653,7 +653,7 @@ func (o *CloudNetworkQuery) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateOptionalCIDR("destinationIP", o.DestinationIP); err != nil {
+	if err := ValidateOptionalCIDRorIP("destinationIP", o.DestinationIP); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -676,7 +676,7 @@ func (o *CloudNetworkQuery) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateOptionalCIDR("sourceIP", o.SourceIP); err != nil {
+	if err := ValidateOptionalCIDRorIP("sourceIP", o.SourceIP); err != nil {
 		errors = errors.Append(err)
 	}
 

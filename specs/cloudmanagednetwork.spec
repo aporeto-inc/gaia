@@ -36,13 +36,13 @@ indexes:
 attributes:
   v1:
   - name: entries
-    description: List of CIDRs or domain name.
+    description: List of CIDRs.
     type: list
     exposed: true
     subtype: string
     stored: true
     validations:
-    - $cidrs
+    - $optionalcidrs
 
   - name: type
     description: The type of cloud managed network.

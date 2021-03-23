@@ -39,9 +39,9 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    required: true
     example_value:
     - AWS
+    omit_empty: true
 
   - name: objectIDs
     description: |-
@@ -120,8 +120,6 @@ attributes:
     subtype: string
     stored: true
     omit_empty: true
-    validations:
-    - $optionalcidrs
 
   - name: tags
     description: |-

@@ -27,7 +27,7 @@ type CloudNetworkRule struct {
 	// policy.
 	Action CloudNetworkRuleActionValue `json:"action" msgpack:"action" bson:"action" mapstructure:"action,omitempty"`
 
-	// A list of IP CIDRS or FQDNS that identify remote endpoints.
+	// A list of IP CIDRS that identify remote endpoints.
 	Networks []string `json:"networks,omitempty" msgpack:"networks,omitempty" bson:"networks,omitempty" mapstructure:"networks,omitempty"`
 
 	// Identifies the set of remote workloads that the rule relates to. The selector
@@ -144,7 +144,7 @@ func (o *CloudNetworkRule) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateOptionalNetworkOrHostnameList("networks", o.Networks); err != nil {
+	if err := ValidateOptionalCIDRorIPList("networks", o.Networks); err != nil {
 		errors = errors.Append(err)
 	}
 

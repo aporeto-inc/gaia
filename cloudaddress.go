@@ -137,6 +137,14 @@ func (o *CloudAddress) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateOptionalCIDRorIP("privateIP", o.PrivateIP); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateOptionalCIDRorIP("publicIP", o.PublicIP); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}

@@ -22,6 +22,14 @@ $cidr:
   elemental:
     name: ValidateCIDR
 
+$cidrorip:
+  elemental:
+    name: ValidateCIDRorIP
+
+$cidroriplist:
+  elemental:
+    name: ValidateCIDRorIPList
+
 $cidrs:
   elemental:
     name: ValidateCIDRList
@@ -85,6 +93,14 @@ $optionalTimeDuration:
 $optionalcidr:
   elemental:
     name: ValidateOptionalCIDR
+
+$optionalcidrorip:
+  elemental:
+    name: ValidateOptionalCIDRorIP
+
+$optionalcidroriplist:
+  elemental:
+    name: ValidateOptionalCIDRorIPList
 
 $optionalcidrs:
   elemental:

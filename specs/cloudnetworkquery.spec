@@ -33,7 +33,7 @@ attributes:
     exposed: true
     stored: true
     validations:
-    - $optionalcidr
+    - $optionalcidrorip
 
   - name: destinationPorts
     description: The destination port or ports that should be used for the trace route
@@ -81,7 +81,7 @@ attributes:
     exposed: true
     stored: true
     validations:
-    - $optionalcidr
+    - $optionalcidrorip
 
   - name: sourceSelector
     description: A filter for selecting the sources of the request.
