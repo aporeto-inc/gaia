@@ -190,12 +190,6 @@ relations:
     description: List of endpoints associated with the deployment.
     global_parameters:
     - $filtering
-  create:
-    description: Creates a new endpoint.
-  update:
-    description: Updates an endpoint.
-  delete:
-    description: Deletes and endpoint.
 
 - rest_name: cloudgraph
   create:
@@ -208,36 +202,18 @@ relations:
     description: Retrieves the list of cloud attachments.
     global_parameters:
     - $filtering
-  create:
-    description: Creates a new cloud attachment.
-  update:
-    description: Updates a cloud attachment.
-  delete:
-    description: Deletes a cloud attachment.
 
 - rest_name: cloudnetworkinterface
   get:
     description: Retrieve the list of network interfaces associated with the deployment.
     global_parameters:
     - $filtering
-  create:
-    description: Creates a new network interface.
-  update:
-    description: Updates a network interface.
-  delete:
-    description: Deletes a network interface.
 
 - rest_name: cloudnetworkquery
   get:
     description: Retrieves the list of cloud network queries.
     global_parameters:
     - $filtering
-  create:
-    description: Creates a new cloud network query.
-  update:
-    description: Updates a cloud network query.
-  delete:
-    description: Deletes a cloud network query.
 
 - rest_name: cloudnetworkruleset
   get:
@@ -245,12 +221,6 @@ relations:
     global_parameters:
     - $filtering
     - $propagatable
-  create:
-    description: Creates a new cloud network rule set policy policy.
-  update:
-    description: Updates a cloud network rule set policy.
-  delete:
-    description: Deletes a cloud network rule set policy.
 
 - rest_name: cloudnode
   get:
@@ -265,10 +235,6 @@ relations:
     - $filtering
   create:
     description: Creates a new routing table.
-  update:
-    description: Updates a routing table.
-  delete:
-    description: Deletes a routing table.
 
 - rest_name: cloudsnapshotaccount
   create:
@@ -279,12 +245,6 @@ relations:
     description: Retrieves the list of subnets.
     global_parameters:
     - $filtering
-  create:
-    description: Creates a new subnet object.
-  update:
-    description: Updates a subnet object.
-  delete:
-    description: Deletes a subnet object.
 
 - rest_name: cloudtopology
   create:
@@ -296,12 +256,6 @@ relations:
     description: Retrieves the list of VPCs.
     global_parameters:
     - $filtering
-  create:
-    description: Creates a new VPC object representing a cloud VPC structure.
-  update:
-    description: Updates a VPC.
-  delete:
-    description: Deletes a VPC object.
 
 - rest_name: cnssearch
   create:

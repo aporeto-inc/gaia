@@ -8663,10 +8663,6 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
-##### `POST /cloudendpoints`
-
-Creates a new endpoint.
-
 ##### `DELETE /cloudendpoints/:id`
 
 Deletes the object with the given ID.
@@ -9071,10 +9067,6 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
-##### `POST /cloudmanagednetworks`
-
-Creates a new cloud attachment.
-
 ##### `DELETE /cloudmanagednetworks/:id`
 
 Deletes the object with the given ID.
@@ -9266,10 +9258,6 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
-##### `POST /cloudnetworkinterfaces`
-
-Creates a new network interface.
-
 ##### `DELETE /cloudnetworkinterfaces/:id`
 
 Deletes the network interface with the given ID.
@@ -9439,10 +9427,6 @@ Retrieves the list of cloud network queries.
 Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
-
-##### `POST /cloudnetworkqueries`
-
-Creates a new cloud network query.
 
 ##### `DELETE /cloudnetworkqueries/:id`
 
@@ -9807,10 +9791,6 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 - `propagated` (`boolean`): Also retrieve the objects that propagate down.
-
-##### `POST /cloudnetworkrulesets`
-
-Creates a new cloud network rule set policy policy.
 
 ##### `DELETE /cloudnetworkrulesets/:id`
 
@@ -10676,10 +10656,6 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
-##### `POST /cloudsubnets`
-
-Creates a new subnet object.
-
 ##### `DELETE /cloudsubnets/:id`
 
 Deletes the subnet with the given ID.
@@ -10924,10 +10900,6 @@ Retrieves the list of VPCs.
 Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
-
-##### `POST /cloudvpcs`
-
-Creates a new VPC object representing a cloud VPC structure.
 
 ##### `DELETE /cloudvpcs/:id`
 
