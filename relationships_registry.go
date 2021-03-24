@@ -1119,12 +1119,6 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[CloudTopologyIdentity] = &elemental.Relationship{
-		Create: map[string]*elemental.RelationshipInfo{
-			"root": {},
-		},
-	}
-
 	relationshipsRegistry[CloudVPCIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},

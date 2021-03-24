@@ -10858,37 +10858,6 @@ Type: `string`
 
 The availability zone of the subnet.
 
-### CloudTopology
-
-Returns the full topology of all nodes and their relationships.
-
-#### Relations
-
-##### `POST /cloudtopologies`
-
-Creates a cloud topology based on ingested data and the required parameters.
-
-#### Attributes
-
-##### `edges` [`read_only`]
-
-Type: [`map[string]cloudgraphedge`](#cloudgraphedge)
-
-The edges of the map.
-
-##### `nodes` [`read_only`]
-
-Type: [`map[string]cloudnode`](#cloudnode)
-
-Refers to the nodes of the map.
-
-##### `targetVPCs`
-
-Type: `[]string`
-
-The target VPCs for the topology. If empty, it will return the topology for all
-VPCs.
-
 ### CloudVPC
 
 A CloudVPC represents a VPC as defined in an cloud provider (AWS/Azure/GCP etc).

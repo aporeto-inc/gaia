@@ -258,11 +258,6 @@ relations:
   create:
     description: Creates a cloud subnet.
 
-- rest_name: cloudtopology
-  create:
-    description: Creates a cloud topology based on ingested data and the required
-      parameters.
-
 - rest_name: cloudvpc
   get:
     description: Retrieves the list of VPCs.

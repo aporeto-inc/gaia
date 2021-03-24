@@ -47,8 +47,7 @@ var (
 		"cloudsnapshotaccount": CloudSnapshotAccountIdentity,
 		"cloudsubnet":          CloudSubnetIdentity,
 
-		"cloudtopology": CloudTopologyIdentity,
-		"cloudvpc":      CloudVPCIdentity,
+		"cloudvpc": CloudVPCIdentity,
 
 		"cnssearch":     CNSSearchIdentity,
 		"cnssuggestion": CNSSuggestionIdentity,
@@ -230,8 +229,7 @@ var (
 		"cloudsnapshotaccounts": CloudSnapshotAccountIdentity,
 		"cloudsubnets":          CloudSubnetIdentity,
 
-		"cloudtopologies": CloudTopologyIdentity,
-		"cloudvpcs":       CloudVPCIdentity,
+		"cloudvpcs": CloudVPCIdentity,
 
 		"cnssearches":    CNSSearchIdentity,
 		"cnssuggestions": CNSSuggestionIdentity,
@@ -668,7 +666,6 @@ var (
 			{"createIdempotencyKey"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
-		"cloudtopology": nil,
 		"cloudvpc": {
 			{"updateIdempotencyKey"},
 			{"namespace"},
@@ -1234,8 +1231,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudSnapshotAccount()
 	case CloudSubnetIdentity:
 		return NewCloudSubnet()
-	case CloudTopologyIdentity:
-		return NewCloudTopology()
 	case CloudVPCIdentity:
 		return NewCloudVPC()
 	case CNSSearchIdentity:
@@ -1559,8 +1554,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudSnapshotAccount()
 	case CloudSubnetIdentity:
 		return NewSparseCloudSubnet()
-	case CloudTopologyIdentity:
-		return NewSparseCloudTopology()
 	case CloudVPCIdentity:
 		return NewSparseCloudVPC()
 	case CNSSearchIdentity:
@@ -1892,8 +1885,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudSnapshotAccountsList{}
 	case CloudSubnetIdentity:
 		return &CloudSubnetsList{}
-	case CloudTopologyIdentity:
-		return &CloudTopologiesList{}
 	case CloudVPCIdentity:
 		return &CloudVPCsList{}
 	case CNSSearchIdentity:
@@ -2215,8 +2206,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudSnapshotAccountsList{}
 	case CloudSubnetIdentity:
 		return &SparseCloudSubnetsList{}
-	case CloudTopologyIdentity:
-		return &SparseCloudTopologiesList{}
 	case CloudVPCIdentity:
 		return &SparseCloudVPCsList{}
 	case CNSSearchIdentity:
@@ -2522,7 +2511,6 @@ func AllIdentities() []elemental.Identity {
 		CloudRouteTableIdentity,
 		CloudSnapshotAccountIdentity,
 		CloudSubnetIdentity,
-		CloudTopologyIdentity,
 		CloudVPCIdentity,
 		CNSSearchIdentity,
 		CNSSuggestionIdentity,
@@ -2743,8 +2731,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CloudSnapshotAccountIdentity:
 		return []string{}
 	case CloudSubnetIdentity:
-		return []string{}
-	case CloudTopologyIdentity:
 		return []string{}
 	case CloudVPCIdentity:
 		return []string{
