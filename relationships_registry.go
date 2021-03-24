@@ -711,6 +711,9 @@ func init() {
 	}
 
 	relationshipsRegistry[CloudEndpointIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -760,6 +763,9 @@ func init() {
 	}
 
 	relationshipsRegistry[CloudManagedNetworkIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -808,6 +814,9 @@ func init() {
 	}
 
 	relationshipsRegistry[CloudNetworkInterfaceIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -853,6 +862,9 @@ func init() {
 	}
 
 	relationshipsRegistry[CloudNetworkQueryIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -898,6 +910,9 @@ func init() {
 	}
 
 	relationshipsRegistry[CloudNetworkRuleSetIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -1057,6 +1072,9 @@ func init() {
 	}
 
 	relationshipsRegistry[CloudSubnetIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
@@ -1108,6 +1126,9 @@ func init() {
 	}
 
 	relationshipsRegistry[CloudVPCIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},

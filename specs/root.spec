@@ -190,6 +190,8 @@ relations:
     description: List of endpoints associated with the deployment.
     global_parameters:
     - $filtering
+  create:
+    description: Creates a cloud endpoint.
 
 - rest_name: cloudgraph
   create:
@@ -202,18 +204,24 @@ relations:
     description: Retrieves the list of cloud attachments.
     global_parameters:
     - $filtering
+  create:
+    description: Creates a cloud managed network.
 
 - rest_name: cloudnetworkinterface
   get:
     description: Retrieve the list of network interfaces associated with the deployment.
     global_parameters:
     - $filtering
+  create:
+    description: Creates a cloud network interface.
 
 - rest_name: cloudnetworkquery
   get:
     description: Retrieves the list of cloud network queries.
     global_parameters:
     - $filtering
+  create:
+    description: Creates a cloud network query.
 
 - rest_name: cloudnetworkruleset
   get:
@@ -221,6 +229,8 @@ relations:
     global_parameters:
     - $filtering
     - $propagatable
+  create:
+    description: Creates a cloud network ruleset.
 
 - rest_name: cloudnode
   get:
@@ -245,6 +255,8 @@ relations:
     description: Retrieves the list of subnets.
     global_parameters:
     - $filtering
+  create:
+    description: Creates a cloud subnet.
 
 - rest_name: cloudtopology
   create:
@@ -256,6 +268,8 @@ relations:
     description: Retrieves the list of VPCs.
     global_parameters:
     - $filtering
+  create:
+    description: Creates a cloud VPC.
 
 - rest_name: cnssearch
   create:
