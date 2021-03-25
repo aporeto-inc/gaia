@@ -151,6 +151,10 @@ func (o *CloudNetworkRuleSetData) Validate() error {
 		}
 	}
 
+	if err := ValidateCloudTagsExpression("subject", o.Subject); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}

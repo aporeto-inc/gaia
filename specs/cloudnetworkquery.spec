@@ -42,6 +42,8 @@ attributes:
     exposed: true
     subtype: _portlist
     stored: true
+    validations:
+    - $portslist
 
   - name: destinationProtocol
     description: The destination protocol that should be used for the trace route

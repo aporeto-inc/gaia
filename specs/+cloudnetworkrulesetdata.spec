@@ -48,6 +48,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     stored: true
+    validations:
+    - $cloudTagsExpression
 
   - name: type
     description: Type identifies if this is a security group rule set or ACL.

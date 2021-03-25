@@ -657,6 +657,10 @@ func (o *CloudNetworkQuery) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidatePortsList("destinationPorts", o.DestinationPorts); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateMaximumInt("destinationProtocol", o.DestinationProtocol, int(255), false); err != nil {
 		errors = errors.Append(err)
 	}

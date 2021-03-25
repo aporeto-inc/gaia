@@ -3,6 +3,8 @@ package gaia
 import (
 	"fmt"
 	"testing"
+
+	"go.aporeto.io/gaia/portutils"
 )
 
 func TestValidatePortString(t *testing.T) {
@@ -3802,6 +3804,185 @@ func TestValidateOptionalCIDRLorIPList(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateOptionalCIDRorIPList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateCIDRList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateCloudTagsExpression(t *testing.T) {
+	type args struct {
+		attribute string
+		tags      [][]string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"a=b"}},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"sg-123"}},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"com.aporeto.io"}},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"test:data:test"}},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"test_data"}},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"d@data"}},
+			},
+			false,
+		},
+		{
+			"invalid-list",
+			args{
+				"invalid",
+				[][]string{{"'"}},
+			},
+			true,
+		},
+		{
+			"invalid-list",
+			args{
+				"invalid",
+				[][]string{{"%"}},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCloudTagsExpression(tt.args.attribute, tt.args.tags); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCloudTagsExpression() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidatePortsList(t *testing.T) {
+	type args struct {
+		attribute string
+		ports     []*portutils.PortsRange
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid list",
+			args{
+				"valid",
+				[]*portutils.PortsRange{
+					{
+						22,
+						22,
+					},
+				},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[]*portutils.PortsRange{
+					{
+						-1,
+						65535,
+					},
+				},
+			},
+			false,
+		},
+
+		{
+			"valid empty",
+			args{
+				"valid",
+				[]*portutils.PortsRange{},
+			},
+			false,
+		},
+		{
+			"invalid-list",
+			args{
+				"invalid",
+				[]*portutils.PortsRange{
+					{
+						-2,
+						10,
+					},
+				},
+			},
+			true,
+		},
+		{
+			"invalid-list",
+			args{
+				"invalid",
+				[]*portutils.PortsRange{
+					{
+						10,
+						70000,
+					},
+				},
+			},
+			true,
+		},
+		{
+			"invalid-list",
+			args{
+				"invalid",
+				[]*portutils.PortsRange{
+					{
+						10,
+						2,
+					},
+				},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			fmt.Println("TEst name", tt.name)
+			if err := ValidatePortsList(tt.args.attribute, tt.args.ports); (err != nil) != tt.wantErr {
+				t.Errorf("ValidatePortsList() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

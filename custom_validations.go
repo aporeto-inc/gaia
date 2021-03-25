@@ -1247,3 +1247,47 @@ func ValidateCounterReport(report *CounterReport) error {
 
 	return nil
 }
+
+// cloudTagRegex is the regular expression to check the format of a tag.
+var cloudTagRegex = regexp.MustCompile(`^[^= ]+=.+|[a-zA-Z0-9-_#+.:@]+`)
+
+// ValidateTag validates a single tag.
+func ValidateCloudTag(attribute string, tag string) error {
+
+	if !cloudTagRegex.MatchString(tag) {
+		return makeValidationError(attribute, fmt.Sprintf("'%s' must contain at least one '=' symbol separating two valid words or a valid word", tag))
+	}
+
+	if len([]byte(tag)) >= 512 {
+		return makeValidationError(attribute, fmt.Sprintf("'%s' must be less than 1024 bytes", tag))
+	}
+
+	return nil
+}
+
+func ValidateCloudTagsExpression(attribute string, tags [][]string) error {
+	for _, clause := range tags {
+		for _, tag := range clause {
+			if err := ValidateCloudTag(attribute, tag); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func ValidatePortsList(attribute string, ports []*portutils.PortsRange) error {
+	for _, port := range ports {
+		fmt.Println(port.FromPort)
+		if port.FromPort >= 65536 || port.FromPort < -1 {
+			return makeValidationError(attribute, fmt.Sprintf("invalid 'fromPort' %d", port.FromPort))
+		}
+		if port.ToPort >= 65536 || port.ToPort < -1 {
+			return makeValidationError(attribute, fmt.Sprintf("invalid 'toPort' %d ", port.ToPort))
+		}
+		if port.FromPort > port.ToPort {
+			return makeValidationError(attribute, fmt.Sprintf("'toPort' %d cannot be smaller than 'fromPort' %d ", port.ToPort, port.FromPort))
+		}
+	}
+	return nil
+}

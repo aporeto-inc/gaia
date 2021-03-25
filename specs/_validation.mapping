@@ -34,6 +34,10 @@ $cidrs:
   elemental:
     name: ValidateCIDRList
 
+$cloudTagsExpression:
+  elemental:
+    name: ValidateCloudTagsExpression
+
 $connectionexceptionreport:
   elemental:
     name: ValidateConnectionExceptionReport
@@ -129,6 +133,10 @@ $port:
 $ports:
   elemental:
     name: ValidatePortStringList
+
+$portslist:
+  elemental:
+    name: ValidatePortsList
 
 $processingunitpolicy:
   elemental:
