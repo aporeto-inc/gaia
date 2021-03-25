@@ -267,8 +267,8 @@ github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:
 github.com/yl2chen/cidranger v1.0.2 h1:lbOWZVCG1tCRX4u24kuM1Tb4nHqWkDxwLdoS+SevawU=
 github.com/yl2chen/cidranger v1.0.2/go.mod h1:9U1yz7WPYDwf0vpNWFaeRh0bjwz5RVgRy/9UEQfHl0g=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
-go.aporeto.io/elemental v1.100.1-0.20210312230439-9232da6c3253 h1:dzSW/eBH/gyvkqwM+pNKFFUDVneESqaXALboa5FQUFc=
-go.aporeto.io/elemental v1.100.1-0.20210312230439-9232da6c3253/go.mod h1:dEPeesaLUHZVeZQr6Z+jYzy1IbweLWZ1tsywhSxTPeQ=
+go.aporeto.io/elemental v1.100.1-0.20210319042131-403dc575b124 h1:DC3SqYjbx2UTWtlkz0I6LRh2ARugIugmxJCH8EP2S0E=
+go.aporeto.io/elemental v1.100.1-0.20210319042131-403dc575b124/go.mod h1:dEPeesaLUHZVeZQr6Z+jYzy1IbweLWZ1tsywhSxTPeQ=
 go.aporeto.io/regolithe v1.50.1-0.20201104174627-9a638d8ba486/go.mod h1:YnJqIj7KOAiAiSI7vPs3ELLjrbBdrOsouRRPLMyUlGA=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
