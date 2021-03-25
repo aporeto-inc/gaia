@@ -138,6 +138,7 @@ attributes:
     - Failed
     default_value: Inactive
     filterable: true
+    
   - name: detectedHostModeContainers
     description: This field indicates whether the enforcer has detected host mode containers.
     type: boolean
