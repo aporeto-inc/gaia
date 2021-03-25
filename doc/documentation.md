@@ -2771,6 +2771,7 @@ ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
 97Ob1alpHPoZ7mWiEuJwjBPii6a9M9G30nUo39lBi1w=
 -----END CERTIFICATE REQUEST-----",
   "collectInfo": false,
+  "detectedHostModeContainers": false,
   "enforcementStatus": "Inactive",
   "lastCollectionID": "xxx-xxx-xxx-xxx -",
   "logLevel": "Info",
@@ -2960,6 +2961,12 @@ The version number of the installed enforcer binary.
 Type: `string`
 
 Description of the object.
+
+##### `detectedHostModeContainers`
+
+Type: `boolean`
+
+This field indicates whether the enforcer has detected host mode containers.
 
 ##### `enforcementStatus`
 

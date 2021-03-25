@@ -127,6 +127,13 @@ attributes:
     filterable: true
     orderable: true
 
+  - name: detectedHostModeContainers
+    description: This field indicates whether the enforcer has detected host mode
+      containers.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: enforcementStatus
     description: Status of the enforcement for host services.
     type: enum
