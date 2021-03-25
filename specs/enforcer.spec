@@ -127,6 +127,12 @@ attributes:
     filterable: true
     orderable: true
 
+  - name: detectedHostModeContainers
+    description: This field indicates whether the enforcer has detected host mode containers.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: enforcementStatus
     description: Status of the enforcement for host services.
     type: enum
@@ -138,12 +144,6 @@ attributes:
     - Failed
     default_value: Inactive
     filterable: true
-    
-  - name: detectedHostModeContainers
-    description: This field indicates whether the enforcer has detected host mode containers.
-    type: boolean
-    exposed: true
-    stored: true
 
   - name: lastCollectionID
     description: Identifies the last collection.
@@ -309,8 +309,7 @@ attributes:
 relations:
 - rest_name: auditprofile
   get:
-    description: Returns a list of the audit profiles that must be applied to this
-      enforcer.
+    description: Returns a list of the audit profiles that must be applied to this enforcer.
 
 - rest_name: debugbundle
   get:
@@ -332,19 +331,16 @@ relations:
     parameters:
       entries:
       - name: appliedServices
-        description: Valid when retrieved for a given enforcer and returns the applied
-          services.
+        description: Valid when retrieved for a given enforcer and returns the applied services.
         type: boolean
 
       - name: setServices
-        description: Instructs Microsegmentation Console to cache the services that
-          were resolved.
+        description: Instructs Microsegmentation Console to cache the services that were resolved.
         type: boolean
 
 - rest_name: poke
   get:
-    description: Sends a poke empty object. This is used to ensure a enforcer is up
-      and running.
+    description: Sends a poke empty object. This is used to ensure a enforcer is up and running.
     parameters:
       entries:
       - name: cpuload
@@ -353,8 +349,7 @@ relations:
         example_value: 1000
 
       - name: enforcementStatus
-        description: If set, changes the enforcement status of the enforcer along
-          with the poke.
+        description: If set, changes the enforcement status of the enforcer along with the poke.
         type: enum
         allowed_choices:
         - Failed
@@ -402,8 +397,7 @@ relations:
         example_value: v1.10
 
       - name: zhash
-        description: Can be set to help Microsegmentation Console target the correct
-          shard where the enforcer is stored.
+        description: Can be set to help Microsegmentation Console target the correct shard where the enforcer is stored.
         type: integer
 
 - rest_name: trustedca
