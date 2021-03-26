@@ -144,7 +144,7 @@ func ValidateCIDRorIPList(attribute string, networks []string) error {
 	return nil
 }
 
-// ValidateOptionaCIDRorIPList validates an optional list of CIDRs or IPs.
+// ValidateOptionalCIDRorIPList validates an optional list of CIDRs or IPs.
 func ValidateOptionalCIDRorIPList(attribute string, networks []string) error {
 	if len(networks) == 0 {
 		return nil
@@ -1251,7 +1251,7 @@ func ValidateCounterReport(report *CounterReport) error {
 // cloudTagRegex is the regular expression to check the format of a tag.
 var cloudTagRegex = regexp.MustCompile(`^[^= ]+=.+|[a-zA-Z0-9-_#+.:@]+$`)
 
-// ValidateTag validates a single tag.
+// ValidateCloudTag validates a single tag.
 func ValidateCloudTag(attribute string, tag string) error {
 
 	if !cloudTagRegex.MatchString(tag) {
@@ -1268,7 +1268,7 @@ func ValidateCloudTag(attribute string, tag string) error {
 // nativeIDRegex is the regular expression to check the format of the nativeID.
 var nativeIDRegex = regexp.MustCompile(`^[^:]+$`)
 
-// ValidateTag validates a single tag.
+// ValidateNativeID validates a single tag.
 func ValidateNativeID(attribute string, tag string) error {
 
 	if !nativeIDRegex.MatchString(tag) {
@@ -1283,6 +1283,7 @@ func ValidateNativeID(attribute string, tag string) error {
 	return nil
 }
 
+// ValidateCloudTagsExpression validates the cloud tags provided by Prisma Cloud.
 func ValidateCloudTagsExpression(attribute string, tags [][]string) error {
 	for _, clause := range tags {
 		for _, tag := range clause {
@@ -1294,6 +1295,7 @@ func ValidateCloudTagsExpression(attribute string, tags [][]string) error {
 	return nil
 }
 
+// ValidatePortsList validates a list of port ranges.
 func ValidatePortsList(attribute string, ports []*portutils.PortsRange) error {
 	for _, port := range ports {
 		fmt.Println(port.FromPort)
@@ -1310,6 +1312,7 @@ func ValidatePortsList(attribute string, ports []*portutils.PortsRange) error {
 	return nil
 }
 
+// ValidateCloudNetworkQueryEntity validates the CloudNetworkQuery entity and all the attribute relations.
 func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 
 	if q.SourceIP != "" && q.DestinationIP != "" {
@@ -1351,6 +1354,8 @@ func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 	return nil
 }
 
+
+// IsCloudNetworkQueryFilterEmpty returns true of the CloudNetworkQueryFilter is empty of any values.
 func IsCloudNetworkQueryFilterEmpty(f *CloudNetworkQueryFilter) bool {
 
 	if f == nil {
@@ -1373,6 +1378,7 @@ func IsCloudNetworkQueryFilterEmpty(f *CloudNetworkQueryFilter) bool {
 	return false
 }
 
+// ValidateCloudNetworkQueryFilter validates the requirements of the CloudNetworkQueryFilter.
 func ValidateCloudNetworkQueryFilter(attribute string, f *CloudNetworkQueryFilter) error {
 
 	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInterface && len(f.SecurityTags) > 0 {
