@@ -108,8 +108,8 @@ func ValidateOptionalNetworkOrHostnameList(attribute string, networks []string) 
 	return nil
 }
 
-// ValidateCIDRorIP validates that this is a valid IP address or CIDR.
-func ValidateCIDRorIP(attribute string, network string) error {
+// ValidateCIDROrIP validates that this is a valid IP address or CIDR.
+func ValidateCIDROrIP(attribute string, network string) error {
 	ipErr := ValidateIPAddress(attribute, network)
 	cidrErr := ValidateCIDR(attribute, network)
 
@@ -126,11 +126,11 @@ func ValidateOptionalCIDRorIP(attribute string, network string) error {
 		return nil
 	}
 
-	return ValidateCIDRorIP(attribute, network)
+	return ValidateCIDROrIP(attribute, network)
 }
 
-// ValidateCIDRorIPList validates a list of CIDRs or IPs.
-func ValidateCIDRorIPList(attribute string, networks []string) error {
+// ValidateCIDROrIPList validates a list of CIDRs or IPs.
+func ValidateCIDROrIPList(attribute string, networks []string) error {
 
 	if len(networks) == 0 {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' cannot be an empty list", attribute))
@@ -149,7 +149,7 @@ func ValidateOptionalCIDRorIPList(attribute string, networks []string) error {
 	if len(networks) == 0 {
 		return nil
 	}
-	return ValidateCIDRorIPList(attribute, networks)
+	return ValidateCIDROrIPList(attribute, networks)
 }
 
 // ValidateIPAddress validates that this is a valid IP address (not a CIDR).
@@ -1259,7 +1259,7 @@ func ValidateCloudTag(attribute string, tag string) error {
 	}
 
 	if len([]byte(tag)) >= 512 {
-		return makeValidationError(attribute, fmt.Sprintf("'%s' must be less than 1024 bytes", tag))
+		return makeValidationError(attribute, fmt.Sprintf("'%s' must be less than 512 bytes", tag))
 	}
 
 	return nil
@@ -1277,7 +1277,7 @@ func ValidateNativeID(attribute string, tag string) error {
 	}
 
 	if len([]byte(tag)) >= 512 {
-		return makeValidationError(attribute, fmt.Sprintf("'%s' must be less than 1024 bytes", tag))
+		return makeValidationError(attribute, fmt.Sprintf("'%s' must be less than 512 bytes", tag))
 	}
 
 	return nil
@@ -1340,13 +1340,13 @@ func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 	}
 
 	if q.SourceSelector != nil {
-		if err := ValidateCloudNetworkQueryFilter("Entity CloudNetworkQuery", q.SourceSelector); err != nil {
+		if err := ValidateCloudNetworkQueryFilter("sourceSelector", q.SourceSelector); err != nil {
 			return err
 		}
 	}
 
 	if q.DestinationSelector != nil {
-		if err := ValidateCloudNetworkQueryFilter("Entity CloudNetworkQuery", q.DestinationSelector); err != nil {
+		if err := ValidateCloudNetworkQueryFilter("destinationSelector", q.DestinationSelector); err != nil {
 			return err
 		}
 	}

@@ -24,11 +24,11 @@ $cidr:
 
 $cidrorip:
   elemental:
-    name: ValidateCIDRorIP
+    name: ValidateCIDROrIP
 
 $cidroriplist:
   elemental:
-    name: ValidateCIDRorIPList
+    name: ValidateCIDROrIPList
 
 $cidrs:
   elemental:

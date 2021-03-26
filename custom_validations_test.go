@@ -3593,7 +3593,7 @@ func TestValidateCounterReport(t *testing.T) {
 	}
 }
 
-func TestValidateCIDRorIP(t *testing.T) {
+func TestValidateCIDROrIP(t *testing.T) {
 	type args struct {
 		attribute string
 		cidr      string
@@ -3643,7 +3643,7 @@ func TestValidateCIDRorIP(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateCIDRorIP(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
+			if err := ValidateCIDROrIP(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
 				t.Errorf("TestValidateCIDR() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -3750,7 +3750,7 @@ func TestValidateCIDRLorIPList(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateCIDRorIPList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
+			if err := ValidateCIDROrIPList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateCIDRList() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
