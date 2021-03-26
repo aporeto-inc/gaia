@@ -40,7 +40,7 @@ lint: spelling
 		./...
 
 spelling:
-	docker run --rm -v $$PWD:/workdir tmaier/markdown-spellcheck:latest "doc/*.md" -r -a -n --en-us
+	docker run --rm -v $$PWD:/workdir gcr.io/prismacloud-cns/markdown-spellcheck:latest "doc/*.md" -r -a -n --en-us
 
 test:
 	go test ./... -race
