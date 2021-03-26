@@ -97,6 +97,8 @@ attributes:
     setter: true
     max_length: 256
     orderable: true
+    validations:
+    - $nativeid
 
   - name: policyReferences
     description: A list of policy references associated with this cloud node.

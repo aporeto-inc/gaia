@@ -3987,6 +3987,44 @@ func TestValidatePortsList(t *testing.T) {
 	}
 }
 
+func TestValidateNativeID(t *testing.T) {
+
+	tests := []struct {
+		name    string
+		id      string
+		wantErr bool
+	}{
+
+		{
+			"valid",
+			"sg-123",
+			false,
+		},
+		{
+			"valid",
+			"sg.123.3.3",
+			false,
+		},
+		{
+			"invalid",
+			"sg:2",
+			true,
+		},
+		{
+			"invalid",
+			"",
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateNativeID(tt.name, tt.id); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateNativeID() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
 func TestValidateCloudGraphQuery(t *testing.T) {
 	type args struct {
 		attribute string

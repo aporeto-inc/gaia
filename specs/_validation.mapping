@@ -90,6 +90,10 @@ $metadata:
   elemental:
     name: ValidateMetadata
 
+$nativeid:
+  elemental:
+    name: ValidateNativeID
+
 $networksorhostnames:
   elemental:
     name: ValidateNetworkOrHostnameList

@@ -1249,13 +1249,31 @@ func ValidateCounterReport(report *CounterReport) error {
 }
 
 // cloudTagRegex is the regular expression to check the format of a tag.
-var cloudTagRegex = regexp.MustCompile(`^[^= ]+=.+|[a-zA-Z0-9-_#+.:@]+`)
+var cloudTagRegex = regexp.MustCompile(`^[^= ]+=.+|[a-zA-Z0-9-_#+.:@]+$`)
 
 // ValidateTag validates a single tag.
 func ValidateCloudTag(attribute string, tag string) error {
 
 	if !cloudTagRegex.MatchString(tag) {
 		return makeValidationError(attribute, fmt.Sprintf("'%s' must contain at least one '=' symbol separating two valid words or a valid word", tag))
+	}
+
+	if len([]byte(tag)) >= 512 {
+		return makeValidationError(attribute, fmt.Sprintf("'%s' must be less than 1024 bytes", tag))
+	}
+
+	return nil
+}
+
+// nativeIDRegex is the regular expression to check the format of the nativeID.
+var nativeIDRegex = regexp.MustCompile(`^[^:]+$`)
+
+// ValidateTag validates a single tag.
+func ValidateNativeID(attribute string, tag string) error {
+
+	if !nativeIDRegex.MatchString(tag) {
+		fmt.Println("TAG = ", tag)
+		return makeValidationError(attribute, fmt.Sprintf("'%s' contain invalid character ':'", tag))
 	}
 
 	if len([]byte(tag)) >= 512 {
