@@ -3909,8 +3909,8 @@ func TestValidatePortsList(t *testing.T) {
 				"valid",
 				[]*portutils.PortsRange{
 					{
-						22,
-						22,
+						FromPort: 22,
+						ToPort:   22,
 					},
 				},
 			},
@@ -3922,8 +3922,8 @@ func TestValidatePortsList(t *testing.T) {
 				"valid",
 				[]*portutils.PortsRange{
 					{
-						-1,
-						65535,
+						FromPort: -1,
+						ToPort:   65535,
 					},
 				},
 			},
@@ -3944,8 +3944,8 @@ func TestValidatePortsList(t *testing.T) {
 				"invalid",
 				[]*portutils.PortsRange{
 					{
-						-2,
-						10,
+						FromPort: -2,
+						ToPort:   10,
 					},
 				},
 			},
@@ -3957,8 +3957,8 @@ func TestValidatePortsList(t *testing.T) {
 				"invalid",
 				[]*portutils.PortsRange{
 					{
-						10,
-						70000,
+						FromPort: 10,
+						ToPort:   70000,
 					},
 				},
 			},
@@ -3970,8 +3970,8 @@ func TestValidatePortsList(t *testing.T) {
 				"invalid",
 				[]*portutils.PortsRange{
 					{
-						10,
-						2,
+						FromPort: 10,
+						ToPort:   2,
 					},
 				},
 			},
@@ -3980,9 +3980,143 @@ func TestValidatePortsList(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			fmt.Println("TEst name", tt.name)
 			if err := ValidatePortsList(tt.args.attribute, tt.args.ports); (err != nil) != tt.wantErr {
 				t.Errorf("ValidatePortsList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateCloudGraphQuery(t *testing.T) {
+	type args struct {
+		attribute string
+		query     *CloudNetworkQuery
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid",
+			args{
+				"valid",
+				&CloudNetworkQuery{
+					SourceIP: "0.0.0.0/0",
+					DestinationSelector: &CloudNetworkQueryFilter{
+						VPCIDs: []string{"vpc1"},
+					},
+				},
+			},
+			false,
+		},
+		{
+			"source and dest ip set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP:      "0.0.0.0/0",
+					DestinationIP: "0.0.0.0/0",
+				},
+			},
+			true,
+		},
+		{
+			"source ip and selector set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						VPCIDs: []string{"vpc1"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"neither source ip or selector set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceSelector:      &CloudNetworkQueryFilter{},
+					DestinationSelector: &CloudNetworkQueryFilter{},
+				},
+			},
+			true,
+		},
+		{
+			"destination ip and selector set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP:      "0.0.0.0/0",
+					DestinationIP: "0.0.0.0/0",
+					DestinationSelector: &CloudNetworkQueryFilter{
+						VPCIDs: []string{"vpc1"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"neither destination IP nor selector set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP: "0.0.0.0/0",
+				},
+			},
+			true,
+		},
+		{
+			"bad destination selector with security tags",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP: "0.0.0.0/0",
+					DestinationSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeInstance,
+						SecurityTags: []string{"a=b"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"bad source selector service owners",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType:  CloudNetworkQueryFilterResourceTypeInstance,
+						ServiceOwners: []string{"a=b"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"bad source selector service owners",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeInstance,
+						ServiceTypes: []string{"a=b"},
+					},
+				},
+			},
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCloudNetworkQueryEntity(tt.args.query); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCloudNetworkQueryEntity() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

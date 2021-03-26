@@ -38,6 +38,10 @@ $cloudTagsExpression:
   elemental:
     name: ValidateCloudTagsExpression
 
+$cloudnetworkquery:
+  elemental:
+    name: ValidateCloudNetworkQueryEntity
+
 $connectionexceptionreport:
   elemental:
     name: ValidateConnectionExceptionReport

@@ -22,6 +22,8 @@ model:
   - '@described'
   - '@identifiable-stored'
   - '@named'
+  validations:
+  - $cloudnetworkquery
 
 # Attributes
 attributes:

@@ -1291,3 +1291,83 @@ func ValidatePortsList(attribute string, ports []*portutils.PortsRange) error {
 	}
 	return nil
 }
+
+func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
+
+	if q.SourceIP != "" && q.DestinationIP != "" {
+		return makeValidationError("Entity CloudNetworkQuery", fmt.Sprintf("'sourceIP:' %s and 'destinationIP:' %s cannot be set at the same time", q.SourceIP, q.DestinationIP))
+	}
+
+	emptySourceSelector := IsCloudNetworkQueryFilterEmpty(q.SourceSelector)
+
+	if q.SourceIP != "" && !emptySourceSelector {
+		return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' and 'sourceSelector' cannot be set at the same time")
+	}
+
+	if q.SourceIP == "" && emptySourceSelector {
+		return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' and 'sourceSelector' cannot be empty at the same time")
+	}
+
+	emptyDestinationSelector := IsCloudNetworkQueryFilterEmpty(q.DestinationSelector)
+
+	if q.DestinationIP != "" && !emptyDestinationSelector {
+		return makeValidationError("Entity CloudNetworkQuery", "'destinationIP' and 'destinationSelector' cannot be set at the same time")
+	}
+
+	if q.DestinationIP == "" && emptyDestinationSelector {
+		return makeValidationError("Entity CloudNetworkQuery", "'destinationIP' and 'destinationSelector' cannot be empty at the same time")
+	}
+
+	if q.SourceSelector != nil {
+		if err := ValidateCloudNetworkQueryFilter("Entity CloudNetworkQuery", q.SourceSelector); err != nil {
+			return err
+		}
+	}
+
+	if q.DestinationSelector != nil {
+		if err := ValidateCloudNetworkQueryFilter("Entity CloudNetworkQuery", q.DestinationSelector); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func IsCloudNetworkQueryFilterEmpty(f *CloudNetworkQueryFilter) bool {
+
+	if f == nil {
+		return true
+	}
+
+	if len(f.AccountIDs) == 0 &&
+		len(f.CloudTypes) == 0 &&
+		len(f.Regions) == 0 &&
+		len(f.VPCIDs) == 0 &&
+		len(f.Tags) == 0 &&
+		len(f.ObjectIDs) == 0 &&
+		len(f.SecurityTags) == 0 &&
+		len(f.Subnets) == 0 &&
+		len(f.ServiceOwners) == 0 &&
+		len(f.ServiceTypes) == 0 {
+		return true
+	}
+
+	return false
+}
+
+func ValidateCloudNetworkQueryFilter(attribute string, f *CloudNetworkQueryFilter) error {
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInterface && len(f.SecurityTags) > 0 {
+		return makeValidationError(attribute, fmt.Sprintf("security tags only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInterface))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInterface && len(f.ServiceOwners) > 0 {
+		return makeValidationError(attribute, fmt.Sprintf("service owners only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInterface))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInterface && len(f.ServiceTypes) > 0 {
+		return makeValidationError(attribute, fmt.Sprintf("service types only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInterface))
+	}
+
+	return nil
+}
