@@ -1354,7 +1354,6 @@ func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 	return nil
 }
 
-
 // IsCloudNetworkQueryFilterEmpty returns true of the CloudNetworkQueryFilter is empty of any values.
 func IsCloudNetworkQueryFilterEmpty(f *CloudNetworkQueryFilter) bool {
 
