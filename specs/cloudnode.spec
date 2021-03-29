@@ -19,10 +19,6 @@ model:
 
 # Indexes
 indexes:
-- - nativeID
-- - namespace
-  - nativeID
-- - vpcid
 - - namespace
   - type
   - subtype
