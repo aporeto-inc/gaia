@@ -31,6 +31,7 @@ indexes:
 - - namespace
   - type
 - - type
+- - key
 
 # Attributes
 attributes:
@@ -43,6 +44,11 @@ attributes:
     stored: true
     validations:
     - $optionalcidrs
+
+  - name: key
+    description: Internal unique key for a resource to guarantee no overlaps at write.
+    type: string
+    stored: true
 
   - name: type
     description: The type of cloud managed network.

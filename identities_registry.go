@@ -595,9 +595,10 @@ var (
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
 			{"type"},
-			{"namespace", "normalizedTags"},
 			{"namespace"},
 			{"namespace", "type"},
+			{"namespace", "normalizedTags"},
+			{"key"},
 			{"createIdempotencyKey"},
 		},
 		"cloudnetworkinterface": {
