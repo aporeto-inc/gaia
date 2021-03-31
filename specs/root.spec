@@ -185,6 +185,87 @@ relations:
   create:
     description: Performs a clause matching.
 
+- rest_name: cloudendpoint
+  get:
+    description: List of endpoints associated with the deployment.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud endpoint.
+
+- rest_name: cloudgraph
+  create:
+    description: |-
+      Creates a cloud dependency graph based on ingested data and the required
+      parameters.
+
+- rest_name: cloudmanagednetwork
+  get:
+    description: Retrieves the list of cloud attachments.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud managed network.
+
+- rest_name: cloudnetworkinterface
+  get:
+    description: Retrieve the list of network interfaces associated with the deployment.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud network interface.
+
+- rest_name: cloudnetworkquery
+  get:
+    description: Retrieves the list of cloud network queries.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud network query.
+
+- rest_name: cloudnetworkruleset
+  get:
+    description: Retrieves the list of cloud network rule set policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a cloud network ruleset.
+
+- rest_name: cloudnode
+  get:
+    description: Retrieves the list of cloud nodes.
+    global_parameters:
+    - $filtering
+
+- rest_name: cloudroutetable
+  get:
+    description: Retrieves the list of routing tables.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new routing table.
+
+- rest_name: cloudsnapshotaccount
+  create:
+    description: Initiates a cloud account for snapshot data ingestion.
+
+- rest_name: cloudsubnet
+  get:
+    description: Retrieves the list of subnets.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud subnet.
+
+- rest_name: cloudvpc
+  get:
+    description: Retrieves the list of VPCs.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud VPC.
+
 - rest_name: cnssearch
   create:
     description: Retrieves RQL search results.
@@ -742,6 +823,10 @@ relations:
 - rest_name: policyrenderer
   create:
     description: Render a policy of a given type for a given set of tags.
+
+- rest_name: pollaccount
+  create:
+    description: Initiates a poll to a new account.
 
 - rest_name: processingunit
   get:

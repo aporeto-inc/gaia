@@ -1,0 +1,144 @@
+# Indexes
+indexes:
+- - namespace
+  - nativeID
+- - namespace
+  - vpcid
+- - namespace
+  - accountid
+
+# Attributes
+attributes:
+  v1:
+  - name: APIID
+    description: Prisma Cloud API ID (matches Prisma Cloud API ID).
+    type: integer
+    exposed: true
+    stored: true
+    example_value: 12344555
+    getter: true
+    setter: true
+
+  - name: VPCID
+    description: ID of the host VPC.
+    type: string
+    exposed: true
+    stored: true
+    example_value: vpc-023419c5952374917
+    filterable: true
+    getter: true
+    setter: true
+    orderable: true
+
+  - name: accountID
+    exposed_name: accountId
+    description: Cloud account ID associated with the entity (matches Prisma Cloud
+      accountID).
+    type: string
+    exposed: true
+    stored: true
+    example_value: 9123450055
+    filterable: true
+    getter: true
+    setter: true
+
+  - name: cloudTags
+    description: Internal representation of object tags retrieved from the cloud provider.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    filterable: true
+    getter: true
+    setter: true
+
+  - name: cloudType
+    description: Cloud type of the entity.
+    type: string
+    exposed: true
+    stored: true
+    example_value: AWS
+    filterable: true
+    getter: true
+    setter: true
+    orderable: true
+
+  - name: customerID
+    description: Customer ID as identified by Prisma Cloud.
+    type: integer
+    exposed: true
+    stored: true
+    example_value: 1234455
+    filterable: true
+    getter: true
+    setter: true
+
+  - name: ingestionTime
+    description: The time that the object was first ingested.
+    type: time
+    exposed: true
+    stored: true
+    getter: true
+    setter: true
+    orderable: true
+
+  - name: name
+    description: Name of the object (optional).
+    type: string
+    exposed: true
+    stored: true
+    example_value: myobject
+    filterable: true
+    getter: true
+    setter: true
+    orderable: true
+
+  - name: nativeID
+    exposed_name: nativeID
+    description: ID of the cloud provider object.
+    type: string
+    exposed: true
+    stored: true
+    required: true
+    example_value: subnet-0ae4a90153dfb642c
+    filterable: true
+    getter: true
+    setter: true
+    max_length: 256
+    orderable: true
+    validations:
+    - $nativeid
+
+  - name: policyReferences
+    description: A list of policy references associated with this cloud node.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    example_value:
+    - sg-123
+    getter: true
+    setter: true
+    orderable: true
+
+  - name: regionName
+    exposed_name: regionName
+    description: Region name associated with the entity.
+    type: string
+    exposed: true
+    stored: true
+    example_value: AWS Tokyo
+    filterable: true
+    getter: true
+    setter: true
+    max_length: 256
+    orderable: true
+
+  - name: resourceID
+    description: Prisma Cloud Resource ID.
+    type: integer
+    exposed: true
+    stored: true
+    example_value: 12344555
+    getter: true
+    setter: true
