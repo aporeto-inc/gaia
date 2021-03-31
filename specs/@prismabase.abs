@@ -18,6 +18,7 @@ attributes:
     example_value: 12344555
     getter: true
     setter: true
+    omit_empty: true
 
   - name: VPCID
     description: ID of the host VPC.
@@ -29,6 +30,7 @@ attributes:
     getter: true
     setter: true
     orderable: true
+    omit_empty: true
 
   - name: accountID
     exposed_name: accountId
@@ -41,6 +43,7 @@ attributes:
     filterable: true
     getter: true
     setter: true
+    omit_empty: true
 
   - name: cloudTags
     description: Internal representation of object tags retrieved from the cloud provider.
@@ -51,6 +54,7 @@ attributes:
     filterable: true
     getter: true
     setter: true
+    omit_empty: true
 
   - name: cloudType
     description: Cloud type of the entity.
@@ -62,6 +66,7 @@ attributes:
     getter: true
     setter: true
     orderable: true
+    omit_empty: true
 
   - name: customerID
     description: Customer ID as identified by Prisma Cloud.
@@ -72,6 +77,7 @@ attributes:
     filterable: true
     getter: true
     setter: true
+    omit_empty: true
 
   - name: ingestionTime
     description: The time that the object was first ingested.
@@ -81,6 +87,7 @@ attributes:
     getter: true
     setter: true
     orderable: true
+    omit_empty: true
 
   - name: name
     description: Name of the object (optional).
@@ -92,6 +99,7 @@ attributes:
     getter: true
     setter: true
     orderable: true
+    omit_empty: true
 
   - name: nativeID
     exposed_name: nativeID
@@ -120,6 +128,7 @@ attributes:
     getter: true
     setter: true
     orderable: true
+    omit_empty: true
 
   - name: regionName
     exposed_name: regionName
@@ -133,6 +142,7 @@ attributes:
     setter: true
     max_length: 256
     orderable: true
+    omit_empty: true
 
   - name: resourceID
     description: Prisma Cloud Resource ID.
@@ -142,3 +152,4 @@ attributes:
     example_value: 12344555
     getter: true
     setter: true
+    omit_empty: true

@@ -82,16 +82,16 @@ func (o CloudEndpointsList) Version() int {
 // CloudEndpoint represents the model of a cloudendpoint
 type CloudEndpoint struct {
 	// Prisma Cloud API ID (matches Prisma Cloud API ID).
-	APIID int `json:"APIID" msgpack:"APIID" bson:"apiid" mapstructure:"APIID,omitempty"`
+	APIID int `json:"APIID,omitempty" msgpack:"APIID,omitempty" bson:"apiid,omitempty" mapstructure:"APIID,omitempty"`
 
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// ID of the host VPC.
-	VPCID string `json:"VPCID" msgpack:"VPCID" bson:"vpcid" mapstructure:"VPCID,omitempty"`
+	VPCID string `json:"VPCID,omitempty" msgpack:"VPCID,omitempty" bson:"vpcid,omitempty" mapstructure:"VPCID,omitempty"`
 
 	// Cloud account ID associated with the entity (matches Prisma Cloud accountID).
-	AccountID string `json:"accountId" msgpack:"accountId" bson:"accountid" mapstructure:"accountId,omitempty"`
+	AccountID string `json:"accountId,omitempty" msgpack:"accountId,omitempty" bson:"accountid,omitempty" mapstructure:"accountId,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -100,10 +100,10 @@ type CloudEndpoint struct {
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// Internal representation of object tags retrieved from the cloud provider.
-	CloudTags []string `json:"cloudTags" msgpack:"cloudTags" bson:"cloudtags" mapstructure:"cloudTags,omitempty"`
+	CloudTags []string `json:"cloudTags,omitempty" msgpack:"cloudTags,omitempty" bson:"cloudtags,omitempty" mapstructure:"cloudTags,omitempty"`
 
 	// Cloud type of the entity.
-	CloudType string `json:"cloudType" msgpack:"cloudType" bson:"cloudtype" mapstructure:"cloudType,omitempty"`
+	CloudType string `json:"cloudType,omitempty" msgpack:"cloudType,omitempty" bson:"cloudtype,omitempty" mapstructure:"cloudType,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
@@ -112,16 +112,16 @@ type CloudEndpoint struct {
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Customer ID as identified by Prisma Cloud.
-	CustomerID int `json:"customerID" msgpack:"customerID" bson:"customerid" mapstructure:"customerID,omitempty"`
+	CustomerID int `json:"customerID,omitempty" msgpack:"customerID,omitempty" bson:"customerid,omitempty" mapstructure:"customerID,omitempty"`
 
 	// The time that the object was first ingested.
-	IngestionTime time.Time `json:"ingestionTime" msgpack:"ingestionTime" bson:"ingestiontime" mapstructure:"ingestionTime,omitempty"`
+	IngestionTime time.Time `json:"ingestionTime,omitempty" msgpack:"ingestionTime,omitempty" bson:"ingestiontime,omitempty" mapstructure:"ingestionTime,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
 	// Name of the object (optional).
-	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
@@ -136,16 +136,16 @@ type CloudEndpoint struct {
 	Parameters *CloudEndpointData `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// A list of policy references associated with this cloud node.
-	PolicyReferences []string `json:"policyReferences" msgpack:"policyReferences" bson:"policyreferences" mapstructure:"policyReferences,omitempty"`
+	PolicyReferences []string `json:"policyReferences,omitempty" msgpack:"policyReferences,omitempty" bson:"policyreferences,omitempty" mapstructure:"policyReferences,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Region name associated with the entity.
-	RegionName string `json:"regionName" msgpack:"regionName" bson:"regionname" mapstructure:"regionName,omitempty"`
+	RegionName string `json:"regionName,omitempty" msgpack:"regionName,omitempty" bson:"regionname,omitempty" mapstructure:"regionName,omitempty"`
 
 	// Prisma Cloud Resource ID.
-	ResourceID int `json:"resourceID" msgpack:"resourceID" bson:"resourceid" mapstructure:"resourceID,omitempty"`
+	ResourceID int `json:"resourceID,omitempty" msgpack:"resourceID,omitempty" bson:"resourceid,omitempty" mapstructure:"resourceID,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -2516,28 +2516,28 @@ func (o *SparseCloudEndpoint) DeepCopyInto(out *SparseCloudEndpoint) {
 }
 
 type mongoAttributesCloudEndpoint struct {
-	APIID                int                 `bson:"apiid"`
+	APIID                int                 `bson:"apiid,omitempty"`
 	ID                   bson.ObjectId       `bson:"_id,omitempty"`
-	VPCID                string              `bson:"vpcid"`
-	AccountID            string              `bson:"accountid"`
+	VPCID                string              `bson:"vpcid,omitempty"`
+	AccountID            string              `bson:"accountid,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
-	CloudTags            []string            `bson:"cloudtags"`
-	CloudType            string              `bson:"cloudtype"`
+	CloudTags            []string            `bson:"cloudtags,omitempty"`
+	CloudType            string              `bson:"cloudtype,omitempty"`
 	CreateIdempotencyKey string              `bson:"createidempotencykey"`
 	CreateTime           time.Time           `bson:"createtime"`
-	CustomerID           int                 `bson:"customerid"`
-	IngestionTime        time.Time           `bson:"ingestiontime"`
+	CustomerID           int                 `bson:"customerid,omitempty"`
+	IngestionTime        time.Time           `bson:"ingestiontime,omitempty"`
 	MigrationsLog        map[string]string   `bson:"migrationslog,omitempty"`
-	Name                 string              `bson:"name"`
+	Name                 string              `bson:"name,omitempty"`
 	Namespace            string              `bson:"namespace"`
 	NativeID             string              `bson:"nativeid"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
 	Parameters           *CloudEndpointData  `bson:"parameters"`
-	PolicyReferences     []string            `bson:"policyreferences"`
+	PolicyReferences     []string            `bson:"policyreferences,omitempty"`
 	Protected            bool                `bson:"protected"`
-	RegionName           string              `bson:"regionname"`
-	ResourceID           int                 `bson:"resourceid"`
+	RegionName           string              `bson:"regionname,omitempty"`
+	ResourceID           int                 `bson:"resourceid,omitempty"`
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 	ZHash                int                 `bson:"zhash"`

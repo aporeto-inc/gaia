@@ -21,6 +21,8 @@ model:
 indexes:
 - - namespace
   - type
+- - namespace
+  - type
   - subtype
 - - namespace
   - relatedObjectID
@@ -28,6 +30,9 @@ indexes:
   - securitytags
   - type
   - vpcid
+- - namespace
+  - vpcid
+  - type
 - - key
 
 # Attributes
@@ -41,6 +46,7 @@ attributes:
     stored: true
     getter: true
     setter: true
+    omit_empty: true
 
   - name: key
     description: Internal unique key for a resource to guarantee no overlaps at write.
@@ -55,12 +61,14 @@ attributes:
     stored: true
     getter: true
     setter: true
+    omit_empty: true
 
   - name: relatedObjectID
     description: A reference to a related object.
     type: string
     exposed: true
     stored: true
+    omit_empty: true
 
   - name: securityTags
     description: List of security tags associated with the node.
@@ -68,12 +76,14 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    omit_empty: true
 
   - name: subType
     description: The sub-type of the object as found in the parameters. Used for indexing.
     type: string
     exposed: true
     stored: true
+    omit_empty: true
 
   - name: type
     description: Type of the endpoint.

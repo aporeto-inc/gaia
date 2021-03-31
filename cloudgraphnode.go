@@ -11,21 +11,21 @@ import (
 // CloudGraphNode represents the model of a cloudgraphnode
 type CloudGraphNode struct {
 	// The native ID of the node.
-	NativeID string `json:"nativeID" msgpack:"nativeID" bson:"-" mapstructure:"nativeID,omitempty"`
+	NativeID string `json:"nativeID,omitempty" msgpack:"nativeID,omitempty" bson:"-" mapstructure:"nativeID,omitempty"`
 
 	// Details about the node if the query type requests full details.
-	NodeData *CloudNode `json:"nodeData" msgpack:"nodeData" bson:"-" mapstructure:"nodeData,omitempty"`
+	NodeData *CloudNode `json:"nodeData,omitempty" msgpack:"nodeData,omitempty" bson:"-" mapstructure:"nodeData,omitempty"`
 
 	// The policies that were applied to this node for each destination.
-	Policies map[string]*CloudGraphNodeAction `json:"policies" msgpack:"policies" bson:"-" mapstructure:"policies,omitempty"`
+	Policies map[string]*CloudGraphNodeAction `json:"policies,omitempty" msgpack:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
 
 	// The list of route tables IDs that forwarding was based on for the internal path,
 	// if routing was
 	// performed.
-	RouteTableIDs map[string]string `json:"routeTableIDs" msgpack:"routeTableIDs" bson:"-" mapstructure:"routeTableIDs,omitempty"`
+	RouteTableIDs map[string]string `json:"routeTableIDs,omitempty" msgpack:"routeTableIDs,omitempty" bson:"-" mapstructure:"routeTableIDs,omitempty"`
 
 	// The type of the node as a string.
-	Type string `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type string `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }

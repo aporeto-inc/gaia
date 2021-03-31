@@ -3994,7 +3994,6 @@ func TestValidateNativeID(t *testing.T) {
 		id      string
 		wantErr bool
 	}{
-
 		{
 			"valid",
 			"sg-123",
@@ -4006,8 +4005,13 @@ func TestValidateNativeID(t *testing.T) {
 			false,
 		},
 		{
-			"invalid",
+			"valid",
 			"sg:2",
+			false,
+		},
+		{
+			"invalid",
+			"a b",
 			true,
 		},
 		{

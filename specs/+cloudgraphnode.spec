@@ -17,12 +17,14 @@ attributes:
     description: The native ID of the node.
     type: string
     exposed: true
+    omit_empty: true
 
   - name: nodeData
     description: Details about the node if the query type requests full details.
     type: ref
     exposed: true
     subtype: cloudnode
+    omit_empty: true
     extensions:
       refMode: pointer
 
@@ -31,6 +33,7 @@ attributes:
     type: refMap
     exposed: true
     subtype: cloudgraphnodeaction
+    omit_empty: true
     extensions:
       refMode: pointer
 
@@ -42,8 +45,10 @@ attributes:
     type: external
     exposed: true
     subtype: map[string]string
+    omit_empty: true
 
   - name: type
     description: The type of the node as a string.
     type: string
     exposed: true
+    omit_empty: true
