@@ -21,8 +21,6 @@ model:
 indexes:
 - - namespace
   - type
-- - namespace
-  - type
   - subtype
 - - namespace
   - relatedObjectID
@@ -33,6 +31,12 @@ indexes:
 - - namespace
   - vpcid
   - type
+- - namespace
+  - vpcid
+  - parameters
+- - namespace
+  - type
+  - parameters
 - - key
 
 # Attributes

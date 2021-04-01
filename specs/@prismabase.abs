@@ -26,7 +26,6 @@ attributes:
     exposed: true
     stored: true
     example_value: vpc-023419c5952374917
-    filterable: true
     getter: true
     setter: true
     orderable: true
@@ -40,7 +39,6 @@ attributes:
     exposed: true
     stored: true
     example_value: 9123450055
-    filterable: true
     getter: true
     setter: true
     omit_empty: true
@@ -51,7 +49,6 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    filterable: true
     getter: true
     setter: true
     omit_empty: true
@@ -62,7 +59,6 @@ attributes:
     exposed: true
     stored: true
     example_value: AWS
-    filterable: true
     getter: true
     setter: true
     orderable: true
@@ -74,7 +70,6 @@ attributes:
     exposed: true
     stored: true
     example_value: 1234455
-    filterable: true
     getter: true
     setter: true
     omit_empty: true
@@ -95,7 +90,6 @@ attributes:
     exposed: true
     stored: true
     example_value: myobject
-    filterable: true
     getter: true
     setter: true
     orderable: true
@@ -109,7 +103,6 @@ attributes:
     stored: true
     required: true
     example_value: subnet-0ae4a90153dfb642c
-    filterable: true
     getter: true
     setter: true
     max_length: 256
@@ -137,7 +130,6 @@ attributes:
     exposed: true
     stored: true
     example_value: AWS Tokyo
-    filterable: true
     getter: true
     setter: true
     max_length: 256
