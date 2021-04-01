@@ -7091,11 +7091,11 @@ Creates the tenant's namespace and API authorization policy.
 
 ##### `DELETE /tenants/:id`
 
-Delete the tenant with the given namespace ID.
+Delete the tenant with the given Prisma or namespace ID.
 
 ##### `GET /tenants/:id`
 
-Retrieve the tenant with the given namespace ID.
+Retrieve the tenant with the given Prisma or namespace ID.
 
 #### Attributes
 

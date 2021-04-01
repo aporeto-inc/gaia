@@ -9,9 +9,9 @@ model:
     Can be used to create a tenant's namespace and API authorization policy to grant
     access.
   get:
-    description: Retrieve the tenant with the given namespace ID.
+    description: Retrieve the tenant with the given Prisma or namespace ID.
   delete:
-    description: Delete the tenant with the given namespace ID.
+    description: Delete the tenant with the given Prisma or namespace ID.
   extends:
   - '@identifiable-not-stored'
 
