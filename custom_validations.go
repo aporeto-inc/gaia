@@ -1272,7 +1272,6 @@ var nativeIDRegex = regexp.MustCompile(`^[a-zA-Z0-9-_#+.:@]+$`)
 func ValidateNativeID(attribute string, tag string) error {
 
 	if !nativeIDRegex.MatchString(tag) {
-		fmt.Println("TAG = ", tag)
 		return makeValidationError(attribute, fmt.Sprintf("'%s'is not a valid tag", tag))
 	}
 
