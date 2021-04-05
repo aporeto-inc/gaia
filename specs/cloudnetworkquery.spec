@@ -74,6 +74,14 @@ attributes:
     exposed: true
     stored: true
 
+  - name: includeUnreachable
+    description: |-
+      If set, the query result will return all destinations including the unreachable
+      ones.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: rawRQL
     description: The RQL string for this query as a reference.
     type: string

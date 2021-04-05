@@ -9431,6 +9431,7 @@ Provides the parameters for an effective network permissions query.
 {
   "destinationProtocol": -1,
   "excludeEnterpriseIPs": false,
+  "includeUnreachable": false,
   "name": "the name",
   "protected": false,
   "type": "Summary"
@@ -9541,6 +9542,13 @@ Type: `boolean`
 
 If set, the evaluation will exclude enterprise IPs from the effective
 permissions.
+
+##### `includeUnreachable`
+
+Type: `boolean`
+
+If set, the query result will return all destinations including the unreachable
+ones.
 
 ##### `name` [`required`,`max_length=256`]
 

@@ -128,6 +128,10 @@ type CloudNetworkQuery struct {
 	// permissions.
 	ExcludeEnterpriseIPs bool `json:"excludeEnterpriseIPs" msgpack:"excludeEnterpriseIPs" bson:"excludeenterpriseips" mapstructure:"excludeEnterpriseIPs,omitempty"`
 
+	// If set, the query result will return all destinations including the unreachable
+	// ones.
+	IncludeUnreachable bool `json:"includeUnreachable" msgpack:"includeUnreachable" bson:"includeunreachable" mapstructure:"includeUnreachable,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -225,6 +229,7 @@ func (o *CloudNetworkQuery) GetBSON() (interface{}, error) {
 	s.DestinationProtocol = o.DestinationProtocol
 	s.DestinationSelector = o.DestinationSelector
 	s.ExcludeEnterpriseIPs = o.ExcludeEnterpriseIPs
+	s.IncludeUnreachable = o.IncludeUnreachable
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
@@ -264,6 +269,7 @@ func (o *CloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	o.DestinationProtocol = s.DestinationProtocol
 	o.DestinationSelector = s.DestinationSelector
 	o.ExcludeEnterpriseIPs = s.ExcludeEnterpriseIPs
+	o.IncludeUnreachable = s.IncludeUnreachable
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
@@ -472,6 +478,7 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			DestinationProtocol:  &o.DestinationProtocol,
 			DestinationSelector:  o.DestinationSelector,
 			ExcludeEnterpriseIPs: &o.ExcludeEnterpriseIPs,
+			IncludeUnreachable:   &o.IncludeUnreachable,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -510,6 +517,8 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			sp.DestinationSelector = o.DestinationSelector
 		case "excludeEnterpriseIPs":
 			sp.ExcludeEnterpriseIPs = &(o.ExcludeEnterpriseIPs)
+		case "includeUnreachable":
+			sp.IncludeUnreachable = &(o.IncludeUnreachable)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -576,6 +585,9 @@ func (o *CloudNetworkQuery) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ExcludeEnterpriseIPs != nil {
 		o.ExcludeEnterpriseIPs = *so.ExcludeEnterpriseIPs
+	}
+	if so.IncludeUnreachable != nil {
+		o.IncludeUnreachable = *so.IncludeUnreachable
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -754,6 +766,8 @@ func (o *CloudNetworkQuery) ValueForAttribute(name string) interface{} {
 		return o.DestinationSelector
 	case "excludeEnterpriseIPs":
 		return o.ExcludeEnterpriseIPs
+	case "includeUnreachable":
+		return o.IncludeUnreachable
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -906,6 +920,17 @@ var CloudNetworkQueryAttributesMap = map[string]elemental.AttributeSpecification
 permissions.`,
 		Exposed: true,
 		Name:    "excludeEnterpriseIPs",
+		Stored:  true,
+		Type:    "boolean",
+	},
+	"IncludeUnreachable": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "includeunreachable",
+		ConvertedName:  "IncludeUnreachable",
+		Description: `If set, the query result will return all destinations including the unreachable
+ones.`,
+		Exposed: true,
+		Name:    "includeUnreachable",
 		Stored:  true,
 		Type:    "boolean",
 	},
@@ -1192,6 +1217,17 @@ permissions.`,
 		Stored:  true,
 		Type:    "boolean",
 	},
+	"includeunreachable": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "includeunreachable",
+		ConvertedName:  "IncludeUnreachable",
+		Description: `If set, the query result will return all destinations including the unreachable
+ones.`,
+		Exposed: true,
+		Name:    "includeUnreachable",
+		Stored:  true,
+		Type:    "boolean",
+	},
 	"migrationslog": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "migrationslog",
@@ -1445,6 +1481,10 @@ type SparseCloudNetworkQuery struct {
 	// permissions.
 	ExcludeEnterpriseIPs *bool `json:"excludeEnterpriseIPs,omitempty" msgpack:"excludeEnterpriseIPs,omitempty" bson:"excludeenterpriseips,omitempty" mapstructure:"excludeEnterpriseIPs,omitempty"`
 
+	// If set, the query result will return all destinations including the unreachable
+	// ones.
+	IncludeUnreachable *bool `json:"includeUnreachable,omitempty" msgpack:"includeUnreachable,omitempty" bson:"includeunreachable,omitempty" mapstructure:"includeUnreachable,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -1555,6 +1595,9 @@ func (o *SparseCloudNetworkQuery) GetBSON() (interface{}, error) {
 	if o.ExcludeEnterpriseIPs != nil {
 		s.ExcludeEnterpriseIPs = o.ExcludeEnterpriseIPs
 	}
+	if o.IncludeUnreachable != nil {
+		s.IncludeUnreachable = o.IncludeUnreachable
+	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -1637,6 +1680,9 @@ func (o *SparseCloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	if s.ExcludeEnterpriseIPs != nil {
 		o.ExcludeEnterpriseIPs = s.ExcludeEnterpriseIPs
 	}
+	if s.IncludeUnreachable != nil {
+		o.IncludeUnreachable = s.IncludeUnreachable
+	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
@@ -1716,6 +1762,9 @@ func (o *SparseCloudNetworkQuery) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ExcludeEnterpriseIPs != nil {
 		out.ExcludeEnterpriseIPs = *o.ExcludeEnterpriseIPs
+	}
+	if o.IncludeUnreachable != nil {
+		out.IncludeUnreachable = *o.IncludeUnreachable
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1984,6 +2033,7 @@ type mongoAttributesCloudNetworkQuery struct {
 	DestinationProtocol  int                        `bson:"destinationprotocol"`
 	DestinationSelector  *CloudNetworkQueryFilter   `bson:"destinationselector"`
 	ExcludeEnterpriseIPs bool                       `bson:"excludeenterpriseips"`
+	IncludeUnreachable   bool                       `bson:"includeunreachable"`
 	MigrationsLog        map[string]string          `bson:"migrationslog,omitempty"`
 	Name                 string                     `bson:"name"`
 	Namespace            string                     `bson:"namespace"`
@@ -2008,6 +2058,7 @@ type mongoAttributesSparseCloudNetworkQuery struct {
 	DestinationProtocol  *int                        `bson:"destinationprotocol,omitempty"`
 	DestinationSelector  *CloudNetworkQueryFilter    `bson:"destinationselector,omitempty"`
 	ExcludeEnterpriseIPs *bool                       `bson:"excludeenterpriseips,omitempty"`
+	IncludeUnreachable   *bool                       `bson:"includeunreachable,omitempty"`
 	MigrationsLog        *map[string]string          `bson:"migrationslog,omitempty"`
 	Name                 *string                     `bson:"name,omitempty"`
 	Namespace            *string                     `bson:"namespace,omitempty"`
