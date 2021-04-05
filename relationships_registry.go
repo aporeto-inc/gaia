@@ -958,6 +958,9 @@ func init() {
 	}
 
 	relationshipsRegistry[CloudNodeIdentity] = &elemental.Relationship{
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},

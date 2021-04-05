@@ -8,6 +8,8 @@ model:
   description: Manages the list of cloud nodes available in a cloud deployment.
   get:
     description: Retrieves the cloud node with the given ID.
+  delete:
+    description: Deletes the cloud node with the given ID.
   extends:
   - '@base'
   - '@zoned'

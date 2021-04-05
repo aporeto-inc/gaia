@@ -10035,6 +10035,10 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
+##### `DELETE /cloudnodes/:id`
+
+Deletes the cloud node with the given ID.
+
 ##### `GET /cloudnodes/:id`
 
 Retrieves the cloud node with the given ID.
