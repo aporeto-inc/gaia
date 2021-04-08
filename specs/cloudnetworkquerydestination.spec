@@ -12,7 +12,7 @@ model:
 attributes:
   v1:
   - name: indirect
-    description: Returns true if this is an indirect path through an midlebox.
+    description: Returns true if this is an indirect path through an forwarding entities.
     type: boolean
     exposed: true
     read_only: true

@@ -27,7 +27,7 @@ const (
 
 // CloudNetworkQueryDestination represents the model of a cloudnetworkquerydestination
 type CloudNetworkQueryDestination struct {
-	// Returns true if this is an indirect path through an midlebox.
+	// Returns true if this is an indirect path through an forwarding entities.
 	Indirect bool `json:"indirect" msgpack:"indirect" bson:"-" mapstructure:"indirect,omitempty"`
 
 	// Returns the native ID of the indirect node.
