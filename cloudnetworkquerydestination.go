@@ -27,11 +27,11 @@ const (
 
 // CloudNetworkQueryDestination represents the model of a cloudnetworkquerydestination
 type CloudNetworkQueryDestination struct {
-	// Returns true if this is an indirect path through an forwarding entities.
-	Indirect bool `json:"indirect" msgpack:"indirect" bson:"-" mapstructure:"indirect,omitempty"`
-
 	// Returns the native ID of the indirect node.
-	IndirectNode string `json:"indirectNode,omitempty" msgpack:"indirectNode,omitempty" bson:"-" mapstructure:"indirectNode,omitempty"`
+	IndirectNodeID string `json:"indirectNodeID,omitempty" msgpack:"indirectNodeID,omitempty" bson:"-" mapstructure:"indirectNodeID,omitempty"`
+
+	// Returns true if this is an indirect path through an forwarding entities.
+	IsIndirect bool `json:"isIndirect" msgpack:"isIndirect" bson:"-" mapstructure:"isIndirect,omitempty"`
 
 	// Returns true if the destination is reachable through routing.
 	Reachable bool `json:"reachable" msgpack:"reachable" bson:"-" mapstructure:"reachable,omitempty"`
