@@ -8828,6 +8828,7 @@ Parameters associated with a cloud endpoint.
     "eni-33333"
   ],
   "forwardingEnabled": false,
+  "hasPublicIP": false,
   "type": "Instance"
 }
 ```
@@ -8869,11 +8870,48 @@ Type: `boolean`
 If the endpoint has multiple connections and forwarding can be enabled between
 them.
 
+##### `hasPublicIP`
+
+Type: `boolean`
+
+Indicates if the endpoint has a public IP address.
+
+##### `imageID`
+
+Type: `string`
+
+The imageID of running in the endpoint. Available for instances and potentially
+other 3rd parties.
+
+##### `productInfo`
+
+Type: [`[]cloudendpointdataproduct`](#cloudendpointdataproduct)
+
+Product related metadata associated with this endpoint.
+
 ##### `type` [`required`]
 
 Type: `enum(Instance | LoadBalancer | PeeringConnection | Service | Gateway | TransitGateway | NATGateway)`
 
 Type of the endpoint.
+
+### CloudEndpointDataProduct
+
+Parameters associated with a cloud endpoint data product.
+
+#### Attributes
+
+##### `productID`
+
+Type: `string`
+
+The ID of the corresponding product.
+
+##### `type`
+
+Type: `string`
+
+The type of the product.
 
 ### CloudGraph
 
@@ -9677,6 +9715,13 @@ Type: `[]string`
 
 The cloud types that the search must apply to.
 
+##### `imageIDs`
+
+Type: `[]string`
+
+A list of imageIDs that endpoints can be filtered with. Applies only to
+resourceType Endpoint.
+
 ##### `objectIDs`
 
 Type: `[]string`
@@ -9684,6 +9729,19 @@ Type: `[]string`
 The exact object that the search applies. If ObjectIDs are defined, the rest of
 the fields are ignored. An object ID can refer to an instance, VPC endpoint, or
 network interface.
+
+##### `productInfoType`
+
+Type: `string`
+
+Restricts the query on only endpoints with the given productInfoType.
+
+##### `productInfoValue`
+
+Type: `string`
+
+Retstricts the query to only endpoints with the provided productInfoValue. Does
+not apply to other resource types.
 
 ##### `regions`
 

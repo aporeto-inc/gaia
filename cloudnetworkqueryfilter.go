@@ -37,10 +37,21 @@ type CloudNetworkQueryFilter struct {
 	// The cloud types that the search must apply to.
 	CloudTypes []string `json:"cloudTypes,omitempty" msgpack:"cloudTypes,omitempty" bson:"cloudtypes,omitempty" mapstructure:"cloudTypes,omitempty"`
 
+	// A list of imageIDs that endpoints can be filtered with. Applies only to
+	// resourceType Endpoint.
+	ImageIDs []string `json:"imageIDs,omitempty" msgpack:"imageIDs,omitempty" bson:"imageids,omitempty" mapstructure:"imageIDs,omitempty"`
+
 	// The exact object that the search applies. If ObjectIDs are defined, the rest of
 	// the fields are ignored. An object ID can refer to an instance, VPC endpoint, or
 	// network interface.
 	ObjectIDs []string `json:"objectIDs,omitempty" msgpack:"objectIDs,omitempty" bson:"objectids,omitempty" mapstructure:"objectIDs,omitempty"`
+
+	// Restricts the query on only endpoints with the given productInfoType.
+	ProductInfoType string `json:"productInfoType,omitempty" msgpack:"productInfoType,omitempty" bson:"productinfotype,omitempty" mapstructure:"productInfoType,omitempty"`
+
+	// Retstricts the query to only endpoints with the provided productInfoValue. Does
+	// not apply to other resource types.
+	ProductInfoValue string `json:"productInfoValue,omitempty" msgpack:"productInfoValue,omitempty" bson:"productinfovalue,omitempty" mapstructure:"productInfoValue,omitempty"`
 
 	// The region that the search must apply to.
 	Regions []string `json:"regions,omitempty" msgpack:"regions,omitempty" bson:"regions,omitempty" mapstructure:"regions,omitempty"`
@@ -80,16 +91,17 @@ func NewCloudNetworkQueryFilter() *CloudNetworkQueryFilter {
 	return &CloudNetworkQueryFilter{
 		ModelVersion:  1,
 		AccountIDs:    []string{},
-		SecurityTags:  []string{},
 		CloudTypes:    []string{},
+		ImageIDs:      []string{},
 		ObjectIDs:     []string{},
+		Subnets:       []string{},
 		Regions:       []string{},
 		ResourceType:  CloudNetworkQueryFilterResourceTypeInstance,
-		VPCIDs:        []string{},
+		SecurityTags:  []string{},
 		ServiceOwners: []string{},
 		ServiceTypes:  []string{},
-		Subnets:       []string{},
 		Tags:          []string{},
+		VPCIDs:        []string{},
 	}
 }
 
@@ -106,7 +118,10 @@ func (o *CloudNetworkQueryFilter) GetBSON() (interface{}, error) {
 	s.VPCIDs = o.VPCIDs
 	s.AccountIDs = o.AccountIDs
 	s.CloudTypes = o.CloudTypes
+	s.ImageIDs = o.ImageIDs
 	s.ObjectIDs = o.ObjectIDs
+	s.ProductInfoType = o.ProductInfoType
+	s.ProductInfoValue = o.ProductInfoValue
 	s.Regions = o.Regions
 	s.ResourceType = o.ResourceType
 	s.SecurityTags = o.SecurityTags
@@ -134,7 +149,10 @@ func (o *CloudNetworkQueryFilter) SetBSON(raw bson.Raw) error {
 	o.VPCIDs = s.VPCIDs
 	o.AccountIDs = s.AccountIDs
 	o.CloudTypes = s.CloudTypes
+	o.ImageIDs = s.ImageIDs
 	o.ObjectIDs = s.ObjectIDs
+	o.ProductInfoType = s.ProductInfoType
+	o.ProductInfoValue = s.ProductInfoValue
 	o.Regions = s.Regions
 	o.ResourceType = s.ResourceType
 	o.SecurityTags = s.SecurityTags
@@ -202,15 +220,18 @@ func (o *CloudNetworkQueryFilter) Validate() error {
 }
 
 type mongoAttributesCloudNetworkQueryFilter struct {
-	VPCIDs        []string                                 `bson:"vpcids,omitempty"`
-	AccountIDs    []string                                 `bson:"accountids,omitempty"`
-	CloudTypes    []string                                 `bson:"cloudtypes,omitempty"`
-	ObjectIDs     []string                                 `bson:"objectids,omitempty"`
-	Regions       []string                                 `bson:"regions,omitempty"`
-	ResourceType  CloudNetworkQueryFilterResourceTypeValue `bson:"resourcetype"`
-	SecurityTags  []string                                 `bson:"securitytags,omitempty"`
-	ServiceOwners []string                                 `bson:"serviceowners,omitempty"`
-	ServiceTypes  []string                                 `bson:"servicetypes,omitempty"`
-	Subnets       []string                                 `bson:"subnets,omitempty"`
-	Tags          []string                                 `bson:"tags,omitempty"`
+	VPCIDs           []string                                 `bson:"vpcids,omitempty"`
+	AccountIDs       []string                                 `bson:"accountids,omitempty"`
+	CloudTypes       []string                                 `bson:"cloudtypes,omitempty"`
+	ImageIDs         []string                                 `bson:"imageids,omitempty"`
+	ObjectIDs        []string                                 `bson:"objectids,omitempty"`
+	ProductInfoType  string                                   `bson:"productinfotype,omitempty"`
+	ProductInfoValue string                                   `bson:"productinfovalue,omitempty"`
+	Regions          []string                                 `bson:"regions,omitempty"`
+	ResourceType     CloudNetworkQueryFilterResourceTypeValue `bson:"resourcetype"`
+	SecurityTags     []string                                 `bson:"securitytags,omitempty"`
+	ServiceOwners    []string                                 `bson:"serviceowners,omitempty"`
+	ServiceTypes     []string                                 `bson:"servicetypes,omitempty"`
+	Subnets          []string                                 `bson:"subnets,omitempty"`
+	Tags             []string                                 `bson:"tags,omitempty"`
 }

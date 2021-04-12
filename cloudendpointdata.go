@@ -56,6 +56,16 @@ type CloudEndpointData struct {
 	// them.
 	ForwardingEnabled bool `json:"forwardingEnabled" msgpack:"forwardingEnabled" bson:"forwardingenabled" mapstructure:"forwardingEnabled,omitempty"`
 
+	// Indicates if the endpoint has a public IP address.
+	HasPublicIP bool `json:"hasPublicIP" msgpack:"hasPublicIP" bson:"haspublicip" mapstructure:"hasPublicIP,omitempty"`
+
+	// The imageID of running in the endpoint. Available for instances and potentially
+	// other 3rd parties.
+	ImageID string `json:"imageID,omitempty" msgpack:"imageID,omitempty" bson:"imageid,omitempty" mapstructure:"imageID,omitempty"`
+
+	// Product related metadata associated with this endpoint.
+	ProductInfo []*CloudEndpointDataProduct `json:"productInfo,omitempty" msgpack:"productInfo,omitempty" bson:"productinfo,omitempty" mapstructure:"productInfo,omitempty"`
+
 	// Type of the endpoint.
 	Type CloudEndpointDataTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -68,8 +78,9 @@ func NewCloudEndpointData() *CloudEndpointData {
 	return &CloudEndpointData{
 		ModelVersion:          1,
 		AssociatedRouteTables: []string{},
-		VPCAttachments:        []string{},
+		ProductInfo:           []*CloudEndpointDataProduct{},
 		AttachedInterfaces:    []string{},
+		VPCAttachments:        []string{},
 	}
 }
 
@@ -88,6 +99,9 @@ func (o *CloudEndpointData) GetBSON() (interface{}, error) {
 	s.AssociatedRouteTables = o.AssociatedRouteTables
 	s.AttachedInterfaces = o.AttachedInterfaces
 	s.ForwardingEnabled = o.ForwardingEnabled
+	s.HasPublicIP = o.HasPublicIP
+	s.ImageID = o.ImageID
+	s.ProductInfo = o.ProductInfo
 	s.Type = o.Type
 
 	return s, nil
@@ -111,6 +125,9 @@ func (o *CloudEndpointData) SetBSON(raw bson.Raw) error {
 	o.AssociatedRouteTables = s.AssociatedRouteTables
 	o.AttachedInterfaces = s.AttachedInterfaces
 	o.ForwardingEnabled = s.ForwardingEnabled
+	o.HasPublicIP = s.HasPublicIP
+	o.ImageID = s.ImageID
+	o.ProductInfo = s.ProductInfo
 	o.Type = s.Type
 
 	return nil
@@ -152,6 +169,16 @@ func (o *CloudEndpointData) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	for _, sub := range o.ProductInfo {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
 	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -172,10 +199,13 @@ func (o *CloudEndpointData) Validate() error {
 }
 
 type mongoAttributesCloudEndpointData struct {
-	VPCAttached           bool                       `bson:"vpcattached"`
-	VPCAttachments        []string                   `bson:"vpcattachments"`
-	AssociatedRouteTables []string                   `bson:"associatedroutetables"`
-	AttachedInterfaces    []string                   `bson:"attachedinterfaces"`
-	ForwardingEnabled     bool                       `bson:"forwardingenabled"`
-	Type                  CloudEndpointDataTypeValue `bson:"type"`
+	VPCAttached           bool                        `bson:"vpcattached"`
+	VPCAttachments        []string                    `bson:"vpcattachments"`
+	AssociatedRouteTables []string                    `bson:"associatedroutetables"`
+	AttachedInterfaces    []string                    `bson:"attachedinterfaces"`
+	ForwardingEnabled     bool                        `bson:"forwardingenabled"`
+	HasPublicIP           bool                        `bson:"haspublicip"`
+	ImageID               string                      `bson:"imageid,omitempty"`
+	ProductInfo           []*CloudEndpointDataProduct `bson:"productinfo,omitempty"`
+	Type                  CloudEndpointDataTypeValue  `bson:"type"`
 }

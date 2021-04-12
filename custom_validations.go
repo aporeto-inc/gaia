@@ -1328,6 +1328,10 @@ func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 		return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' and 'sourceSelector' cannot be empty at the same time")
 	}
 
+	if len(q.DestinationPorts) > 0 && q.DestinationProtocol == 0 {
+		return makeValidationError("Entity CloudNetworkQuery", "'destinationRotocol' cannot be empty when 'destinationPorts' are defined")
+	}
+
 	emptyDestinationSelector := IsCloudNetworkQueryFilterEmpty(q.DestinationSelector)
 
 	if q.DestinationIP != "" && !emptyDestinationSelector {
@@ -1369,7 +1373,10 @@ func IsCloudNetworkQueryFilterEmpty(f *CloudNetworkQueryFilter) bool {
 		len(f.SecurityTags) == 0 &&
 		len(f.Subnets) == 0 &&
 		len(f.ServiceOwners) == 0 &&
-		len(f.ServiceTypes) == 0 {
+		len(f.ServiceTypes) == 0 &&
+		len(f.ImageIDs) == 0 &&
+		f.ProductInfoType == "" &&
+		f.ProductInfoValue == "" {
 		return true
 	}
 
@@ -1389,6 +1396,18 @@ func ValidateCloudNetworkQueryFilter(attribute string, f *CloudNetworkQueryFilte
 
 	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInterface && len(f.ServiceTypes) > 0 {
 		return makeValidationError(attribute, fmt.Sprintf("service types only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInterface))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInstance && len(f.ImageIDs) > 0 {
+		return makeValidationError(attribute, fmt.Sprintf("image based filtering only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInstance))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInstance && f.ProductInfoType != "" {
+		return makeValidationError(attribute, fmt.Sprintf("product type based filtering only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInstance))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInstance && f.ProductInfoValue != "" {
+		return makeValidationError(attribute, fmt.Sprintf("product value filtering only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInstance))
 	}
 
 	return nil

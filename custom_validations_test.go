@@ -4153,6 +4153,68 @@ func TestValidateCloudGraphQuery(t *testing.T) {
 			},
 			true,
 		},
+		{
+			"product info type filter for interface",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType:    CloudNetworkQueryFilterResourceTypeInterface,
+						ProductInfoType: "marketplace",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"product info value filter for interface",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType:     CloudNetworkQueryFilterResourceTypeInterface,
+						ProductInfoValue: "vmseries",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"image as filter for interface",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeInterface,
+						ImageIDs:     []string{"image1"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"destination ports without protocol",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeInterface,
+						ServiceTypes: []string{"a=b"},
+					},
+					DestinationPorts: []*portutils.PortsRange{
+						{
+							FromPort: 100,
+							ToPort:   200,
+						},
+					},
+				},
+			},
+			true,
+		},
 	}
 
 	for _, tt := range tests {
