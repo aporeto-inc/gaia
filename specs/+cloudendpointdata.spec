@@ -81,6 +81,25 @@ attributes:
     extensions:
       refMode: pointer
 
+  - name: serviceName
+    description: Identifies the name of the service for service endpoints.
+    type: string
+    exposed: true
+    stored: true
+    omit_empty: true
+
+  - name: serviceType
+    description: Identitifies the service type of endpoints that represent a service.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Interface
+    - Gateway
+    - GatewayLoadBalancer
+    - NotApplicable
+    default_value: NotApplicable
+
   - name: type
     description: Type of the endpoint.
     type: enum

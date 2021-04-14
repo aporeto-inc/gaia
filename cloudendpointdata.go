@@ -8,6 +8,23 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// CloudEndpointDataServiceTypeValue represents the possible values for attribute "serviceType".
+type CloudEndpointDataServiceTypeValue string
+
+const (
+	// CloudEndpointDataServiceTypeGateway represents the value Gateway.
+	CloudEndpointDataServiceTypeGateway CloudEndpointDataServiceTypeValue = "Gateway"
+
+	// CloudEndpointDataServiceTypeGatewayLoadBalancer represents the value GatewayLoadBalancer.
+	CloudEndpointDataServiceTypeGatewayLoadBalancer CloudEndpointDataServiceTypeValue = "GatewayLoadBalancer"
+
+	// CloudEndpointDataServiceTypeInterface represents the value Interface.
+	CloudEndpointDataServiceTypeInterface CloudEndpointDataServiceTypeValue = "Interface"
+
+	// CloudEndpointDataServiceTypeNotApplicable represents the value NotApplicable.
+	CloudEndpointDataServiceTypeNotApplicable CloudEndpointDataServiceTypeValue = "NotApplicable"
+)
+
 // CloudEndpointDataTypeValue represents the possible values for attribute "type".
 type CloudEndpointDataTypeValue string
 
@@ -66,6 +83,12 @@ type CloudEndpointData struct {
 	// Product related metadata associated with this endpoint.
 	ProductInfo []*CloudEndpointDataProduct `json:"productInfo,omitempty" msgpack:"productInfo,omitempty" bson:"productinfo,omitempty" mapstructure:"productInfo,omitempty"`
 
+	// Identifies the name of the service for service endpoints.
+	ServiceName string `json:"serviceName,omitempty" msgpack:"serviceName,omitempty" bson:"servicename,omitempty" mapstructure:"serviceName,omitempty"`
+
+	// Identitifies the service type of endpoints that represent a service.
+	ServiceType CloudEndpointDataServiceTypeValue `json:"serviceType" msgpack:"serviceType" bson:"servicetype" mapstructure:"serviceType,omitempty"`
+
 	// Type of the endpoint.
 	Type CloudEndpointDataTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -81,6 +104,7 @@ func NewCloudEndpointData() *CloudEndpointData {
 		ProductInfo:           []*CloudEndpointDataProduct{},
 		AttachedInterfaces:    []string{},
 		VPCAttachments:        []string{},
+		ServiceType:           CloudEndpointDataServiceTypeNotApplicable,
 	}
 }
 
@@ -102,6 +126,8 @@ func (o *CloudEndpointData) GetBSON() (interface{}, error) {
 	s.HasPublicIP = o.HasPublicIP
 	s.ImageID = o.ImageID
 	s.ProductInfo = o.ProductInfo
+	s.ServiceName = o.ServiceName
+	s.ServiceType = o.ServiceType
 	s.Type = o.Type
 
 	return s, nil
@@ -128,6 +154,8 @@ func (o *CloudEndpointData) SetBSON(raw bson.Raw) error {
 	o.HasPublicIP = s.HasPublicIP
 	o.ImageID = s.ImageID
 	o.ProductInfo = s.ProductInfo
+	o.ServiceName = s.ServiceName
+	o.ServiceType = s.ServiceType
 	o.Type = s.Type
 
 	return nil
@@ -179,6 +207,10 @@ func (o *CloudEndpointData) Validate() error {
 		}
 	}
 
+	if err := elemental.ValidateStringInList("serviceType", string(o.ServiceType), []string{"Interface", "Gateway", "GatewayLoadBalancer", "NotApplicable"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -199,13 +231,15 @@ func (o *CloudEndpointData) Validate() error {
 }
 
 type mongoAttributesCloudEndpointData struct {
-	VPCAttached           bool                        `bson:"vpcattached"`
-	VPCAttachments        []string                    `bson:"vpcattachments"`
-	AssociatedRouteTables []string                    `bson:"associatedroutetables"`
-	AttachedInterfaces    []string                    `bson:"attachedinterfaces"`
-	ForwardingEnabled     bool                        `bson:"forwardingenabled"`
-	HasPublicIP           bool                        `bson:"haspublicip"`
-	ImageID               string                      `bson:"imageid,omitempty"`
-	ProductInfo           []*CloudEndpointDataProduct `bson:"productinfo,omitempty"`
-	Type                  CloudEndpointDataTypeValue  `bson:"type"`
+	VPCAttached           bool                              `bson:"vpcattached"`
+	VPCAttachments        []string                          `bson:"vpcattachments"`
+	AssociatedRouteTables []string                          `bson:"associatedroutetables"`
+	AttachedInterfaces    []string                          `bson:"attachedinterfaces"`
+	ForwardingEnabled     bool                              `bson:"forwardingenabled"`
+	HasPublicIP           bool                              `bson:"haspublicip"`
+	ImageID               string                            `bson:"imageid,omitempty"`
+	ProductInfo           []*CloudEndpointDataProduct       `bson:"productinfo,omitempty"`
+	ServiceName           string                            `bson:"servicename,omitempty"`
+	ServiceType           CloudEndpointDataServiceTypeValue `bson:"servicetype"`
+	Type                  CloudEndpointDataTypeValue        `bson:"type"`
 }

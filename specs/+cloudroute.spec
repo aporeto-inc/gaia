@@ -29,6 +29,13 @@ attributes:
     validations:
     - $optionalcidrorip
 
+  - name: destinationPrefixListID
+    description: The destination is identified as a prefix list ID.
+    type: string
+    exposed: true
+    stored: true
+    example_value: pl-1234
+
   - name: nextHopID
     description: The ID of the next hop object.
     type: string

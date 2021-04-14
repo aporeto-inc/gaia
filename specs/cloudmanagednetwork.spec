@@ -58,7 +58,8 @@ attributes:
     required: true
     allowed_choices:
     - Enterprise
-    - AWS
+    - AWSPrefixLists
+    - AWSElasticIPs
     - GCP
     - Custom
     default_value: Enterprise

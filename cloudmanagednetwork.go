@@ -13,8 +13,11 @@ import (
 type CloudManagedNetworkTypeValue string
 
 const (
-	// CloudManagedNetworkTypeAWS represents the value AWS.
-	CloudManagedNetworkTypeAWS CloudManagedNetworkTypeValue = "AWS"
+	// CloudManagedNetworkTypeAWSElasticIPs represents the value AWSElasticIPs.
+	CloudManagedNetworkTypeAWSElasticIPs CloudManagedNetworkTypeValue = "AWSElasticIPs"
+
+	// CloudManagedNetworkTypeAWSPrefixLists represents the value AWSPrefixLists.
+	CloudManagedNetworkTypeAWSPrefixLists CloudManagedNetworkTypeValue = "AWSPrefixLists"
 
 	// CloudManagedNetworkTypeCustom represents the value Custom.
 	CloudManagedNetworkTypeCustom CloudManagedNetworkTypeValue = "Custom"
@@ -881,7 +884,7 @@ func (o *CloudManagedNetwork) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Enterprise", "AWS", "GCP", "Custom"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Enterprise", "AWSPrefixLists", "AWSElasticIPs", "GCP", "Custom"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1285,7 +1288,7 @@ var CloudManagedNetworkAttributesMap = map[string]elemental.AttributeSpecificati
 		Type:           "integer",
 	},
 	"Type": {
-		AllowedChoices: []string{"Enterprise", "AWS", "GCP", "Custom"},
+		AllowedChoices: []string{"Enterprise", "AWSPrefixLists", "AWSElasticIPs", "GCP", "Custom"},
 		BSONFieldName:  "type",
 		ConvertedName:  "Type",
 		DefaultValue:   CloudManagedNetworkTypeEnterprise,
@@ -1659,7 +1662,7 @@ var CloudManagedNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Type:           "integer",
 	},
 	"type": {
-		AllowedChoices: []string{"Enterprise", "AWS", "GCP", "Custom"},
+		AllowedChoices: []string{"Enterprise", "AWSPrefixLists", "AWSElasticIPs", "GCP", "Custom"},
 		BSONFieldName:  "type",
 		ConvertedName:  "Type",
 		DefaultValue:   CloudManagedNetworkTypeEnterprise,

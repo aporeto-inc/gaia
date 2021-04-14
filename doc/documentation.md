@@ -8829,6 +8829,7 @@ Parameters associated with a cloud endpoint.
   ],
   "forwardingEnabled": false,
   "hasPublicIP": false,
+  "serviceType": "NotApplicable",
   "type": "Instance"
 }
 ```
@@ -8888,6 +8889,24 @@ other 3rd parties.
 Type: [`[]cloudendpointdataproduct`](#cloudendpointdataproduct)
 
 Product related metadata associated with this endpoint.
+
+##### `serviceName`
+
+Type: `string`
+
+Identifies the name of the service for service endpoints.
+
+##### `serviceType`
+
+Type: `enum(Interface | Gateway | GatewayLoadBalancer | NotApplicable)`
+
+Identitifies the service type of endpoints that represent a service.
+
+Default value:
+
+```json
+"NotApplicable"
+```
 
 ##### `type` [`required`]
 
@@ -9261,7 +9280,7 @@ Prisma Cloud Resource ID.
 
 ##### `type` [`required`]
 
-Type: `enum(Enterprise | AWS | GCP | Custom)`
+Type: `enum(Enterprise | AWSPrefixLists | AWSElasticIPs | GCP | Custom)`
 
 The type of cloud managed network.
 
@@ -10398,6 +10417,7 @@ Describes a route in a route table.
 {
   "destinationIPv4CIDR": "10.1.1.32/24",
   "destinationIPv6CIDR": "2001:db8::/32",
+  "destinationPrefixListID": "pl-1234",
   "nextHopID": "gw_123444444",
   "nextHopType": "LocalGateway"
 }
@@ -10416,6 +10436,12 @@ The Destination CIDR for the route.
 Type: `string`
 
 The destination IPV6 CIDR for the route.
+
+##### `destinationPrefixListID`
+
+Type: `string`
+
+The destination is identified as a prefix list ID.
 
 ##### `nextHopID`
 

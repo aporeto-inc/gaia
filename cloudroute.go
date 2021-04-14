@@ -48,6 +48,9 @@ type CloudRoute struct {
 	// The destination IPV6 CIDR for the route.
 	DestinationIPv6CIDR string `json:"destinationIPv6CIDR" msgpack:"destinationIPv6CIDR" bson:"destinationipv6cidr" mapstructure:"destinationIPv6CIDR,omitempty"`
 
+	// The destination is identified as a prefix list ID.
+	DestinationPrefixListID string `json:"destinationPrefixListID" msgpack:"destinationPrefixListID" bson:"destinationprefixlistid" mapstructure:"destinationPrefixListID,omitempty"`
+
 	// The ID of the next hop object.
 	NextHopID string `json:"nextHopID" msgpack:"nextHopID" bson:"nexthopid" mapstructure:"nextHopID,omitempty"`
 
@@ -77,6 +80,7 @@ func (o *CloudRoute) GetBSON() (interface{}, error) {
 
 	s.DestinationIPv4CIDR = o.DestinationIPv4CIDR
 	s.DestinationIPv6CIDR = o.DestinationIPv6CIDR
+	s.DestinationPrefixListID = o.DestinationPrefixListID
 	s.NextHopID = o.NextHopID
 	s.NextHopType = o.NextHopType
 
@@ -98,6 +102,7 @@ func (o *CloudRoute) SetBSON(raw bson.Raw) error {
 
 	o.DestinationIPv4CIDR = s.DestinationIPv4CIDR
 	o.DestinationIPv6CIDR = s.DestinationIPv6CIDR
+	o.DestinationPrefixListID = s.DestinationPrefixListID
 	o.NextHopID = s.NextHopID
 	o.NextHopType = s.NextHopType
 
@@ -168,8 +173,9 @@ func (o *CloudRoute) Validate() error {
 }
 
 type mongoAttributesCloudRoute struct {
-	DestinationIPv4CIDR string                     `bson:"destinationipv4cidr"`
-	DestinationIPv6CIDR string                     `bson:"destinationipv6cidr"`
-	NextHopID           string                     `bson:"nexthopid"`
-	NextHopType         CloudRouteNextHopTypeValue `bson:"nexthoptype"`
+	DestinationIPv4CIDR     string                     `bson:"destinationipv4cidr"`
+	DestinationIPv6CIDR     string                     `bson:"destinationipv6cidr"`
+	DestinationPrefixListID string                     `bson:"destinationprefixlistid"`
+	NextHopID               string                     `bson:"nexthopid"`
+	NextHopType             CloudRouteNextHopTypeValue `bson:"nexthoptype"`
 }
