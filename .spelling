@@ -515,6 +515,10 @@ CloudSubnetData
 CloudVPCData
 CloudManagedNetwork
 CloudSnapshotAccount
+CloudEndpointDataProduct
+productInfoType 
+productInfoValue
+imageID 
 
 nativeID 
 ObjectIDs
