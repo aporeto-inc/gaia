@@ -2,6 +2,7 @@ package gaia
 
 import (
 	"fmt"
+	"net"
 
 	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
@@ -33,11 +34,19 @@ type CloudAddress struct {
 	// The private IP address value.
 	PrivateIP string `json:"privateIP" msgpack:"privateIP" bson:"privateip" mapstructure:"privateIP,omitempty"`
 
+	// Internal representation of the private IP to accelerate operations. Not exposed
+	// to users.
+	PrivateNetwork *net.IPNet `json:"privateNetwork" msgpack:"privateNetwork" bson:"privatenetwork" mapstructure:"privateNetwork,omitempty"`
+
 	// The private DNS name associated with the address.
 	PublicDNSName string `json:"publicDNSName" msgpack:"publicDNSName" bson:"publicdnsname" mapstructure:"publicDNSName,omitempty"`
 
 	// The private IP address value.
 	PublicIP string `json:"publicIP" msgpack:"publicIP" bson:"publicip" mapstructure:"publicIP,omitempty"`
+
+	// Internal representation of public IP addresses to accelerate operations. Not
+	// exposed to users.
+	PublicNetwork *net.IPNet `json:"publicNetwork" msgpack:"publicNetwork" bson:"publicnetwork" mapstructure:"publicNetwork,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -46,7 +55,9 @@ type CloudAddress struct {
 func NewCloudAddress() *CloudAddress {
 
 	return &CloudAddress{
-		ModelVersion: 1,
+		ModelVersion:   1,
+		PrivateNetwork: &net.IPNet{},
+		PublicNetwork:  &net.IPNet{},
 	}
 }
 
@@ -64,8 +75,10 @@ func (o *CloudAddress) GetBSON() (interface{}, error) {
 	s.Primary = o.Primary
 	s.PrivateDNSName = o.PrivateDNSName
 	s.PrivateIP = o.PrivateIP
+	s.PrivateNetwork = o.PrivateNetwork
 	s.PublicDNSName = o.PublicDNSName
 	s.PublicIP = o.PublicIP
+	s.PublicNetwork = o.PublicNetwork
 
 	return s, nil
 }
@@ -87,8 +100,10 @@ func (o *CloudAddress) SetBSON(raw bson.Raw) error {
 	o.Primary = s.Primary
 	o.PrivateDNSName = s.PrivateDNSName
 	o.PrivateIP = s.PrivateIP
+	o.PrivateNetwork = s.PrivateNetwork
 	o.PublicDNSName = s.PublicDNSName
 	o.PublicIP = s.PublicIP
+	o.PublicNetwork = s.PublicNetwork
 
 	return nil
 }
@@ -161,6 +176,8 @@ type mongoAttributesCloudAddress struct {
 	Primary        bool                       `bson:"primary"`
 	PrivateDNSName string                     `bson:"privatednsname"`
 	PrivateIP      string                     `bson:"privateip"`
+	PrivateNetwork *net.IPNet                 `bson:"privatenetwork"`
 	PublicDNSName  string                     `bson:"publicdnsname"`
 	PublicIP       string                     `bson:"publicip"`
+	PublicNetwork  *net.IPNet                 `bson:"publicnetwork"`
 }

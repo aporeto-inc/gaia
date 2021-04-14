@@ -2,6 +2,7 @@ package gaia
 
 import (
 	"fmt"
+	"net"
 
 	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
@@ -57,6 +58,12 @@ type CloudRoute struct {
 	// The type of the next hop.
 	NextHopType CloudRouteNextHopTypeValue `json:"nextHopType" msgpack:"nextHopType" bson:"nexthoptype" mapstructure:"nextHopType,omitempty"`
 
+	// Internal representation of destination v4 CIDR.
+	StoredDestinationIPv4CIDR *net.IPNet `json:"storedDestinationIPv4CIDR" msgpack:"storedDestinationIPv4CIDR" bson:"storeddestinationipv4cidr" mapstructure:"storedDestinationIPv4CIDR,omitempty"`
+
+	// Internal representation of destination v6 CIDR.
+	StoredDestinationIPv6CIDR *net.IPNet `json:"storedDestinationIPv6CIDR" msgpack:"storedDestinationIPv6CIDR" bson:"storeddestinationipv6cidr" mapstructure:"storedDestinationIPv6CIDR,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -64,7 +71,9 @@ type CloudRoute struct {
 func NewCloudRoute() *CloudRoute {
 
 	return &CloudRoute{
-		ModelVersion: 1,
+		ModelVersion:              1,
+		StoredDestinationIPv4CIDR: &net.IPNet{},
+		StoredDestinationIPv6CIDR: &net.IPNet{},
 	}
 }
 
@@ -83,6 +92,8 @@ func (o *CloudRoute) GetBSON() (interface{}, error) {
 	s.DestinationPrefixListID = o.DestinationPrefixListID
 	s.NextHopID = o.NextHopID
 	s.NextHopType = o.NextHopType
+	s.StoredDestinationIPv4CIDR = o.StoredDestinationIPv4CIDR
+	s.StoredDestinationIPv6CIDR = o.StoredDestinationIPv6CIDR
 
 	return s, nil
 }
@@ -105,6 +116,8 @@ func (o *CloudRoute) SetBSON(raw bson.Raw) error {
 	o.DestinationPrefixListID = s.DestinationPrefixListID
 	o.NextHopID = s.NextHopID
 	o.NextHopType = s.NextHopType
+	o.StoredDestinationIPv4CIDR = s.StoredDestinationIPv4CIDR
+	o.StoredDestinationIPv6CIDR = s.StoredDestinationIPv6CIDR
 
 	return nil
 }
@@ -173,9 +186,11 @@ func (o *CloudRoute) Validate() error {
 }
 
 type mongoAttributesCloudRoute struct {
-	DestinationIPv4CIDR     string                     `bson:"destinationipv4cidr"`
-	DestinationIPv6CIDR     string                     `bson:"destinationipv6cidr"`
-	DestinationPrefixListID string                     `bson:"destinationprefixlistid"`
-	NextHopID               string                     `bson:"nexthopid"`
-	NextHopType             CloudRouteNextHopTypeValue `bson:"nexthoptype"`
+	DestinationIPv4CIDR       string                     `bson:"destinationipv4cidr"`
+	DestinationIPv6CIDR       string                     `bson:"destinationipv6cidr"`
+	DestinationPrefixListID   string                     `bson:"destinationprefixlistid"`
+	NextHopID                 string                     `bson:"nexthopid"`
+	NextHopType               CloudRouteNextHopTypeValue `bson:"nexthoptype"`
+	StoredDestinationIPv4CIDR *net.IPNet                 `bson:"storeddestinationipv4cidr"`
+	StoredDestinationIPv6CIDR *net.IPNet                 `bson:"storeddestinationipv6cidr"`
 }

@@ -389,6 +389,35 @@ map[string]string:
         }
       }
 
+network:
+  elemental:
+    type: '*net.IPNet'
+    init: '&net.IPNet{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+
+networklist:
+  elemental:
+    type: '[]*net.IPNet'
+    init: '[]*net.IPNet{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+
 pctimevalue:
   elemental:
     type: interface{}
