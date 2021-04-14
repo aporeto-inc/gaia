@@ -518,7 +518,9 @@ CloudSnapshotAccount
 CloudEndpointDataProduct
 productInfoType 
 productInfoValue
-imageID 
+imageID
+imageIDs
+resourceType
 
 nativeID 
 ObjectIDs
