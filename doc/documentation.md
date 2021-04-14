@@ -8900,7 +8900,7 @@ Identifies the name of the service for service endpoints.
 
 Type: `enum(Interface | Gateway | GatewayLoadBalancer | NotApplicable)`
 
-Identitifies the service type of endpoints that represent a service.
+Identifies the service type of endpoints that represent a service.
 
 Default value:
 
@@ -9759,7 +9759,7 @@ Restricts the query on only endpoints with the given productInfoType.
 
 Type: `string`
 
-Retstricts the query to only endpoints with the provided productInfoValue. Does
+Restricts the query to only endpoints with the provided productInfoValue. Does
 not apply to other resource types.
 
 ##### `regions`

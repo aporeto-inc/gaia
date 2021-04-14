@@ -89,7 +89,7 @@ attributes:
     omit_empty: true
 
   - name: serviceType
-    description: Identitifies the service type of endpoints that represent a service.
+    description: Identifies the service type of endpoints that represent a service.
     type: enum
     exposed: true
     stored: true

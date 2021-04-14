@@ -86,7 +86,7 @@ type CloudEndpointData struct {
 	// Identifies the name of the service for service endpoints.
 	ServiceName string `json:"serviceName,omitempty" msgpack:"serviceName,omitempty" bson:"servicename,omitempty" mapstructure:"serviceName,omitempty"`
 
-	// Identitifies the service type of endpoints that represent a service.
+	// Identifies the service type of endpoints that represent a service.
 	ServiceType CloudEndpointDataServiceTypeValue `json:"serviceType" msgpack:"serviceType" bson:"servicetype" mapstructure:"serviceType,omitempty"`
 
 	// Type of the endpoint.

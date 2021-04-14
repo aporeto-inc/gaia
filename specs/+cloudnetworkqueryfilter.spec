@@ -73,7 +73,7 @@ attributes:
 
   - name: productInfoValue
     description: |-
-      Retstricts the query to only endpoints with the provided productInfoValue. Does
+      Restricts the query to only endpoints with the provided productInfoValue. Does
       not apply to other resource types.
     type: string
     exposed: true

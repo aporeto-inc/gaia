@@ -49,7 +49,7 @@ type CloudNetworkQueryFilter struct {
 	// Restricts the query on only endpoints with the given productInfoType.
 	ProductInfoType string `json:"productInfoType,omitempty" msgpack:"productInfoType,omitempty" bson:"productinfotype,omitempty" mapstructure:"productInfoType,omitempty"`
 
-	// Retstricts the query to only endpoints with the provided productInfoValue. Does
+	// Restricts the query to only endpoints with the provided productInfoValue. Does
 	// not apply to other resource types.
 	ProductInfoValue string `json:"productInfoValue,omitempty" msgpack:"productInfoValue,omitempty" bson:"productinfovalue,omitempty" mapstructure:"productInfoValue,omitempty"`
 
