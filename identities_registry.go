@@ -629,11 +629,13 @@ var (
 		"cloudnetworkruleset": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
-			{"namespace"},
 			{"namespace", "normalizedTags"},
-			{"namespace", "nativeID"},
-			{"namespace", "accountid"},
 			{"namespace", "vpcid"},
+			{"namespace"},
+			{"namespace", "vpcid", "parameters"},
+			{"namespace", "accountid"},
+			{"namespace", "nativeID"},
+			{"key"},
 			{"createIdempotencyKey"},
 		},
 		"cloudnode": {

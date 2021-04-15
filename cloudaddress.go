@@ -36,7 +36,7 @@ type CloudAddress struct {
 
 	// Internal representation of the private IP to accelerate operations. Not exposed
 	// to users.
-	PrivateNetwork *net.IPNet `json:"privateNetwork" msgpack:"privateNetwork" bson:"privatenetwork" mapstructure:"privateNetwork,omitempty"`
+	PrivateNetwork *net.IPNet `json:"privateNetwork,omitempty" msgpack:"privateNetwork,omitempty" bson:"privatenetwork,omitempty" mapstructure:"privateNetwork,omitempty"`
 
 	// The private DNS name associated with the address.
 	PublicDNSName string `json:"publicDNSName" msgpack:"publicDNSName" bson:"publicdnsname" mapstructure:"publicDNSName,omitempty"`
@@ -46,7 +46,7 @@ type CloudAddress struct {
 
 	// Internal representation of public IP addresses to accelerate operations. Not
 	// exposed to users.
-	PublicNetwork *net.IPNet `json:"publicNetwork" msgpack:"publicNetwork" bson:"publicnetwork" mapstructure:"publicNetwork,omitempty"`
+	PublicNetwork *net.IPNet `json:"publicNetwork,omitempty" msgpack:"publicNetwork,omitempty" bson:"publicnetwork,omitempty" mapstructure:"publicNetwork,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -176,8 +176,8 @@ type mongoAttributesCloudAddress struct {
 	Primary        bool                       `bson:"primary"`
 	PrivateDNSName string                     `bson:"privatednsname"`
 	PrivateIP      string                     `bson:"privateip"`
-	PrivateNetwork *net.IPNet                 `bson:"privatenetwork"`
+	PrivateNetwork *net.IPNet                 `bson:"privatenetwork,omitempty"`
 	PublicDNSName  string                     `bson:"publicdnsname"`
 	PublicIP       string                     `bson:"publicip"`
-	PublicNetwork  *net.IPNet                 `bson:"publicnetwork"`
+	PublicNetwork  *net.IPNet                 `bson:"publicnetwork,omitempty"`
 }

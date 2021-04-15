@@ -47,7 +47,7 @@ type CloudNetworkRule struct {
 
 	// An internal representation of the networks to increase performance. Not visible
 	// to end users.
-	StoredNetworks []*net.IPNet `json:"storedNetworks" msgpack:"storedNetworks" bson:"storednetworks" mapstructure:"storedNetworks,omitempty"`
+	StoredNetworks []*net.IPNet `json:"storedNetworks,omitempty" msgpack:"storedNetworks,omitempty" bson:"storednetworks,omitempty" mapstructure:"storedNetworks,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -177,5 +177,5 @@ type mongoAttributesCloudNetworkRule struct {
 	Object         [][]string                  `bson:"object"`
 	Priority       int                         `bson:"priority,omitempty"`
 	ProtocolPorts  []string                    `bson:"protocolports"`
-	StoredNetworks []*net.IPNet                `bson:"storednetworks"`
+	StoredNetworks []*net.IPNet                `bson:"storednetworks,omitempty"`
 }

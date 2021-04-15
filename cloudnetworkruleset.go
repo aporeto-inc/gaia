@@ -117,6 +117,9 @@ type CloudNetworkRuleSet struct {
 	// The time that the object was first ingested.
 	IngestionTime time.Time `json:"ingestionTime,omitempty" msgpack:"ingestionTime,omitempty" bson:"ingestiontime,omitempty" mapstructure:"ingestionTime,omitempty"`
 
+	// Internal unique key for a resource to guarantee no overlaps at write.
+	Key string `json:"-" msgpack:"-" bson:"key" mapstructure:"-,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -168,13 +171,13 @@ func NewCloudNetworkRuleSet() *CloudNetworkRuleSet {
 
 	return &CloudNetworkRuleSet{
 		ModelVersion:     1,
+		MigrationsLog:    map[string]string{},
 		Annotations:      map[string][]string{},
 		AssociatedTags:   []string{},
 		CloudTags:        []string{},
-		PolicyReferences: []string{},
-		MigrationsLog:    map[string]string{},
-		NormalizedTags:   []string{},
 		Parameters:       NewCloudNetworkRuleSetData(),
+		PolicyReferences: []string{},
+		NormalizedTags:   []string{},
 	}
 }
 
@@ -220,6 +223,7 @@ func (o *CloudNetworkRuleSet) GetBSON() (interface{}, error) {
 	s.CreateTime = o.CreateTime
 	s.CustomerID = o.CustomerID
 	s.IngestionTime = o.IngestionTime
+	s.Key = o.Key
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
@@ -263,6 +267,7 @@ func (o *CloudNetworkRuleSet) SetBSON(raw bson.Raw) error {
 	o.CreateTime = s.CreateTime
 	o.CustomerID = s.CustomerID
 	o.IngestionTime = s.IngestionTime
+	o.Key = s.Key
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
@@ -618,6 +623,7 @@ func (o *CloudNetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentif
 			CreateTime:           &o.CreateTime,
 			CustomerID:           &o.CustomerID,
 			IngestionTime:        &o.IngestionTime,
+			Key:                  &o.Key,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -662,6 +668,8 @@ func (o *CloudNetworkRuleSet) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.CustomerID = &(o.CustomerID)
 		case "ingestionTime":
 			sp.IngestionTime = &(o.IngestionTime)
+		case "key":
+			sp.Key = &(o.Key)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -738,6 +746,9 @@ func (o *CloudNetworkRuleSet) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.IngestionTime != nil {
 		o.IngestionTime = *so.IngestionTime
+	}
+	if so.Key != nil {
+		o.Key = *so.Key
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -898,6 +909,8 @@ func (o *CloudNetworkRuleSet) ValueForAttribute(name string) interface{} {
 		return o.CustomerID
 	case "ingestionTime":
 		return o.IngestionTime
+	case "key":
+		return o.Key
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -1089,6 +1102,15 @@ var CloudNetworkRuleSetAttributesMap = map[string]elemental.AttributeSpecificati
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"Key": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "key",
+		ConvertedName:  "Key",
+		Description:    `Internal unique key for a resource to guarantee no overlaps at write.`,
+		Name:           "key",
+		Stored:         true,
+		Type:           "string",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -1443,6 +1465,15 @@ var CloudNetworkRuleSetLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Stored:         true,
 		Type:           "time",
 	},
+	"key": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "key",
+		ConvertedName:  "Key",
+		Description:    `Internal unique key for a resource to guarantee no overlaps at write.`,
+		Name:           "key",
+		Stored:         true,
+		Type:           "string",
+	},
 	"migrationslog": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "migrationslog",
@@ -1736,6 +1767,9 @@ type SparseCloudNetworkRuleSet struct {
 	// The time that the object was first ingested.
 	IngestionTime *time.Time `json:"ingestionTime,omitempty" msgpack:"ingestionTime,omitempty" bson:"ingestiontime,omitempty" mapstructure:"ingestionTime,omitempty"`
 
+	// Internal unique key for a resource to guarantee no overlaps at write.
+	Key *string `json:"-" msgpack:"-" bson:"key,omitempty" mapstructure:"-,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -1858,6 +1892,9 @@ func (o *SparseCloudNetworkRuleSet) GetBSON() (interface{}, error) {
 	if o.IngestionTime != nil {
 		s.IngestionTime = o.IngestionTime
 	}
+	if o.Key != nil {
+		s.Key = o.Key
+	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -1952,6 +1989,9 @@ func (o *SparseCloudNetworkRuleSet) SetBSON(raw bson.Raw) error {
 	if s.IngestionTime != nil {
 		o.IngestionTime = s.IngestionTime
 	}
+	if s.Key != nil {
+		o.Key = s.Key
+	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
@@ -2043,6 +2083,9 @@ func (o *SparseCloudNetworkRuleSet) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.IngestionTime != nil {
 		out.IngestionTime = *o.IngestionTime
+	}
+	if o.Key != nil {
+		out.Key = *o.Key
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -2511,6 +2554,7 @@ type mongoAttributesCloudNetworkRuleSet struct {
 	CreateTime           time.Time                `bson:"createtime"`
 	CustomerID           int                      `bson:"customerid,omitempty"`
 	IngestionTime        time.Time                `bson:"ingestiontime,omitempty"`
+	Key                  string                   `bson:"key"`
 	MigrationsLog        map[string]string        `bson:"migrationslog,omitempty"`
 	Name                 string                   `bson:"name,omitempty"`
 	Namespace            string                   `bson:"namespace"`
@@ -2539,6 +2583,7 @@ type mongoAttributesSparseCloudNetworkRuleSet struct {
 	CreateTime           *time.Time               `bson:"createtime,omitempty"`
 	CustomerID           *int                     `bson:"customerid,omitempty"`
 	IngestionTime        *time.Time               `bson:"ingestiontime,omitempty"`
+	Key                  *string                  `bson:"key,omitempty"`
 	MigrationsLog        *map[string]string       `bson:"migrationslog,omitempty"`
 	Name                 *string                  `bson:"name,omitempty"`
 	Namespace            *string                  `bson:"namespace,omitempty"`

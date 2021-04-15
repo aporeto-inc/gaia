@@ -59,10 +59,10 @@ type CloudRoute struct {
 	NextHopType CloudRouteNextHopTypeValue `json:"nextHopType" msgpack:"nextHopType" bson:"nexthoptype" mapstructure:"nextHopType,omitempty"`
 
 	// Internal representation of destination v4 CIDR.
-	StoredDestinationIPv4CIDR *net.IPNet `json:"storedDestinationIPv4CIDR" msgpack:"storedDestinationIPv4CIDR" bson:"storeddestinationipv4cidr" mapstructure:"storedDestinationIPv4CIDR,omitempty"`
+	StoredDestinationIPv4CIDR *net.IPNet `json:"storedDestinationIPv4CIDR,omitempty" msgpack:"storedDestinationIPv4CIDR,omitempty" bson:"storeddestinationipv4cidr,omitempty" mapstructure:"storedDestinationIPv4CIDR,omitempty"`
 
 	// Internal representation of destination v6 CIDR.
-	StoredDestinationIPv6CIDR *net.IPNet `json:"storedDestinationIPv6CIDR" msgpack:"storedDestinationIPv6CIDR" bson:"storeddestinationipv6cidr" mapstructure:"storedDestinationIPv6CIDR,omitempty"`
+	StoredDestinationIPv6CIDR *net.IPNet `json:"storedDestinationIPv6CIDR,omitempty" msgpack:"storedDestinationIPv6CIDR,omitempty" bson:"storeddestinationipv6cidr,omitempty" mapstructure:"storedDestinationIPv6CIDR,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -191,6 +191,6 @@ type mongoAttributesCloudRoute struct {
 	DestinationPrefixListID   string                     `bson:"destinationprefixlistid"`
 	NextHopID                 string                     `bson:"nexthopid"`
 	NextHopType               CloudRouteNextHopTypeValue `bson:"nexthoptype"`
-	StoredDestinationIPv4CIDR *net.IPNet                 `bson:"storeddestinationipv4cidr"`
-	StoredDestinationIPv6CIDR *net.IPNet                 `bson:"storeddestinationipv6cidr"`
+	StoredDestinationIPv4CIDR *net.IPNet                 `bson:"storeddestinationipv4cidr,omitempty"`
+	StoredDestinationIPv6CIDR *net.IPNet                 `bson:"storeddestinationipv6cidr,omitempty"`
 }
