@@ -62,7 +62,7 @@ attributes:
     example_value: LocalGateway
 
   - name: storedDestinationIPv4CIDR
-    description: Internal representation of destination v4 CIDR.
+    description: Internal representation of IPv4 networks.
     type: external
     exposed: true
     subtype: network
@@ -72,7 +72,7 @@ attributes:
     omit_empty: true
 
   - name: storedDestinationIPv6CIDR
-    description: Internal representation of destination v6 CIDR.
+    description: Internal representation of IPv6 networks.
     type: external
     exposed: true
     subtype: network
