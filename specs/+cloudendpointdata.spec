@@ -64,8 +64,9 @@ attributes:
 
   - name: imageID
     description: |-
-      The imageID of running in the endpoint. Available for instances and potentially
-      other 3rd parties.
+      The imageID of running in the endpoint. Available for instances and
+      potentiallyother 3rd parties. This can be the AMI ID in AWS or corresponding
+      instance imageID in other clouds.
     type: string
     exposed: true
     stored: true
@@ -75,7 +76,7 @@ attributes:
     description: Product related metadata associated with this endpoint.
     type: refList
     exposed: true
-    subtype: cloudendpointdataproduct
+    subtype: cloudendpointdataproductinfo
     stored: true
     omit_empty: true
     extensions:
@@ -89,7 +90,9 @@ attributes:
     omit_empty: true
 
   - name: serviceType
-    description: Identifies the service type of endpoints that represent a service.
+    description: |-
+      Identifies the service type that this endpoint represents (example Gateway Load
+      Balancer).
     type: enum
     exposed: true
     stored: true

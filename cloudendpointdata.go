@@ -76,17 +76,19 @@ type CloudEndpointData struct {
 	// Indicates if the endpoint has a public IP address.
 	HasPublicIP bool `json:"hasPublicIP" msgpack:"hasPublicIP" bson:"haspublicip" mapstructure:"hasPublicIP,omitempty"`
 
-	// The imageID of running in the endpoint. Available for instances and potentially
-	// other 3rd parties.
+	// The imageID of running in the endpoint. Available for instances and
+	// potentiallyother 3rd parties. This can be the AMI ID in AWS or corresponding
+	// instance imageID in other clouds.
 	ImageID string `json:"imageID,omitempty" msgpack:"imageID,omitempty" bson:"imageid,omitempty" mapstructure:"imageID,omitempty"`
 
 	// Product related metadata associated with this endpoint.
-	ProductInfo []*CloudEndpointDataProduct `json:"productInfo,omitempty" msgpack:"productInfo,omitempty" bson:"productinfo,omitempty" mapstructure:"productInfo,omitempty"`
+	ProductInfo []*CloudEndpointDataProductInfo `json:"productInfo,omitempty" msgpack:"productInfo,omitempty" bson:"productinfo,omitempty" mapstructure:"productInfo,omitempty"`
 
 	// Identifies the name of the service for service endpoints.
 	ServiceName string `json:"serviceName,omitempty" msgpack:"serviceName,omitempty" bson:"servicename,omitempty" mapstructure:"serviceName,omitempty"`
 
-	// Identifies the service type of endpoints that represent a service.
+	// Identifies the service type that this endpoint represents (example Gateway Load
+	// Balancer).
 	ServiceType CloudEndpointDataServiceTypeValue `json:"serviceType" msgpack:"serviceType" bson:"servicetype" mapstructure:"serviceType,omitempty"`
 
 	// Type of the endpoint.
@@ -101,7 +103,7 @@ func NewCloudEndpointData() *CloudEndpointData {
 	return &CloudEndpointData{
 		ModelVersion:          1,
 		AssociatedRouteTables: []string{},
-		ProductInfo:           []*CloudEndpointDataProduct{},
+		ProductInfo:           []*CloudEndpointDataProductInfo{},
 		AttachedInterfaces:    []string{},
 		VPCAttachments:        []string{},
 		ServiceType:           CloudEndpointDataServiceTypeNotApplicable,
@@ -238,7 +240,7 @@ type mongoAttributesCloudEndpointData struct {
 	ForwardingEnabled     bool                              `bson:"forwardingenabled"`
 	HasPublicIP           bool                              `bson:"haspublicip"`
 	ImageID               string                            `bson:"imageid,omitempty"`
-	ProductInfo           []*CloudEndpointDataProduct       `bson:"productinfo,omitempty"`
+	ProductInfo           []*CloudEndpointDataProductInfo   `bson:"productinfo,omitempty"`
 	ServiceName           string                            `bson:"servicename,omitempty"`
 	ServiceType           CloudEndpointDataServiceTypeValue `bson:"servicetype"`
 	Type                  CloudEndpointDataTypeValue        `bson:"type"`

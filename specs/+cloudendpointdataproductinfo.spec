@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: cloudendpointdataproduct
-  resource_name: cloudendpointdataproduct
-  entity_name: CloudEndpointDataProduct
+  rest_name: cloudendpointdataproductinfo
+  resource_name: cloudendpointdataproductinfo
+  entity_name: CloudEndpointDataProductInfo
   package: yeul
   group: pcn/infrastructure
   description: Parameters associated with a cloud endpoint data product.

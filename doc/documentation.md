@@ -8895,12 +8895,13 @@ Indicates if the endpoint has a public IP address.
 
 Type: `string`
 
-The imageID of running in the endpoint. Available for instances and potentially
-other 3rd parties.
+The imageID of running in the endpoint. Available for instances and
+potentiallyother 3rd parties. This can be the AMI ID in AWS or corresponding
+instance imageID in other clouds.
 
 ##### `productInfo`
 
-Type: [`[]cloudendpointdataproduct`](#cloudendpointdataproduct)
+Type: [`[]cloudendpointdataproductinfo`](#cloudendpointdataproductinfo)
 
 Product related metadata associated with this endpoint.
 
@@ -8914,7 +8915,8 @@ Identifies the name of the service for service endpoints.
 
 Type: `enum(Interface | Gateway | GatewayLoadBalancer | NotApplicable)`
 
-Identifies the service type of endpoints that represent a service.
+Identifies the service type that this endpoint represents (example Gateway Load
+Balancer).
 
 Default value:
 
@@ -8928,7 +8930,7 @@ Type: `enum(Instance | LoadBalancer | PeeringConnection | Service | Gateway | Tr
 
 Type of the endpoint.
 
-### CloudEndpointDataProduct
+### CloudEndpointDataProductInfo
 
 Parameters associated with a cloud endpoint data product.
 

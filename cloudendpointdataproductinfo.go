@@ -8,8 +8,8 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// CloudEndpointDataProduct represents the model of a cloudendpointdataproduct
-type CloudEndpointDataProduct struct {
+// CloudEndpointDataProductInfo represents the model of a cloudendpointdataproductinfo
+type CloudEndpointDataProductInfo struct {
 	// The ID of the corresponding product.
 	ProductID string `json:"productID,omitempty" msgpack:"productID,omitempty" bson:"productid,omitempty" mapstructure:"productID,omitempty"`
 
@@ -19,23 +19,23 @@ type CloudEndpointDataProduct struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewCloudEndpointDataProduct returns a new *CloudEndpointDataProduct
-func NewCloudEndpointDataProduct() *CloudEndpointDataProduct {
+// NewCloudEndpointDataProductInfo returns a new *CloudEndpointDataProductInfo
+func NewCloudEndpointDataProductInfo() *CloudEndpointDataProductInfo {
 
-	return &CloudEndpointDataProduct{
+	return &CloudEndpointDataProductInfo{
 		ModelVersion: 1,
 	}
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CloudEndpointDataProduct) GetBSON() (interface{}, error) {
+func (o *CloudEndpointDataProductInfo) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesCloudEndpointDataProduct{}
+	s := &mongoAttributesCloudEndpointDataProductInfo{}
 
 	s.ProductID = o.ProductID
 	s.Type = o.Type
@@ -45,13 +45,13 @@ func (o *CloudEndpointDataProduct) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *CloudEndpointDataProduct) SetBSON(raw bson.Raw) error {
+func (o *CloudEndpointDataProductInfo) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesCloudEndpointDataProduct{}
+	s := &mongoAttributesCloudEndpointDataProductInfo{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -63,37 +63,37 @@ func (o *CloudEndpointDataProduct) SetBSON(raw bson.Raw) error {
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *CloudEndpointDataProduct) BleveType() string {
+func (o *CloudEndpointDataProductInfo) BleveType() string {
 
-	return "cloudendpointdataproduct"
+	return "cloudendpointdataproductinfo"
 }
 
-// DeepCopy returns a deep copy if the CloudEndpointDataProduct.
-func (o *CloudEndpointDataProduct) DeepCopy() *CloudEndpointDataProduct {
+// DeepCopy returns a deep copy if the CloudEndpointDataProductInfo.
+func (o *CloudEndpointDataProductInfo) DeepCopy() *CloudEndpointDataProductInfo {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &CloudEndpointDataProduct{}
+	out := &CloudEndpointDataProductInfo{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *CloudEndpointDataProduct.
-func (o *CloudEndpointDataProduct) DeepCopyInto(out *CloudEndpointDataProduct) {
+// DeepCopyInto copies the receiver into the given *CloudEndpointDataProductInfo.
+func (o *CloudEndpointDataProductInfo) DeepCopyInto(out *CloudEndpointDataProductInfo) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy CloudEndpointDataProduct: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CloudEndpointDataProductInfo: %s", err))
 	}
 
-	*out = *target.(*CloudEndpointDataProduct)
+	*out = *target.(*CloudEndpointDataProductInfo)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *CloudEndpointDataProduct) Validate() error {
+func (o *CloudEndpointDataProductInfo) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -109,7 +109,7 @@ func (o *CloudEndpointDataProduct) Validate() error {
 	return nil
 }
 
-type mongoAttributesCloudEndpointDataProduct struct {
+type mongoAttributesCloudEndpointDataProductInfo struct {
 	ProductID string `bson:"productid,omitempty"`
 	Type      string `bson:"type,omitempty"`
 }
