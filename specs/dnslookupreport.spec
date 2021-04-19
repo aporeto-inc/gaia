@@ -98,6 +98,26 @@ attributes:
     extensions:
       bson_name: f
 
+  - name: resolvedCNames
+    description: CNAME aliases.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    omit_empty: true
+    extensions:
+      bson_name: g
+
+  - name: resolvedIPs
+    description: resolved IP addresses.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    omit_empty: true
+    extensions:
+      bson_name: h
+
   - name: resolvedName
     description: name used for DNS resolution.
     type: string
@@ -107,7 +127,7 @@ attributes:
     example_value: www.google.com
     omit_empty: true
     extensions:
-      bson_name: g
+      bson_name: i
 
   - name: sourceIP
     description: Type of the source.
@@ -118,7 +138,7 @@ attributes:
     example_value: 10.0.0.1
     omit_empty: true
     extensions:
-      bson_name: h
+      bson_name: j
 
   - name: timestamp
     description: Time and date of the log.
@@ -128,7 +148,7 @@ attributes:
     orderable: true
     omit_empty: true
     extensions:
-      bson_name: i
+      bson_name: k
 
   - name: value
     description: Number of times the client saw this activity.
@@ -139,4 +159,4 @@ attributes:
     example_value: 1
     omit_empty: true
     extensions:
-      bson_name: j
+      bson_name: l

@@ -12605,6 +12605,18 @@ Type: `string`
 This field is only set when the lookup fails. It specifies the reason for the
 failure.
 
+##### `resolvedCNames`
+
+Type: `[]string`
+
+CNAME aliases.
+
+##### `resolvedIPs`
+
+Type: `[]string`
+
+resolved IP addresses.
+
 ##### `resolvedName` [`required`]
 
 Type: `string`
