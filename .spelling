@@ -515,7 +515,7 @@ CloudSubnetData
 CloudVPCData
 CloudManagedNetwork
 CloudSnapshotAccount
-CloudEndpointDataProduct
+CloudEndpointDataProductInfo
 productInfoType 
 productInfoValue
 imageID

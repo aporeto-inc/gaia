@@ -8896,7 +8896,7 @@ Indicates if the endpoint has a public IP address.
 Type: `string`
 
 The imageID of running in the endpoint. Available for instances and
-potentiallyother 3rd parties. This can be the AMI ID in AWS or corresponding
+potentially other 3rd parties. This can be the AMI ID in AWS or corresponding
 instance imageID in other clouds.
 
 ##### `productInfo`

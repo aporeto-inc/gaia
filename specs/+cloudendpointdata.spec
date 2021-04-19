@@ -65,7 +65,7 @@ attributes:
   - name: imageID
     description: |-
       The imageID of running in the endpoint. Available for instances and
-      potentiallyother 3rd parties. This can be the AMI ID in AWS or corresponding
+      potentially other 3rd parties. This can be the AMI ID in AWS or corresponding
       instance imageID in other clouds.
     type: string
     exposed: true

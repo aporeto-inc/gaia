@@ -77,7 +77,7 @@ type CloudEndpointData struct {
 	HasPublicIP bool `json:"hasPublicIP" msgpack:"hasPublicIP" bson:"haspublicip" mapstructure:"hasPublicIP,omitempty"`
 
 	// The imageID of running in the endpoint. Available for instances and
-	// potentiallyother 3rd parties. This can be the AMI ID in AWS or corresponding
+	// potentially other 3rd parties. This can be the AMI ID in AWS or corresponding
 	// instance imageID in other clouds.
 	ImageID string `json:"imageID,omitempty" msgpack:"imageID,omitempty" bson:"imageid,omitempty" mapstructure:"imageID,omitempty"`
 
