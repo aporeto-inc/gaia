@@ -12562,7 +12562,7 @@ Identifier of the object.
 
 ##### `action` [`required`]
 
-Type: `enum(Accept | Reject)`
+Type: `enum(Accept | Failed | Reject | Resolved)`
 
 Action of the DNS request.
 

@@ -16,8 +16,14 @@ const (
 	// DNSLookupReportActionAccept represents the value Accept.
 	DNSLookupReportActionAccept DNSLookupReportActionValue = "Accept"
 
+	// DNSLookupReportActionFailed represents the value Failed.
+	DNSLookupReportActionFailed DNSLookupReportActionValue = "Failed"
+
 	// DNSLookupReportActionReject represents the value Reject.
 	DNSLookupReportActionReject DNSLookupReportActionValue = "Reject"
+
+	// DNSLookupReportActionResolved represents the value Resolved.
+	DNSLookupReportActionResolved DNSLookupReportActionValue = "Resolved"
 )
 
 // DNSLookupReportIdentity represents the Identity of the object.
@@ -492,7 +498,7 @@ func (o *DNSLookupReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Accept", "Reject"}, false); err != nil {
+	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Accept", "Failed", "Reject", "Resolved"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -612,7 +618,7 @@ var DNSLookupReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Action": {
-		AllowedChoices: []string{"Accept", "Reject"},
+		AllowedChoices: []string{"Accept", "Failed", "Reject", "Resolved"},
 		BSONFieldName:  "a",
 		ConvertedName:  "Action",
 		Description:    `Action of the DNS request.`,
@@ -818,7 +824,7 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "string",
 	},
 	"action": {
-		AllowedChoices: []string{"Accept", "Reject"},
+		AllowedChoices: []string{"Accept", "Failed", "Reject", "Resolved"},
 		BSONFieldName:  "a",
 		ConvertedName:  "Action",
 		Description:    `Action of the DNS request.`,

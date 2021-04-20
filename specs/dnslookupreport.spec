@@ -39,7 +39,9 @@ attributes:
     required: true
     allowed_choices:
     - Accept
+    - Failed
     - Reject
+    - Resolved
     example_value: Accept
     omit_empty: true
     extensions:
