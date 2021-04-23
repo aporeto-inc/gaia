@@ -42,7 +42,7 @@ attributes:
     - Fail
     - Reject
     - Resolve
-    example_value: Accepted
+    example_value: Accept
     omit_empty: true
     extensions:
       bson_name: a

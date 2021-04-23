@@ -12536,7 +12536,7 @@ indicate whether or not the lookup was successful.
 
 ```json
 {
-  "action": "Accepted",
+  "action": "Accept",
   "enforcerNamespace": "/my/namespace",
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
