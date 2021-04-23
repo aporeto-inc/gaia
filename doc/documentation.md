@@ -12536,7 +12536,7 @@ indicate whether or not the lookup was successful.
 
 ```json
 {
-  "action": "Accept",
+  "action": "Accepted",
   "enforcerNamespace": "/my/namespace",
   "processingUnitID": "xxx-xxx-xxx",
   "processingUnitNamespace": "/my/namespace",
@@ -12562,7 +12562,7 @@ Identifier of the object.
 
 ##### `action` [`required`]
 
-Type: `enum(Accept | Failed | Reject | Resolved)`
+Type: `enum(Accept | Fail | Reject | Resolve)`
 
 Action of the DNS request.
 
@@ -12605,7 +12605,7 @@ Type: `string`
 This field is only set when the lookup fails. It specifies the reason for the
 failure.
 
-##### `resolvedCNames`
+##### `resolvedCNAMEs`
 
 Type: `[]string`
 

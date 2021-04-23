@@ -39,10 +39,10 @@ attributes:
     required: true
     allowed_choices:
     - Accept
-    - Failed
+    - Fail
     - Reject
-    - Resolved
-    example_value: Accept
+    - Resolve
+    example_value: Accepted
     omit_empty: true
     extensions:
       bson_name: a
@@ -100,7 +100,7 @@ attributes:
     extensions:
       bson_name: f
 
-  - name: resolvedCNames
+  - name: resolvedCNAMEs
     description: CNAME aliases.
     type: list
     exposed: true
@@ -108,7 +108,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: g
+      bson_name: k
 
   - name: resolvedIPs
     description: resolved IP addresses.
@@ -118,7 +118,9 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: h
+      bson_name: l
+    validations:
+    - $optionalcidroriplist
 
   - name: resolvedName
     description: name used for DNS resolution.
@@ -129,7 +131,7 @@ attributes:
     example_value: www.google.com
     omit_empty: true
     extensions:
-      bson_name: i
+      bson_name: g
 
   - name: sourceIP
     description: Type of the source.
@@ -140,7 +142,7 @@ attributes:
     example_value: 10.0.0.1
     omit_empty: true
     extensions:
-      bson_name: j
+      bson_name: h
 
   - name: timestamp
     description: Time and date of the log.
@@ -150,7 +152,7 @@ attributes:
     orderable: true
     omit_empty: true
     extensions:
-      bson_name: k
+      bson_name: i
 
   - name: value
     description: Number of times the client saw this activity.
@@ -161,4 +163,4 @@ attributes:
     example_value: 1
     omit_empty: true
     extensions:
-      bson_name: l
+      bson_name: j
