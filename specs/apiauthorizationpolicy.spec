@@ -42,15 +42,6 @@ indexes:
 # Attributes
 attributes:
   v1:
-  - name: authorizedIDs
-    description: If set, limit the authorization to the resources with the particular IDs
-    type: list
-    exposed: true
-    subtype: string
-    example_value:
-    - xxx
-    - yyy
-
   - name: authorizedIdentities
     description: A list of roles assigned to the user.
     type: list
