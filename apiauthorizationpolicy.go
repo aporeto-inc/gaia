@@ -100,6 +100,9 @@ type APIAuthorizationPolicy struct {
 	// List of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// Limit the authorization to the particular IDs.
+	AuthorizedIDs []string `json:"authorizedIDs" msgpack:"authorizedIDs" bson:"-" mapstructure:"authorizedIDs,omitempty"`
+
 	// A list of roles assigned to the user.
 	AuthorizedIdentities []string `json:"authorizedIdentities" msgpack:"authorizedIdentities" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
 
@@ -168,9 +171,10 @@ func NewAPIAuthorizationPolicy() *APIAuthorizationPolicy {
 
 	return &APIAuthorizationPolicy{
 		ModelVersion:         1,
+		AuthorizedIdentities: []string{},
 		Annotations:          map[string][]string{},
 		AssociatedTags:       []string{},
-		AuthorizedIdentities: []string{},
+		AuthorizedIDs:        []string{},
 		AuthorizedSubnets:    []string{},
 		Metadata:             []string{},
 		NormalizedTags:       []string{},
@@ -526,6 +530,7 @@ func (o *APIAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			ActiveSchedule:       &o.ActiveSchedule,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
+			AuthorizedIDs:        &o.AuthorizedIDs,
 			AuthorizedIdentities: &o.AuthorizedIdentities,
 			AuthorizedNamespace:  &o.AuthorizedNamespace,
 			AuthorizedSubnets:    &o.AuthorizedSubnets,
@@ -560,6 +565,8 @@ func (o *APIAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "authorizedIDs":
+			sp.AuthorizedIDs = &(o.AuthorizedIDs)
 		case "authorizedIdentities":
 			sp.AuthorizedIdentities = &(o.AuthorizedIdentities)
 		case "authorizedNamespace":
@@ -623,6 +630,9 @@ func (o *APIAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.AuthorizedIDs != nil {
+		o.AuthorizedIDs = *so.AuthorizedIDs
 	}
 	if so.AuthorizedIdentities != nil {
 		o.AuthorizedIdentities = *so.AuthorizedIdentities
@@ -797,6 +807,8 @@ func (o *APIAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
+	case "authorizedIDs":
+		return o.AuthorizedIDs
 	case "authorizedIdentities":
 		return o.AuthorizedIdentities
 	case "authorizedNamespace":
@@ -903,6 +915,15 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
+	"AuthorizedIDs": {
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedIDs",
+		Description:    `Limit the authorization to the particular IDs.`,
+		Exposed:        true,
+		Name:           "authorizedIDs",
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -1214,6 +1235,15 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
+	"authorizedids": {
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedIDs",
+		Description:    `Limit the authorization to the particular IDs.`,
+		Exposed:        true,
+		Name:           "authorizedIDs",
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -1542,6 +1572,9 @@ type SparseAPIAuthorizationPolicy struct {
 	// List of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
+	// Limit the authorization to the particular IDs.
+	AuthorizedIDs *[]string `json:"authorizedIDs,omitempty" msgpack:"authorizedIDs,omitempty" bson:"-" mapstructure:"authorizedIDs,omitempty"`
+
 	// A list of roles assigned to the user.
 	AuthorizedIdentities *[]string `json:"authorizedIdentities,omitempty" msgpack:"authorizedIdentities,omitempty" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
 
@@ -1798,6 +1831,9 @@ func (o *SparseAPIAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.AuthorizedIDs != nil {
+		out.AuthorizedIDs = *o.AuthorizedIDs
 	}
 	if o.AuthorizedIdentities != nil {
 		out.AuthorizedIdentities = *o.AuthorizedIdentities

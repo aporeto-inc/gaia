@@ -12123,6 +12123,10 @@ propagates down to all the children of the current namespace.
 
 ```json
 {
+  "authorizedIDs": [
+    "xxx",
+    "yyy"
+  ],
   "authorizedIdentities": [
     "@auth:role=namespace.administrator"
   ],
@@ -12199,6 +12203,12 @@ Stores additional information about an entity.
 Type: `[]string`
 
 List of tags attached to an entity.
+
+##### `authorizedIDs`
+
+Type: `[]string`
+
+Limit the authorization to the particular IDs.
 
 ##### `authorizedIdentities` [`required`]
 

@@ -111,7 +111,10 @@ type Authz struct {
 	// Sets the permissions restrictions that should apply.
 	RestrictedPermissions []string `json:"restrictedPermissions" msgpack:"restrictedPermissions" bson:"-" mapstructure:"restrictedPermissions,omitempty"`
 
-	// description.
+	// The ID of the object to check permission for.
+	TargetID string `json:"targetID" msgpack:"targetID" bson:"-" mapstructure:"targetID,omitempty"`
+
+	// The namespace where to check permission from.
 	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -220,6 +223,7 @@ func (o *Authz) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			RestrictedNamespace:   &o.RestrictedNamespace,
 			RestrictedNetworks:    &o.RestrictedNetworks,
 			RestrictedPermissions: &o.RestrictedPermissions,
+			TargetID:              &o.TargetID,
 			TargetNamespace:       &o.TargetNamespace,
 		}
 	}
@@ -243,6 +247,8 @@ func (o *Authz) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.RestrictedNetworks = &(o.RestrictedNetworks)
 		case "restrictedPermissions":
 			sp.RestrictedPermissions = &(o.RestrictedPermissions)
+		case "targetID":
+			sp.TargetID = &(o.TargetID)
 		case "targetNamespace":
 			sp.TargetNamespace = &(o.TargetNamespace)
 		}
@@ -281,6 +287,9 @@ func (o *Authz) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.RestrictedPermissions != nil {
 		o.RestrictedPermissions = *so.RestrictedPermissions
+	}
+	if so.TargetID != nil {
+		o.TargetID = *so.TargetID
 	}
 	if so.TargetNamespace != nil {
 		o.TargetNamespace = *so.TargetNamespace
@@ -385,6 +394,8 @@ func (o *Authz) ValueForAttribute(name string) interface{} {
 		return o.RestrictedNetworks
 	case "restrictedPermissions":
 		return o.RestrictedPermissions
+	case "targetID":
+		return o.TargetID
 	case "targetNamespace":
 		return o.TargetNamespace
 	}
@@ -475,10 +486,18 @@ really know why you need it, you mostly don't.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"TargetID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetID",
+		Description:    `The ID of the object to check permission for.`,
+		Exposed:        true,
+		Name:           "targetID",
+		Type:           "string",
+	},
 	"TargetNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
-		Description:    `description.`,
+		Description:    `The namespace where to check permission from.`,
 		Exposed:        true,
 		Name:           "targetNamespace",
 		Required:       true,
@@ -569,10 +588,18 @@ really know why you need it, you mostly don't.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"targetid": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetID",
+		Description:    `The ID of the object to check permission for.`,
+		Exposed:        true,
+		Name:           "targetID",
+		Type:           "string",
+	},
 	"targetnamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
-		Description:    `description.`,
+		Description:    `The namespace where to check permission from.`,
 		Exposed:        true,
 		Name:           "targetNamespace",
 		Required:       true,
@@ -674,7 +701,10 @@ type SparseAuthz struct {
 	// Sets the permissions restrictions that should apply.
 	RestrictedPermissions *[]string `json:"restrictedPermissions,omitempty" msgpack:"restrictedPermissions,omitempty" bson:"-" mapstructure:"restrictedPermissions,omitempty"`
 
-	// description.
+	// The ID of the object to check permission for.
+	TargetID *string `json:"targetID,omitempty" msgpack:"targetID,omitempty" bson:"-" mapstructure:"targetID,omitempty"`
+
+	// The namespace where to check permission from.
 	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -764,6 +794,9 @@ func (o *SparseAuthz) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.RestrictedPermissions != nil {
 		out.RestrictedPermissions = *o.RestrictedPermissions
+	}
+	if o.TargetID != nil {
+		out.TargetID = *o.TargetID
 	}
 	if o.TargetNamespace != nil {
 		out.TargetNamespace = *o.TargetNamespace

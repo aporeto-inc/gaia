@@ -81,8 +81,13 @@ attributes:
     example_value:
     - '@auth:role=enforcer'
 
+  - name: targetID
+    description: The ID of the object to check permission for.
+    type: string
+    exposed: true
+
   - name: targetNamespace
-    description: description.
+    description: The namespace where to check permission from.
     type: string
     exposed: true
     required: true
