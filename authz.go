@@ -93,6 +93,15 @@ type Authz struct {
 	// ignored and this attribute will contain all the permission for the given claims.
 	Permissions map[string]map[string]bool `json:"permissions,omitempty" msgpack:"permissions,omitempty" bson:"-" mapstructure:"permissions,omitempty"`
 
+	// Contains the raw resolved and unfiltered PolicyRuleList. It will be empty unless
+	// the query parameter `forwardpolicyrules=true` is set.
+	// Note that this contains the straight rules that matched the user claims in the
+	// target namespace. It can contain rules that are filtered out in later stage
+	// because it applies to children namespace or because the rule only applies to a
+	// certain source network, or because the token contains restrictions. Unless you
+	// really know why you need it, you mostly don't.
+	PolicyRulesList PolicyRulesList `json:"policyRulesList,omitempty" msgpack:"policyRulesList,omitempty" bson:"-" mapstructure:"policyRulesList,omitempty"`
+
 	// Sets the namespace restrictions that should apply.
 	RestrictedNamespace string `json:"restrictedNamespace" msgpack:"restrictedNamespace" bson:"-" mapstructure:"restrictedNamespace,omitempty"`
 
@@ -102,7 +111,10 @@ type Authz struct {
 	// Sets the permissions restrictions that should apply.
 	RestrictedPermissions []string `json:"restrictedPermissions" msgpack:"restrictedPermissions" bson:"-" mapstructure:"restrictedPermissions,omitempty"`
 
-	// description.
+	// The ID of the object to check permission for.
+	TargetID string `json:"targetID" msgpack:"targetID" bson:"-" mapstructure:"targetID,omitempty"`
+
+	// The namespace where to check permission from.
 	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -115,6 +127,7 @@ func NewAuthz() *Authz {
 		ModelVersion:          1,
 		Claims:                []string{},
 		Permissions:           map[string]map[string]bool{},
+		PolicyRulesList:       PolicyRulesList{},
 		RestrictedNetworks:    []string{},
 		RestrictedPermissions: []string{},
 	}
@@ -206,9 +219,11 @@ func (o *Authz) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ClientIP:              &o.ClientIP,
 			Error:                 &o.Error,
 			Permissions:           &o.Permissions,
+			PolicyRulesList:       &o.PolicyRulesList,
 			RestrictedNamespace:   &o.RestrictedNamespace,
 			RestrictedNetworks:    &o.RestrictedNetworks,
 			RestrictedPermissions: &o.RestrictedPermissions,
+			TargetID:              &o.TargetID,
 			TargetNamespace:       &o.TargetNamespace,
 		}
 	}
@@ -224,12 +239,16 @@ func (o *Authz) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Error = &(o.Error)
 		case "permissions":
 			sp.Permissions = &(o.Permissions)
+		case "policyRulesList":
+			sp.PolicyRulesList = &(o.PolicyRulesList)
 		case "restrictedNamespace":
 			sp.RestrictedNamespace = &(o.RestrictedNamespace)
 		case "restrictedNetworks":
 			sp.RestrictedNetworks = &(o.RestrictedNetworks)
 		case "restrictedPermissions":
 			sp.RestrictedPermissions = &(o.RestrictedPermissions)
+		case "targetID":
+			sp.TargetID = &(o.TargetID)
 		case "targetNamespace":
 			sp.TargetNamespace = &(o.TargetNamespace)
 		}
@@ -257,6 +276,9 @@ func (o *Authz) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Permissions != nil {
 		o.Permissions = *so.Permissions
 	}
+	if so.PolicyRulesList != nil {
+		o.PolicyRulesList = *so.PolicyRulesList
+	}
 	if so.RestrictedNamespace != nil {
 		o.RestrictedNamespace = *so.RestrictedNamespace
 	}
@@ -265,6 +287,9 @@ func (o *Authz) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.RestrictedPermissions != nil {
 		o.RestrictedPermissions = *so.RestrictedPermissions
+	}
+	if so.TargetID != nil {
+		o.TargetID = *so.TargetID
 	}
 	if so.TargetNamespace != nil {
 		o.TargetNamespace = *so.TargetNamespace
@@ -303,6 +328,16 @@ func (o *Authz) Validate() error {
 
 	if err := elemental.ValidateRequiredExternal("claims", o.Claims); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	for _, sub := range o.PolicyRulesList {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if err := elemental.ValidateRequiredString("targetNamespace", o.TargetNamespace); err != nil {
@@ -351,12 +386,16 @@ func (o *Authz) ValueForAttribute(name string) interface{} {
 		return o.Error
 	case "permissions":
 		return o.Permissions
+	case "policyRulesList":
+		return o.PolicyRulesList
 	case "restrictedNamespace":
 		return o.RestrictedNamespace
 	case "restrictedNetworks":
 		return o.RestrictedNetworks
 	case "restrictedPermissions":
 		return o.RestrictedPermissions
+	case "targetID":
+		return o.TargetID
 	case "targetNamespace":
 		return o.TargetNamespace
 	}
@@ -406,6 +445,21 @@ ignored and this attribute will contain all the permission for the given claims.
 		SubType:  "map[string]map[string]bool",
 		Type:     "external",
 	},
+	"PolicyRulesList": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyRulesList",
+		Description: `Contains the raw resolved and unfiltered PolicyRuleList. It will be empty unless
+the query parameter ` + "`" + `forwardpolicyrules=true` + "`" + ` is set.
+Note that this contains the straight rules that matched the user claims in the
+target namespace. It can contain rules that are filtered out in later stage
+because it applies to children namespace or because the rule only applies to a
+certain source network, or because the token contains restrictions. Unless you
+really know why you need it, you mostly don't.`,
+		Exposed: true,
+		Name:    "policyRulesList",
+		SubType: "policyrule",
+		Type:    "refList",
+	},
 	"RestrictedNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RestrictedNamespace",
@@ -432,10 +486,18 @@ ignored and this attribute will contain all the permission for the given claims.
 		SubType:        "string",
 		Type:           "list",
 	},
+	"TargetID": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetID",
+		Description:    `The ID of the object to check permission for.`,
+		Exposed:        true,
+		Name:           "targetID",
+		Type:           "string",
+	},
 	"TargetNamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
-		Description:    `description.`,
+		Description:    `The namespace where to check permission from.`,
 		Exposed:        true,
 		Name:           "targetNamespace",
 		Required:       true,
@@ -485,6 +547,21 @@ ignored and this attribute will contain all the permission for the given claims.
 		SubType:  "map[string]map[string]bool",
 		Type:     "external",
 	},
+	"policyruleslist": {
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyRulesList",
+		Description: `Contains the raw resolved and unfiltered PolicyRuleList. It will be empty unless
+the query parameter ` + "`" + `forwardpolicyrules=true` + "`" + ` is set.
+Note that this contains the straight rules that matched the user claims in the
+target namespace. It can contain rules that are filtered out in later stage
+because it applies to children namespace or because the rule only applies to a
+certain source network, or because the token contains restrictions. Unless you
+really know why you need it, you mostly don't.`,
+		Exposed: true,
+		Name:    "policyRulesList",
+		SubType: "policyrule",
+		Type:    "refList",
+	},
 	"restrictednamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "RestrictedNamespace",
@@ -511,10 +588,18 @@ ignored and this attribute will contain all the permission for the given claims.
 		SubType:        "string",
 		Type:           "list",
 	},
+	"targetid": {
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetID",
+		Description:    `The ID of the object to check permission for.`,
+		Exposed:        true,
+		Name:           "targetID",
+		Type:           "string",
+	},
 	"targetnamespace": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
-		Description:    `description.`,
+		Description:    `The namespace where to check permission from.`,
 		Exposed:        true,
 		Name:           "targetNamespace",
 		Required:       true,
@@ -598,6 +683,15 @@ type SparseAuthz struct {
 	// ignored and this attribute will contain all the permission for the given claims.
 	Permissions *map[string]map[string]bool `json:"permissions,omitempty" msgpack:"permissions,omitempty" bson:"-" mapstructure:"permissions,omitempty"`
 
+	// Contains the raw resolved and unfiltered PolicyRuleList. It will be empty unless
+	// the query parameter `forwardpolicyrules=true` is set.
+	// Note that this contains the straight rules that matched the user claims in the
+	// target namespace. It can contain rules that are filtered out in later stage
+	// because it applies to children namespace or because the rule only applies to a
+	// certain source network, or because the token contains restrictions. Unless you
+	// really know why you need it, you mostly don't.
+	PolicyRulesList *PolicyRulesList `json:"policyRulesList,omitempty" msgpack:"policyRulesList,omitempty" bson:"-" mapstructure:"policyRulesList,omitempty"`
+
 	// Sets the namespace restrictions that should apply.
 	RestrictedNamespace *string `json:"restrictedNamespace,omitempty" msgpack:"restrictedNamespace,omitempty" bson:"-" mapstructure:"restrictedNamespace,omitempty"`
 
@@ -607,7 +701,10 @@ type SparseAuthz struct {
 	// Sets the permissions restrictions that should apply.
 	RestrictedPermissions *[]string `json:"restrictedPermissions,omitempty" msgpack:"restrictedPermissions,omitempty" bson:"-" mapstructure:"restrictedPermissions,omitempty"`
 
-	// description.
+	// The ID of the object to check permission for.
+	TargetID *string `json:"targetID,omitempty" msgpack:"targetID,omitempty" bson:"-" mapstructure:"targetID,omitempty"`
+
+	// The namespace where to check permission from.
 	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -686,6 +783,9 @@ func (o *SparseAuthz) ToPlain() elemental.PlainIdentifiable {
 	if o.Permissions != nil {
 		out.Permissions = *o.Permissions
 	}
+	if o.PolicyRulesList != nil {
+		out.PolicyRulesList = *o.PolicyRulesList
+	}
 	if o.RestrictedNamespace != nil {
 		out.RestrictedNamespace = *o.RestrictedNamespace
 	}
@@ -694,6 +794,9 @@ func (o *SparseAuthz) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.RestrictedPermissions != nil {
 		out.RestrictedPermissions = *o.RestrictedPermissions
+	}
+	if o.TargetID != nil {
+		out.TargetID = *o.TargetID
 	}
 	if o.TargetNamespace != nil {
 		out.TargetNamespace = *o.TargetNamespace

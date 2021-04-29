@@ -25,9 +25,21 @@ model:
   - '@prismabase'
   - '@timeable'
 
+# Indexes
+indexes:
+- - namespace
+  - vpcid
+  - parameters
+- - key
+
 # Attributes
 attributes:
   v1:
+  - name: key
+    description: Internal unique key for a resource to guarantee no overlaps at write.
+    type: string
+    stored: true
+
   - name: parameters
     description: Cloud network ruleset data.
     type: ref

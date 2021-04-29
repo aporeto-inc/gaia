@@ -43,6 +43,16 @@ attributes:
     - AWS
     omit_empty: true
 
+  - name: imageIDs
+    description: |-
+      A list of imageIDs that endpoints can be filtered with. Applies only to
+      resourceType Endpoint.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    omit_empty: true
+
   - name: objectIDs
     description: |-
       The exact object that the search applies. If ObjectIDs are defined, the rest of
@@ -51,6 +61,22 @@ attributes:
     type: list
     exposed: true
     subtype: string
+    stored: true
+    omit_empty: true
+
+  - name: productInfoType
+    description: Restricts the query on only endpoints with the given productInfoType.
+    type: string
+    exposed: true
+    stored: true
+    omit_empty: true
+
+  - name: productInfoValue
+    description: |-
+      Restricts the query to only endpoints with the provided productInfoValue. Does
+      not apply to other resource types.
+    type: string
+    exposed: true
     stored: true
     omit_empty: true
 

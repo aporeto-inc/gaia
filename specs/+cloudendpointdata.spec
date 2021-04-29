@@ -56,6 +56,53 @@ attributes:
     exposed: true
     stored: true
 
+  - name: hasPublicIP
+    description: Indicates if the endpoint has a public IP address.
+    type: boolean
+    exposed: true
+    stored: true
+
+  - name: imageID
+    description: |-
+      The imageID of running in the endpoint. Available for instances and
+      potentially other 3rd parties. This can be the AMI ID in AWS or corresponding
+      instance imageID in other clouds.
+    type: string
+    exposed: true
+    stored: true
+    omit_empty: true
+
+  - name: productInfo
+    description: Product related metadata associated with this endpoint.
+    type: refList
+    exposed: true
+    subtype: cloudendpointdataproductinfo
+    stored: true
+    omit_empty: true
+    extensions:
+      refMode: pointer
+
+  - name: serviceName
+    description: Identifies the name of the service for service endpoints.
+    type: string
+    exposed: true
+    stored: true
+    omit_empty: true
+
+  - name: serviceType
+    description: |-
+      Identifies the service type that this endpoint represents (example Gateway Load
+      Balancer).
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Interface
+    - Gateway
+    - GatewayLoadBalancer
+    - NotApplicable
+    default_value: NotApplicable
+
   - name: type
     description: Type of the endpoint.
     type: enum

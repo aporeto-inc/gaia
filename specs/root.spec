@@ -156,6 +156,11 @@ relations:
 - rest_name: authz
   create:
     description: Verifies if a request should be accepted.
+    parameters:
+      entries:
+      - name: forwardpolicyrules
+        description: If set, return the raw resolved PolicyRulesList.
+        type: boolean
 
 - rest_name: automation
   get:
