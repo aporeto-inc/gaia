@@ -9502,7 +9502,6 @@ Provides the parameters for an effective network permissions query.
 
 ```json
 {
-  "destinationProtocol": -1,
   "excludeEnterpriseIPs": false,
   "includeUnreachable": false,
   "name": "the name",
@@ -9585,24 +9584,6 @@ Type: `string`
 
 The destination IP of a trace route request. Might not always be an endpoint.
 
-##### `destinationPorts`
-
-Type: `_portlist`
-
-The destination port or ports that should be used for the trace route command.
-
-##### `destinationProtocol` [`max_value=255.000000`]
-
-Type: `integer`
-
-The destination protocol that should be used for the trace route commands.
-
-Default value:
-
-```json
--1
-```
-
 ##### `destinationSelector`
 
 Type: [`cloudnetworkqueryfilter`](#cloudnetworkqueryfilter)
@@ -9646,6 +9627,15 @@ Contains the list of normalized tags of the entities.
 Type: `boolean`
 
 Defines if the object is protected.
+
+##### `protocolPorts`
+
+Type: `[]string`
+
+Represents the ports and protocols this policy applies to. Protocol/ports are
+defined as tcp/80, udp/22. For protocols that do not have ports, the port
+designation
+is not allowed.
 
 ##### `sourceIP`
 

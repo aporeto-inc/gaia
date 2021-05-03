@@ -1328,10 +1328,6 @@ func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 		return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' and 'sourceSelector' cannot be empty at the same time")
 	}
 
-	if len(q.DestinationPorts) > 0 && q.DestinationProtocol == 0 {
-		return makeValidationError("Entity CloudNetworkQuery", "'destinationRotocol' cannot be empty when 'destinationPorts' are defined")
-	}
-
 	emptyDestinationSelector := IsCloudNetworkQueryFilterEmpty(q.DestinationSelector)
 
 	if q.DestinationIP != "" && !emptyDestinationSelector {
