@@ -345,15 +345,7 @@ func (o *CNSSearch) Validate() error {
 		}
 	}
 
-	if err := elemental.ValidateRequiredInt("endAbsolute", o.EndAbsolute); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("query", o.Query); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredInt("startAbsolute", o.StartAbsolute); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -460,7 +452,6 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Absolute end time of search, in UNIX time.`,
 		Exposed:        true,
 		Name:           "endAbsolute",
-		Required:       true,
 		Type:           "integer",
 	},
 	"Limit": {
@@ -519,7 +510,6 @@ var CNSSearchAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Absolute start time of search, in UNIX time.`,
 		Exposed:        true,
 		Name:           "startAbsolute",
-		Required:       true,
 		Type:           "integer",
 	},
 	"TimeRange": {
@@ -567,7 +557,6 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Absolute end time of search, in UNIX time.`,
 		Exposed:        true,
 		Name:           "endAbsolute",
-		Required:       true,
 		Type:           "integer",
 	},
 	"limit": {
@@ -626,7 +615,6 @@ var CNSSearchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Absolute start time of search, in UNIX time.`,
 		Exposed:        true,
 		Name:           "startAbsolute",
-		Required:       true,
 		Type:           "integer",
 	},
 	"timerange": {
