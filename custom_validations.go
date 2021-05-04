@@ -161,6 +161,22 @@ func ValidateIPAddress(attribute string, network string) error {
 	return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be an IP address", attribute))
 }
 
+// ValidateIPAddressList validates that this is a valid list IP addresses.
+func ValidateIPAddressList(attribute string, ips []string) error {
+
+	if len(ips) == 0 {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be valid list of IP addresses", attribute))
+	}
+
+	for _, ip := range ips {
+		if err := ValidateIPAddress(attribute, ip); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ValidateOptionalIPAddress validates that this is a valid IP address (not a CIDR) if it not empty.
 func ValidateOptionalIPAddress(attribute string, network string) error {
 
@@ -169,6 +185,16 @@ func ValidateOptionalIPAddress(attribute string, network string) error {
 	}
 
 	return ValidateIPAddress(attribute, network)
+}
+
+// ValidateOptionalIPAddressList validates that this is a valid IP address (not a CIDR) if it not empty.
+func ValidateOptionalIPAddressList(attribute string, ips []string) error {
+
+	if len(ips) == 0 {
+		return nil
+	}
+
+	return ValidateIPAddressList(attribute, ips)
 }
 
 // ValidateOptionalCIDR validates an optional CIDR. It can be empty.
@@ -341,6 +367,12 @@ func ValidateServiceEntity(service *Service) error {
 
 		if service.PublicApplicationPort == service.ExposedPort {
 			errs = errs.Append(makeValidationError("publicApplicationPort", "Public port cannot be the same as the exposed port"))
+		}
+	}
+
+	if service.ProxyProtocolEnabled {
+		if len(service.ProxyProtocolSubnets) == 0 {
+			errs = errs.Append(makeValidationError("proxyProtocolSubnets", "When proxyProtocolEnabled is true, you must set at least one proxyProtocolSubnets"))
 		}
 	}
 

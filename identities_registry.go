@@ -142,34 +142,34 @@ var (
 		"quotapolicy": QuotaPolicyIdentity,
 		"recipe":      RecipeIdentity,
 
-		"remoteprocessor":        RemoteProcessorIdentity,
-		"renderedpolicy":         RenderedPolicyIdentity,
-		"rendertemplate":         RenderTemplateIdentity,
-		"report":                 ReportIdentity,
-		"reportsquery":           ReportsQueryIdentity,
-		"revocation":             RevocationIdentity,
-		"role":                   RoleIdentity,
-		"root":                   RootIdentity,
-		"samlprovider":           SAMLProviderIdentity,
-		"sandbox":                SandboxIdentity,
-		"search":                 SearchIdentity,
-		"service":                ServiceIdentity,
-		"servicedependency":      ServiceDependencyIdentity,
-		"servicetoken":           ServiceTokenIdentity,
-		"squalltag":              SquallTagIdentity,
-		"sshauthority":           SSHAuthorityIdentity,
-		"sshauthorizationpolicy": SSHAuthorizationPolicyIdentity,
-		"sshcertificate":         SSHCertificateIdentity,
-		"sshidentity":            SSHIdentityIdentity,
-		"statsinfo":              StatsInfoIdentity,
-		"statsquery":             StatsQueryIdentity,
-		"suggestedpolicy":        SuggestedPolicyIdentity,
-		"tag":                    TagIdentity,
-		"taginject":              TagInjectIdentity,
-		"tagprefix":              TagPrefixIdentity,
-		"tagvalue":               TagValueIdentity,
-		"tenant":                 TenantIdentity,
-		"textindex":              TextIndexIdentity,
+		"remoteprocessor":         RemoteProcessorIdentity,
+		"renderedpolicy":          RenderedPolicyIdentity,
+		"rendertemplate":          RenderTemplateIdentity,
+		"report":                  ReportIdentity,
+		"reportsquery":            ReportsQueryIdentity,
+		"revocation":              RevocationIdentity,
+		"role":                    RoleIdentity,
+		"root":                    RootIdentity,
+		"samlprovider":            SAMLProviderIdentity,
+		"sandbox":                 SandboxIdentity,
+		"search":                  SearchIdentity,
+		"service":                 ServiceIdentity,
+		"servicedependencypolicy": ServiceDependencyPolicyIdentity,
+		"servicetoken":            ServiceTokenIdentity,
+		"squalltag":               SquallTagIdentity,
+		"sshauthority":            SSHAuthorityIdentity,
+		"sshauthorizationpolicy":  SSHAuthorizationPolicyIdentity,
+		"sshcertificate":          SSHCertificateIdentity,
+		"sshidentity":             SSHIdentityIdentity,
+		"statsinfo":               StatsInfoIdentity,
+		"statsquery":              StatsQueryIdentity,
+		"suggestedpolicy":         SuggestedPolicyIdentity,
+		"tag":                     TagIdentity,
+		"taginject":               TagInjectIdentity,
+		"tagprefix":               TagPrefixIdentity,
+		"tagvalue":                TagValueIdentity,
+		"tenant":                  TenantIdentity,
+		"textindex":               TextIndexIdentity,
 
 		"token":            TokenIdentity,
 		"tokenscopepolicy": TokenScopePolicyIdentity,
@@ -324,34 +324,34 @@ var (
 		"quotapolicies": QuotaPolicyIdentity,
 		"recipes":       RecipeIdentity,
 
-		"remoteprocessors":         RemoteProcessorIdentity,
-		"renderedpolicies":         RenderedPolicyIdentity,
-		"rendertemplates":          RenderTemplateIdentity,
-		"reports":                  ReportIdentity,
-		"reportsqueries":           ReportsQueryIdentity,
-		"revocations":              RevocationIdentity,
-		"roles":                    RoleIdentity,
-		"root":                     RootIdentity,
-		"samlproviders":            SAMLProviderIdentity,
-		"sandboxes":                SandboxIdentity,
-		"search":                   SearchIdentity,
-		"services":                 ServiceIdentity,
-		"servicedependencies":      ServiceDependencyIdentity,
-		"servicetoken":             ServiceTokenIdentity,
-		"squalltags":               SquallTagIdentity,
-		"sshauthorities":           SSHAuthorityIdentity,
-		"sshauthorizationpolicies": SSHAuthorizationPolicyIdentity,
-		"sshcertificates":          SSHCertificateIdentity,
-		"sshidentities":            SSHIdentityIdentity,
-		"statsinfo":                StatsInfoIdentity,
-		"statsqueries":             StatsQueryIdentity,
-		"suggestedpolicies":        SuggestedPolicyIdentity,
-		"tags":                     TagIdentity,
-		"taginjects":               TagInjectIdentity,
-		"tagprefixes":              TagPrefixIdentity,
-		"tagvalues":                TagValueIdentity,
-		"tenants":                  TenantIdentity,
-		"textindexes":              TextIndexIdentity,
+		"remoteprocessors":          RemoteProcessorIdentity,
+		"renderedpolicies":          RenderedPolicyIdentity,
+		"rendertemplates":           RenderTemplateIdentity,
+		"reports":                   ReportIdentity,
+		"reportsqueries":            ReportsQueryIdentity,
+		"revocations":               RevocationIdentity,
+		"roles":                     RoleIdentity,
+		"root":                      RootIdentity,
+		"samlproviders":             SAMLProviderIdentity,
+		"sandboxes":                 SandboxIdentity,
+		"search":                    SearchIdentity,
+		"services":                  ServiceIdentity,
+		"servicedependencypolicies": ServiceDependencyPolicyIdentity,
+		"servicetoken":              ServiceTokenIdentity,
+		"squalltags":                SquallTagIdentity,
+		"sshauthorities":            SSHAuthorityIdentity,
+		"sshauthorizationpolicies":  SSHAuthorizationPolicyIdentity,
+		"sshcertificates":           SSHCertificateIdentity,
+		"sshidentities":             SSHIdentityIdentity,
+		"statsinfo":                 StatsInfoIdentity,
+		"statsqueries":              StatsQueryIdentity,
+		"suggestedpolicies":         SuggestedPolicyIdentity,
+		"tags":                      TagIdentity,
+		"taginjects":                TagInjectIdentity,
+		"tagprefixes":               TagPrefixIdentity,
+		"tagvalues":                 TagValueIdentity,
+		"tenants":                   TenantIdentity,
+		"textindexes":               TextIndexIdentity,
 
 		"tokens":             TokenIdentity,
 		"tokenscopepolicies": TokenScopePolicyIdentity,
@@ -453,8 +453,8 @@ var (
 		"rtpl":            RenderTemplateIdentity,
 		"rq":              ReportsQueryIdentity,
 		"srv":             ServiceIdentity,
-		"srvdep":          ServiceDependencyIdentity,
-		"srvdeps":         ServiceDependencyIdentity,
+		"srvdep":          ServiceDependencyPolicyIdentity,
+		"srvdeps":         ServiceDependencyPolicyIdentity,
 		"sshpol":          SSHAuthorizationPolicyIdentity,
 		"sshpols":         SSHAuthorizationPolicyIdentity,
 		"si":              StatsInfoIdentity,
@@ -1077,7 +1077,7 @@ var (
 			{"namespace", "allAPITags"},
 			{"namespace"},
 			{"namespace", "archived"},
-			{"namespace", "allServiceTags"},
+			{"namespace", "allProcessingUnitsTags"},
 			{"namespace", "normalizedTags"},
 			{"namespace", "disabled"},
 			{"namespace", "name"},
@@ -1085,12 +1085,12 @@ var (
 			{"disabled"},
 			{"createIdempotencyKey"},
 			{"archived"},
-			{"allServiceTags"},
+			{"allProcessingUnitsTags"},
 			{"allAPITags"},
 		},
-		"servicedependency": nil,
-		"servicetoken":      nil,
-		"squalltag":         nil,
+		"servicedependencypolicy": nil,
+		"servicetoken":            nil,
+		"squalltag":               nil,
 		"sshauthority": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"namespace", "name"},
@@ -1451,8 +1451,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewSearch()
 	case ServiceIdentity:
 		return NewService()
-	case ServiceDependencyIdentity:
-		return NewServiceDependency()
+	case ServiceDependencyPolicyIdentity:
+		return NewServiceDependencyPolicy()
 	case ServiceTokenIdentity:
 		return NewServiceToken()
 	case SquallTagIdentity:
@@ -1772,8 +1772,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseSearch()
 	case ServiceIdentity:
 		return NewSparseService()
-	case ServiceDependencyIdentity:
-		return NewSparseServiceDependency()
+	case ServiceDependencyPolicyIdentity:
+		return NewSparseServiceDependencyPolicy()
 	case ServiceTokenIdentity:
 		return NewSparseServiceToken()
 	case SquallTagIdentity:
@@ -2103,8 +2103,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &SearchesList{}
 	case ServiceIdentity:
 		return &ServicesList{}
-	case ServiceDependencyIdentity:
-		return &ServiceDependenciesList{}
+	case ServiceDependencyPolicyIdentity:
+		return &ServiceDependencyPoliciesList{}
 	case ServiceTokenIdentity:
 		return &ServiceTokensList{}
 	case SquallTagIdentity:
@@ -2424,8 +2424,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseSearchesList{}
 	case ServiceIdentity:
 		return &SparseServicesList{}
-	case ServiceDependencyIdentity:
-		return &SparseServiceDependenciesList{}
+	case ServiceDependencyPolicyIdentity:
+		return &SparseServiceDependencyPoliciesList{}
 	case ServiceTokenIdentity:
 		return &SparseServiceTokensList{}
 	case SquallTagIdentity:
@@ -2635,7 +2635,7 @@ func AllIdentities() []elemental.Identity {
 		SandboxIdentity,
 		SearchIdentity,
 		ServiceIdentity,
-		ServiceDependencyIdentity,
+		ServiceDependencyPolicyIdentity,
 		ServiceTokenIdentity,
 		SquallTagIdentity,
 		SSHAuthorityIdentity,
@@ -3059,7 +3059,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"srv",
 		}
-	case ServiceDependencyIdentity:
+	case ServiceDependencyPolicyIdentity:
 		return []string{
 			"srvdep",
 			"srvdeps",

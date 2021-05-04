@@ -954,9 +954,9 @@ relations:
   create:
     description: Creates a new service.
 
-- rest_name: servicedependency
+- rest_name: servicedependencypolicy
   get:
-    description: Retrieves the list of service dependencies.
+    description: Retrieves the list of service dependency policies.
     global_parameters:
     - $filtering
     - $propagatable

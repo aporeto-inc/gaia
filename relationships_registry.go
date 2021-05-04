@@ -4045,9 +4045,9 @@ func init() {
 					},
 				},
 			},
-			"service":           {},
-			"servicedependency": {},
-			"vulnerability":     {},
+			"service":                 {},
+			"servicedependencypolicy": {},
+			"vulnerability":           {},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"fileaccesspolicy": {},
@@ -4104,9 +4104,9 @@ func init() {
 					},
 				},
 			},
-			"service":           {},
-			"servicedependency": {},
-			"vulnerability":     {},
+			"service":                 {},
+			"servicedependencypolicy": {},
+			"vulnerability":           {},
 		},
 	}
 
@@ -4739,7 +4739,7 @@ func init() {
 					},
 				},
 			},
-			"servicedependency": {},
+			"servicedependencypolicy": {},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"infrastructurepolicy": {
@@ -4799,11 +4799,11 @@ func init() {
 					},
 				},
 			},
-			"servicedependency": {},
+			"servicedependencypolicy": {},
 		},
 	}
 
-	relationshipsRegistry[ServiceDependencyIdentity] = &elemental.Relationship{
+	relationshipsRegistry[ServiceDependencyPolicyIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
