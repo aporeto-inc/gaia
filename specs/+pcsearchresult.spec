@@ -11,7 +11,7 @@ model:
 attributes:
   v1:
   - name: internalEdges
-    description: The edges of the map.
+    description: The edges of the map connecting internal endpoints.
     type: refMap
     exposed: true
     subtype: cloudgraphedge
@@ -46,7 +46,7 @@ attributes:
       refMode: pointer
 
   - name: publicEdges
-    description: The edges of the map.
+    description: The edges of the map connecting public endpoints.
     type: refMap
     exposed: true
     subtype: cloudgraphedge
