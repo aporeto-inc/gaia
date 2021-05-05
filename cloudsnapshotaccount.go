@@ -103,9 +103,6 @@ type CloudSnapshotAccount struct {
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
-	// The customer name of the tenant.
-	CustomerName string `json:"customerName" msgpack:"customerName" bson:"-" mapstructure:"customerName,omitempty"`
-
 	// The name of the account.
 	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
@@ -323,7 +320,6 @@ func (o *CloudSnapshotAccount) ToSparse(fields ...string) elemental.SparseIdenti
 			AssociatedTags:       &o.AssociatedTags,
 			CloudType:            &o.CloudType,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
-			CustomerName:         &o.CustomerName,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
@@ -343,8 +339,6 @@ func (o *CloudSnapshotAccount) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.CloudType = &(o.CloudType)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
-		case "customerName":
-			sp.CustomerName = &(o.CustomerName)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -379,9 +373,6 @@ func (o *CloudSnapshotAccount) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
-	}
-	if so.CustomerName != nil {
-		o.CustomerName = *so.CustomerName
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -438,10 +429,6 @@ func (o *CloudSnapshotAccount) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("customerName", o.CustomerName); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -484,8 +471,6 @@ func (o *CloudSnapshotAccount) ValueForAttribute(name string) interface{} {
 		return o.CloudType
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
-	case "customerName":
-		return o.CustomerName
 	case "name":
 		return o.Name
 	case "namespace":
@@ -549,15 +534,6 @@ var CloudSnapshotAccountAttributesMap = map[string]elemental.AttributeSpecificat
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		Type:           "string",
-	},
-	"CustomerName": {
-		AllowedChoices: []string{},
-		ConvertedName:  "CustomerName",
-		Description:    `The customer name of the tenant.`,
-		Exposed:        true,
-		Name:           "customerName",
-		Required:       true,
 		Type:           "string",
 	},
 	"Name": {
@@ -676,15 +652,6 @@ var CloudSnapshotAccountLowerCaseAttributesMap = map[string]elemental.AttributeS
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		Type:           "string",
-	},
-	"customername": {
-		AllowedChoices: []string{},
-		ConvertedName:  "CustomerName",
-		Description:    `The customer name of the tenant.`,
-		Exposed:        true,
-		Name:           "customerName",
-		Required:       true,
 		Type:           "string",
 	},
 	"name": {
@@ -830,9 +797,6 @@ type SparseCloudSnapshotAccount struct {
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
-	// The customer name of the tenant.
-	CustomerName *string `json:"customerName,omitempty" msgpack:"customerName,omitempty" bson:"-" mapstructure:"customerName,omitempty"`
-
 	// The name of the account.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
@@ -967,9 +931,6 @@ func (o *SparseCloudSnapshotAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
-	}
-	if o.CustomerName != nil {
-		out.CustomerName = *o.CustomerName
 	}
 	if o.Name != nil {
 		out.Name = *o.Name

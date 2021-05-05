@@ -8481,6 +8481,33 @@ Represents the Street Address field.
 
 ## pcn/infrastructure
 
+### CloudAccountCleaner
+
+Used for garbage collection of all objects in an account that have not been
+updated since the provided time.
+
+#### Example
+
+```json
+{
+  "date": "2021-03-16 09:30:04 -0700 PDT"
+}
+```
+
+#### Relations
+
+##### `POST /cloudaccountcleaner`
+
+Initiates a cloud account clean up process for all stale objects.
+
+#### Attributes
+
+##### `date` [`required`]
+
+Type: `time`
+
+The date after which objects must be cleaned.
+
 ### CloudAddress
 
 Managed the list of IP addresses associated with an interface.
@@ -10724,7 +10751,6 @@ namespace.
 ```json
 {
   "cloudType": "AWS",
-  "customerName": "customer-name",
   "name": "account-foo",
   "protected": false
 }
@@ -10761,12 +10787,6 @@ Default value:
 ```json
 "AWS"
 ```
-
-##### `customerName` [`required`]
-
-Type: `string`
-
-The customer name of the tenant.
 
 ##### `name`
 
