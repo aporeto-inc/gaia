@@ -39,7 +39,9 @@ attributes:
     required: true
     allowed_choices:
     - Accept
+    - Fail
     - Reject
+    - Resolve
     example_value: Accept
     omit_empty: true
     extensions:
@@ -97,6 +99,28 @@ attributes:
     omit_empty: true
     extensions:
       bson_name: f
+
+  - name: resolvedCNAMEs
+    description: CNAME aliases.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    omit_empty: true
+    extensions:
+      bson_name: k
+
+  - name: resolvedIPs
+    description: resolved IP addresses.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    omit_empty: true
+    extensions:
+      bson_name: l
+    validations:
+    - $optionalcidroriplist
 
   - name: resolvedName
     description: name used for DNS resolution.
