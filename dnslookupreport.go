@@ -16,8 +16,14 @@ const (
 	// DNSLookupReportActionAccept represents the value Accept.
 	DNSLookupReportActionAccept DNSLookupReportActionValue = "Accept"
 
+	// DNSLookupReportActionFail represents the value Fail.
+	DNSLookupReportActionFail DNSLookupReportActionValue = "Fail"
+
 	// DNSLookupReportActionReject represents the value Reject.
 	DNSLookupReportActionReject DNSLookupReportActionValue = "Reject"
+
+	// DNSLookupReportActionResolve represents the value Resolve.
+	DNSLookupReportActionResolve DNSLookupReportActionValue = "Resolve"
 )
 
 // DNSLookupReportIdentity represents the Identity of the object.
@@ -122,6 +128,12 @@ type DNSLookupReport struct {
 	// failure.
 	Reason string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"f,omitempty" mapstructure:"reason,omitempty"`
 
+	// CNAME aliases.
+	ResolvedCNAMEs []string `json:"resolvedCNAMEs,omitempty" msgpack:"resolvedCNAMEs,omitempty" bson:"k,omitempty" mapstructure:"resolvedCNAMEs,omitempty"`
+
+	// resolved IP addresses.
+	ResolvedIPs []string `json:"resolvedIPs,omitempty" msgpack:"resolvedIPs,omitempty" bson:"l,omitempty" mapstructure:"resolvedIPs,omitempty"`
+
 	// name used for DNS resolution.
 	ResolvedName string `json:"resolvedName,omitempty" msgpack:"resolvedName,omitempty" bson:"g,omitempty" mapstructure:"resolvedName,omitempty"`
 
@@ -148,8 +160,10 @@ type DNSLookupReport struct {
 func NewDNSLookupReport() *DNSLookupReport {
 
 	return &DNSLookupReport{
-		ModelVersion:  1,
-		MigrationsLog: map[string]string{},
+		ModelVersion:   1,
+		ResolvedIPs:    []string{},
+		ResolvedCNAMEs: []string{},
+		MigrationsLog:  map[string]string{},
 	}
 }
 
@@ -192,6 +206,8 @@ func (o *DNSLookupReport) GetBSON() (interface{}, error) {
 	s.ProcessingUnitID = o.ProcessingUnitID
 	s.ProcessingUnitNamespace = o.ProcessingUnitNamespace
 	s.Reason = o.Reason
+	s.ResolvedCNAMEs = o.ResolvedCNAMEs
+	s.ResolvedIPs = o.ResolvedIPs
 	s.ResolvedName = o.ResolvedName
 	s.SourceIP = o.SourceIP
 	s.Timestamp = o.Timestamp
@@ -224,6 +240,8 @@ func (o *DNSLookupReport) SetBSON(raw bson.Raw) error {
 	o.ProcessingUnitID = s.ProcessingUnitID
 	o.ProcessingUnitNamespace = s.ProcessingUnitNamespace
 	o.Reason = s.Reason
+	o.ResolvedCNAMEs = s.ResolvedCNAMEs
+	o.ResolvedIPs = s.ResolvedIPs
 	o.ResolvedName = s.ResolvedName
 	o.SourceIP = s.SourceIP
 	o.Timestamp = s.Timestamp
@@ -332,6 +350,8 @@ func (o *DNSLookupReport) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			ProcessingUnitID:        &o.ProcessingUnitID,
 			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
 			Reason:                  &o.Reason,
+			ResolvedCNAMEs:          &o.ResolvedCNAMEs,
+			ResolvedIPs:             &o.ResolvedIPs,
 			ResolvedName:            &o.ResolvedName,
 			SourceIP:                &o.SourceIP,
 			Timestamp:               &o.Timestamp,
@@ -362,6 +382,10 @@ func (o *DNSLookupReport) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
 		case "reason":
 			sp.Reason = &(o.Reason)
+		case "resolvedCNAMEs":
+			sp.ResolvedCNAMEs = &(o.ResolvedCNAMEs)
+		case "resolvedIPs":
+			sp.ResolvedIPs = &(o.ResolvedIPs)
 		case "resolvedName":
 			sp.ResolvedName = &(o.ResolvedName)
 		case "sourceIP":
@@ -413,6 +437,12 @@ func (o *DNSLookupReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Reason != nil {
 		o.Reason = *so.Reason
+	}
+	if so.ResolvedCNAMEs != nil {
+		o.ResolvedCNAMEs = *so.ResolvedCNAMEs
+	}
+	if so.ResolvedIPs != nil {
+		o.ResolvedIPs = *so.ResolvedIPs
 	}
 	if so.ResolvedName != nil {
 		o.ResolvedName = *so.ResolvedName
@@ -468,7 +498,7 @@ func (o *DNSLookupReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Accept", "Reject"}, false); err != nil {
+	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Accept", "Fail", "Reject", "Resolve"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -478,6 +508,10 @@ func (o *DNSLookupReport) Validate() error {
 
 	if err := elemental.ValidateRequiredString("processingUnitID", o.ProcessingUnitID); err != nil {
 		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := ValidateOptionalCIDRorIPList("resolvedIPs", o.ResolvedIPs); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("resolvedName", o.ResolvedName); err != nil {
@@ -549,6 +583,10 @@ func (o *DNSLookupReport) ValueForAttribute(name string) interface{} {
 		return o.ProcessingUnitNamespace
 	case "reason":
 		return o.Reason
+	case "resolvedCNAMEs":
+		return o.ResolvedCNAMEs
+	case "resolvedIPs":
+		return o.ResolvedIPs
 	case "resolvedName":
 		return o.ResolvedName
 	case "sourceIP":
@@ -584,7 +622,7 @@ var DNSLookupReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Action": {
-		AllowedChoices: []string{"Accept", "Reject"},
+		AllowedChoices: []string{"Accept", "Fail", "Reject", "Resolve"},
 		BSONFieldName:  "a",
 		ConvertedName:  "Action",
 		Description:    `Action of the DNS request.`,
@@ -675,6 +713,28 @@ failure.`,
 		Name:    "reason",
 		Stored:  true,
 		Type:    "string",
+	},
+	"ResolvedCNAMEs": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "k",
+		ConvertedName:  "ResolvedCNAMEs",
+		Description:    `CNAME aliases.`,
+		Exposed:        true,
+		Name:           "resolvedCNAMEs",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
+	"ResolvedIPs": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "l",
+		ConvertedName:  "ResolvedIPs",
+		Description:    `resolved IP addresses.`,
+		Exposed:        true,
+		Name:           "resolvedIPs",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"ResolvedName": {
 		AllowedChoices: []string{},
@@ -768,7 +828,7 @@ var DNSLookupReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "string",
 	},
 	"action": {
-		AllowedChoices: []string{"Accept", "Reject"},
+		AllowedChoices: []string{"Accept", "Fail", "Reject", "Resolve"},
 		BSONFieldName:  "a",
 		ConvertedName:  "Action",
 		Description:    `Action of the DNS request.`,
@@ -859,6 +919,28 @@ failure.`,
 		Name:    "reason",
 		Stored:  true,
 		Type:    "string",
+	},
+	"resolvedcnames": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "k",
+		ConvertedName:  "ResolvedCNAMEs",
+		Description:    `CNAME aliases.`,
+		Exposed:        true,
+		Name:           "resolvedCNAMEs",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
+	"resolvedips": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "l",
+		ConvertedName:  "ResolvedIPs",
+		Description:    `resolved IP addresses.`,
+		Exposed:        true,
+		Name:           "resolvedIPs",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"resolvedname": {
 		AllowedChoices: []string{},
@@ -1027,6 +1109,12 @@ type SparseDNSLookupReport struct {
 	// failure.
 	Reason *string `json:"reason,omitempty" msgpack:"reason,omitempty" bson:"f,omitempty" mapstructure:"reason,omitempty"`
 
+	// CNAME aliases.
+	ResolvedCNAMEs *[]string `json:"resolvedCNAMEs,omitempty" msgpack:"resolvedCNAMEs,omitempty" bson:"k,omitempty" mapstructure:"resolvedCNAMEs,omitempty"`
+
+	// resolved IP addresses.
+	ResolvedIPs *[]string `json:"resolvedIPs,omitempty" msgpack:"resolvedIPs,omitempty" bson:"l,omitempty" mapstructure:"resolvedIPs,omitempty"`
+
 	// name used for DNS resolution.
 	ResolvedName *string `json:"resolvedName,omitempty" msgpack:"resolvedName,omitempty" bson:"g,omitempty" mapstructure:"resolvedName,omitempty"`
 
@@ -1116,6 +1204,12 @@ func (o *SparseDNSLookupReport) GetBSON() (interface{}, error) {
 	if o.Reason != nil {
 		s.Reason = o.Reason
 	}
+	if o.ResolvedCNAMEs != nil {
+		s.ResolvedCNAMEs = o.ResolvedCNAMEs
+	}
+	if o.ResolvedIPs != nil {
+		s.ResolvedIPs = o.ResolvedIPs
+	}
 	if o.ResolvedName != nil {
 		s.ResolvedName = o.ResolvedName
 	}
@@ -1177,6 +1271,12 @@ func (o *SparseDNSLookupReport) SetBSON(raw bson.Raw) error {
 	if s.Reason != nil {
 		o.Reason = s.Reason
 	}
+	if s.ResolvedCNAMEs != nil {
+		o.ResolvedCNAMEs = s.ResolvedCNAMEs
+	}
+	if s.ResolvedIPs != nil {
+		o.ResolvedIPs = s.ResolvedIPs
+	}
 	if s.ResolvedName != nil {
 		o.ResolvedName = s.ResolvedName
 	}
@@ -1235,6 +1335,12 @@ func (o *SparseDNSLookupReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Reason != nil {
 		out.Reason = *o.Reason
+	}
+	if o.ResolvedCNAMEs != nil {
+		out.ResolvedCNAMEs = *o.ResolvedCNAMEs
+	}
+	if o.ResolvedIPs != nil {
+		out.ResolvedIPs = *o.ResolvedIPs
 	}
 	if o.ResolvedName != nil {
 		out.ResolvedName = *o.ResolvedName
@@ -1356,6 +1462,8 @@ type mongoAttributesDNSLookupReport struct {
 	ProcessingUnitID        string                     `bson:"d,omitempty"`
 	ProcessingUnitNamespace string                     `bson:"e,omitempty"`
 	Reason                  string                     `bson:"f,omitempty"`
+	ResolvedCNAMEs          []string                   `bson:"k,omitempty"`
+	ResolvedIPs             []string                   `bson:"l,omitempty"`
 	ResolvedName            string                     `bson:"g,omitempty"`
 	SourceIP                string                     `bson:"h,omitempty"`
 	Timestamp               time.Time                  `bson:"i,omitempty"`
@@ -1373,6 +1481,8 @@ type mongoAttributesSparseDNSLookupReport struct {
 	ProcessingUnitID        *string                     `bson:"d,omitempty"`
 	ProcessingUnitNamespace *string                     `bson:"e,omitempty"`
 	Reason                  *string                     `bson:"f,omitempty"`
+	ResolvedCNAMEs          *[]string                   `bson:"k,omitempty"`
+	ResolvedIPs             *[]string                   `bson:"l,omitempty"`
 	ResolvedName            *string                     `bson:"g,omitempty"`
 	SourceIP                *string                     `bson:"h,omitempty"`
 	Timestamp               *time.Time                  `bson:"i,omitempty"`
