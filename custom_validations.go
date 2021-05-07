@@ -1296,8 +1296,8 @@ func ValidateCloudTagsExpression(attribute string, tags [][]string) error {
 
 // ValidatePortsList validates a list of port ranges.
 func ValidatePortsList(attribute string, ports []*portutils.PortsRange) error {
+
 	for _, port := range ports {
-		fmt.Println(port.FromPort)
 		if port.FromPort >= 65536 || port.FromPort < -1 {
 			return makeValidationError(attribute, fmt.Sprintf("invalid 'fromPort' %d", port.FromPort))
 		}
