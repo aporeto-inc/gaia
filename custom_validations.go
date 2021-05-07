@@ -1314,7 +1314,6 @@ func ValidatePortsList(attribute string, ports []*portutils.PortsRange) error {
 // ValidateCloudNetworkQueryEntity validates the CloudNetworkQuery entity and all the attribute relations.
 func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 
-	fmt.Println("validating", q.DestinationPorts, q.DestinationProtocol)
 	if q.SourceIP != "" && q.DestinationIP != "" {
 		return makeValidationError("Entity CloudNetworkQuery", fmt.Sprintf("'sourceIP:' %s and 'destinationIP:' %s cannot be set at the same time", q.SourceIP, q.DestinationIP))
 	}
