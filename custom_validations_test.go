@@ -4195,47 +4195,6 @@ func TestValidateCloudGraphQuery(t *testing.T) {
 			},
 			true,
 		},
-		{
-			"destination ports without protocol",
-			args{
-				"invalid",
-				&CloudNetworkQuery{
-					DestinationIP: "0.0.0.0/0",
-					SourceSelector: &CloudNetworkQueryFilter{
-						ResourceType: CloudNetworkQueryFilterResourceTypeInterface,
-						ServiceTypes: []string{"a=b"},
-					},
-					DestinationPorts: []*portutils.PortsRange{
-						{
-							FromPort: 100,
-							ToPort:   200,
-						},
-					},
-				},
-			},
-			true,
-		},
-		{
-			"destination ports without wrong protocol",
-			args{
-				"invalid",
-				&CloudNetworkQuery{
-					DestinationIP: "0.0.0.0/0",
-					SourceSelector: &CloudNetworkQueryFilter{
-						ResourceType: CloudNetworkQueryFilterResourceTypeInterface,
-						ServiceTypes: []string{"a=b"},
-					},
-					DestinationProtocol: 10,
-					DestinationPorts: []*portutils.PortsRange{
-						{
-							FromPort: 100,
-							ToPort:   200,
-						},
-					},
-				},
-			},
-			true,
-		},
 	}
 
 	for _, tt := range tests {
