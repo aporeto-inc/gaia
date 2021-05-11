@@ -9,6 +9,7 @@ var (
 		"account":                   AccountIdentity,
 		"accountcheck":              AccountCheckIdentity,
 		"activate":                  ActivateIdentity,
+		"activatefeature":           ActivateFeatureIdentity,
 		"activity":                  ActivityIdentity,
 		"alarm":                     AlarmIdentity,
 		"apiauthorizationpolicy":    APIAuthorizationPolicyIdentity,
@@ -192,6 +193,7 @@ var (
 		"accounts":                    AccountIdentity,
 		"accountchecks":               AccountCheckIdentity,
 		"activate":                    ActivateIdentity,
+		"activatefeatures":            ActivateFeatureIdentity,
 		"activities":                  ActivityIdentity,
 		"alarms":                      AlarmIdentity,
 		"apiauthorizationpolicies":    APIAuthorizationPolicyIdentity,
@@ -489,8 +491,9 @@ var (
 			{"activationToken"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
-		"accountcheck": nil,
-		"activate":     nil,
+		"accountcheck":    nil,
+		"activate":        nil,
+		"activatefeature": nil,
 		"activity": {
 			{"namespace", "date"},
 			{"namespace", "operation"},
@@ -1203,6 +1206,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAccountCheck()
 	case ActivateIdentity:
 		return NewActivate()
+	case ActivateFeatureIdentity:
+		return NewActivateFeature()
 	case ActivityIdentity:
 		return NewActivity()
 	case AlarmIdentity:
@@ -1528,6 +1533,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAccountCheck()
 	case ActivateIdentity:
 		return NewSparseActivate()
+	case ActivateFeatureIdentity:
+		return NewSparseActivateFeature()
 	case ActivityIdentity:
 		return NewSparseActivity()
 	case AlarmIdentity:
@@ -1861,6 +1868,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AccountChecksList{}
 	case ActivateIdentity:
 		return &ActivatesList{}
+	case ActivateFeatureIdentity:
+		return &ActivateFeaturesList{}
 	case ActivityIdentity:
 		return &ActivitiesList{}
 	case AlarmIdentity:
@@ -2184,6 +2193,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAccountChecksList{}
 	case ActivateIdentity:
 		return &SparseActivatesList{}
+	case ActivateFeatureIdentity:
+		return &SparseActivateFeaturesList{}
 	case ActivityIdentity:
 		return &SparseActivitiesList{}
 	case AlarmIdentity:
@@ -2521,6 +2532,7 @@ func AllIdentities() []elemental.Identity {
 		AccountIdentity,
 		AccountCheckIdentity,
 		ActivateIdentity,
+		ActivateFeatureIdentity,
 		ActivityIdentity,
 		AlarmIdentity,
 		APIAuthorizationPolicyIdentity,
@@ -2692,6 +2704,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case AccountCheckIdentity:
 		return []string{}
 	case ActivateIdentity:
+		return []string{}
+	case ActivateFeatureIdentity:
 		return []string{}
 	case ActivityIdentity:
 		return []string{}

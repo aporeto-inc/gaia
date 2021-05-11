@@ -7080,6 +7080,32 @@ List of all values.
 
 ## core/tenant
 
+### ActivateFeature
+
+Activates one or multiple features per tenant's Prisma ID.
+
+#### Example
+
+```json
+{
+  "feature": "NetworkSecurity"
+}
+```
+
+#### Relations
+
+##### `POST /activatefeatures`
+
+Enable one or more features for the specified tenant Prisma ID.
+
+#### Attributes
+
+##### `feature` [`required`]
+
+Type: `enum(NetworkEffectivePermission | NetworkSecurity)`
+
+Name of the feature to activate for the specified tenant.
+
 ### Tenant
 
 Can be used to create a tenant's namespace and API authorization policy to grant

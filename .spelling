@@ -6,6 +6,7 @@ AccessibleNamespace
 AccessReport
 ack
 AccessReports
+ActivateFeature
 AuditReports
 ACL-based
 acls
@@ -517,16 +518,16 @@ CloudManagedNetwork
 CloudSnapshotAccount
 CloudEndpointDataProductInfo
 CloudAccountCleaner
-productInfoType 
+productInfoType
 productInfoValue
 imageID
 imageIDs
 resourceType
 
-nativeID 
+nativeID
 ObjectIDs
-ruleset 
-VPCs 
+ruleset
+VPCs
 VPC
 prisma
 infrastructure

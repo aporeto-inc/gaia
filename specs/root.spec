@@ -65,6 +65,10 @@ relations:
         type: string
         example_value: xxx-xxx-xxx-xxx
 
+- rest_name: activatefeature
+  create:
+    description: Enable one or more features for the specified tenant Prisma ID.
+
 - rest_name: activity
   get:
     description: Retrieves the list of activity logs.

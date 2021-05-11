@@ -220,6 +220,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[ActivateFeatureIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
 	relationshipsRegistry[ActivityIdentity] = &elemental.Relationship{
 		Retrieve: map[string]*elemental.RelationshipInfo{
 			"root": {},
