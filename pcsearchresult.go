@@ -80,11 +80,24 @@ func (o PCSearchResultsList) Version() int {
 
 // PCSearchResult represents the model of a pcsearchresult
 type PCSearchResult struct {
+	// The edges of the map connecting internal endpoints.
+	InternalEdges map[string]*CloudGraphEdge `json:"internalEdges" msgpack:"internalEdges" bson:"-" mapstructure:"internalEdges,omitempty"`
+
 	// The payload of the search result.
 	Items *ReportsQuery `json:"items" msgpack:"items" bson:"-" mapstructure:"items,omitempty"`
 
 	// The pagination token for next page.
 	NextPageToken string `json:"nextPageToken" msgpack:"nextPageToken" bson:"-" mapstructure:"nextPageToken,omitempty"`
+
+	// Refers to the nodes of the map.
+	Nodes map[string]*CloudGraphNode `json:"nodes" msgpack:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
+
+	// The edges of the map connecting public endpoints.
+	PublicEdges map[string]*CloudGraphEdge `json:"publicEdges" msgpack:"publicEdges" bson:"-" mapstructure:"publicEdges,omitempty"`
+
+	// The set of destinations that have been discovered based on the query and their
+	// associated verdicts.
+	SourceDestinationMap map[string]map[string]*CloudNetworkQueryDestination `json:"sourceDestinationMap" msgpack:"sourceDestinationMap" bson:"-" mapstructure:"sourceDestinationMap,omitempty"`
 
 	// The total number of result items.
 	TotalRows int `json:"totalRows" msgpack:"totalRows" bson:"-" mapstructure:"totalRows,omitempty"`
@@ -96,8 +109,12 @@ type PCSearchResult struct {
 func NewPCSearchResult() *PCSearchResult {
 
 	return &PCSearchResult{
-		ModelVersion: 1,
-		Items:        NewReportsQuery(),
+		ModelVersion:         1,
+		InternalEdges:        map[string]*CloudGraphEdge{},
+		Items:                NewReportsQuery(),
+		Nodes:                map[string]*CloudGraphNode{},
+		PublicEdges:          map[string]*CloudGraphEdge{},
+		SourceDestinationMap: map[string]map[string]*CloudNetworkQueryDestination{},
 	}
 }
 
@@ -183,19 +200,31 @@ func (o *PCSearchResult) ToSparse(fields ...string) elemental.SparseIdentifiable
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePCSearchResult{
-			Items:         o.Items,
-			NextPageToken: &o.NextPageToken,
-			TotalRows:     &o.TotalRows,
+			InternalEdges:        &o.InternalEdges,
+			Items:                o.Items,
+			NextPageToken:        &o.NextPageToken,
+			Nodes:                &o.Nodes,
+			PublicEdges:          &o.PublicEdges,
+			SourceDestinationMap: &o.SourceDestinationMap,
+			TotalRows:            &o.TotalRows,
 		}
 	}
 
 	sp := &SparsePCSearchResult{}
 	for _, f := range fields {
 		switch f {
+		case "internalEdges":
+			sp.InternalEdges = &(o.InternalEdges)
 		case "items":
 			sp.Items = o.Items
 		case "nextPageToken":
 			sp.NextPageToken = &(o.NextPageToken)
+		case "nodes":
+			sp.Nodes = &(o.Nodes)
+		case "publicEdges":
+			sp.PublicEdges = &(o.PublicEdges)
+		case "sourceDestinationMap":
+			sp.SourceDestinationMap = &(o.SourceDestinationMap)
 		case "totalRows":
 			sp.TotalRows = &(o.TotalRows)
 		}
@@ -211,11 +240,23 @@ func (o *PCSearchResult) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparsePCSearchResult)
+	if so.InternalEdges != nil {
+		o.InternalEdges = *so.InternalEdges
+	}
 	if so.Items != nil {
 		o.Items = so.Items
 	}
 	if so.NextPageToken != nil {
 		o.NextPageToken = *so.NextPageToken
+	}
+	if so.Nodes != nil {
+		o.Nodes = *so.Nodes
+	}
+	if so.PublicEdges != nil {
+		o.PublicEdges = *so.PublicEdges
+	}
+	if so.SourceDestinationMap != nil {
+		o.SourceDestinationMap = *so.SourceDestinationMap
 	}
 	if so.TotalRows != nil {
 		o.TotalRows = *so.TotalRows
@@ -252,9 +293,39 @@ func (o *PCSearchResult) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	for _, sub := range o.InternalEdges {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
 	if o.Items != nil {
 		elemental.ResetDefaultForZeroValues(o.Items)
 		if err := o.Items.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	for _, sub := range o.Nodes {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
+	}
+
+	for _, sub := range o.PublicEdges {
+		if sub == nil {
+			continue
+		}
+		elemental.ResetDefaultForZeroValues(sub)
+		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
@@ -293,10 +364,18 @@ func (*PCSearchResult) AttributeSpecifications() map[string]elemental.AttributeS
 func (o *PCSearchResult) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "internalEdges":
+		return o.InternalEdges
 	case "items":
 		return o.Items
 	case "nextPageToken":
 		return o.NextPageToken
+	case "nodes":
+		return o.Nodes
+	case "publicEdges":
+		return o.PublicEdges
+	case "sourceDestinationMap":
+		return o.SourceDestinationMap
 	case "totalRows":
 		return o.TotalRows
 	}
@@ -306,6 +385,17 @@ func (o *PCSearchResult) ValueForAttribute(name string) interface{} {
 
 // PCSearchResultAttributesMap represents the map of attribute for PCSearchResult.
 var PCSearchResultAttributesMap = map[string]elemental.AttributeSpecification{
+	"InternalEdges": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "InternalEdges",
+		Description:    `The edges of the map connecting internal endpoints.`,
+		Exposed:        true,
+		Name:           "internalEdges",
+		ReadOnly:       true,
+		SubType:        "cloudgraphedge",
+		Type:           "refMap",
+	},
 	"Items": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Items",
@@ -325,6 +415,40 @@ var PCSearchResultAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"Nodes": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Nodes",
+		Description:    `Refers to the nodes of the map.`,
+		Exposed:        true,
+		Name:           "nodes",
+		ReadOnly:       true,
+		SubType:        "cloudgraphnode",
+		Type:           "refMap",
+	},
+	"PublicEdges": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "PublicEdges",
+		Description:    `The edges of the map connecting public endpoints.`,
+		Exposed:        true,
+		Name:           "publicEdges",
+		ReadOnly:       true,
+		SubType:        "cloudgraphedge",
+		Type:           "refMap",
+	},
+	"SourceDestinationMap": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "SourceDestinationMap",
+		Description: `The set of destinations that have been discovered based on the query and their
+associated verdicts.`,
+		Exposed:  true,
+		Name:     "sourceDestinationMap",
+		ReadOnly: true,
+		SubType:  "map[string]map[string]cloudnetworkquerydestination",
+		Type:     "external",
+	},
 	"TotalRows": {
 		AllowedChoices: []string{},
 		ConvertedName:  "TotalRows",
@@ -338,6 +462,17 @@ var PCSearchResultAttributesMap = map[string]elemental.AttributeSpecification{
 
 // PCSearchResultLowerCaseAttributesMap represents the map of attribute for PCSearchResult.
 var PCSearchResultLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"internaledges": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "InternalEdges",
+		Description:    `The edges of the map connecting internal endpoints.`,
+		Exposed:        true,
+		Name:           "internalEdges",
+		ReadOnly:       true,
+		SubType:        "cloudgraphedge",
+		Type:           "refMap",
+	},
 	"items": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Items",
@@ -356,6 +491,40 @@ var PCSearchResultLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Name:           "nextPageToken",
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"nodes": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Nodes",
+		Description:    `Refers to the nodes of the map.`,
+		Exposed:        true,
+		Name:           "nodes",
+		ReadOnly:       true,
+		SubType:        "cloudgraphnode",
+		Type:           "refMap",
+	},
+	"publicedges": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "PublicEdges",
+		Description:    `The edges of the map connecting public endpoints.`,
+		Exposed:        true,
+		Name:           "publicEdges",
+		ReadOnly:       true,
+		SubType:        "cloudgraphedge",
+		Type:           "refMap",
+	},
+	"sourcedestinationmap": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "SourceDestinationMap",
+		Description: `The set of destinations that have been discovered based on the query and their
+associated verdicts.`,
+		Exposed:  true,
+		Name:     "sourceDestinationMap",
+		ReadOnly: true,
+		SubType:  "map[string]map[string]cloudnetworkquerydestination",
+		Type:     "external",
 	},
 	"totalrows": {
 		AllowedChoices: []string{},
@@ -431,11 +600,24 @@ func (o SparsePCSearchResultsList) Version() int {
 
 // SparsePCSearchResult represents the sparse version of a pcsearchresult.
 type SparsePCSearchResult struct {
+	// The edges of the map connecting internal endpoints.
+	InternalEdges *map[string]*CloudGraphEdge `json:"internalEdges,omitempty" msgpack:"internalEdges,omitempty" bson:"-" mapstructure:"internalEdges,omitempty"`
+
 	// The payload of the search result.
 	Items *ReportsQuery `json:"items,omitempty" msgpack:"items,omitempty" bson:"-" mapstructure:"items,omitempty"`
 
 	// The pagination token for next page.
 	NextPageToken *string `json:"nextPageToken,omitempty" msgpack:"nextPageToken,omitempty" bson:"-" mapstructure:"nextPageToken,omitempty"`
+
+	// Refers to the nodes of the map.
+	Nodes *map[string]*CloudGraphNode `json:"nodes,omitempty" msgpack:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
+
+	// The edges of the map connecting public endpoints.
+	PublicEdges *map[string]*CloudGraphEdge `json:"publicEdges,omitempty" msgpack:"publicEdges,omitempty" bson:"-" mapstructure:"publicEdges,omitempty"`
+
+	// The set of destinations that have been discovered based on the query and their
+	// associated verdicts.
+	SourceDestinationMap *map[string]map[string]*CloudNetworkQueryDestination `json:"sourceDestinationMap,omitempty" msgpack:"sourceDestinationMap,omitempty" bson:"-" mapstructure:"sourceDestinationMap,omitempty"`
 
 	// The total number of result items.
 	TotalRows *int `json:"totalRows,omitempty" msgpack:"totalRows,omitempty" bson:"-" mapstructure:"totalRows,omitempty"`
@@ -504,11 +686,23 @@ func (o *SparsePCSearchResult) Version() int {
 func (o *SparsePCSearchResult) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPCSearchResult()
+	if o.InternalEdges != nil {
+		out.InternalEdges = *o.InternalEdges
+	}
 	if o.Items != nil {
 		out.Items = o.Items
 	}
 	if o.NextPageToken != nil {
 		out.NextPageToken = *o.NextPageToken
+	}
+	if o.Nodes != nil {
+		out.Nodes = *o.Nodes
+	}
+	if o.PublicEdges != nil {
+		out.PublicEdges = *o.PublicEdges
+	}
+	if o.SourceDestinationMap != nil {
+		out.SourceDestinationMap = *o.SourceDestinationMap
 	}
 	if o.TotalRows != nil {
 		out.TotalRows = *o.TotalRows

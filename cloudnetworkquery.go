@@ -6,7 +6,6 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/portutils"
 )
 
 // CloudNetworkQueryTypeValue represents the possible values for attribute "type".
@@ -115,12 +114,6 @@ type CloudNetworkQuery struct {
 	// The destination IP of a trace route request. Might not always be an endpoint.
 	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"destinationip" mapstructure:"destinationIP,omitempty"`
 
-	// The destination port or ports that should be used for the trace route command.
-	DestinationPorts []*portutils.PortsRange `json:"destinationPorts" msgpack:"destinationPorts" bson:"destinationports" mapstructure:"destinationPorts,omitempty"`
-
-	// The destination protocol that should be used for the trace route commands.
-	DestinationProtocol int `json:"destinationProtocol" msgpack:"destinationProtocol" bson:"destinationprotocol" mapstructure:"destinationProtocol,omitempty"`
-
 	// A filter for selecting destinations for the query.
 	DestinationSelector *CloudNetworkQueryFilter `json:"destinationSelector" msgpack:"destinationSelector" bson:"destinationselector" mapstructure:"destinationSelector,omitempty"`
 
@@ -146,6 +139,12 @@ type CloudNetworkQuery struct {
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Represents the ports and protocols this policy applies to. Protocol/ports are
+	// defined as tcp/80, udp/22. For protocols that do not have ports, the port
+	// designation
+	// is not allowed.
+	ProtocolPorts []string `json:"protocolPorts" msgpack:"protocolPorts" bson:"protocolports" mapstructure:"protocolPorts,omitempty"`
 
 	// The RQL string for this query as a reference.
 	RawRQL string `json:"-" msgpack:"-" bson:"rawrql" mapstructure:"-,omitempty"`
@@ -178,12 +177,11 @@ func NewCloudNetworkQuery() *CloudNetworkQuery {
 	return &CloudNetworkQuery{
 		ModelVersion:        1,
 		Annotations:         map[string][]string{},
-		DestinationPorts:    []*portutils.PortsRange{},
-		AssociatedTags:      []string{},
-		DestinationProtocol: -1,
 		DestinationSelector: NewCloudNetworkQueryFilter(),
-		MigrationsLog:       map[string]string{},
+		AssociatedTags:      []string{},
 		NormalizedTags:      []string{},
+		ProtocolPorts:       []string{},
+		MigrationsLog:       map[string]string{},
 		SourceSelector:      NewCloudNetworkQueryFilter(),
 		Type:                CloudNetworkQueryTypeSummary,
 	}
@@ -225,8 +223,6 @@ func (o *CloudNetworkQuery) GetBSON() (interface{}, error) {
 	s.CreateIdempotencyKey = o.CreateIdempotencyKey
 	s.Description = o.Description
 	s.DestinationIP = o.DestinationIP
-	s.DestinationPorts = o.DestinationPorts
-	s.DestinationProtocol = o.DestinationProtocol
 	s.DestinationSelector = o.DestinationSelector
 	s.ExcludeEnterpriseIPs = o.ExcludeEnterpriseIPs
 	s.IncludeUnreachable = o.IncludeUnreachable
@@ -235,6 +231,7 @@ func (o *CloudNetworkQuery) GetBSON() (interface{}, error) {
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
 	s.Protected = o.Protected
+	s.ProtocolPorts = o.ProtocolPorts
 	s.RawRQL = o.RawRQL
 	s.SourceIP = o.SourceIP
 	s.SourceSelector = o.SourceSelector
@@ -265,8 +262,6 @@ func (o *CloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	o.CreateIdempotencyKey = s.CreateIdempotencyKey
 	o.Description = s.Description
 	o.DestinationIP = s.DestinationIP
-	o.DestinationPorts = s.DestinationPorts
-	o.DestinationProtocol = s.DestinationProtocol
 	o.DestinationSelector = s.DestinationSelector
 	o.ExcludeEnterpriseIPs = s.ExcludeEnterpriseIPs
 	o.IncludeUnreachable = s.IncludeUnreachable
@@ -275,6 +270,7 @@ func (o *CloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
 	o.Protected = s.Protected
+	o.ProtocolPorts = s.ProtocolPorts
 	o.RawRQL = s.RawRQL
 	o.SourceIP = s.SourceIP
 	o.SourceSelector = s.SourceSelector
@@ -474,8 +470,6 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			Description:          &o.Description,
 			DestinationIP:        &o.DestinationIP,
-			DestinationPorts:     &o.DestinationPorts,
-			DestinationProtocol:  &o.DestinationProtocol,
 			DestinationSelector:  o.DestinationSelector,
 			ExcludeEnterpriseIPs: &o.ExcludeEnterpriseIPs,
 			IncludeUnreachable:   &o.IncludeUnreachable,
@@ -484,6 +478,7 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
 			Protected:            &o.Protected,
+			ProtocolPorts:        &o.ProtocolPorts,
 			RawRQL:               &o.RawRQL,
 			SourceIP:             &o.SourceIP,
 			SourceSelector:       o.SourceSelector,
@@ -509,10 +504,6 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			sp.Description = &(o.Description)
 		case "destinationIP":
 			sp.DestinationIP = &(o.DestinationIP)
-		case "destinationPorts":
-			sp.DestinationPorts = &(o.DestinationPorts)
-		case "destinationProtocol":
-			sp.DestinationProtocol = &(o.DestinationProtocol)
 		case "destinationSelector":
 			sp.DestinationSelector = o.DestinationSelector
 		case "excludeEnterpriseIPs":
@@ -529,6 +520,8 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "protocolPorts":
+			sp.ProtocolPorts = &(o.ProtocolPorts)
 		case "rawRQL":
 			sp.RawRQL = &(o.RawRQL)
 		case "sourceIP":
@@ -574,12 +567,6 @@ func (o *CloudNetworkQuery) Patch(sparse elemental.SparseIdentifiable) {
 	if so.DestinationIP != nil {
 		o.DestinationIP = *so.DestinationIP
 	}
-	if so.DestinationPorts != nil {
-		o.DestinationPorts = *so.DestinationPorts
-	}
-	if so.DestinationProtocol != nil {
-		o.DestinationProtocol = *so.DestinationProtocol
-	}
 	if so.DestinationSelector != nil {
 		o.DestinationSelector = so.DestinationSelector
 	}
@@ -603,6 +590,9 @@ func (o *CloudNetworkQuery) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
+	}
+	if so.ProtocolPorts != nil {
+		o.ProtocolPorts = *so.ProtocolPorts
 	}
 	if so.RawRQL != nil {
 		o.RawRQL = *so.RawRQL
@@ -669,14 +659,6 @@ func (o *CloudNetworkQuery) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidatePortsList("destinationPorts", o.DestinationPorts); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateMaximumInt("destinationProtocol", o.DestinationProtocol, int(255), false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if o.DestinationSelector != nil {
 		elemental.ResetDefaultForZeroValues(o.DestinationSelector)
 		if err := o.DestinationSelector.Validate(); err != nil {
@@ -689,6 +671,10 @@ func (o *CloudNetworkQuery) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateServicePorts("protocolPorts", o.ProtocolPorts); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -758,10 +744,6 @@ func (o *CloudNetworkQuery) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "destinationIP":
 		return o.DestinationIP
-	case "destinationPorts":
-		return o.DestinationPorts
-	case "destinationProtocol":
-		return o.DestinationProtocol
 	case "destinationSelector":
 		return o.DestinationSelector
 	case "excludeEnterpriseIPs":
@@ -778,6 +760,8 @@ func (o *CloudNetworkQuery) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "protected":
 		return o.Protected
+	case "protocolPorts":
+		return o.ProtocolPorts
 	case "rawRQL":
 		return o.RawRQL
 	case "sourceIP":
@@ -876,30 +860,6 @@ var CloudNetworkQueryAttributesMap = map[string]elemental.AttributeSpecification
 		Name:           "destinationIP",
 		Stored:         true,
 		Type:           "string",
-	},
-	"DestinationPorts": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "destinationports",
-		ConvertedName:  "DestinationPorts",
-		Description:    `The destination port or ports that should be used for the trace route command.`,
-		Exposed:        true,
-		Name:           "destinationPorts",
-		Stored:         true,
-		SubType:        "_portlist",
-		Type:           "external",
-	},
-	"DestinationProtocol": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "destinationprotocol",
-		ConvertedName:  "DestinationProtocol",
-		DefaultValue:   -1,
-		Description:    `The destination protocol that should be used for the trace route commands.`,
-		Exposed:        true,
-		MaxValue:       255,
-		MinValue:       -1,
-		Name:           "destinationProtocol",
-		Stored:         true,
-		Type:           "integer",
 	},
 	"DestinationSelector": {
 		AllowedChoices: []string{},
@@ -1006,6 +966,20 @@ ones.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"ProtocolPorts": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "protocolports",
+		ConvertedName:  "ProtocolPorts",
+		Description: `Represents the ports and protocols this policy applies to. Protocol/ports are
+defined as tcp/80, udp/22. For protocols that do not have ports, the port
+designation
+is not allowed.`,
+		Exposed: true,
+		Name:    "protocolPorts",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"RawRQL": {
 		AllowedChoices: []string{},
@@ -1171,30 +1145,6 @@ var CloudNetworkQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		Stored:         true,
 		Type:           "string",
 	},
-	"destinationports": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "destinationports",
-		ConvertedName:  "DestinationPorts",
-		Description:    `The destination port or ports that should be used for the trace route command.`,
-		Exposed:        true,
-		Name:           "destinationPorts",
-		Stored:         true,
-		SubType:        "_portlist",
-		Type:           "external",
-	},
-	"destinationprotocol": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "destinationprotocol",
-		ConvertedName:  "DestinationProtocol",
-		DefaultValue:   -1,
-		Description:    `The destination protocol that should be used for the trace route commands.`,
-		Exposed:        true,
-		MaxValue:       255,
-		MinValue:       -1,
-		Name:           "destinationProtocol",
-		Stored:         true,
-		Type:           "integer",
-	},
 	"destinationselector": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "destinationselector",
@@ -1300,6 +1250,20 @@ ones.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"protocolports": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "protocolports",
+		ConvertedName:  "ProtocolPorts",
+		Description: `Represents the ports and protocols this policy applies to. Protocol/ports are
+defined as tcp/80, udp/22. For protocols that do not have ports, the port
+designation
+is not allowed.`,
+		Exposed: true,
+		Name:    "protocolPorts",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"rawrql": {
 		AllowedChoices: []string{},
@@ -1468,12 +1432,6 @@ type SparseCloudNetworkQuery struct {
 	// The destination IP of a trace route request. Might not always be an endpoint.
 	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"destinationip,omitempty" mapstructure:"destinationIP,omitempty"`
 
-	// The destination port or ports that should be used for the trace route command.
-	DestinationPorts *[]*portutils.PortsRange `json:"destinationPorts,omitempty" msgpack:"destinationPorts,omitempty" bson:"destinationports,omitempty" mapstructure:"destinationPorts,omitempty"`
-
-	// The destination protocol that should be used for the trace route commands.
-	DestinationProtocol *int `json:"destinationProtocol,omitempty" msgpack:"destinationProtocol,omitempty" bson:"destinationprotocol,omitempty" mapstructure:"destinationProtocol,omitempty"`
-
 	// A filter for selecting destinations for the query.
 	DestinationSelector *CloudNetworkQueryFilter `json:"destinationSelector,omitempty" msgpack:"destinationSelector,omitempty" bson:"destinationselector,omitempty" mapstructure:"destinationSelector,omitempty"`
 
@@ -1499,6 +1457,12 @@ type SparseCloudNetworkQuery struct {
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+
+	// Represents the ports and protocols this policy applies to. Protocol/ports are
+	// defined as tcp/80, udp/22. For protocols that do not have ports, the port
+	// designation
+	// is not allowed.
+	ProtocolPorts *[]string `json:"protocolPorts,omitempty" msgpack:"protocolPorts,omitempty" bson:"protocolports,omitempty" mapstructure:"protocolPorts,omitempty"`
 
 	// The RQL string for this query as a reference.
 	RawRQL *string `json:"-" msgpack:"-" bson:"rawrql,omitempty" mapstructure:"-,omitempty"`
@@ -1583,12 +1547,6 @@ func (o *SparseCloudNetworkQuery) GetBSON() (interface{}, error) {
 	if o.DestinationIP != nil {
 		s.DestinationIP = o.DestinationIP
 	}
-	if o.DestinationPorts != nil {
-		s.DestinationPorts = o.DestinationPorts
-	}
-	if o.DestinationProtocol != nil {
-		s.DestinationProtocol = o.DestinationProtocol
-	}
 	if o.DestinationSelector != nil {
 		s.DestinationSelector = o.DestinationSelector
 	}
@@ -1612,6 +1570,9 @@ func (o *SparseCloudNetworkQuery) GetBSON() (interface{}, error) {
 	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
+	}
+	if o.ProtocolPorts != nil {
+		s.ProtocolPorts = o.ProtocolPorts
 	}
 	if o.RawRQL != nil {
 		s.RawRQL = o.RawRQL
@@ -1668,12 +1629,6 @@ func (o *SparseCloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	if s.DestinationIP != nil {
 		o.DestinationIP = s.DestinationIP
 	}
-	if s.DestinationPorts != nil {
-		o.DestinationPorts = s.DestinationPorts
-	}
-	if s.DestinationProtocol != nil {
-		o.DestinationProtocol = s.DestinationProtocol
-	}
 	if s.DestinationSelector != nil {
 		o.DestinationSelector = s.DestinationSelector
 	}
@@ -1697,6 +1652,9 @@ func (o *SparseCloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
+	}
+	if s.ProtocolPorts != nil {
+		o.ProtocolPorts = s.ProtocolPorts
 	}
 	if s.RawRQL != nil {
 		o.RawRQL = s.RawRQL
@@ -1751,12 +1709,6 @@ func (o *SparseCloudNetworkQuery) ToPlain() elemental.PlainIdentifiable {
 	if o.DestinationIP != nil {
 		out.DestinationIP = *o.DestinationIP
 	}
-	if o.DestinationPorts != nil {
-		out.DestinationPorts = *o.DestinationPorts
-	}
-	if o.DestinationProtocol != nil {
-		out.DestinationProtocol = *o.DestinationProtocol
-	}
 	if o.DestinationSelector != nil {
 		out.DestinationSelector = o.DestinationSelector
 	}
@@ -1780,6 +1732,9 @@ func (o *SparseCloudNetworkQuery) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.ProtocolPorts != nil {
+		out.ProtocolPorts = *o.ProtocolPorts
 	}
 	if o.RawRQL != nil {
 		out.RawRQL = *o.RawRQL
@@ -2029,8 +1984,6 @@ type mongoAttributesCloudNetworkQuery struct {
 	CreateIdempotencyKey string                     `bson:"createidempotencykey"`
 	Description          string                     `bson:"description"`
 	DestinationIP        string                     `bson:"destinationip"`
-	DestinationPorts     []*portutils.PortsRange    `bson:"destinationports"`
-	DestinationProtocol  int                        `bson:"destinationprotocol"`
 	DestinationSelector  *CloudNetworkQueryFilter   `bson:"destinationselector"`
 	ExcludeEnterpriseIPs bool                       `bson:"excludeenterpriseips"`
 	IncludeUnreachable   bool                       `bson:"includeunreachable"`
@@ -2039,6 +1992,7 @@ type mongoAttributesCloudNetworkQuery struct {
 	Namespace            string                     `bson:"namespace"`
 	NormalizedTags       []string                   `bson:"normalizedtags"`
 	Protected            bool                       `bson:"protected"`
+	ProtocolPorts        []string                   `bson:"protocolports"`
 	RawRQL               string                     `bson:"rawrql"`
 	SourceIP             string                     `bson:"sourceip"`
 	SourceSelector       *CloudNetworkQueryFilter   `bson:"sourceselector"`
@@ -2054,8 +2008,6 @@ type mongoAttributesSparseCloudNetworkQuery struct {
 	CreateIdempotencyKey *string                     `bson:"createidempotencykey,omitempty"`
 	Description          *string                     `bson:"description,omitempty"`
 	DestinationIP        *string                     `bson:"destinationip,omitempty"`
-	DestinationPorts     *[]*portutils.PortsRange    `bson:"destinationports,omitempty"`
-	DestinationProtocol  *int                        `bson:"destinationprotocol,omitempty"`
 	DestinationSelector  *CloudNetworkQueryFilter    `bson:"destinationselector,omitempty"`
 	ExcludeEnterpriseIPs *bool                       `bson:"excludeenterpriseips,omitempty"`
 	IncludeUnreachable   *bool                       `bson:"includeunreachable,omitempty"`
@@ -2064,6 +2016,7 @@ type mongoAttributesSparseCloudNetworkQuery struct {
 	Namespace            *string                     `bson:"namespace,omitempty"`
 	NormalizedTags       *[]string                   `bson:"normalizedtags,omitempty"`
 	Protected            *bool                       `bson:"protected,omitempty"`
+	ProtocolPorts        *[]string                   `bson:"protocolports,omitempty"`
 	RawRQL               *string                     `bson:"rawrql,omitempty"`
 	SourceIP             *string                     `bson:"sourceip,omitempty"`
 	SourceSelector       *CloudNetworkQueryFilter    `bson:"sourceselector,omitempty"`

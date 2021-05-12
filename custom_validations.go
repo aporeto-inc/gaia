@@ -1328,6 +1328,7 @@ func ValidateCloudTagsExpression(attribute string, tags [][]string) error {
 
 // ValidatePortsList validates a list of port ranges.
 func ValidatePortsList(attribute string, ports []*portutils.PortsRange) error {
+
 	for _, port := range ports {
 		if port.FromPort >= 65536 || port.FromPort < -1 {
 			return makeValidationError(attribute, fmt.Sprintf("invalid 'fromPort' %d", port.FromPort))
@@ -1357,10 +1358,6 @@ func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 
 	if q.SourceIP == "" && emptySourceSelector {
 		return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' and 'sourceSelector' cannot be empty at the same time")
-	}
-
-	if len(q.DestinationPorts) > 0 && q.DestinationProtocol == 0 {
-		return makeValidationError("Entity CloudNetworkQuery", "'destinationRotocol' cannot be empty when 'destinationPorts' are defined")
 	}
 
 	emptyDestinationSelector := IsCloudNetworkQueryFilterEmpty(q.DestinationSelector)

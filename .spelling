@@ -516,6 +516,7 @@ CloudVPCData
 CloudManagedNetwork
 CloudSnapshotAccount
 CloudEndpointDataProductInfo
+CloudAccountCleaner
 productInfoType
 productInfoValue
 imageID

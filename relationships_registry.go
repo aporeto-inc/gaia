@@ -694,6 +694,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[CloudAccountCleanerIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
 	relationshipsRegistry[CloudAlertIdentity] = &elemental.Relationship{
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": {},

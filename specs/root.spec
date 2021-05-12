@@ -190,6 +190,10 @@ relations:
   create:
     description: Performs a clause matching.
 
+- rest_name: cloudaccountcleaner
+  create:
+    description: Initiates a cloud account clean up process for all stale objects.
+
 - rest_name: cloudendpoint
   get:
     description: List of endpoints associated with the deployment.
