@@ -9122,7 +9122,7 @@ interface.
 
 ##### `attachmentType` [`required`]
 
-Type: `enum(Instance | LoadBalancer | Gateway | Service | TransitGatewayVPCAttachment | NetworkLoadBalancer | Lambda | GatewayLoadBalancer | GatewayLoadBalancerEndpoint | VPCEndpoint | APIGatewayManaged | EFA)`
+Type: `enum(Instance | LoadBalancer | Gateway | Service | TransitGatewayVPCAttachment | NetworkLoadBalancer | Lambda | GatewayLoadBalancer | GatewayLoadBalancerEndpoint | VPCEndpoint | APIGatewayManaged | EFA | UnsupportedService)`
 
 Attachment type describes where this interface is attached to (Instance, Load
 Balancer, Gateway, etc).

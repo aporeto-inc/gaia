@@ -1328,6 +1328,26 @@ func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 		return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' and 'sourceSelector' cannot be empty at the same time")
 	}
 
+	if q.SourceIP != "" {
+		isPrivate, err := IsAddressPrivate(q.SourceIP)
+		if err != nil {
+			return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' must be a valid IP address")
+		}
+		if isPrivate {
+			return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' must be a public IP address")
+		}
+	}
+
+	if q.DestinationIP != "" {
+		isPrivate, err := IsAddressPrivate(q.DestinationIP)
+		if err != nil {
+			return makeValidationError("Entity CloudNetworkQuery", "'destinationIP' must be a valid IP address")
+		}
+		if isPrivate {
+			return makeValidationError("Entity CloudNetworkQuery", "'destinationIP' must be a public IP address")
+		}
+	}
+
 	emptyDestinationSelector := IsCloudNetworkQueryFilterEmpty(q.DestinationSelector)
 
 	if q.DestinationIP != "" && !emptyDestinationSelector {
@@ -1407,4 +1427,36 @@ func ValidateCloudNetworkQueryFilter(attribute string, f *CloudNetworkQueryFilte
 	}
 
 	return nil
+}
+
+var privateIPSpace = []string{
+	"127.0.0.0/8",    // IPv4 loopback
+	"10.0.0.0/8",     // RFC1918
+	"172.16.0.0/12",  // RFC1918
+	"192.168.0.0/16", // RFC1918
+	"169.254.0.0/16", // RFC3927 link-local
+	"::1/128",        // IPv6 loopback
+	"fe80::/10",      // IPv6 link-local
+	"fc00::/7",       // IPv6 unique local addr
+}
+
+// IsAddressPrivate will check an address and return true if it is
+// part of the private RFC 1918 address spaces.
+func IsAddressPrivate(address string) (bool, error) {
+
+	network, err := ipNetFromString(address)
+	if err != nil {
+		return false, err
+	}
+
+	for _, s := range privateIPSpace {
+		// predefined space
+		_, subnet, _ := net.ParseCIDR(s) // nolint errcheck
+
+		if subnet.Contains(network.IP) {
+			return true, nil
+		}
+	}
+
+	return false, nil
 }

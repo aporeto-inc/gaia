@@ -45,6 +45,9 @@ const (
 	// CloudInterfaceDataAttachmentTypeTransitGatewayVPCAttachment represents the value TransitGatewayVPCAttachment.
 	CloudInterfaceDataAttachmentTypeTransitGatewayVPCAttachment CloudInterfaceDataAttachmentTypeValue = "TransitGatewayVPCAttachment"
 
+	// CloudInterfaceDataAttachmentTypeUnsupportedService represents the value UnsupportedService.
+	CloudInterfaceDataAttachmentTypeUnsupportedService CloudInterfaceDataAttachmentTypeValue = "UnsupportedService"
+
 	// CloudInterfaceDataAttachmentTypeVPCEndpoint represents the value VPCEndpoint.
 	CloudInterfaceDataAttachmentTypeVPCEndpoint CloudInterfaceDataAttachmentTypeValue = "VPCEndpoint"
 )
@@ -180,7 +183,7 @@ func (o *CloudInterfaceData) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("attachmentType", string(o.AttachmentType), []string{"Instance", "LoadBalancer", "Gateway", "Service", "TransitGatewayVPCAttachment", "NetworkLoadBalancer", "Lambda", "GatewayLoadBalancer", "GatewayLoadBalancerEndpoint", "VPCEndpoint", "APIGatewayManaged", "EFA"}, false); err != nil {
+	if err := elemental.ValidateStringInList("attachmentType", string(o.AttachmentType), []string{"Instance", "LoadBalancer", "Gateway", "Service", "TransitGatewayVPCAttachment", "NetworkLoadBalancer", "Lambda", "GatewayLoadBalancer", "GatewayLoadBalancerEndpoint", "VPCEndpoint", "APIGatewayManaged", "EFA", "UnsupportedService"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 

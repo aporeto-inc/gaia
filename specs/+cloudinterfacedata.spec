@@ -43,6 +43,7 @@ attributes:
     - VPCEndpoint
     - APIGatewayManaged
     - EFA
+    - UnsupportedService
     example_value: Instance
 
   - name: relatedObjectID
