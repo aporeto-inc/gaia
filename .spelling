@@ -298,7 +298,7 @@ SAMLProvider
 ScopesSupported
 searchable
 SerialNumber
-ServiceDependency
+ServiceDependencyPolicy
 ServiceToken
 sharded
 sharding
@@ -517,16 +517,16 @@ CloudManagedNetwork
 CloudSnapshotAccount
 CloudEndpointDataProductInfo
 CloudAccountCleaner
-productInfoType 
+productInfoType
 productInfoValue
 imageID
 imageIDs
 resourceType
 
-nativeID 
+nativeID
 ObjectIDs
-ruleset 
-VPCs 
+ruleset
+VPCs
 VPC
 prisma
 infrastructure

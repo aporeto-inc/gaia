@@ -9,43 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ServiceDependencyIdentity represents the Identity of the object.
-var ServiceDependencyIdentity = elemental.Identity{
-	Name:     "servicedependency",
-	Category: "servicedependencies",
+// ServiceDependencyPolicyIdentity represents the Identity of the object.
+var ServiceDependencyPolicyIdentity = elemental.Identity{
+	Name:     "servicedependencypolicy",
+	Category: "servicedependencypolicies",
 	Package:  "squall",
 	Private:  false,
 }
 
-// ServiceDependenciesList represents a list of ServiceDependencies
-type ServiceDependenciesList []*ServiceDependency
+// ServiceDependencyPoliciesList represents a list of ServiceDependencyPolicies
+type ServiceDependencyPoliciesList []*ServiceDependencyPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o ServiceDependenciesList) Identity() elemental.Identity {
+func (o ServiceDependencyPoliciesList) Identity() elemental.Identity {
 
-	return ServiceDependencyIdentity
+	return ServiceDependencyPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the ServiceDependenciesList.
-func (o ServiceDependenciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the ServiceDependencyPoliciesList.
+func (o ServiceDependencyPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(ServiceDependenciesList{}, o...)
+	copy := append(ServiceDependencyPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ServiceDependenciesList.
-func (o ServiceDependenciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the ServiceDependencyPoliciesList.
+func (o ServiceDependencyPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(ServiceDependenciesList{}, o...)
+	out := append(ServiceDependencyPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*ServiceDependency))
+		out = append(out, obj.(*ServiceDependencyPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ServiceDependenciesList) List() elemental.IdentifiablesList {
+func (o ServiceDependencyPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -56,33 +56,33 @@ func (o ServiceDependenciesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ServiceDependenciesList) DefaultOrder() []string {
+func (o ServiceDependencyPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the ServiceDependenciesList converted to SparseServiceDependenciesList.
+// ToSparse returns the ServiceDependencyPoliciesList converted to SparseServiceDependencyPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ServiceDependenciesList) ToSparse(fields ...string) elemental.Identifiables {
+func (o ServiceDependencyPoliciesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseServiceDependenciesList, len(o))
+	out := make(SparseServiceDependencyPoliciesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseServiceDependency)
+		out[i] = o[i].ToSparse(fields...).(*SparseServiceDependencyPolicy)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o ServiceDependenciesList) Version() int {
+func (o ServiceDependencyPoliciesList) Version() int {
 
 	return 1
 }
 
-// ServiceDependency represents the model of a servicedependency
-type ServiceDependency struct {
+// ServiceDependencyPolicy represents the model of a servicedependencypolicy
+type ServiceDependencyPolicy struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -151,10 +151,10 @@ type ServiceDependency struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewServiceDependency returns a new *ServiceDependency
-func NewServiceDependency() *ServiceDependency {
+// NewServiceDependencyPolicy returns a new *ServiceDependencyPolicy
+func NewServiceDependencyPolicy() *ServiceDependencyPolicy {
 
-	return &ServiceDependency{
+	return &ServiceDependencyPolicy{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
@@ -166,32 +166,32 @@ func NewServiceDependency() *ServiceDependency {
 }
 
 // Identity returns the Identity of the object.
-func (o *ServiceDependency) Identity() elemental.Identity {
+func (o *ServiceDependencyPolicy) Identity() elemental.Identity {
 
-	return ServiceDependencyIdentity
+	return ServiceDependencyPolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ServiceDependency) Identifier() string {
+func (o *ServiceDependencyPolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ServiceDependency) SetIdentifier(id string) {
+func (o *ServiceDependencyPolicy) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *ServiceDependency) GetBSON() (interface{}, error) {
+func (o *ServiceDependencyPolicy) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesServiceDependency{}
+	s := &mongoAttributesServiceDependencyPolicy{}
 
 	s.ActiveDuration = o.ActiveDuration
 	s.ActiveSchedule = o.ActiveSchedule
@@ -216,13 +216,13 @@ func (o *ServiceDependency) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *ServiceDependency) SetBSON(raw bson.Raw) error {
+func (o *ServiceDependencyPolicy) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesServiceDependency{}
+	s := &mongoAttributesServiceDependencyPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -249,19 +249,19 @@ func (o *ServiceDependency) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *ServiceDependency) Version() int {
+func (o *ServiceDependencyPolicy) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *ServiceDependency) BleveType() string {
+func (o *ServiceDependencyPolicy) BleveType() string {
 
-	return "servicedependency"
+	return "servicedependencypolicy"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *ServiceDependency) DefaultOrder() []string {
+func (o *ServiceDependencyPolicy) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -269,228 +269,230 @@ func (o *ServiceDependency) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *ServiceDependency) Doc() string {
+func (o *ServiceDependencyPolicy) Doc() string {
 
-	return `Allows you to define a service dependency where a set of processing units as defined
+	return `Allows you to define a service dependency policy where a set of processing units
+as
+defined
 by their tags require access to specific services.`
 }
 
-func (o *ServiceDependency) String() string {
+func (o *ServiceDependencyPolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *ServiceDependency) GetActiveDuration() string {
+func (o *ServiceDependencyPolicy) GetActiveDuration() string {
 
 	return o.ActiveDuration
 }
 
 // SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
-func (o *ServiceDependency) SetActiveDuration(activeDuration string) {
+func (o *ServiceDependencyPolicy) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = activeDuration
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *ServiceDependency) GetActiveSchedule() string {
+func (o *ServiceDependencyPolicy) GetActiveSchedule() string {
 
 	return o.ActiveSchedule
 }
 
 // SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
-func (o *ServiceDependency) SetActiveSchedule(activeSchedule string) {
+func (o *ServiceDependencyPolicy) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = activeSchedule
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *ServiceDependency) GetAnnotations() map[string][]string {
+func (o *ServiceDependencyPolicy) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *ServiceDependency) SetAnnotations(annotations map[string][]string) {
+func (o *ServiceDependencyPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *ServiceDependency) GetAssociatedTags() []string {
+func (o *ServiceDependencyPolicy) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *ServiceDependency) SetAssociatedTags(associatedTags []string) {
+func (o *ServiceDependencyPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *ServiceDependency) GetCreateIdempotencyKey() string {
+func (o *ServiceDependencyPolicy) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *ServiceDependency) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *ServiceDependencyPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *ServiceDependency) GetCreateTime() time.Time {
+func (o *ServiceDependencyPolicy) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *ServiceDependency) SetCreateTime(createTime time.Time) {
+func (o *ServiceDependencyPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *ServiceDependency) GetDescription() string {
+func (o *ServiceDependencyPolicy) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *ServiceDependency) SetDescription(description string) {
+func (o *ServiceDependencyPolicy) SetDescription(description string) {
 
 	o.Description = description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *ServiceDependency) GetDisabled() bool {
+func (o *ServiceDependencyPolicy) GetDisabled() bool {
 
 	return o.Disabled
 }
 
 // SetDisabled sets the property Disabled of the receiver using the given value.
-func (o *ServiceDependency) SetDisabled(disabled bool) {
+func (o *ServiceDependencyPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *ServiceDependency) GetFallback() bool {
+func (o *ServiceDependencyPolicy) GetFallback() bool {
 
 	return o.Fallback
 }
 
 // SetFallback sets the property Fallback of the receiver using the given value.
-func (o *ServiceDependency) SetFallback(fallback bool) {
+func (o *ServiceDependencyPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *ServiceDependency) GetMetadata() []string {
+func (o *ServiceDependencyPolicy) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *ServiceDependency) SetMetadata(metadata []string) {
+func (o *ServiceDependencyPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *ServiceDependency) GetName() string {
+func (o *ServiceDependencyPolicy) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *ServiceDependency) SetName(name string) {
+func (o *ServiceDependencyPolicy) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *ServiceDependency) GetNamespace() string {
+func (o *ServiceDependencyPolicy) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *ServiceDependency) SetNamespace(namespace string) {
+func (o *ServiceDependencyPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ServiceDependency) GetNormalizedTags() []string {
+func (o *ServiceDependencyPolicy) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *ServiceDependency) SetNormalizedTags(normalizedTags []string) {
+func (o *ServiceDependencyPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *ServiceDependency) GetPropagate() bool {
+func (o *ServiceDependencyPolicy) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *ServiceDependency) SetPropagate(propagate bool) {
+func (o *ServiceDependencyPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *ServiceDependency) GetProtected() bool {
+func (o *ServiceDependencyPolicy) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *ServiceDependency) SetProtected(protected bool) {
+func (o *ServiceDependencyPolicy) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *ServiceDependency) GetUpdateIdempotencyKey() string {
+func (o *ServiceDependencyPolicy) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *ServiceDependency) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *ServiceDependencyPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *ServiceDependency) GetUpdateTime() time.Time {
+func (o *ServiceDependencyPolicy) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *ServiceDependency) SetUpdateTime(updateTime time.Time) {
+func (o *ServiceDependencyPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *ServiceDependency) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *ServiceDependencyPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseServiceDependency{
+		return &SparseServiceDependencyPolicy{
 			ID:                   &o.ID,
 			ActiveDuration:       &o.ActiveDuration,
 			ActiveSchedule:       &o.ActiveSchedule,
@@ -514,7 +516,7 @@ func (o *ServiceDependency) ToSparse(fields ...string) elemental.SparseIdentifia
 		}
 	}
 
-	sp := &SparseServiceDependency{}
+	sp := &SparseServiceDependencyPolicy{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -563,13 +565,13 @@ func (o *ServiceDependency) ToSparse(fields ...string) elemental.SparseIdentifia
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseServiceDependency to the object.
-func (o *ServiceDependency) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseServiceDependencyPolicy to the object.
+func (o *ServiceDependencyPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseServiceDependency)
+	so := sparse.(*SparseServiceDependencyPolicy)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -632,32 +634,32 @@ func (o *ServiceDependency) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the ServiceDependency.
-func (o *ServiceDependency) DeepCopy() *ServiceDependency {
+// DeepCopy returns a deep copy if the ServiceDependencyPolicy.
+func (o *ServiceDependencyPolicy) DeepCopy() *ServiceDependencyPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &ServiceDependency{}
+	out := &ServiceDependencyPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *ServiceDependency.
-func (o *ServiceDependency) DeepCopyInto(out *ServiceDependency) {
+// DeepCopyInto copies the receiver into the given *ServiceDependencyPolicy.
+func (o *ServiceDependencyPolicy) DeepCopyInto(out *ServiceDependencyPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy ServiceDependency: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy ServiceDependencyPolicy: %s", err))
 	}
 
-	*out = *target.(*ServiceDependency)
+	*out = *target.(*ServiceDependencyPolicy)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ServiceDependency) Validate() error {
+func (o *ServiceDependencyPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -706,26 +708,26 @@ func (o *ServiceDependency) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*ServiceDependency) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*ServiceDependencyPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ServiceDependencyAttributesMap[name]; ok {
+	if v, ok := ServiceDependencyPolicyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ServiceDependencyLowerCaseAttributesMap[name]
+	return ServiceDependencyPolicyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*ServiceDependency) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*ServiceDependencyPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ServiceDependencyAttributesMap
+	return ServiceDependencyPolicyAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *ServiceDependency) ValueForAttribute(name string) interface{} {
+func (o *ServiceDependencyPolicy) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -773,8 +775,8 @@ func (o *ServiceDependency) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// ServiceDependencyAttributesMap represents the map of attribute for ServiceDependency.
-var ServiceDependencyAttributesMap = map[string]elemental.AttributeSpecification{
+// ServiceDependencyPolicyAttributesMap represents the map of attribute for ServiceDependencyPolicy.
+var ServiceDependencyPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1051,8 +1053,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	},
 }
 
-// ServiceDependencyLowerCaseAttributesMap represents the map of attribute for ServiceDependency.
-var ServiceDependencyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// ServiceDependencyPolicyLowerCaseAttributesMap represents the map of attribute for ServiceDependencyPolicy.
+var ServiceDependencyPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1329,35 +1331,35 @@ with the '@' prefix, and should only be used by external systems.`,
 	},
 }
 
-// SparseServiceDependenciesList represents a list of SparseServiceDependencies
-type SparseServiceDependenciesList []*SparseServiceDependency
+// SparseServiceDependencyPoliciesList represents a list of SparseServiceDependencyPolicies
+type SparseServiceDependencyPoliciesList []*SparseServiceDependencyPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o SparseServiceDependenciesList) Identity() elemental.Identity {
+func (o SparseServiceDependencyPoliciesList) Identity() elemental.Identity {
 
-	return ServiceDependencyIdentity
+	return ServiceDependencyPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the SparseServiceDependenciesList.
-func (o SparseServiceDependenciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseServiceDependencyPoliciesList.
+func (o SparseServiceDependencyPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseServiceDependenciesList{}, o...)
+	copy := append(SparseServiceDependencyPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseServiceDependenciesList.
-func (o SparseServiceDependenciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseServiceDependencyPoliciesList.
+func (o SparseServiceDependencyPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseServiceDependenciesList{}, o...)
+	out := append(SparseServiceDependencyPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseServiceDependency))
+		out = append(out, obj.(*SparseServiceDependencyPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseServiceDependenciesList) List() elemental.IdentifiablesList {
+func (o SparseServiceDependencyPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1368,15 +1370,15 @@ func (o SparseServiceDependenciesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseServiceDependenciesList) DefaultOrder() []string {
+func (o SparseServiceDependencyPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparseServiceDependenciesList converted to ServiceDependenciesList.
-func (o SparseServiceDependenciesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseServiceDependencyPoliciesList converted to ServiceDependencyPoliciesList.
+func (o SparseServiceDependencyPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1387,13 +1389,13 @@ func (o SparseServiceDependenciesList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseServiceDependenciesList) Version() int {
+func (o SparseServiceDependencyPoliciesList) Version() int {
 
 	return 1
 }
 
-// SparseServiceDependency represents the sparse version of a servicedependency.
-type SparseServiceDependency struct {
+// SparseServiceDependencyPolicy represents the sparse version of a servicedependencypolicy.
+type SparseServiceDependencyPolicy struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1462,19 +1464,19 @@ type SparseServiceDependency struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseServiceDependency returns a new  SparseServiceDependency.
-func NewSparseServiceDependency() *SparseServiceDependency {
-	return &SparseServiceDependency{}
+// NewSparseServiceDependencyPolicy returns a new  SparseServiceDependencyPolicy.
+func NewSparseServiceDependencyPolicy() *SparseServiceDependencyPolicy {
+	return &SparseServiceDependencyPolicy{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseServiceDependency) Identity() elemental.Identity {
+func (o *SparseServiceDependencyPolicy) Identity() elemental.Identity {
 
-	return ServiceDependencyIdentity
+	return ServiceDependencyPolicyIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseServiceDependency) Identifier() string {
+func (o *SparseServiceDependencyPolicy) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1483,7 +1485,7 @@ func (o *SparseServiceDependency) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseServiceDependency) SetIdentifier(id string) {
+func (o *SparseServiceDependencyPolicy) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -1494,13 +1496,13 @@ func (o *SparseServiceDependency) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseServiceDependency) GetBSON() (interface{}, error) {
+func (o *SparseServiceDependencyPolicy) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparseServiceDependency{}
+	s := &mongoAttributesSparseServiceDependencyPolicy{}
 
 	if o.ActiveDuration != nil {
 		s.ActiveDuration = o.ActiveDuration
@@ -1559,13 +1561,13 @@ func (o *SparseServiceDependency) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparseServiceDependency) SetBSON(raw bson.Raw) error {
+func (o *SparseServiceDependencyPolicy) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparseServiceDependency{}
+	s := &mongoAttributesSparseServiceDependencyPolicy{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -1626,15 +1628,15 @@ func (o *SparseServiceDependency) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseServiceDependency) Version() int {
+func (o *SparseServiceDependencyPolicy) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseServiceDependency) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseServiceDependencyPolicy) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewServiceDependency()
+	out := NewServiceDependencyPolicy()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1700,7 +1702,7 @@ func (o *SparseServiceDependency) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparseServiceDependency) GetActiveDuration() (out string) {
+func (o *SparseServiceDependencyPolicy) GetActiveDuration() (out string) {
 
 	if o.ActiveDuration == nil {
 		return
@@ -1710,13 +1712,13 @@ func (o *SparseServiceDependency) GetActiveDuration() (out string) {
 }
 
 // SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetActiveDuration(activeDuration string) {
+func (o *SparseServiceDependencyPolicy) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = &activeDuration
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparseServiceDependency) GetActiveSchedule() (out string) {
+func (o *SparseServiceDependencyPolicy) GetActiveSchedule() (out string) {
 
 	if o.ActiveSchedule == nil {
 		return
@@ -1726,13 +1728,13 @@ func (o *SparseServiceDependency) GetActiveSchedule() (out string) {
 }
 
 // SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetActiveSchedule(activeSchedule string) {
+func (o *SparseServiceDependencyPolicy) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = &activeSchedule
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseServiceDependency) GetAnnotations() (out map[string][]string) {
+func (o *SparseServiceDependencyPolicy) GetAnnotations() (out map[string][]string) {
 
 	if o.Annotations == nil {
 		return
@@ -1742,13 +1744,13 @@ func (o *SparseServiceDependency) GetAnnotations() (out map[string][]string) {
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetAnnotations(annotations map[string][]string) {
+func (o *SparseServiceDependencyPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseServiceDependency) GetAssociatedTags() (out []string) {
+func (o *SparseServiceDependencyPolicy) GetAssociatedTags() (out []string) {
 
 	if o.AssociatedTags == nil {
 		return
@@ -1758,13 +1760,13 @@ func (o *SparseServiceDependency) GetAssociatedTags() (out []string) {
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetAssociatedTags(associatedTags []string) {
+func (o *SparseServiceDependencyPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseServiceDependency) GetCreateIdempotencyKey() (out string) {
+func (o *SparseServiceDependencyPolicy) GetCreateIdempotencyKey() (out string) {
 
 	if o.CreateIdempotencyKey == nil {
 		return
@@ -1774,13 +1776,13 @@ func (o *SparseServiceDependency) GetCreateIdempotencyKey() (out string) {
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseServiceDependencyPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseServiceDependency) GetCreateTime() (out time.Time) {
+func (o *SparseServiceDependencyPolicy) GetCreateTime() (out time.Time) {
 
 	if o.CreateTime == nil {
 		return
@@ -1790,13 +1792,13 @@ func (o *SparseServiceDependency) GetCreateTime() (out time.Time) {
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetCreateTime(createTime time.Time) {
+func (o *SparseServiceDependencyPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseServiceDependency) GetDescription() (out string) {
+func (o *SparseServiceDependencyPolicy) GetDescription() (out string) {
 
 	if o.Description == nil {
 		return
@@ -1806,13 +1808,13 @@ func (o *SparseServiceDependency) GetDescription() (out string) {
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetDescription(description string) {
+func (o *SparseServiceDependencyPolicy) SetDescription(description string) {
 
 	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseServiceDependency) GetDisabled() (out bool) {
+func (o *SparseServiceDependencyPolicy) GetDisabled() (out bool) {
 
 	if o.Disabled == nil {
 		return
@@ -1822,13 +1824,13 @@ func (o *SparseServiceDependency) GetDisabled() (out bool) {
 }
 
 // SetDisabled sets the property Disabled of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetDisabled(disabled bool) {
+func (o *SparseServiceDependencyPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseServiceDependency) GetFallback() (out bool) {
+func (o *SparseServiceDependencyPolicy) GetFallback() (out bool) {
 
 	if o.Fallback == nil {
 		return
@@ -1838,13 +1840,13 @@ func (o *SparseServiceDependency) GetFallback() (out bool) {
 }
 
 // SetFallback sets the property Fallback of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetFallback(fallback bool) {
+func (o *SparseServiceDependencyPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = &fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseServiceDependency) GetMetadata() (out []string) {
+func (o *SparseServiceDependencyPolicy) GetMetadata() (out []string) {
 
 	if o.Metadata == nil {
 		return
@@ -1854,13 +1856,13 @@ func (o *SparseServiceDependency) GetMetadata() (out []string) {
 }
 
 // SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetMetadata(metadata []string) {
+func (o *SparseServiceDependencyPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseServiceDependency) GetName() (out string) {
+func (o *SparseServiceDependencyPolicy) GetName() (out string) {
 
 	if o.Name == nil {
 		return
@@ -1870,13 +1872,13 @@ func (o *SparseServiceDependency) GetName() (out string) {
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetName(name string) {
+func (o *SparseServiceDependencyPolicy) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseServiceDependency) GetNamespace() (out string) {
+func (o *SparseServiceDependencyPolicy) GetNamespace() (out string) {
 
 	if o.Namespace == nil {
 		return
@@ -1886,13 +1888,13 @@ func (o *SparseServiceDependency) GetNamespace() (out string) {
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetNamespace(namespace string) {
+func (o *SparseServiceDependencyPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseServiceDependency) GetNormalizedTags() (out []string) {
+func (o *SparseServiceDependencyPolicy) GetNormalizedTags() (out []string) {
 
 	if o.NormalizedTags == nil {
 		return
@@ -1902,13 +1904,13 @@ func (o *SparseServiceDependency) GetNormalizedTags() (out []string) {
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseServiceDependencyPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseServiceDependency) GetPropagate() (out bool) {
+func (o *SparseServiceDependencyPolicy) GetPropagate() (out bool) {
 
 	if o.Propagate == nil {
 		return
@@ -1918,13 +1920,13 @@ func (o *SparseServiceDependency) GetPropagate() (out bool) {
 }
 
 // SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetPropagate(propagate bool) {
+func (o *SparseServiceDependencyPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseServiceDependency) GetProtected() (out bool) {
+func (o *SparseServiceDependencyPolicy) GetProtected() (out bool) {
 
 	if o.Protected == nil {
 		return
@@ -1934,13 +1936,13 @@ func (o *SparseServiceDependency) GetProtected() (out bool) {
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetProtected(protected bool) {
+func (o *SparseServiceDependencyPolicy) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseServiceDependency) GetUpdateIdempotencyKey() (out string) {
+func (o *SparseServiceDependencyPolicy) GetUpdateIdempotencyKey() (out string) {
 
 	if o.UpdateIdempotencyKey == nil {
 		return
@@ -1950,13 +1952,13 @@ func (o *SparseServiceDependency) GetUpdateIdempotencyKey() (out string) {
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseServiceDependencyPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseServiceDependency) GetUpdateTime() (out time.Time) {
+func (o *SparseServiceDependencyPolicy) GetUpdateTime() (out time.Time) {
 
 	if o.UpdateTime == nil {
 		return
@@ -1966,36 +1968,36 @@ func (o *SparseServiceDependency) GetUpdateTime() (out time.Time) {
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseServiceDependency) SetUpdateTime(updateTime time.Time) {
+func (o *SparseServiceDependencyPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
-// DeepCopy returns a deep copy if the SparseServiceDependency.
-func (o *SparseServiceDependency) DeepCopy() *SparseServiceDependency {
+// DeepCopy returns a deep copy if the SparseServiceDependencyPolicy.
+func (o *SparseServiceDependencyPolicy) DeepCopy() *SparseServiceDependencyPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseServiceDependency{}
+	out := &SparseServiceDependencyPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseServiceDependency.
-func (o *SparseServiceDependency) DeepCopyInto(out *SparseServiceDependency) {
+// DeepCopyInto copies the receiver into the given *SparseServiceDependencyPolicy.
+func (o *SparseServiceDependencyPolicy) DeepCopyInto(out *SparseServiceDependencyPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseServiceDependency: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseServiceDependencyPolicy: %s", err))
 	}
 
-	*out = *target.(*SparseServiceDependency)
+	*out = *target.(*SparseServiceDependencyPolicy)
 }
 
-type mongoAttributesServiceDependency struct {
+type mongoAttributesServiceDependencyPolicy struct {
 	ActiveDuration       string              `bson:"activeduration"`
 	ActiveSchedule       string              `bson:"activeschedule"`
 	Annotations          map[string][]string `bson:"annotations"`
@@ -2014,7 +2016,7 @@ type mongoAttributesServiceDependency struct {
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 }
-type mongoAttributesSparseServiceDependency struct {
+type mongoAttributesSparseServiceDependencyPolicy struct {
 	ActiveDuration       *string              `bson:"activeduration,omitempty"`
 	ActiveSchedule       *string              `bson:"activeschedule,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`

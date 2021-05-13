@@ -6309,7 +6309,7 @@ Parameters:
 
 Returns the list of processing units referenced by the mapping.
 
-##### `GET /servicedependencies/:id/processingunits`
+##### `GET /servicedependencypolicies/:id/processingunits`
 
 Returns the list of processing units that depend on an service.
 
@@ -17112,6 +17112,7 @@ units.
   "port": 443,
   "propagate": false,
   "protected": false,
+  "proxyProtocolEnabled": false,
   "publicApplicationPort": 443,
   "selectors": [
     [
@@ -17187,7 +17188,7 @@ Parameters:
 
 Retrieves the services used by a processing unit.
 
-##### `GET /servicedependencies/:id/services`
+##### `GET /servicedependencypolicies/:id/services`
 
 Returns the list of external services that are targets of service dependency.
 
@@ -17460,6 +17461,18 @@ Type: `boolean`
 
 Defines if the object is protected.
 
+##### `proxyProtocolEnabled`
+
+Type: `boolean`
+
+Enable trust in proxy protocols header.
+
+##### `proxyProtocolSubnets`
+
+Type: `[]string`
+
+Only allow proxy protocols from the given subnets .
+
 ##### `publicApplicationPort` [`max_value=65535.000000`]
 
 Type: `integer`
@@ -17513,9 +17526,11 @@ Type: `time`
 
 Last update date of the object.
 
-### ServiceDependency
+### ServiceDependencyPolicy
 
-Allows you to define a service dependency where a set of processing units as defined
+Allows you to define a service dependency policy where a set of processing units
+as
+defined
 by their tags require access to specific services.
 
 #### Example
@@ -17532,20 +17547,20 @@ by their tags require access to specific services.
 
 #### Relations
 
-##### `GET /servicedependencies`
+##### `GET /servicedependencypolicies`
 
-Retrieves the list of service dependencies.
+Retrieves the list of service dependency policies.
 
 Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 - `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
-##### `POST /servicedependencies`
+##### `POST /servicedependencypolicies`
 
 Creates a new service dependency.
 
-##### `DELETE /servicedependencies/:id`
+##### `DELETE /servicedependencypolicies/:id`
 
 Deletes the object with the given ID.
 
@@ -17553,19 +17568,19 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
-##### `GET /servicedependencies/:id`
+##### `GET /servicedependencypolicies/:id`
 
 Retrieves the object with the given ID.
 
-##### `PUT /servicedependencies/:id`
+##### `PUT /servicedependencypolicies/:id`
 
 Updates the object with the given ID.
 
-##### `GET /servicedependencies/:id/processingunits`
+##### `GET /servicedependencypolicies/:id/processingunits`
 
 Returns the list of processing units that depend on an service.
 
-##### `GET /servicedependencies/:id/services`
+##### `GET /servicedependencypolicies/:id/services`
 
 Returns the list of external services that are targets of service dependency.
 

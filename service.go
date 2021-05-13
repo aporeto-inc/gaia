@@ -195,7 +195,7 @@ type Service struct {
 	AllAPITags []string `json:"-" msgpack:"-" bson:"allapitags" mapstructure:"-,omitempty"`
 
 	// This is a set of all selector tags for matching in the database.
-	AllServiceTags []string `json:"-" msgpack:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
+	AllProcessingUnitsTags []string `json:"-" msgpack:"-" bson:"allprocessingunitstags" mapstructure:"-,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -288,6 +288,12 @@ type Service struct {
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// Enable trust in proxy protocols header.
+	ProxyProtocolEnabled bool `json:"proxyProtocolEnabled" msgpack:"proxyProtocolEnabled" bson:"proxyprotocolenabled" mapstructure:"proxyProtocolEnabled,omitempty"`
+
+	// Only allow proxy protocols from the given subnets .
+	ProxyProtocolSubnets []string `json:"proxyProtocolSubnets" msgpack:"proxyProtocolSubnets" bson:"proxyprotocolsubnets" mapstructure:"proxyProtocolSubnets,omitempty"`
+
 	// A new virtual port that the service can be accessed on using HTTPS. Since the
 	// enforcer transparently inserts TLS in the application path, you might want
 	// to declare a new port where the enforcer listens for TLS. However, the
@@ -335,9 +341,8 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:               1,
-		AllAPITags:                 []string{},
 		Annotations:                map[string][]string{},
-		AllServiceTags:             []string{},
+		AllProcessingUnitsTags:     []string{},
 		AuthorizationType:          ServiceAuthorizationTypeNone,
 		ExposedAPIs:                [][]string{},
 		ExposedServiceIsTLS:        false,
@@ -346,14 +351,16 @@ func NewService() *Service {
 		Endpoints:                  []*Endpoint{},
 		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		AssociatedTags:             []string{},
-		TLSType:                    ServiceTLSTypeAporeto,
 		NormalizedTags:             []string{},
-		IPs:                        []string{},
+		TLSType:                    ServiceTLSTypeAporeto,
+		ProxyProtocolSubnets:       []string{},
 		Selectors:                  [][]string{},
-		OIDCScopes:                 []string{},
-		Type:                       ServiceTypeHTTP,
+		IPs:                        []string{},
 		MigrationsLog:              map[string]string{},
+		OIDCScopes:                 []string{},
 		Metadata:                   []string{},
+		AllAPITags:                 []string{},
+		Type:                       ServiceTypeHTTP,
 	}
 }
 
@@ -400,7 +407,7 @@ func (o *Service) GetBSON() (interface{}, error) {
 	s.TLSCertificateKey = o.TLSCertificateKey
 	s.TLSType = o.TLSType
 	s.AllAPITags = o.AllAPITags
-	s.AllServiceTags = o.AllServiceTags
+	s.AllProcessingUnitsTags = o.AllProcessingUnitsTags
 	s.Annotations = o.Annotations
 	s.Archived = o.Archived
 	s.AssociatedTags = o.AssociatedTags
@@ -423,6 +430,8 @@ func (o *Service) GetBSON() (interface{}, error) {
 	s.Port = o.Port
 	s.Propagate = o.Propagate
 	s.Protected = o.Protected
+	s.ProxyProtocolEnabled = o.ProxyProtocolEnabled
+	s.ProxyProtocolSubnets = o.ProxyProtocolSubnets
 	s.PublicApplicationPort = o.PublicApplicationPort
 	s.RedirectURLOnAuthorizationFailure = o.RedirectURLOnAuthorizationFailure
 	s.Selectors = o.Selectors
@@ -462,7 +471,7 @@ func (o *Service) SetBSON(raw bson.Raw) error {
 	o.TLSCertificateKey = s.TLSCertificateKey
 	o.TLSType = s.TLSType
 	o.AllAPITags = s.AllAPITags
-	o.AllServiceTags = s.AllServiceTags
+	o.AllProcessingUnitsTags = s.AllProcessingUnitsTags
 	o.Annotations = s.Annotations
 	o.Archived = s.Archived
 	o.AssociatedTags = s.AssociatedTags
@@ -485,6 +494,8 @@ func (o *Service) SetBSON(raw bson.Raw) error {
 	o.Port = s.Port
 	o.Propagate = s.Propagate
 	o.Protected = s.Protected
+	o.ProxyProtocolEnabled = s.ProxyProtocolEnabled
+	o.ProxyProtocolSubnets = s.ProxyProtocolSubnets
 	o.PublicApplicationPort = s.PublicApplicationPort
 	o.RedirectURLOnAuthorizationFailure = s.RedirectURLOnAuthorizationFailure
 	o.Selectors = s.Selectors
@@ -768,7 +779,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			TLSCertificateKey:                 &o.TLSCertificateKey,
 			TLSType:                           &o.TLSType,
 			AllAPITags:                        &o.AllAPITags,
-			AllServiceTags:                    &o.AllServiceTags,
+			AllProcessingUnitsTags:            &o.AllProcessingUnitsTags,
 			Annotations:                       &o.Annotations,
 			Archived:                          &o.Archived,
 			AssociatedTags:                    &o.AssociatedTags,
@@ -792,6 +803,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Port:                              &o.Port,
 			Propagate:                         &o.Propagate,
 			Protected:                         &o.Protected,
+			ProxyProtocolEnabled:              &o.ProxyProtocolEnabled,
+			ProxyProtocolSubnets:              &o.ProxyProtocolSubnets,
 			PublicApplicationPort:             &o.PublicApplicationPort,
 			RedirectURLOnAuthorizationFailure: &o.RedirectURLOnAuthorizationFailure,
 			Selectors:                         &o.Selectors,
@@ -833,8 +846,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.TLSType = &(o.TLSType)
 		case "allAPITags":
 			sp.AllAPITags = &(o.AllAPITags)
-		case "allServiceTags":
-			sp.AllServiceTags = &(o.AllServiceTags)
+		case "allProcessingUnitsTags":
+			sp.AllProcessingUnitsTags = &(o.AllProcessingUnitsTags)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "archived":
@@ -881,6 +894,10 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "proxyProtocolEnabled":
+			sp.ProxyProtocolEnabled = &(o.ProxyProtocolEnabled)
+		case "proxyProtocolSubnets":
+			sp.ProxyProtocolSubnets = &(o.ProxyProtocolSubnets)
 		case "publicApplicationPort":
 			sp.PublicApplicationPort = &(o.PublicApplicationPort)
 		case "redirectURLOnAuthorizationFailure":
@@ -971,8 +988,8 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AllAPITags != nil {
 		o.AllAPITags = *so.AllAPITags
 	}
-	if so.AllServiceTags != nil {
-		o.AllServiceTags = *so.AllServiceTags
+	if so.AllProcessingUnitsTags != nil {
+		o.AllProcessingUnitsTags = *so.AllProcessingUnitsTags
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
@@ -1043,6 +1060,12 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
+	if so.ProxyProtocolEnabled != nil {
+		o.ProxyProtocolEnabled = *so.ProxyProtocolEnabled
+	}
+	if so.ProxyProtocolSubnets != nil {
+		o.ProxyProtocolSubnets = *so.ProxyProtocolSubnets
+	}
 	if so.PublicApplicationPort != nil {
 		o.PublicApplicationPort = *so.PublicApplicationPort
 	}
@@ -1101,6 +1124,10 @@ func (o *Service) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := ValidateOptionalIPAddressList("IPs", o.IPs); err != nil {
+		errors = errors.Append(err)
+	}
 
 	if err := elemental.ValidateStringInList("TLSType", string(o.TLSType), []string{"Aporeto", "LetsEncrypt", "External", "None"}, false); err != nil {
 		errors = errors.Append(err)
@@ -1163,6 +1190,10 @@ func (o *Service) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumInt("port", o.Port, int(65535), false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateOptionalCIDRList("proxyProtocolSubnets", o.ProxyProtocolSubnets); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1243,8 +1274,8 @@ func (o *Service) ValueForAttribute(name string) interface{} {
 		return o.TLSType
 	case "allAPITags":
 		return o.AllAPITags
-	case "allServiceTags":
-		return o.AllServiceTags
+	case "allProcessingUnitsTags":
+		return o.AllProcessingUnitsTags
 	case "annotations":
 		return o.Annotations
 	case "archived":
@@ -1291,6 +1322,10 @@ func (o *Service) ValueForAttribute(name string) interface{} {
 		return o.Propagate
 	case "protected":
 		return o.Protected
+	case "proxyProtocolEnabled":
+		return o.ProxyProtocolEnabled
+	case "proxyProtocolSubnets":
+		return o.ProxyProtocolSubnets
 	case "publicApplicationPort":
 		return o.PublicApplicationPort
 	case "redirectURLOnAuthorizationFailure":
@@ -1477,12 +1512,12 @@ Console public CA.
 		SubType:        "string",
 		Type:           "list",
 	},
-	"AllServiceTags": {
+	"AllProcessingUnitsTags": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "allservicetags",
-		ConvertedName:  "AllServiceTags",
+		BSONFieldName:  "allprocessingunitstags",
+		ConvertedName:  "AllProcessingUnitsTags",
 		Description:    `This is a set of all selector tags for matching in the database.`,
-		Name:           "allServiceTags",
+		Name:           "allProcessingUnitsTags",
 		ReadOnly:       true,
 		Stored:         true,
 		SubType:        "string",
@@ -1805,6 +1840,27 @@ where there are private and public ports.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"ProxyProtocolEnabled": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "proxyprotocolenabled",
+		ConvertedName:  "ProxyProtocolEnabled",
+		Description:    `Enable trust in proxy protocols header.`,
+		Exposed:        true,
+		Name:           "proxyProtocolEnabled",
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"ProxyProtocolSubnets": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "proxyprotocolsubnets",
+		ConvertedName:  "ProxyProtocolSubnets",
+		Description:    `Only allow proxy protocols from the given subnets .`,
+		Exposed:        true,
+		Name:           "proxyProtocolSubnets",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"PublicApplicationPort": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "publicapplicationport",
@@ -2090,12 +2146,12 @@ Console public CA.
 		SubType:        "string",
 		Type:           "list",
 	},
-	"allservicetags": {
+	"allprocessingunitstags": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "allservicetags",
-		ConvertedName:  "AllServiceTags",
+		BSONFieldName:  "allprocessingunitstags",
+		ConvertedName:  "AllProcessingUnitsTags",
 		Description:    `This is a set of all selector tags for matching in the database.`,
-		Name:           "allServiceTags",
+		Name:           "allProcessingUnitsTags",
 		ReadOnly:       true,
 		Stored:         true,
 		SubType:        "string",
@@ -2418,6 +2474,27 @@ where there are private and public ports.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"proxyprotocolenabled": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "proxyprotocolenabled",
+		ConvertedName:  "ProxyProtocolEnabled",
+		Description:    `Enable trust in proxy protocols header.`,
+		Exposed:        true,
+		Name:           "proxyProtocolEnabled",
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"proxyprotocolsubnets": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "proxyprotocolsubnets",
+		ConvertedName:  "ProxyProtocolSubnets",
+		Description:    `Only allow proxy protocols from the given subnets .`,
+		Exposed:        true,
+		Name:           "proxyProtocolSubnets",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"publicapplicationport": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "publicapplicationport",
@@ -2666,7 +2743,7 @@ type SparseService struct {
 	AllAPITags *[]string `json:"-" msgpack:"-" bson:"allapitags,omitempty" mapstructure:"-,omitempty"`
 
 	// This is a set of all selector tags for matching in the database.
-	AllServiceTags *[]string `json:"-" msgpack:"-" bson:"allservicetags,omitempty" mapstructure:"-,omitempty"`
+	AllProcessingUnitsTags *[]string `json:"-" msgpack:"-" bson:"allprocessingunitstags,omitempty" mapstructure:"-,omitempty"`
 
 	// Stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
@@ -2758,6 +2835,12 @@ type SparseService struct {
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+
+	// Enable trust in proxy protocols header.
+	ProxyProtocolEnabled *bool `json:"proxyProtocolEnabled,omitempty" msgpack:"proxyProtocolEnabled,omitempty" bson:"proxyprotocolenabled,omitempty" mapstructure:"proxyProtocolEnabled,omitempty"`
+
+	// Only allow proxy protocols from the given subnets .
+	ProxyProtocolSubnets *[]string `json:"proxyProtocolSubnets,omitempty" msgpack:"proxyProtocolSubnets,omitempty" bson:"proxyprotocolsubnets,omitempty" mapstructure:"proxyProtocolSubnets,omitempty"`
 
 	// A new virtual port that the service can be accessed on using HTTPS. Since the
 	// enforcer transparently inserts TLS in the application path, you might want
@@ -2880,8 +2963,8 @@ func (o *SparseService) GetBSON() (interface{}, error) {
 	if o.AllAPITags != nil {
 		s.AllAPITags = o.AllAPITags
 	}
-	if o.AllServiceTags != nil {
-		s.AllServiceTags = o.AllServiceTags
+	if o.AllProcessingUnitsTags != nil {
+		s.AllProcessingUnitsTags = o.AllProcessingUnitsTags
 	}
 	if o.Annotations != nil {
 		s.Annotations = o.Annotations
@@ -2948,6 +3031,12 @@ func (o *SparseService) GetBSON() (interface{}, error) {
 	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
+	}
+	if o.ProxyProtocolEnabled != nil {
+		s.ProxyProtocolEnabled = o.ProxyProtocolEnabled
+	}
+	if o.ProxyProtocolSubnets != nil {
+		s.ProxyProtocolSubnets = o.ProxyProtocolSubnets
 	}
 	if o.PublicApplicationPort != nil {
 		s.PublicApplicationPort = o.PublicApplicationPort
@@ -3031,8 +3120,8 @@ func (o *SparseService) SetBSON(raw bson.Raw) error {
 	if s.AllAPITags != nil {
 		o.AllAPITags = s.AllAPITags
 	}
-	if s.AllServiceTags != nil {
-		o.AllServiceTags = s.AllServiceTags
+	if s.AllProcessingUnitsTags != nil {
+		o.AllProcessingUnitsTags = s.AllProcessingUnitsTags
 	}
 	if s.Annotations != nil {
 		o.Annotations = s.Annotations
@@ -3099,6 +3188,12 @@ func (o *SparseService) SetBSON(raw bson.Raw) error {
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
+	}
+	if s.ProxyProtocolEnabled != nil {
+		o.ProxyProtocolEnabled = s.ProxyProtocolEnabled
+	}
+	if s.ProxyProtocolSubnets != nil {
+		o.ProxyProtocolSubnets = s.ProxyProtocolSubnets
 	}
 	if s.PublicApplicationPort != nil {
 		o.PublicApplicationPort = s.PublicApplicationPort
@@ -3180,8 +3275,8 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.AllAPITags != nil {
 		out.AllAPITags = *o.AllAPITags
 	}
-	if o.AllServiceTags != nil {
-		out.AllServiceTags = *o.AllServiceTags
+	if o.AllProcessingUnitsTags != nil {
+		out.AllProcessingUnitsTags = *o.AllProcessingUnitsTags
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
@@ -3251,6 +3346,12 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.ProxyProtocolEnabled != nil {
+		out.ProxyProtocolEnabled = *o.ProxyProtocolEnabled
+	}
+	if o.ProxyProtocolSubnets != nil {
+		out.ProxyProtocolSubnets = *o.ProxyProtocolSubnets
 	}
 	if o.PublicApplicationPort != nil {
 		out.PublicApplicationPort = *o.PublicApplicationPort
@@ -3629,7 +3730,7 @@ type mongoAttributesService struct {
 	TLSCertificateKey                 string                        `bson:"tlscertificatekey"`
 	TLSType                           ServiceTLSTypeValue           `bson:"tlstype"`
 	AllAPITags                        []string                      `bson:"allapitags"`
-	AllServiceTags                    []string                      `bson:"allservicetags"`
+	AllProcessingUnitsTags            []string                      `bson:"allprocessingunitstags"`
 	Annotations                       map[string][]string           `bson:"annotations"`
 	Archived                          bool                          `bson:"archived"`
 	AssociatedTags                    []string                      `bson:"associatedtags"`
@@ -3652,6 +3753,8 @@ type mongoAttributesService struct {
 	Port                              int                           `bson:"port"`
 	Propagate                         bool                          `bson:"propagate"`
 	Protected                         bool                          `bson:"protected"`
+	ProxyProtocolEnabled              bool                          `bson:"proxyprotocolenabled"`
+	ProxyProtocolSubnets              []string                      `bson:"proxyprotocolsubnets"`
 	PublicApplicationPort             int                           `bson:"publicapplicationport"`
 	RedirectURLOnAuthorizationFailure string                        `bson:"redirecturlonauthorizationfailure"`
 	Selectors                         [][]string                    `bson:"selectors"`
@@ -3676,7 +3779,7 @@ type mongoAttributesSparseService struct {
 	TLSCertificateKey                 *string                        `bson:"tlscertificatekey,omitempty"`
 	TLSType                           *ServiceTLSTypeValue           `bson:"tlstype,omitempty"`
 	AllAPITags                        *[]string                      `bson:"allapitags,omitempty"`
-	AllServiceTags                    *[]string                      `bson:"allservicetags,omitempty"`
+	AllProcessingUnitsTags            *[]string                      `bson:"allprocessingunitstags,omitempty"`
 	Annotations                       *map[string][]string           `bson:"annotations,omitempty"`
 	Archived                          *bool                          `bson:"archived,omitempty"`
 	AssociatedTags                    *[]string                      `bson:"associatedtags,omitempty"`
@@ -3699,6 +3802,8 @@ type mongoAttributesSparseService struct {
 	Port                              *int                           `bson:"port,omitempty"`
 	Propagate                         *bool                          `bson:"propagate,omitempty"`
 	Protected                         *bool                          `bson:"protected,omitempty"`
+	ProxyProtocolEnabled              *bool                          `bson:"proxyprotocolenabled,omitempty"`
+	ProxyProtocolSubnets              *[]string                      `bson:"proxyprotocolsubnets,omitempty"`
 	PublicApplicationPort             *int                           `bson:"publicapplicationport,omitempty"`
 	RedirectURLOnAuthorizationFailure *string                        `bson:"redirecturlonauthorizationfailure,omitempty"`
 	Selectors                         *[][]string                    `bson:"selectors,omitempty"`
