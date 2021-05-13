@@ -4266,38 +4266,6 @@ func TestValidateCloudGraphQuery(t *testing.T) {
 	}
 }
 
-func TestIsAddressPrivate(t *testing.T) {
-
-	tests := []struct {
-		name    string
-		args    string
-		want    bool
-		wantErr bool
-	}{
-		{
-			"private address",
-			"127.0.0.0/10",
-			true,
-			false,
-		},
-		{
-			"public address",
-			"135.20.0.0/24",
-			false,
-			false,
-		},
-		{
-			"public address",
-			"badIP",
-			false,
-			true,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if private, err := IsAddressPrivate(tt.args); (private != tt.want) || (err == nil) == tt.wantErr {
-				t.Errorf("IsAddressPrivate() got wrong response %v for %+v with error %s", private, tt.args, err)
 func TestValidateIPAddressList(t *testing.T) {
 	type args struct {
 		attribute string
@@ -4355,6 +4323,7 @@ func TestValidateOptionalIPAddressList(t *testing.T) {
 		attribute string
 		ips       []string
 	}
+
 	tests := []struct {
 		name    string
 		args    args
@@ -4397,6 +4366,43 @@ func TestValidateOptionalIPAddressList(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateOptionalIPAddressList(tt.args.attribute, tt.args.ips); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateOptionalIPAddressList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestIsAddressPrivate(t *testing.T) {
+
+	tests := []struct {
+		name    string
+		args    string
+		want    bool
+		wantErr bool
+	}{
+		{
+			"private address",
+			"127.0.0.0/10",
+			true,
+			false,
+		},
+		{
+			"public address",
+			"135.20.0.0/24",
+			false,
+			false,
+		},
+		{
+			"public address",
+			"badIP",
+			false,
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if private, err := IsAddressPrivate(tt.args); (private != tt.want) || (err == nil) == tt.wantErr {
+				t.Errorf("IsAddressPrivate() got wrong response %v for %+v with error %s", private, tt.args, err)
 			}
 		})
 	}
