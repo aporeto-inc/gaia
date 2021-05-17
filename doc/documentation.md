@@ -5192,6 +5192,43 @@ Type: `string`
 
 Namespace tag attached to an entity.
 
+### PUTrafficAction
+
+Returns the processing unit traffic actions for the specified namespace.
+
+#### Example
+
+```json
+{
+  "Incoming": "Allow",
+  "Outgoing": "Allow"
+}
+```
+
+#### Relations
+
+##### `GET /putrafficactions`
+
+Returns the processing unit traffic actions of the specified namespace.
+
+##### `POST /putrafficactions`
+
+Modifies the processing unit traffic actions of the specified namespace.
+
+#### Attributes
+
+##### `Incoming`
+
+Type: `enum(Allow | Reject | Inherit)`
+
+The processing unit action for incoming traffic for the namespace.
+
+##### `Outgoing`
+
+Type: `enum(Allow | Reject | Inherit)`
+
+The processing unit action for outgoing traffic for the namespace.
+
 ### TagPrefix
 
 Returns the tag prefixes of the specified namespace.
