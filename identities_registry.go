@@ -707,7 +707,11 @@ var (
 			{"namespace", "vpcid"},
 			{"createIdempotencyKey"},
 		},
-		"cnsconfig":     nil,
+		"cnsconfig": {
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{":shard", ":unique", "zone", "zHash"},
+		},
 		"cnssearch":     nil,
 		"cnssuggestion": nil,
 		"connectionexceptionreport": {

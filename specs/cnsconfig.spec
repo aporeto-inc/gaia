@@ -16,6 +16,10 @@ model:
     description: Deletes the CNS configuration with the given ID.
   extends:
   - '@identifiable-stored'
+  - '@migratable'
+  - '@namespaced'
+  - '@timeable'
+  - '@zoned'
 
 # Attributes
 attributes:
