@@ -9043,6 +9043,12 @@ connections in a particular namespace.
 
 #### Attributes
 
+##### `childrenIDs`
+
+Type: `[]string`
+
+The list of children for this node.
+
 ##### `nativeID`
 
 Type: `string`
@@ -9060,6 +9066,12 @@ Details about the node if the query type requests full details.
 Type: [`map[string]cloudgraphnodeaction`](#cloudgraphnodeaction)
 
 The policies that were applied to this node for each destination.
+
+##### `publicChildrenIDs`
+
+Type: `[]string`
+
+The list of children for this node.
 
 ##### `routeTableIDs`
 

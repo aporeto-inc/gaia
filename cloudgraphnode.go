@@ -10,6 +10,9 @@ import (
 
 // CloudGraphNode represents the model of a cloudgraphnode
 type CloudGraphNode struct {
+	// The list of children for this node.
+	ChildrenIDs []string `json:"childrenIDs,omitempty" msgpack:"childrenIDs,omitempty" bson:"-" mapstructure:"childrenIDs,omitempty"`
+
 	// The native ID of the node.
 	NativeID string `json:"nativeID,omitempty" msgpack:"nativeID,omitempty" bson:"-" mapstructure:"nativeID,omitempty"`
 
@@ -18,6 +21,9 @@ type CloudGraphNode struct {
 
 	// The policies that were applied to this node for each destination.
 	Policies map[string]*CloudGraphNodeAction `json:"policies,omitempty" msgpack:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
+
+	// The list of children for this node.
+	PublicChildrenIDs []string `json:"publicChildrenIDs,omitempty" msgpack:"publicChildrenIDs,omitempty" bson:"-" mapstructure:"publicChildrenIDs,omitempty"`
 
 	// The list of route tables IDs that forwarding was based on for the internal path,
 	// if routing was
@@ -34,10 +40,12 @@ type CloudGraphNode struct {
 func NewCloudGraphNode() *CloudGraphNode {
 
 	return &CloudGraphNode{
-		ModelVersion:  1,
-		NodeData:      NewCloudNode(),
-		Policies:      map[string]*CloudGraphNodeAction{},
-		RouteTableIDs: map[string]string{},
+		ModelVersion:      1,
+		ChildrenIDs:       []string{},
+		NodeData:          NewCloudNode(),
+		Policies:          map[string]*CloudGraphNodeAction{},
+		PublicChildrenIDs: []string{},
+		RouteTableIDs:     map[string]string{},
 	}
 }
 
