@@ -118,6 +118,7 @@ var (
 		"organizationalmetadata": OrganizationalMetadataIdentity,
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
+		"pcconfig":               PCConfigIdentity,
 		"pccprovider":            PCCProviderIdentity,
 		"pcsearchresult":         PCSearchResultIdentity,
 		"pctimerange":            PCTimeRangeIdentity,
@@ -126,19 +127,18 @@ var (
 		"pingrequest": PingRequestIdentity,
 		"pingresult":  PingResultIdentity,
 
-		"plan":                     PlanIdentity,
-		"poke":                     PokeIdentity,
-		"policy":                   PolicyIdentity,
-		"policygraph":              PolicyGraphIdentity,
-		"policyrefresh":            PolicyRefreshIdentity,
-		"policyrenderer":           PolicyRendererIdentity,
-		"policyrule":               PolicyRuleIdentity,
-		"policyttl":                PolicyTTLIdentity,
-		"pollaccount":              PollAccountIdentity,
-		"prismacloudconfiguration": PrismaCloudConfigurationIdentity,
-		"processingunit":           ProcessingUnitIdentity,
-		"processingunitpolicy":     ProcessingUnitPolicyIdentity,
-		"processingunitrefresh":    ProcessingUnitRefreshIdentity,
+		"plan":                  PlanIdentity,
+		"poke":                  PokeIdentity,
+		"policy":                PolicyIdentity,
+		"policygraph":           PolicyGraphIdentity,
+		"policyrefresh":         PolicyRefreshIdentity,
+		"policyrenderer":        PolicyRendererIdentity,
+		"policyrule":            PolicyRuleIdentity,
+		"policyttl":             PolicyTTLIdentity,
+		"pollaccount":           PollAccountIdentity,
+		"processingunit":        ProcessingUnitIdentity,
+		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
+		"processingunitrefresh": ProcessingUnitRefreshIdentity,
 
 		"quotacheck":  QuotaCheckIdentity,
 		"quotapolicy": QuotaPolicyIdentity,
@@ -302,6 +302,7 @@ var (
 		"organizationalmetadata": OrganizationalMetadataIdentity,
 		"packetreports":          PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
+		"pcconfig":               PCConfigIdentity,
 		"pccproviders":           PCCProviderIdentity,
 		"pcsearchresults":        PCSearchResultIdentity,
 		"pctimeranges":           PCTimeRangeIdentity,
@@ -310,19 +311,18 @@ var (
 		"pingrequests": PingRequestIdentity,
 		"pingresults":  PingResultIdentity,
 
-		"plans":                    PlanIdentity,
-		"poke":                     PokeIdentity,
-		"policies":                 PolicyIdentity,
-		"policygraphs":             PolicyGraphIdentity,
-		"policyrefreshs":           PolicyRefreshIdentity,
-		"policyrenderers":          PolicyRendererIdentity,
-		"policyrules":              PolicyRuleIdentity,
-		"policyttls":               PolicyTTLIdentity,
-		"pollaccounts":             PollAccountIdentity,
-		"prismacloudconfiguration": PrismaCloudConfigurationIdentity,
-		"processingunits":          ProcessingUnitIdentity,
-		"processingunitpolicies":   ProcessingUnitPolicyIdentity,
-		"processingunitrefreshes":  ProcessingUnitRefreshIdentity,
+		"plans":                   PlanIdentity,
+		"poke":                    PokeIdentity,
+		"policies":                PolicyIdentity,
+		"policygraphs":            PolicyGraphIdentity,
+		"policyrefreshs":          PolicyRefreshIdentity,
+		"policyrenderers":         PolicyRendererIdentity,
+		"policyrules":             PolicyRuleIdentity,
+		"policyttls":              PolicyTTLIdentity,
+		"pollaccounts":            PollAccountIdentity,
+		"processingunits":         ProcessingUnitIdentity,
+		"processingunitpolicies":  ProcessingUnitPolicyIdentity,
+		"processingunitrefreshes": ProcessingUnitRefreshIdentity,
 
 		"quotacheck":    QuotaCheckIdentity,
 		"quotapolicies": QuotaPolicyIdentity,
@@ -439,8 +439,8 @@ var (
 		"networkruleset":  NetworkRuleSetPolicyIdentity,
 		"networkrulesets": NetworkRuleSetPolicyIdentity,
 		"om":              OrganizationalMetadataIdentity,
+		"pcc":             PCConfigIdentity,
 		"polgraph":        PolicyGraphIdentity,
-		"pcc":             PrismaCloudConfigurationIdentity,
 		"pu":              ProcessingUnitIdentity,
 		"pus":             ProcessingUnitIdentity,
 		"pup":             ProcessingUnitPolicyIdentity,
@@ -969,6 +969,7 @@ var (
 			{":shard", "zone", "zHash", "_id"},
 		},
 		"passwordreset": nil,
+		"pcconfig":      nil,
 		"pccprovider": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1019,13 +1020,12 @@ var (
 			{"disabled"},
 			{"createIdempotencyKey"},
 		},
-		"policygraph":              nil,
-		"policyrefresh":            nil,
-		"policyrenderer":           nil,
-		"policyrule":               nil,
-		"policyttl":                nil,
-		"pollaccount":              nil,
-		"prismacloudconfiguration": nil,
+		"policygraph":    nil,
+		"policyrefresh":  nil,
+		"policyrenderer": nil,
+		"policyrule":     nil,
+		"policyttl":      nil,
+		"pollaccount":    nil,
 		"processingunit": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1395,6 +1395,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPacketReport()
 	case PasswordResetIdentity:
 		return NewPasswordReset()
+	case PCConfigIdentity:
+		return NewPCConfig()
 	case PCCProviderIdentity:
 		return NewPCCProvider()
 	case PCSearchResultIdentity:
@@ -1425,8 +1427,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPolicyTTL()
 	case PollAccountIdentity:
 		return NewPollAccount()
-	case PrismaCloudConfigurationIdentity:
-		return NewPrismaCloudConfiguration()
 	case ProcessingUnitIdentity:
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
@@ -1722,6 +1722,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePacketReport()
 	case PasswordResetIdentity:
 		return NewSparsePasswordReset()
+	case PCConfigIdentity:
+		return NewSparsePCConfig()
 	case PCCProviderIdentity:
 		return NewSparsePCCProvider()
 	case PCSearchResultIdentity:
@@ -1752,8 +1754,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePolicyTTL()
 	case PollAccountIdentity:
 		return NewSparsePollAccount()
-	case PrismaCloudConfigurationIdentity:
-		return NewSparsePrismaCloudConfiguration()
 	case ProcessingUnitIdentity:
 		return NewSparseProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
@@ -2057,6 +2057,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PacketReportsList{}
 	case PasswordResetIdentity:
 		return &PasswordResetsList{}
+	case PCConfigIdentity:
+		return &PCConfigsList{}
 	case PCCProviderIdentity:
 		return &PCCProvidersList{}
 	case PCSearchResultIdentity:
@@ -2087,8 +2089,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PolicyTTLsList{}
 	case PollAccountIdentity:
 		return &PollAccountsList{}
-	case PrismaCloudConfigurationIdentity:
-		return &PrismaCloudConfigurationsList{}
 	case ProcessingUnitIdentity:
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
@@ -2382,6 +2382,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePacketReportsList{}
 	case PasswordResetIdentity:
 		return &SparsePasswordResetsList{}
+	case PCConfigIdentity:
+		return &SparsePCConfigsList{}
 	case PCCProviderIdentity:
 		return &SparsePCCProvidersList{}
 	case PCSearchResultIdentity:
@@ -2412,8 +2414,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePolicyTTLsList{}
 	case PollAccountIdentity:
 		return &SparsePollAccountsList{}
-	case PrismaCloudConfigurationIdentity:
-		return &SparsePrismaCloudConfigurationsList{}
 	case ProcessingUnitIdentity:
 		return &SparseProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
@@ -2627,6 +2627,7 @@ func AllIdentities() []elemental.Identity {
 		OrganizationalMetadataIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
+		PCConfigIdentity,
 		PCCProviderIdentity,
 		PCSearchResultIdentity,
 		PCTimeRangeIdentity,
@@ -2642,7 +2643,6 @@ func AllIdentities() []elemental.Identity {
 		PolicyRuleIdentity,
 		PolicyTTLIdentity,
 		PollAccountIdentity,
-		PrismaCloudConfigurationIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
 		ProcessingUnitRefreshIdentity,
@@ -2993,6 +2993,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PasswordResetIdentity:
 		return []string{}
+	case PCConfigIdentity:
+		return []string{
+			"pcc",
+		}
 	case PCCProviderIdentity:
 		return []string{}
 	case PCSearchResultIdentity:
@@ -3025,10 +3029,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PollAccountIdentity:
 		return []string{}
-	case PrismaCloudConfigurationIdentity:
-		return []string{
-			"pcc",
-		}
 	case ProcessingUnitIdentity:
 		return []string{
 			"pu",

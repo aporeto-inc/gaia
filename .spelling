@@ -226,6 +226,7 @@ PacketReport
 Palo
 PasswordReset
 PCC
+PCConfig
 PCCProvider
 PCSearchResult
 PCTimeRange
@@ -257,7 +258,6 @@ pre-created
 preinstall
 preprocessing
 Prisma
-PrismaCloudConfiguration
 processingunit
 ProcessingUnit
 ProcessingUnitPolicy

@@ -275,12 +275,6 @@ relations:
         allowed_choices:
         - oidc
 
-- rest_name: prismacloudconfiguration
-  get:
-    description: Retrieves the Prisma Cloud configuration applied to this namespace.
-  create:
-    description: Creates the Prisma Cloud configuration to apply to this namespace.
-
 - rest_name: trustedca
   get:
     description: Returns the list of trusted CAs for this namespace.

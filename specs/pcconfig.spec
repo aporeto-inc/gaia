@@ -1,17 +1,19 @@
 # Model
 model:
-  rest_name: prismacloudconfiguration
-  resource_name: prismacloudconfiguration
-  entity_name: PrismaCloudConfiguration
+  rest_name: pcconfig
+  resource_name: pcconfig
+  entity_name: PCConfig
   package: karl
   group: core/tenant
-  description: Holds the various Prisma Cloud configuration for a namespace.
+  description: Holds the Prisma Cloud configuration for a namespace.
   aliases:
   - pcc
+  get:
+    description: Retrieve the Prisma Cloud configuration with the given ID.
   update:
-    description: Updates the Prisma Cloud configuration with the given namespace ID.
+    description: Updates the Prisma Cloud configuration with the given ID.
   delete:
-    description: Deletes the Prisma Cloud configuration with the given namespace ID.
+    description: Deletes the Prisma Cloud configuration with the given ID.
   extends:
   - '@identifiable-stored'
 

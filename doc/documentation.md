@@ -4704,14 +4704,6 @@ Parameters:
 
 - `mode` (`enum(oidc)`): When set to `OIDC` it will return the data as a raw JSON object and not a Microsegmentation Console-compatible API.
 
-##### `GET /namespaces/:id/prismacloudconfiguration`
-
-Retrieves the Prisma Cloud configuration applied to this namespace.
-
-##### `POST /namespaces/:id/prismacloudconfiguration`
-
-Creates the Prisma Cloud configuration to apply to this namespace.
-
 ##### `GET /namespaces/:id/trustedcas`
 
 Returns the list of trusted CAs for this namespace.
@@ -7088,9 +7080,9 @@ List of all values.
 
 ## core/tenant
 
-### PrismaCloudConfiguration
+### PCConfig
 
-Holds the various Prisma Cloud configuration for a namespace.
+Holds the Prisma Cloud configuration for a namespace.
 
 #### Example
 
@@ -7103,21 +7095,29 @@ Holds the various Prisma Cloud configuration for a namespace.
 
 #### Relations
 
-##### `DELETE /prismacloudconfiguration/:id`
+##### `GET /pcconfig`
 
-Deletes the Prisma Cloud configuration with the given namespace ID.
+Retrieves the list of the Prisma Cloud configuration objects.
 
-##### `PUT /prismacloudconfiguration/:id`
+Parameters:
 
-Updates the Prisma Cloud configuration with the given namespace ID.
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
-##### `GET /namespaces/:id/prismacloudconfiguration`
+##### `POST /pcconfig`
 
-Retrieves the Prisma Cloud configuration applied to this namespace.
+Creates a Prisma Cloud configuration object for the specified namespace.
 
-##### `POST /namespaces/:id/prismacloudconfiguration`
+##### `DELETE /pcconfig/:id`
 
-Creates the Prisma Cloud configuration to apply to this namespace.
+Deletes the Prisma Cloud configuration with the given ID.
+
+##### `GET /pcconfig/:id`
+
+Retrieve the Prisma Cloud configuration with the given ID.
+
+##### `PUT /pcconfig/:id`
+
+Updates the Prisma Cloud configuration with the given ID.
 
 #### Attributes
 

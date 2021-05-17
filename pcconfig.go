@@ -8,43 +8,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PrismaCloudConfigurationIdentity represents the Identity of the object.
-var PrismaCloudConfigurationIdentity = elemental.Identity{
-	Name:     "prismacloudconfiguration",
-	Category: "prismacloudconfiguration",
+// PCConfigIdentity represents the Identity of the object.
+var PCConfigIdentity = elemental.Identity{
+	Name:     "pcconfig",
+	Category: "pcconfig",
 	Package:  "karl",
 	Private:  false,
 }
 
-// PrismaCloudConfigurationsList represents a list of PrismaCloudConfigurations
-type PrismaCloudConfigurationsList []*PrismaCloudConfiguration
+// PCConfigsList represents a list of PCConfigs
+type PCConfigsList []*PCConfig
 
 // Identity returns the identity of the objects in the list.
-func (o PrismaCloudConfigurationsList) Identity() elemental.Identity {
+func (o PCConfigsList) Identity() elemental.Identity {
 
-	return PrismaCloudConfigurationIdentity
+	return PCConfigIdentity
 }
 
-// Copy returns a pointer to a copy the PrismaCloudConfigurationsList.
-func (o PrismaCloudConfigurationsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the PCConfigsList.
+func (o PCConfigsList) Copy() elemental.Identifiables {
 
-	copy := append(PrismaCloudConfigurationsList{}, o...)
+	copy := append(PCConfigsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the PrismaCloudConfigurationsList.
-func (o PrismaCloudConfigurationsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the PCConfigsList.
+func (o PCConfigsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(PrismaCloudConfigurationsList{}, o...)
+	out := append(PCConfigsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*PrismaCloudConfiguration))
+		out = append(out, obj.(*PCConfig))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o PrismaCloudConfigurationsList) List() elemental.IdentifiablesList {
+func (o PCConfigsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -55,31 +55,31 @@ func (o PrismaCloudConfigurationsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o PrismaCloudConfigurationsList) DefaultOrder() []string {
+func (o PCConfigsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the PrismaCloudConfigurationsList converted to SparsePrismaCloudConfigurationsList.
+// ToSparse returns the PCConfigsList converted to SparsePCConfigsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PrismaCloudConfigurationsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o PCConfigsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparsePrismaCloudConfigurationsList, len(o))
+	out := make(SparsePCConfigsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparsePrismaCloudConfiguration)
+		out[i] = o[i].ToSparse(fields...).(*SparsePCConfig)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o PrismaCloudConfigurationsList) Version() int {
+func (o PCConfigsList) Version() int {
 
 	return 1
 }
 
-// PrismaCloudConfiguration represents the model of a prismacloudconfiguration
-type PrismaCloudConfiguration struct {
+// PCConfig represents the model of a pcconfig
+type PCConfig struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -95,41 +95,41 @@ type PrismaCloudConfiguration struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewPrismaCloudConfiguration returns a new *PrismaCloudConfiguration
-func NewPrismaCloudConfiguration() *PrismaCloudConfiguration {
+// NewPCConfig returns a new *PCConfig
+func NewPCConfig() *PCConfig {
 
-	return &PrismaCloudConfiguration{
+	return &PCConfig{
 		ModelVersion: 1,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *PrismaCloudConfiguration) Identity() elemental.Identity {
+func (o *PCConfig) Identity() elemental.Identity {
 
-	return PrismaCloudConfigurationIdentity
+	return PCConfigIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *PrismaCloudConfiguration) Identifier() string {
+func (o *PCConfig) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *PrismaCloudConfiguration) SetIdentifier(id string) {
+func (o *PCConfig) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *PrismaCloudConfiguration) GetBSON() (interface{}, error) {
+func (o *PCConfig) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesPrismaCloudConfiguration{}
+	s := &mongoAttributesPCConfig{}
 
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
@@ -143,13 +143,13 @@ func (o *PrismaCloudConfiguration) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *PrismaCloudConfiguration) SetBSON(raw bson.Raw) error {
+func (o *PCConfig) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesPrismaCloudConfiguration{}
+	s := &mongoAttributesPCConfig{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -163,41 +163,41 @@ func (o *PrismaCloudConfiguration) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *PrismaCloudConfiguration) Version() int {
+func (o *PCConfig) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *PrismaCloudConfiguration) BleveType() string {
+func (o *PCConfig) BleveType() string {
 
-	return "prismacloudconfiguration"
+	return "pcconfig"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *PrismaCloudConfiguration) DefaultOrder() []string {
+func (o *PCConfig) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *PrismaCloudConfiguration) Doc() string {
+func (o *PCConfig) Doc() string {
 
-	return `Holds the various Prisma Cloud configuration for a namespace.`
+	return `Holds the Prisma Cloud configuration for a namespace.`
 }
 
-func (o *PrismaCloudConfiguration) String() string {
+func (o *PCConfig) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *PrismaCloudConfiguration) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *PCConfig) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparsePrismaCloudConfiguration{
+		return &SparsePCConfig{
 			ID:                            &o.ID,
 			EnableNetEffectivePermissions: &o.EnableNetEffectivePermissions,
 			EnableNetworkSecurity:         &o.EnableNetworkSecurity,
@@ -205,7 +205,7 @@ func (o *PrismaCloudConfiguration) ToSparse(fields ...string) elemental.SparseId
 		}
 	}
 
-	sp := &SparsePrismaCloudConfiguration{}
+	sp := &SparsePCConfig{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -222,13 +222,13 @@ func (o *PrismaCloudConfiguration) ToSparse(fields ...string) elemental.SparseId
 	return sp
 }
 
-// Patch apply the non nil value of a *SparsePrismaCloudConfiguration to the object.
-func (o *PrismaCloudConfiguration) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparsePCConfig to the object.
+func (o *PCConfig) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparsePrismaCloudConfiguration)
+	so := sparse.(*SparsePCConfig)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -243,32 +243,32 @@ func (o *PrismaCloudConfiguration) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the PrismaCloudConfiguration.
-func (o *PrismaCloudConfiguration) DeepCopy() *PrismaCloudConfiguration {
+// DeepCopy returns a deep copy if the PCConfig.
+func (o *PCConfig) DeepCopy() *PCConfig {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &PrismaCloudConfiguration{}
+	out := &PCConfig{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *PrismaCloudConfiguration.
-func (o *PrismaCloudConfiguration) DeepCopyInto(out *PrismaCloudConfiguration) {
+// DeepCopyInto copies the receiver into the given *PCConfig.
+func (o *PCConfig) DeepCopyInto(out *PCConfig) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy PrismaCloudConfiguration: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy PCConfig: %s", err))
 	}
 
-	*out = *target.(*PrismaCloudConfiguration)
+	*out = *target.(*PCConfig)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *PrismaCloudConfiguration) Validate() error {
+func (o *PCConfig) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -285,26 +285,26 @@ func (o *PrismaCloudConfiguration) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*PrismaCloudConfiguration) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*PCConfig) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := PrismaCloudConfigurationAttributesMap[name]; ok {
+	if v, ok := PCConfigAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return PrismaCloudConfigurationLowerCaseAttributesMap[name]
+	return PCConfigLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*PrismaCloudConfiguration) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*PCConfig) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return PrismaCloudConfigurationAttributesMap
+	return PCConfigAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *PrismaCloudConfiguration) ValueForAttribute(name string) interface{} {
+func (o *PCConfig) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -320,8 +320,8 @@ func (o *PrismaCloudConfiguration) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// PrismaCloudConfigurationAttributesMap represents the map of attribute for PrismaCloudConfiguration.
-var PrismaCloudConfigurationAttributesMap = map[string]elemental.AttributeSpecification{
+// PCConfigAttributesMap represents the map of attribute for PCConfig.
+var PCConfigAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -370,8 +370,8 @@ var PrismaCloudConfigurationAttributesMap = map[string]elemental.AttributeSpecif
 	},
 }
 
-// PrismaCloudConfigurationLowerCaseAttributesMap represents the map of attribute for PrismaCloudConfiguration.
-var PrismaCloudConfigurationLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// PCConfigLowerCaseAttributesMap represents the map of attribute for PCConfig.
+var PCConfigLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -420,35 +420,35 @@ var PrismaCloudConfigurationLowerCaseAttributesMap = map[string]elemental.Attrib
 	},
 }
 
-// SparsePrismaCloudConfigurationsList represents a list of SparsePrismaCloudConfigurations
-type SparsePrismaCloudConfigurationsList []*SparsePrismaCloudConfiguration
+// SparsePCConfigsList represents a list of SparsePCConfigs
+type SparsePCConfigsList []*SparsePCConfig
 
 // Identity returns the identity of the objects in the list.
-func (o SparsePrismaCloudConfigurationsList) Identity() elemental.Identity {
+func (o SparsePCConfigsList) Identity() elemental.Identity {
 
-	return PrismaCloudConfigurationIdentity
+	return PCConfigIdentity
 }
 
-// Copy returns a pointer to a copy the SparsePrismaCloudConfigurationsList.
-func (o SparsePrismaCloudConfigurationsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparsePCConfigsList.
+func (o SparsePCConfigsList) Copy() elemental.Identifiables {
 
-	copy := append(SparsePrismaCloudConfigurationsList{}, o...)
+	copy := append(SparsePCConfigsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparsePrismaCloudConfigurationsList.
-func (o SparsePrismaCloudConfigurationsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparsePCConfigsList.
+func (o SparsePCConfigsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparsePrismaCloudConfigurationsList{}, o...)
+	out := append(SparsePCConfigsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparsePrismaCloudConfiguration))
+		out = append(out, obj.(*SparsePCConfig))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparsePrismaCloudConfigurationsList) List() elemental.IdentifiablesList {
+func (o SparsePCConfigsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -459,13 +459,13 @@ func (o SparsePrismaCloudConfigurationsList) List() elemental.IdentifiablesList 
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparsePrismaCloudConfigurationsList) DefaultOrder() []string {
+func (o SparsePCConfigsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparsePrismaCloudConfigurationsList converted to PrismaCloudConfigurationsList.
-func (o SparsePrismaCloudConfigurationsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparsePCConfigsList converted to PCConfigsList.
+func (o SparsePCConfigsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -476,13 +476,13 @@ func (o SparsePrismaCloudConfigurationsList) ToPlain() elemental.IdentifiablesLi
 }
 
 // Version returns the version of the content.
-func (o SparsePrismaCloudConfigurationsList) Version() int {
+func (o SparsePCConfigsList) Version() int {
 
 	return 1
 }
 
-// SparsePrismaCloudConfiguration represents the sparse version of a prismacloudconfiguration.
-type SparsePrismaCloudConfiguration struct {
+// SparsePCConfig represents the sparse version of a pcconfig.
+type SparsePCConfig struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -498,19 +498,19 @@ type SparsePrismaCloudConfiguration struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparsePrismaCloudConfiguration returns a new  SparsePrismaCloudConfiguration.
-func NewSparsePrismaCloudConfiguration() *SparsePrismaCloudConfiguration {
-	return &SparsePrismaCloudConfiguration{}
+// NewSparsePCConfig returns a new  SparsePCConfig.
+func NewSparsePCConfig() *SparsePCConfig {
+	return &SparsePCConfig{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparsePrismaCloudConfiguration) Identity() elemental.Identity {
+func (o *SparsePCConfig) Identity() elemental.Identity {
 
-	return PrismaCloudConfigurationIdentity
+	return PCConfigIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparsePrismaCloudConfiguration) Identifier() string {
+func (o *SparsePCConfig) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -519,7 +519,7 @@ func (o *SparsePrismaCloudConfiguration) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparsePrismaCloudConfiguration) SetIdentifier(id string) {
+func (o *SparsePCConfig) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -530,13 +530,13 @@ func (o *SparsePrismaCloudConfiguration) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparsePrismaCloudConfiguration) GetBSON() (interface{}, error) {
+func (o *SparsePCConfig) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparsePrismaCloudConfiguration{}
+	s := &mongoAttributesSparsePCConfig{}
 
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
@@ -556,13 +556,13 @@ func (o *SparsePrismaCloudConfiguration) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparsePrismaCloudConfiguration) SetBSON(raw bson.Raw) error {
+func (o *SparsePCConfig) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparsePrismaCloudConfiguration{}
+	s := &mongoAttributesSparsePCConfig{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -583,15 +583,15 @@ func (o *SparsePrismaCloudConfiguration) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparsePrismaCloudConfiguration) Version() int {
+func (o *SparsePCConfig) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparsePrismaCloudConfiguration) ToPlain() elemental.PlainIdentifiable {
+func (o *SparsePCConfig) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewPrismaCloudConfiguration()
+	out := NewPCConfig()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -608,37 +608,37 @@ func (o *SparsePrismaCloudConfiguration) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
-// DeepCopy returns a deep copy if the SparsePrismaCloudConfiguration.
-func (o *SparsePrismaCloudConfiguration) DeepCopy() *SparsePrismaCloudConfiguration {
+// DeepCopy returns a deep copy if the SparsePCConfig.
+func (o *SparsePCConfig) DeepCopy() *SparsePCConfig {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparsePrismaCloudConfiguration{}
+	out := &SparsePCConfig{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparsePrismaCloudConfiguration.
-func (o *SparsePrismaCloudConfiguration) DeepCopyInto(out *SparsePrismaCloudConfiguration) {
+// DeepCopyInto copies the receiver into the given *SparsePCConfig.
+func (o *SparsePCConfig) DeepCopyInto(out *SparsePCConfig) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparsePrismaCloudConfiguration: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparsePCConfig: %s", err))
 	}
 
-	*out = *target.(*SparsePrismaCloudConfiguration)
+	*out = *target.(*SparsePCConfig)
 }
 
-type mongoAttributesPrismaCloudConfiguration struct {
+type mongoAttributesPCConfig struct {
 	ID                            bson.ObjectId `bson:"_id,omitempty"`
 	EnableNetEffectivePermissions bool          `bson:"enableneteffectivepermissions"`
 	EnableNetworkSecurity         bool          `bson:"enablenetworksecurity"`
 	Key                           string        `bson:"key"`
 }
-type mongoAttributesSparsePrismaCloudConfiguration struct {
+type mongoAttributesSparsePCConfig struct {
 	ID                            bson.ObjectId `bson:"_id,omitempty"`
 	EnableNetEffectivePermissions *bool         `bson:"enableneteffectivepermissions,omitempty"`
 	EnableNetworkSecurity         *bool         `bson:"enablenetworksecurity,omitempty"`

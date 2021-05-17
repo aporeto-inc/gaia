@@ -790,6 +790,14 @@ relations:
   create:
     description: Resets the password for an account using the provided link.
 
+- rest_name: pcconfig
+  get:
+    description: Retrieves the list of the Prisma Cloud configuration objects.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a Prisma Cloud configuration object for the specified namespace.
+
 - rest_name: pccprovider
   get:
     description: Retrieves the list of the PCC providers.
