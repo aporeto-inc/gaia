@@ -8,43 +8,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PCConfigIdentity represents the Identity of the object.
-var PCConfigIdentity = elemental.Identity{
-	Name:     "pcconfig",
-	Category: "pcconfig",
+// CNSConfigIdentity represents the Identity of the object.
+var CNSConfigIdentity = elemental.Identity{
+	Name:     "cnsconfig",
+	Category: "cnsconfigs",
 	Package:  "karl",
 	Private:  false,
 }
 
-// PCConfigsList represents a list of PCConfigs
-type PCConfigsList []*PCConfig
+// CNSConfigsList represents a list of CNSConfigs
+type CNSConfigsList []*CNSConfig
 
 // Identity returns the identity of the objects in the list.
-func (o PCConfigsList) Identity() elemental.Identity {
+func (o CNSConfigsList) Identity() elemental.Identity {
 
-	return PCConfigIdentity
+	return CNSConfigIdentity
 }
 
-// Copy returns a pointer to a copy the PCConfigsList.
-func (o PCConfigsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the CNSConfigsList.
+func (o CNSConfigsList) Copy() elemental.Identifiables {
 
-	copy := append(PCConfigsList{}, o...)
+	copy := append(CNSConfigsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the PCConfigsList.
-func (o PCConfigsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the CNSConfigsList.
+func (o CNSConfigsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(PCConfigsList{}, o...)
+	out := append(CNSConfigsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*PCConfig))
+		out = append(out, obj.(*CNSConfig))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o PCConfigsList) List() elemental.IdentifiablesList {
+func (o CNSConfigsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -55,31 +55,31 @@ func (o PCConfigsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o PCConfigsList) DefaultOrder() []string {
+func (o CNSConfigsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToSparse returns the PCConfigsList converted to SparsePCConfigsList.
+// ToSparse returns the CNSConfigsList converted to SparseCNSConfigsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PCConfigsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o CNSConfigsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparsePCConfigsList, len(o))
+	out := make(SparseCNSConfigsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparsePCConfig)
+		out[i] = o[i].ToSparse(fields...).(*SparseCNSConfig)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o PCConfigsList) Version() int {
+func (o CNSConfigsList) Version() int {
 
 	return 1
 }
 
-// PCConfig represents the model of a pcconfig
-type PCConfig struct {
+// CNSConfig represents the model of a cnsconfig
+type CNSConfig struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -95,41 +95,41 @@ type PCConfig struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewPCConfig returns a new *PCConfig
-func NewPCConfig() *PCConfig {
+// NewCNSConfig returns a new *CNSConfig
+func NewCNSConfig() *CNSConfig {
 
-	return &PCConfig{
+	return &CNSConfig{
 		ModelVersion: 1,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *PCConfig) Identity() elemental.Identity {
+func (o *CNSConfig) Identity() elemental.Identity {
 
-	return PCConfigIdentity
+	return CNSConfigIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *PCConfig) Identifier() string {
+func (o *CNSConfig) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *PCConfig) SetIdentifier(id string) {
+func (o *CNSConfig) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *PCConfig) GetBSON() (interface{}, error) {
+func (o *CNSConfig) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesPCConfig{}
+	s := &mongoAttributesCNSConfig{}
 
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
@@ -143,13 +143,13 @@ func (o *PCConfig) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *PCConfig) SetBSON(raw bson.Raw) error {
+func (o *CNSConfig) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesPCConfig{}
+	s := &mongoAttributesCNSConfig{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -163,41 +163,41 @@ func (o *PCConfig) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *PCConfig) Version() int {
+func (o *CNSConfig) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *PCConfig) BleveType() string {
+func (o *CNSConfig) BleveType() string {
 
-	return "pcconfig"
+	return "cnsconfig"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *PCConfig) DefaultOrder() []string {
+func (o *CNSConfig) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *PCConfig) Doc() string {
+func (o *CNSConfig) Doc() string {
 
-	return `Holds the Prisma Cloud configuration for a namespace.`
+	return `Holds the CNS configuration for a namespace.`
 }
 
-func (o *PCConfig) String() string {
+func (o *CNSConfig) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *PCConfig) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *CNSConfig) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparsePCConfig{
+		return &SparseCNSConfig{
 			ID:                            &o.ID,
 			EnableNetEffectivePermissions: &o.EnableNetEffectivePermissions,
 			EnableNetworkSecurity:         &o.EnableNetworkSecurity,
@@ -205,7 +205,7 @@ func (o *PCConfig) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparsePCConfig{}
+	sp := &SparseCNSConfig{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -222,13 +222,13 @@ func (o *PCConfig) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparsePCConfig to the object.
-func (o *PCConfig) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseCNSConfig to the object.
+func (o *CNSConfig) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparsePCConfig)
+	so := sparse.(*SparseCNSConfig)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -243,32 +243,32 @@ func (o *PCConfig) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the PCConfig.
-func (o *PCConfig) DeepCopy() *PCConfig {
+// DeepCopy returns a deep copy if the CNSConfig.
+func (o *CNSConfig) DeepCopy() *CNSConfig {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &PCConfig{}
+	out := &CNSConfig{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *PCConfig.
-func (o *PCConfig) DeepCopyInto(out *PCConfig) {
+// DeepCopyInto copies the receiver into the given *CNSConfig.
+func (o *CNSConfig) DeepCopyInto(out *CNSConfig) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy PCConfig: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy CNSConfig: %s", err))
 	}
 
-	*out = *target.(*PCConfig)
+	*out = *target.(*CNSConfig)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *PCConfig) Validate() error {
+func (o *CNSConfig) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -285,26 +285,26 @@ func (o *PCConfig) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*PCConfig) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*CNSConfig) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := PCConfigAttributesMap[name]; ok {
+	if v, ok := CNSConfigAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return PCConfigLowerCaseAttributesMap[name]
+	return CNSConfigLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*PCConfig) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*CNSConfig) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return PCConfigAttributesMap
+	return CNSConfigAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *PCConfig) ValueForAttribute(name string) interface{} {
+func (o *CNSConfig) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -320,8 +320,8 @@ func (o *PCConfig) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// PCConfigAttributesMap represents the map of attribute for PCConfig.
-var PCConfigAttributesMap = map[string]elemental.AttributeSpecification{
+// CNSConfigAttributesMap represents the map of attribute for CNSConfig.
+var CNSConfigAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -370,8 +370,8 @@ var PCConfigAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// PCConfigLowerCaseAttributesMap represents the map of attribute for PCConfig.
-var PCConfigLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// CNSConfigLowerCaseAttributesMap represents the map of attribute for CNSConfig.
+var CNSConfigLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -420,35 +420,35 @@ var PCConfigLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	},
 }
 
-// SparsePCConfigsList represents a list of SparsePCConfigs
-type SparsePCConfigsList []*SparsePCConfig
+// SparseCNSConfigsList represents a list of SparseCNSConfigs
+type SparseCNSConfigsList []*SparseCNSConfig
 
 // Identity returns the identity of the objects in the list.
-func (o SparsePCConfigsList) Identity() elemental.Identity {
+func (o SparseCNSConfigsList) Identity() elemental.Identity {
 
-	return PCConfigIdentity
+	return CNSConfigIdentity
 }
 
-// Copy returns a pointer to a copy the SparsePCConfigsList.
-func (o SparsePCConfigsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseCNSConfigsList.
+func (o SparseCNSConfigsList) Copy() elemental.Identifiables {
 
-	copy := append(SparsePCConfigsList{}, o...)
+	copy := append(SparseCNSConfigsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparsePCConfigsList.
-func (o SparsePCConfigsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseCNSConfigsList.
+func (o SparseCNSConfigsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparsePCConfigsList{}, o...)
+	out := append(SparseCNSConfigsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparsePCConfig))
+		out = append(out, obj.(*SparseCNSConfig))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparsePCConfigsList) List() elemental.IdentifiablesList {
+func (o SparseCNSConfigsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -459,13 +459,13 @@ func (o SparsePCConfigsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparsePCConfigsList) DefaultOrder() []string {
+func (o SparseCNSConfigsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// ToPlain returns the SparsePCConfigsList converted to PCConfigsList.
-func (o SparsePCConfigsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseCNSConfigsList converted to CNSConfigsList.
+func (o SparseCNSConfigsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -476,13 +476,13 @@ func (o SparsePCConfigsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparsePCConfigsList) Version() int {
+func (o SparseCNSConfigsList) Version() int {
 
 	return 1
 }
 
-// SparsePCConfig represents the sparse version of a pcconfig.
-type SparsePCConfig struct {
+// SparseCNSConfig represents the sparse version of a cnsconfig.
+type SparseCNSConfig struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -498,19 +498,19 @@ type SparsePCConfig struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparsePCConfig returns a new  SparsePCConfig.
-func NewSparsePCConfig() *SparsePCConfig {
-	return &SparsePCConfig{}
+// NewSparseCNSConfig returns a new  SparseCNSConfig.
+func NewSparseCNSConfig() *SparseCNSConfig {
+	return &SparseCNSConfig{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparsePCConfig) Identity() elemental.Identity {
+func (o *SparseCNSConfig) Identity() elemental.Identity {
 
-	return PCConfigIdentity
+	return CNSConfigIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparsePCConfig) Identifier() string {
+func (o *SparseCNSConfig) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -519,7 +519,7 @@ func (o *SparsePCConfig) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparsePCConfig) SetIdentifier(id string) {
+func (o *SparseCNSConfig) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -530,13 +530,13 @@ func (o *SparsePCConfig) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparsePCConfig) GetBSON() (interface{}, error) {
+func (o *SparseCNSConfig) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparsePCConfig{}
+	s := &mongoAttributesSparseCNSConfig{}
 
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
@@ -556,13 +556,13 @@ func (o *SparsePCConfig) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparsePCConfig) SetBSON(raw bson.Raw) error {
+func (o *SparseCNSConfig) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparsePCConfig{}
+	s := &mongoAttributesSparseCNSConfig{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -583,15 +583,15 @@ func (o *SparsePCConfig) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparsePCConfig) Version() int {
+func (o *SparseCNSConfig) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparsePCConfig) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseCNSConfig) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewPCConfig()
+	out := NewCNSConfig()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -608,37 +608,37 @@ func (o *SparsePCConfig) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
-// DeepCopy returns a deep copy if the SparsePCConfig.
-func (o *SparsePCConfig) DeepCopy() *SparsePCConfig {
+// DeepCopy returns a deep copy if the SparseCNSConfig.
+func (o *SparseCNSConfig) DeepCopy() *SparseCNSConfig {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparsePCConfig{}
+	out := &SparseCNSConfig{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparsePCConfig.
-func (o *SparsePCConfig) DeepCopyInto(out *SparsePCConfig) {
+// DeepCopyInto copies the receiver into the given *SparseCNSConfig.
+func (o *SparseCNSConfig) DeepCopyInto(out *SparseCNSConfig) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparsePCConfig: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseCNSConfig: %s", err))
 	}
 
-	*out = *target.(*SparsePCConfig)
+	*out = *target.(*SparseCNSConfig)
 }
 
-type mongoAttributesPCConfig struct {
+type mongoAttributesCNSConfig struct {
 	ID                            bson.ObjectId `bson:"_id,omitempty"`
 	EnableNetEffectivePermissions bool          `bson:"enableneteffectivepermissions"`
 	EnableNetworkSecurity         bool          `bson:"enablenetworksecurity"`
 	Key                           string        `bson:"key"`
 }
-type mongoAttributesSparsePCConfig struct {
+type mongoAttributesSparseCNSConfig struct {
 	ID                            bson.ObjectId `bson:"_id,omitempty"`
 	EnableNetEffectivePermissions *bool         `bson:"enableneteffectivepermissions,omitempty"`
 	EnableNetworkSecurity         *bool         `bson:"enablenetworksecurity,omitempty"`

@@ -50,6 +50,7 @@ var (
 
 		"cloudvpc": CloudVPCIdentity,
 
+		"cnsconfig":     CNSConfigIdentity,
 		"cnssearch":     CNSSearchIdentity,
 		"cnssuggestion": CNSSuggestionIdentity,
 
@@ -118,7 +119,6 @@ var (
 		"organizationalmetadata": OrganizationalMetadataIdentity,
 		"packetreport":           PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
-		"pcconfig":               PCConfigIdentity,
 		"pccprovider":            PCCProviderIdentity,
 		"pcsearchresult":         PCSearchResultIdentity,
 		"pctimerange":            PCTimeRangeIdentity,
@@ -234,6 +234,7 @@ var (
 
 		"cloudvpcs": CloudVPCIdentity,
 
+		"cnsconfigs":     CNSConfigIdentity,
 		"cnssearches":    CNSSearchIdentity,
 		"cnssuggestions": CNSSuggestionIdentity,
 
@@ -302,7 +303,6 @@ var (
 		"organizationalmetadata": OrganizationalMetadataIdentity,
 		"packetreports":          PacketReportIdentity,
 		"passwordreset":          PasswordResetIdentity,
-		"pcconfig":               PCConfigIdentity,
 		"pccproviders":           PCCProviderIdentity,
 		"pcsearchresults":        PCSearchResultIdentity,
 		"pctimeranges":           PCTimeRangeIdentity,
@@ -387,6 +387,7 @@ var (
 		"crules":          CloudNetworkRuleSetIdentity,
 		"vpc":             CloudVPCIdentity,
 		"vpcs":            CloudVPCIdentity,
+		"pcc":             CNSConfigIdentity,
 		"depmaps":         DependencyMapIdentity,
 		"depmap":          DependencyMapIdentity,
 		"defender":        EnforcerIdentity,
@@ -439,7 +440,6 @@ var (
 		"networkruleset":  NetworkRuleSetPolicyIdentity,
 		"networkrulesets": NetworkRuleSetPolicyIdentity,
 		"om":              OrganizationalMetadataIdentity,
-		"pcc":             PCConfigIdentity,
 		"polgraph":        PolicyGraphIdentity,
 		"pu":              ProcessingUnitIdentity,
 		"pus":             ProcessingUnitIdentity,
@@ -707,6 +707,7 @@ var (
 			{"namespace", "vpcid"},
 			{"createIdempotencyKey"},
 		},
+		"cnsconfig":     nil,
 		"cnssearch":     nil,
 		"cnssuggestion": nil,
 		"connectionexceptionreport": {
@@ -969,7 +970,6 @@ var (
 			{":shard", "zone", "zHash", "_id"},
 		},
 		"passwordreset": nil,
-		"pcconfig":      nil,
 		"pccprovider": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1271,6 +1271,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudSubnet()
 	case CloudVPCIdentity:
 		return NewCloudVPC()
+	case CNSConfigIdentity:
+		return NewCNSConfig()
 	case CNSSearchIdentity:
 		return NewCNSSearch()
 	case CNSSuggestionIdentity:
@@ -1395,8 +1397,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPacketReport()
 	case PasswordResetIdentity:
 		return NewPasswordReset()
-	case PCConfigIdentity:
-		return NewPCConfig()
 	case PCCProviderIdentity:
 		return NewPCCProvider()
 	case PCSearchResultIdentity:
@@ -1598,6 +1598,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudSubnet()
 	case CloudVPCIdentity:
 		return NewSparseCloudVPC()
+	case CNSConfigIdentity:
+		return NewSparseCNSConfig()
 	case CNSSearchIdentity:
 		return NewSparseCNSSearch()
 	case CNSSuggestionIdentity:
@@ -1722,8 +1724,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePacketReport()
 	case PasswordResetIdentity:
 		return NewSparsePasswordReset()
-	case PCConfigIdentity:
-		return NewSparsePCConfig()
 	case PCCProviderIdentity:
 		return NewSparsePCCProvider()
 	case PCSearchResultIdentity:
@@ -1933,6 +1933,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudSubnetsList{}
 	case CloudVPCIdentity:
 		return &CloudVPCsList{}
+	case CNSConfigIdentity:
+		return &CNSConfigsList{}
 	case CNSSearchIdentity:
 		return &CNSSearchesList{}
 	case CNSSuggestionIdentity:
@@ -2057,8 +2059,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PacketReportsList{}
 	case PasswordResetIdentity:
 		return &PasswordResetsList{}
-	case PCConfigIdentity:
-		return &PCConfigsList{}
 	case PCCProviderIdentity:
 		return &PCCProvidersList{}
 	case PCSearchResultIdentity:
@@ -2258,6 +2258,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudSubnetsList{}
 	case CloudVPCIdentity:
 		return &SparseCloudVPCsList{}
+	case CNSConfigIdentity:
+		return &SparseCNSConfigsList{}
 	case CNSSearchIdentity:
 		return &SparseCNSSearchesList{}
 	case CNSSuggestionIdentity:
@@ -2382,8 +2384,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePacketReportsList{}
 	case PasswordResetIdentity:
 		return &SparsePasswordResetsList{}
-	case PCConfigIdentity:
-		return &SparsePCConfigsList{}
 	case PCCProviderIdentity:
 		return &SparsePCCProvidersList{}
 	case PCSearchResultIdentity:
@@ -2565,6 +2565,7 @@ func AllIdentities() []elemental.Identity {
 		CloudSnapshotAccountIdentity,
 		CloudSubnetIdentity,
 		CloudVPCIdentity,
+		CNSConfigIdentity,
 		CNSSearchIdentity,
 		CNSSuggestionIdentity,
 		ConnectionExceptionReportIdentity,
@@ -2627,7 +2628,6 @@ func AllIdentities() []elemental.Identity {
 		OrganizationalMetadataIdentity,
 		PacketReportIdentity,
 		PasswordResetIdentity,
-		PCConfigIdentity,
 		PCCProviderIdentity,
 		PCSearchResultIdentity,
 		PCTimeRangeIdentity,
@@ -2792,6 +2792,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"vpc",
 			"vpcs",
+		}
+	case CNSConfigIdentity:
+		return []string{
+			"pcc",
 		}
 	case CNSSearchIdentity:
 		return []string{}
@@ -2993,10 +2997,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PasswordResetIdentity:
 		return []string{}
-	case PCConfigIdentity:
-		return []string{
-			"pcc",
-		}
 	case PCCProviderIdentity:
 		return []string{}
 	case PCSearchResultIdentity:

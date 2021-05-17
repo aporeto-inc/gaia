@@ -7080,9 +7080,9 @@ List of all values.
 
 ## core/tenant
 
-### PCConfig
+### CNSConfig
 
-Holds the Prisma Cloud configuration for a namespace.
+Holds the CNS configuration for a namespace.
 
 #### Example
 
@@ -7095,29 +7095,29 @@ Holds the Prisma Cloud configuration for a namespace.
 
 #### Relations
 
-##### `GET /pcconfig`
+##### `GET /cnsconfigs`
 
-Retrieves the list of the Prisma Cloud configuration objects.
+Retrieves the list of the CNS configuration objects.
 
 Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
-##### `POST /pcconfig`
+##### `POST /cnsconfigs`
 
-Creates a Prisma Cloud configuration object for the specified namespace.
+Creates a CNS configuration object for the specified namespace.
 
-##### `DELETE /pcconfig/:id`
+##### `DELETE /cnsconfigs/:id`
 
-Deletes the Prisma Cloud configuration with the given ID.
+Deletes the CNS configuration with the given ID.
 
-##### `GET /pcconfig/:id`
+##### `GET /cnsconfigs/:id`
 
-Retrieve the Prisma Cloud configuration with the given ID.
+Retrieve the CNS configuration with the given ID.
 
-##### `PUT /pcconfig/:id`
+##### `PUT /cnsconfigs/:id`
 
-Updates the Prisma Cloud configuration with the given ID.
+Updates the CNS configuration with the given ID.
 
 #### Attributes
 

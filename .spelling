@@ -53,6 +53,7 @@ ClaimMapping
 claims_supported
 ClaimsSupported
 ClauseMatch
+CNSConfig
 CNSSuggestion
 CNSSearch
 clientLocalID
@@ -226,7 +227,6 @@ PacketReport
 Palo
 PasswordReset
 PCC
-PCConfig
 PCCProvider
 PCSearchResult
 PCTimeRange
