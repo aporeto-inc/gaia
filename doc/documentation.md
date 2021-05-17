@@ -9045,7 +9045,7 @@ connections in a particular namespace.
 
 ##### `childrenIDs`
 
-Type: `[]string`
+Type: `map[string][]string`
 
 The list of children for this node.
 
@@ -9069,9 +9069,9 @@ The policies that were applied to this node for each destination.
 
 ##### `publicChildrenIDs`
 
-Type: `[]string`
+Type: `map[string][]string`
 
-The list of children for this node.
+The list of public children for this node.
 
 ##### `routeTableIDs`
 

@@ -15,9 +15,9 @@ attributes:
   v1:
   - name: childrenIDs
     description: The list of children for this node.
-    type: list
+    type: external
     exposed: true
-    subtype: string
+    subtype: map[string][]string
     omit_empty: true
 
   - name: nativeID
@@ -45,10 +45,10 @@ attributes:
       refMode: pointer
 
   - name: publicChildrenIDs
-    description: The list of children for this node.
-    type: list
+    description: The list of public children for this node.
+    type: external
     exposed: true
-    subtype: string
+    subtype: map[string][]string
     omit_empty: true
 
   - name: routeTableIDs
