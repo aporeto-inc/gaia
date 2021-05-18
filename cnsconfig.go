@@ -93,9 +93,6 @@ type CNSConfig struct {
 	// If `true` network security feature is enabled.
 	EnableNetworkSecurity bool `json:"enableNetworkSecurity" msgpack:"enableNetworkSecurity" bson:"enablenetworksecurity" mapstructure:"enableNetworkSecurity,omitempty"`
 
-	// The unique key of the configuration.
-	Key string `json:"key" msgpack:"key" bson:"key" mapstructure:"key,omitempty"`
-
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -158,7 +155,6 @@ func (o *CNSConfig) GetBSON() (interface{}, error) {
 	s.CreateTime = o.CreateTime
 	s.EnableNetEffectivePermissions = o.EnableNetEffectivePermissions
 	s.EnableNetworkSecurity = o.EnableNetworkSecurity
-	s.Key = o.Key
 	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
 	s.UpdateTime = o.UpdateTime
@@ -185,7 +181,6 @@ func (o *CNSConfig) SetBSON(raw bson.Raw) error {
 	o.CreateTime = s.CreateTime
 	o.EnableNetEffectivePermissions = s.EnableNetEffectivePermissions
 	o.EnableNetworkSecurity = s.EnableNetworkSecurity
-	o.Key = s.Key
 	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
 	o.UpdateTime = s.UpdateTime
@@ -307,7 +302,6 @@ func (o *CNSConfig) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateTime:                    &o.CreateTime,
 			EnableNetEffectivePermissions: &o.EnableNetEffectivePermissions,
 			EnableNetworkSecurity:         &o.EnableNetworkSecurity,
-			Key:                           &o.Key,
 			MigrationsLog:                 &o.MigrationsLog,
 			Namespace:                     &o.Namespace,
 			UpdateTime:                    &o.UpdateTime,
@@ -327,8 +321,6 @@ func (o *CNSConfig) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.EnableNetEffectivePermissions = &(o.EnableNetEffectivePermissions)
 		case "enableNetworkSecurity":
 			sp.EnableNetworkSecurity = &(o.EnableNetworkSecurity)
-		case "key":
-			sp.Key = &(o.Key)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "namespace":
@@ -363,9 +355,6 @@ func (o *CNSConfig) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EnableNetworkSecurity != nil {
 		o.EnableNetworkSecurity = *so.EnableNetworkSecurity
-	}
-	if so.Key != nil {
-		o.Key = *so.Key
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -456,8 +445,6 @@ func (o *CNSConfig) ValueForAttribute(name string) interface{} {
 		return o.EnableNetEffectivePermissions
 	case "enableNetworkSecurity":
 		return o.EnableNetworkSecurity
-	case "key":
-		return o.Key
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "namespace":
@@ -524,17 +511,6 @@ var CNSConfigAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "enableNetworkSecurity",
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"Key": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "key",
-		ConvertedName:  "Key",
-		Description:    `The unique key of the configuration.`,
-		Exposed:        true,
-		Name:           "key",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -660,17 +636,6 @@ var CNSConfigLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Name:           "enableNetworkSecurity",
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"key": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "key",
-		ConvertedName:  "Key",
-		Description:    `The unique key of the configuration.`,
-		Exposed:        true,
-		Name:           "key",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"migrationslog": {
 		AllowedChoices: []string{},
@@ -820,9 +785,6 @@ type SparseCNSConfig struct {
 	// If `true` network security feature is enabled.
 	EnableNetworkSecurity *bool `json:"enableNetworkSecurity,omitempty" msgpack:"enableNetworkSecurity,omitempty" bson:"enablenetworksecurity,omitempty" mapstructure:"enableNetworkSecurity,omitempty"`
 
-	// The unique key of the configuration.
-	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"key,omitempty" mapstructure:"key,omitempty"`
-
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -894,9 +856,6 @@ func (o *SparseCNSConfig) GetBSON() (interface{}, error) {
 	if o.EnableNetworkSecurity != nil {
 		s.EnableNetworkSecurity = o.EnableNetworkSecurity
 	}
-	if o.Key != nil {
-		s.Key = o.Key
-	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -940,9 +899,6 @@ func (o *SparseCNSConfig) SetBSON(raw bson.Raw) error {
 	if s.EnableNetworkSecurity != nil {
 		o.EnableNetworkSecurity = s.EnableNetworkSecurity
 	}
-	if s.Key != nil {
-		o.Key = s.Key
-	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
@@ -983,9 +939,6 @@ func (o *SparseCNSConfig) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EnableNetworkSecurity != nil {
 		out.EnableNetworkSecurity = *o.EnableNetworkSecurity
-	}
-	if o.Key != nil {
-		out.Key = *o.Key
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1131,7 +1084,6 @@ type mongoAttributesCNSConfig struct {
 	CreateTime                    time.Time         `bson:"createtime"`
 	EnableNetEffectivePermissions bool              `bson:"enableneteffectivepermissions"`
 	EnableNetworkSecurity         bool              `bson:"enablenetworksecurity"`
-	Key                           string            `bson:"key"`
 	MigrationsLog                 map[string]string `bson:"migrationslog,omitempty"`
 	Namespace                     string            `bson:"namespace"`
 	UpdateTime                    time.Time         `bson:"updatetime"`
@@ -1143,7 +1095,6 @@ type mongoAttributesSparseCNSConfig struct {
 	CreateTime                    *time.Time         `bson:"createtime,omitempty"`
 	EnableNetEffectivePermissions *bool              `bson:"enableneteffectivepermissions,omitempty"`
 	EnableNetworkSecurity         *bool              `bson:"enablenetworksecurity,omitempty"`
-	Key                           *string            `bson:"key,omitempty"`
 	MigrationsLog                 *map[string]string `bson:"migrationslog,omitempty"`
 	Namespace                     *string            `bson:"namespace,omitempty"`
 	UpdateTime                    *time.Time         `bson:"updatetime,omitempty"`

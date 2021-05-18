@@ -35,10 +35,3 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-
-  - name: key
-    description: The unique key of the configuration.
-    type: string
-    exposed: true
-    stored: true
-    read_only: true
