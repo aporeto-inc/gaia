@@ -863,6 +863,12 @@ relations:
   create:
     description: Creates a new processing unit policy.
 
+- rest_name: putrafficaction
+  get:
+    description: Returns the processing unit traffic actions of the specified namespace.
+  create:
+    description: Modifies the processing unit traffic actions of the specified namespace.
+
 - rest_name: quotacheck
   create:
     description: Verifies if the quota is exceeded for a particular object.

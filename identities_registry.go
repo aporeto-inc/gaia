@@ -140,9 +140,10 @@ var (
 		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
 		"processingunitrefresh": ProcessingUnitRefreshIdentity,
 
-		"quotacheck":  QuotaCheckIdentity,
-		"quotapolicy": QuotaPolicyIdentity,
-		"recipe":      RecipeIdentity,
+		"putrafficaction": PUTrafficActionIdentity,
+		"quotacheck":      QuotaCheckIdentity,
+		"quotapolicy":     QuotaPolicyIdentity,
+		"recipe":          RecipeIdentity,
 
 		"remoteprocessor":         RemoteProcessorIdentity,
 		"renderedpolicy":          RenderedPolicyIdentity,
@@ -324,9 +325,10 @@ var (
 		"processingunitpolicies":  ProcessingUnitPolicyIdentity,
 		"processingunitrefreshes": ProcessingUnitRefreshIdentity,
 
-		"quotacheck":    QuotaCheckIdentity,
-		"quotapolicies": QuotaPolicyIdentity,
-		"recipes":       RecipeIdentity,
+		"putrafficactions": PUTrafficActionIdentity,
+		"quotacheck":       QuotaCheckIdentity,
+		"quotapolicies":    QuotaPolicyIdentity,
+		"recipes":          RecipeIdentity,
 
 		"remoteprocessors":          RemoteProcessorIdentity,
 		"renderedpolicies":          RenderedPolicyIdentity,
@@ -1049,6 +1051,7 @@ var (
 		},
 		"processingunitpolicy":  nil,
 		"processingunitrefresh": nil,
+		"putrafficaction":       nil,
 		"quotacheck":            nil,
 		"quotapolicy":           nil,
 		"recipe": {
@@ -1437,6 +1440,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewProcessingUnitPolicy()
 	case ProcessingUnitRefreshIdentity:
 		return NewProcessingUnitRefresh()
+	case PUTrafficActionIdentity:
+		return NewPUTrafficAction()
 	case QuotaCheckIdentity:
 		return NewQuotaCheck()
 	case QuotaPolicyIdentity:
@@ -1764,6 +1769,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseProcessingUnitPolicy()
 	case ProcessingUnitRefreshIdentity:
 		return NewSparseProcessingUnitRefresh()
+	case PUTrafficActionIdentity:
+		return NewSparsePUTrafficAction()
 	case QuotaCheckIdentity:
 		return NewSparseQuotaCheck()
 	case QuotaPolicyIdentity:
@@ -2099,6 +2106,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ProcessingUnitPoliciesList{}
 	case ProcessingUnitRefreshIdentity:
 		return &ProcessingUnitRefreshsList{}
+	case PUTrafficActionIdentity:
+		return &PUTrafficActionsList{}
 	case QuotaCheckIdentity:
 		return &QuotaChecksList{}
 	case QuotaPolicyIdentity:
@@ -2424,6 +2433,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseProcessingUnitPoliciesList{}
 	case ProcessingUnitRefreshIdentity:
 		return &SparseProcessingUnitRefreshsList{}
+	case PUTrafficActionIdentity:
+		return &SparsePUTrafficActionsList{}
 	case QuotaCheckIdentity:
 		return &SparseQuotaChecksList{}
 	case QuotaPolicyIdentity:
@@ -2650,6 +2661,7 @@ func AllIdentities() []elemental.Identity {
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
 		ProcessingUnitRefreshIdentity,
+		PUTrafficActionIdentity,
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
 		RecipeIdentity,
@@ -3044,6 +3056,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"pups",
 		}
 	case ProcessingUnitRefreshIdentity:
+		return []string{}
+	case PUTrafficActionIdentity:
 		return []string{}
 	case QuotaCheckIdentity:
 		return []string{}

@@ -3620,6 +3620,18 @@ func init() {
 
 	relationshipsRegistry[PCTimeRangeIdentity] = &elemental.Relationship{}
 
+	relationshipsRegistry[PUTrafficActionIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
 	relationshipsRegistry[PacketReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
