@@ -17,13 +17,7 @@ attributes:
     description: The list of children for this node.
     type: external
     exposed: true
-    subtype: map[string][]string
-    omit_empty: true
-
-  - name: nativeID
-    description: The native ID of the node.
-    type: string
-    exposed: true
+    subtype: map[string]map[string][]string
     omit_empty: true
 
   - name: nodeData
@@ -48,7 +42,7 @@ attributes:
     description: The list of public children for this node.
     type: external
     exposed: true
-    subtype: map[string][]string
+    subtype: map[string]map[string][]string
     omit_empty: true
 
   - name: routeTableIDs

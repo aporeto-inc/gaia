@@ -9045,15 +9045,9 @@ connections in a particular namespace.
 
 ##### `childrenIDs`
 
-Type: `map[string][]string`
+Type: `map[string]map[string][]string`
 
 The list of children for this node.
-
-##### `nativeID`
-
-Type: `string`
-
-The native ID of the node.
 
 ##### `nodeData`
 
@@ -9069,7 +9063,7 @@ The policies that were applied to this node for each destination.
 
 ##### `publicChildrenIDs`
 
-Type: `map[string][]string`
+Type: `map[string]map[string][]string`
 
 The list of public children for this node.
 
