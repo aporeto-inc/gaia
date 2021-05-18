@@ -710,8 +710,10 @@ var (
 			{"createIdempotencyKey"},
 		},
 		"cnsconfig": {
+			{"updateIdempotencyKey"},
 			{"namespace"},
 			{"namespace", "normalizedTags"},
+			{"createIdempotencyKey"},
 			{":shard", ":unique", "zone", "zHash"},
 		},
 		"cnssearch":     nil,
