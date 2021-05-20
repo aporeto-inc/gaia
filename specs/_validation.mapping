@@ -2,10 +2,6 @@ $apiauthsubject:
   elemental:
     name: ValidateAPIAuthorizationPolicySubject
 
-$apiproxyEntity:
-  elemental:
-    name: ValidateAPIProxyEntity
-
 $audience:
   elemental:
     name: ValidateAudience
@@ -26,10 +22,29 @@ $cidr:
   elemental:
     name: ValidateCIDR
 
+$cidrorip:
+  elemental:
+    name: ValidateCIDROrIP
+
+$cidroriplist:
+  elemental:
+    name: ValidateCIDROrIPList
+
 $cidrs:
   elemental:
     name: ValidateCIDRList
 
+<<<<<<< HEAD
+=======
+$cloudTagsExpression:
+  elemental:
+    name: ValidateCloudTagsExpression
+
+$cloudnetworkquery:
+  elemental:
+    name: ValidateCloudNetworkQueryEntity
+
+>>>>>>> 2e19d3882305285bd5e3d8dc6f124b250259cef6
 $connectionexceptionreport:
   elemental:
     name: ValidateConnectionExceptionReport
@@ -70,9 +85,17 @@ $identity:
   elemental:
     name: ValidateIdentity
 
+$ipaddress:
+  elemental:
+    name: ValidateIPAddress
+
 $metadata:
   elemental:
     name: ValidateMetadata
+
+$nativeid:
+  elemental:
+    name: ValidateNativeID
 
 $networksorhostnames:
   elemental:
@@ -82,9 +105,25 @@ $optionalTimeDuration:
   elemental:
     name: ValidateOptionalTimeDuration
 
+$optionalcidr:
+  elemental:
+    name: ValidateOptionalCIDR
+
+$optionalcidrorip:
+  elemental:
+    name: ValidateOptionalCIDRorIP
+
+$optionalcidroriplist:
+  elemental:
+    name: ValidateOptionalCIDRorIPList
+
 $optionalcidrs:
   elemental:
     name: ValidateOptionalCIDRList
+
+$optionalipaddress:
+  elemental:
+    name: ValidateOptionalIPAddress
 
 $optionalnetworksorhostnames:
   elemental:
@@ -105,6 +144,10 @@ $port:
 $ports:
   elemental:
     name: ValidatePortStringList
+
+$portslist:
+  elemental:
+    name: ValidatePortsList
 
 $processingunitpolicy:
   elemental:

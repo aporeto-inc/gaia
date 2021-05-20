@@ -33,11 +33,6 @@ relations:
     - $filtering
     parameters:
       entries:
-      - name: associatedBillingID
-        description: internal parameters.
-        type: string
-        example_value: billingID
-
       - name: name
         description: internal parameters.
         type: string
@@ -96,14 +91,6 @@ relations:
 - rest_name: apicheck
   create:
     description: Verifies the authorizations on various identities for a given token.
-
-- rest_name: apiproxy
-  get:
-    description: Retrieves the list of API proxies.
-    global_parameters:
-    - $filtering
-  create:
-    description: Creates a new API proxy.
 
 - rest_name: app
   get:
@@ -169,6 +156,11 @@ relations:
 - rest_name: authz
   create:
     description: Verifies if a request should be accepted.
+    parameters:
+      entries:
+      - name: forwardpolicyrules
+        description: If set, return the raw resolved PolicyRulesList.
+        type: boolean
 
 - rest_name: automation
   get:
@@ -181,18 +173,6 @@ relations:
 - rest_name: automationtemplate
   get:
     description: Retrieves the list of automation templates.
-
-- rest_name: awsapigateway
-  get:
-    description: create an AWS API gateway.
-    global_parameters:
-    - $filtering
-  create:
-    description: Manages the AWS API gateway.
-
-- rest_name: awsregister
-  create:
-    description: Creates a new AWS registration for billing.
 
 - rest_name: cachedflowreport
   create:
@@ -209,6 +189,91 @@ relations:
 - rest_name: clausesmatch
   create:
     description: Performs a clause matching.
+
+- rest_name: cloudaccountcleaner
+  create:
+    description: Initiates a cloud account clean up process for all stale objects.
+
+- rest_name: cloudendpoint
+  get:
+    description: List of endpoints associated with the deployment.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud endpoint.
+
+- rest_name: cloudgraph
+  create:
+    description: |-
+      Creates a cloud dependency graph based on ingested data and the required
+      parameters.
+
+- rest_name: cloudmanagednetwork
+  get:
+    description: Retrieves the list of cloud attachments.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud managed network.
+
+- rest_name: cloudnetworkinterface
+  get:
+    description: Retrieve the list of network interfaces associated with the deployment.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud network interface.
+
+- rest_name: cloudnetworkquery
+  get:
+    description: Retrieves the list of cloud network queries.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud network query.
+
+- rest_name: cloudnetworkruleset
+  get:
+    description: Retrieves the list of cloud network rule set policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a cloud network ruleset.
+
+- rest_name: cloudnode
+  get:
+    description: Retrieves the list of cloud nodes.
+    global_parameters:
+    - $filtering
+
+- rest_name: cloudroutetable
+  get:
+    description: Retrieves the list of routing tables.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new routing table.
+
+- rest_name: cloudsnapshotaccount
+  create:
+    description: Initiates a cloud account for snapshot data ingestion.
+
+- rest_name: cloudsubnet
+  get:
+    description: Retrieves the list of subnets.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud subnet.
+
+- rest_name: cloudvpc
+  get:
+    description: Retrieves the list of VPCs.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a cloud VPC.
 
 - rest_name: cnssearch
   create:
@@ -467,30 +532,6 @@ relations:
     - $archivable
   create:
     description: Creates a new HTTP resource specification.
-
-- rest_name: image
-  get:
-    description: Retrieves the list of container images.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new container image.
-
-- rest_name: imagevulnerability
-  get:
-    description: Retrieves the list of vulnerabilities for a bunch of container images.
-    parameters:
-      required:
-      - - - image
-      entries:
-      - name: image
-        description: Image to analyze.
-        type: string
-        multiple: true
-        example_value: nginx:1.12
-  create:
-    description: Creates a new vulnerability.
 
 - rest_name: import
   create:
@@ -791,6 +832,10 @@ relations:
 - rest_name: policyrenderer
   create:
     description: Render a policy of a given type for a given set of tags.
+
+- rest_name: pollaccount
+  create:
+    description: Initiates a poll to a new account.
 
 - rest_name: processingunit
   get:

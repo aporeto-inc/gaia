@@ -3,61 +3,9 @@ package gaia
 import (
 	"fmt"
 	"testing"
-)
 
-func TestValidateAPIProxyEntity(t *testing.T) {
-	type args struct {
-		apiProxy *APIProxy
-	}
-	tests := []struct {
-		name    string
-		args    args
-		wantErr bool
-	}{
-		{
-			"valid cert assignment",
-			args{
-				&APIProxy{
-					ClientCertificate:    "something",
-					ClientCertificateKey: "something",
-				},
-			},
-			false,
-		},
-		{
-			"valid empty assignment",
-			args{
-				&APIProxy{},
-			},
-			false,
-		},
-		{
-			"invalid only client cert assignment",
-			args{
-				&APIProxy{
-					ClientCertificate: "something",
-				},
-			},
-			true,
-		},
-		{
-			"invalid only cert key assignment",
-			args{
-				&APIProxy{
-					ClientCertificateKey: "something",
-				},
-			},
-			true,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateAPIProxyEntity(tt.args.apiProxy); (err != nil) != tt.wantErr {
-				t.Errorf("ValidateAPIProxyEntity() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
-}
+	"go.aporeto.io/gaia/portutils"
+)
 
 func TestValidatePortString(t *testing.T) {
 	type args struct {
@@ -687,6 +635,166 @@ func TestValidateNetworkOrHostnameList(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateNetworkOrHostnameList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateNetworkOrHostnameList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateOptionalCIDR(t *testing.T) {
+	type args struct {
+		attribute string
+		cidr      string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"cidr",
+				"10.0.0.0/8",
+			},
+			false,
+		},
+
+		// valid empty
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"",
+			},
+			false,
+		},
+
+		// invalid
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"foo",
+			},
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateOptionalCIDR(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateOptionalCIDR() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateIPAddress(t *testing.T) {
+	type args struct {
+		attribute string
+		network   string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"ip address",
+				"10.0.0.1",
+			},
+			false,
+		},
+
+		// invalid
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"foo",
+			},
+			true,
+		},
+
+		// invalid
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"10.1.1.0/24",
+			},
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateIPAddress(tt.args.attribute, tt.args.network); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateIPAddress() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateOptionalIPAddress(t *testing.T) {
+	type args struct {
+		attribute string
+		network   string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"ip address",
+				"10.0.0.1",
+			},
+			false,
+		},
+
+		// valid empty
+		{
+			"valid CIDR",
+			args{
+				"ip address",
+				"",
+			},
+			false,
+		},
+
+		// invalid
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"foo",
+			},
+			true,
+		},
+
+		// invalid
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"10.1.1.0/24",
+			},
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateOptionalIPAddress(tt.args.attribute, tt.args.network); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateIPAddress() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
@@ -1809,7 +1917,7 @@ func TestValidateOptionalNetworkOrHostnameList(t *testing.T) {
 			"valid list",
 			args{
 				"nets",
-				[]string{"10.0.0.0/8", "google.com"},
+				[]string{"10.0.0.0/8", "google.com", "10.1.1.2"},
 			},
 			false,
 		},
@@ -3484,3 +3592,660 @@ func TestValidateCounterReport(t *testing.T) {
 		})
 	}
 }
+<<<<<<< HEAD
+=======
+
+func TestValidateCIDROrIP(t *testing.T) {
+	type args struct {
+		attribute string
+		cidr      string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"cidr",
+				"10.0.0.0/8",
+			},
+			false,
+		},
+		{
+			"valid IP",
+			args{
+				"cidr",
+				"10.1.1.2",
+			},
+			false,
+		},
+
+		// invalid CIDR
+		{
+			"invalid CIDR",
+			args{
+				"cidr",
+				"",
+			},
+			true,
+		},
+
+		// invalid DNn
+		{
+			"invalid DNS Name",
+			args{
+				"cidr",
+				"google@com",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCIDROrIP(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateCIDR() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateOptionalCIDRorIP(t *testing.T) {
+	type args struct {
+		attribute string
+		cidr      string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// valid
+		{
+			"valid CIDR",
+			args{
+				"cidr",
+				"10.0.0.0/8",
+			},
+			false,
+		},
+		{
+			"valid IP",
+			args{
+				"cidr",
+				"10.1.1.2",
+			},
+			false,
+		},
+		{
+			"valid IP",
+			args{
+				"cidr",
+				"",
+			},
+			false,
+		},
+
+		// invalid CIDR
+		{
+			"invalid DNS Name",
+			args{
+				"cidr",
+				"google@com",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateOptionalCIDRorIP(tt.args.attribute, tt.args.cidr); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateCIDR() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateCIDRLorIPList(t *testing.T) {
+	type args struct {
+		attribute string
+		networks  []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"valid mixed list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8", "10.1.1.1"},
+			},
+			false,
+		},
+		{
+			"invalid list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8", "google.com"},
+			},
+			true,
+		},
+		{
+			"empty list",
+			args{
+				"nets",
+				[]string{},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCIDROrIPList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCIDRList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateOptionalCIDRLorIPList(t *testing.T) {
+	type args struct {
+		attribute string
+		networks  []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8"},
+			},
+			false,
+		},
+		{
+			"valid mixed list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8", "10.1.1.1"},
+			},
+			false,
+		},
+		{
+			"empty list",
+			args{
+				"nets",
+				[]string{},
+			},
+			false,
+		},
+		{
+			"invalid list",
+			args{
+				"nets",
+				[]string{"10.0.0.0/8", "google.com"},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateOptionalCIDRorIPList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCIDRList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateCloudTagsExpression(t *testing.T) {
+	type args struct {
+		attribute string
+		tags      [][]string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"a=b"}},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"sg-123"}},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"com.aporeto.io"}},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"test:data:test"}},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"test_data"}},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[][]string{{"d@data"}},
+			},
+			false,
+		},
+		{
+			"invalid-list",
+			args{
+				"invalid",
+				[][]string{{"'"}},
+			},
+			true,
+		},
+		{
+			"invalid-list",
+			args{
+				"invalid",
+				[][]string{{"%"}},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCloudTagsExpression(tt.args.attribute, tt.args.tags); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCloudTagsExpression() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidatePortsList(t *testing.T) {
+	type args struct {
+		attribute string
+		ports     []*portutils.PortsRange
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid list",
+			args{
+				"valid",
+				[]*portutils.PortsRange{
+					{
+						FromPort: 22,
+						ToPort:   22,
+					},
+				},
+			},
+			false,
+		},
+		{
+			"valid list",
+			args{
+				"valid",
+				[]*portutils.PortsRange{
+					{
+						FromPort: -1,
+						ToPort:   65535,
+					},
+				},
+			},
+			false,
+		},
+
+		{
+			"valid empty",
+			args{
+				"valid",
+				[]*portutils.PortsRange{},
+			},
+			false,
+		},
+		{
+			"invalid-list",
+			args{
+				"invalid",
+				[]*portutils.PortsRange{
+					{
+						FromPort: -2,
+						ToPort:   10,
+					},
+				},
+			},
+			true,
+		},
+		{
+			"invalid-list",
+			args{
+				"invalid",
+				[]*portutils.PortsRange{
+					{
+						FromPort: 10,
+						ToPort:   70000,
+					},
+				},
+			},
+			true,
+		},
+		{
+			"invalid-list",
+			args{
+				"invalid",
+				[]*portutils.PortsRange{
+					{
+						FromPort: 10,
+						ToPort:   2,
+					},
+				},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidatePortsList(tt.args.attribute, tt.args.ports); (err != nil) != tt.wantErr {
+				t.Errorf("ValidatePortsList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateNativeID(t *testing.T) {
+
+	tests := []struct {
+		name    string
+		id      string
+		wantErr bool
+	}{
+		{
+			"valid",
+			"sg-123",
+			false,
+		},
+		{
+			"valid",
+			"sg.123.3.3",
+			false,
+		},
+		{
+			"valid",
+			"sg:2",
+			false,
+		},
+		{
+			"invalid",
+			"a b",
+			true,
+		},
+		{
+			"invalid",
+			"",
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateNativeID(tt.name, tt.id); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateNativeID() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+func TestValidateCloudGraphQuery(t *testing.T) {
+	type args struct {
+		attribute string
+		query     *CloudNetworkQuery
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid",
+			args{
+				"valid",
+				&CloudNetworkQuery{
+					SourceIP: "0.0.0.0/0",
+					DestinationSelector: &CloudNetworkQueryFilter{
+						VPCIDs: []string{"vpc1"},
+					},
+				},
+			},
+			false,
+		},
+		{
+			"source and dest ip set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP:      "0.0.0.0/0",
+					DestinationIP: "0.0.0.0/0",
+				},
+			},
+			true,
+		},
+		{
+			"source ip and selector set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						VPCIDs: []string{"vpc1"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"neither source ip or selector set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceSelector:      &CloudNetworkQueryFilter{},
+					DestinationSelector: &CloudNetworkQueryFilter{},
+				},
+			},
+			true,
+		},
+		{
+			"destination ip and selector set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP:      "0.0.0.0/0",
+					DestinationIP: "0.0.0.0/0",
+					DestinationSelector: &CloudNetworkQueryFilter{
+						VPCIDs: []string{"vpc1"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"neither destination IP nor selector set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP: "0.0.0.0/0",
+				},
+			},
+			true,
+		},
+		{
+			"bad destination selector with security tags",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP: "0.0.0.0/0",
+					DestinationSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeInstance,
+						SecurityTags: []string{"a=b"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"bad source selector service owners",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType:  CloudNetworkQueryFilterResourceTypeInstance,
+						ServiceOwners: []string{"a=b"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"bad source selector service owners",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeInstance,
+						ServiceTypes: []string{"a=b"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"product info type filter for interface",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType:    CloudNetworkQueryFilterResourceTypeInterface,
+						ProductInfoType: "marketplace",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"product info value filter for interface",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType:     CloudNetworkQueryFilterResourceTypeInterface,
+						ProductInfoValue: "vmseries",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"image as filter for interface",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeInterface,
+						ImageIDs:     []string{"image1"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"destination ports without protocol",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeInterface,
+						ServiceTypes: []string{"a=b"},
+					},
+					DestinationPorts: []*portutils.PortsRange{
+						{
+							FromPort: 100,
+							ToPort:   200,
+						},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"destination ports without wrong protocol",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeInterface,
+						ServiceTypes: []string{"a=b"},
+					},
+					DestinationProtocol: 10,
+					DestinationPorts: []*portutils.PortsRange{
+						{
+							FromPort: 100,
+							ToPort:   200,
+						},
+					},
+				},
+			},
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateCloudNetworkQueryEntity(tt.args.query); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateCloudNetworkQueryEntity() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+>>>>>>> 2e19d3882305285bd5e3d8dc6f124b250259cef6
