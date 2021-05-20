@@ -9182,11 +9182,11 @@ connections in a particular namespace.
 
 #### Attributes
 
-##### `nativeID`
+##### `childrenIDs`
 
-Type: `string`
+Type: `map[string]map[string][]string`
 
-The native ID of the node.
+The list of children for this node.
 
 ##### `nodeData`
 
@@ -9199,6 +9199,12 @@ Details about the node if the query type requests full details.
 Type: [`map[string]cloudgraphnodeaction`](#cloudgraphnodeaction)
 
 The policies that were applied to this node for each destination.
+
+##### `publicChildrenIDs`
+
+Type: `map[string]map[string][]string`
+
+The list of public children for this node.
 
 ##### `routeTableIDs`
 

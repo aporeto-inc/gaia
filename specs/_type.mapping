@@ -333,6 +333,25 @@ map[string]interface{}:
         "additionalProperties": true
       }
 
+map[string]map[string][]string:
+  elemental:
+    type: map[string]map[string][]string
+    init: map[string]map[string][]string{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+
 map[string]map[string]bool:
   elemental:
     type: map[string]map[string]bool
