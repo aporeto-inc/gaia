@@ -232,6 +232,7 @@ PCTimeRange
 PEM-encoded
 PKI-based
 PKIXName
+PUTrafficAction
 PacketReport
 PacketReports
 PasswordReset
