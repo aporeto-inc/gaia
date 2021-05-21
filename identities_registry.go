@@ -13,7 +13,6 @@ var (
 		"alarm":                     AlarmIdentity,
 		"apiauthorizationpolicy":    APIAuthorizationPolicyIdentity,
 		"apicheck":                  APICheckIdentity,
-		"apiproxy":                  APIProxyIdentity,
 		"app":                       AppIdentity,
 		"appcredential":             AppCredentialIdentity,
 		"auditprofile":              AuditProfileIdentity,
@@ -24,21 +23,39 @@ var (
 		"authz":                     AuthzIdentity,
 		"automation":                AutomationIdentity,
 		"automationtemplate":        AutomationTemplateIdentity,
-		"awsapigateway":             AWSAPIGatewayIdentity,
-		"awsregister":               AWSRegisterIdentity,
 		"cachedflowreport":          CachedFlowReportIdentity,
-		"call":                      CallIdentity,
 		"category":                  CategoryIdentity,
 
-		"claims":        ClaimsIdentity,
-		"clausesmatch":  ClauseMatchIdentity,
+		"claims":              ClaimsIdentity,
+		"clausesmatch":        ClauseMatchIdentity,
+		"cloudaccountcleaner": CloudAccountCleanerIdentity,
+
+		"cloudalert":    CloudAlertIdentity,
+		"cloudendpoint": CloudEndpointIdentity,
+
+		"cloudgraph": CloudGraphIdentity,
+
+		"cloudmanagednetwork":   CloudManagedNetworkIdentity,
+		"cloudnetworkinterface": CloudNetworkInterfaceIdentity,
+		"cloudnetworkquery":     CloudNetworkQueryIdentity,
+
+		"cloudnetworkruleset": CloudNetworkRuleSetIdentity,
+
+		"cloudnode":   CloudNodeIdentity,
+		"cloudpolicy": CloudPolicyIdentity,
+
+		"cloudroutetable":      CloudRouteTableIdentity,
+		"cloudsnapshotaccount": CloudSnapshotAccountIdentity,
+		"cloudsubnet":          CloudSubnetIdentity,
+
+		"cloudvpc": CloudVPCIdentity,
+
 		"cnssearch":     CNSSearchIdentity,
 		"cnssuggestion": CNSSuggestionIdentity,
 
 		"connectionexceptionreport": ConnectionExceptionReportIdentity,
 		"counterreport":             CounterReportIdentity,
 
-		"customer":               CustomerIdentity,
 		"datapathcertificate":    DataPathCertificateIdentity,
 		"debugbundle":            DebugBundleIdentity,
 		"defaultenforcerversion": DefaultEnforcerVersionIdentity,
@@ -70,15 +87,11 @@ var (
 		"hostservice":              HostServiceIdentity,
 		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
 		"httpresourcespec":         HTTPResourceSpecIdentity,
-		"image":                    ImageIdentity,
-		"imagevulnerability":       ImageVulnerabilityIdentity,
 		"import":                   ImportIdentity,
 		"importreference":          ImportReferenceIdentity,
 		"importrequest":            ImportRequestIdentity,
 		"infrastructurepolicy":     InfrastructurePolicyIdentity,
 		"installedapp":             InstalledAppIdentity,
-		"invoice":                  InvoiceIdentity,
-		"invoicerecord":            InvoiceRecordIdentity,
 		"ipinfo":                   IPInfoIdentity,
 		"isolationprofile":         IsolationProfileIdentity,
 		"issue":                    IssueIdentity,
@@ -121,6 +134,7 @@ var (
 		"policyrenderer":        PolicyRendererIdentity,
 		"policyrule":            PolicyRuleIdentity,
 		"policyttl":             PolicyTTLIdentity,
+		"pollaccount":           PollAccountIdentity,
 		"processingunit":        ProcessingUnitIdentity,
 		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
 		"processingunitrefresh": ProcessingUnitRefreshIdentity,
@@ -182,7 +196,6 @@ var (
 		"alarms":                      AlarmIdentity,
 		"apiauthorizationpolicies":    APIAuthorizationPolicyIdentity,
 		"apichecks":                   APICheckIdentity,
-		"apiproxies":                  APIProxyIdentity,
 		"apps":                        AppIdentity,
 		"appcredentials":              AppCredentialIdentity,
 		"auditprofiles":               AuditProfileIdentity,
@@ -193,21 +206,39 @@ var (
 		"authz":                       AuthzIdentity,
 		"automations":                 AutomationIdentity,
 		"automationtemplates":         AutomationTemplateIdentity,
-		"awsapigateways":              AWSAPIGatewayIdentity,
-		"awsregister":                 AWSRegisterIdentity,
 		"cachedflowreports":           CachedFlowReportIdentity,
-		"calls":                       CallIdentity,
 		"categories":                  CategoryIdentity,
 
-		"claims":         ClaimsIdentity,
-		"clausesmatches": ClauseMatchIdentity,
+		"claims":              ClaimsIdentity,
+		"clausesmatches":      ClauseMatchIdentity,
+		"cloudaccountcleaner": CloudAccountCleanerIdentity,
+
+		"cloudalerts":    CloudAlertIdentity,
+		"cloudendpoints": CloudEndpointIdentity,
+
+		"cloudgraphs": CloudGraphIdentity,
+
+		"cloudmanagednetworks":   CloudManagedNetworkIdentity,
+		"cloudnetworkinterfaces": CloudNetworkInterfaceIdentity,
+		"cloudnetworkqueries":    CloudNetworkQueryIdentity,
+
+		"cloudnetworkrulesets": CloudNetworkRuleSetIdentity,
+
+		"cloudnodes":    CloudNodeIdentity,
+		"cloudpolicies": CloudPolicyIdentity,
+
+		"cloudroutetables":      CloudRouteTableIdentity,
+		"cloudsnapshotaccounts": CloudSnapshotAccountIdentity,
+		"cloudsubnets":          CloudSubnetIdentity,
+
+		"cloudvpcs": CloudVPCIdentity,
+
 		"cnssearches":    CNSSearchIdentity,
 		"cnssuggestions": CNSSuggestionIdentity,
 
 		"connectionexceptionreports": ConnectionExceptionReportIdentity,
 		"counterreports":             CounterReportIdentity,
 
-		"customers":              CustomerIdentity,
 		"datapathcertificates":   DataPathCertificateIdentity,
 		"debugbundles":           DebugBundleIdentity,
 		"defaultenforcerversion": DefaultEnforcerVersionIdentity,
@@ -239,15 +270,11 @@ var (
 		"hostservices":               HostServiceIdentity,
 		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
 		"httpresourcespecs":          HTTPResourceSpecIdentity,
-		"images":                     ImageIdentity,
-		"imagevulnerabilities":       ImageVulnerabilityIdentity,
 		"import":                     ImportIdentity,
 		"importreferences":           ImportReferenceIdentity,
 		"importrequests":             ImportRequestIdentity,
 		"infrastructurepolicies":     InfrastructurePolicyIdentity,
 		"installedapps":              InstalledAppIdentity,
-		"invoices":                   InvoiceIdentity,
-		"invoicerecords":             InvoiceRecordIdentity,
 		"ipinfos":                    IPInfoIdentity,
 		"isolationprofiles":          IsolationProfileIdentity,
 		"issue":                      IssueIdentity,
@@ -290,6 +317,7 @@ var (
 		"policyrenderers":         PolicyRendererIdentity,
 		"policyrules":             PolicyRuleIdentity,
 		"policyttls":              PolicyTTLIdentity,
+		"pollaccounts":            PollAccountIdentity,
 		"processingunits":         ProcessingUnitIdentity,
 		"processingunitpolicies":  ProcessingUnitPolicyIdentity,
 		"processingunitrefreshes": ProcessingUnitRefreshIdentity,
@@ -345,8 +373,6 @@ var (
 		"accns":           AccessibleNamespaceIdentity,
 		"apiauth":         APIAuthorizationPolicyIdentity,
 		"apiauths":        APIAuthorizationPolicyIdentity,
-		"apiprox":         APIProxyIdentity,
-		"apiproxs":        APIProxyIdentity,
 		"appcred":         AppCredentialIdentity,
 		"appcreds":        AppCredentialIdentity,
 		"ap":              AuditProfileIdentity,
@@ -356,6 +382,9 @@ var (
 		"autos":           AutomationIdentity,
 		"auto":            AutomationIdentity,
 		"autotmpl":        AutomationTemplateIdentity,
+		"crules":          CloudNetworkRuleSetIdentity,
+		"vpc":             CloudVPCIdentity,
+		"vpcs":            CloudVPCIdentity,
 		"depmaps":         DependencyMapIdentity,
 		"depmap":          DependencyMapIdentity,
 		"defender":        EnforcerIdentity,
@@ -488,18 +517,7 @@ var (
 		},
 		"apiauthorizationpolicy": nil,
 		"apicheck":               nil,
-		"apiproxy": {
-			{":shard", ":unique", "zone", "zHash"},
-			{"updateIdempotencyKey"},
-			{"namespace", "disabled"},
-			{"namespace"},
-			{"namespace", "normalizedTags"},
-			{"namespace", "name"},
-			{"name"},
-			{"disabled"},
-			{"createIdempotencyKey"},
-		},
-		"app": nil,
+		"app":                    nil,
 		"appcredential": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -544,21 +562,12 @@ var (
 			{"createIdempotencyKey"},
 		},
 		"automationtemplate": nil,
-		"awsapigateway": {
-			{"updateIdempotencyKey"},
-			{"namespace", "name"},
-			{"name"},
-			{"createIdempotencyKey"},
-			{":shard", ":unique", "zone", "zHash"},
-		},
-		"awsregister": nil,
 		"cachedflowreport": {
 			{"sourceID"},
 			{"namespace", "timestamp"},
 			{"destinationID"},
 			{":shard", "zone", "zHash", "_id"},
 		},
-		"call":     nil,
 		"category": nil,
 		"claims": {
 			{"namespace", "hash"},
@@ -566,7 +575,135 @@ var (
 			{"namespace"},
 			{"namespace", "normalizedTags"},
 		},
-		"clausesmatch":  nil,
+		"clausesmatch":        nil,
+		"cloudaccountcleaner": nil,
+		"cloudalert": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
+		},
+		"cloudendpoint": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "nativeID"},
+			{"namespace", "accountid"},
+			{"namespace", "vpcid"},
+			{"createIdempotencyKey"},
+		},
+		"cloudgraph": nil,
+		"cloudmanagednetwork": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"type"},
+			{"namespace"},
+			{"namespace", "nativeID"},
+			{"namespace", "type"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "accountid"},
+			{"namespace", "vpcid"},
+			{"key"},
+			{"createIdempotencyKey"},
+		},
+		"cloudnetworkinterface": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "nativeID"},
+			{"namespace", "accountid"},
+			{"namespace", "vpcid"},
+			{"createIdempotencyKey"},
+		},
+		"cloudnetworkquery": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
+		},
+		"cloudnetworkruleset": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "vpcid"},
+			{"namespace"},
+			{"namespace", "vpcid", "parameters"},
+			{"namespace", "accountid"},
+			{"namespace", "nativeID"},
+			{"key"},
+			{"createIdempotencyKey"},
+		},
+		"cloudnode": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "relatedObjectID"},
+			{"namespace", "securitytags", "type", "vpcid"},
+			{"namespace", "vpcid", "type"},
+			{"namespace", "vpcid", "parameters"},
+			{"namespace", "type", "parameters"},
+			{"namespace", "nativeID"},
+			{"namespace", "vpcid"},
+			{"namespace"},
+			{"namespace", "accountid"},
+			{"namespace", "type", "subtype"},
+			{"namespace", "normalizedTags"},
+			{"key"},
+			{"createTime"},
+			{"createIdempotencyKey"},
+		},
+		"cloudpolicy": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"createIdempotencyKey"},
+		},
+		"cloudroutetable": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "nativeID"},
+			{"namespace", "accountid"},
+			{"namespace", "vpcid"},
+			{"createIdempotencyKey"},
+		},
+		"cloudsnapshotaccount": {
+			{"updateIdempotencyKey"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"createIdempotencyKey"},
+		},
+		"cloudsubnet": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "nativeID"},
+			{"namespace", "accountid"},
+			{"namespace", "vpcid"},
+			{"createIdempotencyKey"},
+		},
+		"cloudvpc": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"namespace", "nativeID"},
+			{"namespace", "accountid"},
+			{"namespace", "vpcid"},
+			{"createIdempotencyKey"},
+		},
 		"cnssearch":     nil,
 		"cnssuggestion": nil,
 		"connectionexceptionreport": {
@@ -578,9 +715,6 @@ var (
 		"counterreport": {
 			{"namespace", "timestamp"},
 			{":shard", "zone", "zHash", "_id"},
-		},
-		"customer": {
-			{"providerCustomerID"},
 		},
 		"datapathcertificate":    nil,
 		"debugbundle":            nil,
@@ -731,22 +865,7 @@ var (
 			{"createIdempotencyKey"},
 			{"archived"},
 		},
-		"image": {
-			{":shard", ":unique", "zone", "zHash"},
-			{"updateIdempotencyKey"},
-			{"severity"},
-			{"propagate"},
-			{"namespace"},
-			{"namespace", "severity"},
-			{"namespace", "hash"},
-			{"namespace", "normalizedTags"},
-			{"namespace", "name"},
-			{"name"},
-			{"hash"},
-			{"createIdempotencyKey"},
-		},
-		"imagevulnerability": nil,
-		"import":             nil,
+		"import": nil,
 		"importreference": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -774,9 +893,7 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"invoice":       nil,
-		"invoicerecord": nil,
-		"ipinfo":        nil,
+		"ipinfo": nil,
 		"isolationprofile": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -816,9 +933,10 @@ var (
 		"namespace": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
+			{"type"},
+			{"namespace"},
 			{"namespace", "normalizedTags"},
 			{"namespace", "name"},
-			{"namespace"},
 			{"name"},
 			{"createIdempotencyKey"},
 		},
@@ -903,6 +1021,7 @@ var (
 		"policyrenderer": nil,
 		"policyrule":     nil,
 		"policyttl":      nil,
+		"pollaccount":    nil,
 		"processingunit": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1092,8 +1211,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity:
 		return NewAPICheck()
-	case APIProxyIdentity:
-		return NewAPIProxy()
 	case AppIdentity:
 		return NewApp()
 	case AppCredentialIdentity:
@@ -1114,20 +1231,42 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAutomation()
 	case AutomationTemplateIdentity:
 		return NewAutomationTemplate()
-	case AWSAPIGatewayIdentity:
-		return NewAWSAPIGateway()
-	case AWSRegisterIdentity:
-		return NewAWSRegister()
 	case CachedFlowReportIdentity:
 		return NewCachedFlowReport()
-	case CallIdentity:
-		return NewCall()
 	case CategoryIdentity:
 		return NewCategory()
 	case ClaimsIdentity:
 		return NewClaims()
 	case ClauseMatchIdentity:
 		return NewClauseMatch()
+	case CloudAccountCleanerIdentity:
+		return NewCloudAccountCleaner()
+	case CloudAlertIdentity:
+		return NewCloudAlert()
+	case CloudEndpointIdentity:
+		return NewCloudEndpoint()
+	case CloudGraphIdentity:
+		return NewCloudGraph()
+	case CloudManagedNetworkIdentity:
+		return NewCloudManagedNetwork()
+	case CloudNetworkInterfaceIdentity:
+		return NewCloudNetworkInterface()
+	case CloudNetworkQueryIdentity:
+		return NewCloudNetworkQuery()
+	case CloudNetworkRuleSetIdentity:
+		return NewCloudNetworkRuleSet()
+	case CloudNodeIdentity:
+		return NewCloudNode()
+	case CloudPolicyIdentity:
+		return NewCloudPolicy()
+	case CloudRouteTableIdentity:
+		return NewCloudRouteTable()
+	case CloudSnapshotAccountIdentity:
+		return NewCloudSnapshotAccount()
+	case CloudSubnetIdentity:
+		return NewCloudSubnet()
+	case CloudVPCIdentity:
+		return NewCloudVPC()
 	case CNSSearchIdentity:
 		return NewCNSSearch()
 	case CNSSuggestionIdentity:
@@ -1136,8 +1275,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewConnectionExceptionReport()
 	case CounterReportIdentity:
 		return NewCounterReport()
-	case CustomerIdentity:
-		return NewCustomer()
 	case DataPathCertificateIdentity:
 		return NewDataPathCertificate()
 	case DebugBundleIdentity:
@@ -1196,10 +1333,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewHTTPResourceSpec()
-	case ImageIdentity:
-		return NewImage()
-	case ImageVulnerabilityIdentity:
-		return NewImageVulnerability()
 	case ImportIdentity:
 		return NewImport()
 	case ImportReferenceIdentity:
@@ -1210,10 +1343,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewInfrastructurePolicy()
 	case InstalledAppIdentity:
 		return NewInstalledApp()
-	case InvoiceIdentity:
-		return NewInvoice()
-	case InvoiceRecordIdentity:
-		return NewInvoiceRecord()
 	case IPInfoIdentity:
 		return NewIPInfo()
 	case IsolationProfileIdentity:
@@ -1290,6 +1419,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPolicyRule()
 	case PolicyTTLIdentity:
 		return NewPolicyTTL()
+	case PollAccountIdentity:
+		return NewPollAccount()
 	case ProcessingUnitIdentity:
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
@@ -1405,8 +1536,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAPIAuthorizationPolicy()
 	case APICheckIdentity:
 		return NewSparseAPICheck()
-	case APIProxyIdentity:
-		return NewSparseAPIProxy()
 	case AppIdentity:
 		return NewSparseApp()
 	case AppCredentialIdentity:
@@ -1427,20 +1556,42 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAutomation()
 	case AutomationTemplateIdentity:
 		return NewSparseAutomationTemplate()
-	case AWSAPIGatewayIdentity:
-		return NewSparseAWSAPIGateway()
-	case AWSRegisterIdentity:
-		return NewSparseAWSRegister()
 	case CachedFlowReportIdentity:
 		return NewSparseCachedFlowReport()
-	case CallIdentity:
-		return NewSparseCall()
 	case CategoryIdentity:
 		return NewSparseCategory()
 	case ClaimsIdentity:
 		return NewSparseClaims()
 	case ClauseMatchIdentity:
 		return NewSparseClauseMatch()
+	case CloudAccountCleanerIdentity:
+		return NewSparseCloudAccountCleaner()
+	case CloudAlertIdentity:
+		return NewSparseCloudAlert()
+	case CloudEndpointIdentity:
+		return NewSparseCloudEndpoint()
+	case CloudGraphIdentity:
+		return NewSparseCloudGraph()
+	case CloudManagedNetworkIdentity:
+		return NewSparseCloudManagedNetwork()
+	case CloudNetworkInterfaceIdentity:
+		return NewSparseCloudNetworkInterface()
+	case CloudNetworkQueryIdentity:
+		return NewSparseCloudNetworkQuery()
+	case CloudNetworkRuleSetIdentity:
+		return NewSparseCloudNetworkRuleSet()
+	case CloudNodeIdentity:
+		return NewSparseCloudNode()
+	case CloudPolicyIdentity:
+		return NewSparseCloudPolicy()
+	case CloudRouteTableIdentity:
+		return NewSparseCloudRouteTable()
+	case CloudSnapshotAccountIdentity:
+		return NewSparseCloudSnapshotAccount()
+	case CloudSubnetIdentity:
+		return NewSparseCloudSubnet()
+	case CloudVPCIdentity:
+		return NewSparseCloudVPC()
 	case CNSSearchIdentity:
 		return NewSparseCNSSearch()
 	case CNSSuggestionIdentity:
@@ -1449,8 +1600,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseConnectionExceptionReport()
 	case CounterReportIdentity:
 		return NewSparseCounterReport()
-	case CustomerIdentity:
-		return NewSparseCustomer()
 	case DataPathCertificateIdentity:
 		return NewSparseDataPathCertificate()
 	case DebugBundleIdentity:
@@ -1509,10 +1658,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewSparseHTTPResourceSpec()
-	case ImageIdentity:
-		return NewSparseImage()
-	case ImageVulnerabilityIdentity:
-		return NewSparseImageVulnerability()
 	case ImportIdentity:
 		return NewSparseImport()
 	case ImportReferenceIdentity:
@@ -1523,10 +1668,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseInfrastructurePolicy()
 	case InstalledAppIdentity:
 		return NewSparseInstalledApp()
-	case InvoiceIdentity:
-		return NewSparseInvoice()
-	case InvoiceRecordIdentity:
-		return NewSparseInvoiceRecord()
 	case IPInfoIdentity:
 		return NewSparseIPInfo()
 	case IsolationProfileIdentity:
@@ -1603,6 +1744,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePolicyRule()
 	case PolicyTTLIdentity:
 		return NewSparsePolicyTTL()
+	case PollAccountIdentity:
+		return NewSparsePollAccount()
 	case ProcessingUnitIdentity:
 		return NewSparseProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
@@ -1726,8 +1869,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity:
 		return &APIChecksList{}
-	case APIProxyIdentity:
-		return &APIProxiesList{}
 	case AppIdentity:
 		return &AppsList{}
 	case AppCredentialIdentity:
@@ -1748,20 +1889,42 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AutomationsList{}
 	case AutomationTemplateIdentity:
 		return &AutomationTemplatesList{}
-	case AWSAPIGatewayIdentity:
-		return &AWSAPIGatewaysList{}
-	case AWSRegisterIdentity:
-		return &AWSRegistersList{}
 	case CachedFlowReportIdentity:
 		return &CachedFlowReportsList{}
-	case CallIdentity:
-		return &CallsList{}
 	case CategoryIdentity:
 		return &CategoriesList{}
 	case ClaimsIdentity:
 		return &ClaimsList{}
 	case ClauseMatchIdentity:
 		return &ClauseMatchesList{}
+	case CloudAccountCleanerIdentity:
+		return &CloudAccountCleanersList{}
+	case CloudAlertIdentity:
+		return &CloudAlertsList{}
+	case CloudEndpointIdentity:
+		return &CloudEndpointsList{}
+	case CloudGraphIdentity:
+		return &CloudGraphsList{}
+	case CloudManagedNetworkIdentity:
+		return &CloudManagedNetworksList{}
+	case CloudNetworkInterfaceIdentity:
+		return &CloudNetworkInterfacesList{}
+	case CloudNetworkQueryIdentity:
+		return &CloudNetworkQueriesList{}
+	case CloudNetworkRuleSetIdentity:
+		return &CloudNetworkRuleSetsList{}
+	case CloudNodeIdentity:
+		return &CloudNodesList{}
+	case CloudPolicyIdentity:
+		return &CloudPoliciesList{}
+	case CloudRouteTableIdentity:
+		return &CloudRouteTablesList{}
+	case CloudSnapshotAccountIdentity:
+		return &CloudSnapshotAccountsList{}
+	case CloudSubnetIdentity:
+		return &CloudSubnetsList{}
+	case CloudVPCIdentity:
+		return &CloudVPCsList{}
 	case CNSSearchIdentity:
 		return &CNSSearchesList{}
 	case CNSSuggestionIdentity:
@@ -1770,8 +1933,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ConnectionExceptionReportsList{}
 	case CounterReportIdentity:
 		return &CounterReportsList{}
-	case CustomerIdentity:
-		return &CustomersList{}
 	case DataPathCertificateIdentity:
 		return &DataPathCertificatesList{}
 	case DebugBundleIdentity:
@@ -1830,10 +1991,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &HostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &HTTPResourceSpecsList{}
-	case ImageIdentity:
-		return &ImagesList{}
-	case ImageVulnerabilityIdentity:
-		return &ImageVulnerabilitiesList{}
 	case ImportIdentity:
 		return &ImportsList{}
 	case ImportReferenceIdentity:
@@ -1844,10 +2001,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &InfrastructurePoliciesList{}
 	case InstalledAppIdentity:
 		return &InstalledAppsList{}
-	case InvoiceIdentity:
-		return &InvoicesList{}
-	case InvoiceRecordIdentity:
-		return &InvoiceRecordsList{}
 	case IPInfoIdentity:
 		return &IPInfosList{}
 	case IsolationProfileIdentity:
@@ -1924,6 +2077,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PolicyRulesList{}
 	case PolicyTTLIdentity:
 		return &PolicyTTLsList{}
+	case PollAccountIdentity:
+		return &PollAccountsList{}
 	case ProcessingUnitIdentity:
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
@@ -2037,8 +2192,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAPIAuthorizationPoliciesList{}
 	case APICheckIdentity:
 		return &SparseAPIChecksList{}
-	case APIProxyIdentity:
-		return &SparseAPIProxiesList{}
 	case AppIdentity:
 		return &SparseAppsList{}
 	case AppCredentialIdentity:
@@ -2059,20 +2212,42 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAutomationsList{}
 	case AutomationTemplateIdentity:
 		return &SparseAutomationTemplatesList{}
-	case AWSAPIGatewayIdentity:
-		return &SparseAWSAPIGatewaysList{}
-	case AWSRegisterIdentity:
-		return &SparseAWSRegistersList{}
 	case CachedFlowReportIdentity:
 		return &SparseCachedFlowReportsList{}
-	case CallIdentity:
-		return &SparseCallsList{}
 	case CategoryIdentity:
 		return &SparseCategoriesList{}
 	case ClaimsIdentity:
 		return &SparseClaimsList{}
 	case ClauseMatchIdentity:
 		return &SparseClauseMatchesList{}
+	case CloudAccountCleanerIdentity:
+		return &SparseCloudAccountCleanersList{}
+	case CloudAlertIdentity:
+		return &SparseCloudAlertsList{}
+	case CloudEndpointIdentity:
+		return &SparseCloudEndpointsList{}
+	case CloudGraphIdentity:
+		return &SparseCloudGraphsList{}
+	case CloudManagedNetworkIdentity:
+		return &SparseCloudManagedNetworksList{}
+	case CloudNetworkInterfaceIdentity:
+		return &SparseCloudNetworkInterfacesList{}
+	case CloudNetworkQueryIdentity:
+		return &SparseCloudNetworkQueriesList{}
+	case CloudNetworkRuleSetIdentity:
+		return &SparseCloudNetworkRuleSetsList{}
+	case CloudNodeIdentity:
+		return &SparseCloudNodesList{}
+	case CloudPolicyIdentity:
+		return &SparseCloudPoliciesList{}
+	case CloudRouteTableIdentity:
+		return &SparseCloudRouteTablesList{}
+	case CloudSnapshotAccountIdentity:
+		return &SparseCloudSnapshotAccountsList{}
+	case CloudSubnetIdentity:
+		return &SparseCloudSubnetsList{}
+	case CloudVPCIdentity:
+		return &SparseCloudVPCsList{}
 	case CNSSearchIdentity:
 		return &SparseCNSSearchesList{}
 	case CNSSuggestionIdentity:
@@ -2081,8 +2256,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseConnectionExceptionReportsList{}
 	case CounterReportIdentity:
 		return &SparseCounterReportsList{}
-	case CustomerIdentity:
-		return &SparseCustomersList{}
 	case DataPathCertificateIdentity:
 		return &SparseDataPathCertificatesList{}
 	case DebugBundleIdentity:
@@ -2141,10 +2314,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseHostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &SparseHTTPResourceSpecsList{}
-	case ImageIdentity:
-		return &SparseImagesList{}
-	case ImageVulnerabilityIdentity:
-		return &SparseImageVulnerabilitiesList{}
 	case ImportIdentity:
 		return &SparseImportsList{}
 	case ImportReferenceIdentity:
@@ -2155,10 +2324,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseInfrastructurePoliciesList{}
 	case InstalledAppIdentity:
 		return &SparseInstalledAppsList{}
-	case InvoiceIdentity:
-		return &SparseInvoicesList{}
-	case InvoiceRecordIdentity:
-		return &SparseInvoiceRecordsList{}
 	case IPInfoIdentity:
 		return &SparseIPInfosList{}
 	case IsolationProfileIdentity:
@@ -2235,6 +2400,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePolicyRulesList{}
 	case PolicyTTLIdentity:
 		return &SparsePolicyTTLsList{}
+	case PollAccountIdentity:
+		return &SparsePollAccountsList{}
 	case ProcessingUnitIdentity:
 		return &SparseProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
@@ -2358,7 +2525,6 @@ func AllIdentities() []elemental.Identity {
 		AlarmIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
-		APIProxyIdentity,
 		AppIdentity,
 		AppCredentialIdentity,
 		AuditProfileIdentity,
@@ -2369,18 +2535,28 @@ func AllIdentities() []elemental.Identity {
 		AuthzIdentity,
 		AutomationIdentity,
 		AutomationTemplateIdentity,
-		AWSAPIGatewayIdentity,
-		AWSRegisterIdentity,
 		CachedFlowReportIdentity,
-		CallIdentity,
 		CategoryIdentity,
 		ClaimsIdentity,
 		ClauseMatchIdentity,
+		CloudAccountCleanerIdentity,
+		CloudAlertIdentity,
+		CloudEndpointIdentity,
+		CloudGraphIdentity,
+		CloudManagedNetworkIdentity,
+		CloudNetworkInterfaceIdentity,
+		CloudNetworkQueryIdentity,
+		CloudNetworkRuleSetIdentity,
+		CloudNodeIdentity,
+		CloudPolicyIdentity,
+		CloudRouteTableIdentity,
+		CloudSnapshotAccountIdentity,
+		CloudSubnetIdentity,
+		CloudVPCIdentity,
 		CNSSearchIdentity,
 		CNSSuggestionIdentity,
 		ConnectionExceptionReportIdentity,
 		CounterReportIdentity,
-		CustomerIdentity,
 		DataPathCertificateIdentity,
 		DebugBundleIdentity,
 		DefaultEnforcerVersionIdentity,
@@ -2410,15 +2586,11 @@ func AllIdentities() []elemental.Identity {
 		HostServiceIdentity,
 		HostServiceMappingPolicyIdentity,
 		HTTPResourceSpecIdentity,
-		ImageIdentity,
-		ImageVulnerabilityIdentity,
 		ImportIdentity,
 		ImportReferenceIdentity,
 		ImportRequestIdentity,
 		InfrastructurePolicyIdentity,
 		InstalledAppIdentity,
-		InvoiceIdentity,
-		InvoiceRecordIdentity,
 		IPInfoIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
@@ -2457,6 +2629,7 @@ func AllIdentities() []elemental.Identity {
 		PolicyRendererIdentity,
 		PolicyRuleIdentity,
 		PolicyTTLIdentity,
+		PollAccountIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
 		ProcessingUnitRefreshIdentity,
@@ -2531,11 +2704,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case APICheckIdentity:
 		return []string{}
-	case APIProxyIdentity:
-		return []string{
-			"apiprox",
-			"apiproxs",
-		}
 	case AppIdentity:
 		return []string{}
 	case AppCredentialIdentity:
@@ -2571,13 +2739,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"autotmpl",
 		}
-	case AWSAPIGatewayIdentity:
-		return []string{}
-	case AWSRegisterIdentity:
-		return []string{}
 	case CachedFlowReportIdentity:
-		return []string{}
-	case CallIdentity:
 		return []string{}
 	case CategoryIdentity:
 		return []string{}
@@ -2585,6 +2747,39 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case ClauseMatchIdentity:
 		return []string{}
+	case CloudAccountCleanerIdentity:
+		return []string{}
+	case CloudAlertIdentity:
+		return []string{}
+	case CloudEndpointIdentity:
+		return []string{}
+	case CloudGraphIdentity:
+		return []string{}
+	case CloudManagedNetworkIdentity:
+		return []string{}
+	case CloudNetworkInterfaceIdentity:
+		return []string{}
+	case CloudNetworkQueryIdentity:
+		return []string{}
+	case CloudNetworkRuleSetIdentity:
+		return []string{
+			"crules",
+		}
+	case CloudNodeIdentity:
+		return []string{}
+	case CloudPolicyIdentity:
+		return []string{}
+	case CloudRouteTableIdentity:
+		return []string{}
+	case CloudSnapshotAccountIdentity:
+		return []string{}
+	case CloudSubnetIdentity:
+		return []string{}
+	case CloudVPCIdentity:
+		return []string{
+			"vpc",
+			"vpcs",
+		}
 	case CNSSearchIdentity:
 		return []string{}
 	case CNSSuggestionIdentity:
@@ -2592,8 +2787,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ConnectionExceptionReportIdentity:
 		return []string{}
 	case CounterReportIdentity:
-		return []string{}
-	case CustomerIdentity:
 		return []string{}
 	case DataPathCertificateIdentity:
 		return []string{}
@@ -2686,10 +2879,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"resource",
 			"httpspec",
 		}
-	case ImageIdentity:
-		return []string{}
-	case ImageVulnerabilityIdentity:
-		return []string{}
 	case ImportIdentity:
 		return []string{}
 	case ImportReferenceIdentity:
@@ -2714,10 +2903,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"iapps",
 			"iapp",
 		}
-	case InvoiceIdentity:
-		return []string{}
-	case InvoiceRecordIdentity:
-		return []string{}
 	case IPInfoIdentity:
 		return []string{}
 	case IsolationProfileIdentity:
@@ -2824,6 +3009,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PolicyRuleIdentity:
 		return []string{}
 	case PolicyTTLIdentity:
+		return []string{}
+	case PollAccountIdentity:
 		return []string{}
 	case ProcessingUnitIdentity:
 		return []string{

@@ -10,8 +10,6 @@ model:
     user.
   aliases:
   - accns
-  extends:
-  - '@namespaced'
 
 # Ordering
 default_order:
@@ -24,13 +22,6 @@ indexes:
 # Attributes
 attributes:
   v1:
-  - name: ID
-    description: Identifier of the namespace that is accessible.
-    type: string
-    exposed: true
-    read_only: true
-    example_value: 123-4343-54343
-
   - name: name
     description: Name of the namespace that is accessible.
     type: string

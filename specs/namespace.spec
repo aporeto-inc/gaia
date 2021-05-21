@@ -39,6 +39,7 @@ indexes:
 - - name
 - - namespace
   - name
+- - type
 
 # Attributes
 attributes:

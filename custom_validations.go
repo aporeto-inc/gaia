@@ -21,28 +21,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// ValidateAPIProxyEntity validates an APIProxy.
-func ValidateAPIProxyEntity(apiProxy *APIProxy) error {
-
-	var errs elemental.Errors
-
-	// We only want to check if there is a key on creation as it is a secret which
-	// means it will never be exposed outside of the service
-	if apiProxy.ID == "" && apiProxy.ClientCertificate != "" && apiProxy.ClientCertificateKey == "" {
-		errs = errs.Append(makeValidationError("ClientCertificateKey", "Client certificate private key was not provided"))
-	}
-
-	if apiProxy.ClientCertificate == "" && apiProxy.ClientCertificateKey != "" {
-		errs = errs.Append(makeValidationError("ClientCertificate", "Client certificate was not provided"))
-	}
-
-	if len(errs) > 0 {
-		return errs
-	}
-
-	return nil
-}
-
 // ValidatePortString validates a string represents a port or a range of port.
 // valid: 443, 443:555
 func ValidatePortString(attribute string, portExp string) error {
@@ -130,6 +108,78 @@ func ValidateOptionalNetworkOrHostnameList(attribute string, networks []string) 
 	return nil
 }
 
+// ValidateCIDROrIP validates that this is a valid IP address or CIDR.
+func ValidateCIDROrIP(attribute string, network string) error {
+	ipErr := ValidateIPAddress(attribute, network)
+	cidrErr := ValidateCIDR(attribute, network)
+
+	if ipErr != nil && cidrErr != nil {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a valid IP address or a CIDR", attribute))
+	}
+
+	return nil
+}
+
+// ValidateOptionalCIDRorIP returns no error if the network is empty.
+func ValidateOptionalCIDRorIP(attribute string, network string) error {
+	if network == "" {
+		return nil
+	}
+
+	return ValidateCIDROrIP(attribute, network)
+}
+
+// ValidateCIDROrIPList validates a list of CIDRs or IPs.
+func ValidateCIDROrIPList(attribute string, networks []string) error {
+
+	if len(networks) == 0 {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' cannot be an empty list", attribute))
+	}
+
+	for _, network := range networks {
+		if err := ValidateOptionalCIDRorIP(attribute, network); err != nil {
+			return makeValidationError(attribute, fmt.Sprintf("Value '%s' of attribute '%s' must be an IP address", network, attribute))
+		}
+	}
+	return nil
+}
+
+// ValidateOptionalCIDRorIPList validates an optional list of CIDRs or IPs.
+func ValidateOptionalCIDRorIPList(attribute string, networks []string) error {
+	if len(networks) == 0 {
+		return nil
+	}
+	return ValidateCIDROrIPList(attribute, networks)
+}
+
+// ValidateIPAddress validates that this is a valid IP address (not a CIDR).
+func ValidateIPAddress(attribute string, network string) error {
+	if ip := net.ParseIP(network); ip != nil {
+		return nil
+	}
+
+	return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be an IP address", attribute))
+}
+
+// ValidateOptionalIPAddress validates that this is a valid IP address (not a CIDR) if it not empty.
+func ValidateOptionalIPAddress(attribute string, network string) error {
+
+	if len(network) == 0 {
+		return nil
+	}
+
+	return ValidateIPAddress(attribute, network)
+}
+
+// ValidateOptionalCIDR validates an optional CIDR. It can be empty.
+func ValidateOptionalCIDR(attribute string, network string) error {
+	if len(network) == 0 {
+		return nil
+	}
+
+	return ValidateCIDR(attribute, network)
+}
+
 // ValidateCIDR validates a CIDR.
 func ValidateCIDR(attribute string, network string) error {
 
@@ -140,7 +190,7 @@ func ValidateCIDR(attribute string, network string) error {
 	return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a CIDR", attribute))
 }
 
-// ValidateCIDRList validates a list of CIDS.
+// ValidateCIDRList validates a list of CIDRS.
 // The list cannot be empty
 func ValidateCIDRList(attribute string, networks []string) error {
 
@@ -671,7 +721,7 @@ func ValidateServicePort(attribute string, servicePort string) error {
 		ports := parts[1]
 		return ValidatePortString(attribute, ports)
 
-	case protocols.L4ProtocolICMP, protocols.L4ProtocolICMP6:
+	case protocols.L4ProtocolICMP, protocols.L4ProtocolICMP6, protocols.L4ProtocolIPv6ICMP:
 		typeCode := parts[1]
 		return ValidateICMPTypeCodeNotation(attribute, upperProto, typeCode)
 	}
@@ -1193,6 +1243,171 @@ func ValidateCounterReport(report *CounterReport) error {
 		return makeValidationError("namespace", "Both 'namespace' and 'enforcerNamespace' cannot be set")
 	} else if report.Namespace == "" && report.EnforcerNamespace == "" {
 		return makeValidationError("namespace", "Attribute 'namespace' is required")
+	}
+
+	return nil
+}
+
+// cloudTagRegex is the regular expression to check the format of a tag.
+var cloudTagRegex = regexp.MustCompile(`^[^= ]+=.+|[a-zA-Z0-9-_#+.:@]+$`)
+
+// ValidateCloudTag validates a single tag.
+func ValidateCloudTag(attribute string, tag string) error {
+
+	if !cloudTagRegex.MatchString(tag) {
+		return makeValidationError(attribute, fmt.Sprintf("'%s' must contain at least one '=' symbol separating two valid words or a valid word", tag))
+	}
+
+	if len([]byte(tag)) >= 512 {
+		return makeValidationError(attribute, fmt.Sprintf("'%s' must be less than 512 bytes", tag))
+	}
+
+	return nil
+}
+
+// nativeIDRegex is the regular expression to check the format of the nativeID.
+var nativeIDRegex = regexp.MustCompile(`^[a-zA-Z0-9-_#+.:@]+$`)
+
+// ValidateNativeID validates a single tag.
+func ValidateNativeID(attribute string, tag string) error {
+
+	if !nativeIDRegex.MatchString(tag) {
+		return makeValidationError(attribute, fmt.Sprintf("'%s'is not a valid tag", tag))
+	}
+
+	if len([]byte(tag)) >= 512 {
+		return makeValidationError(attribute, fmt.Sprintf("'%s' must be less than 512 bytes", tag))
+	}
+
+	return nil
+}
+
+// ValidateCloudTagsExpression validates the cloud tags provided by Prisma Cloud.
+func ValidateCloudTagsExpression(attribute string, tags [][]string) error {
+	for _, clause := range tags {
+		for _, tag := range clause {
+			if err := ValidateCloudTag(attribute, tag); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+// ValidatePortsList validates a list of port ranges.
+func ValidatePortsList(attribute string, ports []*portutils.PortsRange) error {
+
+	for _, port := range ports {
+		if port.FromPort >= 65536 || port.FromPort < -1 {
+			return makeValidationError(attribute, fmt.Sprintf("invalid 'fromPort' %d", port.FromPort))
+		}
+		if port.ToPort >= 65536 || port.ToPort < -1 {
+			return makeValidationError(attribute, fmt.Sprintf("invalid 'toPort' %d ", port.ToPort))
+		}
+		if port.FromPort > port.ToPort {
+			return makeValidationError(attribute, fmt.Sprintf("'toPort' %d cannot be smaller than 'fromPort' %d ", port.ToPort, port.FromPort))
+		}
+	}
+	return nil
+}
+
+// ValidateCloudNetworkQueryEntity validates the CloudNetworkQuery entity and all the attribute relations.
+func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
+
+	if q.SourceIP != "" && q.DestinationIP != "" {
+		return makeValidationError("Entity CloudNetworkQuery", fmt.Sprintf("'sourceIP:' %s and 'destinationIP:' %s cannot be set at the same time", q.SourceIP, q.DestinationIP))
+	}
+
+	emptySourceSelector := IsCloudNetworkQueryFilterEmpty(q.SourceSelector)
+
+	if q.SourceIP != "" && !emptySourceSelector {
+		return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' and 'sourceSelector' cannot be set at the same time")
+	}
+
+	if q.SourceIP == "" && emptySourceSelector {
+		return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' and 'sourceSelector' cannot be empty at the same time")
+	}
+
+	if len(q.DestinationPorts) > 0 && !(q.DestinationProtocol == 6 || q.DestinationProtocol == 17) {
+		return makeValidationError("Entity CloudNetworkQuery", "'destinationRotocol' cannot be empty when 'destinationPorts' are defined")
+	}
+
+	emptyDestinationSelector := IsCloudNetworkQueryFilterEmpty(q.DestinationSelector)
+
+	if q.DestinationIP != "" && !emptyDestinationSelector {
+		return makeValidationError("Entity CloudNetworkQuery", "'destinationIP' and 'destinationSelector' cannot be set at the same time")
+	}
+
+	if q.DestinationIP == "" && emptyDestinationSelector {
+		return makeValidationError("Entity CloudNetworkQuery", "'destinationIP' and 'destinationSelector' cannot be empty at the same time")
+	}
+
+	if q.SourceSelector != nil {
+		if err := ValidateCloudNetworkQueryFilter("sourceSelector", q.SourceSelector); err != nil {
+			return err
+		}
+	}
+
+	if q.DestinationSelector != nil {
+		if err := ValidateCloudNetworkQueryFilter("destinationSelector", q.DestinationSelector); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// IsCloudNetworkQueryFilterEmpty returns true of the CloudNetworkQueryFilter is empty of any values.
+func IsCloudNetworkQueryFilterEmpty(f *CloudNetworkQueryFilter) bool {
+
+	if f == nil {
+		return true
+	}
+
+	if len(f.AccountIDs) == 0 &&
+		len(f.CloudTypes) == 0 &&
+		len(f.Regions) == 0 &&
+		len(f.VPCIDs) == 0 &&
+		len(f.Tags) == 0 &&
+		len(f.ObjectIDs) == 0 &&
+		len(f.SecurityTags) == 0 &&
+		len(f.Subnets) == 0 &&
+		len(f.ServiceOwners) == 0 &&
+		len(f.ServiceTypes) == 0 &&
+		len(f.ImageIDs) == 0 &&
+		f.ProductInfoType == "" &&
+		f.ProductInfoValue == "" {
+		return true
+	}
+
+	return false
+}
+
+// ValidateCloudNetworkQueryFilter validates the requirements of the CloudNetworkQueryFilter.
+func ValidateCloudNetworkQueryFilter(attribute string, f *CloudNetworkQueryFilter) error {
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInterface && len(f.SecurityTags) > 0 {
+		return makeValidationError(attribute, fmt.Sprintf("security tags only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInterface))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInterface && len(f.ServiceOwners) > 0 {
+		return makeValidationError(attribute, fmt.Sprintf("service owners only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInterface))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInterface && len(f.ServiceTypes) > 0 {
+		return makeValidationError(attribute, fmt.Sprintf("service types only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInterface))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInstance && len(f.ImageIDs) > 0 {
+		return makeValidationError(attribute, fmt.Sprintf("image based filtering only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInstance))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInstance && f.ProductInfoType != "" {
+		return makeValidationError(attribute, fmt.Sprintf("product type based filtering only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInstance))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInstance && f.ProductInfoValue != "" {
+		return makeValidationError(attribute, fmt.Sprintf("product value filtering only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInstance))
 	}
 
 	return nil

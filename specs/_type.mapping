@@ -176,6 +176,24 @@ _elemental_identifiable:
         "$ref": "elemental-types.json#/identifiable"
       }
 
+_portlist:
+  elemental:
+    type: '[]*portutils.PortsRange'
+    init: '[]*portutils.PortsRange{}'
+    import: go.aporeto.io/gaia/portutils
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+
 _rendered_policy:
   elemental:
     type: map[string]PolicyRulesList
@@ -331,6 +349,20 @@ map[string]map[string]bool:
         }
       }
 
+map[string]map[string]cloudnetworkquerydestination:
+  elemental:
+    type: map[string]map[string]*CloudNetworkQueryDestination
+    init: map[string]map[string]*CloudNetworkQueryDestination{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+
 map[string]map[string]interface{}:
   elemental:
     type: map[string]map[string]interface{}
@@ -354,6 +386,35 @@ map[string]string:
         "type": "object",
         "additionalProperties": {
           "type": "string"
+        }
+      }
+
+network:
+  elemental:
+    type: '*net.IPNet'
+    init: '&net.IPNet{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+
+networklist:
+  elemental:
+    type: '[]*net.IPNet'
+    init: '[]*net.IPNet{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
 

@@ -97,12 +97,6 @@ attributes:
     subtype: map[string]string
     stored: true
 
-  - name: associatedBillingID
-    description: Holds the ID of the associated billing customer.
-    type: string
-    exposed: true
-    stored: true
-
   - name: associatedNamespaceID
     description: Contains the ID of the associated namespace.
     type: string

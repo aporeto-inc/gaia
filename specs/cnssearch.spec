@@ -35,7 +35,6 @@ attributes:
     description: Absolute end time of search, in UNIX time.
     type: integer
     exposed: true
-    required: true
     default_value: 0
 
   - name: limit
@@ -80,7 +79,6 @@ attributes:
     description: Absolute start time of search, in UNIX time.
     type: integer
     exposed: true
-    required: true
     default_value: 0
 
   - name: timeRange
