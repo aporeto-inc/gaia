@@ -9583,8 +9583,8 @@ Provides the parameters for an effective network permissions query.
 
 ```json
 {
+  "effectiveAction": "ReachableOnly",
   "excludeEnterpriseIPs": false,
-  "includeUnreachable": false,
   "name": "the name",
   "protected": false,
   "type": "Summary"
@@ -9671,19 +9671,29 @@ Type: [`cloudnetworkqueryfilter`](#cloudnetworkqueryfilter)
 
 A filter for selecting destinations for the query.
 
+##### `effectiveAction`
+
+Type: `enum(ReachableAndAllowed | UnreachableOrRejected | ReachableOnly | UnreachableOnly | All)`
+
+Filters the results based on the effective action. 'ReachableAndAllowed' means
+that a destination is both reachable and allowed by security rules.
+'UnreachableOrRejected' means that the destination is either not reachable or
+rejected by security rules. 'ReachableOnly' means that all destinations that are
+reachable will be returned irrespective of their security verdict.
+'UnreachableOnly' means that only unreachable destinations will be returned.
+
+Default value:
+
+```json
+"ReachableOnly"
+```
+
 ##### `excludeEnterpriseIPs`
 
 Type: `boolean`
 
 If set, the evaluation will exclude enterprise IPs from the effective
 permissions.
-
-##### `includeUnreachable`
-
-Type: `boolean`
-
-If set, the query result will return all destinations including the unreachable
-ones.
 
 ##### `name` [`required`,`max_length=256`]
 
