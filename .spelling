@@ -523,6 +523,10 @@ productInfoValue
 imageID
 imageIDs
 resourceType
+ReachableAndAllowed
+UnreachableOrRejected
+ReachableOnly
+UnreachableOnly
 
 nativeID
 ObjectIDs
