@@ -111,6 +111,9 @@ type CNSConfig struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Unique Prisma ID identifying the CNS configuration.
+	PrismaID string `json:"prismaID" msgpack:"prismaID" bson:"prismaid" mapstructure:"prismaID,omitempty"`
+
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -182,6 +185,7 @@ func (o *CNSConfig) GetBSON() (interface{}, error) {
 	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
+	s.PrismaID = o.PrismaID
 	s.Protected = o.Protected
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
@@ -214,6 +218,7 @@ func (o *CNSConfig) SetBSON(raw bson.Raw) error {
 	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
+	o.PrismaID = s.PrismaID
 	o.Protected = s.Protected
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
@@ -413,6 +418,7 @@ func (o *CNSConfig) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			MigrationsLog:                 &o.MigrationsLog,
 			Namespace:                     &o.Namespace,
 			NormalizedTags:                &o.NormalizedTags,
+			PrismaID:                      &o.PrismaID,
 			Protected:                     &o.Protected,
 			UpdateIdempotencyKey:          &o.UpdateIdempotencyKey,
 			UpdateTime:                    &o.UpdateTime,
@@ -444,6 +450,8 @@ func (o *CNSConfig) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "prismaID":
+			sp.PrismaID = &(o.PrismaID)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "updateIdempotencyKey":
@@ -496,6 +504,9 @@ func (o *CNSConfig) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.PrismaID != nil {
+		o.PrismaID = *so.PrismaID
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -602,6 +613,8 @@ func (o *CNSConfig) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "prismaID":
+		return o.PrismaID
 	case "protected":
 		return o.Protected
 	case "updateIdempotencyKey":
@@ -751,6 +764,16 @@ var CNSConfigAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
+	},
+	"PrismaID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "prismaid",
+		ConvertedName:  "PrismaID",
+		Description:    `Unique Prisma ID identifying the CNS configuration.`,
+		Exposed:        true,
+		Name:           "prismaID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"Protected": {
 		AllowedChoices: []string{},
@@ -958,6 +981,16 @@ var CNSConfigLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Transient:      true,
 		Type:           "list",
 	},
+	"prismaid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "prismaid",
+		ConvertedName:  "PrismaID",
+		Description:    `Unique Prisma ID identifying the CNS configuration.`,
+		Exposed:        true,
+		Name:           "prismaID",
+		Stored:         true,
+		Type:           "string",
+	},
 	"protected": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "protected",
@@ -1122,6 +1155,9 @@ type SparseCNSConfig struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
+	// Unique Prisma ID identifying the CNS configuration.
+	PrismaID *string `json:"prismaID,omitempty" msgpack:"prismaID,omitempty" bson:"prismaid,omitempty" mapstructure:"prismaID,omitempty"`
+
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
@@ -1211,6 +1247,9 @@ func (o *SparseCNSConfig) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
+	if o.PrismaID != nil {
+		s.PrismaID = o.PrismaID
+	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
 	}
@@ -1272,6 +1311,9 @@ func (o *SparseCNSConfig) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
+	if s.PrismaID != nil {
+		o.PrismaID = s.PrismaID
+	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
 	}
@@ -1330,6 +1372,9 @@ func (o *SparseCNSConfig) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.PrismaID != nil {
+		out.PrismaID = *o.PrismaID
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1577,6 +1622,7 @@ type mongoAttributesCNSConfig struct {
 	MigrationsLog                 map[string]string   `bson:"migrationslog,omitempty"`
 	Namespace                     string              `bson:"namespace"`
 	NormalizedTags                []string            `bson:"normalizedtags"`
+	PrismaID                      string              `bson:"prismaid"`
 	Protected                     bool                `bson:"protected"`
 	UpdateIdempotencyKey          string              `bson:"updateidempotencykey"`
 	UpdateTime                    time.Time           `bson:"updatetime"`
@@ -1594,6 +1640,7 @@ type mongoAttributesSparseCNSConfig struct {
 	MigrationsLog                 *map[string]string   `bson:"migrationslog,omitempty"`
 	Namespace                     *string              `bson:"namespace,omitempty"`
 	NormalizedTags                *[]string            `bson:"normalizedtags,omitempty"`
+	PrismaID                      *string              `bson:"prismaid,omitempty"`
 	Protected                     *bool                `bson:"protected,omitempty"`
 	UpdateIdempotencyKey          *string              `bson:"updateidempotencykey,omitempty"`
 	UpdateTime                    *time.Time           `bson:"updatetime,omitempty"`

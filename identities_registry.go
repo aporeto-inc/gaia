@@ -711,6 +711,8 @@ var (
 		},
 		"cnsconfig": {
 			{"updateIdempotencyKey"},
+			{"prismaID"},
+			{"namespace", "prismaID"},
 			{"namespace"},
 			{"namespace", "normalizedTags"},
 			{"createIdempotencyKey"},

@@ -7207,6 +7207,12 @@ Type: `[]string`
 
 Contains the list of normalized tags of the entities.
 
+##### `prismaID`
+
+Type: `string`
+
+Unique Prisma ID identifying the CNS configuration.
+
 ##### `protected`
 
 Type: `boolean`

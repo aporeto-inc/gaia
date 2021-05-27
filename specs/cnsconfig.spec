@@ -22,6 +22,12 @@ model:
   - '@timeable'
   - '@zoned'
 
+# Indexes
+indexes:
+- - prismaID
+- - namespace
+  - prismaID
+
 # Attributes
 attributes:
   v1:
@@ -34,5 +40,11 @@ attributes:
   - name: enableNetworkSecurity
     description: If `true` network security feature is enabled.
     type: boolean
+    exposed: true
+    stored: true
+
+  - name: prismaID
+    description: Unique Prisma ID identifying the CNS configuration.
+    type: string
     exposed: true
     stored: true
