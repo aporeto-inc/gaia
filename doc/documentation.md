@@ -7207,7 +7207,7 @@ Type: `[]string`
 
 Contains the list of normalized tags of the entities.
 
-##### `prismaID`
+##### `prismaID` [`creation_only`]
 
 Type: `string`
 
