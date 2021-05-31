@@ -275,6 +275,14 @@ relations:
   create:
     description: Creates a cloud VPC.
 
+- rest_name: cnsconfig
+  get:
+    description: Retrieves the list of the CNS configuration objects.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a CNS configuration object for the specified namespace.
+
 - rest_name: cnssearch
   create:
     description: Retrieves RQL search results.

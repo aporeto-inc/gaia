@@ -50,6 +50,7 @@ var (
 
 		"cloudvpc": CloudVPCIdentity,
 
+		"cnsconfig":     CNSConfigIdentity,
 		"cnssearch":     CNSSearchIdentity,
 		"cnssuggestion": CNSSuggestionIdentity,
 
@@ -234,6 +235,7 @@ var (
 
 		"cloudvpcs": CloudVPCIdentity,
 
+		"cnsconfigs":     CNSConfigIdentity,
 		"cnssearches":    CNSSearchIdentity,
 		"cnssuggestions": CNSSuggestionIdentity,
 
@@ -387,6 +389,7 @@ var (
 		"crules":          CloudNetworkRuleSetIdentity,
 		"vpc":             CloudVPCIdentity,
 		"vpcs":            CloudVPCIdentity,
+		"pcc":             CNSConfigIdentity,
 		"depmaps":         DependencyMapIdentity,
 		"depmap":          DependencyMapIdentity,
 		"defender":        EnforcerIdentity,
@@ -705,6 +708,15 @@ var (
 			{"namespace", "accountid"},
 			{"namespace", "vpcid"},
 			{"createIdempotencyKey"},
+		},
+		"cnsconfig": {
+			{"updateIdempotencyKey"},
+			{"prismaID"},
+			{"namespace", "prismaID"},
+			{"namespace"},
+			{"namespace", "normalizedTags"},
+			{"createIdempotencyKey"},
+			{":shard", ":unique", "zone", "zHash"},
 		},
 		"cnssearch":     nil,
 		"cnssuggestion": nil,
@@ -1270,6 +1282,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCloudSubnet()
 	case CloudVPCIdentity:
 		return NewCloudVPC()
+	case CNSConfigIdentity:
+		return NewCNSConfig()
 	case CNSSearchIdentity:
 		return NewCNSSearch()
 	case CNSSuggestionIdentity:
@@ -1597,6 +1611,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCloudSubnet()
 	case CloudVPCIdentity:
 		return NewSparseCloudVPC()
+	case CNSConfigIdentity:
+		return NewSparseCNSConfig()
 	case CNSSearchIdentity:
 		return NewSparseCNSSearch()
 	case CNSSuggestionIdentity:
@@ -1932,6 +1948,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CloudSubnetsList{}
 	case CloudVPCIdentity:
 		return &CloudVPCsList{}
+	case CNSConfigIdentity:
+		return &CNSConfigsList{}
 	case CNSSearchIdentity:
 		return &CNSSearchesList{}
 	case CNSSuggestionIdentity:
@@ -2257,6 +2275,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCloudSubnetsList{}
 	case CloudVPCIdentity:
 		return &SparseCloudVPCsList{}
+	case CNSConfigIdentity:
+		return &SparseCNSConfigsList{}
 	case CNSSearchIdentity:
 		return &SparseCNSSearchesList{}
 	case CNSSuggestionIdentity:
@@ -2564,6 +2584,7 @@ func AllIdentities() []elemental.Identity {
 		CloudSnapshotAccountIdentity,
 		CloudSubnetIdentity,
 		CloudVPCIdentity,
+		CNSConfigIdentity,
 		CNSSearchIdentity,
 		CNSSuggestionIdentity,
 		ConnectionExceptionReportIdentity,
@@ -2791,6 +2812,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"vpc",
 			"vpcs",
+		}
+	case CNSConfigIdentity:
+		return []string{
+			"pcc",
 		}
 	case CNSSearchIdentity:
 		return []string{}

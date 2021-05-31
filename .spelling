@@ -53,6 +53,7 @@ ClaimMapping
 claims_supported
 ClaimsSupported
 ClauseMatch
+CNSConfig
 CNSSuggestion
 CNSSearch
 clientLocalID
@@ -523,6 +524,10 @@ productInfoValue
 imageID
 imageIDs
 resourceType
+ReachableAndAllowed
+UnreachableOrRejected
+ReachableOnly
+UnreachableOnly
 
 nativeID
 ObjectIDs

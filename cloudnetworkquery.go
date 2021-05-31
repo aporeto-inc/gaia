@@ -8,6 +8,20 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// CloudNetworkQueryEffectiveActionValue represents the possible values for attribute "effectiveAction".
+type CloudNetworkQueryEffectiveActionValue string
+
+const (
+	// CloudNetworkQueryEffectiveActionAll represents the value All.
+	CloudNetworkQueryEffectiveActionAll CloudNetworkQueryEffectiveActionValue = "All"
+
+	// CloudNetworkQueryEffectiveActionReachableAndAllowed represents the value ReachableAndAllowed.
+	CloudNetworkQueryEffectiveActionReachableAndAllowed CloudNetworkQueryEffectiveActionValue = "ReachableAndAllowed"
+
+	// CloudNetworkQueryEffectiveActionReachableOnly represents the value ReachableOnly.
+	CloudNetworkQueryEffectiveActionReachableOnly CloudNetworkQueryEffectiveActionValue = "ReachableOnly"
+)
+
 // CloudNetworkQueryTypeValue represents the possible values for attribute "type".
 type CloudNetworkQueryTypeValue string
 
@@ -117,13 +131,17 @@ type CloudNetworkQuery struct {
 	// A filter for selecting destinations for the query.
 	DestinationSelector *CloudNetworkQueryFilter `json:"destinationSelector" msgpack:"destinationSelector" bson:"destinationselector" mapstructure:"destinationSelector,omitempty"`
 
+	// Filters the results based on the effective action. 'ReachableAndAllowed' means
+	// that a destination is both reachable and allowed by security rules.
+	// 'UnreachableOrRejected' means that the destination is either not reachable or
+	// rejected by security rules. 'ReachableOnly' means that all destinations that are
+	// reachable will be returned irrespective of their security verdict.
+	// 'UnreachableOnly' means that only unreachable destinations will be returned.
+	EffectiveAction CloudNetworkQueryEffectiveActionValue `json:"effectiveAction" msgpack:"effectiveAction" bson:"effectiveaction" mapstructure:"effectiveAction,omitempty"`
+
 	// If set, the evaluation will exclude enterprise IPs from the effective
 	// permissions.
 	ExcludeEnterpriseIPs bool `json:"excludeEnterpriseIPs" msgpack:"excludeEnterpriseIPs" bson:"excludeenterpriseips" mapstructure:"excludeEnterpriseIPs,omitempty"`
-
-	// If set, the query result will return all destinations including the unreachable
-	// ones.
-	IncludeUnreachable bool `json:"includeUnreachable" msgpack:"includeUnreachable" bson:"includeunreachable" mapstructure:"includeUnreachable,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -179,6 +197,7 @@ func NewCloudNetworkQuery() *CloudNetworkQuery {
 		Annotations:         map[string][]string{},
 		DestinationSelector: NewCloudNetworkQueryFilter(),
 		AssociatedTags:      []string{},
+		EffectiveAction:     CloudNetworkQueryEffectiveActionReachableOnly,
 		NormalizedTags:      []string{},
 		ProtocolPorts:       []string{},
 		MigrationsLog:       map[string]string{},
@@ -224,8 +243,8 @@ func (o *CloudNetworkQuery) GetBSON() (interface{}, error) {
 	s.Description = o.Description
 	s.DestinationIP = o.DestinationIP
 	s.DestinationSelector = o.DestinationSelector
+	s.EffectiveAction = o.EffectiveAction
 	s.ExcludeEnterpriseIPs = o.ExcludeEnterpriseIPs
-	s.IncludeUnreachable = o.IncludeUnreachable
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
@@ -263,8 +282,8 @@ func (o *CloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	o.Description = s.Description
 	o.DestinationIP = s.DestinationIP
 	o.DestinationSelector = s.DestinationSelector
+	o.EffectiveAction = s.EffectiveAction
 	o.ExcludeEnterpriseIPs = s.ExcludeEnterpriseIPs
-	o.IncludeUnreachable = s.IncludeUnreachable
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
@@ -471,8 +490,8 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			Description:          &o.Description,
 			DestinationIP:        &o.DestinationIP,
 			DestinationSelector:  o.DestinationSelector,
+			EffectiveAction:      &o.EffectiveAction,
 			ExcludeEnterpriseIPs: &o.ExcludeEnterpriseIPs,
-			IncludeUnreachable:   &o.IncludeUnreachable,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -506,10 +525,10 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			sp.DestinationIP = &(o.DestinationIP)
 		case "destinationSelector":
 			sp.DestinationSelector = o.DestinationSelector
+		case "effectiveAction":
+			sp.EffectiveAction = &(o.EffectiveAction)
 		case "excludeEnterpriseIPs":
 			sp.ExcludeEnterpriseIPs = &(o.ExcludeEnterpriseIPs)
-		case "includeUnreachable":
-			sp.IncludeUnreachable = &(o.IncludeUnreachable)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -570,11 +589,11 @@ func (o *CloudNetworkQuery) Patch(sparse elemental.SparseIdentifiable) {
 	if so.DestinationSelector != nil {
 		o.DestinationSelector = so.DestinationSelector
 	}
+	if so.EffectiveAction != nil {
+		o.EffectiveAction = *so.EffectiveAction
+	}
 	if so.ExcludeEnterpriseIPs != nil {
 		o.ExcludeEnterpriseIPs = *so.ExcludeEnterpriseIPs
-	}
-	if so.IncludeUnreachable != nil {
-		o.IncludeUnreachable = *so.IncludeUnreachable
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -666,6 +685,10 @@ func (o *CloudNetworkQuery) Validate() error {
 		}
 	}
 
+	if err := elemental.ValidateStringInList("effectiveAction", string(o.EffectiveAction), []string{"ReachableAndAllowed", "ReachableOnly", "All"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -746,10 +769,10 @@ func (o *CloudNetworkQuery) ValueForAttribute(name string) interface{} {
 		return o.DestinationIP
 	case "destinationSelector":
 		return o.DestinationSelector
+	case "effectiveAction":
+		return o.EffectiveAction
 	case "excludeEnterpriseIPs":
 		return o.ExcludeEnterpriseIPs
-	case "includeUnreachable":
-		return o.IncludeUnreachable
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -872,6 +895,22 @@ var CloudNetworkQueryAttributesMap = map[string]elemental.AttributeSpecification
 		SubType:        "cloudnetworkqueryfilter",
 		Type:           "ref",
 	},
+	"EffectiveAction": {
+		AllowedChoices: []string{"ReachableAndAllowed", "ReachableOnly", "All"},
+		BSONFieldName:  "effectiveaction",
+		ConvertedName:  "EffectiveAction",
+		DefaultValue:   CloudNetworkQueryEffectiveActionReachableOnly,
+		Description: `Filters the results based on the effective action. 'ReachableAndAllowed' means
+that a destination is both reachable and allowed by security rules.
+'UnreachableOrRejected' means that the destination is either not reachable or
+rejected by security rules. 'ReachableOnly' means that all destinations that are
+reachable will be returned irrespective of their security verdict.
+'UnreachableOnly' means that only unreachable destinations will be returned.`,
+		Exposed: true,
+		Name:    "effectiveAction",
+		Stored:  true,
+		Type:    "enum",
+	},
 	"ExcludeEnterpriseIPs": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "excludeenterpriseips",
@@ -880,17 +919,6 @@ var CloudNetworkQueryAttributesMap = map[string]elemental.AttributeSpecification
 permissions.`,
 		Exposed: true,
 		Name:    "excludeEnterpriseIPs",
-		Stored:  true,
-		Type:    "boolean",
-	},
-	"IncludeUnreachable": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "includeunreachable",
-		ConvertedName:  "IncludeUnreachable",
-		Description: `If set, the query result will return all destinations including the unreachable
-ones.`,
-		Exposed: true,
-		Name:    "includeUnreachable",
 		Stored:  true,
 		Type:    "boolean",
 	},
@@ -1156,6 +1184,22 @@ var CloudNetworkQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		SubType:        "cloudnetworkqueryfilter",
 		Type:           "ref",
 	},
+	"effectiveaction": {
+		AllowedChoices: []string{"ReachableAndAllowed", "ReachableOnly", "All"},
+		BSONFieldName:  "effectiveaction",
+		ConvertedName:  "EffectiveAction",
+		DefaultValue:   CloudNetworkQueryEffectiveActionReachableOnly,
+		Description: `Filters the results based on the effective action. 'ReachableAndAllowed' means
+that a destination is both reachable and allowed by security rules.
+'UnreachableOrRejected' means that the destination is either not reachable or
+rejected by security rules. 'ReachableOnly' means that all destinations that are
+reachable will be returned irrespective of their security verdict.
+'UnreachableOnly' means that only unreachable destinations will be returned.`,
+		Exposed: true,
+		Name:    "effectiveAction",
+		Stored:  true,
+		Type:    "enum",
+	},
 	"excludeenterpriseips": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "excludeenterpriseips",
@@ -1164,17 +1208,6 @@ var CloudNetworkQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 permissions.`,
 		Exposed: true,
 		Name:    "excludeEnterpriseIPs",
-		Stored:  true,
-		Type:    "boolean",
-	},
-	"includeunreachable": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "includeunreachable",
-		ConvertedName:  "IncludeUnreachable",
-		Description: `If set, the query result will return all destinations including the unreachable
-ones.`,
-		Exposed: true,
-		Name:    "includeUnreachable",
 		Stored:  true,
 		Type:    "boolean",
 	},
@@ -1435,13 +1468,17 @@ type SparseCloudNetworkQuery struct {
 	// A filter for selecting destinations for the query.
 	DestinationSelector *CloudNetworkQueryFilter `json:"destinationSelector,omitempty" msgpack:"destinationSelector,omitempty" bson:"destinationselector,omitempty" mapstructure:"destinationSelector,omitempty"`
 
+	// Filters the results based on the effective action. 'ReachableAndAllowed' means
+	// that a destination is both reachable and allowed by security rules.
+	// 'UnreachableOrRejected' means that the destination is either not reachable or
+	// rejected by security rules. 'ReachableOnly' means that all destinations that are
+	// reachable will be returned irrespective of their security verdict.
+	// 'UnreachableOnly' means that only unreachable destinations will be returned.
+	EffectiveAction *CloudNetworkQueryEffectiveActionValue `json:"effectiveAction,omitempty" msgpack:"effectiveAction,omitempty" bson:"effectiveaction,omitempty" mapstructure:"effectiveAction,omitempty"`
+
 	// If set, the evaluation will exclude enterprise IPs from the effective
 	// permissions.
 	ExcludeEnterpriseIPs *bool `json:"excludeEnterpriseIPs,omitempty" msgpack:"excludeEnterpriseIPs,omitempty" bson:"excludeenterpriseips,omitempty" mapstructure:"excludeEnterpriseIPs,omitempty"`
-
-	// If set, the query result will return all destinations including the unreachable
-	// ones.
-	IncludeUnreachable *bool `json:"includeUnreachable,omitempty" msgpack:"includeUnreachable,omitempty" bson:"includeunreachable,omitempty" mapstructure:"includeUnreachable,omitempty"`
 
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
@@ -1550,11 +1587,11 @@ func (o *SparseCloudNetworkQuery) GetBSON() (interface{}, error) {
 	if o.DestinationSelector != nil {
 		s.DestinationSelector = o.DestinationSelector
 	}
+	if o.EffectiveAction != nil {
+		s.EffectiveAction = o.EffectiveAction
+	}
 	if o.ExcludeEnterpriseIPs != nil {
 		s.ExcludeEnterpriseIPs = o.ExcludeEnterpriseIPs
-	}
-	if o.IncludeUnreachable != nil {
-		s.IncludeUnreachable = o.IncludeUnreachable
 	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
@@ -1632,11 +1669,11 @@ func (o *SparseCloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	if s.DestinationSelector != nil {
 		o.DestinationSelector = s.DestinationSelector
 	}
+	if s.EffectiveAction != nil {
+		o.EffectiveAction = s.EffectiveAction
+	}
 	if s.ExcludeEnterpriseIPs != nil {
 		o.ExcludeEnterpriseIPs = s.ExcludeEnterpriseIPs
-	}
-	if s.IncludeUnreachable != nil {
-		o.IncludeUnreachable = s.IncludeUnreachable
 	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
@@ -1712,11 +1749,11 @@ func (o *SparseCloudNetworkQuery) ToPlain() elemental.PlainIdentifiable {
 	if o.DestinationSelector != nil {
 		out.DestinationSelector = o.DestinationSelector
 	}
+	if o.EffectiveAction != nil {
+		out.EffectiveAction = *o.EffectiveAction
+	}
 	if o.ExcludeEnterpriseIPs != nil {
 		out.ExcludeEnterpriseIPs = *o.ExcludeEnterpriseIPs
-	}
-	if o.IncludeUnreachable != nil {
-		out.IncludeUnreachable = *o.IncludeUnreachable
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -1978,50 +2015,50 @@ func (o *SparseCloudNetworkQuery) DeepCopyInto(out *SparseCloudNetworkQuery) {
 }
 
 type mongoAttributesCloudNetworkQuery struct {
-	ID                   bson.ObjectId              `bson:"_id,omitempty"`
-	Annotations          map[string][]string        `bson:"annotations"`
-	AssociatedTags       []string                   `bson:"associatedtags"`
-	CreateIdempotencyKey string                     `bson:"createidempotencykey"`
-	Description          string                     `bson:"description"`
-	DestinationIP        string                     `bson:"destinationip"`
-	DestinationSelector  *CloudNetworkQueryFilter   `bson:"destinationselector"`
-	ExcludeEnterpriseIPs bool                       `bson:"excludeenterpriseips"`
-	IncludeUnreachable   bool                       `bson:"includeunreachable"`
-	MigrationsLog        map[string]string          `bson:"migrationslog,omitempty"`
-	Name                 string                     `bson:"name"`
-	Namespace            string                     `bson:"namespace"`
-	NormalizedTags       []string                   `bson:"normalizedtags"`
-	Protected            bool                       `bson:"protected"`
-	ProtocolPorts        []string                   `bson:"protocolports"`
-	RawRQL               string                     `bson:"rawrql"`
-	SourceIP             string                     `bson:"sourceip"`
-	SourceSelector       *CloudNetworkQueryFilter   `bson:"sourceselector"`
-	Type                 CloudNetworkQueryTypeValue `bson:"type"`
-	UpdateIdempotencyKey string                     `bson:"updateidempotencykey"`
-	ZHash                int                        `bson:"zhash"`
-	Zone                 int                        `bson:"zone"`
+	ID                   bson.ObjectId                         `bson:"_id,omitempty"`
+	Annotations          map[string][]string                   `bson:"annotations"`
+	AssociatedTags       []string                              `bson:"associatedtags"`
+	CreateIdempotencyKey string                                `bson:"createidempotencykey"`
+	Description          string                                `bson:"description"`
+	DestinationIP        string                                `bson:"destinationip"`
+	DestinationSelector  *CloudNetworkQueryFilter              `bson:"destinationselector"`
+	EffectiveAction      CloudNetworkQueryEffectiveActionValue `bson:"effectiveaction"`
+	ExcludeEnterpriseIPs bool                                  `bson:"excludeenterpriseips"`
+	MigrationsLog        map[string]string                     `bson:"migrationslog,omitempty"`
+	Name                 string                                `bson:"name"`
+	Namespace            string                                `bson:"namespace"`
+	NormalizedTags       []string                              `bson:"normalizedtags"`
+	Protected            bool                                  `bson:"protected"`
+	ProtocolPorts        []string                              `bson:"protocolports"`
+	RawRQL               string                                `bson:"rawrql"`
+	SourceIP             string                                `bson:"sourceip"`
+	SourceSelector       *CloudNetworkQueryFilter              `bson:"sourceselector"`
+	Type                 CloudNetworkQueryTypeValue            `bson:"type"`
+	UpdateIdempotencyKey string                                `bson:"updateidempotencykey"`
+	ZHash                int                                   `bson:"zhash"`
+	Zone                 int                                   `bson:"zone"`
 }
 type mongoAttributesSparseCloudNetworkQuery struct {
-	ID                   bson.ObjectId               `bson:"_id,omitempty"`
-	Annotations          *map[string][]string        `bson:"annotations,omitempty"`
-	AssociatedTags       *[]string                   `bson:"associatedtags,omitempty"`
-	CreateIdempotencyKey *string                     `bson:"createidempotencykey,omitempty"`
-	Description          *string                     `bson:"description,omitempty"`
-	DestinationIP        *string                     `bson:"destinationip,omitempty"`
-	DestinationSelector  *CloudNetworkQueryFilter    `bson:"destinationselector,omitempty"`
-	ExcludeEnterpriseIPs *bool                       `bson:"excludeenterpriseips,omitempty"`
-	IncludeUnreachable   *bool                       `bson:"includeunreachable,omitempty"`
-	MigrationsLog        *map[string]string          `bson:"migrationslog,omitempty"`
-	Name                 *string                     `bson:"name,omitempty"`
-	Namespace            *string                     `bson:"namespace,omitempty"`
-	NormalizedTags       *[]string                   `bson:"normalizedtags,omitempty"`
-	Protected            *bool                       `bson:"protected,omitempty"`
-	ProtocolPorts        *[]string                   `bson:"protocolports,omitempty"`
-	RawRQL               *string                     `bson:"rawrql,omitempty"`
-	SourceIP             *string                     `bson:"sourceip,omitempty"`
-	SourceSelector       *CloudNetworkQueryFilter    `bson:"sourceselector,omitempty"`
-	Type                 *CloudNetworkQueryTypeValue `bson:"type,omitempty"`
-	UpdateIdempotencyKey *string                     `bson:"updateidempotencykey,omitempty"`
-	ZHash                *int                        `bson:"zhash,omitempty"`
-	Zone                 *int                        `bson:"zone,omitempty"`
+	ID                   bson.ObjectId                          `bson:"_id,omitempty"`
+	Annotations          *map[string][]string                   `bson:"annotations,omitempty"`
+	AssociatedTags       *[]string                              `bson:"associatedtags,omitempty"`
+	CreateIdempotencyKey *string                                `bson:"createidempotencykey,omitempty"`
+	Description          *string                                `bson:"description,omitempty"`
+	DestinationIP        *string                                `bson:"destinationip,omitempty"`
+	DestinationSelector  *CloudNetworkQueryFilter               `bson:"destinationselector,omitempty"`
+	EffectiveAction      *CloudNetworkQueryEffectiveActionValue `bson:"effectiveaction,omitempty"`
+	ExcludeEnterpriseIPs *bool                                  `bson:"excludeenterpriseips,omitempty"`
+	MigrationsLog        *map[string]string                     `bson:"migrationslog,omitempty"`
+	Name                 *string                                `bson:"name,omitempty"`
+	Namespace            *string                                `bson:"namespace,omitempty"`
+	NormalizedTags       *[]string                              `bson:"normalizedtags,omitempty"`
+	Protected            *bool                                  `bson:"protected,omitempty"`
+	ProtocolPorts        *[]string                              `bson:"protocolports,omitempty"`
+	RawRQL               *string                                `bson:"rawrql,omitempty"`
+	SourceIP             *string                                `bson:"sourceip,omitempty"`
+	SourceSelector       *CloudNetworkQueryFilter               `bson:"sourceselector,omitempty"`
+	Type                 *CloudNetworkQueryTypeValue            `bson:"type,omitempty"`
+	UpdateIdempotencyKey *string                                `bson:"updateidempotencykey,omitempty"`
+	ZHash                *int                                   `bson:"zhash,omitempty"`
+	Zone                 *int                                   `bson:"zone,omitempty"`
 }
