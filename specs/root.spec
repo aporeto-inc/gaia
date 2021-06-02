@@ -744,7 +744,7 @@ relations:
 
 - rest_name: namespacetype
   get:
-    description: Returns the type of the specified namespace.
+    description: Retrieves the type and ID of the specified namespace.
 
 - rest_name: networkaccesspolicy
   get:

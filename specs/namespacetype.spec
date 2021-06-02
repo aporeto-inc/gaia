@@ -5,7 +5,9 @@ model:
   entity_name: NamespaceType
   package: squall
   group: core/namespace
-  description: Returns the type of the specified namespace.
+  description: Retrieves the type and ID of the specified namespace.
+  extends:
+  - '@identifiable-stored'
 
 # Attributes
 attributes:
