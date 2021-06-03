@@ -158,6 +158,7 @@ var (
 		"search":                  SearchIdentity,
 		"service":                 ServiceIdentity,
 		"servicedependencypolicy": ServiceDependencyPolicyIdentity,
+		"servicepublication":      ServicePublicationIdentity,
 		"servicetoken":            ServiceTokenIdentity,
 		"squalltag":               SquallTagIdentity,
 		"sshauthority":            SSHAuthorityIdentity,
@@ -343,6 +344,7 @@ var (
 		"search":                    SearchIdentity,
 		"services":                  ServiceIdentity,
 		"servicedependencypolicies": ServiceDependencyPolicyIdentity,
+		"servicepublications":       ServicePublicationIdentity,
 		"servicetoken":              ServiceTokenIdentity,
 		"squalltags":                SquallTagIdentity,
 		"sshauthorities":            SSHAuthorityIdentity,
@@ -1108,6 +1110,7 @@ var (
 			{"allAPITags"},
 		},
 		"servicedependencypolicy": nil,
+		"servicepublication":      nil,
 		"servicetoken":            nil,
 		"squalltag":               nil,
 		"sshauthority": {
@@ -1478,6 +1481,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewService()
 	case ServiceDependencyPolicyIdentity:
 		return NewServiceDependencyPolicy()
+	case ServicePublicationIdentity:
+		return NewServicePublication()
 	case ServiceTokenIdentity:
 		return NewServiceToken()
 	case SquallTagIdentity:
@@ -1805,6 +1810,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseService()
 	case ServiceDependencyPolicyIdentity:
 		return NewSparseServiceDependencyPolicy()
+	case ServicePublicationIdentity:
+		return NewSparseServicePublication()
 	case ServiceTokenIdentity:
 		return NewSparseServiceToken()
 	case SquallTagIdentity:
@@ -2142,6 +2149,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ServicesList{}
 	case ServiceDependencyPolicyIdentity:
 		return &ServiceDependencyPoliciesList{}
+	case ServicePublicationIdentity:
+		return &ServicePublicationsList{}
 	case ServiceTokenIdentity:
 		return &ServiceTokensList{}
 	case SquallTagIdentity:
@@ -2469,6 +2478,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseServicesList{}
 	case ServiceDependencyPolicyIdentity:
 		return &SparseServiceDependencyPoliciesList{}
+	case ServicePublicationIdentity:
+		return &SparseServicePublicationsList{}
 	case ServiceTokenIdentity:
 		return &SparseServiceTokensList{}
 	case SquallTagIdentity:
@@ -2682,6 +2693,7 @@ func AllIdentities() []elemental.Identity {
 		SearchIdentity,
 		ServiceIdentity,
 		ServiceDependencyPolicyIdentity,
+		ServicePublicationIdentity,
 		ServiceTokenIdentity,
 		SquallTagIdentity,
 		SSHAuthorityIdentity,
@@ -3118,6 +3130,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"srvdep",
 			"srvdeps",
 		}
+	case ServicePublicationIdentity:
+		return []string{}
 	case ServiceTokenIdentity:
 		return []string{}
 	case SquallTagIdentity:

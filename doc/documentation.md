@@ -7027,6 +7027,40 @@ Type: `pctimevalue`
 
 The value of time range.
 
+## core/service
+
+### ServicePublication
+
+TODO.
+
+#### Relations
+
+##### `POST /servicepublications`
+
+TODO.
+
+##### `DELETE /servicepublications/:id`
+
+TODO.
+
+##### `PUT /servicepublications/:id`
+
+TODO.
+
+#### Attributes
+
+##### `service`
+
+Type: [`service`](#service)
+
+TODO.
+
+##### `serviceID` [`read_only`]
+
+Type: `string`
+
+TODO.
+
 ## core/tag
 
 ### Tag
