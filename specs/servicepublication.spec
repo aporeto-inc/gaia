@@ -21,9 +21,3 @@ attributes:
     subtype: service
     extensions:
       refMode: pointer
-
-  - name: serviceID
-    description: TODO.
-    type: string
-    exposed: true
-    read_only: true

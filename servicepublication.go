@@ -83,9 +83,6 @@ type ServicePublication struct {
 	// TODO.
 	Service *Service `json:"service" msgpack:"service" bson:"-" mapstructure:"service,omitempty"`
 
-	// TODO.
-	ServiceID string `json:"serviceID" msgpack:"serviceID" bson:"-" mapstructure:"serviceID,omitempty"`
-
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -180,8 +177,7 @@ func (o *ServicePublication) ToSparse(fields ...string) elemental.SparseIdentifi
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseServicePublication{
-			Service:   o.Service,
-			ServiceID: &o.ServiceID,
+			Service: o.Service,
 		}
 	}
 
@@ -190,8 +186,6 @@ func (o *ServicePublication) ToSparse(fields ...string) elemental.SparseIdentifi
 		switch f {
 		case "service":
 			sp.Service = o.Service
-		case "serviceID":
-			sp.ServiceID = &(o.ServiceID)
 		}
 	}
 
@@ -207,9 +201,6 @@ func (o *ServicePublication) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseServicePublication)
 	if so.Service != nil {
 		o.Service = so.Service
-	}
-	if so.ServiceID != nil {
-		o.ServiceID = *so.ServiceID
 	}
 }
 
@@ -286,8 +277,6 @@ func (o *ServicePublication) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "service":
 		return o.Service
-	case "serviceID":
-		return o.ServiceID
 	}
 
 	return nil
@@ -304,15 +293,6 @@ var ServicePublicationAttributesMap = map[string]elemental.AttributeSpecificatio
 		SubType:        "service",
 		Type:           "ref",
 	},
-	"ServiceID": {
-		AllowedChoices: []string{},
-		ConvertedName:  "ServiceID",
-		Description:    `TODO.`,
-		Exposed:        true,
-		Name:           "serviceID",
-		ReadOnly:       true,
-		Type:           "string",
-	},
 }
 
 // ServicePublicationLowerCaseAttributesMap represents the map of attribute for ServicePublication.
@@ -325,15 +305,6 @@ var ServicePublicationLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		Name:           "service",
 		SubType:        "service",
 		Type:           "ref",
-	},
-	"serviceid": {
-		AllowedChoices: []string{},
-		ConvertedName:  "ServiceID",
-		Description:    `TODO.`,
-		Exposed:        true,
-		Name:           "serviceID",
-		ReadOnly:       true,
-		Type:           "string",
 	},
 }
 
@@ -403,9 +374,6 @@ type SparseServicePublication struct {
 	// TODO.
 	Service *Service `json:"service,omitempty" msgpack:"service,omitempty" bson:"-" mapstructure:"service,omitempty"`
 
-	// TODO.
-	ServiceID *string `json:"serviceID,omitempty" msgpack:"serviceID,omitempty" bson:"-" mapstructure:"serviceID,omitempty"`
-
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -472,9 +440,6 @@ func (o *SparseServicePublication) ToPlain() elemental.PlainIdentifiable {
 	out := NewServicePublication()
 	if o.Service != nil {
 		out.Service = o.Service
-	}
-	if o.ServiceID != nil {
-		out.ServiceID = *o.ServiceID
 	}
 
 	return out

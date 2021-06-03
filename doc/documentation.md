@@ -7055,12 +7055,6 @@ Type: [`service`](#service)
 
 TODO.
 
-##### `serviceID` [`read_only`]
-
-Type: `string`
-
-TODO.
-
 ## core/tag
 
 ### Tag
