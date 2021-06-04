@@ -80,7 +80,7 @@ func (o ServicePublicationsList) Version() int {
 
 // ServicePublication represents the model of a servicepublication
 type ServicePublication struct {
-	// TODO.
+	// The service object that will be published.
 	Service *Service `json:"service" msgpack:"service" bson:"-" mapstructure:"service,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -162,7 +162,8 @@ func (o *ServicePublication) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *ServicePublication) Doc() string {
 
-	return `TODO.`
+	return `Encapsulates a service object that is ought to be published so it can be used
+in a sibling namespace.`
 }
 
 func (o *ServicePublication) String() string {
@@ -287,7 +288,7 @@ var ServicePublicationAttributesMap = map[string]elemental.AttributeSpecificatio
 	"Service": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Service",
-		Description:    `TODO.`,
+		Description:    `The service object that will be published.`,
 		Exposed:        true,
 		Name:           "service",
 		SubType:        "service",
@@ -300,7 +301,7 @@ var ServicePublicationLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 	"service": {
 		AllowedChoices: []string{},
 		ConvertedName:  "Service",
-		Description:    `TODO.`,
+		Description:    `The service object that will be published.`,
 		Exposed:        true,
 		Name:           "service",
 		SubType:        "service",
@@ -371,7 +372,7 @@ func (o SparseServicePublicationsList) Version() int {
 
 // SparseServicePublication represents the sparse version of a servicepublication.
 type SparseServicePublication struct {
-	// TODO.
+	// The service object that will be published.
 	Service *Service `json:"service,omitempty" msgpack:"service,omitempty" bson:"-" mapstructure:"service,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

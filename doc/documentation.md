@@ -7031,13 +7031,14 @@ The value of time range.
 
 ### ServicePublication
 
-TODO.
+Encapsulates a service object that is ought to be published so it can be used
+in a sibling namespace.
 
 #### Relations
 
 ##### `POST /servicepublications`
 
-TODO.
+Creates a service publication for a given service object.
 
 #### Attributes
 
@@ -7045,7 +7046,7 @@ TODO.
 
 Type: [`service`](#service)
 
-TODO.
+The service object that will be published.
 
 ## core/tag
 

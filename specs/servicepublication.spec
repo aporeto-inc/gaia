@@ -5,13 +5,15 @@ model:
   entity_name: ServicePublication
   package: squall
   group: core/service
-  description: TODO.
+  description: |-
+    Encapsulates a service object that is ought to be published so it can be used
+    in a sibling namespace.
 
 # Attributes
 attributes:
   v1:
   - name: service
-    description: TODO.
+    description: The service object that will be published.
     type: ref
     exposed: true
     subtype: service

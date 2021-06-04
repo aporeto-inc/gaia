@@ -983,7 +983,7 @@ relations:
 
 - rest_name: servicepublication
   create:
-    description: TODO.
+    description: Creates a service publication for a given service object.
 
 - rest_name: servicetoken
   create:
