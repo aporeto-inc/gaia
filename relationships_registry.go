@@ -4921,15 +4921,6 @@ func init() {
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
-		Update: map[string]*elemental.RelationshipInfo{
-			"root": {},
-		},
-		Patch: map[string]*elemental.RelationshipInfo{
-			"root": {},
-		},
-		Delete: map[string]*elemental.RelationshipInfo{
-			"root": {},
-		},
 	}
 
 	relationshipsRegistry[ServiceTokenIdentity] = &elemental.Relationship{

@@ -7039,14 +7039,6 @@ TODO.
 
 TODO.
 
-##### `DELETE /servicepublications/:id`
-
-TODO.
-
-##### `PUT /servicepublications/:id`
-
-TODO.
-
 #### Attributes
 
 ##### `service`

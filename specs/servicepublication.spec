@@ -6,10 +6,6 @@ model:
   package: squall
   group: core/service
   description: TODO.
-  update:
-    description: TODO.
-  delete:
-    description: TODO.
 
 # Attributes
 attributes:
