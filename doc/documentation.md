@@ -9803,6 +9803,13 @@ Type: `boolean`
 If set, the evaluation will exclude enterprise IPs from the effective
 permissions.
 
+##### `excludedNetworks`
+
+Type: `[]string`
+
+List of networks that should be a excluded from the calculation if the source or
+destination is a network.
+
 ##### `name` [`required`,`max_length=256`]
 
 Type: `string`
@@ -9993,6 +10000,13 @@ Type: `[]string`
 The list of security tags associated with the targets of the query. Security
 tags refer to security groups in AWS or network tags in GCP. So they can have
 different meaning depending on the target cloud.
+
+##### `serviceNames`
+
+Type: `[]string`
+
+Identifies a list of service names that should be taken into account. This is
+only valid with a resource type equal to Service.
 
 ##### `serviceOwners`
 
