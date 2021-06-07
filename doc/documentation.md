@@ -7042,7 +7042,7 @@ Creates a service publication for a given service object.
 
 #### Attributes
 
-##### `service`
+##### `service` [`required`]
 
 Type: [`service`](#service)
 

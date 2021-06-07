@@ -16,6 +16,7 @@ attributes:
     description: The service object that will be published.
     type: ref
     exposed: true
+    required: true
     subtype: service
     extensions:
       refMode: pointer
