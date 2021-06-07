@@ -250,7 +250,7 @@ attributes:
     stored: true
     omit_empty: true
     extensions:
-      bson_name: ai
+      bson_name: al
 
   - name: ruleName
     description: |-

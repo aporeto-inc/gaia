@@ -65,6 +65,10 @@ type CloudNetworkQueryFilter struct {
 	// different meaning depending on the target cloud.
 	SecurityTags []string `json:"securityTags,omitempty" msgpack:"securityTags,omitempty" bson:"securitytags,omitempty" mapstructure:"securityTags,omitempty"`
 
+	// Identifies a list of service names that should be taken into account. This is
+	// only valid with a resource type equal to Service.
+	ServiceNames []string `json:"serviceNames,omitempty" msgpack:"serviceNames,omitempty" bson:"servicenames,omitempty" mapstructure:"serviceNames,omitempty"`
+
 	// Identifies the owner of the service that the resource is attached to. Field is
 	// not valid if the resource type is not an interface.
 	ServiceOwners []string `json:"serviceOwners,omitempty" msgpack:"serviceOwners,omitempty" bson:"serviceowners,omitempty" mapstructure:"serviceOwners,omitempty"`
@@ -94,12 +98,13 @@ func NewCloudNetworkQueryFilter() *CloudNetworkQueryFilter {
 		CloudTypes:    []string{},
 		ImageIDs:      []string{},
 		ObjectIDs:     []string{},
-		Subnets:       []string{},
+		ServiceOwners: []string{},
 		Regions:       []string{},
 		ResourceType:  CloudNetworkQueryFilterResourceTypeInstance,
 		SecurityTags:  []string{},
-		ServiceOwners: []string{},
+		ServiceNames:  []string{},
 		ServiceTypes:  []string{},
+		Subnets:       []string{},
 		Tags:          []string{},
 		VPCIDs:        []string{},
 	}
@@ -125,6 +130,7 @@ func (o *CloudNetworkQueryFilter) GetBSON() (interface{}, error) {
 	s.Regions = o.Regions
 	s.ResourceType = o.ResourceType
 	s.SecurityTags = o.SecurityTags
+	s.ServiceNames = o.ServiceNames
 	s.ServiceOwners = o.ServiceOwners
 	s.ServiceTypes = o.ServiceTypes
 	s.Subnets = o.Subnets
@@ -156,6 +162,7 @@ func (o *CloudNetworkQueryFilter) SetBSON(raw bson.Raw) error {
 	o.Regions = s.Regions
 	o.ResourceType = s.ResourceType
 	o.SecurityTags = s.SecurityTags
+	o.ServiceNames = s.ServiceNames
 	o.ServiceOwners = s.ServiceOwners
 	o.ServiceTypes = s.ServiceTypes
 	o.Subnets = s.Subnets
@@ -230,6 +237,7 @@ type mongoAttributesCloudNetworkQueryFilter struct {
 	Regions          []string                                 `bson:"regions,omitempty"`
 	ResourceType     CloudNetworkQueryFilterResourceTypeValue `bson:"resourcetype"`
 	SecurityTags     []string                                 `bson:"securitytags,omitempty"`
+	ServiceNames     []string                                 `bson:"servicenames,omitempty"`
 	ServiceOwners    []string                                 `bson:"serviceowners,omitempty"`
 	ServiceTypes     []string                                 `bson:"servicetypes,omitempty"`
 	Subnets          []string                                 `bson:"subnets,omitempty"`

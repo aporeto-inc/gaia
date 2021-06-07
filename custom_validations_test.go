@@ -4255,6 +4255,67 @@ func TestValidateCloudGraphQuery(t *testing.T) {
 			},
 			true,
 		},
+		{
+			"service name as the selector",
+			args{
+				"valid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeService,
+						ServiceNames: []string{"service1"},
+					},
+				},
+			},
+			false,
+		},
+		{
+			"service name as the selector when resource type is interface",
+			args{
+				"valid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeInterface,
+						ServiceNames: []string{"service1"},
+					},
+				},
+			},
+			true,
+		},
+		{
+			"excluded network validation with valid source",
+			args{
+				"valid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeService,
+						ServiceNames: []string{"service1"},
+					},
+					ExcludedNetworks: []string{"30.1.1.0/24"},
+				},
+			},
+			false,
+		},
+		{
+			"excluded network validation without IP definition",
+			args{
+				"valid",
+				&CloudNetworkQuery{
+					DestinationSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeService,
+						ServiceNames: []string{"service1"},
+					},
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeService,
+						ServiceNames: []string{"service1"},
+					},
+					ExcludedNetworks: []string{"30.1.1.0/24"},
+				},
+			},
+			true,
+		},
 	}
 
 	for _, tt := range tests {
