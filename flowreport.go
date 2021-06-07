@@ -229,7 +229,7 @@ type FlowReport struct {
 	RemoteNamespace string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"u,omitempty" mapstructure:"remoteNamespace,omitempty"`
 
 	// ID of the network policy that accepted the flow at the remote endpoint.
-	RemotePolicyID string `json:"remotePolicyID,omitempty" msgpack:"remotePolicyID,omitempty" bson:"ai,omitempty" mapstructure:"remotePolicyID,omitempty"`
+	RemotePolicyID string `json:"remotePolicyID,omitempty" msgpack:"remotePolicyID,omitempty" bson:"ak,omitempty" mapstructure:"remotePolicyID,omitempty"`
 
 	// Contains the eventual name assigned to the particular rule in the
 	// NetworkRuleSetPolicy that acted on the flow.
@@ -1240,7 +1240,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	},
 	"RemotePolicyID": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "ai",
+		BSONFieldName:  "ak",
 		ConvertedName:  "RemotePolicyID",
 		Description:    `ID of the network policy that accepted the flow at the remote endpoint.`,
 		Exposed:        true,
@@ -1689,7 +1689,7 @@ to ` + "`" + `Reject` + "`" + `.`,
 	},
 	"remotepolicyid": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "ai",
+		BSONFieldName:  "ak",
 		ConvertedName:  "RemotePolicyID",
 		Description:    `ID of the network policy that accepted the flow at the remote endpoint.`,
 		Exposed:        true,
@@ -2016,7 +2016,7 @@ type SparseFlowReport struct {
 	RemoteNamespace *string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"u,omitempty" mapstructure:"remoteNamespace,omitempty"`
 
 	// ID of the network policy that accepted the flow at the remote endpoint.
-	RemotePolicyID *string `json:"remotePolicyID,omitempty" msgpack:"remotePolicyID,omitempty" bson:"ai,omitempty" mapstructure:"remotePolicyID,omitempty"`
+	RemotePolicyID *string `json:"remotePolicyID,omitempty" msgpack:"remotePolicyID,omitempty" bson:"ak,omitempty" mapstructure:"remotePolicyID,omitempty"`
 
 	// Contains the eventual name assigned to the particular rule in the
 	// NetworkRuleSetPolicy that acted on the flow.
@@ -2612,7 +2612,7 @@ type mongoAttributesFlowReport struct {
 	PolicyNamespace         string                         `bson:"s,omitempty"`
 	Protocol                int                            `bson:"t,omitempty"`
 	RemoteNamespace         string                         `bson:"u,omitempty"`
-	RemotePolicyID          string                         `bson:"ai,omitempty"`
+	RemotePolicyID          string                         `bson:"ak,omitempty"`
 	RuleName                string                         `bson:"ba,omitempty"`
 	ServiceClaimHash        string                         `bson:"v,omitempty"`
 	ServiceID               string                         `bson:"w,omitempty"`
@@ -2655,7 +2655,7 @@ type mongoAttributesSparseFlowReport struct {
 	PolicyNamespace         *string                         `bson:"s,omitempty"`
 	Protocol                *int                            `bson:"t,omitempty"`
 	RemoteNamespace         *string                         `bson:"u,omitempty"`
-	RemotePolicyID          *string                         `bson:"ai,omitempty"`
+	RemotePolicyID          *string                         `bson:"ak,omitempty"`
 	RuleName                *string                         `bson:"ba,omitempty"`
 	ServiceClaimHash        *string                         `bson:"v,omitempty"`
 	ServiceID               *string                         `bson:"w,omitempty"`
