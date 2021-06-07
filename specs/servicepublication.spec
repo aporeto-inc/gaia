@@ -20,3 +20,9 @@ attributes:
     subtype: service
     extensions:
       refMode: pointer
+    example_value:
+      hosts: ["localhost"]
+      name: "referenced-service"
+      port: 443
+      exposedPort: 443
+      propagate: true

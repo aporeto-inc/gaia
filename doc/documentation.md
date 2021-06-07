@@ -7034,6 +7034,22 @@ The value of time range.
 Encapsulates a service object that is ought to be published so it can be used
 in a sibling namespace.
 
+#### Example
+
+```json
+{
+  "service": {
+    "exposedPort": 443,
+    "hosts": [
+      "localhost"
+    ],
+    "name": "referenced-service",
+    "port": 443,
+    "propagate": true
+  }
+}
+```
+
 #### Relations
 
 ##### `POST /servicepublications`
