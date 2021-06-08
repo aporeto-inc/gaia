@@ -43,18 +43,10 @@ func TestValidatePortString(t *testing.T) {
 			true,
 		},
 		{
-			"port set to 0",
-			args{
-				"port",
-				"0",
-			},
-			false,
-		},
-		{
 			"port set to 65536",
 			args{
 				"port",
-				"65536",
+				"0",
 			},
 			true,
 		},
@@ -74,10 +66,10 @@ func TestValidatePortString(t *testing.T) {
 				"port",
 				"0:65535",
 			},
-			false,
+			true,
 		},
 		{
-			"port range with right bound set to 65536",
+			"port range with left bound set to 65536",
 			args{
 				"port",
 				"1:65536",
@@ -93,7 +85,7 @@ func TestValidatePortString(t *testing.T) {
 			true,
 		},
 		{
-			"port range with right bound that is not a int",
+			"port range with left bound that is not a int",
 			args{
 				"port",
 				"1:two",
@@ -239,8 +231,7 @@ func TestValidateServicePorts(t *testing.T) {
 				[]string{"tcp/90:8000", "udp/90:8000"},
 			},
 			false,
-		},
-		{
+		}, {
 			"serviceports with protocol numbers",
 			args{
 				[]string{"udp/90:8000", "6/90:8000"},
@@ -399,20 +390,6 @@ func TestValidateServicePorts(t *testing.T) {
 			"icmp/2/3,5,20,40 is valid",
 			args{
 				[]string{"icmp/2/3,5,20,40"},
-			},
-			false,
-		},
-		{
-			"serviceports with valid 0 port",
-			args{
-				[]string{"tcp/0", "udp/0"},
-			},
-			false,
-		},
-		{
-			"serviceports with valid full port range",
-			args{
-				[]string{"tcp/0:65535", "udp/0:65535"},
 			},
 			false,
 		},
