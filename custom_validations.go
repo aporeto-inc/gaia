@@ -36,8 +36,8 @@ func ValidatePortString(attribute string, portExp string) error {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a port (xxx) or port range (xxx:yyy)", attribute))
 	}
 
-	if p1 < 1 || p1 > 65535 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 1 and 65535", attribute))
+	if p1 < 0 || p1 > 65535 {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 0 and 65535", attribute))
 	}
 
 	if len(ports) == 1 {
@@ -49,8 +49,8 @@ func ValidatePortString(attribute string, portExp string) error {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a port (xxx) or port range (xxx:yyy)", attribute))
 	}
 
-	if p2 < 1 || p2 > 65535 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 1 and 65535", attribute))
+	if p2 < 0 || p2 > 65535 {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 0 and 65535", attribute))
 	}
 
 	if p1 >= p2 {
