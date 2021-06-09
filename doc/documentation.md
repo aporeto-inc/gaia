@@ -9025,7 +9025,6 @@ Parameters associated with a cloud endpoint.
     "eni-33333"
   ],
   "forwardingEnabled": false,
-  "hasPublicIP": false,
   "serviceType": "NotApplicable",
   "type": "Instance"
 }
@@ -9068,12 +9067,6 @@ Type: `boolean`
 If the endpoint has multiple connections and forwarding can be enabled between
 them.
 
-##### `hasPublicIP`
-
-Type: `boolean`
-
-Indicates if the endpoint has a public IP address.
-
 ##### `imageID`
 
 Type: `string`
@@ -9087,6 +9080,12 @@ instance imageID in other clouds.
 Type: [`[]cloudendpointdataproductinfo`](#cloudendpointdataproductinfo)
 
 Product related metadata associated with this endpoint.
+
+##### `publicIPAddresses`
+
+Type: `[]string`
+
+if the endpoint has a public IP we store the IP address in this field.
 
 ##### `serviceName`
 
