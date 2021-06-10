@@ -73,9 +73,6 @@ type CloudEndpointData struct {
 	// them.
 	ForwardingEnabled bool `json:"forwardingEnabled" msgpack:"forwardingEnabled" bson:"forwardingenabled" mapstructure:"forwardingEnabled,omitempty"`
 
-	// Indicates if the endpoint has a public IP address.
-	HasPublicIP bool `json:"hasPublicIP" msgpack:"hasPublicIP" bson:"haspublicip" mapstructure:"hasPublicIP,omitempty"`
-
 	// The imageID of running in the endpoint. Available for instances and
 	// potentially other 3rd parties. This can be the AMI ID in AWS or corresponding
 	// instance imageID in other clouds.
@@ -83,6 +80,9 @@ type CloudEndpointData struct {
 
 	// Product related metadata associated with this endpoint.
 	ProductInfo []*CloudEndpointDataProductInfo `json:"productInfo,omitempty" msgpack:"productInfo,omitempty" bson:"productinfo,omitempty" mapstructure:"productInfo,omitempty"`
+
+	// if the endpoint has a public IP we store the IP address in this field.
+	PublicIPAddresses []string `json:"publicIPAddresses" msgpack:"publicIPAddresses" bson:"publicipaddresses" mapstructure:"publicIPAddresses,omitempty"`
 
 	// Identifies the name of the service for service endpoints.
 	ServiceName string `json:"serviceName,omitempty" msgpack:"serviceName,omitempty" bson:"servicename,omitempty" mapstructure:"serviceName,omitempty"`
@@ -102,8 +102,9 @@ func NewCloudEndpointData() *CloudEndpointData {
 
 	return &CloudEndpointData{
 		ModelVersion:          1,
-		AssociatedRouteTables: []string{},
 		ProductInfo:           []*CloudEndpointDataProductInfo{},
+		AssociatedRouteTables: []string{},
+		PublicIPAddresses:     []string{},
 		AttachedInterfaces:    []string{},
 		VPCAttachments:        []string{},
 		ServiceType:           CloudEndpointDataServiceTypeNotApplicable,
@@ -125,9 +126,9 @@ func (o *CloudEndpointData) GetBSON() (interface{}, error) {
 	s.AssociatedRouteTables = o.AssociatedRouteTables
 	s.AttachedInterfaces = o.AttachedInterfaces
 	s.ForwardingEnabled = o.ForwardingEnabled
-	s.HasPublicIP = o.HasPublicIP
 	s.ImageID = o.ImageID
 	s.ProductInfo = o.ProductInfo
+	s.PublicIPAddresses = o.PublicIPAddresses
 	s.ServiceName = o.ServiceName
 	s.ServiceType = o.ServiceType
 	s.Type = o.Type
@@ -153,9 +154,9 @@ func (o *CloudEndpointData) SetBSON(raw bson.Raw) error {
 	o.AssociatedRouteTables = s.AssociatedRouteTables
 	o.AttachedInterfaces = s.AttachedInterfaces
 	o.ForwardingEnabled = s.ForwardingEnabled
-	o.HasPublicIP = s.HasPublicIP
 	o.ImageID = s.ImageID
 	o.ProductInfo = s.ProductInfo
+	o.PublicIPAddresses = s.PublicIPAddresses
 	o.ServiceName = s.ServiceName
 	o.ServiceType = s.ServiceType
 	o.Type = s.Type
@@ -238,9 +239,9 @@ type mongoAttributesCloudEndpointData struct {
 	AssociatedRouteTables []string                          `bson:"associatedroutetables"`
 	AttachedInterfaces    []string                          `bson:"attachedinterfaces"`
 	ForwardingEnabled     bool                              `bson:"forwardingenabled"`
-	HasPublicIP           bool                              `bson:"haspublicip"`
 	ImageID               string                            `bson:"imageid,omitempty"`
 	ProductInfo           []*CloudEndpointDataProductInfo   `bson:"productinfo,omitempty"`
+	PublicIPAddresses     []string                          `bson:"publicipaddresses"`
 	ServiceName           string                            `bson:"servicename,omitempty"`
 	ServiceType           CloudEndpointDataServiceTypeValue `bson:"servicetype"`
 	Type                  CloudEndpointDataTypeValue        `bson:"type"`
