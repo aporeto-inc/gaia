@@ -14,6 +14,7 @@ model:
   - '@migratable'
   - '@namespaced'
   - '@identifiable-stored'
+  - '@timeable'
 
 # Indexes
 indexes:

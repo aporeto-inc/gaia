@@ -90,6 +90,9 @@ type CloudScheduledNetworkQuery struct {
 	// The cloud network query that should be used.
 	CloudNetworkQuery *CloudNetworkQuery `json:"cloudNetworkQuery" msgpack:"cloudNetworkQuery" bson:"cloudnetworkquery" mapstructure:"cloudNetworkQuery,omitempty"`
 
+	// Creation date of the object.
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
 	// Represents whether the associated policy was disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
@@ -107,6 +110,9 @@ type CloudScheduledNetworkQuery struct {
 
 	// Prisma Cloud Policy ID.
 	PrismaCloudPolicyID string `json:"prismaCloudPolicyID" msgpack:"prismaCloudPolicyID" bson:"prismacloudpolicyid" mapstructure:"prismaCloudPolicyID,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -161,12 +167,14 @@ func (o *CloudScheduledNetworkQuery) GetBSON() (interface{}, error) {
 		s.ID = bson.ObjectIdHex(o.ID)
 	}
 	s.CloudNetworkQuery = o.CloudNetworkQuery
+	s.CreateTime = o.CreateTime
 	s.Disabled = o.Disabled
 	s.LastExecutionTimestamp = o.LastExecutionTimestamp
 	s.MigrationsLog = o.MigrationsLog
 	s.Namespace = o.Namespace
 	s.PrismaCloudAlertRuleID = o.PrismaCloudAlertRuleID
 	s.PrismaCloudPolicyID = o.PrismaCloudPolicyID
+	s.UpdateTime = o.UpdateTime
 	s.ZHash = o.ZHash
 	s.Zone = o.Zone
 
@@ -188,12 +196,14 @@ func (o *CloudScheduledNetworkQuery) SetBSON(raw bson.Raw) error {
 
 	o.ID = s.ID.Hex()
 	o.CloudNetworkQuery = s.CloudNetworkQuery
+	o.CreateTime = s.CreateTime
 	o.Disabled = s.Disabled
 	o.LastExecutionTimestamp = s.LastExecutionTimestamp
 	o.MigrationsLog = s.MigrationsLog
 	o.Namespace = s.Namespace
 	o.PrismaCloudAlertRuleID = s.PrismaCloudAlertRuleID
 	o.PrismaCloudPolicyID = s.PrismaCloudPolicyID
+	o.UpdateTime = s.UpdateTime
 	o.ZHash = s.ZHash
 	o.Zone = s.Zone
 
@@ -230,6 +240,18 @@ func (o *CloudScheduledNetworkQuery) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *CloudScheduledNetworkQuery) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
+func (o *CloudScheduledNetworkQuery) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
+}
+
 // GetMigrationsLog returns the MigrationsLog of the receiver.
 func (o *CloudScheduledNetworkQuery) GetMigrationsLog() map[string]string {
 
@@ -252,6 +274,18 @@ func (o *CloudScheduledNetworkQuery) GetNamespace() string {
 func (o *CloudScheduledNetworkQuery) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *CloudScheduledNetworkQuery) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
+func (o *CloudScheduledNetworkQuery) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
@@ -288,12 +322,14 @@ func (o *CloudScheduledNetworkQuery) ToSparse(fields ...string) elemental.Sparse
 			ID:                     &o.ID,
 			CloudGraphResult:       o.CloudGraphResult,
 			CloudNetworkQuery:      o.CloudNetworkQuery,
+			CreateTime:             &o.CreateTime,
 			Disabled:               &o.Disabled,
 			LastExecutionTimestamp: &o.LastExecutionTimestamp,
 			MigrationsLog:          &o.MigrationsLog,
 			Namespace:              &o.Namespace,
 			PrismaCloudAlertRuleID: &o.PrismaCloudAlertRuleID,
 			PrismaCloudPolicyID:    &o.PrismaCloudPolicyID,
+			UpdateTime:             &o.UpdateTime,
 			ZHash:                  &o.ZHash,
 			Zone:                   &o.Zone,
 		}
@@ -308,6 +344,8 @@ func (o *CloudScheduledNetworkQuery) ToSparse(fields ...string) elemental.Sparse
 			sp.CloudGraphResult = o.CloudGraphResult
 		case "cloudNetworkQuery":
 			sp.CloudNetworkQuery = o.CloudNetworkQuery
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
 		case "disabled":
 			sp.Disabled = &(o.Disabled)
 		case "lastExecutionTimestamp":
@@ -320,6 +358,8 @@ func (o *CloudScheduledNetworkQuery) ToSparse(fields ...string) elemental.Sparse
 			sp.PrismaCloudAlertRuleID = &(o.PrismaCloudAlertRuleID)
 		case "prismaCloudPolicyID":
 			sp.PrismaCloudPolicyID = &(o.PrismaCloudPolicyID)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -346,6 +386,9 @@ func (o *CloudScheduledNetworkQuery) Patch(sparse elemental.SparseIdentifiable) 
 	if so.CloudNetworkQuery != nil {
 		o.CloudNetworkQuery = so.CloudNetworkQuery
 	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
 	if so.Disabled != nil {
 		o.Disabled = *so.Disabled
 	}
@@ -363,6 +406,9 @@ func (o *CloudScheduledNetworkQuery) Patch(sparse elemental.SparseIdentifiable) 
 	}
 	if so.PrismaCloudPolicyID != nil {
 		o.PrismaCloudPolicyID = *so.PrismaCloudPolicyID
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -456,6 +502,8 @@ func (o *CloudScheduledNetworkQuery) ValueForAttribute(name string) interface{} 
 		return o.CloudGraphResult
 	case "cloudNetworkQuery":
 		return o.CloudNetworkQuery
+	case "createTime":
+		return o.CreateTime
 	case "disabled":
 		return o.Disabled
 	case "lastExecutionTimestamp":
@@ -468,6 +516,8 @@ func (o *CloudScheduledNetworkQuery) ValueForAttribute(name string) interface{} 
 		return o.PrismaCloudAlertRuleID
 	case "prismaCloudPolicyID":
 		return o.PrismaCloudPolicyID
+	case "updateTime":
+		return o.UpdateTime
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -513,6 +563,21 @@ var CloudScheduledNetworkQueryAttributesMap = map[string]elemental.AttributeSpec
 		Stored:         true,
 		SubType:        "cloudnetworkquery",
 		Type:           "ref",
+	},
+	"CreateTime": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "createtime",
+		ConvertedName:  "CreateTime",
+		Description:    `Creation date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"Disabled": {
 		AllowedChoices: []string{},
@@ -585,6 +650,21 @@ var CloudScheduledNetworkQueryAttributesMap = map[string]elemental.AttributeSpec
 		SubType:        "string",
 		Type:           "string",
 	},
+	"UpdateTime": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "updatetime",
+		ConvertedName:  "UpdateTime",
+		Description:    `Last update date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updateTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
+	},
 	"ZHash": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -651,6 +731,21 @@ var CloudScheduledNetworkQueryLowerCaseAttributesMap = map[string]elemental.Attr
 		Stored:         true,
 		SubType:        "cloudnetworkquery",
 		Type:           "ref",
+	},
+	"createtime": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "createtime",
+		ConvertedName:  "CreateTime",
+		Description:    `Creation date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"disabled": {
 		AllowedChoices: []string{},
@@ -722,6 +817,21 @@ var CloudScheduledNetworkQueryLowerCaseAttributesMap = map[string]elemental.Attr
 		Stored:         true,
 		SubType:        "string",
 		Type:           "string",
+	},
+	"updatetime": {
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		BSONFieldName:  "updatetime",
+		ConvertedName:  "UpdateTime",
+		Description:    `Last update date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updateTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"zhash": {
 		AllowedChoices: []string{},
@@ -825,6 +935,9 @@ type SparseCloudScheduledNetworkQuery struct {
 	// The cloud network query that should be used.
 	CloudNetworkQuery *CloudNetworkQuery `json:"cloudNetworkQuery,omitempty" msgpack:"cloudNetworkQuery,omitempty" bson:"cloudnetworkquery,omitempty" mapstructure:"cloudNetworkQuery,omitempty"`
 
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+
 	// Represents whether the associated policy was disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
@@ -842,6 +955,9 @@ type SparseCloudScheduledNetworkQuery struct {
 
 	// Prisma Cloud Policy ID.
 	PrismaCloudPolicyID *string `json:"prismaCloudPolicyID,omitempty" msgpack:"prismaCloudPolicyID,omitempty" bson:"prismacloudpolicyid,omitempty" mapstructure:"prismaCloudPolicyID,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -899,6 +1015,9 @@ func (o *SparseCloudScheduledNetworkQuery) GetBSON() (interface{}, error) {
 	if o.CloudNetworkQuery != nil {
 		s.CloudNetworkQuery = o.CloudNetworkQuery
 	}
+	if o.CreateTime != nil {
+		s.CreateTime = o.CreateTime
+	}
 	if o.Disabled != nil {
 		s.Disabled = o.Disabled
 	}
@@ -916,6 +1035,9 @@ func (o *SparseCloudScheduledNetworkQuery) GetBSON() (interface{}, error) {
 	}
 	if o.PrismaCloudPolicyID != nil {
 		s.PrismaCloudPolicyID = o.PrismaCloudPolicyID
+	}
+	if o.UpdateTime != nil {
+		s.UpdateTime = o.UpdateTime
 	}
 	if o.ZHash != nil {
 		s.ZHash = o.ZHash
@@ -945,6 +1067,9 @@ func (o *SparseCloudScheduledNetworkQuery) SetBSON(raw bson.Raw) error {
 	if s.CloudNetworkQuery != nil {
 		o.CloudNetworkQuery = s.CloudNetworkQuery
 	}
+	if s.CreateTime != nil {
+		o.CreateTime = s.CreateTime
+	}
 	if s.Disabled != nil {
 		o.Disabled = s.Disabled
 	}
@@ -962,6 +1087,9 @@ func (o *SparseCloudScheduledNetworkQuery) SetBSON(raw bson.Raw) error {
 	}
 	if s.PrismaCloudPolicyID != nil {
 		o.PrismaCloudPolicyID = s.PrismaCloudPolicyID
+	}
+	if s.UpdateTime != nil {
+		o.UpdateTime = s.UpdateTime
 	}
 	if s.ZHash != nil {
 		o.ZHash = s.ZHash
@@ -992,6 +1120,9 @@ func (o *SparseCloudScheduledNetworkQuery) ToPlain() elemental.PlainIdentifiable
 	if o.CloudNetworkQuery != nil {
 		out.CloudNetworkQuery = o.CloudNetworkQuery
 	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
 	if o.Disabled != nil {
 		out.Disabled = *o.Disabled
 	}
@@ -1010,6 +1141,9 @@ func (o *SparseCloudScheduledNetworkQuery) ToPlain() elemental.PlainIdentifiable
 	if o.PrismaCloudPolicyID != nil {
 		out.PrismaCloudPolicyID = *o.PrismaCloudPolicyID
 	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
 	}
@@ -1018,6 +1152,22 @@ func (o *SparseCloudScheduledNetworkQuery) ToPlain() elemental.PlainIdentifiable
 	}
 
 	return out
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseCloudScheduledNetworkQuery) GetCreateTime() (out time.Time) {
+
+	if o.CreateTime == nil {
+		return
+	}
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseCloudScheduledNetworkQuery) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -1050,6 +1200,22 @@ func (o *SparseCloudScheduledNetworkQuery) GetNamespace() (out string) {
 func (o *SparseCloudScheduledNetworkQuery) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseCloudScheduledNetworkQuery) GetUpdateTime() (out time.Time) {
+
+	if o.UpdateTime == nil {
+		return
+	}
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseCloudScheduledNetworkQuery) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
@@ -1111,24 +1277,28 @@ func (o *SparseCloudScheduledNetworkQuery) DeepCopyInto(out *SparseCloudSchedule
 type mongoAttributesCloudScheduledNetworkQuery struct {
 	ID                     bson.ObjectId      `bson:"_id,omitempty"`
 	CloudNetworkQuery      *CloudNetworkQuery `bson:"cloudnetworkquery"`
+	CreateTime             time.Time          `bson:"createtime"`
 	Disabled               bool               `bson:"disabled"`
 	LastExecutionTimestamp time.Time          `bson:"lastexecutiontimestamp"`
 	MigrationsLog          map[string]string  `bson:"migrationslog,omitempty"`
 	Namespace              string             `bson:"namespace"`
 	PrismaCloudAlertRuleID string             `bson:"prismacloudalertruleid"`
 	PrismaCloudPolicyID    string             `bson:"prismacloudpolicyid"`
+	UpdateTime             time.Time          `bson:"updatetime"`
 	ZHash                  int                `bson:"zhash"`
 	Zone                   int                `bson:"zone"`
 }
 type mongoAttributesSparseCloudScheduledNetworkQuery struct {
 	ID                     bson.ObjectId      `bson:"_id,omitempty"`
 	CloudNetworkQuery      *CloudNetworkQuery `bson:"cloudnetworkquery,omitempty"`
+	CreateTime             *time.Time         `bson:"createtime,omitempty"`
 	Disabled               *bool              `bson:"disabled,omitempty"`
 	LastExecutionTimestamp *time.Time         `bson:"lastexecutiontimestamp,omitempty"`
 	MigrationsLog          *map[string]string `bson:"migrationslog,omitempty"`
 	Namespace              *string            `bson:"namespace,omitempty"`
 	PrismaCloudAlertRuleID *string            `bson:"prismacloudalertruleid,omitempty"`
 	PrismaCloudPolicyID    *string            `bson:"prismacloudpolicyid,omitempty"`
+	UpdateTime             *time.Time         `bson:"updatetime,omitempty"`
 	ZHash                  *int               `bson:"zhash,omitempty"`
 	Zone                   *int               `bson:"zone,omitempty"`
 }
