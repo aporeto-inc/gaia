@@ -40,6 +40,8 @@ indexes:
 - - namespace
   - name
 - - type
+- - name
+  - annotations
 
 # Attributes
 attributes:
