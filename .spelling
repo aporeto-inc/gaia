@@ -54,6 +54,7 @@ claims_supported
 ClaimsSupported
 ClauseMatch
 CNSConfig
+CloudAlertRule
 CNSSuggestion
 CNSSearch
 clientLocalID
