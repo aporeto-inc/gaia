@@ -56,12 +56,6 @@ attributes:
     exposed: true
     stored: true
 
-  - name: hasPublicIP
-    description: Indicates if the endpoint has a public IP address.
-    type: boolean
-    exposed: true
-    stored: true
-
   - name: imageID
     description: |-
       The imageID of running in the endpoint. Available for instances and
@@ -81,6 +75,13 @@ attributes:
     omit_empty: true
     extensions:
       refMode: pointer
+
+  - name: publicIPAddresses
+    description: if the endpoint has a public IP we store the IP address in this field.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
 
   - name: serviceName
     description: Identifies the name of the service for service endpoints.
