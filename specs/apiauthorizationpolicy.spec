@@ -32,9 +32,37 @@ model:
   - '@named'
   - '@hidden'
   - '@fallback'
+  - '@propagated'
   - '@schedulable'
   - '@timeable'
   - '@zoned'
+
+# Indexes
+indexes:
+- - namespace
+  - type
+- - namespace
+  - type
+  - allObjectTags
+- - namespace
+  - type
+  - allSubjectTags
+- - namespace
+  - type
+  - allObjectTags
+  - disabled
+- - namespace
+  - type
+  - allSubjectTags
+  - disabled
+- - namespace
+  - type
+  - allObjectTags
+  - propagate
+- - namespace
+  - type
+  - allSubjectTags
+  - propagate
 
 # Attributes
 attributes:
@@ -82,6 +110,15 @@ attributes:
     stored: true
     getter: true
     setter: true
+
+  - name: propagate
+    description: Propagates the api authorization to all of its children.
+    type: boolean
+    stored: true
+    default_value: true
+    getter: true
+    setter: true
+    orderable: true
 
   - name: subject
     description: A tag or tag expression that identifies the authorized user(s).

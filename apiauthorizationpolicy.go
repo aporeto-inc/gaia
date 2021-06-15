@@ -146,6 +146,9 @@ type APIAuthorizationPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Propagates the api authorization to all of its children.
+	Propagate bool `json:"-" msgpack:"-" bson:"propagate" mapstructure:"-,omitempty"`
+
 	// If set to `true` while the policy is propagating, it won't be visible to
 	// children
 	// namespace, but still used for policy resolution.
@@ -185,6 +188,7 @@ func NewAPIAuthorizationPolicy() *APIAuthorizationPolicy {
 		AuthorizedSubnets:    []string{},
 		Metadata:             []string{},
 		NormalizedTags:       []string{},
+		Propagate:            true,
 		Subject:              [][]string{},
 	}
 }
@@ -238,6 +242,7 @@ func (o *APIAuthorizationPolicy) GetBSON() (interface{}, error) {
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
+	s.Propagate = o.Propagate
 	s.PropagationHidden = o.PropagationHidden
 	s.Protected = o.Protected
 	s.Subject = o.Subject
@@ -281,6 +286,7 @@ func (o *APIAuthorizationPolicy) SetBSON(raw bson.Raw) error {
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
+	o.Propagate = s.Propagate
 	o.PropagationHidden = s.PropagationHidden
 	o.Protected = s.Protected
 	o.Subject = s.Subject
@@ -495,6 +501,18 @@ func (o *APIAuthorizationPolicy) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *APIAuthorizationPolicy) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *APIAuthorizationPolicy) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetPropagationHidden returns the PropagationHidden of the receiver.
 func (o *APIAuthorizationPolicy) GetPropagationHidden() bool {
 
@@ -593,6 +611,7 @@ func (o *APIAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
+			Propagate:            &o.Propagate,
 			PropagationHidden:    &o.PropagationHidden,
 			Protected:            &o.Protected,
 			Subject:              &o.Subject,
@@ -644,6 +663,8 @@ func (o *APIAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "propagationHidden":
 			sp.PropagationHidden = &(o.PropagationHidden)
 		case "protected":
@@ -727,6 +748,9 @@ func (o *APIAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.PropagationHidden != nil {
 		o.PropagationHidden = *so.PropagationHidden
@@ -896,6 +920,8 @@ func (o *APIAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "propagate":
+		return o.Propagate
 	case "propagationHidden":
 		return o.PropagationHidden
 	case "protected":
@@ -1175,6 +1201,19 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
+	},
+	"Propagate": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "propagate",
+		ConvertedName:  "Propagate",
+		DefaultValue:   true,
+		Description:    `Propagates the api authorization to all of its children.`,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"PropagationHidden": {
 		AllowedChoices: []string{},
@@ -1535,6 +1574,19 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"propagate": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "propagate",
+		ConvertedName:  "Propagate",
+		DefaultValue:   true,
+		Description:    `Propagates the api authorization to all of its children.`,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"propagationhidden": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "propagationhidden",
@@ -1761,6 +1813,9 @@ type SparseAPIAuthorizationPolicy struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
+	// Propagates the api authorization to all of its children.
+	Propagate *bool `json:"-" msgpack:"-" bson:"propagate,omitempty" mapstructure:"-,omitempty"`
+
 	// If set to `true` while the policy is propagating, it won't be visible to
 	// children
 	// namespace, but still used for policy resolution.
@@ -1885,6 +1940,9 @@ func (o *SparseAPIAuthorizationPolicy) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
+	if o.Propagate != nil {
+		s.Propagate = o.Propagate
+	}
 	if o.PropagationHidden != nil {
 		s.PropagationHidden = o.PropagationHidden
 	}
@@ -1979,6 +2037,9 @@ func (o *SparseAPIAuthorizationPolicy) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
+	if s.Propagate != nil {
+		o.Propagate = s.Propagate
+	}
 	if s.PropagationHidden != nil {
 		o.PropagationHidden = s.PropagationHidden
 	}
@@ -2070,6 +2131,9 @@ func (o *SparseAPIAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.PropagationHidden != nil {
 		out.PropagationHidden = *o.PropagationHidden
@@ -2320,6 +2384,22 @@ func (o *SparseAPIAuthorizationPolicy) SetNormalizedTags(normalizedTags []string
 	o.NormalizedTags = &normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseAPIAuthorizationPolicy) GetPropagate() (out bool) {
+
+	if o.Propagate == nil {
+		return
+	}
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseAPIAuthorizationPolicy) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
 // GetPropagationHidden returns the PropagationHidden of the receiver.
 func (o *SparseAPIAuthorizationPolicy) GetPropagationHidden() (out bool) {
 
@@ -2460,6 +2540,7 @@ type mongoAttributesAPIAuthorizationPolicy struct {
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
+	Propagate            bool                `bson:"propagate"`
 	PropagationHidden    bool                `bson:"propagationhidden"`
 	Protected            bool                `bson:"protected"`
 	Subject              [][]string          `bson:"subject"`
@@ -2488,6 +2569,7 @@ type mongoAttributesSparseAPIAuthorizationPolicy struct {
 	Name                 *string              `bson:"name,omitempty"`
 	Namespace            *string              `bson:"namespace,omitempty"`
 	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Propagate            *bool                `bson:"propagate,omitempty"`
 	PropagationHidden    *bool                `bson:"propagationhidden,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
 	Subject              *[][]string          `bson:"subject,omitempty"`
