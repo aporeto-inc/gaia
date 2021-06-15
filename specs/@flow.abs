@@ -229,7 +229,6 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    required: false
     example_value: 6
     omit_empty: true
     extensions:
@@ -243,6 +242,15 @@ attributes:
     omit_empty: true
     extensions:
       bson_name: u
+
+  - name: remotePolicyID
+    description: ID of the network policy that accepted the flow at the remote endpoint.
+    type: string
+    exposed: true
+    stored: true
+    omit_empty: true
+    extensions:
+      bson_name: al
 
   - name: ruleName
     description: |-

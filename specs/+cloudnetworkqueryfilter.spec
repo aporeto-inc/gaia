@@ -116,6 +116,16 @@ attributes:
     stored: true
     omit_empty: true
 
+  - name: serviceNames
+    description: |-
+      Identifies a list of service names that should be taken into account. This is
+      only valid with a resource type equal to Service.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    omit_empty: true
+
   - name: serviceOwners
     description: |-
       Identifies the owner of the service that the resource is attached to. Field is

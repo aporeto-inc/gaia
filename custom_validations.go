@@ -36,8 +36,8 @@ func ValidatePortString(attribute string, portExp string) error {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a port (xxx) or port range (xxx:yyy)", attribute))
 	}
 
-	if p1 < 1 || p1 > 65535 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 1 and 65535", attribute))
+	if p1 < 0 || p1 > 65535 {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 0 and 65535", attribute))
 	}
 
 	if len(ports) == 1 {
@@ -49,8 +49,8 @@ func ValidatePortString(attribute string, portExp string) error {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a port (xxx) or port range (xxx:yyy)", attribute))
 	}
 
-	if p2 < 1 || p2 > 65535 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 1 and 65535", attribute))
+	if p2 < 0 || p2 > 65535 {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be between 0 and 65535", attribute))
 	}
 
 	if p1 >= p2 {
@@ -1380,6 +1380,10 @@ func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 		}
 	}
 
+	if q.SourceIP == "" && q.DestinationIP == "" && len(q.ExcludedNetworks) != 0 {
+		return makeValidationError("Entity CloudNetworkQuery", "'excludedNetworks' is only valid when source or destination IP are defined")
+	}
+
 	emptyDestinationSelector := IsCloudNetworkQueryFilterEmpty(q.DestinationSelector)
 
 	if q.DestinationIP != "" && !emptyDestinationSelector {
@@ -1423,6 +1427,7 @@ func IsCloudNetworkQueryFilterEmpty(f *CloudNetworkQueryFilter) bool {
 		len(f.ServiceOwners) == 0 &&
 		len(f.ServiceTypes) == 0 &&
 		len(f.ImageIDs) == 0 &&
+		len(f.ServiceNames) == 0 &&
 		f.ProductInfoType == "" &&
 		f.ProductInfoValue == "" {
 		return true
@@ -1456,6 +1461,10 @@ func ValidateCloudNetworkQueryFilter(attribute string, f *CloudNetworkQueryFilte
 
 	if f.ResourceType != CloudNetworkQueryFilterResourceTypeInstance && f.ProductInfoValue != "" {
 		return makeValidationError(attribute, fmt.Sprintf("product value filtering only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInstance))
+	}
+
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeService && len(f.ServiceNames) > 0 {
+		return makeValidationError(attribute, fmt.Sprintf("service name filtering only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeService))
 	}
 
 	return nil
