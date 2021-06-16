@@ -44,9 +44,9 @@ indexes:
 - - allAPITags
 - - namespace
   - allAPITags
-- - allServiceTags
+- - allProcessingUnitsTags
 - - namespace
-  - allServiceTags
+  - allProcessingUnitsTags
 
 # Attributes
 attributes:
@@ -60,6 +60,8 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    validations:
+    - $optionalipaddresslist
 
   - name: JWTSigningCertificate
     description: |-
@@ -169,7 +171,7 @@ attributes:
     stored: true
     read_only: true
 
-  - name: allServiceTags
+  - name: allProcessingUnitsTags
     description: This is a set of all selector tags for matching in the database.
     type: list
     subtype: string
@@ -287,6 +289,21 @@ attributes:
     stored: true
     example_value: 443
     max_value: 65535
+
+  - name: proxyProtocolEnabled
+    description: Enable trust in proxy protocols header.
+    type: boolean
+    exposed: true
+    stored: true
+
+  - name: proxyProtocolSubnets
+    description: Only allow proxy protocols from the given subnets .
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    validations:
+    - $optionalcidrs
 
   - name: publicApplicationPort
     description: |-

@@ -161,6 +161,22 @@ func ValidateIPAddress(attribute string, network string) error {
 	return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be an IP address", attribute))
 }
 
+// ValidateIPAddressList validates that this is a valid list IP addresses.
+func ValidateIPAddressList(attribute string, ips []string) error {
+
+	if len(ips) == 0 {
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be valid list of IP addresses", attribute))
+	}
+
+	for _, ip := range ips {
+		if err := ValidateIPAddress(attribute, ip); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ValidateOptionalIPAddress validates that this is a valid IP address (not a CIDR) if it not empty.
 func ValidateOptionalIPAddress(attribute string, network string) error {
 
@@ -169,6 +185,16 @@ func ValidateOptionalIPAddress(attribute string, network string) error {
 	}
 
 	return ValidateIPAddress(attribute, network)
+}
+
+// ValidateOptionalIPAddressList validates that this is a valid IP address (not a CIDR) if it not empty.
+func ValidateOptionalIPAddressList(attribute string, ips []string) error {
+
+	if len(ips) == 0 {
+		return nil
+	}
+
+	return ValidateIPAddressList(attribute, ips)
 }
 
 // ValidateOptionalCIDR validates an optional CIDR. It can be empty.
@@ -341,6 +367,12 @@ func ValidateServiceEntity(service *Service) error {
 
 		if service.PublicApplicationPort == service.ExposedPort {
 			errs = errs.Append(makeValidationError("publicApplicationPort", "Public port cannot be the same as the exposed port"))
+		}
+	}
+
+	if service.ProxyProtocolEnabled {
+		if len(service.ProxyProtocolSubnets) == 0 {
+			errs = errs.Append(makeValidationError("proxyProtocolSubnets", "When proxyProtocolEnabled is true, you must set at least one proxyProtocolSubnets"))
 		}
 	}
 
@@ -1328,8 +1360,28 @@ func ValidateCloudNetworkQueryEntity(q *CloudNetworkQuery) error {
 		return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' and 'sourceSelector' cannot be empty at the same time")
 	}
 
-	if len(q.DestinationPorts) > 0 && !(q.DestinationProtocol == 6 || q.DestinationProtocol == 17) {
-		return makeValidationError("Entity CloudNetworkQuery", "'destinationRotocol' cannot be empty when 'destinationPorts' are defined")
+	if q.SourceIP != "" {
+		isPrivate, err := IsAddressPrivate(q.SourceIP)
+		if err != nil {
+			return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' must be a valid IP address")
+		}
+		if isPrivate {
+			return makeValidationError("Entity CloudNetworkQuery", "'sourceIP' must be a public IP address")
+		}
+	}
+
+	if q.DestinationIP != "" {
+		isPrivate, err := IsAddressPrivate(q.DestinationIP)
+		if err != nil {
+			return makeValidationError("Entity CloudNetworkQuery", "'destinationIP' must be a valid IP address")
+		}
+		if isPrivate {
+			return makeValidationError("Entity CloudNetworkQuery", "'destinationIP' must be a public IP address")
+		}
+	}
+
+	if q.SourceIP == "" && q.DestinationIP == "" && len(q.ExcludedNetworks) != 0 {
+		return makeValidationError("Entity CloudNetworkQuery", "'excludedNetworks' is only valid when source or destination IP are defined")
 	}
 
 	emptyDestinationSelector := IsCloudNetworkQueryFilterEmpty(q.DestinationSelector)
@@ -1375,6 +1427,7 @@ func IsCloudNetworkQueryFilterEmpty(f *CloudNetworkQueryFilter) bool {
 		len(f.ServiceOwners) == 0 &&
 		len(f.ServiceTypes) == 0 &&
 		len(f.ImageIDs) == 0 &&
+		len(f.ServiceNames) == 0 &&
 		f.ProductInfoType == "" &&
 		f.ProductInfoValue == "" {
 		return true
@@ -1410,5 +1463,41 @@ func ValidateCloudNetworkQueryFilter(attribute string, f *CloudNetworkQueryFilte
 		return makeValidationError(attribute, fmt.Sprintf("product value filtering only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeInstance))
 	}
 
+	if f.ResourceType != CloudNetworkQueryFilterResourceTypeService && len(f.ServiceNames) > 0 {
+		return makeValidationError(attribute, fmt.Sprintf("service name filtering only allowed for selectors with resource type: %s", CloudNetworkQueryFilterResourceTypeService))
+	}
+
 	return nil
+}
+
+var privateIPSpace = []string{
+	"127.0.0.0/8",    // IPv4 loopback
+	"10.0.0.0/8",     // RFC1918
+	"172.16.0.0/12",  // RFC1918
+	"192.168.0.0/16", // RFC1918
+	"169.254.0.0/16", // RFC3927 link-local
+	"::1/128",        // IPv6 loopback
+	"fe80::/10",      // IPv6 link-local
+	"fc00::/7",       // IPv6 unique local addr
+}
+
+// IsAddressPrivate will check an address and return true if it is
+// part of the private RFC 1918 address spaces.
+func IsAddressPrivate(address string) (bool, error) {
+
+	network, err := ipNetFromString(address)
+	if err != nil {
+		return false, err
+	}
+
+	for _, s := range privateIPSpace {
+		// predefined space
+		_, subnet, _ := net.ParseCIDR(s) // nolint errcheck
+
+		if subnet.Contains(network.IP) {
+			return true, nil
+		}
+	}
+
+	return false, nil
 }

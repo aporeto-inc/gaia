@@ -37,26 +37,6 @@ attributes:
     validations:
     - $optionalcidrorip
 
-  - name: destinationPorts
-    description: The destination port or ports that should be used for the trace route
-      command.
-    type: external
-    exposed: true
-    subtype: _portlist
-    stored: true
-    validations:
-    - $portslist
-
-  - name: destinationProtocol
-    description: The destination protocol that should be used for the trace route
-      commands.
-    type: integer
-    exposed: true
-    stored: true
-    default_value: -1
-    max_value: 255
-    min_value: -1
-
   - name: destinationSelector
     description: A filter for selecting destinations for the query.
     type: ref
@@ -66,6 +46,23 @@ attributes:
     extensions:
       refMode: pointer
 
+  - name: effectiveAction
+    description: |-
+      Filters the results based on the effective action. 'ReachableAndAllowed' means
+      that a destination is both reachable and allowed by security rules.
+      'UnreachableOrRejected' means that the destination is either not reachable or
+      rejected by security rules. 'ReachableOnly' means that all destinations that are
+      reachable will be returned irrespective of their security verdict.
+      'UnreachableOnly' means that only unreachable destinations will be returned.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - ReachableAndAllowed
+    - ReachableOnly
+    - All
+    default_value: ReachableOnly
+
   - name: excludeEnterpriseIPs
     description: |-
       If set, the evaluation will exclude enterprise IPs from the effective
@@ -74,13 +71,29 @@ attributes:
     exposed: true
     stored: true
 
-  - name: includeUnreachable
+  - name: excludedNetworks
     description: |-
-      If set, the query result will return all destinations including the unreachable
-      ones.
-    type: boolean
+      List of networks that should be a excluded from the calculation if the source or
+      destination is a network.
+    type: list
     exposed: true
+    subtype: string
     stored: true
+    validations:
+    - $optionalcidroriplist
+
+  - name: protocolPorts
+    description: |-
+      Represents the ports and protocols this policy applies to. Protocol/ports are
+      defined as tcp/80, udp/22. For protocols that do not have ports, the port
+      designation
+      is not allowed.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    validations:
+    - $serviceports
 
   - name: rawRQL
     description: The RQL string for this query as a reference.

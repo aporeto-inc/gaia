@@ -232,6 +232,9 @@ type CachedFlowReport struct {
 	// Namespace of the object at the other end of the flow.
 	RemoteNamespace string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"u,omitempty" mapstructure:"remoteNamespace,omitempty"`
 
+	// ID of the network policy that accepted the flow at the remote endpoint.
+	RemotePolicyID string `json:"remotePolicyID,omitempty" msgpack:"remotePolicyID,omitempty" bson:"al,omitempty" mapstructure:"remotePolicyID,omitempty"`
+
 	// Contains the eventual name assigned to the particular rule in the
 	// NetworkRuleSetPolicy that acted on the flow.
 	RuleName string `json:"ruleName,omitempty" msgpack:"ruleName,omitempty" bson:"ba,omitempty" mapstructure:"ruleName,omitempty"`
@@ -291,9 +294,9 @@ func NewCachedFlowReport() *CachedFlowReport {
 
 	return &CachedFlowReport{
 		ModelVersion:   1,
-		MigrationsLog:  map[string]string{},
-		ServiceType:    CachedFlowReportServiceTypeNotApplicable,
 		ObservedAction: CachedFlowReportObservedActionNotApplicable,
+		ServiceType:    CachedFlowReportServiceTypeNotApplicable,
+		MigrationsLog:  map[string]string{},
 	}
 }
 
@@ -353,6 +356,7 @@ func (o *CachedFlowReport) GetBSON() (interface{}, error) {
 	s.PolicyNamespace = o.PolicyNamespace
 	s.Protocol = o.Protocol
 	s.RemoteNamespace = o.RemoteNamespace
+	s.RemotePolicyID = o.RemotePolicyID
 	s.RuleName = o.RuleName
 	s.ServiceClaimHash = o.ServiceClaimHash
 	s.ServiceID = o.ServiceID
@@ -412,6 +416,7 @@ func (o *CachedFlowReport) SetBSON(raw bson.Raw) error {
 	o.PolicyNamespace = s.PolicyNamespace
 	o.Protocol = s.Protocol
 	o.RemoteNamespace = s.RemoteNamespace
+	o.RemotePolicyID = s.RemotePolicyID
 	o.RuleName = s.RuleName
 	o.ServiceClaimHash = s.ServiceClaimHash
 	o.ServiceID = s.ServiceID
@@ -530,6 +535,7 @@ func (o *CachedFlowReport) ToSparse(fields ...string) elemental.SparseIdentifiab
 			PolicyNamespace:         &o.PolicyNamespace,
 			Protocol:                &o.Protocol,
 			RemoteNamespace:         &o.RemoteNamespace,
+			RemotePolicyID:          &o.RemotePolicyID,
 			RuleName:                &o.RuleName,
 			ServiceClaimHash:        &o.ServiceClaimHash,
 			ServiceID:               &o.ServiceID,
@@ -604,6 +610,8 @@ func (o *CachedFlowReport) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.Protocol = &(o.Protocol)
 		case "remoteNamespace":
 			sp.RemoteNamespace = &(o.RemoteNamespace)
+		case "remotePolicyID":
+			sp.RemotePolicyID = &(o.RemotePolicyID)
 		case "ruleName":
 			sp.RuleName = &(o.RuleName)
 		case "serviceClaimHash":
@@ -726,6 +734,9 @@ func (o *CachedFlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.RemoteNamespace != nil {
 		o.RemoteNamespace = *so.RemoteNamespace
+	}
+	if so.RemotePolicyID != nil {
+		o.RemotePolicyID = *so.RemotePolicyID
 	}
 	if so.RuleName != nil {
 		o.RuleName = *so.RuleName
@@ -954,6 +965,8 @@ func (o *CachedFlowReport) ValueForAttribute(name string) interface{} {
 		return o.Protocol
 	case "remoteNamespace":
 		return o.RemoteNamespace
+	case "remotePolicyID":
+		return o.RemotePolicyID
 	case "ruleName":
 		return o.RuleName
 	case "serviceClaimHash":
@@ -1269,6 +1282,16 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Description:    `Namespace of the object at the other end of the flow.`,
 		Exposed:        true,
 		Name:           "remoteNamespace",
+		Stored:         true,
+		Type:           "string",
+	},
+	"RemotePolicyID": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "al",
+		ConvertedName:  "RemotePolicyID",
+		Description:    `ID of the network policy that accepted the flow at the remote endpoint.`,
+		Exposed:        true,
+		Name:           "remotePolicyID",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1731,6 +1754,16 @@ to ` + "`" + `Reject` + "`" + `.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"remotepolicyid": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "al",
+		ConvertedName:  "RemotePolicyID",
+		Description:    `ID of the network policy that accepted the flow at the remote endpoint.`,
+		Exposed:        true,
+		Name:           "remotePolicyID",
+		Stored:         true,
+		Type:           "string",
+	},
 	"rulename": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "ba",
@@ -2053,6 +2086,9 @@ type SparseCachedFlowReport struct {
 	// Namespace of the object at the other end of the flow.
 	RemoteNamespace *string `json:"remoteNamespace,omitempty" msgpack:"remoteNamespace,omitempty" bson:"u,omitempty" mapstructure:"remoteNamespace,omitempty"`
 
+	// ID of the network policy that accepted the flow at the remote endpoint.
+	RemotePolicyID *string `json:"remotePolicyID,omitempty" msgpack:"remotePolicyID,omitempty" bson:"al,omitempty" mapstructure:"remotePolicyID,omitempty"`
+
 	// Contains the eventual name assigned to the particular rule in the
 	// NetworkRuleSetPolicy that acted on the flow.
 	RuleName *string `json:"ruleName,omitempty" msgpack:"ruleName,omitempty" bson:"ba,omitempty" mapstructure:"ruleName,omitempty"`
@@ -2225,6 +2261,9 @@ func (o *SparseCachedFlowReport) GetBSON() (interface{}, error) {
 	if o.RemoteNamespace != nil {
 		s.RemoteNamespace = o.RemoteNamespace
 	}
+	if o.RemotePolicyID != nil {
+		s.RemotePolicyID = o.RemotePolicyID
+	}
 	if o.RuleName != nil {
 		s.RuleName = o.RuleName
 	}
@@ -2367,6 +2406,9 @@ func (o *SparseCachedFlowReport) SetBSON(raw bson.Raw) error {
 	if s.RemoteNamespace != nil {
 		o.RemoteNamespace = s.RemoteNamespace
 	}
+	if s.RemotePolicyID != nil {
+		o.RemotePolicyID = s.RemotePolicyID
+	}
 	if s.RuleName != nil {
 		o.RuleName = s.RuleName
 	}
@@ -2506,6 +2548,9 @@ func (o *SparseCachedFlowReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.RemoteNamespace != nil {
 		out.RemoteNamespace = *o.RemoteNamespace
+	}
+	if o.RemotePolicyID != nil {
+		out.RemotePolicyID = *o.RemotePolicyID
 	}
 	if o.RuleName != nil {
 		out.RuleName = *o.RuleName
@@ -2658,6 +2703,7 @@ type mongoAttributesCachedFlowReport struct {
 	PolicyNamespace         string                               `bson:"s,omitempty"`
 	Protocol                int                                  `bson:"t,omitempty"`
 	RemoteNamespace         string                               `bson:"u,omitempty"`
+	RemotePolicyID          string                               `bson:"al,omitempty"`
 	RuleName                string                               `bson:"ba,omitempty"`
 	ServiceClaimHash        string                               `bson:"v,omitempty"`
 	ServiceID               string                               `bson:"w,omitempty"`
@@ -2702,6 +2748,7 @@ type mongoAttributesSparseCachedFlowReport struct {
 	PolicyNamespace         *string                               `bson:"s,omitempty"`
 	Protocol                *int                                  `bson:"t,omitempty"`
 	RemoteNamespace         *string                               `bson:"u,omitempty"`
+	RemotePolicyID          *string                               `bson:"al,omitempty"`
 	RuleName                *string                               `bson:"ba,omitempty"`
 	ServiceClaimHash        *string                               `bson:"v,omitempty"`
 	ServiceID               *string                               `bson:"w,omitempty"`

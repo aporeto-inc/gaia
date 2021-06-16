@@ -13,10 +13,11 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: nativeID
-    description: The native ID of the node.
-    type: string
+  - name: childrenIDs
+    description: The list of children for this node.
+    type: external
     exposed: true
+    subtype: map[string]map[string][]string
     omit_empty: true
 
   - name: nodeData
@@ -36,6 +37,13 @@ attributes:
     omit_empty: true
     extensions:
       refMode: pointer
+
+  - name: publicChildrenIDs
+    description: The list of public children for this node.
+    type: external
+    exposed: true
+    subtype: map[string]map[string][]string
+    omit_empty: true
 
   - name: routeTableIDs
     description: |-

@@ -86,6 +86,10 @@ $ipaddress:
   elemental:
     name: ValidateIPAddress
 
+$ipaddresslist:
+  elemental:
+    name: ValidateIPAddressList
+
 $metadata:
   elemental:
     name: ValidateMetadata
@@ -121,6 +125,10 @@ $optionalcidrs:
 $optionalipaddress:
   elemental:
     name: ValidateOptionalIPAddress
+
+$optionalipaddresslist:
+  elemental:
+    name: ValidateOptionalIPAddressList
 
 $optionalnetworksorhostnames:
   elemental:

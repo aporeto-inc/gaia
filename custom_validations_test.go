@@ -1797,6 +1797,40 @@ func TestValidateServiceEntity(t *testing.T) {
 			},
 			false,
 		},
+		{
+			"service with proxy protocol enabled and subnet",
+			args{
+				&Service{
+					IPs:                   []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					ProxyProtocolSubnets:  []string{"1.1.1.0/24"},
+					ProxyProtocolEnabled:  true,
+					AuthorizationType:     ServiceAuthorizationTypeMTLS,
+					TLSType:               ServiceTLSTypeNone,
+					External:              false,
+					Port:                  80,
+					PublicApplicationPort: 443,
+					ExposedPort:           80,
+				},
+			},
+			false,
+		},
+		{
+			"service with proxy protocol enabled and no subnet",
+			args{
+				&Service{
+					IPs:                   []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					ProxyProtocolSubnets:  []string{},
+					ProxyProtocolEnabled:  true,
+					AuthorizationType:     ServiceAuthorizationTypeMTLS,
+					TLSType:               ServiceTLSTypeNone,
+					External:              false,
+					Port:                  80,
+					PublicApplicationPort: 443,
+					ExposedPort:           80,
+				},
+			},
+			true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -4064,6 +4098,19 @@ func TestValidateCloudGraphQuery(t *testing.T) {
 			true,
 		},
 		{
+			"private source IP set",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					SourceIP: "10.1.1.0/24",
+					DestinationSelector: &CloudNetworkQueryFilter{
+						VPCIDs: []string{"vpc1"},
+					},
+				},
+			},
+			true,
+		},
+		{
 			"source ip and selector set",
 			args{
 				"invalid",
@@ -4107,6 +4154,19 @@ func TestValidateCloudGraphQuery(t *testing.T) {
 				"invalid",
 				&CloudNetworkQuery{
 					SourceIP: "0.0.0.0/0",
+				},
+			},
+			true,
+		},
+		{
+			"private destination IP",
+			args{
+				"invalid",
+				&CloudNetworkQuery{
+					DestinationIP: "10.1.1.0/24",
+					SourceSelector: &CloudNetworkQueryFilter{
+						VPCIDs: []string{"vpc1"},
+					},
 				},
 			},
 			true,
@@ -4196,42 +4256,62 @@ func TestValidateCloudGraphQuery(t *testing.T) {
 			true,
 		},
 		{
-			"destination ports without protocol",
+			"service name as the selector",
 			args{
-				"invalid",
+				"valid",
+				&CloudNetworkQuery{
+					DestinationIP: "0.0.0.0/0",
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeService,
+						ServiceNames: []string{"service1"},
+					},
+				},
+			},
+			false,
+		},
+		{
+			"service name as the selector when resource type is interface",
+			args{
+				"valid",
 				&CloudNetworkQuery{
 					DestinationIP: "0.0.0.0/0",
 					SourceSelector: &CloudNetworkQueryFilter{
 						ResourceType: CloudNetworkQueryFilterResourceTypeInterface,
-						ServiceTypes: []string{"a=b"},
-					},
-					DestinationPorts: []*portutils.PortsRange{
-						{
-							FromPort: 100,
-							ToPort:   200,
-						},
+						ServiceNames: []string{"service1"},
 					},
 				},
 			},
 			true,
 		},
 		{
-			"destination ports without wrong protocol",
+			"excluded network validation with valid source",
 			args{
-				"invalid",
+				"valid",
 				&CloudNetworkQuery{
 					DestinationIP: "0.0.0.0/0",
 					SourceSelector: &CloudNetworkQueryFilter{
-						ResourceType: CloudNetworkQueryFilterResourceTypeInterface,
-						ServiceTypes: []string{"a=b"},
+						ResourceType: CloudNetworkQueryFilterResourceTypeService,
+						ServiceNames: []string{"service1"},
 					},
-					DestinationProtocol: 10,
-					DestinationPorts: []*portutils.PortsRange{
-						{
-							FromPort: 100,
-							ToPort:   200,
-						},
+					ExcludedNetworks: []string{"30.1.1.0/24"},
+				},
+			},
+			false,
+		},
+		{
+			"excluded network validation without IP definition",
+			args{
+				"valid",
+				&CloudNetworkQuery{
+					DestinationSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeService,
+						ServiceNames: []string{"service1"},
 					},
+					SourceSelector: &CloudNetworkQueryFilter{
+						ResourceType: CloudNetworkQueryFilterResourceTypeService,
+						ServiceNames: []string{"service1"},
+					},
+					ExcludedNetworks: []string{"30.1.1.0/24"},
 				},
 			},
 			true,
@@ -4242,6 +4322,148 @@ func TestValidateCloudGraphQuery(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateCloudNetworkQueryEntity(tt.args.query); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateCloudNetworkQueryEntity() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateIPAddressList(t *testing.T) {
+	type args struct {
+		attribute string
+		ips       []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid ips",
+			args{
+				"attr",
+				[]string{"1.2.3.4", "2.3.4.5"},
+			},
+			false,
+		},
+		{
+			"on invalid ips",
+			args{
+				"attr",
+				[]string{"1.2.3.4", "oh no"},
+			},
+			true,
+		},
+		{
+			"empty",
+			args{
+				"attr",
+				[]string{},
+			},
+			true,
+		},
+		{
+			"nil",
+			args{
+				"attr",
+				nil,
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateIPAddressList(tt.args.attribute, tt.args.ips); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateIPAddressList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateOptionalIPAddressList(t *testing.T) {
+	type args struct {
+		attribute string
+		ips       []string
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid ips",
+			args{
+				"attr",
+				[]string{"1.2.3.4", "2.3.4.5"},
+			},
+			false,
+		},
+		{
+			"on invalid ips",
+			args{
+				"attr",
+				[]string{"1.2.3.4", "oh no"},
+			},
+			true,
+		},
+		{
+			"empty",
+			args{
+				"attr",
+				[]string{},
+			},
+			false,
+		},
+		{
+			"nil",
+			args{
+				"attr",
+				nil,
+			},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateOptionalIPAddressList(tt.args.attribute, tt.args.ips); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateOptionalIPAddressList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestIsAddressPrivate(t *testing.T) {
+
+	tests := []struct {
+		name    string
+		args    string
+		want    bool
+		wantErr bool
+	}{
+		{
+			"private address",
+			"127.0.0.0/10",
+			true,
+			false,
+		},
+		{
+			"public address",
+			"135.20.0.0/24",
+			false,
+			false,
+		},
+		{
+			"public address",
+			"badIP",
+			false,
+			true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if private, err := IsAddressPrivate(tt.args); (private != tt.want) || (err == nil) == tt.wantErr {
+				t.Errorf("IsAddressPrivate() got wrong response %v for %+v with error %s", private, tt.args, err)
 			}
 		})
 	}

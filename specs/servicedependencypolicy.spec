@@ -1,12 +1,14 @@
 # Model
 model:
-  rest_name: servicedependency
-  resource_name: servicedependencies
-  entity_name: ServiceDependency
+  rest_name: servicedependencypolicy
+  resource_name: servicedependencypolicies
+  entity_name: ServiceDependencyPolicy
   package: squall
   group: policy/services
   description: |-
-    Allows you to define a service dependency where a set of processing units as defined
+    Allows you to define a service dependency policy where a set of processing units
+    as
+    defined
     by their tags require access to specific services.
   aliases:
   - srvdep

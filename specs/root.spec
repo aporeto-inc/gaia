@@ -275,6 +275,14 @@ relations:
   create:
     description: Creates a cloud VPC.
 
+- rest_name: cnsconfig
+  get:
+    description: Retrieves the list of the CNS configuration objects.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a CNS configuration object for the specified namespace.
+
 - rest_name: cnssearch
   create:
     description: Retrieves RQL search results.
@@ -855,6 +863,12 @@ relations:
   create:
     description: Creates a new processing unit policy.
 
+- rest_name: putrafficaction
+  get:
+    description: Returns the processing unit traffic actions of the specified namespace.
+  create:
+    description: Modifies the processing unit traffic actions of the specified namespace.
+
 - rest_name: quotacheck
   create:
     description: Verifies if the quota is exceeded for a particular object.
@@ -958,9 +972,9 @@ relations:
   create:
     description: Creates a new service.
 
-- rest_name: servicedependency
+- rest_name: servicedependencypolicy
   get:
-    description: Retrieves the list of service dependencies.
+    description: Retrieves the list of service dependency policies.
     global_parameters:
     - $filtering
     - $propagatable

@@ -637,6 +637,46 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[CNSConfigIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Update: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Patch: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {
+				Parameters: []elemental.ParameterDefinition{
+					{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+	}
+
 	relationshipsRegistry[CNSSearchIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
@@ -3580,6 +3620,18 @@ func init() {
 
 	relationshipsRegistry[PCTimeRangeIdentity] = &elemental.Relationship{}
 
+	relationshipsRegistry[PUTrafficActionIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
 	relationshipsRegistry[PacketReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
@@ -4051,9 +4103,9 @@ func init() {
 					},
 				},
 			},
-			"service":           {},
-			"servicedependency": {},
-			"vulnerability":     {},
+			"service":                 {},
+			"servicedependencypolicy": {},
+			"vulnerability":           {},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"fileaccesspolicy": {},
@@ -4110,9 +4162,9 @@ func init() {
 					},
 				},
 			},
-			"service":           {},
-			"servicedependency": {},
-			"vulnerability":     {},
+			"service":                 {},
+			"servicedependencypolicy": {},
+			"vulnerability":           {},
 		},
 	}
 
@@ -4745,7 +4797,7 @@ func init() {
 					},
 				},
 			},
-			"servicedependency": {},
+			"servicedependencypolicy": {},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"infrastructurepolicy": {
@@ -4805,11 +4857,11 @@ func init() {
 					},
 				},
 			},
-			"servicedependency": {},
+			"servicedependencypolicy": {},
 		},
 	}
 
-	relationshipsRegistry[ServiceDependencyIdentity] = &elemental.Relationship{
+	relationshipsRegistry[ServiceDependencyPolicyIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
 		},
