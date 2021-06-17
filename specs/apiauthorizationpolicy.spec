@@ -40,27 +40,15 @@ model:
 # Indexes
 indexes:
 - - namespace
-  - type
-- - namespace
-  - type
-  - allObjectTags
-- - namespace
-  - type
-  - allSubjectTags
-- - namespace
-  - type
   - allObjectTags
   - disabled
 - - namespace
-  - type
   - allSubjectTags
   - disabled
 - - namespace
-  - type
   - allObjectTags
   - propagate
 - - namespace
-  - type
   - allSubjectTags
   - propagate
 
@@ -115,6 +103,7 @@ attributes:
     description: Propagates the api authorization to all of its children.
     type: boolean
     stored: true
+    read_only: true
     default_value: true
     getter: true
     setter: true
