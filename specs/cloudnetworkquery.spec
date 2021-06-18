@@ -71,6 +71,17 @@ attributes:
     exposed: true
     stored: true
 
+  - name: excludedNetworks
+    description: |-
+      List of networks that should be a excluded from the calculation if the source or
+      destination is a network.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    validations:
+    - $optionalcidroriplist
+
   - name: protocolPorts
     description: |-
       Represents the ports and protocols this policy applies to. Protocol/ports are

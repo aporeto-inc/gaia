@@ -7027,6 +7027,43 @@ Type: `pctimevalue`
 
 The value of time range.
 
+## core/service
+
+### ServicePublication
+
+Encapsulates a service object that is ought to be published so it can be used
+in a sibling namespace.
+
+#### Example
+
+```json
+{
+  "service": {
+    "exposedPort": 443,
+    "hosts": [
+      "localhost"
+    ],
+    "name": "referenced-service",
+    "port": 443,
+    "propagate": true
+  }
+}
+```
+
+#### Relations
+
+##### `POST /servicepublications`
+
+Creates a service publication for a given service object.
+
+#### Attributes
+
+##### `service` [`required`]
+
+Type: [`service`](#service)
+
+The service object that will be published.
+
 ## core/tag
 
 ### Tag
@@ -9025,7 +9062,6 @@ Parameters associated with a cloud endpoint.
     "eni-33333"
   ],
   "forwardingEnabled": false,
-  "hasPublicIP": false,
   "serviceType": "NotApplicable",
   "type": "Instance"
 }
@@ -9068,12 +9104,6 @@ Type: `boolean`
 If the endpoint has multiple connections and forwarding can be enabled between
 them.
 
-##### `hasPublicIP`
-
-Type: `boolean`
-
-Indicates if the endpoint has a public IP address.
-
 ##### `imageID`
 
 Type: `string`
@@ -9087,6 +9117,12 @@ instance imageID in other clouds.
 Type: [`[]cloudendpointdataproductinfo`](#cloudendpointdataproductinfo)
 
 Product related metadata associated with this endpoint.
+
+##### `publicIPAddresses`
+
+Type: `[]string`
+
+if the endpoint has a public IP we store the IP address in this field.
 
 ##### `serviceName`
 
@@ -9803,6 +9839,13 @@ Type: `boolean`
 If set, the evaluation will exclude enterprise IPs from the effective
 permissions.
 
+##### `excludedNetworks`
+
+Type: `[]string`
+
+List of networks that should be a excluded from the calculation if the source or
+destination is a network.
+
 ##### `name` [`required`,`max_length=256`]
 
 Type: `string`
@@ -9993,6 +10036,13 @@ Type: `[]string`
 The list of security tags associated with the targets of the query. Security
 tags refer to security groups in AWS or network tags in GCP. So they can have
 different meaning depending on the target cloud.
+
+##### `serviceNames`
+
+Type: `[]string`
+
+Identifies a list of service names that should be taken into account. This is
+only valid with a resource type equal to Service.
 
 ##### `serviceOwners`
 
@@ -14922,6 +14972,12 @@ Type: `string`
 
 Namespace of the object at the other end of the flow.
 
+##### `remotePolicyID`
+
+Type: `string`
+
+ID of the network policy that accepted the flow at the remote endpoint.
+
 ##### `ruleName`
 
 Type: `string`
@@ -15609,6 +15665,12 @@ Protocol number.
 Type: `string`
 
 Namespace of the object at the other end of the flow.
+
+##### `remotePolicyID`
+
+Type: `string`
+
+ID of the network policy that accepted the flow at the remote endpoint.
 
 ##### `ruleName`
 

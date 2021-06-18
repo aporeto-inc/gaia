@@ -143,6 +143,10 @@ type CloudNetworkQuery struct {
 	// permissions.
 	ExcludeEnterpriseIPs bool `json:"excludeEnterpriseIPs" msgpack:"excludeEnterpriseIPs" bson:"excludeenterpriseips" mapstructure:"excludeEnterpriseIPs,omitempty"`
 
+	// List of networks that should be a excluded from the calculation if the source or
+	// destination is a network.
+	ExcludedNetworks []string `json:"excludedNetworks" msgpack:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -197,6 +201,7 @@ func NewCloudNetworkQuery() *CloudNetworkQuery {
 		Annotations:         map[string][]string{},
 		DestinationSelector: NewCloudNetworkQueryFilter(),
 		AssociatedTags:      []string{},
+		ExcludedNetworks:    []string{},
 		EffectiveAction:     CloudNetworkQueryEffectiveActionReachableOnly,
 		NormalizedTags:      []string{},
 		ProtocolPorts:       []string{},
@@ -245,6 +250,7 @@ func (o *CloudNetworkQuery) GetBSON() (interface{}, error) {
 	s.DestinationSelector = o.DestinationSelector
 	s.EffectiveAction = o.EffectiveAction
 	s.ExcludeEnterpriseIPs = o.ExcludeEnterpriseIPs
+	s.ExcludedNetworks = o.ExcludedNetworks
 	s.MigrationsLog = o.MigrationsLog
 	s.Name = o.Name
 	s.Namespace = o.Namespace
@@ -284,6 +290,7 @@ func (o *CloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	o.DestinationSelector = s.DestinationSelector
 	o.EffectiveAction = s.EffectiveAction
 	o.ExcludeEnterpriseIPs = s.ExcludeEnterpriseIPs
+	o.ExcludedNetworks = s.ExcludedNetworks
 	o.MigrationsLog = s.MigrationsLog
 	o.Name = s.Name
 	o.Namespace = s.Namespace
@@ -492,6 +499,7 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			DestinationSelector:  o.DestinationSelector,
 			EffectiveAction:      &o.EffectiveAction,
 			ExcludeEnterpriseIPs: &o.ExcludeEnterpriseIPs,
+			ExcludedNetworks:     &o.ExcludedNetworks,
 			MigrationsLog:        &o.MigrationsLog,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -529,6 +537,8 @@ func (o *CloudNetworkQuery) ToSparse(fields ...string) elemental.SparseIdentifia
 			sp.EffectiveAction = &(o.EffectiveAction)
 		case "excludeEnterpriseIPs":
 			sp.ExcludeEnterpriseIPs = &(o.ExcludeEnterpriseIPs)
+		case "excludedNetworks":
+			sp.ExcludedNetworks = &(o.ExcludedNetworks)
 		case "migrationsLog":
 			sp.MigrationsLog = &(o.MigrationsLog)
 		case "name":
@@ -594,6 +604,9 @@ func (o *CloudNetworkQuery) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ExcludeEnterpriseIPs != nil {
 		o.ExcludeEnterpriseIPs = *so.ExcludeEnterpriseIPs
+	}
+	if so.ExcludedNetworks != nil {
+		o.ExcludedNetworks = *so.ExcludedNetworks
 	}
 	if so.MigrationsLog != nil {
 		o.MigrationsLog = *so.MigrationsLog
@@ -689,6 +702,10 @@ func (o *CloudNetworkQuery) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateOptionalCIDRorIPList("excludedNetworks", o.ExcludedNetworks); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -773,6 +790,8 @@ func (o *CloudNetworkQuery) ValueForAttribute(name string) interface{} {
 		return o.EffectiveAction
 	case "excludeEnterpriseIPs":
 		return o.ExcludeEnterpriseIPs
+	case "excludedNetworks":
+		return o.ExcludedNetworks
 	case "migrationsLog":
 		return o.MigrationsLog
 	case "name":
@@ -921,6 +940,18 @@ permissions.`,
 		Name:    "excludeEnterpriseIPs",
 		Stored:  true,
 		Type:    "boolean",
+	},
+	"ExcludedNetworks": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "excludednetworks",
+		ConvertedName:  "ExcludedNetworks",
+		Description: `List of networks that should be a excluded from the calculation if the source or
+destination is a network.`,
+		Exposed: true,
+		Name:    "excludedNetworks",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"MigrationsLog": {
 		AllowedChoices: []string{},
@@ -1211,6 +1242,18 @@ permissions.`,
 		Stored:  true,
 		Type:    "boolean",
 	},
+	"excludednetworks": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "excludednetworks",
+		ConvertedName:  "ExcludedNetworks",
+		Description: `List of networks that should be a excluded from the calculation if the source or
+destination is a network.`,
+		Exposed: true,
+		Name:    "excludedNetworks",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
+	},
 	"migrationslog": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "migrationslog",
@@ -1480,6 +1523,10 @@ type SparseCloudNetworkQuery struct {
 	// permissions.
 	ExcludeEnterpriseIPs *bool `json:"excludeEnterpriseIPs,omitempty" msgpack:"excludeEnterpriseIPs,omitempty" bson:"excludeenterpriseips,omitempty" mapstructure:"excludeEnterpriseIPs,omitempty"`
 
+	// List of networks that should be a excluded from the calculation if the source or
+	// destination is a network.
+	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" msgpack:"excludedNetworks,omitempty" bson:"excludednetworks,omitempty" mapstructure:"excludedNetworks,omitempty"`
+
 	// Internal property maintaining migrations information.
 	MigrationsLog *map[string]string `json:"-" msgpack:"-" bson:"migrationslog,omitempty" mapstructure:"-,omitempty"`
 
@@ -1593,6 +1640,9 @@ func (o *SparseCloudNetworkQuery) GetBSON() (interface{}, error) {
 	if o.ExcludeEnterpriseIPs != nil {
 		s.ExcludeEnterpriseIPs = o.ExcludeEnterpriseIPs
 	}
+	if o.ExcludedNetworks != nil {
+		s.ExcludedNetworks = o.ExcludedNetworks
+	}
 	if o.MigrationsLog != nil {
 		s.MigrationsLog = o.MigrationsLog
 	}
@@ -1675,6 +1725,9 @@ func (o *SparseCloudNetworkQuery) SetBSON(raw bson.Raw) error {
 	if s.ExcludeEnterpriseIPs != nil {
 		o.ExcludeEnterpriseIPs = s.ExcludeEnterpriseIPs
 	}
+	if s.ExcludedNetworks != nil {
+		o.ExcludedNetworks = s.ExcludedNetworks
+	}
 	if s.MigrationsLog != nil {
 		o.MigrationsLog = s.MigrationsLog
 	}
@@ -1754,6 +1807,9 @@ func (o *SparseCloudNetworkQuery) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ExcludeEnterpriseIPs != nil {
 		out.ExcludeEnterpriseIPs = *o.ExcludeEnterpriseIPs
+	}
+	if o.ExcludedNetworks != nil {
+		out.ExcludedNetworks = *o.ExcludedNetworks
 	}
 	if o.MigrationsLog != nil {
 		out.MigrationsLog = *o.MigrationsLog
@@ -2024,6 +2080,7 @@ type mongoAttributesCloudNetworkQuery struct {
 	DestinationSelector  *CloudNetworkQueryFilter              `bson:"destinationselector"`
 	EffectiveAction      CloudNetworkQueryEffectiveActionValue `bson:"effectiveaction"`
 	ExcludeEnterpriseIPs bool                                  `bson:"excludeenterpriseips"`
+	ExcludedNetworks     []string                              `bson:"excludednetworks"`
 	MigrationsLog        map[string]string                     `bson:"migrationslog,omitempty"`
 	Name                 string                                `bson:"name"`
 	Namespace            string                                `bson:"namespace"`
@@ -2048,6 +2105,7 @@ type mongoAttributesSparseCloudNetworkQuery struct {
 	DestinationSelector  *CloudNetworkQueryFilter               `bson:"destinationselector,omitempty"`
 	EffectiveAction      *CloudNetworkQueryEffectiveActionValue `bson:"effectiveaction,omitempty"`
 	ExcludeEnterpriseIPs *bool                                  `bson:"excludeenterpriseips,omitempty"`
+	ExcludedNetworks     *[]string                              `bson:"excludednetworks,omitempty"`
 	MigrationsLog        *map[string]string                     `bson:"migrationslog,omitempty"`
 	Name                 *string                                `bson:"name,omitempty"`
 	Namespace            *string                                `bson:"namespace,omitempty"`
