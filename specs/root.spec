@@ -740,7 +740,8 @@ relations:
 
 - rest_name: namespacepolicyinfo
   get:
-    description: Returns the policy info of the specified namespace.
+    description: (Deprecated) Returns the policy info of the specified namespace.
+    deprecated: true
 
 - rest_name: namespacerenderer
   create:
