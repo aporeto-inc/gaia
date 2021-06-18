@@ -3960,56 +3960,6 @@ func TestValidateCloudTagsExpression(t *testing.T) {
 	}
 }
 
-func TestValidateExpressionHasExactlyOneSubExpression(t *testing.T) {
-
-	cases := map[string]struct {
-		attribute   string
-		expression  [][]string
-		expectedErr elemental.Error
-	}{
-		"valid-expression": {
-			attribute:  t.Name(),
-			expression: [][]string{{"a=b"}},
-		},
-		"invalid-nil-expression": {
-			attribute:   t.Name(),
-			expression:  nil,
-			expectedErr: makeValidationError(t.Name(), "expression must contain exactly one sub-expression"),
-		},
-		"invalid-empty-expression": {
-			attribute:   t.Name(),
-			expression:  [][]string{},
-			expectedErr: makeValidationError(t.Name(), "expression must contain exactly one sub-expression"),
-		},
-		"invalid-too-many-subexpression": {
-			attribute:   t.Name(),
-			expression:  [][]string{{"a=b"}, {"c=d"}},
-			expectedErr: makeValidationError(t.Name(), "expression must contain exactly one sub-expression"),
-		},
-	}
-
-	for name, tc := range cases {
-		t.Run(name, func(t *testing.T) {
-
-			err := ValidateExpressionHasExactlyOneSubExpression(tc.attribute, tc.expression)
-			if err == nil && tc.expectedErr == (elemental.Error{}) {
-				return
-			}
-
-			var actual elemental.Error
-			if ok := errors.As(err, &actual); !ok {
-				t.Fatalf("unexpected error type\nwant: %T\n got: %T", elemental.Error{}, err)
-			}
-			if !reflect.DeepEqual(actual, tc.expectedErr) {
-				t.Fatalf(
-					"actual error does not match expected\nwant: '%s'\n got: '%s'",
-					tc.expectedErr, actual,
-				)
-			}
-		})
-	}
-}
-
 func TestValidateExpressionNotEmpty(t *testing.T) {
 
 	cases := map[string]struct {

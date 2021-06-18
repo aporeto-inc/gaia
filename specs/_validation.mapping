@@ -202,10 +202,6 @@ $tagsExpression:
   elemental:
     name: ValidateTagsExpression
 
-$exactlyOneSubExpression:
-  elemental:
-    name: ValidateExpressionHasExactlyOneSubExpression
-
 $subExpressionsNotEmpty:
   elemental:
     name: ValidateSubExpressionsNotEmpty

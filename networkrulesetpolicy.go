@@ -671,7 +671,7 @@ func (o *NetworkRuleSetPolicy) Validate() error {
 	if err := ValidateEachSubExpressionHasNoDuplicateTags("subject", o.Subject); err != nil {
 		errors = errors.Append(err)
 	}
-	if err := ValidateExpressionHasExactlyOneSubExpression("subject", o.Subject); err != nil {
+	if err := ValidateExpressionNotEmpty("subject", o.Subject); err != nil {
 		errors = errors.Append(err)
 	}
 	if err := ValidateSubExpressionsNotEmpty("subject", o.Subject); err != nil {
