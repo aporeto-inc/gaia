@@ -4927,6 +4927,65 @@ Type: `integer`
 
 Defines what zone the namespace should live in.
 
+### NamespaceInfo
+
+Returns the information of the specified namespace.
+
+#### Example
+
+```json
+{
+  "PUIncomingTrafficAction": "Allow",
+  "PUOutgoingTrafficAction": "Allow",
+  "name": "the name",
+  "protected": false
+}
+```
+
+#### Relations
+
+##### `GET /namespaceinfo`
+
+Returns the information of the specified namespace.
+
+#### Attributes
+
+##### `PUIncomingTrafficAction` [`read_only`]
+
+Type: `enum(Allow | Reject | Inherit)`
+
+The processing unit action for incoming traffic for the namespace.
+
+##### `PUOutgoingTrafficAction` [`read_only`]
+
+Type: `enum(Allow | Reject | Inherit)`
+
+The processing unit action for outgoing traffic for the namespace.
+
+##### `description` [`max_length=1024`]
+
+Type: `string`
+
+Description of the object.
+
+##### `name` [`required`,`max_length=256`]
+
+Type: `string`
+
+Name of the entity.
+
+##### `prefixes` [`read_only`]
+
+Type: `[]string`
+
+List of tag prefixes that will be used to suggest policies.
+
+##### `protected`
+
+Type: `boolean`
+
+Defines if the object is protected.
+
 ### NamespaceMappingPolicy
 
 A namespace mapping defines the namespace a processing unit should
