@@ -997,6 +997,10 @@ relations:
   create:
     description: Creates a new service dependency.
 
+- rest_name: servicepublication
+  create:
+    description: Creates a service publication for a given service object.
+
 - rest_name: servicetoken
   create:
     description: Creates an OAUTH compatible service token.

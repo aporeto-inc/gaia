@@ -7027,6 +7027,43 @@ Type: `pctimevalue`
 
 The value of time range.
 
+## core/service
+
+### ServicePublication
+
+Encapsulates a service object that is ought to be published so it can be used
+in a sibling namespace.
+
+#### Example
+
+```json
+{
+  "service": {
+    "exposedPort": 443,
+    "hosts": [
+      "localhost"
+    ],
+    "name": "referenced-service",
+    "port": 443,
+    "propagate": true
+  }
+}
+```
+
+#### Relations
+
+##### `POST /servicepublications`
+
+Creates a service publication for a given service object.
+
+#### Attributes
+
+##### `service` [`required`]
+
+Type: [`service`](#service)
+
+The service object that will be published.
+
 ## core/tag
 
 ### Tag
