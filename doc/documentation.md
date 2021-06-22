@@ -8937,11 +8937,11 @@ Type: `time`
 
 Creation date of the object.
 
-##### `description`
+##### `description` [`max_length=1024`]
 
 Type: `string`
 
-Alert rule description.
+Description of the object.
 
 ##### `enabled`
 
