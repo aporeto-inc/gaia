@@ -24,6 +24,7 @@ model:
   - '@timeable'
   - '@named'
   - '@zoned'
+  - '@described'
 
 # Indexes
 indexes:
@@ -35,13 +36,6 @@ indexes:
 # Attributes
 attributes:
   v1:
-  - name: description
-    description: Alert rule description.
-    type: string
-    exposed: true
-    subtype: string
-    stored: true
-
   - name: enabled
     description: Defines whether the Alert rule is enabled.
     type: boolean

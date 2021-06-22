@@ -98,7 +98,7 @@ type CloudAlertRule struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Alert rule description.
+	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Defines whether the Alert rule is enabled.
@@ -331,6 +331,18 @@ func (o *CloudAlertRule) GetCreateTime() time.Time {
 func (o *CloudAlertRule) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *CloudAlertRule) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *CloudAlertRule) SetDescription(description string) {
+
+	o.Description = description
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.
@@ -623,6 +635,10 @@ func (o *CloudAlertRule) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -785,11 +801,14 @@ var CloudAlertRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		BSONFieldName:  "description",
 		ConvertedName:  "Description",
-		Description:    `Alert rule description.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
+		Getter:         true,
+		MaxLength:      1024,
 		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
-		SubType:        "string",
 		Type:           "string",
 	},
 	"Enabled": {
@@ -1053,11 +1072,14 @@ var CloudAlertRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		AllowedChoices: []string{},
 		BSONFieldName:  "description",
 		ConvertedName:  "Description",
-		Description:    `Alert rule description.`,
+		Description:    `Description of the object.`,
 		Exposed:        true,
+		Getter:         true,
+		MaxLength:      1024,
 		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
-		SubType:        "string",
 		Type:           "string",
 	},
 	"enabled": {
@@ -1326,7 +1348,7 @@ type SparseCloudAlertRule struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Alert rule description.
+	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Defines whether the Alert rule is enabled.
@@ -1691,6 +1713,22 @@ func (o *SparseCloudAlertRule) GetCreateTime() (out time.Time) {
 func (o *SparseCloudAlertRule) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseCloudAlertRule) GetDescription() (out string) {
+
+	if o.Description == nil {
+		return
+	}
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseCloudAlertRule) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetMigrationsLog returns the MigrationsLog of the receiver.

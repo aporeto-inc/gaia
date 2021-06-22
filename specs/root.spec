@@ -269,7 +269,9 @@ relations:
 
 - rest_name: cloudschedulednetworkquery
   create:
-    description: Update the CloudNetworkQuery's last execution timestamp.
+    description: |-
+      Updates the last execution time of scheduled network query which are run to
+      evaluate alert rules.
 
 - rest_name: cloudsnapshotaccount
   create:
