@@ -156,6 +156,18 @@ func (o *NetworkRule) Validate() error {
 		}
 	}
 
+	if err := ValidateEachSubExpressionHasNoDuplicateTags("object", o.Object); err != nil {
+		errors = errors.Append(err)
+	}
+	if err := ValidateExpressionNotEmpty("object", o.Object); err != nil {
+		errors = errors.Append(err)
+	}
+	if err := ValidateNoDuplicateSubExpressions("object", o.Object); err != nil {
+		errors = errors.Append(err)
+	}
+	if err := ValidateSubExpressionsNotEmpty("object", o.Object); err != nil {
+		errors = errors.Append(err)
+	}
 	if err := ValidateTagsExpression("object", o.Object); err != nil {
 		errors = errors.Append(err)
 	}
