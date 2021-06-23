@@ -194,6 +194,12 @@ relations:
   create:
     description: Initiates a cloud account clean up process for all stale objects.
 
+- rest_name: cloudalertrule
+  get:
+    description: Retrieves the list of cloud alert rules.
+    global_parameters:
+    - $filtering
+
 - rest_name: cloudendpoint
   get:
     description: List of endpoints associated with the deployment.
@@ -247,6 +253,12 @@ relations:
     global_parameters:
     - $filtering
 
+- rest_name: cloudpolicy
+  get:
+    description: Retrieves the list of cloud policies.
+    global_parameters:
+    - $filtering
+
 - rest_name: cloudroutetable
   get:
     description: Retrieves the list of routing tables.
@@ -254,6 +266,12 @@ relations:
     - $filtering
   create:
     description: Creates a new routing table.
+
+- rest_name: cloudschedulednetworkquery
+  create:
+    description: |-
+      Updates the last execution time of scheduled network query which are run to
+      evaluate alert rules.
 
 - rest_name: cloudsnapshotaccount
   create:
