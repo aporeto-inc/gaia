@@ -161,10 +161,10 @@ func Test_ConvertToSinglePort(t *testing.T) {
 			true,
 		},
 		{
-			"single port lower than 1",
+			"single port at 0",
 			args{"0"},
-			-1,
-			true,
+			0,
+			false,
 		},
 		{
 			"single port greater than 65535",
