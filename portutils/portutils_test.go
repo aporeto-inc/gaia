@@ -290,13 +290,6 @@ func Test_ExtractPortsAndProtocolFromHostService(t *testing.T) {
 			true,
 		},
 		{
-			"single port lower than 1",
-			args{"0"},
-			nil,
-			"",
-			true,
-		},
-		{
 			"single port greater than 65535",
 			args{"65536"},
 			nil,
