@@ -4,10 +4,12 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
+	"hash/fnv"
 	"net"
 	"net/http"
 	"net/url"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -711,7 +713,15 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 // ValidateServicePorts validates a list of serviceports.
 func ValidateServicePorts(attribute string, servicePorts []string) error {
 
+	seen := make(map[string]struct{}, len(servicePorts))
+
 	for _, servicePort := range servicePorts {
+
+		sp := strings.ToLower(servicePort)
+		if _, ok := seen[sp]; ok {
+			return makeValidationError(attribute, fmt.Sprintf("duplicate port: '%s'", servicePort))
+		}
+		seen[sp] = struct{}{}
 
 		if strings.EqualFold(servicePort, protocols.ANY) {
 			if len(servicePorts) != 1 {
@@ -949,6 +959,74 @@ func ValidateTags(attribute string, tags []string) error {
 // ValidateTagsWithoutReservedPrefixes a list of tags are valid. Refuse those with reserved prefix.
 func ValidateTagsWithoutReservedPrefixes(attribute string, tags []string) error {
 	return validateTagStrings(attribute, false, tags...)
+}
+
+// ValidateExpressionNotEmpty validates that expression length is >= 1
+func ValidateExpressionNotEmpty(attribute string, expression [][]string) error {
+	if len(expression) == 0 {
+		return makeValidationError(attribute, "expression must contain at least one sub-expression")
+	}
+	return nil
+}
+
+// ValidateSubExpressionsNotEmpty validates that subexpression slices are not empty
+func ValidateSubExpressionsNotEmpty(attribute string, expression [][]string) error {
+	for _, subExpr := range expression {
+		if len(subExpr) == 0 {
+			return makeValidationError(attribute, "sub-expression must not be empty")
+		}
+	}
+	return nil
+}
+
+// ValidateEachSubExpressionHasNoDuplicateTags ensures that each sub expression in the given
+// expression has unique tags
+func ValidateEachSubExpressionHasNoDuplicateTags(attribute string, expression [][]string) error {
+
+	for _, subExpr := range expression {
+		seen := map[string]struct{}{}
+
+		for _, tag := range subExpr {
+
+			if _, ok := seen[tag]; !ok {
+				seen[tag] = struct{}{}
+				continue
+			}
+
+			err := makeValidationError(
+				attribute,
+				fmt.Sprintf("duplicate tag in a sub-expression: '%s'", tag),
+			)
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ValidateNoDuplicateSubExpressions ensures that all sub expressions are unique
+func ValidateNoDuplicateSubExpressions(attribute string, expression [][]string) error {
+
+	seen := map[uint32]struct{}{}
+	for _, subExpr := range expression {
+
+		cpy := append([]string{}, subExpr...)
+		sort.Strings(cpy)
+		hash := fnv.New32a()
+		for _, tag := range cpy {
+			_, _ = hash.Write([]byte(tag))
+			_, _ = hash.Write([]byte("/"))
+		}
+
+		if _, ok := seen[hash.Sum32()]; !ok {
+			seen[hash.Sum32()] = struct{}{}
+			continue
+		}
+
+		return makeValidationError(attribute, "duplicate equivalent sub-expressions found")
+	}
+
+	return nil
 }
 
 // ValidateTagsExpression validates an [][]string is a valid tag expression.
