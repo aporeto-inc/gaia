@@ -4937,7 +4937,6 @@ Returns the information of the specified namespace.
 {
   "PUIncomingTrafficAction": "Allow",
   "PUOutgoingTrafficAction": "Allow",
-  "name": "the name",
   "protected": false
 }
 ```
@@ -4962,17 +4961,17 @@ Type: `enum(Allow | Reject | Inherit)`
 
 The processing unit action for outgoing traffic for the namespace.
 
-##### `description` [`max_length=1024`]
+##### `description` [`read_only`]
 
 Type: `string`
 
-Description of the object.
+Description of the namespace.
 
-##### `name` [`required`,`max_length=256`]
+##### `name` [`read_only`]
 
 Type: `string`
 
-Name of the entity.
+Name of the namespace.
 
 ##### `prefixes` [`read_only`]
 
@@ -4980,11 +4979,11 @@ Type: `[]string`
 
 List of tag prefixes that will be used to suggest policies.
 
-##### `protected`
+##### `protected` [`read_only`]
 
 Type: `boolean`
 
-Defines if the object is protected.
+Defines if the namespace is protected.
 
 ### NamespaceMappingPolicy
 

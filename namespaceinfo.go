@@ -116,17 +116,17 @@ type NamespaceInfo struct {
 	// The processing unit action for outgoing traffic for the namespace.
 	PUOutgoingTrafficAction NamespaceInfoPUOutgoingTrafficActionValue `json:"PUOutgoingTrafficAction" msgpack:"PUOutgoingTrafficAction" bson:"-" mapstructure:"PUOutgoingTrafficAction,omitempty"`
 
-	// Description of the object.
-	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
+	// Description of the namespace.
+	Description string `json:"description" msgpack:"description" bson:"-" mapstructure:"description,omitempty"`
 
-	// Name of the entity.
-	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
+	// Name of the namespace.
+	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// List of tag prefixes that will be used to suggest policies.
 	Prefixes []string `json:"prefixes" msgpack:"prefixes" bson:"-" mapstructure:"prefixes,omitempty"`
 
-	// Defines if the object is protected.
-	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+	// Defines if the namespace is protected.
+	Protected bool `json:"protected" msgpack:"protected" bson:"-" mapstructure:"protected,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -167,10 +167,6 @@ func (o *NamespaceInfo) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesNamespaceInfo{}
 
-	s.Description = o.Description
-	s.Name = o.Name
-	s.Protected = o.Protected
-
 	return s, nil
 }
 
@@ -186,10 +182,6 @@ func (o *NamespaceInfo) SetBSON(raw bson.Raw) error {
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
-
-	o.Description = s.Description
-	o.Name = s.Name
-	o.Protected = s.Protected
 
 	return nil
 }
@@ -223,42 +215,6 @@ func (o *NamespaceInfo) Doc() string {
 func (o *NamespaceInfo) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
-}
-
-// GetDescription returns the Description of the receiver.
-func (o *NamespaceInfo) GetDescription() string {
-
-	return o.Description
-}
-
-// SetDescription sets the property Description of the receiver using the given value.
-func (o *NamespaceInfo) SetDescription(description string) {
-
-	o.Description = description
-}
-
-// GetName returns the Name of the receiver.
-func (o *NamespaceInfo) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the property Name of the receiver using the given value.
-func (o *NamespaceInfo) SetName(name string) {
-
-	o.Name = name
-}
-
-// GetProtected returns the Protected of the receiver.
-func (o *NamespaceInfo) GetProtected() bool {
-
-	return o.Protected
-}
-
-// SetProtected sets the property Protected of the receiver using the given value.
-func (o *NamespaceInfo) SetProtected(protected bool) {
-
-	o.Protected = protected
 }
 
 // ToSparse returns the sparse version of the model.
@@ -363,18 +319,6 @@ func (o *NamespaceInfo) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -448,32 +392,23 @@ var NamespaceInfoAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Description": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "description",
 		ConvertedName:  "Description",
-		Description:    `Description of the object.`,
+		Description:    `Description of the namespace.`,
 		Exposed:        true,
-		Getter:         true,
-		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
+		ReadOnly:       true,
 		Type:           "string",
 	},
 	"Name": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "name",
 		ConvertedName:  "Name",
-		Description:    `Name of the entity.`,
+		Description:    `Name of the namespace.`,
 		Exposed:        true,
 		Filterable:     true,
-		Getter:         true,
-		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
-		Required:       true,
-		Setter:         true,
-		Stored:         true,
+		ReadOnly:       true,
 		Type:           "string",
 	},
 	"Prefixes": {
@@ -488,15 +423,12 @@ var NamespaceInfoAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Protected": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "protected",
 		ConvertedName:  "Protected",
-		Description:    `Defines if the object is protected.`,
+		Description:    `Defines if the namespace is protected.`,
 		Exposed:        true,
-		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
+		ReadOnly:       true,
 		Type:           "boolean",
 	},
 }
@@ -523,32 +455,23 @@ var NamespaceInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	},
 	"description": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "description",
 		ConvertedName:  "Description",
-		Description:    `Description of the object.`,
+		Description:    `Description of the namespace.`,
 		Exposed:        true,
-		Getter:         true,
-		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
+		ReadOnly:       true,
 		Type:           "string",
 	},
 	"name": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "name",
 		ConvertedName:  "Name",
-		Description:    `Name of the entity.`,
+		Description:    `Name of the namespace.`,
 		Exposed:        true,
 		Filterable:     true,
-		Getter:         true,
-		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
-		Required:       true,
-		Setter:         true,
-		Stored:         true,
+		ReadOnly:       true,
 		Type:           "string",
 	},
 	"prefixes": {
@@ -563,15 +486,12 @@ var NamespaceInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	},
 	"protected": {
 		AllowedChoices: []string{},
-		BSONFieldName:  "protected",
 		ConvertedName:  "Protected",
-		Description:    `Defines if the object is protected.`,
+		Description:    `Defines if the namespace is protected.`,
 		Exposed:        true,
-		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
+		ReadOnly:       true,
 		Type:           "boolean",
 	},
 }
@@ -647,17 +567,17 @@ type SparseNamespaceInfo struct {
 	// The processing unit action for outgoing traffic for the namespace.
 	PUOutgoingTrafficAction *NamespaceInfoPUOutgoingTrafficActionValue `json:"PUOutgoingTrafficAction,omitempty" msgpack:"PUOutgoingTrafficAction,omitempty" bson:"-" mapstructure:"PUOutgoingTrafficAction,omitempty"`
 
-	// Description of the object.
-	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	// Description of the namespace.
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
 
-	// Name of the entity.
-	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	// Name of the namespace.
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// List of tag prefixes that will be used to suggest policies.
 	Prefixes *[]string `json:"prefixes,omitempty" msgpack:"prefixes,omitempty" bson:"-" mapstructure:"prefixes,omitempty"`
 
-	// Defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+	// Defines if the namespace is protected.
+	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"-" mapstructure:"protected,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -694,16 +614,6 @@ func (o *SparseNamespaceInfo) GetBSON() (interface{}, error) {
 
 	s := &mongoAttributesSparseNamespaceInfo{}
 
-	if o.Description != nil {
-		s.Description = o.Description
-	}
-	if o.Name != nil {
-		s.Name = o.Name
-	}
-	if o.Protected != nil {
-		s.Protected = o.Protected
-	}
-
 	return s, nil
 }
 
@@ -718,16 +628,6 @@ func (o *SparseNamespaceInfo) SetBSON(raw bson.Raw) error {
 	s := &mongoAttributesSparseNamespaceInfo{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
-	}
-
-	if s.Description != nil {
-		o.Description = s.Description
-	}
-	if s.Name != nil {
-		o.Name = s.Name
-	}
-	if s.Protected != nil {
-		o.Protected = s.Protected
 	}
 
 	return nil
@@ -765,54 +665,6 @@ func (o *SparseNamespaceInfo) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
-// GetDescription returns the Description of the receiver.
-func (o *SparseNamespaceInfo) GetDescription() (out string) {
-
-	if o.Description == nil {
-		return
-	}
-
-	return *o.Description
-}
-
-// SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseNamespaceInfo) SetDescription(description string) {
-
-	o.Description = &description
-}
-
-// GetName returns the Name of the receiver.
-func (o *SparseNamespaceInfo) GetName() (out string) {
-
-	if o.Name == nil {
-		return
-	}
-
-	return *o.Name
-}
-
-// SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseNamespaceInfo) SetName(name string) {
-
-	o.Name = &name
-}
-
-// GetProtected returns the Protected of the receiver.
-func (o *SparseNamespaceInfo) GetProtected() (out bool) {
-
-	if o.Protected == nil {
-		return
-	}
-
-	return *o.Protected
-}
-
-// SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseNamespaceInfo) SetProtected(protected bool) {
-
-	o.Protected = &protected
-}
-
 // DeepCopy returns a deep copy if the SparseNamespaceInfo.
 func (o *SparseNamespaceInfo) DeepCopy() *SparseNamespaceInfo {
 
@@ -838,12 +690,6 @@ func (o *SparseNamespaceInfo) DeepCopyInto(out *SparseNamespaceInfo) {
 }
 
 type mongoAttributesNamespaceInfo struct {
-	Description string `bson:"description"`
-	Name        string `bson:"name"`
-	Protected   bool   `bson:"protected"`
 }
 type mongoAttributesSparseNamespaceInfo struct {
-	Description *string `bson:"description,omitempty"`
-	Name        *string `bson:"name,omitempty"`
-	Protected   *bool   `bson:"protected,omitempty"`
 }

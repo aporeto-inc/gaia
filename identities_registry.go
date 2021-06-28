@@ -1000,10 +1000,7 @@ var (
 			{"name"},
 			{"createIdempotencyKey"},
 		},
-		"namespaceinfo": {
-			{"namespace", "name"},
-			{"name"},
-		},
+		"namespaceinfo":          nil,
 		"namespacemappingpolicy": nil,
 		"namespacepolicyinfo":    nil,
 		"namespacerenderer":      nil,
