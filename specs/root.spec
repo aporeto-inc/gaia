@@ -744,6 +744,10 @@ relations:
   create:
     description: Creates a new namespace.
 
+- rest_name: namespaceinfo
+  get:
+    description: Returns the information of the specified namespace.
+
 - rest_name: namespacemappingpolicy
   get:
     description: Retrieves the list namespace mappings.
@@ -754,7 +758,8 @@ relations:
 
 - rest_name: namespacepolicyinfo
   get:
-    description: Returns the policy info of the specified namespace.
+    description: (Deprecated) Returns the policy info of the specified namespace.
+    deprecated: true
 
 - rest_name: namespacerenderer
   create:

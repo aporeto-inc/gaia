@@ -4927,6 +4927,64 @@ Type: `integer`
 
 Defines what zone the namespace should live in.
 
+### NamespaceInfo
+
+Returns the information of the specified namespace.
+
+#### Example
+
+```json
+{
+  "PUIncomingTrafficAction": "Allow",
+  "PUOutgoingTrafficAction": "Allow",
+  "protected": false
+}
+```
+
+#### Relations
+
+##### `GET /namespaceinfo`
+
+Returns the information of the specified namespace.
+
+#### Attributes
+
+##### `PUIncomingTrafficAction` [`read_only`]
+
+Type: `enum(Allow | Reject | Inherit)`
+
+The processing unit action for incoming traffic for the namespace.
+
+##### `PUOutgoingTrafficAction` [`read_only`]
+
+Type: `enum(Allow | Reject | Inherit)`
+
+The processing unit action for outgoing traffic for the namespace.
+
+##### `description` [`read_only`]
+
+Type: `string`
+
+Description of the namespace.
+
+##### `name` [`read_only`]
+
+Type: `string`
+
+Name of the namespace.
+
+##### `prefixes` [`read_only`]
+
+Type: `[]string`
+
+List of tag prefixes that will be used to suggest policies.
+
+##### `protected` [`read_only`]
+
+Type: `boolean`
+
+Defines if the namespace is protected.
+
 ### NamespaceMappingPolicy
 
 A namespace mapping defines the namespace a processing unit should
@@ -5076,7 +5134,7 @@ Last update date of the object.
 
 ### NamespacePolicyInfo
 
-Returns the policy info of the specified namespace.
+(Deprecated) Returns the policy info of the specified namespace.
 
 #### Example
 
@@ -5091,27 +5149,33 @@ Returns the policy info of the specified namespace.
 
 ##### `GET /namespacepolicyinfo`
 
-Returns the policy info of the specified namespace.
+(Deprecated) Returns the policy info of the specified namespace.
 
 #### Attributes
 
 ##### `PUIncomingTrafficAction` [`read_only`]
 
+_This attribute is deprecated_.
+
 Type: `enum(Allow | Reject | Inherit)`
 
-The processing unit action for incoming traffic for the namespace.
+(Deprecated) The processing unit action for incoming traffic for the namespace.
 
 ##### `PUOutgoingTrafficAction` [`read_only`]
 
+_This attribute is deprecated_.
+
 Type: `enum(Allow | Reject | Inherit)`
 
-The processing unit action for outgoing traffic for the namespace.
+(Deprecated) The processing unit action for outgoing traffic for the namespace.
 
 ##### `prefixes` [`read_only`]
 
+_This attribute is deprecated_.
+
 Type: `[]string`
 
-List of tag prefixes that will be used to suggest policies.
+(Deprecated) List of tag prefixes that will be used to suggest policies.
 
 ### NamespaceRenderer
 

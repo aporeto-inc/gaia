@@ -3318,6 +3318,15 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[NamespaceInfoIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": {},
+		},
+	}
+
 	relationshipsRegistry[NamespaceMappingPolicyIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": {},
@@ -3368,10 +3377,14 @@ func init() {
 
 	relationshipsRegistry[NamespacePolicyInfoIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Deprecated: true,
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": {},
+			"root": {
+				Deprecated: true,
+			},
 		},
 	}
 
