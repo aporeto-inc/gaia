@@ -1,6 +1,7 @@
 package gaia
 
 import (
+	"crypto/sha256"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
@@ -1024,6 +1025,46 @@ func ValidateNoDuplicateSubExpressions(attribute string, expression [][]string) 
 		}
 
 		return makeValidationError(attribute, "duplicate equivalent sub-expressions found")
+	}
+
+	return nil
+}
+
+func ValidateNoDuplicateNetworkRules(attribute string, rules []*NetworkRule) error {
+
+	seen := map[[sha256.Size]byte]struct{}{}
+	for _, rule := range rules {
+		hash := sha256.New()
+
+		// hash the action
+		_, _ = fmt.Fprintf(hash, "%s/", rule.Action)
+
+		// hash the object
+		for _, subExpr := range rule.Object {
+			_, _ = fmt.Fprint(hash, "[")
+			cpy := append([]string{}, subExpr...)
+			sort.Strings(cpy)
+			for _, tag := range cpy {
+				_, _ = fmt.Fprintf(hash, "%s/", tag)
+			}
+			_, _ = fmt.Fprint(hash, "]/")
+		}
+
+		// hash the ports
+		protoPortCpy := append([]string{}, rule.ProtocolPorts...)
+		sort.Strings(protoPortCpy)
+		for _, port := range protoPortCpy {
+			port = strings.ToLower(port)
+			fmt.Fprintf(hash, "%s/", port)
+		}
+
+		// check if hash was seen before
+		var digest [sha256.Size]byte
+		copy(digest[:], hash.Sum(nil))
+		if _, ok := seen[digest]; ok {
+			return makeValidationError(attribute, "duplicate equivalent network rule found")
+		}
+		seen[digest] = struct{}{}
 	}
 
 	return nil
