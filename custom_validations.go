@@ -1030,6 +1030,7 @@ func ValidateNoDuplicateSubExpressions(attribute string, expression [][]string) 
 	return nil
 }
 
+// ValidateNoDuplicateNetworkRules ensures that all the given netowrk rules are all unique
 func ValidateNoDuplicateNetworkRules(attribute string, rules []*NetworkRule) error {
 
 	seen := map[[sha256.Size]byte]struct{}{}
