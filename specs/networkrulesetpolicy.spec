@@ -54,6 +54,8 @@ attributes:
     subtype: networkrule
     extensions:
       refMode: pointer
+    validations:
+    - $noDuplicateRules
 
   - name: outgoingRules
     description: |-
@@ -64,6 +66,8 @@ attributes:
     subtype: networkrule
     extensions:
       refMode: pointer
+    validations:
+    - $noDuplicateRules
 
   - name: subject
     description: |-

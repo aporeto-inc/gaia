@@ -218,6 +218,10 @@ $atLeastOneSubExpression:
   elemental:
     name: ValidateExpressionNotEmpty
 
+$noDuplicateRules:
+  elemental:
+    name: ValidateNoDuplicateNetworkRules
+
 $tagsWithoutReservedPrefixes:
   elemental:
     name: ValidateTagsWithoutReservedPrefixes
