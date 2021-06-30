@@ -1043,7 +1043,7 @@ func ValidateNoDuplicateNetworkRules(attribute string, rules []*NetworkRule) err
 		hash := sha256.New()
 
 		// hash the action
-		_, _ = fmt.Fprintf(hash, "%s/", rule.Action)
+		fmt.Fprintf(hash, "%s/", rule.Action)
 
 		// hash the object
 		obj := make([]string, len(rule.Object))
@@ -1054,7 +1054,7 @@ func ValidateNoDuplicateNetworkRules(attribute string, rules []*NetworkRule) err
 		}
 		sort.Strings(obj)
 		for _, subExpr := range obj {
-			_, _ = fmt.Fprintf(hash, "[%s]/", subExpr)
+			fmt.Fprintf(hash, "[%s]/", subExpr)
 		}
 
 		// hash the ports
