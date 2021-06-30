@@ -80,7 +80,7 @@ attributes:
     subtype: string
     stored: true
     validations:
-    - $optionalcidroriplist
+    - $optionalcidrs
 
   - name: protocolPorts
     description: |-
