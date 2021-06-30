@@ -24,6 +24,10 @@ func TestValidateNoDuplicateNetworkRules(t *testing.T) {
 			rules:     nil,
 			attribute: t.Name(),
 		},
+		"valid-rules-with-nil-items-ignored": {
+			rules:     []*NetworkRule{nil, nil},
+			attribute: t.Name(),
+		},
 		"valid-multiple-rules": {
 			rules: []*NetworkRule{
 				{

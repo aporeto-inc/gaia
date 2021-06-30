@@ -1035,6 +1035,11 @@ func ValidateNoDuplicateNetworkRules(attribute string, rules []*NetworkRule) err
 
 	seen := map[[sha256.Size]byte]struct{}{}
 	for _, rule := range rules {
+
+		if rule == nil {
+			continue
+		}
+
 		hash := sha256.New()
 
 		// hash the action
