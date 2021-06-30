@@ -1040,21 +1040,24 @@ func ValidateNoDuplicateNetworkRules(attribute string, rules []*NetworkRule) err
 		_, _ = fmt.Fprintf(hash, "%s/", rule.Action)
 
 		// hash the object
-		for _, subExpr := range rule.Object {
-			_, _ = fmt.Fprint(hash, "[")
+		obj := make([]string, len(rule.Object))
+		for i, subExpr := range rule.Object {
 			cpy := append([]string{}, subExpr...)
 			sort.Strings(cpy)
-			for _, tag := range cpy {
-				_, _ = fmt.Fprintf(hash, "%s/", tag)
-			}
-			_, _ = fmt.Fprint(hash, "]/")
+			obj[i] = strings.Join(cpy, "/")
+		}
+		sort.Strings(obj)
+		for _, subExpr := range obj {
+			_, _ = fmt.Fprintf(hash, "[%s]/", subExpr)
 		}
 
 		// hash the ports
 		protoPortCpy := append([]string{}, rule.ProtocolPorts...)
+		for i, port := range protoPortCpy {
+			protoPortCpy[i] = strings.ToLower(port)
+		}
 		sort.Strings(protoPortCpy)
 		for _, port := range protoPortCpy {
-			port = strings.ToLower(port)
 			fmt.Fprintf(hash, "%s/", port)
 		}
 

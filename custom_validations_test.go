@@ -117,6 +117,22 @@ func TestValidateNoDuplicateNetworkRules(t *testing.T) {
 			attribute:   t.Name(),
 			expectedErr: makeValidationError(t.Name(), "duplicate equivalent network rule found"),
 		},
+		"invalid-duplicates-object-different-order-2": {
+			rules: []*NetworkRule{
+				{
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
+					ProtocolPorts: []string{"TCP/443"},
+				},
+				{
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"heat", "wave"}, {"hello", "world"}},
+					ProtocolPorts: []string{"TCP/443"},
+				},
+			},
+			attribute:   t.Name(),
+			expectedErr: makeValidationError(t.Name(), "duplicate equivalent network rule found"),
+		},
 		"invalid-duplicates-port-different-order": {
 			rules: []*NetworkRule{
 				{
