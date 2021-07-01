@@ -702,7 +702,7 @@ func (o *CloudNetworkQuery) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateOptionalCIDRorIPList("excludedNetworks", o.ExcludedNetworks); err != nil {
+	if err := ValidateOptionalCIDRList("excludedNetworks", o.ExcludedNetworks); err != nil {
 		errors = errors.Append(err)
 	}
 
