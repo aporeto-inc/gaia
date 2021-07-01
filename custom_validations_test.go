@@ -76,82 +76,92 @@ func TestValidateNoDuplicateNetworkRules(t *testing.T) {
 		"invalid-duplicates": {
 			rules: []*NetworkRule{
 				{
+					Name:          "bad-rule-1",
 					Action:        NetworkRuleActionAllow,
 					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
 					ProtocolPorts: []string{"TCP/443", "8080"},
 				},
 				{
+					Name:          "bad-rule-2",
 					Action:        NetworkRuleActionAllow,
 					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
 					ProtocolPorts: []string{"TCP/443", "8080"},
 				},
 			},
 			attribute:   t.Name(),
-			expectedErr: makeValidationError(t.Name(), "duplicate equivalent network rule found"),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules: ['bad-rule-1', 'bad-rule-2']"),
 		},
 		"invalid-duplicates-port-case-insensitive": {
 			rules: []*NetworkRule{
 				{
+					Name:          "bad-rule-1",
 					Action:        NetworkRuleActionAllow,
 					Object:        [][]string{{"hello", "world"}},
 					ProtocolPorts: []string{"tcp/443"},
 				},
 				{
+					Name:          "bad-rule-2",
 					Action:        NetworkRuleActionAllow,
 					Object:        [][]string{{"hello", "world"}},
 					ProtocolPorts: []string{"TCP/443"},
 				},
 			},
 			attribute:   t.Name(),
-			expectedErr: makeValidationError(t.Name(), "duplicate equivalent network rule found"),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules: ['bad-rule-1', 'bad-rule-2']"),
 		},
 		"invalid-duplicates-object-different-order": {
 			rules: []*NetworkRule{
 				{
+					Name:          "bad-rule-1",
 					Action:        NetworkRuleActionAllow,
 					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
 					ProtocolPorts: []string{"TCP/443"},
 				},
 				{
+					Name:          "bad-rule-2",
 					Action:        NetworkRuleActionAllow,
 					Object:        [][]string{{"world", "hello"}, {"wave", "heat"}},
 					ProtocolPorts: []string{"TCP/443"},
 				},
 			},
 			attribute:   t.Name(),
-			expectedErr: makeValidationError(t.Name(), "duplicate equivalent network rule found"),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules: ['bad-rule-1', 'bad-rule-2']"),
 		},
 		"invalid-duplicates-object-different-order-2": {
 			rules: []*NetworkRule{
 				{
+					Name:          "bad-rule-1",
 					Action:        NetworkRuleActionAllow,
 					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
 					ProtocolPorts: []string{"TCP/443"},
 				},
 				{
+					Name:          "bad-rule-2",
 					Action:        NetworkRuleActionAllow,
 					Object:        [][]string{{"heat", "wave"}, {"hello", "world"}},
 					ProtocolPorts: []string{"TCP/443"},
 				},
 			},
 			attribute:   t.Name(),
-			expectedErr: makeValidationError(t.Name(), "duplicate equivalent network rule found"),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules: ['bad-rule-1', 'bad-rule-2']"),
 		},
 		"invalid-duplicates-port-different-order": {
 			rules: []*NetworkRule{
 				{
+					Name:          "bad-rule-1",
 					Action:        NetworkRuleActionAllow,
 					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
 					ProtocolPorts: []string{"TCP/443", "tcp/8080"},
 				},
 				{
+					Name:          "bad-rule-2",
 					Action:        NetworkRuleActionAllow,
 					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
 					ProtocolPorts: []string{"tcp/8080", "TCP/443"},
 				},
 			},
 			attribute:   t.Name(),
-			expectedErr: makeValidationError(t.Name(), "duplicate equivalent network rule found"),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules: ['bad-rule-1', 'bad-rule-2']"),
 		},
 	}
 

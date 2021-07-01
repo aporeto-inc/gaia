@@ -1033,7 +1033,7 @@ func ValidateNoDuplicateSubExpressions(attribute string, expression [][]string) 
 // ValidateNoDuplicateNetworkRules ensures that all the given network rules are all unique
 func ValidateNoDuplicateNetworkRules(attribute string, rules []*NetworkRule) error {
 
-	seen := map[[sha256.Size]byte]struct{}{}
+	seen := make(map[[sha256.Size]byte]*NetworkRule, len(rules))
 	for _, rule := range rules {
 
 		if rule == nil {
@@ -1070,10 +1070,13 @@ func ValidateNoDuplicateNetworkRules(attribute string, rules []*NetworkRule) err
 		// check if hash was seen before
 		var digest [sha256.Size]byte
 		copy(digest[:], hash.Sum(nil))
-		if _, ok := seen[digest]; ok {
-			return makeValidationError(attribute, "duplicate equivalent network rule found")
+		if prevRule, ok := seen[digest]; ok {
+			return makeValidationError(
+				attribute,
+				fmt.Sprintf("duplicate network rules: ['%s', '%s']", prevRule.Name, rule.Name),
+			)
 		}
-		seen[digest] = struct{}{}
+		seen[digest] = rule
 	}
 
 	return nil
