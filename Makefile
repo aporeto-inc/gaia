@@ -18,7 +18,7 @@ codegen:
 	data=$$(rego doc -d specs || exit 1) && \
 		echo -e "$${data}" > doc/documentation.md
 
-format: format-specs format-type format-validation format-paramater
+format: format-specs format-type format-validation format-parameter
 format-specs:
 	for f in specs/*.spec; do \
 		rego format < $$f > $$f.formatted && \
@@ -35,8 +35,8 @@ format-validation:
 	rego format -m validationmapping < $(target) > $(target).formatted
 	mv $(target).formatted $(target)
 
-format-paramater: target = "specs/_parameter.mapping"
-format-paramater: 
+format-parameter: target = "specs/_parameter.mapping"
+format-parameter: 
 	rego format -m parametermapping < $(target) > $(target).formatted
 	mv $(target).formatted $(target)
 
