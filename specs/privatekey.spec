@@ -63,3 +63,5 @@ attributes:
       Mlri6/+4
       -----END PRIVATE KEY-----
     secret: true
+    encrypted: true
+
