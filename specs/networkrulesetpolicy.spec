@@ -82,8 +82,7 @@ attributes:
 relations:
 - rest_name: externalnetwork
   get:
-    description: Returns the list of external networks affected by a network rule
-      set policy.
+    description: Returns the list of external networks affected by a network rule set policy.
     parameters:
       entries:
       - name: mode
@@ -96,8 +95,7 @@ relations:
 
 - rest_name: processingunit
   get:
-    description: Returns the list of processing units affected by a network rule set
-      policy.
+    description: Returns the list of processing units affected by a network rule set policy.
     parameters:
       entries:
       - name: mode

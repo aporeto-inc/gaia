@@ -180,8 +180,8 @@ func (o *CloudGraph) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *CloudGraph) Doc() string {
 
-	return `Returns a data structure representing the graph of all cloud nodes 
-and their connections in a particular namespace.`
+	return `Returns a data structure representing the graph of all cloud nodes and their
+connections in a particular namespace.`
 }
 
 func (o *CloudGraph) String() string {

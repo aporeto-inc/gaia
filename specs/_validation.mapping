@@ -2,6 +2,10 @@ $apiauthsubject:
   elemental:
     name: ValidateAPIAuthorizationPolicySubject
 
+$atLeastOneSubExpression:
+  elemental:
+    name: ValidateExpressionNotEmpty
+
 $audience:
   elemental:
     name: ValidateAudience
@@ -102,6 +106,14 @@ $networksorhostnames:
   elemental:
     name: ValidateNetworkOrHostnameList
 
+$noDuplicateSubExpressions:
+  elemental:
+    name: ValidateNoDuplicateSubExpressions
+
+$noDuplicateTagsInEachSubExpression:
+  elemental:
+    name: ValidateEachSubExpressionHasNoDuplicateTags
+
 $optionalTimeDuration:
   elemental:
     name: ValidateOptionalTimeDuration
@@ -190,6 +202,10 @@ $stringlistnotempty:
   elemental:
     name: ValidateStringListNotEmpty
 
+$subExpressionsNotEmpty:
+  elemental:
+    name: ValidateSubExpressionsNotEmpty
+
 $tag:
   elemental:
     name: ValidateTag
@@ -201,22 +217,6 @@ $tags:
 $tagsExpression:
   elemental:
     name: ValidateTagsExpression
-
-$subExpressionsNotEmpty:
-  elemental:
-    name: ValidateSubExpressionsNotEmpty
-
-$noDuplicateTagsInEachSubExpression:
-  elemental:
-    name: ValidateEachSubExpressionHasNoDuplicateTags
-
-$noDuplicateSubExpressions:
-  elemental:
-    name: ValidateNoDuplicateSubExpressions
-
-$atLeastOneSubExpression:
-  elemental:
-    name: ValidateExpressionNotEmpty
 
 $tagsWithoutReservedPrefixes:
   elemental:
