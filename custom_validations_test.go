@@ -89,7 +89,7 @@ func TestValidateNoDuplicateNetworkRules(t *testing.T) {
 				},
 			},
 			attribute:   t.Name(),
-			expectedErr: makeValidationError(t.Name(), "duplicate network rules: ['bad-rule-1', 'bad-rule-2']"),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules at the following indexes: [1, 2]"),
 		},
 		"invalid-duplicates-port-case-insensitive": {
 			rules: []*NetworkRule{
@@ -107,7 +107,7 @@ func TestValidateNoDuplicateNetworkRules(t *testing.T) {
 				},
 			},
 			attribute:   t.Name(),
-			expectedErr: makeValidationError(t.Name(), "duplicate network rules: ['bad-rule-1', 'bad-rule-2']"),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules at the following indexes: [1, 2]"),
 		},
 		"invalid-duplicates-object-different-order": {
 			rules: []*NetworkRule{
@@ -125,7 +125,7 @@ func TestValidateNoDuplicateNetworkRules(t *testing.T) {
 				},
 			},
 			attribute:   t.Name(),
-			expectedErr: makeValidationError(t.Name(), "duplicate network rules: ['bad-rule-1', 'bad-rule-2']"),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules at the following indexes: [1, 2]"),
 		},
 		"invalid-duplicates-object-different-order-2": {
 			rules: []*NetworkRule{
@@ -143,7 +143,7 @@ func TestValidateNoDuplicateNetworkRules(t *testing.T) {
 				},
 			},
 			attribute:   t.Name(),
-			expectedErr: makeValidationError(t.Name(), "duplicate network rules: ['bad-rule-1', 'bad-rule-2']"),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules at the following indexes: [1, 2]"),
 		},
 		"invalid-duplicates-port-different-order": {
 			rules: []*NetworkRule{
@@ -161,7 +161,7 @@ func TestValidateNoDuplicateNetworkRules(t *testing.T) {
 				},
 			},
 			attribute:   t.Name(),
-			expectedErr: makeValidationError(t.Name(), "duplicate network rules: ['bad-rule-1', 'bad-rule-2']"),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules at the following indexes: [1, 2]"),
 		},
 	}
 
