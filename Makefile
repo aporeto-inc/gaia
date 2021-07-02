@@ -18,6 +18,28 @@ codegen:
 	data=$$(rego doc -d specs || exit 1) && \
 		echo -e "$${data}" > doc/documentation.md
 
+format: format-specs format-type format-validation format-paramater
+format-specs:
+	for f in specs/*.spec; do \
+		rego format < $$f > $$f.formatted && \
+		mv $$f.formatted $$f; \
+	done
+
+format-type: target = "specs/_type.mapping"
+format-type: 
+	rego format -m typemapping < $(target) > $(target).formatted
+	mv $(target).formatted $(target)
+
+format-validation: target = "specs/_validation.mapping"
+format-validation: 
+	rego format -m validationmapping < $(target) > $(target).formatted
+	mv $(target).formatted $(target)
+
+format-paramater: target = "specs/_parameter.mapping"
+format-paramater: 
+	rego format -m parametermapping < $(target) > $(target).formatted
+	mv $(target).formatted $(target)
+
 lint: spelling
 	# --enable=unparam
 	golangci-lint run \

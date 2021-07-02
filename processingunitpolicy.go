@@ -151,16 +151,13 @@ type ProcessingUnitPolicy struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// The datapath type that processing units selected by `subject` should
-	// implement:
-	// - `Default`: This policy is not making a decision for the
-	// datapath.
-	// - `Aporeto`: The enforcer is managing and handling the datapath.
-	// - `EnvoyAuthorizer`: The enforcer is serving Envoy-compatible gRPC APIs
-	// for every processing unit that for example can be used by an Envoy
-	// proxy to use the Microsegmentation PKI and implement Microsegmentation
-	// network policies. NOTE: The enforcer is not going to own the datapath in
-	// this example. It is merely providing an authorizer API.
+	// The datapath type that processing units selected by `subject` shouldimplement:-
+	// `Default`: This policy is not making a decision for thedatapath.- `Aporeto`: The
+	// enforcer is managing and handling the datapath.- `EnvoyAuthorizer`: The enforcer
+	// is serving Envoy-compatible gRPC APIsfor every processing unit that for example
+	// can be used by an Envoyproxy to use the Microsegmentation PKI and implement
+	// Microsegmentation network policies. NOTE: The enforcer is not going to own the
+	// datapath in this example. It is merely providing an authorizer API.
 	DatapathType ProcessingUnitPolicyDatapathTypeValue `json:"datapathType" msgpack:"datapathType" bson:"datapathtype" mapstructure:"datapathType,omitempty"`
 
 	// Description of the object.
@@ -987,16 +984,13 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		BSONFieldName:  "datapathtype",
 		ConvertedName:  "DatapathType",
 		DefaultValue:   ProcessingUnitPolicyDatapathTypeDefault,
-		Description: `The datapath type that processing units selected by ` + "`" + `subject` + "`" + ` should
-implement:
-- ` + "`" + `Default` + "`" + `: This policy is not making a decision for the
-datapath.
-- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
-- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving Envoy-compatible gRPC APIs
-for every processing unit that for example can be used by an Envoy
-proxy to use the Microsegmentation PKI and implement Microsegmentation 
-network policies. NOTE: The enforcer is not going to own the datapath in 
-this example. It is merely providing an authorizer API.`,
+		Description: `The datapath type that processing units selected by ` + "`" + `subject` + "`" + ` shouldimplement:-
+` + "`" + `Default` + "`" + `: This policy is not making a decision for thedatapath.- ` + "`" + `Aporeto` + "`" + `: The
+enforcer is managing and handling the datapath.- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer
+is serving Envoy-compatible gRPC APIsfor every processing unit that for example
+can be used by an Envoyproxy to use the Microsegmentation PKI and implement
+Microsegmentation network policies. NOTE: The enforcer is not going to own the
+datapath in this example. It is merely providing an authorizer API.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "datapathType",
@@ -1304,16 +1298,13 @@ The policy will be active for the given ` + "`" + `activeDuration` + "`" + `.`,
 		BSONFieldName:  "datapathtype",
 		ConvertedName:  "DatapathType",
 		DefaultValue:   ProcessingUnitPolicyDatapathTypeDefault,
-		Description: `The datapath type that processing units selected by ` + "`" + `subject` + "`" + ` should
-implement:
-- ` + "`" + `Default` + "`" + `: This policy is not making a decision for the
-datapath.
-- ` + "`" + `Aporeto` + "`" + `: The enforcer is managing and handling the datapath.
-- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer is serving Envoy-compatible gRPC APIs
-for every processing unit that for example can be used by an Envoy
-proxy to use the Microsegmentation PKI and implement Microsegmentation 
-network policies. NOTE: The enforcer is not going to own the datapath in 
-this example. It is merely providing an authorizer API.`,
+		Description: `The datapath type that processing units selected by ` + "`" + `subject` + "`" + ` shouldimplement:-
+` + "`" + `Default` + "`" + `: This policy is not making a decision for thedatapath.- ` + "`" + `Aporeto` + "`" + `: The
+enforcer is managing and handling the datapath.- ` + "`" + `EnvoyAuthorizer` + "`" + `: The enforcer
+is serving Envoy-compatible gRPC APIsfor every processing unit that for example
+can be used by an Envoyproxy to use the Microsegmentation PKI and implement
+Microsegmentation network policies. NOTE: The enforcer is not going to own the
+datapath in this example. It is merely providing an authorizer API.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "datapathType",
@@ -1599,16 +1590,13 @@ type SparseProcessingUnitPolicy struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// The datapath type that processing units selected by `subject` should
-	// implement:
-	// - `Default`: This policy is not making a decision for the
-	// datapath.
-	// - `Aporeto`: The enforcer is managing and handling the datapath.
-	// - `EnvoyAuthorizer`: The enforcer is serving Envoy-compatible gRPC APIs
-	// for every processing unit that for example can be used by an Envoy
-	// proxy to use the Microsegmentation PKI and implement Microsegmentation
-	// network policies. NOTE: The enforcer is not going to own the datapath in
-	// this example. It is merely providing an authorizer API.
+	// The datapath type that processing units selected by `subject` shouldimplement:-
+	// `Default`: This policy is not making a decision for thedatapath.- `Aporeto`: The
+	// enforcer is managing and handling the datapath.- `EnvoyAuthorizer`: The enforcer
+	// is serving Envoy-compatible gRPC APIsfor every processing unit that for example
+	// can be used by an Envoyproxy to use the Microsegmentation PKI and implement
+	// Microsegmentation network policies. NOTE: The enforcer is not going to own the
+	// datapath in this example. It is merely providing an authorizer API.
 	DatapathType *ProcessingUnitPolicyDatapathTypeValue `json:"datapathType,omitempty" msgpack:"datapathType,omitempty" bson:"datapathtype,omitempty" mapstructure:"datapathType,omitempty"`
 
 	// Description of the object.

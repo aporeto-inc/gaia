@@ -207,11 +207,10 @@ type ProcessingUnit struct {
 	// Description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Contains the state of the enforcer for the processing unit.
-	//
-	// `Inactive` (default): the enforcer is not enforcing any host service.
-	// `Active`: the enforcer is enforcing a host service.
-	// `Failed`: an error occurred during the enforcement attempt.
+	// Contains the state of the enforcer for the processing unit. `Inactive`
+	// (default): the enforcer is not enforcing any host service. `Active`: the
+	// enforcer is enforcing a host service. `Failed`: an error occurred during the
+	// enforcement attempt.
 	EnforcementStatus ProcessingUnitEnforcementStatusValue `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
 
 	// The ID of the enforcer associated with the processing unit.
@@ -1301,11 +1300,10 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		BSONFieldName:  "enforcementstatus",
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   ProcessingUnitEnforcementStatusInactive,
-		Description: `Contains the state of the enforcer for the processing unit. 
-
-` + "`" + `Inactive` + "`" + ` (default): the enforcer is not enforcing any host service. 
-` + "`" + `Active` + "`" + `: the enforcer is enforcing a host service. 
-` + "`" + `Failed` + "`" + `: an error occurred during the enforcement attempt.`,
+		Description: `Contains the state of the enforcer for the processing unit. ` + "`" + `Inactive` + "`" + `
+(default): the enforcer is not enforcing any host service. ` + "`" + `Active` + "`" + `: the
+enforcer is enforcing a host service. ` + "`" + `Failed` + "`" + `: an error occurred during the
+enforcement attempt.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "enforcementStatus",
@@ -1794,11 +1792,10 @@ owning the datapath in this case. It is merely providing an authorizer API.`,
 		BSONFieldName:  "enforcementstatus",
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   ProcessingUnitEnforcementStatusInactive,
-		Description: `Contains the state of the enforcer for the processing unit. 
-
-` + "`" + `Inactive` + "`" + ` (default): the enforcer is not enforcing any host service. 
-` + "`" + `Active` + "`" + `: the enforcer is enforcing a host service. 
-` + "`" + `Failed` + "`" + `: an error occurred during the enforcement attempt.`,
+		Description: `Contains the state of the enforcer for the processing unit. ` + "`" + `Inactive` + "`" + `
+(default): the enforcer is not enforcing any host service. ` + "`" + `Active` + "`" + `: the
+enforcer is enforcing a host service. ` + "`" + `Failed` + "`" + `: an error occurred during the
+enforcement attempt.`,
 		Exposed:    true,
 		Filterable: true,
 		Name:       "enforcementStatus",
@@ -2227,11 +2224,10 @@ type SparseProcessingUnit struct {
 	// Description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// Contains the state of the enforcer for the processing unit.
-	//
-	// `Inactive` (default): the enforcer is not enforcing any host service.
-	// `Active`: the enforcer is enforcing a host service.
-	// `Failed`: an error occurred during the enforcement attempt.
+	// Contains the state of the enforcer for the processing unit. `Inactive`
+	// (default): the enforcer is not enforcing any host service. `Active`: the
+	// enforcer is enforcing a host service. `Failed`: an error occurred during the
+	// enforcement attempt.
 	EnforcementStatus *ProcessingUnitEnforcementStatusValue `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
 	// The ID of the enforcer associated with the processing unit.

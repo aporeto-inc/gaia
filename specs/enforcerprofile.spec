@@ -6,10 +6,10 @@ model:
   package: squall
   group: policy/enforcerconfig
   description: |-
-    Allows you to create reusable configuration profiles for your enforcers.
-    Enforcer profiles contain various startup information that can (for some) 
-    be updated live. Enforcer profiles are assigned to enforcers using a 
-    enforcer profile mapping.
+    Allows you to create reusable configuration profiles for your enforcers.Enforcer
+    profiles contain various startup information that can (for some) be updated
+    live. Enforcer profiles are assigned to enforcers using a enforcer profile
+    mapping.
   aliases:
   - profile
   - profiles
