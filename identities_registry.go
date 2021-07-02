@@ -139,6 +139,7 @@ var (
 		"policyrule":            PolicyRuleIdentity,
 		"policyttl":             PolicyTTLIdentity,
 		"pollaccount":           PollAccountIdentity,
+		"privatekey":            PrivateKeyIdentity,
 		"processingunit":        ProcessingUnitIdentity,
 		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
 		"processingunitrefresh": ProcessingUnitRefreshIdentity,
@@ -328,6 +329,7 @@ var (
 		"policyrules":             PolicyRuleIdentity,
 		"policyttls":              PolicyTTLIdentity,
 		"pollaccounts":            PollAccountIdentity,
+		"privatekey":              PrivateKeyIdentity,
 		"processingunits":         ProcessingUnitIdentity,
 		"processingunitpolicies":  ProcessingUnitPolicyIdentity,
 		"processingunitrefreshes": ProcessingUnitRefreshIdentity,
@@ -1083,6 +1085,18 @@ var (
 		"policyrule":     nil,
 		"policyttl":      nil,
 		"pollaccount":    nil,
+		"privatekey": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "fingerprint"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"fingerprint"},
+			{"createIdempotencyKey"},
+		},
 		"processingunit": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1492,6 +1506,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPolicyTTL()
 	case PollAccountIdentity:
 		return NewPollAccount()
+	case PrivateKeyIdentity:
+		return NewPrivateKey()
 	case ProcessingUnitIdentity:
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
@@ -1829,6 +1845,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePolicyTTL()
 	case PollAccountIdentity:
 		return NewSparsePollAccount()
+	case PrivateKeyIdentity:
+		return NewSparsePrivateKey()
 	case ProcessingUnitIdentity:
 		return NewSparseProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
@@ -2174,6 +2192,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PolicyTTLsList{}
 	case PollAccountIdentity:
 		return &PollAccountsList{}
+	case PrivateKeyIdentity:
+		return &PrivateKeysList{}
 	case ProcessingUnitIdentity:
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
@@ -2509,6 +2529,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePolicyTTLsList{}
 	case PollAccountIdentity:
 		return &SparsePollAccountsList{}
+	case PrivateKeyIdentity:
+		return &SparsePrivateKeysList{}
 	case ProcessingUnitIdentity:
 		return &SparseProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
@@ -2745,6 +2767,7 @@ func AllIdentities() []elemental.Identity {
 		PolicyRuleIdentity,
 		PolicyTTLIdentity,
 		PollAccountIdentity,
+		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
 		ProcessingUnitRefreshIdentity,
@@ -3138,6 +3161,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PolicyTTLIdentity:
 		return []string{}
 	case PollAccountIdentity:
+		return []string{}
+	case PrivateKeyIdentity:
 		return []string{}
 	case ProcessingUnitIdentity:
 		return []string{
