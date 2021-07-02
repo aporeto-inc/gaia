@@ -35,9 +35,9 @@ attributes:
   v1:
   - name: deploymentMode
     description: |-
-      Defines the deployment mode of the recipe. If `Unrestricted`, the recipecan be
+      Defines the deployment mode of the recipe. If `Unrestricted`, the recipe can be
       deployed multiple times in the current namespace and below. If `Unique`,only one
-      deployment is allowed in the current namespace and its childnamespaces. If
+      deployment is allowed in the current namespace and its child namespaces. If
       `NamespaceUnique`, only one deployment is allowed in the current namespace.
     type: enum
     exposed: true

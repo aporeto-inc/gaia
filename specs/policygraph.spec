@@ -20,7 +20,7 @@ attributes:
   - name: PUIdentity
     description: |-
       The set of tags that a future-activated processing unit will have for which
-      theuser wants to evaluate policies and understand its connectivity options.
+      the user wants to evaluate policies and understand its connectivity options.
     type: list
     exposed: true
     subtype: string
@@ -28,7 +28,7 @@ attributes:
   - name: dependencyMap
     description: |-
       Contains the output of the policy evaluation. It is the same type of
-      dependencymap as created by other APIs.
+      dependency map as created by other APIs.
     type: ref
     exposed: true
     subtype: dependencymap
@@ -50,7 +50,7 @@ attributes:
   - name: selectors
     description: |-
       Contains the tag expression that a processing unit must match in order
-      toevaluate policy for it.
+      to evaluate policy for it.
     type: external
     exposed: true
     subtype: '[][]string'

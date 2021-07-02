@@ -103,9 +103,9 @@ attributes:
   - name: principals
     description: |-
       On systems without an enforcer, you must provide the name of the Linux user.
-      Otherwise, Microsegmentation will automatically populatethis field and adding a
-      value here isoptional and not used during the authorization. However, the value
-      becomes a tagassociated with the SSH processing unit, which could be useful.
+      Otherwise, Microsegmentation will automatically populate this field and adding a
+      value here is optional and not used during the authorization. However, the value
+      becomes a tag associated with the SSH processing unit, which could be useful.
     type: list
     exposed: true
     subtype: string

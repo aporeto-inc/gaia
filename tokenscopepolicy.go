@@ -302,7 +302,7 @@ func (o *TokenScopePolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *TokenScopePolicy) Doc() string {
 
-	return `Defines a set of policies that allow customization of theauthorization tokens
+	return `Defines a set of policies that allow customization of the authorization tokens
 issued by the Microsegmentation Console. This allows Microsegmentation tokens to
 be used by external applications.`
 }

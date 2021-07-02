@@ -2495,7 +2495,7 @@ Counter for unknown error.
 Type: `integer`
 
 Non-zero counter indicates analyzed connections for unencrypted, encrypted,
-andpackets from endpoint applications with the TCP Fast Open option set. These
+and packets from endpoint applications with the TCP Fast Open option set. These
 are not dropped counter.
 
 ##### `connectionsDropped`
@@ -6287,7 +6287,7 @@ Creates a new certificate for datapath.
 
 Type: `string`
 
-Contains a certificate signing request (CSR) from the enforcer.Depending on the
+Contains a certificate signing request (CSR) from the enforcer. Depending on the
 certificate there will be various requirements for the Microsegmentation Console
 to accept the CSR.
 
@@ -7477,9 +7477,9 @@ Creation date of the object.
 
 Type: `enum(Unrestricted | Unique | NamespaceUnique)`
 
-Defines the deployment mode of the recipe. If `Unrestricted`, the recipecan be
+Defines the deployment mode of the recipe. If `Unrestricted`, the recipe can be
 deployed multiple times in the current namespace and below. If `Unique`,only one
-deployment is allowed in the current namespace and its childnamespaces. If
+deployment is allowed in the current namespace and its child namespaces. If
 `NamespaceUnique`, only one deployment is allowed in the current namespace.
 
 Default value:
@@ -13230,10 +13230,10 @@ Number of times the client saw this activity.
 
 ### EnforcerProfile
 
-Allows you to create reusable configuration profiles for your enforcers.Enforcer
-profiles contain various startup information that can (for some) be updated
-live. Enforcer profiles are assigned to enforcers using a enforcer profile
-mapping.
+Allows you to create reusable configuration profiles for your enforcers.
+Enforcer profiles contain various startup information that can (for some) be
+updated live. Enforcer profiles are assigned to enforcers using a enforcer
+profile mapping.
 
 #### Example
 
@@ -16005,7 +16005,7 @@ Number of flows in the log.
 ### InfrastructurePolicy
 
 Infrastructure policies represent the network access rules of the
-underlyinginfrastructure. They can assist you in analyzing how AWS security
+underlying infrastructure. They can assist you in analyzing how AWS security
 groups,firewalls, and other access control list (ACL) mechanisms may affect
 Microsegmentation network policies. Microsegmentation's AWS integration app
 automatically populates AWS security groups.
@@ -16974,13 +16974,14 @@ Creation date of the object.
 
 Type: `enum(Default | Aporeto | EnvoyAuthorizer)`
 
-The datapath type that processing units selected by `subject` shouldimplement:-
-`Default`: This policy is not making a decision for thedatapath.- `Aporeto`: The
-enforcer is managing and handling the datapath.- `EnvoyAuthorizer`: The enforcer
-is serving Envoy-compatible gRPC APIsfor every processing unit that for example
-can be used by an Envoyproxy to use the Microsegmentation PKI and implement
-Microsegmentation network policies. NOTE: The enforcer is not going to own the
-datapath in this example. It is merely providing an authorizer API.
+The datapath type that processing units selected by `subject` should implement:
+- `Default`: This policy is not making a decision for the datapath
+- `Aporeto`: The enforcer is managing and handling the datapath
+- `EnvoyAuthorizer`: The enforcer is serving Envoy-compatible gRPC APIs for
+every processing unit that for example can be used by an Envoy proxy to use the
+Microsegmentation PKI and implement Microsegmentation network policies. NOTE:
+The enforcer is not going to own the datapath in this example. It is merely
+providing an authorizer API.
 
 Default value:
 
@@ -17332,7 +17333,7 @@ Last update date of the object.
 
 Allows you to map a claim in a token to an HTTP header. This can be useful when
 offloading authentication and authorization to Microsegmentation.
-Someapplications may expect to receive information in the HTTP header.
+Some applications may expect to receive information in the HTTP header.
 
 #### Example
 
@@ -18158,7 +18159,7 @@ Last update date of the object.
 
 ### TokenScopePolicy
 
-Defines a set of policies that allow customization of theauthorization tokens
+Defines a set of policies that allow customization of the authorization tokens
 issued by the Microsegmentation Console. This allows Microsegmentation tokens to
 be used by external applications.
 
@@ -18544,9 +18545,9 @@ is allowed to access.
 Type: `[]string`
 
 On systems without an enforcer, you must provide the name of the Linux user.
-Otherwise, Microsegmentation will automatically populatethis field and adding a
-value here isoptional and not used during the authorization. However, the value
-becomes a tagassociated with the SSH processing unit, which could be useful.
+Otherwise, Microsegmentation will automatically populate this field and adding a
+value here is optional and not used during the authorization. However, the value
+becomes a tag associated with the SSH processing unit, which could be useful.
 
 ##### `propagate`
 
@@ -19138,14 +19139,14 @@ Parameters:
 Type: `[]string`
 
 The set of tags that a future-activated processing unit will have for which
-theuser wants to evaluate policies and understand its connectivity options.
+the user wants to evaluate policies and understand its connectivity options.
 
 ##### `dependencyMap`
 
 Type: [`dependencymap`](#dependencymap)
 
 Contains the output of the policy evaluation. It is the same type of
-dependencymap as created by other APIs.
+dependency map as created by other APIs.
 
 ##### `policyType`
 
@@ -19165,7 +19166,7 @@ Default value:
 Type: `[][]string`
 
 Contains the tag expression that a processing unit must match in order
-toevaluate policy for it.
+to evaluate policy for it.
 
 ### SuggestedPolicy
 

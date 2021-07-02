@@ -95,11 +95,11 @@ func (o PolicyGraphsList) Version() int {
 // PolicyGraph represents the model of a policygraph
 type PolicyGraph struct {
 	// The set of tags that a future-activated processing unit will have for which
-	// theuser wants to evaluate policies and understand its connectivity options.
+	// the user wants to evaluate policies and understand its connectivity options.
 	PUIdentity []string `json:"PUIdentity" msgpack:"PUIdentity" bson:"-" mapstructure:"PUIdentity,omitempty"`
 
 	// Contains the output of the policy evaluation. It is the same type of
-	// dependencymap as created by other APIs.
+	// dependency map as created by other APIs.
 	DependencyMap *DependencyMap `json:"dependencyMap" msgpack:"dependencyMap" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
 	// Identifies the type of policy that should be analyzed: `Authorization`(default),
@@ -107,7 +107,7 @@ type PolicyGraph struct {
 	PolicyType PolicyGraphPolicyTypeValue `json:"policyType" msgpack:"policyType" bson:"-" mapstructure:"policyType,omitempty"`
 
 	// Contains the tag expression that a processing unit must match in order
-	// toevaluate policy for it.
+	// to evaluate policy for it.
 	Selectors [][]string `json:"selectors" msgpack:"selectors" bson:"-" mapstructure:"selectors,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
@@ -354,7 +354,7 @@ var PolicyGraphAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PUIdentity",
 		Description: `The set of tags that a future-activated processing unit will have for which
-theuser wants to evaluate policies and understand its connectivity options.`,
+the user wants to evaluate policies and understand its connectivity options.`,
 		Exposed: true,
 		Name:    "PUIdentity",
 		SubType: "string",
@@ -364,7 +364,7 @@ theuser wants to evaluate policies and understand its connectivity options.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "DependencyMap",
 		Description: `Contains the output of the policy evaluation. It is the same type of
-dependencymap as created by other APIs.`,
+dependency map as created by other APIs.`,
 		Exposed: true,
 		Name:    "dependencyMap",
 		SubType: "dependencymap",
@@ -384,7 +384,7 @@ dependencymap as created by other APIs.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
 		Description: `Contains the tag expression that a processing unit must match in order
-toevaluate policy for it.`,
+to evaluate policy for it.`,
 		Exposed: true,
 		Name:    "selectors",
 		SubType: "[][]string",
@@ -398,7 +398,7 @@ var PolicyGraphLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		AllowedChoices: []string{},
 		ConvertedName:  "PUIdentity",
 		Description: `The set of tags that a future-activated processing unit will have for which
-theuser wants to evaluate policies and understand its connectivity options.`,
+the user wants to evaluate policies and understand its connectivity options.`,
 		Exposed: true,
 		Name:    "PUIdentity",
 		SubType: "string",
@@ -408,7 +408,7 @@ theuser wants to evaluate policies and understand its connectivity options.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "DependencyMap",
 		Description: `Contains the output of the policy evaluation. It is the same type of
-dependencymap as created by other APIs.`,
+dependency map as created by other APIs.`,
 		Exposed: true,
 		Name:    "dependencyMap",
 		SubType: "dependencymap",
@@ -428,7 +428,7 @@ dependencymap as created by other APIs.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
 		Description: `Contains the tag expression that a processing unit must match in order
-toevaluate policy for it.`,
+to evaluate policy for it.`,
 		Exposed: true,
 		Name:    "selectors",
 		SubType: "[][]string",
@@ -500,11 +500,11 @@ func (o SparsePolicyGraphsList) Version() int {
 // SparsePolicyGraph represents the sparse version of a policygraph.
 type SparsePolicyGraph struct {
 	// The set of tags that a future-activated processing unit will have for which
-	// theuser wants to evaluate policies and understand its connectivity options.
+	// the user wants to evaluate policies and understand its connectivity options.
 	PUIdentity *[]string `json:"PUIdentity,omitempty" msgpack:"PUIdentity,omitempty" bson:"-" mapstructure:"PUIdentity,omitempty"`
 
 	// Contains the output of the policy evaluation. It is the same type of
-	// dependencymap as created by other APIs.
+	// dependency map as created by other APIs.
 	DependencyMap *DependencyMap `json:"dependencyMap,omitempty" msgpack:"dependencyMap,omitempty" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
 	// Identifies the type of policy that should be analyzed: `Authorization`(default),
@@ -512,7 +512,7 @@ type SparsePolicyGraph struct {
 	PolicyType *PolicyGraphPolicyTypeValue `json:"policyType,omitempty" msgpack:"policyType,omitempty" bson:"-" mapstructure:"policyType,omitempty"`
 
 	// Contains the tag expression that a processing unit must match in order
-	// toevaluate policy for it.
+	// to evaluate policy for it.
 	Selectors *[][]string `json:"selectors,omitempty" msgpack:"selectors,omitempty" bson:"-" mapstructure:"selectors,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`

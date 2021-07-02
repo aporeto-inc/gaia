@@ -544,7 +544,7 @@ attributes:
   - name: connectionsAnalyzed
     description: |-
       Non-zero counter indicates analyzed connections for unencrypted, encrypted,
-      andpackets from endpoint applications with the TCP Fast Open option set. These
+      and packets from endpoint applications with the TCP Fast Open option set. These
       are not dropped counter.
     type: integer
     exposed: true

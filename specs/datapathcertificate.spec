@@ -14,7 +14,7 @@ attributes:
   v1:
   - name: CSR
     description: |-
-      Contains a certificate signing request (CSR) from the enforcer.Depending on the
+      Contains a certificate signing request (CSR) from the enforcer. Depending on the
       certificate there will be various requirements for the Microsegmentation Console
       to accept the CSR.
     type: string

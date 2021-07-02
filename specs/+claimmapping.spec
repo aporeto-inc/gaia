@@ -8,7 +8,7 @@ model:
   description: |-
     Allows you to map a claim in a token to an HTTP header. This can be useful when
     offloading authentication and authorization to Microsegmentation.
-    Someapplications may expect to receive information in the HTTP header.
+    Some applications may expect to receive information in the HTTP header.
   detached: true
 
 # Attributes

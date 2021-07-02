@@ -94,7 +94,7 @@ func (o DataPathCertificatesList) Version() int {
 
 // DataPathCertificate represents the model of a datapathcertificate
 type DataPathCertificate struct {
-	// Contains a certificate signing request (CSR) from the enforcer.Depending on the
+	// Contains a certificate signing request (CSR) from the enforcer. Depending on the
 	// certificate there will be various requirements for the Microsegmentation Console
 	// to accept the CSR.
 	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
@@ -374,7 +374,7 @@ var DataPathCertificateAttributesMap = map[string]elemental.AttributeSpecificati
 	"CSR": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
-		Description: `Contains a certificate signing request (CSR) from the enforcer.Depending on the
+		Description: `Contains a certificate signing request (CSR) from the enforcer. Depending on the
 certificate there will be various requirements for the Microsegmentation Console
 to accept the CSR.`,
 		Exposed:  true,
@@ -444,7 +444,7 @@ var DataPathCertificateLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"csr": {
 		AllowedChoices: []string{},
 		ConvertedName:  "CSR",
-		Description: `Contains a certificate signing request (CSR) from the enforcer.Depending on the
+		Description: `Contains a certificate signing request (CSR) from the enforcer. Depending on the
 certificate there will be various requirements for the Microsegmentation Console
 to accept the CSR.`,
 		Exposed:  true,
@@ -572,7 +572,7 @@ func (o SparseDataPathCertificatesList) Version() int {
 
 // SparseDataPathCertificate represents the sparse version of a datapathcertificate.
 type SparseDataPathCertificate struct {
-	// Contains a certificate signing request (CSR) from the enforcer.Depending on the
+	// Contains a certificate signing request (CSR) from the enforcer. Depending on the
 	// certificate there will be various requirements for the Microsegmentation Console
 	// to accept the CSR.
 	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`

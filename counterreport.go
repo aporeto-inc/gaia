@@ -259,7 +259,7 @@ type CounterReport struct {
 	UnknownError int `json:"UnknownError,omitempty" msgpack:"UnknownError,omitempty" bson:"bf,omitempty" mapstructure:"UnknownError,omitempty"`
 
 	// Non-zero counter indicates analyzed connections for unencrypted, encrypted,
-	// andpackets from endpoint applications with the TCP Fast Open option set. These
+	// and packets from endpoint applications with the TCP Fast Open option set. These
 	// are not dropped counter.
 	ConnectionsAnalyzed int `json:"connectionsAnalyzed,omitempty" msgpack:"connectionsAnalyzed,omitempty" bson:"bg,omitempty" mapstructure:"connectionsAnalyzed,omitempty"`
 
@@ -1910,7 +1910,7 @@ packet.`,
 		BSONFieldName:  "bg",
 		ConvertedName:  "ConnectionsAnalyzed",
 		Description: `Non-zero counter indicates analyzed connections for unencrypted, encrypted,
-andpackets from endpoint applications with the TCP Fast Open option set. These
+and packets from endpoint applications with the TCP Fast Open option set. These
 are not dropped counter.`,
 		Exposed: true,
 		Name:    "connectionsAnalyzed",
@@ -2698,7 +2698,7 @@ packet.`,
 		BSONFieldName:  "bg",
 		ConvertedName:  "ConnectionsAnalyzed",
 		Description: `Non-zero counter indicates analyzed connections for unencrypted, encrypted,
-andpackets from endpoint applications with the TCP Fast Open option set. These
+and packets from endpoint applications with the TCP Fast Open option set. These
 are not dropped counter.`,
 		Exposed: true,
 		Name:    "connectionsAnalyzed",
@@ -3134,7 +3134,7 @@ type SparseCounterReport struct {
 	UnknownError *int `json:"UnknownError,omitempty" msgpack:"UnknownError,omitempty" bson:"bf,omitempty" mapstructure:"UnknownError,omitempty"`
 
 	// Non-zero counter indicates analyzed connections for unencrypted, encrypted,
-	// andpackets from endpoint applications with the TCP Fast Open option set. These
+	// and packets from endpoint applications with the TCP Fast Open option set. These
 	// are not dropped counter.
 	ConnectionsAnalyzed *int `json:"connectionsAnalyzed,omitempty" msgpack:"connectionsAnalyzed,omitempty" bson:"bg,omitempty" mapstructure:"connectionsAnalyzed,omitempty"`
 
