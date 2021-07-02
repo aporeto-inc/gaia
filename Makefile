@@ -4,6 +4,7 @@ SHELL := /bin/bash -o pipefail
 export GO111MODULE = on
 
 default: lint test
+all: format codegen lint test
 
 .PHONY:codegen
 codegen:
@@ -20,6 +21,10 @@ codegen:
 
 format: format-specs format-type format-validation format-parameter
 format-specs:
+	for f in specs/*.abs; do \
+		rego format < $$f > $$f.formatted && \
+		mv $$f.formatted $$f; \
+	done
 	for f in specs/*.spec; do \
 		rego format < $$f > $$f.formatted && \
 		mv $$f.formatted $$f; \
