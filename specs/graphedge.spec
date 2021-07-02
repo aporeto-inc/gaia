@@ -70,8 +70,7 @@ attributes:
     stored: true
 
   - name: destinationController
-    description: Name of the remote destination controller if different than the current
-      one.
+    description: Name of the remote destination controller if different than the current one.
     type: string
     exposed: true
     stored: true
@@ -160,8 +159,7 @@ attributes:
     omit_empty: true
 
   - name: sourceController
-    description: Name of the remote source controller if different than the current
-      one.
+    description: Name of the remote source controller if different than the current one.
     type: string
     exposed: true
     stored: true
