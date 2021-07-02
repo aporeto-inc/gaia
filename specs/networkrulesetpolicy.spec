@@ -52,10 +52,10 @@ attributes:
     type: refList
     exposed: true
     subtype: networkrule
-    extensions:
-      refMode: pointer
     validations:
     - $noDuplicateRules
+    extensions:
+      refMode: pointer
 
   - name: outgoingRules
     description: |-
@@ -64,10 +64,10 @@ attributes:
     type: refList
     exposed: true
     subtype: networkrule
-    extensions:
-      refMode: pointer
     validations:
     - $noDuplicateRules
+    extensions:
+      refMode: pointer
 
   - name: subject
     description: |-
