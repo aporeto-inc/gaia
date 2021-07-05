@@ -11,6 +11,15 @@
           "items": true
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": object
+        }
+      }
 
 '[][]string':
   elemental:
@@ -27,12 +36,28 @@
           }
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
 
 '[]byte':
   elemental:
     type: '[]byte'
     init: '[]byte{}'
   jsonschema:
+    type: |-
+      {
+        "type": "string"
+      }
+  openapi3:
     type: |-
       {
         "type": "string"
@@ -54,6 +79,17 @@
           }
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
 
 '[]map[string]string':
   elemental:
@@ -70,12 +106,32 @@
           }
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
 
 '[]time.Time':
   elemental:
     type: '[]time.Time'
     init: '[]time.Time{}'
   jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+  openapi3:
     type: |-
       {
         "type": "array",
@@ -279,12 +335,37 @@ map[string][]map[string]interface{}:
           }
         }
       }
+  openapi:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      }
 
 map[string][]string:
   elemental:
     type: map[string][]string
     init: map[string][]string{}
   jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+  openapi3:
     type: |-
       {
         "type": "object",
@@ -308,12 +389,28 @@ map[string]bool:
           "type": "boolean"
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "boolean"
+        }
+      }
 
 map[string]int:
   elemental:
     type: map[string]int
     init: map[string]int{}
   jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer"
+        }
+      }
+  openapi3:
     type: |-
       {
         "type": "object",
@@ -331,6 +428,14 @@ map[string]interface{}:
       {
         "type": "object",
         "additionalProperties": true
+      }
+  openapi3:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object"
+        }
       }
 
 map[string]map[string][]string:
@@ -351,12 +456,37 @@ map[string]map[string][]string:
           }
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
 
 map[string]map[string]bool:
   elemental:
     type: map[string]map[string]bool
     init: map[string]map[string]bool{}
   jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        }
+      }
+  openapi3:
     type: |-
       {
         "type": "object",
@@ -394,12 +524,31 @@ map[string]map[string]interface{}:
           "additionalProperties": true
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
 
 map[string]string:
   elemental:
     type: map[string]string
     init: map[string]string{}
   jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+  openapi3:
     type: |-
       {
         "type": "object",
