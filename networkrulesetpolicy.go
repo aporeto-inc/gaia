@@ -646,6 +646,10 @@ func (o *NetworkRuleSetPolicy) Validate() error {
 		}
 	}
 
+	if err := ValidateNoDuplicateNetworkRules("incomingRules", o.IncomingRules); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
@@ -666,6 +670,10 @@ func (o *NetworkRuleSetPolicy) Validate() error {
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
+	}
+
+	if err := ValidateNoDuplicateNetworkRules("outgoingRules", o.OutgoingRules); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateEachSubExpressionHasNoDuplicateTags("subject", o.Subject); err != nil {

@@ -10,6 +10,183 @@ import (
 	"go.aporeto.io/gaia/portutils"
 )
 
+func TestValidateNoDuplicateNetworkRules(t *testing.T) {
+	cases := map[string]struct {
+		attribute   string
+		rules       []*NetworkRule
+		expectedErr elemental.Error
+	}{
+		"valid-no-rules": {
+			rules:     []*NetworkRule{},
+			attribute: t.Name(),
+		},
+		"valid-nil-rules": {
+			rules:     nil,
+			attribute: t.Name(),
+		},
+		"valid-rules-with-nil-items-ignored": {
+			rules:     []*NetworkRule{nil, nil},
+			attribute: t.Name(),
+		},
+		"valid-multiple-rules": {
+			rules: []*NetworkRule{
+				{
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello=world"}},
+					ProtocolPorts: []string{"tcp/443"},
+				},
+				{
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello=world"}},
+					ProtocolPorts: []string{"udp/334"},
+				},
+			},
+			attribute: t.Name(),
+		},
+		"valid-multiple-rules-concat-object": {
+			rules: []*NetworkRule{
+				{
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}},
+					ProtocolPorts: []string{"tcp/443"},
+				},
+				{
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hel", "loworld"}},
+					ProtocolPorts: []string{"tcp/443"},
+				},
+			},
+			attribute: t.Name(),
+		},
+		"valid-multiple-rules-concat-ports": {
+			rules: []*NetworkRule{
+				{
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}},
+					ProtocolPorts: []string{"TCP/44", "33"},
+				},
+				{
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}},
+					ProtocolPorts: []string{"TCP/4", "433"},
+				},
+			},
+			attribute: t.Name(),
+		},
+		"invalid-duplicates": {
+			rules: []*NetworkRule{
+				{
+					Name:          "bad-rule-1",
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
+					ProtocolPorts: []string{"TCP/443", "8080"},
+				},
+				{
+					Name:          "bad-rule-2",
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
+					ProtocolPorts: []string{"TCP/443", "8080"},
+				},
+			},
+			attribute:   t.Name(),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules at the following indexes: [1, 2]"),
+		},
+		"invalid-duplicates-port-case-insensitive": {
+			rules: []*NetworkRule{
+				{
+					Name:          "bad-rule-1",
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}},
+					ProtocolPorts: []string{"tcp/443"},
+				},
+				{
+					Name:          "bad-rule-2",
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}},
+					ProtocolPorts: []string{"TCP/443"},
+				},
+			},
+			attribute:   t.Name(),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules at the following indexes: [1, 2]"),
+		},
+		"invalid-duplicates-object-different-order": {
+			rules: []*NetworkRule{
+				{
+					Name:          "bad-rule-1",
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
+					ProtocolPorts: []string{"TCP/443"},
+				},
+				{
+					Name:          "bad-rule-2",
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"world", "hello"}, {"wave", "heat"}},
+					ProtocolPorts: []string{"TCP/443"},
+				},
+			},
+			attribute:   t.Name(),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules at the following indexes: [1, 2]"),
+		},
+		"invalid-duplicates-object-different-order-2": {
+			rules: []*NetworkRule{
+				{
+					Name:          "bad-rule-1",
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
+					ProtocolPorts: []string{"TCP/443"},
+				},
+				{
+					Name:          "bad-rule-2",
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"heat", "wave"}, {"hello", "world"}},
+					ProtocolPorts: []string{"TCP/443"},
+				},
+			},
+			attribute:   t.Name(),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules at the following indexes: [1, 2]"),
+		},
+		"invalid-duplicates-port-different-order": {
+			rules: []*NetworkRule{
+				{
+					Name:          "bad-rule-1",
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
+					ProtocolPorts: []string{"TCP/443", "tcp/8080"},
+				},
+				{
+					Name:          "bad-rule-2",
+					Action:        NetworkRuleActionAllow,
+					Object:        [][]string{{"hello", "world"}, {"heat", "wave"}},
+					ProtocolPorts: []string{"tcp/8080", "TCP/443"},
+				},
+			},
+			attribute:   t.Name(),
+			expectedErr: makeValidationError(t.Name(), "duplicate network rules at the following indexes: [1, 2]"),
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+
+			err := ValidateNoDuplicateNetworkRules(tc.attribute, tc.rules)
+			if err == nil && tc.expectedErr == (elemental.Error{}) {
+				return
+			}
+
+			var actual elemental.Error
+			if ok := errors.As(err, &actual); !ok {
+				t.Fatalf("unexpected error type\nwant: %T\n got: %T", elemental.Error{}, err)
+			}
+			if !reflect.DeepEqual(actual, tc.expectedErr) {
+				t.Fatalf(
+					"actual error does not match expected\nwant: '%s'\n got: '%s'",
+					tc.expectedErr, actual,
+				)
+			}
+		})
+	}
+}
+
 func TestValidatePortString(t *testing.T) {
 	type args struct {
 		attribute string
