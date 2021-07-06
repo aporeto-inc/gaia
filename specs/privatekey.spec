@@ -6,7 +6,6 @@ model:
   package: squall
   group: internal/x509
   description: Manages private keys.
-  private: true
   get:
     description: Retrieves a private key information.
     global_parameters:
@@ -63,5 +62,5 @@ attributes:
       Mlri6/+4
       -----END PRIVATE KEY-----
     secret: true
+    transient: true
     encrypted: true
-

@@ -14,7 +14,7 @@ var PrivateKeyIdentity = elemental.Identity{
 	Name:     "privatekey",
 	Category: "privatekey",
 	Package:  "squall",
-	Private:  true,
+	Private:  false,
 }
 
 // PrivateKeysList represents a list of PrivateKeys
@@ -503,6 +503,26 @@ func (o *PrivateKey) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *PrivateKey) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.Key, err = encrypter.EncryptString(o.Key); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'Key' for 'PrivateKey' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *PrivateKey) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if o.Key, err = encrypter.DecryptString(o.Key); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'Key' for 'PrivateKey' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
 // Patch apply the non nil value of a *SparsePrivateKey to the object.
 func (o *PrivateKey) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
@@ -599,10 +619,6 @@ func (o *PrivateKey) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("key", o.Key); err != nil {
-		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -789,11 +805,13 @@ var PrivateKeyAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Key",
 		CreationOnly:   true,
 		Description:    `Private key in PEM format.`,
+		Encrypted:      true,
 		Exposed:        true,
 		Name:           "key",
 		Required:       true,
 		Secret:         true,
 		Stored:         true,
+		Transient:      true,
 		Type:           "string",
 	},
 	"Name": {
@@ -1031,11 +1049,13 @@ var PrivateKeyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "Key",
 		CreationOnly:   true,
 		Description:    `Private key in PEM format.`,
+		Encrypted:      true,
 		Exposed:        true,
 		Name:           "key",
 		Required:       true,
 		Secret:         true,
 		Stored:         true,
+		Transient:      true,
 		Type:           "string",
 	},
 	"name": {
@@ -1515,6 +1535,26 @@ func (o *SparsePrivateKey) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
+func (o *SparsePrivateKey) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.Key, err = encrypter.EncryptString(*o.Key); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'Key' for 'SparsePrivateKey' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
+}
+
+// DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
+func (o *SparsePrivateKey) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+
+	if *o.Key, err = encrypter.DecryptString(*o.Key); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'Key' for 'SparsePrivateKey' (%s): %s", o.Identifier(), err)
+	}
+
+	return nil
 }
 
 // GetAnnotations returns the Annotations of the receiver.
