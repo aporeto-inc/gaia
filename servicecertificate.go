@@ -9,43 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PrivateKeyIdentity represents the Identity of the object.
-var PrivateKeyIdentity = elemental.Identity{
-	Name:     "privatekey",
-	Category: "privatekey",
+// ServiceCertificateIdentity represents the Identity of the object.
+var ServiceCertificateIdentity = elemental.Identity{
+	Name:     "servicecertificate",
+	Category: "servicecertificates",
 	Package:  "squall",
 	Private:  false,
 }
 
-// PrivateKeysList represents a list of PrivateKeys
-type PrivateKeysList []*PrivateKey
+// ServiceCertificatesList represents a list of ServiceCertificates
+type ServiceCertificatesList []*ServiceCertificate
 
 // Identity returns the identity of the objects in the list.
-func (o PrivateKeysList) Identity() elemental.Identity {
+func (o ServiceCertificatesList) Identity() elemental.Identity {
 
-	return PrivateKeyIdentity
+	return ServiceCertificateIdentity
 }
 
-// Copy returns a pointer to a copy the PrivateKeysList.
-func (o PrivateKeysList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the ServiceCertificatesList.
+func (o ServiceCertificatesList) Copy() elemental.Identifiables {
 
-	copy := append(PrivateKeysList{}, o...)
+	copy := append(ServiceCertificatesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the PrivateKeysList.
-func (o PrivateKeysList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the ServiceCertificatesList.
+func (o ServiceCertificatesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(PrivateKeysList{}, o...)
+	out := append(ServiceCertificatesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*PrivateKey))
+		out = append(out, obj.(*ServiceCertificate))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o PrivateKeysList) List() elemental.IdentifiablesList {
+func (o ServiceCertificatesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -56,33 +56,33 @@ func (o PrivateKeysList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o PrivateKeysList) DefaultOrder() []string {
+func (o ServiceCertificatesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the PrivateKeysList converted to SparsePrivateKeysList.
+// ToSparse returns the ServiceCertificatesList converted to SparseServiceCertificatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PrivateKeysList) ToSparse(fields ...string) elemental.Identifiables {
+func (o ServiceCertificatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparsePrivateKeysList, len(o))
+	out := make(SparseServiceCertificatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparsePrivateKey)
+		out[i] = o[i].ToSparse(fields...).(*SparseServiceCertificate)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o PrivateKeysList) Version() int {
+func (o ServiceCertificatesList) Version() int {
 
 	return 1
 }
 
-// PrivateKey represents the model of a privatekey
-type PrivateKey struct {
+// ServiceCertificate represents the model of a servicecertificate
+type ServiceCertificate struct {
 	// Identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -104,9 +104,6 @@ type PrivateKey struct {
 	// The fingerprint of the private key.
 	Fingerprint string `json:"fingerprint" msgpack:"fingerprint" bson:"fingerprint" mapstructure:"fingerprint,omitempty"`
 
-	// Private key in PEM format.
-	Key string `json:"key" msgpack:"key" bson:"key" mapstructure:"key,omitempty"`
-
 	// Name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -116,11 +113,17 @@ type PrivateKey struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Private key in PEM format.
+	Private string `json:"private" msgpack:"private" bson:"private" mapstructure:"private,omitempty"`
+
 	// Propagates the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Private key in PEM format.
+	Public string `json:"public" msgpack:"public" bson:"public" mapstructure:"public,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -138,10 +141,10 @@ type PrivateKey struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewPrivateKey returns a new *PrivateKey
-func NewPrivateKey() *PrivateKey {
+// NewServiceCertificate returns a new *ServiceCertificate
+func NewServiceCertificate() *ServiceCertificate {
 
-	return &PrivateKey{
+	return &ServiceCertificate{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
@@ -150,32 +153,32 @@ func NewPrivateKey() *PrivateKey {
 }
 
 // Identity returns the Identity of the object.
-func (o *PrivateKey) Identity() elemental.Identity {
+func (o *ServiceCertificate) Identity() elemental.Identity {
 
-	return PrivateKeyIdentity
+	return ServiceCertificateIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *PrivateKey) Identifier() string {
+func (o *ServiceCertificate) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *PrivateKey) SetIdentifier(id string) {
+func (o *ServiceCertificate) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *PrivateKey) GetBSON() (interface{}, error) {
+func (o *ServiceCertificate) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesPrivateKey{}
+	s := &mongoAttributesServiceCertificate{}
 
 	if o.ID != "" {
 		s.ID = bson.ObjectIdHex(o.ID)
@@ -186,12 +189,13 @@ func (o *PrivateKey) GetBSON() (interface{}, error) {
 	s.CreateTime = o.CreateTime
 	s.Description = o.Description
 	s.Fingerprint = o.Fingerprint
-	s.Key = o.Key
 	s.Name = o.Name
 	s.Namespace = o.Namespace
 	s.NormalizedTags = o.NormalizedTags
+	s.Private = o.Private
 	s.Propagate = o.Propagate
 	s.Protected = o.Protected
+	s.Public = o.Public
 	s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
 	s.UpdateTime = o.UpdateTime
 	s.ZHash = o.ZHash
@@ -202,13 +206,13 @@ func (o *PrivateKey) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *PrivateKey) SetBSON(raw bson.Raw) error {
+func (o *ServiceCertificate) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesPrivateKey{}
+	s := &mongoAttributesServiceCertificate{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -220,12 +224,13 @@ func (o *PrivateKey) SetBSON(raw bson.Raw) error {
 	o.CreateTime = s.CreateTime
 	o.Description = s.Description
 	o.Fingerprint = s.Fingerprint
-	o.Key = s.Key
 	o.Name = s.Name
 	o.Namespace = s.Namespace
 	o.NormalizedTags = s.NormalizedTags
+	o.Private = s.Private
 	o.Propagate = s.Propagate
 	o.Protected = s.Protected
+	o.Public = s.Public
 	o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
 	o.UpdateTime = s.UpdateTime
 	o.ZHash = s.ZHash
@@ -235,19 +240,19 @@ func (o *PrivateKey) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *PrivateKey) Version() int {
+func (o *ServiceCertificate) Version() int {
 
 	return 1
 }
 
 // BleveType implements the bleve.Classifier Interface.
-func (o *PrivateKey) BleveType() string {
+func (o *ServiceCertificate) BleveType() string {
 
-	return "privatekey"
+	return "servicecertificate"
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *PrivateKey) DefaultOrder() []string {
+func (o *ServiceCertificate) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -255,191 +260,191 @@ func (o *PrivateKey) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *PrivateKey) Doc() string {
+func (o *ServiceCertificate) Doc() string {
 
 	return `Manages private keys.`
 }
 
-func (o *PrivateKey) String() string {
+func (o *ServiceCertificate) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *PrivateKey) GetAnnotations() map[string][]string {
+func (o *ServiceCertificate) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *PrivateKey) SetAnnotations(annotations map[string][]string) {
+func (o *ServiceCertificate) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *PrivateKey) GetAssociatedTags() []string {
+func (o *ServiceCertificate) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *PrivateKey) SetAssociatedTags(associatedTags []string) {
+func (o *ServiceCertificate) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *PrivateKey) GetCreateIdempotencyKey() string {
+func (o *ServiceCertificate) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *PrivateKey) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *ServiceCertificate) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *PrivateKey) GetCreateTime() time.Time {
+func (o *ServiceCertificate) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *PrivateKey) SetCreateTime(createTime time.Time) {
+func (o *ServiceCertificate) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *PrivateKey) GetDescription() string {
+func (o *ServiceCertificate) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *PrivateKey) SetDescription(description string) {
+func (o *ServiceCertificate) SetDescription(description string) {
 
 	o.Description = description
 }
 
 // GetName returns the Name of the receiver.
-func (o *PrivateKey) GetName() string {
+func (o *ServiceCertificate) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *PrivateKey) SetName(name string) {
+func (o *ServiceCertificate) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *PrivateKey) GetNamespace() string {
+func (o *ServiceCertificate) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *PrivateKey) SetNamespace(namespace string) {
+func (o *ServiceCertificate) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *PrivateKey) GetNormalizedTags() []string {
+func (o *ServiceCertificate) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *PrivateKey) SetNormalizedTags(normalizedTags []string) {
+func (o *ServiceCertificate) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *PrivateKey) GetPropagate() bool {
+func (o *ServiceCertificate) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *PrivateKey) SetPropagate(propagate bool) {
+func (o *ServiceCertificate) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *PrivateKey) GetProtected() bool {
+func (o *ServiceCertificate) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *PrivateKey) SetProtected(protected bool) {
+func (o *ServiceCertificate) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *PrivateKey) GetUpdateIdempotencyKey() string {
+func (o *ServiceCertificate) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *PrivateKey) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *ServiceCertificate) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *PrivateKey) GetUpdateTime() time.Time {
+func (o *ServiceCertificate) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *PrivateKey) SetUpdateTime(updateTime time.Time) {
+func (o *ServiceCertificate) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *PrivateKey) GetZHash() int {
+func (o *ServiceCertificate) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *PrivateKey) SetZHash(zHash int) {
+func (o *ServiceCertificate) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *PrivateKey) GetZone() int {
+func (o *ServiceCertificate) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *PrivateKey) SetZone(zone int) {
+func (o *ServiceCertificate) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *PrivateKey) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *ServiceCertificate) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparsePrivateKey{
+		return &SparseServiceCertificate{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
@@ -447,12 +452,13 @@ func (o *PrivateKey) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
 			Fingerprint:          &o.Fingerprint,
-			Key:                  &o.Key,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
+			Private:              &o.Private,
 			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
+			Public:               &o.Public,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 			ZHash:                &o.ZHash,
@@ -460,7 +466,7 @@ func (o *PrivateKey) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparsePrivateKey{}
+	sp := &SparseServiceCertificate{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -477,18 +483,20 @@ func (o *PrivateKey) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "fingerprint":
 			sp.Fingerprint = &(o.Fingerprint)
-		case "key":
-			sp.Key = &(o.Key)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "private":
+			sp.Private = &(o.Private)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "public":
+			sp.Public = &(o.Public)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -504,32 +512,32 @@ func (o *PrivateKey) ToSparse(fields ...string) elemental.SparseIdentifiable {
 }
 
 // EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
-func (o *PrivateKey) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+func (o *ServiceCertificate) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
-	if o.Key, err = encrypter.EncryptString(o.Key); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'Key' for 'PrivateKey' (%s): %s", o.Identifier(), err)
+	if o.Private, err = encrypter.EncryptString(o.Private); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'Private' for 'ServiceCertificate' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
 }
 
 // DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
-func (o *PrivateKey) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+func (o *ServiceCertificate) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
-	if o.Key, err = encrypter.DecryptString(o.Key); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'Key' for 'PrivateKey' (%s): %s", o.Identifier(), err)
+	if o.Private, err = encrypter.DecryptString(o.Private); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'Private' for 'ServiceCertificate' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
 }
 
-// Patch apply the non nil value of a *SparsePrivateKey to the object.
-func (o *PrivateKey) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseServiceCertificate to the object.
+func (o *ServiceCertificate) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparsePrivateKey)
+	so := sparse.(*SparseServiceCertificate)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -551,9 +559,6 @@ func (o *PrivateKey) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Fingerprint != nil {
 		o.Fingerprint = *so.Fingerprint
 	}
-	if so.Key != nil {
-		o.Key = *so.Key
-	}
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
@@ -563,11 +568,17 @@ func (o *PrivateKey) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
+	if so.Private != nil {
+		o.Private = *so.Private
+	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
+	}
+	if so.Public != nil {
+		o.Public = *so.Public
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -583,32 +594,32 @@ func (o *PrivateKey) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the PrivateKey.
-func (o *PrivateKey) DeepCopy() *PrivateKey {
+// DeepCopy returns a deep copy if the ServiceCertificate.
+func (o *ServiceCertificate) DeepCopy() *ServiceCertificate {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &PrivateKey{}
+	out := &ServiceCertificate{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *PrivateKey.
-func (o *PrivateKey) DeepCopyInto(out *PrivateKey) {
+// DeepCopyInto copies the receiver into the given *ServiceCertificate.
+func (o *ServiceCertificate) DeepCopyInto(out *ServiceCertificate) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy PrivateKey: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy ServiceCertificate: %s", err))
 	}
 
-	*out = *target.(*PrivateKey)
+	*out = *target.(*ServiceCertificate)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *PrivateKey) Validate() error {
+func (o *ServiceCertificate) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -629,6 +640,14 @@ func (o *PrivateKey) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("public", o.Public); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := ValidatePEM("public", o.Public); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -641,26 +660,26 @@ func (o *PrivateKey) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*PrivateKey) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*ServiceCertificate) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := PrivateKeyAttributesMap[name]; ok {
+	if v, ok := ServiceCertificateAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return PrivateKeyLowerCaseAttributesMap[name]
+	return ServiceCertificateLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*PrivateKey) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*ServiceCertificate) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return PrivateKeyAttributesMap
+	return ServiceCertificateAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *PrivateKey) ValueForAttribute(name string) interface{} {
+func (o *ServiceCertificate) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -677,18 +696,20 @@ func (o *PrivateKey) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "fingerprint":
 		return o.Fingerprint
-	case "key":
-		return o.Key
 	case "name":
 		return o.Name
 	case "namespace":
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "private":
+		return o.Private
 	case "propagate":
 		return o.Propagate
 	case "protected":
 		return o.Protected
+	case "public":
+		return o.Public
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -702,8 +723,8 @@ func (o *PrivateKey) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// PrivateKeyAttributesMap represents the map of attribute for PrivateKey.
-var PrivateKeyAttributesMap = map[string]elemental.AttributeSpecification{
+// ServiceCertificateAttributesMap represents the map of attribute for ServiceCertificate.
+var ServiceCertificateAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -799,21 +820,6 @@ var PrivateKeyAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Key": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "key",
-		ConvertedName:  "Key",
-		CreationOnly:   true,
-		Description:    `Private key in PEM format.`,
-		Encrypted:      true,
-		Exposed:        true,
-		Name:           "key",
-		Required:       true,
-		Secret:         true,
-		Stored:         true,
-		Transient:      true,
-		Type:           "string",
-	},
 	"Name": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "name",
@@ -862,6 +868,20 @@ var PrivateKeyAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "list",
 	},
+	"Private": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "private",
+		ConvertedName:  "Private",
+		Description:    `Private key in PEM format.`,
+		Encrypted:      true,
+		Exposed:        true,
+		Name:           "private",
+		Required:       true,
+		Secret:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "string",
+	},
 	"Propagate": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "propagate",
@@ -887,6 +907,17 @@ var PrivateKeyAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"Public": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "public",
+		ConvertedName:  "Public",
+		Description:    `Private key in PEM format.`,
+		Exposed:        true,
+		Name:           "public",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"UpdateIdempotencyKey": {
 		AllowedChoices: []string{},
@@ -946,8 +977,8 @@ georedundancy.`,
 	},
 }
 
-// PrivateKeyLowerCaseAttributesMap represents the map of attribute for PrivateKey.
-var PrivateKeyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// ServiceCertificateLowerCaseAttributesMap represents the map of attribute for ServiceCertificate.
+var ServiceCertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": {
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1043,21 +1074,6 @@ var PrivateKeyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "string",
 	},
-	"key": {
-		AllowedChoices: []string{},
-		BSONFieldName:  "key",
-		ConvertedName:  "Key",
-		CreationOnly:   true,
-		Description:    `Private key in PEM format.`,
-		Encrypted:      true,
-		Exposed:        true,
-		Name:           "key",
-		Required:       true,
-		Secret:         true,
-		Stored:         true,
-		Transient:      true,
-		Type:           "string",
-	},
 	"name": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "name",
@@ -1106,6 +1122,20 @@ var PrivateKeyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Transient:      true,
 		Type:           "list",
 	},
+	"private": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "private",
+		ConvertedName:  "Private",
+		Description:    `Private key in PEM format.`,
+		Encrypted:      true,
+		Exposed:        true,
+		Name:           "private",
+		Required:       true,
+		Secret:         true,
+		Stored:         true,
+		Transient:      true,
+		Type:           "string",
+	},
 	"propagate": {
 		AllowedChoices: []string{},
 		BSONFieldName:  "propagate",
@@ -1131,6 +1161,17 @@ var PrivateKeyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"public": {
+		AllowedChoices: []string{},
+		BSONFieldName:  "public",
+		ConvertedName:  "Public",
+		Description:    `Private key in PEM format.`,
+		Exposed:        true,
+		Name:           "public",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"updateidempotencykey": {
 		AllowedChoices: []string{},
@@ -1190,35 +1231,35 @@ georedundancy.`,
 	},
 }
 
-// SparsePrivateKeysList represents a list of SparsePrivateKeys
-type SparsePrivateKeysList []*SparsePrivateKey
+// SparseServiceCertificatesList represents a list of SparseServiceCertificates
+type SparseServiceCertificatesList []*SparseServiceCertificate
 
 // Identity returns the identity of the objects in the list.
-func (o SparsePrivateKeysList) Identity() elemental.Identity {
+func (o SparseServiceCertificatesList) Identity() elemental.Identity {
 
-	return PrivateKeyIdentity
+	return ServiceCertificateIdentity
 }
 
-// Copy returns a pointer to a copy the SparsePrivateKeysList.
-func (o SparsePrivateKeysList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseServiceCertificatesList.
+func (o SparseServiceCertificatesList) Copy() elemental.Identifiables {
 
-	copy := append(SparsePrivateKeysList{}, o...)
+	copy := append(SparseServiceCertificatesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparsePrivateKeysList.
-func (o SparsePrivateKeysList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseServiceCertificatesList.
+func (o SparseServiceCertificatesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparsePrivateKeysList{}, o...)
+	out := append(SparseServiceCertificatesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparsePrivateKey))
+		out = append(out, obj.(*SparseServiceCertificate))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparsePrivateKeysList) List() elemental.IdentifiablesList {
+func (o SparseServiceCertificatesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1229,15 +1270,15 @@ func (o SparsePrivateKeysList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparsePrivateKeysList) DefaultOrder() []string {
+func (o SparseServiceCertificatesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparsePrivateKeysList converted to PrivateKeysList.
-func (o SparsePrivateKeysList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseServiceCertificatesList converted to ServiceCertificatesList.
+func (o SparseServiceCertificatesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1248,13 +1289,13 @@ func (o SparsePrivateKeysList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparsePrivateKeysList) Version() int {
+func (o SparseServiceCertificatesList) Version() int {
 
 	return 1
 }
 
-// SparsePrivateKey represents the sparse version of a privatekey.
-type SparsePrivateKey struct {
+// SparseServiceCertificate represents the sparse version of a servicecertificate.
+type SparseServiceCertificate struct {
 	// Identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
@@ -1276,9 +1317,6 @@ type SparsePrivateKey struct {
 	// The fingerprint of the private key.
 	Fingerprint *string `json:"fingerprint,omitempty" msgpack:"fingerprint,omitempty" bson:"fingerprint,omitempty" mapstructure:"fingerprint,omitempty"`
 
-	// Private key in PEM format.
-	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"key,omitempty" mapstructure:"key,omitempty"`
-
 	// Name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
@@ -1288,11 +1326,17 @@ type SparsePrivateKey struct {
 	// Contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
+	// Private key in PEM format.
+	Private *string `json:"private,omitempty" msgpack:"private,omitempty" bson:"private,omitempty" mapstructure:"private,omitempty"`
+
 	// Propagates the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+
+	// Private key in PEM format.
+	Public *string `json:"public,omitempty" msgpack:"public,omitempty" bson:"public,omitempty" mapstructure:"public,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1310,19 +1354,19 @@ type SparsePrivateKey struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparsePrivateKey returns a new  SparsePrivateKey.
-func NewSparsePrivateKey() *SparsePrivateKey {
-	return &SparsePrivateKey{}
+// NewSparseServiceCertificate returns a new  SparseServiceCertificate.
+func NewSparseServiceCertificate() *SparseServiceCertificate {
+	return &SparseServiceCertificate{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparsePrivateKey) Identity() elemental.Identity {
+func (o *SparseServiceCertificate) Identity() elemental.Identity {
 
-	return PrivateKeyIdentity
+	return ServiceCertificateIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparsePrivateKey) Identifier() string {
+func (o *SparseServiceCertificate) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1331,7 +1375,7 @@ func (o *SparsePrivateKey) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparsePrivateKey) SetIdentifier(id string) {
+func (o *SparseServiceCertificate) SetIdentifier(id string) {
 
 	if id != "" {
 		o.ID = &id
@@ -1342,13 +1386,13 @@ func (o *SparsePrivateKey) SetIdentifier(id string) {
 
 // GetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparsePrivateKey) GetBSON() (interface{}, error) {
+func (o *SparseServiceCertificate) GetBSON() (interface{}, error) {
 
 	if o == nil {
 		return nil, nil
 	}
 
-	s := &mongoAttributesSparsePrivateKey{}
+	s := &mongoAttributesSparseServiceCertificate{}
 
 	if o.ID != nil {
 		s.ID = bson.ObjectIdHex(*o.ID)
@@ -1371,9 +1415,6 @@ func (o *SparsePrivateKey) GetBSON() (interface{}, error) {
 	if o.Fingerprint != nil {
 		s.Fingerprint = o.Fingerprint
 	}
-	if o.Key != nil {
-		s.Key = o.Key
-	}
 	if o.Name != nil {
 		s.Name = o.Name
 	}
@@ -1383,11 +1424,17 @@ func (o *SparsePrivateKey) GetBSON() (interface{}, error) {
 	if o.NormalizedTags != nil {
 		s.NormalizedTags = o.NormalizedTags
 	}
+	if o.Private != nil {
+		s.Private = o.Private
+	}
 	if o.Propagate != nil {
 		s.Propagate = o.Propagate
 	}
 	if o.Protected != nil {
 		s.Protected = o.Protected
+	}
+	if o.Public != nil {
+		s.Public = o.Public
 	}
 	if o.UpdateIdempotencyKey != nil {
 		s.UpdateIdempotencyKey = o.UpdateIdempotencyKey
@@ -1407,13 +1454,13 @@ func (o *SparsePrivateKey) GetBSON() (interface{}, error) {
 
 // SetBSON implements the bson marshaling interface.
 // This is used to transparently convert ID to MongoDBID as ObectID.
-func (o *SparsePrivateKey) SetBSON(raw bson.Raw) error {
+func (o *SparseServiceCertificate) SetBSON(raw bson.Raw) error {
 
 	if o == nil {
 		return nil
 	}
 
-	s := &mongoAttributesSparsePrivateKey{}
+	s := &mongoAttributesSparseServiceCertificate{}
 	if err := raw.Unmarshal(s); err != nil {
 		return err
 	}
@@ -1438,9 +1485,6 @@ func (o *SparsePrivateKey) SetBSON(raw bson.Raw) error {
 	if s.Fingerprint != nil {
 		o.Fingerprint = s.Fingerprint
 	}
-	if s.Key != nil {
-		o.Key = s.Key
-	}
 	if s.Name != nil {
 		o.Name = s.Name
 	}
@@ -1450,11 +1494,17 @@ func (o *SparsePrivateKey) SetBSON(raw bson.Raw) error {
 	if s.NormalizedTags != nil {
 		o.NormalizedTags = s.NormalizedTags
 	}
+	if s.Private != nil {
+		o.Private = s.Private
+	}
 	if s.Propagate != nil {
 		o.Propagate = s.Propagate
 	}
 	if s.Protected != nil {
 		o.Protected = s.Protected
+	}
+	if s.Public != nil {
+		o.Public = s.Public
 	}
 	if s.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = s.UpdateIdempotencyKey
@@ -1473,15 +1523,15 @@ func (o *SparsePrivateKey) SetBSON(raw bson.Raw) error {
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparsePrivateKey) Version() int {
+func (o *SparseServiceCertificate) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparsePrivateKey) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseServiceCertificate) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewPrivateKey()
+	out := NewServiceCertificate()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1503,9 +1553,6 @@ func (o *SparsePrivateKey) ToPlain() elemental.PlainIdentifiable {
 	if o.Fingerprint != nil {
 		out.Fingerprint = *o.Fingerprint
 	}
-	if o.Key != nil {
-		out.Key = *o.Key
-	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1515,11 +1562,17 @@ func (o *SparsePrivateKey) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
+	if o.Private != nil {
+		out.Private = *o.Private
+	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.Public != nil {
+		out.Public = *o.Public
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -1538,27 +1591,27 @@ func (o *SparsePrivateKey) ToPlain() elemental.PlainIdentifiable {
 }
 
 // EncryptAttributes encrypts the attributes marked as `encrypted` using the given encrypter.
-func (o *SparsePrivateKey) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+func (o *SparseServiceCertificate) EncryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
-	if *o.Key, err = encrypter.EncryptString(*o.Key); err != nil {
-		return fmt.Errorf("unable to encrypt attribute 'Key' for 'SparsePrivateKey' (%s): %s", o.Identifier(), err)
+	if *o.Private, err = encrypter.EncryptString(*o.Private); err != nil {
+		return fmt.Errorf("unable to encrypt attribute 'Private' for 'SparseServiceCertificate' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
 }
 
 // DecryptAttributes decrypts the attributes marked as `encrypted` using the given decrypter.
-func (o *SparsePrivateKey) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
+func (o *SparseServiceCertificate) DecryptAttributes(encrypter elemental.AttributeEncrypter) (err error) {
 
-	if *o.Key, err = encrypter.DecryptString(*o.Key); err != nil {
-		return fmt.Errorf("unable to decrypt attribute 'Key' for 'SparsePrivateKey' (%s): %s", o.Identifier(), err)
+	if *o.Private, err = encrypter.DecryptString(*o.Private); err != nil {
+		return fmt.Errorf("unable to decrypt attribute 'Private' for 'SparseServiceCertificate' (%s): %s", o.Identifier(), err)
 	}
 
 	return nil
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparsePrivateKey) GetAnnotations() (out map[string][]string) {
+func (o *SparseServiceCertificate) GetAnnotations() (out map[string][]string) {
 
 	if o.Annotations == nil {
 		return
@@ -1568,13 +1621,13 @@ func (o *SparsePrivateKey) GetAnnotations() (out map[string][]string) {
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetAnnotations(annotations map[string][]string) {
+func (o *SparseServiceCertificate) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparsePrivateKey) GetAssociatedTags() (out []string) {
+func (o *SparseServiceCertificate) GetAssociatedTags() (out []string) {
 
 	if o.AssociatedTags == nil {
 		return
@@ -1584,13 +1637,13 @@ func (o *SparsePrivateKey) GetAssociatedTags() (out []string) {
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetAssociatedTags(associatedTags []string) {
+func (o *SparseServiceCertificate) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparsePrivateKey) GetCreateIdempotencyKey() (out string) {
+func (o *SparseServiceCertificate) GetCreateIdempotencyKey() (out string) {
 
 	if o.CreateIdempotencyKey == nil {
 		return
@@ -1600,13 +1653,13 @@ func (o *SparsePrivateKey) GetCreateIdempotencyKey() (out string) {
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseServiceCertificate) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparsePrivateKey) GetCreateTime() (out time.Time) {
+func (o *SparseServiceCertificate) GetCreateTime() (out time.Time) {
 
 	if o.CreateTime == nil {
 		return
@@ -1616,13 +1669,13 @@ func (o *SparsePrivateKey) GetCreateTime() (out time.Time) {
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetCreateTime(createTime time.Time) {
+func (o *SparseServiceCertificate) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparsePrivateKey) GetDescription() (out string) {
+func (o *SparseServiceCertificate) GetDescription() (out string) {
 
 	if o.Description == nil {
 		return
@@ -1632,13 +1685,13 @@ func (o *SparsePrivateKey) GetDescription() (out string) {
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetDescription(description string) {
+func (o *SparseServiceCertificate) SetDescription(description string) {
 
 	o.Description = &description
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparsePrivateKey) GetName() (out string) {
+func (o *SparseServiceCertificate) GetName() (out string) {
 
 	if o.Name == nil {
 		return
@@ -1648,13 +1701,13 @@ func (o *SparsePrivateKey) GetName() (out string) {
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetName(name string) {
+func (o *SparseServiceCertificate) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparsePrivateKey) GetNamespace() (out string) {
+func (o *SparseServiceCertificate) GetNamespace() (out string) {
 
 	if o.Namespace == nil {
 		return
@@ -1664,13 +1717,13 @@ func (o *SparsePrivateKey) GetNamespace() (out string) {
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetNamespace(namespace string) {
+func (o *SparseServiceCertificate) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparsePrivateKey) GetNormalizedTags() (out []string) {
+func (o *SparseServiceCertificate) GetNormalizedTags() (out []string) {
 
 	if o.NormalizedTags == nil {
 		return
@@ -1680,13 +1733,13 @@ func (o *SparsePrivateKey) GetNormalizedTags() (out []string) {
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseServiceCertificate) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparsePrivateKey) GetPropagate() (out bool) {
+func (o *SparseServiceCertificate) GetPropagate() (out bool) {
 
 	if o.Propagate == nil {
 		return
@@ -1696,13 +1749,13 @@ func (o *SparsePrivateKey) GetPropagate() (out bool) {
 }
 
 // SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetPropagate(propagate bool) {
+func (o *SparseServiceCertificate) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparsePrivateKey) GetProtected() (out bool) {
+func (o *SparseServiceCertificate) GetProtected() (out bool) {
 
 	if o.Protected == nil {
 		return
@@ -1712,13 +1765,13 @@ func (o *SparsePrivateKey) GetProtected() (out bool) {
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetProtected(protected bool) {
+func (o *SparseServiceCertificate) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparsePrivateKey) GetUpdateIdempotencyKey() (out string) {
+func (o *SparseServiceCertificate) GetUpdateIdempotencyKey() (out string) {
 
 	if o.UpdateIdempotencyKey == nil {
 		return
@@ -1728,13 +1781,13 @@ func (o *SparsePrivateKey) GetUpdateIdempotencyKey() (out string) {
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseServiceCertificate) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparsePrivateKey) GetUpdateTime() (out time.Time) {
+func (o *SparseServiceCertificate) GetUpdateTime() (out time.Time) {
 
 	if o.UpdateTime == nil {
 		return
@@ -1744,13 +1797,13 @@ func (o *SparsePrivateKey) GetUpdateTime() (out time.Time) {
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetUpdateTime(updateTime time.Time) {
+func (o *SparseServiceCertificate) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparsePrivateKey) GetZHash() (out int) {
+func (o *SparseServiceCertificate) GetZHash() (out int) {
 
 	if o.ZHash == nil {
 		return
@@ -1760,13 +1813,13 @@ func (o *SparsePrivateKey) GetZHash() (out int) {
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetZHash(zHash int) {
+func (o *SparseServiceCertificate) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparsePrivateKey) GetZone() (out int) {
+func (o *SparseServiceCertificate) GetZone() (out int) {
 
 	if o.Zone == nil {
 		return
@@ -1776,36 +1829,36 @@ func (o *SparsePrivateKey) GetZone() (out int) {
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparsePrivateKey) SetZone(zone int) {
+func (o *SparseServiceCertificate) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparsePrivateKey.
-func (o *SparsePrivateKey) DeepCopy() *SparsePrivateKey {
+// DeepCopy returns a deep copy if the SparseServiceCertificate.
+func (o *SparseServiceCertificate) DeepCopy() *SparseServiceCertificate {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparsePrivateKey{}
+	out := &SparseServiceCertificate{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparsePrivateKey.
-func (o *SparsePrivateKey) DeepCopyInto(out *SparsePrivateKey) {
+// DeepCopyInto copies the receiver into the given *SparseServiceCertificate.
+func (o *SparseServiceCertificate) DeepCopyInto(out *SparseServiceCertificate) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparsePrivateKey: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseServiceCertificate: %s", err))
 	}
 
-	*out = *target.(*SparsePrivateKey)
+	*out = *target.(*SparseServiceCertificate)
 }
 
-type mongoAttributesPrivateKey struct {
+type mongoAttributesServiceCertificate struct {
 	ID                   bson.ObjectId       `bson:"_id,omitempty"`
 	Annotations          map[string][]string `bson:"annotations"`
 	AssociatedTags       []string            `bson:"associatedtags"`
@@ -1813,18 +1866,19 @@ type mongoAttributesPrivateKey struct {
 	CreateTime           time.Time           `bson:"createtime"`
 	Description          string              `bson:"description"`
 	Fingerprint          string              `bson:"fingerprint"`
-	Key                  string              `bson:"key"`
 	Name                 string              `bson:"name"`
 	Namespace            string              `bson:"namespace"`
 	NormalizedTags       []string            `bson:"normalizedtags"`
+	Private              string              `bson:"private"`
 	Propagate            bool                `bson:"propagate"`
 	Protected            bool                `bson:"protected"`
+	Public               string              `bson:"public"`
 	UpdateIdempotencyKey string              `bson:"updateidempotencykey"`
 	UpdateTime           time.Time           `bson:"updatetime"`
 	ZHash                int                 `bson:"zhash"`
 	Zone                 int                 `bson:"zone"`
 }
-type mongoAttributesSparsePrivateKey struct {
+type mongoAttributesSparseServiceCertificate struct {
 	ID                   bson.ObjectId        `bson:"_id,omitempty"`
 	Annotations          *map[string][]string `bson:"annotations,omitempty"`
 	AssociatedTags       *[]string            `bson:"associatedtags,omitempty"`
@@ -1832,12 +1886,13 @@ type mongoAttributesSparsePrivateKey struct {
 	CreateTime           *time.Time           `bson:"createtime,omitempty"`
 	Description          *string              `bson:"description,omitempty"`
 	Fingerprint          *string              `bson:"fingerprint,omitempty"`
-	Key                  *string              `bson:"key,omitempty"`
 	Name                 *string              `bson:"name,omitempty"`
 	Namespace            *string              `bson:"namespace,omitempty"`
 	NormalizedTags       *[]string            `bson:"normalizedtags,omitempty"`
+	Private              *string              `bson:"private,omitempty"`
 	Propagate            *bool                `bson:"propagate,omitempty"`
 	Protected            *bool                `bson:"protected,omitempty"`
+	Public               *string              `bson:"public,omitempty"`
 	UpdateIdempotencyKey *string              `bson:"updateidempotencykey,omitempty"`
 	UpdateTime           *time.Time           `bson:"updatetime,omitempty"`
 	ZHash                *int                 `bson:"zhash,omitempty"`

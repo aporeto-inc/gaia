@@ -861,15 +861,6 @@ relations:
   create:
     description: Initiates a poll to a new account.
 
-- rest_name: privatekey
-  get:
-    description: Retrieves the list of private keys.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new private keys.
-
 - rest_name: processingunit
   get:
     description: Retrieves the list of processing units.
@@ -995,6 +986,15 @@ relations:
     - $propagatable
   create:
     description: Creates a new service.
+
+- rest_name: servicecertificate
+  get:
+    description: Retrieves the list of service certificates.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new service certificate.
 
 - rest_name: servicedependencypolicy
   get:

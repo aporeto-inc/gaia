@@ -139,7 +139,6 @@ var (
 		"policyrule":            PolicyRuleIdentity,
 		"policyttl":             PolicyTTLIdentity,
 		"pollaccount":           PollAccountIdentity,
-		"privatekey":            PrivateKeyIdentity,
 		"processingunit":        ProcessingUnitIdentity,
 		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
 		"processingunitrefresh": ProcessingUnitRefreshIdentity,
@@ -161,6 +160,7 @@ var (
 		"sandbox":                 SandboxIdentity,
 		"search":                  SearchIdentity,
 		"service":                 ServiceIdentity,
+		"servicecertificate":      ServiceCertificateIdentity,
 		"servicedependencypolicy": ServiceDependencyPolicyIdentity,
 		"servicepublication":      ServicePublicationIdentity,
 		"servicetoken":            ServiceTokenIdentity,
@@ -329,7 +329,6 @@ var (
 		"policyrules":             PolicyRuleIdentity,
 		"policyttls":              PolicyTTLIdentity,
 		"pollaccounts":            PollAccountIdentity,
-		"privatekey":              PrivateKeyIdentity,
 		"processingunits":         ProcessingUnitIdentity,
 		"processingunitpolicies":  ProcessingUnitPolicyIdentity,
 		"processingunitrefreshes": ProcessingUnitRefreshIdentity,
@@ -351,6 +350,7 @@ var (
 		"sandboxes":                 SandboxIdentity,
 		"search":                    SearchIdentity,
 		"services":                  ServiceIdentity,
+		"servicecertificates":       ServiceCertificateIdentity,
 		"servicedependencypolicies": ServiceDependencyPolicyIdentity,
 		"servicepublications":       ServicePublicationIdentity,
 		"servicetoken":              ServiceTokenIdentity,
@@ -1085,18 +1085,6 @@ var (
 		"policyrule":     nil,
 		"policyttl":      nil,
 		"pollaccount":    nil,
-		"privatekey": {
-			{":shard", ":unique", "zone", "zHash"},
-			{"updateIdempotencyKey"},
-			{"propagate"},
-			{"namespace", "name"},
-			{"namespace"},
-			{"namespace", "fingerprint"},
-			{"namespace", "normalizedTags"},
-			{"name"},
-			{"fingerprint"},
-			{"createIdempotencyKey"},
-		},
 		"processingunit": {
 			{":shard", ":unique", "zone", "zHash"},
 			{"updateIdempotencyKey"},
@@ -1167,6 +1155,18 @@ var (
 			{"archived"},
 			{"allProcessingUnitsTags"},
 			{"allAPITags"},
+		},
+		"servicecertificate": {
+			{":shard", ":unique", "zone", "zHash"},
+			{"updateIdempotencyKey"},
+			{"propagate"},
+			{"namespace", "name"},
+			{"namespace"},
+			{"namespace", "fingerprint"},
+			{"namespace", "normalizedTags"},
+			{"name"},
+			{"fingerprint"},
+			{"createIdempotencyKey"},
 		},
 		"servicedependencypolicy": nil,
 		"servicepublication":      nil,
@@ -1506,8 +1506,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPolicyTTL()
 	case PollAccountIdentity:
 		return NewPollAccount()
-	case PrivateKeyIdentity:
-		return NewPrivateKey()
 	case ProcessingUnitIdentity:
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
@@ -1546,6 +1544,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewSearch()
 	case ServiceIdentity:
 		return NewService()
+	case ServiceCertificateIdentity:
+		return NewServiceCertificate()
 	case ServiceDependencyPolicyIdentity:
 		return NewServiceDependencyPolicy()
 	case ServicePublicationIdentity:
@@ -1845,8 +1845,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePolicyTTL()
 	case PollAccountIdentity:
 		return NewSparsePollAccount()
-	case PrivateKeyIdentity:
-		return NewSparsePrivateKey()
 	case ProcessingUnitIdentity:
 		return NewSparseProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
@@ -1883,6 +1881,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseSearch()
 	case ServiceIdentity:
 		return NewSparseService()
+	case ServiceCertificateIdentity:
+		return NewSparseServiceCertificate()
 	case ServiceDependencyPolicyIdentity:
 		return NewSparseServiceDependencyPolicy()
 	case ServicePublicationIdentity:
@@ -2192,8 +2192,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PolicyTTLsList{}
 	case PollAccountIdentity:
 		return &PollAccountsList{}
-	case PrivateKeyIdentity:
-		return &PrivateKeysList{}
 	case ProcessingUnitIdentity:
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
@@ -2230,6 +2228,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &SearchesList{}
 	case ServiceIdentity:
 		return &ServicesList{}
+	case ServiceCertificateIdentity:
+		return &ServiceCertificatesList{}
 	case ServiceDependencyPolicyIdentity:
 		return &ServiceDependencyPoliciesList{}
 	case ServicePublicationIdentity:
@@ -2529,8 +2529,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePolicyTTLsList{}
 	case PollAccountIdentity:
 		return &SparsePollAccountsList{}
-	case PrivateKeyIdentity:
-		return &SparsePrivateKeysList{}
 	case ProcessingUnitIdentity:
 		return &SparseProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
@@ -2567,6 +2565,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseSearchesList{}
 	case ServiceIdentity:
 		return &SparseServicesList{}
+	case ServiceCertificateIdentity:
+		return &SparseServiceCertificatesList{}
 	case ServiceDependencyPolicyIdentity:
 		return &SparseServiceDependencyPoliciesList{}
 	case ServicePublicationIdentity:
@@ -2767,7 +2767,6 @@ func AllIdentities() []elemental.Identity {
 		PolicyRuleIdentity,
 		PolicyTTLIdentity,
 		PollAccountIdentity,
-		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
 		ProcessingUnitRefreshIdentity,
@@ -2787,6 +2786,7 @@ func AllIdentities() []elemental.Identity {
 		SandboxIdentity,
 		SearchIdentity,
 		ServiceIdentity,
+		ServiceCertificateIdentity,
 		ServiceDependencyPolicyIdentity,
 		ServicePublicationIdentity,
 		ServiceTokenIdentity,
@@ -3162,8 +3162,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PollAccountIdentity:
 		return []string{}
-	case PrivateKeyIdentity:
-		return []string{}
 	case ProcessingUnitIdentity:
 		return []string{
 			"pu",
@@ -3228,6 +3226,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"srv",
 		}
+	case ServiceCertificateIdentity:
+		return []string{}
 	case ServiceDependencyPolicyIdentity:
 		return []string{
 			"srvdep",

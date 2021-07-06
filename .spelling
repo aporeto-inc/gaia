@@ -303,6 +303,7 @@ SAMLProvider
 ScopesSupported
 searchable
 SerialNumber
+ServiceCertificate
 ServiceDependencyPolicy
 ServiceToken
 sharded
