@@ -1,6 +1,7 @@
 package gaia
 
 import (
+	"crypto/sha256"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
@@ -1024,6 +1025,63 @@ func ValidateNoDuplicateSubExpressions(attribute string, expression [][]string) 
 		}
 
 		return makeValidationError(attribute, "duplicate equivalent sub-expressions found")
+	}
+
+	return nil
+}
+
+// ValidateNoDuplicateNetworkRules ensures that all the given network rules are all unique
+func ValidateNoDuplicateNetworkRules(attribute string, rules []*NetworkRule) error {
+
+	type indexedRule struct {
+		index int
+		rule  *NetworkRule
+	}
+	seen := make(map[[sha256.Size]byte]*indexedRule, len(rules))
+	for iRule, rule := range rules {
+
+		if rule == nil {
+			continue
+		}
+
+		hash := sha256.New()
+
+		// hash the action
+		fmt.Fprintf(hash, "%s/", rule.Action)
+
+		// hash the object
+		obj := make([]string, len(rule.Object))
+		for i, subExpr := range rule.Object {
+			cpy := append([]string{}, subExpr...)
+			sort.Strings(cpy)
+			obj[i] = strings.Join(cpy, "/")
+		}
+		sort.Strings(obj)
+		for _, subExpr := range obj {
+			fmt.Fprintf(hash, "[%s]/", subExpr)
+		}
+
+		// hash the ports
+		protoPortCpy := append([]string{}, rule.ProtocolPorts...)
+		for i, port := range protoPortCpy {
+			protoPortCpy[i] = strings.ToLower(port)
+		}
+		sort.Strings(protoPortCpy)
+		for _, port := range protoPortCpy {
+			fmt.Fprintf(hash, "%s/", port)
+		}
+
+		// check if hash was seen before
+		var digest [sha256.Size]byte
+		copy(digest[:], hash.Sum(nil))
+		if prevRule, ok := seen[digest]; ok {
+			return makeValidationError(
+				attribute,
+				fmt.Sprintf("duplicate network rules at the following indexes: [%d, %d]", prevRule.index+1, iRule+1),
+			)
+		}
+
+		seen[digest] = &indexedRule{index: iRule, rule: rule}
 	}
 
 	return nil
