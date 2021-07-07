@@ -7,7 +7,7 @@ model:
   group: internal/x509
   description: Manages private keys.
   get:
-    description: Retrieves a service certificate information.
+    description: Retrieves a service certificate's information.
     global_parameters:
     - $propagatable
   update:
@@ -34,7 +34,7 @@ indexes:
 attributes:
   v1:
   - name: fingerprint
-    description: The fingerprint of the private key.
+    description: The fingerprint of the public key.
     type: string
     exposed: true
     stored: true
@@ -60,7 +60,7 @@ attributes:
     - $pem
 
   - name: public
-    description: Private key in PEM format.
+    description: Public key in PEM format.
     type: string
     exposed: true
     stored: true
