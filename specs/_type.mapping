@@ -11,6 +11,17 @@
           "items": true
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
 
 '[][]string':
   elemental:
@@ -27,12 +38,28 @@
           }
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
 
 '[]byte':
   elemental:
     type: '[]byte'
     init: '[]byte{}'
   jsonschema:
+    type: |-
+      {
+        "type": "string"
+      }
+  openapi3:
     type: |-
       {
         "type": "string"
@@ -54,12 +81,34 @@
           }
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
 
 '[]map[string]string':
   elemental:
     type: '[]map[string]string'
     init: '[]map[string]string{}'
   jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+  openapi3:
     type: |-
       {
         "type": "array",
@@ -84,6 +133,15 @@
           "format": "date-time"
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
 
 _arch_list:
   elemental:
@@ -98,6 +156,11 @@ _arch_list:
           "$ref": "isolation-profile-types.json#/architecturestype"
         }
       }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 _audit_profile_rule_list:
   elemental:
@@ -111,6 +174,11 @@ _audit_profile_rule_list:
         "items": {
           "$ref": "audit-types.json#/auditprofilerule"
         }
+      }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
       }
 
 _automation_entitlements:
@@ -128,6 +196,11 @@ _automation_entitlements:
           }
         }
       }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 _automation_events:
   elemental:
@@ -144,6 +217,11 @@ _automation_events:
           }
         }
       }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 _cap_map:
   elemental:
@@ -154,6 +232,11 @@ _cap_map:
     type: |-
       {
         "$ref": "isolation-profile-types.json#/capabilitiestypemap"
+      }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
       }
 
 _claims:
@@ -166,6 +249,11 @@ _claims:
       {
         "$ref": "midgard-types.json#/midgardclaims"
       }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 _elemental_identifiable:
   elemental:
@@ -174,6 +262,11 @@ _elemental_identifiable:
     type: |-
       {
         "$ref": "elemental-types.json#/identifiable"
+      }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
       }
 
 _portlist:
@@ -193,6 +286,11 @@ _portlist:
           }
         }
       }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 _rendered_policy:
   elemental:
@@ -209,6 +307,11 @@ _rendered_policy:
       {
         "$ref": "_lists.json#/properties/policyrules"
       }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 _syscall_action:
   elemental:
@@ -218,6 +321,11 @@ _syscall_action:
     type: |-
       {
         "$ref": "isolation-profile-types.json#/syscallenforcementaction"
+      }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
       }
 
 _syscall_rules:
@@ -229,6 +337,11 @@ _syscall_rules:
     type: |-
       {
         "$ref": "isolation-profile-types.json#/syscallenforcementrulesmap"
+      }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
       }
 
 _vulnerability_level:
@@ -243,6 +356,11 @@ _vulnerability_level:
         "minimum": 0,
         "maximum": 7
       }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 elemental.Operation:
   elemental:
@@ -251,6 +369,11 @@ elemental.Operation:
     type: |-
       {
         "enum": ["retrieve-many", "retrieve", "create", "update", "delete", "patch", "info"]
+      }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
       }
 
 json.RawMessage:
@@ -261,6 +384,11 @@ json.RawMessage:
     type: |-
       {
         "type": "string"
+      }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
       }
 
 map[string][]map[string]interface{}:
@@ -279,12 +407,37 @@ map[string][]map[string]interface{}:
           }
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      }
 
 map[string][]string:
   elemental:
     type: map[string][]string
     init: map[string][]string{}
   jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+  openapi3:
     type: |-
       {
         "type": "object",
@@ -308,12 +461,28 @@ map[string]bool:
           "type": "boolean"
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "boolean"
+        }
+      }
 
 map[string]int:
   elemental:
     type: map[string]int
     init: map[string]int{}
   jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer"
+        }
+      }
+  openapi3:
     type: |-
       {
         "type": "object",
@@ -332,12 +501,34 @@ map[string]interface{}:
         "type": "object",
         "additionalProperties": true
       }
+  openapi3:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object"
+        }
+      }
 
 map[string]map[string][]string:
   elemental:
     type: map[string]map[string][]string
     init: map[string]map[string][]string{}
   jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+  openapi3:
     type: |-
       {
         "type": "object",
@@ -367,6 +558,17 @@ map[string]map[string]bool:
           }
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        }
+      }
 
 map[string]map[string]cloudnetworkquerydestination:
   elemental:
@@ -381,6 +583,11 @@ map[string]map[string]cloudnetworkquerydestination:
           "additionalProperties": true
         }
       }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 map[string]map[string]interface{}:
   elemental:
@@ -394,12 +601,31 @@ map[string]map[string]interface{}:
           "additionalProperties": true
         }
       }
+  openapi3:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
 
 map[string]string:
   elemental:
     type: map[string]string
     init: map[string]string{}
   jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+  openapi3:
     type: |-
       {
         "type": "object",
@@ -420,6 +646,11 @@ network:
           "type": "string"
         }
       }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 networklist:
   elemental:
@@ -436,6 +667,11 @@ networklist:
           }
         }
       }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 pctimevalue:
   elemental:
@@ -443,6 +679,11 @@ pctimevalue:
     init: nil
   jsonschema:
     type: '{}'
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
+      }
 
 uiparametersexpression:
   elemental:
@@ -458,4 +699,9 @@ uiparametersexpression:
             "$ref": "uiparametervisibility.json"
           }
         }
+      }
+  openapi3: # ignored
+    type: |-
+      {
+        "type": "object"
       }
