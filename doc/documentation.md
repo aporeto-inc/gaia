@@ -2618,7 +2618,7 @@ ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
   "enforcementStatus": "Inactive",
   "lastCollectionID": "xxx-xxx-xxx-xxx -",
   "logLevel": "Info",
-  "logLevelDuration": "10s",
+  "logLevelDuration": "2m",
   "machineID": "3F23E8DF-C56D-45CF-89B8-A867F3956409",
   "migrationStatus": "None",
   "name": "the name",
@@ -2877,7 +2877,7 @@ duration syntax](https://golang.org/pkg/time/#example_Duration).
 Default value:
 
 ```json
-"10s"
+"2m"
 ```
 
 ##### `machineID`
