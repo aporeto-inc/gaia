@@ -353,9 +353,9 @@ func (o *EnforcerProfile) DefaultOrder() []string {
 func (o *EnforcerProfile) Doc() string {
 
 	return `Allows you to create reusable configuration profiles for your enforcers.
-Enforcer profiles contain various startup information that can (for some) 
-be updated live. Enforcer profiles are assigned to enforcers using a 
-enforcer profile mapping.`
+Enforcer profiles contain various startup information that can (for some) be
+updated live. Enforcer profiles are assigned to enforcers using a enforcer
+profile mapping.`
 }
 
 func (o *EnforcerProfile) String() string {

@@ -4,6 +4,7 @@ SHELL := /bin/bash -o pipefail
 export GO111MODULE = on
 
 default: lint test
+all: format codegen lint test
 
 .PHONY:codegen
 codegen:
@@ -17,6 +18,32 @@ codegen:
 	rm -rf codegen
 	data=$$(rego doc -d specs || exit 1) && \
 		echo -e "$${data}" > doc/documentation.md
+
+format: format-specs format-type format-validation format-parameter
+format-specs:
+	for f in specs/*.abs; do \
+		rego format < $$f > $$f.formatted && \
+		mv $$f.formatted $$f; \
+	done
+	for f in specs/*.spec; do \
+		rego format < $$f > $$f.formatted && \
+		mv $$f.formatted $$f; \
+	done
+
+format-type: target = "specs/_type.mapping"
+format-type: 
+	rego format -m typemapping < $(target) > $(target).formatted
+	mv $(target).formatted $(target)
+
+format-validation: target = "specs/_validation.mapping"
+format-validation: 
+	rego format -m validationmapping < $(target) > $(target).formatted
+	mv $(target).formatted $(target)
+
+format-parameter: target = "specs/_parameter.mapping"
+format-parameter: 
+	rego format -m parametermapping < $(target) > $(target).formatted
+	mv $(target).formatted $(target)
 
 lint: spelling
 	# --enable=unparam

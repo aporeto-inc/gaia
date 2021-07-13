@@ -29,8 +29,7 @@ model:
 attributes:
   v1:
   - name: destinationIP
-    description: The destination IP of a trace route request. Might not always be
-      an endpoint.
+    description: The destination IP of a trace route request. Might not always be an endpoint.
     type: string
     exposed: true
     stored: true
@@ -80,7 +79,7 @@ attributes:
     subtype: string
     stored: true
     validations:
-    - $optionalcidroriplist
+    - $optionalcidrs
 
   - name: protocolPorts
     description: |-
@@ -132,8 +131,7 @@ attributes:
 relations:
 - rest_name: cloudgraph
   get:
-    description: Initiates a calculation of the query and retrieves the results in
-      CloudGraph.
+    description: Initiates a calculation of the query and retrieves the results in CloudGraph.
 
 - rest_name: cloudpolicy
   get:

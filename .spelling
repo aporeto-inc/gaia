@@ -54,6 +54,7 @@ claims_supported
 ClaimsSupported
 ClauseMatch
 CNSConfig
+CloudAlertRule
 CNSSuggestion
 CNSSearch
 clientLocalID
@@ -192,6 +193,7 @@ multipart
 multipart
 namespace
 namespace
+NamespaceInfo
 NamespaceMappingPolicy
 NamespacePolicyInfo
 NamespaceRenderer
@@ -537,3 +539,4 @@ VPC
 prisma
 infrastructure
 pcn
+ServicePublication

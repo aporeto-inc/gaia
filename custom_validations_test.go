@@ -1,9 +1,12 @@
 package gaia
 
 import (
+	"errors"
 	"fmt"
+	"reflect"
 	"testing"
 
+	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/portutils"
 )
 
@@ -43,10 +46,18 @@ func TestValidatePortString(t *testing.T) {
 			true,
 		},
 		{
-			"port set to 65536",
+			"port set to 0",
 			args{
 				"port",
 				"0",
+			},
+			false,
+		},
+		{
+			"port set to 65536",
+			args{
+				"port",
+				"65536",
 			},
 			true,
 		},
@@ -66,10 +77,10 @@ func TestValidatePortString(t *testing.T) {
 				"port",
 				"0:65535",
 			},
-			true,
+			false,
 		},
 		{
-			"port range with left bound set to 65536",
+			"port range with right bound set to 65536",
 			args{
 				"port",
 				"1:65536",
@@ -85,7 +96,7 @@ func TestValidatePortString(t *testing.T) {
 			true,
 		},
 		{
-			"port range with left bound that is not a int",
+			"port range with right bound that is not a int",
 			args{
 				"port",
 				"1:two",
@@ -231,7 +242,8 @@ func TestValidateServicePorts(t *testing.T) {
 				[]string{"tcp/90:8000", "udp/90:8000"},
 			},
 			false,
-		}, {
+		},
+		{
 			"serviceports with protocol numbers",
 			args{
 				[]string{"udp/90:8000", "6/90:8000"},
@@ -390,6 +402,27 @@ func TestValidateServicePorts(t *testing.T) {
 			"icmp/2/3,5,20,40 is valid",
 			args{
 				[]string{"icmp/2/3,5,20,40"},
+			},
+			false,
+		},
+		{
+			"duplicte ports",
+			args{
+				[]string{"tcp/443", "TCP/443"},
+			},
+			true,
+		},
+		{
+			"serviceports with valid 0 port",
+			args{
+				[]string{"tcp/0", "udp/0"},
+			},
+			false,
+		},
+		{
+			"serviceports with valid full port range",
+			args{
+				[]string{"tcp/0:65535", "udp/0:65535"},
 			},
 			false,
 		},
@@ -3922,6 +3955,199 @@ func TestValidateCloudTagsExpression(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateCloudTagsExpression(tt.args.attribute, tt.args.tags); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateCloudTagsExpression() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateExpressionNotEmpty(t *testing.T) {
+
+	cases := map[string]struct {
+		attribute   string
+		expression  [][]string
+		expectedErr elemental.Error
+	}{
+		"valid-single-subexpression": {
+			attribute:  t.Name(),
+			expression: [][]string{{"a=b"}},
+		},
+		"valid-multiple-subexpressions": {
+			attribute:  t.Name(),
+			expression: [][]string{{"a=b"}, {"c=d"}},
+		},
+		"invalid-nil-expression": {
+			attribute:   t.Name(),
+			expression:  nil,
+			expectedErr: makeValidationError(t.Name(), "expression must contain at least one sub-expression"),
+		},
+		"invalid-empty-expression": {
+			attribute:   t.Name(),
+			expression:  [][]string{},
+			expectedErr: makeValidationError(t.Name(), "expression must contain at least one sub-expression"),
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+
+			err := ValidateExpressionNotEmpty(tc.attribute, tc.expression)
+			if err == nil && tc.expectedErr == (elemental.Error{}) {
+				return
+			}
+
+			var actual elemental.Error
+			if ok := errors.As(err, &actual); !ok {
+				t.Fatalf("unexpected error type\nwant: %T\n got: %T", elemental.Error{}, err)
+			}
+			if !reflect.DeepEqual(actual, tc.expectedErr) {
+				t.Fatalf(
+					"actual error does not match expected\nwant: '%s'\n got: '%s'",
+					tc.expectedErr, actual,
+				)
+			}
+		})
+	}
+}
+
+func TestValidateSubExpressionsNotEmpty(t *testing.T) {
+
+	cases := map[string]struct {
+		attribute   string
+		expression  [][]string
+		expectedErr elemental.Error
+	}{
+		"valid-subexpression": {
+			attribute:  t.Name(),
+			expression: [][]string{{"a=b"}},
+		},
+		"valid-nil-expression": {
+			attribute:  t.Name(),
+			expression: nil,
+		},
+		"valid-empty-expression": {
+			attribute:  t.Name(),
+			expression: [][]string{},
+		},
+		"invalid-empty-expression": {
+			attribute:   t.Name(),
+			expression:  [][]string{{"a=b"}, {}},
+			expectedErr: makeValidationError(t.Name(), "sub-expression must not be empty"),
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+
+			err := ValidateSubExpressionsNotEmpty(tc.attribute, tc.expression)
+			if err == nil && tc.expectedErr == (elemental.Error{}) {
+				return
+			}
+
+			var actual elemental.Error
+			if ok := errors.As(err, &actual); !ok {
+				t.Fatalf("unexpected error type\nwant: %T\n got: %T", elemental.Error{}, err)
+			}
+			if !reflect.DeepEqual(actual, tc.expectedErr) {
+				t.Fatalf(
+					"actual error does not match expected\nwant: '%s'\n got: '%s'",
+					tc.expectedErr, actual,
+				)
+			}
+		})
+	}
+}
+
+func TestValidateEachSubExpressionHasNoDuplicateTags(t *testing.T) {
+
+	cases := map[string]struct {
+		attribute   string
+		expression  [][]string
+		expectedErr elemental.Error
+	}{
+		"valid-subexpressions": {
+			attribute:  t.Name(),
+			expression: [][]string{{"a=b"}, {"a=b"}, {"c=d"}},
+		},
+		"valid-nil-expression": {
+			attribute:  t.Name(),
+			expression: nil,
+		},
+		"valid-empty-expression": {
+			attribute:  t.Name(),
+			expression: [][]string{},
+		},
+		"invalid-subexpression": {
+			attribute:   t.Name(),
+			expression:  [][]string{{"a=b"}, {"c=d", "c=d"}},
+			expectedErr: makeValidationError(t.Name(), "duplicate tag in a sub-expression: 'c=d'"),
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+
+			err := ValidateEachSubExpressionHasNoDuplicateTags(tc.attribute, tc.expression)
+			if err == nil && tc.expectedErr == (elemental.Error{}) {
+				return
+			}
+
+			var actual elemental.Error
+			if ok := errors.As(err, &actual); !ok {
+				t.Fatalf("unexpected error type\nwant: %T\n got: %T", elemental.Error{}, err)
+			}
+			if !reflect.DeepEqual(actual, tc.expectedErr) {
+				t.Fatalf(
+					"actual error does not match expected\nwant: '%s'\n got: '%s'",
+					tc.expectedErr, actual,
+				)
+			}
+		})
+	}
+}
+
+func TestValidateNoDuplicateSubExpressions(t *testing.T) {
+
+	cases := map[string]struct {
+		attribute   string
+		expression  [][]string
+		expectedErr elemental.Error
+	}{
+		"valid-subexpressions": {
+			attribute:  t.Name(),
+			expression: [][]string{{"a=b", "c=d"}, {"a=b"}, {"c=d"}},
+		},
+		"valid-nil-expression": {
+			attribute:  t.Name(),
+			expression: nil,
+		},
+		"valid-empty-expression": {
+			attribute:  t.Name(),
+			expression: [][]string{},
+		},
+		"invalid-expression": {
+			attribute:   t.Name(),
+			expression:  [][]string{{"a=b", "c=d"}, {"c=d"}, {"a=b"}, {"c=d", "a=b"}},
+			expectedErr: makeValidationError(t.Name(), "duplicate equivalent sub-expressions found"),
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+
+			err := ValidateNoDuplicateSubExpressions(tc.attribute, tc.expression)
+			if err == nil && tc.expectedErr == (elemental.Error{}) {
+				return
+			}
+
+			var actual elemental.Error
+			if ok := errors.As(err, &actual); !ok {
+				t.Fatalf("unexpected error type\nwant: %T\n got: %T", elemental.Error{}, err)
+			}
+			if !reflect.DeepEqual(actual, tc.expectedErr) {
+				t.Fatalf(
+					"actual error does not match expected\nwant: '%s'\n got: '%s'",
+					tc.expectedErr, actual,
+				)
 			}
 		})
 	}

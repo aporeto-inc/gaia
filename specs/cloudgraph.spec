@@ -5,8 +5,9 @@ model:
   entity_name: CloudGraph
   package: yeul
   group: pcn/infrastructure
-  description: "Returns a data structure representing the graph of all cloud nodes
-    \nand their connections in a particular namespace."
+  description: |-
+    Returns a data structure representing the graph of all cloud nodes and their
+    connections in a particular namespace.
 
 # Attributes
 attributes:

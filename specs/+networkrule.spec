@@ -61,6 +61,10 @@ attributes:
     subtype: '[][]string'
     orderable: true
     validations:
+    - $atLeastOneSubExpression
+    - $subExpressionsNotEmpty
+    - $noDuplicateSubExpressions
+    - $noDuplicateTagsInEachSubExpression
     - $tagsExpression
 
   - name: observationEnabled
