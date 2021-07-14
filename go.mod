@@ -3,7 +3,7 @@ module go.aporeto.io/gaia
 go 1.13
 
 // Aporeto
-require go.aporeto.io/elemental v1.100.1-0.20210713181020-9b0922f546be
+require go.aporeto.io/elemental v1.100.1-0.20210713220758-ba8c4c6d8637
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
